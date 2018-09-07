@@ -355,8 +355,8 @@ public class MProjectionVariance extends ForecastProjectionVariance {
 
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = HeaderUtils.getLeftTableColumns(fullHeader, view.getValue().toString());
-        List<Object> HeaderPropertyIds = HeaderUtils.getPVRightTableColumns(pvSelectionDTO, fullHeader);
-        rightHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
+        List<Object> headerPropertyIds = HeaderUtils.getPVRightTableColumns(pvSelectionDTO, fullHeader);
+        rightHeader = (CustomTableHeaderDTO) headerPropertyIds.get(0);
         pvSelectionDTO.setRightHeaderPeriod(rightHeader);
         alignRight();
         setBeanContainerResult(new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP));
@@ -397,13 +397,13 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         rightTable.setDoubleHeaderVisibleColumns(rightHeader.getDoubleColumns().toArray());
         rightTable.setDoubleHeaderColumnHeaders(rightHeader.getDoubleHeaders().toArray(new String[rightHeader.getDoubleHeaders().size()]));
         resultsTable.getRightFreezeAsTable().setDoubleHeaderMap(rightHeader.getDoubleHeaderMaps());
-        final List<String> programCodeNameList = (List<String>) HeaderPropertyIds.get(4);
+        final List<String> programCodeNameList = (List<String>) headerPropertyIds.get(4);
         pvSelectionDTO.setProgramCodeNameList(programCodeNameList);
         loadPeriods(rightHeader.getDoubleHeaders());
         if ("Variable".equals(pvSelectionDTO.getPivotView()) && Constant.COMPONENT.equals(pvSelectionDTO.getDiscountLevel())) {
-            final List<String> listCollapseIcon1st = (List<String>) HeaderPropertyIds.get(1);
-            final List<String> listCollapse2nd = (List<String>) HeaderPropertyIds.get(NumericConstants.TWO);
-            final List<String> programCodeListCollapse = (List<String>) HeaderPropertyIds.get(NumericConstants.THREE);
+            final List<String> listCollapseIcon1st = (List<String>) headerPropertyIds.get(1);
+            final List<String> listCollapse2nd = (List<String>) headerPropertyIds.get(NumericConstants.TWO);
+            final List<String> programCodeListCollapse = (List<String>) headerPropertyIds.get(NumericConstants.THREE);
             rightTable.setColumnCollapsingAllowed(true);
             for (int i = 0; i < listCollapseIcon1st.size(); i++) {
                 rightTable.setDoubleHeaderColumnExpandIcon(listCollapseIcon1st.get(i), false);
@@ -471,7 +471,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
 
         if (fromDate.getValue() != null && toDate.getValue() != null) {
             if (pivotView.getValue().equals(Constant.PERIOD)) {
-                pvLogic.getDateRangeHeaders(rightTable, rightHeader, pvSelectionDTO.getFromDate(), pvSelectionDTO.getToDate(), String.valueOf(frequency.getValue()));
+                pvLogic.getDateRangeHeaders(rightTable, rightHeader, pvSelectionDTO.getFromDate(), pvSelectionDTO.getToDate());
             } else {
                 List<String> periodList = pvSelectionDTO.getPeriodList();
                 List<String> pivotList = new ArrayList<>();
@@ -734,9 +734,9 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         } else {
             List<com.stpl.ifs.ui.forecastds.dto.Leveldto> newLevelList = null;
             if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getCustomerLevelNo(), session.getProjectionId(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY,session.getAction());
+                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getCustomerLevelNo(), session.getProjectionId(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
             } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getProductLevelNo(), session.getProjectionId(), Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY,session.getAction());
+                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getProductLevelNo(), session.getProjectionId(), Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
             }
             if (newLevelList != null) {
                 for (com.stpl.ifs.ui.forecastds.dto.Leveldto levelDto : newLevelList) {

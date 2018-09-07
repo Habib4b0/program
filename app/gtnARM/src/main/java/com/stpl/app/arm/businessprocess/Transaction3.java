@@ -32,8 +32,8 @@ public class Transaction3 extends AbstractTransaction {
     private PipelineInventorySelectionDTO piSelectionDto;
     private Inventory inventory;
     private PipelineInventoryRates rates;
-    private AdjustmentSummaryInventory summary;
-    private AdjustmentDetailInventory details;
+    private AdjustmentSummaryInventory inventorySummary;
+    private AdjustmentDetailInventory inventorydetails;
     public static final Logger LOGGER = LoggerFactory.getLogger(Transaction3.class);
 
     public Transaction3(TabSheet tabSheet, CustomFieldGroup binder, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException {
@@ -49,17 +49,17 @@ public class Transaction3 extends AbstractTransaction {
             piSelectionDto.setSessionDTO(getSessionDTO());
             inventory = new Inventory(getDataselectionDTO(), piSelectionDto, getDataselectionDTO().getProjectionId());
             rates = new PipelineInventoryRates(piSelectionDto);
-            summary = new AdjustmentSummaryInventory(piSelectionDto);
-            details = new AdjustmentDetailInventory(piSelectionDto);
+            inventorySummary = new AdjustmentSummaryInventory(piSelectionDto);
+            inventorydetails = new AdjustmentDetailInventory(piSelectionDto);
 
             TabSheet.Tab tab1 = getTabSheet().addTab(inventory, "Inventory");
             tab1.setDefaultFocusComponent(inventory.getDefaultFocusComponent());
             TabSheet.Tab tab2 = getTabSheet().addTab(rates, "Rates");
             tab2.setDefaultFocusComponent(rates.getDefaultFocusComponent());
-            TabSheet.Tab tab3 = getTabSheet().addTab(summary, "Adjustment Summary");
-            tab3.setDefaultFocusComponent(summary.getDefaultFocusComponent());
-            TabSheet.Tab tab4 = getTabSheet().addTab(details, "Adjustment Detail");
-            tab4.setDefaultFocusComponent(details.getDefaultFocusComponent());
+            TabSheet.Tab tab3 = getTabSheet().addTab(inventorySummary, "Adjustment Summary");
+            tab3.setDefaultFocusComponent(inventorySummary.getDefaultFocusComponent());
+            TabSheet.Tab tab4 = getTabSheet().addTab(inventorydetails, "Adjustment Detail");
+            tab4.setDefaultFocusComponent(inventorydetails.getDefaultFocusComponent());
             TabSheet.Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
@@ -74,7 +74,7 @@ public class Transaction3 extends AbstractTransaction {
 
     @Override
     public boolean isGenerated() {
-        return inventory.isGenerated() && rates.isGenerated() && summary.isGenerated() && details.isGenerated();
+        return inventory.isGenerated() && rates.isGenerated() && inventorySummary.isGenerated() && inventorydetails.isGenerated();
     }
 
     @Override
@@ -90,16 +90,18 @@ public class Transaction3 extends AbstractTransaction {
     @Override
     public boolean saveAssets() {
         CommonLogic.savePipelineInventorySelection(getDataselectionDTO().getProjectionId(), getName(), getSelection());
-        return summary.saveAssets();
+        return inventorySummary.saveAssets();
     }
 
     @Override
     public String getGtnQuery() {
+        LOGGER.debug("Transaction 3 Gtn Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
+        LOGGER.debug("Transaction 3 Reserve Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 
@@ -113,8 +115,8 @@ public class Transaction3 extends AbstractTransaction {
         String userId = String.valueOf(getSessionDTO().getUserId());
         inventory.configurePermission(userId, stplSecurity);
         rates.configurePermission(userId, stplSecurity);
-        summary.configurePermission(userId, stplSecurity);
-        details.configurePermission(userId, stplSecurity);
+        inventorySummary.configurePermission(userId, stplSecurity);
+        inventorydetails.configurePermission(userId, stplSecurity);
     }
 
     @Override

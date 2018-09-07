@@ -466,13 +466,11 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			if (dto != null) {
 				final int projectionIdValue = dto.getCffMasterSid();
 				Long processId = 0L;
-//				final List<String> roleList = new ArrayList<>();
 				final List processIdList = WorkflowPersistance.selectWFInstanceInfo(projectionIdValue);
 				if (processIdList != null && !processIdList.isEmpty()) {
 					processId = Long.valueOf(processIdList.get(0).toString());
 				}
 				final String userId = (String) VaadinSession.getCurrent().getAttribute("userId");
-				final User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
 				sessionDto.setAction("edit");
 				sessionDto.setIsGenerated(BooleanConstant.getTrueFlag());
 				sessionDto.setProcessId(processId);
@@ -534,9 +532,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                                         List inputList=new ArrayList();
                                         inputList.add(sessionDto.getProjectionId());
                                         final List<String> loadFrequency = CommonQueryUtils.getAppData(inputList, "loadEditFrequency", null);
-                                        sessionDto.setFrequency(loadFrequency.get(0));
+                                        sessionDto.setFrequency(!loadFrequency.isEmpty() ? loadFrequency.get(0) : ConstantsUtil.QUARTERLY);
                                         final List<Object> loadDeduction = CommonQueryUtils.getAppData(inputList, "loadEditDeduction", null);
-                                        sessionDto.setDeductionNo(loadDeduction.get(0)!=null && !String.valueOf(loadDeduction.get(0)).equals("null") ?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
+                                        sessionDto.setDeductionNo(loadDeduction.isEmpty() ? 1 : loadDeduction.get(0)!=null && !String.valueOf(loadDeduction.get(0)).equals("null") ?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
                                         dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDto.getCustomerHierarchyId()));
 					dataSelectionDto
 							.setCustRelationshipBuilderSid(String.valueOf(sessionDto.getCustRelationshipBuilderSid()));
@@ -596,6 +594,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                                         sessionDto.setDeductionName(getDeductionCaptionWithSid(sessionDto));
                                         cffLogic.loadSalesTempTableInThread(sessionDto,false);
                                         cffLogic.loadDiscountTempTableInThread(sessionDto,false);
+                                        cffLogic.callCFFHierarachyDetailsProcedure(sessionDto);
 					approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 					approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
 							sessionDto, dataSelectionDto);
@@ -630,7 +629,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				AbstractNotificationUtils.getErrorNotification(NO_RECORD_SELECTED, "Please select a record to EDIT.");
 			}
 
-		} catch (final PortalException | SystemException | IllegalArgumentException | InterruptedException | NullPointerException | ExecutionException ex) {
+		} catch (final Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}
 	}

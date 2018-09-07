@@ -137,7 +137,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 	private boolean dismantleCustSelection = true;
 	private boolean dismantleProdSelection = true;
 	private final CompanyDdlbDto discountDdlbDefault = new CompanyDdlbDto(0, SELECT_ONE, true);
-	private final CompanyDdlbDto discountDTO = null;
 	private final DataSelectionLogic dataLogic = new DataSelectionLogic();
 	private final DataSelectionSearchLogic tableLogic = new DataSelectionSearchLogic();
 	protected ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
@@ -4093,11 +4092,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 				String dedValue = StringUtils.EMPTY;
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)
 						&& !(deductionValue.getValue() instanceof String)) {
-					{
 						dedLevel = getDedutionLevel(String.valueOf(deductionLevel.getValue()));
 						dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
 								: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
-					}
 				}
 
 				customerDescMap = relationLogic.getLevelValueMap(

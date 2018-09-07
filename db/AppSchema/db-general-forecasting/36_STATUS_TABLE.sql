@@ -119,12 +119,13 @@ FROM   (VALUES ('DISCOUNT',
        NULL),
 	    ('VARIANCE',
        'CUSTOM',
-       NULL)
+       NULL),('CFF_EXCEL','CUSTOM',null)
+,('CFF_EXCEL','CUSTOMER',null)
+,('CFF_EXCEL','PRODUCT',null)
 	  ) A([SCREEN_NAME], [VIEW_NAME], [FLAG])
 WHERE  NOT EXISTS (SELECT 1
                    FROM   STATUS_TABLE B
                    WHERE  A.SCREEN_NAME = B.SCREEN_NAME
                           AND A.VIEW_NAME = B.VIEW_NAME);
-
 GO 
 

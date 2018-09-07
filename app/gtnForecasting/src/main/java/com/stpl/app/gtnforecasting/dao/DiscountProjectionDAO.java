@@ -45,7 +45,7 @@ public interface DiscountProjectionDAO {
      * @return
      */
     List<DiscountProjectionDTO> getDiscountProjection(SessionDTO session, String frequency, List<Integer> startAndEndPeriods, String actualsOrProjections,
-            boolean isProgram, List<String> discountList, String year, int historyNumber, int levelNo, String hierarchyIndicator, String userGroup,
+            boolean isProgram, List<String> discountList, String year, int levelNo, String hierarchyIndicator, String userGroup,
             int start, int offset, boolean isCount, boolean isCustom, List<String> customViewDetails, boolean isRefresh, String refreshHierarchyNumbers, String relationshipBuilderSid,boolean isAltHistory);
 
     /**
@@ -127,7 +127,7 @@ public interface DiscountProjectionDAO {
      * @return
      */
     boolean saveDiscountProjectionListView(SessionDTO session, String frequency, int period, int year, String hierarchy,
-            int levelNo, String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid);
+         String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid);
 
     /**
      * To update input before calling adjustment procedure.
@@ -167,7 +167,7 @@ public interface DiscountProjectionDAO {
      */
     public List getGlobalRebateDetails(int projectionId);
 
-    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkClear, boolean isProgram, List<String> discountList);
+    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkClear);
 
     public int getCheckedRecordCount(int projectionId, String userId, String sessionId, boolean isProgram, List<String> discountList) ;
 

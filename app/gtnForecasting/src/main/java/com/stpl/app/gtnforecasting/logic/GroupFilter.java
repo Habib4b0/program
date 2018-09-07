@@ -17,10 +17,13 @@ import java.util.Set;
  */
 public class GroupFilter {
 
+    private GroupFilter() {
+        // GroupFilter
+    }
 
 
     public static void initSalesMap(final SessionDTO session) {
-        List<Object> initialList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(CommonLogic.getGroupQuery("ST_NM_SALES_PROJECTION_MASTER"), session.getCurrentTableNames()), null, null);
+        List<Object> initialList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(CommonLogic.getGroupQuery("ST_NM_SALES_PROJECTION_MASTER"), session.getCurrentTableNames()));
         session.setSalesgroupSet(generateStringSet(initialList));
     }
 
@@ -34,7 +37,7 @@ public class GroupFilter {
 
 
     public static void initdiscountMap(final SessionDTO session) {
-        List<Object> initialList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(CommonLogic.getGroupQuery("ST_NM_DISCOUNT_PROJ_MASTER"), session.getCurrentTableNames()), null, null);
+        List<Object> initialList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(CommonLogic.getGroupQuery("ST_NM_DISCOUNT_PROJ_MASTER"), session.getCurrentTableNames()));
         session.setDiscountgroupSet(generateStringSet(initialList));
     }
 

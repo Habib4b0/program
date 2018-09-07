@@ -13,6 +13,7 @@ import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +99,7 @@ public class CompanyMasterImpl {
             
             public List findCompanyMaster(String companyId, String companyNo,
             String companyName, String companyStatus, String companyType,
-            String tradeClass, int identifierType, String identifier, String orderByColumn, Boolean sortOrder) {
+            int identifierType, String identifier, String orderByColumn, Boolean sortOrder) {
 
         
         String sql = StringUtils.EMPTY;
@@ -161,7 +162,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -543,7 +544,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
-            return null;
+            return Collections.emptyList();
         } 
     }
 
@@ -561,7 +562,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
 
     }
@@ -581,7 +582,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -595,13 +596,13 @@ public class CompanyMasterImpl {
             sql = "DELETE FROM COMPANY_TRADE_CLASS WHERE COMPANY_MASTER_SID=" + companySystemId;
 
             HelperTableLocalServiceUtil.executeSelectQuery(sql);
-            return null;
+            return Collections.emptyList();
         } catch (Exception e) {
 
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
 
-            return null;
+            return Collections.emptyList();
         }
 
     }
@@ -651,7 +652,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
 
             LOGGER.error(e.getMessage());
-            return null;
+            return Collections.emptyList();
         }
 
     }
@@ -669,7 +670,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error("",e);
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -681,7 +682,7 @@ public class CompanyMasterImpl {
             sql.append(SQlUtil.getQuery("getCustomerDetails"));
 
             if (searchCriteria.contains("~") && !searchCriteria.contains("*")) {
-                String arr[] = searchCriteria.split("~");
+                String[] arr = searchCriteria.split("~");
                 for (String arr1 : arr) {
                     sql.append(arr1);
                 }
@@ -696,11 +697,11 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error("",e);
             LOGGER.error(sql.toString());
-            return null;
+            return Collections.emptyList();
         } 
     }
 
-    public Object executeSelectQuery(String query, Object udc1, Object udc2) {
+    public Object executeSelectQuery(String query) {
         List<Object[]> returnList = new ArrayList<>();
         try {
 
@@ -1180,7 +1181,6 @@ public class CompanyMasterImpl {
                 LOGGER.debug("End of saveCcp method");
             } else {
                 List list = null;
-                try {
                     List<String> relationshipBuilderSids = (List<String>) parameters.get("relationshipBuilderSids");
                     List<StringBuilder> logic = new ArrayList<>();
                     List<String> condition = new ArrayList<>();
@@ -1392,12 +1392,7 @@ public class CompanyMasterImpl {
                         }
                     }
 
-                } catch (Exception ex) {
-                    LOGGER.error(ex.getMessage());
-                    LOGGER.error(hierarchyQuery);
-                    LOGGER.error(levelQuery);
-                    LOGGER.error(ccpQueryList.toString());
-                }
+               
             }
         } catch (Exception e) {
             LOGGER.error("In saveCcp -> {} ",e.getMessage());

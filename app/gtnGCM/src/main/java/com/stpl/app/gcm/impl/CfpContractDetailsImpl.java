@@ -8,6 +8,7 @@ package com.stpl.app.gcm.impl;
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -29,7 +30,7 @@ public class CfpContractDetailsImpl {
      * @param future
      * @return
      */
-    public static Boolean saveCfpDetailsAttached(final List<Object> input, final Object future) {
+    public static Boolean saveCfpDetailsAttached(final List<Object> input) {
         boolean retFlag;
         String sqlSaveCfpDetailsAttached = StringUtils.EMPTY;
         try {
@@ -54,7 +55,7 @@ public class CfpContractDetailsImpl {
         return retFlag;
     }
 
-    public List getCompaniesList(String searchField, String searchVal, Map<String, Object> filterMap, int start, int offset, String column, String orderBy, Object future1, Object future2) {
+    public List getCompaniesList(String searchField, String searchVal, Map<String, Object> filterMap, int start, int offset, String column, String orderBy) {
 
         String sql = StringUtils.EMPTY;
         try {
@@ -224,7 +225,7 @@ public class CfpContractDetailsImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }

@@ -76,12 +76,12 @@ public class TransferSelectionLogic {
         return retList;
     }
 
-    private List<TransferFromDTO> configureFromDetails(List<Object[]> resultList, String Category, Integer level) {
+    private List<TransferFromDTO> configureFromDetails(List<Object[]> resultList, String category, Integer level) {
         List<TransferFromDTO> retList = new ArrayList<>();
         for (Object[] temp : resultList) {
             TransferFromDTO tempDTO = new TransferFromDTO();
             tempDTO.setLevel(level);
-            tempDTO.setCategory(Category);
+            tempDTO.setCategory(category);
             tempDTO.setId(CommonUtil.getPureValue(String.valueOf(temp[0])));
             tempDTO.setNumber(CommonUtil.getPureValue(String.valueOf(temp[1])));
             tempDTO.setName(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.TWO])));
@@ -271,13 +271,13 @@ public class TransferSelectionLogic {
         return retList;
     }
 
-    private List<TransferToDTO> configureToDetails(List<Object[]> resultList, String Category, Integer level) {
+    private List<TransferToDTO> configureToDetails(List<Object[]> resultList, String category, Integer level) {
         List<TransferToDTO> retList = new ArrayList<>();
         for (Object[] temp : resultList) {
             TransferToDTO tempDTO = new TransferToDTO();
             int j = -1;
             tempDTO.setLevel(level);
-            tempDTO.setCategory(Category);
+            tempDTO.setCategory(category);
             tempDTO.setContractSid(CommonUtil.getPureValue(String.valueOf(temp[++j])));
             if (level == 1) {
                 tempDTO.setCfpContractSid(CommonUtil.getPureValue(String.valueOf(temp[++j])));

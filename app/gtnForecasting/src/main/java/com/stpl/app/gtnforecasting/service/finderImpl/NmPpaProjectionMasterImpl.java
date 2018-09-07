@@ -87,7 +87,7 @@ public class NmPpaProjectionMasterImpl {
         return resultList;
     }
     
-    public void setPPAProjectionMassUpdate(Object priceCap, int startQuater, int endQuater, int startYear, int endYear, int projectionId,String parent,String levelValue) {
+    public void setPPAProjectionMassUpdate(Object priceCap, int startQuater, int endQuater, int startYear, int endYear, int projectionId,String levelValue) {
 
         StringBuilder sql = new StringBuilder();
 
@@ -164,7 +164,7 @@ public class NmPpaProjectionMasterImpl {
         }
     }
     
-    public List getPPAResults(Integer projectionId, int levelNo, String parent, boolean last, int startIndex, int endIndex, boolean isCount, List<String> input, String levelName) {
+    public List getPPAResults(Integer projectionId, int levelNo, String parent, int endIndex, boolean isCount, List<String> input, String levelName) {
        
         StringBuilder sql = new StringBuilder();
         Integer startFrequency = null;

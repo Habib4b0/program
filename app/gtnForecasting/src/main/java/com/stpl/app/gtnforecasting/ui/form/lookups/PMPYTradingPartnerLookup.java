@@ -550,11 +550,7 @@ public class PMPYTradingPartnerLookup extends Window {
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     searchLogic();
-                } catch (SystemException e) {
-                    LOGGER.error(e.getMessage());
                 } catch (CommitException e) {
-                    LOGGER.error(e.getMessage());
-                } catch (Exception e) {
                     LOGGER.error(e.getMessage());
                 }
 

@@ -211,7 +211,7 @@ public class InventoryCustomerGroupLookup extends Window {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in btnSearchLogic :" , ex);
+            LOGGER.error("Error in btnSearchLogic :", ex);
         }
     }
 
@@ -263,7 +263,7 @@ public class InventoryCustomerGroupLookup extends Window {
             }.getConfirmationMessage(ARMMessages.getInventoryCustomerGroupADDALLErrorMsg1(), ARMMessages.getInventoryCustomerGroupADDALLErrorMsg2());
 
         } catch (Exception ex) {
-            LOGGER.error("Error in btnAddLineLogic :" , ex);
+            LOGGER.error("Error in btnAddLineLogic :", ex);
         }
     }
 
@@ -428,7 +428,7 @@ public class InventoryCustomerGroupLookup extends Window {
             }.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getDeleteMessage_exclusion());
 
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteButtonClick :" , ex);
+            LOGGER.error("Error in deleteButtonClick :", ex);
         }
     }
 
@@ -468,14 +468,13 @@ public class InventoryCustomerGroupLookup extends Window {
             }
 
             @Override
-            public void filterRemoved(Object propertyId) {
-                LOGGER.debug("inside filterRemoved Method");
-            }
-
-            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 LOGGER.debug("inside filterAdded Method");
 
+            }
+             @Override
+            public void filterRemoved(Object propertyId) {
+                LOGGER.debug("inside filterRemoved Method");
             }
 
             @Override
@@ -593,7 +592,7 @@ public class InventoryCustomerGroupLookup extends Window {
                 });
 
             } catch (Exception ex) {
-                LOGGER.error("Error in viewListener :" , ex);
+                LOGGER.error("Error in viewListener :", ex);
             }
         }
     };

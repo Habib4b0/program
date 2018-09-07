@@ -136,8 +136,7 @@ public class DeductionDetailsLogic {
             String freq=deductionDTO.getFrequency();
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                if (StringUtils.isBlank(lastValue) || String.valueOf(obj[0]).equals(lastValue)) {
-                } else {
+                if (!StringUtils.isBlank(lastValue) || !String.valueOf(obj[0]).equals(lastValue)) {
                     resultList.add(dto);
                     dto = new TableDTO();
                 }

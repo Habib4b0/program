@@ -10,17 +10,14 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastProjectionSubmitRequest;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsForecastProjectionSubmitBean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class VarianceCalculationLogic {
 
     protected static ForecastForm forecastForm;
     protected static String notiMsg = "";
-    /**
-     * The Constant LOGGER.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(VarianceCalculationLogic.class);
+    private VarianceCalculationLogic() {
+        // VarianceCalculationLogic
+    }
 
     public static void submitWorkflow(final Long processInstanceId, final SessionDTO session, String moduleName) {
 

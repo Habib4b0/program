@@ -14,6 +14,7 @@ import com.stpl.app.arm.accountconfiguration.dto.AccountConfigDTO;
 import com.stpl.app.arm.accountconfiguration.dto.AccountConfigSelection;
 import com.stpl.app.arm.common.CommonFilterLogic;
 import com.stpl.app.arm.common.CommonLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.utils.CommonUtils;
@@ -269,7 +270,7 @@ public class AccountConfigLogic {
             accInput.add(selection.getSearchAccConfigDTO().getCompanySid());
             accInput.add(selection.getSearchAccConfigDTO().getBuSid());
             if ("View".equalsIgnoreCase(selection.getSession().getMode())) {
-                account.append("'").append(selection.getSearchAccConfigDTO().getAccount()).append("'");
+                account.append(ARMUtils.SINGLE_QUOTES).append(selection.getSearchAccConfigDTO().getAccount()).append(ARMUtils.SINGLE_QUOTES);
                 accInput.add(account);
                 accInput.add(selection.getSearchAccConfigDTO().getBrandSid());
             } else {
@@ -277,11 +278,11 @@ public class AccountConfigLogic {
                 List<Object> list1 = QueryUtils.getItemData(inputtemp, "temptable-Brand", null);
 
                 for (Object obj1 : list1) {
-                    brand.append(obj1).append(",");
+                    brand.append(obj1).append(ARMUtils.COMMA_CHAR);
                 }
                 brand.replace(brand.lastIndexOf(","), brand.lastIndexOf(",") + 1, "");
                 for (Object obj1 : list) {
-                    account.append("'").append(obj1).append("'").append(",");
+                    account.append(ARMUtils.SINGLE_QUOTES).append(obj1).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA_CHAR);
                 }
                 account.replace(account.lastIndexOf(","), account.lastIndexOf(",") + 1, "");
                 accInput.add(account);
@@ -341,7 +342,7 @@ public class AccountConfigLogic {
         histInput.add(selection.getSearchAccConfigDTO().getCompanySid());
         histInput.add(selection.getSearchAccConfigDTO().getBuSid());
         if ("View".equalsIgnoreCase(selection.getSession().getMode())) {
-            account.append("'").append(selection.getSearchAccConfigDTO().getAccount()).append("'");
+            account.append(ARMUtils.SINGLE_QUOTES).append(selection.getSearchAccConfigDTO().getAccount()).append(ARMUtils.SINGLE_QUOTES);
             histInput.add(account);
             histInput.add(selection.getSearchAccConfigDTO().getBrandSid());
         } else {
@@ -349,11 +350,11 @@ public class AccountConfigLogic {
             List<Object> list1 = QueryUtils.getItemData(inputtemp, "temptable-Brand", null);
 
             for (Object obj1 : list1) {
-                brand.append(obj1).append(",");
+                brand.append(obj1).append(ARMUtils.COMMA_CHAR);
             }
             brand.replace(brand.lastIndexOf(","), brand.lastIndexOf(",") + 1, "");
             for (Object obj1 : list) {
-                account.append("'").append(obj1).append("'").append(",");
+                account.append(ARMUtils.SINGLE_QUOTES).append(obj1).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA_CHAR);
             }
             account.replace(account.lastIndexOf(","), account.lastIndexOf(",") + 1, "");
             histInput.add(account);

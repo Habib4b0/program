@@ -22,7 +22,6 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
@@ -149,11 +148,9 @@ public class PPADetailsLookup extends Window {
     private final PPAHelperDTO itemDefaultValue = new PPAHelperDTO(0, Constant.SELECT_ONE, Constant.SELECT_ONE);
     private final PPADetailsDTO ppaDetailsDTO = new PPADetailsDTO();
     private final ExtCustomTable excelTable = new ExtCustomTable();
-    private final CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private final SessionDTO sessionDTO;
     private List<String> forecastPeriods = new ArrayList<>();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
-    private final HeaderUtils headerUtils = new HeaderUtils();
 
     private final HelperDTO defaultValue = new HelperDTO(0, Constant.SELECT_ONE);
 

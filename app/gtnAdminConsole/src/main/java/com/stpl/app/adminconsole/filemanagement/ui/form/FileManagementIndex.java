@@ -363,8 +363,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 													} catch (Exception ex) {
 														LOGGER.error(ex.getMessage());
 													}
-												} else {
-												}
+												} 
 											}
 										}, ButtonId.YES, ButtonId.NO);
 
@@ -485,7 +484,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 											String msg = email.sendMail("support@bpitechnologies.com", "TestMail",
 													"You clicked", false, StringUtils.EMPTY);
 											if (msg.equals(ConstantsUtils.SUCCESS)) {
-
+                                                                                    LOGGER.debug("SUCCESS");
 											}
 										}
 
@@ -647,10 +646,6 @@ public class FileManagementIndex extends CustomComponent implements View {
 				} else {
 					loadCurrentFile();
 				}
-				if (fileType.getValue() == null || ConstantsUtils.SELECT_ONE.equals(fileType.getValue())
-						|| "null".equals(fileType.getValue().toString().trim())
-						|| "0".equals(fileType.getValue().toString().trim())) {
-				} else {
 					tableLogic.configureSearchData(CommonUtil.getSelectedFileType(fileType),
 							String.valueOf(country.getValue()), String.valueOf(businessUnit.getValue()),
 							company.getValue());
@@ -662,7 +657,6 @@ public class FileManagementIndex extends CustomComponent implements View {
 					fileHistoryTable.setSelectable(true);
 					fileHistoryTable.markAsDirtyRecursive();
 
-				}
 				LOGGER.debug("In configureFields country.addValueChangeListener Ended");
 			}
 		});
@@ -678,10 +672,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 					fileHistoryTable.setFilterDecorator(new ExtDemoFilterDecorator());
 					setTableDefaultConfig();
 				}
-				if (fileType.getValue() == null || ConstantsUtils.SELECT_ONE.equals(fileType.getValue())
-						|| "null".equals(fileType.getValue().toString().trim())
-						|| "0".equals(fileType.getValue().toString().trim())) {
-				} else {
+				
 					loadCurrentFile();
 					tableLogic.configureSearchData(CommonUtil.getSelectedFileType(fileType),
 							String.valueOf(country.getValue()), String.valueOf(businessUnit.getValue()),
@@ -694,7 +685,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 					fileHistoryTable.setSelectable(true);
 					fileHistoryTable.markAsDirtyRecursive();
 
-				}
+				
 				LOGGER.debug("In configureFields country.addValueChangeListener Ended");
 			}
 		});

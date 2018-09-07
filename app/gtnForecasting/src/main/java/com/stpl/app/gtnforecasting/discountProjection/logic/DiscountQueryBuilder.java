@@ -284,7 +284,7 @@ public class DiscountQueryBuilder {
     }
 
     public void massUpdate(SessionDTO session,ProjectionSelectionDTO projectionSelection, List<Integer> startAndEndPeriods, String selectedField, String fieldValue,
-           List<String> checkedDiscounts, boolean isProgram, List<String[]> massUpdateData, List<String> selectedPeriods,boolean isCustomHierarchy) {
+           List<String> checkedDiscounts, boolean isProgram, List<String[]> massUpdateData, boolean isCustomHierarchy) {
 
         String customSql = "";
         String frequency = projectionSelection.getFrequency();
@@ -317,7 +317,7 @@ public class DiscountQueryBuilder {
                 int startYear = 0;
                 int endYear = 0;
 
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     startFreq = startAndEndPeriods.get(0);
                     if (startAndEndPeriods.size() > 1) {
                         startYear = startAndEndPeriods.get(1);
@@ -675,7 +675,7 @@ public class DiscountQueryBuilder {
         }
     }
 
-    public int getCheckedRecordCount(SessionDTO session, List<String> discountList) {
+    public int getCheckedRecordCount(SessionDTO session) {
         List list = new ArrayList();
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" inside getCheckedRecordCount");
@@ -798,10 +798,10 @@ public class DiscountQueryBuilder {
     }
     
     public static List getDiscountProjectionCustomExcel(SessionDTO session,final boolean isProgram,ProjectionSelectionDTO projectionSelection) {
-        String CustExcelQuery = SQlUtil.getQuery("discountGenerateCustomViewExcel");
+        String custExcelQuery = SQlUtil.getQuery("discountGenerateCustomViewExcel");
         String dedQuery = NINE_LEVELS_DED_EXCEL_CUSTOM;
         String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
-        CustExcelQuery = CustExcelQuery.replace("?RS", isProgram ? "R" : "P") //Indicator for Program or program category
+        custExcelQuery = custExcelQuery.replace("?RS", isProgram ? "R" : "P") //Indicator for Program or program category
                 .replace("?F", String.valueOf(projectionSelection.getFrequency().charAt(0))) //Selected Frequency initial char
                 .replace("?P", StringUtils.EMPTY) //Selected Frequency initial char
                 .replace(DPMDEDINCLLUSION, replaceDPMDEDINCLLUSIONEXCEL(session)) // Selected RS
@@ -810,7 +810,7 @@ public class DiscountQueryBuilder {
                 .replace(DEDINCLNWHR, "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" WHERE DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
                 .replace("@UNIONALL", "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY : dedQuery + oppositeDed)
                 ;
-        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(CustExcelQuery, session.getCurrentTableNames()));
+        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(custExcelQuery, session.getCurrentTableNames()));
     }
 
 
@@ -832,12 +832,11 @@ public class DiscountQueryBuilder {
 	}
     
     public List getDiscountProjectionLastLevel(final String frequency, final List<String> discountList,
-            final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo, final boolean isCustom, final List<String> customViewDetails, final int treeLevelNo,
+            final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo, final List<String> customViewDetails, final int treeLevelNo,
             final int start, final int end, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
-        String queryBuilder=StringUtils.EMPTY;
         String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
         String dedQuery = NINE_LEVEL_DED;
-            queryBuilder = SQlUtil.getQuery("discount-generate-First-Nine-Level");
+        String  queryBuilder = SQlUtil.getQuery("discount-generate-First-Nine-Level");
         queryBuilder = queryBuilder.replace("?F", String.valueOf(frequency.charAt(0))) //Selected Frequency initial char
                 .replace(SELECTED_REBATE_AT,getRSDiscountHierarchyNo(discountList,session,session.getSelectedDeductionLevelNo())) // Selected RS
                 .replace("@DEDHIERVALUES", commonLogic.getSelectedHierarchy(session, hierarchyNo, hierarchyIndicator, levelNo)) // Selected RS
@@ -1065,7 +1064,7 @@ public class DiscountQueryBuilder {
         }
         return countQuery;
     }
-    public String getDiscountCountQueryForAllLevel(SessionDTO sessionDTO, String hierarchyNo, int levelNo, String hierarchyIndicator, boolean isProgram, List<String> discountList, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
+    public String getDiscountCountQueryForAllLevel(SessionDTO sessionDTO, String hierarchyNo, int levelNo, String hierarchyIndicator, List<String> discountList, final String userGroup) {
         String countQuery = SQlUtil.getQuery("GET_COUNT_ALL_LEVEL").replace(Constant.HIERARCHY_NO, commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo))
                 .replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(hierarchyIndicator,sessionDTO))
                 .replace(SELECTED_REBATE_AT, getRSDiscountHierarchyNo(discountList,sessionDTO,levelNo)).replace("@CUSTORPROD", "P".equals(hierarchyIndicator)?"PROD_HIERARCHY_NO":"CUST_HIERARCHY_NO");

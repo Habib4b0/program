@@ -52,6 +52,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -592,7 +593,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     public void generate(Button.ClickEvent event)  {
         try {
             if (!sessionDTO.getDsFrequency().equals(frequency.getValue()) || !sessionDTO.getDataSelectionDeductionLevel().equals(String.valueOf(deductionlevelDdlb.getValue()))) {
-                sessionDTO.setFunctionMode(sessionDTO.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+                sessionDTO.setFunctionMode(sessionDTO.getAction().toLowerCase(Locale.ENGLISH).equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
                 sessionDTO.setDsFrequency(String.valueOf(frequency.getValue()));
                 sessionDTO.setDataSelectionDeductionLevel(String.valueOf(deductionlevelDdlb.getValue()));
                 new DataSelectionLogic().nmSalesViewsPopulationProcedure(sessionDTO);
@@ -658,12 +659,12 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     }
      public void loadCustomViewDDdlb(boolean isDataSelection) {
          LOGGER.debug("loadCustomDDLB initiated ");
-        Map<String,String> dataMap=new HashMap<>();
-        dataMap.put("custSid", sessionDTO.getCustRelationshipBuilderSid());
-        dataMap.put("custVer", String.valueOf(sessionDTO.getCustomerRelationVersion()));
-        dataMap.put("prodSid", sessionDTO.getProdRelationshipBuilderSid());
-        dataMap.put("prodVer", String.valueOf(sessionDTO.getProductRelationVersion()));
-        new DataSelectionLogic().loadCustomViewDeductionValues(customDdlb, dataMap,false);
+        Map<String,String> dataMapCustomViewDdlb=new HashMap<>();
+        dataMapCustomViewDdlb.put("custSid", sessionDTO.getCustRelationshipBuilderSid());
+        dataMapCustomViewDdlb.put("custVer", String.valueOf(sessionDTO.getCustomerRelationVersion()));
+        dataMapCustomViewDdlb.put("prodSid", sessionDTO.getProdRelationshipBuilderSid());
+        dataMapCustomViewDdlb.put("prodVer", String.valueOf(sessionDTO.getProductRelationVersion()));
+        new DataSelectionLogic().loadCustomViewDeductionValues(customDdlb, dataMapCustomViewDdlb,false);
         customDdlb.setValue(sessionDTO.getCustomDeductionRelationShipSid());
         LOGGER.debug("loadCustomDDLB ends ");
     }
@@ -825,15 +826,15 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             Collections.reverse(periodList);
         }
         for (int i = 0; i < periodList.size(); i++) {
-            periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
+            periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
         }
         for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-            listMap.put(entry.getKey().toLowerCase(), entry.getValue());
+            listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
         }
         if (fromDate.getValue() != null && !"null".equals(String.valueOf(fromDate.getValue())) && !"".equals(String.valueOf(fromDate.getValue()))
                 && !Constant.SELECT_ONE.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constant.SELECT_ONE)) {
             String fromVal = fromDateVal.replace(" ", "");
-            fromVal = fromVal.toLowerCase();
+            fromVal = fromVal.toLowerCase(Locale.ENGLISH);
             start = periodList.indexOf(fromVal);
         }
         int end = periodList.size() - 1;
@@ -852,10 +853,10 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
              Collections.reverse(periodList);
          }
          for (int i = 0; i < periodList.size(); i++) {
-             periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
+             periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
          }
          for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-             listMap.put(entry.getKey().toLowerCase(), entry.getValue());
+             listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
          }
          if (!periodList.isEmpty()) {
              for (int i = 0; i < periodList.size(); i++) {
@@ -892,7 +893,6 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         Set<String> outputSet = new TreeSet();
         List<String> variablesList = new ArrayList<>();
             String query;
-            List<String> returnList = new ArrayList<>();
             Map<String, List<String>> input = new HashMap<>();
             List<String> defaultNames = Arrays.asList("01.Check All", "08.Contract Sales @ WAC", "09.Contract Units", "10.Discount $", "11.Discount %", "12.RPU", "14.Net Sales", "18.COGS", "19.Net Profit");
             List<String> exfactNames = Arrays.asList("02.Ex-Factory Sales", "04.Contract Sales % Of Ex-Factory", "13.Discount % of Ex-Factory", "15.Net Sales % of Ex-Factory", "16.Net Ex-Factory Sales", "17.Net Ex-Factory Sales as % of Ex-Factory Sales");
@@ -903,7 +903,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             input.put("Inventory Withdrawal - Forecast Detail", inventoryNames);
             input.put("Inventory Withdrawal - Forecast Summary", inventoryNames);
             query = SQlUtil.getQuery("get-file-type-query");
-            returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
+            List<String>  returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             outputSet.addAll(defaultNames);
             for (String string : returnList) {
                 if (!"Customer Sales".equals(string) && !"Adjusted Demand".equals(string)) {

@@ -81,7 +81,7 @@ public class CommonUtils {
      * The WorkFlowStatus list name.
      */
     public static final String WORKFLOW_STATUS = "WorkFlowStatus";
-    private static HashMap<Long, String> userMap = new HashMap<Long, String>();
+    private static HashMap<Long, String> userMap = new HashMap<>();
     
     public static final String SUCCESSFULLY_DELETED = " has been deleted Successfully";
     public static final String PRIMARY = "Primary";
@@ -288,8 +288,7 @@ public class CommonUtils {
         List<Object[]> helperList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(query1);
         Object obj = helperList.get(0);
         sqlString = sqlString.concat("select top 1 forecast_name,version FROM dbo.FILE_MANAGEMENT WHERE FILE_TYPE like '" + String.valueOf(obj) + "' order by CREATED_DATE desc");
-        List<Object[]> list = (List<Object[]>) DAO.executeSelectQuery(sqlString, null, null);
-        return list;
+        return (List<Object[]>) DAO.executeSelectQuery(sqlString, null, null);
     }
 
     private List<Object[]> getForecastYear(final String version, final String forecastName, final String fileType) throws SystemException {
@@ -319,8 +318,7 @@ public class CommonUtils {
         } else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY) || fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
             sqlString = sqlString.concat(" ORDER BY FM.YEAR DESC,FM.MONTH DESC");
         }
-        List<Object[]> list = (List<Object[]>) DAO.executeSelectQuery(sqlString, null, null);
-        return list;
+        return (List<Object[]>) DAO.executeSelectQuery(sqlString, null, null);
     }
 
     static int getPeriodFromDate(Date date, int division) {
@@ -575,11 +573,10 @@ public class CommonUtils {
      * @return String - date in string format
      */
     public static final String getDateTime(final String aMask, final Date aDate) {
-        if (aDate == null) {
-        } else {
+        if (aDate != null) {
+        
             final SimpleDateFormat dateFormat = new SimpleDateFormat(aMask);
-            final String returnValue = dateFormat.format(aDate);
-            return returnValue;
+            return dateFormat.format(aDate);
         }
         return StringUtils.EMPTY;
     }

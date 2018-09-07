@@ -241,9 +241,9 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
                 }
                 listSize.set(i, value.replace(" ", StringUtils.EMPTY).trim());
                 if (i != listSize.size() - 1) {
-                    deductionValues.append("'").append(value).append("',");
+                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                 } else {
-                    deductionValues.append("'").append(value).append("'");
+                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
                 }
             }
         }

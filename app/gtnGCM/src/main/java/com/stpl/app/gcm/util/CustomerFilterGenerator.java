@@ -60,17 +60,8 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
         try {
             ComboBox comboBox;
-            if ("companyStatus".equals(propertyId)) {
+            if ("companyStatus".equals(propertyId) ||"status".equals(propertyId) || "statusDescription".equals(propertyId) || "priceProtectionStatus".equals(propertyId)) {
 
-                comboBox = new ComboBox();
-                commonMsg.loadComboBox(comboBox, "STATUS", true);
-                comboBox.select(0);
-                comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.SHOW_ALL);
-                comboBox.select(ConstantsUtils.ZERO_INT);
-                return comboBox;
-
-            }else if ("status".equals(propertyId) || "statusDescription".equals(propertyId) || "priceProtectionStatus".equals(propertyId)) {
                 comboBox = new ComboBox();
                 commonMsg.loadComboBox(comboBox, "STATUS", true);
                 comboBox.select(0);
@@ -90,80 +81,50 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
                 return comboBox;
 
             } else if ("priceType".equals(propertyId) || "priceProtectionPriceType".equals(propertyId)) {
-                try {
                     final ComboBox priceType = new ComboBox();
                     commonMsg.loadComboBox(priceType, "PS_TYPE", true);
                     priceType.select(0);
 
                     return priceType;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
             } else if ("priceToleranceType".equals(propertyId)) {
-                try {
                     final ComboBox tolerance = new ComboBox();
                     commonMsg.loadComboBox(tolerance, "PRICE_TOLERANCE_TYPE", true);
                     tolerance.select(0);
 
                     return tolerance;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
             } else if ("priceToleranceInterval".equals(propertyId)) {
-                try {
                     final ComboBox toleranceInterval = new ComboBox();
                     commonMsg.loadComboBox(toleranceInterval, "PRICE_TOLERANCE_INTERVAL", true);
                     toleranceInterval.select(0);
 
                     return toleranceInterval;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
             } else if ("priceToleranceFrequency".equals(propertyId)) {
-                try {
                     final ComboBox frequency = new ComboBox();
                     commonMsg.loadComboBox(frequency, "PRICE_TOLERANCE_FREQUENCY", true);
                     frequency.select(0);
                     return frequency;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
             } else if ("contractType".equals(propertyId)) {
-                try {
                     final ComboBox frequency = new ComboBox();
                     commonMsg.loadComboBox(frequency, "CONTRACT_TYPE", true);
                     frequency.select(0);
                     return frequency;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
+               
             } else if ("resetType".equals(propertyId) || "resetInterval".equals(propertyId) || "resetFrequency".equals(propertyId)) {
-                try {
                     ComboBox resetType = new ComboBox();
                     commonMsg.loadComboBox(resetType, "resetType".equals(propertyId) ? "RESET_TYPE" : 
                                         "resetInterval".equals(propertyId) ? "PRICE_TOLERANCE_INTERVAL" : "PRICE_TOLERANCE_FREQUENCY", true);
                     return resetType;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
             } else if ("resetEligible".equals(propertyId)) {
-                try {
                     ComboBox resetEligible = new ComboBox();
                     commonMsg.loadYesNoDDLB(resetEligible, true);
                     resetEligible.setDebugId("testing");
                     return resetEligible;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
+               
             } else if ("formulaType".equals(propertyId)) {
-                try {
                     final ComboBox frequency = new ComboBox();
                     commonMsg.loadComboBox(frequency, "FORMULA_TYPE", true);
                     frequency.select(0);
                     return frequency;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
             } 
         } catch (Exception ex) {
             LOGGER.error("",ex);

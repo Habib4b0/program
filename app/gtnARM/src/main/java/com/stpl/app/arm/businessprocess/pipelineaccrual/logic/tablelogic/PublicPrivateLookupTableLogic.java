@@ -36,7 +36,7 @@ public class PublicPrivateLookupTableLogic extends PageTableLogic {
             }
             return 0;
         } catch (Exception ex) {
-            LOGGER.error("Error in getCount :" , ex);
+            LOGGER.error("Error in getCount :", ex);
             return 0;
         }
     }
@@ -46,7 +46,7 @@ public class PublicPrivateLookupTableLogic extends PageTableLogic {
         try {
             return logic.getSavedViewList(exRateDTO, false, start, offset, this.getSortByColumns(), this.getFilters());
         } catch (Exception ex) {
-            LOGGER.error("Error in loadData :" , ex);
+            LOGGER.error("Error in loadData :", ex);
             return Collections.emptyList();
         }
     }

@@ -1239,7 +1239,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             growthString = StringUtils.isNotBlank(growthString) ? growthString.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY) : DASH;
             perWacString = StringUtils.isNotBlank(perWacString) ? perWacString.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY) : DASH;
             priceTypeDTO.setGrowthRate(priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) ? StringUtils.EMPTY
-                    : PER_OF_WAC.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())) ? logic.getFormattedGrowth(perWacString, false) : logic.getFormattedGrowth(growthString, true));
+                    : PER_OF_WAC.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())) ? logic.getFormattedGrowth(perWacString) : logic.getFormattedGrowth(growthString));
             if (!ANNUAL.getConstant().equalsIgnoreCase(priceTypeDTO.getCpiCompounding())) {
                 priceTypeDTO.setFrequency(String.valueOf(frequencyDdlb.getValue()));
             }

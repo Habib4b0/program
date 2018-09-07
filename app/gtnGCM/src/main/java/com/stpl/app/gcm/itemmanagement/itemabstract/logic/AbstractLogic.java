@@ -108,18 +108,17 @@ public class AbstractLogic {
         containerData.setMinFilterLength(0);
     }
 
-    public int getDdlbCount(String QueryName, final List<String> input) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+    public int getDdlbCount(String queryName, final List<String> input) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
 
-    public List<HelperDTO> getDdlbList(String QueryName, final List<String> input, final Boolean isFilter) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+    public List<HelperDTO> getDdlbList(String queryName, final List<String> input, final Boolean isFilter) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         List<HelperDTO> resultList = new ArrayList<>();
         if (Integer.parseInt(String.valueOf(input.get(1))) == 0) {
             if (isFilter) {
@@ -145,8 +144,7 @@ public class AbstractLogic {
         List input = getInput(selection, binderDto);
         List<Object[]> list = ItemQueries.getItemData(input, selection.getCountQueryName(), null);
         Object obj = list.get(0);
-        int count = obj == null ? 0 : (Integer) obj;
-        return count;
+        return obj == null ? 0 : (Integer) obj;
     }
 
     public List getContractResults(SelectionDTO selection, int start, int offset, AddItemTableDTO binderDto) {
@@ -557,8 +555,7 @@ public class AbstractLogic {
     public static int getCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
@@ -566,13 +563,12 @@ public class AbstractLogic {
     public static int getDataCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object[] obj = list.get(0);
-            int count = obj[0] == null ? 0 : 1;
-            return count;
+            return obj[0] == null ? 0 : 1;
         }
         return 0;
     }
 
-    public ComponentInfoDTO getComponentTextFields(final String componentFlag,Integer systemid,boolean isItemAddTab) {
+    public ComponentInfoDTO getComponentTextFields(final String componentFlag,Integer systemid) {
         List input = new ArrayList();
         ComponentInfoDTO dto = new ComponentInfoDTO();
         input.add(systemid);
@@ -606,8 +602,7 @@ public class AbstractLogic {
     public int getFormulaIdCount(FormulaDTO binderDto, SelectionDTO selection) {
         List<Object[]> list = ItemQueries.getItemData(getFormulaIdInput(binderDto), selection.getCountQueryName(), null);
         Object obj = list.get(0);
-        int count = obj == null ? 0 : (Integer) obj;
-        return count;
+        return obj == null ? 0 : (Integer) obj;
     }
 
     public List<FormulaDTO> getFormulaIdRecords(FormulaDTO binderDto, SelectionDTO selection) {
@@ -648,10 +643,10 @@ public class AbstractLogic {
         return input;
     }
 
-    public void LazyTableLoadDdlb(ComboBox comboBox, String load_Item_Status_Count, String load_Item_Status) {
+    public void LazyTableLoadDdlb(ComboBox comboBox, String loadItemStatusCount, String loadItemStatus) {
         final List inputList = new ArrayList();
-        inputList.add(load_Item_Status_Count);
-        inputList.add(load_Item_Status);
+        inputList.add(loadItemStatusCount);
+        inputList.add(loadItemStatus);
         LazyContainer containerData = new LazyContainer(HelperDTO.class, new LoadDdlbDAO(inputList, true), new DdlbCriteria());
         comboBox.setPageLength(NumericConstants.SEVEN);
         comboBox.setContainerDataSource(containerData);
@@ -676,8 +671,7 @@ public class AbstractLogic {
                 queryname = "Abstract Data update CheckRecord";
             }
         }
-        Boolean isUpdated = ItemQueries.itemUpdate(input, queryname);
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, queryname);
     }
 
     public Boolean getEditedPopulateItemDetails(final AbstractContractSearchDTO compDTO, final SelectionDTO selection) {
@@ -700,9 +694,8 @@ public class AbstractLogic {
             }
             input = getEditedItemInput(compDTO, selection);
         }
-        Boolean isUpdated = ItemQueries.itemUpdate(input, queryname);
 
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, queryname);
     }
 
     public List getEditedItemInput(AbstractContractSearchDTO compDTO, SelectionDTO selection) {
@@ -903,8 +896,7 @@ public class AbstractLogic {
     }
 
     public boolean getItemDetails(AddItemTableDTO dto, SelectionDTO selection) {
-        Boolean isUpdated = ItemQueries.itemUpdate(getEditedInput(dto, selection), "Abstract Data update");
-        return isUpdated;
+        return ItemQueries.itemUpdate(getEditedInput(dto, selection), "Abstract Data update");
     }
 
     private List getEditedInput(AddItemTableDTO dto, SelectionDTO selection) {
@@ -1065,8 +1057,7 @@ public class AbstractLogic {
     }
 
     public Boolean massUpdateItemDetails(final List input) {
-        Boolean isUpdated = ItemQueries.itemUpdate(input, "Abstract Mass update");
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, "Abstract Mass update");
     }
 
     private List getInput(SelectionDTO selection, AddItemTableDTO binderDto) {
@@ -1160,8 +1151,7 @@ public class AbstractLogic {
     public int getContractCount(SelectionDTO selection, List input) {
         List<Object[]> list = ItemQueries.getItemData(input, selection.getCountQueryName(), null);
         Object obj = list.isEmpty() ? 0 : list.get(0);
-        int count = obj == null ? 0 : (Integer) obj;
-        return count;
+        return obj == null ? 0 : (Integer) obj;
     }
 
     public static List getIfpIdsWithAllItems(List input, String queryName) {
@@ -1206,8 +1196,7 @@ public class AbstractLogic {
     public int getLookUpSearchCount(ComponentLookUpDTO binderDto, SelectionDTO selection) {
         List<Object[]> list = getLookUpRecords(binderDto, selection, selection.getCountQueryName());
         Object obj = list.get(0);
-        int count = obj == null ? 0 : (Integer) obj;
-        return count;
+        return obj == null ? 0 : (Integer) obj;
     }
 
     /**
@@ -1497,8 +1486,7 @@ public class AbstractLogic {
         } else if (selection.getOperation().equals(Constants.RS)) {
             input = getRSLookUpInput(binderDto, selection);
         }
-        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
-        return list;
+        return ItemQueries.getItemData(input, queryName, null);
     }
 
     /**
@@ -1870,8 +1858,7 @@ public class AbstractLogic {
 
     public List lookupResultsQuery(final FormulaDTO dto, int start, int offset, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, boolean isCount) {
         List<Object[]> searchResultsList = ItemQueries.getAppData(getViewInput(dto, start, offset, columns, filterSet, isCount), "formulaIdRecord", null);
-        List<FormulaDTO> resultsList = getCustomizedViewData(searchResultsList);
-        return resultsList;
+        return getCustomizedViewData(searchResultsList);
     }
 
     private List getViewInput(FormulaDTO binderDto, int start, int offset, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, boolean isCount) {
@@ -1918,7 +1905,7 @@ public class AbstractLogic {
         return searchColumn;
     }
     
-    public String updateBaseLineWacColumn(String baseLineColumnName, Object baseLineValue, AbstractContractSearchDTO dto, SelectionDTO selection) {
+    public String updateBaseLineWacColumn(String baseLineColumnName, Object baseLineValue, SelectionDTO selection) {
         String operation = ConstantsUtil.TRANSFER.equals(selection.getButtonMode()) ? ConstantsUtil.TRANSFER_CONTRACT : selection.getButtonMode();
         String updateQuery = "UPDATE GCM_GLOBAL_DETAILS SET " + baseLineColumnName + " ='" + baseLineValue + "' WHERE SESSION_ID ='" + selection.getSessionId() + "' "
                 + " AND OPERATION ='" + operation + "' " + Constants.AND_CHECK_RECORD;

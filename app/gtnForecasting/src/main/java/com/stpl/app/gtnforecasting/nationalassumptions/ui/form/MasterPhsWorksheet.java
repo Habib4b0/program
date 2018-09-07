@@ -369,12 +369,10 @@ public class MasterPhsWorksheet extends Window {
 
     private void configureResultTable()  {
            
-	CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-        CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         fullHeader = new CustomTableHeaderDTO();
-        leftHeader = CommonUiUtils.getPhsWorkSheetLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getPhsWorkSheetRightTableColumns(projectionDTO, fullHeader);
+        CustomTableHeaderDTO leftHeader = CommonUiUtils.getPhsWorkSheetLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO rightHeader = CommonUiUtils.getPhsWorkSheetRightTableColumns(projectionDTO, fullHeader);
         ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);

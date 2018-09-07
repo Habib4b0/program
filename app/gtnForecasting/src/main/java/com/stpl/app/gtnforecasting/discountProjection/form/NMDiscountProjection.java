@@ -205,8 +205,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private Set<String> hierarchyListForCheckRecord = new HashSet<>();
 
     private boolean isGroupUpdatedManually = false;
-    /* The custom id to select. */
-    private int customIdToSelect = 0;
     /* The Right Header Dto */
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     /* The Right Header Dto */
@@ -812,7 +810,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         customViewDetails.add(session.getProdRelationshipBuilderSid());
                     }
                     if (discountProjectionLogic.saveGroupValues(session, dto.getHierarchyNo(), blurValue, isProgram,
-                            projectionSelection.getDiscountProgramsList(), deductionHierarchy, hierarchyIndicator)) {
+                            projectionSelection.getDiscountProgramsList(), deductionHierarchy)) {
                         if (!userGroup.isEmpty()) {
                             isGroupUpdatedManually = true;
                         }
@@ -1585,7 +1583,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         resultsTable.getRightFreezeAsTable().setTripleHeaderVisible(false);
                     }
                 } else if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
-                    customIdToSelect = customId;
                     currentHierarchy = session.getCustomerHierarchyList();
                     hierarchyIndicator = "C";
                     levelDdlb.setEnabled(true);
@@ -1599,6 +1596,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     levelDdlb.setValue(SELECT_ONE.getConstant());
                     fieldDdlb.addItem(Constant.GROUPFCAPS);
                     projectionSelection.setViewOption(Constant.CUSTOM_LABEL);
+                    projectionSelection.setIsCustomHierarchy(false);
                     if (!projectionSelection.getDeductionLevelFilter().isEmpty()) {
                         generateListView(true);
                     }
@@ -1608,7 +1606,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     resultsTable.getLeftFreezeAsTable().setDoubleHeaderVisible(true);
                     resultsTable.setTripleHeaderVisible(true);
                 } else if (PRODUCT.getConstant().equals(String.valueOf(view.getValue()))) {
-                    customIdToSelect = customId;
                     currentHierarchy = session.getProductHierarchyList();
                     hierarchyIndicator = Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY;
                     levelDdlb.setEnabled(true);
@@ -1623,6 +1620,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     levelDdlb.setValue(SELECT_ONE.getConstant());
                     fieldDdlb.removeItem(Constant.GROUPFCAPS);
                     fieldDdlb.setValue(Constant.DISCOUNT_RATE_LABEL);
+                    projectionSelection.setIsCustomHierarchy(false);
                     if (!projectionSelection.getDeductionLevelFilter().isEmpty()) {
                         generateListView(true);
                     }
@@ -1844,10 +1842,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     customerLevelNoList.add(Constant.PERCENT);
                     productLevelNoList.add(Constant.PERCENT);
                     deductionLevelNoList.add(StringUtils.EMPTY + dto.getTreeLevelNo());
-                } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(dto.getHierarchyIndicator())) {
-                    customerLevelNoList.add(StringUtils.EMPTY + dto.getTreeLevelNo());
-                    productLevelNoList.add(Constant.PERCENT);
-                    deductionLevelNoList.add(Constant.PERCENT);
                 } else {
                     customerLevelNoList.add(StringUtils.EMPTY + dto.getTreeLevelNo());
                     productLevelNoList.add(Constant.PERCENT);
@@ -2101,10 +2095,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
 
             saveDiscountProjectionListview();
-            boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
             boolean isCustomHierarchy = CUSTOM_VIEW.equalsIgnoreCase(String.valueOf(view.getValue()));
-            if (discountProjectionLogic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
-                    isCustomHierarchy)) {
+            if (discountProjectionLogic.isAnyRecordChecked(session, isCustomHierarchy)) {
 
                 if (!Constant.NULL.equals(selectedField) && !selectedField.isEmpty()) {
                     List<String> checkedDiscountNames = new ArrayList<>();
@@ -2137,15 +2129,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                         for (int i = 0; i < rightTripleHeaderNames.length; i++) {
                                             allDiscountNames.add(String.valueOf(rightTripleHeaderNames[i]));
                                         }
-                                        discountRatemassUpdate(allDiscountNames, selectedField, value.getValue(),
-                                                projectionSelection.getDiscountProgramsList());
+                                        discountRatemassUpdate(allDiscountNames, selectedField, value.getValue());
                                     }
                                 }.getConfirmationMessage("No Discount Selected",
                                         "You have not selected a discount. The Mass Update value will apply to ALL discounts in the list view.");
 
                             } else {
-                                discountRatemassUpdate(checkedDiscountNames, selectedField, value.getValue(),
-                                        projectionSelection.getDiscountProgramsList());
+                                discountRatemassUpdate(checkedDiscountNames, selectedField, value.getValue());
                             }
                         } else {
                             for (Object itemId : resultsTable.getLeftFreezeAsTable().getItemIds()) {
@@ -2160,7 +2150,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             }
 
                             performMassUpdate(new ArrayList<Integer>(), checkedDiscountNames, selectedField,
-                                    valueDdlbValue, projectionSelection.getDiscountProgramsList());
+                                    valueDdlbValue);
                         }
 
                     } else {
@@ -2188,8 +2178,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * @param selectedField
      * @param value
      */
-    private void discountRatemassUpdate(List<String> checkedDiscountNames, String selectedField, String value,
-            List<String> selectedPeriods) {
+    private void discountRatemassUpdate(List<String> checkedDiscountNames, String selectedField, String value) {
 
         LOGGER.debug(" checkedDiscounts= {} ", checkedDiscountNames);
 
@@ -2235,7 +2224,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             massUpdatePeriods.add(startYear);
             massUpdatePeriods.add(endFreq);
             massUpdatePeriods.add(endYear);
-            performMassUpdate(massUpdatePeriods, checkedDiscountNames, selectedField, value, selectedPeriods);
+            performMassUpdate(massUpdatePeriods, checkedDiscountNames, selectedField, value);
         } else {
             NotificationUtils.getErrorNotification("No Start Period selected", "Please Select a Start Period");
             return;
@@ -2251,7 +2240,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * @param value
      */
     private void performMassUpdate(List<Integer> massUpdatePeriods, List<String> checkedDiscountNames,
-            String selectedField, String value, List<String> selectedPeriods) {
+            String selectedField, String value) {
         boolean isCustomHierarchy = CUSTOM_VIEW.equalsIgnoreCase(String.valueOf(view.getValue()));
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction())) {
             for (Object itemId : resultsTable.getLeftFreezeAsTable().getItemIds()) {
@@ -2263,7 +2252,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             LOGGER.debug("Group-->= {}", value);
             discountProjectionLogic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField, value,
                     checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
-                    getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
+                    getCheckedRecordsForMassUpdate(), isCustomHierarchy);
             loadGroupDdlb();
             loadGroupFilterDdlb();
             if (!userGroup.isEmpty()) {
@@ -2279,7 +2268,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             LOGGER.debug("Discount Rate-->= {}", value);
             discountProjectionLogic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField, value,
                     checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
-                    getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
+                    getCheckedRecordsForMassUpdate(), isCustomHierarchy);
             CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
         } else if ("RPU".equals(selectedField)) {
@@ -2287,7 +2276,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             LOGGER.debug("RPU-->= {}, ccpsCount= {} ", value, ccpsCount);
             discountProjectionLogic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField, value,
                     checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
-                    getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
+                    getCheckedRecordsForMassUpdate(),  isCustomHierarchy);
             CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
         } else if (Constant.DISCOUNT_AMOUNT_LABEL.equals(selectedField)) {
@@ -2305,7 +2294,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
             discountProjectionLogic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField,
                     String.valueOf(value), checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
-                    getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
+                    getCheckedRecordsForMassUpdate(), isCustomHierarchy);
             CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
         } else if (Constant.GROWTH.equals(selectedField)) {
@@ -2313,7 +2302,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             LOGGER.debug("Growth-->= {}", value);
             discountProjectionLogic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField, value,
                     checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
-                    getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
+                    getCheckedRecordsForMassUpdate(),  isCustomHierarchy);
             CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
         }
@@ -2359,8 +2348,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                             boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY
                                     .equals(view.getValue());
-                            if (discountProjectionLogic.isAnyRecordChecked(session, isProgram,
-                                    projectionSelection.getDiscountProgramsList(), isCustomHierarchy)) {
+                            if (discountProjectionLogic.isAnyRecordChecked(session, isCustomHierarchy)) {
                                 if (fileAlertForPFDChanges()) {
 
                                     if ((methodologyDdlb.getValue().equals(ROLLING_ANNUAL_TREND.getConstant())
@@ -2426,7 +2414,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 projectionSelection.setCalcBased(calcBase);
                                                 projectionSelection
                                                         .setDiscountLevel(String.valueOf(discType.getValue()));
-                                                if (checkedDiscountNames.size() != 0) {
+                                                if (!checkedDiscountNames.isEmpty()) {
                                                     for (Object discountPropertyId : checkedDiscountsPropertyIds) {
                                                         checkedDiscountNames.add(resultsTable.getRightFreezeAsTable()
                                                                 .getTripleHeaderColumnHeader(discountPropertyId));
@@ -2441,7 +2429,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                             .getTripleHeaderColumnHeader(discountPropertyId));
                                                 }
                                                 discountProjectionLogic.calcDataUpdate(session, projectionSelection,
-                                                        String.valueOf(level.getValue()),
                                                         tripleHeaderForCheckedDoubleHeader, checkedDiscountNames,
                                                         isProgram, view.equals(CUSTOM.getConstant()));
                                                 session.setFrequency(String.valueOf(frequencyDdlb.getValue()));
@@ -2550,8 +2537,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                             boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY
                                     .equals(view.getValue());
-                            if (discountProjectionLogic.isAnyRecordChecked(session, isProgram,
-                                    projectionSelection.getDiscountProgramsList(), isCustomHierarchy)) {
+                            if (discountProjectionLogic.isAnyRecordChecked(session,isCustomHierarchy)) {
                                 if (fileAlertForPFDChanges()) {
                                     if ((methodologyDdlb.getValue().equals(ROLLING_ANNUAL_TREND.getConstant())
                                             || methodologyDdlb.getValue()
@@ -2609,7 +2595,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 projectionSelection.setCalcBased(calcBase);
                                                 projectionSelection
                                                         .setDiscountLevel(String.valueOf(discType.getValue()));
-                                                if (checkedDiscountNames.size() != 0) {
+                                                if (!checkedDiscountNames.isEmpty()) {
                                                     for (Object discountPropertyId : checkedDiscountsPropertyIds) {
                                                         checkedDiscountNames.add(resultsTable.getRightFreezeAsTable()
                                                                 .getTripleHeaderColumnHeader(discountPropertyId));
@@ -2620,7 +2606,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                             .getRightFreezeAsTable().getTripleHeaderColumnHeaders());
                                                 }
                                                 discountProjectionLogic.calcDataUpdate(session, projectionSelection,
-                                                        String.valueOf(level.getValue()),
                                                         tripleHeaderForCheckedDoubleHeader, checkedDiscountNames,
                                                         isProgram, view.getValue().equals(CUSTOM.getConstant()));
                                                 session.setFrequency(String.valueOf(frequencyDdlb.getValue()));
@@ -2720,9 +2705,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         customTree.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-                if (customTree.isIsSelect()) {
-                    customIdToSelect = customTree.getCustomId();
-                }
                 session.setCustomerViewList(CommonLogic.getCustomViewList(session.getProjectionId()));
                 loadCustomDDLB();
             }
@@ -2740,7 +2722,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             customTree.addCloseListener(new Window.CloseListener() {
                 @Override
                 public void windowClose(Window.CloseEvent e) {
-                    customIdToSelect = customTree.getCustomId();
                     session.setCustomerViewList(CommonLogic.getCustomViewList(session.getProjectionId()));
                     loadCustomDDLB();
                 }
@@ -2818,13 +2799,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             return;
                         }
                     }
-                    boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                     boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
                     if (!hierarchyListForCheckRecord.isEmpty()) {
                         discountProjectionLogic.updateCheckRecordForAdjust(checkedDiscountsPropertyIds, hierarchyListForCheckRecord, session, hierarchyIndicator);
                     }
-                    if (discountProjectionLogic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
-                            isCustomHierarchy)) {
+                    if (discountProjectionLogic.isAnyRecordChecked(session, isCustomHierarchy)) {
 
                         if (discountProjectionLogic.adjustDiscountProjectionValidation(projectionSelection)) {
                             NotificationUtils.getErrorNotification("Error", "When using the ‘% of Ex-Factory’ methodology, a product cannot be included in multiple selected contract, customer, and product combinations. Please update the selections");
@@ -2969,10 +2948,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 Constant.ADJUSTMENT_CONFIRMATION);
                         return;
                     }
-                    boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                     boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
-                    if (discountProjectionLogic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
-                            isCustomHierarchy)) {
+                    if (discountProjectionLogic.isAnyRecordChecked(session,isCustomHierarchy)) {
 
                         if (discountProjectionLogic.adjustDiscountProjectionValidation(projectionSelection)) {
                             NotificationUtils.getErrorNotification("Error", "When using the ‘% of Ex-Factory’ methodology, a product cannot be included in multiple selected contract, customer, and product combinations. Please update the selections");
@@ -3087,7 +3064,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             if (itemId == null) {
                 itemId = tableLogic.getExpandedTreeValues(tableTreeLevelNo);
             }
-            if (itemId != null) {
                 if ((boolean) ((DiscountProjectionDTO) itemId).getProperties().get("checkRecord")
                         && tableLogic.getAllChildLevels(tableTreeLevelNo).isEmpty()) {
                     if (!isCustomHierarchy) {
@@ -3118,7 +3094,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         hierarchyList.add(dataForMassUpdate);
                     }
                 }
-            }
         }
 
         return hierarchyList;
@@ -3687,7 +3662,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     || String.valueOf(propertyId).contains("ProjectedAmount")) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, getConverter(propertyId.toString()));
 
-            } else if (String.valueOf(propertyId).contains(Constant.ACTUALRPU)) {
+            } else if (String.valueOf(propertyId).endsWith("RPU")) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, priceFormat);
             } else {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, percentFormat);
@@ -4257,9 +4232,9 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
 
     private void createRightHeader() {
         projectionSelection.setHierarchyIndicator(hierarchyIndicator);
-        List<Object> HeaderPropertyIds = HeaderUtils.getDiscountProjectionRightTableColumns(projectionSelection);
-        rightHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
-        excelHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(1);
+        List<Object> headerPropertyIds = HeaderUtils.getDiscountProjectionRightTableColumns(projectionSelection);
+        rightHeader = (CustomTableHeaderDTO) headerPropertyIds.get(0);
+        excelHeader = (CustomTableHeaderDTO) headerPropertyIds.get(1);
     }
 
     @Override
@@ -4909,7 +4884,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             if (!overall.isEmpty() && overall.size() == defval) {
                 String subYear1 = StringUtils.EMPTY;
                 int[] year = new int[overall.size()];
-                int[] Quarter = new int[overall.size()];
+                int[] quarter = new int[overall.size()];
                 String tempYear = StringUtils.EMPTY;
                 String tempSubYear = StringUtils.EMPTY;
                 for (int i = 0; i < overall.size(); i++) {
@@ -4942,12 +4917,12 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 int i = 0;
                 Arrays.sort(year);
                 for (i = 0; i < year.length; i++) {
-                    Quarter[i] = year[i] % NumericConstants.TEN;
+                    quarter[i] = year[i] % NumericConstants.TEN;
                     year[i] = year[i] / NumericConstants.TEN;
                 }
-                if ((Quarter[0] == 1 && Quarter[defval - 1] == defval) && (year[0] == year[defval - 1])) {
+                if ((quarter[0] == 1 && quarter[defval - 1] == defval) && (year[0] == year[defval - 1])) {
                     retval = true;
-                } else if ((Quarter[0] == (Quarter[defval - 1] + 1)) && (year[0] == (year[defval - 1] - 1))) {
+                } else if ((quarter[0] == (quarter[defval - 1] + 1)) && (year[0] == (year[defval - 1] - 1))) {
                     retval = true;
                 } else if (Integer.parseInt(subYear1) == NumericConstants.TWELVE) {
                     retval = true;
@@ -5177,7 +5152,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         NMDiscountProjectionLogic logic = new NMDiscountProjectionLogic();
 
         if (checkedDiscountsPropertyIds.size() > 0) {
-            if (checkedDiscountsPropertyIds.size() != 0) {
+            if (!checkedDiscountsPropertyIds.isEmpty()) {
                 String selectedRsName = resultsTable.getRightFreezeAsTable()
                         .getTripleHeaderColumnHeader(checkedDiscountsPropertyIds.get(0));
 
@@ -5468,7 +5443,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         if (!StringUtils.isBlank(levelNo) && !"0".equals(levelNo)) {
             deductionLevelFilter.add(0, new Object[]{0, SELECT_ALL_LABEL});
             deductionLevelFilter.addAll(
-                    commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, projectionSelection, generateProductToBeLoaded, generateCustomerToBeLoaded));
+                    commonLogic.getDeductionLevelValues(levelNo, projectionSelection, generateProductToBeLoaded, generateCustomerToBeLoaded));
 
             if (CommonUtil.isValueEligibleForLoading() && Constant.TEN_STRING.equals(levelNo)) {
                 CommonLogic.loadCustomMenuBarFoScheduleID(deductionLevelFilter, deductionFilterValues);
@@ -5605,7 +5580,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
 
     public void loadMethodologyDdlb(final ComboBox methodology) {
         String query;
-        List<String> returnList = new ArrayList<>();
         Map<String, List<String>> input = new HashMap<>();
         List<String> defaultNames = Arrays.asList("1.Contract Details", "2.Single Period", "3.Average", "4.Rolling Annual Trend");
         List<String> exfactNames = Arrays.asList("5.% of Ex-Factory Sales", "9.% OF Ex-Factory - Seasonal Trend");
@@ -5619,7 +5593,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         input.put("Inventory Withdrawal - Forecast Summary", inventoryNames);
         input.put("Adjusted Demand", adjDemandNames);
         query = SQlUtil.getQuery("get-file-type-query");
-        returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
+         List<String>  returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         outputList.addAll(defaultNames);
         for (String string : returnList) {
             if (!"Customer Sales".equals(string) && !"Adjusted Demand".equals(string)) {
@@ -5684,7 +5658,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
                 }
-                parentItemId = itemId;
                 excelParentRecords.put(tempKey, itemId);
                 excelContainer.setChildrenAllowed(itemId, true);
 

@@ -170,28 +170,28 @@ public class CommonUtils {
      * This method is to load transaction name of adjustment config value in
      * helper list map
      */
-    public static void loadTransactionNameForCurrentSessionFromAccount(ComboBox comboBox, String tempTableName, Boolean isFilter, Object accountValue) {
+    public static void loadTransactionNameForCurrentSessionFromAccount(ComboBox accountComboBox, String tempTableName, Boolean isFilter, Object accountValue) {
         List inputList = new ArrayList<>();
         inputList.add(tempTableName);
         String accouontFilterValue = StringUtils.EMPTY;
         if (accountValue != null) {
-            accouontFilterValue = " WHERE ACCOUNT = '" + accountValue + "'";
+            accouontFilterValue = " WHERE ACCOUNT = '" + accountValue + ARMUtils.SINGLE_QUOTES;
         }
         inputList.add(accouontFilterValue);
-        comboBox.removeAllItems();
-        comboBox.setImmediate(true);
-        comboBox.setNullSelectionAllowed(true);
-        comboBox.setNullSelectionItemId(0);
-        comboBox.addItem(0);
-        comboBox.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
-        comboBox.setNullSelectionItemId(0);
-        comboBox.select(0);
-        comboBox.setImmediate(true);
+        accountComboBox.removeAllItems();
+        accountComboBox.setImmediate(true);
+        accountComboBox.setNullSelectionAllowed(true);
+        accountComboBox.setNullSelectionItemId(0);
+        accountComboBox.addItem(0);
+        accountComboBox.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
+        accountComboBox.setNullSelectionItemId(0);
+        accountComboBox.select(0);
+        accountComboBox.setImmediate(true);
         List<Object[]> resultsList = QueryUtils.getItemData(inputList, "Load_Transaction_names_From_Config_Details_ForAccounts", null);
         for (int i = 0; i < resultsList.size(); i++) {
             Object[] helper = resultsList.get(i);
-            comboBox.addItem(helper[0] != null ? (Integer) helper[0] : 0);
-            comboBox.setItemCaption(helper[0] != null ? (Integer) helper[0] : 0, String.valueOf(helper[NumericConstants.ONE]));
+            accountComboBox.addItem(helper[0] != null ? (Integer) helper[0] : 0);
+            accountComboBox.setItemCaption(helper[0] != null ? (Integer) helper[0] : 0, String.valueOf(helper[NumericConstants.ONE]));
         }
     }
 
@@ -408,17 +408,17 @@ public class CommonUtils {
 
     }
 
-    public static final CustomMenuBar.CustomMenuItem loadSummaryDeductionsDdlb(final ComboBox comboBox, final CustomMenuBar menuBar, final int projectionId) {
-        loadComboBoxWithIntegerForComboBox(comboBox, "DEDUCTION_LEVELS", false);
+    public static final CustomMenuBar.CustomMenuItem loadSummaryDeductionsDdlb(final ComboBox helperComboBox, final CustomMenuBar menuBar, final int projectionId) {
+        loadComboBoxWithIntegerForComboBox(helperComboBox, "DEDUCTION_LEVELS", false);
         menuBar.setScrollable(true);
         menuBar.setPageLength(NumericConstants.TEN);
         final CustomMenuBar.CustomMenuItem customMenuItemDed = menuBar.addItem("  - Select Value -  ", null);
-        comboBox.addValueChangeListener(new Property.ValueChangeListener() {
+        helperComboBox.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                if (Integer.parseInt(String.valueOf(comboBox.getValue())) != 0) {
-                    int id = (int) comboBox.getValue();
-                    String description = comboBox.getItemCaption(id);
+                if (Integer.parseInt(String.valueOf(helperComboBox.getValue())) != 0) {
+                    int id = (int) helperComboBox.getValue();
+                    String description = helperComboBox.getItemCaption(id);
                     if (description != null) {
                         List<Object[]> list = loadDeductionsValues(projectionId, description);
                         CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[list.size()];
@@ -459,22 +459,7 @@ public class CommonUtils {
             deductionsValues = QueryUtils.getItemData(new ArrayList<>(Arrays.asList(projectionId, deductionColumn, "")), "loadDeductionValue", null);
         }
 
-        for (int i = 0; i < deductionsValues.size(); i++) {
-            Object[] arr = new Object[NumericConstants.TWO];
-            Object[] obj = deductionsValues.get(i);
-
-            String id;
-            if (obj[0] != null && !"".equalsIgnoreCase(String.valueOf(obj[0]))) {
-                id = obj[0] == null || (int) obj[0] == 0 ? "0" : String.valueOf(obj[0]);
-                if (!"0".equals(id)) {
-                    arr[0] = id;
-                    String value = (obj[1] == null && obj.length < NumericConstants.TWO) ? "0" : String.valueOf(obj[1]);
-                    arr[1] = isDetection ? value : descriptionMap.get(Integer.valueOf(id));
-                    valuesDes.add(arr);
-                }
-            }
-        }
-        return valuesDes;
+        return customizeDeductions(deductionsValues, isDetection, descriptionMap, valuesDes);
     }
 
     public static final CustomMenuBar.CustomMenuItem loadAdjustmentTypeDdlb(final CustomMenuBar menuBar, CustomMenuBar.CustomMenuItem customMenuItemDed) {
@@ -709,10 +694,6 @@ public class CommonUtils {
             String freq = frequency.trim().toUpperCase(Locale.ENGLISH);
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
             String[] months = dateFormatSymbols.getShortMonths();
-            String year;
-            int month;
-            String quarter;
-            String semi;
             int iterationCountWithS = freq.startsWith("S") ? calculateFrequency(diffMonth, NumericConstants.SIX) : diffYear;
             int iterationCountWithQ = freq.startsWith("Q") ? calculateFrequency(diffMonth, NumericConstants.THREE)
                     : iterationCountWithS;
@@ -721,19 +702,27 @@ public class CommonUtils {
             int incrementWithQ = freq.startsWith("Q") ? NumericConstants.THREE
                     : incrementWithS;
             int increment = freq.startsWith("M") ? 1 : incrementWithQ;
-            for (int i = 0; i <= iterationCount; i++) {
-                year = String.valueOf(fromDateCal.get(Calendar.YEAR));
-                month = fromDateCal.get(Calendar.MONTH);
-                quarter = String.valueOf(fromDateCal.get(Calendar.MONTH) / NumericConstants.THREE + 1);
-                semi = String.valueOf(fromDateCal.get(Calendar.MONTH) / NumericConstants.SIX + 1);
-                String startWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
-                String startWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year : startWithS;
-                String period = freq.startsWith("M") ? months[month] + " " + year : startWithQ;
-                fromDateCal.add(Calendar.MONTH, increment);
-                periodList.add(period);
-            }
+            getPeriodList(iterationCount, fromDateCal, freq, months, increment, periodList);
         }
         return periodList;
+    }
+
+    private static void getPeriodList(int iterationCount, Calendar fromDateCal, String freq, String[] months, int increment, List<String> periodList) {
+        String year;
+        String quarter;
+        String semi;
+        int month;
+        for (int i = 0; i <= iterationCount; i++) {
+            year = String.valueOf(fromDateCal.get(Calendar.YEAR));
+            month = fromDateCal.get(Calendar.MONTH);
+            quarter = String.valueOf(fromDateCal.get(Calendar.MONTH) / NumericConstants.THREE + 1);
+            semi = String.valueOf(fromDateCal.get(Calendar.MONTH) / NumericConstants.SIX + 1);
+            String startWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
+            String startWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year : startWithS;
+            String period = freq.startsWith("M") ? months[month] + " " + year : startWithQ;
+            fromDateCal.add(Calendar.MONTH, increment);
+            periodList.add(period);
+        }
     }
 
     /**
@@ -774,7 +763,7 @@ public class CommonUtils {
                 userMap.put((int) user.getUserId(), formattedUN);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getUserName :" , ex);
+            LOGGER.error("Error in getUserName :", ex);
         }
         LOGGER.debug("End of getUserName method");
         return userMap;
@@ -906,7 +895,7 @@ public class CommonUtils {
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
 
             if (toAddQuote) {
-                String quote = "'";
+                String quote = String.valueOf(ARMUtils.SINGLE_QUOTES);
                 if (isDoubleQuote) {
                     quote = "\"";
                 }
@@ -924,27 +913,27 @@ public class CommonUtils {
         return framedString;
     }
 
-    public static ComboBox loadComboBoxWithIntegerForComboBoxForDemandSummary(final ComboBox select, String listName, boolean isFilter) {
+    public static ComboBox loadComboBoxWithIntegerForComboBoxForDemandSummary(final ComboBox demandSummarySelect, String listName, boolean isFilter) {
         try {
-            select.setImmediate(true);
-            select.setNullSelectionAllowed(false);
-            select.setData(listName);
-            select.addItem(0);
-            select.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
+            demandSummarySelect.setImmediate(true);
+            demandSummarySelect.setNullSelectionAllowed(false);
+            demandSummarySelect.setData(listName);
+            demandSummarySelect.addItem(0);
+            demandSummarySelect.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
             List<HelperDTO> list = HelperListUtil.getInstance().getListNameMap().get(listName);
             if (list != null && !list.isEmpty()) {
                 for (HelperDTO helperDTO : list) {
-                    select.addItem(helperDTO.getId());
-                    select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
+                    demandSummarySelect.addItem(helperDTO.getId());
+                    demandSummarySelect.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
                 }
             }
-            select.select(0);
-            select.markAsDirty();
-            select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
+            demandSummarySelect.select(0);
+            demandSummarySelect.markAsDirty();
+            demandSummarySelect.setDescription((String) (demandSummarySelect.getValue() == DASH ? GlobalConstants.getSelectOne() : demandSummarySelect.getItemCaption(demandSummarySelect.getValue())));
         } catch (Exception e) {
             LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
-        return select;
+        return demandSummarySelect;
     }
 
     public static String getFormatedValue(String format, Object value) {
@@ -1100,37 +1089,41 @@ public class CommonUtils {
         return finalPeriod;
     }
 
-    public static ComboBox loadComboBoxWithIntegerRateBasis(final CustomComboBox select, String listName, boolean isFilter, String adjustmentType) {
+    public static ComboBox loadComboBoxWithIntegerRateBasis(final CustomComboBox rateBasisSelect, String listName, boolean isFilter, String adjustmentType) {
 
         try {
-            select.removeAllItems();
-            select.setImmediate(true);
-            select.setNullSelectionAllowed(false);
-            select.setData(listName);
-            select.addItem(0);
+            rateBasisSelect.removeAllItems();
+            rateBasisSelect.setImmediate(true);
+            rateBasisSelect.setNullSelectionAllowed(false);
+            rateBasisSelect.setData(listName);
+            rateBasisSelect.addItem(0);
 
-            select.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
+            rateBasisSelect.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
             List<HelperDTO> list = HelperListUtil.getInstance().getListNameMap().get(listName);
             Collections.sort(list, sorter);
             if (list != null && !list.isEmpty()) {
                 for (HelperDTO helperDTO : list) {
-                    if (((ARMConstants.getPipelineAccrual().equals(adjustmentType) || ARMConstants.getTransaction6().equals(adjustmentType) || ARMConstants.getTransaction7().equals(adjustmentType))
-                            && !VariableConstants.CONTRACT_TERMS.equals(helperDTO.getDescription()) && !VariableConstants.CALCULATED_RETURNS.equals(helperDTO.getDescription()) && !VariableConstants.CONTRACT_DETAILS.equals(helperDTO.getDescription()))
-                            || (ARMConstants.getTransaction8().equals(adjustmentType) && !VariableConstants.CONTRACT_TERMS.equals(helperDTO.getDescription()))
-                            || (ARMConstants.getPipelineInventoryTrueUp().equals(adjustmentType) && !VariableConstants.CALCULATED_RETURNS.equals(helperDTO.getDescription()) && !VariableConstants.CONTRACT_DETAILS.equals(helperDTO.getDescription()))) {
-                        select.addItem(helperDTO.getId());
-                        select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
+                    if (getCondition(adjustmentType, helperDTO)) {
+                        rateBasisSelect.addItem(helperDTO.getId());
+                        rateBasisSelect.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
                     }
                 }
 
-                select.select(0);
-                select.markAsDirty();
-                select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
+                rateBasisSelect.select(0);
+                rateBasisSelect.markAsDirty();
+                rateBasisSelect.setDescription((String) (rateBasisSelect.getValue() == DASH ? GlobalConstants.getSelectOne() : rateBasisSelect.getItemCaption(rateBasisSelect.getValue())));
             }
         } catch (Exception e) {
             LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
-        return select;
+        return rateBasisSelect;
+    }
+
+    private static boolean getCondition(String adjustmentType, HelperDTO helperDTO) {
+        return ((ARMConstants.getPipelineAccrual().equals(adjustmentType) || ARMConstants.getTransaction6().equals(adjustmentType) || ARMConstants.getTransaction7().equals(adjustmentType))
+                && !VariableConstants.CONTRACT_TERMS.equals(helperDTO.getDescription()) && !VariableConstants.CALCULATED_RETURNS.equals(helperDTO.getDescription()) && !VariableConstants.CONTRACT_DETAILS.equals(helperDTO.getDescription()))
+                || (ARMConstants.getTransaction8().equals(adjustmentType) && !VariableConstants.CONTRACT_TERMS.equals(helperDTO.getDescription()))
+                || (ARMConstants.getPipelineInventoryTrueUp().equals(adjustmentType) && !VariableConstants.CALCULATED_RETURNS.equals(helperDTO.getDescription()) && !VariableConstants.CONTRACT_DETAILS.equals(helperDTO.getDescription()));
     }
 
     public static void loadCustomMenubarAccount(final CustomMenuBar menuBar, CustomMenuBar.CustomMenuItem customMenuItemDed, final int adjustmentType, ReserveSelection selection) {
@@ -1183,34 +1176,34 @@ public class CommonUtils {
         return finalPeriod;
     }
 
-    public static final CustomMenuBar.CustomMenuItem loadSummaryDeductionsDdlbForTrx6(final ComboBox comboBox, final CustomMenuBar menuBar, final int projectionId) {
-        loadComboBoxWithIntegerForComboBox(comboBox, "DEDUCTION_LEVELS", false);
-        menuBar.setScrollable(true);
-        menuBar.setPageLength(NumericConstants.TEN);
-        final CustomMenuBar.CustomMenuItem customMenuItemDed = menuBar.addItem("  - Select Value -  ", null);
-        comboBox.addValueChangeListener(new Property.ValueChangeListener() {
+    public static final CustomMenuBar.CustomMenuItem loadSummaryDeductionsDdlbForTrx6(final ComboBox deductionComboBox, final CustomMenuBar deductionValueMenuBar, final int projectionId) {
+        loadComboBoxWithIntegerForComboBox(deductionComboBox, "DEDUCTION_LEVELS", false);
+        deductionValueMenuBar.setScrollable(true);
+        deductionValueMenuBar.setPageLength(NumericConstants.TEN);
+        final CustomMenuBar.CustomMenuItem customMenuItemDed = deductionValueMenuBar.addItem("  - Select Value -  ", null);
+        deductionComboBox.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                if (Integer.parseInt(String.valueOf(comboBox.getValue())) != 0) {
-                    int id = (int) comboBox.getValue();
-                    String description = comboBox.getItemCaption(id);
+                if (Integer.parseInt(String.valueOf(deductionComboBox.getValue())) != 0) {
+                    int id = (int) deductionComboBox.getValue();
+                    String description = deductionComboBox.getItemCaption(id);
                     if (description != null) {
-                        List<Object[]> list = loadDeductionsValuesForTrx6(projectionId, description);
-                        CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[list.size()];
+                        List<Object[]> resultList = loadDeductionsValuesForTrx6(projectionId, description);
+                        CustomMenuBar.CustomMenuItem[] dedcutionCustomItem = new CustomMenuBar.CustomMenuItem[resultList.size()];
                         customMenuItemDed.removeChildren();
-                        for (int i = 0; i < list.size(); i++) {
-                            String header = String.valueOf(list.get(i)[1]);
-                            String column = header;
-                            if (header.contains("~")) {
-                                column = header.split("~")[0].trim();
+                        for (int i = 0; i < resultList.size(); i++) {
+                            String dedcutionHeader = String.valueOf(resultList.get(i)[1]);
+                            String column = dedcutionHeader;
+                            if (dedcutionHeader.contains("~")) {
+                                column = dedcutionHeader.split("~")[0].trim();
                             }
-                            header = header.replace("~", "-");
-                            MenuItemDTO dto = new MenuItemDTO(column, header);
-                            dto.setId(Integer.valueOf(list.get(i)[0].toString()));
-                            customItem[i] = customMenuItemDed.addItem(dto, null);
-                            customItem[i].setCheckable(true);
-                            customItem[i].setItemClickable(true);
-                            customItem[i].setItemClickNotClosable(true);
+                            dedcutionHeader = dedcutionHeader.replace("~", "-");
+                            MenuItemDTO dto = new MenuItemDTO(column, dedcutionHeader);
+                            dto.setId(Integer.valueOf(resultList.get(i)[0].toString()));
+                            dedcutionCustomItem[i] = customMenuItemDed.addItem(dto, null);
+                            dedcutionCustomItem[i].setCheckable(true);
+                            dedcutionCustomItem[i].setItemClickable(true);
+                            dedcutionCustomItem[i].setItemClickNotClosable(true);
                         }
                     }
                 } else {
@@ -1236,6 +1229,10 @@ public class CommonUtils {
 
         }
 
+        return customizeDeductions(deductionsValues, isDetection, descriptionMap, valuesDes);
+    }
+
+    private static List<Object[]> customizeDeductions(List<Object[]> deductionsValues, boolean isDetection, Map<Integer, String> descriptionMap, List<Object[]> valuesDes) {
         for (int i = 0; i < deductionsValues.size(); i++) {
             Object[] arr = new Object[NumericConstants.TWO];
             Object[] obj = deductionsValues.get(i);

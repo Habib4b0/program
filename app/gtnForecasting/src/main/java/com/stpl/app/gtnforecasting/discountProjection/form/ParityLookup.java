@@ -125,7 +125,6 @@ public class ParityLookup extends Window {
         
         private boolean populateFlag= false;
         private List<LookUpDTO> dtoListValue ;
-        private final HeaderUtils headerUtils = new HeaderUtils();
 
     public ParityLookup() {
 

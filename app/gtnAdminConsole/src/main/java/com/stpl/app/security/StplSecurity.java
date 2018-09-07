@@ -54,7 +54,7 @@ public class StplSecurity {
 
     private static final List<String> DOMAINIDS1 = null;
 
-    private static Map<Integer, String> userMap = new ConcurrentHashMap<Integer, String>();
+    private static Map<Integer, String> userMap = new ConcurrentHashMap<>();
 
     public StplSecurityDAO getDto() {
         return dto;

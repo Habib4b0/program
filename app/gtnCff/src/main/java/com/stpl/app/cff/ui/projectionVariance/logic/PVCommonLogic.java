@@ -41,6 +41,10 @@ public class PVCommonLogic {
     public static final Logger LOGGER = LoggerFactory.getLogger(PVCommonLogic.class);
     private static final String COMPARISON_CURRENT = "Current Projection";
     private static boolean priorComparison = false;
+    
+    private PVCommonLogic() {
+        LOGGER.debug("Entering PVCommonLogic ");
+    }
 
     public static void customizePeriod(String commonColumn, String variableCategory, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, DecimalFormat format, int index, Object[] obj, boolean isPer) {
         try {

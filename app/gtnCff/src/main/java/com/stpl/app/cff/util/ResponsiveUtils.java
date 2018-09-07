@@ -34,6 +34,11 @@ import org.slf4j.LoggerFactory;
 public class ResponsiveUtils {
        private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
 
+       
+       private ResponsiveUtils()
+       {
+           LOGGER.debug("ResponsiveUtils");
+       }
     public static HorizontalLayout addComponentsInHorizontalLayout(Component c1, Component c2) {
         HorizontalLayout hlayout = new HorizontalLayout();
         hlayout.addComponent(c1);

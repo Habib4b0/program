@@ -21,8 +21,16 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.Calendar;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CommonUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtils.class);
+    private CommonUtils()
+    {
+         LOGGER.debug("CommonUtils");
+    }
+    
 
     public static void frequenceValueChange(Object value, ComboBox history, SelectionDTO session) {
         if (value == null || SELECT_ONE.getConstant().equals(value.toString())) {
@@ -134,8 +142,7 @@ public class CommonUtils {
     static int getEndDay(int monthNo, int year) {
         Calendar ob = Calendar.getInstance();
         ob.set(year, monthNo - 1, 1);
-        int daysInMonth = ob.getActualMaximum(Calendar.DAY_OF_MONTH);
-        return daysInMonth;
+        return ob.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     public static Map<String, Integer> getHistoryEndDetails(SelectionDTO session, String frequency) {

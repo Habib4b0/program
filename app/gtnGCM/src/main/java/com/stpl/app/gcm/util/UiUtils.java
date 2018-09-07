@@ -47,40 +47,40 @@ public class UiUtils {
 	public static final String FORM = "FORM";
 	public static final String STRENGTH = "STRENGTH";
 	public static final String REBATE_PLAN_TYPE = "REBATE_PLAN_TYPE";
-	public final Object newCompanyDetailsColumns[] = new Object[] { "companyId", "companyName", "companyNo",
+	public final Object[] newCompanyDetailsColumns = new Object[] { "companyId", "companyName", "companyNo",
 			Constants.START_DATE, Constants.END_DATE, "companyStatusValue", ConstantsUtils.TRADE_CLASS,
 			Constants.ATTACHED_DATE_PROPERTY };
-	public final Object ccCompanyDetailsColumns[] = new Object[] { "tpNo", "companyName", "companyNo",
+	public final Object[] ccCompanyDetailsColumns = new Object[] { "tpNo", "companyName", "companyNo",
 			"companyStartDate", "companyEndDate", "companyStatus", ConstantsUtils.TRADE_CLASS, Constants.ATTACHED_DATE_PROPERTY };
-	public final String newCompanyDetailsHeaders[] = new String[] { "Trading Partner No ", "Trading Partner Name",
+	public final String[] newCompanyDetailsHeaders = new String[] { "Trading Partner No ", "Trading Partner Name",
 			"Trading Partner Contract No", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER,
 			Constants.STATUS_FIELD, Constants.TRADECLASS, Constants.ATTACHED_DATE_FIELD };
 
 	private static final String[] NEW_IFP_DETAILS_HEADERS = new String[] { Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
 			Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER,
 			Constants.ATTACHED_DATE_FIELD };
-	public final Object newPsDetailsColumns[] = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
+	public final Object[] newPsDetailsColumns = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
 			Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE,
 			"priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "priceProtectionStartDate",
 			"priceProtectionEndDate", "priceProtectionPriceType", "priceToleranceInterval", "priceToleranceFrequency",
 			"priceToleranceType", "maxIncrementalChange", "priceTolerance", "reset", "eligibility", "resetType",
 			"resetDate", "resetIntervel", "resetFrequency", Constants.ATTACHED_DATE_PROPERTY };
-	public final Object ccRsDetailsColumns[] = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
+	public final Object[] ccRsDetailsColumns = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
 			Constants.BRAND_PROPERTY, Constants.IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE,
 			"formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo",
 			Constants.ATTACHED_DATE_PROPERTY };
-	public final String newPsDetailsHeaders[] = new String[] { Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
+	public final String[] newPsDetailsHeaders = new String[] { Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
 			Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Price Type",
 			"Price Plan No", "Price Plan Name", "Price Protection Status", "Price Protection Start Date",
 			"Price Protection End Date", "Price Protection Price Type", "Price Tolerance Interval",
 			"Price Tolerance Frequency", "Price Tolerance Type", "Max Incremental Change", "Price Tolerance", "Reset",
 			"Eligibility", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency",
 			Constants.ATTACHED_DATE_FIELD };
-	public final Object newRsDetailsColumns[] = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
+	public final Object[] newRsDetailsColumns = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
 			Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE,
 			"formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo",
 			Constants.ATTACHED_DATE_PROPERTY };
-	public final String newRsDetailsHeaders[] = new String[] { Constants.IFP_NO, Constants.IFP_NAME_LABEL,
+	public final String[] newRsDetailsHeaders = new String[] { Constants.IFP_NO, Constants.IFP_NAME_LABEL,
 			Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER,
 			"Formula Type", "Formula ID", "Formula Name", "Rebate Plan ID", "Rebate Plan Name", "Rebate Amount",
 			"Bundle No", Constants.ATTACHED_DATE_FIELD };

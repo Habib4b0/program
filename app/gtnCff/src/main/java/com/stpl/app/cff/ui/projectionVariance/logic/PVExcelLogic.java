@@ -3410,7 +3410,7 @@ public class PVExcelLogic {
 					hierarchyAndTPkeys(obj, key, pvList);
                 }
             } else if (obj[obj.length - 1] != null && !isTotal) {
-                Object[] temp = rawList.get(i - 1) == null ? new Object[0] : (Object[]) rawList.get(i - 1);
+                Object[] temp = rawList.get(i - 1) == null ? new Object[0] : rawList.get(i - 1);
                 String currValue = obj[1].toString();
                 String tempValue = temp[1] == null ? "oldtempValue"
                         : temp[1].toString();
@@ -3455,8 +3455,8 @@ public class PVExcelLogic {
 
     public String getFormattedExcelColumns(ProjectionVarianceDTO detail, PVSelectionDTO selection, Object[] obj) {
         Map<String,List> listData=!selection.isIsCustomHierarchy()? selection.getSessionDTO().getHierarchyLevelDetails():selection.getSessionDTO().getCustomDescription();
-        List<String> groupName = CommonUtils.getFormattedDisplayName(obj[1].toString(), selection.getHierarchyIndicator(),
-                listData, selection.getSessionDTO(), selection.getDisplayFormat());
+        List<String> groupName = CommonUtils.getFormattedDisplayName(obj[1].toString(),
+                listData, selection.getDisplayFormat());
         detail.setGroup(groupName.toString());
 
         if (selection.getDisplayFormat().length == 1 && selection.getDisplayFormat().length > 0) {

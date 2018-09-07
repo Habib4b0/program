@@ -994,6 +994,12 @@ public class ARMUtils {
     public static final String YES = "YES";
     public static final String REPORT_INDICATOR_YES = "Yes";
     public static final String REPORT_INDICATOR_NO = "No";
+    
+    public static final char CLOSE_BRACES = ')';
+    public static final char UNDERSCORE = '_';
+    public static final char COMMA_CHAR = ',';
+    public static final char SINGLE_QUOTES = '\'';
+    public static final char EMPTY_CHARACTER = '\0';
 
     public static enum frequencyVarables {
 
@@ -2525,11 +2531,11 @@ public class ARMUtils {
     public static String[] getAccountConfigAddmodeHeaders() {
         return ACCOUNT_CONFIG_ADDMODE_HEADERS.clone();
     }
-    
+
     public static Object[] getAccountConfigCopymodeColumns() {
         return ACCOUNT_CONFIG_ADDMODE_COLUMNS.clone();
     }
-    
+
     public static String[] getAccountConfigCopymodeHeaders() {
         return ACCOUNT_CONFIG_ADDMODE_HEADERS.clone();
     }
@@ -2553,7 +2559,7 @@ public class ARMUtils {
     public static Object[] getAccountConfigComboboxProperties() {
         return ACCOUNT_CONFIG_COMBOBOX_PROPERTIES.clone();
     }
-    
+
     public static Object[] getAccountConfigCopyModeComboboxProperties() {
         return ACCOUNT_CONFIG_COMBOBOX_PROPERTIES.clone();
     }
@@ -2997,5 +3003,9 @@ public class ARMUtils {
         map.put(ARMConstants.getDeductionCategory6(), "U.UDC6");
         return map.get(key);
 
+    }
+
+    public static int getIntegerValue(String value) {
+        return Integer.valueOf(value);
     }
 }

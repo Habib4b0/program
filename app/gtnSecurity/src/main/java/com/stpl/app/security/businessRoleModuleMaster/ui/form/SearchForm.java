@@ -248,7 +248,7 @@ public class SearchForm extends CustomComponent {
 
     private Container getModuleNames() {
 
-        List<String> helperLst = new ArrayList<String>();
+        List<String> helperLst = new ArrayList<>();
         try {
             helperLst.add(CommonUtils.SELECT_ONE);
             helperLst.addAll(businessRoleModuleLogic.getModuleNames());
@@ -260,7 +260,7 @@ public class SearchForm extends CustomComponent {
     }
 
     private Container getSubModules(String moduleName) {
-        List<String> helperLst = new ArrayList<String>();
+        List<String> helperLst = new ArrayList<>();
         helperLst.add(CommonUtils.SELECT_ONE);
         helperLst.addAll(businessRoleModuleLogic.getSubModules(moduleName));
         return new IndexedContainer(helperLst);

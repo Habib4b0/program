@@ -88,7 +88,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
      * @param hierarchyDto to return the selected hierarchy information
      */
     public HierarchyLookup(final String indicator, final String windowName, final TextField hierarchyLookup, HierarchyLookupDTO hierarchyDto) {
-        super(windowName, INDICATOR_MODULE_NON_MANDATED.getConstant());
+        super(windowName);
         this.indicator = indicator;
         this.hierarchyLookup = hierarchyLookup;
         this.hierarchyDto = hierarchyDto;
@@ -185,11 +185,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
         if (results.getValue() != null) {
             hierarchyDto = (HierarchyLookupDTO) results.getValue();
             hierarchyLookup.setValue(String.valueOf(hierarchyDto.getHierarchyName()).trim());
-            try {
-            } catch (Exception ex) {
-                Logger.getLogger(HierarchyLookup.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+           
             close();
         }
     }

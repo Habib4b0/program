@@ -50,16 +50,20 @@ import org.apache.commons.lang.StringUtils;
  * @author Jayaram
  */
 public class HeaderUtils {
-
+    
+    private HeaderUtils() {
+        // HeaderUtils
+    }
     public static String getMonthForInt(int num) {
         String month = "wrong";
+        int numMonthInt = num;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE) {
-            num = 0;
+        if (numMonthInt == NumericConstants.TWELVE) {
+            numMonthInt = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (numMonthInt >= 0 && numMonthInt <= NumericConstants.ELEVEN) {
+            month = months[numMonthInt];
         }
         return month;
     }
@@ -377,7 +381,7 @@ public class HeaderUtils {
             
         } else {
             if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
-                if (projSelDTO.getProgramCodeNameList() == null || projSelDTO.getProgramCodeNameList().size() == 0) {
+                if (projSelDTO.getProgramCodeNameList() == null || projSelDTO.getProgramCodeNameList().isEmpty()) {
                     programCodeName = MProjectionVarianceLogic.getProgramCodeName(projSelDTO.getProjectionId());
                 } else {
                     programCodeName = projSelDTO.getProgramCodeNameList();
@@ -943,7 +947,6 @@ public class HeaderUtils {
 
     static CustomTableHeaderDTO loadSingleDiscountHeader(String commonColumn, String commonHeader, final PVSelectionDTO selection, final CustomTableHeaderDTO tableHeaderDTO, Map<String, Object> headerMap) {
         String column = commonColumn;
-
         List<String> discountNames = new ArrayList<>(selection.getDiscountNameList());
         List<Integer> projList = selection.getProjIdList();
         Map<Integer, String> priorMap = selection.getProjectionMap();
@@ -1022,10 +1025,7 @@ public class HeaderUtils {
         historyEndYear = projSelDTO.getForecastDTO().getHistoryEndYear();
         if (historyEndPeriod == forecastStartPeriod && historyEndYear == projSelDTO.getForecastDTO().getForecastStartYear()) {
             historyEndPeriod--;
-            if (frequencyDivision == 1) {
-                historyEndMonth = NumericConstants.TWELVE;
-                historyEndYear = historyEndYear - 1;
-            } else if (historyEndPeriod < 1) {
+            if ((frequencyDivision == 1)  || (historyEndPeriod < 1)) {
                 historyEndMonth = NumericConstants.TWELVE;
                 historyEndYear = historyEndYear - 1;
             } else if (frequencyDivision == NumericConstants.TWO) {

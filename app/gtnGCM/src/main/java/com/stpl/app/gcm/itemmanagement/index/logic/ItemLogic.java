@@ -66,18 +66,17 @@ public class ItemLogic {
         containerData.setMinFilterLength(0);
     }
 
-    public int getDdlbCount(String QueryName, final List<String> input) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+    public int getDdlbCount(String queryName, final List<String> input) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
 
-    public List<HelperDTO> getDdlbList(String QueryName, final List<String> input) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+    public List<HelperDTO> getDdlbList(String queryName, final List<String> input) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         List<HelperDTO> resultList = new ArrayList<>();
         if (Integer.parseInt(String.valueOf(input.get(1))) == 0) {
             HelperDTO defaultValue = new HelperDTO(0, IndicatorConstants.SELECT_ONE.getConstant());
@@ -312,8 +311,7 @@ public class ItemLogic {
     private int getCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
@@ -373,15 +371,15 @@ public class ItemLogic {
     /**
      * For Format
      *
-     * @param FORMAT
+     * @param format
      * @param value
      * @return String
      */
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat format, String value) {
         if (value.contains(Constants.NULL)) {
             value = Constants.ZEROSTRING;
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            value = format.format(Double.valueOf(value));
         }
         return value;
     }
@@ -725,11 +723,11 @@ public class ItemLogic {
         return filterMap;
     }
 
-    public static List getIdAndForecastingType(TabSelectionDTO SelectionDTO, SelectionDTO selection) {
+    public static List getIdAndForecastingType(TabSelectionDTO selectionDto, SelectionDTO selection) {
         int projectionID = 0;
         String forecastingType = StringUtils.EMPTY;
         final List projIdList = new ArrayList();
-        List<Object> list = getProjectionQuery(SelectionDTO, selection);
+        List<Object> list = getProjectionQuery(selectionDto, selection);
         Object[] obj = null;
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
@@ -742,10 +740,10 @@ public class ItemLogic {
         }}
 
         projIdList.add(projectionID);
-        SelectionDTO.setSummaryProjectionId(projectionID);
-        SelectionDTO.setForeCastingType(forecastingType);
-        SelectionDTO.setOperation(selection.getOperation());
-        SelectionDTO.setSessionID(selection.getSessionId());
+        selectionDto.setSummaryProjectionId(projectionID);
+        selectionDto.setForeCastingType(forecastingType);
+        selectionDto.setOperation(selection.getOperation());
+        selectionDto.setSessionID(selection.getSessionId());
         projIdList.add(forecastingType);
         return projIdList;
     }

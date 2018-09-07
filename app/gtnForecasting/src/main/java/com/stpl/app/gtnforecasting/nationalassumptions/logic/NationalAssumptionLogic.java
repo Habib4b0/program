@@ -380,7 +380,7 @@ public class NationalAssumptionLogic {
             priceTypeResult.setBaselineMethodology(String.valueOf(obj[NumericConstants.TWO]));
             priceTypeResult.setForecastMethodology(String.valueOf(obj[NumericConstants.THREE]));
             if (GROWTH.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())||PER_OF_WAC.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())) {
-                priceTypeResult.setGrowthRate(getFormattedGrowth(String.valueOf(obj[NumericConstants.FOUR]), GROWTH.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())));
+                priceTypeResult.setGrowthRate(getFormattedGrowth(String.valueOf(obj[NumericConstants.FOUR])));
                 priceTypeResult.setFrequency(String.valueOf(obj[NumericConstants.NINE]));
             }
             priceTypeResult.setStartPeriod(String.valueOf(obj[NumericConstants.FIVE]));
@@ -1079,12 +1079,12 @@ public class NationalAssumptionLogic {
         return Constant.SUCCESS;
     }
 
-    public String getFormattedGrowth(String value, boolean isGrowth) {
-        String valueGrowth;
-        if (value.contains(Constant.NULL)) {
+    public String getFormattedGrowth(String value) {
+        String valueGrowth = value;
+        if (valueGrowth.contains(Constant.NULL)) {
             valueGrowth = StringUtils.EMPTY;
         } else {
-            Double newValue = Double.valueOf(value.trim().replace(Constant.PERCENT, StringUtils.EMPTY));
+            Double newValue = Double.valueOf(valueGrowth.trim().replace(Constant.PERCENT, StringUtils.EMPTY));
             newValue = newValue / NumericConstants.HUNDRED;
             valueGrowth = perWithTwoDecimal.format(newValue) ;
         }
@@ -1353,8 +1353,8 @@ public class NationalAssumptionLogic {
             String sql = SQlUtil.getQuery("isAFSS_PriceType_Available").replace("?", projectionId);
             
             List<Object[]> resultsList = (List<Object[]>) commonDAO.executeSelectQuery(sql);
-            int count = getCount(resultsList);
-            return count == 0 ? Boolean.TRUE : Boolean.FALSE;
+            int countIsAFSSPriceTypeAvailable = getCount(resultsList);
+            return countIsAFSSPriceTypeAvailable == 0 ? Boolean.TRUE : Boolean.FALSE;
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }

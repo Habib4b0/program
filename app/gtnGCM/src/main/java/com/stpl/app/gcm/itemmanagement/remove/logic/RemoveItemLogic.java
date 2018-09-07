@@ -80,8 +80,6 @@ public class RemoveItemLogic {
             Object obj = list.get(0);
             count = obj == null ? 0 : (Integer) obj;
         }
-        if (tabSelectionDTO.isIsProjectionTotal()) {
-        }
         return count;
     }
 
@@ -97,16 +95,16 @@ public class RemoveItemLogic {
         }
     }
 
-    public static List getProjectionQuery(TabSelectionDTO SelectionDTO, SelectionDTO selection) {
+    public static List getProjectionQuery(TabSelectionDTO selectionDTO, SelectionDTO selection) {
         String queryName = "Projection Query";
         List input = new ArrayList();
         input.add(selection.getSessionId());
         if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-            input.add(SelectionDTO.getOperation());
+            input.add(selectionDTO.getOperation());
         } else {
             input.add(ConstantsUtil.SUMMARY);
         }
-        if(ConstantsUtil.TRANSFER_SUMMARY.equals(SelectionDTO.getOperation()))
+        if(ConstantsUtil.TRANSFER_SUMMARY.equals(selectionDTO.getOperation()))
         {
             input.add(AbstractLogic.getItemIds(selection.getTransferItemList()));
         }
@@ -300,12 +298,12 @@ public class RemoveItemLogic {
         return salesRowList;
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value, boolean excelExport) {
+    public String getFormattedValue(DecimalFormat format, String value, boolean excelExport) {
         if (value.contains(Constants.NULL)) {
             value = "---";
         } else {
             if (!excelExport) {
-                value = FORMAT.format(Double.valueOf(value));
+                value = format.format(Double.valueOf(value));
             } else {
                 return value;
             }
@@ -398,8 +396,6 @@ public class RemoveItemLogic {
         if (list != null && !list.isEmpty()) {
             Object obj = list.get(0);
             count = obj == null ? 0 : (Integer) obj;
-        }
-        if (tabSelectionDTO.isIsProjectionTotal()) {
         }
         return count;
     }

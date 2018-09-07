@@ -57,12 +57,11 @@ public class GtnUIFrameworkForecastConfigurationSaveActionTest {
 	}
 
 	@Test
-	public void testDoAction() throws GtnFrameworkGeneralException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void testDoAction_1() throws GtnFrameworkGeneralException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		GtnUIFrameworkForecastConfigurationSaveAction instance = new GtnUIFrameworkForecastConfigurationSaveAction();
 		String componentId="";
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
 		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);
-		
 		
 		Constructor cons = (GtnUIFrameworkBaseComponent.class.getDeclaredConstructors()[0]);
 		cons.setAccessible(true);
@@ -70,10 +69,26 @@ public class GtnUIFrameworkForecastConfigurationSaveActionTest {
 
 		when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
 
-		
 		List<Object> parameters = Arrays.asList(1, 2, 3, 4);
 		gtnUIFrameWorkActionConfig.setActionParameterList(parameters);
 		instance.doAction(componentId, gtnUIFrameWorkActionConfig);
 	}
 
+	@Test
+	public void testDoAction() throws GtnFrameworkGeneralException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		GtnUIFrameworkForecastConfigurationSaveAction instance = new GtnUIFrameworkForecastConfigurationSaveAction();
+		String componentId="";
+		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
+		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);
+		
+		Constructor cons = (GtnUIFrameworkBaseComponent.class.getDeclaredConstructors()[0]);
+		cons.setAccessible(true);
+		GtnUIFrameworkBaseComponent object = (GtnUIFrameworkBaseComponent) cons.newInstance(new TextField("cap","value"), "componentId");
+
+		when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
+
+		List<Object> parameters = Arrays.asList(1, 2, 3, 4);
+		gtnUIFrameWorkActionConfig.setActionParameterList(parameters);
+		instance.doAction(componentId, gtnUIFrameWorkActionConfig);
+	}
 }

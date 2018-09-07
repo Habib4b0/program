@@ -778,6 +778,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                 }
             }
         }
+        LOGGER.debug("parentKeyCustom{} ", parentKeyCustom);
         return parentKeyCustom;
     }
 }

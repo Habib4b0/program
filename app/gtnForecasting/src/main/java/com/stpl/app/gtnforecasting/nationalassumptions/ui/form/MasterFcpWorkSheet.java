@@ -622,12 +622,10 @@ public class MasterFcpWorkSheet extends Window {
      * Configure Result Table.
      */
     private void configureResultTable() {
-        CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-        CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         fullHeader = new CustomTableHeaderDTO();
-        leftHeader = CommonUiUtils.getWorkSheetLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getWorkSheetRightTableColumns(projectionDTO, fullHeader);
+        CustomTableHeaderDTO leftHeader = CommonUiUtils.getWorkSheetLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO rightHeader = CommonUiUtils.getWorkSheetRightTableColumns(projectionDTO, fullHeader);
         ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);

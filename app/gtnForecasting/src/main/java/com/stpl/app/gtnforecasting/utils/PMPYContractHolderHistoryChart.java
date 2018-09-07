@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.app.gtnforecasting.dto.PMPYRowDto;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
@@ -35,7 +34,7 @@ public class PMPYContractHolderHistoryChart {
      * @param contractName
      * @param headeres
      */
-    public PMPYContractHolderHistoryChart(final List<PMPYRowDto> dto, final String contractName, List<Object> headeres) {
+    public PMPYContractHolderHistoryChart(final String contractName, List<Object> headeres) {
         LOGGER.debug("Entering PMPYContractHolderHistoryChart method ");
 
         this.contractName = contractName;

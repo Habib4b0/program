@@ -551,7 +551,7 @@ public class PMPYCalculator extends Window {
                  */
                 @Override
                 public void click(final MouseEvents.ClickEvent event) {
-                    final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart(chTreeContainer.getBeans(), (String) contractComboBox.getValue(), rightDto.getDoubleHistoryColumns());
+                    final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart((String) contractComboBox.getValue(), rightDto.getDoubleHistoryColumns());
 
                     final NmSalesGraphWindow salesGraphWindow = new NmSalesGraphWindow(chart.getCharts(), Constant.PMPY_CALCULATOR);
                     UI.getCurrent().addWindow(salesGraphWindow);
@@ -1549,13 +1549,13 @@ public class PMPYCalculator extends Window {
             Double gtsDoubleValue = Double.valueOf(PPAQuerys.getPPAData(inputList, queryNameString, null).get(0).toString());
             if (gtsDoubleValue == 0) {
                 List input1List = new ArrayList();
-                List NDCList = new ArrayList();
+                List ndcListPmpy = new ArrayList();
                 input1List.add(CommonUtils.getListToString((List) inputs[0]));
                 List<String> ndcList = PPAQuerys.getPPAData(input1List, "Get NDC Values", null);
                 for (String str : ndcList) {
-                    NDCList.add(str == null ? StringUtils.EMPTY : str);
+                    ndcListPmpy.add(str == null ? StringUtils.EMPTY : str);
                 }
-                MessageBox.showPlain(Icon.INFO, "Error", "The following NDC's " + CommonUtils.getListToString(NDCList) + "is/are not on the current GTS File", ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, "Error", "The following NDC's " + CommonUtils.getListToString(ndcListPmpy) + "is/are not on the current GTS File", ButtonId.OK);
 
             } else {
                 MessageBox.showPlain(Icon.QUESTION, "Replace sales confirmation", "Are you sure you want to use the calculated Sales/Units value for the selected Trading Partner" + " ?",
@@ -1632,10 +1632,6 @@ public class PMPYCalculator extends Window {
             exporterObject.export(exportDto);
             LOGGER.debug("End of exportCalculatedExcel method");
         } catch (SystemException e) {
-
-            LOGGER.error(e.getMessage());
-
-        } catch (Exception e) {
 
             LOGGER.error(e.getMessage());
 

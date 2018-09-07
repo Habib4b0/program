@@ -1,6 +1,5 @@
 package com.stpl.app.gtnforecasting.bpm.logic;
 
-import com.liferay.portal.kernel.model.User;
 import com.stpl.app.bpm.dto.ForecastingRulesDTO;
 import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
@@ -16,10 +15,8 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsForecastProjectionSubmitBean;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.DroolsProperties;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 public class DSCalculationLogic {
@@ -28,7 +25,9 @@ public class DSCalculationLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DSCalculationLogic.class);
-    private static final Properties properties = DroolsProperties.getPropertiesData();
+    private DSCalculationLogic() {
+        // DSCalculationLogic
+    }
 
     public static GtnWsCommonWorkflowResponse startWorkflow(SessionDTO session, String userId) {
         GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();

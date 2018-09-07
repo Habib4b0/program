@@ -271,7 +271,6 @@ public class NewDiscountTab extends CustomComponent {
      * The collapse listener.
      */
     private final StplCollapseListener collapseListener = new StplCollapseListener();
-    private static final BeanItem<?> NULL_OBJECT = null;
     /**
      * The contract member.
      */
@@ -1995,10 +1994,10 @@ public class NewDiscountTab extends CustomComponent {
                 }
 
                 final Collection childlist = dashboardTreeTable.getChildren(saveTreeIdValue);
-                if (childlist == null || childlist.isEmpty()) {
-                } else {
+                if (childlist != null && !(childlist.isEmpty())) {
                     saveTree(childlist, rsModelSysId, category);
-                }
+                } 
+                    
             }
         } catch (Exception e) {
             LOGGER.error("",e);

@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import com.liferay.portal.kernel.dao.orm.Session;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
@@ -87,11 +86,11 @@ public class NmDiscountImpl {
      * @return
      */
     public List getDiscountProjection(int projectionId, String userId, String sessionId, String frequency, List<Integer> startAndEndPeriods, String hierarchyNo, boolean isProgram, List<String> discountList,
-            String year, int historyNumber, int levelNo, String hierarchyIndicator, String userGroup, int startIndex, int endIndex, boolean isCount, boolean isCustom,
+            String year, int levelNo, String hierarchyIndicator, String userGroup, int startIndex, int endIndex, boolean isCount, boolean isCustom,
             List<String> customViewDetails, boolean isRefresh, String refreshHierarchyNumbers, String relationshipBuilderSid, boolean isAltHistory, String action) {
-
+        String hierarchyNoDP  = hierarchyNo;
         String customQuery = StringUtils.EMPTY;
-        String genQuery = StringUtils.EMPTY;
+        String genQuery;
         boolean viewFlag = "view".equalsIgnoreCase(action);
         String masterTableName = !viewFlag ? "ST_NM_DISCOUNT_PROJ_MASTER" : Constant.NM_DISCOUNT_PROJ_MASTER;
         String actualDiscountTableName = !viewFlag ? "ST_NM_ACTUAL_DISCOUNT" : "NM_ACTUAL_DISCOUNT";
@@ -114,7 +113,7 @@ public class NmDiscountImpl {
             String freq = "";
             String grpBy = "";
             String grpByData = "";
-            String freq_Actual = "";
+            String freqActual = "";
             String discType = "";
 
             int startFreq = 0;
@@ -199,7 +198,7 @@ public class NmDiscountImpl {
                     freq = "I.QUARTER,";
                     grpBy = "I.QUARTER,";
                     grpByData = "QUARTER,";
-                    freq_Actual = "AD.QUARTER,";
+                    freqActual = "AD.QUARTER,";
                 }
                 if (frequency.equals(ANNUALLY.getConstant())) {
                     startMonth = 1;
@@ -209,7 +208,7 @@ public class NmDiscountImpl {
                     freq = "NULL as ANNUAL,";
                     grpBy = "";
                     grpByData = "";
-                    freq_Actual = "AD.YEAR AS YEARP,";
+                    freqActual = "AD.YEAR AS YEARP,";
                 }
                 if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
                     switch (startFreq) {
@@ -239,7 +238,7 @@ public class NmDiscountImpl {
                     freq = "I.SEMI_ANNUAL,";
                     grpBy = "I.SEMI_ANNUAL,";
                     grpByData = "SEMI_ANNUAL,";
-                    freq_Actual = "AD.SEMI_ANNUAL,";
+                    freqActual = "AD.SEMI_ANNUAL,";
                 }
                 if (frequency.equals(MONTHLY.getConstant())) {
                     startMonth = startFreq;
@@ -250,7 +249,7 @@ public class NmDiscountImpl {
                     freq = "I.MONTH,";
                     grpBy = "I.MONTH,";
                     grpByData = "MONTH,";
-                    freq_Actual = "AD.MONTH,";
+                    freqActual = "AD.MONTH,";
                 }
 
                 declareStatement = Constant.DECLARE_START_MONTH_INT + startMonth + "\n"
@@ -289,15 +288,15 @@ public class NmDiscountImpl {
                 if (!isCustom) {
                     if (isRefresh) {
                         hierarchyNumbers = refreshHierarchyNumbers;
-                        hierarchyNo = StringUtils.EMPTY;
+                        hierarchyNoDP = StringUtils.EMPTY;
                     } else {
-                        List<String> hierarchyNoList = getHierarchyList(projectionId, hierarchy, hierarchyNo, relationshipBuilderSid, levelNo, userGroup, discountList, userId, sessionId, isProgram, startIndex, endIndex, isAltHistory, viewFlag);
-                        hierarchyNumbers = intermediate + hierarchyNoList.get(0) + ") as  HierarchyNos ";
+                        List<String> hierarchyNoDPList = getHierarchyList(projectionId, hierarchy, hierarchyNoDP, relationshipBuilderSid, levelNo, userGroup, discountList, userId, sessionId, isProgram, startIndex, endIndex, isAltHistory, viewFlag);
+                        hierarchyNumbers = intermediate + hierarchyNoDPList.get(0) + ") as  HierarchyNos ";
                     }
                 } else {
-                    List<String> hierarchyNoList = getHierarchyListForCustomView(projectionId, hierarchyIndicator, userGroup, customViewDetails, discountList, userId, sessionId, isProgram, startIndex, endIndex, isAltHistory, viewFlag);
-                    if (hierarchyNoList != null) {
-                        hierarchyNumbers = intermediate + hierarchyNoList.get(0) + ") as  HierarchyNos ";
+                    List<String> hierarchyNoDPList = getHierarchyListForCustomView(projectionId, hierarchyIndicator, userGroup, customViewDetails, discountList, userId, sessionId, isProgram, startIndex, endIndex, isAltHistory, viewFlag);
+                    if (hierarchyNoDPList != null) {
+                        hierarchyNumbers = intermediate + hierarchyNoDPList.get(0) + ") as  HierarchyNos ";
                     }
                 }
 
@@ -335,7 +334,7 @@ public class NmDiscountImpl {
                             + Constant.RL_D1_LEVEL
                             + Constant.FROM_RELATIONSHIP_RELATION
                             + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1 + projectionId + " \n"
-                            + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
+                            + Constant.AND_RL_D1HIERARC + hierarchyNoDP + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
                             + " WHERE " + levelSelectionStatement + connector + " HLD.HIERARCHY_NO in(" + hierarchyNumbers + ")\n";
                     if (isAltHistory) {
                         ccpDetails = ccpDetails + Constant.CCP;
@@ -395,7 +394,7 @@ public class NmDiscountImpl {
                     genQuery = genQuery.replace("?FRE", freq);
                     genQuery = genQuery.replace("?GRP", grpBy);
                     genQuery = genQuery.replace("?GRDATA", grpByData);
-                    genQuery = genQuery.replace("?PERIOD_FREQ", freq_Actual);
+                    genQuery = genQuery.replace("?PERIOD_FREQ", freqActual);
                     if (grpBy.isEmpty()) {
                         genQuery = genQuery.replace("?GROUP_FREQUENCY", StringUtils.EMPTY);
                     } else {
@@ -468,8 +467,7 @@ public class NmDiscountImpl {
 
                     orderBy = "\n order by " + orderBy + ", AP_TABLE_INDICATOR";
                     customQuery = declareStatement + historyQuery;
-                    String altHisQuery = StringUtils.EMPTY;
-                    altHisQuery = isAltHistory ? orderBy : "\n \n  UNION \n \n " + futureQuery + orderBy;
+                    String altHisQuery = isAltHistory ? orderBy : "\n \n  UNION \n \n " + futureQuery + orderBy;
                     customQuery += altHisQuery;
                 }
             } else {
@@ -550,7 +548,7 @@ public class NmDiscountImpl {
                             + Constant.FROM_RELATIONSHIP_RELATION
                             + Constant.SPACE_JOIN_SPACE + hierarchy + "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID \n"
                             + "                              AND PCH.PROJECTION_MASTER_SID =  " + projectionId + " \n"
-                            + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
+                            + Constant.AND_RL_D1HIERARC + hierarchyNoDP + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
                             + " WHERE " + levelSelectionStatement + " \n"
                             + Constant.CCP;
 
@@ -826,7 +824,7 @@ public class NmDiscountImpl {
         }
     }
 
-    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkValue, boolean isProgram, List<String> discountList) {
+    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkValue) {
 
         String query = StringUtils.EMPTY;
         LOGGER.debug(" inside checkClearAll");
@@ -1011,7 +1009,7 @@ public class NmDiscountImpl {
                 int startYear = 0;
                 int endYear = 0;
 
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     startFreq = startAndEndPeriods.get(0);
                     if (startAndEndPeriods.size() > 1) {
                         startYear = startAndEndPeriods.get(1);
@@ -1431,7 +1429,7 @@ public class NmDiscountImpl {
     }
 
     public boolean saveDiscountProjectionListView(int projectionId, String userId, String sessionId, String frequency, int period, int year, String hierarchyIndicator,
-            int levelNo, String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
+           String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
 
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" entering saveDiscountProjectionListView");
@@ -1607,11 +1605,12 @@ public class NmDiscountImpl {
     }
     
 
-    public List getDiscountProjectionResults(List<Integer> discountprojectionId, String frequency, String discountString, String actualsOrProjections, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId, boolean viewFlag) {
+    public List getDiscountProjectionResults(List<Integer> discountprojectionId, String frequency, String discountString, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId, boolean viewFlag) {
 
         String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
         String projectionQuery = "";
         String frequencyDpr = frequency;
+        String discountStr = discountString;
         try {
             String idString = "";
             StringBuilder idStringBuilder = new StringBuilder();
@@ -1628,17 +1627,12 @@ public class NmDiscountImpl {
 
             String forecastStartPeriod = "";
             String forecastEndPeriod = "";
-            if (discountString.equals("0")) {
-                discountString = "'" + discountString + "'";
+            if (discountStr.equals("0")) {
+                discountStr = "'" + discountStr + "'";
             }
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
-                String heYear = String.valueOf(startAndEndPeriods.get(2));
-                String heMonth = String.valueOf(startAndEndPeriods.get(3));
-
-                String fsYear = String.valueOf(startAndEndPeriods.get(4));
-                String fsMonth = String.valueOf(startAndEndPeriods.get(5));
                 String feYear = String.valueOf(startAndEndPeriods.get(6));
                 String feMonth = String.valueOf(startAndEndPeriods.get(7));
 
@@ -1650,8 +1644,8 @@ public class NmDiscountImpl {
                 Calendar calendar = Calendar.getInstance();
                 int month = calendar.get(Calendar.MONTH) + 1;
                 calendar.add(Calendar.MONTH, -((month % 3) == 0 ? 3 : (month % 3)));
-                heMonth = String.valueOf((calendar.get(Calendar.MONTH) + 1));
-                heYear = String.valueOf(calendar.get(Calendar.YEAR));
+                String heMonth = String.valueOf((calendar.get(Calendar.MONTH) + 1));
+                String heYear = String.valueOf(calendar.get(Calendar.YEAR));
                 if (heMonth.length() == 1) {
                     heMonth = "0" + heMonth;
                 }
@@ -1660,8 +1654,8 @@ public class NmDiscountImpl {
                 calendar = Calendar.getInstance();
                 month = calendar.get(Calendar.MONTH) + 1;
                 calendar.add(Calendar.MONTH, -((month % 3) == 0 ? 3 : (month % 3)));
-                fsMonth = String.valueOf((calendar.get(Calendar.MONTH) + 2));
-                fsYear = String.valueOf(calendar.get(Calendar.YEAR));
+                String fsMonth = String.valueOf((calendar.get(Calendar.MONTH) + 2));
+                String fsYear = String.valueOf(calendar.get(Calendar.YEAR));
                 if (fsMonth.length() == 1) {
                     fsMonth = "0" + fsMonth;
                 }
@@ -1709,7 +1703,7 @@ public class NmDiscountImpl {
 
             projectionQuery += Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
                     + Constant.AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST + forecastEndPeriod + ""
-                    + Constant.AND_RS_M_RS_NAME_IN + discountString + ")"
+                    + Constant.AND_RS_M_RS_NAME_IN + discountStr + ")"
                     + " GROUP BY PR.YEAR,PR." + frequencyDpr + ",PR.MONTH,PD.PROJECTION_DETAILS_SID"
                     + Constant.UNION_ALL
                     + Constant.SELECT_PR_YEAR_PR + frequencyDpr + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
@@ -1751,7 +1745,7 @@ public class NmDiscountImpl {
             }
             projectionQuery += Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT + startPeriod + ""
                     + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PRMO + endPeriod + ""
-                    + Constant.AND_RS_M_RS_NAME_IN + discountString + ")"
+                    + Constant.AND_RS_M_RS_NAME_IN + discountStr + ")"
                     + Constant.GROUP_BY_PR_YEAR + frequencyDpr + ",PR.MONTH,PD.PROJECTION_DETAILS_SID ";
             if (view.equalsIgnoreCase("parent")) {
                 if (frequencyDpr.equals("YEAR") || frequencyDpr.equals(Constant.MONTH_WITHOUT_SPACE)) {
@@ -1794,7 +1788,7 @@ public class NmDiscountImpl {
                 }
             }
             idString = idStringBuilder.toString();
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 startFreq = startAndEndPeriods.get(0);
                 endFreq = startAndEndPeriods.get(1);
                 startYear = startAndEndPeriods.get(2);
@@ -2051,7 +2045,7 @@ public class NmDiscountImpl {
             String endPeriod = "";
             String forecastStartPeriod = "";
             String forecastEndPeriod = "";
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heYear = String.valueOf(startAndEndPeriods.get(2));
@@ -2158,8 +2152,6 @@ public class NmDiscountImpl {
     }
 
     public List getSubDiscount(List<Integer> projectionDetailsId, String frequency, String discountList, List<Integer> startAndEndPeriods, int userId, int sessionId) {
-        {
-
             String sql = "";
             String frequencySubDiscount = frequency;
             try {
@@ -2177,7 +2169,7 @@ public class NmDiscountImpl {
                 String endPeriod = "";
                 String forecastStartPeriod = "";
                 String forecastEndPeriod = "";
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     String hsYear = String.valueOf(startAndEndPeriods.get(0));
                     String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                     String heYear = String.valueOf(startAndEndPeriods.get(2));
@@ -2268,13 +2260,10 @@ public class NmDiscountImpl {
                 LOGGER.error(e.getMessage());
                 LOGGER.error(sql);
             }
-        }
         return null;
     }
 
     public List getTotalDiscountCount(int projectionMasterId, String frequency, String actualsOrProjections, List<Integer> startAndEndPeriods, int userId, int sessionId) {
-        {
-
             String sql = "";
             String frequencyTotalDiscount = frequency;
             try {
@@ -2286,7 +2275,7 @@ public class NmDiscountImpl {
                 String declareStatement = "";
                 int startMonth = 0;
                 int endMonth = 0;
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     startFreq = startAndEndPeriods.get(0);
                     endFreq = startAndEndPeriods.get(1);
                     startYear = startAndEndPeriods.get(2);
@@ -2362,7 +2351,6 @@ public class NmDiscountImpl {
 
                 }
                 if (frequencyTotalDiscount.equals(MONTHLY.getConstant())) {
-                    frequencyTotalDiscount = Constant.MONTH_WITHOUT_SPACE;
                     startMonth = startFreq;
                     endMonth = endFreq;
 
@@ -2420,11 +2408,10 @@ public class NmDiscountImpl {
                 LOGGER.error(e.getMessage());
                 LOGGER.error(sql);
             }
-        }
         return null;
     }
 
-    public List getCCPDetailsID(int ProjectionMasterSid, String hierarchyNo, String levelNo) {
+    public List getCCPDetailsID(int projectionMasterSid, String hierarchyNo, String levelNo) {
 
         String sql = StringUtils.EMPTY;
         try {
@@ -2433,16 +2420,16 @@ public class NmDiscountImpl {
                     + "  (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO,CCP.CCP_DETAILS_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD"
                     + " JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID "
                     + "JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID "
-                    + "AND PD.PROJECTION_MASTER_SID =" + ProjectionMasterSid
+                    + "AND PD.PROJECTION_MASTER_SID =" + projectionMasterSid
                     + "JOIN   PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID"
-                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + ProjectionMasterSid + "') CCPMAP,"
+                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + projectionMasterSid + "') CCPMAP,"
                     + "(SELECT RLD1.HIERARCHY_NO,RLD1.RELATIONSHIP_LEVEL_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1 "
                     + "JOIN   PROJECTION_CUST_HIERARCHY PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
+                    + "AND PCH.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
                     + "WHERE  CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%') LCCP WHERE "
                     + "LCCP.HIERARCHY_NO IN (SELECT RLD2.HIERARCHY_NO FROM   RELATIONSHIP_LEVEL_DEFINITION RLD2 "
                     + "JOIN   PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH2.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
+                    + "AND PCH2.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 
         } catch (Exception e) {
@@ -2452,7 +2439,7 @@ public class NmDiscountImpl {
         return null;
     }
 
-    public List getCCPDetailsIDForProductHierarchy(int ProjectionMasterSid, String hierarchyNo, String levelNo) {
+    public List getCCPDetailsIDForProductHierarchy(int projectionMasterSid, String hierarchyNo, String levelNo) {
 
         String sql = StringUtils.EMPTY;
         try {
@@ -2461,16 +2448,16 @@ public class NmDiscountImpl {
                     + "  (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO,CCP.CCP_DETAILS_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD"
                     + " JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID "
                     + "JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID "
-                    + "AND PD.PROJECTION_MASTER_SID =" + ProjectionMasterSid
+                    + "AND PD.PROJECTION_MASTER_SID =" + projectionMasterSid
                     + " JOIN   PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID"
-                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + ProjectionMasterSid + "') CCPMAP,"
+                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + projectionMasterSid + "') CCPMAP,"
                     + "(SELECT RLD1.HIERARCHY_NO,RLD1.RELATIONSHIP_LEVEL_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1 "
                     + "JOIN   PROJECTION_PROD_HIERARCHY PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
+                    + "AND PCH.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
                     + "WHERE  CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%') LCCP WHERE "
                     + "LCCP.HIERARCHY_NO IN (SELECT RLD2.HIERARCHY_NO FROM   RELATIONSHIP_LEVEL_DEFINITION RLD2 "
                     + "JOIN   PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH2.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
+                    + "AND PCH2.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
 
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 
@@ -2481,202 +2468,7 @@ public class NmDiscountImpl {
         return null;
     }
 
-    public List getCCPDetailsIDForCustomHierarchy(int ProjectionMasterSid, String hierarchyNo, String customViewId) {
-
-        String sql = StringUtils.EMPTY;
-        try {
-            int customViewNo = Integer.parseInt(customViewId);
-            sql = "SELECT distinct CCPMAPC.CCP_DETAILS_SID FROM "
-                    + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID"
-                    + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID"
-                    + " JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + ProjectionMasterSid + "'"
-                    + " ) CCPMAPC JOIN (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
-                    + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID"
-                    + " AND PD.PROJECTION_MASTER_SID='" + ProjectionMasterSid + "') CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID JOIN (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, "
-                    + " CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customViewNo + " AND CVD.LEVEL_NO  like '1'"
-                    + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID"
-                    + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID"
-                    + " JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='" + ProjectionMasterSid + "'"
-                    + " WHERE RLD2.HIERARCHY_NO like '%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%' JOIN "
-                    + " (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD JOIN dbo.CUSTOM_VIEW_MASTER CVM ON "
-                    + " CVD.CUSTOM_VIEW_MASTER_SID=" + customViewNo + " AND CVD.LEVEL_NO like '%' JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID"
-                    + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID "
-                    + " JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='" + ProjectionMasterSid + "'"
-                    + " WHERE RLD2.HIERARCHY_NO like '%') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'";
-
-            return HelperTableLocalServiceUtil.executeSelectQuery(sql);
-
-        } catch (NumberFormatException e) {
-
-            LOGGER.error(e.getMessage());
-            LOGGER.error(sql);
-        }
-        return null;
-    }
-
-    public List getAllPeriodDiscount(List<Integer> discountprojectionId, String frequency, String history, String actualsOrProjections, String view, String order, List<Integer> startAndEndPeriods) {
-
-        String sql = "";
-        String frequencyPeriodDiscount = frequency;
-        try {
-
-            String idString;
-            StringBuilder idStringBuilder = new StringBuilder();
-            int startFreq = 0;
-            int endFreq = 0;
-            int startYear = 0;
-            int endYear = 0;
-            String declareStatement = "";
-            for (int i = 0; i < discountprojectionId.size(); i++) {
-                if (i != discountprojectionId.size() - 1) {
-                    idStringBuilder.append(discountprojectionId.get(i) ).append( ',');
-                } else {
-                    idStringBuilder.append(discountprojectionId.get(i));
-                }
-            }
-            idString = idStringBuilder.toString();
-            int startMonth = 0;
-            int endMonth = 0;
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
-                startFreq = startAndEndPeriods.get(0);
-                endFreq = startAndEndPeriods.get(1);
-                startYear = startAndEndPeriods.get(2);
-                endYear = startAndEndPeriods.get(3);
-            }
-
-            if (frequencyPeriodDiscount.equals(QUARTERLY.getConstant())) {
-                frequencyPeriodDiscount = Constant.QUARTER;
-                switch (startFreq) {
-                    case 1:
-                        startMonth = 1;
-                        break;
-                    case 2:
-                        startMonth = 4;
-                        break;
-                    case 3:
-                        startMonth = 7;
-                        break;
-                    case 4:
-                        startMonth = 10;
-                        break;
-                    default:
-                        break;
-
-                }
-                switch (endFreq) {
-                    case 1:
-                        endMonth = 3;
-                        break;
-                    case 2:
-                        endMonth = 6;
-                        break;
-                    case 3:
-                        endMonth = 9;
-                        break;
-                    case 4:
-                        endMonth = 12;
-                        break;
-                    default:
-                        break;
-
-                }
-
-            }
-            if (frequencyPeriodDiscount.equals(Constant.ANNUALLY)) {
-                frequencyPeriodDiscount = "YEAR";
-                startMonth = 1;
-                endMonth = 12;
-            }
-            if (frequencyPeriodDiscount.equals(Constant.SEMIANNUALLY)) {
-                frequencyPeriodDiscount = Constant.SEMI_ANNUAL;
-                switch (startFreq) {
-                    case 1:
-                        startMonth = 1;
-                        break;
-                    case 2:
-                        startMonth = 7;
-                        break;
-                    default:
-                        break;
-
-                }
-                switch (endFreq) {
-                    case 1:
-                        endMonth = 6;
-                        break;
-                    case 2:
-                        endMonth = 12;
-                        break;
-                    default:
-                        break;
-
-                }
-
-            }
-            if (frequencyPeriodDiscount.equals(MONTHLY.getConstant())) {
-                frequencyPeriodDiscount = Constant.MONTH_WITHOUT_SPACE;
-                startMonth = startFreq;
-                endMonth = endFreq;
-            }
-
-            declareStatement = Constant.DECLARE_START_MONTH_INT + startMonth + "\n"
-                    + Constant.DECLARE_START_YEAR_INT + startYear + "\n"
-                    + Constant.DECLARE_END_MONTH_INT + endMonth + "\n"
-                    + Constant.DECLARE_END_YEAR_INT + endYear + "\n";
-
-            String periodFilter = "";
-            periodFilter = "AND I.PERIOD_DATE BETWEEN \n "
-                    + Constant.SPACE_CASE_NEW_LINE
-                    + Constant.WHEN_START_MONTH_1_THEN_CONVERT_DATE
-                    + Constant.WHEN_START_MONTH_2_THEN_CONVERT_DATE
-                    + Constant.WHEN_START_MONTH_3_THEN_CONVERT_DATE
-                    + Constant.WHEN_START_MONTH_4_THEN_CONVERT_DATE
-                    + Constant.WHEN_START_MONTH_5_THEN_CONVERT_DATE
-                    + Constant.WHEN_START_MONTH_6_THEN_CONVERT_DATE
-                    + Constant.WHEN_START_MONTH_7_THEN_CONVERT_DATE
-                    + Constant.WHEN_START_MONTH_8_THEN_CONVERT_DATE
-                    + Constant.WHEN_START_MONTH_9_THEN_CONVERT_DATE
-                    + Constant.WHEN_START_MONTH_10_THEN_CONVERT_DATE
-                    + Constant.WHEN_START_MONTH_11_THEN_CONVERT_DATE
-                    + Constant.WHEN_START_MONTH_12_THEN_CONVERT_DATE
-                    + Constant.SPACE_END_NEW_LINE
-                    + Constant.SPACE_AND_NEW_LINE
-                    + Constant.SPACE_CASE_NEW_LINE
-                    + Constant.WHEN_END_MONTH_1_THEN_CONVERT_DATE
-                    + Constant.WHEN_END_MONTH_2_THEN_CONVERT_DATE
-                    + Constant.WHEN_END_MONTH_3_THEN_CONVERT_DATE
-                    + Constant.WHEN_END_MONTH_4_THEN_CONVERT_DATE
-                    + Constant.WHEN_END_MONTH_5_THEN_CONVERT_DATE
-                    + Constant.WHEN_END_MONTH_6_THEN_CONVERT_DATE
-                    + Constant.WHEN_END_MONTH71_THEN_CONVERT_DATE
-                    + Constant.WHEN_END_MONTH_8_THEN_CONVERT_DATE
-                    + Constant.WHEN_END_MONTH_9_THEN_CONVERT_DATE
-                    + Constant.WHEN_END_MONTH_10_THEN_CONVERT_DATE
-                    + Constant.WHEN_END_MONTH_11_THEN_CONVERT_DATE
-                    + Constant.WHEN_END_MONTH_12_THEN_CONVERT_DATE
-                    + Constant.SPACE_END_NEW_LINE;
-
-            if (actualsOrProjections.equals(Constant.ACTUALS)) {
-                sql = Constant.SELECT_JRS_NAME_YEAR + frequencyPeriodDiscount + ", sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequencyPeriodDiscount + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
-            }
-            if (actualsOrProjections.equals(Constant.PROJECTIONS)) {
-                sql = Constant.SELECT_JRS_NAME_YEAR + frequencyPeriodDiscount + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE  from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in(" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequencyPeriodDiscount + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
-            }
-            if (actualsOrProjections.equals("Both")) {
-                sql = Constant.SELECT_JRS_NAME_YEAR + frequencyPeriodDiscount + ", sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE,sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE  from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequencyPeriodDiscount + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
-            }
-            sql = declareStatement + sql;
-
-            return HelperTableLocalServiceUtil.executeSelectQuery(sql);
-        } catch (Exception e) {
-
-            LOGGER.error(e.getMessage());
-            LOGGER.error(sql);
-        }
-        return null;
-    }
-
-    public List getAllPesriodDiscount(List<Integer> discountprojectionId, String frequency, String discountName, String hist, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId) {
+    public List getAllPesriodDiscount(List<Integer> discountprojectionId, String frequency, String discountName, String order, List<Integer> startAndEndPeriods, int userId, int sessionId) {
 
         String sql = "";
         String frequencyAllPeriodDiscount = frequency;
@@ -2696,14 +2488,10 @@ public class NmDiscountImpl {
             String endPeriod = "";
             String forecastStartPeriod = "";
             String forecastEndPeriod = "";
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
-                String heYear = String.valueOf(startAndEndPeriods.get(2));
                 String heMonth = String.valueOf(startAndEndPeriods.get(3));
-
-                String fsYear = String.valueOf(startAndEndPeriods.get(4));
-                String fsMonth = String.valueOf(startAndEndPeriods.get(5));
                 String feYear = String.valueOf(startAndEndPeriods.get(6));
                 String feMonth = String.valueOf(startAndEndPeriods.get(7));
 
@@ -2719,7 +2507,7 @@ public class NmDiscountImpl {
                 int month = calendar.get(Calendar.MONTH) + 1;
                 calendar.add(Calendar.MONTH, -((month % 3) == 0 ? 3 : (month % 3)));
                 heMonth = String.valueOf((calendar.get(Calendar.MONTH) + 1));
-                heYear = String.valueOf(calendar.get(Calendar.YEAR));
+                String heYear = String.valueOf(calendar.get(Calendar.YEAR));
                 if (heMonth.length() == 1) {
                     heMonth = "0" + heMonth;
                 }
@@ -2728,8 +2516,8 @@ public class NmDiscountImpl {
                 calendar = Calendar.getInstance();
                 month = calendar.get(Calendar.MONTH) + 1;
                 calendar.add(Calendar.MONTH, -((month % 3) == 0 ? 3 : (month % 3)));
-                fsMonth = String.valueOf((calendar.get(Calendar.MONTH) + 2));
-                fsYear = String.valueOf(calendar.get(Calendar.YEAR));
+                String fsMonth = String.valueOf((calendar.get(Calendar.MONTH) + 2));
+                String fsYear = String.valueOf(calendar.get(Calendar.YEAR));
                 if (fsMonth.length() == 1) {
                     fsMonth = "0" + fsMonth;
                 }

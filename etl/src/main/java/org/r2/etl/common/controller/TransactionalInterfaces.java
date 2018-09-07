@@ -336,7 +336,39 @@ public final class TransactionalInterfaces {
 		return Constants.SUCCESS;
 
 	}
+    
+       /**
+     * This method is used to invoke DTX CUSTOMER GTS FORECAST Interface.
+     * 
+     * @return SUCCESS
+     * @throws IOException
+     * @throws EtlException
+     * 
+     */
+     public static String runDtxCustomerGtsForecastInterface() throws BPIETLException {
 
+	  setFileName(FilePathUtil.DTX_CUSTOMER_GTS_FORECAST_INTERFACE);
+	  r2etl.runJob(filename);
+	  return Constants.SUCCESS;
+
+     }
+ 
+
+     /**
+    * This method is used to invoke DTX CUSTOMER GTS ACTUAL Interface.
+    * 
+    * @return SUCCESS
+    * @throws IOException
+    * @throws EtlException
+    * 
+    */
+    public static String runDtxCustomerGtsActualInterface() throws BPIETLException {
+
+      setFileName(FilePathUtil.DTX_CUSTOMER_GTS_ACTUAL_INTERFACE);
+      r2etl.runJob(filename);
+      return Constants.SUCCESS;
+
+    }
 	private static void setFileName(String input) {
 		filename = logpath + input;
 	}

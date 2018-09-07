@@ -130,20 +130,24 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
                     if (levelList != null) {
                         int size = levelList.size();
                         int index = count - size + 1;
-                        for (int j = 0; j < size; j++) {
-                            selection.setLevelNo(levelNo);
-                            AdjustmentDTO levelDto = levelList.get(j);
-                            if (levelDto.getChildrenAllowed()) {
-                                String customTreeLevel = treeLevel + (index + j) + ".";
-                                addExpandedTreeList(customTreeLevel, levelDto);
-                                recursivelyLoadExpandData(levelDto, customTreeLevel, expandLevelNo);
-                            }
-                        }
+                        recursiveLoadExpand(size, levelNo, levelList, treeLevel, index, expandLevelNo);
                     }
                 }
             }
         } catch (Exception e) {
             LOGGER.error("Error in recursivelyLoadExpandData :", e);
+        }
+    }
+
+    private void recursiveLoadExpand(int size, int levelNo, List<AdjustmentDTO> levelList, String treeLevel, int index, int expandLevelNo) {
+        for (int j = 0; j < size; j++) {
+            selection.setLevelNo(levelNo);
+            AdjustmentDTO levelDto = levelList.get(j);
+            if (levelDto.getChildrenAllowed()) {
+                String customTreeLevel = treeLevel + (index + j) + ".";
+                addExpandedTreeList(customTreeLevel, levelDto);
+                recursivelyLoadExpandData(levelDto, customTreeLevel, expandLevelNo);
+            }
         }
     }
 

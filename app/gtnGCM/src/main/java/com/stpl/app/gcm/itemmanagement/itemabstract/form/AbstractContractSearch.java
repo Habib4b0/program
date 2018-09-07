@@ -1163,8 +1163,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
     public Boolean massUpdateItemDetails(final List input, final SelectionDTO selection) {
         input.addAll(getResultsInput(selection));
-        Boolean isUpdated = ItemQueries.itemUpdate(input, "Abstract Mass update");
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, "Abstract Mass update");
     }
 
     /**
@@ -1351,17 +1350,17 @@ public abstract class AbstractContractSearch extends CustomComponent {
                             baseLineTextValue = baseWacManual.getValue();
                             getContractSelectionTable().getItem(object).getItemProperty(Constants.BASELINE_WAC_MANUAL_LABLE_NAME).setValue(baseLineTextValue);
                             baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
-                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
+                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, selection);
                         } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
                             getContractSelectionTable().getItem(object).getItemProperty(Constants.BASELINE_WAC_DATE_LABLE_NAME).setValue(baseWacDate.getValue());
                             baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
                             baseLineValue = formatter.format(baseWacDate.getValue());
-                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineValue, selection);
                         } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
                             baseLineValue = baseWacPriceType.getValue();
                             getContractSelectionTable().getItem(object).getItemProperty(Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME).setValue(baseLineValue);
                             baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
-                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineValue, selection);
                         }
                         break;
                     case Constants.BASELINE_NET_WAC_LABLE_NAME:
@@ -1651,7 +1650,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             return StringUtils.EMPTY;
         } else {
             for (int i = 0; i < list.size(); i++) {
-                Object[] obj = (Object[]) list.get(i);
+                Object[] obj =  list.get(i);
                 if (sb.length() > 0) {
                     sb.append(',');
                 }

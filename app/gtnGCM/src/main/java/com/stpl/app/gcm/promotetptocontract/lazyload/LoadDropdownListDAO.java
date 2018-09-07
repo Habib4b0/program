@@ -34,8 +34,7 @@ public class LoadDropdownListDAO implements DAO<HelperDTO> {
         List<String> filterTextList = new ArrayList<>();
         String filterText = StringUtils.trimToEmpty(criteria.getFilter()) + "%";
         filterTextList.add(filterText);
-        int count = logic.getDdlbCount(countFlag, filterTextList);
-        return count;
+        return logic.getDdlbCount(countFlag, filterTextList);
     }
 
     @Override
@@ -46,8 +45,7 @@ public class LoadDropdownListDAO implements DAO<HelperDTO> {
             offSetList.add(filterText);
             offSetList.add(String.valueOf(startIndex));
             offSetList.add(String.valueOf(offset));
-            List<HelperDTO> resultLList = logic.getDdlbList(findFlag, offSetList);
-            return resultLList;
+            return logic.getDdlbList(findFlag, offSetList);
         } else {
             List<HelperDTO> resultList = new ArrayList<>();
             HelperDTO defaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());

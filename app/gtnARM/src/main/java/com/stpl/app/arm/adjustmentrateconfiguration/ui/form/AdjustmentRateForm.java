@@ -1198,7 +1198,7 @@ public class AdjustmentRateForm extends CustomComponent {
 
         final StplSecurity stplSecurity = new StplSecurity();
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ADJUSTMENT_RATE_CONFIGURATION + "," + "Landing screen");
+        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ADJUSTMENT_RATE_CONFIGURATION + ARMUtils.COMMA_CHAR + "Landing screen");
         if (functionHM.get("resetBtn") != null && !(functionHM.get("resetBtn")).isFunctionFlag()) {
             resetBtn.setVisible(false);
         } else {

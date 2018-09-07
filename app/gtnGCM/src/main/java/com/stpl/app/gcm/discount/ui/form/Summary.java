@@ -107,7 +107,7 @@ public class Summary extends CustomComponent {
         super();
     }
 
-    public Component getContent(List<RemoveDiscountDto> selecteditemList, ContractsDetailsDto dto, TabSheet mainTab, RemoveDiscount removeDiscount) {
+    public Component getContent(List<RemoveDiscountDto> selecteditemList, ContractsDetailsDto dto, RemoveDiscount removeDiscount) {
         VerticalLayout vLayout = new VerticalLayout();
         this.removeDiscount = removeDiscount;
         this.selecteditemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);

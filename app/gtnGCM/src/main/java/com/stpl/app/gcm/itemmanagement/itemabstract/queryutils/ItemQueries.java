@@ -59,6 +59,11 @@ public class ItemQueries {
     public static final String STATUS_DESCRIPTION = "statusDescription";
     public static final String CONTRACT_TYPE = "contractType";
     
+    
+    private ItemQueries()
+    {
+        LOGGER.debug("ItemQueries");
+    }
     public static List getGroupList() {
         return new ArrayList();
     }
@@ -121,7 +126,7 @@ public class ItemQueries {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-                list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
+                list =  ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
                 LOGGER.error("",ex);
             }
@@ -173,7 +178,7 @@ public class ItemQueries {
         List list = new ArrayList();
         try {
             String query = getQuery(sql, dto);
-            list = (List<Object[]>) ITEMDAO.executeSelect(query);
+            list =  ITEMDAO.executeSelect(query);
 
         } catch (Exception ex) {
             LOGGER.error("",ex);
@@ -215,8 +220,7 @@ public class ItemQueries {
     private static Object getFieldValue(Object myDTO, String variable) throws NoSuchFieldException,  IllegalAccessException {
         Field field = myDTO.getClass().getDeclaredField(variable);
         field.setAccessible(true);
-        Object value = field.get(myDTO);
-        return value;
+        return field.get(myDTO);
     }
 
     public static List getItemData(List input, String queryName, String quaryName2, Set<Container.Filter> filters) {
@@ -262,7 +266,7 @@ public class ItemQueries {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-                list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
+                list = ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
                 LOGGER.error("",ex);
             }
@@ -737,13 +741,13 @@ public class ItemQueries {
     }
 
     public static int getHelperCode(String listName, String description) {
-        ContractHeaderDAO DAO = new ContractHeaderLogicDAOImpl();
+        ContractHeaderDAO dao = new ContractHeaderLogicDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
-        List result = DAO.getHelperTableList(dynamicQuery);
+        List result = dao.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
             code = Integer.parseInt(result.get(0).toString());
         }

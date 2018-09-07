@@ -61,7 +61,7 @@ public class SelectionLogic {
 
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-    private static final HashMap<String, String> criteria = new HashMap<String, String>();
+    private static final HashMap<String, String> criteria = new HashMap<>();
     /**
      * The Constant LOGGER.
      */
@@ -455,7 +455,7 @@ public class SelectionLogic {
         if (isCount) {
             object =  list.get(0);
         } else {
-            object = (List) customizeCustomerList(list);
+            object = customizeCustomerList(list);
         }
         return object;
     }
@@ -1522,8 +1522,7 @@ public class SelectionLogic {
     public List addToTempTable(ErrorfulFieldGroup searchItemForm) {
         StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchItemForm, true, 0, 0, StringUtils.EMPTY, null, null, false);
-        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
-        return list;
+        return (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
     }
 
     public void deleteDedutionCalendar(int deducationCalendarSid) {

@@ -20,8 +20,8 @@ public class IFPSearchDAO implements BeanDAO<IFPItemDTO> {
     private final CopyContractLogic logic = new CopyContractLogic();
     private IFPItemDTO ifpItemDTO = new IFPItemDTO();
 
-    public IFPSearchDAO(IFPItemDTO IFPItemDTO) {
-        this.ifpItemDTO = IFPItemDTO;
+    public IFPSearchDAO(IFPItemDTO ifpItemDto) {
+        this.ifpItemDTO = ifpItemDto;
     }
 
     @Override
@@ -34,7 +34,6 @@ public class IFPSearchDAO implements BeanDAO<IFPItemDTO> {
 
     @Override
     public List<IFPItemDTO> find(BeanSearchCriteria bsc, int i, int i1, List<OrderByColumn> list) {
-        List<IFPItemDTO> resultList = new ArrayList<>();
-        return resultList;
+        return new ArrayList<>();
     }
 }

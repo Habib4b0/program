@@ -417,7 +417,7 @@ public class FcpResultsLogic {
                 if (list != null && !list.isEmpty()) {
                     for (int i = 0; i < list.size(); i++) {
 
-                        final Object[] obj = (Object[]) list.get(i);
+                        final Object[] obj = list.get(i);
 
                         int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE]));
                         int period = 0;
@@ -947,8 +947,8 @@ public class FcpResultsLogic {
         DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
-            String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            String dataSourceContext = "java:jboss/datasources/jdbc/appDataPool";
+            datasource = (DataSource) initialContext.lookup(dataSourceContext);
         } catch (NamingException ex)
         {
             LOGGER.debug(ex.getMessage());

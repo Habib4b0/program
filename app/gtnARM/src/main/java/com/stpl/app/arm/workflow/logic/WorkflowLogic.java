@@ -282,12 +282,12 @@ public class WorkflowLogic {
             } else {
                 LOGGER.error("workflowMaster not created");
             }
-            LOGGER.debug(workflowMaster.getFileName());
+            LOGGER.debug(workflowMaster != null ? workflowMaster.getFileName() : null);
         } catch (Exception ex) {
             LOGGER.error("Error in updateWorkflow :" , ex);
             return ARMUtils.WORKFLOW_NOT_SAVED;
         }
-        return workflowMaster == null ? null : workflowMaster.getWorkflowId();
+        return workflowMaster != null ? workflowMaster.getWorkflowId() : null;
     }
 
     /**
@@ -426,7 +426,7 @@ public class WorkflowLogic {
      */
     public static int getCodeFromHelperTable(String description, String listName) {
         int helperTableId = 0;
-        String query = "SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE LIST_NAME LIKE '" + listName.trim() + "' AND DESCRIPTION LIKE '" + description.trim() + "'";
+        String query = "SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE LIST_NAME LIKE '" + listName.trim() + "' AND DESCRIPTION LIKE '" + description.trim() + ARMUtils.SINGLE_QUOTES;
         List resultList;
         try {
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -465,7 +465,7 @@ public class WorkflowLogic {
                 docDetails.setUploadedBy(attached.getUserName());
 
                 DocDetails id = DocDetailsLocalServiceUtil.addDocDetails(docDetails);
-                docdetailsSids.append(id.getDocDetailsId()).append(",");
+                docdetailsSids.append(id.getDocDetailsId()).append(ARMUtils.COMMA_CHAR);
 
             }
 

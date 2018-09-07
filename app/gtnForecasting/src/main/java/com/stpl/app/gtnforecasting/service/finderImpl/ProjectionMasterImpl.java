@@ -617,8 +617,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
     }
 
     public String deleteProjection(String screenName, int projectionID) {
-        String foreignKeyTableName = StringUtils.EMPTY;
-        String primarykeyTableName = StringUtils.EMPTY;
+        String foreignKeyTableName;
         if (screenName.equals("Non Mandated")) {
             foreignKeyTableName = SQlUtil.getQuery(getClass(),"NM_FK_TableNamesFordelete");
         } else if (screenName.equals("Mandated")) {
@@ -626,7 +625,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } else {
             foreignKeyTableName = SQlUtil.getQuery(getClass(),"R_FK_TableNamesFordelete");
         }
-        primarykeyTableName = SQlUtil.getQuery(getClass(),"TableNamesFordelete");
+        String primarykeyTableName = SQlUtil.getQuery(getClass(),"TableNamesFordelete");
         String sql1 = StringUtils.EMPTY;
         StringBuilder sqlBuilder = new StringBuilder();
         String sql = StringUtils.EMPTY;
@@ -684,7 +683,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         }
     }
 
-    public List getParentLevels(final int levelNo, final int relationshipLevelSid, final Map<String, Object> parameters) {
+    public List getParentLevels(final int relationshipLevelSid, final Map<String, Object> parameters) {
         StringBuilder queryBuilder = new StringBuilder();
 
         try {

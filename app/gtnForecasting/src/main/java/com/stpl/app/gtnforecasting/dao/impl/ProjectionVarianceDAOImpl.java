@@ -119,7 +119,7 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
 
     @Override
     public List getPVResultsSales(int projectionId, String frequency, List<Integer> periods, String actualsOrProjections, String parentName, String year, int levelNo, String sales) {
-        return new NmSalesProjectionImpl().getVarianceSales(projectionId, frequency, periods, actualsOrProjections, parentName, year, levelNo, sales);
+        return new NmSalesProjectionImpl().getVarianceSales(projectionId, frequency, periods, parentName, year, levelNo, sales);
     }
 
     @Override

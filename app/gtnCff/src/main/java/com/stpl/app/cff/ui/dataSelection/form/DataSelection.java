@@ -524,6 +524,7 @@ public class DataSelection extends AbstractDataSelection {
                                 sessionDTO.setDeductionLevelDescription(cffLogic.getRelationshipDetailsDeductionCustom(sessionDTO, String.valueOf(customViewDdlb.getValue())));
                                 cffLogic.loadSalesTempTableInThread(sessionDTO,true);
                                 cffLogic.loadDiscountTempTableInThread(sessionDTO, true);
+                                cffLogic.callCFFHierarachyDetailsProcedure(sessionDTO);
 
 			}
 
@@ -2223,8 +2224,7 @@ public class DataSelection extends AbstractDataSelection {
 					levelInString = String.valueOf(level.getValue());
 				}
 				int currentLevel = UiUtils.parseStringToInteger(levelInString);
-				if (currentLevel != 0 && DataSelectionUtil.getBeanFromId(selectedItem).getLevelNo() == currentLevel) {
-				}
+				
 				DataSelectionUtil.removeItemsRecursively(selectedItem, selectedCustomer, availableCustomer,
 						selectedCustomerContainer, availableCustomerContainer, currentLevel);
 				selectedCustomerContainer.removeItem(DataSelectionUtil.getBeanFromId(selectedItem));
@@ -3221,15 +3221,11 @@ public class DataSelection extends AbstractDataSelection {
 									|| StringConstantsUtil.COMPANY_LABEL.equals(levelName))) {
 						List<Leveldto> filteredValues = new ArrayList<>();
 						if (!groupFilteredCompanies.isEmpty()) {
-							try {
 								for (Leveldto leveldto : custVlues) {
 									if (groupFilteredCompanies.contains(leveldto.getRelationshipLevelValue().trim())) {
 										filteredValues.add(leveldto);
 									}
 								}
-							} catch (Exception ex) {
-								LOGGER.error(" level ValueChangeListener = {}", ex);
-							}
 
 						}
 						availableCustomerContainer.addAll(filteredValues);
@@ -3703,12 +3699,7 @@ public class DataSelection extends AbstractDataSelection {
 		productlevelDdlb.select(StringConstantsUtil.LEVEL_SPACE + innerLevel + " - " + selectedLevelName);
 	}
 
-	private List<Leveldto> getInitialHierarchy(final int projectionId, String indicator, final String level,
-			final Map<String, String> descriptionMap) {
-		DataSelectionLogic logic = new DataSelectionLogic();
-		List<Leveldto> initialHierarchy = logic.getRelationShipValues(projectionId, indicator, level, descriptionMap);
-		return initialHierarchy;
-	}
+	
 
 	public final void configureOnTabLoad(int projectionId, SessionDTO session) {
 		try {

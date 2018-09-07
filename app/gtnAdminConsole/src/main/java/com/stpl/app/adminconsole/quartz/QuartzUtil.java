@@ -5,8 +5,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class QuartzUtil {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuartzUtil.class);
+
+    private QuartzUtil()
+    {
+       LOGGER.debug("Entering QuartzUtil method "); 
+    }
 
 	public static List<String> calculateCronStringForInterval(int interval) {
 		int minuteInADay = 0;

@@ -100,60 +100,59 @@ public class CopyContractLogic {
         return select;
     }
 
-    public List loadSearchFieldDDLB(String Tablename) {
-        final List items = dao.getColumnNames(Tablename);
-        return items;
+    public List loadSearchFieldDDLB(String tableName) {
+        return dao.getColumnNames(tableName);
     }
 
-    public int getContractSearchCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc) {
+    public int getContractSearchCount(CFPCompanyDTO cfpCompanyDto, BeanSearchCriteria bsc) {
         int count = 0;
-        count = dao.getCFPCount(CFPCompanyDTO, bsc);
+        count = dao.getCFPCount(cfpCompanyDto, bsc);
         return count;
     }
 
-    public int getIFPSearchCount(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc) {
+    public int getIFPSearchCount(IFPItemDTO ifpItemDto, BeanSearchCriteria bsc) {
         int count = 0;
-        count = dao.getIFPCount(IFPItemDTO, bsc);
+        count = dao.getIFPCount(ifpItemDto, bsc);
         return count;
     }
 
-    public int getIFPAttachedItemCount(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc) {
+    public int getIFPAttachedItemCount(IFPItemDTO ifpItemDto, BeanSearchCriteria bsc) {
         int count = 0;
-        count = dao.getAttachedItemCount(IFPItemDTO, bsc);
+        count = dao.getAttachedItemCount(ifpItemDto, bsc);
         return count;
     }
 
-    public int getPSSearchCount(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc) {
+    public int getPSSearchCount(PSIFPDTO psIfpDto, BeanSearchCriteria bsc) {
         int count = 0;
-        count = dao.getPSCount(PSIFPDTO, bsc);
+        count = dao.getPSCount(psIfpDto, bsc);
         return count;
     }
 
-    public int getPSAttachedItemSearchCount(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc) {
+     public int getPSAttachedItemSearchCount(PSIFPDTO psIfpDto, BeanSearchCriteria bsc) {
         int count = 0;
-        count = dao.getPSAttachedItemCount(PSIFPDTO, bsc);
+        count = dao.getPSAttachedItemCount(psIfpDto, bsc);
         return count;
     }
 
-    public int getRSAttachedItemSearchCount(RsIfpDto RsIfpDto, BeanSearchCriteria bsc) {
+    public int getRSAttachedItemSearchCount(RsIfpDto rsIfpDto, BeanSearchCriteria bsc) {
         int count = 0;
-        count = dao.getRSAttachedItemCount(RsIfpDto, bsc);
+        count = dao.getRSAttachedItemCount(rsIfpDto, bsc);
         return count;
     }
 
-    public int getRSSearchCount(RsIfpDto RsIfpDto, BeanSearchCriteria bsc) {
+    public int getRSSearchCount(RsIfpDto rsIfpDto, BeanSearchCriteria bsc) {
         int count = 0;
-        count = dao.getRSCount(RsIfpDto, bsc);
+        count = dao.getRSCount(rsIfpDto, bsc);
         return count;
     }
 
-    public List<ExistingComponentDTO> getRSAttachedItemSearch(RsIfpDto RsIfpDto, int startIndex,
+    public List<ExistingComponentDTO> getRSAttachedItemSearch(RsIfpDto rsIfpDto, int startIndex,
             int offset, BeanSearchCriteria bsc, List<OrderByColumn> list) throws ParseException {
         List resultList;
         String dbColumnName = StringUtils.EMPTY;
         boolean asc = false;
         List<ExistingComponentDTO> searchList;
-        resultList = dao.getRsItemdetails(RsIfpDto, bsc, startIndex, offset, list, dbColumnName, asc);
+        resultList = dao.getRsItemdetails(rsIfpDto, bsc, startIndex, offset, list, dbColumnName, asc);
         searchList = setRSmainValues(resultList);
         return searchList;
 
@@ -161,36 +160,36 @@ public class CopyContractLogic {
 
     public List<ExistingComponentDTO> setCFPValues(List list) throws ParseException {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
-        ExistingComponentDTO CFPCompanyDto;
+        ExistingComponentDTO cfpCompanyDto;
         for (int i = 0; i < list.size(); i++) {
             Object[] objects = (Object[]) list.get(i);
-            CFPCompanyDto = new ExistingComponentDTO();
-            CFPCompanyDto.setCompanyId(String.valueOf(objects[0]));
-            CFPCompanyDto.setCompanyNo(String.valueOf(objects[1]));
-            CFPCompanyDto.setCompanyName(String.valueOf(objects[NumericConstants.TWO]));
+            cfpCompanyDto = new ExistingComponentDTO();
+            cfpCompanyDto.setCompanyId(String.valueOf(objects[0]));
+            cfpCompanyDto.setCompanyNo(String.valueOf(objects[1]));
+            cfpCompanyDto.setCompanyName(String.valueOf(objects[NumericConstants.TWO]));
             if (objects[NumericConstants.THREE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.THREE]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.THREE]));
                 String finalString = dateFormat.format(date);
-                CFPCompanyDto.setTradeClassStartDate(finalString);
-                CFPCompanyDto.setStartDate(finalString);
+                cfpCompanyDto.setTradeClassStartDate(finalString);
+                cfpCompanyDto.setStartDate(finalString);
             } else {
-                CFPCompanyDto.setTradeClassStartDate(StringUtils.EMPTY);
-                CFPCompanyDto.setStartDate(StringUtils.EMPTY);
+                cfpCompanyDto.setTradeClassStartDate(StringUtils.EMPTY);
+                cfpCompanyDto.setStartDate(StringUtils.EMPTY);
             }
 
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = dateFormat.format(date);
-                CFPCompanyDto.setTradeClassEndDate(finalString);
-                CFPCompanyDto.setEndDate(finalString);
+                cfpCompanyDto.setTradeClassEndDate(finalString);
+                cfpCompanyDto.setEndDate(finalString);
             } else {
-                CFPCompanyDto.setEndDate(StringUtils.EMPTY);
+                cfpCompanyDto.setEndDate(StringUtils.EMPTY);
             }
-            CFPCompanyDto.setTradeClass(objects[NumericConstants.SIX] != null && !String.valueOf(objects[NumericConstants.SIX]).trim().equalsIgnoreCase(Constants.SELECT_ONE)
+            cfpCompanyDto.setTradeClass(objects[NumericConstants.SIX] != null && !String.valueOf(objects[NumericConstants.SIX]).trim().equalsIgnoreCase(Constants.SELECT_ONE)
                     && !String.valueOf(objects[NumericConstants.SIX]).isEmpty() ? String.valueOf(objects[NumericConstants.SIX]) : StringUtils.EMPTY);
-            CFPCompanyDto.setAttachedDate(null);
-            CFPCompanyDto.setCompanyStatusValue(Constants.NULL.equals(String.valueOf(objects[NumericConstants.FIVE])) ? StringUtils.EMPTY : objects[NumericConstants.FIVE].toString());
-            returnList.add(CFPCompanyDto);
+            cfpCompanyDto.setAttachedDate(null);
+            cfpCompanyDto.setCompanyStatusValue(Constants.NULL.equals(String.valueOf(objects[NumericConstants.FIVE])) ? StringUtils.EMPTY : objects[NumericConstants.FIVE].toString());
+            returnList.add(cfpCompanyDto);
         }
 
         return returnList;
@@ -199,85 +198,85 @@ public class CopyContractLogic {
     public List<ExistingComponentDTO> setCFPMainValues(List list) throws ParseException {
 
         List<ExistingComponentDTO> returnList = new ArrayList<>();
-        ExistingComponentDTO CFPCompanyDto;
+        ExistingComponentDTO cfpCompanyDto;
         for (int i = 0; i < list.size(); i++) {
             Object[] objects = (Object[]) list.get(i);
-            CFPCompanyDto = new ExistingComponentDTO();
+            cfpCompanyDto = new ExistingComponentDTO();
 
-            CFPCompanyDto.setCompanyFamilyPlanId(String.valueOf(objects[0]));
-            CFPCompanyDto.setCompanyFamilyPlanNo(String.valueOf(objects[1]));
-            CFPCompanyDto.setCompanyFamilyPlanName(String.valueOf(objects[NumericConstants.TWO]));
+            cfpCompanyDto.setCompanyFamilyPlanId(String.valueOf(objects[0]));
+            cfpCompanyDto.setCompanyFamilyPlanNo(String.valueOf(objects[1]));
+            cfpCompanyDto.setCompanyFamilyPlanName(String.valueOf(objects[NumericConstants.TWO]));
             if (objects[NumericConstants.TWELVE] != null) {
-                CFPCompanyDto.setCompanyFamilyPlanName(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.TWELVE])) ? StringUtils.EMPTY : objects[NumericConstants.TWELVE].toString());
+                cfpCompanyDto.setCompanyFamilyPlanName(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.TWELVE])) ? StringUtils.EMPTY : objects[NumericConstants.TWELVE].toString());
             } else {
-                CFPCompanyDto.setCompanyFamilyPlanTypeValue(StringUtils.EMPTY);
+                cfpCompanyDto.setCompanyFamilyPlanTypeValue(StringUtils.EMPTY);
             }
 
-            CFPCompanyDto.setCompanyFamilyPlanStatusValue(String.valueOf(objects[NumericConstants.THIRTEEN]));
+            cfpCompanyDto.setCompanyFamilyPlanStatusValue(String.valueOf(objects[NumericConstants.THIRTEEN]));
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
-                CFPCompanyDto.setCompanyFamilyPlanStartDate(finalString);
+                cfpCompanyDto.setCompanyFamilyPlanStartDate(finalString);
             } else {
-                CFPCompanyDto.setCompanyFamilyPlanStartDate(StringUtils.EMPTY);
+                cfpCompanyDto.setCompanyFamilyPlanStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.SIX] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.SIX]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.SIX]));
                 String finalString = dateFormat.format(date);
-                CFPCompanyDto.setCompanyFamilyPlanEndDate(finalString);
+                cfpCompanyDto.setCompanyFamilyPlanEndDate(finalString);
             } else {
-                CFPCompanyDto.setCompanyFamilyPlanEndDate(StringUtils.EMPTY);
+                cfpCompanyDto.setCompanyFamilyPlanEndDate(StringUtils.EMPTY);
             }
 
             if (objects[NumericConstants.FIFTEEN] != null) {
-                CFPCompanyDto.setCompanyFamilyPlanCategoryValue(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.FIFTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.FIFTEEN].toString());
+                cfpCompanyDto.setCompanyFamilyPlanCategoryValue(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.FIFTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.FIFTEEN].toString());
             } else {
-                CFPCompanyDto.setCompanyFamilyPlanCategoryValue(StringUtils.EMPTY);
+                cfpCompanyDto.setCompanyFamilyPlanCategoryValue(StringUtils.EMPTY);
             }
-            CFPCompanyDto.setCompanyFamilyTradeClassValue(String.valueOf(objects[NumericConstants.FOURTEEN]));
-            CFPCompanyDto.setCompanyFamilyPlanDesignation(Constants.NULL.equals(String.valueOf(objects[NumericConstants.NINE])) ? StringUtils.EMPTY : objects[NumericConstants.NINE].toString());
-            CFPCompanyDto.setCompanyFamilyPlanSystemId(Integer.parseInt(String.valueOf(objects[NumericConstants.SIXTEEN])));
-            returnList.add(CFPCompanyDto);
+            cfpCompanyDto.setCompanyFamilyTradeClassValue(String.valueOf(objects[NumericConstants.FOURTEEN]));
+            cfpCompanyDto.setCompanyFamilyPlanDesignation(Constants.NULL.equals(String.valueOf(objects[NumericConstants.NINE])) ? StringUtils.EMPTY : objects[NumericConstants.NINE].toString());
+            cfpCompanyDto.setCompanyFamilyPlanSystemId(Integer.parseInt(String.valueOf(objects[NumericConstants.SIXTEEN])));
+            returnList.add(cfpCompanyDto);
         }
         return returnList;
     }
 
     public List<ExistingComponentDTO> setIFPValues(List list) throws ParseException {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
-        ExistingComponentDTO IFPItemDTO;
+        ExistingComponentDTO ifpItemDto;
         for (int i = 0; i < list.size(); i++) {
             Object[] objects = (Object[]) list.get(i);
-            IFPItemDTO = new ExistingComponentDTO();
+            ifpItemDto = new ExistingComponentDTO();
 
-            IFPItemDTO.setItemNo(String.valueOf(objects[0]));
-            IFPItemDTO.setItemName(String.valueOf(objects[1]));
+            ifpItemDto.setItemNo(String.valueOf(objects[0]));
+            ifpItemDto.setItemName(String.valueOf(objects[1]));
             if (objects[NumericConstants.TWO] != null) {
-                IFPItemDTO.setTherapeuticClass(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.TWO])) ? StringUtils.EMPTY : objects[NumericConstants.TWO].toString());
+                ifpItemDto.setTherapeuticClass(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.TWO])) ? StringUtils.EMPTY : objects[NumericConstants.TWO].toString());
             } else {
-                IFPItemDTO.setTherapeuticClass(StringUtils.EMPTY);
+                ifpItemDto.setTherapeuticClass(StringUtils.EMPTY);
             }
-            IFPItemDTO.setBrand(Constants.NULL.equals(String.valueOf(objects[NumericConstants.THREE])) ? StringUtils.EMPTY : objects[NumericConstants.THREE].toString());
-            IFPItemDTO.setItemStatus(Constants.NULL.equals(String.valueOf(objects[NumericConstants.SIX])) ? StringUtils.EMPTY : objects[NumericConstants.SIX].toString());
+            ifpItemDto.setBrand(Constants.NULL.equals(String.valueOf(objects[NumericConstants.THREE])) ? StringUtils.EMPTY : objects[NumericConstants.THREE].toString());
+            ifpItemDto.setItemStatus(Constants.NULL.equals(String.valueOf(objects[NumericConstants.SIX])) ? StringUtils.EMPTY : objects[NumericConstants.SIX].toString());
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = dateFormat.format(date);
-                IFPItemDTO.setItemStartDate(finalString);
-                IFPItemDTO.setStartDate(finalString);
+                ifpItemDto.setItemStartDate(finalString);
+                ifpItemDto.setStartDate(finalString);
             } else {
-                IFPItemDTO.setItemStartDate(StringUtils.EMPTY);
-                IFPItemDTO.setStartDate(StringUtils.EMPTY);
+                ifpItemDto.setItemStartDate(StringUtils.EMPTY);
+                ifpItemDto.setStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
-                IFPItemDTO.setItemEndDate(finalString);
-                IFPItemDTO.setEndDate(finalString);
+                ifpItemDto.setItemEndDate(finalString);
+                ifpItemDto.setEndDate(finalString);
             } else {
-                IFPItemDTO.setItemEndDate(StringUtils.EMPTY);
-                IFPItemDTO.setEndDate(StringUtils.EMPTY);
+                ifpItemDto.setItemEndDate(StringUtils.EMPTY);
+                ifpItemDto.setEndDate(StringUtils.EMPTY);
             }
-            IFPItemDTO.setAttachedDate(null);
-            returnList.add(IFPItemDTO);
+            ifpItemDto.setAttachedDate(null);
+            returnList.add(ifpItemDto);
         }
         return returnList;
 
@@ -285,163 +284,163 @@ public class CopyContractLogic {
 
     public List<ExistingComponentDTO> setIFPmainValues(List list) throws ParseException {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
-        ExistingComponentDTO IFPItemDTO;
+        ExistingComponentDTO ifpItemDto;
         for (int i = 0; i < list.size(); i++) {
             Object[] objects = (Object[]) list.get(i);
-            IFPItemDTO = new ExistingComponentDTO();
-            IFPItemDTO.setIfpDetailsSystemId(Integer.parseInt(String.valueOf(objects[0])));
-            IFPItemDTO.setItemFamilyplanId(String.valueOf(objects[1]));
-            IFPItemDTO.setItemFamilyplanNo(String.valueOf(objects[NumericConstants.TWO]));
-            IFPItemDTO.setItemFamilyplanName(String.valueOf(objects[NumericConstants.THREE]));
+            ifpItemDto = new ExistingComponentDTO();
+            ifpItemDto.setIfpDetailsSystemId(Integer.parseInt(String.valueOf(objects[0])));
+            ifpItemDto.setItemFamilyplanId(String.valueOf(objects[1]));
+            ifpItemDto.setItemFamilyplanNo(String.valueOf(objects[NumericConstants.TWO]));
+            ifpItemDto.setItemFamilyplanName(String.valueOf(objects[NumericConstants.THREE]));
             if (objects[NumericConstants.SEVEN] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.SEVEN]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.SEVEN]));
                 String finalString = dateFormat.format(date);
-                IFPItemDTO.setIfpStartDate(finalString);
+                ifpItemDto.setIfpStartDate(finalString);
             } else {
-                IFPItemDTO.setIfpStartDate(StringUtils.EMPTY);
+                ifpItemDto.setIfpStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.EIGHT] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.EIGHT]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.EIGHT]));
                 String finalString = dateFormat.format(date);
-                IFPItemDTO.setIfpEndDate(finalString);
+                ifpItemDto.setIfpEndDate(finalString);
             } else {
-                IFPItemDTO.setIfpEndDate(StringUtils.EMPTY);
+                ifpItemDto.setIfpEndDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.EIGHTEEN] != null) {
-                IFPItemDTO.setItemFamilyplanType(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.EIGHTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.EIGHTEEN].toString());
+                ifpItemDto.setItemFamilyplanType(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.EIGHTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.EIGHTEEN].toString());
             } else {
-                IFPItemDTO.setItemFamilyplanType(StringUtils.EMPTY);
+                ifpItemDto.setItemFamilyplanType(StringUtils.EMPTY);
             }
 
             if (objects[NumericConstants.FIVE] != null) {
-                IFPItemDTO.setIFPtype(Integer.valueOf(String.valueOf(objects[NumericConstants.FIVE])));
+                ifpItemDto.setIFPtype(Integer.valueOf(String.valueOf(objects[NumericConstants.FIVE])));
             }
             if (objects[NumericConstants.NINETEEN] != null) {
-                IFPItemDTO.setDisplayIFPStatus(Constants.NULL.equals(String.valueOf(objects[NumericConstants.NINETEEN])) ? StringUtils.EMPTY : objects[NumericConstants.NINETEEN].toString());
+                ifpItemDto.setDisplayIFPStatus(Constants.NULL.equals(String.valueOf(objects[NumericConstants.NINETEEN])) ? StringUtils.EMPTY : objects[NumericConstants.NINETEEN].toString());
             }
             if (objects[NumericConstants.FOUR] != null) {
-                IFPItemDTO.setItemFamilyplanStatus(Integer.valueOf(String.valueOf(objects[NumericConstants.FOUR])));
+                ifpItemDto.setItemFamilyplanStatus(Integer.valueOf(String.valueOf(objects[NumericConstants.FOUR])));
             }
 
             if (objects[NumericConstants.TWENTY_ONE] != null) {
-                IFPItemDTO.setItemFamilyplanDesignation(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.TWENTY_ONE])) ? StringUtils.EMPTY : objects[NumericConstants.TWENTY_ONE].toString());
+                ifpItemDto.setItemFamilyplanDesignation(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.TWENTY_ONE])) ? StringUtils.EMPTY : objects[NumericConstants.TWENTY_ONE].toString());
             }
-            IFPItemDTO.setItemFamilyplanDesignation(StringUtils.EMPTY);
+            ifpItemDto.setItemFamilyplanDesignation(StringUtils.EMPTY);
 
-            returnList.add(IFPItemDTO);
+            returnList.add(ifpItemDto);
         }
         return returnList;
     }
 
     public List<ExistingComponentDTO> setPSValues(List list) throws ParseException {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
-        ExistingComponentDTO PSIFPDTO;
+        ExistingComponentDTO psIfpDto;
         for (int i = 0; i < list.size(); i++) {
             Object[] objects = (Object[]) list.get(i);
-            PSIFPDTO = new ExistingComponentDTO();
+            psIfpDto = new ExistingComponentDTO();
 
-            PSIFPDTO.setItemNo(String.valueOf(objects[0]));
-            PSIFPDTO.setItemName(String.valueOf(objects[1]));
-            PSIFPDTO.setTherapeuticClass(Constants.NULL.equals(String.valueOf(objects[NumericConstants.TWO])) ? StringUtils.EMPTY : objects[NumericConstants.TWO].toString());
-            PSIFPDTO.setBrand(Constants.NULL.equals(String.valueOf(objects[NumericConstants.THREE])) ? StringUtils.EMPTY : objects[NumericConstants.THREE].toString());
-            PSIFPDTO.setItemStatus(String.valueOf(objects[NumericConstants.SIX]));
+            psIfpDto.setItemNo(String.valueOf(objects[0]));
+            psIfpDto.setItemName(String.valueOf(objects[1]));
+            psIfpDto.setTherapeuticClass(Constants.NULL.equals(String.valueOf(objects[NumericConstants.TWO])) ? StringUtils.EMPTY : objects[NumericConstants.TWO].toString());
+            psIfpDto.setBrand(Constants.NULL.equals(String.valueOf(objects[NumericConstants.THREE])) ? StringUtils.EMPTY : objects[NumericConstants.THREE].toString());
+            psIfpDto.setItemStatus(String.valueOf(objects[NumericConstants.SIX]));
 
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = dateFormat.format(date);
-                PSIFPDTO.setItemStartDate(finalString);
-                PSIFPDTO.setStartDate(finalString);
+                psIfpDto.setItemStartDate(finalString);
+                psIfpDto.setStartDate(finalString);
             } else {
-                PSIFPDTO.setItemStartDate(StringUtils.EMPTY);
-                PSIFPDTO.setStartDate(StringUtils.EMPTY);
+                psIfpDto.setItemStartDate(StringUtils.EMPTY);
+                psIfpDto.setStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
-                PSIFPDTO.setItemEndDate(finalString);
-                PSIFPDTO.setEndDate(finalString);
+                psIfpDto.setItemEndDate(finalString);
+                psIfpDto.setEndDate(finalString);
             } else {
-                PSIFPDTO.setItemEndDate(StringUtils.EMPTY);
-                PSIFPDTO.setEndDate(StringUtils.EMPTY);
+                psIfpDto.setItemEndDate(StringUtils.EMPTY);
+                psIfpDto.setEndDate(StringUtils.EMPTY);
             }
 
-            PSIFPDTO.setPriceType(Constants.NULL.equals(String.valueOf(objects[NumericConstants.SEVEN])) ? StringUtils.EMPTY : objects[NumericConstants.SEVEN].toString());
-            PSIFPDTO.setPriceProtectionStartDate(Constants.NULL.equals(String.valueOf(objects[NumericConstants.EIGHT])) ? StringUtils.EMPTY : objects[NumericConstants.EIGHT].toString());
-            PSIFPDTO.setPricePlanNo(objects[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.NINE]));
-            PSIFPDTO.setPricePlanName(objects[NumericConstants.TEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TEN]));
-            PSIFPDTO.setPriceProtectionStatus(objects[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.ELEVEN]));
-            PSIFPDTO.setPriceProtectionEndDate(Constants.NULL.equals(String.valueOf(objects[NumericConstants.TWELVE])) ? StringUtils.EMPTY : objects[NumericConstants.TWELVE].toString());
-            PSIFPDTO.setPriceProtectionPriceType(objects[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.THIRTEEN]));
-            PSIFPDTO.setPriceToleranceInterval(objects[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.FOURTEEN]));
-            PSIFPDTO.setPriceToleranceFrequency(objects[NumericConstants.FIFTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.FIFTEEN]));
-            PSIFPDTO.setMaxIncrementalChange(objects[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.SEVENTEEN]));
-            PSIFPDTO.setPriceTolerance(objects[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.EIGHTEEN]));
-            PSIFPDTO.setPriceToleranceType(objects[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.SIXTEEN]));
-            PSIFPDTO.setEligibility(objects[NumericConstants.TWENTY] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TWENTY]));
-            PSIFPDTO.setResetType(objects[NumericConstants.TWENTY_ONE] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TWENTY_ONE]));
-            PSIFPDTO.setResetDate(objects[NumericConstants.TWENTY_TWO] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TWENTY_TWO]));
-            PSIFPDTO.setResetIntervel(objects[NumericConstants.TWENTY_THREE] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TWENTY_THREE]));
-            PSIFPDTO.setResetFrequency(objects[NumericConstants.TWENTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TWENTY_FOUR]));
-            PSIFPDTO.setAttachedDate(null);
-            returnList.add(PSIFPDTO);
+            psIfpDto.setPriceType(Constants.NULL.equals(String.valueOf(objects[NumericConstants.SEVEN])) ? StringUtils.EMPTY : objects[NumericConstants.SEVEN].toString());
+            psIfpDto.setPriceProtectionStartDate(Constants.NULL.equals(String.valueOf(objects[NumericConstants.EIGHT])) ? StringUtils.EMPTY : objects[NumericConstants.EIGHT].toString());
+            psIfpDto.setPricePlanNo(objects[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.NINE]));
+            psIfpDto.setPricePlanName(objects[NumericConstants.TEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TEN]));
+            psIfpDto.setPriceProtectionStatus(objects[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.ELEVEN]));
+            psIfpDto.setPriceProtectionEndDate(Constants.NULL.equals(String.valueOf(objects[NumericConstants.TWELVE])) ? StringUtils.EMPTY : objects[NumericConstants.TWELVE].toString());
+            psIfpDto.setPriceProtectionPriceType(objects[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.THIRTEEN]));
+            psIfpDto.setPriceToleranceInterval(objects[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.FOURTEEN]));
+            psIfpDto.setPriceToleranceFrequency(objects[NumericConstants.FIFTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.FIFTEEN]));
+            psIfpDto.setMaxIncrementalChange(objects[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.SEVENTEEN]));
+            psIfpDto.setPriceTolerance(objects[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.EIGHTEEN]));
+            psIfpDto.setPriceToleranceType(objects[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.SIXTEEN]));
+            psIfpDto.setEligibility(objects[NumericConstants.TWENTY] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TWENTY]));
+            psIfpDto.setResetType(objects[NumericConstants.TWENTY_ONE] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TWENTY_ONE]));
+            psIfpDto.setResetDate(objects[NumericConstants.TWENTY_TWO] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TWENTY_TWO]));
+            psIfpDto.setResetIntervel(objects[NumericConstants.TWENTY_THREE] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TWENTY_THREE]));
+            psIfpDto.setResetFrequency(objects[NumericConstants.TWENTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.TWENTY_FOUR]));
+            psIfpDto.setAttachedDate(null);
+            returnList.add(psIfpDto);
         }
         return returnList;
     }
 
     public List<ExistingComponentDTO> setPSmainValues(List list) throws ParseException {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
-        ExistingComponentDTO PSIFPDTO;
+        ExistingComponentDTO psIfpDto;
         for (int i = 0; i < list.size(); i++) {
             Object[] objects = (Object[]) list.get(i);
-            PSIFPDTO = new ExistingComponentDTO();
+            psIfpDto = new ExistingComponentDTO();
 
-            PSIFPDTO.setPriceScheduleSystemId(String.valueOf(objects[0]));
-            PSIFPDTO.setPriceScheduleIdValue(String.valueOf(objects[1]));
-            PSIFPDTO.setPriceScheduleNoValue(String.valueOf(objects[NumericConstants.TWO]));
-            PSIFPDTO.setPriceScheduleNameValue(String.valueOf(objects[NumericConstants.THREE]));
-            PSIFPDTO.setPriceScheduleStatusValue(Constants.NULL.equals(String.valueOf(objects[NumericConstants.FOURTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.FOURTEEN].toString());
+            psIfpDto.setPriceScheduleSystemId(String.valueOf(objects[0]));
+            psIfpDto.setPriceScheduleIdValue(String.valueOf(objects[1]));
+            psIfpDto.setPriceScheduleNoValue(String.valueOf(objects[NumericConstants.TWO]));
+            psIfpDto.setPriceScheduleNameValue(String.valueOf(objects[NumericConstants.THREE]));
+            psIfpDto.setPriceScheduleStatusValue(Constants.NULL.equals(String.valueOf(objects[NumericConstants.FOURTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.FOURTEEN].toString());
             if (objects[NumericConstants.SEVEN] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.SEVEN]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.SEVEN]));
                 String finalString = dateFormat.format(date);
-                PSIFPDTO.setPriceScheduleStartDate(finalString);
+                psIfpDto.setPriceScheduleStartDate(finalString);
 
             } else {
-                PSIFPDTO.setPriceScheduleStartDate(StringUtils.EMPTY);
+                psIfpDto.setPriceScheduleStartDate(StringUtils.EMPTY);
             }
 
             if (objects[NumericConstants.EIGHT] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.EIGHT]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.EIGHT]));
                 String finalString = dateFormat.format(date);
-                PSIFPDTO.setPriceScheduleEndDate(finalString);
+                psIfpDto.setPriceScheduleEndDate(finalString);
             } else {
-                PSIFPDTO.setPriceScheduleEndDate(StringUtils.EMPTY);
+                psIfpDto.setPriceScheduleEndDate(StringUtils.EMPTY);
             }
 
-            PSIFPDTO.setItemFamilyplanName(String.valueOf(objects[NumericConstants.NINETEEN]));
+            psIfpDto.setItemFamilyplanName(String.valueOf(objects[NumericConstants.NINETEEN]));
             if (objects[NumericConstants.THIRTEEN] != null) {
-                PSIFPDTO.setPriceScheduleTypeValue(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.THIRTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.THIRTEEN].toString());
+                psIfpDto.setPriceScheduleTypeValue(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.THIRTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.THIRTEEN].toString());
             } else {
-                PSIFPDTO.setPriceScheduleTypeValue(StringUtils.EMPTY);
+                psIfpDto.setPriceScheduleTypeValue(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.FIFTEEN] != null) {
-                PSIFPDTO.setPriceScheduleCategoryValue(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.FIFTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.FIFTEEN].toString());
+                psIfpDto.setPriceScheduleCategoryValue(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.FIFTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.FIFTEEN].toString());
             } else {
-                PSIFPDTO.setPriceScheduleCategoryValue(StringUtils.EMPTY);
+                psIfpDto.setPriceScheduleCategoryValue(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.SIXTEEN] != null) {
-                PSIFPDTO.setPriceScheduleDesignationValue(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.SIXTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.SIXTEEN].toString());
+                psIfpDto.setPriceScheduleDesignationValue(Constants.SELECT_ONE.equals(String.valueOf(objects[NumericConstants.SIXTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.SIXTEEN].toString());
             } else {
-                PSIFPDTO.setPriceScheduleDesignationValue(StringUtils.EMPTY);
+                psIfpDto.setPriceScheduleDesignationValue(StringUtils.EMPTY);
             }
 
             if (objects[NumericConstants.FIVE] != null) {
-                PSIFPDTO.setPStatus(Integer.valueOf(String.valueOf(objects[NumericConstants.FIVE])));
+                psIfpDto.setPStatus(Integer.valueOf(String.valueOf(objects[NumericConstants.FIVE])));
             }
             if (objects[NumericConstants.FOUR] != null) {
-                PSIFPDTO.setPtype(Integer.valueOf(String.valueOf(objects[NumericConstants.FOUR])));
+                psIfpDto.setPtype(Integer.valueOf(String.valueOf(objects[NumericConstants.FOUR])));
             }
 
-            returnList.add(PSIFPDTO);
+            returnList.add(psIfpDto);
         }
         return returnList;
 
@@ -459,14 +458,14 @@ public class CopyContractLogic {
             rsIfpDto.setRebateScheduleName(String.valueOf(objects[NumericConstants.THREE]));
             rsIfpDto.setStatusRebate(String.valueOf(objects[NumericConstants.EIGHT]));
             if (objects[NumericConstants.ELEVEN] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.ELEVEN]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.ELEVEN]));
                 String finalString = dateFormat.format(date);
                 rsIfpDto.setItemRebateStartDate(finalString);
             } else {
                 rsIfpDto.setItemRebateStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.TWELVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.TWELVE]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.TWELVE]));
                 String finalString = dateFormat.format(date);
                 rsIfpDto.setItemRebateEndDate(finalString);
             } else {
@@ -497,7 +496,7 @@ public class CopyContractLogic {
             rsIfpDto.setBrand(Constants.NULL.equals(String.valueOf(objects[NumericConstants.THREE])) ? StringUtils.EMPTY : objects[NumericConstants.THREE].toString());
             rsIfpDto.setItemStatus(String.valueOf(objects[NumericConstants.SIX]));
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = dateFormat.format(date);
                 rsIfpDto.setItemStartDate(finalString);
                 rsIfpDto.setStartDate(finalString);
@@ -508,7 +507,7 @@ public class CopyContractLogic {
             }
 
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
                 rsIfpDto.setItemEndDate(finalString);
                 rsIfpDto.setEndDate(finalString);
@@ -531,9 +530,9 @@ public class CopyContractLogic {
 
     }
 
-    public int getCompanySearchCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc) {
+    public int getCompanySearchCount(CFPCompanyDTO cfpCompanyDto, BeanSearchCriteria bsc) {
         int count = 0;
-        count = dao.getCompanyCount(CFPCompanyDTO, bsc);
+        count = dao.getCompanyCount(cfpCompanyDto, bsc);
         return count;
     }
 
@@ -570,14 +569,14 @@ public class CopyContractLogic {
         dao.updatePS(input);
     }
 
-    public void saveRs(String rsid, Integer RSmodalid) {
+    public void saveRs(String rsid, Integer rsModalId) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(rsid);
         input.add(1);
         input.add(dbDateFormat.format(new java.util.Date()));
         input.add(1);
         input.add(dbDateFormat.format(new java.util.Date()));
-        input.add(RSmodalid);
+        input.add(rsModalId);
         dao.updateRS(input);
 
     }
@@ -798,14 +797,14 @@ public class CopyContractLogic {
                 itemDTO.setBrand(obje[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWO]));
                 itemDTO.setItemStatus(obje[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THREE]));
                 if (obje[NumericConstants.FOUR] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FOUR]));
+                    Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.FOUR]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setPsStartDate(finalString);
                 } else {
                     itemDTO.setPsStartDate(StringUtils.EMPTY);
                 }
                 if (obje[NumericConstants.FIVE] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                    Date date = dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setPsEndDate(finalString);
                 } else {
@@ -836,14 +835,14 @@ public class CopyContractLogic {
                 itemDTO.setBrand(checkNullValue(obje[NumericConstants.TWO]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWO]));
                 itemDTO.setItemStatus(checkNullValue(obje[NumericConstants.THREE]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THREE]));
                 if (obje[NumericConstants.FOUR] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FOUR]));
+                    Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.FOUR]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setPsStartDate(finalString);
                 } else {
                     itemDTO.setPsStartDate(StringUtils.EMPTY);
                 }
                 if (obje[NumericConstants.FIVE] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                    Date date = dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setPsEndDate(finalString);
                 } else {
@@ -854,14 +853,14 @@ public class CopyContractLogic {
                 itemDTO.setPricePlanName(obje[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.EIGHT]));
                 itemDTO.setPriceProtectionStatus(checkNullValue(obje[NumericConstants.NINE]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.NINE]));
                 if (obje[NumericConstants.TEN] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.TEN]));
+                    Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.TEN]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setCompanyStartDate(finalString);
                 } else {
                     itemDTO.setCompanyStartDate(StringUtils.EMPTY);
                 }
                 if (obje[NumericConstants.ELEVEN] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.ELEVEN]));
+                    Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.ELEVEN]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setCompanyEndDate(finalString);
                 } else {
@@ -889,31 +888,31 @@ public class CopyContractLogic {
     private Object getCustomizedCFPData(List list) throws ParseException {
         List<NewComponentDTO> companylist = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
-            NewComponentDTO Company = new NewComponentDTO();
+            NewComponentDTO company = new NewComponentDTO();
             Object[] obje = (Object[]) list.get(i);
-            Company.setModelId(String.valueOf(obje[0]));
-            Company.setCompanyId(String.valueOf(obje[1]));
-            Company.setCompanyNo(String.valueOf(obje[NumericConstants.TWO]));
-            Company.setCompanyName(String.valueOf(obje[NumericConstants.THREE]));
-            Company.setCompanyType(String.valueOf(obje[NumericConstants.FOUR]));
+            company.setModelId(String.valueOf(obje[0]));
+            company.setCompanyId(String.valueOf(obje[1]));
+            company.setCompanyNo(String.valueOf(obje[NumericConstants.TWO]));
+            company.setCompanyName(String.valueOf(obje[NumericConstants.THREE]));
+            company.setCompanyType(String.valueOf(obje[NumericConstants.FOUR]));
             if (obje[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
-                Company.setPsStartDate(finalString);
+                company.setPsStartDate(finalString);
             } else {
-                Company.setPsStartDate(StringUtils.EMPTY);
+                company.setPsStartDate(StringUtils.EMPTY);
             }
             if (obje[NumericConstants.SIX] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.SIX]));
+                Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.SIX]));
                 String finalString = dateFormat.format(date);
-                Company.setPsEndDate(finalString);
+                company.setPsEndDate(finalString);
             } else {
-                Company.setPsEndDate(Constants.EMPTY);
+                company.setPsEndDate(Constants.EMPTY);
             }
-            Company.setCompanyStatus(String.valueOf(obje[NumericConstants.SEVEN]));
-            Company.setTradeClass(String.valueOf(obje[NumericConstants.EIGHT]));
-            Company.setAttachedDate((Date) obje[NumericConstants.NINE]);
-            companylist.add(Company);
+            company.setCompanyStatus(String.valueOf(obje[NumericConstants.SEVEN]));
+            company.setTradeClass(String.valueOf(obje[NumericConstants.EIGHT]));
+            company.setAttachedDate((Date) obje[NumericConstants.NINE]);
+            companylist.add(company);
         }
         return companylist;
     }
@@ -921,47 +920,47 @@ public class CopyContractLogic {
     private Object getCustomizedIFPData(List list) throws ParseException {
         List<NewComponentDTO> companylist = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
-            NewComponentDTO Company = new NewComponentDTO();
+            NewComponentDTO company = new NewComponentDTO();
             Object[] obje = (Object[]) list.get(i);
-            Company.setModelId(String.valueOf(obje[NumericConstants.ELEVEN]));
-            Company.setItemId(String.valueOf(obje[0]));
-            Company.setItemNo(String.valueOf(obje[1]));
-            Company.setItemName(obje[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWO]));
-            Company.setItemStatus(obje[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THREE]));
+            company.setModelId(String.valueOf(obje[NumericConstants.ELEVEN]));
+            company.setItemId(String.valueOf(obje[0]));
+            company.setItemNo(String.valueOf(obje[1]));
+            company.setItemName(obje[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWO]));
+            company.setItemStatus(obje[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THREE]));
             if (obje[NumericConstants.FOUR] != null) {
                 if (String.valueOf(obje[NumericConstants.FOUR]).equalsIgnoreCase(Constants.SELECT_ONE)) {
-                    Company.setItemType(Constants.EMPTY);
+                    company.setItemType(Constants.EMPTY);
                 } else {
-                    Company.setItemType(String.valueOf(obje[NumericConstants.FOUR]));
+                    company.setItemType(String.valueOf(obje[NumericConstants.FOUR]));
                 }
             }
             if (obje[NumericConstants.EIGHT] != null) {
                 if (String.valueOf(obje[NumericConstants.EIGHT]).equalsIgnoreCase(Constants.SELECT_ONE)) {
-                    Company.setTherapyClass(Constants.EMPTY);
+                    company.setTherapyClass(Constants.EMPTY);
                 } else {
-                    Company.setTherapyClass(String.valueOf(obje[NumericConstants.EIGHT]));
+                    company.setTherapyClass(String.valueOf(obje[NumericConstants.EIGHT]));
                 }
             }
-            Company.setBrand(obje[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.FIVE]));
-            Company.setForm(obje[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SIX]));
-            Company.setStrength(obje[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SEVEN]));
+            company.setBrand(obje[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.FIVE]));
+            company.setForm(obje[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SIX]));
+            company.setStrength(obje[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SEVEN]));
 
             if (obje[NumericConstants.NINE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.NINE]));
+                Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.NINE]));
                 String finalString = dateFormat.format(date);
-                Company.setPsStartDate(finalString);
+                company.setPsStartDate(finalString);
             } else {
-                Company.setPsStartDate(StringUtils.EMPTY);
+                company.setPsStartDate(StringUtils.EMPTY);
             }
             if (obje[NumericConstants.TEN] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.TEN]));
+                Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.TEN]));
                 String finalString = dateFormat.format(date);
-                Company.setPsEndDate(finalString);
+                company.setPsEndDate(finalString);
             } else {
-                Company.setPsEndDate(Constants.EMPTY);
+                company.setPsEndDate(Constants.EMPTY);
             }
-            Company.setAttachedDate((Date) obje[NumericConstants.TWELVE]);
-            companylist.add(Company);
+            company.setAttachedDate((Date) obje[NumericConstants.TWELVE]);
+            companylist.add(company);
         }
         return companylist;
     }
@@ -1150,14 +1149,14 @@ public class CopyContractLogic {
             itemDTO.setBrand(Constants.NULL.equals(String.valueOf(obje[NumericConstants.THREE])) ? StringUtils.EMPTY : obje[NumericConstants.THREE].toString());
             itemDTO.setIfpStatus(String.valueOf(obje[NumericConstants.FOUR]));
             if (obje[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
                 itemDTO.setIfpStartDate(finalString);
             } else {
                 itemDTO.setIfpStartDate(StringUtils.EMPTY);
             }
             if (obje[NumericConstants.SIX] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.SIX]));
+                Date date = dbDateFormat.parse(String.valueOf(obje[NumericConstants.SIX]));
                 String finalString = dateFormat.format(date);
                 itemDTO.setIfpEndDate(finalString);
             } else {
@@ -1169,8 +1168,8 @@ public class CopyContractLogic {
         return itemList;
     }
 
-    public int getComponentCount(String Query) {
-        List componentList = ccDao.searchList(Query);
+    public int getComponentCount(String query) {
+        List componentList = ccDao.searchList(query);
         return componentList.size();
     }
 
@@ -1208,7 +1207,7 @@ public class CopyContractLogic {
                     dto.setContractStartDate(Constants.EMPTY);
                 }
                 if (!contractDto.getEndDate().equals(Constants.NULL)) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(contractDto.getEndDate()));
+                    Date date = dbDateFormat.parse(String.valueOf(contractDto.getEndDate()));
                     String finalString = dateFormat.format(date);
                     dto.setContractEndDate(finalString);
                 } else {
@@ -1228,8 +1227,8 @@ public class CopyContractLogic {
         return copyList;
     }
 
-    public List<CopyComponentDTO> getComponentResults(String componentType, String Query, int start, int offset) {
-        String qry = Query;
+    public List<CopyComponentDTO> getComponentResults(String componentType, String query, int start, int offset) {
+        String qry = query;
         qry += " ORDER BY 1 OFFSET " + start + "  ROWS FETCH NEXT " + offset + " ROWS ONLY";
         List<CopyComponentDTO> result = new ArrayList<>();
         List componentList = ccDao.searchList(qry);

@@ -526,13 +526,11 @@ public class DataSelectionIndex extends CustomComponent implements View {
                         selectedId.put(selected.getItemMasterSid(), selected.getProductNo());
                     }
 
-                    for (Iterator<DataSelectionDTO> it = availableProducts.iterator(); it.hasNext();) {
-                        DataSelectionDTO dataDto = it.next();
-                        int itemSid = dataDto.getItemMasterSid();
-                        if (selectedId.get(itemSid) != null) {
-                            {
-                                it.remove();
-                            }
+                    for (Iterator<DataSelectionDTO> iter = availableProducts.iterator(); iter.hasNext();) {
+                        DataSelectionDTO dataDto = iter.next();
+                        int itemSidAllProductLeft = dataDto.getItemMasterSid();
+                        if (selectedId.get(itemSidAllProductLeft) != null) {
+                                iter.remove();
                         }
                     }
                     selectedProductBean.addAll(availableProducts);
@@ -669,6 +667,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             thearupeticValue = StringUtils.EMPTY;
         }
         productGroupValue = productGroup.getValue();
+        LOGGER.debug(" thearupeticValue {} " , thearupeticValue);
     }
 
     /**
@@ -1095,10 +1094,10 @@ public class DataSelectionIndex extends CustomComponent implements View {
             }
             if (targetItem != null) {
                 int projectionSysId = ((DataSelectionDTO) targetItem.getBean()).getProjectionId();
-                String projectionName = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
+                String projectionNameResults = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
                 modifiedDate = ((DataSelectionDTO) targetItem.getBean()).getModifiedDate();
                 projectionId.setValue(String.valueOf(projectionSysId));
-                sessionDTO.setProjectionName(projectionName);
+                sessionDTO.setProjectionName(projectionNameResults);
             }
         } else {
             projectionId.setValue(null);

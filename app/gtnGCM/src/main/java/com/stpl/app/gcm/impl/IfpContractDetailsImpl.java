@@ -9,6 +9,7 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class IfpContractDetailsImpl {
      * @param future
      * @return 
      */
-    public static Boolean saveIfpDetailsAttached(final List<Object> input, final Object future){
+    public static Boolean saveIfpDetailsAttached(final List<Object> input){
         boolean retFlag;
         String sqlSaveIfpDetailsAttached = StringUtils.EMPTY;
         try {
@@ -55,7 +56,7 @@ public class IfpContractDetailsImpl {
 
     }
     
-    public List findIFP(final Object field, final Object value, final List<Integer> future,Map<String, Object> filterMap, int start, int end, String column, String orderBy, Object future1){
+    public List findIFP(final Object field, final Object value, final List<Integer> future,Map<String, Object> filterMap, int start, int end, String column, String orderBy){
         StringBuilder sql = new StringBuilder();
         try {
             
@@ -132,7 +133,7 @@ public class IfpContractDetailsImpl {
         } catch (Exception e) {
            LOGGER.error("",e);
            LOGGER.error(sql.toString());
-            return null;
+            return Collections.emptyList();
         } 
     }
     

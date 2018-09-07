@@ -559,7 +559,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 								projecName, chValue, ndcNoValue, ndcNameValue, projDesc, contractVal, fromDate, toDate,
 								notSearchProjId);
 
-						List result = (List) CommonLogic.executeSelectQuery(resultString, null, null);
+						List result = (List) CommonLogic.executeSelectQuery(resultString);
 						List<ComparisonLookupDTO> searchResults = pvLogic.getCustomizedComparisonList(result);
 						if (searchResults.isEmpty()) {
 							MessageBox.showPlain(Icon.INFO, Constant.ERROR,

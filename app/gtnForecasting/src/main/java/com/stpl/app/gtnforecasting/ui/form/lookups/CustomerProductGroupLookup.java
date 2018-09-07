@@ -24,7 +24,6 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.TextField;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -193,7 +192,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 	 */
 	@Override
 	protected void btnLookupSelectLogic() {
-		List<String> sidsFromDetails = Collections.emptyList();
+		List<String> sidsFromDetails;
 		if (results != null && results.getValue() != null) {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			try {

@@ -70,14 +70,14 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
     private static final String ARM_DEMAND_RF_TRUE_UP_SUMMARY = "ARM_DEMAND_RF_TRUE_UP_SUMMARY";
 
     @Override
-    protected int getSummaryCount(List<Object> inputs, Criteria criteria) {
+    protected int getSummaryCount(List<Object> inputs, Criteria reforecastCriteria) {
         int count = 0;
         try {
-            boolean isView = criteria.getSelectionDto().getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
-            String tableName = !isView ? criteria.getSelectionDto().getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY) : ARM_DEMAND_RF_TRUE_UP_SUMMARY;
+            boolean isView = reforecastCriteria.getSelectionDto().getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
+            String tableName = !isView ? reforecastCriteria.getSelectionDto().getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY) : ARM_DEMAND_RF_TRUE_UP_SUMMARY;
             List resultList = QueryUtils.getItemData(QueryUtils.getItemQuery(CommonConstant.SUMMARY_D_REFORECAST_GENERATE, "Summary_DReforecast_generate_count", null, null, tableName), "", null, inputs, false);
             count = (int) resultList.get(0);
-            if ((count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO)))) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
+            if ((count > 0 && (reforecastCriteria.getParent() == null || (!(reforecastCriteria.getParent() instanceof AdjustmentDTO)))) && (reforecastCriteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
                 count = count + 1;
             }
         } catch (Exception e) {
@@ -92,12 +92,12 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
     }
 
     @Override
-    public Boolean generateButtonCheck(SelectionDTO selection) {
+    public Boolean generateButtonCheck(SelectionDTO reforecastSelection) {
         LOGGER.debug("Inside generate ButtonClick Btn");
         try {
-            if (selection.getSummarydeductionLevel() == 0 || selection.getSummaryvariables().isEmpty()
-                    || (selection.getSummarydeductionVariables() != null && selection.getSummarydeductionVariables().isEmpty())
-                    || GlobalConstants.getSelectOne().equals(selection.getSummarydemandfromDate()) || GlobalConstants.getSelectOne().equals(selection.getSummarydemandtoDate())) {
+            if (reforecastSelection.getSummarydeductionLevel() == 0 || reforecastSelection.getSummaryvariables().isEmpty()
+                    || (reforecastSelection.getSummarydeductionVariables() != null && reforecastSelection.getSummarydeductionVariables().isEmpty())
+                    || GlobalConstants.getSelectOne().equals(reforecastSelection.getSummarydemandfromDate()) || GlobalConstants.getSelectOne().equals(reforecastSelection.getSummarydemandtoDate())) {
                 return Boolean.FALSE;
             }
 
@@ -108,23 +108,23 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         return Boolean.FALSE;
     }
 
-    private DataResult<T> cutomize(List<Object[]> data, SelectionDTO selection, TreeMap<String, Integer> masterSids) {
+    private DataResult<T> cutomize(List<Object[]> data, SelectionDTO reforecastSelection, TreeMap<String, Integer> masterSids) {
         List resultList = new ArrayList<>();
         Map<String, Integer> indexMap = new HashMap();
-        List<String> variables = selection.getSummarycolumnList();
+        List<String> variables = reforecastSelection.getSummarycolumnList();
         int indexAdd = 0;
         int startIndex = 0;
         int nextStartIndex = 0;
         int totalColumnIndex = 0;
-        if (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())) {
-            totalColumnIndex = selection.getSummaryfrequencyList().size() * NumericConstants.EIGHT;
-            for (String[] summary_deductionVariable : selection.getSummaryfrequencyList()) {
+        if (ARMConstants.getMultiplePeriod().equals(reforecastSelection.getSummarydemandview())) {
+            totalColumnIndex = reforecastSelection.getSummaryfrequencyList().size() * NumericConstants.EIGHT;
+            for (String[] summary_deductionVariable : reforecastSelection.getSummaryfrequencyList()) {
                 indexMap.put(summary_deductionVariable[0], indexAdd);
                 indexAdd++;
             }
         } else {
-            totalColumnIndex = selection.getSummarydeductionVariables().size() * NumericConstants.EIGHT;
-            for (String[] summary_deductionVariable : selection.getSummarydeductionVariables()) {
+            totalColumnIndex = reforecastSelection.getSummarydeductionVariables().size() * NumericConstants.EIGHT;
+            for (String[] summary_deductionVariable : reforecastSelection.getSummarydeductionVariables()) {
                 indexMap.put(summary_deductionVariable[0], indexAdd);
                 indexAdd++;
             }
@@ -133,7 +133,7 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         int index = 0;
         String lastBrand = "";
         String nextBrand;
-        AdjustmentDTO dto = null;
+        AdjustmentDTO reforecastDto = null;
         boolean ovverrideFlag = false;
         boolean isTotal = false;
         DecimalFormat decimalformat = new DecimalFormat("$#,##0.##");
@@ -144,72 +144,72 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             String brand = get[1] == null ? StringUtils.EMPTY : get[1].toString();
             nextBrand = next != null ? next[1].toString() : "aa";
             if (!brand.equals(lastBrand)) {
-                dto = new AdjustmentDTO();
+                reforecastDto = new AdjustmentDTO();
                 ovverrideFlag = false;
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
                 totalColumnValue = new double[NumericConstants.NINE];
-                dto.setMonth(brand);
-                dto.setLevelNo((int) get[NumericConstants.TEN]);
-                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.ELEVEN]);
-                dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TWELVE]));
+                reforecastDto.setMonth(brand);
+                reforecastDto.setLevelNo((int) get[NumericConstants.TEN]);
+                reforecastDto.setChildrenAllowed((reforecastSelection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.ELEVEN]);
+                reforecastDto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TWELVE]));
                 if (masterSids != null) {
-                    dto.setMasterIds(masterSids);
+                    reforecastDto.setMasterIds(masterSids);
                 }
-                resultList.add(dto);
-                if (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())) {
-                    int sIndex = ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) ? 0 : indexMap.get(get[get.length - 1].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT;
+                resultList.add(reforecastDto);
+                if (ARMConstants.getMultiplePeriod().equals(reforecastSelection.getSummarydemandview())) {
+                    int sIndex = ARMConstants.getMonthly().equals(reforecastSelection.getSummarydemandfrequency()) ? 0 : indexMap.get(get[get.length - 1].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT;
                     startIndex = j == 0 ? sIndex : startIndex;
                     index = 0;
                 } else {
-                    dto = clearVariables(variables, dto);
+                    reforecastDto = clearVariables(variables, reforecastDto);
                 }
             }
-            if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
+            if (ARMConstants.getSinglePeriod().equals(reforecastSelection.getSummarydemandview())) {
                 index = indexMap.get(get[0].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT;
-            } else if (!ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency())) {
+            } else if (!ARMConstants.getMonthly().equals(reforecastSelection.getSummarydemandfrequency())) {
                 index = indexMap.get((get[get.length - 1].toString()).replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT;
                 nextStartIndex = next != null ? indexMap.get(next[next.length - 1].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT : startIndex;
             }
-            if (dto != null) {
+            if (reforecastDto != null) {
                 if (index < totalColumnIndex) {
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.THREE]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.FOUR] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FOUR]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.FIVE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FIVE]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null ? StringUtils.EMPTY : percentageformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))) + "%");
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.EIGHT] == null || dto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.EIGHT]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.NINE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.NINE]))));
+                    reforecastDto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
+                    reforecastDto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.THREE]))));
+                    reforecastDto.addStringProperties(variables.get(index++), get[NumericConstants.FOUR] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FOUR]))));
+                    reforecastDto.addStringProperties(variables.get(index++), get[NumericConstants.FIVE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FIVE]))));
+                    reforecastDto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null ? StringUtils.EMPTY : percentageformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))) + "%");
+                    reforecastDto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))));
+                    reforecastDto.addStringProperties(variables.get(index++), get[NumericConstants.EIGHT] == null || reforecastDto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.EIGHT]))));
+                    reforecastDto.addStringProperties(variables.get(index++), get[NumericConstants.NINE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.NINE]))));
                     totalColumnValue[0] += Double.valueOf(String.valueOf(get[NumericConstants.TWO]));
                     totalColumnValue[1] += Double.valueOf(String.valueOf(get[NumericConstants.THREE]));
                     totalColumnValue[NumericConstants.TWO] += Double.valueOf(get[NumericConstants.FOUR].toString());
                     totalColumnValue[NumericConstants.THREE] += Double.valueOf(get[NumericConstants.FIVE].toString());
                     totalColumnValue[NumericConstants.FIVE] += Double.valueOf(get[NumericConstants.SEVEN].toString());
-                    if (get[NumericConstants.EIGHT] != null && !dto.getChildrenAllowed() && !isTotal) {
+                    if (get[NumericConstants.EIGHT] != null && !reforecastDto.getChildrenAllowed() && !isTotal) {
                         totalColumnValue[NumericConstants.SIX] += Double.valueOf(get[NumericConstants.EIGHT].toString());
                         ovverrideFlag = true;
                     }
                     totalColumnValue[NumericConstants.SEVEN] += Double.valueOf(get[NumericConstants.NINE].toString());
                 }
-                if (getCondition(selection, index, totalColumnIndex, nextBrand, brand)
-                        || ((!ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && getConditionMultiplePeriod(selection, startIndex, nextStartIndex))
-                        || (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview()) && ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && index >= totalColumnIndex))) {
-                    dto.addStringProperties(variables.get(totalColumnIndex), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[0]))));
-                    dto.addStringProperties(variables.get(totalColumnIndex + 1), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[1]))));
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.TWO), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.TWO]))));
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.THREE), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.THREE]))));
+                if (getCondition(reforecastSelection, index, totalColumnIndex, nextBrand, brand)
+                        || ((!ARMConstants.getMonthly().equals(reforecastSelection.getSummarydemandfrequency()) && getConditionMultiplePeriod(reforecastSelection, startIndex, nextStartIndex))
+                        || (ARMConstants.getMultiplePeriod().equals(reforecastSelection.getSummarydemandview()) && ARMConstants.getMonthly().equals(reforecastSelection.getSummarydemandfrequency()) && index >= totalColumnIndex))) {
+                    reforecastDto.addStringProperties(variables.get(totalColumnIndex), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[0]))));
+                    reforecastDto.addStringProperties(variables.get(totalColumnIndex + 1), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[1]))));
+                    reforecastDto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.TWO), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.TWO]))));
+                    reforecastDto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.THREE), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.THREE]))));
                     if (Double.compare(totalColumnValue[NumericConstants.TWO], 0.0) != 0 && Double.compare(totalColumnValue[NumericConstants.THREE], 0.0) != 0) {
                         totalColumnValue[NumericConstants.FOUR] = totalColumnValue[NumericConstants.TWO] / totalColumnValue[NumericConstants.THREE] * NumericConstants.HUNDRED;
                     }
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FOUR), percentageformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.FOUR]))) + "%");
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FIVE), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.FIVE]))));
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.SIX), ovverrideFlag ? decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.SIX]))) : StringUtils.EMPTY);
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.SEVEN), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.SEVEN]))));
+                    reforecastDto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FOUR), percentageformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.FOUR]))) + "%");
+                    reforecastDto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FIVE), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.FIVE]))));
+                    reforecastDto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.SIX), ovverrideFlag ? decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.SIX]))) : StringUtils.EMPTY);
+                    reforecastDto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.SEVEN), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.SEVEN]))));
                 }
             }
             lastBrand = brand;
-            dto.setUserId(selection.getSessionDTO().getUserId());
-            dto.setSessionId(selection.getSessionDTO().getSessionId());
+            reforecastDto.setUserId(reforecastSelection.getSessionDTO().getUserId());
+            reforecastDto.setSessionId(reforecastSelection.getSessionDTO().getSessionId());
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(resultList);
@@ -234,9 +234,9 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
     protected Object[] generateInputs(Object dto, SelectionDTO selection) {
         List<String[]> frequency = selection.getSummaryfrequencyList();
         Object[] returnObj = new Object[NumericConstants.TWO];
-        List<Object> inputs = new ArrayList<>();
-        inputs.add(selection.getProjectionMasterSid());
-        inputs.add(selection.getSummarydeductionLevelDes());
+        List<Object> reforecastInputs = new ArrayList<>();
+        reforecastInputs.add(selection.getProjectionMasterSid());
+        reforecastInputs.add(selection.getSummarydeductionLevelDes());
 
         String viewType = "";
         String currentViewType = "";
@@ -254,21 +254,21 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                     currentViewType = ARMUtils.getSummaryLevel().get(levelNo);
                     viewType = ARMUtils.getSummaryLevel().get(++levelNo);
                 }
-                inputs.add(0);
+                reforecastInputs.add(0);
             } else {
                 currentViewType = selection.getSummarydemandLevel().get(levelNo);
                 viewType = selection.getSummarydemandLevel().get(++levelNo);
-                inputs.add(1);
+                reforecastInputs.add(1);
             }
             masterSids.put(currentViewType, Integer.valueOf(val.getBranditemmasterSid()));
         } else {
             masterSids = new TreeMap<>();
             if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
                 viewType = getView(selection.getSummarydeductionLevelDes(), selection.getSummaryviewType());
-                inputs.add(0);
+                reforecastInputs.add(0);
             } else {
                 viewType = selection.getSummarydemandLevel().get(1);
-                inputs.add(1);
+                reforecastInputs.add(1);
             }
             if (selection.getSummarylevelFilterNo() != 0) {
                 viewType = selection.getSummarylevelFilterValue();
@@ -282,18 +282,18 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         if (viewType.equals(ARMConstants.getDeduction())) {
             viewType = ARMUtils.getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
         }
-        inputs.add(viewType);
-        inputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
-        inputs.add(frequency.get(0)[1]);
-        inputs.add(frequency.get(frequency.size() - 1)[1]);
+        reforecastInputs.add(viewType);
+        reforecastInputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
+        reforecastInputs.add(frequency.get(0)[1]);
+        reforecastInputs.add(frequency.get(frequency.size() - 1)[1]);
 
         if (selection.getSummarydemandfrequency().matches("^[-+]?\\d+(\\.\\d+)?$")) {
-            inputs.add(HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(selection.getSummarydemandfrequency())));
+            reforecastInputs.add(HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(selection.getSummarydemandfrequency())));
         } else {
-            inputs.add(selection.getSummarydemandfrequency());
+            reforecastInputs.add(selection.getSummarydemandfrequency());
         }
-        inputs = getFilterInputs(inputs, selection, masterSids);
-        returnObj[0] = inputs;
+        reforecastInputs = getFilterInputs(reforecastInputs, selection, masterSids);
+        returnObj[0] = reforecastInputs;
         returnObj[1] = masterSids;
 
         return returnObj;
@@ -301,8 +301,8 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
 
     @Override
     public String getView(String deduction, String viewType) {
-        Map<String, String> viewMap = ARMUtils.getViewName();
-        String selectedView = viewMap.get(viewType);
+        Map<String, String> reforecastViewMap = ARMUtils.getViewName();
+        String selectedView = reforecastViewMap.get(viewType);
         if (viewType.equals(ARMConstants.getDeductionCustomerContract())) {
             selectedView = "Deduction";
         }
@@ -310,12 +310,12 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
     }
 
     @Override
-    public List getExcelResultList(AbstractSelectionDTO selection) {
+    public List getExcelResultList(AbstractSelectionDTO reforecastSelection) {
         String query;
-        boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
-        if (selection.isIsMultiple()) {
+        boolean isView = reforecastSelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
+        if (reforecastSelection.isIsMultiple()) {
             query = SQlUtil.getQuery(isView ? "getDRSummaryMultiPeriodExcelQueryView" : "getDRSummaryMultiPeriodExcelQuery");
-            if (selection.getSummarydemandview().equals(ARMConstants.getSinglePeriod()) && selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
+            if (reforecastSelection.getSummarydemandview().equals(ARMConstants.getSinglePeriod()) && reforecastSelection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
                 query = query.replace("@SHIFT_VALUE", String.valueOf("S"));
             } else {
                 query = query.replace("@SHIFT_VALUE", String.valueOf("M"));
@@ -324,26 +324,26 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
 
             query = SQlUtil.getQuery(isView ? "getDRSummarySinglePeriodExcelQueryView" : "getDRSummarySinglePeriodExcelQuery");
         }
-        List<String[]> frequency = selection.getSummaryfrequencyList();
-        Object[] value = selection.getExcelHierarchy();
-        query = query.replace("@LEVEL_VAL", "'" + StringUtils.join(value, ",") + "'");
-        String val = selection.getSummarydeductionLevelDes();
+        List<String[]> frequency = reforecastSelection.getSummaryfrequencyList();
+        Object[] value = reforecastSelection.getExcelHierarchy();
+        query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
+        String val = reforecastSelection.getSummarydeductionLevelDes();
         if (val.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION_PROGRAM.toString())) {
             val += " TYPE";
         }
-        if (StringUtils.isNumeric(selection.getSummarydemandfrequency())) {
-            selection.setSummarydemandfrequency(HelperListUtil.getInstance().getIdHelperDTOMap().get(Integer.valueOf(selection.getSummarydemandfrequency())).getDescription());
+        if (StringUtils.isNumeric(reforecastSelection.getSummarydemandfrequency())) {
+            reforecastSelection.setSummarydemandfrequency(HelperListUtil.getInstance().getIdHelperDTOMap().get(Integer.valueOf(reforecastSelection.getSummarydemandfrequency())).getDescription());
         }
         query = query.replace("@DEDUCTIONLEVEL", val);
-        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
-        query = query.replace("@FREQUENCYSELECTED", selection.getSummarydemandfrequency());
+        query = query.replace("@DEDUCTIONVALUE", reforecastSelection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
+        query = query.replace("@FREQUENCYSELECTED", reforecastSelection.getSummarydemandfrequency());
         query = query.replace("@STARTPERIOD", frequency.get(0)[1]);
         query = query.replace("@ENDPERIOD", frequency.get(frequency.size() - 1)[1]);
-        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
-        query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
-        query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
+        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(reforecastSelection.getProjectionMasterSid()));
+        query = query.replace("@USERID", String.valueOf(reforecastSelection.getSessionDTO().getUserId()));
+        query = query.replace("@SESSIONID", String.valueOf(reforecastSelection.getSessionDTO().getSessionId()));
         query = query.replace("@ARM_DEM_RF_TRUE_UP_SUM_TABLE", isView ? ARM_DEMAND_RF_TRUE_UP_SUMMARY : "CONCAT('ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))");
-        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
+        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, reforecastSelection.getSessionDTO().getCurrentTableNames()));
     }
 
     @Override

@@ -44,24 +44,25 @@ public class DataFormatConverter implements Converter<String, String> {
             Class<? extends String> targetType, Locale locale)
              {
         String regex;
+        String valueModel = value;
         if (targetType != getModelType()) {
             throw new Converter.ConversionException("Converter only supports "
                     + getModelType().getName() + " (targetType was "
                     + targetType.getName() + ")");
         }
 
-        if (value == null) {
+        if (valueModel == null) {
             return null;
         }
-        if (value.contains("E-") || value.contains("e-")) {
+        if (valueModel.contains("E-") || valueModel.contains("e-")) {
             regex = exponentialDashRegex;
         } else {
             regex = numericDashRegex;
         }
-        value = value.trim();
+        valueModel = valueModel.trim();
         String parsedValue = StringUtils.EMPTY;
         try {
-            parsedValue = value.replaceAll(regex, StringUtils.EMPTY);
+            parsedValue = valueModel.replaceAll(regex, StringUtils.EMPTY);
         } catch (Exception ex) {
             LOGGER.error(" in DataFormatConverter - convertToModel= {}", ex);
         }
@@ -73,13 +74,14 @@ public class DataFormatConverter implements Converter<String, String> {
             Class<? extends String> targetType, Locale locale)
              {
         String regex;
-        if (value == null) {
+        String valuePresentation = value;
+        if (valuePresentation == null) {
             return null;
         }
-        if (value.equals("-")) {
+        if (valuePresentation.equals("-")) {
             return "-";
         }
-        if (value.contains("E-") || value.contains("e-")) {
+        if (valuePresentation.contains("E-") || valuePresentation.contains("e-")) {
             regex = exponentialDashRegex;
         } else {
             regex = numericDashRegex;
@@ -87,24 +89,24 @@ public class DataFormatConverter implements Converter<String, String> {
         try {
             String stringValue;
             String tempValue;
-            tempValue = value.trim().replaceAll(regex, StringUtils.EMPTY);
+            tempValue = valuePresentation.trim().replaceAll(regex, StringUtils.EMPTY);
             DecimalFormat df = getFormatter();
             if (!StringUtils.EMPTY.equals(tempValue) && !CommonConstants.NULL.getConstant().equals(tempValue)) {
-                value = value.trim().replaceAll(regex, StringUtils.EMPTY);
+                valuePresentation = valuePresentation.trim().replaceAll(regex, StringUtils.EMPTY);
 
                 if (df != null) {
-                    BigDecimal bd = new BigDecimal(value);
+                    BigDecimal bd = new BigDecimal(valuePresentation);
 
                     stringValue = df.format(bd);
 
                 } else {
-                    stringValue = value.replaceAll(regex, StringUtils.EMPTY);
+                    stringValue = valuePresentation.replaceAll(regex, StringUtils.EMPTY);
                 }
                 if (indicator != null && !StringUtils.EMPTY.equals(indicator) && !CommonConstants.NULL.getConstant().equals(indicator) && INDICATOR_PERCENT.equals(indicator)) {
                     stringValue += INDICATOR_PERCENT;
                 }
             } else {
-                stringValue = value.replaceAll(regex, StringUtils.EMPTY);
+                stringValue = valuePresentation.replaceAll(regex, StringUtils.EMPTY);
             }
             return stringValue;
         } catch (Exception ex) {
