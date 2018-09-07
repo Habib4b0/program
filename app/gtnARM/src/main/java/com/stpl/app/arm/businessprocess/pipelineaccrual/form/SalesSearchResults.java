@@ -32,7 +32,7 @@ public class SalesSearchResults extends AbstractSearchResults {
     private Object[] salesResultsColumns = {"month"};
     private Object[] salesResultsLeftColumns = {"group"};
     public static final Logger LOGGER = LoggerFactory.getLogger(SalesSearchResults.class);
-    private final String product = "Product";
+    private static final String PRODUCT = "Product";
 
     public SalesSearchResults(SalesLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
@@ -58,7 +58,7 @@ public class SalesSearchResults extends AbstractSearchResults {
         leftTable.setDoubleHeaderVisibleColumns(salesResultsColumns);
         leftTable.setDoubleHeaderColumnHeaders(StringUtils.EMPTY);
         leftTable.setVisibleColumns(salesResultsLeftColumns);
-        leftTable.setColumnHeaders(product);
+        leftTable.setColumnHeaders(PRODUCT);
         rightTable.setVisibleColumns(salesResultsDoubleheadercolumns);
         rightTable.setColumnHeaders(StringUtils.EMPTY);
 
@@ -100,7 +100,7 @@ public class SalesSearchResults extends AbstractSearchResults {
         getExcelContainer().setRecordHeader(salesRightSingleVisibleColumn);
         List rightSingleVisibleColumn1 = new ArrayList(salesRightSingleVisibleColumn);
         rightSingleVisibleColumn1.add(0, "group");
-        salesRightSingleVisibleHeader.add(0, product);
+        salesRightSingleVisibleHeader.add(0, PRODUCT);
         getExcelTable().setVisibleColumns(rightSingleVisibleColumn1.toArray());
         getExcelTable().setColumnHeaders(Arrays.copyOf((salesRightSingleVisibleHeader).toArray(), (salesRightSingleVisibleHeader).size(), String[].class));
         setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
