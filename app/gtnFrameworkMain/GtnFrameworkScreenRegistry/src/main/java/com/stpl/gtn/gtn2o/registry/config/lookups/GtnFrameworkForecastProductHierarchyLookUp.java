@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -266,6 +267,10 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		List<String> additionalSearchCriteria = new ArrayList<>();
 		additionalSearchCriteria.add("Product Hierarchy");
 		productHierarchyPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
+                
+                GtnFrameworkAlertUtil alertActionUtil = new GtnFrameworkAlertUtil();
+                GtnUIFrameWorkActionConfig alertAction = alertActionUtil.throwAlertUtil(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);
+		productHierarchyPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
 		
 		productHierarchyPagedTableConfig.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);
 		productHierarchyPagedTableConfig.setResultSetUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);

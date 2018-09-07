@@ -41,6 +41,8 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GtnUIFrameworkPagedGridLogic {
 
@@ -174,7 +176,14 @@ public class GtnUIFrameworkPagedGridLogic {
 			} catch (GtnFrameworkGeneralException e) {
 				gtnLogger.error(e.getMessage());
 			}
-		}
+		}else if(responseAddData == null && componentConfigPagedGrid.getGtnPagedTableConfig().getRecordTypeManageActionConfig() != null){
+                    try {
+                        GtnUIFrameworkActionExecutor.executeSingleAction(componentConfigPagedGrid.getComponentId(),
+                                componentConfigPagedGrid.getGtnPagedTableConfig().getRecordTypeManageActionConfig());
+                    } catch (GtnFrameworkGeneralException ex) {
+                        Logger.getLogger(GtnUIFrameworkPagedGridLogic.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
 	}
 
 	public List<Object> getRecordHeader() {

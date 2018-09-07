@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -296,7 +297,11 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		additionalSearchCriteria.add("Customer Hierarchy");
 		customerHierarchyPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
 		
-		customerHierarchyPagedTableConfig.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);
+                GtnFrameworkAlertUtil alertActionUtil = new GtnFrameworkAlertUtil();
+                GtnUIFrameWorkActionConfig alertAction = alertActionUtil.throwAlertUtil(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_URL);
+		customerHierarchyPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
+
+                customerHierarchyPagedTableConfig.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);
 		customerHierarchyPagedTableConfig.setResultSetUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);
 		customerHierarchyPagedTableConfig.setPagedTableWsUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_URL);
 		customerHierarchyPagedTableConfig.setRegisteredWebContext(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_REGISTERED_WEB_CONTEXT);

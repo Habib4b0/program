@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
+import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -10,10 +11,12 @@ import java.util.Map;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -25,6 +28,8 @@ import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 import com.vaadin.ui.AbstractComponent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GtnCustomerAvailableTableLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -112,6 +117,11 @@ public class GtnCustomerAvailableTableLoadAction
 				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                 if(relationResponse==null){
+                     GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+                     alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP);
+                }
 		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
@@ -129,6 +139,11 @@ public class GtnCustomerAvailableTableLoadAction
 				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_REPORTDATASELECTION_LOAD_LEVELVALUE_MAP,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                 if(response==null){
+                     GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+                     alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+						+ GtnWebServiceUrlConstants.GTN_REPORTDATASELECTION_LOAD_LEVELVALUE_MAP);
+                }
 		return response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
 	}
 
@@ -140,12 +155,17 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_REPORTCUSTOMER_HIERARCHYLEVEL_VALUES,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		return response.getGtnWsForecastResponse().getInputBean().getLevelList();
+		          request.setGtnWsForecastRequest(forecastRequest);
+               GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                    GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+                    + GtnWebServiceUrlConstants.GTN_REPORTCUSTOMER_HIERARCHYLEVEL_VALUES,
+                    request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+            if (response == null) {
+                GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+                alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+                        + GtnWebServiceUrlConstants.GTN_REPORTCUSTOMER_HIERARCHYLEVEL_VALUES);
+            }
+            return response.getGtnWsForecastResponse().getInputBean().getLevelList();
 	}
 
 	private String loadAvailableCustomerLevelQuery(GtnReportHierarchyLevelBean selectedHierarchyLevelBean,
@@ -167,6 +187,11 @@ public class GtnCustomerAvailableTableLoadAction
 				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                if(response==null){
+                         GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+                alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL);
+                }
 		return response.getGtnWsForecastResponse().getInputBean().getHieraryQuery();
 	}
 
