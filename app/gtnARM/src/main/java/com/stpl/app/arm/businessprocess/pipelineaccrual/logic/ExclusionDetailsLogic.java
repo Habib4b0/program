@@ -381,40 +381,50 @@ public class ExclusionDetailsLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) exclFilter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
                     if ("viewCategory".equals(stringFilter.getPropertyId())) {
-                        if (!exRateDTO.getViewCategory().toLowerCase(Locale.ENGLISH).contains(stringFilter.getFilterString().toLowerCase(Locale.ENGLISH))) {
-                            retVal = true;
-                        }
+                        retVal = getMakeCount(exRateDTO, stringFilter, retVal);
                     } else {
                         filterQuery.append(" AND ").append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
                         filterQuery.append(" like '").append(filterString).append(ARMUtils.SINGLE_QUOTES);
                     }
 
                 } else if (exclFilter instanceof Between) {
-                    Between betweenexclFilter = (Between) exclFilter;
-                    StringBuilder dateStar = new StringBuilder("AND ( * >='?')");
-                    StringBuilder dateEnd = new StringBuilder("AND ( * <='?')");
-                    if (!detailsColumn.get(betweenexclFilter.getPropertyId().toString()).isEmpty()) {
-                        Date startValue = (Date) betweenexclFilter.getStartValue();
-                        Date endValue = (Date) betweenexclFilter.getEndValue();
-                        StringBuilder initialStart = new StringBuilder("where ( ( * >= '?' )");
-                        StringBuilder initialEnd = new StringBuilder("where ( ( * <= '?' )");
-                        if (!betweenexclFilter.getStartValue().toString().isEmpty()) {
-                            StringBuilder tempStart = getTempStringBuilder(exclQuery, initialStart, dateStar);
-                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(betweenexclFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
-                            exclQuery.append(tempStart);
-                        }
-                        if (!betweenexclFilter.getEndValue().toString().isEmpty()) {
-                            StringBuilder tempEnd = getTempStringBuilder(exclQuery, initialEnd, dateEnd);
-                            tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(betweenexclFilter.getPropertyId().toString()));
-                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
-                            exclQuery.append(tempEnd);
-                        }
-                    }
+                    getBetweenFilter(exclFilter, detailsColumn, exclQuery);
                 }
             }
         }
         return retVal;
+    }
+
+    private boolean getMakeCount(ViewLookupDTO exRateDTO, SimpleStringFilter stringFilter, boolean retVal) {
+        boolean retValue = retVal;
+        if (!exRateDTO.getViewCategory().toLowerCase(Locale.ENGLISH).contains(stringFilter.getFilterString().toLowerCase(Locale.ENGLISH))) {
+            retValue = true;
+        }
+        return retValue;
+    }
+
+    private void getBetweenFilter(Container.Filter exclFilter, HashMap<String, String> detailsColumn, StringBuilder exclQuery) {
+        Between betweenexclFilter = (Between) exclFilter;
+        StringBuilder dateStar = new StringBuilder("AND ( * >='?')");
+        StringBuilder dateEnd = new StringBuilder("AND ( * <='?')");
+        if (!detailsColumn.get(betweenexclFilter.getPropertyId().toString()).isEmpty()) {
+            Date startValue = (Date) betweenexclFilter.getStartValue();
+            Date endValue = (Date) betweenexclFilter.getEndValue();
+            StringBuilder initialStart = new StringBuilder("where ( ( * >= '?' )");
+            StringBuilder initialEnd = new StringBuilder("where ( ( * <= '?' )");
+            if (!betweenexclFilter.getStartValue().toString().isEmpty()) {
+                StringBuilder tempStart = getTempStringBuilder(exclQuery, initialStart, dateStar);
+                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(betweenexclFilter.getPropertyId().toString()));
+                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
+                exclQuery.append(tempStart);
+            }
+            if (!betweenexclFilter.getEndValue().toString().isEmpty()) {
+                StringBuilder tempEnd = getTempStringBuilder(exclQuery, initialEnd, dateEnd);
+                tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(betweenexclFilter.getPropertyId().toString()));
+                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
+                exclQuery.append(tempEnd);
+            }
+        }
     }
 
     private StringBuilder getTempStringBuilder(StringBuilder exclQuery, StringBuilder initialStart, StringBuilder dateStar) {
