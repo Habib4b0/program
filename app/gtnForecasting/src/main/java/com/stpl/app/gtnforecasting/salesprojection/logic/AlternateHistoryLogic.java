@@ -1115,7 +1115,7 @@ public class AlternateHistoryLogic {
     public int getCCPCount(String query, SessionDTO sessionDto) {
         int count = 0;
         List<Object> objList;
-        objList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDto.getCurrentTableNames()), null, null);
+        objList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDto.getCurrentTableNames()));
 
         if (objList != null && !objList.isEmpty()) {
             Object ob = objList.get(0);
@@ -1211,7 +1211,7 @@ public class AlternateHistoryLogic {
         query.append(" TARGET.TOTAL_ACTUAL_UNITS = SOURCE.ACTUAL_UNITS,   ");
         query.append("  TARGET.TOTAL_PROJECTION_UNITS = SOURCE.PROJECTION_UNITS;  ");
 
-        CommonLogic.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()), null, null);
+        CommonLogic.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()));
 
     }
 
@@ -1228,7 +1228,7 @@ public class AlternateHistoryLogic {
         query.append(" WHEN MATCHED THEN UPDATE SET \n");
         query.append(" TARGET.TOTAL_ACTUAL_AMOUNT = SOURCE.ACTUAL_AMOUNT, \n");
         query.append(" TARGET.TOTAL_PROJECTION_AMOUNT = SOURCE.PROJECTION_AMOUNT; ");
-        CommonLogic.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()), null, null);
+        CommonLogic.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()));
 
     }
 
