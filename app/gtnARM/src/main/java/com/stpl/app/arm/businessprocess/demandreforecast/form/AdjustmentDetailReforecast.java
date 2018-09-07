@@ -36,9 +36,12 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
     public static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentDetailReforecast.class);
 
     private boolean creditFlag;
+    
+    private AbstractSelectionDTO reforecastSelection;
 
     public AdjustmentDetailReforecast(AbstractSelectionDTO selectionDto) {
         super(new DRDetailsLogic(), selectionDto);
+        this.reforecastSelection = selectionDto;
         init();
     }
 
@@ -46,22 +49,22 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
      * To set the values to the DTO This method will be called before generate
      */
     public void setSelection() {
-        selection.setDetailLevel(level.getValue().toString());
-        selection.setDetailvariables(Arrays.asList(variableValue));
+        reforecastSelection.setDetailLevel(level.getValue().toString());
+        reforecastSelection.setDetailvariables(Arrays.asList(variableValue));
         List<List> account = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
-        selection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
+        reforecastSelection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
         List<String> amtFilter = CommonUtils.getSelectedVariables(amountFilterItem);
-        selection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
+        reforecastSelection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
 
-        selection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
-        creditFlag = logic.cerditDebitEqualCheck(selection);
+        reforecastSelection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
+        creditFlag = logic.cerditDebitEqualCheck(reforecastSelection);
     }
 
     @Override
     protected void generateBtn() {
         setSelection();
-        if (logic.generateButtonCheck(selection) && !creditFlag) {
+        if (logic.generateButtonCheck(reforecastSelection) && !creditFlag) {
             super.generateBtn();
             tableLogic.loadSetData(Boolean.TRUE);
         } else if (creditFlag && isGenerateFlag()) {
@@ -73,7 +76,7 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
 
     @Override
     protected void loadReserveAccount() {
-        List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
+        List<List> list = logic.getReserveAccountDetails(reforecastSelection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
         CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
                 Arrays.copyOf(list.get(1).toArray(), list.get(1).size(), String[].class));
         CommonUtils.checkAllMenuBarItem(reserveMenuItem);
@@ -102,7 +105,7 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
 
     @Override
     public void loadDetails() {
-        List<Object[]> list = CommonLogic.loadPipelineAccrual(selection.getProjectionMasterSid());
+        List<Object[]> list = CommonLogic.loadPipelineAccrual(reforecastSelection.getProjectionMasterSid());
         for (int i = 0; i < list.size(); i++) {
             Object[] obj = list.get(i);
             if ("detailLevel".equals(String.valueOf(obj[0]))) {
@@ -115,7 +118,7 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
                     str3 = strings;
                     CommonUtils.checkMenuBarItem(customMenuItem, str3);
                 }
-                selection.setDetailvariables(Arrays.asList(str2));
+                reforecastSelection.setDetailvariables(Arrays.asList(str2));
             } else if ("detailreserveAcount".equals(String.valueOf(obj[0]))) {
                 reserveMenuItem.removeChildren(); // Reserve account custom menubar variables are loaded wrongly. 
                 loadReserveAccount(); // GAL-8014
@@ -126,23 +129,23 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
                     str3 = strings;
                     CommonUtils.checkMenuBarItem(reserveMenuItem, str3);
                 }
-                selection.setDetailreserveAcount(Arrays.asList(str2));
+                reforecastSelection.setDetailreserveAcount(Arrays.asList(str2));
             } else if (VariableConstants.DETAIL_AMOUNT_FILTER.equals(String.valueOf(obj[0]))) {
                 amountFilterItem.removeChildren();
                 loadAmountFilter();
                 CommonUtils.unCheckMenuBarItem(amountFilterItem);
-                String str1 = (String) obj[1];
-                String[] str2 = str1.split(",");
+                String reforecaststr1 = (String) obj[1];
+                String[] reforecaststr2 = reforecaststr1.split(",");
                 String str3 = null;
-                for (String strings : str2) {
+                for (String strings : reforecaststr2) {
                     str3 = strings;
                     CommonUtils.checkMenuBarItemCaption(amountFilterItem, str3);
                 }
-                selection.setDetailamountFilter(Arrays.asList(str2));
+                reforecastSelection.setDetailamountFilter(Arrays.asList(reforecaststr2));
 
             } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
                 try {
-                    BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
+                    BeanUtils.setProperty(reforecastSelection, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
                     LOGGER.error("Error in loadDetails :", ex);
                 }
