@@ -855,26 +855,25 @@ public class NMProjectionVarianceLogic {
 	private String getFrequency(String frequency) {
             String freq = frequency;
 		switch (freq) {
-		case Constant.QUARTERLY: {
+		case Constant.QUARTERLY: 
 			freq = Constant.QUARTERLY1;
 			break;
-		}
-		case Constant.SEMI_ANNUALLY: {
+		
+		case Constant.SEMI_ANNUALLY: 
 			freq = Constant.SEMIANNUAL_CAPS;
 			break;
-		}
-		case Constant.SEMI_ANNUALY: {
+		
+		case Constant.SEMI_ANNUALY: 
 			freq = Constant.SEMIANNUAL_CAPS;
 			break;
-		}
-		case Constant.MONTHLY: {
+		
+		case Constant.MONTHLY: 
 			freq = Constant.MONTHLY_COLUMN;
 			break;
-		}
-		default: {
+		
+		default: 
 			freq = Constant.ANNUAL_CAPS;
 			break;
-		}
 		}
 		return freq;
 	}
@@ -2677,7 +2676,7 @@ public class NMProjectionVarianceLogic {
 			list = NmProjectionSelectionLocalServiceUtil.dynamicQuery(query);
 			if (list != null && !list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
-					Object[] obj = (Object[]) list.get(i);
+					Object[] obj = list.get(i);
 					map.put(obj[0], obj[1]);
 				}
 			}
