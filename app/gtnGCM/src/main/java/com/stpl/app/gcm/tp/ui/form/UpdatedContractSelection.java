@@ -602,10 +602,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         if (ADD_TRADING_PARTNER.getConstant().equals(session.getModuleName())) {
             pagedTable.setVisibleColumns(Constants.getInstance().contractSelectionColumns);
             pagedTable.setColumnHeaders(Constants.getInstance().contractSelectionHeaders);
-        } else if (TRANSFER_TRADING_PARTNER.getConstant().equals(session.getModuleName()) && screenName.equals(TAB_TRANSFER_CONTRACT.getConstant())) {
-            pagedTable.setVisibleColumns(Constants.getInstance().transferCustomerColumns);
-            pagedTable.setColumnHeaders(Constants.getInstance().transferCustomerHeaders);
-        } else if (PROJECTION_DETAILS_TRANSFER.getConstant().equals(session.getModuleName())) {
+        } else if (TRANSFER_TRADING_PARTNER.getConstant().equals(session.getModuleName()) && screenName.equals(TAB_TRANSFER_CONTRACT.getConstant()) ||PROJECTION_DETAILS_TRANSFER.getConstant().equals(session.getModuleName())) {
             pagedTable.setVisibleColumns(Constants.getInstance().transferCustomerColumns);
             pagedTable.setColumnHeaders(Constants.getInstance().transferCustomerHeaders);
         } else {

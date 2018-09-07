@@ -271,7 +271,6 @@ public class NewDiscountTab extends CustomComponent {
      * The collapse listener.
      */
     private final StplCollapseListener collapseListener = new StplCollapseListener();
-    private static final BeanItem<?> NULL_OBJECT = null;
     /**
      * The contract member.
      */

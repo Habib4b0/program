@@ -466,13 +466,11 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			if (dto != null) {
 				final int projectionIdValue = dto.getCffMasterSid();
 				Long processId = 0L;
-//				final List<String> roleList = new ArrayList<>();
 				final List processIdList = WorkflowPersistance.selectWFInstanceInfo(projectionIdValue);
 				if (processIdList != null && !processIdList.isEmpty()) {
 					processId = Long.valueOf(processIdList.get(0).toString());
 				}
 				final String userId = (String) VaadinSession.getCurrent().getAttribute("userId");
-				final User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
 				sessionDto.setAction("edit");
 				sessionDto.setIsGenerated(BooleanConstant.getTrueFlag());
 				sessionDto.setProcessId(processId);

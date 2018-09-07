@@ -988,7 +988,7 @@ public class DiscountLogic {
                 input.add(null);
             }
             if (list.isEmpty()) {
-                RsContractDetailsImpl.saveRsDetailsAttached(input, null);
+                RsContractDetailsImpl.saveRsDetailsAttached(input);
             }
         } catch (Exception e) {
             LOGGER.error("",e);
@@ -2128,7 +2128,7 @@ public class DiscountLogic {
                 input.add(null);
             }
             if (list.isEmpty()) {
-                PsContractDetailsImpl.savePsDetailsAttached(input, null);
+                PsContractDetailsImpl.savePsDetailsAttached(input);
             }
         } catch (Exception e) {
             LOGGER.error("",e);
@@ -2235,7 +2235,7 @@ public class DiscountLogic {
             input.add(null);
         }
         if (list.isEmpty()) {
-            IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
+            IfpContractDetailsImpl.saveIfpDetailsAttached(input);
         }
 
         LOGGER.debug("End of saveIFP method");
@@ -2302,7 +2302,7 @@ public class DiscountLogic {
             input.add(null);
         }
         if (list.isEmpty()) {
-            CfpContractDetailsImpl.saveCfpDetailsAttached(input, null);
+            CfpContractDetailsImpl.saveCfpDetailsAttached(input);
         }
         LOGGER.debug("End of saveCFp method");
 
