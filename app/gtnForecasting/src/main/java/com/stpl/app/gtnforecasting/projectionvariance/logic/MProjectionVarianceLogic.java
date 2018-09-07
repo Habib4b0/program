@@ -573,7 +573,7 @@ public class MProjectionVarianceLogic {
         return resultList;
     }
 
-    public void getDateRangeHeaders(final ExtFilterTreeTable rightTable, CustomTableHeaderDTO rightHeader, Object fromDate, Object toDate, String frequency) {
+    public void getDateRangeHeaders(final ExtFilterTreeTable rightTable, CustomTableHeaderDTO rightHeader, Object fromDate, Object toDate) {
         String fromValue = String.valueOf(fromDate);
         String toValue = String.valueOf(toDate);
         String[] fromArray = fromValue.split(" ");
@@ -739,12 +739,12 @@ public class MProjectionVarianceLogic {
     }
 
     public int configureLevelsCount(PVSelectionDTO projSelDTO) {
-        CommonLogic commonLogic = new CommonLogic();
+        CommonLogic commonLogicMand = new CommonLogic();
         int count;
         if (projSelDTO.isIsCustomHierarchy()) {
-            count = commonLogic.getCountForCustomView(projSelDTO);
+            count = commonLogicMand.getCountForCustomView(projSelDTO);
         } else {
-            count = commonLogic.getCount(projSelDTO);
+            count = commonLogicMand.getCount(projSelDTO);
         }
         return count;
 
@@ -777,22 +777,23 @@ public class MProjectionVarianceLogic {
     }
 
     public static String getLevelListQuery(int projectionId, String hierIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isExpand, boolean isCount, int start, int offset, boolean isLimit, boolean isCustom, int customId, PVSelectionDTO projSelDTO) throws PortalException {
+        String hierIndicatorLevelList = hierIndicator;
         if (isCustom) {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             String hierarchyIndicatorQuery = "select HIERARCHY_INDICATOR from dbo.CUSTOM_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID=" + customId + " and LEVEL_NO=" + levelNo;
             List<Object> levelList = (List<Object>) salesProjectionDAO.executeSelectQuery(hierarchyIndicatorQuery);
             if (levelList != null && !levelList.isEmpty()) {
                 Object ob = levelList.get(0);
-                hierIndicator = String.valueOf(ob);
+                hierIndicatorLevelList = String.valueOf(ob);
             } else {
-                hierIndicator = StringUtils.EMPTY;
+                hierIndicatorLevelList = StringUtils.EMPTY;
             }
         }
         String hierarchyNoAtLevelList = StringUtils.EMPTY;
         String whereCondAtLevelList = " ";
         if (hierarchyNo != null) {
                 if ((!hierarchyNo.equals(StringUtils.EMPTY)) && (isExpand)) {
-                    whereCondAtLevelList = " and HLD" + hierIndicator.trim() + ".HIERARCHY_NO='" + hierarchyNo + "' ";
+                    whereCondAtLevelList = " and HLD" + hierIndicatorLevelList.trim() + ".HIERARCHY_NO='" + hierarchyNo + "' ";
                 }
                 if ((!isFilter) && (!hierarchyNo.equals(StringUtils.EMPTY))) {
                     hierarchyNoAtLevelList = hierarchyNo;
@@ -801,38 +802,38 @@ public class MProjectionVarianceLogic {
         String recordNumber = StringUtils.EMPTY;
         String selectClause = "select ";
         if (isCount) {
-            selectClause += " Count(distinct HLD" + hierIndicator.trim() + ".HIERARCHY_NO) ";
+            selectClause += " Count(distinct HLD" + hierIndicatorLevelList.trim() + ".HIERARCHY_NO) ";
         } else {
-            selectClause += " distinct HLD" + hierIndicator.trim() + ".LEVEL_NO, "
-                    + " HLD" + hierIndicator.trim() + ".TREE_LEVEL_NO, "
-                    + " '" + hierIndicator + Constant.AS_HIERARCHY_INDICATOR_COMMA
-                    + " HLD" + hierIndicator.trim() + ".LEVEL_NAME,"
-                    + " HLD" + hierIndicator.trim() + ".RELATIONSHIP_LEVEL_VALUES,"
-                    + " HLD" + hierIndicator.trim() + ".PARENT_NODE,"
-                    + " HLD" + hierIndicator.trim() + ".HIERARCHY_NO ";
+            selectClause += " distinct HLD" + hierIndicatorLevelList.trim() + ".LEVEL_NO, "
+                    + " HLD" + hierIndicatorLevelList.trim() + ".TREE_LEVEL_NO, "
+                    + " '" + hierIndicatorLevelList + Constant.AS_HIERARCHY_INDICATOR_COMMA
+                    + " HLD" + hierIndicatorLevelList.trim() + ".LEVEL_NAME,"
+                    + " HLD" + hierIndicatorLevelList.trim() + ".RELATIONSHIP_LEVEL_VALUES,"
+                    + " HLD" + hierIndicatorLevelList.trim() + ".PARENT_NODE,"
+                    + " HLD" + hierIndicatorLevelList.trim() + ".HIERARCHY_NO ";
             if (isLimit) {
-                recordNumber += " ORDER BY HLD" + hierIndicator.trim() + ".HIERARCHY_NO ASC OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
+                recordNumber += " ORDER BY HLD" + hierIndicatorLevelList.trim() + ".HIERARCHY_NO ASC OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
             } else {
-                selectClause += ", ROW_NUMBER() OVER (ORDER BY HLD" + hierIndicator.trim() + ".HIERARCHY_NO ASC) AS TEMP_INDEX ";
+                selectClause += ", ROW_NUMBER() OVER (ORDER BY HLD" + hierIndicatorLevelList.trim() + ".HIERARCHY_NO ASC) AS TEMP_INDEX ";
             }
         }
-        String selectClause1 = "(SELECT RLD.relationship_level_values,RLD.hierarchy_no,CCP.ccp_details_sid,RLD.hierarchy_level_definition_sid,RLD.level_no,RLD.level_no as TREE_LEVEL_NO," + "'" + hierIndicator + "'" + " HIERARCHY_INDICATOR,RLD.PARENT_NODE ";
-        String selectClause2 = " (SELECT RLD1.hierarchy_no,RLD1.relationship_level_sid,RLD1.relationship_level_values,RLD1.level_no,RLD1.level_name,RLD1.level_no as TREE_LEVEL_NO," + "'" + hierIndicator + "'" + " HIERARCHY_INDICATOR,RLD1.hierarchy_level_definition_sid,RLD1.PARENT_NODE ";
+        String selectClause1 = "(SELECT RLD.relationship_level_values,RLD.hierarchy_no,CCP.ccp_details_sid,RLD.hierarchy_level_definition_sid,RLD.level_no,RLD.level_no as TREE_LEVEL_NO," + "'" + hierIndicatorLevelList + "'" + " HIERARCHY_INDICATOR,RLD.PARENT_NODE ";
+        String selectClause2 = " (SELECT RLD1.hierarchy_no,RLD1.relationship_level_sid,RLD1.relationship_level_values,RLD1.level_no,RLD1.level_name,RLD1.level_no as TREE_LEVEL_NO," + "'" + hierIndicatorLevelList + "'" + " HIERARCHY_INDICATOR,RLD1.hierarchy_level_definition_sid,RLD1.PARENT_NODE ";
         String joinQuery1 = " relationship_level_definition RLD JOIN ccp_map CCP ON RLD.relationship_level_sid = CCP.relationship_level_sid JOIN projection_details PD "
                 + "  ON PD.ccp_details_sid = CCP.ccp_details_sid  AND PD.projection_master_sid =" + projectionId + " ) CCPMAP,";
 
-        String joinQuery2 = " relationship_level_definition RLD1 JOIN " + getViewTableName(hierIndicator) + " PCH  ON PCH.relationship_level_sid = RLD1.relationship_level_sid \n"
+        String joinQuery2 = " relationship_level_definition RLD1 JOIN " + getViewTableName(hierIndicatorLevelList) + " PCH  ON PCH.relationship_level_sid = RLD1.relationship_level_sid \n"
                 + " AND PCH.projection_master_sid =" + projectionId;
         if (projSelDTO.isIsCustomerDdlb()) {
-            joinQuery2 += " WHERE  RLD1.hierarchy_no LIKE '" + projSelDTO.getHierarchyNo() + "' AND RLD1.LEVEL_NAME IN (" + projSelDTO.getLevelName() + ")) HLD" + hierIndicator.trim();
+            joinQuery2 += " WHERE  RLD1.hierarchy_no LIKE '" + projSelDTO.getHierarchyNo() + "' AND RLD1.LEVEL_NAME IN (" + projSelDTO.getLevelName() + ")) HLD" + hierIndicatorLevelList.trim();
         } else {
-            joinQuery2 += " WHERE  RLD1.hierarchy_no LIKE '" + hierarchyNoAtLevelList + "%' AND RLD1.LEVEL_NO = " + levelNo + ") HLD" + hierIndicator.trim();
+            joinQuery2 += " WHERE  RLD1.hierarchy_no LIKE '" + hierarchyNoAtLevelList + "%' AND RLD1.LEVEL_NO = " + levelNo + ") HLD" + hierIndicatorLevelList.trim();
         }
-        String mainJoin = " WHERE  CCPMAP.hierarchy_no LIKE HLD" + hierIndicator.trim() + ".hierarchy_no + '%'";
+        String mainJoin = " WHERE  CCPMAP.hierarchy_no LIKE HLD" + hierIndicatorLevelList.trim() + ".hierarchy_no + '%'";
         String customSql = selectClause;
         if (isCustom) {
 
-            String customViewQuery = getCustomViewLevelListQuery(projectionId, customId, hierIndicator, levelNo, productHierarchyNo, customerHierarchyNo);
+            String customViewQuery = getCustomViewLevelListQuery(projectionId, customId, hierIndicatorLevelList, levelNo, productHierarchyNo, customerHierarchyNo);
             customSql += " from   " + customViewQuery;
         } else {
             customSql += " from  " + selectClause1 + "  from " + joinQuery1 + " " + selectClause2 + "  from  " + joinQuery2 + " " + mainJoin
@@ -845,8 +846,10 @@ public class MProjectionVarianceLogic {
     }
 
     public static String getCustomViewLevelListQuery(int projectionId, int customId, String hierarchyIndicator, int levelNo, String prodHierarchyNo, String custHierarchyNo) {
-        custHierarchyNo += Constant.PERCENT;
-        prodHierarchyNo += Constant.PERCENT;
+        String custHierarchyNoLevelList = custHierarchyNo;
+        String prodHierarchyNoLevelList = prodHierarchyNo;
+        custHierarchyNoLevelList += Constant.PERCENT;
+        prodHierarchyNoLevelList += Constant.PERCENT;
         String customLevelNo = Constant.PERCENT;
         String prodLevelNo = Constant.PERCENT;
 
@@ -874,7 +877,7 @@ public class MProjectionVarianceLogic {
                 + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID"
                 + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID "
                 + " JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId
-                + " WHERE RLD2.HIERARCHY_NO like '" + custHierarchyNo + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'"
+                + " WHERE RLD2.HIERARCHY_NO like '" + custHierarchyNoLevelList + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'"
                 + " JOIN  "
                 + " (SELECT distinct RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO as TREE_LEVEL_NO, RLD2.LEVEL_NO,RLD2.RELATIONSHIP_LEVEL_VALUES,RLD2.PARENT_NODE,RLD2.LEVEL_NAME FROM dbo.CUSTOM_VIEW_DETAILS CVD "
                 + " JOIN dbo.CUSTOM_VIEW_MASTER CVM ON "
@@ -882,7 +885,7 @@ public class MProjectionVarianceLogic {
                 + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID"
                 + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID "
                 + " JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId
-                + " WHERE RLD2.HIERARCHY_NO like '" + prodHierarchyNo + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE;
+                + " WHERE RLD2.HIERARCHY_NO like '" + prodHierarchyNoLevelList + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE;
         return customViewQuery;
     }
 
@@ -1022,22 +1025,24 @@ public class MProjectionVarianceLogic {
     }
 
     public int checkGroup(String group, PVSelectionDTO pVSelectionDTO, ProjectionVarianceDTO parentDto, String levelNo, int checkGroupCount) throws PortalException {
+        int checkGroup = checkGroupCount;
         if (group.contains(Constant.MANDATED_DISCOUNT) || group.contains(Constant.SUPPLEMENTAL_DISCOUNT_LABEL) || group.contains(Constant.MANDATED_RPU) || group.contains(SUPPLEMENTAL_RPU1)) {
             int pgCount = getProgramCodeCount(pVSelectionDTO, parentDto, levelNo);
-            checkGroupCount = pgCount;
+            checkGroup = pgCount;
         }
-        return checkGroupCount;
+        return checkGroup;
     }
 
     public int checkCount(PVSelectionDTO pVSelectionDTO, String group, int count) {
+        int checkcount = count;
         if (getColValue(pVSelectionDTO, group) || pVSelectionDTO.isColVariance() && group.contains(Constant.PVVariables.VAR_DIS_AMOUNT.toString().concat(Constant.VARIANCE))
                 || getColPercentage(pVSelectionDTO, group) || pVSelectionDTO.isColValue() && group.contains(Constant.PVVariables.VAR_DIS_RATE.toString().concat(Constant.VALUE))
                 || getDiscountRate(pVSelectionDTO, group) || pVSelectionDTO.isColPercentage() && group.contains(Constant.PVVariables.VAR_DIS_RATE.toString().concat(Constant.CHANGE))
                 || getRpuColumn(pVSelectionDTO, group) || getVarianceFlag(pVSelectionDTO, group)
                 || pVSelectionDTO.isColPercentage() && group.contains(Constant.PVVariables.VAR_RPU.toString().concat(Constant.CHANGE))) {
-            count = NumericConstants.TWO;
+            checkcount = NumericConstants.TWO;
         }
-        return count;
+        return checkcount;
     }
 
     private boolean getDiscountRate(PVSelectionDTO pVSelectionDTO, String group) {
@@ -1062,97 +1067,103 @@ public class MProjectionVarianceLogic {
 
     public int isVarNetProfit(PVSelectionDTO pVSelectionDTO, boolean flag, int isVarNetProfitCount) {
         //Net PRofit
+        int varNetProfitCount = isVarNetProfitCount;
         if (pVSelectionDTO.isVarNetProfit() && flag) {
             if (pVSelectionDTO.isColValue()) {
-                isVarNetProfitCount++;
+                varNetProfitCount++;
             }
             if (pVSelectionDTO.isColVariance()) {
-                isVarNetProfitCount++;
+                varNetProfitCount++;
             }
             if (pVSelectionDTO.isColPercentage()) {
-                isVarNetProfitCount++;
+                varNetProfitCount++;
             }
         }
-        return isVarNetProfitCount;
+        return varNetProfitCount;
     }
 
     public int isVarCOGC(PVSelectionDTO pVSelectionDTO, boolean flag, int isVarCOGCCount) {
         //COGC
+        int varCOGCCount = isVarCOGCCount;
         if (pVSelectionDTO.isVarCOGC() && flag) {
             if (pVSelectionDTO.isColValue()) {
-                isVarCOGCCount++;
+                varCOGCCount++;
             }
             if (pVSelectionDTO.isColVariance()) {
-                isVarCOGCCount++;
+                varCOGCCount++;
             }
             if (pVSelectionDTO.isColPercentage()) {
-                isVarCOGCCount++;
+                varCOGCCount++;
             }
         }
-        return isVarCOGCCount;
+        return varCOGCCount;
     }
 
     public int isVarNetSales(PVSelectionDTO pVSelectionDTO, boolean flag, int isVarNetSalesCount) {
         //Net Sales
+        int varNetSalesCount = isVarNetSalesCount;
         if (pVSelectionDTO.isVarNetSales() && flag) {
             if (pVSelectionDTO.isColValue()) {
-                isVarNetSalesCount++;
+                varNetSalesCount++;
             }
             if (pVSelectionDTO.isColVariance()) {
-                isVarNetSalesCount++;
+                varNetSalesCount++;
             }
             if (pVSelectionDTO.isColPercentage()) {
-                isVarNetSalesCount++;
+                varNetSalesCount++;
             }
         }
-        return isVarNetSalesCount;
+        return varNetSalesCount;
     }
 
     public int isVarRPU(PVSelectionDTO pVSelectionDTO, int isVarRPUCount) {
         //RPU
+         int varRPUCount = isVarRPUCount;
         if (pVSelectionDTO.isVarRPU()) {
             if (pVSelectionDTO.isColValue()) {
-                isVarRPUCount++;
+                varRPUCount++;
             }
             if (pVSelectionDTO.isColVariance()) {
-                isVarRPUCount++;
+                varRPUCount++;
             }
             if (pVSelectionDTO.isColPercentage()) {
-                isVarRPUCount++;
+                varRPUCount++;
             }
         }
-        return isVarRPUCount;
+        return varRPUCount;
     }
 
     public int isVarDisRate(PVSelectionDTO pVSelectionDTO, int isVarDisRateCount) {
         //Discount %
+        int varDisRateCount = isVarDisRateCount;
         if (pVSelectionDTO.isVarDisRate()) {
             if (pVSelectionDTO.isColValue()) {
-                isVarDisRateCount++;
+                varDisRateCount++;
             }
             if (pVSelectionDTO.isColVariance()) {
-                isVarDisRateCount++;
+                varDisRateCount++;
             }
             if (pVSelectionDTO.isColPercentage()) {
-                isVarDisRateCount++;
+                varDisRateCount++;
             }
         }
-        return isVarDisRateCount;
+        return varDisRateCount;
     }
 
     public int isVarDisAmount(PVSelectionDTO pVSelectionDTO, int isVarDisAmountCount) {
+        int varDisAmount = isVarDisAmountCount;
         if (pVSelectionDTO.isVarDisAmount()) {
             if (pVSelectionDTO.isColValue()) {
-                isVarDisAmountCount++;
+                varDisAmount++;
             }
             if (pVSelectionDTO.isColVariance()) {
-                isVarDisAmountCount++;
+                varDisAmount++;
             }
             if (pVSelectionDTO.isColPercentage()) {
-                isVarDisAmountCount++;
+                varDisAmount++;
             }
         }
-        return isVarDisAmountCount;
+        return varDisAmount;
     }
 
     public List<ProjectionVarianceDTO> getConfiguredProjectionVariance(Object parentId, PVSelectionDTO projSelDTO, int start, int offset) {
@@ -2135,8 +2146,8 @@ public class MProjectionVarianceLogic {
 
     public List<ProjectionVarianceDTO> getDetailsPivotVariance(final PVSelectionDTO pvsdto) {
         try {
-            CommonLogic commonLogic = new CommonLogic();
-           String ccpQuery = commonLogic.insertAvailableHierarchyNo(pvsdto);
+            CommonLogic commonLogicPv = new CommonLogic();
+           String ccpQuery = commonLogicPv.insertAvailableHierarchyNo(pvsdto);
             pvsdto.setYear("ALL");
             pvsdto.setProjectionId(pvsdto.getCurrentProjectionID());
             String query = ccpQuery + CommonLogic.getMandatedTempCCPQueryForCOGS(pvsdto) + " \n" + getProjectionVarianceQuery(pvsdto);
@@ -3524,19 +3535,21 @@ public class MProjectionVarianceLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
-        if (value.contains(NULL)) {
-            value = Constant.DASH;
+        String valueM = value;
+        if (valueM.contains(NULL)) {
+            valueM = Constant.DASH;
         } else {
-            value = decFormat.format(Double.valueOf(value));
+            valueM = decFormat.format(Double.valueOf(valueM));
         }
-        return value;
+        return valueM;
     }
 
     public String isNull(String value) {
-        if (value.contains(NULL)) {
-            value = ZERO;
+         String isNullValueM = value;
+        if (isNullValueM.contains(NULL)) {
+            isNullValueM = ZERO;
         }
-        return value;
+        return isNullValueM;
     }
 
     public List<ProjectionVarianceDTO> getCustomizedPivotTotalResults(final List<Object> results, List<Integer> priorProjGtsList, PVSelectionDTO pvsdto, PVSelectionDTO baseVariables) {
@@ -4940,8 +4953,8 @@ public class MProjectionVarianceLogic {
     }
 
         public List<Object> getProjVarianceResults(final PVSelectionDTO pvsdto) {
-        CommonLogic commonLogic = new CommonLogic();
-         String ccpQuery = commonLogic.insertAvailableHierarchyNo(pvsdto);
+        CommonLogic commonLogicPvResults = new CommonLogic();
+         String ccpQuery = commonLogicPvResults.insertAvailableHierarchyNo(pvsdto);
         pvsdto.setYear("ALL");
         pvsdto.setProjectionId(pvsdto.getSession().getProjectionId());
         String query;
@@ -6271,6 +6284,7 @@ public class MProjectionVarianceLogic {
     public List getpcNames(PVSelectionDTO projectionVarianceSelectionDTO, ProjectionVarianceDTO projectionVarianceDTO, String levelNo, String currentOrPrior, boolean isNetSales, boolean isProgramCodeCount) throws PortalException {
         int projectionId = 0;
         int projectionIdCCP = 0;
+        String levelNoTcpNames = levelNo;
         if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(currentOrPrior)) {
             projectionIdCCP = projectionVarianceSelectionDTO.getSession().getProjectionId();
             projectionId = projectionVarianceSelectionDTO.getProjectionId();
@@ -6304,7 +6318,7 @@ public class MProjectionVarianceLogic {
             prodLevelNo = StringUtils.isBlank(String.valueOf(customLevelNo)) ? Constant.PERCENT : String.valueOf(customLevelNo);
         }
         if (projectionVarianceSelectionDTO.isIsCustomHierarchy()) {
-            levelNo = String.valueOf(projectionVarianceSelectionDTO.getLevelNo());
+            levelNoTcpNames = String.valueOf(projectionVarianceSelectionDTO.getLevelNo());
         }
         if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equalsIgnoreCase(hierarchyIndicator)) {
             hierarchy = "PROJECTION_CUST_HIERARCHY";
@@ -6318,7 +6332,7 @@ public class MProjectionVarianceLogic {
         } else {
 
             customSQL = "SELECT\n"
-                    + "       '" + levelNo + "' AS LEVEL_NO,\n"
+                    + "       '" + levelNoTcpNames + "' AS LEVEL_NO,\n"
                     + "       'LEVEL_NAME' AS LEVEL_NAME,\n";
             if (projectionVarianceSelectionDTO.getGroup().contains(Constant.MANDATED_DISCOUNT) || projectionVarianceSelectionDTO.getGroup().contains(Constant.SUPPLEMENTAL_DISCOUNT_LABEL)
                     || projectionVarianceSelectionDTO.getGroup().contains(Constant.MANDATED_RPU) || projectionVarianceSelectionDTO.getGroup().contains(SUPPLEMENTAL_RPU1)) {
@@ -6372,7 +6386,7 @@ public class MProjectionVarianceLogic {
                     + "                                     FROM   RELATIONSHIP_LEVEL_DEFINITION RLD2\n"
                     + "                                     JOIN   " + hierarchy + " PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID\n"
                     + "                                                                          AND PCH2.PROJECTION_MASTER_SID = " + projectionIdCCP + "\n"
-                    + "                                     WHERE  RLD2.LEVEL_NO = " + levelNo + ")) CCP ON CCP.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n";
+                    + "                                     WHERE  RLD2.LEVEL_NO = " + levelNoTcpNames + ")) CCP ON CCP.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n";
         } else {
             customSQL += "JOIN    (SELECT distinct HLD" + hierarchyIndicator + ".RELATIONSHIP_LEVEL_SID,HLD" + hierarchyIndicator + ".HIERARCHY_NO, CCPMAPC.CCP_DETAILS_SID FROM\n"
                     + "  (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD\n"

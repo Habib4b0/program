@@ -42,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -326,7 +327,7 @@ public class UiUtils {
 	 * @return
 	 */
 	public static String capitalizeCaptions(String value) {
-		return value.toUpperCase();
+		return value.toUpperCase(Locale.ENGLISH);
 	}
 
 	/**
@@ -397,7 +398,7 @@ public class UiUtils {
                 StringBuilder finalValueBuilder = new StringBuilder();
 		int loop = 0;
                 String hqlFieldName = fieldName;
-		hqlFieldName = hqlFieldName.toLowerCase();
+		hqlFieldName = hqlFieldName.toLowerCase(Locale.ENGLISH);
 		String[] splitArray = hqlFieldName.split("_");
 		if (indicator.equals("table")) {
 			loop = 0;
@@ -407,7 +408,7 @@ public class UiUtils {
 		}
 		for (int i = loop, j = splitArray.length; i < j; i++) {
                         finalValueBuilder.append(finalValue).append(splitArray[i].replaceFirst(String.valueOf(splitArray[i].charAt(0)),
-					String.valueOf(splitArray[i].charAt(0)).toUpperCase()));
+					String.valueOf(splitArray[i].charAt(0)).toUpperCase(Locale.ENGLISH)));
 		}
                 finalValue = finalValueBuilder.toString();
 		return finalValue;
@@ -490,11 +491,12 @@ public class UiUtils {
 
 	public static Date parseDate(String value, String format) throws ParseException {
 		LOGGER.debug("UiUtils - parseDate period= {}, format= {} " , value, format);
+                String valueparseDate = value;
 		Date date = null;
-		value = convertNullToEmpty(value);
+		valueparseDate = convertNullToEmpty(valueparseDate);
 		SimpleDateFormat parse = new SimpleDateFormat(format);
-		if (value != null && !StringUtils.EMPTY.equals(value) && !CommonConstants.NULL.getConstant().equals(value)) {
-			date = parse.parse(value);
+		if (valueparseDate != null && !StringUtils.EMPTY.equals(valueparseDate) && !CommonConstants.NULL.getConstant().equals(valueparseDate)) {
+			date = parse.parse(valueparseDate);
 		}
 		return date;
 	}
@@ -505,7 +507,7 @@ public class UiUtils {
 			for (Object propertyId : table.getVisibleColumns()) {
 				table.setColumnWidth(propertyId, columnWidth);
 				if ((screenName.equals(TAB_PPA_PROJECTION.getConstant()))
-						&& (String.valueOf(propertyId).toLowerCase().contains("reset"))) {
+						&& (String.valueOf(propertyId).toLowerCase(Locale.ENGLISH).contains("reset"))) {
 					table.setColumnWidth(propertyId, 70);
 				}
 			}

@@ -1053,22 +1053,22 @@ public class Copycomponents extends CustomComponent {
                 contractMaster = ContractMasterLocalServiceUtil.addContractMaster(contractMaster);
                 contractMasterSid = contractMaster.getContractMasterSid();
                 contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(String.valueOf(contractMasterSid));
-                int AliasType = ((HelperDTO) contractDashBoardTable.getContainerProperty(item, Constants.ALIAS_TYPE).getValue()).getId();
-                Date AliasSDATE = (Date) contractDashBoardTable.getContainerProperty(item, Constants.ALIAS_START_DATE).getValue();
-                String AliasNumber = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.ALIAS_NUMBER).getValue());
-                Date AliasEDATE = (Date) contractDashBoardTable.getContainerProperty(item, Constants.ALIAS_END_DATE).getValue();
-                ContractAliasMaster CAM = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
-                CAM.setContractAliasNo(AliasNumber);
-                CAM.setContractAliasType(AliasType);
-                CAM.setStartDate(AliasSDATE);
-                CAM.setEndDate(AliasEDATE);
-                CAM.setModifiedDate(new Date());
-                CAM.setCreatedBy(Integer.parseInt(userId));
-                CAM.setCreatedDate(new Date());
-                CAM.setSource("BPI");
-                CAM.setInboundStatus(Constants.A);
-                CAM.setContractMasterSid(contractMasterSid);
-                ContractAliasMasterLocalServiceUtil.addContractAliasMaster(CAM);
+                int aliasType = ((HelperDTO) contractDashBoardTable.getContainerProperty(item, Constants.ALIAS_TYPE).getValue()).getId();
+                Date aliasSdate = (Date) contractDashBoardTable.getContainerProperty(item, Constants.ALIAS_START_DATE).getValue();
+                String aliasNumber = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.ALIAS_NUMBER).getValue());
+                Date aliasEdate = (Date) contractDashBoardTable.getContainerProperty(item, Constants.ALIAS_END_DATE).getValue();
+                ContractAliasMaster caMaster = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
+                caMaster.setContractAliasNo(aliasNumber);
+                caMaster.setContractAliasType(aliasType);
+                caMaster.setStartDate(aliasSdate);
+                caMaster.setEndDate(aliasEdate);
+                caMaster.setModifiedDate(new Date());
+                caMaster.setCreatedBy(Integer.parseInt(userId));
+                caMaster.setCreatedDate(new Date());
+                caMaster.setSource("BPI");
+                caMaster.setInboundStatus(Constants.A);
+                caMaster.setContractMasterSid(contractMasterSid);
+                ContractAliasMasterLocalServiceUtil.addContractAliasMaster(caMaster);
             } else if (level.equals(Constants.ONE)) {
                 saveCFP(item);
             } else if (level.equals(Constants.TWO)) {

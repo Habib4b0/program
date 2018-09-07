@@ -147,7 +147,7 @@ public class NMDiscountExcelLogic {
         String discount = getValue(String.valueOf(obj[NumericConstants.FIVE]), StringUtils.EMPTY);
         String discountId = projectionSelection.isIsCustomHierarchy() ? StringUtils.EMPTY : discount;
         String header = commonLogic.getHeaderForExcel(freq, obj, discountId, StringUtils.EMPTY);
-        String column = commonLogic.getHeaderForExcelDiscount(freq, obj, discountId, StringUtils.EMPTY);
+        String column = commonLogic.getHeaderForExcelDiscount(freq, obj, StringUtils.EMPTY);
         boolean isActuals = "0".equals(String.valueOf(obj[NumericConstants.THREE]));
         String hierarchyNo = String.valueOf(obj[NumericConstants.ZERO]).trim();
         hierarchyNo = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0].trim() : hierarchyNo;
@@ -166,7 +166,7 @@ public class NMDiscountExcelLogic {
             discountProjectionDTO.setDeductionInclusion(projectionSelection.isIsCustomHierarchy() ? getValue(String.valueOf(obj[NumericConstants.TWELVE]), StringUtils.EMPTY)
                     : getValue(String.valueOf(obj[NumericConstants.FOURTEEN]), StringUtils.EMPTY));
         } else {
-            discountProjectionDTO.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat()));
+            discountProjectionDTO.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo,  hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat()));
 
         }
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(header) && !Constant.NULL.equals(discountProjectionDTO.getDeductionInclusion())) {
@@ -238,7 +238,7 @@ public class NMDiscountExcelLogic {
      
         public void excelFormattedColumns(DiscountProjectionDTO discountProjectionDTO, ProjectionSelectionDTO projectionSelection, String hierarchyNo, String hierarchyIndicator, Map<String, List> hierarchyLevelDetails) {
 
-        List<String> levelName = CommonUtil.getFormattedDisplayName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat());
+        List<String> levelName = CommonUtil.getFormattedDisplayName(hierarchyNo,  hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat());
         discountProjectionDTO.setLevelName(levelName.toString());
         if (projectionSelection.getDisplayFormat().length == 1 && projectionSelection.getDisplayFormat().length > 0) {
             int index = (int) projectionSelection.getDisplayFormat()[0];

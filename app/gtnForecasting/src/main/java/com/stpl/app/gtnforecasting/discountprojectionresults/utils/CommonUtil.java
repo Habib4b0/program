@@ -42,6 +42,9 @@ import java.util.Calendar;
  * @author pvinoth
  */
 public class CommonUtil {
+    private CommonUtil() {
+        // CommonUtil
+    }
     
     static void getHistoryAndProjectionDetailsDPR(ProjectionSelectionDTO projSelDTO) {
         int frequencyDivision = 1;

@@ -82,7 +82,7 @@ public class ExclusionDetailsLogic {
         saveQuery = saveQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
         sbQuery.append(saveQuery);
         for (ExclusionLookupDTO dtoList : list) {
-            sbQuery.append("(").append(projectionSid).append(",'").append(dtoList.getExcludedField()).append("'" + ",'").append(dtoList.getValues()).append("'),");
+            sbQuery.append("(").append(projectionSid).append(",'").append(dtoList.getExcludedField()).append(ARMUtils.SINGLE_QUOTES).append(",'").append(dtoList.getValues()).append("'),");
         }
         sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
         String query = isView ? SQlUtil.getQuery("saveORUpdateQueryPipeline") : SQlUtil.getQuery("saveORUpdateQueryPipelineEdit");
@@ -185,14 +185,14 @@ public class ExclusionDetailsLogic {
                         } else {
                             sbQuery.append("null");
                         }
-                        sbQuery.append("," + null + "," + null + "),");
+                        sbQuery.append("," + null + ARMUtils.COMMA_CHAR + null + "),");
 
                     }
                 }
             } else {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (ExclusionLookupDTO idValue : saveViewDTO.getFieldList()) {
-                        sbQuery.append("(" + viewSid + "," + null + "," + null + "," + null + "," + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
+                        sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
                     }
                 }
 
@@ -234,7 +234,7 @@ public class ExclusionDetailsLogic {
 
             DAO.executeUpdate(deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogic" , ex);
+            LOGGER.error("Error in deleteViewLogic", ex);
         }
     }
 
@@ -245,44 +245,42 @@ public class ExclusionDetailsLogic {
 
             DAO.executeUpdate(deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogicForInventory" , ex);
+            LOGGER.error("Error in deleteViewLogicForInventory", ex);
         }
     }
 
     public List getSavedViewList(ViewLookupDTO exRateDTO, boolean isCount, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet) {
-        List<ViewLookupDTO> dtoList = Collections.emptyList();
         try {
             getAllUsers();
-            String viewValue = exRateDTO.getViewName();
+            String exclusionViewValue = exRateDTO.getViewName();
             if (StringUtils.isNotBlank(exRateDTO.getViewName())) {
-                viewValue = viewValue.replace("*", "%");
+                exclusionViewValue = exclusionViewValue.replace("*", "%");
             }
-            StringBuilder query;
+            StringBuilder exclQuery;
             if (isCount) {
-                query = new StringBuilder();
-                query.append("select count(Distinct AVM.ARM_VIEW_MASTER_SID) from ARM_VIEW_MASTER AVM   ");
-                query.append("Join ARM_VIEW_DETAILS AVD ON AVD.ARM_VIEW_MASTER_SID=AVM.ARM_VIEW_MASTER_SID \n");
-                query.append("where AVM.VIEW_TYPE  = '").append(VariableConstants.PRIVATE_VIEW.equalsIgnoreCase(exRateDTO.getViewType()) ? VariableConstants.A_PRIVATE : "Public").append(" '  AND AVM.VIEW_NAME like'@VIEW_NAME'");
+                exclQuery = new StringBuilder();
+                exclQuery.append("select count(Distinct AVM.ARM_VIEW_MASTER_SID) from ARM_VIEW_MASTER AVM   ");
+                exclQuery.append("Join ARM_VIEW_DETAILS AVD ON AVD.ARM_VIEW_MASTER_SID=AVM.ARM_VIEW_MASTER_SID \n");
+                exclQuery.append("where AVM.VIEW_TYPE  = '").append(VariableConstants.PRIVATE_VIEW.equalsIgnoreCase(exRateDTO.getViewType()) ? VariableConstants.A_PRIVATE : "Public").append(" '  AND AVM.VIEW_NAME like'@VIEW_NAME'");
 
             } else {
-                query = new StringBuilder();
-                query.append("select Distinct AVM.ARM_VIEW_MASTER_SID,AVM.VIEW_NAME,AVM.VIEW_TYPE,AVM.CREATED_BY,AVM.CREATED_DATE,AVM.MODIFIED_DATE,AVM.MODIFIED_BY from ARM_VIEW_MASTER AVM \n");
-                query.append("Join ARM_VIEW_DETAILS AVD ON AVD.ARM_VIEW_MASTER_SID=AVM.ARM_VIEW_MASTER_SID \n");
-                query.append("where AVM.VIEW_TYPE  = '").append(VariableConstants.PRIVATE_VIEW.equalsIgnoreCase(exRateDTO.getViewType()) ? VariableConstants.A_PRIVATE : "Public").append(" '  AND AVM.VIEW_NAME like'@VIEW_NAME'  ");
+                exclQuery = new StringBuilder();
+                exclQuery.append("select Distinct AVM.ARM_VIEW_MASTER_SID,AVM.VIEW_NAME,AVM.VIEW_TYPE,AVM.CREATED_BY,AVM.CREATED_DATE,AVM.MODIFIED_DATE,AVM.MODIFIED_BY from ARM_VIEW_MASTER AVM \n");
+                exclQuery.append("Join ARM_VIEW_DETAILS AVD ON AVD.ARM_VIEW_MASTER_SID=AVM.ARM_VIEW_MASTER_SID \n");
+                exclQuery.append("where AVM.VIEW_TYPE  = '").append(VariableConstants.PRIVATE_VIEW.equalsIgnoreCase(exRateDTO.getViewType()) ? VariableConstants.A_PRIVATE : "Public").append(" '  AND AVM.VIEW_NAME like'@VIEW_NAME'  ");
 
             }
 
-            String queryVal = query.toString().replace("@VIEW_NAME", viewValue);
-            query = new StringBuilder(queryVal);
+            String queryVal = exclQuery.toString().replace("@VIEW_NAME", exclusionViewValue);
+            exclQuery = new StringBuilder(queryVal);
             if (StringUtils.EMPTY.equalsIgnoreCase(exRateDTO.getDetailsValue())) {
-                query.append(" AND AVD.FIELD_VALUES is NOT Null");
+                exclQuery.append(" AND AVD.FIELD_VALUES is NOT Null");
             } else {
-                query.append("C".equalsIgnoreCase(exRateDTO.getDetailsValue()) ? " AND AVD.COMPANY_MASTER_SID is NOT Null AND AVD.CHECK_RECORD is NOT NULL  " : "    AND AVD.COMPANY_GROUP_SID is NOT Null AND AVD.CHECK_RECORD is NOT NULL  ");
+                exclQuery.append("C".equalsIgnoreCase(exRateDTO.getDetailsValue()) ? " AND AVD.COMPANY_MASTER_SID is NOT Null AND AVD.CHECK_RECORD is NOT NULL  " : "    AND AVD.COMPANY_GROUP_SID is NOT Null AND AVD.CHECK_RECORD is NOT NULL  ");
             }
             if (exRateDTO.getViewTypeFlag()) {
-                query.append("  AND AVM.CREATED_BY=").append(exRateDTO.getCreatedBy());
+                exclQuery.append("  AND AVM.CREATED_BY=").append(exRateDTO.getCreatedBy());
             }
-            StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
             HashMap<String, String> detailsColumn = new HashMap<>();
             detailsColumn.put("viewName", "AVM.VIEW_NAME");
             detailsColumn.put("viewType", "AVM.VIEW_TYPE");
@@ -291,87 +289,10 @@ public class ExclusionDetailsLogic {
             detailsColumn.put("modifiedBy", "AVM.MODIFIED_BY");
             detailsColumn.put("modifiedDate", "AVM.MODIFIED_DATE");
             boolean makeCount = false;
-            if (filterSet != null) {
-
-                for (Container.Filter filter : filterSet) {
-                    if (filter instanceof SimpleStringFilter) {
-                        SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                        String filterString = "%" + stringFilter.getFilterString() + "%";
-                        if ("viewCategory".equals(stringFilter.getPropertyId())) {
-                            if (!exRateDTO.getViewCategory().toLowerCase(Locale.ENGLISH).contains(stringFilter.getFilterString().toLowerCase(Locale.ENGLISH))) {
-                                makeCount = true;
-                            }
-                        } else {
-                            filterQuery.append(" AND ").append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
-                            filterQuery.append(" like '").append(filterString).append("'");
-                        }
-
-                    } else if (filter instanceof Between) {
-                        Between betweenFilter = (Between) filter;
-                        StringBuilder dateStartstr = new StringBuilder("AND ( * >='?')");
-                        StringBuilder dateEndstr = new StringBuilder("AND ( * <='?')");
-                        if (!detailsColumn.get(betweenFilter.getPropertyId().toString()).isEmpty()) {
-                            Date startValue = (Date) betweenFilter.getStartValue();
-                            Date endValue = (Date) betweenFilter.getEndValue();
-                            StringBuilder initialStart = new StringBuilder("where ( ( * >= '?' )");
-                            StringBuilder initialEnd = new StringBuilder("where ( ( * <= '?' )");
-                            if (!betweenFilter.getStartValue().toString().isEmpty()) {
-                                StringBuilder tempStart;
-                                if (query.length() == 0) {
-                                    tempStart = new StringBuilder(initialStart);
-                                } else {
-                                    tempStart = new StringBuilder(dateStartstr);
-                                }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
-                                query.append(tempStart);
-                            }
-                            if (!betweenFilter.getEndValue().toString().isEmpty()) {
-                                StringBuilder tempEnd;
-                                if (query.length() == 0) {
-                                    tempEnd = new StringBuilder(initialEnd);
-                                } else {
-                                    tempEnd = new StringBuilder(dateEndstr);
-                                }
-
-                                tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
-                                query.append(tempEnd);
-                            }
-                        }
-                    }
-                }
-            }
+            StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
+            makeCount = getExculstionFilters(filterSet, exRateDTO, makeCount, filterQuery, detailsColumn, exclQuery);
             StringBuilder finalQuery;
-            String order = StringUtils.EMPTY;
-            if (!isCount) {
-                boolean sortOrder = false;
-                String columnName = null;
-                String orderByColumn = null;
-                if (sortByColumns != null) {
-                    for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
-                        final SortByColumn sortByColumn = iterator.next();
-
-                        columnName = sortByColumn.getName();
-                        orderByColumn = detailsColumn.get(columnName);
-
-                        if (sortByColumn.getType() == SortByColumn.Type.ASC) {
-                            sortOrder = false;
-                        } else {
-                            sortOrder = true;
-                        }
-                    }
-                }
-                if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
-                    order = order + " ORDER BY AVM.VIEW_NAME ";
-                } else {
-                    order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
-                }
-                order = order + " " + "OFFSET ";
-                order = order + startIndex;
-                order = order + " ROWS FETCH NEXT " + endIndex;
-                order = order + " ROWS ONLY;";
-            }
+            String order = getOrderBy(isCount, sortByColumns, detailsColumn, startIndex, endIndex);
             if (makeCount) {
                 if (isCount) {
                     List<Object> list = new ArrayList<>();
@@ -383,52 +304,137 @@ public class ExclusionDetailsLogic {
             } else {
                 if (isCount) {
                     finalQuery = new StringBuilder();
-                    finalQuery.append(query.toString()).append(filterQuery.toString());
+                    finalQuery.append(exclQuery.toString()).append(filterQuery.toString());
                 } else {
                     finalQuery = new StringBuilder();
-                    finalQuery.append(query.toString()).append(filterQuery.toString()).append(order);
+                    finalQuery.append(exclQuery.toString()).append(filterQuery.toString()).append(order);
                 }
                 if (isCount) {
                     return HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
                 }
 
                 List<Object[]> rawList = QueryUtils.executeSelect(finalQuery.toString());
-                if (!rawList.isEmpty()) {
-
-                    dtoList = new ArrayList();
-                    for (int i = 0; i < rawList.size(); i++) {
-                        Object[] obj = rawList.get(i);
-                        ViewLookupDTO dto = new ViewLookupDTO();
-                        dto.setViewSid(String.valueOf(obj[0]));
-                        dto.setViewName(String.valueOf(obj[1]));
-                        dto.setViewType(VariableConstants.A_PRIVATE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO])) ? VariableConstants.PRIVATE_VIEW : "publicView");
-                        dto.setViewCategory(exRateDTO.getViewCategory());
-                        dto.setCreatedUser(String.valueOf(obj[NumericConstants.THREE]));
-                        dto.setCreatedBy(userMap.get(String.valueOf(obj[NumericConstants.THREE])));
-                        dto.setCreatedDate((Date) obj[NumericConstants.FOUR]);
-                        dto.setModifiedDate((Date) obj[NumericConstants.FIVE]);
-                        dto.setModifiedBy(userMap.get(String.valueOf(obj[NumericConstants.SIX])) != null ? userMap.get(String.valueOf(obj[NumericConstants.SIX])) : StringUtils.EMPTY);
-                        dtoList.add(dto);
-                    }
-                }
-                return dtoList;
+                return getCustomizedList(rawList, exRateDTO);
             }
         } catch (Exception e) {
             LOGGER.error("Error in getSavedViewList :", e);
-            return dtoList;
+            return Collections.emptyList();
         }
 
+    }
+
+    private List getCustomizedList(List<Object[]> rawList, ViewLookupDTO exRateDTO) {
+        List<ViewLookupDTO> dtoList = new ArrayList<>();
+        if (!rawList.isEmpty()) {
+            for (int i = 0; i < rawList.size(); i++) {
+                Object[] obj = rawList.get(i);
+                ViewLookupDTO dto = new ViewLookupDTO();
+                dto.setViewSid(String.valueOf(obj[0]));
+                dto.setViewName(String.valueOf(obj[1]));
+                dto.setViewType(VariableConstants.A_PRIVATE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO])) ? VariableConstants.PRIVATE_VIEW : "publicView");
+                dto.setViewCategory(exRateDTO.getViewCategory());
+                dto.setCreatedUser(String.valueOf(obj[NumericConstants.THREE]));
+                dto.setCreatedBy(userMap.get(String.valueOf(obj[NumericConstants.THREE])));
+                dto.setCreatedDate((Date) obj[NumericConstants.FOUR]);
+                dto.setModifiedDate((Date) obj[NumericConstants.FIVE]);
+                dto.setModifiedBy(userMap.get(String.valueOf(obj[NumericConstants.SIX])) != null ? userMap.get(String.valueOf(obj[NumericConstants.SIX])) : StringUtils.EMPTY);
+                dtoList.add(dto);
+            }
+        }
+        return dtoList;
+    }
+
+    private String getOrderBy(boolean isCount, final List<SortByColumn> exclSortByColumns, HashMap<String, String> exclDetailsColumn, final int startIndex, final int endIndex) {
+        String exclOrder = StringUtils.EMPTY;
+        if (!isCount) {
+            boolean sortOrder = false;
+            String columnName = null;
+            String orderByColumn = null;
+            if (exclSortByColumns != null) {
+                for (final Iterator<SortByColumn> iterator = exclSortByColumns.iterator(); iterator.hasNext();) {
+                    final SortByColumn sortByColumn = iterator.next();
+                    columnName = sortByColumn.getName();
+                    orderByColumn = exclDetailsColumn.get(columnName);
+
+                    sortOrder = sortByColumn.getType() != SortByColumn.Type.ASC;
+                }
+            }
+            if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
+                exclOrder = exclOrder + " ORDER BY AVM.VIEW_NAME ";
+            } else {
+                exclOrder = exclOrder + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
+            }
+            exclOrder = exclOrder + " " + "OFFSET ";
+            exclOrder = exclOrder + startIndex;
+            exclOrder = exclOrder + " ROWS FETCH NEXT " + endIndex;
+            exclOrder = exclOrder + " ROWS ONLY;";
+        }
+        return exclOrder;
+    }
+
+    private boolean getExculstionFilters(final Set<Container.Filter> filterSet, ViewLookupDTO exRateDTO, boolean makeCount, StringBuilder filterQuery, HashMap<String, String> detailsColumn, StringBuilder exclQuery) {
+        if (filterSet != null) {
+
+            for (Container.Filter exclFilter : filterSet) {
+                if (exclFilter instanceof SimpleStringFilter) {
+                    SimpleStringFilter stringFilter = (SimpleStringFilter) exclFilter;
+                    String filterString = "%" + stringFilter.getFilterString() + "%";
+                    if ("viewCategory".equals(stringFilter.getPropertyId())) {
+                        if (!exRateDTO.getViewCategory().toLowerCase(Locale.ENGLISH).contains(stringFilter.getFilterString().toLowerCase(Locale.ENGLISH))) {
+                            makeCount = true;
+                        }
+                    } else {
+                        filterQuery.append(" AND ").append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
+                        filterQuery.append(" like '").append(filterString).append(ARMUtils.SINGLE_QUOTES);
+                    }
+
+                } else if (exclFilter instanceof Between) {
+                    Between betweenexclFilter = (Between) exclFilter;
+                    StringBuilder dateStar = new StringBuilder("AND ( * >='?')");
+                    StringBuilder dateEnd = new StringBuilder("AND ( * <='?')");
+                    if (!detailsColumn.get(betweenexclFilter.getPropertyId().toString()).isEmpty()) {
+                        Date startValue = (Date) betweenexclFilter.getStartValue();
+                        Date endValue = (Date) betweenexclFilter.getEndValue();
+                        StringBuilder initialStart = new StringBuilder("where ( ( * >= '?' )");
+                        StringBuilder initialEnd = new StringBuilder("where ( ( * <= '?' )");
+                        if (!betweenexclFilter.getStartValue().toString().isEmpty()) {
+                            StringBuilder tempStart = getTempStringBuilder(exclQuery, initialStart, dateStar);
+                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(betweenexclFilter.getPropertyId().toString()));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
+                            exclQuery.append(tempStart);
+                        }
+                        if (!betweenexclFilter.getEndValue().toString().isEmpty()) {
+                            StringBuilder tempEnd = getTempStringBuilder(exclQuery, initialEnd, dateEnd);
+                            tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(betweenexclFilter.getPropertyId().toString()));
+                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
+                            exclQuery.append(tempEnd);
+                        }
+                    }
+                }
+            }
+        }
+        return makeCount;
+    }
+
+    private StringBuilder getTempStringBuilder(StringBuilder exclQuery, StringBuilder initialStart, StringBuilder dateStar) {
+        StringBuilder tempStart;
+        if (exclQuery.length() == 0) {
+            tempStart = new StringBuilder(initialStart);
+        } else {
+            tempStart = new StringBuilder(dateStar);
+        }
+        return tempStart;
     }
 
     public static void getAllUsers() {
         List<Object> userList = new ArrayList<>();
         try {
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(User.class);
-            final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
-            productProjectionList.add(ProjectionFactoryUtil.property("userId"));
-            productProjectionList.add(ProjectionFactoryUtil.property("firstName"));
-            productProjectionList.add(ProjectionFactoryUtil.property("lastName"));
-            query.setProjection(productProjectionList);
+            final ProjectionList productexclusionProjectionList = ProjectionFactoryUtil.projectionList();
+            productexclusionProjectionList.add(ProjectionFactoryUtil.property("userId"));
+            productexclusionProjectionList.add(ProjectionFactoryUtil.property("firstName"));
+            productexclusionProjectionList.add(ProjectionFactoryUtil.property("lastName"));
+            query.setProjection(productexclusionProjectionList);
 
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
@@ -436,20 +442,20 @@ public class ExclusionDetailsLogic {
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getAllUsers :" , ex);
+            LOGGER.error("Error in getAllUsers :", ex);
         }
     }
 
     public List<ExclusionLookupDTO> getListInitialInsertFromARC(List input) {
         List<ExclusionLookupDTO> finalList = new ArrayList<>();
         try {
-            List<Object[]> rawList = QueryUtils.getItemData(input, "getIntialInsertQueryFromARC", null);
-            if (rawList == null || rawList.isEmpty()) {
+            List<Object[]> exclusionRawList = QueryUtils.getItemData(input, "getIntialInsertQueryFromARC", null);
+            if (exclusionRawList == null || exclusionRawList.isEmpty()) {
                 return Collections.emptyList();
             }
-            if (!rawList.isEmpty()) {
-                for (int i = 0; i < rawList.size(); i++) {
-                    Object[] obj = rawList.get(i);
+            if (!exclusionRawList.isEmpty()) {
+                for (int i = 0; i < exclusionRawList.size(); i++) {
+                    Object[] obj = exclusionRawList.get(i);
                     ExclusionLookupDTO dtoValue = new ExclusionLookupDTO();
                     dtoValue.setValues(String.valueOf(obj[1]));
                     dtoValue.setExcludedField(String.valueOf(obj[0]));

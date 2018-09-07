@@ -24,30 +24,30 @@ import org.apache.commons.lang.StringUtils;
 public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
     @Override
-    public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
-        List replaceList = new ArrayList();
+    public List<List> getReserveAccountDetails(AbstractSelectionDTO accrualSelection, Boolean isReserve) {
+        List pipelineReplaceList = new ArrayList();
         List<String> reserveHeader = new ArrayList<>();
         List<String> reserveProperty = new ArrayList<>();
         List<List> finalList = new ArrayList<>();
-        StringBuilder value;
+        StringBuilder accrualValue;
         StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
-        replaceList.add(isReserveValue);
-        if (selection.getDataSelectionDTO().getAdjustmentType() != null) {
-            replaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
+        pipelineReplaceList.add(isReserveValue);
+        if (accrualSelection.getDataSelectionDTO().getAdjustmentType() != null) {
+            pipelineReplaceList.add(accrualSelection.getDataSelectionDTO().getAdjustmentId());
         }
-        replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-        replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
+        pipelineReplaceList.add(accrualSelection.getDataSelectionDTO().getProjectionId());
+        pipelineReplaceList.add(accrualSelection.getDataSelectionDTO().getProjectionId());
+        pipelineReplaceList.add(accrualSelection.getDataSelectionDTO().getCompanyMasterSid());
+        pipelineReplaceList.add(accrualSelection.getDataSelectionDTO().getBucompanyMasterSid());
         StringBuilder query;
-        if (selection.getSessionDTO().isWorkFlow()) {
+        if (accrualSelection.getSessionDTO().isWorkFlow()) {
             query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
+            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(accrualSelection.getDataSelectionDTO().getProjectionId()));
             query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
         } else {
             query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
-            for (Object temp : replaceList) {
+            for (Object temp : pipelineReplaceList) {
                 query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
             }
         }
@@ -55,22 +55,22 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         if (list != null) {
 
             for (int i = 0; i < list.size(); i++) {
-                Object[] obj = (Object[]) list.get(i);
-                value = new StringBuilder(StringUtils.EMPTY);
+                Object[] pipelineObj = (Object[]) list.get(i);
+                accrualValue = new StringBuilder(StringUtils.EMPTY);
                 property = new StringBuilder(StringUtils.EMPTY);
-                if (isValid(obj[0])) {
-                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
-                    property = new StringBuilder(String.valueOf(obj[0]));
+                if (isValid(pipelineObj[0])) {
+                    accrualValue = new StringBuilder(helperId.getDescriptionByID((Integer) (pipelineObj[0])));
+                    property = new StringBuilder(String.valueOf(pipelineObj[0]));
                 }
-                if (isValid(obj[1])) {
-                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
-                    property.append(DASH).append(String.valueOf(obj[1]));
+                if (isValid(pipelineObj[1])) {
+                    accrualValue.append(DASH).append(helperId.getDescriptionByID((Integer) (pipelineObj[1])));
+                    property.append(DASH).append(String.valueOf(pipelineObj[1]));
                 }
-                if (isValid(obj[NumericConstants.TWO])) {
-                    value.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
-                    property.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
+                if (isValid(pipelineObj[NumericConstants.TWO])) {
+                    accrualValue.append(DASH).append(String.valueOf(pipelineObj[NumericConstants.TWO]));
+                    property.append(DASH).append(String.valueOf(pipelineObj[NumericConstants.TWO]));
                 }
-                reserveHeader.add(value.toString());
+                reserveHeader.add(accrualValue.toString());
                 reserveProperty.add(property.toString());
             }
             finalList.add(reserveHeader);
@@ -101,14 +101,14 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     }
 
     @Override
-    protected String getAmountFilterCondition(List<String> condition, String tableAliasName) {
+    protected String getAmountFilterCondition(List<String> pipelineCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
-        if (condition != null && !condition.isEmpty() && condition.size() < NumericConstants.THREE) {
+        if (pipelineCondition != null && !pipelineCondition.isEmpty() && pipelineCondition.size() < NumericConstants.THREE) {
             StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
-            for (int i = 0; i < condition.size(); i++) {
-                String str = condition.get(i);
+            for (int i = 0; i < pipelineCondition.size(); i++) {
+                String str = pipelineCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
-                if (condition.size() > 1 && i != 1) {
+                if (pipelineCondition.size() > 1 && i != 1) {
                     grlStr.append(" OR ");
                 }
             }

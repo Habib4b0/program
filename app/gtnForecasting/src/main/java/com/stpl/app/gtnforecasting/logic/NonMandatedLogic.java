@@ -1440,7 +1440,7 @@ public class NonMandatedLogic {
      */
     public int saveProjection(final DataSelectionDTO dataSelectionDTO, String screenName, boolean isUpdate) throws SystemException {
         int projectionId = 0;
-        SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd ");
+        SimpleDateFormat dbDateSaveProjection = new SimpleDateFormat("yyyy-MM-dd ");
         SimpleDateFormat hoursMinutes = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
         String customSql;
@@ -1473,8 +1473,8 @@ public class NonMandatedLogic {
         customSql = customSql.replace("@ITEM_GROUP_SID",getValue(dataSelectionDTO.getProdGrpSid(),Constant.NULL));
 
         customSql = customSql.replace("@COMPANY_MASTER_SID",getValue( dataSelectionDTO.getCompanySid(),Constant.NULL));
-        customSql = customSql.replace("@FROM_DATE", DBDate.format(dataSelectionDTO.getFromDate()));
-        customSql = customSql.replace("@TO_DATE", DBDate.format(dataSelectionDTO.getToDate()));
+        customSql = customSql.replace("@FROM_DATE", dbDateSaveProjection.format(dataSelectionDTO.getFromDate()));
+        customSql = customSql.replace("@TO_DATE", dbDateSaveProjection.format(dataSelectionDTO.getToDate()));
 
         customSql = customSql.replace("@CUST_RELATIONSHIP_BUILDER_SID", getValue(dataSelectionDTO.getCustRelationshipBuilderSid(),Constant.ZERO_STRING));
         customSql = customSql.replace("@PROD_RELATIONSHIP_BUILDER_SID",getValue(dataSelectionDTO.getProdRelationshipBuilderSid(),Constant.ZERO_STRING));
@@ -1492,7 +1492,7 @@ public class NonMandatedLogic {
             customSql = customSql.replace("@DED_RELATIONSHIP_BULDER_SID", String.valueOf(obj1[0]));
             customSql = customSql.replace("@DEDUCTION_HIERARCHY_SID", String.valueOf(obj1[1]));
             customSql = customSql.replace("@PROJECTION_DED_VERSION", String.valueOf(versionNoList.get(0)));
-            customSql = customSql.replace("@FORECAST_ELIGIBLE_DATE", DBDate.format(dataSelectionDTO.getForecastEligibleDate()));
+            customSql = customSql.replace("@FORECAST_ELIGIBLE_DATE", dbDateSaveProjection.format(dataSelectionDTO.getForecastEligibleDate()));
             customSql = customSql.replace("@CUSTSID", String.valueOf(dataSelectionDTO.getCustomRelationShipSid()));
             customSql = customSql.replace("@CUSTDEDSID", String.valueOf(dataSelectionDTO.getCustomDeductionRelationShipSid()));
         }
@@ -2293,8 +2293,8 @@ public class NonMandatedLogic {
 				+ "		dbo.PROJECTION_DETAILS B\n" + "		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID \n"
 				+ "			AND B.PROJECTION_MASTER_SID = " + projectionId + ";";
 
-		SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
-		salesDAO.executeUpdateQuery(insertQuery);
+		SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
+		salesProjectionDAO.executeUpdateQuery(insertQuery);
 
 	}
 
@@ -2319,8 +2319,8 @@ public class NonMandatedLogic {
 				+ "		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID\n"
 				+ "			AND B.PROJECTION_MASTER_SID=" + projectionId + ";";
 
-		SalesProjectionDAO DAO = new SalesProjectionDAOImpl();
-		DAO.executeUpdateQuery(insertQuery);
+		SalesProjectionDAO dao = new SalesProjectionDAOImpl();
+		dao.executeUpdateQuery(insertQuery);
 
 	}
 
@@ -2408,7 +2408,7 @@ public class NonMandatedLogic {
 	   public void removeTPOrCustomerFromProjection(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) throws PortalException {
 
         List<Integer> levelnoList = null;
-        levelnoList = getMaximumLevelno(session, dataSelectionDTO);
+        levelnoList = getMaximumLevelno(dataSelectionDTO);
         String query = SQlUtil.getQuery("remove-tp-customer-with-no-actuals");
         query = query.replace("@PROJECTION_MASTER_SID", String.valueOf(dataSelectionDTO.getProjectionId()));
         query = query.replace("@PROJECTION_ID", String.valueOf(session.getProjectionId()));
@@ -2417,7 +2417,7 @@ public class NonMandatedLogic {
 
     }
 
-    public List<Integer> getMaximumLevelno(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) {
+    public List<Integer> getMaximumLevelno(final DataSelectionDTO dataSelectionDTO) {
         List<Object> input = new ArrayList<>();
         input.add(String.valueOf(dataSelectionDTO.getCustomerHierSid()));
         input.add(String.valueOf(dataSelectionDTO.getCustomerHierVersionNo()));

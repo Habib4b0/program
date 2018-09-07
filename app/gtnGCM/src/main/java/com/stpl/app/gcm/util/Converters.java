@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +31,12 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Converters {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Converters.class);
     
+    private Converters()
+    {
+        LOGGER.debug("Converters");
+    }
     
     /**
      * Set the Values to respective fields for Company Search
@@ -44,7 +51,7 @@ public class Converters {
         try {
             for (int i = 0, limit = listSize; i < limit; i++) {
                 promoteTpToChDto = new PromoteTpToChDto();
-                Object objects[] = (Object[]) resultList.get(i);
+                Object[] objects = (Object[]) resultList.get(i);
                 promoteTpToChDto.setCompanySystemId(String.valueOf(objects[0]));
                 promoteTpToChDto.setCompanyId(String.valueOf(objects[1]));
                 promoteTpToChDto.setCompanyNo(String.valueOf(objects[NumericConstants.TWO]));
@@ -80,7 +87,7 @@ public class Converters {
         int size = resultList.size();
         for (int loop = 0, limit = size; loop < limit; loop++) {
             tpDto = new TradingPartnerDTO();
-            Object objects[] = (Object[]) resultList.get(loop);
+            Object[] objects = (Object[]) resultList.get(loop);
             tpDto.setCompanySystemId(String.valueOf(objects[0]));
             tpDto.setCompanyId(String.valueOf(objects[1]));
             tpDto.setCompanyNo(String.valueOf(objects[NumericConstants.TWO]));
@@ -153,7 +160,7 @@ public class Converters {
         try {
             for (int i = 0, limit = listSize; i < limit; i++) {
                 companyTypeDdlbDTO = new CompanyTypeDdlbDTO();
-                Object objects[] = (Object[]) resultList.get(i);
+                Object[] objects = (Object[]) resultList.get(i);
                 companyTypeDdlbDTO.setCompanySystemId(Integer.parseInt(String.valueOf(objects[0])));
                 companyTypeDdlbDTO.setCompanyType(String.valueOf(objects[1]));
                 companyTypeDdlbDTOList.add(companyTypeDdlbDTO);
@@ -174,13 +181,13 @@ public class Converters {
      * @throws SystemException
      */
     public static List<CurrentContractDTO> setCurrentContracts(List resultList) throws ParseException {
-        List<CurrentContractDTO> CurrentContractList = new ArrayList<>();
+        List<CurrentContractDTO> currentContractList = new ArrayList<>();
         CurrentContractDTO currentContractDTO;
         int listSize = resultList.size();
         try {
             for (int i = 0, limit = listSize; i < limit; i++) {
                 currentContractDTO = new CurrentContractDTO();
-                Object objects[] = (Object[]) resultList.get(i);
+                Object[] objects = (Object[]) resultList.get(i);
                 currentContractDTO.setCheckRecord(BooleanConstant.getFalseFlag());
                 currentContractDTO.setContractHolder(String.valueOf(objects[1]));
                 currentContractDTO.setContractNo(String.valueOf(objects[NumericConstants.TWO]));
@@ -194,12 +201,12 @@ public class Converters {
                 currentContractDTO.setStatus(String.valueOf(objects[NumericConstants.NINE]));
                 currentContractDTO.setCompanyStartDate(formatDate(String.valueOf(objects[NumericConstants.TEN])));
                 currentContractDTO.setCompanyEndDate((Date) objects[NumericConstants.ELEVEN]);
-                CurrentContractList.add(currentContractDTO);
+                currentContractList.add(currentContractDTO);
             }
         } catch (Exception ex) {
            LOGGER.error("",ex);
         }
-        return CurrentContractList;
+        return currentContractList;
     }
 
     /**

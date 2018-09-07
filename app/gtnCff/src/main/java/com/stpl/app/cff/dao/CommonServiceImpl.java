@@ -21,6 +21,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class CommonServiceImpl {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
-    public List getDetailsResults(String fileName, String version, String fileType, String country, int year) {
+    public List getDetailsResults(String fileName, String version, String fileType, String country) {
         String sqlString = StringUtils.EMPTY;
         try {
             sqlString = SQlUtil.getQuery("getDetailsResults");
@@ -75,7 +76,7 @@ public class CommonServiceImpl {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             LOGGER.error(sqlString);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -106,7 +107,7 @@ public class CommonServiceImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
 
     }
@@ -149,7 +150,7 @@ public class CommonServiceImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -171,7 +172,7 @@ public class CommonServiceImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -296,7 +297,7 @@ public class CommonServiceImpl {
         try {
             if (parameters.get(StringConstantsUtil.INDICATOR) != null
                     && (StringConstantsUtil.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR))))) {
-                List<Integer> list = new ArrayList<Integer>();
+                List<Integer> list = new ArrayList<>();
                 int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
                 list.add(returnValue);
                 return list;
@@ -307,11 +308,11 @@ public class CommonServiceImpl {
         } catch (Exception ex) {
             LOGGER.error("In executeQuery  -> {}", ex.getMessage());
             LOGGER.error(queryString.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
-    public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct, final String action) {
+    public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct) {
         StringBuilder queryBuilder = new StringBuilder();
         try {
             queryBuilder.append("SELECT distinct c.hierarchy_Definition_Sid,c.hierarchy_Name,a.level_Name, a.level_No , ");
@@ -343,11 +344,11 @@ public class CommonServiceImpl {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             LOGGER.error(queryBuilder.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
-    public List getParentLevels(final int levelNo, final int relationshipLevelSid, final Map<String, Object> parameters) {
+    public List getParentLevels(final int relationshipLevelSid, final Map<String, Object> parameters) {
         StringBuilder queryBuilder = new StringBuilder();
 
         try {
@@ -372,7 +373,7 @@ public class CommonServiceImpl {
         } catch (Exception ex) {
             LOGGER.error("In getParentLevels -> {}", ex.getMessage());
             LOGGER.error(queryBuilder.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -535,7 +536,7 @@ public class CommonServiceImpl {
         } catch (Exception ex) {
             LOGGER.error(" in getInnerLevel()= {}", ex.getMessage());
             LOGGER.error(queryBuilder.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -562,14 +563,14 @@ public class CommonServiceImpl {
             }
             if (parameters.get(StringConstantsUtil.INDICATOR) != null && "saveCcp".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
                 HelperTableLocalServiceUtil.executeUpdateQuery(customSql.toString());
-                return null;
+                return Collections.emptyList();
             } else {
                 return HelperTableLocalServiceUtil.executeSelectQuery(customSql.toString());
             }
         } catch (Exception e) {
             LOGGER.error(" in getCcpMap= {}",e.getMessage());
             LOGGER.error(customSql.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -633,12 +634,12 @@ public class CommonServiceImpl {
             return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-            return null;
+            return Collections.emptyList();
         }
     }
 
     public static List<String> getTempTableList() {
-        List<String> tempTables = new ArrayList<String>(NumericConstants.TWENTY_FIVE);
+        List<String> tempTables = new ArrayList<>(NumericConstants.TWENTY_FIVE);
         tempTables.add("ST_NM_SALES_PROJECTION");
         tempTables.add("ST_NM_ACTUAL_SALES");
         tempTables.add("ST_NM_SALES_PROJECTION_MASTER");
@@ -941,7 +942,7 @@ public class CommonServiceImpl {
         try {
             if (parameters.get(StringConstantsUtil.INDICATOR) != null
                     && ((StringConstantsUtil.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))))) {
-                List<Integer> list = new ArrayList<Integer>();
+                List<Integer> list = new ArrayList<>();
                 int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
                 list.add(returnValue);
                 return list;
@@ -951,7 +952,7 @@ public class CommonServiceImpl {
         } catch (Exception ex) {
             LOGGER.error("Message from Exception= {} and IN_EXECUTE QUERY= {}", ex.getMessage(), StringConstantsUtil.IN_EXECUTE_QUERY);
             LOGGER.error(queryString.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
     
@@ -995,7 +996,6 @@ public class CommonServiceImpl {
             queryString.append(StringConstantsUtil.ORDER_BY);
             query = queryString.toString();
 
-            try {
                 if (parameters.get(StringConstantsUtil.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))
                         && !StringConstantsUtil.COUNT.equals(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))) {
                     query = query.replace(StringConstantsUtil.SELECTION, SQlUtil.getQuery("searchViewFindSelection"));
@@ -1272,14 +1272,10 @@ public class CommonServiceImpl {
                     query = query.replace(StringConstantsUtil.ORDER_BY, StringUtils.EMPTY);
                     query = query.replace(StringConstantsUtil.Q_FILTER, StringUtils.EMPTY);
                 }
-            } catch (NumberFormatException | ParseException ex) {
+        } catch (NumberFormatException | ParseException ex) {
                 LOGGER.error("Exception message from method= {} and StringConstandsUtil:Query= {}", ex.getMessage(), StringConstantsUtil.IN_EXECUTE_QUERY);
                 LOGGER.error(query);
             }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            LOGGER.error(query);
-        }
         return query;
     }
 

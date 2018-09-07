@@ -178,14 +178,9 @@ public class SalesExcelNM extends ExcelExport{
             sheetCell.setCellStyle(style3);
             unitDecimal(rootItemId, sheetCell);
         }
-        //Added Formula to PG_SUM column  
-        else if (formatter.get(PRODUCT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(PRODUCT_GROWTH_SUM))) {
-            sheetCell.setCellStyle(style3);
-            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
-            growthSum(rootItemId, sheetCell);
-        }
-        //Added Formula to AG_SUM column
-        else if (formatter.get(ACCOUNT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(ACCOUNT_GROWTH_SUM))) {
+        //Added Formula to PG_SUM, AG_SUM column  
+        else if ((formatter.get(PRODUCT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(PRODUCT_GROWTH_SUM))) ||
+                (formatter.get(ACCOUNT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(ACCOUNT_GROWTH_SUM)))) {
             sheetCell.setCellStyle(style3);
             sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
             growthSum(rootItemId, sheetCell);

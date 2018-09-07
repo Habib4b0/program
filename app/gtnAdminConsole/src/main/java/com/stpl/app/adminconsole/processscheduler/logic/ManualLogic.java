@@ -29,7 +29,7 @@ public class ManualLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ManualLogic.class);
-    protected static final HashMap<String, String> COLUMN_NAME=new HashMap<String, String>();
+    protected static final HashMap<String, String> COLUMN_NAME=new HashMap<>();
 
     public List getSearchResult(boolean count, int start, int offset, boolean scheduler, final List<SortByColumn> orderByColumns) {
         LOGGER.debug("Entering getSearchResult");

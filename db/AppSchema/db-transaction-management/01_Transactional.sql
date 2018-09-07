@@ -830,7 +830,18 @@ IF NOT EXISTS (SELECT 'X'
    END
 GO
 
+------Adding 'CASH_PAID_PERIOD' Column in table 'ACTUALS_DETAILS' (Related to ARM-BSR)
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ACTUALS_DETAILS' 
+                      AND COLUMN_NAME = 'CASH_PAID_PERIOD' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ACTUALS_DETAILS 
+        ADD CASH_PAID_PERIOD INT 
+  END 
 
+GO
 -------------------NONCLUSTERED INDEX------------------------------------
 
 IF NOT EXISTS (SELECT name FROM sys.indexes  

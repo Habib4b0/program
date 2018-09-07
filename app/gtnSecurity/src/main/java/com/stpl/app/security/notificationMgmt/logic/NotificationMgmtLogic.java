@@ -36,8 +36,8 @@ public class NotificationMgmtLogic {
     public  List<String> loadBusinessProcess() {
         DynamicQuery businessProcessDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         businessProcessDynamicQuery.add(RestrictionsFactoryUtil.ilike("listName", "WorkflowProcesses"));
-        List<HelperTable> resultList = new ArrayList<HelperTable>();
-        List<String> helperList = new ArrayList<String>();
+        List<HelperTable> resultList = new ArrayList<>();
+        List<String> helperList = new ArrayList<>();
         try {
             resultList = dao.getBusinessProcess(businessProcessDynamicQuery);
             if (resultList != null) {
@@ -55,8 +55,8 @@ public class NotificationMgmtLogic {
         DynamicQuery categoryDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         categoryDynamicQuery.add(RestrictionsFactoryUtil.ilike("listName", "MailNotificationCategory"));
       
-        List<HelperTable> resultList = new ArrayList<HelperTable>();
-        List<HelperDTO> results = new ArrayList<HelperDTO>();
+        List<HelperTable> resultList = new ArrayList<>();
+        List<HelperDTO> results = new ArrayList<>();
         try {
             resultList = dao.getCategory(categoryDynamicQuery);
 
@@ -175,7 +175,7 @@ if (notificationMgmtIndexDTO.getBusinessProcess()!= null) {
         return true;
     }
    public List<NotificationMgmtIndexDTO> loadTable(){
-       List<NotificationMgmtIndexDTO> resultBean=new ArrayList<NotificationMgmtIndexDTO>();
+       List<NotificationMgmtIndexDTO> resultBean=new ArrayList<>();
         DynamicQuery notificationDynamicQuery = MailNotificationMasterLocalServiceUtil.dynamicQuery();
         List<MailNotificationMaster> resultList=null;
         try{
@@ -189,7 +189,7 @@ if (notificationMgmtIndexDTO.getBusinessProcess()!= null) {
        return resultBean;
    }
    public List<NotificationMgmtIndexDTO> getNotificationMgmtIndexDTO(List<MailNotificationMaster> resultList){
-       List<NotificationMgmtIndexDTO> resultBean=new ArrayList<NotificationMgmtIndexDTO>();
+       List<NotificationMgmtIndexDTO> resultBean=new ArrayList<>();
         HashMap<Integer, String> hmForCategory=CommonUtils.getCategoryNameFromId();
        for (MailNotificationMaster result : resultList) {
            NotificationMgmtIndexDTO notificationMgmtIndexDTO=new NotificationMgmtIndexDTO();

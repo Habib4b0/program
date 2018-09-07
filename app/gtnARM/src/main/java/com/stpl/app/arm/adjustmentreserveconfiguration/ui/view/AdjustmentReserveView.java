@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The View Class for the Adjustment Reserve Configuration.
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class AdjustmentReserveView extends VerticalLayout implements View {
 

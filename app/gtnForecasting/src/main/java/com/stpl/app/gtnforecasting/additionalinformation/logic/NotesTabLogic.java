@@ -9,7 +9,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.dto.AttachmentDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.PROJECTION_ID;
 import com.stpl.app.gtnforecasting.utils.Constant;

@@ -84,8 +84,8 @@ public class CurrentContractDTO implements Serializable {
         return ifpId;
     }
 
-    public void setIFPId(Integer IFPId) {
-        this.ifpId = IFPId;
+    public void setIFPId(Integer ifpId) {
+        this.ifpId = ifpId;
     }
 
     public Integer getPsId() {

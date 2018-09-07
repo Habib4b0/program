@@ -8,7 +8,6 @@ package com.stpl.app.arm.adjustmentreserveconfiguration.logic;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -41,7 +40,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class AdjustmentReserveLogic {
 
@@ -242,7 +241,7 @@ public class AdjustmentReserveLogic {
             if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COST_CENTER.getConstant().equals(propertyId) && value.toString().trim().equals(StringUtils.EMPTY)) {
                 values = "null";
             } else {
-                values = "'" + value.toString() + "'";
+                values = ARMUtils.SINGLE_QUOTES + value.toString() + ARMUtils.SINGLE_QUOTES;
             }
         }
         input.add(values);
@@ -412,7 +411,7 @@ public class AdjustmentReserveLogic {
         input.add(ARMUtils.getVisibleToDBColumnMap().get(properyId));
         String values = null;
         if (value != null) {
-            values = "'" + value.toString() + "'";
+            values = ARMUtils.SINGLE_QUOTES + value.toString() + ARMUtils.SINGLE_QUOTES;
         }
         input.add(values);
         input.add(selection.getMasterSID());
@@ -544,7 +543,7 @@ public class AdjustmentReserveLogic {
 
     }
 
-    public List getSearchResults(AdjustmentReserveDTO binderDto, int start, int offset, Set<Container.Filter> filter, List<SortByColumn> sortByColumns) throws PortalException, SystemException {
+    public List getSearchResults(AdjustmentReserveDTO binderDto, int start, int offset, Set<Container.Filter> filter, List<SortByColumn> sortByColumns) {
         List input = getSearchInput(binderDto, filter);
         if (!sortByColumns.isEmpty()) {
             for (Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
@@ -593,7 +592,7 @@ public class AdjustmentReserveLogic {
         return input;
     }
 
-    private List customizeReserveSearch(List<Object[]> itemData) throws PortalException, SystemException {
+    private List customizeReserveSearch(List<Object[]> itemData) {
         List<AdjustmentReserveDTO> finalResult = new ArrayList<>();
         for (Object[] str : itemData) {
             AdjustmentReserveDTO dto = new AdjustmentReserveDTO();

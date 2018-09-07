@@ -53,11 +53,11 @@ public class SummaryLookUp extends CustomComponent {
     public SummaryLookUp(List<ItemIndexDto> itemList, SelectionDTO selection) {
     }
 
-    public Component getContent(List<ItemIndexDto> itemList, SelectionDTO selection) {
+    public Component getContent(List<ItemIndexDto> itemListSummary, SelectionDTO selection) {
         LOGGER.debug("getContent method starts");
 
         this.selection = selection;
-        this.itemList = itemList == null ? itemList : new ArrayList<>(itemList);
+        this.itemList = itemListSummary == null ? itemListSummary : new ArrayList<>(itemListSummary);
         Panel panel = new Panel();
         panel.setCaption(StringUtils.EMPTY);
         panel.setContent(mainTab);
@@ -99,26 +99,7 @@ public class SummaryLookUp extends CustomComponent {
         });
     }
 
-    private void tabLazyLoad(int tabPosition) {
-        if (tabPosition == 1) {
-            if (selection.isIsIFP()) {
-            } else {
-                mainTab.replaceComponent(sales, sales.getContent(itemList, selection));
-            }
-        }
-        if (tabPosition == NumericConstants.TWO) {
-            if (selection.isIsIFP()) {
-            } else {
-                mainTab.replaceComponent(rebate, rebate.getContent(itemList, selection));
-            }
-        }
-        if (tabPosition == NumericConstants.THREE) {
-            if (selection.isIsIFP()) {
-            } else {
-                mainTab.replaceComponent(salesAndRebate, salesAndRebate.getContent(itemList, selection));
-            }
-        }
-    }
+    
 
     public void loadSummaryTable() {
         itemDetails.loadData();

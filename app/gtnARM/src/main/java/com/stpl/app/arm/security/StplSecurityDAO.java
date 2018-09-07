@@ -32,5 +32,5 @@ public interface StplSecurityDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    User getUserByUserId(long userId) throws SystemException, PortalException;
+    User getUserByUserId(long userId) throws PortalException;
 }

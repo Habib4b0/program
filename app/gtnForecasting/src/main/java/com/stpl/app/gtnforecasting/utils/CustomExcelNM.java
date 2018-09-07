@@ -21,8 +21,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.ss.util.CellUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.addons.tableexport.TableHolder;
@@ -48,6 +46,7 @@ public class CustomExcelNM extends ExcelExport {
     protected final CellStyle style5 = this.workbook.createCellStyle();
     protected final CellStyle style6 = this.workbook.createCellStyle();
     protected final CellStyle style7 = this.workbook.createCellStyle();
+    protected final CellStyle style4Custom = this.workbook.createCellStyle();
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
     protected final TableHolder tableHolder;
     public static final String CURRENCY_TWO_DECIMAL = "currencyTwoDecimal";
@@ -88,6 +87,7 @@ public class CustomExcelNM extends ExcelExport {
        style4.setDataFormat(hssfDataFormat.getFormat("0.000%"));
        style5.setDataFormat(hssfDataFormat.getFormat("$#,##0.00"));
        style6.setDataFormat(hssfDataFormat.getFormat("$#,##0.00"));
+       style4Custom.setDataFormat(hssfDataFormat.getFormat("$0.000"));
 
         for (int col = 0; col < getPropIds().size(); col++) {
 
@@ -114,15 +114,22 @@ public class CustomExcelNM extends ExcelExport {
 
                 sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                 
-                Double cellValue = d;
-                cellValue = cellValue / NumericConstants.HUNDRED;
-                sheetCell.setCellValue(cellValue);
+                valueForcells(d, propId, rootItemId, sheetCell);
                 formatForCurrency(propId, sheetCell, rootItemId);
 
             } else {
                 nonFormatterCustomExcel(prop, value, sheetCell);
             }
         }
+    }
+
+    private void valueForcells(Double d, Object propId, final Object rootItemId, Cell sheetCell) {
+        Double cellValue = d;
+        boolean isGrowth = propId.toString().endsWith(GROWTH) || propId.toString().endsWith(GROWTH_SUM);
+        if (!isCustom  && ((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId) || isGrowth) {
+            cellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        sheetCell.setCellValue(cellValue);
     }
 
     private void nonFormatterCustomExcel(Property prop, Object value, Cell sheetCell) {
@@ -135,7 +142,7 @@ public class CustomExcelNM extends ExcelExport {
         if(!isCustom){
             formatForCurrencyAndDecimal(propId, sheetCell, rootItemId);
         }else{
-            formatForCurrencyAndDecimalCustom(propId, sheetCell, rootItemId);
+            formatForCurrencyAndDecimalCustom(propId, sheetCell);
         }
     }
 
@@ -177,15 +184,9 @@ public class CustomExcelNM extends ExcelExport {
                 sheetCell.setCellStyle(style6);
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
-        } else if (formatter.get("sales") != null && String.valueOf(propId).endsWith(formatter.get("sales"))) {
-            sheetCell.setCellStyle(style4);
-            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId,sheetCell.getColumnIndex());
-                sheetCell.setCellStyle(style4);
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
-            }
-        } else if (formatter.get("units") != null && String.valueOf(propId).endsWith(formatter.get("units"))) {
+        } else if ((formatter.get("sales") != null && String.valueOf(propId).endsWith(formatter.get("sales"))) || 
+                (formatter.get("units") != null && String.valueOf(propId).endsWith(formatter.get("units"))) || 
+                (formatter.get(GROWTH) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH)))) {
             sheetCell.setCellStyle(style4);
             sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
@@ -202,16 +203,6 @@ public class CustomExcelNM extends ExcelExport {
                 sheetCell.setCellFormula(formula);
             }
         }
-        //Added Formula to Growth_SUM column  
-        else if (formatter.get(GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH_SUM))) {
-            sheetCell.setCellStyle(style4);
-            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-            	String formula = getFormula(sheetCell, rootItemId,sheetCell.getColumnIndex());
-            	sheetCell.setCellStyle(style4);
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
-            }
-        }
        //Added Formula to Child Count column
         else if (formatter.get(CHILD_COUNT) != null && String.valueOf(propId).endsWith(formatter.get(CHILD_COUNT))) {
         	sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
@@ -226,11 +217,11 @@ public class CustomExcelNM extends ExcelExport {
         	}
         }
     }
-    private void formatForCurrencyAndDecimalCustom(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
+    private void formatForCurrencyAndDecimalCustom(Object propId, Cell sheetCell) throws FormulaParseException {
         if (formatter.get(Constant.PERCENT_THREE_DECIMAL)!=null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) {
             sheetCell.setCellStyle(style1);
         } else if (formatter.get(CURRENCY_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(CURRENCY_TWO_DECIMAL))) {
-            sheetCell.setCellStyle(style4);
+            sheetCell.setCellStyle(style4Custom);
         } else if (formatter.get(AMOUNT_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(AMOUNT_TWO_DECIMAL))) {
             sheetCell.setCellStyle(style6);
         } else if (formatter.get(GROWTH) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH))) {

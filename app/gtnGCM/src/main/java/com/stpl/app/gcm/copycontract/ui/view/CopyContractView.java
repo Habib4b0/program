@@ -9,7 +9,6 @@ import com.stpl.app.gcm.copycontract.ui.form.CopyContractform;
 import com.stpl.app.gcm.discount.ui.layout.CopyContractWindow;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.vaadin.v7.ui.VerticalLayout;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,10 +25,10 @@ public class CopyContractView extends VerticalLayout {
      * @param addWindow
      * @param session
      * @param selectedList
-     * @param Count
+     * @param count
      */
-    public CopyContractView(final CopyContractWindow addWindow, final SessionDTO session, List<ContractSelectionDTO> selectedList, String Count) {
-        CopyContractform addDiscountForm = new CopyContractform(addWindow, selectedList, Count);
+    public CopyContractView(final CopyContractWindow addWindow, final SessionDTO session, List<ContractSelectionDTO> selectedList, String count) {
+        CopyContractform addDiscountForm = new CopyContractform(addWindow, selectedList, count);
         addComponent(addDiscountForm);
     }
 

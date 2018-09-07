@@ -505,8 +505,8 @@ public class NewComponentDTO implements Serializable {
         return companyId;
     }
 
-    public void setCompanyId(String CompanyId) {
-        this.companyId = CompanyId;
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 
     public String getCompanyNo() {

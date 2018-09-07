@@ -72,11 +72,6 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
     }
 
     @Override
-    protected void resetBtn() {
-        super.resetBtn();
-    }
-
-    @Override
     protected void loadReserveAccount() {
         List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
         CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
@@ -149,7 +144,7 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
                 try {
                     BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in loadDetails :" , ex);
+                    LOGGER.error("Error in loadDetails :", ex);
                 }
 
             }

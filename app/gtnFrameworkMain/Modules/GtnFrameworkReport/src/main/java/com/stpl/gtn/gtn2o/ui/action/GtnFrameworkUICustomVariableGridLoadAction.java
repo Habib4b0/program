@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
@@ -60,8 +61,9 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 		for (int i = 0; i < itemIdlist.size(); i++) {
 			Object[] dataArray = new Object[6];
 			dataArray[0] = itemValueList.get(i);
-			dataArray[1] = i;
-			dataArray[2] = (65 + i);
+			int index = GtnWsReportVariablesType.fromString(itemValueList.get(i)).ordinal();
+			dataArray[1] = index;
+			dataArray[2] = (65 + index);
 			dataArray[3] = GtnWsHierarchyType.VARIABLES.toString();
 			dataArray[4] = itemIdlist.get(i);
 			if (rowType.equals("Expandable")) {
@@ -71,8 +73,9 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 				for (int j = 0; j < response.getItemCodeList().size(); j++) {
 					Object[] subDataArray = new Object[6];
 					subDataArray[0] = response.getItemValueList().get(j);
-					subDataArray[1] = j;
-					subDataArray[2] = (65 + j);
+					index = GtnWsReportVariablesType.fromString(response.getItemValueList().get(j)).ordinal();
+					subDataArray[1] = index;
+					subDataArray[2] = (65 + index);
 					subDataArray[3] = GtnWsHierarchyType.VARIABLES.toString();
 					subDataArray[4] = response.getItemCodeList().get(j);
 					selectedVariablesValues.add(subDataArray);
@@ -81,7 +84,17 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 			}
 			selectedVariables.add(dataArray);
 		}
-
+		Collections.sort(selectedVariables, (ob1, ob2) -> {
+			int object1 = (int) ob1[1];
+			int object2 = (int) ob2[1];
+			if (object1 > object2) {
+				return 1;
+			} else if (object1 < object2) {
+				return -1;
+			} else {
+				return 0;
+			}
+		});
 		dataTable.addData(selectedVariables);
 		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.GRID_STATIC_LOAD_ACTION);

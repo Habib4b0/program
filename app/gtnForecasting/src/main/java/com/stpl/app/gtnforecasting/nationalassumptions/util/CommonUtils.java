@@ -44,6 +44,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang.StringUtils;
@@ -111,6 +112,10 @@ public class CommonUtils {
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String TWENTYNINEPX = "29px";
     private static final String[] MONTH_ARRAY = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+      
+    private CommonUtils() {
+        // CommonUtils
+    }
     
     /**
      * Creates the clara.
@@ -520,7 +525,7 @@ public class CommonUtils {
         
         if (getUserMap() != null) {
             for (Map.Entry<Integer, String> entry : getUserMap().entrySet()) {
-                if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+                if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
             }
@@ -560,20 +565,20 @@ public class CommonUtils {
             }
         return userName;
     }
-     public static String getFormattedValue(DecimalFormat FORMAT, String value) {
+     public static String getFormattedValue(DecimalFormat formatter, String value) {
          String valueNA = value;
         if (valueNA.contains(Constant.NULL) || StringUtils.isBlank(valueNA)) {
             String newValue = "0";
             Double nullValue = Double.valueOf(newValue);
-            valueNA = FORMAT.format(nullValue);
+            valueNA = formatter.format(nullValue);
         } else if (valueNA.contains("- -")){
              valueNA = "- -";
         }else {
             Double newValue = Double.valueOf(valueNA);
-            if (FORMAT.toPattern().contains(Constant.PERCENT)) {
+            if (formatter.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            valueNA = FORMAT.format(newValue);
+            valueNA = formatter.format(newValue);
         }
         return valueNA;
     }
@@ -639,13 +644,13 @@ public class CommonUtils {
     }
     
     public static int getHelperCode(String listName, String description) throws SystemException {
-        final DataSelectionDAO DAO = new DataSelectionDAOImpl();
+        final DataSelectionDAO daoHelperCode = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
-        List result = DAO.getHelperTableList(dynamicQuery);
+        List result = daoHelperCode.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
             code = Integer.parseInt(result.get(ZERO).toString());
         }

@@ -40,7 +40,7 @@ public class PipelineInventoryLookupLogic {
 
             return resultsinventoryContainer.size();
         } catch (Exception ex) {
-            LOGGER.error("Error in getInventCustomerProductGroupCount :" , ex);
+            LOGGER.error("Error in getInventCustomerProductGroupCount :", ex);
             return 0;
         }
     }
@@ -147,16 +147,13 @@ public class PipelineInventoryLookupLogic {
                 if (dtoValue.getIndicator() != null) {
                     indicator = String.valueOf(dtoValue.getIndicator() ? 1 : 0);
                 }
-                saveQuery.append("(" + projectionId + "," + include + ","
-                        + (dtoValue.getIndicator() != null ? indicator : "null") + ","
-                        + customerGroupSid
-                        + "," + companyMasterSid + "),");
+                saveQuery.append("(").append(projectionId).append(ARMUtils.COMMA_CHAR).append(include).append(ARMUtils.COMMA_CHAR).append(dtoValue.getIndicator() != null ? indicator : "null").append(ARMUtils.COMMA_CHAR).append(customerGroupSid).append(ARMUtils.COMMA_CHAR).append(companyMasterSid).append("),");
             }
             saveQuery.replace(saveQuery.length() - 1, saveQuery.length(), "");
             LOGGER.debug("saveQuery--{}", saveQuery);
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery.toString(), selectionDto.getSessionDTO().getCurrentTableNames()));
         } catch (Exception ex) {
-            LOGGER.error("Error in saveCustomerGroupValue :" , ex);
+            LOGGER.error("Error in saveCustomerGroupValue :", ex);
         }
 
     }
@@ -193,7 +190,7 @@ public class PipelineInventoryLookupLogic {
                 custGroupList.addItem(dto);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getCustomerGroupView :" , ex);
+            LOGGER.error("Error in getCustomerGroupView :", ex);
         }
     }
 
@@ -216,7 +213,7 @@ public class PipelineInventoryLookupLogic {
             }
             return custGroupList;
         } catch (Exception ex) {
-            LOGGER.error("Error in getCustomerView :" , ex);
+            LOGGER.error("Error in getCustomerView :", ex);
             return custGroupList;
         }
     }
@@ -250,7 +247,7 @@ public class PipelineInventoryLookupLogic {
             }
             return custGroupList;
         } catch (Exception ex) {
-            LOGGER.error("Error in getInventCustomerView :" , ex);
+            LOGGER.error("Error in getInventCustomerView :", ex);
             return custGroupList;
         }
     }
@@ -286,7 +283,7 @@ public class PipelineInventoryLookupLogic {
             }
             return customerList;
         } catch (Exception ex) {
-            LOGGER.error("Error in getPipelineInventory :" , ex);
+            LOGGER.error("Error in getPipelineInventory :", ex);
             return Collections.emptyList();
         }
 

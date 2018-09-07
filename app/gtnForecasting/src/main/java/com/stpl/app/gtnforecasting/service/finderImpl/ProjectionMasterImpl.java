@@ -683,7 +683,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         }
     }
 
-    public List getParentLevels(final int levelNo, final int relationshipLevelSid, final Map<String, Object> parameters) {
+    public List getParentLevels(final int relationshipLevelSid, final Map<String, Object> parameters) {
         StringBuilder queryBuilder = new StringBuilder();
 
         try {

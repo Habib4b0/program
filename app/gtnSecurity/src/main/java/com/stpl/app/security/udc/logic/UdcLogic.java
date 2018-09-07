@@ -43,7 +43,7 @@ public class UdcLogic {
     public Container getListNames() {
 
         List<HelperTable> list = null;
-        List<String> helperList = new ArrayList<String>();
+        List<String> helperList = new ArrayList<>();
         try {
             DynamicQuery helperQuery = HelperTableLocalServiceUtil.dynamicQuery();
             helperQuery.add(RestrictionsFactoryUtil.like("listName",
@@ -69,7 +69,7 @@ public class UdcLogic {
     public List<HelperForm> getDescrition(String listName) {
 
         List<HelperTable> list = null;
-        List<HelperForm> helperList = new ArrayList<HelperForm>();
+        List<HelperForm> helperList = new ArrayList<>();
         try {
             list = dao.getDescrition(listName);
         } catch (SystemException e) {
@@ -94,7 +94,7 @@ public class UdcLogic {
     public List<HelperForm> getFileTypeDescription(String listName) {
 
         List<HelperTable> list = null;
-        List<HelperForm> helperList = new ArrayList<HelperForm>();
+        List<HelperForm> helperList = new ArrayList<>();
         try {
             list = dao.getDescrition(listName);
         } catch (SystemException e) {
@@ -293,8 +293,7 @@ public class UdcLogic {
     public int brandCount(String categoryValue) {
         String query = " select count(*) from brand_master where inbound_status <> 'D'";
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-        int count = Integer.parseInt(String.valueOf(list.get(0)));
-        return count;
+        return Integer.parseInt(String.valueOf(list.get(0)));
     }
 
     /**
@@ -304,8 +303,7 @@ public class UdcLogic {
     	String orderQuery = getOrderByStatement(columns);
         String query = " select brand_id,BRAND_NAME,DISPLAY_BRAND, BRAND_MASTER_SID from brand_master where inbound_status <> 'D' "+orderQuery+" OFFSET " + startIndex + "ROWS FETCH NEXT " + offset + " ROWS ONLY";
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-        List<BrandMasterDTO> finalList = getCustomizedBrandResults(list, categoryValue);
-        return finalList;
+        return getCustomizedBrandResults(list, categoryValue);
     }
 
     private String getOrderByStatement(final List<OrderByColumn> columns) {
@@ -333,7 +331,7 @@ public class UdcLogic {
 	}
 
 	public List<BrandMasterDTO> getCustomizedBrandResults(final List list, String categoryValue) {
-        List<BrandMasterDTO> results = new ArrayList<BrandMasterDTO>();
+        List<BrandMasterDTO> results = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             BrandMasterDTO brandDto = new BrandMasterDTO();
             Object[] obj = (Object[]) list.get(i);

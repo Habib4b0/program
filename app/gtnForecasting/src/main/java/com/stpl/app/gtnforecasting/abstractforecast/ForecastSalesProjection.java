@@ -138,6 +138,7 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
+import java.util.Locale;
 
 /**
  *
@@ -1389,11 +1390,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
                 resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
             }
-        } else if ((PRODUCT.getConstant()).equals(view.getValue())) {
-            resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED, Sizeable.Unit.PIXELS);
-            resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
-            resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
-        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
+        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) ||  (PRODUCT.getConstant()).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
             resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED, Sizeable.Unit.PIXELS);
             resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
             resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
@@ -1401,11 +1398,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         if ((PRODUCT.getConstant()).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, true);
-        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
-            leftTable.setColumnCollapsingAllowed(true);
-            leftTable.setColumnCollapsed(Constant.GROUP, false);
-        } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {
-
+        } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue()) ||   (Constant.CUSTOM_LABEL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         }
@@ -2449,7 +2442,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     }
                     getTableLogic().setRefresh(false);
                     salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
-                            adjMethodology, HISTORY_PERIODS, projectionPeriods);
+                            HISTORY_PERIODS, projectionPeriods);
                     CommonUtil.getInstance().waitForSeconds();
                     CommonLogic.procedureCompletionCheck(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
                     refreshTableData(getCheckedRecordsHierarchyNo());
@@ -2558,7 +2551,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                             }
                             getTableLogic().setRefresh(false);
-                            salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
+                            salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,  historyPeriods, projectionPeriods);
                             CommonUtil.getInstance().waitForSeconds();
                             refreshTableData(getCheckedRecordsHierarchyNo());
                             getTableLogic().setRefresh(true);
@@ -2622,7 +2615,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 selectedPeriods = selectedPeriods + value;
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -2674,7 +2667,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -2725,7 +2718,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 selectedPeriods = selectedPeriods + value;
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -3775,11 +3768,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             case 1:
                 periods[0] = Integer.valueOf(key.toString().substring(0, NumericConstants.FOUR));
                 break;
-            case NumericConstants.TWO:
-                periods[0] = (int) key.toString().charAt(1) - NumericConstants.FORTY_EIGHT;
-                periods[1] = Integer.valueOf(key.toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
-                break;
-            case NumericConstants.FOUR:
+            case NumericConstants.TWO | NumericConstants.FOUR :
                 periods[0] = (int) key.toString().charAt(1) - NumericConstants.FORTY_EIGHT;
                 periods[1] = Integer.valueOf(key.toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
                 break;

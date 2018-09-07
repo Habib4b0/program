@@ -105,13 +105,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.MinimizeTray;
@@ -283,7 +283,7 @@ public class ForecastForm extends AbstractForm {
 		DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
 	}
 
-	private void init() throws Exception {
+	private void init() throws PortalException {
 
 		session.setPpaIndicator(true);
 		forecastDTOConfiguration();
@@ -1421,11 +1421,7 @@ public class ForecastForm extends AbstractForm {
 								WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
 								CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
 							}
-						} catch (SystemException ex) {
-							LOGGER.error(ex.getMessage());
 						} catch (PortalException ex) {
-							LOGGER.error(ex.getMessage());
-						} catch (Exception ex) {
 							LOGGER.error(ex.getMessage());
 						}
 					}
@@ -1536,8 +1532,6 @@ public class ForecastForm extends AbstractForm {
 		if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
 				|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || session.getWorkflowId() != 0) {
 			NonMandatedLogic nmLogic = new NonMandatedLogic();
-			Map<String, Object> params = new HashMap<>();
-			params.put(Constant.PROJECTION_ID, session.getProjectionId());
 			saveProjection(false);
 			if ((screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED))
 					&& (!checkMandatedDiscountAvailablity(session))) {
@@ -1554,7 +1548,7 @@ public class ForecastForm extends AbstractForm {
                                  GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(session,userId);
 				if (response.isHasPermission()) {
                                       DSCalculationLogic.startAndCompleteTask(session, userId);
-				      submitProjToWorkflow(params, notes, screenName, getUploadedData);         
+				      submitProjToWorkflow( notes, screenName, getUploadedData);         
 				} else {
 					StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
 					if (!roleList.isEmpty()) {
@@ -1564,14 +1558,14 @@ public class ForecastForm extends AbstractForm {
 
 				}
 			} else {
-				submitProjToWorkflow(params, notes, screenName, getUploadedData);
+				submitProjToWorkflow( notes, screenName, getUploadedData);
 			}
 		} else {
 			NotificationUtils.getErrorNotification("Error", MessageUtils.WFP_SUBMIT_ERROR);
 		}
 	}
 
-	private void submitProjToWorkflow(Map<String, Object> params, final String notes, final String screenName,
+	private void submitProjToWorkflow(final String notes, final String screenName,
 			final List<NotesDTO> getUploadedData) {	
 		try {
 			Long processId = 0L;
@@ -1961,7 +1955,7 @@ public class ForecastForm extends AbstractForm {
 					}
 				}
 			}.getConfirmationMessage(CONFIRMATION.getConstant(), alertMsg.getString(
-					"F_" + screenName.replaceAll("\\s", StringUtils.EMPTY).toUpperCase() + "_ACT_CHECK_MSG"));
+					"F_" + screenName.replaceAll("\\s", StringUtils.EMPTY).toUpperCase(Locale.ENGLISH) + "_ACT_CHECK_MSG"));
 		} else {
 			if (!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 				callInsertProcedureOnGenerate(session, screenName);
@@ -2305,7 +2299,7 @@ public class ForecastForm extends AbstractForm {
 	 * also in Discount projection tab load.
 	 */
 	   private void commercialConfiguration() {
-        switch (session.getAction().toLowerCase()) {
+        switch (session.getAction().toLowerCase(Locale.ENGLISH)) {
             case Constant.ADD_FULL_SMALL:
 
                 session.addFutureMap(Constant.FILE_INSERT, new Future[]{service.submit(
@@ -2374,7 +2368,7 @@ public class ForecastForm extends AbstractForm {
     }
         
 	private void governmentConfiguration() {
-		switch (session.getAction().toLowerCase()) {
+		switch (session.getAction().toLowerCase(Locale.ENGLISH)) {
 		case Constant.ADD_FULL_SMALL:
 
 			session.addFutureMap(Constant.FILE_INSERT, new Future[] { service.submit(

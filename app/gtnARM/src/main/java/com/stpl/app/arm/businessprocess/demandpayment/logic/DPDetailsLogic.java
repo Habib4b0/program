@@ -23,56 +23,60 @@ import org.apache.commons.lang.StringUtils;
 public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
     @Override
-    public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
-        List replaceList = new ArrayList();
-        List<String> reserveHeader = new ArrayList<>();
-        List<String> reserveProperty = new ArrayList<>();
-        List<List> finalList = new ArrayList<>();
-        StringBuilder value;
-        StringBuilder property;
+    public List<List> getReserveAccountDetails(AbstractSelectionDTO paymentsSelection, Boolean isReserve) {
+        List paymentsReplaceList = new ArrayList();
+        List<String> paymentsReserveHeader = new ArrayList<>();
+        List<String> paymentsReserveProperty = new ArrayList<>();
+        List<List> paymentsFinalList = new ArrayList<>();
         String isReserveValue = isReserve ? "0" : "1";
-        replaceList.add(isReserveValue);
-        replaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
-        replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-        replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
-        StringBuilder query;
-        if (selection.getSessionDTO().isWorkFlow()) {
-            query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
+        paymentsReplaceList.add(isReserveValue);
+        paymentsReplaceList.add(paymentsSelection.getDataSelectionDTO().getAdjustmentId());
+        paymentsReplaceList.add(paymentsSelection.getDataSelectionDTO().getProjectionId());
+        paymentsReplaceList.add(paymentsSelection.getDataSelectionDTO().getProjectionId());
+        paymentsReplaceList.add(paymentsSelection.getDataSelectionDTO().getCompanyMasterSid());
+        paymentsReplaceList.add(paymentsSelection.getDataSelectionDTO().getBucompanyMasterSid());
+        StringBuilder paymentsQuery;
+        if (paymentsSelection.getSessionDTO().isWorkFlow()) {
+            paymentsQuery = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
+            paymentsQuery.replace(paymentsQuery.indexOf("?"), paymentsQuery.indexOf("?") + 1, String.valueOf(paymentsSelection.getDataSelectionDTO().getProjectionId()));
+            paymentsQuery.replace(paymentsQuery.indexOf("?"), paymentsQuery.indexOf("?") + 1, isReserve ? "0" : "1");
         } else {
-            query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
-            for (Object temp : replaceList) {
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
+            paymentsQuery = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
+            for (Object temp : paymentsReplaceList) {
+                paymentsQuery.replace(paymentsQuery.indexOf("?"), paymentsQuery.indexOf("?") + 1, String.valueOf(temp));
             }
         }
-        List list = QueryUtils.executeSelect(query.toString());
+        List list = QueryUtils.executeSelect(paymentsQuery.toString());
+        return getPaymentsFinalList(list, paymentsReserveHeader, paymentsReserveProperty, paymentsFinalList);
+    }
+
+    private List<List> getPaymentsFinalList(List list, List<String> paymentsReserveHeader, List<String> paymentsReserveProperty, List<List> paymentsFinalList) {
+        StringBuilder paymentsValue;
+        StringBuilder property;
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-                Object[] obj = (Object[]) list.get(i);
-                value = new StringBuilder(StringUtils.EMPTY);
+                Object[] paymentObj = (Object[]) list.get(i);
+                paymentsValue = new StringBuilder(StringUtils.EMPTY);
                 property = new StringBuilder(StringUtils.EMPTY);
-                if (isValid(obj[0])) {
-                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
-                    property = new StringBuilder(String.valueOf(obj[0]));
+                if (isValid(paymentObj[0])) {
+                    paymentsValue = new StringBuilder(helperId.getDescriptionByID((Integer) (paymentObj[0])));
+                    property = new StringBuilder(String.valueOf(paymentObj[0]));
                 }
-                if (isValid(obj[1])) {
-                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
-                    property.append(DASH).append(String.valueOf(obj[1]));
+                if (isValid(paymentObj[1])) {
+                    paymentsValue.append(DASH).append(helperId.getDescriptionByID((Integer) (paymentObj[1])));
+                    property.append(DASH).append(String.valueOf(paymentObj[1]));
                 }
-                if (isValid(obj[NumericConstants.TWO])) {
-                    value.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
-                    property.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
+                if (isValid(paymentObj[NumericConstants.TWO])) {
+                    paymentsValue.append(DASH).append(String.valueOf(paymentObj[NumericConstants.TWO]));
+                    property.append(DASH).append(String.valueOf(paymentObj[NumericConstants.TWO]));
                 }
-                reserveHeader.add(value.toString());
-                reserveProperty.add(property.toString());
+                paymentsReserveHeader.add(paymentsValue.toString());
+                paymentsReserveProperty.add(property.toString());
             }
-            finalList.add(reserveHeader);
-            finalList.add(reserveProperty);
+            paymentsFinalList.add(paymentsReserveHeader);
+            paymentsFinalList.add(paymentsReserveProperty);
         }
-        return finalList;
+        return paymentsFinalList;
     }
 
     @Override
@@ -96,14 +100,14 @@ public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     }
 
     @Override
-    protected String getAmountFilterCondition(List<String> condition, String tableAliasName) {
+    protected String getAmountFilterCondition(List<String> paymentsCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
-        if (condition != null && !condition.isEmpty() && condition.size() < NumericConstants.THREE) {
+        if (paymentsCondition != null && !paymentsCondition.isEmpty() && paymentsCondition.size() < NumericConstants.THREE) {
             StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
-            for (int i = 0; i < condition.size(); i++) {
-                String str = condition.get(i);
+            for (int i = 0; i < paymentsCondition.size(); i++) {
+                String str = paymentsCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
-                if (condition.size() > 1 && i != 1) {
+                if (paymentsCondition.size() > 1 && i != 1) {
                     grlStr.append(" OR ");
                 }
             }

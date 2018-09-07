@@ -810,7 +810,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         customViewDetails.add(session.getProdRelationshipBuilderSid());
                     }
                     if (discountProjectionLogic.saveGroupValues(session, dto.getHierarchyNo(), blurValue, isProgram,
-                            projectionSelection.getDiscountProgramsList(), deductionHierarchy, hierarchyIndicator)) {
+                            projectionSelection.getDiscountProgramsList(), deductionHierarchy)) {
                         if (!userGroup.isEmpty()) {
                             isGroupUpdatedManually = true;
                         }
@@ -1596,6 +1596,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     levelDdlb.setValue(SELECT_ONE.getConstant());
                     fieldDdlb.addItem(Constant.GROUPFCAPS);
                     projectionSelection.setViewOption(Constant.CUSTOM_LABEL);
+                    projectionSelection.setIsCustomHierarchy(false);
                     if (!projectionSelection.getDeductionLevelFilter().isEmpty()) {
                         generateListView(true);
                     }
@@ -1619,6 +1620,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     levelDdlb.setValue(SELECT_ONE.getConstant());
                     fieldDdlb.removeItem(Constant.GROUPFCAPS);
                     fieldDdlb.setValue(Constant.DISCOUNT_RATE_LABEL);
+                    projectionSelection.setIsCustomHierarchy(false);
                     if (!projectionSelection.getDeductionLevelFilter().isEmpty()) {
                         generateListView(true);
                     }
@@ -1840,10 +1842,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     customerLevelNoList.add(Constant.PERCENT);
                     productLevelNoList.add(Constant.PERCENT);
                     deductionLevelNoList.add(StringUtils.EMPTY + dto.getTreeLevelNo());
-                } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(dto.getHierarchyIndicator())) {
-                    customerLevelNoList.add(StringUtils.EMPTY + dto.getTreeLevelNo());
-                    productLevelNoList.add(Constant.PERCENT);
-                    deductionLevelNoList.add(Constant.PERCENT);
                 } else {
                     customerLevelNoList.add(StringUtils.EMPTY + dto.getTreeLevelNo());
                     productLevelNoList.add(Constant.PERCENT);
@@ -2099,7 +2097,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             saveDiscountProjectionListview();
             boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
             boolean isCustomHierarchy = CUSTOM_VIEW.equalsIgnoreCase(String.valueOf(view.getValue()));
-            if (discountProjectionLogic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
+            if (discountProjectionLogic.isAnyRecordChecked(session, projectionSelection.getDiscountProgramsList(),
                     isCustomHierarchy)) {
 
                 if (!Constant.NULL.equals(selectedField) && !selectedField.isEmpty()) {
@@ -2355,8 +2353,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                             boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY
                                     .equals(view.getValue());
-                            if (discountProjectionLogic.isAnyRecordChecked(session, isProgram,
-                                    projectionSelection.getDiscountProgramsList(), isCustomHierarchy)) {
+                            if (discountProjectionLogic.isAnyRecordChecked(session,projectionSelection.getDiscountProgramsList(), isCustomHierarchy)) {
                                 if (fileAlertForPFDChanges()) {
 
                                     if ((methodologyDdlb.getValue().equals(ROLLING_ANNUAL_TREND.getConstant())
@@ -2422,7 +2419,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 projectionSelection.setCalcBased(calcBase);
                                                 projectionSelection
                                                         .setDiscountLevel(String.valueOf(discType.getValue()));
-                                                if (checkedDiscountNames.size() != 0) {
+                                                if (!checkedDiscountNames.isEmpty()) {
                                                     for (Object discountPropertyId : checkedDiscountsPropertyIds) {
                                                         checkedDiscountNames.add(resultsTable.getRightFreezeAsTable()
                                                                 .getTripleHeaderColumnHeader(discountPropertyId));
@@ -2437,7 +2434,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                             .getTripleHeaderColumnHeader(discountPropertyId));
                                                 }
                                                 discountProjectionLogic.calcDataUpdate(session, projectionSelection,
-                                                        String.valueOf(level.getValue()),
                                                         tripleHeaderForCheckedDoubleHeader, checkedDiscountNames,
                                                         isProgram, view.equals(CUSTOM.getConstant()));
                                                 session.setFrequency(String.valueOf(frequencyDdlb.getValue()));
@@ -2546,7 +2542,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                             boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY
                                     .equals(view.getValue());
-                            if (discountProjectionLogic.isAnyRecordChecked(session, isProgram,
+                            if (discountProjectionLogic.isAnyRecordChecked(session, 
                                     projectionSelection.getDiscountProgramsList(), isCustomHierarchy)) {
                                 if (fileAlertForPFDChanges()) {
                                     if ((methodologyDdlb.getValue().equals(ROLLING_ANNUAL_TREND.getConstant())
@@ -2605,7 +2601,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 projectionSelection.setCalcBased(calcBase);
                                                 projectionSelection
                                                         .setDiscountLevel(String.valueOf(discType.getValue()));
-                                                if (checkedDiscountNames.size() != 0) {
+                                                if (!checkedDiscountNames.isEmpty()) {
                                                     for (Object discountPropertyId : checkedDiscountsPropertyIds) {
                                                         checkedDiscountNames.add(resultsTable.getRightFreezeAsTable()
                                                                 .getTripleHeaderColumnHeader(discountPropertyId));
@@ -2616,7 +2612,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                             .getRightFreezeAsTable().getTripleHeaderColumnHeaders());
                                                 }
                                                 discountProjectionLogic.calcDataUpdate(session, projectionSelection,
-                                                        String.valueOf(level.getValue()),
                                                         tripleHeaderForCheckedDoubleHeader, checkedDiscountNames,
                                                         isProgram, view.getValue().equals(CUSTOM.getConstant()));
                                                 session.setFrequency(String.valueOf(frequencyDdlb.getValue()));
@@ -2810,12 +2805,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             return;
                         }
                     }
-                    boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                     boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
                     if (!hierarchyListForCheckRecord.isEmpty()) {
                         discountProjectionLogic.updateCheckRecordForAdjust(checkedDiscountsPropertyIds, hierarchyListForCheckRecord, session, hierarchyIndicator);
                     }
-                    if (discountProjectionLogic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
+                    if (discountProjectionLogic.isAnyRecordChecked(session,  projectionSelection.getDiscountProgramsList(),
                             isCustomHierarchy)) {
 
                         if (discountProjectionLogic.adjustDiscountProjectionValidation(projectionSelection)) {
@@ -2961,9 +2955,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 Constant.ADJUSTMENT_CONFIRMATION);
                         return;
                     }
-                    boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                     boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
-                    if (discountProjectionLogic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
+                    if (discountProjectionLogic.isAnyRecordChecked(session,projectionSelection.getDiscountProgramsList(),
                             isCustomHierarchy)) {
 
                         if (discountProjectionLogic.adjustDiscountProjectionValidation(projectionSelection)) {
@@ -3079,7 +3072,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             if (itemId == null) {
                 itemId = tableLogic.getExpandedTreeValues(tableTreeLevelNo);
             }
-            if (itemId != null) {
                 if ((boolean) ((DiscountProjectionDTO) itemId).getProperties().get("checkRecord")
                         && tableLogic.getAllChildLevels(tableTreeLevelNo).isEmpty()) {
                     if (!isCustomHierarchy) {
@@ -3110,7 +3102,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         hierarchyList.add(dataForMassUpdate);
                     }
                 }
-            }
         }
 
         return hierarchyList;
@@ -3679,7 +3670,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     || String.valueOf(propertyId).contains("ProjectedAmount")) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, getConverter(propertyId.toString()));
 
-            } else if (String.valueOf(propertyId).contains(Constant.ACTUALRPU)) {
+            } else if (String.valueOf(propertyId).endsWith("RPU")) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, priceFormat);
             } else {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, percentFormat);
@@ -4249,9 +4240,9 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
 
     private void createRightHeader() {
         projectionSelection.setHierarchyIndicator(hierarchyIndicator);
-        List<Object> HeaderPropertyIds = HeaderUtils.getDiscountProjectionRightTableColumns(projectionSelection);
-        rightHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
-        excelHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(1);
+        List<Object> headerPropertyIds = HeaderUtils.getDiscountProjectionRightTableColumns(projectionSelection);
+        rightHeader = (CustomTableHeaderDTO) headerPropertyIds.get(0);
+        excelHeader = (CustomTableHeaderDTO) headerPropertyIds.get(1);
     }
 
     @Override
@@ -4901,7 +4892,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             if (!overall.isEmpty() && overall.size() == defval) {
                 String subYear1 = StringUtils.EMPTY;
                 int[] year = new int[overall.size()];
-                int[] Quarter = new int[overall.size()];
+                int[] quarter = new int[overall.size()];
                 String tempYear = StringUtils.EMPTY;
                 String tempSubYear = StringUtils.EMPTY;
                 for (int i = 0; i < overall.size(); i++) {
@@ -4934,12 +4925,12 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 int i = 0;
                 Arrays.sort(year);
                 for (i = 0; i < year.length; i++) {
-                    Quarter[i] = year[i] % NumericConstants.TEN;
+                    quarter[i] = year[i] % NumericConstants.TEN;
                     year[i] = year[i] / NumericConstants.TEN;
                 }
-                if ((Quarter[0] == 1 && Quarter[defval - 1] == defval) && (year[0] == year[defval - 1])) {
+                if ((quarter[0] == 1 && quarter[defval - 1] == defval) && (year[0] == year[defval - 1])) {
                     retval = true;
-                } else if ((Quarter[0] == (Quarter[defval - 1] + 1)) && (year[0] == (year[defval - 1] - 1))) {
+                } else if ((quarter[0] == (quarter[defval - 1] + 1)) && (year[0] == (year[defval - 1] - 1))) {
                     retval = true;
                 } else if (Integer.parseInt(subYear1) == NumericConstants.TWELVE) {
                     retval = true;
@@ -5169,7 +5160,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         NMDiscountProjectionLogic logic = new NMDiscountProjectionLogic();
 
         if (checkedDiscountsPropertyIds.size() > 0) {
-            if (checkedDiscountsPropertyIds.size() != 0) {
+            if (!checkedDiscountsPropertyIds.isEmpty()) {
                 String selectedRsName = resultsTable.getRightFreezeAsTable()
                         .getTripleHeaderColumnHeader(checkedDiscountsPropertyIds.get(0));
 
@@ -5460,7 +5451,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         if (!StringUtils.isBlank(levelNo) && !"0".equals(levelNo)) {
             deductionLevelFilter.add(0, new Object[]{0, SELECT_ALL_LABEL});
             deductionLevelFilter.addAll(
-                    commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, projectionSelection, generateProductToBeLoaded, generateCustomerToBeLoaded));
+                    commonLogic.getDeductionLevelValues(levelNo, projectionSelection, generateProductToBeLoaded, generateCustomerToBeLoaded));
 
             if (CommonUtil.isValueEligibleForLoading() && Constant.TEN_STRING.equals(levelNo)) {
                 CommonLogic.loadCustomMenuBarFoScheduleID(deductionLevelFilter, deductionFilterValues);

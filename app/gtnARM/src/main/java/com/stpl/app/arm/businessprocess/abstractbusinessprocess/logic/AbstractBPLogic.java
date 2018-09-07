@@ -156,9 +156,9 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                 }
             }
         } catch (IllegalAccessException | InvocationTargetException ex) {
-            LOGGER.error("Error while setting property for given Inputs :" , ex);
+            LOGGER.error("Error while setting property for given Inputs :", ex);
         } catch (IllegalArgumentException ex) {
-            LOGGER.error("Error in customizier " , ex);
+            LOGGER.error("Error in customizier ", ex);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(customizedList);
@@ -205,22 +205,34 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                 }
             } else if (value instanceof List) {
                 if (oldValue != null) {
-                    List<String> valList = (List) value;
-                    List<String> oldValList = (List) oldValue;
-                    if (valList.size() != oldValList.size()) {
-                        allowed = true;
-                    } else {
-                        for (int j = 0; j < valList.size(); j++) {
-                            String valString = valList.get(j);
-                            if (!valString.equals(oldValList.get(j))) {
-                                allowed = true;
-                                break;
-                            }
-                        }
-                    }
+                    allowed = getAllowed(value, oldValue, allowed);
                 } else {
                     allowed = true;
                 }
+            }
+        }
+        return allowed;
+    }
+
+    private boolean getAllowed(Object value, Object oldValue, boolean a) {
+        boolean allowed = a;
+        List<String> valList = (List) value;
+        List<String> oldValList = (List) oldValue;
+        if (valList.size() != oldValList.size()) {
+            allowed = true;
+        } else {
+            allowed = checkProcedureAllowed(valList, oldValList, allowed);
+        }
+        return allowed;
+    }
+
+    private boolean checkProcedureAllowed(List<String> valList, List<String> oldValList, boolean alowed) {
+        boolean allowed = alowed;
+        for (int j = 0; j < valList.size(); j++) {
+            String valString = valList.get(j);
+            if (!valString.equals(oldValList.get(j))) {
+                allowed = true;
+                break;
             }
         }
         return allowed;

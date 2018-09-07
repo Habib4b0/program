@@ -271,7 +271,7 @@ public class CompanySearchLogic {
 
             if (!list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     idDescription = new IdDescriptionDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]));
                     resultList.add(idDescription);
                 }
@@ -306,7 +306,7 @@ public class CompanySearchLogic {
 
             if (!list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     idDescription = new IdDescriptionDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]));
                     resultList.add(idDescription);
                 }
@@ -502,7 +502,7 @@ public class CompanySearchLogic {
         int size = searchLinkedCompanies.size();
         for (int loop = 0, limit = size; loop < limit; loop++) {
             clDto = new CompanyLinkDTO();
-            Object objects[] = (Object[]) searchLinkedCompanies.get(loop);
+            Object[] objects = (Object[]) searchLinkedCompanies.get(loop);
             clDto.setFromCompanyMasterSid(String.valueOf(objects[0]));
             clDto.setFromCompanyId(String.valueOf(objects[1]));
             clDto.setFromCompanyNo(String.valueOf(objects[NumericConstants.TWO]));

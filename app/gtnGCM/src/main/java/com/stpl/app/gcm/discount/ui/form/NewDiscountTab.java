@@ -1995,10 +1995,10 @@ public class NewDiscountTab extends CustomComponent {
                 }
 
                 final Collection childlist = dashboardTreeTable.getChildren(saveTreeIdValue);
-                if (childlist == null || childlist.isEmpty()) {
-                } else {
+                if (childlist != null && !(childlist.isEmpty())) {
                     saveTree(childlist, rsModelSysId, category);
-                }
+                } 
+                    
             }
         } catch (Exception e) {
             LOGGER.error("",e);

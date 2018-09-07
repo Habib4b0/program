@@ -443,17 +443,6 @@ public final class CommonUtil {
             final HelperDTO helperDTO = iterator.next();
             select.addItem(helperDTO);
         }
-
-        select.addValueChangeListener(new Property.ValueChangeListener() {
-            /**
-             *
-             */
-            public void valueChange(final Property.ValueChangeEvent event) {
-                if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue()) || ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
-
-                }
-            }
-        });
         LOGGER.debug("getBrandDropDown RETURN NativeSelect select");
         return select;
     }

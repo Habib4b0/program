@@ -771,13 +771,6 @@ public class Newcomponent extends CustomComponent {
                                 @Override
                                 public void click(CustomTextField.ClickEvent event) {
                                     FormulaSearchLookup lookup = new FormulaSearchLookup(formulaId);
-                                    lookup.addCloseListener(new Window.CloseListener() {
-                                        @Override
-                                        public void windowClose(Window.CloseEvent e) {
-                                            if (formulaId.getData() != null) {
-                                            }
-                                        }
-                                    });
                                     UI.getCurrent().addWindow(lookup);
                                 }
                             });
@@ -1171,7 +1164,7 @@ public class Newcomponent extends CustomComponent {
                 searchValue.setValue(Constants.EMPTY);
             } else if (value.equalsIgnoreCase(Constants.BRAND)) {
                 String query = "select BRAND_MASTER_SID,BRAND_NAME from BRAND_MASTER where INBOUND_STATUS<>'D' and BRAND_NAME is not null order by BRAND_NAME";
-                List componentList = (List) dao.executeSelect(query);
+                List componentList =  dao.executeSelect(query);
                 searchDDLB.setVisible(true);
                 searchDDLB.setNullSelectionItemId(Constants.ZEROSTRING);
                 for (int i = 0; i < componentList.size(); i++) {
@@ -1992,22 +1985,22 @@ public class Newcomponent extends CustomComponent {
                 newComponentContractMaster = ContractMasterLocalServiceUtil.addContractMaster(newComponentContractMaster);
                 contractMasterSid = newComponentContractMaster.getContractMasterSid();
                 dashboardResultsTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(String.valueOf(contractMasterSid));
-                int AliasType = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, "aliasType").getValue()).getId();
-                Date AliasSDATE = (Date) dashboardResultsTable.getContainerProperty(item, "aliasstartdate").getValue();
-                String AliasNumber = String.valueOf(dashboardResultsTable.getContainerProperty(item, "aliasNumber").getValue());
-                Date AliasEDATE = (Date) dashboardResultsTable.getContainerProperty(item, "aliasenddate").getValue();
-                ContractAliasMaster CAM = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
-                CAM.setContractAliasNo(AliasNumber);
-                CAM.setContractAliasType(AliasType);
-                CAM.setStartDate(AliasSDATE);
-                CAM.setEndDate(AliasEDATE);
-                CAM.setModifiedDate(new Date());
-                CAM.setCreatedBy(Integer.parseInt(userId));
-                CAM.setCreatedDate(new Date());
-                CAM.setSource("BPI");
-                CAM.setInboundStatus("A");
-                CAM.setContractMasterSid(contractMasterSid);
-                ContractAliasMasterLocalServiceUtil.addContractAliasMaster(CAM);
+                int aliasType = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, "aliasType").getValue()).getId();
+                Date aliasSdate = (Date) dashboardResultsTable.getContainerProperty(item, "aliasstartdate").getValue();
+                String aliasNumber = String.valueOf(dashboardResultsTable.getContainerProperty(item, "aliasNumber").getValue());
+                Date aliasEdate = (Date) dashboardResultsTable.getContainerProperty(item, "aliasenddate").getValue();
+                ContractAliasMaster caMaster = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
+                caMaster.setContractAliasNo(aliasNumber);
+                caMaster.setContractAliasType(aliasType);
+                caMaster.setStartDate(aliasSdate);
+                caMaster.setEndDate(aliasEdate);
+                caMaster.setModifiedDate(new Date());
+                caMaster.setCreatedBy(Integer.parseInt(userId));
+                caMaster.setCreatedDate(new Date());
+                caMaster.setSource("BPI");
+                caMaster.setInboundStatus("A");
+                caMaster.setContractMasterSid(contractMasterSid);
+                ContractAliasMasterLocalServiceUtil.addContractAliasMaster(caMaster);
 
             } else if (level.equals(Constants.THREE)) {
                 String temptableSId = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
@@ -2211,22 +2204,22 @@ public class Newcomponent extends CustomComponent {
                 saveCfp(String.valueOf(cm1.getCfpContractSid()), companyFamily.getCfpModelSid());
 
             } else if (level.equals(Constants.TWO)) {
-                String Id = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_ID).getValue());
-                String No = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NUMBER).getValue());
-                String Name = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NAME).getValue());
-                int Type = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.MARKET_TYPE).getValue()).getId();
+                String id = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_ID).getValue());
+                String no = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NUMBER).getValue());
+                String name = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NAME).getValue());
+                int type = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.MARKET_TYPE).getValue()).getId();
                 int status = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.STATUS_S).getValue().toString());
                 Date startDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.START_DATE).getValue();
                 Date endDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.END_DATE).getValue();
                 String temptableSId = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
                 IfpModel ifpmodel = IfpModelLocalServiceUtil.createIfpModel(0);
-                ifpmodel.setIfpId(Id);
-                ifpmodel.setIfpName(Name);
-                ifpmodel.setIfpNo(No);
+                ifpmodel.setIfpId(id);
+                ifpmodel.setIfpName(name);
+                ifpmodel.setIfpNo(no);
                 ifpmodel.setIfpStatus(status);
                 ifpmodel.setIfpStartDate(startDate);
                 ifpmodel.setIfpEndDate(endDate);
-                ifpmodel.setIfpType(Type);
+                ifpmodel.setIfpType(type);
                 ifpmodel.setCreatedBy(Integer.parseInt(userId));
                 ifpmodel.setCreatedDate(new Date());
                 ifpmodel.setSource("BPI");
@@ -2335,14 +2328,14 @@ public class Newcomponent extends CustomComponent {
                         itemDTO.setCompanyStatus(String.valueOf(obje[NumericConstants.SIX]));
                         if (obje[NumericConstants.FOUR] != null) {
 
-                            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FOUR]));
+                            Date date =  format.parse(String.valueOf(obje[NumericConstants.FOUR]));
                             String finalString = df.format(date);
                             itemDTO.setPsStartDate(finalString);
                         } else {
                             itemDTO.setPsStartDate(null);
                         }
                         if (obje[NumericConstants.FIVE] != null) {
-                            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                            Date date =  format.parse(String.valueOf(obje[NumericConstants.FIVE]));
                             String finalString = df.format(date);
                             itemDTO.setPsEndDate(finalString);
                         } else {
@@ -2379,7 +2372,7 @@ public class Newcomponent extends CustomComponent {
                     itemDTO.setBrand(String.valueOf(obje[NumericConstants.THREE]));
                     populateDetailsPsStartDate(obje, itemDTO);
                     if (obje[NumericConstants.FIVE] != null) {
-                        Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                        Date date =  format.parse(String.valueOf(obje[NumericConstants.FIVE]));
                         String finalString = df.format(date);
                         itemDTO.setPsEndDate(finalString);
                     } else {
@@ -2423,7 +2416,7 @@ public class Newcomponent extends CustomComponent {
                     itemDTO.setBrand(String.valueOf(obje[NumericConstants.THREE]));
                     itemDTO.setStatus(String.valueOf(obje[NumericConstants.FOUR]));
                     if (obje[NumericConstants.FIVE] != null) {
-                        Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                        Date date = format.parse(String.valueOf(obje[NumericConstants.FIVE]));
                         String finalString = df.format(date);
                         itemDTO.setPsStartDate(finalString);
                     } else {
@@ -2711,7 +2704,7 @@ public class Newcomponent extends CustomComponent {
 
     public void populateDetailsPsStartDate(Object[] obje, NewComponentDTO itemDTO) throws ParseException {
         if (obje[NumericConstants.FOUR] != null) {
-            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FOUR]));
+            Date date =  format.parse(String.valueOf(obje[NumericConstants.FOUR]));
             String finalString = df.format(date);
             itemDTO.setPsStartDate(finalString);
         } else {
@@ -2721,7 +2714,7 @@ public class Newcomponent extends CustomComponent {
 
     public void populateDetailsPsEndDate(Object[] obje, NewComponentDTO itemDTO) throws ParseException {
         if (obje[NumericConstants.SIX] != null) {
-            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.SIX]));
+            Date date =  format.parse(String.valueOf(obje[NumericConstants.SIX]));
             String finalString = df.format(date);
             itemDTO.setPsEndDate(finalString);
         } else {

@@ -54,6 +54,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
+import java.util.Locale;
 
 /**
  *
@@ -214,7 +215,7 @@ public class PPAProjectionResultsLogic {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year + caption;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year + caption;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year + caption;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year + caption;
@@ -232,7 +233,7 @@ public class PPAProjectionResultsLogic {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year;
@@ -776,22 +777,9 @@ public class PPAProjectionResultsLogic {
 
         if (filter != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter)))) {
             if (!filter.isEmpty()) {
-                switch (ddlbType) {
-                    case Constant.CONTRACT:
-                        value = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + value + "'");
-                        break;
-                    case Constant.CUSTOMER1_SMALL:
-                        value = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + value + "'");
-                        break;
-                    case Constant.BRAND:
-                        value = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + value + "'");
-                        break;
-                    default:
-                        break;
-
+                if (Constant.CONTRACT.equals(ddlbType) || Constant.CUSTOMER1_SMALL.equals(ddlbType) || Constant.BRAND.equals(ddlbType)) {
+                    value = Constant.PERCENT + filter + Constant.PERCENT;
+                    query = query.replace(Constant.FILTERR, "'" + value + "'");
                 }
             }
         } else {
@@ -821,11 +809,11 @@ public class PPAProjectionResultsLogic {
      * @return
      */
     public List<HelperDTO> getPPADetailsDDLBResult(int startIndex, int end, String filter, HelperDTO dto,
-            final String ddlbType, final int projectionId, PPADetailsDTO ppaDetailsDTO) {
+            final String ddlbTypePPA, final int projectionId, PPADetailsDTO ppaDetailsDTO) {
         String query = StringUtils.EMPTY;
         String searchFilter;
         final List<HelperDTO> list = new ArrayList<>();
-        switch (ddlbType) {
+        switch (ddlbTypePPA) {
 
             case Constant.CONTRACT:
                 query = SQlUtil.getQuery(getClass(),"contract-ddlb");
@@ -847,24 +835,12 @@ public class PPAProjectionResultsLogic {
         query = query.replace(Constant.BRANDSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedBrand()));
 
         if (filter != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter))) && !StringUtils.EMPTY.equals(filter) ) {
-                switch (ddlbType) {
-                    case Constant.CONTRACT:
-                        searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
-                        break;
-                    case Constant.CUSTOMER1_SMALL:
-                        searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
-                        break;
-                    case Constant.BRAND:
-                        searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
-                        break;
-                    default:
-                        break;
-            }
+                if (Constant.CONTRACT.equals(ddlbTypePPA) || Constant.CUSTOMER1_SMALL.equals(ddlbTypePPA) || Constant.BRAND.equals(ddlbTypePPA)) {
+                    searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
+                    query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
+                }
         } else {
-            switch (ddlbType) {
+            switch (ddlbTypePPA) {
                 case Constant.CONTRACT:
                     query = query.replace("AND CM.CONTRACT_NO LIKE @FILTER", StringUtils.EMPTY);
                     break;
@@ -1134,12 +1110,12 @@ public class PPAProjectionResultsLogic {
         return resultList;
     }
 
-    public String getFormatValue(DecimalFormat FORMAT, String value, String appendChar) {
+    public String getFormatValue(DecimalFormat formatPPA, String value, String appendChar) {
         String valueFor =value;
         if (CURRENCY.equals(appendChar)) {
-            valueFor = appendChar.concat(FORMAT.format(Double.valueOf(valueFor)));
+            valueFor = appendChar.concat(formatPPA.format(Double.valueOf(valueFor)));
         } else {
-            valueFor = FORMAT.format(Double.valueOf(valueFor)).concat(appendChar);
+            valueFor = formatPPA.format(Double.valueOf(valueFor)).concat(appendChar);
         }
         return valueFor;
     }
@@ -1275,7 +1251,7 @@ public class PPAProjectionResultsLogic {
     }
 
     String[] calcWacPriceChange(String rsId, String periodSid, String year, String frequencyValue) {
-        String[] wac_price = new String[]{ConstantsUtils.ZERO, ConstantsUtils.ZERO};
+        String[] wacPrice = new String[]{ConstantsUtils.ZERO, ConstantsUtils.ZERO};
 
         try {
             String periodIds[] = fetchPeriod_Sids(year, frequencyValue);
@@ -1283,25 +1259,25 @@ public class PPAProjectionResultsLogic {
 
             int i;
             // finding wac price 
-            wac_price[NumericConstants.ZERO] = searchWacPrice(rsId, periodSid);
+            wacPrice[NumericConstants.ZERO] = searchWacPrice(rsId, periodSid);
 
             // checking if wac price change to be reset ie (returns zero)
             for (i = NumericConstants.ZERO; i < wacTableList.size(); i++) {
                 Object object[] = wacTableList.get(i);
                 if ((String.valueOf(object[NumericConstants.ONE]).equals(rsId))
                         && periodList.contains(String.valueOf(object[NumericConstants.TWO]))) {
-                    return wac_price;
+                    return wacPrice;
                 }
             }
 
             // finding wac  Price Change
             int historyPeriod = Integer.parseInt(periodSid) - (currentfrquencyForWacReset + periodList.indexOf(periodSid));
             int baseperiod = Integer.parseInt(periodSid) - periodList.indexOf(periodSid);
-            wac_price[NumericConstants.ONE] = calculateWacPriceChange(searchWacPrice(rsId, String.valueOf(baseperiod)), searchWacPrice(rsId, String.valueOf(historyPeriod)));
-            return wac_price;
+            wacPrice[NumericConstants.ONE] = calculateWacPriceChange(searchWacPrice(rsId, String.valueOf(baseperiod)), searchWacPrice(rsId, String.valueOf(historyPeriod)));
+            return wacPrice;
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
-            return wac_price;
+            return wacPrice;
         }
     }
 

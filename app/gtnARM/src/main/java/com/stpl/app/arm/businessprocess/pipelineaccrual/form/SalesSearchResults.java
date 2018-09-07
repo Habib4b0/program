@@ -2,7 +2,6 @@ package com.stpl.app.arm.businessprocess.pipelineaccrual.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractSearchResults;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
-import com.stpl.app.arm.businessprocess.commontemplates.AdjustmentTableLogic;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.dto.PipelineAccrualSelectionDTO;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.dto.SalesFieldFactory;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.logic.SalesLogic;
@@ -28,9 +27,9 @@ import org.slf4j.LoggerFactory;
  */
 public class SalesSearchResults extends AbstractSearchResults {
 
-    private Object[] doubleheadercolumns = {"ratePeriod"};
-    private Object[] columns = {"month"};
-    private Object[] leftColumns = {"group"};
+    private Object[] salesResultsDoubleheadercolumns = {"ratePeriod"};
+    private Object[] salesResultsColumns = {"month"};
+    private Object[] salesResultsLeftColumns = {"group"};
     public static final Logger LOGGER = LoggerFactory.getLogger(SalesSearchResults.class);
 
     public SalesSearchResults(SalesLogic logic, AbstractSelectionDTO selection) {
@@ -53,24 +52,19 @@ public class SalesSearchResults extends AbstractSearchResults {
         leftTable.setImmediate(true);
 
         table.setDoubleHeaderVisible(false);
-        leftTable.setDoubleHeaderVisibleColumns(columns);
-
+        leftTable.setDoubleHeaderVisibleColumns(salesResultsColumns);
         leftTable.setDoubleHeaderColumnHeaders("");
-
-        leftTable.setVisibleColumns(leftColumns);
-
+        leftTable.setVisibleColumns(salesResultsLeftColumns);
         leftTable.setColumnHeaders("Product");
-
-        rightTable.setVisibleColumns(doubleheadercolumns);
-
+        rightTable.setVisibleColumns(salesResultsDoubleheadercolumns);
         rightTable.setColumnHeaders("");
 
-        for (Object propertyId : rightTable.getVisibleColumns()) {
-            rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
+        for (Object salesPropertyId : rightTable.getVisibleColumns()) {
+            rightTable.setColumnAlignment(salesPropertyId, ExtCustomTable.Align.RIGHT);
 
         }
-        for (Object propertyId : leftTable.getVisibleColumns()) {
-            leftTable.setColumnAlignment(propertyId, ExtCustomTable.Align.LEFT);
+        for (Object salesPropertyId : leftTable.getVisibleColumns()) {
+            leftTable.setColumnAlignment(salesPropertyId, ExtCustomTable.Align.LEFT);
         }
         leftTable.setColumnCheckBox("checkRecord", true, false);
         resultBeanContainer.setColumnProperties(properties);
@@ -94,37 +88,38 @@ public class SalesSearchResults extends AbstractSearchResults {
     public void setExcelVisibleColumn() {
         Map properties = new HashMap();
         List<Object> header = getSummaryLogic().generateHeader((PipelineAccrualSelectionDTO) selection);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
-        List rightSingleVisibleHeader = (ArrayList) header.get(1);
-        for (Object variableColumn : rightSingleVisibleColumn) {
+        List salesRightSingleVisibleColumn = (ArrayList) header.get(0);
+        List salesRightSingleVisibleHeader = (ArrayList) header.get(1);
+        for (Object variableColumn : salesRightSingleVisibleColumn) {
             properties.put(variableColumn, String.class);
         }
         getExcelContainer().setColumnProperties(properties);
-        getExcelContainer().setRecordHeader(rightSingleVisibleColumn);
-        List rightSingleVisibleColumn1 = new ArrayList(rightSingleVisibleColumn);
+        getExcelContainer().setRecordHeader(salesRightSingleVisibleColumn);
+        List rightSingleVisibleColumn1 = new ArrayList(salesRightSingleVisibleColumn);
         rightSingleVisibleColumn1.add(0, "group");
-        rightSingleVisibleHeader.add(0, "Product");
+        salesRightSingleVisibleHeader.add(0, "Product");
         getExcelTable().setVisibleColumns(rightSingleVisibleColumn1.toArray());
-        getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
+        getExcelTable().setColumnHeaders(Arrays.copyOf((salesRightSingleVisibleHeader).toArray(), (salesRightSingleVisibleHeader).size(), String[].class));
         setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
     }
 
     public void generateButtonLogic(PipelineAccrualSelectionDTO selection, boolean isEditButtonClick) {
         LOGGER.debug("Inside generate ButtonClick Btn{}", selection.getSalesVariables().size());
         List<Object> header = getSummaryLogic().generateHeader(selection);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
-        Map properties = new HashMap();
+        List salesRightSingleVisibleColumn = (ArrayList) header.get(0);
+        Map salesProperties = new HashMap();
         Object[] variableColumns = VariableConstants.getVariableSalesVisibleColumn();
         for (int i = 0; i < variableColumns.length; i++) {
-            properties.put(variableColumns[i], String.class);
+            salesProperties.put(variableColumns[i], String.class);
         }
         if (!selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL) && !isEditButtonClick) {
             salesProcedureCall(selection);
         }
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
-        resultBeanContainer.setColumnProperties(properties);
-        resultBeanContainer.setRecordHeader(rightSingleVisibleColumn);
-        rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
+        resultBeanContainer.setColumnProperties(salesProperties);
+        resultBeanContainer.setRecordHeader(salesRightSingleVisibleColumn);
+        resultBeanContainer.setIndexable(true);
+        rightTable.setVisibleColumns(salesRightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(1)).toArray(), ((List) header.get(1)).size(), String[].class));
         for (Object propertyId : rightTable.getVisibleColumns()) {
             rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
@@ -168,11 +163,6 @@ public class SalesSearchResults extends AbstractSearchResults {
         Object[] orderedArgs = {selection.getProjectionMasterSid(), selection.getDateType(), selection.getPrice(), "0",
             selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId()};
         getSummaryLogic().getSalesResults(orderedArgs);
-    }
-
-    @Override
-    public AdjustmentTableLogic getTableLogic() {
-        return super.getTableLogic();
     }
 
     @Override

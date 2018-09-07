@@ -1522,7 +1522,7 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 	public void updateDataSelectionProjectionTables(final String propertyName) throws SystemException {
-		DataSelectionLogic dsLogic = new DataSelectionLogic();
+		DataSelectionLogic dsLogicProj = new DataSelectionLogic();
 		List<Leveldto> initialCustomerHierarchy = getInitialHierarchy(session.getProjectionId(), Boolean.TRUE,
 				selectionDTO.getCustomerHierarchyLevel(), customerDescriptionMap);
 		List<Leveldto> initialProductHierarchy = getInitialHierarchy(session.getProjectionId(), Boolean.FALSE,
@@ -1545,30 +1545,30 @@ public class DataSelection extends ForecastDataSelection {
 					.replace("@HIERARCHYNO", CommonUtils.CollectionToString(productRemovedLevels, true))));
 		}
 		if (!customerRemovedLevels.isEmpty()) {
-			dsLogic.deleteTempOnUpdate("PROJECTION_CUST_HIERARCHY", session.getProjectionId(),
+			dsLogicProj.deleteTempOnUpdate("PROJECTION_CUST_HIERARCHY", session.getProjectionId(),
 					UiUtils.stringListToString(customerRemovedLevels));
 		}
 		if (!productRemovedLevels.isEmpty()) {
-			dsLogic.deleteTempOnUpdate("PROJECTION_PROD_HIERARCHY", session.getProjectionId(),
+			dsLogicProj.deleteTempOnUpdate("PROJECTION_PROD_HIERARCHY", session.getProjectionId(),
 					UiUtils.stringListToString(productRemovedLevels));
 		}
 
 		setRelationshipBuilderSids(String.valueOf(customerRelationComboBox.getValue()));
 		setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
-		dsLogic.updateCustomerHierarchyLogic(getSelectedCustomers(),
+		dsLogicProj.updateCustomerHierarchyLogic(getSelectedCustomers(),
 				DataSelectionUtil
 						.getEndLevelHierNo(dataSelectionForm.getCustomerHierarchyEndLevels(selectedCustomerContainer)),
 				session.getProjectionId(),
 				DataSelectionUtil.getRemovedLevelsRsid(initialCustomerHierarchy, getSelectedCustomers()),
 				DataSelectionUtil.getNewLevelRsid(initialCustomerHierarchy, getSelectedCustomers()));
-		dsLogic.updateProductHierarchyLogic(getSelectedProducts(),
+		dsLogicProj.updateProductHierarchyLogic(getSelectedProducts(),
 				DataSelectionUtil
 						.getEndLevelHierNo(dataSelectionForm.getProductHierarchyEndLevels(selectedProductContainer)),
 				session.getProjectionId(),
 				DataSelectionUtil.getRemovedLevelsRsid(initialProductHierarchy, getSelectedProducts()),
 				DataSelectionUtil.getNewLevelRsid(initialProductHierarchy, getSelectedProducts()), selectionDTO);
 
-		dsLogic.updateCcpLogic(dataSelectionForm.getCustomerHierarchyEndLevels(selectedCustomerContainer),
+		dsLogicProj.updateCcpLogic(dataSelectionForm.getCustomerHierarchyEndLevels(selectedCustomerContainer),
 				dataSelectionForm.getProductHierarchyEndLevelsHierNo(selectedProductContainer),
 				Constant.CUSTOMER1_SMALL, session.getProjectionId());
 
@@ -1786,12 +1786,15 @@ public class DataSelection extends ForecastDataSelection {
 	private void setAvailableCustomer(Object value, String dedLevel, String dedValue, String levelName,
 			int relationVersionNo, int hierarchyVersionNo) {
 		int forecastLevel;
+                String dedLevelCustomer = dedLevel;
+                String dedValueCustomer = dedValue;
+                String levelNameCustomer = levelName;
 		try {
 
 			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 				{
-					dedLevel = getDedutionLevel();
-					dedValue = String.valueOf(deductionValue.getValue());
+					dedLevelCustomer = getDedutionLevel();
+					dedValueCustomer = String.valueOf(deductionValue.getValue());
 				}
 			}
 		} catch (NumberFormatException ex) {
@@ -1811,16 +1814,16 @@ public class DataSelection extends ForecastDataSelection {
 						: groupFilteredCompanies;
 				List<Leveldto> resultedLevelsList = null;
 				resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-						Integer.parseInt(relationshipSid), tempGroupFileter, dedLevel, dedValue, relationVersionNo,
+						Integer.parseInt(relationshipSid), tempGroupFileter, dedLevelCustomer, dedValueCustomer, relationVersionNo,
 						forecastEligibleDate.getValue(), customerDescriptionMap);
 				if (selectedHierarchyLevelDto.getLevel() != null) {
-					levelName = selectedHierarchyLevelDto.getLevel();
+					levelNameCustomer = selectedHierarchyLevelDto.getLevel();
 				}
 
 				availableCustomerContainer.addAll(resultedLevelsList);
 				availableCustomer.setContainerDataSource(availableCustomerContainer);
 				availableCustomer.setVisibleColumns(Constant.DISPLAY_VALUE);
-				availableCustomer.setColumnHeaders(levelName);
+				availableCustomer.setColumnHeaders(levelNameCustomer);
 				availableCustomer.setFilterBarVisible(true);
 				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);

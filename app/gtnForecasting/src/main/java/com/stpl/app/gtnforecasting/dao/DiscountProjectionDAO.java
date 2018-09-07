@@ -167,7 +167,7 @@ public interface DiscountProjectionDAO {
      */
     public List getGlobalRebateDetails(int projectionId);
 
-    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkClear, boolean isProgram, List<String> discountList);
+    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkClear, List<String> discountList);
 
     public int getCheckedRecordCount(int projectionId, String userId, String sessionId, boolean isProgram, List<String> discountList) ;
 

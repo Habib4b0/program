@@ -329,12 +329,10 @@ public class FileManagementLookup extends Window {
 	private DataFormatConverter dollarsFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
 	private DataFormatConverter zeroDecimalFormat = new DataFormatConverter("#0");
 	private List<FileMananagementResultDTO> addlineList = new ArrayList<>();
-	private ComboBox fmFileType;
 	private FileMananagementResultDTO resultDTO = new FileMananagementResultDTO();
 	private FileMananagementResultDTO detailsResultDTO = new FileMananagementResultDTO();
 	private ExtFilterTable excelTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
-	private ExtFilterTable excelDetailsTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelDetailsBean;
 	private FileManagementLogic vFileMgmtLogic = new FileManagementLogic();
 	private String helperFileType;
@@ -1184,8 +1182,7 @@ public class FileManagementLookup extends Window {
 											if (buttonId.name().equals(ConstantsUtils.YES)) {
 												close();
 											}
-											if (buttonId.name().equals("NO")) {
-											}
+											
 										}
 									}, ButtonId.YES, ButtonId.NO);
 
@@ -1690,59 +1687,7 @@ public class FileManagementLookup extends Window {
 			if (!changeFlag) {
 				Collections.sort(existingSystemId);
 				Collections.sort(currentSystemId);
-				if (existingSystemId.equals(currentSystemId)) {
-					for (int i = 0; i < itemIds.size(); i++) {
-						final FileMananagementResultDTO beanItem = itemIds.get(i);
-						if (!beanItem.isRecordLockStatus()) {
-							if ((beanItem.getPrice().equals(beanItem.getHiddenPrice())
-									&& beanItem.getUnits().equals(beanItem.getHiddenUnits()))
-									&& fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-							} else if (beanItem.getForecastType().equals(beanItem.getHiddenForecastType())
-									&& beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
-									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getOrganizationKey())
-									&& fileType.equals(ConstantsUtils.DEMAND)) {
-
-							} else if (beanItem.getForecastType().equals(beanItem.getHiddenForecastType())
-									&& beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
-									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getOrganizationKey())
-									&& fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-
-							} else if (beanItem.getYear().equals(beanItem.getHiddenYear())
-									&& beanItem.getMonth().equals(beanItem.getHiddenMonth())
-									&& beanItem.getDay().equals(beanItem.getHiddenDay())
-									&& beanItem.getWeek().equals(beanItem.getHiddenWeek())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getBatchId().equals(beanItem.getHiddenbatchId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getHiddenOrganisationKey())
-									&& fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-
-							} else if (beanItem.getYear().equals(beanItem.getHiddenYear())
-									&& beanItem.getMonth().equals(beanItem.getHiddenMonth())
-									&& beanItem.getDay().equals(beanItem.getHiddenDay())
-									&& beanItem.getWeek().equals(beanItem.getHiddenWeek())
-									&& beanItem.getCompanyId().equals(beanItem.getHiddenCompanyId())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getBatchId().equals(beanItem.getHiddenbatchId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getHiddenOrganisationKey())
-									&& fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-
-							} else if (beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
-									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getOrganizationKey())
-									&& ((HelperDTO) fmFileType.getValue()).getDescription()
-											.equals(ConstantsUtils.CUSTOMERGTS)) {
-
-							} else {
-								changeFlag = true;
-							}
-						}
-					}
-				} else {
+				if (!existingSystemId.equals(currentSystemId)) {
 					changeFlag = true;
 				}
 			}
@@ -2277,42 +2222,6 @@ public class FileManagementLookup extends Window {
 	/**
 	 * To configure Excel Details Results Table
 	 */
-	private void configureExcelDetailsTable() {
-		LOGGER.debug("Configure ExcelDetailsTable Starts---==============================================");
-
-		excelDetailsBean = new BeanItemContainer<>(FileMananagementResultDTO.class);
-		excelDetailsTable = new ExtFilterTable();
-
-		detailsTable.addComponent(excelDetailsTable);
-
-		excelDetailsTable.setVisible(false);
-		excelDetailsTable.setContainerDataSource(excelDetailsBean);
-
-		if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupDetailsColsExcelList());
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupDemandDetailsHeaderExcelList());
-		} else if (fileType.equals(ConstantsUtils.DEMAND)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupDemandDetailsColsExcelList());
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupDemandDetailsHeaderExcelList());
-		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtInvDetailsSumColsExcelList());
-			excelDetailsTable
-					.setColumnHeaders(CommonUIUtil.getFileMgmtLookupInvDetailsSumHeaderList());
-		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-			excelDetailsTable
-					.setVisibleColumns(CommonUIUtil.getFileMgmtLookupInvDetailsColsExcelList());
-			excelDetailsTable
-					.setColumnHeaders(CommonUIUtil.getFileMgmtLookupInvDetailsHeaderExcelList());
-		} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupAdjDemandDetailsColsList());
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupAdjDemandDetailsHeaderList());
-		} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupCustomerColumnsList());
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupCusHeaderList());
-		}
-		excelDetailsTable.markAsDirtyRecursive();
-		LOGGER.debug("Configure ExcelDetailsTable ends");
-	}
 
 	/**
 	 * To load excel Table similar to Details Table in UI
@@ -2320,16 +2229,6 @@ public class FileManagementLookup extends Window {
 	 * @param tableFieldLookUpDTO
 	 * @throws Exception
 	 */
-	private void loadExcelDetailsTable(Object fileObject) throws ParseException {
-		excelDetailsBean.removeAllItems();
-		if (detailsFilterTable.size() != 0) {
-			FileMananagementResultDTO detailsDTO = (FileMananagementResultDTO) fileObject;
-			int recordCount = (Integer) vFileMgmtLogic.getDetailsResults(detailsDTO, 0, 0, null, null, true);
-			List<FileMananagementResultDTO> resultList = (List<FileMananagementResultDTO>) vFileMgmtLogic
-					.getDetailsResults(detailsDTO, 0, recordCount, null, null, false);
-			excelDetailsBean.addAll(resultList);
-		}
-	}
 
 	public void exFactoryFieldFactory() {
 		detailsFilterTable.setTableFieldFactory(new DefaultFieldFactory() {

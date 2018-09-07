@@ -12,12 +12,20 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsCFFSubmitBean;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.constants.GtnWsWorkFlowConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DSCalculationLogic {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DSCalculationLogic.class);
 
 	/**
 	 * The Constant LOGGER.
 	 */
+    
+    private DSCalculationLogic()
+    {
+        LOGGER.debug("DSCalculationLogic ");
+    }
 	public static GtnWsCommonWorkflowResponse startWorkflow(SessionDTO session, String userId) {
         GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
         GtnWsCFFSubmitRequest submitRequest = new GtnWsCFFSubmitRequest();
@@ -60,6 +68,7 @@ public class DSCalculationLogic {
     }
 
     public static String getProcessVariableLog(Long processId, String processVariableName) {
+        LOGGER.debug("getProcessVariableLog ");
         GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
         GtnWsCFFSubmitRequest submitRequest = new GtnWsCFFSubmitRequest();
         GtnWsCFFSubmitBean submitProcessBean = new GtnWsCFFSubmitBean();
