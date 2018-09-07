@@ -1448,8 +1448,8 @@ public class DataSelectionLogic {
                                 }
                                 
                                 List<GtnReportHierarchyLevelBean> selectedHierarchyBeanList = new ArrayList<>();
-                                for(int i=0;i<items.size();i++){
-                                    selectedHierarchyBeanList.add(getSelectedHierarchyLevelBean(items.get(i)));
+                                for(int i=0;i<levelList.size();i++){
+                                    selectedHierarchyBeanList.add(getSelectedHierarchyLevelBean(levelList.get(i)));
                                 }
                                 
                             Leveldto selectedLevelDtoCusomer = (Leveldto) availableCustomer.getValue();
@@ -1460,7 +1460,8 @@ public class DataSelectionLogic {
                              
                             GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
                              gtnWsSearchRequest.setQueryInputList(queryparameterList);
-                                 
+                             request.setGtnWsSearchRequest(gtnWsSearchRequest);
+                                     
                              GtnWsReportRequest reportRequest = new GtnWsReportRequest();
                              reportRequest.setRecordBean(recordBeanList);
                              reportRequest.setHierarchyInputBean(selectedHierarchyBean);
