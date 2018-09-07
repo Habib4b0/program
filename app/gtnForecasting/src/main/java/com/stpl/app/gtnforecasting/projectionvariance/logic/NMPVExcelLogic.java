@@ -343,11 +343,11 @@ public class NMPVExcelLogic {
                 String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
                 String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
                      if (CommonUtil.isValueEligibleForLoading()) {
-                        getFormattedExcelColumns(detail, hierarchy, obj);
+                        getFormattedExcelColumns(detail, hierarchy);
 
                     } else {
                         groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), 
-                                selection.isIsCustomHierarchy() ? selection.getSessionDTO().getDiscountHierarchyLevelDetails() : selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+                                selection.isIsCustomHierarchy() ? selection.getSessionDTO().getDiscountHierarchyLevelDetails() : selection.getSessionDTO().getHierarchyLevelDetails(),  selection.getDisplayFormat());
                         detail.setGroup(groupName);
 
                     }
@@ -1238,7 +1238,7 @@ public class NMPVExcelLogic {
             String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
             String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
                 groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), 
-                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getDisplayFormat());
             if (groupName.contains("-")) {
                 String[] tempArr = groupName.split("-");
                 detail.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
@@ -2434,7 +2434,7 @@ public class NMPVExcelLogic {
 
         for (Iterator i = keys.iterator(); i.hasNext();) {
             String key =  (String)((Map.Entry)i.next()).getKey();
-            String value = CommonUtil.getDisplayFormattedName(key,  relationshipLevelDetailsMap, selection.getSessionDTO(), selection.getDisplayFormat());
+            String value = CommonUtil.getDisplayFormattedName(key,  relationshipLevelDetailsMap, selection.getDisplayFormat());
             customViewMap.put(key, value);
         }
         return customViewMap;
@@ -2478,7 +2478,7 @@ public class NMPVExcelLogic {
         }
     }
 
-    public void getFormattedExcelColumns(ProjectionVarianceDTO detail, String hierarchy, Object[] obj) {
+    public void getFormattedExcelColumns(ProjectionVarianceDTO detail, String hierarchy) {
 
         List<String> groupName = CommonUtil.getFormattedDisplayName(hierarchy.trim(), 
                 selection.isIsCustomHierarchy() ? selection.getSessionDTO().getDiscountHierarchyLevelDetails() : selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());

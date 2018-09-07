@@ -102,17 +102,17 @@ public class CommonDAOImpl implements CommonDAO{
     }
 
     @Override
-    public Object executeSelectQuery(String query, Object udc1, Object udc2) {
-       return new NMSalesProjectionMasterImpl().executeSelectQuery(query, udc1, udc2);
+    public Object executeSelectQuery(String query) {
+       return new NMSalesProjectionMasterImpl().executeSelectQuery(query);
     }
 
     @Override
-    public Object executeBulkUpdateQuery(String query, Object udc1, Object udc2) {
-        return new NMSalesProjectionMasterImpl().executeBulkUpdateQuery(query, udc1, udc2);
+    public Object executeBulkUpdateQuery(String query) {
+        return new NMSalesProjectionMasterImpl().executeBulkUpdateQuery(query);
     }
 
     @Override
-    public Object executeUpdateQuery(List<?> nmSalesList, Object udc1, Object udc2, Object udc3) {
-         return new NMSalesProjectionMasterImpl().executeUpdateQuery(nmSalesList, udc1, udc2, udc3);
+    public Object executeUpdateQuery(List<?> nmSalesList) {
+         return new NMSalesProjectionMasterImpl().executeUpdateQuery(nmSalesList);
     }
 }

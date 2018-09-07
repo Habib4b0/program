@@ -167,19 +167,19 @@ public interface CommonDAO {
      * @param priceGroupType
      * @return 
      */
-    Object executeSelectQuery(String query, Object udc1, Object udc2);
+    Object executeSelectQuery(String query);
     /** Gets the DiscountNo.
      * 
      * @param projectionId
      * @param priceGroupType
      * @return 
      */
-    Object executeBulkUpdateQuery(String query, Object udc1, Object udc2);
+    Object executeBulkUpdateQuery(String query);
     /** Gets the DiscountNo.
      * 
      * @param projectionId
      * @param priceGroupType
      * @return 
      */
-    Object executeUpdateQuery(List<?> nmSalesList, Object udc1, Object udc2, Object udc3);
+    Object executeUpdateQuery(List<?> nmSalesList);
 }
