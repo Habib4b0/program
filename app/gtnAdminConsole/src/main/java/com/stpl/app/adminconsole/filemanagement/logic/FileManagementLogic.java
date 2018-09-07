@@ -3192,7 +3192,7 @@ public class FileManagementLogic {
 		return HelperTableLocalServiceUtil.executeSelectQuery(query);
 	}
 
-	public Object getForecastDetails_Excel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
+	public Object getForecastDetailsExcel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
 			boolean isCount, boolean isRecordLock, boolean isExcelFlag) {
 		LOGGER.debug("Entering getForecastDetails ");
@@ -3314,7 +3314,7 @@ public class FileManagementLogic {
 		}
 	}
 
-	public Object getDemandDetailsResults_Excel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
+	public Object getDemandDetailsResultsExcel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
 			boolean isCount, boolean isRecordLock, boolean isExcelFlag) {
 		LOGGER.debug("Entering getDemandDetailsResults_Excel Details Results");
@@ -3460,7 +3460,7 @@ public class FileManagementLogic {
 		}
 	}
 
-	public Object getAdjustedDemandDetailsResults_Excel(FileMananagementResultDTO detailsResultDTO,
+	public Object getAdjustedDemandDetailsResultsExcel(FileMananagementResultDTO detailsResultDTO,
 			final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns,
 			final Set<Container.Filter> filterSet, boolean isCount, boolean isRecordLock, boolean isExcelflag) {
 		LOGGER.debug("Entering getAdjustedDemandDetailsResults_Excel Details Results");
@@ -3606,7 +3606,7 @@ public class FileManagementLogic {
 		}
 	}
 
-	public Object getInventorySummaryResults_Excel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
+	public Object getInventorySummaryResultsExcel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
 			boolean isCount, boolean isRecordLock, boolean isExcelflag) {
 		LOGGER.debug("Entering getInventorySummaryResults_Excel Details Results");
@@ -3738,7 +3738,7 @@ public class FileManagementLogic {
 		}
 	}
 
-	public Object getInventoryDetailsResults_Excel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
+	public Object getInventoryDetailsResultsExcel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
 			boolean isCount, boolean isExcelflag) throws Exception {
 
@@ -3886,7 +3886,7 @@ public class FileManagementLogic {
 		}
 	}
 
-	public Object getCustomerSalesResults_Excel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
+	public Object getCustomerSalesResultsExcel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
 			boolean isCount, boolean isExcelflag) {
 		LOGGER.debug("Entering getCustomerSalesResults_Excel Details Results");
