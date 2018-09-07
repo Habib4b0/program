@@ -26,7 +26,7 @@ public class MassUpdateRunnableJob implements Runnable {
     private final int endYear;
     private final ProjectionSelectionDTO selection;
     private final PPAProjectionLogic logic = new PPAProjectionLogic();
-    private final static Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
+    private static final Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
 
     public MassUpdateRunnableJob(Object value, String fieldValue, String columnName, int startQuater, int endQuater,
             int startYear, int endYear, String group, ProjectionSelectionDTO selection) {

@@ -424,9 +424,7 @@ public class DataSelection extends CustomComponent implements View {
                         DataSelectionDTO dataDto = it.next();
                         int itemSid = dataDto.getItemMasterSid();
                         if (selectedId.get(itemSid) != null) {
-                            {
-                                it.remove();
-                            }
+                            it.remove();
                         }
                     }
                     selectedProductBean.addAll(availableProducts);

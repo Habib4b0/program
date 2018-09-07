@@ -867,7 +867,7 @@ public class SalesLogic {
             salesRowDto.setLevelName("Total Alternate History");
             salesRowDto.setParent(0);
             for (int i = 0; i < list.size(); i++) {
-                Object obj[] = (Object[]) list.get(i);
+                Object obj[] = list.get(i);
                 int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
                 String key = Constant.Q_SMALL + String.valueOf(obj[NumericConstants.THREE]) + "-" + String.valueOf(obj[NumericConstants.TWO]);
                 if (frequencyDivision == 1) {

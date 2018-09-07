@@ -956,7 +956,7 @@ public class NMProjectionResultsXLLogic {
 
         for (Iterator i = keys.iterator(); i.hasNext();) {
             String key =  (String)((Map.Entry)i.next()).getKey();
-            String value = (String) relationshipLevelDetailsMap.get(key).get(0).toString();
+            String value = relationshipLevelDetailsMap.get(key).get(0).toString();
             customViewMap.put(key, value);
 }
         return customViewMap;
