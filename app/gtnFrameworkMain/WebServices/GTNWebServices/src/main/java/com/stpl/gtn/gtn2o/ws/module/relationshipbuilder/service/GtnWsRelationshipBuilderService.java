@@ -961,7 +961,7 @@ public class GtnWsRelationshipBuilderService {
 
 			}
 		} catch (Exception e) {
-			throw new GtnFrameworkGeneralException("Exception in getHierarchyLevels", e);
+			logger.error("Exception in getHierarchyLevels", e);
 		}
 		return levelValuesDTO;
 	}
@@ -1089,7 +1089,7 @@ public class GtnWsRelationshipBuilderService {
 			}
 		} catch (Exception e) {
 			rbResponse.setSuccess(false);
-			throw new GtnFrameworkGeneralException("Exception in checkSaveRelationship", e);
+			logger.error("Exception in checkSaveRelationship", e);
 		}
 
 	}
@@ -1197,7 +1197,7 @@ public class GtnWsRelationshipBuilderService {
 			relationshipBuilder.setStartDate(rbRequest.getStartDate());
 			relationshipBuilder.setBuildType(rbRequest.getBuildType());
 		} catch (Exception e) {
-			throw new GtnFrameworkGeneralException("Exception in updateRelationshipBuilderFromRequest", e);
+			logger.error("Exception in updateRelationshipBuilderFromRequest", e);
 		}
 	}
 
@@ -1239,7 +1239,6 @@ public class GtnWsRelationshipBuilderService {
 			rbResponse.setMessageType("fail");
 			rbResponse.setMessage(rbRequest.getRelationshipName() + " has not been saved.");
 			logger.error("Exception in saveRelationship", e);
-			throw new GtnFrameworkGeneralException("Exception in save relationship ", e);
 		} finally {
 			session.close();
 		}
@@ -1341,7 +1340,7 @@ public class GtnWsRelationshipBuilderService {
 				}
 			}
 		} catch (Exception e) {
-			throw new GtnFrameworkGeneralException("Exception in save RelationshipLevelDefinition", e);
+			logger.error("Exception in save RelationshipLevelDefinition", e);
 		}
 	}
 

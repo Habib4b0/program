@@ -118,8 +118,7 @@ public class NMDiscountExcelLogic {
             DiscountProjectionDTO discountProjectionDTO = resultMap.get(hierKeyValue.toString());
             if (discountProjectionDTO == null) {
                 discountProjectionDTO = new DiscountProjectionDTO();
-                String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(hierarchy.toString()).get(4));
-                excelFormattedColumns(discountProjectionDTO, projectionSelection, hierarchy.toString(), hierarchyIndicator, hierarchyLevelDetails);
+                excelFormattedColumns(discountProjectionDTO, projectionSelection, hierarchy.toString(), hierarchyLevelDetails);
                 resultMap.put(hierKeyValue.toString(), discountProjectionDTO);
                 hierarchykeys(hierKeyValue.toString());
             } 
@@ -141,7 +140,7 @@ public class NMDiscountExcelLogic {
     private void setActualsProjectionValues(DiscountProjectionDTO discountProjectionDTO, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelection, Map<String, List> hierarchyLevelDetails, List doubleProjectedAndHistoryCombinedUniqueList) {
         if (obj[NumericConstants.ONE] == null) {
             String hierarchy = String.valueOf(obj[NumericConstants.ZERO]).trim();
-            excelFormattedColumns(discountProjectionDTO, projectionSelection, hierarchy, String.valueOf(hierarchyLevelDetails.get(hierarchy.trim()).get(4)), hierarchyLevelDetails);
+            excelFormattedColumns(discountProjectionDTO, projectionSelection, hierarchy, hierarchyLevelDetails);
             return;
         }
         String discount = getValue(String.valueOf(obj[NumericConstants.FIVE]), StringUtils.EMPTY);
@@ -151,7 +150,6 @@ public class NMDiscountExcelLogic {
         boolean isActuals = "0".equals(String.valueOf(obj[NumericConstants.THREE]));
         String hierarchyNo = String.valueOf(obj[NumericConstants.ZERO]).trim();
         hierarchyNo = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0].trim() : hierarchyNo;
-        String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(hierarchyNo.trim()).get(4));
         String parentHierarchy = String.valueOf(obj[NumericConstants.FOUR]).trim();
         parentHierarchy = parentHierarchy.replaceAll("\\s", "");
         discountProjectionDTO.setParentHierarchyNo(parentHierarchy);
@@ -162,11 +160,11 @@ public class NMDiscountExcelLogic {
             discountProjectionDTO.setGroup(StringUtils.EMPTY);
         }
         if (CommonUtil.isValueEligibleForLoading()) {
-            excelFormattedColumns(discountProjectionDTO, projectionSelection, hierarchyNo, hierarchyIndicator, hierarchyLevelDetails);
+            excelFormattedColumns(discountProjectionDTO, projectionSelection, hierarchyNo, hierarchyLevelDetails);
             discountProjectionDTO.setDeductionInclusion(projectionSelection.isIsCustomHierarchy() ? getValue(String.valueOf(obj[NumericConstants.TWELVE]), StringUtils.EMPTY)
                     : getValue(String.valueOf(obj[NumericConstants.FOURTEEN]), StringUtils.EMPTY));
         } else {
-            discountProjectionDTO.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo,  hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat()));
+            discountProjectionDTO.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo,  hierarchyLevelDetails, projectionSelection.getDisplayFormat()));
 
         }
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(header) && !Constant.NULL.equals(discountProjectionDTO.getDeductionInclusion())) {
@@ -236,7 +234,7 @@ public class NMDiscountExcelLogic {
         }
     }
      
-        public void excelFormattedColumns(DiscountProjectionDTO discountProjectionDTO, ProjectionSelectionDTO projectionSelection, String hierarchyNo, String hierarchyIndicator, Map<String, List> hierarchyLevelDetails) {
+        public void excelFormattedColumns(DiscountProjectionDTO discountProjectionDTO, ProjectionSelectionDTO projectionSelection, String hierarchyNo, Map<String, List> hierarchyLevelDetails) {
 
         List<String> levelName = CommonUtil.getFormattedDisplayName(hierarchyNo,  hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat());
         discountProjectionDTO.setLevelName(levelName.toString());

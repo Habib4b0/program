@@ -468,14 +468,13 @@ public class InventoryCustomerGroupLookup extends Window {
             }
 
             @Override
-            public void filterRemoved(Object propertyId) {
-                LOGGER.debug("inside filterRemoved Method");
-            }
-
-            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 LOGGER.debug("inside filterAdded Method");
 
+            }
+             @Override
+            public void filterRemoved(Object propertyId) {
+                LOGGER.debug("inside filterRemoved Method");
             }
 
             @Override

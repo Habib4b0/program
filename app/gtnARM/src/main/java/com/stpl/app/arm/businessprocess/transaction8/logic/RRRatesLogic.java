@@ -252,6 +252,16 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
         }
         return true;
     }
+      @Override
+    public boolean updateOverrideLevelFilter(List input) {
+        try {
+            QueryUtils.itemUpdate(input, "OVERRIDE_QUERY_LEVEL_FILTER");
+        } catch (Exception e) {
+            LOGGER.error("Error in updateOverride :",e);
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public boolean getCondition(AdjustmentDTO dto, Object propertyId, AbstractSelectionDTO selection) {

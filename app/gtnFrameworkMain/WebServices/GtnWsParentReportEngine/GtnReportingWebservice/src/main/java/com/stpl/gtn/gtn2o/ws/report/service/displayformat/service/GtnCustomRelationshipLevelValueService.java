@@ -20,6 +20,10 @@ import com.stpl.gtn.gtn2o.ws.report.service.displayformat.bean.RelationshipLevel
 @Scope(value = "prototype")
 public class GtnCustomRelationshipLevelValueService {
 
+	public GtnCustomRelationshipLevelValueService() {
+		super();
+	}
+
 	@Autowired
 	private GtnWsReportSqlService sqlService;
 
@@ -41,7 +45,7 @@ public class GtnCustomRelationshipLevelValueService {
 
 	public void setInputForQueryGeneration(List<Object[]> customViewDetails,
 			GtnWsReportDataSelectionBean dataSelectionBean) {
-		this.customViewDetails = customViewDetails;
+		this.customViewDetails = customViewDetails != null ? new ArrayList<>(customViewDetails) : customViewDetails;
 		this.dataSelectionBean = dataSelectionBean;
 		createQuery();
 	}
@@ -84,17 +88,22 @@ public class GtnCustomRelationshipLevelValueService {
 				String.valueOf(tempListObject[NumericConstants.REPORT_ZERO]), bean));
 		input.add(this.dataSelectionBean.getSessionTable(GtnWsQueryConstants.CUSTOM_VARIABLE_HIERARCHY));
 		input.add(dataSelectionBean.getCustomViewMasterSid());
-		input.add(isUdc
-				? "JOIN UDCS U on U." + tempListObject[NumericConstants.REPORT_THREE] + " = CVH.RELATIONSHIP_LEVEL_VALUES"
-				: StringUtils.EMPTY);
-		input.add(isUdc ? " TEMP.RS_CONTRACT_SID=U.MASTER_SID AND U.MASTER_TYPE='RS_CONTRACT' "
-				: "RS_ID".equals(tempListObject[NumericConstants.REPORT_THREE].toString())
-						? " TEMP.RS_CONTRACT_SID = CVH.RELATIONSHIP_LEVEL_VALUES "
-						: "TEMP." + tempListObject[NumericConstants.REPORT_THREE] + " = CVH.RELATIONSHIP_LEVEL_VALUES ");
+		input.add(isUdc ? "JOIN UDCS U on U." + tempListObject[NumericConstants.REPORT_THREE]
+				+ " = CVH.RELATIONSHIP_LEVEL_VALUES" : StringUtils.EMPTY);
+
+		if (isUdc) {
+			input.add(" TEMP.RS_CONTRACT_SID=U.MASTER_SID AND U.MASTER_TYPE='RS_CONTRACT' ");
+		} else if ("RS_ID".equals(tempListObject[NumericConstants.REPORT_THREE].toString())) {
+			input.add(" TEMP.RS_CONTRACT_SID = CVH.RELATIONSHIP_LEVEL_VALUES ");
+		} else {
+			input.add("TEMP." + tempListObject[NumericConstants.REPORT_THREE] + " = CVH.RELATIONSHIP_LEVEL_VALUES ");
+		}
+
 		if (isUdc) {
 			input.add("JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=U." + tempListObject[NumericConstants.REPORT_THREE]);
 		} else if (isHelper) {
-			input.add(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=TEMP." + tempListObject[NumericConstants.REPORT_THREE]);
+			input.add(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=TEMP."
+					+ tempListObject[NumericConstants.REPORT_THREE]);
 		} else {
 			input.add(StringUtils.EMPTY);
 		}

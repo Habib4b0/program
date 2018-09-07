@@ -174,7 +174,7 @@ public class CommonLogic {
         List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = getHierarchyTreeQuery(projectionId, hierarchyIndicator, levelNo,versionNo);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -473,7 +473,7 @@ public class CommonLogic {
         try {
             String query = getLevelListQuery(projectionId, tabName, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, isExpand, isCount, start, offset, isLimit, isCustom, customId, userGroup, userId, sessionId, custRelSid, prodRelSid, discountList, projSelDTO);
             if (StringUtils.isNotBlank(query)) {
-                List<Object> list = (List<Object>) executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+                List<Object> list = (List<Object>) executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
                 if (list != null && !list.isEmpty()) {
                     for (Object list1 : list) {
                         final Object[] obj = (Object[]) list1;
@@ -494,7 +494,7 @@ public class CommonLogic {
             String query = getLevelListQuery(projectionId, tabName, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, false, true, 0, 0, false, isCustom, customId, userGroup, userId, sessionId, custRelSid, prodRelSid, discountList, projSelDTO);
             List<Object> list = null;
             if (!query.equals(StringUtils.EMPTY)) {
-                list = (List<Object>) executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+                list = (List<Object>) executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
             }
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
@@ -512,7 +512,7 @@ public class CommonLogic {
             List<Object> list = null;
             String query = getLevelListQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, false, true, 0, 0, false, isCustom, customId, userGroup, isGroupFilter, levelName);
             if (!query.equals(StringUtils.EMPTY)) {
-                list = (List<Object>) executeSelectQuery(query, null, null);
+                list = (List<Object>) executeSelectQuery(query);
             }
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
@@ -530,7 +530,7 @@ public class CommonLogic {
         String hierarchyIndic = hierarchyIndicator;
         if (isCustom) {
             String hierarchyIndicQuery = "select HIERARCHY_INDICATOR from dbo.CUSTOM_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID=" + customId + " and LEVEL_NO=" + levelNo;
-            List<Object> list = (List<Object>) executeSelectQuery(hierarchyIndicQuery, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(hierarchyIndicQuery);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
                 hierarchyIndic = String.valueOf(ob);
@@ -541,7 +541,7 @@ public class CommonLogic {
 
             String customHierarchyCheck = "SELECT CASE WHEN MAX(HIERARCHY_INDICATOR) = MIN(HIERARCHY_INDICATOR) THEN MIN(HIERARCHY_INDICATOR) \n"
                     + "ELSE 'B' END FROM CUSTOM_VIEW_DETAILS WHERE CUSTOM_VIEW_MASTER_SID = " + customId;
-            list = (List<Object>) executeSelectQuery(customHierarchyCheck, null, null);
+            list = (List<Object>) executeSelectQuery(customHierarchyCheck);
             if (list != null && !list.isEmpty()) {
                 projSelDTO.setCustomViewIndicator(String.valueOf(list.get(0)));
             }
@@ -828,7 +828,7 @@ public class CommonLogic {
         List<Leveldto> newLevelList = new ArrayList<>();
         try {
             String query = getAllHierarchyLevelsQuery(startLevelNo, projectionId, hierarchyIndicator, StringUtils.EMPTY, 0, 0, DASH);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -842,11 +842,11 @@ public class CommonLogic {
         return newLevelList;
     }
 
-    public static List<Leveldto> getAllHierarchyLevels(int startLevelNo, int projectionId, String hierarchyIndicator, String userGroup, int userId, int sessionId, String relationshipBuilderSid, String action) {
+    public static List<Leveldto> getAllHierarchyLevels(int startLevelNo, int projectionId, String hierarchyIndicator, String userGroup, int userId, int sessionId, String relationshipBuilderSid) {
         List<Leveldto> newLevelList = new ArrayList<>();
         try {
             String query = getAllHierarchyLevelsQuery(startLevelNo, projectionId, hierarchyIndicator, userGroup, userId, sessionId, relationshipBuilderSid);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -920,7 +920,7 @@ public class CommonLogic {
             StringBuilder query = new StringBuilder(SQlUtil.getQuery(isProgram ? "get-discount-name-with-program" : "get-discount-name-with-program-category"));
             selectedDiscounts = selectedDiscounts.substring(1, selectedDiscounts.length()-1);
             query.replace(query.indexOf("?"), query.indexOf("?") + 1, selectedDiscounts);
-            List<Object> list = (List<Object>) executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()), null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()));
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -1088,7 +1088,7 @@ public class CommonLogic {
             list = MProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj = list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -1113,7 +1113,7 @@ public class CommonLogic {
             list = NmProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj = list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -1162,9 +1162,9 @@ public class CommonLogic {
      * @param priceGroupType
      * @return object
      */
-    public static Object executeSelectQuery(String query, Object udc1, Object udc2) {
+    public static Object executeSelectQuery(String query) {
 
-        return commonDao.executeSelectQuery(query, udc1, udc2);
+        return commonDao.executeSelectQuery(query);
 
     }
 
@@ -1175,8 +1175,8 @@ public class CommonLogic {
      * @param priceGroupType
      * @return object
      */
-    public static Object executeBulkUpdateQuery(String query, Object udc1, Object udc2) {
-        return commonDao.executeBulkUpdateQuery(query, udc1, udc2);
+    public static Object executeBulkUpdateQuery(String query) {
+        return commonDao.executeBulkUpdateQuery(query);
     }
 
     /**
@@ -1186,9 +1186,9 @@ public class CommonLogic {
      * @param priceGroupType
      * @return object
      */
-    public static Object executeUpdateQuery(List<?> nmSalesList, Object udc1, Object udc2, Object udc3) {
+    public static Object executeUpdateQuery(List<?> nmSalesList) {
 
-        return commonDao.executeUpdateQuery(nmSalesList, udc1, udc2, udc3);
+        return commonDao.executeUpdateQuery(nmSalesList);
     }
 
     /**
@@ -1748,7 +1748,7 @@ public class CommonLogic {
         List<String> groupPPAList = new ArrayList<>();
         try {
             String query = getGroupQuery("ST_NM_PPA_PROJECTION_MASTER");
-            List<Object> resultList = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> resultList = (List<Object>) executeSelectQuery(query);
             if (resultList != null && !resultList.isEmpty()) {
                 for (Object list1 : resultList) {
                     groupPPAList.add(Constant.PPA + String.valueOf(list1));
@@ -1814,7 +1814,7 @@ public class CommonLogic {
                     + "                 WHERE RLD.LEVEL_NAME = 'Trading Partner'";
         }
         try {
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
                 levelNo = Integer.parseInt(String.valueOf(ob));
@@ -1841,7 +1841,7 @@ public class CommonLogic {
                     + "                 WHERE RLD.LEVEL_NAME = 'Trading Partner'";
         }
         try {
-            List<Object> resultList = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> resultList = (List<Object>) executeSelectQuery(query);
             if (resultList != null && !resultList.isEmpty()) {
                 Object ob = resultList.get(0);
                 levelNum = Integer.parseInt(String.valueOf(ob));
@@ -1989,7 +1989,7 @@ public class CommonLogic {
             list = MProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj = list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -2011,7 +2011,7 @@ public class CommonLogic {
         List<Leveldto> dtoList = new ArrayList<>();
         try {
             String treeQuery = getHierarchyTreeQuery(hierarchyIndicator, levelNo, rbID, versionNo);
-            List<Object> results = (List<Object>) executeSelectQuery(treeQuery, null, null);
+            List<Object> results = (List<Object>) executeSelectQuery(treeQuery);
             if (results != null && !results.isEmpty()) {
                 int count = 0;
                 for (Object list1 : results) {
@@ -2076,7 +2076,7 @@ public class CommonLogic {
     public static int getLevelListCountDPR(int projectionId, String hierarchyIndicator, int levelNo, String hierarchyNo, boolean isFilter, boolean isGroupFilter, String levelName, int customSid, boolean customFlag) {
         int count = 0;
         String query = getLevelListQueryDPR(projectionId, hierarchyIndicator, levelNo, hierarchyNo, StringUtils.EMPTY, StringUtils.EMPTY, isFilter, false, true, 0, 0, false, customFlag, customFlag ? customSid : 0, isGroupFilter, levelName);
-        List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+        List<Object> list = (List<Object>) executeSelectQuery(query);
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
             count = Integer.parseInt(String.valueOf(ob));
@@ -2199,7 +2199,7 @@ public class CommonLogic {
         List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = getLevelListQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, isExpand, false, start, offset, true, isCustom, customId, StringUtils.EMPTY, filterDdlb, levelName);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -2217,7 +2217,7 @@ public class CommonLogic {
         List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = getLevelListQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, isExpand, false, start, offset, true, isCustom, customId, userGroup, filterDdlb, levelName);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -2237,7 +2237,7 @@ public class CommonLogic {
         if (isCustom) {
 
             String hierarchyIndicatorLevelQuery = "select HIERARCHY_INDICATOR from dbo.CUSTOM_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID=" + customId + " and LEVEL_NO=" + levelNo;
-            List<Object> list = (List<Object>) executeSelectQuery(hierarchyIndicatorLevelQuery, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(hierarchyIndicatorLevelQuery);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
                 hierarchyIndicatorLevel = String.valueOf(ob);
@@ -2403,7 +2403,7 @@ public class CommonLogic {
         List<Leveldto> newLevelList = new ArrayList<>();
         try {
             String query = getAllHierarchyLevelsQuery(startLevelNo, projectionId, hierarchyIndicator, userGroup, userId, sessionId);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -2818,7 +2818,7 @@ public class CommonLogic {
         List<Leveldto> resultsList = new ArrayList<>();
         try {
             String treeQuery = getHierarchyTreeQueryMan(projectionId, hierarchyIndicator, levelNo);
-            List<Object> dataList = (List<Object>) executeSelectQuery(treeQuery, null, null);
+            List<Object> dataList = (List<Object>) executeSelectQuery(treeQuery);
             if (dataList != null && !dataList.isEmpty()) {
                 for (Object list1 : dataList) {
                     final Object[] obj = (Object[]) list1;
@@ -2901,7 +2901,7 @@ public class CommonLogic {
                 + "where Projection_Master_Sid=" + projectionId + ";";
         try {
 
-            list = (List) commonDao.executeSelectQuery(query, null, null);
+            list = (List) commonDao.executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
                     Object[] obj = (Object[]) list.get(i);
