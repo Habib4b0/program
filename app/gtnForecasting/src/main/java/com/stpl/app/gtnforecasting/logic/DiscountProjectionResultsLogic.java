@@ -1276,7 +1276,6 @@ public class DiscountProjectionResultsLogic {
                                     } else {
                                         String column = discountSemiAnnualDto.getGroup().replace(" ", StringUtils.EMPTY);
                                         periodList.contains(column.replace('S', 's'));
-                                        {
                                             Double arate = actualAmount / actualSales;
                                             if (arate.isNaN()) {
                                                 arate = 0.0;
@@ -1307,7 +1306,6 @@ public class DiscountProjectionResultsLogic {
                                             discountSemiAnnualDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                                             discountProjList.add(discountSemiAnnualDto);
                                             periodList.remove(column.replace('S', 's'));
-                                        }
                                         actualSales = 0;
                                         actualAmount = 0;
                                         projectedSales = 0;

@@ -1052,7 +1052,7 @@ public class MProjectionResultsLogic {
             List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
             columnList.remove(Constant.GROUP);
             for (int i = NumericConstants.ZERO; i < list.size(); i++) {
-                final Object[] obj = (Object[]) list.get(i);
+                final Object[] obj = list.get(i);
                 String column = "";
                 int year = (obj[col - NumericConstants.ONE] == null) ? NumericConstants.ZERO : Integer.parseInt(String.valueOf(obj[col - NumericConstants.ONE]));
                 int period = obj[NumericConstants.ONE] == null ? NumericConstants.ZERO : Integer.parseInt(String.valueOf(obj[NumericConstants.ONE]));
@@ -2174,7 +2174,7 @@ public class MProjectionResultsLogic {
                 ProjectionResultsDTO projRPUSupDTO = new ProjectionResultsDTO();
                 ProjectionResultsDTO projPerSupDTO = new ProjectionResultsDTO();
                 for (int i = NumericConstants.ZERO; i < list.size(); i++) {
-                    final Object[] obj = (Object[]) list.get(i);
+                    final Object[] obj = list.get(i);
                     String column = "";
                     int year = obj[col - NumericConstants.ONE] == null ? NumericConstants.ZERO : Integer.parseInt(String.valueOf(obj[col - NumericConstants.ONE]));
                     int period = obj[NumericConstants.FIFTEEN] == null ? NumericConstants.ZERO : Integer.parseInt(String.valueOf(obj[NumericConstants.FIFTEEN]));
@@ -2542,7 +2542,7 @@ public class MProjectionResultsLogic {
                 }
 
                 for (int i = NumericConstants.ZERO; i < pcList.size(); i++) {
-                    Object[] discountRow = (Object[]) pcList.get(i);
+                    Object[] discountRow = pcList.get(i);
                     int dyear = Integer.parseInt(String.valueOf(discountRow[NumericConstants.TWO]));
                     int dperiod = Integer.parseInt(String.valueOf(discountRow[NumericConstants.FIFTEEN]));
                     List<String> dcommon = getCommonColumnHeader(frequencyDivision, dyear, dperiod);
