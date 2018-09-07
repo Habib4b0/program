@@ -104,10 +104,16 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
                 Object propertyId = ((List) ((TextField) event.getProperty()).getData()).get(1);
                 int id = selection.getRateColumnList().get(NumericConstants.ZERO).indexOf(propertyId);
                 int rsSid = id == -1 ? NumericConstants.ZERO : (Integer) selection.getRateColumnList().get(NumericConstants.TWO).get(id);
-                if (rsSid == dto.getDeductionSID() || staticFlag) {
-                    Component uiContext = (Component) ((List) ((TextField) event.getProperty()).getData()).get(NumericConstants.TWO);
+               if (selection.getRateLevelName().equalsIgnoreCase("Product")) {
+                    String rsId = String.valueOf(rsSid);
+                    if(propertyId.toString().contains("override")){
+                      rsId = "%";   
+                    }
                     selection.setRatesOverrideFlag(NumericConstants.ONE);
-                    valueChangeLogic(dto, val, propertyId, uiContext);
+                    valueChangeLogic(dto, val,false,rsId);
+                } else if (rsSid == dto.getDeductionSID() || staticFlag) {
+                    selection.setRatesOverrideFlag(NumericConstants.ONE);
+                    valueChangeLogic(dto, val, true,"0");
                 }
                 refreshTable(tableLogic);
             } catch (Exception e) {
@@ -116,7 +122,7 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
         }
     };
 
-    protected void valueChangeLogic(AdjustmentDTO dto, Object val, Object propertyId, Component uiContext) {
+    protected void valueChangeLogic(AdjustmentDTO dto, Object val, Boolean flag,String rsSid) {
         final ExecutorService service = ThreadPool.getInstance().getService();
         Double value = 0.0;
         boolean isEmptied = false;
@@ -138,14 +144,32 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
 
         input.add(dto.getBranditemmasterSid());
         input.add(isEmptied ? "NULL" : value.toString());
-        input.add(dto.getContractSID() == 0 ? "%" : dto.getContractSID());
-        input.add(dto.getCustomerSID() == 0 ? "%" : dto.getCustomerSID());
-        input.add(dto.getBrandSID() == 0 ? "%" : dto.getBrandSID());
-        input.add(dto.getDeductionSID() == 0 ? "%" : dto.getDeductionSID());
-        input.addAll(logic.getTableInput(selection.getSessionDTO()));
-        input.add(ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()));
+        getinputs(flag,dto,rsSid,input);
         checkLeave = true;
-        service.submit(new UpdateOverride(input));
+         if(flag){
+            service.submit(new UpdateOverride(input));
+        }else{
+          service.submit(new UpdateOverrideLevelFilter(input));  
+        }
+    }
+     private void getinputs(Boolean flag, AdjustmentDTO dto, String rsSid,List input) {
+        if (flag) {
+            input.add(dto.getContractSID() == 0 ? "%" : dto.getContractSID());
+            input.add(dto.getCustomerSID() == 0 ? "%" : dto.getCustomerSID());
+            input.add(dto.getBrandSID() == 0 ? "%" : dto.getBrandSID());
+            input.add(dto.getDeductionSID() == 0 ? "%" : dto.getDeductionSID());
+            input.addAll(logic.getTableInput(selection.getSessionDTO()));
+            input.add(ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()));
+        } else {
+            if (rsSid.equals("%")) {
+                input.addAll(logic.getTableInput(selection.getSessionDTO()));
+            } else {
+                input.add(rsSid);
+                input.addAll(logic.getTableInput(selection.getSessionDTO()));
+                input.add(ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()));
+            }
+
+        }
     }
 
     @Override
@@ -179,6 +203,26 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
         @Override
         public void run() {
             updateSuccess = logic.updateOverride(input);
+        }
+
+        public boolean isUpdateSuccess() {
+            return updateSuccess;
+        }
+
+    }
+     class UpdateOverrideLevelFilter implements Runnable {
+
+        private List input;
+        private boolean updateSuccess;
+
+        public UpdateOverrideLevelFilter(List input) {
+            this.input = CommonLogic.getInstance().getArrayListCloned(input);
+
+        }
+
+        @Override
+        public void run() {
+            updateSuccess = logic.updateOverrideLevelFilter(input);
         }
 
         public boolean isUpdateSuccess() {

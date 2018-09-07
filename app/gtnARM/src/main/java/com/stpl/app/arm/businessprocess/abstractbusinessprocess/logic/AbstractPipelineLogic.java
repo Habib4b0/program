@@ -295,6 +295,15 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         }
         return true;
     }
+     public boolean updateOverrideLevelFilter(List input) {
+         try {
+            QueryUtils.itemUpdate(input, "OVERRIDE_QUERY_LEVEL_FILTER");
+        } catch (Exception e) {
+            LOGGER.error("Error in updateOverride :" + e);
+            return false;
+        }
+        return true;
+    }
 
     public List getTableInput(SessionDTO sessionDTO) {
         LOGGER.debug("sessionDTO{}", sessionDTO);
