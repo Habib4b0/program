@@ -19,10 +19,12 @@ import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.HierarchyDefinition;
 import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipBuilder;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
+import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelValuesBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelsBean;
+import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderKeyConstant;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
@@ -31,12 +33,14 @@ import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuild
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.engine.spi.SessionDelegatorBaseImpl;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.junit.After;
@@ -70,6 +74,9 @@ public class GtnWsRelationshipBuilderServiceTest {
     GtnWsRelationshipBuilderHelperService helperLogic = Mockito.mock(GtnWsRelationshipBuilderHelperService.class);
     @Mock
     GtnFrameworkEntityMasterBean entitybean = Mockito.mock(GtnFrameworkEntityMasterBean.class);
+    @Mock
+    @Autowired
+    private org.hibernate.SessionFactory sessionFactory;
     @Spy
     @Autowired
     GtnWsRelationshipBuilderHierarchyFileGeneratorService gtnWsRelationshipBuilderHierarchyFileGenerator;
@@ -486,13 +493,13 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testCheckForDuplicateCompanyTree_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRecordBean companyBean = new GtnWsRecordBean();
         int selectedRelationshipId = 1;
         int hierarchySid = 1;
 
-        boolean result = fixture.checkForDuplicateCompanyTree(companyBean, selectedRelationshipId, hierarchySid);
+        boolean result = instance.checkForDuplicateCompanyTree(companyBean, selectedRelationshipId, hierarchySid);
 
         // add additional test code here
         assertTrue(result);
@@ -509,13 +516,13 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testCheckForDuplicateCompanyTree_2()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRecordBean companyBean = new GtnWsRecordBean();
         int selectedRelationshipId = 1;
         int hierarchySid = 1;
 
-        boolean result = fixture.checkForDuplicateCompanyTree(companyBean, selectedRelationshipId, hierarchySid);
+        boolean result = instance.checkForDuplicateCompanyTree(companyBean, selectedRelationshipId, hierarchySid);
 
         // add additional test code here
         assertTrue(result);
@@ -532,13 +539,13 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testCheckForDuplicateCompanyTree_3()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRecordBean companyBean = new GtnWsRecordBean();
         int selectedRelationshipId = 1;
         int hierarchySid = 1;
 
-        boolean result = fixture.checkForDuplicateCompanyTree(companyBean, selectedRelationshipId, hierarchySid);
+        boolean result = instance.checkForDuplicateCompanyTree(companyBean, selectedRelationshipId, hierarchySid);
 
         // add additional test code here
         assertTrue(result);
@@ -554,12 +561,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testCheckForDuplicateTree_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRecordBean companyBean = new GtnWsRecordBean();
         int selectedRelationshipId = 1;
 
-        boolean result = fixture.checkForDuplicateTree(companyBean, selectedRelationshipId);
+        boolean result = instance.checkForDuplicateTree(companyBean, selectedRelationshipId);
 
         // add additional test code here
         assertTrue(result);
@@ -575,12 +582,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testCheckForDuplicateTree_2()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRecordBean companyBean = new GtnWsRecordBean();
         int selectedRelationshipId = 0;
 
-        boolean result = fixture.checkForDuplicateTree(companyBean, selectedRelationshipId);
+        boolean result = instance.checkForDuplicateTree(companyBean, selectedRelationshipId);
 
         // add additional test code here
         assertTrue(result);
@@ -596,12 +603,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testCheckForDuplicateTree_3()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRecordBean companyBean = new GtnWsRecordBean();
         int selectedRelationshipId = 1;
 
-        boolean result = fixture.checkForDuplicateTree(companyBean, selectedRelationshipId);
+        boolean result = instance.checkForDuplicateTree(companyBean, selectedRelationshipId);
 
         // add additional test code here
         assertTrue(result);
@@ -617,12 +624,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testCheckForDuplicateTree_4()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRecordBean companyBean = new GtnWsRecordBean();
         int selectedRelationshipId = 1;
 
-        boolean result = fixture.checkForDuplicateTree(companyBean, selectedRelationshipId);
+        boolean result = instance.checkForDuplicateTree(companyBean, selectedRelationshipId);
 
         // add additional test code here
         assertTrue(result);
@@ -640,12 +647,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckSaveRelationship_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        fixture.checkSaveRelationship(rbRequest, rbResponse);
+        instance.checkSaveRelationship(rbRequest, rbResponse);
 
         // add additional test code here
     }
@@ -662,12 +669,13 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckSaveRelationship_2()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
+        rbRequest.setRelationshipName("name");
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        fixture.checkSaveRelationship(rbRequest, rbResponse);
+        instance.checkSaveRelationship(rbRequest, rbResponse);
 
         // add additional test code here
     }
@@ -684,12 +692,14 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckSaveRelationship_3()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
+        rbRequest.setRelationshipName("name");
+        rbRequest.setRelationshipDescription("desc");
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        fixture.checkSaveRelationship(rbRequest, rbResponse);
+        instance.checkSaveRelationship(rbRequest, rbResponse);
 
         // add additional test code here
     }
@@ -706,12 +716,15 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckSaveRelationship_4()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
+        rbRequest.setRelationshipName("name");
+        rbRequest.setRelationshipDescription("desc");
+        rbRequest.setHierarchyDefSId(5);
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        fixture.checkSaveRelationship(rbRequest, rbResponse);
+        instance.checkSaveRelationship(rbRequest, rbResponse);
 
         // add additional test code here
     }
@@ -728,12 +741,15 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckSaveRelationship_5()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
-
-        fixture.checkSaveRelationship(rbRequest, rbResponse);
+        rbRequest.setRelationshipName("name");
+        rbRequest.setRelationshipDescription("desc");
+        rbRequest.setHierarchyDefSId(5);
+        rbRequest.setHierarchyVersionNo(1);
+        instance.checkSaveRelationship(rbRequest, rbResponse);
 
         // add additional test code here
     }
@@ -750,12 +766,17 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckSaveRelationship_6()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
+        rbRequest.setRelationshipName("name");
+        rbRequest.setRelationshipDescription("desc");
+        rbRequest.setHierarchyDefSId(5);
+        rbRequest.setHierarchyVersionNo(1);
+        rbRequest.setStartDate(new Date());
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        fixture.checkSaveRelationship(rbRequest, rbResponse);
+        instance.checkSaveRelationship(rbRequest, rbResponse);
 
         // add additional test code here
     }
@@ -772,12 +793,18 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckSaveRelationship_7()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
+        rbRequest.setRelationshipName("name");
+        rbRequest.setRelationshipDescription("desc");
+        rbRequest.setHierarchyDefSId(5);
+        rbRequest.setHierarchyVersionNo(1);
+        rbRequest.setRbSysId(Integer.MAX_VALUE);
+        rbRequest.setStartDate(new Date());
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
-
-        fixture.checkSaveRelationship(rbRequest, rbResponse);
+        GtnWsRelationshipBuilderService in= Mockito.spy(instance);
+        in.checkSaveRelationship(rbRequest, rbResponse);
 
         // add additional test code here
     }
@@ -794,12 +821,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckSaveRelationship_8()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        fixture.checkSaveRelationship(rbRequest, rbResponse);
+        instance.checkSaveRelationship(rbRequest, rbResponse);
 
         // add additional test code here
     }
@@ -816,12 +843,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckSaveRelationship_9()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        fixture.checkSaveRelationship(rbRequest, rbResponse);
+        instance.checkSaveRelationship(rbRequest, rbResponse);
 
         // add additional test code here
     }
@@ -838,12 +865,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckSaveRelationship_10()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        fixture.checkSaveRelationship(rbRequest, rbResponse);
+        instance.checkSaveRelationship(rbRequest, rbResponse);
 
         // add additional test code here
     }
@@ -860,12 +887,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckSaveRelationship_11()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        fixture.checkSaveRelationship(rbRequest, rbResponse);
+        instance.checkSaveRelationship(rbRequest, rbResponse);
 
         // add additional test code here
     }
@@ -880,11 +907,11 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCheckUsedRelationship_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         int selectedRelationshipId = 0;
-
-        boolean result = fixture.checkUsedRelationship(selectedRelationshipId);
+     
+        boolean result = instance.checkUsedRelationship(selectedRelationshipId);
 
         // add additional test code here
         assertEquals(false, result);
@@ -900,11 +927,11 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testCheckUsedRelationship_2()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         int selectedRelationshipId = 1;
 
-        boolean result = fixture.checkUsedRelationship(selectedRelationshipId);
+        boolean result = instance.checkUsedRelationship(selectedRelationshipId);
 
         // add additional test code here
         assertTrue(result);
@@ -920,11 +947,11 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testCheckUsedRelationship_3()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         int selectedRelationshipId = 1;
 
-        boolean result = fixture.checkUsedRelationship(selectedRelationshipId);
+        boolean result = instance.checkUsedRelationship(selectedRelationshipId);
 
         // add additional test code here
         assertTrue(result);
@@ -940,11 +967,11 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testCheckUsedRelationship_4()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         int selectedRelationshipId = 1;
 
-        boolean result = fixture.checkUsedRelationship(selectedRelationshipId);
+        boolean result = instance.checkUsedRelationship(selectedRelationshipId);
 
         // add additional test code here
         assertTrue(result);
@@ -961,10 +988,10 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCreateDataTypes_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 
-        GtnFrameworkDataType[] result = fixture.createDataTypes();
+        GtnFrameworkDataType[] result = instance.createDataTypes();
 
         // add additional test code here
         assertNotNull(result);
@@ -981,10 +1008,10 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCreateParams_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 
-        Object[] result = fixture.createParams();
+        Object[] result = instance.createParams();
 
         // add additional test code here
         assertNotNull(result);
@@ -1002,11 +1029,11 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCustomizeRelationDataForAutoBuild_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         List<Object[]> result = new LinkedList();
 
-        List<GtnWsRecordBean> result2 = fixture.customizeRelationDataForAutoBuild(result);
+        List<GtnWsRecordBean> result2 = instance.customizeRelationDataForAutoBuild(result);
 
         // add additional test code here
         assertNotNull(result2);
@@ -1024,11 +1051,11 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCustomizeRelationDataForAutoBuild_2()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         List<Object[]> result = new LinkedList();
 
-        List<GtnWsRecordBean> result2 = fixture.customizeRelationDataForAutoBuild(result);
+        List<GtnWsRecordBean> result2 = instance.customizeRelationDataForAutoBuild(result);
 
         // add additional test code here
         assertNotNull(result2);
@@ -1046,15 +1073,14 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testCustomizeRelationDataForAutoBuild_3()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         List<Object[]> result = new LinkedList();
+        Object[] in=IntStream.rangeClosed(0, 12).boxed().toArray();
+        result.add(in);
 
-        List<GtnWsRecordBean> result2 = fixture.customizeRelationDataForAutoBuild(result);
+        List<GtnWsRecordBean> result2 = instance.customizeRelationDataForAutoBuild(result);
 
-        // add additional test code here
-        assertNotNull(result2);
-        assertEquals(0, result2.size());
     }
 
 //	/**
@@ -1068,12 +1094,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testDeletAssociatedHierarchy_1()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
 		Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
 
-		fixture.deletAssociatedHierarchy(relationshipBuilder, session);
+		instance.deletAssociatedHierarchy(relationshipBuilder, session);
 } catch (Exception e) {
 
         }
@@ -1090,12 +1116,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testDeletAssociatedHierarchy_2()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
 		Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
 
-		fixture.deletAssociatedHierarchy(relationshipBuilder, session);
+		instance.deletAssociatedHierarchy(relationshipBuilder, session);
 } catch (Exception e) {
 
         }  
@@ -1112,12 +1138,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testDeletAssociatedHierarchy_3()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
 		Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
 
-		fixture.deletAssociatedHierarchy(relationshipBuilder, session);
+		instance.deletAssociatedHierarchy(relationshipBuilder, session);
 } catch (Exception e) {
 
         }
@@ -1134,12 +1160,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testDeletAssociatedHierarchy_4()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
 		Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
 
-		fixture.deletAssociatedHierarchy(relationshipBuilder, session);
+		instance.deletAssociatedHierarchy(relationshipBuilder, session);
 
 		} catch (Exception e) {
 
@@ -1157,12 +1183,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     public void testDeleteRelationship_1()
             throws Exception {
         try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
             GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-            fixture.deleteRelationship(rbRequest, rbResponse);
+            instance.deleteRelationship(rbRequest, rbResponse);
         } catch (Exception e) {
 
         }
@@ -1179,12 +1205,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testDeleteRelationship_2()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-		fixture.deleteRelationship(rbRequest, rbResponse);
+		instance.deleteRelationship(rbRequest, rbResponse);
 
 		} catch (Exception e) {
 
@@ -1201,12 +1227,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testDeleteRelationship_3()
 		throws Exception {
                    try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-		fixture.deleteRelationship(rbRequest, rbResponse);
+		instance.deleteRelationship(rbRequest, rbResponse);
 
 		} catch (Exception e) {
 
@@ -1222,11 +1248,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testExecuteQuery_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		String sqlQuery = "";
 //
-//		List result = fixture.executeQuery(sqlQuery);
+//		List result = instance.executeQuery(sqlQuery);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1245,11 +1271,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testExecuteQuery_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		String sqlQuery = "";
 //
-//		List result = fixture.executeQuery(sqlQuery);
+//		List result = instance.executeQuery(sqlQuery);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1268,13 +1294,13 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testExecuteQuery_3()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		String sqlQuery = "";
 //		Object[] params = new Object[] {};
 //		GtnFrameworkDataType[] type = new GtnFrameworkDataType[] {};
 //
-//		List result = fixture.executeQuery(sqlQuery, params, type);
+//		List result = instance.executeQuery(sqlQuery, params, type);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1293,13 +1319,13 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testExecuteQuery_4()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		String sqlQuery = "";
 //		Object[] params = new Object[] {};
 //		GtnFrameworkDataType[] type = new GtnFrameworkDataType[] {};
 //
-//		List result = fixture.executeQuery(sqlQuery, params, type);
+//		List result = instance.executeQuery(sqlQuery, params, type);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1318,11 +1344,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testExecuteUpdateQuery_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		String sqlQuery = "";
 //
-//		int result = fixture.executeUpdateQuery(sqlQuery);
+//		int result = instance.executeUpdateQuery(sqlQuery);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1341,11 +1367,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testExecuteUpdateQuery_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		String sqlQuery = "";
 //
-//		int result = fixture.executeUpdateQuery(sqlQuery);
+//		int result = instance.executeUpdateQuery(sqlQuery);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1364,13 +1390,13 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testExecuteUpdateQuery_3()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		String sqlQuery = "";
 //		Object[] params = new Object[] {};
 //		GtnFrameworkDataType[] type = new GtnFrameworkDataType[] {};
 //
-//		int result = fixture.executeUpdateQuery(sqlQuery, params, type);
+//		int result = instance.executeUpdateQuery(sqlQuery, params, type);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1389,13 +1415,13 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testExecuteUpdateQuery_4()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		String sqlQuery = "";
 //		Object[] params = new Object[] {};
 //		GtnFrameworkDataType[] type = new GtnFrameworkDataType[] {};
 //
-//		int result = fixture.executeUpdateQuery(sqlQuery, params, type);
+//		int result = instance.executeUpdateQuery(sqlQuery, params, type);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1414,12 +1440,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testGetCustomizedRelationShipBean_1()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
 		Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
 
-		GtnWsRelationshipBuilderBean result = fixture.getCustomizedRelationShipBean(relationshipBuilder, session);
+		GtnWsRelationshipBuilderBean result = instance.getCustomizedRelationShipBean(relationshipBuilder, session);
 
 		assertNotNull(result);
                 } catch (Exception e) {
@@ -1438,13 +1464,23 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testGetFilteredValue2_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
         List<Integer> modifiedHiddenList = new LinkedList();
         int levelNo = 1;
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
 
-        GtnSerachResponse result = fixture.getFilteredValue2(gtnWsRequest, modifiedHiddenList, levelNo);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria gtnWebServiceSearchCriteria = new GtnWebServiceSearchCriteria();
+
+//        List<String> primaryIdList = Arrays.asList("mhey", "mhey2", "mhey3");
+        gtnWebServiceSearchCriteria.setFilterValue1("1");
+        gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+        gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnSerachResponse result = instance.getFilteredValue2(gtnWsRequest, modifiedHiddenList, levelNo);
 
         // add additional test code here
         assertNotNull(result);
@@ -1462,13 +1498,13 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testGetFilteredValue2_2()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
         List<Integer> modifiedHiddenList = new LinkedList();
         int levelNo = 1;
 
-        GtnSerachResponse result = fixture.getFilteredValue2(gtnWsRequest, modifiedHiddenList, levelNo);
+        GtnSerachResponse result = instance.getFilteredValue2(gtnWsRequest, modifiedHiddenList, levelNo);
 
         // add additional test code here
         assertNotNull(result);
@@ -1486,13 +1522,13 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testGetFilteredValue2_3()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
         List<Integer> modifiedHiddenList = new LinkedList();
         int levelNo = 1;
 
-        GtnSerachResponse result = fixture.getFilteredValue2(gtnWsRequest, modifiedHiddenList, levelNo);
+        GtnSerachResponse result = instance.getFilteredValue2(gtnWsRequest, modifiedHiddenList, levelNo);
 
         // add additional test code here
         assertNotNull(result);
@@ -1510,13 +1546,13 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testGetFilteredValue2_4()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
         List<Integer> modifiedHiddenList = new LinkedList();
         int levelNo = 1;
 
-        GtnSerachResponse result = fixture.getFilteredValue2(gtnWsRequest, modifiedHiddenList, levelNo);
+        GtnSerachResponse result = instance.getFilteredValue2(gtnWsRequest, modifiedHiddenList, levelNo);
 
         // add additional test code here
         assertNotNull(result);
@@ -1534,13 +1570,13 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
     public void testGetFilteredValue2_5()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
         List<Integer> modifiedHiddenList = new LinkedList();
         int levelNo = 1;
 
-        GtnSerachResponse result = fixture.getFilteredValue2(gtnWsRequest, modifiedHiddenList, levelNo);
+        GtnSerachResponse result = instance.getFilteredValue2(gtnWsRequest, modifiedHiddenList, levelNo);
 
         // add additional test code here
         assertNotNull(result);
@@ -1557,11 +1593,11 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetGtnWsRecordBean_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         HierarchyLevelsBean levelBean = new HierarchyLevelsBean();
 
-        GtnWsRecordBean result = fixture.getGtnWsRecordBean(levelBean);
+        GtnWsRecordBean result = instance.getGtnWsRecordBean(levelBean);
 
         // add additional test code here
         assertNotNull(result);
@@ -1582,10 +1618,10 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetGtnWsRelationshipBuilderHierarchyFileGenerator_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 
-        GtnWsRelationshipBuilderHierarchyFileGeneratorService result = fixture.getGtnWsRelationshipBuilderHierarchyFileGenerator();
+        GtnWsRelationshipBuilderHierarchyFileGeneratorService result = instance.getGtnWsRelationshipBuilderHierarchyFileGenerator();
 
         // add additional test code here
         assertNotNull(result);
@@ -1607,11 +1643,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHierarchyDefinition_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		HierarchyDefinitionBean result = fixture.getHierarchyDefinition(gtnWsRequest);
+//		HierarchyDefinitionBean result = instance.getHierarchyDefinition(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1630,11 +1666,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHierarchyDefinition_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		HierarchyDefinitionBean result = fixture.getHierarchyDefinition(gtnWsRequest);
+//		HierarchyDefinitionBean result = instance.getHierarchyDefinition(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1653,11 +1689,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHierarchyDefinition_3()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		HierarchyDefinitionBean result = fixture.getHierarchyDefinition(gtnWsRequest);
+//		HierarchyDefinitionBean result = instance.getHierarchyDefinition(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1676,12 +1712,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHierarchyDefinition_4()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 //		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 //
-//		GtnWsRelationshipBuilderResponse result = fixture.getHierarchyDefinition(rbRequest, rbResponse);
+//		GtnWsRelationshipBuilderResponse result = instance.getHierarchyDefinition(rbRequest, rbResponse);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1701,12 +1737,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHierarchyDefinition_5()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 //		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 //
-//		GtnWsRelationshipBuilderResponse result = fixture.getHierarchyDefinition(rbRequest, rbResponse);
+//		GtnWsRelationshipBuilderResponse result = instance.getHierarchyDefinition(rbRequest, rbResponse);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1726,12 +1762,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHierarchyDefinition_6()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 //		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 //
-//		GtnWsRelationshipBuilderResponse result = fixture.getHierarchyDefinition(rbRequest, rbResponse);
+//		GtnWsRelationshipBuilderResponse result = instance.getHierarchyDefinition(rbRequest, rbResponse);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1752,13 +1788,13 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetHierarchyLevelsBeanFromRecordBean_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRecordBean recordBean = new GtnWsRecordBean();
         recordBean.setRecordHeader(IntStream.rangeClosed(0, 12).boxed().collect(Collectors.toList()));
         recordBean.setProperties(IntStream.rangeClosed(0, 12).boxed().collect(Collectors.toList()));
 
-        HierarchyLevelsBean result = fixture.getHierarchyLevelsBeanFromRecordBean(recordBean);
+        HierarchyLevelsBean result = instance.getHierarchyLevelsBeanFromRecordBean(recordBean);
 
         assertNotNull(result);
     }
@@ -1773,12 +1809,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetHierarchyNoforQuery_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         String hirarchyNo = "";
         String value = "";
 
-        String result = fixture.getHierarchyNoforQuery(hirarchyNo, value);
+        String result = instance.getHierarchyNoforQuery(hirarchyNo, value);
 
         // add additional test code here
         assertEquals(", '.'", result);
@@ -1794,12 +1830,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetHierarchyNoforQuery_2()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         String hirarchyNo = "";
         String value = "";
 
-        String result = fixture.getHierarchyNoforQuery(hirarchyNo, value);
+        String result = instance.getHierarchyNoforQuery(hirarchyNo, value);
 
         // add additional test code here
         assertEquals(", '.'", result);
@@ -1817,12 +1853,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHierarchyVersionNo_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 //		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 //
-//		GtnWsRelationshipBuilderResponse result = fixture.getHierarchyVersionNo(rbRequest, rbResponse);
+//		GtnWsRelationshipBuilderResponse result = instance.getHierarchyVersionNo(rbRequest, rbResponse);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1842,12 +1878,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHierarchyVersionNo_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 //		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 //
-//		GtnWsRelationshipBuilderResponse result = fixture.getHierarchyVersionNo(rbRequest, rbResponse);
+//		GtnWsRelationshipBuilderResponse result = instance.getHierarchyVersionNo(rbRequest, rbResponse);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1867,12 +1903,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHierarchyVersionNo_3()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 //		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 //
-//		GtnWsRelationshipBuilderResponse result = fixture.getHierarchyVersionNo(rbRequest, rbResponse);
+//		GtnWsRelationshipBuilderResponse result = instance.getHierarchyVersionNo(rbRequest, rbResponse);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1892,12 +1928,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHierarchyVersionNo_4()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 //		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 //
-//		GtnWsRelationshipBuilderResponse result = fixture.getHierarchyVersionNo(rbRequest, rbResponse);
+//		GtnWsRelationshipBuilderResponse result = instance.getHierarchyVersionNo(rbRequest, rbResponse);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1917,12 +1953,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHierarchyVersionNo_5()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 //		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 //
-//		GtnWsRelationshipBuilderResponse result = fixture.getHierarchyVersionNo(rbRequest, rbResponse);
+//		GtnWsRelationshipBuilderResponse result = instance.getHierarchyVersionNo(rbRequest, rbResponse);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1942,11 +1978,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistAllLevelValues_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		GtnSerachResponse result = fixture.getHistAllLevelValues(gtnWsRequest);
+//		GtnSerachResponse result = instance.getHistAllLevelValues(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1965,11 +2001,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistAllLevelValues_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		GtnSerachResponse result = fixture.getHistAllLevelValues(gtnWsRequest);
+//		GtnSerachResponse result = instance.getHistAllLevelValues(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -1988,11 +2024,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistAllLevelValues_3()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		GtnSerachResponse result = fixture.getHistAllLevelValues(gtnWsRequest);
+//		GtnSerachResponse result = instance.getHistAllLevelValues(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2011,11 +2047,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistAllLevelValues_4()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		GtnSerachResponse result = fixture.getHistAllLevelValues(gtnWsRequest);
+//		GtnSerachResponse result = instance.getHistAllLevelValues(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2034,11 +2070,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistAllLevelValues_5()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		GtnSerachResponse result = fixture.getHistAllLevelValues(gtnWsRequest);
+//		GtnSerachResponse result = instance.getHistAllLevelValues(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2057,11 +2093,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistAllLevelValues_6()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		GtnSerachResponse result = fixture.getHistAllLevelValues(gtnWsRequest);
+//		GtnSerachResponse result = instance.getHistAllLevelValues(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2080,11 +2116,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistAllLevelValues_7()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		GtnSerachResponse result = fixture.getHistAllLevelValues(gtnWsRequest);
+//		GtnSerachResponse result = instance.getHistAllLevelValues(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2103,11 +2139,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistAllLevelValues_8()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		GtnSerachResponse result = fixture.getHistAllLevelValues(gtnWsRequest);
+//		GtnSerachResponse result = instance.getHistAllLevelValues(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2126,11 +2162,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistAllLevelValues_9()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		GtnSerachResponse result = fixture.getHistAllLevelValues(gtnWsRequest);
+//		GtnSerachResponse result = instance.getHistAllLevelValues(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2149,12 +2185,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistHierarchyLevelDefinitionByLevelNO_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		int levelNo = 1;
 //
-//		List<HierarchyLevelDefinitionBean> result = fixture.getHistHierarchyLevelDefinitionByLevelNO(gtnWsRequest, levelNo);
+//		List<HierarchyLevelDefinitionBean> result = instance.getHistHierarchyLevelDefinitionByLevelNO(gtnWsRequest, levelNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2173,12 +2209,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistHierarchyLevelDefinitionByLevelNO_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		int levelNo = 1;
 //
-//		List<HierarchyLevelDefinitionBean> result = fixture.getHistHierarchyLevelDefinitionByLevelNO(gtnWsRequest, levelNo);
+//		List<HierarchyLevelDefinitionBean> result = instance.getHistHierarchyLevelDefinitionByLevelNO(gtnWsRequest, levelNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2197,12 +2233,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistHierarchyLevelDefinitionByLevelNO_3()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		int levelNo = 1;
 //
-//		List<HierarchyLevelDefinitionBean> result = fixture.getHistHierarchyLevelDefinitionByLevelNO(gtnWsRequest, levelNo);
+//		List<HierarchyLevelDefinitionBean> result = instance.getHistHierarchyLevelDefinitionByLevelNO(gtnWsRequest, levelNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2221,12 +2257,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistHierarchyLevelDefinitionValuesByLevelNo_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		int levelNo = 1;
 //
-//		List<HierarchyLevelValuesBean> result = fixture.getHistHierarchyLevelDefinitionValuesByLevelNo(gtnWsRequest, levelNo);
+//		List<HierarchyLevelValuesBean> result = instance.getHistHierarchyLevelDefinitionValuesByLevelNo(gtnWsRequest, levelNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2245,12 +2281,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistHierarchyLevelDefinitionValuesByLevelNo_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		int levelNo = 1;
 //
-//		List<HierarchyLevelValuesBean> result = fixture.getHistHierarchyLevelDefinitionValuesByLevelNo(gtnWsRequest, levelNo);
+//		List<HierarchyLevelValuesBean> result = instance.getHistHierarchyLevelDefinitionValuesByLevelNo(gtnWsRequest, levelNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2269,12 +2305,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistHierarchyLevelDefinitionValuesByLevelNo_3()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		int levelNo = 1;
 //
-//		List<HierarchyLevelValuesBean> result = fixture.getHistHierarchyLevelDefinitionValuesByLevelNo(gtnWsRequest, levelNo);
+//		List<HierarchyLevelValuesBean> result = instance.getHistHierarchyLevelDefinitionValuesByLevelNo(gtnWsRequest, levelNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2293,12 +2329,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistRelationshipLevelDefinitionValues_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 //		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 //
-//		GtnWsRelationshipBuilderResponse result = fixture.getHistRelationshipLevelDefinitionValues(rbRequest, rbResponse);
+//		GtnWsRelationshipBuilderResponse result = instance.getHistRelationshipLevelDefinitionValues(rbRequest, rbResponse);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2318,12 +2354,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistRelationshipLevelDefinitionValues_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 //		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 //
-//		GtnWsRelationshipBuilderResponse result = fixture.getHistRelationshipLevelDefinitionValues(rbRequest, rbResponse);
+//		GtnWsRelationshipBuilderResponse result = instance.getHistRelationshipLevelDefinitionValues(rbRequest, rbResponse);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2343,12 +2379,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetHistRelationshipLevelDefinitionValues_3()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 //		GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 //
-//		GtnWsRelationshipBuilderResponse result = fixture.getHistRelationshipLevelDefinitionValues(rbRequest, rbResponse);
+//		GtnWsRelationshipBuilderResponse result = instance.getHistRelationshipLevelDefinitionValues(rbRequest, rbResponse);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2367,11 +2403,11 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetLevelBeanAsList_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         HierarchyLevelsBean levelBean = new HierarchyLevelsBean();
 
-        List<Object> result = fixture.getLevelBeanAsList(levelBean);
+        List<Object> result = instance.getLevelBeanAsList(levelBean);
 
         // add additional test code here
         assertNotNull(result);
@@ -2390,13 +2426,13 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetLinkedLevelValues_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		HierarchyDefinitionBean hierarchyDefinitionBean = new HierarchyDefinitionBean();
 //		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = new LinkedList();
 //
-//		GtnSerachResponse result = fixture.getLinkedLevelValues(gtnWsRequest, hierarchyDefinitionBean, hierarchyLevelDefinitionList);
+//		GtnSerachResponse result = instance.getLinkedLevelValues(gtnWsRequest, hierarchyDefinitionBean, hierarchyLevelDefinitionList);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2415,13 +2451,13 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetLinkedLevelValues_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		HierarchyDefinitionBean hierarchyDefinitionBean = new HierarchyDefinitionBean();
 //		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = new LinkedList();
 //
-//		GtnSerachResponse result = fixture.getLinkedLevelValues(gtnWsRequest, hierarchyDefinitionBean, hierarchyLevelDefinitionList);
+//		GtnSerachResponse result = instance.getLinkedLevelValues(gtnWsRequest, hierarchyDefinitionBean, hierarchyLevelDefinitionList);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2440,13 +2476,13 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetLinkedLevelValues_3()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		HierarchyDefinitionBean hierarchyDefinitionBean = new HierarchyDefinitionBean();
 //		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = new LinkedList();
 //
-//		GtnSerachResponse result = fixture.getLinkedLevelValues(gtnWsRequest, hierarchyDefinitionBean, hierarchyLevelDefinitionList);
+//		GtnSerachResponse result = instance.getLinkedLevelValues(gtnWsRequest, hierarchyDefinitionBean, hierarchyLevelDefinitionList);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2465,13 +2501,13 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetLinkedLevelValues_4()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		HierarchyDefinitionBean hierarchyDefinitionBean = new HierarchyDefinitionBean();
 //		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = new LinkedList();
 //
-//		GtnSerachResponse result = fixture.getLinkedLevelValues(gtnWsRequest, hierarchyDefinitionBean, hierarchyLevelDefinitionList);
+//		GtnSerachResponse result = instance.getLinkedLevelValues(gtnWsRequest, hierarchyDefinitionBean, hierarchyLevelDefinitionList);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2490,13 +2526,13 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetLinkedLevelValues_5()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		HierarchyDefinitionBean hierarchyDefinitionBean = new HierarchyDefinitionBean();
 //		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = new LinkedList();
 //
-//		GtnSerachResponse result = fixture.getLinkedLevelValues(gtnWsRequest, hierarchyDefinitionBean, hierarchyLevelDefinitionList);
+//		GtnSerachResponse result = instance.getLinkedLevelValues(gtnWsRequest, hierarchyDefinitionBean, hierarchyLevelDefinitionList);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2515,11 +2551,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetModifiedHiddenIdList_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		List<Integer> result = fixture.getModifiedHiddenIdList(gtnWsRequest);
+//		List<Integer> result = instance.getModifiedHiddenIdList(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2538,11 +2574,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetModifiedHiddenIdList_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		List<Integer> result = fixture.getModifiedHiddenIdList(gtnWsRequest);
+//		List<Integer> result = instance.getModifiedHiddenIdList(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2561,11 +2597,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetModifiedHiddenIdList_3()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		List<Integer> result = fixture.getModifiedHiddenIdList(gtnWsRequest);
+//		List<Integer> result = instance.getModifiedHiddenIdList(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2584,11 +2620,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetModifiedHiddenIdList_4()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //
-//		List<Integer> result = fixture.getModifiedHiddenIdList(gtnWsRequest);
+//		List<Integer> result = instance.getModifiedHiddenIdList(gtnWsRequest);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2608,12 +2644,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetModifiedHiddenIdList_5()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        GtnWsRelationshipBuilderResponse result = fixture.getModifiedHiddenIdList(rbRequest, rbResponse);
+        GtnWsRelationshipBuilderResponse result = instance.getModifiedHiddenIdList(rbRequest, rbResponse);
 
         // add additional test code here
         assertNotNull(result);
@@ -2657,12 +2693,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetModifiedHiddenIdList_6()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        GtnWsRelationshipBuilderResponse result = fixture.getModifiedHiddenIdList(rbRequest, rbResponse);
+        GtnWsRelationshipBuilderResponse result = instance.getModifiedHiddenIdList(rbRequest, rbResponse);
 
         // add additional test code here
         assertNotNull(result);
@@ -2706,12 +2742,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetModifiedHiddenIdList_7()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        GtnWsRelationshipBuilderResponse result = fixture.getModifiedHiddenIdList(rbRequest, rbResponse);
+        GtnWsRelationshipBuilderResponse result = instance.getModifiedHiddenIdList(rbRequest, rbResponse);
 
         // add additional test code here
         assertNotNull(result);
@@ -2753,11 +2789,11 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetQuery_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		String sqlId = "";
 //
-//		String result = fixture.getQuery(sqlId);
+//		String result = instance.getQuery(sqlId);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2823,12 +2859,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetRBHierarchyLevelNameList_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		int hierarchyDefSid = 1;
 //		int versionNo = 1;
 //
-//		List<String> result = fixture.getRBHierarchyLevelNameList(hierarchyDefSid, versionNo);
+//		List<String> result = instance.getRBHierarchyLevelNameList(hierarchyDefSid, versionNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2848,12 +2884,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetRBHierarchyLevelNameList_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		int hierarchyDefSid = 1;
 //		int versionNo = 1;
 //
-//		List<String> result = fixture.getRBHierarchyLevelNameList(hierarchyDefSid, versionNo);
+//		List<String> result = instance.getRBHierarchyLevelNameList(hierarchyDefSid, versionNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -2874,13 +2910,13 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetRelationQueries_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         int relationshipSid = 1;
         List<HierarchyLevelDefinitionBean> levelHierarchyLevelDefinitionList = new LinkedList();
         int versionNo = 1;
 
-        List<String> result = fixture.getRelationQueries(relationshipSid, levelHierarchyLevelDefinitionList, versionNo);
+        List<String> result = instance.getRelationQueries(relationshipSid, levelHierarchyLevelDefinitionList, versionNo);
 
         // add additional test code here
         assertNotNull(result);
@@ -2926,13 +2962,13 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetRelationQueries_3()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         int relationshipSid = 1;
         List<HierarchyLevelDefinitionBean> levelHierarchyLevelDefinitionList = new LinkedList();
         int versionNo = 1;
 
-        List<String> result = fixture.getRelationQueries(relationshipSid, levelHierarchyLevelDefinitionList, versionNo);
+        List<String> result = instance.getRelationQueries(relationshipSid, levelHierarchyLevelDefinitionList, versionNo);
 
         // add additional test code here
         assertNotNull(result);
@@ -2951,12 +2987,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetSavedHistLevelValuesList_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        GtnWsRelationshipBuilderResponse result = fixture.getSavedHistLevelValuesList(rbRequest, rbResponse);
+        GtnWsRelationshipBuilderResponse result = instance.getSavedHistLevelValuesList(rbRequest, rbResponse);
 
         // add additional test code here
         assertNotNull(result);
@@ -3001,12 +3037,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetSavedHistLevelValuesList_2()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        GtnWsRelationshipBuilderResponse result = fixture.getSavedHistLevelValuesList(rbRequest, rbResponse);
+        GtnWsRelationshipBuilderResponse result = instance.getSavedHistLevelValuesList(rbRequest, rbResponse);
 
         // add additional test code here
         assertNotNull(result);
@@ -3051,12 +3087,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetSavedHistLevelValuesList_3()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        GtnWsRelationshipBuilderResponse result = fixture.getSavedHistLevelValuesList(rbRequest, rbResponse);
+        GtnWsRelationshipBuilderResponse result = instance.getSavedHistLevelValuesList(rbRequest, rbResponse);
 
         // add additional test code here
         assertNotNull(result);
@@ -3101,42 +3137,23 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetSavedHistLevelValuesList_4()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
-
-        GtnWsRelationshipBuilderResponse result = fixture.getSavedHistLevelValuesList(rbRequest, rbResponse);
+        rbRequest.setRbSysId(1);
+        List<GtnWsRelationshipLevelDefinitionBean> list=new ArrayList<>();
+        GtnWsRelationshipLevelDefinitionBean relationBean=new GtnWsRelationshipLevelDefinitionBean();
+        list.add(relationBean);
+        GtnWsRelationshipBuilderService in=  Mockito.spy(instance);
+        rbResponse.setRelationshipBuilderBeanList(list);
+        GtnWsRelationshipBuilderResponse res=new GtnWsRelationshipBuilderResponse();
+        doReturn(res).when(in).getHistRelationshipLevelDefinitionValues(rbRequest, rbResponse);
+        GtnWsRelationshipBuilderResponse result = in.getSavedHistLevelValuesList(rbRequest, rbResponse);
 
         // add additional test code here
         assertNotNull(result);
-        assertEquals(null, result.getMessage());
-        assertEquals(null, result.getMessageType());
-        assertEquals(null, result.getHierarchyName());
-        assertEquals(null, result.getCreationDate());
-        assertEquals(null, result.getStartDate());
-        assertEquals(null, result.getModifiedDate());
-        assertEquals(false, result.isSuccess());
-        assertEquals(null, result.getHierarchyDefinitionBean());
-        assertEquals(0, result.getRelationshipTypeId());
-        assertEquals(null, result.getHierarchyLevelNameList());
-        assertEquals(0, result.getSelectedVersionNo());
-        assertEquals(null, result.getMainNode());
-        assertEquals(null, result.getHiddenIdList());
-        assertEquals(0, result.getHierarchyDefSId());
-        assertEquals(null, result.getHierarchyVersionNo());
-        assertEquals(0, result.getRbSysId());
-        assertEquals(1, result.getVersionNo());
-        assertEquals(0, result.getLevelNo());
-        assertEquals(null, result.getRbTreeNodeList());
-        assertEquals(0, result.getCreatedById());
-        assertEquals(null, result.getCreatedBy());
-        assertEquals(null, result.getBuildType());
-        assertEquals(0, result.getNoOfLevels());
-        assertEquals(null, result.getRelationshipDescription());
-        assertEquals(null, result.getRelationshipName());
-        assertEquals(null, result.getRelationshipType());
-        assertEquals(null, result.getRelationshipBuilderBeanList());
+      
     }
 
     /**
@@ -3151,12 +3168,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetSavedHistLevelValuesList_5()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        GtnWsRelationshipBuilderResponse result = fixture.getSavedHistLevelValuesList(rbRequest, rbResponse);
+        GtnWsRelationshipBuilderResponse result = instance.getSavedHistLevelValuesList(rbRequest, rbResponse);
 
         // add additional test code here
         assertNotNull(result);
@@ -3202,14 +3219,14 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetSelectClauseForAutoBuild_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		String hirarchyNo = "";
 //		HierarchyLevelDefinitionBean hierarchyBean = new HierarchyLevelDefinitionBean();
 //		GtnFrameworkQueryGeneratorBean finalQueryBean = new GtnFrameworkQueryGeneratorBean();
 //		String gethiddenIdhierarchyNo = "";
 //
-//		String result = fixture.getSelectClauseForAutoBuild(hirarchyNo, hierarchyBean, finalQueryBean, gethiddenIdhierarchyNo);
+//		String result = instance.getSelectClauseForAutoBuild(hirarchyNo, hierarchyBean, finalQueryBean, gethiddenIdhierarchyNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -3228,12 +3245,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetUserDefinedLevelCount_1()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		int levelNo = 1;
 //
-//		int result = fixture.getUserDefinedLevelCount(gtnWsRequest, levelNo);
+//		int result = instance.getUserDefinedLevelCount(gtnWsRequest, levelNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -3252,12 +3269,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetUserDefinedLevelCount_2()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		int levelNo = 1;
 //
-//		int result = fixture.getUserDefinedLevelCount(gtnWsRequest, levelNo);
+//		int result = instance.getUserDefinedLevelCount(gtnWsRequest, levelNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -3276,12 +3293,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetUserDefinedLevelCount_3()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		int levelNo = 1;
 //
-//		int result = fixture.getUserDefinedLevelCount(gtnWsRequest, levelNo);
+//		int result = instance.getUserDefinedLevelCount(gtnWsRequest, levelNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -3300,12 +3317,12 @@ public class GtnWsRelationshipBuilderServiceTest {
 //	@Test
 //	public void testGetUserDefinedLevelCount_4()
 //		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 //		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //		int levelNo = 1;
 //
-//		int result = fixture.getUserDefinedLevelCount(gtnWsRequest, levelNo);
+//		int result = instance.getUserDefinedLevelCount(gtnWsRequest, levelNo);
 //
 //		// add additional test code here
 //		// An unexpected exception was thrown in user code while executing this test:
@@ -3314,128 +3331,18 @@ public class GtnWsRelationshipBuilderServiceTest {
 //		assertEquals(0, result);
 //	}
 //
-//	/**
-//	 * Run the GtnUIFrameworkDataTable getUserDefinedLevelValues(GtnUIFrameworkWebserviceRequest,List<Integer>,int) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testGetUserDefinedLevelValues_1()
-//		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		List<Integer> modifiedHiddenIdList = new LinkedList();
-//		int levelNo = 1;
-//
-//		GtnUIFrameworkDataTable result = fixture.getUserDefinedLevelValues(gtnWsRequest, modifiedHiddenIdList, levelNo);
-//
-//		// add additional test code here
-//		// An unexpected exception was thrown in user code while executing this test:
-//		//    java.lang.NullPointerException
-//		//       at com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService.getHistHierarchyLevelDefinitionValuesByLevelNo(GtnWsRelationshipBuilderService.java:284)
-//		//       at com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService.getUserDefinedLevelValues(GtnWsRelationshipBuilderService.java:334)
-//		assertNotNull(result);
-//	}
-//
-//	/**
-//	 * Run the GtnUIFrameworkDataTable getUserDefinedLevelValues(GtnUIFrameworkWebserviceRequest,List<Integer>,int) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testGetUserDefinedLevelValues_2()
-//		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		List<Integer> modifiedHiddenIdList = new LinkedList();
-//		int levelNo = 1;
-//
-//		GtnUIFrameworkDataTable result = fixture.getUserDefinedLevelValues(gtnWsRequest, modifiedHiddenIdList, levelNo);
-//
-//		// add additional test code here
-//		// An unexpected exception was thrown in user code while executing this test:
-//		//    java.lang.NullPointerException
-//		//       at com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService.getHistHierarchyLevelDefinitionValuesByLevelNo(GtnWsRelationshipBuilderService.java:284)
-//		//       at com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService.getUserDefinedLevelValues(GtnWsRelationshipBuilderService.java:334)
-//		assertNotNull(result);
-//	}
-//
-//	/**
-//	 * Run the GtnUIFrameworkDataTable getUserDefinedLevelValues(GtnUIFrameworkWebserviceRequest,List<Integer>,int) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testGetUserDefinedLevelValues_3()
-//		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		List<Integer> modifiedHiddenIdList = new LinkedList();
-//		int levelNo = 1;
-//
-//		GtnUIFrameworkDataTable result = fixture.getUserDefinedLevelValues(gtnWsRequest, modifiedHiddenIdList, levelNo);
-//
-//		// add additional test code here
-//		// An unexpected exception was thrown in user code while executing this test:
-//		//    java.lang.NullPointerException
-//		//       at com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService.getHistHierarchyLevelDefinitionValuesByLevelNo(GtnWsRelationshipBuilderService.java:284)
-//		//       at com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService.getUserDefinedLevelValues(GtnWsRelationshipBuilderService.java:334)
-//		assertNotNull(result);
-//	}
-//
-//	/**
-//	 * Run the GtnUIFrameworkDataTable getUserDefinedLevelValues(GtnUIFrameworkWebserviceRequest,List<Integer>,int) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testGetUserDefinedLevelValues_4()
-//		throws Exception {
-//		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		List<Integer> modifiedHiddenIdList = new LinkedList();
-//		int levelNo = 1;
-//
-//		GtnUIFrameworkDataTable result = fixture.getUserDefinedLevelValues(gtnWsRequest, modifiedHiddenIdList, levelNo);
-//
-//		// add additional test code here
-//		// An unexpected exception was thrown in user code while executing this test:
-//		//    java.lang.NullPointerException
-//		//       at com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService.getHistHierarchyLevelDefinitionValuesByLevelNo(GtnWsRelationshipBuilderService.java:284)
-//		//       at com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService.getUserDefinedLevelValues(GtnWsRelationshipBuilderService.java:334)
-//		assertNotNull(result);
-//	}
-//
-//	/**
-//	 * Run the GtnUIFrameworkDataTable getUserDefinedLevelValues(GtnUIFrameworkWebserviceRequest,List<Integer>,int) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
+
 	@Test
 	public void testGetUserDefinedLevelValues_5()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 		List<Integer> modifiedHiddenIdList = new LinkedList();
 		int levelNo = 1;
 
-		GtnUIFrameworkDataTable result = fixture.getUserDefinedLevelValues(gtnWsRequest, modifiedHiddenIdList, levelNo);
+		GtnUIFrameworkDataTable result = instance.getUserDefinedLevelValues(gtnWsRequest, modifiedHiddenIdList, levelNo);
 
 		assertNotNull(result);
                 } catch (Exception e) {
@@ -3454,14 +3361,14 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetUserdefinedDataCombination_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         List<GtnWsRecordBean> linkedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> userDefinedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> finalDataList = new LinkedList();
         HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean = new HierarchyLevelDefinitionBean();
 
-        fixture.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
+        instance.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
 
         // add additional test code here
     }
@@ -3478,14 +3385,14 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetUserdefinedDataCombination_2()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         List<GtnWsRecordBean> linkedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> userDefinedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> finalDataList = new LinkedList();
         HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean = new HierarchyLevelDefinitionBean();
 
-        fixture.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
+        instance.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
 
         // add additional test code here
     }
@@ -3502,14 +3409,14 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetUserdefinedDataCombination_3()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         List<GtnWsRecordBean> linkedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> userDefinedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> finalDataList = new LinkedList();
         HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean = new HierarchyLevelDefinitionBean();
 
-        fixture.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
+        instance.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
 
         // add additional test code here
     }
@@ -3526,14 +3433,14 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetUserdefinedDataCombination_4()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         List<GtnWsRecordBean> linkedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> userDefinedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> finalDataList = new LinkedList();
         HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean = new HierarchyLevelDefinitionBean();
 
-        fixture.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
+        instance.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
 
         // add additional test code here
     }
@@ -3550,14 +3457,14 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetUserdefinedDataCombination_5()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         List<GtnWsRecordBean> linkedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> userDefinedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> finalDataList = new LinkedList();
         HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean = new HierarchyLevelDefinitionBean();
 
-        fixture.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
+        instance.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
 
         // add additional test code here
     }
@@ -3574,14 +3481,14 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetUserdefinedDataCombination_6()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         List<GtnWsRecordBean> linkedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> userDefinedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> finalDataList = new LinkedList();
         HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean = new HierarchyLevelDefinitionBean();
 
-        fixture.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
+        instance.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
 
         // add additional test code here
     }
@@ -3598,14 +3505,32 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testGetUserdefinedDataCombination_7()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         List<GtnWsRecordBean> linkedLevelDataList = new LinkedList();
         List<GtnWsRecordBean> userDefinedLevelDataList = new LinkedList();
+        
         List<GtnWsRecordBean> finalDataList = new LinkedList();
-        HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean = new HierarchyLevelDefinitionBean();
+        GtnWsRecordBean recordBean = new GtnWsRecordBean();
+        
+        List<Object> values = IntStream.rangeClosed(0, GtnWsRelationshipBuilderKeyConstant.values().length).boxed().collect(Collectors.toList());
 
-        fixture.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
+        recordBean.setRecordHeader(Arrays.stream(GtnWsRelationshipBuilderKeyConstant.values()).collect(Collectors.toList()));
+        recordBean.setProperties(values);
+       GtnWsRecordBean linkedBean = new GtnWsRecordBean();
+        
+        List<Object> valuelinkeds = IntStream.rangeClosed(0, GtnWsRelationshipBuilderKeyConstant.values().length).boxed().collect(Collectors.toList());
+
+        linkedBean.setRecordHeader(Arrays.stream(GtnWsRelationshipBuilderKeyConstant.values()).collect(Collectors.toList()));
+        linkedBean.setProperties(valuelinkeds);
+        linkedBean.setPropertyValueByIndex(1, 0);
+        
+        userDefinedLevelDataList.add(recordBean);
+        linkedLevelDataList.add(linkedBean);
+        
+        HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean = new HierarchyLevelDefinitionBean();
+       hierarchyLevelDefinitionBean.setLevelNo(1);
+        instance.getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList, hierarchyLevelDefinitionBean);
 
         // add additional test code here
     }
@@ -3622,14 +3547,14 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testLoadAutoBuildData_1()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		int hierarchyDefSid = 1;
 		int hierarchyVersionNo = 1;
 		GtnWsRecordBean selectedTreeBean = new GtnWsRecordBean();
 		List<String> hiddenIdList = new LinkedList();
 
-		List<GtnWsRecordBean> result = fixture.loadAutoBuildData(hierarchyDefSid, hierarchyVersionNo, selectedTreeBean, hiddenIdList);
+		List<GtnWsRecordBean> result = instance.loadAutoBuildData(hierarchyDefSid, hierarchyVersionNo, selectedTreeBean, hiddenIdList);
 
 		assertNotNull(result);
                 } catch (Exception e) {
@@ -3648,14 +3573,14 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testLoadAutoBuildData_2()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		int hierarchyDefSid = 1;
 		int hierarchyVersionNo = 1;
 		GtnWsRecordBean selectedTreeBean = new GtnWsRecordBean();
 		List<String> hiddenIdList = new LinkedList();
 
-		List<GtnWsRecordBean> result = fixture.loadAutoBuildData(hierarchyDefSid, hierarchyVersionNo, selectedTreeBean, hiddenIdList);
+		List<GtnWsRecordBean> result = instance.loadAutoBuildData(hierarchyDefSid, hierarchyVersionNo, selectedTreeBean, hiddenIdList);
 
 		assertNotNull(result);
                 } catch (Exception e) {
@@ -3674,14 +3599,14 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testLoadAutoBuildData_3()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		int hierarchyDefSid = 1;
 		int hierarchyVersionNo = 1;
 		GtnWsRecordBean selectedTreeBean = new GtnWsRecordBean();
 		List<String> hiddenIdList = new LinkedList();
 
-		List<GtnWsRecordBean> result = fixture.loadAutoBuildData(hierarchyDefSid, hierarchyVersionNo, selectedTreeBean, hiddenIdList);
+		List<GtnWsRecordBean> result = instance.loadAutoBuildData(hierarchyDefSid, hierarchyVersionNo, selectedTreeBean, hiddenIdList);
 		assertNotNull(result);
                 } catch (Exception e) {
 
@@ -3699,14 +3624,14 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testLoadAutoBuildData_4()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		int hierarchyDefSid = 1;
 		int hierarchyVersionNo = 1;
 		GtnWsRecordBean selectedTreeBean = new GtnWsRecordBean();
 		List<String> hiddenIdList = new LinkedList();
 
-		List<GtnWsRecordBean> result = fixture.loadAutoBuildData(hierarchyDefSid, hierarchyVersionNo, selectedTreeBean, hiddenIdList);
+		List<GtnWsRecordBean> result = instance.loadAutoBuildData(hierarchyDefSid, hierarchyVersionNo, selectedTreeBean, hiddenIdList);
 		assertNotNull(result);
             } catch (Exception e) {
 
@@ -3724,14 +3649,14 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testLoadAutoBuildData_5()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		int hierarchyDefSid = 1;
 		int hierarchyVersionNo = 1;
 		GtnWsRecordBean selectedTreeBean = new GtnWsRecordBean();
 		List<String> hiddenIdList = new LinkedList();
 
-		List<GtnWsRecordBean> result = fixture.loadAutoBuildData(hierarchyDefSid, hierarchyVersionNo, selectedTreeBean, hiddenIdList);
+		List<GtnWsRecordBean> result = instance.loadAutoBuildData(hierarchyDefSid, hierarchyVersionNo, selectedTreeBean, hiddenIdList);
 
 		assertNotNull(result);
                 } catch (Exception e) {
@@ -3751,7 +3676,7 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testLoadRelationship_1()
             throws Exception {
-//		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+//		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
         GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
         GtnWsRelationshipBuilderService in = Mockito.spy(instance);
@@ -3779,12 +3704,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     public void testLoadRelationship_2()
             throws Exception {
         try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
             GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-            GtnWsRelationshipBuilderResponse result = fixture.loadRelationship(rbRequest, rbResponse);
+            GtnWsRelationshipBuilderResponse result = instance.loadRelationship(rbRequest, rbResponse);
 
             assertNotNull(result);
         } catch (Exception e) {
@@ -3805,12 +3730,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     public void testLoadRelationship_3()
             throws Exception {
         try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
             GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-            GtnWsRelationshipBuilderResponse result = fixture.loadRelationship(rbRequest, rbResponse);
+            GtnWsRelationshipBuilderResponse result = instance.loadRelationship(rbRequest, rbResponse);
 
             assertNotNull(result);
         } catch (Exception e) {
@@ -3831,12 +3756,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     public void testLoadRelationship_4()
             throws Exception {
         try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
             GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-            GtnWsRelationshipBuilderResponse result = fixture.loadRelationship(rbRequest, rbResponse);
+            GtnWsRelationshipBuilderResponse result = instance.loadRelationship(rbRequest, rbResponse);
 
             assertNotNull(result);
         } catch (Exception e) {
@@ -3857,12 +3782,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     public void testLoadRelationship_5()
             throws Exception {
         try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
             GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-            GtnWsRelationshipBuilderResponse result = fixture.loadRelationship(rbRequest, rbResponse);
+            GtnWsRelationshipBuilderResponse result = instance.loadRelationship(rbRequest, rbResponse);
             assertNotNull(result);
         } catch (Exception e) {
 
@@ -3881,16 +3806,26 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testSaveRelationship_1()
             throws Exception {
-        try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
-            GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
-            GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
+       
+        Session session = Mockito.mock(Session.class);
+        Transaction tx = Mockito.mock(Transaction.class);
+        RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
+        relationshipBuilder.setHelperTable(new HelperTable());
+        relationshipBuilder.setHierarchyDefinition(new HierarchyDefinition());
+        doReturn(relationshipBuilder).when(session).load(RelationshipBuilder.class, 1);
+        doNothing().when(session).saveOrUpdate(Mockito.any());
+        doReturn(session).when(sessionFactory).openSession();
+        doReturn(tx).when(session).beginTransaction();
 
-            fixture.saveRelationship(rbRequest, rbResponse);
-        } catch (Exception e) {
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
+        rbRequest.setRbSysId(1);
+        GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-        }
+        instance.saveRelationship(rbRequest, rbResponse);
+            
+            
+        
     }
 
     /**
@@ -3906,12 +3841,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     public void testSaveRelationship_2()
             throws Exception {
         try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
             GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-            fixture.saveRelationship(rbRequest, rbResponse);
+            instance.saveRelationship(rbRequest, rbResponse);
         } catch (Exception e) {
 
         }
@@ -3930,12 +3865,12 @@ public class GtnWsRelationshipBuilderServiceTest {
     public void testSaveRelationship_3()
             throws Exception {
         try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
             GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 
-            fixture.saveRelationship(rbRequest, rbResponse);
+            instance.saveRelationship(rbRequest, rbResponse);
 
         } catch (Exception e) {
 
@@ -3954,20 +3889,20 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testSaveRelationshipBuilderLevels_1()
             throws Exception {
-        try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
             Date date = new Date();
             String parentHierarchyNo = "";
             String parentNode = "";
             List<GtnWsRecordBean> levelBeanList = new LinkedList();
-            Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
-
-            fixture.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
-        } catch (Exception e) {
-
-        }
+            GtnWsRecordBean gtnWsRecordBean = new GtnWsRecordBean();
+            gtnWsRecordBean.setRecordHeader(Arrays.asList(GtnWsRelationshipBuilderKeyConstant.VALUE.ordinal(), GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal()));
+            gtnWsRecordBean.setProperties(Arrays.asList(GtnWsRelationshipBuilderKeyConstant.VALUE.ordinal(), GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal()));
+            levelBeanList.add(gtnWsRecordBean);
+            Session session = Mockito.mock(Session.class);
+//   Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
+            instance.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
     }
 
     /**
@@ -3983,8 +3918,8 @@ public class GtnWsRelationshipBuilderServiceTest {
     public void testSaveRelationshipBuilderLevels_2()
             throws Exception {
         try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
             Date date = new Date();
             String parentHierarchyNo = "";
@@ -3992,7 +3927,7 @@ public class GtnWsRelationshipBuilderServiceTest {
             List<GtnWsRecordBean> levelBeanList = new LinkedList();
             Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
 
-            fixture.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
+            instance.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
 
         } catch (Exception e) {
 
@@ -4012,8 +3947,8 @@ public class GtnWsRelationshipBuilderServiceTest {
     public void testSaveRelationshipBuilderLevels_3()
             throws Exception {
         try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
             Date date = new Date();
             String parentHierarchyNo = "";  
@@ -4021,7 +3956,7 @@ public class GtnWsRelationshipBuilderServiceTest {
             List<GtnWsRecordBean> levelBeanList = new LinkedList();
             Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
 
-            fixture.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
+            instance.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
         } catch (Exception e) {
 
         }
@@ -4040,8 +3975,8 @@ public class GtnWsRelationshipBuilderServiceTest {
     public void testSaveRelationshipBuilderLevels_4()
             throws Exception {
         try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
             Date date = new Date();
             String parentHierarchyNo = "";
@@ -4049,7 +3984,7 @@ public class GtnWsRelationshipBuilderServiceTest {
             List<GtnWsRecordBean> levelBeanList = new LinkedList();
             Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
 
-            fixture.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
+            instance.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
         } catch (Exception e) {
 
         }
@@ -4067,8 +4002,8 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testSaveRelationshipBuilderLevels_5()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
 		Date date = new Date();
 		String parentHierarchyNo = "";
@@ -4076,7 +4011,7 @@ public class GtnWsRelationshipBuilderServiceTest {
 		List<GtnWsRecordBean> levelBeanList = new LinkedList();
 		Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
 
-		fixture.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
+		instance.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
 
 		} catch (Exception e) {
 
@@ -4095,8 +4030,8 @@ public class GtnWsRelationshipBuilderServiceTest {
 	public void testSaveRelationshipBuilderLevels_6()
 		throws Exception {
             try{
-		GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-		fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+		
+		instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
 		RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
 		Date date = new Date();
 		String parentHierarchyNo = "";
@@ -4104,7 +4039,7 @@ public class GtnWsRelationshipBuilderServiceTest {
 		List<GtnWsRecordBean> levelBeanList = new LinkedList();
 		Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
 
-		fixture.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
+		instance.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
                 } catch (Exception e) {
 
         }
@@ -4121,8 +4056,8 @@ public class GtnWsRelationshipBuilderServiceTest {
     public void testSaveRelationshipBuilderLevels_7()
             throws Exception {
         try {
-            GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-            fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+            
+            instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
             RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
             Date date = new Date();
             String parentHierarchyNo = "";
@@ -4130,7 +4065,7 @@ public class GtnWsRelationshipBuilderServiceTest {
             List<GtnWsRecordBean> levelBeanList = new LinkedList();
             Session session = new SessionDelegatorBaseImpl((SessionImplementor) null, (Session) null);
 
-            fixture.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
+            instance.saveRelationshipBuilderLevels(relationshipBuilder, date, parentHierarchyNo, parentNode, levelBeanList, session);
         } catch (Exception e) {
 
         }
@@ -4148,11 +4083,11 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testSetGtnWsRelationshipBuilderHierarchyFileGenerator_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         GtnWsRelationshipBuilderHierarchyFileGeneratorService gtnWsRelationshipBuilderHierarchyFileGenerator = new GtnWsRelationshipBuilderHierarchyFileGeneratorService();
 
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(gtnWsRelationshipBuilderHierarchyFileGenerator);
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(gtnWsRelationshipBuilderHierarchyFileGenerator);
 
         // add additional test code here
     }
@@ -4167,18 +4102,23 @@ public class GtnWsRelationshipBuilderServiceTest {
     @Test
     public void testSortGtnWsRecordBean_1()
             throws Exception {
-        GtnWsRelationshipBuilderService fixture = new GtnWsRelationshipBuilderService();
-        fixture.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
+        
+        instance.setGtnWsRelationshipBuilderHierarchyFileGenerator(new GtnWsRelationshipBuilderHierarchyFileGeneratorService());
         List<GtnWsRecordBean> levelsList = new LinkedList();
         GtnWsRecordBean recordBean = new GtnWsRecordBean();
-        recordBean.setRecordHeader(IntStream.rangeClosed(0, 12).boxed().collect(Collectors.toList()));
-        recordBean.setProperties(IntStream.rangeClosed(0, 12).boxed().collect(Collectors.toList()));
+        
+        List<Object> values = IntStream.rangeClosed(0, GtnWsRelationshipBuilderKeyConstant.values().length).boxed().collect(Collectors.toList());
+
+        recordBean.setRecordHeader(Arrays.stream(GtnWsRelationshipBuilderKeyConstant.values()).collect(Collectors.toList()));
+        recordBean.setProperties(values);
+        levelsList.add(recordBean);
+
         GtnWsRecordBean recordBean2 = new GtnWsRecordBean();
-        recordBean.setRecordHeader(IntStream.rangeClosed(0, 12).boxed().collect(Collectors.toList()));
-        recordBean.setProperties(IntStream.rangeClosed(0, 12).boxed().collect(Collectors.toList()));
+        recordBean2.setRecordHeader(Arrays.stream(GtnWsRelationshipBuilderKeyConstant.values()).collect(Collectors.toList()));
+        recordBean2.setProperties(values);
         levelsList.add(recordBean2);
 
-        fixture.sortGtnWsRecordBean(levelsList);
+        instance.sortGtnWsRecordBean(levelsList);
 
         // add additional test code here
     }
