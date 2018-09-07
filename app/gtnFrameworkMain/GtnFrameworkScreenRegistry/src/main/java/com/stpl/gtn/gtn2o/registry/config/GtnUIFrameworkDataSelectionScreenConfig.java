@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
-import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastEligibleDateLoadAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -27,13 +27,25 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
-import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastNewArchitectureConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnUIFrameworkDataSelectionScreenConfig {
 
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
+	
+	public GtnUIFrameworkComponentConfig getHorizontalLayoutConfig(String compId, String parentLayout) {
+		GtnUIFrameworkComponentConfig profileOptionLayoutConf = new GtnUIFrameworkComponentConfig();
+		profileOptionLayoutConf.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		profileOptionLayoutConf.setComponentId(compId + GtnFrameworkCssConstants.HORIZONTAL);
+		profileOptionLayoutConf.setComponentName(compId + GtnFrameworkCssConstants.HORIZONTAL);
+		profileOptionLayoutConf.setParentComponentId(parentLayout);
+		profileOptionLayoutConf.setAddToParent(true);
+		GtnUIFrameworkLayoutConfig conf = new GtnUIFrameworkLayoutConfig();
+		conf.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		profileOptionLayoutConf.setGtnLayoutConfig(conf);
+		return profileOptionLayoutConf;
+	}
 	public GtnUIFrameworkViewConfig getDataSelectionView(String nameSpace) {
 
 		GtnUIFrameworkViewConfig dataSelectionView = configProvider.getViewConfig(nameSpace + "_" + "Data Selection",
@@ -198,6 +210,21 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		privateViewLookup.setAddToParent(Boolean.TRUE);
 		privateViewLookup.setParentComponentId(nameSpace + "_" + "privateViewLookupLayout");
 		componentList.add(privateViewLookup);
+		
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig popupActionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfigList.add(popupActionConfig);
+		popupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		List<Object> popupActionParam = new ArrayList<>();
+		popupActionParam.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		popupActionParam.add("Private View");
+		popupActionParam.add("70%");
+		popupActionParam.add("70%");
+
+		popupActionConfig.setActionParameterList(popupActionParam);
+		privateViewLookup.addGtnUIFrameWorkActionConfig(popupActionConfig);
+		
 	}
 
 	private void addCompany(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
@@ -247,6 +274,19 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		publicViewLookup.setAddToParent(Boolean.TRUE);
 		publicViewLookup.setParentComponentId(nameSpace + "_" + "publicViewLayout");
 		componentList.add(publicViewLookup);
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig popupActionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfigList.add(popupActionConfig);
+		popupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		List<Object> popupActionParam = new ArrayList<>();
+		popupActionParam.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		popupActionParam.add("Public View");
+		popupActionParam.add("70%");
+		popupActionParam.add("70%");
+
+		popupActionConfig.setActionParameterList(popupActionParam);
+		publicViewLookup.addGtnUIFrameWorkActionConfig(popupActionConfig);
 
 	}
 
@@ -445,8 +485,11 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(generateBtn);
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
-		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName());
+		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		gtnUIFrameWorkGeneratePopupAction.addActionParameter("forecastGenerateLookupView");
+		gtnUIFrameWorkGeneratePopupAction.addActionParameter("Forecast Generate Lookup View");
+		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		generateBtn.addGtnUIFrameWorkActionConfig(gtnUIFrameWorkGeneratePopupAction);
 	}
 
@@ -458,16 +501,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		searchBtn.setComponentName("SEARCH");
 		searchBtn.setParentComponentId(parentComponentId);
 		searchBtn.setAddToParent(true);
-                List<GtnUIFrameWorkActionConfig> actionConfigListSearch = new ArrayList<>();
-                GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
-                loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
-                loadDataSearchTableActionConfig.setActionParameterList(
-                Arrays.asList(new Object[]{nameSpace+"_"+"projectionResultsTable"}));
-                loadDataSearchTableActionConfig.setFieldValues(
-                        Arrays.asList(new String[]{nameSpace+"_"+"projectionName",
-                            nameSpace+"_"+"projectionDescription"}));
-                actionConfigListSearch.add(loadDataSearchTableActionConfig);
-                searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
+
 		componentList.add(searchBtn);
 
 	}
@@ -574,7 +608,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionResultsTable.setAddToParent(true);
 		projectionResultsTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		projectionResultsTable.setParentComponentId(nameSpace + "_" + "projectionResultsLayout");
-                projectionResultsTable.setModuleName("serviceRegistry");
 
 		GtnUIFrameworkPagedTableConfig projectionResultsTableConfig = new GtnUIFrameworkPagedTableConfig();
 		projectionResultsTableConfig.setEditable(false);
@@ -596,11 +629,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				"customerHierarchy", "customerLevel", "productHierarchy", "productLevel", "createdBy", "createdDate",
 				"modifiedDate", GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID, 
                                                                          GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID });
-                projectionResultsTableConfig.setCountUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
-                projectionResultsTableConfig.setResultSetUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
-		projectionResultsTableConfig.setPagedTableWsUrl("/forecastingPagedTableSearch");
-                projectionResultsTableConfig.setRegisteredWebContext("/GtnSearchWebService");
-                projectionResultsTableConfig.setModuleName("generalSearch");
+		
+
 		projectionResultsTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		
 		projectionResultsTable.setGtnPagedTableConfig(projectionResultsTableConfig);

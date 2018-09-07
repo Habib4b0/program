@@ -22,6 +22,8 @@ import com.vaadin.server.VaadinPortletRequest;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
+
+@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = { UI.class })
 public class GtnUIFrameworkCommercialForecastingTest {
