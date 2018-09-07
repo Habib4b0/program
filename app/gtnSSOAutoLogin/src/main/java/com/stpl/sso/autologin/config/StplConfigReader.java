@@ -42,7 +42,7 @@ import java.util.Arrays;
 public class StplConfigReader {
 
 	private static final StplConfigReader _INSTANCE = new StplConfigReader();
-	private static  final Logger LOGGER = LoggerFactory.getLogger(StplConfigReader.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StplConfigReader.class);
 	private StpSSOPropertybean propertyBean = new StpSSOPropertybean();
 
 	private StplConfigReader() {
@@ -58,8 +58,7 @@ public class StplConfigReader {
 	}
 
 	private void readFile() {
-		try (InputStream input = new FileInputStream(
-				new File(SSOConstants.CONFIGPATH));) {
+		try (InputStream input = new FileInputStream(new File(SSOConstants.CONFIGPATH));) {
 
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -77,7 +76,7 @@ public class StplConfigReader {
 			}
 
 		} catch (ParserConfigurationException | SAXException | IOException ex) {
-			LOGGER.error("Error in Reading Config ",ex);
+			LOGGER.error("Error in Reading Config ", ex);
 		}
 	}
 
@@ -99,8 +98,12 @@ public class StplConfigReader {
 	}
 
 	private String getData(Element elem, String tag) {
-		String value = elem.getElementsByTagName(tag).item(0).getTextContent();
-		return value;
+		NodeList dataList = elem.getElementsByTagName(tag);
+		if (dataList.getLength() > 0) {
+			String value = dataList.item(0).getTextContent();
+			return value;
+		}
+		return "";
 	}
 
 	private void loadSamlBean(Element parentElement) {
@@ -112,8 +115,10 @@ public class StplConfigReader {
 		samlPropertyBean.setIdpURL(getData(samlElement, SSOConstants.IDP_URL));
 		samlPropertyBean.setLogSamlResponse(Boolean.parseBoolean(getData(samlElement, SSOConstants.LOG_SAML_RESPONSE)));
 		samlPropertyBean.setIssuer(getData(samlElement, SSOConstants.ISSUER));
+		samlPropertyBean.setIsSAMLRequestNeeded(getData(samlElement, SSOConstants.ISSAMLREQUIRED));
+		samlPropertyBean.setAssertionConsumerServiceUrl(getData(samlElement, SSOConstants.ACSURL));
 		samlPropertyBean.setRelayState(getData(samlElement, SSOConstants.RELAYSTATE));
-                samlPropertyBean.setSpecialCharArray(getData(samlElement, Constants.SPECIALCHAR_EMAIL).split(","));
+		samlPropertyBean.setSpecialCharArray(getData(samlElement, Constants.SPECIALCHAR_EMAIL).split(","));
 	}
 
 	private void createPublicKeyCredential(StplSamlPropertyBean samlPropertyBean) {
@@ -130,16 +135,15 @@ public class StplConfigReader {
 			BasicX509Credential publicCredential = new BasicX509Credential();
 			publicCredential.setPublicKey(publicKey);
 			samlPropertyBean.setIssuerPublicCertificate(publicCredential);
-		} catch(RuntimeException e){
+		} catch (RuntimeException e) {
 			throw e;
-		}catch (Exception e) {
+		} catch (Exception e) {
 		}
 	}
-        
-        public static void main(String[] args) {
+
+	public static void main(String[] args) {
 		new StplConfigReader().readFile();
-		System.out.println("StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBea-->>"
-				+ Arrays.asList(
-						StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean().getSpecialCharArray()));
-}
+		System.out.println("StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBea-->>" + Arrays
+				.asList(StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean().getSpecialCharArray()));
+	}
 }

@@ -19,7 +19,7 @@ public class GtnWsReportVaribleRowResultTransformer implements ResultTransformer
 	@Override
 	public Object transformTuple(Object[] tuple, String[] aliases) {
 		Map<String, GtnWsReportRightTableData> variableBasedData = new HashMap<>(16);
-		
+
 		String hierarchyNo = (String) tuple[0];
 		for (int k = 4; k < aliases.length; k++) {
 
@@ -47,7 +47,8 @@ public class GtnWsReportVaribleRowResultTransformer implements ResultTransformer
 				variableBasedData.put(hierarchyNo + variableName, rowData);
 			}
 			Double doubleData = tuple[k] == null ? 0D : ((BigDecimal) tuple[k]).doubleValue();
-			rowData.getDataMap().put(rowData.getPeriod() + "" + rowData.getYear() + variableCategory, doubleData);
+			rowData.getDataMap().put(Integer.toString(rowData.getPeriod()) + rowData.getYear() + variableCategory,
+					doubleData);
 		}
 
 		return variableBasedData;

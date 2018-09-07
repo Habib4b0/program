@@ -208,10 +208,7 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 			GtnWsForecastConfigurationRequest fcRequest = new GtnWsForecastConfigurationRequest();
 			getModifiedRequest(fcRequest, parameters);
 			request.setForecastConfigurationRequest(fcRequest);
-			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-					GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
-							+ GtnWsForecastConfigurationConstants.CHECK_SAVE_FORECAST_CONF,
-					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebserviceResponse response = getResponse(wsclient, request);
 			GtnWsForecastConfigurationResponse fcResponse = response.getGtnWsForecastConfigurationResponse();
 			GtnUIFrameworkBaseComponent errorLabelBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(11).toString());
@@ -230,6 +227,14 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 		} catch (Exception e) {
 			LOGGER.info("**************************");
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebServiceClient wsclient,
+			GtnUIFrameworkWebserviceRequest request) {
+		return wsclient.callGtnWebServiceUrl(
+				GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
+						+ GtnWsForecastConfigurationConstants.CHECK_SAVE_FORECAST_CONF,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	private void confirmSaveForecastConfiguration(String componentId, GtnUIFrameworkWebserviceRequest request,

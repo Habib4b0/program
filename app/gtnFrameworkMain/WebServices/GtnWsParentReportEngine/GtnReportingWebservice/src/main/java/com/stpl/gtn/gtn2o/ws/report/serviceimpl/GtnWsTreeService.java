@@ -29,7 +29,11 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTr
 public class GtnWsTreeService {
 
 	@Autowired
-	GtnWsMongoDBConnectionService connection;
+	private GtnWsMongoDBConnectionService connection;
+
+	public GtnWsTreeService() {
+		super();
+	}
 
 	public GtnWsReportEngineTreeNode buildTree(List<Object[]> resultList, GtnWsHierarchyType indicator) {
 		GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
@@ -42,7 +46,6 @@ public class GtnWsTreeService {
 			child.setLevelValue(String.valueOf(results[1]));
 			child.setLevelName(String.valueOf(results[2]));
 			child.setLevelNumber(Integer.parseInt(String.valueOf(results[3])));
-			// child.setRelationshipLevelValue(Integer.parseInt(String.valueOf(results[4])));
 			child.setIndicator(indicator);
 			addChildrenRecursively(root, child);
 
@@ -189,9 +192,9 @@ public class GtnWsTreeService {
 			Set<Integer> ccpList = new HashSet<>();
 			Set<Integer> rsList = new HashSet<>();
 			for (Object[] object : ccpResult) {
-				ccpList.add(Integer.parseInt(object[0].toString()));
+				ccpList.add(Integer.valueOf(object[0].toString()));
 				if (object[3] != null) {
-					rsList.add(Integer.parseInt(object[3].toString()));
+					rsList.add(Integer.valueOf(object[3].toString()));
 				}
 			}
 			for (GtnWsReportVariablesType variable : variableList) {
@@ -294,7 +297,7 @@ public class GtnWsTreeService {
 							rsIdList = new HashSet<>();
 							distinctDiscountNode.put(discount[discountLevelIndex], rsIdList);
 						}
-						rsIdList.add(Integer.parseInt(rsId[3].toString()));
+						rsIdList.add(Integer.valueOf(rsId[3].toString()));
 					}
 				}
 
@@ -432,30 +435,31 @@ public class GtnWsTreeService {
 
 	private GtnWsReportEngineTreeNode createNewNode(GtnWsReportEngineTreeNode copyNode, Object[] objects,
 			GtnWsReportEngineTreeNode root, GtnWsReportEngineTreeNode node, int currentLevel) {
+		GtnWsReportEngineTreeNode copiedNode = copyNode;
 		if (root.isDiscountAvailable()) {
 			if (objects[3] != null && root.getRsIds().contains(objects[3])) {
-				if (copyNode == null) {
-					copyNode = node.copy();
-					copyNode.setLevelNumber(currentLevel);
-					setParentDetails(root, copyNode);
+				if (copiedNode == null) {
+					copiedNode = node.copy();
+					copiedNode.setLevelNumber(currentLevel);
+					setParentDetails(root, copiedNode);
 				}
-				root.addCcpIds(Integer.parseInt(objects[0].toString()));
-				copyNode.addCcpIds(Integer.parseInt(objects[0].toString()));
-				copyNode.addRsIds(Integer.parseInt(objects[3].toString()));
+				root.addCcpIds(Integer.valueOf(objects[0].toString()));
+				copiedNode.addCcpIds(Integer.valueOf(objects[0].toString()));
+				copiedNode.addRsIds(Integer.valueOf(objects[3].toString()));
 			}
 
 		} else {
-			if (copyNode == null) {
-				copyNode = node.copy();
-				copyNode.setLevelNumber(currentLevel);
-				setParentDetails(root, copyNode);
+			if (copiedNode == null) {
+				copiedNode = node.copy();
+				copiedNode.setLevelNumber(currentLevel);
+				setParentDetails(root, copiedNode);
 			}
-			copyNode.addCcpIds(Integer.parseInt(objects[0].toString()));
+			copiedNode.addCcpIds(Integer.valueOf(objects[0].toString()));
 			if (objects[3] != null) {
-				copyNode.addRsIds(Integer.parseInt(objects[3].toString()));
+				copiedNode.addRsIds(Integer.valueOf(objects[3].toString()));
 			}
 		}
-		return copyNode;
+		return copiedNode;
 	}
 
 	private List<GtnWsReportEngineTreeNode> getRootChildren(List<GtnWsReportEngineTreeNode> nodeList,
@@ -471,9 +475,9 @@ public class GtnWsTreeService {
 						copyNode = node.copy();
 						copyNode.setLevelNumber(currentLevel);
 					}
-					copyNode.addCcpIds(Integer.parseInt(objects[0].toString()));
+					copyNode.addCcpIds(Integer.valueOf(objects[0].toString()));
 					if (objects[3] != null) {
-						copyNode.addRsIds(Integer.parseInt(objects[3].toString()));
+						copyNode.addRsIds(Integer.valueOf(objects[3].toString()));
 					}
 
 				}

@@ -54,7 +54,7 @@ public class GtnUIFrameWorkDefaultResetValueActionTest {
     }
     
 	@Test
-	public void testDoAction() throws GtnFrameworkGeneralException {
+	public void testDoAction_1() throws GtnFrameworkGeneralException {
 		GtnUIFrameWorkDefaultResetValueAction instance = new GtnUIFrameWorkDefaultResetValueAction();
 		String componentId="";
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
@@ -67,8 +67,21 @@ public class GtnUIFrameWorkDefaultResetValueActionTest {
 		gtnUIFrameWorkActionConfig.setActionParameterList(resetActionParams);
 		instance.doAction(componentId, gtnUIFrameWorkActionConfig);
 		
-		
 	}
 
-
+	@Test
+	public void testDoAction_2() throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkDefaultResetValueAction instance = new GtnUIFrameWorkDefaultResetValueAction();
+		String componentId="";
+		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
+		
+		
+		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class, GtnUIFrameWorkAction.class, GtnUIFrameworkActionExecutor.class);
+		List<Object> resetActionParams = Arrays.asList(1, 2, 3, 4);
+		resetActionParams.set(2, null);
+		resetActionParams.set(1, null);
+		gtnUIFrameWorkActionConfig.setActionParameterList(resetActionParams);
+		instance.doAction(componentId, gtnUIFrameWorkActionConfig);
+		
+	}
 }

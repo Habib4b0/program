@@ -3670,7 +3670,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     || String.valueOf(propertyId).contains("ProjectedAmount")) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, getConverter(propertyId.toString()));
 
-            } else if (String.valueOf(propertyId).contains(Constant.ACTUALRPU)) {
+            } else if (String.valueOf(propertyId).endsWith("RPU")) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, priceFormat);
             } else {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, percentFormat);

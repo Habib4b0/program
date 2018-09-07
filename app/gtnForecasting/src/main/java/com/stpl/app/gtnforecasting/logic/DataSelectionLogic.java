@@ -1383,7 +1383,7 @@ public class DataSelectionLogic {
 			if (resultss != null) {
 				resultList = new ArrayList<>();
 				for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
-					Object objects[] = (Object[]) resultss.get(loop);
+					Object objects[] = resultss.get(loop);
 					dto = new Leveldto();
 					dto.setLevelNo(DataTypeConverter.convertObjectToInt(objects[0]));
 					dto.setRelationshipLevelValue(String.valueOf(objects[1]));
@@ -1603,7 +1603,7 @@ public class DataSelectionLogic {
 		parameters.put("relationshipLevelValue", relationshipLevelValue);
 		parameters.put(Constant.FIELD_NAME, fieldName);
 		try {
-			list = (List) dataSelectionDao.executeQuery(parameters);
+			list = dataSelectionDao.executeQuery(parameters);
 			return list;
 		} catch (SystemException e) {
 			LOGGER.error(e.getMessage());

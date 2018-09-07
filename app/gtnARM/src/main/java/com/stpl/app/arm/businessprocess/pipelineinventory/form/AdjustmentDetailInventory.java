@@ -33,9 +33,11 @@ public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentDetailInventory.class);
     private boolean creditFlag;
+    private AbstractSelectionDTO inventorySelection;
 
     public AdjustmentDetailInventory(AbstractSelectionDTO selectionDto) {
         super(new PIDetailsLogic(), selectionDto);
+        this.inventorySelection = selectionDto;
         init();
     }
 
@@ -43,22 +45,22 @@ public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
      * To set the values to the DTO This method will be called before generate
      */
     public void setSelection() {
-        selection.setDetailLevel(level.getValue().toString());
-        selection.setDetailvariables(Arrays.asList(variableValue));
+        inventorySelection.setDetailLevel(level.getValue().toString());
+        inventorySelection.setDetailvariables(Arrays.asList(variableValue));
         List<List> account = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
-        selection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
+        inventorySelection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
         List<String> amtFilter = CommonUtils.getSelectedVariables(amountFilterItem);
-        selection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
+        inventorySelection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
 
-        selection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
-        creditFlag = logic.cerditDebitEqualCheck(selection);
+        inventorySelection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
+        creditFlag = logic.cerditDebitEqualCheck(inventorySelection);
     }
 
     @Override
     protected void generateBtn() {
         setSelection();
-        if (logic.generateButtonCheck(selection) && !creditFlag) {
+        if (logic.generateButtonCheck(inventorySelection) && !creditFlag) {
             super.generateBtn();
             tableLogic.loadSetData(Boolean.TRUE);
         } else if (creditFlag && isGenerateFlag()) {
@@ -70,7 +72,7 @@ public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
 
     @Override
     protected void loadReserveAccount() {
-        List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
+        List<List> list = logic.getReserveAccountDetails(inventorySelection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
         CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
                 Arrays.copyOf(list.get(1).toArray(), list.get(1).size(), String[].class));
         CommonUtils.checkAllMenuBarItem(reserveMenuItem);
