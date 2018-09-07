@@ -9,6 +9,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.vaadin.ui.Component;
 
@@ -40,7 +41,8 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
         ExtCustomTable table = (ExtCustomTable) uiContext;
         int singleVisibleColumn = ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())
                 ? 0 : Integer.valueOf(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
-        if (singleVisibleColumn == (dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) || ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())) {
+        if (checkContainsMasterSids(singleVisibleColumn, dto) || ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())
+                || (checkIsSummaryTypeDeductionCustomerContract() && checkIsProductFilterLevel())) {
             String doubleVisibleHeader = table.getDoubleHeaderColumnHeader(table.getDoubleHeaderForSingleHeader(propertyId.toString()));
             Double value = 0.0;
             boolean isEmptied = false;
@@ -64,6 +66,18 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
         }
     }
 
+    private static boolean checkContainsMasterSids(int singleVisibleColumn, AdjustmentDTO dto) {
+        return dto.getMasterIds().isEmpty() ? false : singleVisibleColumn == (dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
+    }
+
+    private boolean checkIsSummaryTypeDeductionCustomerContract() {
+        return selection.getSummaryviewType() == null ? false : selection.getSummaryviewType().equalsIgnoreCase(ARMConstants.getDeductionCustomerContract());
+    }
+
+    private boolean checkIsProductFilterLevel() {
+        return selection.getSummarylevelFilterValue() != null ? selection.getSummarylevelFilterValue().equals("Product") : false;
+    }
+
     private String getPeriod(String doubleVisibleHeader) {
         String period;
         if ("M".equals(selection.getSummarydemandfrequency().substring(0, 1))) {
@@ -80,10 +94,12 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
     private List getParameterList(AdjustmentDTO dto, boolean isEmptied, Double value, String period) {
         List input = new ArrayList();
         input.add(selection.getProjectionMasterSid());
-        input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
-        input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
-        input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.BRAND.toString()));
-        input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
+  //      if (!(checkIsSummaryTypeDeductionCustomerContract() && checkIsProductFilterLevel())) {
+            input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
+            input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
+            input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.BRAND.toString()));
+            input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
+ //       }
         input.add(dto.getBranditemmasterSid());
         input.add(isEmptied ? "NULL" : value.toString());
         input.add(selection.getSummarydemandfrequency().substring(0, 1));

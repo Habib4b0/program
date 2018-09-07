@@ -2559,7 +2559,6 @@ public class DataSelection extends AbstractDataSelection {
                 sessionDTO.setCurrentTableNames(QueryUtils.createTempTables("ARM_CCP_HIERARCHY", sessionDTO.getProjectionId(), sessionDTO.getUserId().toString(), sessionDTO.getSessionId().toString()));
                 getCustTopLevelName();
                 logic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), dataSelectionDTO);
-                (new QueryUtils()).ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), dataSelectionDTO, selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), topLevelName, Boolean.FALSE);
                 logic.saveCcp(sessionDTO.getCurrentTableNames().get("ST_CCP_HIERARCHY"), String.valueOf(projectionIdValue));
                 logic.saveAdjustmentMaster(dataSelectionDTO);
                 return true;
