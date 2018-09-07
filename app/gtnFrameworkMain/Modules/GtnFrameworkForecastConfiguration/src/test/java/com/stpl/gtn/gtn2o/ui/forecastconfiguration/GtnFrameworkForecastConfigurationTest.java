@@ -42,8 +42,9 @@ public class GtnFrameworkForecastConfigurationTest {
 	}
 
 	@Test
-    public void testInit() throws Exception {
+    public void testInit() {
         System.out.println("init");
+        try{
         VaadinRequest request = null;
         UI ui = new UI() {
 
@@ -65,6 +66,10 @@ public class GtnFrameworkForecastConfigurationTest {
 
         PowerMockito.whenNew(GtnUIFrameworkEngine.class).withAnyArguments().thenReturn(engine);
         instance.init(request);
- 
+
+    }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
