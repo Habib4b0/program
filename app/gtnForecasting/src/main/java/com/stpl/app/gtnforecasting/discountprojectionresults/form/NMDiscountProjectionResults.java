@@ -772,7 +772,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         } else if (sessionDto.getTradingPartner() == 0) {
             DiscountProjectionResultsLogic logic = new DiscountProjectionResultsLogic();
             String query = logic.getTradingPartnerLevel(projectionDTO.getProjectionId());
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 int tpLevel = Integer.parseInt(String.valueOf(list.get(0)));
                 sessionDto.setTradingPartner(tpLevel);

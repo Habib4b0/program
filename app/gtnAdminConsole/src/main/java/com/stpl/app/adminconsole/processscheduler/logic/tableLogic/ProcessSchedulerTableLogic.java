@@ -32,8 +32,7 @@ public class ProcessSchedulerTableLogic extends PageTableLogic{
 
     @Override
     public List loadData(int start, int offset) {
-        List list = logic.getSearchResult(false, start,offset, true,getSortByColumns());
-        return list;
+        return logic.getSearchResult(false, start,offset, true,getSortByColumns());
     }
 
     @Override

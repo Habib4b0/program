@@ -49,7 +49,7 @@ public abstract class AbstractHierarchyLookup extends AbstractLookup {
 	 */
 	private OptionGroup hierarchyType;
 
-	public AbstractHierarchyLookup(final String windowName, final String moduleIndicator) {
+	public AbstractHierarchyLookup(final String windowName) {
 		super(windowName);
 		setWidth(NumericConstants.THOUSAND, Sizeable.Unit.PIXELS);
 		setHeight(NumericConstants.EIGHT_FOUR_FIVE, Sizeable.Unit.PIXELS);

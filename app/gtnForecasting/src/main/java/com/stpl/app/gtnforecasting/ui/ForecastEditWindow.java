@@ -29,7 +29,7 @@ public class ForecastEditWindow extends CustomWindow {
     protected String screenName;
     protected final DataSelectionForm dataSelectionForm;
 
-     public ForecastEditWindow(String projectionName, SessionDTO session, final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm) throws Exception {
+     public ForecastEditWindow(String projectionName, SessionDTO session, final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm) {
         super(projectionName);
         this.session = session;
         this.resultTable = resultTable;

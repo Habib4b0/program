@@ -12,16 +12,16 @@ public class BasePersistanceProvider {
     @SuppressWarnings("unchecked")
     protected static List<Object[]> executeSelectQuery(String customQuery, Object udc1, Object udc2) {
 
-        return (List<Object[]>) new NMSalesProjectionMasterImpl().executeSelectQuery(customQuery, udc1, udc2);
+        return (List<Object[]>) new NMSalesProjectionMasterImpl().executeSelectQuery(customQuery);
     }
 
     protected static Boolean executeBulkUpdateQuery(String customQuery, Object udc1, Object udc2) {
 
-        return (Boolean) new NMSalesProjectionMasterImpl().executeBulkUpdateQuery(customQuery, udc1, udc2);
+        return (Boolean) new NMSalesProjectionMasterImpl().executeBulkUpdateQuery(customQuery);
     }
 
-    protected static Boolean executeUpdateQuery(List<?> nmSalesList, Object udc1, Object udc2, Object udc3) {
+    protected static Boolean executeUpdateQuery(List<?> nmSalesList) {
 
-        return (Boolean) new NMSalesProjectionMasterImpl().executeUpdateQuery(nmSalesList, udc1, udc2, udc3);
+        return (Boolean) new NMSalesProjectionMasterImpl().executeUpdateQuery(nmSalesList);
     }
 }

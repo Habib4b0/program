@@ -127,11 +127,17 @@ public class StplSAMLResponseParser {
 				StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean().getIssuerPublicCertificate());
 		SAMLSignatureProfileValidator profileValidator = new SAMLSignatureProfileValidator();
 		Signature signature = response.getSignature();
+		if (signature == null) {
+			signature = response.getAssertions().get(0).getSignature();
+		}
 		try {
 			profileValidator.validate(signature);
 			signatureValidator.validate(signature);
 		} catch (ValidationException ve) {
 			LOGGER.error("Signature is Not Valid");
+			return false;
+		} catch (Exception E) {
+			LOGGER.error("Signature is Not Valid", E);
 			return false;
 		}
 		LOGGER.info("Signature is  Valid");

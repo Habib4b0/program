@@ -68,10 +68,10 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         String period = StringUtils.EMPTY;
         String description = ratePeriod.contains("CURRENT") ? ratePeriod : HelperListUtil.getInstance().getDescriptionByID(Integer.valueOf(ratePeriod)).trim();
         if (StringUtils.isNotBlank(frequency) && StringUtils.isNotBlank(description)) {
-            int monthNoWithPlus = description.contains("+") ? Integer.valueOf(description.split("[+]")[1].trim()) : 0;
-            int monthNo = description.contains("-") ? Integer.valueOf(description.split("-")[1].trim()) : monthNoWithPlus;
-            int currentPlus = description.contains("+") ? 1 * getFreqDistribution(frequency.trim().charAt(0)) : 0;
-            int currentMinus = description.contains("-") ? -1 * getFreqDistribution(frequency.trim().charAt(0)) : currentPlus;
+            int monthNoWithPlus = getMonthNoWithPlus(description);
+            int monthNo = getMonthNo(description, monthNoWithPlus);
+            int currentPlus = getCurrentPlus(description, frequency);
+            int currentMinus = getCurrentMinus(description, frequency, currentPlus);
             monthNo = currentMinus * monthNo;
             String freq = frequency.trim().toUpperCase(Locale.ENGLISH);
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
@@ -91,9 +91,8 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
             month = calendar.get(Calendar.MONTH);
             quarter = String.valueOf(month / NumericConstants.THREE + 1);
             semi = String.valueOf(month / NumericConstants.SIX + 1);
-            String periodWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
-            String periodWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year
-                    : periodWithS;
+            String periodWithS = getPeriodWithSemi(freq, semi, year);
+            String periodWithQ = getPeriodWithQuarter(freq, quarter, year, periodWithS);
             period = freq.startsWith("M") ? months[month] + " " + year : periodWithQ;
         }
         /**
@@ -123,6 +122,31 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         return period;
     }
 
+    private String getPeriodWithQuarter(String freq, String quarter, String year, String periodWithS) {
+        return freq.startsWith("Q") ? "Q" + quarter + " " + year
+                : periodWithS;
+    }
+
+    private static String getPeriodWithSemi(String freq, String semi, String year) {
+        return freq.startsWith("S") ? "S" + semi + " " + year : year;
+    }
+
+    private int getCurrentMinus(String description, String frequency, int currentPlus) {
+        return description.contains("-") ? -1 * getFreqDistribution(frequency.trim().charAt(0)) : currentPlus;
+    }
+
+    private int getCurrentPlus(String description, String frequency) {
+        return description.contains("+") ? 1 * getFreqDistribution(frequency.trim().charAt(0)) : 0;
+    }
+
+    private int getMonthNo(String description, int monthNoWithPlus) {
+        return description.contains("-") ? Integer.valueOf(description.split("-")[1].trim()) : monthNoWithPlus;
+    }
+
+    private int getMonthNoWithPlus(String description) {
+        return description.contains("+") ? Integer.valueOf(description.split("[+]")[1].trim()) : 0;
+    }
+
     /**
      * This is same method as above method - getRatePeriod But this method
      * returns Date in String format based on the DATA selection from Date.
@@ -140,10 +164,10 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         String period = StringUtils.EMPTY;
         String description = ratePeriod.contains("CURRENT") ? ratePeriod : HelperListUtil.getInstance().getDescriptionByID(Integer.valueOf(ratePeriod)).trim();
         if (StringUtils.isNotBlank(frequency) && StringUtils.isNotBlank(description)) {
-            int monthNoWithPlus = description.contains("+") ? Integer.valueOf(description.split("[+]")[1].trim()) : 0;
-            int monthNo = description.contains("-") ? Integer.valueOf(description.split("-")[1].trim()) : monthNoWithPlus;
-            int currentPlus = description.contains("+") ? 1 * getFreqDistribution(frequency.trim().charAt(0)) : 0;
-            int currentMinus = description.contains("-") ? -1 * getFreqDistribution(frequency.trim().charAt(0)) : currentPlus;
+            int monthNoWithPlus = getMonthNoWithPlus(description);
+            int monthNo = getMonthNo(description, monthNoWithPlus);
+            int currentPlus = getCurrentPlus(description, frequency);
+            int currentMinus = getCurrentMinus(description, frequency, currentPlus);
             monthNo = currentMinus * monthNo;
             String freq = frequency.trim().toUpperCase(Locale.ENGLISH);
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
@@ -164,9 +188,8 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
             month = calendar.get(Calendar.MONTH);
             quarter = String.valueOf(month / NumericConstants.THREE + 1);
             semi = String.valueOf(month / NumericConstants.SIX + 1);
-            String periodWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
-            String periodWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year
-                    : periodWithS;
+            String periodWithS = getPeriodWithSemi(freq, semi, year);
+            String periodWithQ = getPeriodWithQuarter(freq, quarter, year, periodWithS);
             period = freq.startsWith("M") ? months[month] + " " + year : periodWithQ;
         }
         /**

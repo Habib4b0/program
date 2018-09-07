@@ -819,7 +819,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		GtnUIFrameWorkActionConfig popupCloseAction = new GtnUIFrameWorkActionConfig();
 		popupCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		popupCloseAction.addActionParameter("dataSelectionComparisonLookupView");
-		submitActionList.add(popupCloseAction);
+		projectionSubmitAction.addActionParameter(popupCloseAction);
 		submitButton.setGtnUIFrameWorkActionConfigList(submitActionList);
 	}
 
