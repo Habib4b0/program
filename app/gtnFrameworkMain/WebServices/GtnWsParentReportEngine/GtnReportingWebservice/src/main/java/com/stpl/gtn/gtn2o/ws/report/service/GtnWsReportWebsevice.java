@@ -320,8 +320,8 @@ public class GtnWsReportWebsevice {
 			String comparisonNDC = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.COMPARISON_NDC);
 			String contract = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.CONTRACT2);
 			String projectionDescription = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.DESCRIPTION);
-			String fromPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.FROM_PERIOD);
-			String toPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.TO_PERIOD);
+			String fromPeriod = getFromCriteriaMapForDate(criteriaMap, GtnWsQueryConstants.FROM_PERIOD);
+			String toPeriod = getFromCriteriaMapForDate(criteriaMap, GtnWsQueryConstants.TO_PERIOD);
 			String createdDate = criteriaMap.get(GtnWsQueryConstants.CREATED_DATE) == null
 					|| criteriaMap.get(GtnWsQueryConstants.CREATED_DATE).equals("null") ? "%"
 							: criteriaMap.get(GtnWsQueryConstants.CREATED_DATE);
@@ -394,8 +394,8 @@ public class GtnWsReportWebsevice {
 			}
 			String projectionName = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.PROJECTION_NAME);
 			String projectionDescription = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.DESCRIPTION);
-			String fromPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.FROM_PERIOD);
-			String toPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.TO_PERIOD);
+			String fromPeriod = getFromCriteriaMapForDate(criteriaMap, GtnWsQueryConstants.FROM_PERIOD);
+			String toPeriod = getFromCriteriaMapForDate(criteriaMap, GtnWsQueryConstants.TO_PERIOD);
 			String customViewMasterSid = criteriaMap.get(GtnWsQueryConstants.CUSTOM_VIEW_NAME);
 			String contract = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.CONTRACT2);
 			String marketType = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.MARKET_TYPE);
@@ -436,6 +436,10 @@ public class GtnWsReportWebsevice {
 
 	private String getFromCriteriaMap(Map<String, String> criteriaMap, String key) {
 		return criteriaMap.get(key) == null ? "%" : criteriaMap.get(key);
+	}
+
+	private String getFromCriteriaMapForDate(Map<String, String> criteriaMap, String key) {
+		return criteriaMap.get(key) == null ? "" : criteriaMap.get(key);
 	}
 
 	private String getCriteria(GtnWebServiceSearchCriteria searchCriteria) {
