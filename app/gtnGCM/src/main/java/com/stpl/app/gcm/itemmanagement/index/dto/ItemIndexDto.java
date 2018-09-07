@@ -69,35 +69,35 @@ public class ItemIndexDto {
         this.identifier = identifier;
     }
 
-    public HelperDTO getTherapeuticClass_DTO() {
+    public HelperDTO getTherapeuticClassDto() {
         return therapeuticClassDTO;
     }
 
-    public void setTherapeuticClass_DTO(HelperDTO therapeuticClassDto) {
+    public void setTherapeuticClassDto(HelperDTO therapeuticClassDto) {
         this.therapeuticClassDTO = therapeuticClassDto;
     }
 
-    public HelperDTO getForm_DTO() {
+    public HelperDTO getFormDto() {
         return formDTO;
     }
 
-    public void setForm_DTO(HelperDTO formDto) {
+    public void setFormDto(HelperDTO formDto) {
         this.formDTO = formDto;
     }
 
-    public HelperDTO getIdentifierType_DTO() {
+    public HelperDTO getIdentifierTypeDto() {
         return identifierTypeDTO;
     }
 
-    public void setIdentifierType_DTO(HelperDTO identifierTypeDto) {
+    public void setIdentifierTypeDto(HelperDTO identifierTypeDto) {
         this.identifierTypeDTO = identifierTypeDto;
     }
 
-    public HelperDTO getBrand_DTO() {
+    public HelperDTO getBrandDto() {
         return brandDTO;
     }
 
-    public void setBrand_DTO(HelperDTO brandDto) {
+    public void setBrandDto(HelperDTO brandDto) {
         this.brandDTO = brandDto;
     }
 

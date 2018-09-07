@@ -388,11 +388,11 @@ public class ItemManagementIndex extends CustomComponent {
             if ((binderDto.getItemId() == null || binderDto.getItemId().isEmpty())
                     && (binderDto.getItemName() == null || binderDto.getItemName().isEmpty())
                     && (binderDto.getTherapeuticClass() == null || Constants.SELECT_ONE.equals(binderDto.getTherapeuticClass()))
-                    && (binderDto.getForm_DTO() == null)
-                    && binderDto.getIdentifierType_DTO() == null
+                    && (binderDto.getFormDto() == null)
+                    && binderDto.getIdentifierTypeDto() == null
                     && (binderDto.getItemNo() == null || binderDto.getItemNo().isEmpty())
                     && (binderDto.getItemDesc() == null || binderDto.getItemDesc().isEmpty())
-                    && (binderDto.getBrand_DTO() == null)
+                    && (binderDto.getBrandDto() == null)
                     && (binderDto.getStrength_DTO() == null)
                     && (binderDto.getIdentifier() == null || binderDto.getIdentifier().isEmpty())
                     && (binderDto.getCompany_DTO() == null)

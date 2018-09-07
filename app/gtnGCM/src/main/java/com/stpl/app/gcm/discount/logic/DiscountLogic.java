@@ -2533,7 +2533,7 @@ public class DiscountLogic {
         return new Date();
     }
     
-    public List<PSComponentDetailsDTO> getDiscountItemsForPS_RS(String userId, String sessionId, List<String> itemsList) {
+    public List<PSComponentDetailsDTO> getDiscountItemsForPsRs(String userId, String sessionId, List<String> itemsList) {
         LOGGER.debug(" Inside getDiscountItemsForPS");
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);

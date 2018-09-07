@@ -1787,7 +1787,7 @@ public class NewDiscountTab extends CustomComponent {
     private void loadPsFromCD(final ContractsDetailsDto parent, int internalId, String userid, String sessionid) {
         levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         if (internalId == 0) {
-            levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForPS_RS(userid, sessionid, parent.getAttachedList()));
+            levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForPsRs(userid, sessionid, parent.getAttachedList()));
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromPsCD(parent));
         }
@@ -1800,7 +1800,7 @@ public class NewDiscountTab extends CustomComponent {
     private void loadRsFromCD(final ContractsDetailsDto parent, int internalId, String userid, String sessionid) {
         levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         if (internalId == 0) {
-            levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForPS_RS(userid, sessionid, parent.getAttachedList()));
+            levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForPsRs(userid, sessionid, parent.getAttachedList()));
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromRsCD(parent));
         }

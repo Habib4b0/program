@@ -925,7 +925,7 @@ public class Newcomponent extends CustomComponent {
                 }
             });
 
-            String query = queryUtils.LoadmassupdateCompany(ids);
+            String query = queryUtils.loadmassupdateCompany(ids);
             List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (itemList != null && !itemList.isEmpty()) {
                 for (int i = 0; i < itemList.size(); i++) {
@@ -2299,7 +2299,7 @@ public class Newcomponent extends CustomComponent {
                 cfpDetailsName.setValue(detailsName);
                 cfpDetailsNo.setEnabled(false);
                 cfpDetailsName.setEnabled(false);
-                String query = queryUtils.LoadmassupdateCompany(selectedCompanies);
+                String query = queryUtils.loadmassupdateCompany(selectedCompanies);
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (itemList != null && !itemList.isEmpty()) {
                     for (int i = 0; i < itemList.size(); i++) {
