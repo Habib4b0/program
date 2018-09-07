@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUiFrameworkComboBoxSourceType;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkClassLoader;
@@ -50,6 +51,7 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 		comboBoxVaadinMultiSelect.setSelectAllButtonCaption("Select All");
 		comboBoxVaadinMultiSelect.setPopupWidth(null);
 		comboBoxVaadinMultiSelect.showClearButton(true);
+		
 		loadStyles(comboBoxVaadinMultiSelect, multiSelectComponentConfig.getComponentStyle());
 		if (!multiSelectComponentConfig.getComboBoxComponentStyle().isEmpty()) {
 			loadStyles(comboBoxVaadinMultiSelect, multiSelectComponentConfig.getComboBoxComponentStyle());
@@ -82,14 +84,18 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 
 		if (checkedComboBoxConfig.getItemValueList() != null) {
 			if (checkedComboBoxConfig.getItemCodeList() != null) {
+				
 				comboBoxVaadinMultiSelect.setItems(checkedComboBoxConfig.getItemCodeList());
 				comboBoxVaadinMultiSelect.setItemCaptionGenerator(item -> checkedComboBoxConfig.getItemValueList()
 						.get(checkedComboBoxConfig.getItemCodeList().indexOf(item)));
+				
 				return comboBoxVaadinMultiSelect;
+				
 			}
 			comboBoxVaadinMultiSelect.setItems(checkedComboBoxConfig.getItemValueList());
+			new GtnUIFrameworkComboBoxComponent().setPageLengthBasedOnTheNumberOfRecords(checkedComboBoxConfig.getItemValueList().size() ,comboBoxVaadinMultiSelect);
 		}
-
+		
 		return comboBoxVaadinMultiSelect;
 	}
 
@@ -241,6 +247,7 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 				}
 			}
 			gtnLogger.info("Fill Data And Caption to the Component" + vaadinMultiSelect);
+			new GtnUIFrameworkComboBoxComponent().setPageLengthBasedOnTheNumberOfRecords(valueList.size() ,vaadinMultiSelect);
 			return vaadinMultiSelect;
 		} catch (Exception e) {
 			gtnLogger.error("Error message", e);

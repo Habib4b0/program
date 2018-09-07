@@ -41,6 +41,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableFilterGenerator;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.component.tree.GtnUIFrameworkTreeComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
@@ -431,6 +432,7 @@ public class GtnUIFrameworkBaseComponent {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
 			vaadinMultiSelect.setItems(idList);
 			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
+			new GtnUIFrameworkComboBoxComponent().setPageLengthBasedOnTheNumberOfRecords(valueList.size() ,vaadinMultiSelect);
 			vaadinMultiSelect.markAsDirty();
 
 		} catch (Exception typeException) {
@@ -465,7 +467,7 @@ public class GtnUIFrameworkBaseComponent {
 			vaadinComboBox.setItems(idList);
 			vaadinComboBox
 					.setItemCaptionGenerator(item -> Optional.ofNullable(valueList.get(idList.indexOf(item))).get());
-
+			new GtnUIFrameworkComboBoxComponent().setPageLengthBasedOnTheNumberOfRecords(valueList.size() ,vaadinComboBox);
 			GtnUIFrameworkComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnComboboxConfig();
 			if (!comboboxConfig.isHasDefaultValue()) {
 				String defaultValue = comboboxConfig.getDefaultValue() != null
@@ -483,6 +485,7 @@ public class GtnUIFrameworkBaseComponent {
 					}
 				}
 			}
+			new GtnUIFrameworkComboBoxComponent().setPageLengthBasedOnTheNumberOfRecords(valueList.size() ,vaadinComboBox);
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}

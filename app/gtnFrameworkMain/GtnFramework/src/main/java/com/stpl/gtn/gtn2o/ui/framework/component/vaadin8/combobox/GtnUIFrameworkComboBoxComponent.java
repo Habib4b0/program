@@ -1,8 +1,11 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import org.vaadin.addons.ComboBoxMultiselect;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -444,7 +447,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 	@SuppressWarnings("unchecked")
 	private ComboBox fillDataAndCaption(GtnUIFrameworkComboBoxConfig comboboxConfig, List itemCodeList,
 			List<String> itemValueList, ComboBox vaadinComboBox) {
-
+		vaadinComboBox.markAsDirty();
 		try {
 			List valueList = new ArrayList<>(itemCodeList);
 			List<String> captionList = new ArrayList<>(itemValueList);
@@ -467,11 +470,48 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				}
 			}
 			gtnLogger.info("Fill Data And Caption to the Component" + vaadinComboBox);
+			int valueListSize = valueList.size();
+			setPageLengthBasedOnTheNumberOfRecords(valueListSize ,vaadinComboBox);
 			return vaadinComboBox;
 		} catch (Exception e) {
 			gtnLogger.error("Error message", e);
 		}
 		return null;
+	}
+
+	public void setPageLengthBasedOnTheNumberOfRecords(int valueListSize, Component component) {
+
+		int[] arr = new int[7];
+
+		for (int i = 0; i < 7; i++) {
+			arr[i] = ((7 + i) - (valueListSize % (7 + i)));
+			if (valueListSize % (7 + i) == 0) {
+				arr[i] = 0;
+			}
+		}
+		if (component instanceof ComboBox) {
+			ComboBox comboBox = (ComboBox) component;
+			comboBox.setPageLength(7 + indexOfMin(arr));
+		} else if (component instanceof ComboBoxMultiselect) {
+			ComboBoxMultiselect comboBoxMultiselect = (ComboBoxMultiselect) component;
+			comboBoxMultiselect.setPageLength(7 + indexOfMin(arr));
+		}
+
+	}
+
+	
+
+	private int indexOfMin(int[] a) {
+
+		int min = a[0];
+		int index = 0;
+		for (int i = 0; i < a.length; i++) {
+			if (min >= a[i]) {
+				min = a[i];
+				index = i;
+			}
+		}
+		return index;
 	}
 
 	private void loadStyles(final Component component, final List<String> comboboxStyles) {
