@@ -46,7 +46,7 @@ import com.vaadin.ui.TreeGrid;
 public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass{
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class);
-
+	private String dataSelectionTabProductHierarchy = "dataSelectionTab_producthierarchy";
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -206,11 +206,13 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction impleme
 		rightTable.getDataProvider().refreshAll();
 		rightTable.markAsDirty();
 
+		
+		
 		GtnUIFrameworkComponentData productHierarchyData = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId).getComponentData();
+				.getVaadinBaseComponent(dataSelectionTabProductHierarchy, componentId).getComponentData();
 		productHierarchyData.setCustomData(productRecordBean);
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId)
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(dataSelectionTabProductHierarchy, componentId)
 				.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 
 		Integer productHierarchyDefinitionSid = Integer.valueOf(String

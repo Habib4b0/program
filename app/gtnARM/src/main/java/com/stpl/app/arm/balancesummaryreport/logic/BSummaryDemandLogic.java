@@ -95,24 +95,24 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
     protected Object[] generateInputs(Object dto, SelectionDTO data) {
         Object[] returnObj = new Object[2];
         try {
-            SummarySelection selection = (SummarySelection) data;
+            SummarySelection demandSelection = (SummarySelection) data;
             String rebateRecord;
             List<Object> inputs = new ArrayList<>();
-            inputs.add(selection.getDataSelectionDTO().getProjectionId());
-            inputs.add(selection.getFrequency());
-            selection.setMasterSids(ARMUtils.getMasterIdsMap());
-            inputs = BSummaryDemandLogic.this.getNextLevelDemand(inputs, dto, selection);
-            inputs.add(selection.getFromDate());
-            inputs.add(selection.getToDate());
-            inputs.add(selection.getSessionDTO().getUserId());
-            inputs.add(selection.getSessionDTO().getSessionId());
-            rebateRecord = "WHERE" + ARMUtils.getDeductionValuesMap().get(selection.getSummarydeductionLevelDes()) + " IN ('" + StringUtils.join(selection.getDeductionVariableIds(), "','") + "' )";
-            inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()));
-            inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
-            inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
-            inputs.add(ARMUtils.getDeductionValuesMapForLevel().get(selection.getSummarydeductionLevelDes()));
-            inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
-            inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()));
+            inputs.add(demandSelection.getDataSelectionDTO().getProjectionId());
+            inputs.add(demandSelection.getFrequency());
+            demandSelection.setMasterSids(ARMUtils.getMasterIdsMap());
+            inputs = BSummaryDemandLogic.this.getNextLevelDemand(inputs, dto, demandSelection);
+            inputs.add(demandSelection.getFromDate());
+            inputs.add(demandSelection.getToDate());
+            inputs.add(demandSelection.getSessionDTO().getUserId());
+            inputs.add(demandSelection.getSessionDTO().getSessionId());
+            rebateRecord = "WHERE" + ARMUtils.getDeductionValuesMap().get(demandSelection.getSummarydeductionLevelDes()) + " IN ('" + StringUtils.join(demandSelection.getDeductionVariableIds(), "','") + "' )";
+            inputs.add(demandSelection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : demandSelection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()));
+            inputs.add(demandSelection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : demandSelection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
+            inputs.add(demandSelection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : demandSelection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
+            inputs.add(ARMUtils.getDeductionValuesMapForLevel().get(demandSelection.getSummarydeductionLevelDes()));
+            inputs.add(demandSelection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : demandSelection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
+            inputs.add(demandSelection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()) == null ? "%" : demandSelection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()));
             inputs.add(rebateRecord);
             returnObj[0] = inputs;
             returnObj[1] = new TreeMap();
@@ -131,24 +131,25 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
         return inputs;
     }
 
-    private String getNextLevelGen(SummarySelection selection) {
+    private String getNextLevelGen(SummarySelection demandSelection) {
+        
         String nextLevel;
-        selection.setLevelNo(1);
-        if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(1))) {
-            nextLevel = selection.getSummarydeductionLevelDes();
+        demandSelection.setLevelNo(1);
+        if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(demandSelection.getSummaryLevel().get(1))) {
+            nextLevel = demandSelection.getSummarydeductionLevelDes();
         } else {
-            nextLevel = selection.getSummaryLevel().get(1);
+            nextLevel = demandSelection.getSummaryLevel().get(1);
         }
-        if (selection.getSummaryvalueSid() != 0) {
-            selection.getMasterSids().put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
-        } else if (selection.getSummarylevelFilterNo() != 0) {
-            selection.getMasterSids().put(selection.getSummarylevelFilterValue(), null);
+        if (demandSelection.getSummaryvalueSid() != 0) {
+            demandSelection.getMasterSids().put(demandSelection.getSummarylevelFilterValue(), demandSelection.getSummaryvalueSid());
+        } else if (demandSelection.getSummarylevelFilterNo() != 0) {
+            demandSelection.getMasterSids().put(demandSelection.getSummarylevelFilterValue(), null);
         }
-        if (selection.getSummarylevelFilterNo() != 0) {
-            if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummarylevelFilterValue())) {
-                nextLevel = selection.getSummarydeductionLevelDes();
+        if (demandSelection.getSummarylevelFilterNo() != 0) {
+            if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(demandSelection.getSummarylevelFilterValue())) {
+                nextLevel = demandSelection.getSummarydeductionLevelDes();
             } else {
-                nextLevel = selection.getSummarylevelFilterValue();
+                nextLevel = demandSelection.getSummarylevelFilterValue();
             }
         }
         return nextLevel;
@@ -292,40 +293,40 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
         List<String> visibleColumnsList = new ArrayList<>(visibleColumns);
         int j = 1;
         int keyParam = j;
-        String oldC = StringUtils.EMPTY;
-        String newC;
-        String column;
+        String demandOldC = StringUtils.EMPTY;
+        String demandNewC;
+        String demandColumn;
         AdjustmentDTO dto = null;
         List<Map<String, AdjustmentDTO>> mapList = new ArrayList<>();
         mapList.add(new HashMap<String, AdjustmentDTO>());
         int size;
-        String key = "0.";
+        String demandKey = "0.";
         Double[] total = new Double[6];
         int totalListModIndex = 1;
         if (deductionList != null && !deductionList.isEmpty()) {
             for (int i = 0; i < deductionList.size(); i++) {
                 Object[] resultSet = (Object[]) deductionList.get(i);
                 totalListModIndex = (i + 1) % (selection.getSummaryPeriods() + 1);
-                newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
-                if (!"0".equals(newC)) {
-                    if (!"null".equals(newC)) {
-                        if (!oldC.equals(newC) && object.length > keyParam) {
+                demandNewC = String.valueOf(resultSet[j * NumericConstants.TWO]);
+                if (!"0".equals(demandNewC)) {
+                    if (!"null".equals(demandNewC)) {
+                        if (!demandOldC.equals(demandNewC) && object.length > keyParam) {
                             keyParam++;
                             if ("null".equalsIgnoreCase(String.valueOf(resultSet[(j + 1) * NumericConstants.TWO]))) {
                                 j++;
                             }
                         }
-                    } else if (!"null".equals(oldC)) {
+                    } else if (!"null".equals(demandOldC)) {
                         j = 1;
                         keyParam = 1;
                     }
-                    key = ExcelUtils.getKey(resultSet, keyParam).replace(" ", StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
-                    newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
-                    oldC = newC;
+                    demandKey = ExcelUtils.getKey(resultSet, keyParam).replace(" ", StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
+                    demandNewC = String.valueOf(resultSet[j * NumericConstants.TWO]);
+                    demandOldC = demandNewC;
                 }
                 size = mapList.size();
                 for (int l = 0; l < size; l++) {
-                    dto = mapList.get(l).get(key);
+                    dto = mapList.get(l).get(demandKey);
                     if (dto != null) {
                         break;
                     }
@@ -337,7 +338,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
                         map = new HashMap<>();
                         mapList.add(map);
                     }
-                    map.put(key, dto);
+                    map.put(demandKey, dto);
                 }
                 int indicator = 0;
                 Object value = null;
@@ -354,27 +355,27 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
                 }
                 String headerKey = String.valueOf(result).replace(" ", "").replace("-", StringUtils.EMPTY);
                 for (int k = 0; k < visibleColumns.size(); k++) {
-                    column = visibleColumnsList.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
-                    headerKey = (column.contains(VariableConstants.BEGINNING_BALANCE) && indicator == 2) ? VariableConstants.BEGINNING_BALANCE : headerKey;
+                    demandColumn = visibleColumnsList.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
+                    headerKey = (demandColumn.contains(VariableConstants.BEGINNING_BALANCE) && indicator == 2) ? VariableConstants.BEGINNING_BALANCE : headerKey;
                     String gatheredColumn = StringUtils.EMPTY;
                     List<String> columnList = CommonLogic.getInstance().getDemandColumns();
                     List<String> totalColumnList = CommonLogic.getInstance().getTotalDemandColumns();
                     for (int l = 0; l < columnList.size(); l++) {
                         int index = l % 6;
-                        if (column.contains(columnList.get(l))) {
-                            gatheredColumn = getGatheredColumn(indicator, headerKey, column, totalListModIndex, columnList.get(l));
+                        if (demandColumn.contains(columnList.get(l))) {
+                            gatheredColumn = getGatheredColumn(indicator, headerKey, demandColumn, totalListModIndex, columnList.get(l));
                             if (ARMConstants.getDeductionProduct().equals(selection.getSummaryDeductionView())) {
-                                value = column.contains(totalColumnList.get(l)) ? getNullTotalExcel(total[index]) : resultSet[index + 7];
+                                value = demandColumn.contains(totalColumnList.get(l)) ? getNullTotalExcel(total[index]) : resultSet[index + 7];
                             } else if (ARMConstants.getDeductionCustomer().equals(selection.getSummaryDeductionView()) || ARMConstants.getCustomerDedection().equals(selection.getSummaryDeductionView())) {
-                                value = column.contains(totalColumnList.get(l)) ? getNullTotalExcel(total[index]) : resultSet[index + 9];
+                                value = demandColumn.contains(totalColumnList.get(l)) ? getNullTotalExcel(total[index]) : resultSet[index + 9];
                             } else if (ARMConstants.getDeductionCustomerContract().equals(selection.getSummaryDeductionView())) {
-                                value = column.contains(totalColumnList.get(l)) ? getNullTotalExcel(total[index]) : resultSet[index + 11];
+                                value = demandColumn.contains(totalColumnList.get(l)) ? getNullTotalExcel(total[index]) : resultSet[index + 11];
                             }
                         }
                     }
-                    if (column.startsWith(gatheredColumn) && column.matches("[a-zA-Z0-9-~\\s]+\\.\\d+$")) {
-                        total = !column.contains(ARMUtils.TOTAL) ? getTotal(total, column, value) : total;
-                        dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                    if (demandColumn.startsWith(gatheredColumn) && demandColumn.matches("[a-zA-Z0-9-~\\s]+\\.\\d+$")) {
+                        total = !demandColumn.contains(ARMUtils.TOTAL) ? getTotal(total, demandColumn, value) : total;
+                        dto.addStringProperties(demandColumn, value == null ? StringUtils.EMPTY : String.valueOf(value));
                     }
                 }
                 total = totalListModIndex == 0 ? new Double[6] : total;

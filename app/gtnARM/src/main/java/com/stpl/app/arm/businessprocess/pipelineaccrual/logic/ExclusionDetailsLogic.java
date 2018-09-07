@@ -373,6 +373,7 @@ public class ExclusionDetailsLogic {
     }
 
     private boolean getExculstionFilters(final Set<Container.Filter> filterSet, ViewLookupDTO exRateDTO, boolean makeCount, StringBuilder filterQuery, HashMap<String, String> detailsColumn, StringBuilder exclQuery) {
+        boolean retVal = makeCount;
         if (filterSet != null) {
 
             for (Container.Filter exclFilter : filterSet) {
@@ -381,7 +382,7 @@ public class ExclusionDetailsLogic {
                     String filterString = "%" + stringFilter.getFilterString() + "%";
                     if ("viewCategory".equals(stringFilter.getPropertyId())) {
                         if (!exRateDTO.getViewCategory().toLowerCase(Locale.ENGLISH).contains(stringFilter.getFilterString().toLowerCase(Locale.ENGLISH))) {
-                            makeCount = true;
+                            retVal = true;
                         }
                     } else {
                         filterQuery.append(" AND ").append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
@@ -413,7 +414,7 @@ public class ExclusionDetailsLogic {
                 }
             }
         }
-        return makeCount;
+        return retVal;
     }
 
     private StringBuilder getTempStringBuilder(StringBuilder exclQuery, StringBuilder initialStart, StringBuilder dateStar) {

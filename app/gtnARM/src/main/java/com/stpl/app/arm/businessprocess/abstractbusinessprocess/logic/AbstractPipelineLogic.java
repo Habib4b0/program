@@ -123,9 +123,8 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
     }
 
     private String getPeriodWithQuarter(String freq, String quarter, String year, String periodWithS) {
-        String periodWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year
+        return freq.startsWith("Q") ? "Q" + quarter + " " + year
                 : periodWithS;
-        return periodWithQ;
     }
 
     private static String getPeriodWithSemi(String freq, String semi, String year) {
@@ -141,13 +140,11 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
     }
 
     private int getMonthNo(String description, int monthNoWithPlus) {
-        int monthNo = description.contains("-") ? Integer.valueOf(description.split("-")[1].trim()) : monthNoWithPlus;
-        return monthNo;
+        return description.contains("-") ? Integer.valueOf(description.split("-")[1].trim()) : monthNoWithPlus;
     }
 
     private int getMonthNoWithPlus(String description) {
-        int monthNoWithPlus = description.contains("+") ? Integer.valueOf(description.split("[+]")[1].trim()) : 0;
-        return monthNoWithPlus;
+        return description.contains("+") ? Integer.valueOf(description.split("[+]")[1].trim()) : 0;
     }
 
     /**
