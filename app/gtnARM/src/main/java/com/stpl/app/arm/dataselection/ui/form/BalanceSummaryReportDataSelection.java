@@ -2082,20 +2082,20 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
     private boolean bindDataSelectionValues(boolean isSaveView) {
         try {
-            String msgHeader;
-            String msg;
+            String bsrGenerateMsgHeader;
+            String bsrGenerateMsg;
 
             if (isSaveView) {
-                msgHeader = "No Search Criteria";
-                msg = "No data selection criteria were found. Please enter data selection criteria and try again. ";
+                bsrGenerateMsgHeader = "No Search Criteria";
+                bsrGenerateMsg = "No data selection criteria were found. Please enter data selection criteria and try again. ";
             } else {
-                msgHeader = ARMMessages.getGenerateMessageID002();
-                msg = "Not all required fields have been populated. Please try again.";
+                bsrGenerateMsgHeader = ARMMessages.getGenerateMessageID002();
+                bsrGenerateMsg = "Not all required fields have been populated. Please try again.";
             }
             boolean value = false;
             if (customerHierarchyLookup == null || productHierarchyLookup == null
                     || customerLevel.getValue() == null || productLevel.getValue() == null || deductionLevel.getValue() == null) {
-                AbstractNotificationUtils.getErrorNotification(msgHeader, msg);
+                AbstractNotificationUtils.getErrorNotification(bsrGenerateMsgHeader, bsrGenerateMsg);
             } else if ((summaryTypeDdlb.getValue() == null || businessUnit.getValue() == null || company.getValue() == null
                     || CommonLogic.checkInt(customerHierarchyLookup.getHierarchyDto().getHierarchyId())
                     || CommonLogic.checkInt(productHierarchyLookup.getHierarchyDto().getHierarchyId())
@@ -2106,28 +2106,28 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     || CommonLogic.checkInt(Integer.valueOf(productRelation.getValue().toString()))
                     || bsrRsContractSids.isEmpty() || selectedCustomerContainer.size() == 0 || selectedProductContainer.size() == 0
                     || selectedDeductionContainer.size() == 0)) {
-                AbstractNotificationUtils.getErrorNotification(msgHeader, msg);
+                AbstractNotificationUtils.getErrorNotification(bsrGenerateMsgHeader, bsrGenerateMsg);
             } else {
-                boolean mandatory = false;
+                boolean mandatoryCheck = false;
                 if (fromPeriod.getValue() == null || "0".equalsIgnoreCase(String.valueOf(fromPeriod.getValue()))) {
-                    mandatory = true;
+                    mandatoryCheck = true;
                 }
                 if ((toPeriod.getValue() == null || "0".equalsIgnoreCase(String.valueOf(toPeriod.getValue())))) {
-                    mandatory = true;
+                    mandatoryCheck = true;
                 }
-                if (mandatory) {
-                    AbstractNotificationUtils.getErrorNotification(msgHeader, msg);
+                if (mandatoryCheck) {
+                    AbstractNotificationUtils.getErrorNotification(bsrGenerateMsgHeader, bsrGenerateMsg);
                     return false;
                 }
 
                 int customerLevl = 0;
                 int productLevelVal = 0;
-                String[] levelArrCus = customerLevel.getItemCaption(customerLevel.getValue()).split(
+                String[] bsrLevelArrCus = customerLevel.getItemCaption(customerLevel.getValue()).split(
                         ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE);
-                String[] levelArrProd = productLevel.getItemCaption(productLevel.getValue()).split(
+                String[] bsrLevelArrProd = productLevel.getItemCaption(productLevel.getValue()).split(
                         ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE);
-                String[] levelNoArrCus = levelArrCus[0].split(ARMUtils.SPACE);
-                String[] levelNoArrProd = levelArrProd[0].split(ARMUtils.SPACE);
+                String[] levelNoArrCus = bsrLevelArrCus[0].split(ARMUtils.SPACE);
+                String[] levelNoArrProd = bsrLevelArrProd[0].split(ARMUtils.SPACE);
                 customerLevl = Integer.valueOf(levelNoArrCus[1]);
                 productLevelVal = Integer.valueOf(levelNoArrProd[1]);
                 String userId = (String) VaadinSession.getCurrent().getAttribute(ARMUtils.USER_ID);
@@ -2176,13 +2176,13 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         }
     }
 
-    private final CustomNotification notifier = new CustomNotification();
+    private final BSRDataSelectionCustomNotification notifier = new BSRDataSelectionCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class BSRDataSelectionCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String bsrButtonName;
 
-        public CustomNotification() {
+        public BSRDataSelectionCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -2195,9 +2195,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", bsrButtonName);
+            if (null != bsrButtonName) {
+                switch (bsrButtonName) {
                     case "deleteView":
                         if ((bsrDataSelectionDTO.getProjectionId() != 0) && (logic.deleteViewLogic(bsrDataSelectionDTO.getProjectionId()))) {
                             UI.getCurrent().getNavigator().navigateTo(DataSelectionView.NAME);
@@ -2211,7 +2211,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.bsrButtonName = buttonName;
         }
 
     }
@@ -2274,26 +2274,26 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         @Override
         public void windowClose(Window.CloseEvent e) {
             try {
-                ViewSearchLookUp lookUP = (ViewSearchLookUp) e.getWindow();
-                if (lookUP.isSelected()) {
+                ViewSearchLookUp searchLookUp = (ViewSearchLookUp) e.getWindow();
+                if (searchLookUp.isSelected()) {
                     customerHierarchyLookup = new HierarchyLookup();
                     productHierarchyLookup = new HierarchyLookup();
-                    bsrDataSelectionDTO.setViewType(lookUP.getCaption());
+                    bsrDataSelectionDTO.setViewType(searchLookUp.getCaption());
                     bsrDataSelectionDTO.setViewFlag(Boolean.TRUE);
-                    view.setValue(lookUP.getViewDTO().getViewName());
-                    bsrDataSelectionDTO.setViewName(lookUP.getViewDTO().getViewName());
+                    view.setValue(searchLookUp.getViewDTO().getViewName());
+                    bsrDataSelectionDTO.setViewName(searchLookUp.getViewDTO().getViewName());
                     HierarchyLookupDTO customerHierarchyDto = new HierarchyLookupDTO();
                     HierarchyLookupDTO productHierarchyDto = new HierarchyLookupDTO();
-                    customerHierarchyDto.setHierarchyId(lookUP.getViewDTO().getCustomerHierarchySid().isEmpty() ? 0 : Integer.valueOf(lookUP.getViewDTO().getCustomerHierarchySid()));
-                    customerHierarchyDto.setVersionNo(lookUP.getViewDTO().getCustomerHierVers());
-                    customerHierarchyDto.setHighestLevel(lookUP.getViewDTO().getCustomerHierHL());
+                    customerHierarchyDto.setHierarchyId(searchLookUp.getViewDTO().getCustomerHierarchySid().isEmpty() ? 0 : Integer.valueOf(searchLookUp.getViewDTO().getCustomerHierarchySid()));
+                    customerHierarchyDto.setVersionNo(searchLookUp.getViewDTO().getCustomerHierVers());
+                    customerHierarchyDto.setHighestLevel(searchLookUp.getViewDTO().getCustomerHierHL());
                     customerHierarchyLookup.setHierarchyDto(customerHierarchyDto);
-                    productHierarchyDto.setHierarchyId(lookUP.getViewDTO().getProductHierarchySid().isEmpty() ? 0 : (Integer.valueOf(lookUP.getViewDTO().getProductHierarchySid())));
-                    productHierarchyDto.setVersionNo(lookUP.getViewDTO().getProductHierVers());
-                    productHierarchyDto.setHighestLevel(lookUP.getViewDTO().getProductHierHL());
+                    productHierarchyDto.setHierarchyId(searchLookUp.getViewDTO().getProductHierarchySid().isEmpty() ? 0 : (Integer.valueOf(searchLookUp.getViewDTO().getProductHierarchySid())));
+                    productHierarchyDto.setVersionNo(searchLookUp.getViewDTO().getProductHierVers());
+                    productHierarchyDto.setHighestLevel(searchLookUp.getViewDTO().getProductHierHL());
                     productHierarchyLookup.setHierarchyDto(productHierarchyDto);
-                    BeanUtils.copyProperties(bsrDataSelectionDTO, lookUP.getViewDTO());
-                    setViewDetails(bsrDataSelectionDTO, lookUP.getViewDTO());
+                    BeanUtils.copyProperties(bsrDataSelectionDTO, searchLookUp.getViewDTO());
+                    setViewDetails(bsrDataSelectionDTO, searchLookUp.getViewDTO());
                     deleteViewBtn.setEnabled(true);
                 }
             } catch (Exception ex) {
@@ -2390,34 +2390,34 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
     private void setDeductionTree(Map<String, DeductionLevelDTO> levelKeys) {
         List<HierarchyString> strkeys = HierarchyString.getHierarchyStringList(bsrHierarchyKeys, true);
         for (HierarchyString hKey : strkeys) {
-            String key = hKey.getString();
-            DeductionLevelDTO value = levelKeys.get(key);
-            String parentKey = key.substring(0, key.lastIndexOf('.'));
-            if (parentKey.lastIndexOf('.') >= 0) {
-                parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
+            String bsrHierkey = hKey.getString();
+            DeductionLevelDTO value = levelKeys.get(bsrHierkey);
+            String bsrParentKey = bsrHierkey.substring(0, bsrHierkey.lastIndexOf('.'));
+            if (bsrParentKey.lastIndexOf('.') >= 0) {
+                bsrParentKey = bsrParentKey.substring(0, bsrParentKey.lastIndexOf('.') + 1);
             }
             selectedDeductionContainer.addItem(value);
-            DeductionLevelDTO parent = levelKeys.get(parentKey);
+            DeductionLevelDTO parent = levelKeys.get(bsrParentKey);
 
             if (parent != null) {
                 selectedDeductionContainer.setParent(value, parent);
             }
-            if (StringUtils.countMatches(key, ".") == NumericConstants.NINE) {
+            if (StringUtils.countMatches(bsrHierkey, ".") == NumericConstants.NINE) {
                 selectedDeductionContainer.setChildrenAllowed(value, false);
             }
         }
     }
 
     public void setLevels(LevelDTO parentList, List<DeductionLevelDTO> list, int levelNo) {
-        for (DeductionLevelDTO typeLevel : list) {
+        for (DeductionLevelDTO levelDTO : list) {
             if (levelNo != 8) {
-                selectedDeductionContainer.addBean(typeLevel);
-                selectedDeductionContainer.setParent(typeLevel, parentList);
-                selectedDeductionContainer.setChildrenAllowed(typeLevel, true);
+                selectedDeductionContainer.addBean(levelDTO);
+                selectedDeductionContainer.setParent(levelDTO, parentList);
+                selectedDeductionContainer.setChildrenAllowed(levelDTO, true);
             } else {
-                selectedDeductionContainer.addBean(typeLevel);
-                selectedDeductionContainer.setParent(typeLevel, parentList);
-                selectedDeductionContainer.setChildrenAllowed(typeLevel, false);
+                selectedDeductionContainer.addBean(levelDTO);
+                selectedDeductionContainer.setParent(levelDTO, parentList);
+                selectedDeductionContainer.setChildrenAllowed(levelDTO, false);
             }
         }
     }
@@ -2426,13 +2426,13 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
     public void moveAllDeductions() {
         selectedDeduction.removeAllItems();
         selectedDeductionContainer.removeAllItems();
-        String param = ((HelperDTO) deductionLevel.getValue()).getDescription();
+        String parameters = ((HelperDTO) deductionLevel.getValue()).getDescription();
         List<DeductionLevelDTO> listDto = availableDeductionContainer.getItemIds();
-        Set<Integer> ids = selectedLevelIds.get(param);
+        Set<Integer> ids = selectedLevelIds.get(parameters);
         for (DeductionLevelDTO dto : listDto) {
             if (ids == null) {
                 ids = new HashSet<>();
-                selectedLevelIds.put(param, ids);
+                selectedLevelIds.put(parameters, ids);
             }
             ids.add(dto.getLevelSid());
         }
@@ -2542,9 +2542,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
     public List<LevelDTO> getCustomerHierarchyEndLevels(final ExtTreeContainer<LevelDTO> selectedCustomerContainer) {
         List<LevelDTO> customerHierarchyEndLevels = new ArrayList<>();
-        for (Object item : selectedCustomerContainer.getItemIds()) {
-            if (!selectedCustomerContainer.hasChildren(item)) {
-                customerHierarchyEndLevels.add(DataSelectionUtils.getBeanFromId(item));
+        for (Object customer : selectedCustomerContainer.getItemIds()) {
+            if (!selectedCustomerContainer.hasChildren(customer)) {
+                customerHierarchyEndLevels.add(DataSelectionUtils.getBeanFromId(customer));
             }
         }
         return customerHierarchyEndLevels;
@@ -2552,9 +2552,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
     public List<LevelDTO> getProductHierarchyEndLevels(final ExtTreeContainer<LevelDTO> selectedProductContainer) {
         List<LevelDTO> productHierarchyEndLevels = new ArrayList<>();
-        for (Object item : selectedProductContainer.getItemIds()) {
-            if (!selectedProductContainer.hasChildren(item)) {
-                productHierarchyEndLevels.add(DataSelectionUtils.getBeanFromId(item));
+        for (Object product : selectedProductContainer.getItemIds()) {
+            if (!selectedProductContainer.hasChildren(product)) {
+                productHierarchyEndLevels.add(DataSelectionUtils.getBeanFromId(product));
             }
         }
         return productHierarchyEndLevels;
@@ -2563,25 +2563,25 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
     @Override
     public void moveRightToLeftDeductions() {
         if (selectedDeduction.getValue() != null) {
-            DeductionLevelDTO selectedLevel = (DeductionLevelDTO) selectedDeduction.getValue();
-            Set<String> ids = selectedLevel.getRsContractSids();
-            for (String removeSelectedCon_Sid : ids) {
-                bsrRsContractSids.remove(Integer.valueOf(removeSelectedCon_Sid));
+            DeductionLevelDTO selectedDeductionLevelDTO = (DeductionLevelDTO) selectedDeduction.getValue();
+            Set<String> ids = selectedDeductionLevelDTO.getRsContractSids();
+            for (String bsrremoveSelectedCon_Sid : ids) {
+                bsrRsContractSids.remove(Integer.valueOf(bsrremoveSelectedCon_Sid));
             }
             if (!bsrRsContractSids.isEmpty()) {
                 bsrHierarchyKeys.clear();
-                Map<String, DeductionLevelDTO> levelKeys = logic.getDeductionTree(selectedLevelIds, bsrRsContractSids, bsrHierarchyKeys);
+                Map<String, DeductionLevelDTO> bsrLevelKeys = logic.getDeductionTree(selectedLevelIds, bsrRsContractSids, bsrHierarchyKeys);
                 selectedDeductionContainer.removeAllItems();
-                setDeductionTree(levelKeys);
+                setDeductionTree(bsrLevelKeys);
             } else {
                 selectedDeductionContainer.removeAllItems();
                 selectedDeduction.removeAllItems();
             }
             customerLevel.select(null);
             productLevel.select(null);
+            LOGGER.debug("End of moveRightToLeftDeductions");
         } else {
-            AbstractNotificationUtils.getErrorNotification("Error",
-                    "No Level was selected to move. Please select and try again.");
+            AbstractNotificationUtils.getErrorNotification("Error", "No Level was selected to move. Please select and try again.");
         }
     }
 
@@ -2618,34 +2618,34 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = logicCust.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
-        for (LevelDTO dto : reslistOne) {
-            if (dto.getLevelNo() == 1) {
+        for (LevelDTO customerLevelDto : reslistOne) {
+            if (customerLevelDto.getLevelNo() == 1) {
                 selectedCustomerContainer.removeAllItems();
-                selectedCustomerContainer.addItem(dto);
-                selectedCustomerContainer.setChildrenAllowed(dto, true);
+                selectedCustomerContainer.addItem(customerLevelDto);
+                selectedCustomerContainer.setChildrenAllowed(customerLevelDto, true);
             } else {
                 for (Object tempdto : selectedCustomerContainer.getItemIds()) {
-                    if (dto.getParentNode().contains("~")) {
-                        String[] parentarr = dto.getParentNode().split("~");
+                    if (customerLevelDto.getParentNode().contains("~")) {
+                        String[] parentarr = customerLevelDto.getParentNode().split("~");
                         String parentName = parentarr[1];
                         if (getBeanFromId(tempdto).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedCustomerContainer.addBean(dto);
-                            if (customerLevel != dto.getLevelNo()) {
-                                selectedCustomerContainer.setChildrenAllowed(dto, true);
+                            selectedCustomerContainer.addBean(customerLevelDto);
+                            if (customerLevel != customerLevelDto.getLevelNo()) {
+                                selectedCustomerContainer.setChildrenAllowed(customerLevelDto, true);
                             } else {
-                                selectedCustomerContainer.setChildrenAllowed(dto, false);
+                                selectedCustomerContainer.setChildrenAllowed(customerLevelDto, false);
                             }
-                            selectedCustomerContainer.setParent(dto, tempdto);
+                            selectedCustomerContainer.setParent(customerLevelDto, tempdto);
                             break;
                         }
                     } else {
-                        selectedCustomerContainer.addBean(dto);
-                        if (customerLevel != dto.getLevelNo()) {
-                            selectedCustomerContainer.setChildrenAllowed(dto, true);
+                        selectedCustomerContainer.addBean(customerLevelDto);
+                        if (customerLevel != customerLevelDto.getLevelNo()) {
+                            selectedCustomerContainer.setChildrenAllowed(customerLevelDto, true);
                         } else {
-                            selectedCustomerContainer.setChildrenAllowed(dto, false);
+                            selectedCustomerContainer.setChildrenAllowed(customerLevelDto, false);
                         }
-                        selectedCustomerContainer.setParent(dto, tempdto);
+                        selectedCustomerContainer.setParent(customerLevelDto, tempdto);
                         break;
                     }
                 }
@@ -2672,34 +2672,34 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = logicVal.getRelationShipValues(projectionId, "product", productLevel, productDescriptionMap);
-        for (LevelDTO dto : reslistOne) {
-            if (dto.getLevelNo() == 1) {
+        for (LevelDTO productLevelDto : reslistOne) {
+            if (productLevelDto.getLevelNo() == 1) {
                 selectedProductContainer.removeAllItems();
-                selectedProductContainer.addItem(dto);
-                selectedProductContainer.setChildrenAllowed(dto, true);
+                selectedProductContainer.addItem(productLevelDto);
+                selectedProductContainer.setChildrenAllowed(productLevelDto, true);
             } else {
                 for (Object tempdto : selectedProductContainer.getItemIds()) {
-                    if (dto.getParentNode().contains("~")) {
-                        String[] parentarr = dto.getParentNode().split("~");
+                    if (productLevelDto.getParentNode().contains("~")) {
+                        String[] parentarr = productLevelDto.getParentNode().split("~");
                         String parentName = parentarr[1];
                         if (getBeanFromId(tempdto).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedProductContainer.addBean(dto);
-                            if (productLevel != dto.getLevelNo()) {
-                                selectedProductContainer.setChildrenAllowed(dto, true);
+                            selectedProductContainer.addBean(productLevelDto);
+                            if (productLevel != productLevelDto.getLevelNo()) {
+                                selectedProductContainer.setChildrenAllowed(productLevelDto, true);
                             } else {
-                                selectedProductContainer.setChildrenAllowed(dto, false);
+                                selectedProductContainer.setChildrenAllowed(productLevelDto, false);
                             }
-                            selectedProductContainer.setParent(dto, tempdto);
+                            selectedProductContainer.setParent(productLevelDto, tempdto);
                             break;
                         }
                     } else {
-                        selectedProductContainer.addBean(dto);
-                        if (productLevel != dto.getLevelNo()) {
-                            selectedProductContainer.setChildrenAllowed(dto, true);
+                        selectedProductContainer.addBean(productLevelDto);
+                        if (productLevel != productLevelDto.getLevelNo()) {
+                            selectedProductContainer.setChildrenAllowed(productLevelDto, true);
                         } else {
-                            selectedProductContainer.setChildrenAllowed(dto, false);
+                            selectedProductContainer.setChildrenAllowed(productLevelDto, false);
                         }
-                        selectedProductContainer.setParent(dto, tempdto);
+                        selectedProductContainer.setParent(productLevelDto, tempdto);
                         break;
                     }
                 }
@@ -2718,16 +2718,16 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
     /**
      * Gets the bean from id.
      *
-     * @param obj the id
+     * @param bsrObj the id
      * @return the bean from id
      */
-    public static LevelDTO getBeanFromId(Object obj) {
+    public static LevelDTO getBeanFromId(Object bsrObj) {
 
         BeanItem<?> targetItem = null;
-        if (obj instanceof BeanItem<?>) {
-            targetItem = (BeanItem<?>) obj;
-        } else if (obj instanceof LevelDTO) {
-            targetItem = new BeanItem<>((LevelDTO) obj);
+        if (bsrObj instanceof BeanItem<?>) {
+            targetItem = (BeanItem<?>) bsrObj;
+        } else if (bsrObj instanceof LevelDTO) {
+            targetItem = new BeanItem<>((LevelDTO) bsrObj);
         }
         if (targetItem == null) {
             return new LevelDTO();
@@ -2737,23 +2737,23 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         }
     }
 
-    private void loadFromAndTo(DataSelectionDTO selection) {
+    private void loadFromAndTo(DataSelectionDTO bsrSelection) {
         if (company.getValue() != null && businessUnit.getValue() != null && summaryTypeDdlb.getValue() != null) {
-            int glCompId = Integer.parseInt(company.getValue().toString());
-            int bUnitCompSid = Integer.parseInt(businessUnit.getValue().toString());
-            int val = -(((HelperDTO) (summaryTypeDdlb.getValue())).getId());
+            int glCompanyId = Integer.parseInt(company.getValue().toString());
+            int bUnitCompMasterSid = Integer.parseInt(businessUnit.getValue().toString());
+            int value = -(((HelperDTO) (summaryTypeDdlb.getValue())).getId());
             fromPeriod.removeAllItems();
             toPeriod.removeAllItems();
             configurePeriodDropDown(fromPeriod);
             configurePeriodDropDown(toPeriod);
-            DataSelectionLogic.getDates(val, glCompId, bUnitCompSid, fromPeriod, toPeriod, true, selection);
-            fromPeriod.select(selection.getFromPeriod());
-            toPeriod.select(selection.getToPeriod());
-            periodView = DataSelectionLogic.getPeriodViewForAdjustmentType(0, glCompId, bUnitCompSid);
+            DataSelectionLogic.getDates(value, glCompanyId, bUnitCompMasterSid, fromPeriod, toPeriod, true, bsrSelection);
+            fromPeriod.select(bsrSelection.getFromPeriod());
+            toPeriod.select(bsrSelection.getToPeriod());
+            periodView = DataSelectionLogic.getPeriodViewForAdjustmentType(0, glCompanyId, bUnitCompMasterSid);
             if (ARMConstants.getSingelPeriodView().equalsIgnoreCase(periodView)) {
                 toPeriod.removeAllItems();
                 configurePeriodDropDown(toPeriod);
-                DataSelectionLogic.getDates(val, glCompId, bUnitCompSid, toPeriod);
+                DataSelectionLogic.getDates(value, glCompanyId, bUnitCompMasterSid, toPeriod);
                 toPeriod.select(String.valueOf(fromPeriod.getValue()));
                 toPeriod.setEnabled(false);
             } else {
@@ -2802,23 +2802,23 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
     public void addCompanyBusinessUnit() {
         selectionVerticalLayout.removeAllComponents();
-        GridLayout gridLayout = new GridLayout(4, 2);
-        gridLayout.addComponent(summaryTypeLabel);
-        gridLayout.addComponent(summaryTypeDdlb);
+        GridLayout companyLayout = new GridLayout(4, 2);
+        companyLayout.addComponent(summaryTypeLabel);
+        companyLayout.addComponent(summaryTypeDdlb);
 
-        gridLayout.addComponent(companyLabel);
-        gridLayout.addComponent(company);
+        companyLayout.addComponent(companyLabel);
+        companyLayout.addComponent(company);
 
-        gridLayout.addComponent(viewLabel);
-        gridLayout.addComponent(view);
+        companyLayout.addComponent(viewLabel);
+        companyLayout.addComponent(view);
 
-        gridLayout.addComponent(businessUnitLabel);
-        gridLayout.addComponent(businessUnit);
-        gridLayout.setSpacing(true);
-        gridLayout.setMargin(false);
+        companyLayout.addComponent(businessUnitLabel);
+        companyLayout.addComponent(businessUnit);
+        companyLayout.setSpacing(true);
+        companyLayout.setMargin(false);
 
         summaryTypeDdlb.setWidth("217px");
-        selectionVerticalLayout.addComponent(gridLayout);
+        selectionVerticalLayout.addComponent(companyLayout);
     }
 
     public void loadSummaryType() {
@@ -2872,17 +2872,17 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         final String userId = String.valueOf(VaadinSession.getCurrent()
                 .getAttribute(com.stpl.app.utils.ConstantsUtils.USER_ID));
         if (com.stpl.app.utils.ConstantsUtils.BALANCE_SUMMARY_REPORT.equalsIgnoreCase(screenName)) {
-            final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, ARMUtils.BALANCE_SUMMARY_REPORT + ConstantsUtils.COMMA + com.stpl.app.utils.ConstantsUtils.LANDING_SCREEN);
-            if (functionCfpHM.get("generateBtn") != null && !(functionCfpHM.get("generateBtn")).isFunctionFlag()) {
+            final Map<String, AppPermission> bsrfunction = stplSecurity.getBusinessFunctionPermission(userId, ARMUtils.BALANCE_SUMMARY_REPORT + ConstantsUtils.COMMA + com.stpl.app.utils.ConstantsUtils.LANDING_SCREEN);
+            if (bsrfunction.get("generateBtn") != null && !(bsrfunction.get("generateBtn")).isFunctionFlag()) {
                 generateBtn.setVisible(false);
             }
-            if (functionCfpHM.get("resetBtn") != null && !(functionCfpHM.get("resetBtn")).isFunctionFlag()) {
+            if (bsrfunction.get("resetBtn") != null && !(bsrfunction.get("resetBtn")).isFunctionFlag()) {
                 resetBtn.setVisible(false);
             }
-            if (functionCfpHM.get("saveViewBtn") != null && !(functionCfpHM.get("saveViewBtn")).isFunctionFlag()) {
+            if (bsrfunction.get("saveViewBtn") != null && !(bsrfunction.get("saveViewBtn")).isFunctionFlag()) {
                 saveViewBtn.setVisible(false);
             }
-            if (functionCfpHM.get("deleteViewBtn") != null && !(functionCfpHM.get("deleteViewBtn")).isFunctionFlag()) {
+            if (bsrfunction.get("deleteViewBtn") != null && !(bsrfunction.get("deleteViewBtn")).isFunctionFlag()) {
                 deleteViewBtn.setVisible(false);
             }
 
@@ -2988,16 +2988,16 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 return false;
             }
 
-            int customerLevl = 0;
-            int productLevelVal = 0;
-            String[] levelArrCus = customerLevel.getValue() != null ? customerLevel.getItemCaption(customerLevel.getValue()).split(
+            int bsrCustomerLevl = 0;
+            int bsrProductLevelVal = 0;
+            String[] bsrLevelArrCus = customerLevel.getValue() != null ? customerLevel.getItemCaption(customerLevel.getValue()).split(
                     ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE) : new String[0];
-            String[] levelArrProd = productLevel.getValue() != null ? productLevel.getItemCaption(productLevel.getValue()).split(
+            String[] bsrLevelArrProd = productLevel.getValue() != null ? productLevel.getItemCaption(productLevel.getValue()).split(
                     ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE) : new String[0];
-            String[] levelNoArrCus = levelArrCus.length > 0 ? levelArrCus[0].split(ARMUtils.SPACE) : new String[0];
-            String[] levelNoArrProd = levelArrProd.length > 0 ? levelArrProd[0].split(ARMUtils.SPACE) : new String[0];
-            customerLevl = levelNoArrCus.length > 0 ? Integer.valueOf(levelNoArrCus[1]) : 0;
-            productLevelVal = levelNoArrProd.length > 0 ? Integer.valueOf(levelNoArrProd[1]) : 0;
+            String[] levelNoArrCus = bsrLevelArrCus.length > 0 ? bsrLevelArrCus[0].split(ARMUtils.SPACE) : new String[0];
+            String[] levelNoArrProd = bsrLevelArrProd.length > 0 ? bsrLevelArrProd[0].split(ARMUtils.SPACE) : new String[0];
+            bsrCustomerLevl = levelNoArrCus.length > 0 ? Integer.valueOf(levelNoArrCus[1]) : 0;
+            bsrProductLevelVal = levelNoArrProd.length > 0 ? Integer.valueOf(levelNoArrProd[1]) : 0;
             String userId = (String) VaadinSession.getCurrent().getAttribute(ARMUtils.USER_ID);
             bsrDataSelectionDTO.setProjectionName(StringUtils.EMPTY);
             bsrDataSelectionDTO.setCreatedBy(CommonLogic.parseStringToInteger(userId));
@@ -3007,8 +3007,8 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
             bsrDataSelectionDTO.setCreatedDate(new Date());
             bsrDataSelectionDTO.setCustomerHierarchySid(customerHierarchyLookup == null ? NumericConstants.ZERO : customerHierarchyLookup.getHierarchyDto().getHierarchyId());
             bsrDataSelectionDTO.setProductHierarchySid(productHierarchyLookup == null ? NumericConstants.ZERO : productHierarchyLookup.getHierarchyDto().getHierarchyId());
-            bsrDataSelectionDTO.setCustomerHierarchyLevel(String.valueOf(customerLevl));
-            bsrDataSelectionDTO.setProductHierarchyLevel(String.valueOf(productLevelVal));
+            bsrDataSelectionDTO.setCustomerHierarchyLevel(String.valueOf(bsrCustomerLevl));
+            bsrDataSelectionDTO.setProductHierarchyLevel(String.valueOf(bsrProductLevelVal));
             bsrDataSelectionDTO.setCustomerHierarchyVersionNo(customerHierarchyLookup == null ? NumericConstants.ZERO : customerHierarchyLookup.getHierarchyDto().getVersionNo());
             bsrDataSelectionDTO.setProductHierarchyVersionNo(productHierarchyLookup == null ? NumericConstants.ZERO : productHierarchyLookup.getHierarchyDto().getVersionNo());
             bsrDataSelectionDTO.setCompanyMasterSid(company.getValue() != null ? Integer.valueOf(String.valueOf(company.getValue())) : NumericConstants.ZERO);

@@ -79,7 +79,7 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
  * are from Property files in GALGTNProperties.'Res'is appended in each of the
  * fields to represent unique combination of property Id.
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class AdjustmentReserveSearchForm extends CustomComponent {
 

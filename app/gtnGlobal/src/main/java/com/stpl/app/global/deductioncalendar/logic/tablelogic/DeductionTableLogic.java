@@ -167,7 +167,7 @@ public class DeductionTableLogic extends PageTreeTableLogic {
                 int index = 1;
                 for (int j = 0; j < size; j++) {
                     String customTreeLevel = treeLevel + (index + j) + ".";
-                    TableDTO dto = (TableDTO) list.get(j);
+                    TableDTO dto = list.get(j);
                     addExpandedTreeList(customTreeLevel, dto);
                     recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo,deductionDTO);
                 }

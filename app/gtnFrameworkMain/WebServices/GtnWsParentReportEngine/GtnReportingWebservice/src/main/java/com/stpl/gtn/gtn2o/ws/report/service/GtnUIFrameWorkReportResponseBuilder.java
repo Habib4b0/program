@@ -6,8 +6,8 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
 
 public class GtnUIFrameWorkReportResponseBuilder {
-	GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-	GtnWsReportResponse reportResponse = new GtnWsReportResponse();
+	private GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+	private GtnWsReportResponse reportResponse = new GtnWsReportResponse();
 
 	public GtnUIFrameWorkReportResponseBuilder withDataSelectionBean() {
 		GtnWsReportDataSelectionBean bean = new GtnWsReportDataSelectionBean();
