@@ -510,13 +510,13 @@ public class ItemLogic {
         } else {
             input.add("%");
         }
-        if (binderDto.getComponentStatus_DTO() != null) {
-            input.add(binderDto.getComponentStatus_DTO().getId());
+        if (binderDto.getComponentStatusDto() != null) {
+            input.add(binderDto.getComponentStatusDto().getId());
         } else {
             input.add("%");
         }
-        if (binderDto.getComponentType_DTO() != null) {
-            input.add(binderDto.getComponentType_DTO().getId());
+        if (binderDto.getComponentTypeDto() != null) {
+            input.add(binderDto.getComponentTypeDto().getId());
         } else {
             input.add("%");
         }
@@ -614,8 +614,8 @@ public class ItemLogic {
         } else {
             input.add("%");
         }
-        if (binderDto.getComponentStatus_DTO() != null) {
-            input.add(binderDto.getComponentStatus_DTO().getId());
+        if (binderDto.getComponentStatusDto() != null) {
+            input.add(binderDto.getComponentStatusDto().getId());
         } else {
             input.add("%");
         }

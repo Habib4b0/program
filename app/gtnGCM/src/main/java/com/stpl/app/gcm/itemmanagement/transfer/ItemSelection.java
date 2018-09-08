@@ -537,19 +537,19 @@ public class ItemSelection extends CustomComponent {
     }
 
     private void loadCompany() {
-        logic.LazyLoadDdlb(companyDto, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(companyDto, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
     }
 
     private void loadForm() {
-        logic.LazyLoadDdlb(formDto, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(formDto, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
     }
 
     private void loadBrand() {
-        logic.LazyLoadDdlb(brandDto, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(brandDto, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
     }
 
     private void loadStrength() {
-        logic.LazyLoadDdlb(strengthDro, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(strengthDro, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
     }
 
     private void loadItemType() {
@@ -591,7 +591,7 @@ public class ItemSelection extends CustomComponent {
     }
 
     private void loadIdentifierType() {
-        logic.LazyLoadDdlb(identifierTypeDto, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(identifierTypeDto, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
     }
 
     @SuppressWarnings("serial")

@@ -4,7 +4,6 @@
  */
 package com.stpl.app.gcm.util;
 
-import static com.stpl.app.gcm.discount.ui.form.ExistingDiscountTab.LOGGER;
 import com.stpl.app.gcm.promotetptocontract.dto.CompanyTypeDdlbDTO;
 import com.stpl.app.gcm.promotetptocontract.dto.ContractHolderDTO;
 import com.stpl.app.gcm.promotetptocontract.dto.CurrentContractDTO;

@@ -467,9 +467,7 @@ public class CommonUtils {
 
         } catch (PortalException ex) {
            LOGGER.error(ex.getMessage());
-        } catch (SystemException ex) {
-           LOGGER.error(ex.getMessage());
-        }
+        } 
         return resultList;
     }
 

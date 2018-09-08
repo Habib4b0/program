@@ -257,7 +257,7 @@ public class PromoteTPLogic {
         return returnList;
     }
 
-    public void LazyLoadDdlb(final ComboBox comboBoxTpLogic, String countFlag, String findFlag) {
+    public void lazyLoadDdlb(final ComboBox comboBoxTpLogic, String countFlag, String findFlag) {
         LazyContainer containerDataTP = new LazyContainer(HelperDTO.class, new LoadDropdownListDAO(countFlag, findFlag), new DropdownListCriteria());
         comboBoxTpLogic.setPageLength(NumericConstants.SEVEN);
         comboBoxTpLogic.setContainerDataSource(containerDataTP);
@@ -2308,7 +2308,7 @@ public class PromoteTPLogic {
         }
     }
 
-    public void SaveCFPForTransferComponent(String cfpid, String cfpModelSId) {
+    public void saveCfpForTransferComponent(String cfpid, String cfpModelSId) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(cfpid);
         input.add(1);
@@ -2320,7 +2320,7 @@ public class PromoteTPLogic {
 
     }
 
-    public void SaveIFPForTransferComponent(String ifpId, String ifpModelSid) {
+    public void saveIfpForTransferComponent(String ifpId, String ifpModelSid) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(ifpId);
         input.add(1);
@@ -2331,7 +2331,7 @@ public class PromoteTPLogic {
         promoteTpDAO.updateIFP(input);
     }
 
-    public void SavePSForTransferComponent(String psid, String psModelSid) {
+    public void savePsForTransferComponent(String psid, String psModelSid) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(psid);
         input.add(1);
@@ -2342,7 +2342,7 @@ public class PromoteTPLogic {
         promoteTpDAO.updatePS(input);
     }
 
-    public void SaveRSForTransferComponent(String rsid, String rsModelSid) {
+    public void saveRsForTransferComponent(String rsid, String rsModelSid) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(rsid);
         input.add(1);

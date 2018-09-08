@@ -1215,7 +1215,7 @@ public class FileManagementLookup extends Window {
 				LOGGER.debug("In configureFields excelExportResult.addClickListener started");
 
 				try {
-					ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
+					ConsolidatedFinancialForecastUI.setExcelClose(true);
 					configureExcelResultTable();
 					loadExcelTable(resultDTO);
 					ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(excelTable), "File Management Results",

@@ -325,7 +325,7 @@ public class RemoveDiscount extends CustomComponent {
                     AbstractLogic abstractLogic = AbstractLogic.getInstance();
                     if ("contractStatus".equals(propertyId)) {
                         ComboBox marketTypeDdlb = new ComboBox();
-                        abstractLogic.LazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BooleanConstant.getTrueFlag());
+                        abstractLogic.lazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BooleanConstant.getTrueFlag());
                         return marketTypeDdlb;
                     }
                     return null;
@@ -842,7 +842,7 @@ public class RemoveDiscount extends CustomComponent {
             logic.getDiscountRsList(rsSidList, contractDto);
             contractDto.setRemovedRsList(rsSidList);
             mainTab.removeTab(mainTab.getTab(1));
-            contractDto.setRsSystemId(CommonUtils.CollectionToString(rebateList, true));
+            contractDto.setRsSystemId(CommonUtils.collectionToString(rebateList, true));
             mainTab.addTab(summary.getContent(selecteditemList, contractDto, removeDiscount), "Summary", null, 1);
 
         } catch (Exception ex) {
