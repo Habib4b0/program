@@ -393,10 +393,10 @@ public class ItemManagementIndex extends CustomComponent {
                     && (binderDto.getItemNo() == null || binderDto.getItemNo().isEmpty())
                     && (binderDto.getItemDesc() == null || binderDto.getItemDesc().isEmpty())
                     && (binderDto.getBrandDto() == null)
-                    && (binderDto.getStrength_DTO() == null)
+                    && (binderDto.getStrengthDto() == null)
                     && (binderDto.getIdentifier() == null || binderDto.getIdentifier().isEmpty())
-                    && (binderDto.getCompany_DTO() == null)
-                    && (binderDto.getPlaceHolder_DTO() == null || binderDto.getPlaceHolder_DTO().getId() == NumericConstants.ELEVEN)
+                    && (binderDto.getCompanyDto() == null)
+                    && (binderDto.getPlaceHolderDto() == null || binderDto.getPlaceHolderDto().getId() == NumericConstants.ELEVEN)
                     && (binderDto.getNdc9() == null || binderDto.getNdc9().isEmpty())
                     && (binderDto.getItemCategory() == null || Constants.SELECT_ONE.equals(binderDto.getItemCategory()) || StringUtils.EMPTY.equals(binderDto.getItemCategory().trim()))
                     && (binderDto.getItemType() == null || Constants.SELECT_ONE.equals(binderDto.getItemType()) || StringUtils.EMPTY.equals(binderDto.getItemType().trim()))) {
