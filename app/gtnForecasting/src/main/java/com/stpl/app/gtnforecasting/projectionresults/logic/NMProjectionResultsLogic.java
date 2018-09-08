@@ -374,7 +374,7 @@ public class NMProjectionResultsLogic {
 
     
     
-     public List<ProjectionResultsDTO> PPARPUtest(ProjectionSelectionDTO projSelDTO) {
+     public List<ProjectionResultsDTO> ppaRPUtest(ProjectionSelectionDTO projSelDTO) {
             List<ProjectionResultsDTO> projDTOList;
         projSelDTO.setSales(Constant.RATE);
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPARPU(projSelDTO);
