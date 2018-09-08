@@ -4,7 +4,6 @@ import com.stpl.app.util.ConstantsUtils;
 import java.io.Serializable;
 import java.util.Date;
 
-//import org.hibernate.validator.constraints.NotBlank;
 
 import com.stpl.app.util.HelperDTO;
 import com.stpl.app.util.HelperUtils;

@@ -171,6 +171,7 @@ public class ResponsiveUtils {
         }
         return result;
     }
+   
 
     private static String[] getCollapsibleColumns(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
@@ -197,7 +198,7 @@ public class ResponsiveUtils {
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
     }
-
+   
     private static String[] getCollapsibleOneColumn(Table table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
@@ -214,7 +215,7 @@ public class ResponsiveUtils {
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
     }
-    
+   
     public static void addResponsiveTabSheet(final TabSheet tabSheet) {
         Page.getCurrent().addBrowserWindowResizeListener(
                 new Page.BrowserWindowResizeListener() {

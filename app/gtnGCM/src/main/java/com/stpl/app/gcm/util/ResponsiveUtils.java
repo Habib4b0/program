@@ -216,7 +216,7 @@ public class ResponsiveUtils {
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
     }
-
+   
     private static String[] getCollapsibleColumns(Table table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
