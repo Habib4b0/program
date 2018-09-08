@@ -350,9 +350,7 @@ public class ProcessSchedulerLogic {
 
 			} catch (PortalException ex) {
 				LOGGER.error(ex.getMessage());
-			} catch (SystemException ex) {
-				LOGGER.error(ex.getMessage());
-			}
+			} 
 
 			LOGGER.debug("ends updateLastRun");
 		}

@@ -261,7 +261,7 @@ public class Summary extends CustomComponent {
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
                     ComboBox marketTypeDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
+                    abstractLogic.lazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
                     return marketTypeDdlb;
                 }
                 return null;

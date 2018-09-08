@@ -391,11 +391,11 @@ public class ItemSelection extends CustomComponent {
                 && (binderDto.getTherapeuticClassDto() == null) && (binderDto.getFormDto() == null)
                 && binderDto.getIdentifierTypeDto() == null && (binderDto.getItemNo() == null || binderDto.getItemNo().isEmpty())
                 && (binderDto.getItemDesc() == null || binderDto.getItemDesc().isEmpty())
-                && (binderDto.getBrandDto() == null) && (binderDto.getStrength_DTO() == null)
-                && (binderDto.getIdentifier() == null || binderDto.getIdentifier().isEmpty()) && (binderDto.getCompany_DTO() == null)
-                && (binderDto.getPlaceHolder_DTO() == null)
-                && (binderDto.getNdc9() == null || binderDto.getNdc9().isEmpty()) && (binderDto.getItemCategory_DTO() == null)
-                && (binderDto.getItemType_DTO() == null)) {
+                && (binderDto.getBrandDto() == null) && (binderDto.getStrengthDto() == null)
+                && (binderDto.getIdentifier() == null || binderDto.getIdentifier().isEmpty()) && (binderDto.getCompanyDto() == null)
+                && (binderDto.getPlaceHolderDto() == null)
+                && (binderDto.getNdc9() == null || binderDto.getNdc9().isEmpty()) && (binderDto.getItemCategoryDto() == null)
+                && (binderDto.getItemTypeDto() == null)) {
 
             MessageBox.showPlain(Icon.INFO, "Error", "Please enter/select search criteria", ButtonId.OK);
         } else {
@@ -537,19 +537,19 @@ public class ItemSelection extends CustomComponent {
     }
 
     private void loadCompany() {
-        logic.LazyLoadDdlb(companyDto, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(companyDto, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
     }
 
     private void loadForm() {
-        logic.LazyLoadDdlb(formDto, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(formDto, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
     }
 
     private void loadBrand() {
-        logic.LazyLoadDdlb(brandDto, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(brandDto, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
     }
 
     private void loadStrength() {
-        logic.LazyLoadDdlb(strengthDro, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(strengthDro, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
     }
 
     private void loadItemType() {
@@ -591,7 +591,7 @@ public class ItemSelection extends CustomComponent {
     }
 
     private void loadIdentifierType() {
-        logic.LazyLoadDdlb(identifierTypeDto, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(identifierTypeDto, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
     }
 
     @SuppressWarnings("serial")

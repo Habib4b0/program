@@ -54,7 +54,6 @@ import com.stpl.app.service.GcmGlobalDetailsLocalServiceUtil;
 import com.stpl.app.service.GcmItemDetailsLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.GcmCompanyDetailsLocalServiceUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;

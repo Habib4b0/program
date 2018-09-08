@@ -101,43 +101,43 @@ public class ItemIndexDto {
         this.brandDTO = brandDto;
     }
 
-    public HelperDTO getStrength_DTO() {
+    public HelperDTO getStrengthDto() {
         return strengthDTO;
     }
 
-    public void setStrength_DTO(HelperDTO strengthDto) {
+    public void setStrengthDto(HelperDTO strengthDto) {
         this.strengthDTO = strengthDto;
     }
 
-    public HelperDTO getCompany_DTO() {
+    public HelperDTO getCompanyDto() {
         return companyDTO;
     }
 
-    public void setCompany_DTO(HelperDTO companyDto) {
+    public void setCompanyDto(HelperDTO companyDto) {
         this.companyDTO = companyDto;
     }
 
-    public HelperDTO getPlaceHolder_DTO() {
+    public HelperDTO getPlaceHolderDto() {
         return placeHolderDTO;
     }
 
-    public void setPlaceHolder_DTO(HelperDTO placeHolderDto) {
+    public void setPlaceHolderDto(HelperDTO placeHolderDto) {
         this.placeHolderDTO = placeHolderDto;
     }
 
-    public HelperDTO getItemCategory_DTO() {
+    public HelperDTO getItemCategoryDto() {
         return itemCategoryDTO;
     }
 
-    public void setItemCategory_DTO(HelperDTO itemCategoryDto) {
+    public void setItemCategoryDto(HelperDTO itemCategoryDto) {
         this.itemCategoryDTO = itemCategoryDto;
     }
 
-    public HelperDTO getItemType_DTO() {
+    public HelperDTO getItemTypeDto() {
         return itemTypeDTO;
     }
 
-    public void setItemType_DTO(HelperDTO itemTypeDto) {
+    public void setItemTypeDto(HelperDTO itemTypeDto) {
         this.itemTypeDTO = itemTypeDto;
     }
 
