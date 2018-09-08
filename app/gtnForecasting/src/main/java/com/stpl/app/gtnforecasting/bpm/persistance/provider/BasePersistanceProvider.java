@@ -10,12 +10,12 @@ import java.util.List;
 public class BasePersistanceProvider {
 
     @SuppressWarnings("unchecked")
-    protected static List<Object[]> executeSelectQuery(String customQuery, Object udc1, Object udc2) {
+    protected static List<Object[]> executeSelectQuery(String customQuery) {
 
         return (List<Object[]>) new NMSalesProjectionMasterImpl().executeSelectQuery(customQuery);
     }
 
-    protected static Boolean executeBulkUpdateQuery(String customQuery, Object udc1, Object udc2) {
+    protected static Boolean executeBulkUpdateQuery(String customQuery) {
 
         return (Boolean) new NMSalesProjectionMasterImpl().executeBulkUpdateQuery(customQuery);
     }

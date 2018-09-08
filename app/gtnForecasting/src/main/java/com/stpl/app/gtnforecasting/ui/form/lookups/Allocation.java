@@ -350,7 +350,7 @@ public class Allocation extends CustomComponent implements View {
                             @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 try {
-                                     logic.check_available_allocationTab(dto, session, check.getValue() ? 1 : 0, startStamp, endStamp);
+                                     logic.checkAvailableAllocationTab(dto, session, check.getValue() ? 1 : 0, startStamp, endStamp);
                                 } catch (Exception ex) {
                                     LOGGER.error(ex.getMessage());
                                 }
@@ -552,7 +552,7 @@ public class Allocation extends CustomComponent implements View {
                         @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             try {
-                                logic.check_selected_allocationTab(dto, session, check.getValue() ? 1 : 0, startStamp, endStamp);
+                                logic.checkSlectedAllocationTab(dto, session, check.getValue() ? 1 : 0, startStamp, endStamp);
                             } catch (Exception ex) {
                                 LOGGER.error(ex.getMessage());
 
@@ -610,11 +610,11 @@ public class Allocation extends CustomComponent implements View {
             if (Constant.CHECKRECORD.equals(event.getPropertyId().toString())) {
                 String table = (String) ((ExtCustomTable) event.getComponent()).getData();
                 if ("available".equalsIgnoreCase(table)) {
-                    logic.checkAll_available_allocationTab(session, event.isChecked() ? 1 : 0, startStamp, endStamp);
+                    logic.checkAllAvailableAllocationTab(session, event.isChecked() ? 1 : 0, startStamp, endStamp);
                     altDto.setReset(BooleanConstant.getTrueFlag());
                     tableLogic.loadSetData(altDto, session, false);
                 } else {
-                    logic.checkAll_selected_allocationTab(session, event.isChecked() ? 1 : 0, startStamp, endStamp);
+                    logic.checkAllSelectedAllocationTab(session, event.isChecked() ? 1 : 0, startStamp, endStamp);
                     altDto.setReset(BooleanConstant.getTrueFlag());
                     tableDetLogic.loadSetData(altDto, session, true);
                 }
@@ -631,7 +631,7 @@ public class Allocation extends CustomComponent implements View {
     public void addBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Inside addBtnClick");
         try {
-            if (logic.count_avalibale_allocationTab(session, startStamp, endStamp) == 0) {
+            if (logic.countAvalibaleAllocationTab(session, startStamp, endStamp) == 0) {
                 AbstractNotificationUtils.getErrorNotification("No Record Selected",
                         "Please verify that a CCP record is selected.");
                 return;
@@ -663,13 +663,13 @@ public class Allocation extends CustomComponent implements View {
     public void removeBtnClick(Button.ClickEvent event) {
         try {
             LOGGER.debug("Inside removeBtnClick");
-            if (logic.count_selected_allocationTab(session, startStamp, endStamp) == 0) {
+            if (logic.countSelectedAllocationTab(session, startStamp, endStamp) == 0) {
                 AbstractNotificationUtils.getErrorNotification("No Record Selected ",
                         "Please check mark a CCP record in the ‘Allocation Details’ list view to remove. ");
                 return;
             }
             leftDetTable.setColumnCheckBox(Constant.CHECKRECORD, true, false);
-            logic.remove_selected_allocationTab(session, startStamp, endStamp);
+            logic.removeSelectedAllocationTab(session, startStamp, endStamp);
             altDto.setReset(BooleanConstant.getTrueFlag());
             tableDetLogic.loadSetData(altDto, session, true);
         } catch (Exception e) {
@@ -697,7 +697,7 @@ public class Allocation extends CustomComponent implements View {
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals("OK")) {
                                 leftDetTable.setColumnCheckBox(Constant.CHECKRECORD, true, false);
-                                logic.removeAll_selected_allocationTab(session);
+                                logic.removeAllSelectedAllocationTab(session);
                                 altDto.setReset(BooleanConstant.getTrueFlag());
                                 tableDetLogic.loadSetData(altDto, session, true);
                         }
