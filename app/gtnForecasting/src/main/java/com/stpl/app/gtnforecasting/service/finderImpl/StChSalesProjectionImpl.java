@@ -9,6 +9,7 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -174,14 +175,14 @@ public class StChSalesProjectionImpl  {
                         || Constant.PREPARE_PROCEDURE_CALL.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
                         || Constant.UPDATE_RECORD.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
                     HelperTableLocalServiceUtil.executeUpdateQuery(queryString.toString());
-                    return null;
+                    return Collections.emptyList();
                 }
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
         } catch (Exception ex) {
             LOGGER.error("{}, While assembling query for= {} " , ex.getMessage(), parameters.get(Constants.INDICATOR));
             LOGGER.error(queryString.toString());
-            return null;
+            return Collections.emptyList();
         } 
     }
     

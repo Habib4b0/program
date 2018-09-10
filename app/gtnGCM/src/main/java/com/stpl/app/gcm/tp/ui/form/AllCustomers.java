@@ -50,7 +50,7 @@ public class AllCustomers extends Window {
     
     private final CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     private final ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
-    final private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
+    private final BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
     private List<TradingPartnerDTO> resultList = new ArrayList<>();
     /**
      * The excel export image.
