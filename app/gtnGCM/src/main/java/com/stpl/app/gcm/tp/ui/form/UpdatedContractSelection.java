@@ -1523,8 +1523,8 @@ public class UpdatedContractSelection extends VerticalLayout {
                         visibleColumns = Constants.getInstance().excelRemoveTpContractSelectionColumns;
                     }
                 } else {
-                    ContractSelectionLogic contractSelectionLogic = new ContractSelectionLogic();
-                    searchList = contractSelectionLogic.getComponentInformation(excelSelectionValue, excelComponentId, 0, end, tablelogic.getFilters());
+                    ContractSelectionLogic contractSelectionLogicContent = new ContractSelectionLogic();
+                    searchList = contractSelectionLogicContent.getComponentInformation(excelSelectionValue, excelComponentId, 0, end, tablelogic.getFilters());
                     visibleColumns = componentInformationTable.getVisibleColumns();
                 }
             }

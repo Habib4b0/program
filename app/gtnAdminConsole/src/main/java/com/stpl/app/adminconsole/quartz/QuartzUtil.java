@@ -51,29 +51,7 @@ public class QuartzUtil {
 
 	}
 
-	private static void printHourlyMap(Map<Integer, List<Integer>> hourMap) {
-
-		for (int i = 0; i < 24; i++) {
-			List<Integer> minuteList = hourMap.get(i);
-			if (minuteList != null) {
-				for (Integer minute : minuteList) {
-					System.out.println(i + " " + minute);
-				}
-			}
-		}
-	}
-
-	private static void printMinutely(Map<Integer, List<Integer>> minutelyMap) {
-
-		for (int i = 0; i < 60; i++) {
-			List<Integer> hourList = minutelyMap.get(i);
-			if (hourList != null) {
-				for (Integer hour : hourList) {
-					System.out.println(i + " " + hour);
-				}
-			}
-		}
-	}
+	
 
 	public static void addToHourlyMap(Map<Integer, List<Integer>> hourMap, int minuteInADay ) {
 		

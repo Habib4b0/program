@@ -93,7 +93,7 @@ public class FileManagementLogic {
 	/**
 	 * The dao.
 	 */
-	final private static FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
+	private static final FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
 	/**
 	 * The foecast year count.
 	 */
