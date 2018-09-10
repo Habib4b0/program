@@ -62,23 +62,23 @@ public class DataSelectionQueryUtils {
 
     private String getLevelMapValueMapQuery(Object relationshipBuilderSID, int relationVersionNo,
             int hierarchyBuilderSid, int hierarchyVersionNo) {
-        GtnARMHierarchyInputBean inputBean = new GtnARMHierarchyInputBean();
-        inputBean.setRelationShipBuilderSid(Integer.parseInt(relationshipBuilderSID.toString()));
-        inputBean.setRelationVersionNo(relationVersionNo);
-        inputBean.setHierarchyDefinitionSid(hierarchyBuilderSid);
-        inputBean.setHierarchyVersionNo(hierarchyVersionNo);
+        GtnARMHierarchyInputBean dataSelecInputBean = new GtnARMHierarchyInputBean();
+        dataSelecInputBean.setRelationShipBuilderSid(Integer.parseInt(relationshipBuilderSID.toString()));
+        dataSelecInputBean.setRelationVersionNo(relationVersionNo);
+        dataSelecInputBean.setHierarchyDefinitionSid(hierarchyBuilderSid);
+        dataSelecInputBean.setHierarchyVersionNo(hierarchyVersionNo);
         GtnWsArmRequest armRequest = new GtnWsArmRequest();
-        armRequest.setInputBean(inputBean);
-        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-        request.setGtnWsArmRequest(armRequest);
-        GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+        armRequest.setInputBean(dataSelecInputBean);
+        GtnUIFrameworkWebServiceClient dataSelClient = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest dataSeleRequest = new GtnUIFrameworkWebserviceRequest();
+        dataSeleRequest.setGtnWsArmRequest(armRequest);
+        GtnUIFrameworkWebserviceResponse relationResponse = dataSelClient.callGtnWebServiceUrl(
                 GtnWebServiceUrlConstants.GTN_DATASELCTION_ARM_EDIT_SERVICE
                 + GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_LEVEL_VALUE_MAP,
-                request, getGsnWsSecurityToken());
+                dataSeleRequest, getGsnWsSecurityToken());
         GtnWsARMResponse armResponse = relationResponse.getGtnWsARMResponse();
-        GtnARMHierarchyInputBean outputBean = armResponse.getInputBean();
-        return outputBean.getFramedQuery();
+        GtnARMHierarchyInputBean dataSelectionOutputBean = armResponse.getInputBean();
+        return dataSelectionOutputBean.getFramedQuery();
     }
 
     public static List getLevelsFromHierarchy(final Map<String, Object> parameters) {

@@ -183,7 +183,7 @@ public class Trx7PrivatePublicLookup extends Window {
     @UiHandler("resetBtn")
     public void resetButtonClick(Button.ClickEvent event) {
         try {
-            notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_views());
+            tr7PulblicNotifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_views());
         } catch (Exception e) {
             LOGGER.error("Error in resetButtonClick :", e);
         }
@@ -217,9 +217,9 @@ public class Trx7PrivatePublicLookup extends Window {
             LOGGER.error("Error in closeButtonClick :", e);
         }
     }
-    private final CustomNotification notifier = new CustomNotification();
+    private final PrivatePublicCustomNotification tr7PulblicNotifier = new PrivatePublicCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class PrivatePublicCustomNotification extends AbstractNotificationUtils {
 
         @Override
         public void noMethod() {

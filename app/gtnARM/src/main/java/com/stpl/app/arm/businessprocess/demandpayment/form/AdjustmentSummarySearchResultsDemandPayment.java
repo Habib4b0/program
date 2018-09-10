@@ -34,7 +34,7 @@ public class AdjustmentSummarySearchResultsDemandPayment extends AbstractDemandS
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getSummaryLogic();
+        return getSummaryLogic();
     }
 
     @Override
