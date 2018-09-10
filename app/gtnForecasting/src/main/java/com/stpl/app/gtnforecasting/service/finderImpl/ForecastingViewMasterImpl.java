@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.service.finderImpl;
 
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -49,7 +50,7 @@ public class ForecastingViewMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return null;
+            return Collections.emptyList();  
         } 
     }
 }
