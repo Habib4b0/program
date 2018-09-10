@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ResponsiveUtils {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
     public static final String PREV_NEXT_LAYOUT = "prev-next-layout";
     public static final String NEXTCOLUMN_BUTTON = "next-column-button";
     public static final String PREVCOLUMN_BUTTON = "prev-column-button";

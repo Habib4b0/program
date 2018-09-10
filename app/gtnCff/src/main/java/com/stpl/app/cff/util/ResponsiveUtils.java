@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * @author shrihariharan
  */
 public class ResponsiveUtils {
-       private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
+       private static final Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
 
        
        private ResponsiveUtils()
