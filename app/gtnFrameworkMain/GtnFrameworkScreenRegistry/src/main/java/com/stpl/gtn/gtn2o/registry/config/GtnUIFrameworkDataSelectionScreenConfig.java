@@ -509,7 +509,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteViewBtn.setComponentName("DELETE VIEW");
 		deleteViewBtn.setParentComponentId(parentComponentId);
 		deleteViewBtn.setAddToParent(true);
-                deleteViewBtn.setEnable(false);
+		deleteViewBtn.setEnable(false);
 		componentList.add(deleteViewBtn);
 	}
 
