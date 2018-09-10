@@ -312,6 +312,16 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
         }
         return true;
     }
+      @Override
+    public boolean updateOverrideLevelFilter(List input) {
+        try {
+            QueryUtils.itemUpdate(input, "pipeline_common_query_Level_Filter", "Txn1_rates_override_query_Level_Filter");
+        } catch (Exception e) {
+            LOGGER.error("Error in updateOverride :", e);
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public boolean getCondition(AdjustmentDTO dto, Object propertyId, AbstractSelectionDTO selection) {

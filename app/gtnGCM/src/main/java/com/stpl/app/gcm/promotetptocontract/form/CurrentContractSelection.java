@@ -701,23 +701,23 @@ public class CurrentContractSelection extends CustomComponent implements View {
     }
 
     private void loadRebateScheduleCategory() {
-        logic.LazyLoadDdlb(rebateScheduleCategory, "getRSCategoryCountForPromoteTpToCh", "getRSCategoryForPromoteTpToCh");
+        logic.lazyLoadDdlb(rebateScheduleCategory, "getRSCategoryCountForPromoteTpToCh", "getRSCategoryForPromoteTpToCh");
     }
 
     private void loadRebateScheduleType() {
-        logic.LazyLoadDdlb(rebateScheduleType, "getRSTypeCountForPromoteTpToCh", "getRSTypeForPromoteTpToCh");
+        logic.lazyLoadDdlb(rebateScheduleType, "getRSTypeCountForPromoteTpToCh", "getRSTypeForPromoteTpToCh");
     }
 
     private void loadRebateProgramType() {
-        logic.LazyLoadDdlb(rebateProgramType, "getRPTypeCountForPromoteTpToCh", "getRPTypeForPromoteTpToCh");
+        logic.lazyLoadDdlb(rebateProgramType, "getRPTypeCountForPromoteTpToCh", "getRPTypeForPromoteTpToCh");
     }
 
     private void loadMarketType() {
-        logic.LazyLoadDdlb(marketType, "getMarketTypeCountForPromoteTpToCh", "getMarketTypeForPromoteTpToCh");
+        logic.lazyLoadDdlb(marketType, "getMarketTypeCountForPromoteTpToCh", "getMarketTypeForPromoteTpToCh");
     }
 
     private void loadRARCategory() {
-        logic.LazyLoadDdlb(rarCategory, "getRARTypeCount", "getRARType");
+        logic.lazyLoadDdlb(rarCategory, "getRARTypeCount", "getRARType");
     }
 
     @UiHandler("resetBtn1")

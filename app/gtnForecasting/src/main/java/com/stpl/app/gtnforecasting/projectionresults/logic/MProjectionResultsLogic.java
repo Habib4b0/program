@@ -120,7 +120,7 @@ public class MProjectionResultsLogic {
                 + "FROM PERIOD \n"
                 + "WHERE PERIOD_DATE = @PROJECTION_DATE \n";
         query += sql + " \n" + getProjectionResultsNetSalesQueryForPR(projSelDTO);
-        prMainQuery = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        prMainQuery = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List<ProjectionResultsDTO> projDTOList = getCustomizedProjectionResultsSales(prMainQuery, projSelDTO);
         return projDTOList;
     }
@@ -904,7 +904,7 @@ public class MProjectionResultsLogic {
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         String query = "";
         query = getNetSalesQuery(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List<ProjectionResultsDTO> projDTOList = getCustomizedNetSales(list, projSelDTO);
 
         return projDTOList;
@@ -928,7 +928,7 @@ public class MProjectionResultsLogic {
         } else if (projSelDTO.isIsChildTotal()) {
 
             query = getChildTotalDiscountMainQuery(projSelDTO);
-            childDiscountList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            childDiscountList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
 
             getCustomizedChildTotalDiscount(childDiscountList, projSelDTO);
             projDTOList.add(prjTotalDisChildDtoList.get(NumericConstants.ZERO));
@@ -956,7 +956,7 @@ public class MProjectionResultsLogic {
             projDTOList.add(prjTotalDisDtoList.get(NumericConstants.TWO));
         } else if (projSelDTO.isIsChildTotal()) {
             query = getChildTotalDiscountMainQuery(projSelDTO);
-            childDiscountList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query,projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            childDiscountList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query,projSelDTO.getSessionDTO().getCurrentTableNames()));
 
             getCustomizedChildTotalDiscount(childDiscountList, projSelDTO);
             projDTOList.add(prjTotalDisChildDtoList.get(NumericConstants.FOUR));
@@ -985,7 +985,7 @@ public class MProjectionResultsLogic {
         } else if (projSelDTO.isIsChildTotal()) {
 
             query = getChildTotalDiscountMainQuery(projSelDTO);
-            childDiscountList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query,projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            childDiscountList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query,projSelDTO.getSessionDTO().getCurrentTableNames()));
 
             getCustomizedChildTotalDiscount(childDiscountList, projSelDTO);
             projDTOList.add(prjTotalDisChildDtoList.get(NumericConstants.TWO));
@@ -2145,7 +2145,7 @@ public class MProjectionResultsLogic {
             projSelDTO.setTreeLevelNo(NumericConstants.FIVE);
         }
         String query=getProgramCodeQuery(freq.get(projSelDTO.getFrequencyDivision()), projSelDTO);
-        programCodeList = (List<Object[]>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        programCodeList = (List<Object[]>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         return Collections.unmodifiableList(programCodeList);
     }
 
@@ -2311,7 +2311,7 @@ public class MProjectionResultsLogic {
                 + "WHERE PERIOD_DATE = @PROJECTION_DATE \n";
         String gtsListQuery = getProjectionResultsPivotQuery(projSelDTO);
         query += gtsListQuery;
-        List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(query);
 
         List<Object[]> pcList = addProgramCodeDiscounts(projSelDTO);
 
@@ -2328,7 +2328,7 @@ public class MProjectionResultsLogic {
         freq.put(NumericConstants.FOUR, Constant.QUARTER);
         freq.put(NumericConstants.TWELVE, "\"MONTH\"");
         String query=getProgramCodeQuery(freq.get(projSelDTO.getFrequencyDivision()), projSelDTO);
-        list = (List<Object[]>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        list = (List<Object[]>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         return list;
     }
 
@@ -3383,7 +3383,7 @@ public class MProjectionResultsLogic {
         List list;
         CommonLogic commonLogic = new CommonLogic();
         String hierSQL = "SELECT FIELD_NAME FROM dbo.HIERARCHY_LEVEL_DEFINITION WHERE HIERARCHY_DEFINITION_SID=" + projSelDTO.getCustHierarchySid() + " and LEVEL_NAME='Contract'";
-        list = (List<Object>) CommonLogic.executeSelectQuery(hierSQL, null, null);
+        list = (List<Object>) CommonLogic.executeSelectQuery(hierSQL);
 
         if (list != null && !list.isEmpty()) {
             final Object obj = list.get(NumericConstants.ZERO);
@@ -3623,7 +3623,7 @@ public class MProjectionResultsLogic {
 
     public static List<String> getProgramCodeName(int projectionId) {
         List<String> strList = new ArrayList<>();
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeNameQuery(projectionId), null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeNameQuery(projectionId));
         if (list != null && !list.isEmpty()) {
             strList = CommonUtils.objectListToStringList(list);
         }

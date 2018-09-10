@@ -45,14 +45,18 @@ public class GtnUIFrameworkContractHeaderAliasTabRemoveAction
 				bean.setContractAliasMasterSid(aliasMasterSid);
 				chRequest.setGtnwsContractAliasMasterBeanList(beanList);
 				request.setGtnWsContractHeaderRequest(chRequest);
-				new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SERVICE
-								+ GtnWsContractHeaderContants.GTN_WS_CONTRACT_ALIAS_DELETE_SERVICE,
-						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				callDeleteService(request);
 			}
 		}
 
 	}
+
+    public void callDeleteService(GtnUIFrameworkWebserviceRequest request) {
+         new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SERVICE
+                        + GtnWsContractHeaderContants.GTN_WS_CONTRACT_ALIAS_DELETE_SERVICE,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

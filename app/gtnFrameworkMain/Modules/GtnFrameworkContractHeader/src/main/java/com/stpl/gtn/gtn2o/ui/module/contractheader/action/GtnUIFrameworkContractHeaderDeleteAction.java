@@ -47,10 +47,7 @@ public class GtnUIFrameworkContractHeaderDeleteAction
 		imRequest.setGtnWsContractMasterBean(imBean);
 		gtnRequest.setGtnWsContractHeaderRequest(imRequest);
 
-		GtnUIFrameworkWebserviceResponse reponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SERVICE
-						+ GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_DELETE_SERVICE,
-				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse reponse = getDeleteService(				gtnRequest);
 		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 		GtnUIFrameWorkAlertAction alertAction = new GtnUIFrameWorkAlertAction();
 		if (reponse.getGtnWsContractHeaderResponse().isContractMasterUsed()) {
@@ -68,6 +65,13 @@ public class GtnUIFrameworkContractHeaderDeleteAction
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notifActionConfig);
 
 	}
+
+    public GtnUIFrameworkWebserviceResponse getDeleteService(GtnUIFrameworkWebserviceRequest gtnRequest) {
+        return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SERVICE
+                        + GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_DELETE_SERVICE,
+                gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());      
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

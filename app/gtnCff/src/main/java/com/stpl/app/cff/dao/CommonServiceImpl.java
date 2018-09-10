@@ -1331,7 +1331,6 @@ public class CommonServiceImpl {
             queryString.append(StringConstantsUtil.ORDER_BY);
 
             query = queryString.toString();
-            try {
                 if (parameters.get(StringConstantsUtil.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))
                         && !StringConstantsUtil.COUNT.equals(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))) {
                     if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
@@ -1472,9 +1471,7 @@ public class CommonServiceImpl {
                     query = query.replace(StringConstantsUtil.ORDER_BY, StringUtils.EMPTY);
                     query = query.replace(StringConstantsUtil.Q_FILTER, StringUtils.EMPTY);
                 }
-            } catch (NumberFormatException ex) {
-                LOGGER.error("Exception= {} and Query= {} and Message= {}", ex.getMessage(), query, StringConstantsUtil.IN_EXECUTE_QUERY);
-            }
+           
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(query);

@@ -446,19 +446,19 @@ public class AbstractContractSearchDTO {
         this.rebateScheduleName = rebateScheduleName;
     }
 
-    public HelperDTO getRebateScheduleType_DTO() {
+    public HelperDTO getRebateScheduleTypeDto() {
         return rebateScheduleTypeDTO;
     }
 
-    public void setRebateScheduleType_DTO(HelperDTO rebateScheduleTypeDto) {
+    public void setRebateScheduleTypeDto(HelperDTO rebateScheduleTypeDto) {
         this.rebateScheduleTypeDTO = rebateScheduleTypeDto;
     }
 
-    public HelperDTO getRarCategory_DTO() {
+    public HelperDTO getRarCategoryDto() {
         return rarCategoryDTO;
     }
 
-    public void setRarCategory_DTO(HelperDTO rarCategoryDto) {
+    public void setRarCategoryDto(HelperDTO rarCategoryDto) {
         this.rarCategoryDTO = rarCategoryDto;
     }
 
@@ -470,27 +470,27 @@ public class AbstractContractSearchDTO {
         this.rebateScheduleNo = rebateScheduleNo;
     }
 
-    public HelperDTO getRebateScheduleCategory_DTO() {
+    public HelperDTO getRebateScheduleCategoryDto() {
         return rebateScheduleCategoryDTO;
     }
 
-    public void setRebateScheduleCategory_DTO(HelperDTO rebateScheduleCategoryDto) {
+    public void setRebateScheduleCategoryDto(HelperDTO rebateScheduleCategoryDto) {
         this.rebateScheduleCategoryDTO = rebateScheduleCategoryDto;
     }
 
-    public HelperDTO getRebateProgramType_DTO() {
+    public HelperDTO getRebateProgramTypeDto() {
         return rebateProgramTypeDTO;
     }
 
-    public void setRebateProgramType_DTO(HelperDTO rebateProgramTypeDto) {
+    public void setRebateProgramTypeDto(HelperDTO rebateProgramTypeDto) {
         this.rebateProgramTypeDTO = rebateProgramTypeDto;
     }
 
-    public HelperDTO getMarketType_DTO() {
+    public HelperDTO getMarketTypeDto() {
         return marketTypeDTO;
     }
 
-    public void setMarketType_DTO(HelperDTO marketTypeDto) {
+    public void setMarketTypeDto(HelperDTO marketTypeDto) {
         this.marketTypeDTO = marketTypeDto;
     }
 
