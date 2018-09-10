@@ -93,20 +93,20 @@ public class ComponentLookUpDTO {
         this.isCount = isCount;
     }
 
-    public HelperDTO getComponentStatus_DTO() {
+    public HelperDTO getComponentStatusDto() {
         return componentStatusDTO;
     }
 
-    public void setComponentStatus_DTO(HelperDTO componentStatus_DTO) {
-        this.componentStatusDTO = componentStatus_DTO;
+    public void setComponentStatusDto(HelperDTO componentStatusDTO) {
+        this.componentStatusDTO = componentStatusDTO;
     }
 
-    public HelperDTO getComponentType_DTO() {
+    public HelperDTO getComponentTypeDto() {
         return componentTypeDTO;
     }
 
-    public void setComponentType_DTO(HelperDTO componentType_DTO) {
-        this.componentTypeDTO = componentType_DTO;
+    public void setComponentTypeDto(HelperDTO componentTypeDto) {
+        this.componentTypeDTO = componentTypeDto;
     }
 
     public Integer getStartIndex() {
@@ -213,20 +213,20 @@ public class ComponentLookUpDTO {
         this.componentSid = componentSid;
     }
 
-    public HelperDTO getComponentCategory_DTO() {
+    public HelperDTO getComponentCategoryDto() {
         return componentCategoryDTO;
     }
 
-    public void setComponentCategory_DTO(HelperDTO componentCategory_DTO) {
-        this.componentCategoryDTO = componentCategory_DTO;
+    public void setComponentCategoryDto(HelperDTO componentCategoryDto) {
+        this.componentCategoryDTO = componentCategoryDto;
     }
 
-    public HelperDTO getRsProgramType_DTO() {
+    public HelperDTO getRsProgramTypeDto() {
         return rsProgramTypeDTO;
     }
 
-    public void setRsProgramType_DTO(HelperDTO rsProgramType_DTO) {
-        this.rsProgramTypeDTO = rsProgramType_DTO;
+    public void setRsProgramTypeDto(HelperDTO rsProgramTypeDto) {
+        this.rsProgramTypeDTO = rsProgramTypeDto;
     }
 
     public String getRsProgramType() {

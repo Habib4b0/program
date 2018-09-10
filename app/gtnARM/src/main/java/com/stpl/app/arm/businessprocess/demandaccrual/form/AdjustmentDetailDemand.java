@@ -70,13 +70,8 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
                 AbstractNotificationUtils.getErrorNotification(WorkflowMessages.getCW_SubmitMandoryValidationHeader(), ARMMessages.getGenerateMessageMsgId_004());
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in generateBtn :" , ex);
+            LOGGER.error("Error in generateBtn :", ex);
         }
-    }
-
-    @Override
-    protected void resetBtn() {
-        super.resetBtn();
     }
 
     @Override
@@ -125,23 +120,9 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
             if ("detailLevel".equals(String.valueOf(obj[0]))) {
                 level.setValue(String.valueOf(obj[1]));
             } else if ("detailvariables".equals(String.valueOf(obj[0]))) {
-                String str1 = (String) obj[1];
-                String[] str2 = str1.split(",");
-                String str3 = null;
-                for (String strings : str2) {
-                    str3 = strings;
-                }
-                CommonUtils.checkMenuBarItem(customMenuItem, str3);
-                selection.setDetailvariables(Arrays.asList(str2));
+                getDetailVariables(obj);
             } else if ("detailreserveAcount".equals(String.valueOf(obj[0]))) {
-                String str1 = (String) obj[1];
-                String[] str2 = str1.split(",");
-                String str3 = null;
-                for (String strings : str2) {
-                    str3 = strings;
-                }
-                CommonUtils.checkMenuBarItem(reserveMenuItem, str3);
-                selection.setDetailreserveAcount(Arrays.asList(str2));
+                getDetailReserveAccount(obj);
             } else if (VariableConstants.DETAIL_AMOUNT_FILTER.equals(String.valueOf(obj[0]))) {
                 amountFilterItem.removeChildren();
                 loadAmountFilter();
@@ -159,7 +140,7 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
                 try {
                     BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in loadDetails :" , ex);
+                    LOGGER.error("Error in loadDetails :", ex);
                 }
 
             }
@@ -167,6 +148,28 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
 
         String frequency = HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(selection.getSummarydemandfrequency()));
         selection.setSummarydemandfrequency(frequency);
+    }
+
+    private void getDetailReserveAccount(Object[] obj) {
+        String str1 = (String) obj[1];
+        String[] str2 = str1.split(",");
+        String str3 = null;
+        for (String strings : str2) {
+            str3 = strings;
+        }
+        CommonUtils.checkMenuBarItem(reserveMenuItem, str3);
+        selection.setDetailreserveAcount(Arrays.asList(str2));
+    }
+
+    private void getDetailVariables(Object[] obj) {
+        String str1 = (String) obj[1];
+        String[] str2 = str1.split(",");
+        String str3 = null;
+        for (String strings : str2) {
+            str3 = strings;
+        }
+        CommonUtils.checkMenuBarItem(customMenuItem, str3);
+        selection.setDetailvariables(Arrays.asList(str2));
     }
 
     private void configuresWorkFlow() {

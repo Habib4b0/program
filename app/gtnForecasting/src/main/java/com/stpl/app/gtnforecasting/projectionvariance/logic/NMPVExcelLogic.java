@@ -187,7 +187,7 @@ public class NMPVExcelLogic {
         isCustomView = selection.isIsCustomHierarchy();
 
         if (isCustomView) {
-            customViewRelationshipHierarchy.putAll(getGroup_customViewNM());
+            customViewRelationshipHierarchy.putAll(getGroupCustomViewNM());
         }
         LOGGER.debug("customView_relationship_hierarchy ={}", customViewRelationshipHierarchy.isEmpty() ? customViewRelationshipHierarchy : 0);
 
@@ -203,19 +203,19 @@ public class NMPVExcelLogic {
                     getTotalDiscount(selection);
                 }
 
-                calculateAndCustomize_total_period(PROC_RAWLIST_TOTAL);
+                calculateAndCustomizeTotalPeriod(PROC_RAWLIST_TOTAL);
                 if (discountFlag) {
-                    discount_Customize();
+                    discountCustomizePv();
                 }
 
             } else {
-                executeProcedure_PRC_PV_SELECTION();
+                executeProcedurePRCPVSelection();
                 if (discountFlag) {
                     parameterDto.setViewName("DETAIL_DISCOUNT");
-                    executeProcedure_PRC_PV_SELECTION();
+                    executeProcedurePRCPVSelection();
                 }
                 if (isCustomView) {
-                    calculateAndCustomize_periodForCustomView(procRawListDetail, procRawListDetailDiscount);
+                    calculateAndCustomizePeriodForCustomView(procRawListDetail, procRawListDetailDiscount);
                 } else {
                     calculateAndCustomizeDetailPeriod(procRawListDetail, procRawListDetailDiscount);
                 }
@@ -228,21 +228,21 @@ public class NMPVExcelLogic {
                 if (discLevel.equals(PROGRAM) || discLevel.equals(PROGRAM_CAT)) {
                     getTotalPivotVariance(selection);
                     getTotalDiscount(selection);
-                    getPivot_customization();
+                    getPivotCustomization();
 
                 } else {
                     getTotalRawData();
-                    calculateAndCustomize_total_pivot(PROC_RAWLIST_TOTAL);
+                    calculateAndCustomizeTotalPivot(PROC_RAWLIST_TOTAL);
                 }
             } else {
-                executeProcedure_PRC_PV_SELECTION();
+                executeProcedurePRCPVSelection();
                 if (discountFlag) {
                     parameterDto.setViewName("DETAIL_DISCOUNT");
-                    executeProcedure_PRC_PV_SELECTION();
+                    executeProcedurePRCPVSelection();
                 }
 
-                customize_discount_pivot();
-                calculateAndCustomize_detail_pivot(procRawListDetail);
+                customizeDiscountPivot();
+                calculateAndCustomizeDetailPivot(procRawListDetail);
 
             }
             if (DESCENDING.getConstant().equals(selection.getProjectionOrder())) {
@@ -280,7 +280,7 @@ public class NMPVExcelLogic {
                 //To check condition total or details values
                 pvList = new ArrayList();
                 addList(pvList, obj);
-                hierarchyAndTP_keys(obj, key, pvList);
+                hierarchyAndTPKeysPv(obj, key, pvList);
             } else {
                 updateList(pvList, obj);
             }
@@ -307,14 +307,14 @@ public class NMPVExcelLogic {
             Integer newListIndex = discountMap.get(discountName);
             if (newListIndex == null) {
                 discountMap.put(discountName, listIndex++);
-                addList_detail_discount(key, obj);
+                addListDetailDiscount(key, obj);
             } else {
-                updateList_detail_discount(key, obj, newListIndex);
+                updateListDetailDiscount(key, obj, newListIndex);
             }
         }
     }
 
-    private void hierarchyAndTP_keys(Object[] obj, String key, List<ProjectionVarianceDTO> pvList) {
+    private void hierarchyAndTPKeysPv(Object[] obj, String key, List<ProjectionVarianceDTO> pvList) {
 
         hierarchyKeys.add(key);
 
@@ -343,11 +343,11 @@ public class NMPVExcelLogic {
                 String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
                 String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
                      if (CommonUtil.isValueEligibleForLoading()) {
-                        getFormattedExcelColumns(detail, hierarchy, obj);
+                        getFormattedExcelColumns(detail, hierarchy);
 
                     } else {
                         groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), 
-                                selection.isIsCustomHierarchy() ? selection.getSessionDTO().getDiscountHierarchyLevelDetails() : selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+                                selection.isIsCustomHierarchy() ? selection.getSessionDTO().getDiscountHierarchyLevelDetails() : selection.getSessionDTO().getHierarchyLevelDetails(),  selection.getDisplayFormat());
                         detail.setGroup(groupName);
 
                     }
@@ -1083,19 +1083,21 @@ public class NMPVExcelLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valueNMPV = value;
+        if (valueNMPV.contains(NULL.getConstant())) {
+            valueNMPV = ZERO;
         } else {
-            value = decFormat.format(Double.valueOf(value));
+            valueNMPV = decFormat.format(Double.valueOf(valueNMPV));
         }
-        return value;
+        return valueNMPV;
     }
 
     public String isNull(String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String isNullNMPV = value;
+        if (isNullNMPV.contains(NULL.getConstant())) {
+            isNullNMPV = ZERO;
         }
-        return value;
+        return isNullNMPV;
     }
 
     public void getTotalRawData() {
@@ -1128,7 +1130,7 @@ public class NMPVExcelLogic {
         rawList.clear();
     }
 
-    public void executeProcedure_PRC_PV_SELECTION() {
+    public void executeProcedurePRCPVSelection() {
         List< Object[]> rawList = null;
         boolean isRefresh = true;
         if (parameterDto.getViewName().equals("DETAIL_TOTAL_DISCOUNT")) {
@@ -1168,7 +1170,7 @@ public class NMPVExcelLogic {
         }
     }
 
-    private List<ProjectionVarianceDTO> calculateAndCustomize_total_period(List<Object[]> rawList) {
+    private List<ProjectionVarianceDTO> calculateAndCustomizeTotalPeriod(List<Object[]> rawList) {
 
         //To check condition total or details values
         List<ProjectionVarianceDTO> pvList = new ArrayList();
@@ -1188,7 +1190,7 @@ public class NMPVExcelLogic {
         return pvList;
     }
 
-    private void calculateAndCustomize_total_pivot(List<Object[]> rawList) {
+    private void calculateAndCustomizeTotalPivot(List<Object[]> rawList) {
         List<ProjectionVarianceDTO> pvList = new ArrayList();
         hierarchyKeys.add(Constants.LabelConstants.TOTAL.toString());
         resultMap.put(Constants.LabelConstants.TOTAL.toString(), pvList);
@@ -1211,7 +1213,7 @@ public class NMPVExcelLogic {
                     frequencyBasedDTO.setDfLevelName(gorupName);
                     frequencyBasedDTO.setDfLevelNumber(gorupName);
                     if (i++ == 0) {
-                        addList_pivot(pvList, obj, frequencyBasedDTO, NumericConstants.TWO, "");
+                        addListPivot(pvList, obj, frequencyBasedDTO, NumericConstants.TWO, "");
 
                     } else {
                         updateListPivot(pvList, obj, frequencyBasedDTO, "");
@@ -1222,7 +1224,7 @@ public class NMPVExcelLogic {
         }
     }
 
-    private void addList_pivot(List<ProjectionVarianceDTO> pvList, Object[] obj, ProjectionVarianceDTO frequencyBasedDTO, int indexForTotal, String key) {
+    private void addListPivot(List<ProjectionVarianceDTO> pvList, Object[] obj, ProjectionVarianceDTO frequencyBasedDTO, int indexForTotal, String key) {
 
         if (isTotal) {
             ProjectionVarianceDTO total = new ProjectionVarianceDTO();
@@ -1236,7 +1238,7 @@ public class NMPVExcelLogic {
             String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
             String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
                 groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), 
-                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getDisplayFormat());
             if (groupName.contains("-")) {
                 String[] tempArr = groupName.split("-");
                 detail.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
@@ -1564,7 +1566,7 @@ public class NMPVExcelLogic {
         }
     }
 
-    private void calculateAndCustomize_detail_pivot(List<Object[]> rawList) {
+    private void calculateAndCustomizeDetailPivot(List<Object[]> rawList) {
         List<String> periodList = selection.getPeriodList();
 
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
@@ -1583,8 +1585,8 @@ public class NMPVExcelLogic {
                     //To check condition total or details values
                     pvList = new ArrayList();
 
-                    addList_pivot(pvList, obj, freVarianceDTO, INDEX, key);
-                    hierarchyAndTP_keys(obj, key, pvList);
+                    addListPivot(pvList, obj, freVarianceDTO, INDEX, key);
+                    hierarchyAndTPKeysPv(obj, key, pvList);
                 } else {
                     updateListPivot(pvList, obj, freVarianceDTO,key);
                 }
@@ -2003,7 +2005,7 @@ public class NMPVExcelLogic {
         LOGGER.info("Ending commonCustomizationForTotalDiscount");
     }
 
-    private void calculate_discount(String varaibleName, String varibaleCat, String masterKey, Object[] obj, int currentIndex, ProjectionVarianceDTO pvDTO,
+    private void calculateDiscount(String varaibleName, String varibaleCat, String masterKey, Object[] obj, int currentIndex, ProjectionVarianceDTO pvDTO,
             PVSelectionDTO selection, DecimalFormat format, boolean isAdd, int listIndex) {
 
         String key = masterKey + varaibleName + varibaleCat;
@@ -2051,22 +2053,22 @@ public class NMPVExcelLogic {
         LOGGER.debug("discountKeys ={}",discountKeys.isEmpty() ? discountKeys : 0);
     }
     
-    private void addList_detail_discount(String key, final Object[] obj) {
+    private void addListDetailDiscount(String key, final Object[] obj) {
         if (selection.isVarDisAmount()) {
             if (selection.isColValue()) {
                 selection.setConversionNeeded(true);
                 disDollValue = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.VALUE, key, obj, NumericConstants.SIX, disDollValue, selection, AMOUNT, true, 0);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.VALUE, key, obj, NumericConstants.SIX, disDollValue, selection, AMOUNT, true, 0);
             }
             if (selection.isColVariance()) {
                 selection.setConversionNeeded(true);
                 disDollVar = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.VARIANCE, key, obj, NumericConstants.SIX, disDollVar, selection, AMOUNT, true, 0);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.VARIANCE, key, obj, NumericConstants.SIX, disDollVar, selection, AMOUNT, true, 0);
             }
             if (selection.isColPercentage()) {
                 selection.setConversionNeeded(false);
                 disDollPer = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.CHANGE, key, obj, NumericConstants.SIX, disDollPer, selection, RATE_PER, true, 0);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.CHANGE, key, obj, NumericConstants.SIX, disDollPer, selection, RATE_PER, true, 0);
             }
         }
         //Discount %
@@ -2074,15 +2076,15 @@ public class NMPVExcelLogic {
             selection.setConversionNeeded(false);
             if (selection.isColValue()) {
                 disPerValue = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.VALUE, key, obj, NumericConstants.NINE, disPerValue, selection, RATE_PER, true, 0);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.VALUE, key, obj, NumericConstants.NINE, disPerValue, selection, RATE_PER, true, 0);
             }
             if (selection.isColVariance()) {
                 disPerVar = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.VARIANCE, key, obj, NumericConstants.NINE, disPerVar, selection, RATE_PER, true, 0);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.VARIANCE, key, obj, NumericConstants.NINE, disPerVar, selection, RATE_PER, true, 0);
             }
             if (selection.isColPercentage()) {
                 disPerPer = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.CHANGE, key, obj, NumericConstants.NINE, disPerPer, selection, RATE_PER, true, 0);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.CHANGE, key, obj, NumericConstants.NINE, disPerPer, selection, RATE_PER, true, 0);
             }
         }
         //RPU
@@ -2090,15 +2092,15 @@ public class NMPVExcelLogic {
             selection.setConversionNeeded(false);
             if (selection.isColValue()) {
                 rpuValue = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.VAR_RPU.toString(), Constant.VALUE, key, obj, NumericConstants.TWELVE, rpuValue, selection, AMOUNT, true, 0);
+                calculateDiscount(Constant.PVVariables.VAR_RPU.toString(), Constant.VALUE, key, obj, NumericConstants.TWELVE, rpuValue, selection, AMOUNT, true, 0);
             }
             if (selection.isColVariance()) {
                 rpuVar = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.VAR_RPU.toString(), Constant.VARIANCE, key, obj, NumericConstants.TWELVE, rpuVar, selection, AMOUNT, true, 0);
+                calculateDiscount(Constant.PVVariables.VAR_RPU.toString(), Constant.VARIANCE, key, obj, NumericConstants.TWELVE, rpuVar, selection, AMOUNT, true, 0);
             }
             if (selection.isColPercentage()) {
                 rpuPer = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.VAR_RPU.toString(), Constant.CHANGE, key, obj, NumericConstants.TWELVE, rpuPer, selection, RATE_PER, true, 0);
+                calculateDiscount(Constant.PVVariables.VAR_RPU.toString(), Constant.CHANGE, key, obj, NumericConstants.TWELVE, rpuPer, selection, RATE_PER, true, 0);
             }
         }
         //Discount Exfactory Per Change
@@ -2106,84 +2108,84 @@ public class NMPVExcelLogic {
             selection.setConversionNeeded(false);
             if (selection.isColValue()) {
                 discountPerExFactoryValue = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.VALUE, key, obj, NumericConstants.FIFTEEN, discountPerExFactoryValue, selection, AMOUNT, true, 0);
+                calculateDiscount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.VALUE, key, obj, NumericConstants.FIFTEEN, discountPerExFactoryValue, selection, AMOUNT, true, 0);
             }
             if (selection.isColVariance()) {
                 discountPerExFactoryVar = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.VARIANCE, key, obj, NumericConstants.FIFTEEN, discountPerExFactoryVar, selection, AMOUNT, true, 0);
+                calculateDiscount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.VARIANCE, key, obj, NumericConstants.FIFTEEN, discountPerExFactoryVar, selection, AMOUNT, true, 0);
             }
             if (selection.isColPercentage()) {
                 discountPerExFactoryPer = new ProjectionVarianceDTO();
-                calculate_discount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.CHANGE, key, obj, NumericConstants.FIFTEEN, discountPerExFactoryPer, selection, RATE_PER, true, 0);
+                calculateDiscount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.CHANGE, key, obj, NumericConstants.FIFTEEN, discountPerExFactoryPer, selection, RATE_PER, true, 0);
             }
         }
     }
 
-    private void updateList_detail_discount(String key, final Object[] obj, int listIndex) {
+    private void updateListDetailDiscount(String key, final Object[] obj, int listIndex) {
         //Discount $
         if (selection.isVarDisAmount()) {
             if (selection.isColValue()) {
                 selection.setConversionNeeded(true);
-                calculate_discount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.VALUE, key, obj, NumericConstants.SIX, null, selection, AMOUNT, false, listIndex);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.VALUE, key, obj, NumericConstants.SIX, null, selection, AMOUNT, false, listIndex);
             }
             if (selection.isColVariance()) {
                 selection.setConversionNeeded(true);
-                calculate_discount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.VARIANCE, key, obj, NumericConstants.SIX, null, selection, AMOUNT, false, listIndex);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.VARIANCE, key, obj, NumericConstants.SIX, null, selection, AMOUNT, false, listIndex);
 
             }
             if (selection.isColPercentage()) {
                 selection.setConversionNeeded(false);
-                calculate_discount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.CHANGE, key, obj, NumericConstants.SIX, null, selection, RATE_PER, false, listIndex);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_AMOUNT.toString(), Constant.CHANGE, key, obj, NumericConstants.SIX, null, selection, RATE_PER, false, listIndex);
             }
         }
         //Discount %
         if (selection.isVarDisRate()) {
             selection.setConversionNeeded(false);
             if (selection.isColValue()) {
-                calculate_discount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.VALUE, key, obj, NumericConstants.NINE, null, selection, RATE_PER, false, listIndex);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.VALUE, key, obj, NumericConstants.NINE, null, selection, RATE_PER, false, listIndex);
 
             }
             if (selection.isColVariance()) {
-                calculate_discount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.VARIANCE, key, obj, NumericConstants.NINE, null, selection, RATE_PER, false, listIndex);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.VARIANCE, key, obj, NumericConstants.NINE, null, selection, RATE_PER, false, listIndex);
 
             }
             if (selection.isColPercentage()) {
-                calculate_discount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.CHANGE, key, obj, NumericConstants.NINE, null, selection, RATE_PER, false, listIndex);
+                calculateDiscount(Constant.PVVariables.VAR_DIS_RATE.toString(), Constant.CHANGE, key, obj, NumericConstants.NINE, null, selection, RATE_PER, false, listIndex);
             }
         }
         //RPU
         if (selection.isVarRPU()) {
             selection.setConversionNeeded(false);
             if (selection.isColValue()) {
-                calculate_discount(Constant.PVVariables.VAR_RPU.toString(), Constant.VALUE, key, obj, NumericConstants.TWELVE, null, selection, AMOUNT, false, listIndex);
+                calculateDiscount(Constant.PVVariables.VAR_RPU.toString(), Constant.VALUE, key, obj, NumericConstants.TWELVE, null, selection, AMOUNT, false, listIndex);
 
             }
             if (selection.isColVariance()) {
-                calculate_discount(Constant.PVVariables.VAR_RPU.toString(), Constant.VARIANCE, key, obj, NumericConstants.TWELVE, null, selection, AMOUNT, false, listIndex);
+                calculateDiscount(Constant.PVVariables.VAR_RPU.toString(), Constant.VARIANCE, key, obj, NumericConstants.TWELVE, null, selection, AMOUNT, false, listIndex);
 
             }
             if (selection.isColPercentage()) {
-                calculate_discount(Constant.PVVariables.VAR_RPU.toString(), Constant.CHANGE, key, obj, NumericConstants.TWELVE, null, selection, RATE_PER, false, listIndex);
+                calculateDiscount(Constant.PVVariables.VAR_RPU.toString(), Constant.CHANGE, key, obj, NumericConstants.TWELVE, null, selection, RATE_PER, false, listIndex);
             }
         }
         //Discount Exfactory Per Change
         if (selection.isDiscountPerExFactory()) {
             selection.setConversionNeeded(false);
             if (selection.isColValue()) {
-                calculate_discount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.VALUE, key, obj, NumericConstants.FIFTEEN, null, selection, RATE_PER, false, listIndex);
+                calculateDiscount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.VALUE, key, obj, NumericConstants.FIFTEEN, null, selection, RATE_PER, false, listIndex);
 
             }
             if (selection.isColVariance()) {
-                calculate_discount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.VARIANCE, key, obj, NumericConstants.FIFTEEN, null, selection, RATE_PER, false, listIndex);
+                calculateDiscount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.VARIANCE, key, obj, NumericConstants.FIFTEEN, null, selection, RATE_PER, false, listIndex);
 
             }
             if (selection.isColPercentage()) {
-                calculate_discount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.CHANGE, key, obj, NumericConstants.FIFTEEN, null, selection, RATE_PER, false, listIndex);
+                calculateDiscount(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constant.CHANGE, key, obj, NumericConstants.FIFTEEN, null, selection, RATE_PER, false, listIndex);
             }
         }
     }
 
-    public void discount_Customize() {
+    public void discountCustomizePv() {
 
         boolean isDetail = selection.getLevel().equals(DETAIL);
         commonCustomizationForTotalDiscount("D$", pivotDiscountList, selection, isDetail, NumericConstants.FIVE, BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag());
@@ -2223,7 +2225,7 @@ public class NMPVExcelLogic {
         pivotTotalList.addAll(gtsResult);
     }
 
-    public void getPivot_customization() {
+    public void getPivotCustomization() {
         NMProjectionVarianceLogic logic = new NMProjectionVarianceLogic();
        
         List<ProjectionVarianceDTO> finalList = logic.getCustomizedPivotTotalResults(pivotTotalList,  selection, selection, pivotDiscountList);
@@ -2265,7 +2267,7 @@ public class NMPVExcelLogic {
 
     }
 
-    private void customize_discount_pivot() {
+    private void customizeDiscountPivot() {
         int count = procRawListDetailDiscount.size();
         String oldHierarchyNo = StringUtils.EMPTY;
         String newyear;
@@ -2294,12 +2296,12 @@ public class NMPVExcelLogic {
             /* Below If condition used to check next hierarchy No is same with old hierarchy No*/
             if (oldHierarchyNo.equals(newHierarchyNo)) {
                 if (oldYear.equals(newyear) && newPeriod.equals(oldPeriod)) {
-                    setBase_Value(discountDto, obj);
+                    setBaseValuePv(discountDto, obj);
 
                 } else if (i == 0) {
                     discountDto = new ProjectionVarianceDTO();
-                    commonColumn = getVisibleColumn_Header(obj);
-                    setBase_Value(discountDto, obj);
+                    commonColumn = getVisibleColumnJeaderPv(obj);
+                    setBaseValuePv(discountDto, obj);
                     oldYear = newyear;
                     oldPeriod = newPeriod;
 
@@ -2308,8 +2310,8 @@ public class NMPVExcelLogic {
                     /*New discount means add at List */
                     periodDiscountMap.put(commonColumn, discountDto);
                     discountDto = new ProjectionVarianceDTO();
-                    commonColumn = getVisibleColumn_Header(obj);
-                    setBase_Value(discountDto, obj);
+                    commonColumn = getVisibleColumnJeaderPv(obj);
+                    setBaseValuePv(discountDto, obj);
                     oldYear = newyear;
                     oldPeriod = newPeriod;
 
@@ -2321,8 +2323,8 @@ public class NMPVExcelLogic {
 
                 periodDiscountMap = new HashMap<>();
                 discountDto = new ProjectionVarianceDTO();
-                commonColumn = getVisibleColumn_Header(obj);
-                setBase_Value(discountDto, obj);
+                commonColumn = getVisibleColumnJeaderPv(obj);
+                setBaseValuePv(discountDto, obj);
                 oldYear = newyear;
                 oldPeriod = newPeriod;
 
@@ -2336,7 +2338,7 @@ public class NMPVExcelLogic {
         }
     }
 
-    private void setBase_Value(ProjectionVarianceDTO discountDto, Object[] obj) {
+    private void setBaseValuePv(ProjectionVarianceDTO discountDto, Object[] obj) {
           addListDetaildiscountPivot(discountDto,obj);
     }
     
@@ -2410,7 +2412,7 @@ public class NMPVExcelLogic {
         }
     }
 
-    private String getVisibleColumn_Header(Object[] obj) {
+    private String getVisibleColumnJeaderPv(Object[] obj) {
         String commonColumn = StringUtils.EMPTY;
         if (frequencyDivision == NumericConstants.FOUR) {
             commonColumn = "Q" + obj[NumericConstants.TWO] + StringUtils.EMPTY + obj[NumericConstants.THREE];
@@ -2425,20 +2427,20 @@ public class NMPVExcelLogic {
         return commonColumn;
     }
 
-    private Map<String, String> getGroup_customViewNM() {
+    private Map<String, String> getGroupCustomViewNM() {
         Map<String, List> relationshipLevelDetailsMap = selection.isIsCustomHierarchy() ? selection.getSessionDTO().getDiscountHierarchyLevelDetails() : selection.getSessionDTO().getHierarchyLevelDetails();
         Map<String, String> customViewMap = new HashMap<>();
         Set keys = relationshipLevelDetailsMap.entrySet();
 
         for (Iterator i = keys.iterator(); i.hasNext();) {
             String key =  (String)((Map.Entry)i.next()).getKey();
-            String value = CommonUtil.getDisplayFormattedName(key,  relationshipLevelDetailsMap, selection.getSessionDTO(), selection.getDisplayFormat());
+            String value = CommonUtil.getDisplayFormattedName(key,  relationshipLevelDetailsMap, selection.getDisplayFormat());
             customViewMap.put(key, value);
         }
         return customViewMap;
     }
 
-    private void calculateAndCustomize_periodForCustomView(List<Object[]> rawList, List<Object[]> rawListDisc) {
+    private void calculateAndCustomizePeriodForCustomView(List<Object[]> rawList, List<Object[]> rawListDisc) {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
@@ -2448,7 +2450,7 @@ public class NMPVExcelLogic {
                 //To check condition total or details values
                 pvList = new ArrayList();
                 addList(pvList, obj);
-                hierarchyAndTP_keys(obj, key, pvList);
+                hierarchyAndTPKeysPv(obj, key, pvList);
             } else {
                 updateList(pvList, obj);
             }
@@ -2468,15 +2470,15 @@ public class NMPVExcelLogic {
                 Integer newListIndex = discountMap.get(discountName);
                 if (newListIndex == null) {
                     discountMap.put(discountName, listIndex++);
-                    addList_detail_discount(key, obj);
+                    addListDetailDiscount(key, obj);
                 } else {
-                    updateList_detail_discount(key, obj, newListIndex);
+                    updateListDetailDiscount(key, obj, newListIndex);
                 }
             }
         }
     }
 
-    public void getFormattedExcelColumns(ProjectionVarianceDTO detail, String hierarchy, Object[] obj) {
+    public void getFormattedExcelColumns(ProjectionVarianceDTO detail, String hierarchy) {
 
         List<String> groupName = CommonUtil.getFormattedDisplayName(hierarchy.trim(), 
                 selection.isIsCustomHierarchy() ? selection.getSessionDTO().getDiscountHierarchyLevelDetails() : selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());

@@ -23,34 +23,32 @@ import org.apache.commons.lang.StringUtils;
 public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
     @Override
-    public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
+    public List<List> getReserveAccountDetails(AbstractSelectionDTO demandSelection, Boolean isReserve) {
         List replaceList = new ArrayList();
         List<String> reserveHeader = new ArrayList<>();
         List<String> reserveProperty = new ArrayList<>();
         List<List> finalList = new ArrayList<>();
-        StringBuilder value;
-        StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
 
-        if (selection.getSessionDTO().isWorkFlow()) {
-            replaceList.add(selection.getDataSelectionDTO().getProjectionId());
+        if (demandSelection.getSessionDTO().isWorkFlow()) {
+            replaceList.add(demandSelection.getDataSelectionDTO().getProjectionId());
             replaceList.add(isReserveValue);
-            replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-            replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-            replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-            replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
+            replaceList.add(demandSelection.getDataSelectionDTO().getProjectionId());
+            replaceList.add(demandSelection.getDataSelectionDTO().getProjectionId());
+            replaceList.add(demandSelection.getDataSelectionDTO().getCompanyMasterSid());
+            replaceList.add(demandSelection.getDataSelectionDTO().getBucompanyMasterSid());
         } else {
             replaceList.add(isReserveValue);
-            replaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
-            replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-            replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-            replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-            replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
+            replaceList.add(demandSelection.getDataSelectionDTO().getAdjustmentId());
+            replaceList.add(demandSelection.getDataSelectionDTO().getProjectionId());
+            replaceList.add(demandSelection.getDataSelectionDTO().getProjectionId());
+            replaceList.add(demandSelection.getDataSelectionDTO().getCompanyMasterSid());
+            replaceList.add(demandSelection.getDataSelectionDTO().getBucompanyMasterSid());
         }
         StringBuilder query;
-        if (selection.getSessionDTO().isWorkFlow()) {
+        if (demandSelection.getSessionDTO().isWorkFlow()) {
             query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
+            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(demandSelection.getDataSelectionDTO().getProjectionId()));
             query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
         } else {
             query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
@@ -59,25 +57,31 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             }
         }
         List list = QueryUtils.executeSelect(query.toString());
+        return getFinalList(list, reserveHeader, reserveProperty, finalList);
+    }
+
+    private List<List> getFinalList(List list, List<String> reserveHeader, List<String> reserveProperty, List<List> finalList) {
+        StringBuilder demandValue;
+        StringBuilder property;
         if (list != null) {
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                value = new StringBuilder(StringUtils.EMPTY);
+                demandValue = new StringBuilder(StringUtils.EMPTY);
                 property = new StringBuilder(StringUtils.EMPTY);
                 if (isValid(obj[0])) {
-                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
+                    demandValue = new StringBuilder(helperId.getDescriptionByID((Integer) (obj[0])));
                     property = new StringBuilder(String.valueOf(obj[0]));
                 }
                 if (isValid(obj[1])) {
-                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
+                    demandValue.append(DASH).append(helperId.getDescriptionByID((Integer) (obj[1])));
                     property.append(DASH).append(String.valueOf(obj[1]));
                 }
                 if (isValid(obj[NumericConstants.TWO])) {
-                    value.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
+                    demandValue.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
                     property.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
                 }
-                reserveHeader.add(value.toString());
+                reserveHeader.add(demandValue.toString());
                 reserveProperty.add(property.toString());
             }
             finalList.add(reserveHeader);
@@ -107,14 +111,14 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     }
 
     @Override
-    protected String getAmountFilterCondition(List<String> condition, String tableAliasName) {
+    protected String getAmountFilterCondition(List<String> demandCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
-        if (condition != null && !condition.isEmpty() && condition.size() < NumericConstants.THREE) {
+        if (demandCondition != null && !demandCondition.isEmpty() && demandCondition.size() < NumericConstants.THREE) {
             StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
-            for (int i = 0; i < condition.size(); i++) {
-                String str = condition.get(i);
+            for (int i = 0; i < demandCondition.size(); i++) {
+                String str = demandCondition.get(i);
                 grlStr.append(tableAliasName + "ACCRUAL_AMOUNT ").append(String.valueOf(str.charAt(0))).append(" 0.00");
-                if (condition.size() > 1 && i != 1) {
+                if (demandCondition.size() > 1 && i != 1) {
                     grlStr.append(" OR ");
                 }
             }

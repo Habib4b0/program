@@ -12,15 +12,15 @@ import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 public class GenerateResetButton {
 
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
-	
-	public void addGenerateResetButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
-			String nameSpace) {
-		
+
+	public void addGenerateResetButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
+			String parentComponentId, String nameSpace) {
+
 		GtnUIFrameworkComponentConfig generateResetButtonLayout = new GtnUIFrameworkComponentConfig();
 		generateResetButtonLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		generateResetButtonLayout.setAuthorizationIncluded(true);
 		generateResetButtonLayout.setComponentId(nameSpace + "_" + "generateResetButtonButtonLayout");
-		generateResetButtonLayout.setAddToParent(Boolean.TRUE);
+		generateResetButtonLayout.setAddToParent(true);
 		generateResetButtonLayout.setParentComponentId(parentComponentId);
 		GtnUIFrameworkLayoutConfig layoutConfig = new GtnUIFrameworkLayoutConfig();
 		layoutConfig.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
@@ -32,8 +32,8 @@ public class GenerateResetButton {
 		addGenerateResetButtonButton(componentList, generateResetButtonLayout.getComponentId(), nameSpace);
 	}
 
-	private void addGenerateResetButtonButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
-			String nameSpace) {		
+	private void addGenerateResetButtonButton(List<GtnUIFrameworkComponentConfig> componentList,
+			String parentComponentId, String nameSpace) {
 		GtnUIFrameworkComponentConfig generateButton = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + "_" + "generateButton", true, parentComponentId, GtnUIFrameworkComponentType.BUTTON);
 		generateButton.setComponentName("GENERATE");

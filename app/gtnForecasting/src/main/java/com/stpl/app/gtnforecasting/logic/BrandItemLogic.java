@@ -28,6 +28,9 @@ import org.slf4j.LoggerFactory;
  */
 public class BrandItemLogic {
     
+    private BrandItemLogic() {
+        // BrandItemLogic
+    }
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(BrandItemLogic.class);
     

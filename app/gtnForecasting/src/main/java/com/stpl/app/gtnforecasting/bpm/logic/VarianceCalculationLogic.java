@@ -15,6 +15,9 @@ public class VarianceCalculationLogic {
 
     protected static ForecastForm forecastForm;
     protected static String notiMsg = "";
+    private VarianceCalculationLogic() {
+        // VarianceCalculationLogic
+    }
 
     public static void submitWorkflow(final Long processInstanceId, final SessionDTO session, String moduleName) {
 

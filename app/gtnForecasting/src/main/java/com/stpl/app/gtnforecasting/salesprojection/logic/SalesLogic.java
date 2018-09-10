@@ -410,8 +410,9 @@ public class SalesLogic {
      * @param offset
      * @param projSelDTO
      * @return
+     * @throws com.liferay.portal.kernel.exception.PortalException
      */
-    public List<SalesRowDto> getConfiguredSalesProjection(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) throws Exception {
+    public List<SalesRowDto> getConfiguredSalesProjection(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) throws PortalException {
         List<SalesRowDto> resultList;
         if ((CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projSelDTO.getScreenName()) || CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName()))
                 && (projSelDTO.getPivotView() != null && Constant.VARIABLE.equals(projSelDTO.getPivotView()))) {
@@ -866,7 +867,7 @@ public class SalesLogic {
             salesRowDto.setLevelName("Total Alternate History");
             salesRowDto.setParent(0);
             for (int i = 0; i < list.size(); i++) {
-                Object obj[] = (Object[]) list.get(i);
+                Object obj[] = list.get(i);
                 int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
                 String key = Constant.Q_SMALL + String.valueOf(obj[NumericConstants.THREE]) + "-" + String.valueOf(obj[NumericConstants.TWO]);
                 if (frequencyDivision == 1) {
@@ -903,7 +904,7 @@ public class SalesLogic {
                     salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(hierarchy).get(NumericConstants.TWO))));
                 }
                 salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(hierarchy).get(1)));
-                String levelName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat());
+                String levelName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), relationshipDetailsMap, projectionSelectionDTO.getDisplayFormat());
                 salesRowDto.setLevelName(levelName);
                 if (levelName.contains("-")) {
                     String[] tempArr = levelName.split("-");
@@ -936,7 +937,7 @@ public class SalesLogic {
                     salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(hierarchy).get(NumericConstants.TWO))));
                 }
                 salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(hierarchy).get(1)));
-                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(),  relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
+                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(),  relationshipDetailsMap, projectionSelectionDTO.getDisplayFormat()));
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
             }
             salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ?  Boolean.FALSE :  Boolean.TRUE :  Boolean.FALSE);
@@ -2197,23 +2198,23 @@ public class SalesLogic {
     public static final String PROJECTED_SALES = "ProjectedSales";
     
     public void saveRecords(String propertyId, String editedValue, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException {
-
+        String editedValueSave = editedValue;
         String key;
         String updatedField;
-        if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
+        if (StringUtils.isNotBlank(editedValueSave) && !Constant.NULL.equals(editedValueSave)) {
 
             StringBuilder updateLine = new StringBuilder();
 
-            editedValue = editedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
-            editedValue = editedValue.replace("$", StringUtils.EMPTY);
-            editedValue = editedValue.replace(",", StringUtils.EMPTY);
-            editedValue = editedValue.trim();
+            editedValueSave = editedValueSave.replace(Constant.PERCENT, StringUtils.EMPTY);
+            editedValueSave = editedValueSave.replace("$", StringUtils.EMPTY);
+            editedValueSave = editedValueSave.replace(",", StringUtils.EMPTY);
+            editedValueSave = editedValueSave.trim();
 
             int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
             int year = 0;
             int frequency = 0;
 
-            BigDecimal value = new BigDecimal(editedValue);
+            BigDecimal value = new BigDecimal(editedValueSave);
             String hierarchyNo = salesDTO.getHierarchyNo();
             int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String[] keyarr = propertyId.split("-");
@@ -2740,7 +2741,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public void adjustSalesProjection(final ProjectionSelectionDTO projectionSelectionDTO, final String adjType, final String adjVal,
-            final String adjBasis, final String adsVar,final String historyPeriods, String projectionPeriods) throws SystemException {
+            final String adjBasis, final String adsVar, String projectionPeriods) throws SystemException {
         List<String> inputList = new ArrayList<>();
         inputList.add(projectionSelectionDTO.getFrequency());
         inputList.add(projectionPeriods);
@@ -2898,13 +2899,13 @@ public class SalesLogic {
     }
 
     public List loadAlternateBrand(String brandName) throws PortalException {
-
-        if (brandName.contains("*")) {
-            brandName = brandName.replace('*', '%');
+        String brandNam = brandName;
+        if (brandNam.contains("*")) {
+            brandNam = brandNam.replace('*', '%');
         }
 
         StringBuilder query = new StringBuilder();
-        query.append("SELECT DISTINCT BRAND_MASTER_SID,BRAND_NAME,BRAND_ID FROM dbo.BRAND_MASTER WHERE BRAND_NAME like '").append(brandName).append("';");
+        query.append("SELECT DISTINCT BRAND_MASTER_SID,BRAND_NAME,BRAND_ID FROM dbo.BRAND_MASTER WHERE BRAND_NAME like '").append(brandNam).append("';");
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         List list = (List) salesProjectionDAO.executeSelectQuery(query.toString());
         return convertAlternateBrandResults(list);
@@ -3876,9 +3877,10 @@ public class SalesLogic {
 
     private String updateQuery(String saveQuery, double rpu, final String entryValue) {
         LOGGER.debug("RPU= {}, ReturnDetailsSid-->= {}  " , rpu, entryValue);
-        saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + (Double.isNaN(rpu) ? 0.0 : rpu));
-        saveQuery = saveQuery.replace(Constant.RETURNS_DETAILS_SID_AT, entryValue);
-        return saveQuery;
+        String updateQuery = saveQuery;
+        updateQuery = updateQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + (Double.isNaN(rpu) ? 0.0 : rpu));
+        updateQuery = updateQuery.replace(Constant.RETURNS_DETAILS_SID_AT, entryValue);
+        return updateQuery;
     }
 
     private List<Map> getActiveExFactorySalesAndUnitsForMassUpdate(ProjectionSelectionDTO projectionSelectionDTO, String periodQuery, String frequency) throws PortalException {
@@ -3930,24 +3932,25 @@ public class SalesLogic {
     }
 
     private String addFrequencyInQuery(int frequencyDivision, int period, String query) {
+        String queryFreq = query;
         switch (frequencyDivision) {
             case 1:
-                query = query.replace(Constant.FREQUENCY1_AT, StringUtils.EMPTY);
+                queryFreq = queryFreq.replace(Constant.FREQUENCY1_AT, StringUtils.EMPTY);
                 break;
             case NumericConstants.TWELVE:
-                query = query.replace(Constant.FREQUENCY1_AT, " AND MONTH = " + period);
+                queryFreq = queryFreq.replace(Constant.FREQUENCY1_AT, " AND MONTH = " + period);
                 break;
             case NumericConstants.FOUR:
-                query = query.replace(Constant.FREQUENCY1_AT, " AND QUARTER = " + period);
+                queryFreq = queryFreq.replace(Constant.FREQUENCY1_AT, " AND QUARTER = " + period);
                 break;
             case NumericConstants.TWO:
-                query = query.replace(Constant.FREQUENCY1_AT, " AND SEMI_ANNUAL = " + period);
+                queryFreq = queryFreq.replace(Constant.FREQUENCY1_AT, " AND SEMI_ANNUAL = " + period);
                 break;
             default:
                 break;
 
         }
-        return query;
+        return queryFreq;
     }
 
     private String calculationLogic(final ProjectionSelectionDTO projectionSelectionDTO, final String hierarchyNo, final String enteredValue, String query, final Map<String, Double> salesAmount, final Map<String, Double> unitsMap) {
@@ -4015,7 +4018,7 @@ public class SalesLogic {
 
     public List<SalesRowDto> configureLevels(int start, int offset, int started, ProjectionSelectionDTO projSelDTO) {
         int neededRecord = offset;
-
+        int startedCount = started;
         List<SalesRowDto> resultList = new ArrayList<>();
         if (projSelDTO.isIsProjectionTotal() && Constant.ALTERNATE_HISTORY.equals(projSelDTO.getFunctionality())) {
             SalesRowDto dto = new SalesRowDto();
@@ -4056,7 +4059,7 @@ public class SalesLogic {
             List<Leveldto> levelList = getConditionalLevelList(projSelDTO.getProjectionId(), start, offset, projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), projSelDTO.getHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.isIsFilter(), false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO.getGroupFilter(), projSelDTO.getUserId(), projSelDTO.getSessionId(), projSelDTO.getCustRelationshipBuilderSid(), projSelDTO.getProdRelationshipBuilderSid(), false, true, projSelDTO.getSessionDTO());
 
             for (int i = 0; i < levelList.size() && neededRecord > 0; neededRecord--, i++) {
-                if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
+                if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (startedCount + i))) {
                     Leveldto levelDto = levelList.get(i);
 
                     SalesRowDto dto = new SalesRowDto();
@@ -4079,7 +4082,7 @@ public class SalesLogic {
                     dto.setParent(1);
                     resultList.add(dto);
                 }
-                started++;
+                startedCount++;
             }
         }
         return resultList;
@@ -4170,12 +4173,12 @@ public class SalesLogic {
                     .append(SQlUtil.getQuery("alternate-join-loaddata"))
                     .append(SQlUtil.getQuery("alternate-histroy-period-date").replace("?F", String.valueOf(projSelDTO.getFrequency().charAt(0))))
                     .append(SQlUtil.getQuery("alternate-histroy-sales-summary-pivot").replace("@PERIOD_DATE", CommonLogic.getPeriodRestrictionQuery(projSelDTO)));
-            List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(builder.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(builder.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()));
             projDTOList = getCustomizedProjectionPivot(gtsList, projSelDTO);
             LOGGER.debug("Ending getProjection Pivot NonMandated");
         } else if (projSelDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
             LOGGER.debug("Entering getProjectionPivot Mandated");
-            List<Object> gtsList = (List<Object>) SPRCommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(getSalesProjectionUnitsQuery(projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            List<Object> gtsList = (List<Object>) SPRCommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(getSalesProjectionUnitsQuery(projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames()));
             projDTOList = getCustomizedProjectionPivot(gtsList, projSelDTO);
             LOGGER.debug("Ends getProjectionPivot Mandated");
         }
@@ -4380,22 +4383,23 @@ public class SalesLogic {
     }
 
     public String getLevelListQuery(int projectionId, String hierarchyIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isExpand, boolean isCount, int start, int offset, boolean isLimit, boolean isCustom, int customId, String userGroup, int userId, int sessionId, String custRelSid, String prodRelSid) {
+        String hierarchyIndicatorSales = hierarchyIndicator;
         if (isCustom) {
 
-            String hierarchyIndicatorQuery = "select HIERARCHY_INDICATOR from dbo.CUSTOM_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID=" + customId + " and LEVEL_NO=" + levelNo;
-            List<Object> list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(hierarchyIndicatorQuery);
+            String hierarchyIndicatorSalesQuery = "select HIERARCHY_INDICATOR from dbo.CUSTOM_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID=" + customId + " and LEVEL_NO=" + levelNo;
+            List<Object> list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(hierarchyIndicatorSalesQuery);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                hierarchyIndicator = String.valueOf(ob);
+                hierarchyIndicatorSales = String.valueOf(ob);
             } else {
-                hierarchyIndicator = StringUtils.EMPTY;
+                hierarchyIndicatorSales = StringUtils.EMPTY;
             }
         }
         String hierarchyNo1 = StringUtils.EMPTY;
         String whereCond = " ";
         if (hierarchyNo != null) {
             if ((!hierarchyNo.equals(StringUtils.EMPTY)) && (isExpand)) {
-                whereCond = " and HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO='" + hierarchyNo + "' ";
+                whereCond = " and HLD" + hierarchyIndicatorSales.trim() + ".HIERARCHY_NO='" + hierarchyNo + "' ";
             }
             if ((!isFilter) && (!hierarchyNo.equals(StringUtils.EMPTY))) {
                 hierarchyNo1 = hierarchyNo;
@@ -4404,43 +4408,43 @@ public class SalesLogic {
         String recordNumber = StringUtils.EMPTY;
         String selectClause = "select ";
         if (isCount) {
-            selectClause += " Count(distinct HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO) ";
+            selectClause += " Count(distinct HLD" + hierarchyIndicatorSales.trim() + ".HIERARCHY_NO) ";
         } else {
-            selectClause += " distinct HLD" + hierarchyIndicator.trim() + ".LEVEL_NO, "
-                    + " HLD" + hierarchyIndicator.trim() + ".TREE_LEVEL_NO, "
-                    + " '" + hierarchyIndicator + Constant.AS_HIERARCHY_INDICATOR_COMMA
-                    + " HLD" + hierarchyIndicator.trim() + ".LEVEL_NAME,"
-                    + " HLD" + hierarchyIndicator.trim() + ".RELATIONSHIP_LEVEL_VALUES,"
-                    + " HLD" + hierarchyIndicator.trim() + ".PARENT_NODE,"
-                    + " HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO ";
+            selectClause += " distinct HLD" + hierarchyIndicatorSales.trim() + ".LEVEL_NO, "
+                    + " HLD" + hierarchyIndicatorSales.trim() + ".TREE_LEVEL_NO, "
+                    + " '" + hierarchyIndicatorSales + Constant.AS_HIERARCHY_INDICATOR_COMMA
+                    + " HLD" + hierarchyIndicatorSales.trim() + ".LEVEL_NAME,"
+                    + " HLD" + hierarchyIndicatorSales.trim() + ".RELATIONSHIP_LEVEL_VALUES,"
+                    + " HLD" + hierarchyIndicatorSales.trim() + ".PARENT_NODE,"
+                    + " HLD" + hierarchyIndicatorSales.trim() + ".HIERARCHY_NO ";
             if (isLimit) {
-                recordNumber += " ORDER BY HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO ASC OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
+                recordNumber += " ORDER BY HLD" + hierarchyIndicatorSales.trim() + ".HIERARCHY_NO ASC OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
             } else {
-                selectClause += ", ROW_NUMBER() OVER (ORDER BY HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO ASC) AS TEMP_INDEX ";
+                selectClause += ", ROW_NUMBER() OVER (ORDER BY HLD" + hierarchyIndicatorSales.trim() + ".HIERARCHY_NO ASC) AS TEMP_INDEX ";
             }
         }
         String customSql = selectClause;
         if (isCustom) {
 
-            String customViewQuery = getCustomViewLevelListQuery(projectionId, customId, hierarchyIndicator, levelNo, productHierarchyNo, customerHierarchyNo, custRelSid, prodRelSid, userId, sessionId);
+            String customViewQuery = getCustomViewLevelListQuery(projectionId, customId, hierarchyIndicatorSales, levelNo, productHierarchyNo, customerHierarchyNo, custRelSid, prodRelSid, userId, sessionId);
             customSql += Constant.FROM_SMALL + customViewQuery;
         } else {
             String relationshipBuilderSid = custRelSid;
-            if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator)) {
+            if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicatorSales)) {
                 relationshipBuilderSid = prodRelSid;
             }
-            String selectClause1 = "(SELECT RLD.relationship_level_values,RLD.hierarchy_no,CCP.ccp_details_sid,RLD.hierarchy_level_definition_sid,RLD.level_no,RLD.level_no as TREE_LEVEL_NO," + "'" + hierarchyIndicator + "'" + " HIERARCHY_INDICATOR,RLD.PARENT_NODE ";
-            String selectClause2 = " (SELECT RLD1.hierarchy_no,RLD1.relationship_level_sid,RLD1.relationship_level_values,RLD1.level_no,RLD1.level_name,RLD1.level_no as TREE_LEVEL_NO," + "'" + hierarchyIndicator + "'" + " HIERARCHY_INDICATOR,RLD1.hierarchy_level_definition_sid,RLD1.PARENT_NODE ";
+            String selectClause1 = "(SELECT RLD.relationship_level_values,RLD.hierarchy_no,CCP.ccp_details_sid,RLD.hierarchy_level_definition_sid,RLD.level_no,RLD.level_no as TREE_LEVEL_NO," + "'" + hierarchyIndicatorSales + "'" + " HIERARCHY_INDICATOR,RLD.PARENT_NODE ";
+            String selectClause2 = " (SELECT RLD1.hierarchy_no,RLD1.relationship_level_sid,RLD1.relationship_level_values,RLD1.level_no,RLD1.level_name,RLD1.level_no as TREE_LEVEL_NO," + "'" + hierarchyIndicatorSales + "'" + " HIERARCHY_INDICATOR,RLD1.hierarchy_level_definition_sid,RLD1.PARENT_NODE ";
             String joinQuery1 = " relationship_level_definition RLD JOIN ccp_map CCP ON RLD.relationship_level_sid = CCP.relationship_level_sid"
                     + " AND RLD.RELATIONSHIP_BUILDER_SID=" + relationshipBuilderSid + " \n"
                     + " JOIN  ST_ALTERNATE_HIST_ALLOCATION STHA ON \n"
                     + "	 STHA.CCP_DETAILS_SID = CCP.ccp_details_sid\n"
                     + getGroupFilterQuery(userGroup, false) + ") CCPMAP,";
 
-            String joinQuery2 = " relationship_level_definition RLD1 JOIN " + getViewTableName(hierarchyIndicator) + " PCH  ON PCH.relationship_level_sid = RLD1.relationship_level_sid \n"
+            String joinQuery2 = " relationship_level_definition RLD1 JOIN " + getViewTableName(hierarchyIndicatorSales) + " PCH  ON PCH.relationship_level_sid = RLD1.relationship_level_sid \n"
                     + " AND PCH.projection_master_sid =" + projectionId
-                    + " WHERE  RLD1.hierarchy_no LIKE '" + hierarchyNo1 + "%' AND RLD1.LEVEL_NO = " + levelNo + ") HLD" + hierarchyIndicator.trim();
-            String mainJoin = " WHERE  CCPMAP.hierarchy_no LIKE HLD" + hierarchyIndicator.trim() + ".hierarchy_no + '%'";
+                    + " WHERE  RLD1.hierarchy_no LIKE '" + hierarchyNo1 + "%' AND RLD1.LEVEL_NO = " + levelNo + ") HLD" + hierarchyIndicatorSales.trim();
+            String mainJoin = " WHERE  CCPMAP.hierarchy_no LIKE HLD" + hierarchyIndicatorSales.trim() + ".hierarchy_no + '%'";
 
             customSql += Constant.FROM_SMALL + selectClause1 + Constant.FROM_SMALL + joinQuery1 + " " + selectClause2 + Constant.FROM_SMALL + joinQuery2 + " " + mainJoin
                     + whereCond;

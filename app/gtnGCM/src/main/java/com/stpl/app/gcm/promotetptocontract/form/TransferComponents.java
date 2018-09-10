@@ -697,7 +697,7 @@ public class TransferComponents extends CustomComponent implements View {
 
         if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
-                CurrentContractDTO dto = (CurrentContractDTO) list.get(i);
+                CurrentContractDTO dto = list.get(i);
                 if (Integer.parseInt(dto.getIfpContSid()) != 0) {
                     set.add(Integer.valueOf(dto.getIfpContSid()));
                 }
@@ -742,7 +742,7 @@ public class TransferComponents extends CustomComponent implements View {
                 }
 
                 if (level.equals(Constants.ITEM_FAMILY_PLAN)) {
-                    int Duplicatealert = 0;
+                    int duplicateAlert = 0;
                     if (NumericConstants.TWO - levelNumber == 1) {
                         Collection<?> returnList = transferCompTable1.getItemIds();
                         Set setA = new HashSet();
@@ -766,13 +766,13 @@ public class TransferComponents extends CustomComponent implements View {
                                     Object[] obj = (Object[]) ifpList.get(0);
                                     String modelId = String.valueOf(obj[NumericConstants.THREE]);
                                     if (modelId.equals(listidvalue)) {
-                                        Duplicatealert++;
+                                        duplicateAlert++;
                                     }
 
                                 }
                             }
 
-                            if (ifpList != null && !ifpList.isEmpty() && Duplicatealert == 0) {
+                            if (ifpList != null && !ifpList.isEmpty() && duplicateAlert == 0) {
                                 Object[] obj = (Object[]) ifpList.get(0);
                                 String modelId = String.valueOf(obj[NumericConstants.THREE]);
 
@@ -792,14 +792,14 @@ public class TransferComponents extends CustomComponent implements View {
                             }
 
                         }
-                        if (Duplicatealert != 0) {
+                        if (duplicateAlert != 0) {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Same IFP(s) already available.Please select different IFP");
                         }
                     } else {
                         AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 } else if (level.equals(Constants.PRICE_SCHEDULE)) {
-                    int Duplicatealert = 0;
+                    int duplicateAlert = 0;
                     if (NumericConstants.THREE - levelNumber == 1) {
                         Collection<?> returnList = transferCompTable1.getItemIds();
                         Set setA = new HashSet();
@@ -834,7 +834,7 @@ public class TransferComponents extends CustomComponent implements View {
                                         Object[] obj = (Object[]) psList.get(0);
                                         String modelId = String.valueOf(obj[NumericConstants.THREE]);
                                         if (modelId.equals(listidvalue)) {
-                                            Duplicatealert++;
+                                            duplicateAlert++;
                                         }
 
                                     }
@@ -847,7 +847,7 @@ public class TransferComponents extends CustomComponent implements View {
                                 if (!tmp.contains(modelId)) {
                                     String conditionQuery = "select * from dbo.PS_DETAILS where PS_MODEL_SID=" + modelId + " and IFP_MODEL_SID=" + modelSId;
                                     HelperTableLocalServiceUtil.executeSelectQuery(conditionQuery);
-                                    if (Duplicatealert == 0) {
+                                    if (duplicateAlert == 0) {
                                         tmp.add(modelId);
                                         final Object rootId = contractDashboardResultsTable.addItem();
                                         contractDashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.PS);
@@ -1111,19 +1111,19 @@ public class TransferComponents extends CustomComponent implements View {
                     contractMasterSid = contractMaster.getContractMasterSid();
                     session.setContractMasterSid(String.valueOf(contractMasterSid));
                     returnList.add(contractMasterSid);
-                    String AliasType = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "type").getValue());
-                    String AliasNumber = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "number").getValue());
-                    ContractAliasMaster CAM = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
-                    CAM.setContractAliasNo(AliasNumber);
-                    CAM.setContractAliasType(AliasType != null && !Constants.NULL.equals(AliasType) ? Integer.parseInt(AliasType) : 0);
-                    CAM.setStartDate(new Date());
-                    CAM.setModifiedDate(new Date());
-                    CAM.setCreatedBy(1);
-                    CAM.setCreatedDate(new Date());
-                    CAM.setSource("BPI");
-                    CAM.setInboundStatus("A");
-                    CAM.setContractMasterSid(contractMasterSid);
-                    ContractAliasMasterLocalServiceUtil.addContractAliasMaster(CAM);
+                    String aliasType = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "type").getValue());
+                    String aliasNumber = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "number").getValue());
+                    ContractAliasMaster cam = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
+                    cam.setContractAliasNo(aliasNumber);
+                    cam.setContractAliasType(aliasType != null && !Constants.NULL.equals(aliasType) ? Integer.parseInt(aliasType) : 0);
+                    cam.setStartDate(new Date());
+                    cam.setModifiedDate(new Date());
+                    cam.setCreatedBy(1);
+                    cam.setCreatedDate(new Date());
+                    cam.setSource("BPI");
+                    cam.setInboundStatus("A");
+                    cam.setContractMasterSid(contractMasterSid);
+                    ContractAliasMasterLocalServiceUtil.addContractAliasMaster(cam);
 
                 } else if (level.equals(Constants.ONE)) {
 
@@ -1236,14 +1236,14 @@ public class TransferComponents extends CustomComponent implements View {
                     input.add(ifpModelId);
                     input.add(simpleDateFormat.format(ifpmodel.getIfpStartDate()));
                     input.add(ifpmodel.getIfpEndDate() == null ? null : simpleDateFormat.format(ifpmodel.getIfpEndDate()));
-                    IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
+                    IfpContractDetailsImpl.saveIfpDetailsAttached(input);
                 } else if (level.equals(Constants.THREE)) {
 
                     String psModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
                     Object parentItem = contractDashboardResultsTable.getParent(item);
-                    String IFPsystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
+                    String ifpSystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
                     Object parentCFPItem = contractDashboardResultsTable.getParent(parentItem);
-                    String CFPsystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
+                    String cfpSystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
 
                     PsContract psContract;
                     psContract = PsContractLocalServiceUtil.createPsContract(0);
@@ -1257,8 +1257,8 @@ public class TransferComponents extends CustomComponent implements View {
                     psContract.setPsStartDate(psmodel.getPsStartDate());
                     psContract.setPsEndDate(psmodel.getPsEndDate());
                     psContract.setContractMasterSid(contractMasterSid);
-                    psContract.setCfpContractSid(CFPsystemId);
-                    psContract.setIfpContractSid(IFPsystemId);
+                    psContract.setCfpContractSid(cfpSystemId);
+                    psContract.setIfpContractSid(ifpSystemId);
                     psContract.setInboundStatus("A");
                     psContract.setRecordLockStatus(false);
                     psContract.setSource("GCM");
@@ -1278,7 +1278,7 @@ public class TransferComponents extends CustomComponent implements View {
                     input.add(psModelId);
                     input.add(simpleDateFormat.format(psmodel.getPsStartDate()));
                     input.add(psmodel.getPsEndDate() == null ? null : simpleDateFormat.format(psmodel.getPsEndDate()));
-                    PsContractDetailsImpl.savePsDetailsAttached(input, null);
+                    PsContractDetailsImpl.savePsDetailsAttached(input);
 
                 } else if (level.equals(Constants.FOUR)) {
                     String rsModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
@@ -1326,7 +1326,7 @@ public class TransferComponents extends CustomComponent implements View {
                     input.add(rsModelId);
                     input.add(rsmodel.getRsStartDate());
                     input.add(rsmodel.getRsEndDate() == null ? null : rsmodel.getRsEndDate());
-                    RsContractDetailsImpl.saveRsDetailsAttached(input, null);
+                    RsContractDetailsImpl.saveRsDetailsAttached(input);
 
                 }
             }
@@ -1337,20 +1337,20 @@ public class TransferComponents extends CustomComponent implements View {
         return returnList;
     }
 
-    public void SaveCFP(String cfpId, String cfpModelId) {
-        logic.SaveCFPForTransferComponent(cfpId, cfpModelId);
+    public void saveCfp(String cfpId, String cfpModelId) {
+        logic.saveCfpForTransferComponent(cfpId, cfpModelId);
     }
 
-    public void SaveIFP(String ifpId, String ifpModelId) {
-        logic.SaveIFPForTransferComponent(ifpId, ifpModelId);
+    public void saveIfp(String ifpId, String ifpModelId) {
+        logic.saveIfpForTransferComponent(ifpId, ifpModelId);
     }
 
-    public void SavePS(String psid, String psModelId) {
-        logic.SavePSForTransferComponent(psid, psModelId);
+    public void savePs(String psid, String psModelId) {
+        logic.savePsForTransferComponent(psid, psModelId);
     }
 
-    public void SaveRS(String rsid, String rsModelId) {
-        logic.SaveRSForTransferComponent(rsid, rsModelId);
+    public void saveRs(String rsid, String rsModelId) {
+        logic.saveRsForTransferComponent(rsid, rsModelId);
 
     }
 

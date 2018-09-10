@@ -123,16 +123,16 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                                 } else if (objects[j] != null) {
                                     if (objects[j].toString().matches("^(-?0[.]\\d+)$|^(-?[1-9]+\\d*([.]\\d+)?)$|^0$")) { // Allows only Numbers in it
                                         String value;
-                                        if (varibales.get(j).contains(ARMConstants.getAmount())
+                                       if (varibales.get(j).contains("salesVariancePer") || varibales.get(j).contains(ARMConstants.getRate())
+                                                || varibales.get(j).contains("deductionRate")) {
+                                            value = getFormattedValue(PER_THREE, String.valueOf(objects[j]));
+                                        }else  if (varibales.get(j).contains(ARMConstants.getAmount())
                                                 || varibales.get(j).contains("deductionAmount") || varibales.get(j).contains("price")
                                                 || varibales.get(j).contains("priceOverride") || varibales.get(j).contains("totalSales")
                                                 || varibales.get(j).contains("excludedSales") || varibales.get(j).contains("netSales")
                                                 || varibales.get(j).contains("netCalculatedSales") || varibales.get(j).contains("salesVariance")) {
                                             value = getFormattedValue(CUR_TWO, String.valueOf(objects[j]));
-                                        } else if (varibales.get(j).contains("salesVariancePer") || varibales.get(j).contains(ARMConstants.getRate())
-                                                || varibales.get(j).contains("deductionRate")) {
-                                            value = getFormattedValue(PER_THREE, String.valueOf(objects[j]));
-                                        } else if (varibales.get(j).contains("totalUnits") || varibales.get(j).contains("excludedUnits") || varibales.get(j).contains("netUnits")) {
+                                        }  else if (varibales.get(j).contains("totalUnits") || varibales.get(j).contains("excludedUnits") || varibales.get(j).contains("netUnits")) {
                                             value = getFormattedValue(NUM_ZERO, String.valueOf(objects[j]));
                                         } else if (varibales.get(j).contains("debit") || varibales.get(j).contains("credit")) {
                                             value = getFormattedValue(CUR_SIX, String.valueOf(objects[j]));
@@ -156,9 +156,9 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                 }
             }
         } catch (IllegalAccessException | InvocationTargetException ex) {
-            LOGGER.error("Error while setting property for given Inputs :" , ex);
+            LOGGER.error("Error while setting property for given Inputs :", ex);
         } catch (IllegalArgumentException ex) {
-            LOGGER.error("Error in customizier " , ex);
+            LOGGER.error("Error in customizier ", ex);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(customizedList);
@@ -205,22 +205,34 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                 }
             } else if (value instanceof List) {
                 if (oldValue != null) {
-                    List<String> valList = (List) value;
-                    List<String> oldValList = (List) oldValue;
-                    if (valList.size() != oldValList.size()) {
-                        allowed = true;
-                    } else {
-                        for (int j = 0; j < valList.size(); j++) {
-                            String valString = valList.get(j);
-                            if (!valString.equals(oldValList.get(j))) {
-                                allowed = true;
-                                break;
-                            }
-                        }
-                    }
+                    allowed = getAllowed(value, oldValue, allowed);
                 } else {
                     allowed = true;
                 }
+            }
+        }
+        return allowed;
+    }
+
+    private boolean getAllowed(Object value, Object oldValue, boolean a) {
+        boolean allowed = a;
+        List<String> valList = (List) value;
+        List<String> oldValList = (List) oldValue;
+        if (valList.size() != oldValList.size()) {
+            allowed = true;
+        } else {
+            allowed = checkProcedureAllowed(valList, oldValList, allowed);
+        }
+        return allowed;
+    }
+
+    private boolean checkProcedureAllowed(List<String> valList, List<String> oldValList, boolean alowed) {
+        boolean allowed = alowed;
+        for (int j = 0; j < valList.size(); j++) {
+            String valString = valList.get(j);
+            if (!valString.equals(oldValList.get(j))) {
+                allowed = true;
+                break;
             }
         }
         return allowed;

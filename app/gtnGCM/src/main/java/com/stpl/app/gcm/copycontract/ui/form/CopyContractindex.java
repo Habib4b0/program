@@ -270,8 +270,8 @@ public class CopyContractindex extends VerticalLayout {
                 AbstractNotificationUtils.getErrorNotification("Copy", "Selected contracts should have same contract No .");
                 return;
             }
-            Contractselectionpopup ContractselectionpopupWindow = new Contractselectionpopup(selectedList);
-            UI.getCurrent().addWindow(ContractselectionpopupWindow);
+            Contractselectionpopup contractSelectionpopupWindow = new Contractselectionpopup(selectedList);
+            UI.getCurrent().addWindow(contractSelectionpopupWindow);
         }
     }
 
@@ -305,9 +305,7 @@ public class CopyContractindex extends VerticalLayout {
 
         } catch (FieldGroup.CommitException ex) {
             LOGGER.error("",ex);
-        } catch (Exception ex) {
-            LOGGER.error("",ex);
-        }
+        } 
     }
 
     @UiHandler("btnreset")

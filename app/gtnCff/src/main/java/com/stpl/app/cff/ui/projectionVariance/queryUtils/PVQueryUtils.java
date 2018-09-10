@@ -38,7 +38,8 @@ public class PVQueryUtils {
     
     public String getCCPQuery(PVSelectionDTO projSelDTO, int projectionId) {
         String viewtable = CommonLogic.getViewTableName(projSelDTO.getHierarchyIndicator());
-        String ccpQuery = " (SELECT LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from "
+        String ccpQuery = StringUtils.EMPTY;
+         ccpQuery = ccpQuery + " (SELECT LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from "
                 + "(SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from "
                 + "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
                 + "FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
@@ -65,7 +66,8 @@ public class PVQueryUtils {
 
     public String getCCPGeneralQuery(PVSelectionDTO projSelDTO, int projectionId) {
         String viewtable = CommonLogic.getViewTableName(projSelDTO.getHierarchyIndicator());
-        String ccpQuery = " SELECT LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from "
+        String ccpQuery = StringUtils.EMPTY;
+         ccpQuery = ccpQuery + " SELECT LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from "
                 + "(SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from "
                 + "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
                 + "FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
@@ -91,7 +93,8 @@ public class PVQueryUtils {
     }
 
     public String getUserSessionQueryCondition(int userId, int sessionId, String table) {
-        String user = StringConstantsUtil.SMALL_AND + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " ";
+        String user = StringUtils.EMPTY;
+         user = user + StringConstantsUtil.SMALL_AND + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " ";
         return user;
     }
 
@@ -103,7 +106,8 @@ public class PVQueryUtils {
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, isPriorDiscount);
         String salesQuery = getSalesQuery(getProjectionResultsSalesQuery(projSelDTO));
         String ppaQuery = getPPAQuery(getPPAProjectionResultsQuery(projSelDTO));
-        String customQuery = selectClause + "  from  " + getPivotSelectQuery(totalDiscountQuery, salesQuery, ppaQuery);
+        String customQuery = StringUtils.EMPTY;
+         customQuery = customQuery + selectClause + "  from  " + getPivotSelectQuery(totalDiscountQuery, salesQuery, ppaQuery);
         return customQuery;
     }
 
@@ -340,7 +344,8 @@ public class PVQueryUtils {
     public String getPivotSelectQuery(String query1, String query2, String query3) {
         String finalWhereCond = " on TODIS.YEARS=SALEPPA.YEARS AND TODIS.PERIODS=SALEPPA.PERIODS";
         String finalWhereCond1 = " ON TODIS.YEARS=PPA.YEARS AND TODIS.PERIODS=PPA.PERIODS";
-        String selectClause = " (\n" + query1 + "\n) TODIS FULL JOIN (\n" + query2 + "\n) SALEPPA \n " + finalWhereCond + " FULL JOIN (\n" + query3 + "\n) PPA" + finalWhereCond1;
+        String selectClause = StringUtils.EMPTY;
+         selectClause = selectClause + " (\n" + query1 + "\n) TODIS FULL JOIN (\n" + query2 + "\n) SALEPPA \n " + finalWhereCond + " FULL JOIN (\n" + query3 + "\n) PPA" + finalWhereCond1;
         return selectClause;
     }
 
@@ -349,7 +354,8 @@ public class PVQueryUtils {
     }
 
     public String getPivotSelectClause() {
-        String selectClause = " SALEPPA.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES,"
+        String selectClause = StringUtils.EMPTY;
+        selectClause = selectClause + " SALEPPA.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES,"
                 + "SALEPPA.PROJECTION_UNITS as CONTRACT_PROJECTION_UNITS,"
                 + " CASE WHEN SALEPPA.sales_projection_sales = 0 THEN 0 ELSE (((Isnull(TODIS.projection_sales, 0)) +ISNULL(PPA.SALES_PPA,0) + ISNULL(SALEPPA.PROJECTED_RATE, 0)) / NULLIF(SALEPPA.sales_projection_sales,0))*100 END AS TOTAL_PROJECTION_RATE, "
                 + " (Isnull(TODIS.projection_sales, 0) +ISNULL(PPA.SALES_PPA,0) + ISNULL(SALEPPA.RETURNS_PROJECTED, 0)) AS TOTAL_PROJECTION_DOLAR,"
@@ -427,7 +433,7 @@ public class PVQueryUtils {
                     discountTypeColumnName = " B.PRICE_GROUP_TYPE AS DISCOUNTS";
                     groupBy += ", " + " B.PRICE_GROUP_TYPE";
                 }
-                whereClause += " and B.PRICE_GROUP_TYPE in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNameList(), true) + ")";
+                whereClause += " and B.PRICE_GROUP_TYPE in (" + CommonUtils.collectionToString(projSelDTO.getDiscountNameList(), true) + ")";
             }
         } else {
             if (projSelDTO.getDiscountNoList() != null && !projSelDTO.getDiscountNoList().isEmpty()) {
@@ -436,7 +442,7 @@ public class PVQueryUtils {
                     groupBy += ", " + " J.RS_NAME";
                 }
                 if(!isPriorDiscount){
-                    whereClause += " and B.RS_MODEL_SID in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")";
+                    whereClause += " and B.RS_MODEL_SID in (" + CommonUtils.collectionToString(projSelDTO.getDiscountNoList(), false) + ")";
                 }
             }
         }
@@ -533,7 +539,9 @@ public class PVQueryUtils {
                 + "  )A"
                 + " group by  " + groupBy;
 
-        String futureQuery = selectClause
+        String futureQuery = StringUtils.EMPTY;
+         futureQuery = futureQuery + StringUtils.EMPTY;
+        futureQuery = futureQuery + selectClause
                 + " (A1.PROJECTION_SALES) "
                 + " ,(A1.PROJECTION_UNITS)"
                 + " , TR.PROJECTED_RATE\n"
@@ -597,7 +605,8 @@ public class PVQueryUtils {
                 + "  )AA"
                 + " group by  YEARS,PERIODS";
 
-        String futureQuery = selectClause
+        String futureQuery = StringUtils.EMPTY;
+        futureQuery = futureQuery + selectClause
                 + " A1.PROJECTION_SALES "
                 + " ,A1.PROJECTION_RATE\n"
                 + " from  "
@@ -606,7 +615,8 @@ public class PVQueryUtils {
     }
 
     public String getSalesQuery(final String salesInnerJoin) {
-        String query = "SELECT YEARS\n"
+        String query = StringUtils.EMPTY;
+        query = query + "SELECT YEARS\n"
                 + " , PERIODS\n"
                 + " , Sum(projection_sales) AS SALES_PROJECTION_SALES\n"
                 + "  , Sum(projection_units) AS PROJECTION_UNITS\n"
@@ -618,7 +628,8 @@ public class PVQueryUtils {
     }
 
     public String getPPAQuery(final String salesInnerJoin) {
-        String query = "SELECT AA.YEARS\n"
+        String query = StringUtils.EMPTY;
+         query = query + "SELECT AA.YEARS\n"
                 + " , AA.PERIODS\n"
                 + " , SUM(AA.PROJECTION_SALES) AS SALES_PPA \n"
                 + "  ,  SUM(AA.PROJECTION_RATE) AS SALES_RPU \n"
@@ -764,7 +775,7 @@ public class PVQueryUtils {
         try {
             String customSql = SQlUtil.getQuery("getProjectionLists");
             if (projId != null && !projId.isEmpty()) {
-                customSql += (" PM.PROJECTION_MASTER_SID IN (" + CommonUtils.CollectionToString(projId, false) + ")");
+                customSql += (" PM.PROJECTION_MASTER_SID IN (" + CommonUtils.collectionToString(projId, false) + ")");
             } else {
                 customSql += (" PM.PROJECTION_MASTER_SID IN ('')");
             }
@@ -832,7 +843,7 @@ public class PVQueryUtils {
                     discountTypeColumnName = " B.PRICE_GROUP_TYPE AS DISCOUNTS";
                     groupBy += ", " + " B.PRICE_GROUP_TYPE";
                 }
-                whereClause += " and B.PRICE_GROUP_TYPE in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNameList(), true) + ")";
+                whereClause += " and B.PRICE_GROUP_TYPE in (" + CommonUtils.collectionToString(projSelDTO.getDiscountNameList(), true) + ")";
             }
         } else {
             if (projSelDTO.getDiscountNoList() != null && !projSelDTO.getDiscountNoList().isEmpty()) {
@@ -840,7 +851,7 @@ public class PVQueryUtils {
                     discountTypeColumnName = " J.RS_NAME AS DISCOUNTS";
                     groupBy += ", " + " J.RS_NAME";
                 }
-                whereClause += " and B.RS_MODEL_SID in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")";
+                whereClause += " and B.RS_MODEL_SID in (" + CommonUtils.collectionToString(projSelDTO.getDiscountNoList(), false) + ")";
             }
         }
 
@@ -1172,7 +1183,8 @@ public class PVQueryUtils {
     }
 
     public String getCCPTempTableQuery() {
-        String tableQuery = "DECLARE @CCP TABLE\n"
+        String tableQuery = StringUtils.EMPTY;
+         tableQuery = tableQuery + "DECLARE @CCP TABLE\n"
                 + "  (\n"
                 + "     RELATIONSHIP_LEVEL_SID INT,\n"
                 + "     CCP_DETAILS_SID        INT,\n"
@@ -1223,7 +1235,8 @@ public class PVQueryUtils {
      * @return String
      */
     public String getMainSelectClause(String projName) {
-        String selectClause = " " + projName + ".CONTRACT_PROJECTION_SALES as " + projName + "CONTRACT_PROJECTION_SALES,"
+         String selectClause = StringUtils.EMPTY;
+         selectClause = selectClause + " " + projName + ".CONTRACT_PROJECTION_SALES as " + projName + "CONTRACT_PROJECTION_SALES,"
                 + " " + projName + ".CONTRACT_PROJECTION_UNITS as " + projName + "CONTRACT_PROJECTION_UNITS,"
                 + " " + projName + ".TOTAL_PROJECTION_RATE AS " + projName + "TOTAL_PROJECTION_RATE, "
                 + " " + projName + ".TOTAL_PROJECTION_DOLAR as " + projName + "TOTAL_PROJECTION_DOLAR ";
@@ -1243,7 +1256,8 @@ public class PVQueryUtils {
         selectClause += getProjVarianceSelectClause();
         String totalDiscountQuery = getProjVarianceDiscountQuery(projSelDTO);
         String salesQuery = getProjVariancesSalesQuery(projSelDTO);
-        String customQuery = selectClause + " from " + getProjVarSelectQuery(totalDiscountQuery, salesQuery);
+        String customQuery = StringUtils.EMPTY;
+        customQuery = customQuery + selectClause + " from " + getProjVarSelectQuery(totalDiscountQuery, salesQuery);
         return customQuery;
     }
 
@@ -1256,7 +1270,8 @@ public class PVQueryUtils {
      */
     public String getProjVarSelectQuery(String query1, String query2) {
         String finalWhereCond = " on TODIS.YEARS=SALEPPA.YEARS AND TODIS.PERIODS=SALEPPA.PERIODS";
-        String selectClause = " (\n" + query1 + "\n) TODIS FULL OUTER JOIN (\n" + query2 + "\n) SALEPPA \n" + finalWhereCond;
+        String selectClause = StringUtils.EMPTY;
+         selectClause = selectClause + " (\n" + query1 + "\n) TODIS FULL OUTER JOIN (\n" + query2 + "\n) SALEPPA \n" + finalWhereCond;
         return selectClause;
     }
 
@@ -1343,7 +1358,7 @@ public class PVQueryUtils {
                 discountTypeColumnName = " J.RS_NAME as DISCOUNTS";
                 groupBy += ", " + "  J.RS_NAME";
             }
-            whereClause += " and B.RS_MODEL_SID  in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")";
+            whereClause += " and B.RS_MODEL_SID  in (" + CommonUtils.collectionToString(projSelDTO.getDiscountNoList(), false) + ")";
         }
         selectClause += discountTypeColumnName + ", ";
 
@@ -1366,8 +1381,8 @@ public class PVQueryUtils {
                 + " and E.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId()
                 + ccpWhereCond + "and A.PERIOD_SID =  I.PERIOD_SID " + periodFilter
                 + whereClause + GROUP_BY + groupBy;
-
-        String futureQuery = selectClause + " 0 as ACTUAL_SALES, sum(A.PROJECTION_SALES) as PROJECTION_SALES from "
+        String futureQuery = StringUtils.EMPTY;
+         futureQuery = futureQuery + selectClause + " 0 as ACTUAL_SALES, sum(A.PROJECTION_SALES) as PROJECTION_SALES from "
                 + table + " A," + customSql;
         return futureQuery;
     }
@@ -1442,7 +1457,8 @@ public class PVQueryUtils {
                 + periodFilter
                 + whereClause
                 + GROUP_BY + groupBy;
-        String futureQuery = selectClause
+        String futureQuery = StringUtils.EMPTY;
+         futureQuery = futureQuery + selectClause
                 + " 0 as SALES_ACTUAL_SALES, sum(A1.CONTRACT_SALES) as SALES_PROJECTION_SALES, "
                 + " 0 as ACTUAL_UNITS, sum(A1.CONTRACT_UNITS) as PROJECTION_UNITS "
                 + " from "

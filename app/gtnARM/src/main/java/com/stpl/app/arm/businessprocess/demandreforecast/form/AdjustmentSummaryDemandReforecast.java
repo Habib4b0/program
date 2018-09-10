@@ -115,9 +115,9 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
                 try {
                     BeanUtils.setProperty(selectionDTO, String.valueOf(object[0]), object[1]);
                 } catch (IllegalAccessException | InvocationTargetException ex) {
-                    LOGGER.error("Error in loadDetails :" , ex);
+                    LOGGER.error("Error in loadDetails :", ex);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in loadDetails :" , ex);
+                    LOGGER.error("Error in loadDetails :", ex);
                 }
 
             }
@@ -141,7 +141,7 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
             glImpactDate.setValue(resetWorkFlowDate);
             glImpactDate.addValueChangeListener(glWorkflowListener);
         } catch (Exception ex) {
-            LOGGER.error("Error in loadSelection :" , ex);
+            LOGGER.error("Error in loadSelection :", ex);
         }
     }
 

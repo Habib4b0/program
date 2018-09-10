@@ -77,7 +77,7 @@ public class SummaryLogic {
         List<Object[]> list = ItemQueries.getItemData(input, projSelDTO.getDataQueryName(), null);
         ContractDashboardDTO dto = new ContractDashboardDTO();
         for (int i = 0; i < list.size(); i++) {
-            final Object[] obj = (Object[]) list.get(i);
+            final Object[] obj =  list.get(i);
             if (i == 0) {
                 dto = setLevelValue(obj);
             }

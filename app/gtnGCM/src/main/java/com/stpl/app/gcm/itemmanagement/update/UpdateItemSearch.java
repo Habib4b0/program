@@ -53,15 +53,15 @@ public class UpdateItemSearch extends AbstractContractSearch {
     public void searchBtnLogic(Button.ClickEvent event) throws FieldGroup.CommitException {
         binder.commit();
         checkrecord();
-        if ((getBinderDto().getContractHolder() == null || getBinderDto().getContractHolder().isEmpty()) && (getBinderDto().getMarketType_DTO() == null)
+        if ((getBinderDto().getContractHolder() == null || getBinderDto().getContractHolder().isEmpty()) && (getBinderDto().getMarketTypeDto() == null)
                 && (getBinderDto().getCfpNO() == null || getBinderDto().getCfpNO().isEmpty()) && (getBinderDto().getContractNo() == null || getBinderDto().getContractNo().isEmpty())
                 && (getBinderDto().getStartDate() == null) && (getBinderDto().getEndDate() == null)
                 && (getBinderDto().getIfpNo() == null || getBinderDto().getIfpNo().isEmpty())
                 && (getBinderDto().getContractName() == null || getBinderDto().getContractName().isEmpty()) && (getBinderDto().getPsNo() == null || getBinderDto().getPsNo().isEmpty())
                 && (getBinderDto().getRebateScheduleId() == null || getBinderDto().getRebateScheduleId().isEmpty()) && (getBinderDto().getRebateScheduleName() == null || getBinderDto().getRebateScheduleName().isEmpty())
                 && (getBinderDto().getRebateScheduleNo() == null || getBinderDto().getRebateScheduleNo().isEmpty())
-                && (getBinderDto().getRebateProgramType_DTO() == null) && (getBinderDto().getRebateScheduleAlias() == null || getBinderDto().getRebateScheduleAlias().isEmpty())
-                && (getBinderDto().getRebateScheduleCategory_DTO() == null) && (getBinderDto().getRebateScheduleType_DTO() == null)) {
+                && (getBinderDto().getRebateProgramTypeDto() == null) && (getBinderDto().getRebateScheduleAlias() == null || getBinderDto().getRebateScheduleAlias().isEmpty())
+                && (getBinderDto().getRebateScheduleCategoryDto() == null) && (getBinderDto().getRebateScheduleTypeDto() == null)) {
 
             MessageBox.showPlain(Icon.INFO, "Error", "Please enter/select search criteria", ButtonId.OK);
         } else {
@@ -74,8 +74,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
     public Boolean checkrecord() {
         List input = AbstractLogic.getResultsInput(selectionDto);
         String queryname = "checkrecord condition check";
-        Boolean isUpdated = ItemQueries.itemUpdate(input, queryname);
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, queryname);
 
     }
 
@@ -83,7 +82,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
 
         getContent();
         getMassUpdate();
-        ConfigureTable();
+        configureTable();
         getBinder();
         loadAllDdlb();
         allItems.setEnabled(BooleanConstant.getFalseFlag());
@@ -96,7 +95,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
      * @param event the event
      */
     @UiHandler("companyFamilyPlanNo")
-    public void CFP(CustomTextField.ClickEvent event) {
+    public void cfp(CustomTextField.ClickEvent event) {
         ComponentSearchLookUp cfp = new ComponentSearchLookUp(Constants.CFP, cfpNO);
         cfp.addCloseListener(new Window.CloseListener() {
             @Override
@@ -117,7 +116,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
      * @param event the event
      */
     @UiHandler("itemFamilyPlanNo")
-    public void IFP(CustomTextField.ClickEvent event) {
+    public void ifp(CustomTextField.ClickEvent event) {
         ComponentSearchLookUp ifp = new ComponentSearchLookUp(Constants.IFP, ifpNo);
         ifp.addCloseListener(new Window.CloseListener() {
             @Override
@@ -138,7 +137,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
      * @param event the event
      */
     @UiHandler("priceScheduleNo")
-    public void PS(CustomTextField.ClickEvent event) {
+    public void ps(CustomTextField.ClickEvent event) {
         ComponentSearchLookUp ps = new ComponentSearchLookUp(Constants.PS, psNo);
         ps.addCloseListener(new Window.CloseListener() {
             @Override

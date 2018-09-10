@@ -85,6 +85,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -1282,7 +1283,7 @@ public class AlternateSummery extends CustomComponent {
                 selectedPeriods = selectedPeriods + value;
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -1333,7 +1334,7 @@ public class AlternateSummery extends CustomComponent {
                 }
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -1383,7 +1384,7 @@ public class AlternateSummery extends CustomComponent {
                 selectedPeriods = selectedPeriods + value;
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -2227,7 +2228,7 @@ public class AlternateSummery extends CustomComponent {
             Collections.reverse(currentHierarchy);
             int maxLevel = "Variable".equalsIgnoreCase(String.valueOf(pivotViewVar.getValue())) ? currentHierarchy.size() : currentHierarchy.size() - 1;
             for (int i = 0; i < currentHierarchy.size(); i++) {
-                Leveldto levelDto = (Leveldto) currentHierarchy.get(i);
+                Leveldto levelDto = currentHierarchy.get(i);
                 if (!isExpCol || levelDto.getCount() <= maxLevel) {
                     ddlb.addItem(levelDto.getTreeLevelNo());
                     ddlb.setItemCaption(levelDto.getTreeLevelNo(), Constant.LEVEL + levelDto.getTreeLevelNo() + " - " + levelDto.getLevel());

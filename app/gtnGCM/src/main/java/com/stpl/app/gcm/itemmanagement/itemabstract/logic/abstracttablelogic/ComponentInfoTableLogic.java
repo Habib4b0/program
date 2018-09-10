@@ -53,8 +53,7 @@ public class ComponentInfoTableLogic extends PageTableLogic {
         binderDto.setEndIndex(offset);
         binderDto.setIsCount(BooleanConstant.getTrueFlag());
         selection.setFilters(getFilters());
-        List<ComponentInfoDTO> resultList = logic.getComponentInfoResults(binderDto, selection);
-        return resultList;
+        return logic.getComponentInfoResults(binderDto, selection);
     }
 
     /**

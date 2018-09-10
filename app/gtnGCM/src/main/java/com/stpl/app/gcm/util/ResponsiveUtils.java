@@ -39,15 +39,18 @@ public class ResponsiveUtils {
     public static final String NEXTCOLUMN_BUTTON = "next-column-button";
     public static final String PREVCOLUMN_BUTTON = "prev-column-button";
     public static final String STYLECOLOR = " <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>";
-
+    
+    private ResponsiveUtils()
+    {
+        LOGGER.debug("HeaderUtils");
+    }
     public static Label makeLabel(String value, boolean isMandatory) {
         StringBuilder sb = new StringBuilder();
         sb.append(value);
         if (isMandatory) {
             sb.append(STYLECOLOR);
         }
-        Label label = new Label(sb.toString(), ContentMode.HTML);
-        return label;
+        return new Label(sb.toString(), ContentMode.HTML);
     }
    
 

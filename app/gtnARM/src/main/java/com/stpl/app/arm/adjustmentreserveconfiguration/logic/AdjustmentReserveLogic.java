@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class AdjustmentReserveLogic {
 
@@ -241,7 +241,7 @@ public class AdjustmentReserveLogic {
             if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COST_CENTER.getConstant().equals(propertyId) && value.toString().trim().equals(StringUtils.EMPTY)) {
                 values = "null";
             } else {
-                values = "'" + value.toString() + "'";
+                values = ARMUtils.SINGLE_QUOTES + value.toString() + ARMUtils.SINGLE_QUOTES;
             }
         }
         input.add(values);
@@ -411,7 +411,7 @@ public class AdjustmentReserveLogic {
         input.add(ARMUtils.getVisibleToDBColumnMap().get(properyId));
         String values = null;
         if (value != null) {
-            values = "'" + value.toString() + "'";
+            values = ARMUtils.SINGLE_QUOTES + value.toString() + ARMUtils.SINGLE_QUOTES;
         }
         input.add(values);
         input.add(selection.getMasterSID());

@@ -136,7 +136,7 @@ public class CommmonLogic {
             companyMasterContractSidsList = conSelDTO.getCompanyMasterSids();
         }
 
-        String companyMasterContractSids = CommonUtils.CollectionToString(companyMasterContractSidsList, true);
+        String companyMasterContractSids = CommonUtils.collectionToString(companyMasterContractSidsList, true);
 
         Map<String, Object> dataParameters = new HashMap<>();
         if (filters != null) {
@@ -164,84 +164,84 @@ public class CommmonLogic {
             }
         }
 
-        StringBuilder StringInputquery = new StringBuilder();
+        StringBuilder stringInputquery = new StringBuilder();
 
         String symbol = " in ";
         if (conSelDTO.isSearchInverse()) {
             symbol = " not in ";
         }
 
-        StringInputquery.append(" DECLARE @LAST_APPROVED_PROJECTION_SID INT = (SELECT TOP 1 WM.PROJECTION_MASTER_SID \n");
-        StringInputquery.append(" FROM WORKFLOW_MASTER WM \n");
-        StringInputquery.append(" JOIN HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
-        StringInputquery.append(" WHERE WF_HT.DESCRIPTION IN ( 'Approved' ) \n");
-        StringInputquery.append(" AND WM.PROJECTION_MASTER_SID " ).append( symbol ).append( " (SELECT A.PROJECTION_MASTER_SID \n");
-        StringInputquery.append(" FROM   (SELECT A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID,Row_number() \n");
-        StringInputquery.append(" OVER( \n");
-        StringInputquery.append(" PARTITION BY A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID \n");
-        StringInputquery.append(" ORDER BY A.PROJECTION_MASTER_SID) AS RN \n");
-        StringInputquery.append(" FROM   PROJECTION_DETAILS A \n");
-        StringInputquery.append(" INNER JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = A.PROJECTION_MASTER_SID");
-        StringInputquery.append(" JOIN   CCP_DETAILS B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID \n");
-        StringInputquery.append(" WHERE  B.COMPANY_MASTER_SID IN (" ).append( companyMasterContractSids ).append( " ) AND PM.IS_APPROVED = 'A')A \n");
-        StringInputquery.append(" WHERE  RN = 1 \n");
-        StringInputquery.append(" GROUP  BY A.PROJECTION_MASTER_SID \n");
-        StringInputquery.append(" HAVING Sum(( CASE \n");
-        StringInputquery.append(" WHEN A.COMPANY_MASTER_SID IN (" ).append( companyMasterContractSids ).append( " ) THEN -1 \n");
-        StringInputquery.append(" ELSE 0 \n");
-        StringInputquery.append(" END )) = -" ).append( companyMasterContractSidsList.size() ).append( ") \n");
-        StringInputquery.append(" AND WM.WORKFLOW_MASTER_SID IN (SELECT WORKFLOW_MASTER_SID \n");
-        StringInputquery.append(" FROM   GCM_GLOBAL_DETAILS \n");
-        StringInputquery.append(" WHERE USER_ID='").append(userId).append("' \n AND SESSION_ID='").append(sessionId).append("' \n");
+        stringInputquery.append(" DECLARE @LAST_APPROVED_PROJECTION_SID INT = (SELECT TOP 1 WM.PROJECTION_MASTER_SID \n");
+        stringInputquery.append(" FROM WORKFLOW_MASTER WM \n");
+        stringInputquery.append(" JOIN HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
+        stringInputquery.append(" WHERE WF_HT.DESCRIPTION IN ( 'Approved' ) \n");
+        stringInputquery.append(" AND WM.PROJECTION_MASTER_SID " ).append( symbol ).append( " (SELECT A.PROJECTION_MASTER_SID \n");
+        stringInputquery.append(" FROM   (SELECT A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID,Row_number() \n");
+        stringInputquery.append(" OVER( \n");
+        stringInputquery.append(" PARTITION BY A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID \n");
+        stringInputquery.append(" ORDER BY A.PROJECTION_MASTER_SID) AS RN \n");
+        stringInputquery.append(" FROM   PROJECTION_DETAILS A \n");
+        stringInputquery.append(" INNER JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = A.PROJECTION_MASTER_SID");
+        stringInputquery.append(" JOIN   CCP_DETAILS B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID \n");
+        stringInputquery.append(" WHERE  B.COMPANY_MASTER_SID IN (" ).append( companyMasterContractSids ).append( " ) AND PM.IS_APPROVED = 'A')A \n");
+        stringInputquery.append(" WHERE  RN = 1 \n");
+        stringInputquery.append(" GROUP  BY A.PROJECTION_MASTER_SID \n");
+        stringInputquery.append(" HAVING Sum(( CASE \n");
+        stringInputquery.append(" WHEN A.COMPANY_MASTER_SID IN (" ).append( companyMasterContractSids ).append( " ) THEN -1 \n");
+        stringInputquery.append(" ELSE 0 \n");
+        stringInputquery.append(" END )) = -" ).append( companyMasterContractSidsList.size() ).append( ") \n");
+        stringInputquery.append(" AND WM.WORKFLOW_MASTER_SID IN (SELECT WORKFLOW_MASTER_SID \n");
+        stringInputquery.append(" FROM   GCM_GLOBAL_DETAILS \n");
+        stringInputquery.append(" WHERE USER_ID='").append(userId).append("' \n AND SESSION_ID='").append(sessionId).append("' \n");
 
         if (!conSelDTO.getScreenName().equals(StringUtils.EMPTY) && !conSelDTO.getScreenName().equals(Constants.NULL)) {
-            StringInputquery.append(" AND SCREEN_NAME = '").append(conSelDTO.getScreenName()).append('\'');
+            stringInputquery.append(" AND SCREEN_NAME = '").append(conSelDTO.getScreenName()).append('\'');
         }
-        StringInputquery.append(") \n");
+        stringInputquery.append(") \n");
 
-        StringInputquery.append("                         ORDER  BY Isnull(WM.MODIFIED_DATE, WM.CREATED_DATE) DESC)");
+        stringInputquery.append("                         ORDER  BY Isnull(WM.MODIFIED_DATE, WM.CREATED_DATE) DESC)");
 
-        StringInputquery.append(" SELECT Distinct TEMP_TABLE.PROJECTION_MASTER_SID AS 'PROJECTION_ID',\n");
-        StringInputquery.append(" WF.WORKFLOW_STATUS, \n");
-        StringInputquery.append(" CM.COMPANY_NAME AS 'Contract Holder',CON.CONTRACT_NO,CON.CONTRACT_NAME,HEL.DESCRIPTION AS 'CONTRACT_TYPE', \n");
-        StringInputquery.append(" CON.START_DATE as 'CONTRACT_START_DATE',CON.END_DATE as 'CONTRACT_END_DATE', \n ");
-        StringInputquery.append(" CFP_CON.CFP_NAME,CFP_CON.CFP_NO as 'CFP NO',CFP_MOD.CFP_ID,CFP_CON.CFP_STATUS,CFP_CON.CFP_START_DATE,CFP_CON.CFP_END_DATE, \n ");
-        StringInputquery.append(" IFP_CON.IFP_NAME,IFP_CON.IFP_NO as 'IFP NO',IFP_MOD.IFP_ID,IFP_CON.IFP_STATUS,IFP_CON.IFP_START_DATE,IFP_CON.IFP_END_DATE, \n ");
-        StringInputquery.append(" PS_CON.PS_NAME,PS_CON.PS_NO as 'PS NO',PS_MOD.PS_ID,PS_CON.PS_STATUS,PS_CON.PS_START_DATE,PS_CON.PS_END_DATE,   \n ");
-        StringInputquery.append(" RS_CON.RS_NAME,RS_CON.RS_NO as 'RAR NO',HEL1.DESCRIPTION AS 'RAR CATEGORY',RS_MOD.RS_ID,RS_MOD.RS_STATUS,RS_CON.RS_START_DATE,RS_CON.RS_END_DATE, \n ");
-        StringInputquery.append(" CFP_CON.CFP_CONTRACT_SID,RS_CON.RS_CONTRACT_SID,IFP_CON.IFP_CONTRACT_SID,PS_CON.PS_CONTRACT_SID,CON.CONTRACT_MASTER_SID,  \n ");
-        StringInputquery.append(" TEMP_TABLE.START_DATE as 'COMPANY_START_DATE',TEMP_TABLE.END_DATE as 'COMPANY_END_DATE',TEMP_TABLE.STATUS as 'TEMP_STATUS',TEMP_TABLE.CHECK_RECORD, \n");
-        StringInputquery.append(" (case when  HEL_TAB1.HELPER_TABLE_SID=0 then ' ' else HEL_TAB1.DESCRIPTION end) AS 'STATUS_DESCRIPTION' ,\n"
+        stringInputquery.append(" SELECT Distinct TEMP_TABLE.PROJECTION_MASTER_SID AS 'PROJECTION_ID',\n");
+        stringInputquery.append(" WF.WORKFLOW_STATUS, \n");
+        stringInputquery.append(" CM.COMPANY_NAME AS 'Contract Holder',CON.CONTRACT_NO,CON.CONTRACT_NAME,HEL.DESCRIPTION AS 'CONTRACT_TYPE', \n");
+        stringInputquery.append(" CON.START_DATE as 'CONTRACT_START_DATE',CON.END_DATE as 'CONTRACT_END_DATE', \n ");
+        stringInputquery.append(" CFP_CON.CFP_NAME,CFP_CON.CFP_NO as 'CFP NO',CFP_MOD.CFP_ID,CFP_CON.CFP_STATUS,CFP_CON.CFP_START_DATE,CFP_CON.CFP_END_DATE, \n ");
+        stringInputquery.append(" IFP_CON.IFP_NAME,IFP_CON.IFP_NO as 'IFP NO',IFP_MOD.IFP_ID,IFP_CON.IFP_STATUS,IFP_CON.IFP_START_DATE,IFP_CON.IFP_END_DATE, \n ");
+        stringInputquery.append(" PS_CON.PS_NAME,PS_CON.PS_NO as 'PS NO',PS_MOD.PS_ID,PS_CON.PS_STATUS,PS_CON.PS_START_DATE,PS_CON.PS_END_DATE,   \n ");
+        stringInputquery.append(" RS_CON.RS_NAME,RS_CON.RS_NO as 'RAR NO',HEL1.DESCRIPTION AS 'RAR CATEGORY',RS_MOD.RS_ID,RS_MOD.RS_STATUS,RS_CON.RS_START_DATE,RS_CON.RS_END_DATE, \n ");
+        stringInputquery.append(" CFP_CON.CFP_CONTRACT_SID,RS_CON.RS_CONTRACT_SID,IFP_CON.IFP_CONTRACT_SID,PS_CON.PS_CONTRACT_SID,CON.CONTRACT_MASTER_SID,  \n ");
+        stringInputquery.append(" TEMP_TABLE.START_DATE as 'COMPANY_START_DATE',TEMP_TABLE.END_DATE as 'COMPANY_END_DATE',TEMP_TABLE.STATUS as 'TEMP_STATUS',TEMP_TABLE.CHECK_RECORD, \n");
+        stringInputquery.append(" (case when  HEL_TAB1.HELPER_TABLE_SID=0 then ' ' else HEL_TAB1.DESCRIPTION end) AS 'STATUS_DESCRIPTION' ,\n"
                 + "				  HEL_TAB1.description  \n ");
 
-        StringInputquery.append(" FROM CONTRACT_MASTER CON   \n ");
-        StringInputquery.append(" LEFT JOIN COMPANY_MASTER  CM ON  CON.CONT_HOLD_COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID \n ");
-        StringInputquery.append(" JOIN CFP_CONTRACT CFP_CON ON CFP_CON.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID \n ");
-        StringInputquery.append(" JOIN CFP_CONTRACT_DETAILS CFP_CON_DET ON CFP_CON_DET.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID AND CFP_CON_DET.INBOUND_STATUS <> 'D' \n");
-        StringInputquery.append(" JOIN IFP_CONTRACT IFP_CON ON IFP_CON.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID AND IFP_CON.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID \n ");
-        StringInputquery.append(" JOIN IFP_CONTRACT_DETAILS IFP_CON_DET ON IFP_CON_DET.IFP_CONTRACT_SID = IFP_CON.IFP_CONTRACT_SID \n");
-        StringInputquery.append(" JOIN PS_CONTRACT PS_CON ON PS_CON.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID AND IFP_CON.CFP_CONTRACT_SID = PS_CON.CFP_CONTRACT_SID \n");
-        StringInputquery.append("                         AND IFP_CON.IFP_CONTRACT_SID = PS_CON.IFP_CONTRACT_SID \n ");
-        StringInputquery.append(" JOIN RS_CONTRACT RS_CON ON RS_CON.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID AND IFP_CON.CFP_CONTRACT_SID = RS_CON.CFP_CONTRACT_SID \n");
-        StringInputquery.append("                         AND RS_CON.IFP_CONTRACT_SID = IFP_CON.IFP_CONTRACT_SID \n");
-        StringInputquery.append("                         AND RS_CON.PS_CONTRACT_SID = PS_CON.PS_CONTRACT_SID \n ");
-        StringInputquery.append(" JOIN HELPER_TABLE HEL ON HEL.HELPER_TABLE_SID=CON.CONTRACT_TYPE  \n ");
+        stringInputquery.append(" FROM CONTRACT_MASTER CON   \n ");
+        stringInputquery.append(" LEFT JOIN COMPANY_MASTER  CM ON  CON.CONT_HOLD_COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID \n ");
+        stringInputquery.append(" JOIN CFP_CONTRACT CFP_CON ON CFP_CON.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID \n ");
+        stringInputquery.append(" JOIN CFP_CONTRACT_DETAILS CFP_CON_DET ON CFP_CON_DET.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID AND CFP_CON_DET.INBOUND_STATUS <> 'D' \n");
+        stringInputquery.append(" JOIN IFP_CONTRACT IFP_CON ON IFP_CON.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID AND IFP_CON.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID \n ");
+        stringInputquery.append(" JOIN IFP_CONTRACT_DETAILS IFP_CON_DET ON IFP_CON_DET.IFP_CONTRACT_SID = IFP_CON.IFP_CONTRACT_SID \n");
+        stringInputquery.append(" JOIN PS_CONTRACT PS_CON ON PS_CON.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID AND IFP_CON.CFP_CONTRACT_SID = PS_CON.CFP_CONTRACT_SID \n");
+        stringInputquery.append("                         AND IFP_CON.IFP_CONTRACT_SID = PS_CON.IFP_CONTRACT_SID \n ");
+        stringInputquery.append(" JOIN RS_CONTRACT RS_CON ON RS_CON.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID AND IFP_CON.CFP_CONTRACT_SID = RS_CON.CFP_CONTRACT_SID \n");
+        stringInputquery.append("                         AND RS_CON.IFP_CONTRACT_SID = IFP_CON.IFP_CONTRACT_SID \n");
+        stringInputquery.append("                         AND RS_CON.PS_CONTRACT_SID = PS_CON.PS_CONTRACT_SID \n ");
+        stringInputquery.append(" JOIN HELPER_TABLE HEL ON HEL.HELPER_TABLE_SID=CON.CONTRACT_TYPE  \n ");
 
         /*below line added for RAR category */
         if (!conSelDTO.getRarCategory().equals(StringUtils.EMPTY) && !conSelDTO.getRarCategory().equals(Constants.NULL)) {
-            StringInputquery.append(" JOIN HELPER_TABLE HEL1 ON HEL1.HELPER_TABLE_SID=(select UDC2 from dbo.UDCS where MASTER_SID=RS_CON.RS_MODEL_SID and MASTER_TYPE='RS_MODEL')  \n ");
+            stringInputquery.append(" JOIN HELPER_TABLE HEL1 ON HEL1.HELPER_TABLE_SID=(select UDC2 from dbo.UDCS where MASTER_SID=RS_CON.RS_MODEL_SID and MASTER_TYPE='RS_MODEL')  \n ");
         } else {
-            StringInputquery.append("LEFT JOIN HELPER_TABLE HEL1 ON HEL1.HELPER_TABLE_SID = 0  \n ");
+            stringInputquery.append("LEFT JOIN HELPER_TABLE HEL1 ON HEL1.HELPER_TABLE_SID = 0  \n ");
         }
 
-        StringInputquery.append(" LEFT JOIN COMPANY_MASTER CM1 ON CM1.COMPANY_MASTER_SID = CFP_CON_DET.COMPANY_MASTER_SID \n");
-        StringInputquery.append(" INNER JOIN GCM_GLOBAL_DETAILS TEMP_TABLE ON TEMP_TABLE.CFP_CONTRACT_SID=CFP_CON.CFP_CONTRACT_SID AND \n");
-        StringInputquery.append(" TEMP_TABLE.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID AND TEMP_TABLE.IFP_CONTRACT_SID=IFP_CON.IFP_CONTRACT_SID  \n");
-        StringInputquery.append(" AND TEMP_TABLE.RS_CONTRACT_SID=RS_CON.RS_CONTRACT_SID AND TEMP_TABLE.PS_CONTRACT_SID=PS_CON.PS_CONTRACT_SID \n");
-        StringInputquery.append(" AND TEMP_TABLE.USER_ID ='").append(userId).append("' AND  TEMP_TABLE.SESSION_ID='").append(sessionId).append("' \n");
+        stringInputquery.append(" LEFT JOIN COMPANY_MASTER CM1 ON CM1.COMPANY_MASTER_SID = CFP_CON_DET.COMPANY_MASTER_SID \n");
+        stringInputquery.append(" INNER JOIN GCM_GLOBAL_DETAILS TEMP_TABLE ON TEMP_TABLE.CFP_CONTRACT_SID=CFP_CON.CFP_CONTRACT_SID AND \n");
+        stringInputquery.append(" TEMP_TABLE.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID AND TEMP_TABLE.IFP_CONTRACT_SID=IFP_CON.IFP_CONTRACT_SID  \n");
+        stringInputquery.append(" AND TEMP_TABLE.RS_CONTRACT_SID=RS_CON.RS_CONTRACT_SID AND TEMP_TABLE.PS_CONTRACT_SID=PS_CON.PS_CONTRACT_SID \n");
+        stringInputquery.append(" AND TEMP_TABLE.USER_ID ='").append(userId).append("' AND  TEMP_TABLE.SESSION_ID='").append(sessionId).append("' \n");
 
         if (!conSelDTO.getScreenName().equals(StringUtils.EMPTY) && !conSelDTO.getScreenName().equals(Constants.NULL)) {
-            StringInputquery.append(" AND TEMP_TABLE.SCREEN_NAME = '").append(conSelDTO.getScreenName()).append('\'');
+            stringInputquery.append(" AND TEMP_TABLE.SCREEN_NAME = '").append(conSelDTO.getScreenName()).append('\'');
         }
 
         String udcValue = "1";
@@ -249,28 +249,28 @@ public class CommmonLogic {
             udcValue = "2";
         }
 
-        StringInputquery.append(" AND TEMP_TABLE.OPERATION <> '").append(udcValue).append("' \n");
+        stringInputquery.append(" AND TEMP_TABLE.OPERATION <> '").append(udcValue).append("' \n");
 
-        StringInputquery.append(" JOIN (SELECT WM.WORKFLOW_MASTER_SID, WF_HT.DESCRIPTION AS WORKFLOW_STATUS \n");
-        StringInputquery.append(" FROM   WORKFLOW_MASTER WM \n");
-        StringInputquery.append(" JOIN   HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
-        StringInputquery.append(" WHERE  WF_HT.DESCRIPTION IN ('Pending', 'Rejected', 'Cancelled') \n");
-        StringInputquery.append(" OR WM.PROJECTION_MASTER_SID = @LAST_APPROVED_PROJECTION_SID) WF ON WF.WORKFLOW_MASTER_SID = TEMP_TABLE.WORKFLOW_MASTER_SID \n");
+        stringInputquery.append(" JOIN (SELECT WM.WORKFLOW_MASTER_SID, WF_HT.DESCRIPTION AS WORKFLOW_STATUS \n");
+        stringInputquery.append(" FROM   WORKFLOW_MASTER WM \n");
+        stringInputquery.append(" JOIN   HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
+        stringInputquery.append(" WHERE  WF_HT.DESCRIPTION IN ('Pending', 'Rejected', 'Cancelled') \n");
+        stringInputquery.append(" OR WM.PROJECTION_MASTER_SID = @LAST_APPROVED_PROJECTION_SID) WF ON WF.WORKFLOW_MASTER_SID = TEMP_TABLE.WORKFLOW_MASTER_SID \n");
 
-        StringInputquery.append(" LEFT JOIN HELPER_TABLE HEL_TAB1 ON HEL_TAB1.HELPER_TABLE_SID=TEMP_TABLE.STATUS \n");
-        StringInputquery.append(" JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = TEMP_TABLE.PROJECTION_MASTER_SID AND PM.FORECASTING_TYPE <> 'Channel' ");
-        StringInputquery.append(" AND CON.INBOUND_STATUS <> 'D' AND CFP_CON.INBOUND_STATUS<> 'D' AND IFP_CON.INBOUND_STATUS<> 'D' \n");
-        StringInputquery.append(" AND PS_CON.INBOUND_STATUS <> 'D' AND RS_CON.INBOUND_STATUS <> 'D' \n");
+        stringInputquery.append(" LEFT JOIN HELPER_TABLE HEL_TAB1 ON HEL_TAB1.HELPER_TABLE_SID=TEMP_TABLE.STATUS \n");
+        stringInputquery.append(" JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = TEMP_TABLE.PROJECTION_MASTER_SID AND PM.FORECASTING_TYPE <> 'Channel' ");
+        stringInputquery.append(" AND CON.INBOUND_STATUS <> 'D' AND CFP_CON.INBOUND_STATUS<> 'D' AND IFP_CON.INBOUND_STATUS<> 'D' \n");
+        stringInputquery.append(" AND PS_CON.INBOUND_STATUS <> 'D' AND RS_CON.INBOUND_STATUS <> 'D' \n");
 
-        StringInputquery.append(" AND CFP_CON.CFP_CONTRACT_SID " ).append( symbol ).append( " (SELECT CFP.CFP_CONTRACT_SID\n");
-        StringInputquery.append(" FROM   CONTRACT_MASTER A\n");
-        StringInputquery.append(" JOIN   CFP_CONTRACT CFP ON A.CONTRACT_MASTER_SID = CFP.CONTRACT_MASTER_SID AND CFP.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID\n");
-        StringInputquery.append(" JOIN   CFP_CONTRACT_DETAILS CFP_D ON CFP_D.CFP_CONTRACT_SID = CFP.CFP_CONTRACT_SID\n");
-        StringInputquery.append(" WHERE  CFP_D.COMPANY_MASTER_SID IN ( " ).append( companyMasterContractSids ).append( " )\n");
-        StringInputquery.append(" GROUP  BY CFP.CFP_CONTRACT_SID\n");
-        StringInputquery.append(" HAVING Sum(( CASE WHEN CFP_D.COMPANY_MASTER_SID IN ( " ).append( companyMasterContractSids ).append( " ) THEN -1 ELSE 0 END )) = -" ).append( companyMasterContractSidsList.size() ).append( ") \n");
+        stringInputquery.append(" AND CFP_CON.CFP_CONTRACT_SID " ).append( symbol ).append( " (SELECT CFP.CFP_CONTRACT_SID\n");
+        stringInputquery.append(" FROM   CONTRACT_MASTER A\n");
+        stringInputquery.append(" JOIN   CFP_CONTRACT CFP ON A.CONTRACT_MASTER_SID = CFP.CONTRACT_MASTER_SID AND CFP.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID\n");
+        stringInputquery.append(" JOIN   CFP_CONTRACT_DETAILS CFP_D ON CFP_D.CFP_CONTRACT_SID = CFP.CFP_CONTRACT_SID\n");
+        stringInputquery.append(" WHERE  CFP_D.COMPANY_MASTER_SID IN ( " ).append( companyMasterContractSids ).append( " )\n");
+        stringInputquery.append(" GROUP  BY CFP.CFP_CONTRACT_SID\n");
+        stringInputquery.append(" HAVING Sum(( CASE WHEN CFP_D.COMPANY_MASTER_SID IN ( " ).append( companyMasterContractSids ).append( " ) THEN -1 ELSE 0 END )) = -" ).append( companyMasterContractSidsList.size() ).append( ") \n");
 
-        StringInputquery.append("LEFT JOIN (SELECT CFP_MOD.CFP_NO, CFP_MODEL_SID, CFP_MOD.CFP_ID, CFP_ST.DESCRIPTION AS CFP_STATUS FROM CFP_MODEL CFP_MOD \n"
+        stringInputquery.append("LEFT JOIN (SELECT CFP_MOD.CFP_NO, CFP_MODEL_SID, CFP_MOD.CFP_ID, CFP_ST.DESCRIPTION AS CFP_STATUS FROM CFP_MODEL CFP_MOD \n"
                 + "        INNER JOIN HELPER_TABLE CFP_ST ON CFP_ST.HELPER_TABLE_SID = CFP_MOD.CFP_STATUS)CFP_MOD \n"
                 + "         ON CFP_MOD.CFP_MODEL_SID = CFP_CON.CFP_MODEL_SID\n"
                 + "   LEFT JOIN (SELECT IFP_MOD.IFP_NO, IFP_MODEL_SID, IFP_MOD.IFP_ID, IFP_ST.DESCRIPTION AS IFP_STATUS FROM IFP_MODEL IFP_MOD \n"
@@ -288,71 +288,71 @@ public class CommmonLogic {
         if (!conSelDTO.getContractNo().equals(StringUtils.EMPTY) && !conSelDTO.getContractNo().equals(Constants.NULL)) {
             String contractNo = conSelDTO.getContractNo().replace('*', '%');
             if (where) {
-                StringInputquery.append(" AND CON.CONTRACT_NO  like '").append(contractNo).append('\'');
+                stringInputquery.append(" AND CON.CONTRACT_NO  like '").append(contractNo).append('\'');
             } else {
-                StringInputquery.append(" WHERE CON.CONTRACT_NO  like '").append(contractNo).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE CON.CONTRACT_NO  like '").append(contractNo).append(SLASH_N_SPACE);
                 where = true;
             }
         }
 
         if (where) {
-            StringInputquery.append("AND CM1.COMPANY_MASTER_SID " ).append( symbol ).append( " (" ).append( companyMasterContractSids ).append( ")  \n ");
+            stringInputquery.append("AND CM1.COMPANY_MASTER_SID " ).append( symbol ).append( " (" ).append( companyMasterContractSids ).append( ")  \n ");
         } else {
-            StringInputquery.append(" WHERE CM1.COMPANY_MASTER_SID " ).append( symbol ).append( " (" ).append( companyMasterContractSids ).append( ")  \n ");
+            stringInputquery.append(" WHERE CM1.COMPANY_MASTER_SID " ).append( symbol ).append( " (" ).append( companyMasterContractSids ).append( ")  \n ");
             where = true;
         }
 
         if (!conSelDTO.getContractName().equals(StringUtils.EMPTY) && !conSelDTO.getContractName().equals(Constants.NULL)) {
             String contractName = conSelDTO.getContractName().replace('*', '%');
             if (where) {
-                StringInputquery.append(" AND CON.CONTRACT_NAME like  '").append(contractName).append(SLASH_N);
+                stringInputquery.append(" AND CON.CONTRACT_NAME like  '").append(contractName).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE CON.CONTRACT_NAME like  '").append(contractName).append(SLASH_N);
+                stringInputquery.append(" WHERE CON.CONTRACT_NAME like  '").append(contractName).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getContractHolder().equals(StringUtils.EMPTY) && !conSelDTO.getContractHolder().equals(Constants.NULL)) {
             String contractHolder = conSelDTO.getContractHolder();
             if (where) {
-                StringInputquery.append(" AND CON.CONT_HOLD_COMPANY_MASTER_SID='").append(contractHolder).append(SLASH_N);
+                stringInputquery.append(" AND CON.CONT_HOLD_COMPANY_MASTER_SID='").append(contractHolder).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE CON.CONT_HOLD_COMPANY_MASTER_SID ='").append(contractHolder).append(SLASH_N);
+                stringInputquery.append(" WHERE CON.CONT_HOLD_COMPANY_MASTER_SID ='").append(contractHolder).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getMarketType().equals(StringUtils.EMPTY) && !conSelDTO.getMarketType().equals(Constants.NULL)) {
             String contractType = conSelDTO.getMarketType();
             if (where) {
-                StringInputquery.append(" AND HEL.HELPER_TABLE_SID= '").append(contractType).append(SLASH_N);
+                stringInputquery.append(" AND HEL.HELPER_TABLE_SID= '").append(contractType).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE HEL.HELPER_TABLE_SID ='").append(contractType).append(SLASH_N);
+                stringInputquery.append(" WHERE HEL.HELPER_TABLE_SID ='").append(contractType).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleId().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleId().equals(Constants.NULL)) {
             String rsId = conSelDTO.getRebateScheduleId().replace('*', '%');
             if (where) {
-                StringInputquery.append(" AND RS_CON.RS_ID like '").append(rsId).append(SLASH_N);
+                stringInputquery.append(" AND RS_CON.RS_ID like '").append(rsId).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE RS_CON.RS_ID like '").append(rsId).append(SLASH_N);
+                stringInputquery.append(" WHERE RS_CON.RS_ID like '").append(rsId).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleName().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleName().equals(Constants.NULL)) {
             String rsName = conSelDTO.getRebateScheduleName().replace('*', '%');
             if (where) {
-                StringInputquery.append(" AND RS_CON.RS_NAME like  '").append(rsName).append(SLASH_N);
+                stringInputquery.append(" AND RS_CON.RS_NAME like  '").append(rsName).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE RS_CON.RS_NAME  like '").append(rsName).append(SLASH_N);
+                stringInputquery.append(" WHERE RS_CON.RS_NAME  like '").append(rsName).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleType().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleType().equals(Constants.NULL)) {
             String rsType = conSelDTO.getRebateScheduleType();
             if (where) {
-                StringInputquery.append(" AND RS_CON.RS_TYPE ='").append(rsType).append(SLASH_N_SPACE);
+                stringInputquery.append(" AND RS_CON.RS_TYPE ='").append(rsType).append(SLASH_N_SPACE);
             } else {
-                StringInputquery.append(" WHERE RS_CON.RS_TYPE='").append(rsType).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE RS_CON.RS_TYPE='").append(rsType).append(SLASH_N_SPACE);
                 where = true;
             }
         }
@@ -370,26 +370,26 @@ public class CommmonLogic {
                 }
             }
             if (where) {
-                StringInputquery.append(" AND RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2= '").append(integer).append("')");
+                stringInputquery.append(" AND RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2= '").append(integer).append("')");
             } else {
-                StringInputquery.append(" WHERE RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2= '").append(integer).append("')");
+                stringInputquery.append(" WHERE RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2= '").append(integer).append("')");
             }
         }
         if (!conSelDTO.getRebateScheduleNo().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleNo().equals(Constants.NULL)) {
             String rsNo = conSelDTO.getRebateScheduleNo().replace('*', '%');
             if (where) {
-                StringInputquery.append(" AND RS_CON.RS_NO like  '").append(rsNo).append(SLASH_N_SPACE);
+                stringInputquery.append(" AND RS_CON.RS_NO like  '").append(rsNo).append(SLASH_N_SPACE);
             } else {
-                StringInputquery.append(" WHERE RS_CON.RS_NO  like '").append(rsNo).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE RS_CON.RS_NO  like '").append(rsNo).append(SLASH_N_SPACE);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
             String rsCategory = conSelDTO.getRebateScheduleCategory();
             if (where) {
-                StringInputquery.append(" AND RS_CON.RS_CATEGORY ='").append(rsCategory).append(SLASH_N_SPACE);
+                stringInputquery.append(" AND RS_CON.RS_CATEGORY ='").append(rsCategory).append(SLASH_N_SPACE);
             } else {
-                StringInputquery.append(" WHERE RS_CON.RS_CATEGORY='").append(rsCategory).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE RS_CON.RS_CATEGORY='").append(rsCategory).append(SLASH_N_SPACE);
                 where = true;
             }
         }
@@ -397,44 +397,44 @@ public class CommmonLogic {
         if (!conSelDTO.getRebateProgramType().equals(StringUtils.EMPTY) && !conSelDTO.getRebateProgramType().equals(Constants.NULL)) {
             String rsProgType = conSelDTO.getRebateProgramType();
             if (where) {
-                StringInputquery.append(" AND RS_CON.REBATE_PROGRAM_TYPE ='").append(rsProgType).append(SLASH_N);
+                stringInputquery.append(" AND RS_CON.REBATE_PROGRAM_TYPE ='").append(rsProgType).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE RS_CON.REBATE_PROGRAM_TYPE='").append(rsProgType).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE RS_CON.REBATE_PROGRAM_TYPE='").append(rsProgType).append(SLASH_N_SPACE);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleAlias().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleAlias().equals(Constants.NULL)) {
             String rsAlias = conSelDTO.getRebateScheduleNo().replace('*', '%');
             if (where) {
-                StringInputquery.append(" AND RS_CON.RS_NO  like '").append(rsAlias).append("' ");
+                stringInputquery.append(" AND RS_CON.RS_NO  like '").append(rsAlias).append("' ");
             } else {
-                StringInputquery.append(" WHERE RS_CON.RS_NO  like '").append(rsAlias).append("' ");
+                stringInputquery.append(" WHERE RS_CON.RS_NO  like '").append(rsAlias).append("' ");
             }
         }
         if (!conSelDTO.getCfpNo().equals(StringUtils.EMPTY) && !conSelDTO.getCfpNo().equals(Constants.NULL)) {
             String cfpNo = conSelDTO.getCfpNo();
             if (where) {
-                StringInputquery.append(" AND CFP_CON.CFP_NO='").append(cfpNo).append(SLASH_N);
+                stringInputquery.append(" AND CFP_CON.CFP_NO='").append(cfpNo).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE CFP_CON.CFP_NO ='").append(cfpNo).append(SLASH_N);
+                stringInputquery.append(" WHERE CFP_CON.CFP_NO ='").append(cfpNo).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getIfpNo().equals(StringUtils.EMPTY) && !conSelDTO.getIfpNo().equals(Constants.NULL)) {
             String ifpNo = conSelDTO.getIfpNo();
             if (where) {
-                StringInputquery.append(" AND IFP_CON.IFP_NO='").append(ifpNo).append(SLASH_N);
+                stringInputquery.append(" AND IFP_CON.IFP_NO='").append(ifpNo).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE IFP_CON.IFP_NO ='").append(ifpNo).append(SLASH_N);
+                stringInputquery.append(" WHERE IFP_CON.IFP_NO ='").append(ifpNo).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getPsNo().equals(StringUtils.EMPTY) && !conSelDTO.getPsNo().equals(Constants.NULL)) {
             String psNo = conSelDTO.getPsNo();
             if (where) {
-                StringInputquery.append(" AND PS_CON.PS_NO='").append(psNo).append(SLASH_N);
+                stringInputquery.append(" AND PS_CON.PS_NO='").append(psNo).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE PS_CON.PS_NO ='").append(psNo).append(SLASH_N);
+                stringInputquery.append(" WHERE PS_CON.PS_NO ='").append(psNo).append(SLASH_N);
                 where = true;
             }
         }
@@ -442,97 +442,97 @@ public class CommmonLogic {
         if (dataParameters.containsKey(StringConstantsUtil.FILTERCONTRACT_HOLDER)) {
 
             if (where) {
-                StringInputquery.append(" AND CM.COMPANY_NAME like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_HOLDER))).append(SLASH_N);
+                stringInputquery.append(" AND CM.COMPANY_NAME like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_HOLDER))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE CM.COMPANY_NAME like '").append(String.valueOf(dataParameters.get("contractHolder"))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE CM.COMPANY_NAME like '").append(String.valueOf(dataParameters.get("contractHolder"))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(FILTERCFP_NAME)) {
 
             if (where) {
-                StringInputquery.append(" AND CFP_CON.CFP_NAME like '").append(String.valueOf(dataParameters.get(FILTERCFP_NAME))).append(SLASH_N);
+                stringInputquery.append(" AND CFP_CON.CFP_NAME like '").append(String.valueOf(dataParameters.get(FILTERCFP_NAME))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE CFP_CON.CFP_NAME like '").append(String.valueOf(dataParameters.get(FILTERCFP_NAME))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE CFP_CON.CFP_NAME like '").append(String.valueOf(dataParameters.get(FILTERCFP_NAME))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(FILTERIFP_NAME)) {
 
             if (where) {
-                StringInputquery.append(" AND IFP_CON.IFP_NAME like '").append(String.valueOf(dataParameters.get(FILTERIFP_NAME))).append(SLASH_N);
+                stringInputquery.append(" AND IFP_CON.IFP_NAME like '").append(String.valueOf(dataParameters.get(FILTERIFP_NAME))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE IFP_CON.IFP_NAME like '").append(String.valueOf(dataParameters.get(FILTERIFP_NAME))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE IFP_CON.IFP_NAME like '").append(String.valueOf(dataParameters.get(FILTERIFP_NAME))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(StringConstantsUtil.FILTERR_S_NAME)) {
 
             if (where) {
-                StringInputquery.append(" AND RS_CON.RS_NAME like  '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERR_S_NAME))).append(SLASH_N);
+                stringInputquery.append(" AND RS_CON.RS_NAME like  '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERR_S_NAME))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE RS_CON.RS_NAME  like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERR_S_NAME))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE RS_CON.RS_NAME  like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERR_S_NAME))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(StringConstantsUtil.FILTERP_S_NAME)) {
 
             if (where) {
-                StringInputquery.append(" AND PS_CON.PS_NAME like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERP_S_NAME))).append(SLASH_N);
+                stringInputquery.append(" AND PS_CON.PS_NAME like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERP_S_NAME))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE PS_CON.PS_NAME like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERP_S_NAME))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE PS_CON.PS_NAME like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERP_S_NAME))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(StringConstantsUtil.FILTERCONTRACT_NO)) {
 
             if (where) {
-                StringInputquery.append(" AND CON.CONTRACT_NO  like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_NO))).append(SLASH_N);
+                stringInputquery.append(" AND CON.CONTRACT_NO  like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_NO))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE  CON.CONTRACT_NO like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_NO))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE  CON.CONTRACT_NO like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_NO))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(StringConstantsUtil.FILTERCONTRACT_NAME)) {
 
             if (where) {
-                StringInputquery.append(" AND CON.CONTRACT_NAME like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_NAME))).append(SLASH_N);
+                stringInputquery.append(" AND CON.CONTRACT_NAME like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_NAME))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE CON.CONTRACT_NAME like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_NAME))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE CON.CONTRACT_NAME like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_NAME))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(FILTERCFP_NO)) {
 
             if (where) {
-                StringInputquery.append(" AND CFP_CON.CFP_NO like '").append(String.valueOf(dataParameters.get(FILTERCFP_NO))).append(SLASH_N);
+                stringInputquery.append(" AND CFP_CON.CFP_NO like '").append(String.valueOf(dataParameters.get(FILTERCFP_NO))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE CFP_CON.CFP_NO like '").append(String.valueOf(dataParameters.get(FILTERCFP_NO))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE CFP_CON.CFP_NO like '").append(String.valueOf(dataParameters.get(FILTERCFP_NO))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(FILTERIFP_NO)) {
 
             if (where) {
-                StringInputquery.append(" AND IFP_CON.IFP_NO like '").append(String.valueOf(dataParameters.get(FILTERIFP_NO))).append(SLASH_N);
+                stringInputquery.append(" AND IFP_CON.IFP_NO like '").append(String.valueOf(dataParameters.get(FILTERIFP_NO))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE IFP_CON.IFP_NO like '").append(String.valueOf(dataParameters.get(FILTERIFP_NO))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE IFP_CON.IFP_NO like '").append(String.valueOf(dataParameters.get(FILTERIFP_NO))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(StringConstantsUtil.FILTERR_S_NO)) {
 
             if (where) {
-                StringInputquery.append(" AND RS_CON.RS_NO  like  '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERR_S_NO))).append(SLASH_N);
+                stringInputquery.append(" AND RS_CON.RS_NO  like  '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERR_S_NO))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE  RS_CON.RS_NO like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERR_S_NO))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE  RS_CON.RS_NO like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERR_S_NO))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(StringConstantsUtil.FILTERP_S_NO)) {
 
             if (where) {
-                StringInputquery.append(" AND PS_CON.PS_NO like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERP_S_NO))).append(SLASH_N);
+                stringInputquery.append(" AND PS_CON.PS_NO like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERP_S_NO))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE PS_CON.PS_NO like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERP_S_NO))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE PS_CON.PS_NO like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERP_S_NO))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(StringConstantsUtil.FILTERCONTRACT_TYPE)) {
 
             if (where) {
-                StringInputquery.append(" AND CON.CONTRACT_TYPE like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_TYPE))).append(SLASH_N);
+                stringInputquery.append(" AND CON.CONTRACT_TYPE like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_TYPE))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE CON.CONTRACT_TYPE like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_TYPE))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE CON.CONTRACT_TYPE like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONTRACT_TYPE))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(StringConstantsUtil.FILTERR_AR_CATEGORY)) {
@@ -541,173 +541,173 @@ public class CommmonLogic {
                 type = (HelperDTO) dataParameters.get(StringConstantsUtil.FILTERR_AR_CATEGORY);
             }
             if (where) {
-                StringInputquery.append(" AND RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2 ='").append(type.getId()).append("')");
+                stringInputquery.append(" AND RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2 ='").append(type.getId()).append("')");
             } else {
-                StringInputquery.append(" WHERE RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2= '").append(type.getId()).append("')");
+                stringInputquery.append(" WHERE RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2= '").append(type.getId()).append("')");
             }
         }
         if ((dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))))
                 && (dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
-            StringInputquery.append(" AND CON.START_DATE BETWEEN '");
+            stringInputquery.append(" AND CON.START_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))));
-            StringInputquery.append(from);
-            StringInputquery.append(AND_QUOTE);
+            stringInputquery.append(from);
+            stringInputquery.append(AND_QUOTE);
             String to = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))));
-            StringInputquery.append(to);
-            StringInputquery.append("' ");
+            stringInputquery.append(to);
+            stringInputquery.append("' ");
         } else if ((dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM) == null || Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM)))
                 || StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))))
                 && (dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
-            StringInputquery.append(" AND CON.START_DATE < '");
+            stringInputquery.append(" AND CON.START_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))));
-            StringInputquery.append(to);
-            StringInputquery.append("' ");
+            stringInputquery.append(to);
+            stringInputquery.append("' ");
         } else if ((dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))))
                 && (dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO) == null || Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO)))
                 || StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
-            StringInputquery.append(" AND CON.START_DATE > '");
+            stringInputquery.append(" AND CON.START_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))));
-            StringInputquery.append(from);
-            StringInputquery.append("' ");
+            stringInputquery.append(from);
+            stringInputquery.append("' ");
         }
         if ((dataParameters.get(FILTERCONT_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(FILTERCONT_END_DATEFROM)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(FILTERCONT_END_DATEFROM))))
                 && (dataParameters.get(FILTERCONT_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(FILTERCONT_END_DATETO)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(FILTERCONT_END_DATETO))))) {
-            StringInputquery.append(" AND CON.END_DATE BETWEEN '");
+            stringInputquery.append(" AND CON.END_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(dataParameters.get(FILTERCONT_END_DATEFROM))));
-            StringInputquery.append(from);
-            StringInputquery.append(AND_QUOTE);
+            stringInputquery.append(from);
+            stringInputquery.append(AND_QUOTE);
             String to = format.format(parse.parse(String.valueOf(dataParameters.get(FILTERCONT_END_DATETO))));
-            StringInputquery.append(to);
-            StringInputquery.append("' ");
+            stringInputquery.append(to);
+            stringInputquery.append("' ");
         } else if ((dataParameters.get(FILTERCONT_END_DATEFROM) == null || Constants.NULL.equals(String.valueOf(dataParameters.get(FILTERCONT_END_DATEFROM)))
                 || StringUtils.isBlank(String.valueOf(dataParameters.get(FILTERCONT_END_DATEFROM))))
                 && (dataParameters.get(FILTERCONT_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(FILTERCONT_END_DATETO)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(FILTERCONT_END_DATETO))))) {
-            StringInputquery.append(" AND CON.END_DATE < '");
+            stringInputquery.append(" AND CON.END_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(dataParameters.get(FILTERCONT_END_DATETO))));
-            StringInputquery.append(to);
-            StringInputquery.append("' ");
+            stringInputquery.append(to);
+            stringInputquery.append("' ");
         } else if ((dataParameters.get(FILTERCONT_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(FILTERCONT_END_DATEFROM)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(FILTERCONT_END_DATEFROM))))
                 && (dataParameters.get(FILTERCONT_END_DATETO) == null || Constants.NULL.equals(String.valueOf(dataParameters.get(FILTERCONT_END_DATETO)))
                 || StringUtils.isBlank(String.valueOf(dataParameters.get(FILTERCONT_END_DATETO))))) {
-            StringInputquery.append(" AND CON.END_DATE > '");
+            stringInputquery.append(" AND CON.END_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(dataParameters.get(FILTERCONT_END_DATEFROM))));
-            StringInputquery.append(from);
-            StringInputquery.append("' ");
+            stringInputquery.append(from);
+            stringInputquery.append("' ");
         }
         if ((dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))))
                 && (dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))))) {
-            StringInputquery.append(" AND TEMP_TABLE.START_DATE BETWEEN '");
+            stringInputquery.append(" AND TEMP_TABLE.START_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))));
-            StringInputquery.append(from);
-            StringInputquery.append(AND_QUOTE);
+            stringInputquery.append(from);
+            stringInputquery.append(AND_QUOTE);
             String to = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))));
-            StringInputquery.append(to);
-            StringInputquery.append("' ");
+            stringInputquery.append(to);
+            stringInputquery.append("' ");
         } else if ((dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM) == null || Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM)))
                 || StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))))
                 && (dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))))) {
-            StringInputquery.append(" AND TEMP_TABLE.START_DATE < '");
+            stringInputquery.append(" AND TEMP_TABLE.START_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))));
-            StringInputquery.append(to);
-            StringInputquery.append("' ");
+            stringInputquery.append(to);
+            stringInputquery.append("' ");
         } else if ((dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))))
                 && (dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO) == null || Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO)))
                 || StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
-            StringInputquery.append(" AND TEMP_TABLE.START_DATE > '");
+            stringInputquery.append(" AND TEMP_TABLE.START_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))));
-            StringInputquery.append(from);
-            StringInputquery.append("' ");
+            stringInputquery.append(from);
+            stringInputquery.append("' ");
         }
         if ((dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))))
                 && (dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
-            StringInputquery.append(" AND TEMP_TABLE.END_DATE BETWEEN '");
+            stringInputquery.append(" AND TEMP_TABLE.END_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))));
-            StringInputquery.append(from);
-            StringInputquery.append(AND_QUOTE);
+            stringInputquery.append(from);
+            stringInputquery.append(AND_QUOTE);
             String to = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))));
-            StringInputquery.append(to);
-            StringInputquery.append("' ");
+            stringInputquery.append(to);
+            stringInputquery.append("' ");
         } else if ((dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM) == null || Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM)))
                 || StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))))
                 && (dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
-            StringInputquery.append(" AND TEMP_TABLE.END_DATE < '");
+            stringInputquery.append(" AND TEMP_TABLE.END_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))));
-            StringInputquery.append(to);
-            StringInputquery.append("' ");
+            stringInputquery.append(to);
+            stringInputquery.append("' ");
         } else if ((dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM)))
                 && !StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))))
                 && (dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO) == null || Constants.NULL.equals(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO)))
                 || StringUtils.isBlank(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
-            StringInputquery.append(" AND TEMP_TABLE.END_DATE > '");
+            stringInputquery.append(" AND TEMP_TABLE.END_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
             SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))));
-            StringInputquery.append(from);
-            StringInputquery.append("' ");
+            stringInputquery.append(from);
+            stringInputquery.append("' ");
         }
         if (dataParameters.containsKey(StringConstantsUtil.FILTERSTATUS)) {
 
             if (where) {
-                StringInputquery.append(" AND TEMP_TABLE.STATUS like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERSTATUS))).append(SLASH_N);
+                stringInputquery.append(" AND TEMP_TABLE.STATUS like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERSTATUS))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE TEMP_TABLE.STATUS like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERSTATUS))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE TEMP_TABLE.STATUS like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERSTATUS))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(StringConstantsUtil.FILTERPROJECTION_ID_LINK)) {
 
             if (where) {
-                StringInputquery.append(" AND TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERPROJECTION_ID_LINK))).append(SLASH_N);
+                stringInputquery.append(" AND TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERPROJECTION_ID_LINK))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERPROJECTION_ID_LINK))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERPROJECTION_ID_LINK))).append(SLASH_N_SPACE);
             }
         }
         if (dataParameters.containsKey(StringConstantsUtil.FILTERWORKFLOW_STATUS)) {
 
             if (where) {
-                StringInputquery.append(" AND WF.WORKFLOW_STATUS like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERWORKFLOW_STATUS))).append(SLASH_N);
+                stringInputquery.append(" AND WF.WORKFLOW_STATUS like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERWORKFLOW_STATUS))).append(SLASH_N);
             } else {
-                StringInputquery.append(" WHERE WF.WORKFLOW_STATUS like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERWORKFLOW_STATUS))).append(SLASH_N_SPACE);
+                stringInputquery.append(" WHERE WF.WORKFLOW_STATUS like '").append(String.valueOf(dataParameters.get(StringConstantsUtil.FILTERWORKFLOW_STATUS))).append(SLASH_N_SPACE);
             }
         }
-        StringInputquery.append(" ORDER BY  CFP_CON.CFP_CONTRACT_SID,RS_CON.RS_CONTRACT_SID,IFP_CON.IFP_CONTRACT_SID,PS_CON.PS_CONTRACT_SID OFFSET ").append(start).append(" ROWS FETCH NEXT ").append(end).append(" ROWS ONLY ");
-        return StringInputquery.toString();
+        stringInputquery.append(" ORDER BY  CFP_CON.CFP_CONTRACT_SID,RS_CON.RS_CONTRACT_SID,IFP_CON.IFP_CONTRACT_SID,PS_CON.PS_CONTRACT_SID OFFSET ").append(start).append(" ROWS FETCH NEXT ").append(end).append(" ROWS ONLY ");
+        return stringInputquery.toString();
     }
 
     public List<ContractResultDTO> getContractResults(List list) {
@@ -762,7 +762,7 @@ public class CommmonLogic {
             companyMasterSidsList = conSelDTO.getCompanyMasterSids();
         }
 
-        String companyMasterSids = CommonUtils.CollectionToString(companyMasterSidsList, true);
+        String companyMasterSids = CommonUtils.collectionToString(companyMasterSidsList, true);
         Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
@@ -1879,7 +1879,7 @@ public class CommmonLogic {
         customSql.append(SQlUtil.getQuery("updateCfpDetails"));
         customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, session.getUserId());
         customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, session.getSessionId());
-        customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, CommonUtils.CollectionToString(session.getCompanyMasterSids(), false));
+        customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, CommonUtils.collectionToString(session.getCompanyMasterSids(), false));
         if (TRADING_PARTNER_REMOVE.getConstant().equalsIgnoreCase(session.getModuleName())) {
             customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, "GetDate()");
         } else {
@@ -2184,8 +2184,8 @@ public class CommmonLogic {
         List<String> newCfpContractMasterSidList = CommonLogic.getSelectedCfpSid(session.getSessionId(), true);
         List<String> oldCfpContractMasterSidList = CommonLogic.getSelectedCfpSid(session.getSessionId(), false);
 
-        String newCfpContractMasterSid = CommonUtils.CollectionToString(newCfpContractMasterSidList, true);
-        String oldCfpContractMasterSid = CommonUtils.CollectionToString(oldCfpContractMasterSidList, true);
+        String newCfpContractMasterSid = CommonUtils.collectionToString(newCfpContractMasterSidList, true);
+        String oldCfpContractMasterSid = CommonUtils.collectionToString(oldCfpContractMasterSidList, true);
 
         queryString.append(SQlUtil.getQuery("tp.transferIFPQuery"));
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, oldContractMasterSid);
@@ -2335,14 +2335,12 @@ public class CommmonLogic {
                 + "LEFT JOIN dbo.COMPANY_MASTER COM ON COM.COMPANY_MASTER_SID=CFP_D.COMPANY_MASTER_SID \n"
                 + "LEFT JOIN dbo.RS_CONTRACT_DETAILS RS_CD ON RS_C.RS_CONTRACT_SID=RS_CD.RS_CONTRACT_SID LEFT JOIN dbo.HELPER_TABLE HT1 ON CM.CONTRACT_STATUS=HT1.HELPER_TABLE_SID \n"
                 + " WHERE COM.COMPANY_MASTER_SID='" + companyId + "' AND CM.CONTRACT_MASTER_SID=" + contractId;
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
 
     }
 
     public static List<String> getCustomerName(List<String> companyMasterSids) {
-        String query = "Select COMPANY_NAME from COMPANY_MASTER where COMPANY_MASTER_SID in(" + CommonUtils.CollectionToString(companyMasterSids, true) + ")";
-        List<String> companyNamesList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return companyNamesList;
+        String query = "Select COMPANY_NAME from COMPANY_MASTER where COMPANY_MASTER_SID in(" + CommonUtils.collectionToString(companyMasterSids, true) + ")";
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 }

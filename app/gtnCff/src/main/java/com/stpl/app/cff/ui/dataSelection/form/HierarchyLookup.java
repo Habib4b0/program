@@ -9,7 +9,6 @@ import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.*;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.*;
 import static com.stpl.app.cff.util.Constants.LabelConstants.*;
 import com.stpl.app.cff.util.NotificationUtils;
 import com.stpl.app.cff.util.UiUtils;
@@ -24,8 +23,6 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import java.text.ParseException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
@@ -88,7 +85,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
      * @param hierarchyDto to return the selected hierarchy information
      */
     public HierarchyLookup(final String indicator, final String windowName, final TextField hierarchyLookup, HierarchyLookupDTO hierarchyDto) {
-        super(windowName, INDICATOR_MODULE_NON_MANDATED.getConstant());
+        super(windowName);
         this.indicator = indicator;
         this.hierarchyLookup = hierarchyLookup;
         this.hierarchyDto = hierarchyDto;

@@ -388,14 +388,14 @@ public class ItemSelection extends CustomComponent {
     public void searchButtonLogic(Button.ClickEvent event) throws FieldGroup.CommitException {
         binder.commit();
         if ((binderDto.getItemId() == null || binderDto.getItemId().isEmpty()) && (binderDto.getItemName() == null || binderDto.getItemName().isEmpty())
-                && (binderDto.getTherapeuticClass_DTO() == null) && (binderDto.getForm_DTO() == null)
-                && binderDto.getIdentifierType_DTO() == null && (binderDto.getItemNo() == null || binderDto.getItemNo().isEmpty())
+                && (binderDto.getTherapeuticClassDto() == null) && (binderDto.getFormDto() == null)
+                && binderDto.getIdentifierTypeDto() == null && (binderDto.getItemNo() == null || binderDto.getItemNo().isEmpty())
                 && (binderDto.getItemDesc() == null || binderDto.getItemDesc().isEmpty())
-                && (binderDto.getBrand_DTO() == null) && (binderDto.getStrength_DTO() == null)
-                && (binderDto.getIdentifier() == null || binderDto.getIdentifier().isEmpty()) && (binderDto.getCompany_DTO() == null)
-                && (binderDto.getPlaceHolder_DTO() == null)
-                && (binderDto.getNdc9() == null || binderDto.getNdc9().isEmpty()) && (binderDto.getItemCategory_DTO() == null)
-                && (binderDto.getItemType_DTO() == null)) {
+                && (binderDto.getBrandDto() == null) && (binderDto.getStrengthDto() == null)
+                && (binderDto.getIdentifier() == null || binderDto.getIdentifier().isEmpty()) && (binderDto.getCompanyDto() == null)
+                && (binderDto.getPlaceHolderDto() == null)
+                && (binderDto.getNdc9() == null || binderDto.getNdc9().isEmpty()) && (binderDto.getItemCategoryDto() == null)
+                && (binderDto.getItemTypeDto() == null)) {
 
             MessageBox.showPlain(Icon.INFO, "Error", "Please enter/select search criteria", ButtonId.OK);
         } else {
@@ -537,19 +537,19 @@ public class ItemSelection extends CustomComponent {
     }
 
     private void loadCompany() {
-        logic.LazyLoadDdlb(companyDto, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(companyDto, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
     }
 
     private void loadForm() {
-        logic.LazyLoadDdlb(formDto, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(formDto, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
     }
 
     private void loadBrand() {
-        logic.LazyLoadDdlb(brandDto, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(brandDto, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
     }
 
     private void loadStrength() {
-        logic.LazyLoadDdlb(strengthDro, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(strengthDro, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
     }
 
     private void loadItemType() {
@@ -564,7 +564,7 @@ public class ItemSelection extends CustomComponent {
         logic.loadComboBox(itemCategoryDto, "ITEM_CATEGORY", false);
     }
 
-    private void loadPlaceHolder(ComboBox placeHolder_DTO, boolean isFilter) {
+    private void loadPlaceHolder(ComboBox placeHolderDto, boolean isFilter) {
         BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         List<HelperDTO> placeHolderList = new ArrayList<>();
         HelperDTO dto = new HelperDTO(NumericConstants.ELEVEN, Constants.SELECT_ONE);
@@ -578,20 +578,20 @@ public class ItemSelection extends CustomComponent {
         }
         placeHolderList.add(yesDto);
         placeHolderList.add(noDto);
-        placeHolder_DTO.setContainerDataSource(container);
+        placeHolderDto.setContainerDataSource(container);
         if (!isFilter) {
-            placeHolder_DTO.setNullSelectionItemId(dto);
+            placeHolderDto.setNullSelectionItemId(dto);
         } else {
-            placeHolder_DTO.setNullSelectionItemId(showAll);
+            placeHolderDto.setNullSelectionItemId(showAll);
         }
-        placeHolder_DTO.setNullSelectionAllowed(true);
-        placeHolder_DTO.setItemCaptionPropertyId("description");
+        placeHolderDto.setNullSelectionAllowed(true);
+        placeHolderDto.setItemCaptionPropertyId("description");
         container.addAll(placeHolderList);
-        placeHolder_DTO.select(dto);
+        placeHolderDto.select(dto);
     }
 
     private void loadIdentifierType() {
-        logic.LazyLoadDdlb(identifierTypeDto, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(identifierTypeDto, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
     }
 
     @SuppressWarnings("serial")

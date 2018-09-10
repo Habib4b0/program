@@ -70,12 +70,12 @@ public class ItemContractSelectionDTO implements Cloneable {
         this.cfp = cfp;
     }
 
-    public HelperDTO getMarketType_DTO() {
+    public HelperDTO getMarketTypeDto() {
         return marketTypeDto;
     }
 
-    public void setMarketType_DTO(HelperDTO marketType_DTO) {
-        this.marketTypeDto = marketType_DTO;
+    public void setMarketTypeDto(HelperDTO marketTypeDto) {
+        this.marketTypeDto = marketTypeDto;
     }
 
     public String getIfp() {

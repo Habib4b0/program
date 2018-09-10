@@ -18,6 +18,10 @@ public class GtnWsReportSqlService {
 	@Autowired
 	private PropertiesFactoryBean sqlPropertyBean;
 
+	public GtnWsReportSqlService() {
+		super();
+	}
+
 	public String getQuery(String queryId) {
 		try {
 			return Optional.ofNullable(sqlPropertyBean.getObject()).orElseThrow(IllegalArgumentException::new)

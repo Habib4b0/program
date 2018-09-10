@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -200,7 +201,7 @@ public class DiscountProjectionLogic {
         if (levelNo != 0) {
             if (CommonUtil.isValueEligibleForLoading() && !isCustom) {
                 discountProjectionList = queryBuilderAndExecutor.getDiscountProjectionLastLevel(frequency, discountList, session, hierarchyNo,
-                        hierarchyIndicator, levelNo, isCustom, customViewDetails, treeLevelNo, start, offset, userGroup, projectionSelection);
+                        hierarchyIndicator, levelNo,  customViewDetails, treeLevelNo, start, offset, userGroup, projectionSelection);
             } else {
                 discountProjectionList = queryBuilderAndExecutor.getDiscountProjectionCustom(isProgram, frequency, discountList, session, hierarchyNo,
                         hierarchyIndicator, levelNo, isCustom, customViewDetails, treeLevelNo, start, offset, userGroup);
@@ -244,9 +245,9 @@ public class DiscountProjectionLogic {
                             }
                             String levelName;
                             if(isCustom){
-                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getDiscountHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getDiscountHierarchyLevelDetails(), projectionSelection.getDisplayFormat());
                             }else{
-                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getHierarchyLevelDetails(), projectionSelection.getDisplayFormat());
                                                         }
                             discountDto.setLevelName(levelName);
                             if (levelName.contains("-")) {
@@ -339,7 +340,7 @@ public class DiscountProjectionLogic {
                             column = Constant.S_SMALL + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
                         } else if (frequency.equals(MONTHLY.getConstant())) {
                             String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.THREE]) - 1);
-                            column = monthName.toLowerCase() + obj[NumericConstants.TWO];
+                            column = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.TWO];
                         } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                             column = StringUtils.EMPTY + obj[NumericConstants.TWO];
                         }
@@ -411,8 +412,12 @@ public class DiscountProjectionLogic {
     private void discountProjectionSetTableValues(String frequency, List<String> forecastConfigList,
             DiscountProjectionDTO discountDto, List doubleProjectedAndHistoryCombinedUniqueList, String column,
             String commonColumn, String actualObject, String projectedObject, String actualAmountObject,
-            String projAmountObj, String actualRpObject, String ProjRpObject, String growthObject,
+            String projAmountObj, String actualRpObject, String projRpObject, String growthObject,
             Integer apIndicatorObject) {
+        String projectedObjectNew = projectedObject;
+        String projAmountObjNew = projAmountObj;
+        String projRpObjectNew  = projRpObject;   
+                
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(commonColumn)) {
             if (apIndicatorObject == 0) {
                 if (!Constant.NULL.equals(discountDto.getDeductionInclusion())) {
@@ -428,16 +433,16 @@ public class DiscountProjectionLogic {
             }
 
             if (!Constant.NULL.equals(discountDto.getDeductionInclusion())) {
-                projectedObject = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, projectedObject);
-                projAmountObj = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, projAmountObj);
-                ProjRpObject = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, ProjRpObject);
-                discountDto.addStringProperties(commonColumn + PROJECTED_RATE, projectedObject);
-                discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, projAmountObj);
+                projectedObjectNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projectedObjectNew);
+                projAmountObjNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projAmountObjNew);
+                projRpObjectNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projRpObjectNew);
+                discountDto.addStringProperties(commonColumn + PROJECTED_RATE, projectedObjectNew);
+                discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, projAmountObjNew);
                 discountDto.addStringProperties(commonColumn + Constant.PROJECTEDRPU,
-                        ProjRpObject);
+                        projRpObjectNew);
                 discountDto.addStringProperties(commonColumn + Constant.GROWTH, growthObject);
             } else {
                 discountDto.addStringProperties(commonColumn + PROJECTED_RATE, StringUtils.EMPTY);
@@ -569,8 +574,8 @@ public class DiscountProjectionLogic {
      * @param massUpdateData
      */
     public void massUpdate(SessionDTO session, ProjectionSelectionDTO projectionSelection, List<Integer> startAndEndPeriods, String selectedField, String fieldValue,
-            List<String> selectedDiscounts, boolean isProgram, List<String[]> massUpdateData, List<String> selectedPeriods, boolean isCustomHierarchy) {
-        queryBuilderAndExecutor.massUpdate(session, projectionSelection, startAndEndPeriods, selectedField, fieldValue, selectedDiscounts, isProgram, massUpdateData, selectedPeriods, isCustomHierarchy);
+            List<String> selectedDiscounts, boolean isProgram, List<String[]> massUpdateData, boolean isCustomHierarchy) {
+        queryBuilderAndExecutor.massUpdate(session, projectionSelection, startAndEndPeriods, selectedField, fieldValue, selectedDiscounts, isProgram, massUpdateData, isCustomHierarchy);
     }
 
     /**
@@ -761,7 +766,7 @@ public class DiscountProjectionLogic {
         queryBuilderAndExecutor.checkClearAll(session, userGroup, checkClear);
     }
 
-    public boolean isAnyRecordChecked(SessionDTO session, List<String> discountProgramsList, boolean isCustomHierarchy) {
+    public boolean isAnyRecordChecked(SessionDTO session, boolean isCustomHierarchy) {
         int count = queryBuilderAndExecutor.getCheckedRecordCount(session);
         if (count != 0) {
             if (count == -1) {
@@ -881,7 +886,7 @@ public class DiscountProjectionLogic {
     }
 
     public String getPeriodSid(String period, String fre, String order) {
-        List periodSid = (List) dao.executeSelectQuery(utils.periodQuery(period, fre, order), null, null);
+        List periodSid = (List) dao.executeSelectQuery(utils.periodQuery(period, fre, order));
         return periodSid.get(0).toString();
     }
 
@@ -941,7 +946,7 @@ public class DiscountProjectionLogic {
                         commonColumn = Constant.S_SMALL + obj[1] + obj[0];
                     } else if (frequency.equals(MONTHLY.getConstant())) {
                         String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                        commonColumn = monthName.toLowerCase() + obj[0];
+                        commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
                     } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     }
@@ -968,7 +973,7 @@ public class DiscountProjectionLogic {
             if (!pivotList.isEmpty()) {
                 getParentGroupValue(frequency, pivotList, discountDto, discountProjList, ahPeriodList, hashMapValues);
             }
-            if (discountProjectionList != null && discountProjectionList.size() != 0) {
+            if (discountProjectionList != null && !discountProjectionList.isEmpty()) {
                 for (int i = 0; i < discountProjectionList.size(); i++) {
                     final Object[] obj = (Object[]) discountProjectionList.get(i);
 
@@ -980,7 +985,7 @@ public class DiscountProjectionLogic {
                         discountNamePivot = StringUtils.EMPTY;
                         levelIdPivot = String.valueOf(obj[NumericConstants.THREE]);
                         discountDto.setHierarchyNo(String.valueOf(obj[NumericConstants.TWO]));
-                        discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
+                        discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), session.getHierarchyLevelDetails(), projectionSelection.getDisplayFormat()));
                         discountDto.setAlternatePivotList(discountProjectionList);
                         if (isCustom) {
                             discountDto.setTreeLevelNo(treeLevelNo);
@@ -1039,7 +1044,7 @@ public class DiscountProjectionLogic {
         try {
             Map<String, Object> mapValue = new HashMap<>();
             List<String> periodList = new ArrayList<>();
-            if (discountProjectionList != null && discountProjectionList.size() != 0) {
+            if (discountProjectionList != null && !discountProjectionList.isEmpty()) {
                 for (int i = 0; i < discountProjectionList.size(); i++) {
                     final Object[] obj = (Object[]) discountProjectionList.get(i);
                     String headerColumn = StringUtils.EMPTY;
@@ -1157,7 +1162,7 @@ public class DiscountProjectionLogic {
             boolean isProgram, final List<String> discountList, final String userGroup, final ProjectionSelectionDTO projselection) {
         String query;
         if (CommonUtil.isValueEligibleForLoading()) {
-            query = queryBuilderAndExecutor.getDiscountCountQueryForAllLevel(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, discountList, userGroup, projselection);
+            query = queryBuilderAndExecutor.getDiscountCountQueryForAllLevel(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, discountList, userGroup);
         } else {
             query = queryBuilderAndExecutor.getDiscountCountQuery(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, isProgram, discountList, userGroup);
         }

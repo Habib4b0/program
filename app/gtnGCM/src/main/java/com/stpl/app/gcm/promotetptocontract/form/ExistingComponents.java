@@ -371,9 +371,7 @@ public class ExistingComponents extends CustomComponent implements View {
                                 searchType = CommonLogic.getNativeSelect(searchType, itemStatusListInEC);
                             } catch (SystemException ex) {
                                 LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            } catch (Exception ex) {
-                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            }
+                            } 
                         }
                         if (searchFieldInEC.equals("PS Type")) {
                             try {
@@ -382,9 +380,7 @@ public class ExistingComponents extends CustomComponent implements View {
                                 searchType = CommonLogic.getNativeSelect(searchType, itemStatusListInEC);
                             } catch (SystemException ex) {
                                 LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            } catch (Exception ex) {
-                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            }
+                            } 
                         }
                         if (searchFieldInEC.equals("RS Type")) {
                             try {
@@ -393,9 +389,7 @@ public class ExistingComponents extends CustomComponent implements View {
                                 searchType = CommonLogic.getNativeSelect(searchType, itemStatusListInEC);
                             } catch (SystemException ex) {
                                 LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            } catch (Exception ex) {
-                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            }
+                            } 
                         }
                     }
                     searchType.setVisible(true);
@@ -885,11 +879,11 @@ public class ExistingComponents extends CustomComponent implements View {
                     contractMasterSid = contractMasterExis.getContractMasterSid();
                     session.setContractMasterSid(String.valueOf(contractMasterSid));
                     returnList.add(contractMasterSid);
-                    String AliasType = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(item, "type").getValue());
-                    String AliasNumber = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(item, "number").getValue());
+                    String aliasType = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(item, "type").getValue());
+                    String aliasNumber = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(item, "number").getValue());
                     ContractAliasMaster camInExis = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
-                    camInExis.setContractAliasNo(AliasNumber);
-                    camInExis.setContractAliasType(AliasType != null && !Constants.NULL.equals(AliasType) && !StringUtils.EMPTY.equals(AliasType) ? Integer.parseInt(AliasType) : 0);
+                    camInExis.setContractAliasNo(aliasNumber);
+                    camInExis.setContractAliasType(aliasType != null && !Constants.NULL.equals(aliasType) && !StringUtils.EMPTY.equals(aliasType) ? Integer.parseInt(aliasType) : 0);
                     camInExis.setStartDate(new Date());
                     camInExis.setModifiedDate(new Date());
                     camInExis.setCreatedBy(1);
@@ -897,8 +891,8 @@ public class ExistingComponents extends CustomComponent implements View {
                     camInExis.setSource("BPI");
                     camInExis.setInboundStatus("A");
                     camInExis.setContractMasterSid(contractMasterSid);
-                    ContractAliasMaster CAM1 = ContractAliasMasterLocalServiceUtil.addContractAliasMaster(camInExis);
-                    LOGGER.debug("CAM1 {} " , CAM1.getContractAliasMasterSid());
+                    ContractAliasMaster camMaster = ContractAliasMasterLocalServiceUtil.addContractAliasMaster(camInExis);
+                    LOGGER.debug("CAM1 {} " , camMaster.getContractAliasMasterSid());
 
                 } else if (level.equals(Constants.ONE)) {
 
@@ -1010,14 +1004,14 @@ public class ExistingComponents extends CustomComponent implements View {
                     input.add(ifpModelId);
                     input.add(simpleDateFormat.format(ifpModelExis.getIfpStartDate()));
                     input.add(ifpModelExis.getIfpEndDate() == null ? null : simpleDateFormat.format(ifpModelExis.getIfpEndDate()));
-                    IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
+                    IfpContractDetailsImpl.saveIfpDetailsAttached(input);
                 } else if (level.equals(Constants.THREE)) {
 
                     String psModelId = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(item, Constants.MODEL_ID).getValue());
                     Object parentItem = contractDashboardResultsTableInEC.getParent(item);
-                    String IFPsystemId = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
+                    String ifpSystemId = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
                     Object parentCFPItem = contractDashboardResultsTableInEC.getParent(parentItem);
-                    String CFPsystemId = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
+                    String cfpSystemId = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
                     PsContract psContractExis;
                     psContractExis = PsContractLocalServiceUtil.createPsContract(0);
                     psContractExis.setPsModelSid(Integer.parseInt(psModelId));
@@ -1030,8 +1024,8 @@ public class ExistingComponents extends CustomComponent implements View {
                     psContractExis.setPsStartDate(psModelExis.getPsStartDate());
                     psContractExis.setPsEndDate(psModelExis.getPsEndDate());
                     psContractExis.setContractMasterSid(contractMasterSid);
-                    psContractExis.setCfpContractSid(CFPsystemId);
-                    psContractExis.setIfpContractSid(IFPsystemId);
+                    psContractExis.setCfpContractSid(cfpSystemId);
+                    psContractExis.setIfpContractSid(ifpSystemId);
                     psContractExis.setInboundStatus("A");
                     psContractExis.setRecordLockStatus(false);
                     psContractExis.setSource("GCM");
@@ -1051,7 +1045,7 @@ public class ExistingComponents extends CustomComponent implements View {
                     psInput.add(psModelId);
                     psInput.add(simpleDateFormat.format(psModelExis.getPsStartDate()));
                     psInput.add(psModelExis.getPsEndDate() == null ? null : simpleDateFormat.format(psModelExis.getPsEndDate()));
-                    PsContractDetailsImpl.savePsDetailsAttached(psInput, null);
+                    PsContractDetailsImpl.savePsDetailsAttached(psInput);
 
                 } else if (level.equals(Constants.FOUR)) {
                     String rsModelId = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(item, Constants.MODEL_ID).getValue());
@@ -1099,7 +1093,7 @@ public class ExistingComponents extends CustomComponent implements View {
                     input.add(rsModelId);
                     input.add(rsModelExis.getRsStartDate());
                     input.add(rsModelExis.getRsEndDate() == null ? null : rsModelExis.getRsEndDate());
-                    RsContractDetailsImpl.saveRsDetailsAttached(input, null);
+                    RsContractDetailsImpl.saveRsDetailsAttached(input);
 
                 }
             }

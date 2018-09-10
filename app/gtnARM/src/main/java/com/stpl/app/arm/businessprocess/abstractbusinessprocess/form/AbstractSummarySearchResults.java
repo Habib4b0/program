@@ -10,6 +10,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDT
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
 import com.stpl.app.arm.supercode.LogicAble;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.ARMConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +54,7 @@ public abstract class AbstractSummarySearchResults extends AbstractSearchResults
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in calculateLogic :" , ex);
+            LOGGER.error("Error in calculateLogic :", ex);
         }
         return calculateFlag;
     }
@@ -67,5 +68,12 @@ public abstract class AbstractSummarySearchResults extends AbstractSearchResults
     protected void cancelOverrideLogic() {
         getSummaryLogic().updateTempOverrideColumn(selection.getSessionDTO());
         super.cancelOverrideLogic();
+    }
+
+    @Override
+    protected void loadLevelValues() {
+        super.loadLevelValues();
+        customerProductView.addItem(ARMConstants.getCustomerDedection());
+        customerProductView.setValue(ARMConstants.getDeductionProduct());
     }
 }

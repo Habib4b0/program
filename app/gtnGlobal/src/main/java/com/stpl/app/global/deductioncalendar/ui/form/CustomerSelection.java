@@ -650,7 +650,7 @@ public class CustomerSelection extends CustomComponent {
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         String date;
         for (int rowCount = 0; rowCount < searchList.size(); rowCount++) {
-                dto = (SelectionDTO) searchList.get(rowCount);
+                dto = searchList.get(rowCount);
 
             if (dto.getOrganisationKey() != null && !StringUtils.EMPTY.equals(dto.getOrganisationKey().getDescription()) && !ConstantsUtils.NULL.equals(dto.getOrganisationKey().getDescription())) {
                 printWriter.print(ConstantsUtils.QUOTE + dto.getOrganisationKey().getDescription() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);

@@ -1786,13 +1786,14 @@ public class DataSelection extends ForecastDataSelection {
 	private void setAvailableCustomer(Object value, String dedLevel, String dedValue, String levelName,
 			int relationVersionNo, int hierarchyVersionNo) {
 		int forecastLevel;
+                String dedLevelCustomer = dedLevel;
+                String dedValueCustomer = dedValue;
+                String levelNameCustomer = levelName;
 		try {
 
 			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
-				{
-					dedLevel = getDedutionLevel();
-					dedValue = String.valueOf(deductionValue.getValue());
-				}
+					dedLevelCustomer = getDedutionLevel();
+					dedValueCustomer = String.valueOf(deductionValue.getValue());
 			}
 		} catch (NumberFormatException ex) {
 			LOGGER.error(" level  ValueChangeListener2= {} ", ex);
@@ -1811,16 +1812,16 @@ public class DataSelection extends ForecastDataSelection {
 						: groupFilteredCompanies;
 				List<Leveldto> resultedLevelsList = null;
 				resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-						Integer.parseInt(relationshipSid), tempGroupFileter, dedLevel, dedValue, relationVersionNo,
+						Integer.parseInt(relationshipSid), tempGroupFileter, dedLevelCustomer, dedValueCustomer, relationVersionNo,
 						forecastEligibleDate.getValue(), customerDescriptionMap);
 				if (selectedHierarchyLevelDto.getLevel() != null) {
-					levelName = selectedHierarchyLevelDto.getLevel();
+					levelNameCustomer = selectedHierarchyLevelDto.getLevel();
 				}
 
 				availableCustomerContainer.addAll(resultedLevelsList);
 				availableCustomer.setContainerDataSource(availableCustomerContainer);
 				availableCustomer.setVisibleColumns(Constant.DISPLAY_VALUE);
-				availableCustomer.setColumnHeaders(levelName);
+				availableCustomer.setColumnHeaders(levelNameCustomer);
 				availableCustomer.setFilterBarVisible(true);
 				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);
@@ -2077,10 +2078,8 @@ public class DataSelection extends ForecastDataSelection {
 				String dedLevel = StringUtils.EMPTY;
 				String dedValue = StringUtils.EMPTY;
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
-					{
 						dedLevel = getDedutionLevel();
 						dedValue = String.valueOf(deductionValue.getValue());
-					}
 				}
 				String relationshipSid = String.valueOf(productRelation.getValue());
 

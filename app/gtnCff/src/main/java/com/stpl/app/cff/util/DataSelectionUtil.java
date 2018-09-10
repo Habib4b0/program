@@ -7,7 +7,6 @@
 package com.stpl.app.cff.util;
 
 import com.stpl.app.cff.dto.SessionDTO;
-import static com.stpl.app.cff.logic.CommonLogic.LOGGER;
 import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CONTRACT;
@@ -37,6 +36,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -48,6 +49,13 @@ public class DataSelectionUtil {
     private static final Map<String, String> userMap = new HashMap<>();
     private static final Map<String, String> userIdMap = new HashMap<>();
     private static final Map<String, String> discountMap = new HashMap<>();
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionUtil.class);
+    
+    private DataSelectionUtil()
+    {
+     LOGGER.debug("Entering PPAChart method ");
+    }
+
 
     public static Date calculateHistory(final String frequency, final int histValue) {
 
@@ -495,13 +503,11 @@ public class DataSelectionUtil {
     public static String filterUser(String filter) {
         List<String> keys = new ArrayList<>();
         String userIds;
-        if (userMap != null) {
             for (Map.Entry<String, String> entry : userMap.entrySet()) {
                 if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
             }
-        }
         if (!keys.isEmpty()) {
             userIds = UiUtils.stringListToString(keys);
         } else {
@@ -512,9 +518,7 @@ public class DataSelectionUtil {
 
     public static String getUserName(String userId) {
         String userName = StringUtils.EMPTY;
-        if (userMap != null) {
             userName = userMap.get(userId);
-        }
         return userName;
     }
 
@@ -615,13 +619,11 @@ public class DataSelectionUtil {
     public static String filterUserId(String filter) {
         List<String> keys = new ArrayList<>();
         String userIds;
-        if (userIdMap != null) {
             for (Map.Entry<String, String> entry : userIdMap.entrySet()) {
                 if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
             }
-        }
         if (!keys.isEmpty()) {
             userIds = UiUtils.stringListToString(keys);
         } else {
@@ -632,9 +634,7 @@ public class DataSelectionUtil {
 
     public static String getUserId(String userId) {
         String userName = StringUtils.EMPTY;
-        if (userIdMap != null) {
             userName = userIdMap.get(userId);
-        }
         return userName;
     }
 
@@ -665,12 +665,10 @@ public class DataSelectionUtil {
     public static String filterDiscount(String filter) {
         List<String> keys = new ArrayList<>();
         String discountIds;
-        if (discountMap != null) {
             for (Map.Entry<String, String> entry : discountMap.entrySet()) {
                 if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
-            }
         }
         if (!keys.isEmpty()) {
             discountIds = UiUtils.stringListToString(keys);

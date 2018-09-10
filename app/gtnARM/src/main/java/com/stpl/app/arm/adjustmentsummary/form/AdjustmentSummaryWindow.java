@@ -62,6 +62,11 @@ public class AdjustmentSummaryWindow extends Window {
     private DataSelectionDTO dataSelectionDTO;
     private SessionDTO sessionDTO;
 
+    private int positionxy = ARMUtils.ZERO;
+    private String style1 = ARMUtils.BOOTSTRAP_UI;
+    private String style2 = ARMUtils.BOOTSTRAP;
+    private String style3 = ARMUtils.BOOTSTRAP_FORECAST_BOOTSTRAP_NM;
+
     public AdjustmentSummaryWindow(SummarySelection selection, DataSelectionDTO dataSelectionDTO, SessionDTO sessionDTO) {
         this.selection = selection;
         this.sessionDTO = sessionDTO;
@@ -76,7 +81,7 @@ public class AdjustmentSummaryWindow extends Window {
             AdjustmentSummary adjustmentsummary;
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(sessionDTO.getUserId());
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + "," + "Landing screen");
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + ARMUtils.COMMA_CHAR + "Landing screen");
             getButtonSecurity(functionHM);
             if (functionHM.get(CommonConstant.NEXT_BTN) != null && !(functionHM.get(CommonConstant.NEXT_BTN)).isFunctionFlag()) {
                 nextBtn.setVisible(false);
@@ -126,7 +131,7 @@ public class AdjustmentSummaryWindow extends Window {
         } else {
             closeBtn.setVisible(true);
         }
-        
+
         if (functionHM.get(CommonConstant.PREVIOUS_BTN) != null && !(functionHM.get(CommonConstant.PREVIOUS_BTN)).isFunctionFlag()) {
             previousBtn.setVisible(false);
         } else {
@@ -169,13 +174,13 @@ public class AdjustmentSummaryWindow extends Window {
         }
     }
 
-    private final CustomNotification notifier = new CustomNotification();
+    private final AdjustmentSummaryWindowCustomNotification notifier = new AdjustmentSummaryWindowCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class AdjustmentSummaryWindowCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String summaryWindowbuttonName;
 
-        public CustomNotification() {
+        public AdjustmentSummaryWindowCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -188,9 +193,9 @@ public class AdjustmentSummaryWindow extends Window {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", summaryWindowbuttonName);
+            if (null != summaryWindowbuttonName) {
+                switch (summaryWindowbuttonName) {
                     case "close":
                         close();
                         UI.getCurrent().getNavigator().navigateTo(DataSelectionView.NAME); // For GAL-6087
@@ -203,7 +208,7 @@ public class AdjustmentSummaryWindow extends Window {
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.summaryWindowbuttonName = buttonName;
         }
 
     }
@@ -223,11 +228,11 @@ public class AdjustmentSummaryWindow extends Window {
         center();
         setWidth(NumericConstants.FLOAT_HUNDRED, Sizeable.Unit.PERCENTAGE);
         setHeight(NumericConstants.FLOAT_EIGHTY, Sizeable.Unit.PERCENTAGE);
-        setPositionX(ARMUtils.ZERO);
-        setPositionY(ARMUtils.ZERO);
-        addStyleName(ARMUtils.BOOTSTRAP_UI);
-        addStyleName(ARMUtils.BOOTSTRAP);
-        addStyleName(ARMUtils.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
+        setPositionX(positionxy);
+        setPositionY(positionxy);
+        addStyleName(style1);
+        addStyleName(style2);
+        addStyleName(style3);
         setResizable(false);
         setClosable(false);
         nextBtn.focus();
@@ -235,19 +240,21 @@ public class AdjustmentSummaryWindow extends Window {
 
     @UiHandler("nextBtn")
     public void nextButtonListener(Button.ClickEvent event) {
+        LOGGER.debug("nextButtonListener");
         int position = tabSheet.getTabPosition(tabSheet.getTab(tabSheet.getSelectedTab()));
         tabSheet.setSelectedTab(position + 1);
     }
 
     @UiHandler("previousBtn")
     public void previousButtonListener(Button.ClickEvent event) {
+        LOGGER.debug("previousButtonListener");
         int position = tabSheet.getTabPosition(tabSheet.getTab(tabSheet.getSelectedTab()));
         tabSheet.setSelectedTab(position - 1);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object summaryWindowObj) {
+        return super.equals(summaryWindowObj);
     }
 
     @Override
@@ -255,11 +262,11 @@ public class AdjustmentSummaryWindow extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream summaryWindowObj) throws IOException {
+        summaryWindowObj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream summaryWindowObj) throws IOException, ClassNotFoundException {
+        summaryWindowObj.defaultReadObject();
     }
 }

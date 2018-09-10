@@ -10,7 +10,6 @@ import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.AHSummery
 import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.NMDiscountTableLoadLogic;
 import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.SaveDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
@@ -75,6 +74,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
@@ -1125,8 +1125,8 @@ public class AltSummeryDiscount extends CustomComponent {
                 } else {
                     startMonthValue = startFreq.substring(0, startFreq.length() - NumericConstants.FOUR);
                     endMonthValue = endFreq.substring(0, endFreq.length() - NumericConstants.FOUR);
-                    startMonthValue = startMonthValue.substring(0, 1).toUpperCase() + startMonthValue.substring(1);
-                    endMonthValue = endMonthValue.substring(0, 1).toUpperCase() + endMonthValue.substring(1);
+                    startMonthValue = startMonthValue.substring(0, 1).toUpperCase(Locale.ENGLISH) + startMonthValue.substring(1);
+                    endMonthValue = endMonthValue.substring(0, 1).toUpperCase(Locale.ENGLISH) + endMonthValue.substring(1);
                 }
                 LOGGER.debug(" startMonthValue= {} " , startMonthValue);
                 LOGGER.debug(" endMonthValue= {} " , endMonthValue);

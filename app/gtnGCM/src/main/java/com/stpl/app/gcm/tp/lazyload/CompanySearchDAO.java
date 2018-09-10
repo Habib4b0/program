@@ -11,8 +11,6 @@ import java.util.List;
 import org.asi.ui.addons.lazycontainer.BeanDAO;
 import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +23,6 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(CompanySearchDAO.class);
 
     public CompanySearchDAO(TradingPartnerDTO tpDto) {
         this.dto = tpDto;
@@ -38,15 +35,13 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
 
     @Override
     public int count(BeanSearchCriteria bsc) {
-        int count = 0;
-        return count;
+        return 0;
     }
 
     @Override
     public List<TradingPartnerDTO> find(BeanSearchCriteria sc, int startIndex, int offset, List<OrderByColumn> orderByColumns) {
-        List<TradingPartnerDTO> resultList = new ArrayList<>();
         
-        return resultList;
+        return new ArrayList<>();
     }
 
 	public int getParentCompanySid() {

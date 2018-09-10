@@ -349,8 +349,7 @@ public class DataSelectionLogic {
 
 		final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID, sids));
-		final List<CompanyMaster> companies = dataSelectionDaoImpl.getCompanyMasterList(dynamicQuery);
-		return companies;
+		return dataSelectionDaoImpl.getCompanyMasterList(dynamicQuery);
 	}
 
 	/**
@@ -1538,8 +1537,7 @@ public class DataSelectionLogic {
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 			str = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID="
 					+ definedValue + " and LEVEL_NAME='Market Type'";
-			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
-			return list;
+			return (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 		} catch (final Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
@@ -1725,7 +1723,7 @@ public class DataSelectionLogic {
 		return returnList;
 	}
 
-	public int searchGroupCount(String name, String no, List<String> sids, String indicator, String groupIdentifier,
+	public int searchGroupCount(String name, String no, String indicator, String groupIdentifier,
 			String action) throws SystemException {
 		List<Object> countList = null;
 		int count = 0;
@@ -1863,8 +1861,7 @@ public class DataSelectionLogic {
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 			str = "select FIELD_NAME from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID=" + definedValue
 					+ " and  LEVEL_NAME in('Customer','Trading Partner')";
-			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
-			return list;
+			return (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 		} catch (final Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();

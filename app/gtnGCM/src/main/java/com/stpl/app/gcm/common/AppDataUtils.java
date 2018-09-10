@@ -23,6 +23,11 @@ public class AppDataUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(AppDataUtils.class);
     private static final CommonDao ITEMDAO = CommonImpl.getInstance();
 
+    
+    private AppDataUtils()
+    {
+        LOGGER.debug("AppDataUtils");
+    }
     public static List getGroupList() {
         return new ArrayList();
     }
@@ -41,7 +46,7 @@ public class AppDataUtils {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-                list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
+                list =  ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
                 LOGGER.error("",ex);
             }

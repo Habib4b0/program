@@ -31,6 +31,7 @@ import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
@@ -157,27 +158,27 @@ public class ExcelUtils {
     }
 
     private static void getCustomizedDTO(final PPAProjectionResultsDTO dto, final Object[] obj, ProjectionSelectionDTO selection) {
-        DecimalFormat FORMAT = new DecimalFormat();
+        DecimalFormat formatDec = new DecimalFormat();
         int year = Integer.parseInt(String.valueOf(obj[NumericConstants.SIX]));
         int period = Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN]));
         int dataNo = NumericConstants.EIGHT;
         int dataProjNo = NumericConstants.EIGHT;
         String per = StringUtils.EMPTY;
         if (dto.getGroup().equalsIgnoreCase("Discount $ Per Unit")) {
-            FORMAT = MONEY;
+            formatDec = MONEY;
             dataNo = NumericConstants.TWELVE;
             dataProjNo = NumericConstants.THIRTEEN;
         } else if (dto.getGroup().equalsIgnoreCase(CommonUtils.VAR_DIS_RATE)) {
             per = "%";
-            FORMAT = PERCENT_FORMAT;
+            formatDec = PERCENT_FORMAT;
             dataNo = NumericConstants.TEN;
             dataProjNo = NumericConstants.ELEVEN;
         } else if (dto.getGroup().equalsIgnoreCase("Unit Volume")) {
-            FORMAT = UNITVOLUME;
+            formatDec = UNITVOLUME;
             dataNo = NumericConstants.FOURTEEN;
             dataProjNo = NumericConstants.FIFTEEN;
         } else if (dto.getGroup().equalsIgnoreCase("Total Discount Amount")) {
-            FORMAT = MONEY;
+            formatDec = MONEY;
             dataNo = NumericConstants.EIGHT;
             dataProjNo = NumericConstants.NINE;
         }
@@ -186,11 +187,11 @@ public class ExcelUtils {
         String vis = isProjColumn(String.valueOf(period), String.valueOf(year), selection.getFrequency());
         if (header != null) {
             Boolean isProj = CommonUtils.setProjectionZero(selection, vis);
-            dto.addStringProperties(header, (obj[dataProjNo] == null) ? FORMAT.format(Double.valueOf(Constant.DASH)) : isProj ? (FORMAT.format(0.0) + per) : (FORMAT.format(Double.valueOf(obj[dataProjNo].toString())) + per));
+            dto.addStringProperties(header, (obj[dataProjNo] == null) ? formatDec.format(Double.valueOf(Constant.DASH)) : isProj ? (formatDec.format(0.0) + per) : (formatDec.format(Double.valueOf(obj[dataProjNo].toString())) + per));
         }
         header = isColumn(selection, String.valueOf(period), String.valueOf(year), Constant.ACTUALS, selection.getFrequency());
         if (header != null) {
-            dto.addStringProperties(header, (obj[dataNo] == null) ? FORMAT.format(Double.valueOf(Constant.DASH)) : (FORMAT.format(Double.valueOf(obj[dataNo].toString())) + per));
+            dto.addStringProperties(header, (obj[dataNo] == null) ? formatDec.format(Double.valueOf(Constant.DASH)) : (formatDec.format(Double.valueOf(obj[dataNo].toString())) + per));
         }
     }
 
@@ -201,7 +202,7 @@ public class ExcelUtils {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year + caption;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year + caption;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year + caption;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year + caption;
@@ -219,7 +220,7 @@ public class ExcelUtils {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year;
@@ -270,8 +271,9 @@ public class ExcelUtils {
 
     private int discount(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent, final ProjectionSelectionDTO selection) {
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
-        for (int i = discountIndex + 1; i < discountListForContract.size(); i++) {
-            discountIndex = i;
+         int discountView = discountIndex;
+        for (int i = discountView + 1; i < discountListForContract.size(); i++) {
+            discountView = i;
             Object[] obj = (Object[]) discountListForContract.get(i);
             String discountName = obj[NumericConstants.TEN].toString();
             String lastHierarchyNo = obj[0].toString();
@@ -287,7 +289,7 @@ public class ExcelUtils {
                 }
             }
         }
-        return discountIndex;
+        return discountView;
     }
  /**
      *
@@ -339,8 +341,9 @@ public class ExcelUtils {
 
     private int discountIndexForCustomPeriodView(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent, final ProjectionSelectionDTO selection) {
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
-        for (int i = discountIndex + 1; i < discountListForContract.size(); i++) {
-            discountIndex = i;
+         int discountIndexCustomPeriodView = discountIndex;
+        for (int i = discountIndexCustomPeriodView + 1; i < discountListForContract.size(); i++) {
+            discountIndexCustomPeriodView = i;
             Object[] obj = (Object[]) discountListForContract.get(i);
             String discountName = obj[NumericConstants.FOURTEEN].toString(); 
             String lastHierarchyNo = obj[0].toString();
@@ -358,13 +361,14 @@ public class ExcelUtils {
                 }
             }
         }
-        return discountIndex;
+        return discountIndexCustomPeriodView;
     }
     
     private int discountIndexForCustomDiscountView(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent,final ProjectionSelectionDTO selection) {
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
-        for (int i = discountIndex + 1; i < discountListForContract.size(); i++) {
-            discountIndex = i;
+        int discountIndexCustomView = discountIndex;
+        for (int i = discountIndexCustomView + 1; i < discountListForContract.size(); i++) {
+            discountIndexCustomView = i;
             Object[] obj = (Object[]) discountListForContract.get(i);
             String period = obj[NumericConstants.TWO].toString();
             String lastHierarchyNo = obj[0].toString();
@@ -385,7 +389,7 @@ public class ExcelUtils {
             }
         }
         }
-        return discountIndex;
+        return discountIndexCustomView;
     }
     
     private void setActualProjectionValue(DiscountProjectionResultsDTO dto, Object[] obj, String column, final ProjectionSelectionDTO projdto) {
@@ -433,7 +437,7 @@ public class ExcelUtils {
             column = Constant.S_SMALL + String.valueOf(object[NumericConstants.TWO]) + String.valueOf(object[1]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
             String monthName = getMonthForInt(Integer.parseInt(String.valueOf(object[NumericConstants.TWO])) - 1);
-            column = monthName.toLowerCase() + String.valueOf(object[1]);
+            column = monthName.toLowerCase(Locale.ENGLISH) + String.valueOf(object[1]);
         }
         return column;
     }
@@ -498,8 +502,9 @@ public class ExcelUtils {
     
  private int discountForDiscountView(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent, final ProjectionSelectionDTO selection) {
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
-        for (int i = discountIndex + 1; i < discountListForContract.size(); i++) {
-            discountIndex = i;
+        int discountIndexView = discountIndex;
+        for (int i = discountIndexView + 1; i < discountListForContract.size(); i++) {
+            discountIndexView = i;
             Object[] obj = (Object[]) discountListForContract.get(i);
             String period = obj[NumericConstants.TWO].toString();
             String lastHierarchyNo = obj[0].toString();
@@ -517,6 +522,6 @@ public class ExcelUtils {
                 }
             }
         }}
-        return discountIndex;
+        return discountIndexView;
     }
 }

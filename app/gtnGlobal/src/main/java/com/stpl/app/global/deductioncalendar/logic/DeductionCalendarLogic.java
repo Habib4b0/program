@@ -258,7 +258,7 @@ public class DeductionCalendarLogic {
         List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
 
         if (isCount) {
-            return (Integer) resultList.get(0);
+            return resultList.get(0);
         } else {
             return getCustomizedDeductionResults(resultList);
         }
@@ -459,14 +459,14 @@ public class DeductionCalendarLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,session.getCurrentTableNames()));
     }
 
-    public void deleteCustomer_TempDeductionDetails(SessionDTO session) {
+    public void deleteCustomerTempDeductionDetails(SessionDTO session) {
         String query = SQLUtil.getQuery("deleteCustomer_Selection_Table");
         query = query.replace(ConstantsUtils.USERID_AT, session.getUserId());
         query = query.replace(ConstantsUtils.SESSION_ID_AT, session.getUiSessionId());
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
-    public void deleteItem_TempDeductionDetails(SessionDTO session) {
+    public void deleteItemTempDeductionDetails(SessionDTO session) {
         String query = SQLUtil.getQuery("deleteItem_Selection_Table");
         query = query.replace(ConstantsUtils.USERID_AT, session.getUserId());
         query = query.replace(ConstantsUtils.SESSION_ID_AT, session.getUiSessionId());

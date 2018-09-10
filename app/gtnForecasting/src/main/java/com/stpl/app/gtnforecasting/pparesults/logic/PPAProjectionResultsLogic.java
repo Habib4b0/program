@@ -54,6 +54,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
+import java.util.Locale;
 
 /**
  *
@@ -214,7 +215,7 @@ public class PPAProjectionResultsLogic {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year + caption;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year + caption;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year + caption;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year + caption;
@@ -232,7 +233,7 @@ public class PPAProjectionResultsLogic {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year;
@@ -1051,7 +1052,7 @@ public class PPAProjectionResultsLogic {
         List<PPADetailsDTO> resultList = new ArrayList<>();
         SimpleDateFormat myFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
         if (list != null && !list.isEmpty()) {
-            load_Wac_Tables(String.valueOf(list.get(0)[NumericConstants.THIRTY_ONE]), sessionDTO);
+            loadWacTables(String.valueOf(list.get(0)[NumericConstants.THIRTY_ONE]), sessionDTO);
         for (Object[] object : list) {
             try {
                 PPADetailsDTO detailsDTO = new PPADetailsDTO();
@@ -1187,7 +1188,7 @@ public class PPAProjectionResultsLogic {
         return runnable;
     }
     @SuppressWarnings({"unchecked"})
-    void load_Wac_Tables(String ccpId,  SessionDTO sessionDTO) {
+    void loadWacTables(String ccpId,  SessionDTO sessionDTO) {
         String query;
        
         query = String.format("select * from ST_NM_PPA_PROJECTION where ccp_details_sid= %s ", ccpId);
@@ -1253,7 +1254,7 @@ public class PPAProjectionResultsLogic {
         String[] wacPrice = new String[]{ConstantsUtils.ZERO, ConstantsUtils.ZERO};
 
         try {
-            String periodIds[] = fetchPeriod_Sids(year, frequencyValue);
+            String periodIds[] = fetchPeriodSids(year, frequencyValue);
             List<String> periodList = Arrays.asList(periodIds);
 
             int i;
@@ -1280,7 +1281,7 @@ public class PPAProjectionResultsLogic {
         }
     }
 
-    String[] fetchPeriod_Sids(String year, String frequencyValue) {
+    String[] fetchPeriodSids(String year, String frequencyValue) {
 
         String[] periods = new String[currentfrquencyForWacReset];
 

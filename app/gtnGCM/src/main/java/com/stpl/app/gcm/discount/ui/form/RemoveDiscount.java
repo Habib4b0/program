@@ -161,7 +161,6 @@ public class RemoveDiscount extends CustomComponent {
      * The table bean.
      */
     private ContractsDetailsDto tableBean;
-    private static final BeanItem<?> NULL_OBJECT = null;
     private int levelValue;
     private final BeanItemContainer<RemoveDiscountDto> componentResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     private final BeanItemContainer<RemoveDiscountDto> contractComponentContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
@@ -326,7 +325,7 @@ public class RemoveDiscount extends CustomComponent {
                     AbstractLogic abstractLogic = AbstractLogic.getInstance();
                     if ("contractStatus".equals(propertyId)) {
                         ComboBox marketTypeDdlb = new ComboBox();
-                        abstractLogic.LazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BooleanConstant.getTrueFlag());
+                        abstractLogic.lazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BooleanConstant.getTrueFlag());
                         return marketTypeDdlb;
                     }
                     return null;
@@ -757,7 +756,7 @@ public class RemoveDiscount extends CustomComponent {
                     }
                     mainTab.removeTab(mainTab.getTab(1));
                     dto.setRemovedRsList(rsSidList);
-                    mainTab.addTab(summary.getContent(selecteditemList, dto, mainTab, removeDiscount), "Summary", null, 1);
+                    mainTab.addTab(summary.getContent(selecteditemList, dto, removeDiscount), "Summary", null, 1);
                 } else {
                     AbstractNotificationUtils.getErrorNotification("Select RS",
                             "Please select RS to remove.");
@@ -843,8 +842,8 @@ public class RemoveDiscount extends CustomComponent {
             logic.getDiscountRsList(rsSidList, contractDto);
             contractDto.setRemovedRsList(rsSidList);
             mainTab.removeTab(mainTab.getTab(1));
-            contractDto.setRsSystemId(CommonUtils.CollectionToString(rebateList, true));
-            mainTab.addTab(summary.getContent(selecteditemList, contractDto, mainTab, removeDiscount), "Summary", null, 1);
+            contractDto.setRsSystemId(CommonUtils.collectionToString(rebateList, true));
+            mainTab.addTab(summary.getContent(selecteditemList, contractDto, removeDiscount), "Summary", null, 1);
 
         } catch (Exception ex) {
             LOGGER.error("",ex);

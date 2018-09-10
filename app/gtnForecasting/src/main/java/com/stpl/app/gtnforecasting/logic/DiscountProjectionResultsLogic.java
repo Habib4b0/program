@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -109,11 +110,10 @@ public class DiscountProjectionResultsLogic {
                   
                     String freq = projSelDTO.getFrequency();
                     String order = projSelDTO.getProjectionOrder();
-                    String projection = projSelDTO.getView();
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
-                    List list = new NmDiscountImpl().getDiscountProjectionResults(proDetailsSid, freq, discountString, projection, Constant.PARENT, order, startAndEndPeriods, user, session,viewFlag);
+                    List list = new NmDiscountImpl().getDiscountProjectionResults(proDetailsSid, freq, discountString,  Constant.PARENT, order, startAndEndPeriods, user, session,viewFlag);
                     DiscountProjectionResultsDTO discountDto = null;
                     if (list != null && !list.isEmpty()) {
                         if (freq.equals(QUARTERLY.getConstant())) {
@@ -211,7 +211,7 @@ public class DiscountProjectionResultsLogic {
             if (hierarchy.equals(Constant.CUSTOM_LABEL)) {
                 proSelDTO.setIsCustomHierarchy(true);
                 String customQuery = CommonLogic.getCustomCCPQuery(proSelDTO);
-                List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
+                List<Object> list = (List<Object>) executeSelectQuery(customQuery);
                 if (list != null && !list.isEmpty()) {
                     ccpid = new ArrayList();
                     for (int i = 0; i < list.size(); i++) {
@@ -245,7 +245,7 @@ public class DiscountProjectionResultsLogic {
                     if (discountString.equals(StringUtils.EMPTY)) {
                         discountString = ZERO_SYMBOL;
                     }
-                    List list = new NmDiscountImpl().getAllPesriodDiscount(projectionDetailsId, freq, discountString, StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, startAndEndPeriods, user, session);
+                    List list = new NmDiscountImpl().getAllPesriodDiscount(projectionDetailsId, freq, discountString, StringUtils.EMPTY, startAndEndPeriods, user, session);
                     if (list != null && !list.isEmpty()) {
                         if (freq.equals(QUARTERLY.getConstant())) {
                             discountProjList = getDiscountListDto(proSelDTO, list, discountProjList, Constant.Q_SMALL, discountList);
@@ -312,7 +312,7 @@ public class DiscountProjectionResultsLogic {
                     if (discountString.equals(StringUtils.EMPTY)) {
                         discountString = ZERO_SYMBOL;
                     }
-                    List list = new NmDiscountImpl().getAllPesriodDiscount(proDetailsSid, freq, discountString, StringUtils.EMPTY, StringUtils.EMPTY, order, startAndEndPeriods, user, session);
+                    List list = new NmDiscountImpl().getAllPesriodDiscount(proDetailsSid, freq, discountString, order, startAndEndPeriods, user, session);
                     if (list != null && !list.isEmpty()) {
                         if (freq.equals(QUARTERLY.getConstant())) {
                             discountProjList = getDiscountListDto(projSelDTO, list, discountProjList, Constant.Q_SMALL, discountList);
@@ -1275,7 +1275,6 @@ public class DiscountProjectionResultsLogic {
                                     } else {
                                         String column = discountSemiAnnualDto.getGroup().replace(" ", StringUtils.EMPTY);
                                         periodList.contains(column.replace('S', 's'));
-                                        {
                                             Double arate = actualAmount / actualSales;
                                             if (arate.isNaN()) {
                                                 arate = 0.0;
@@ -1306,7 +1305,6 @@ public class DiscountProjectionResultsLogic {
                                             discountSemiAnnualDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                                             discountProjList.add(discountSemiAnnualDto);
                                             periodList.remove(column.replace('S', 's'));
-                                        }
                                         actualSales = 0;
                                         actualAmount = 0;
                                         projectedSales = 0;
@@ -1731,7 +1729,7 @@ public class DiscountProjectionResultsLogic {
         if (selectedView.equals(Constant.CUSTOM_LABEL)) {
             projSelDTO.setIsCustomHierarchy(true);
             String customQuery = CommonLogic.getCustomCCPQuery(projSelDTO);
-            List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(customQuery);
             if (list != null && !list.isEmpty()) {
                 ccpId = new ArrayList();
                 for (int i = 0; i < list.size(); i++) {
@@ -2977,7 +2975,7 @@ public class DiscountProjectionResultsLogic {
                 String sessionId = String.valueOf(selection.get(Constant.SESSION_ID));
                 int user = Integer.parseInt(userId);
                 int session1 = Integer.parseInt(sessionId);
-                List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, StringUtils.EMPTY, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, startAndEndPeriods, user, session1,viewFlag);
+                List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, startAndEndPeriods, user, session1,viewFlag);
                 if (list != null && !list.isEmpty()) {
                     if (frequency.equals(QUARTERLY.getConstant())) {
                         double actualSales = 0;
@@ -4186,7 +4184,7 @@ public class DiscountProjectionResultsLogic {
                 if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                     projSelDTO.setIsCustomHierarchy(true);
                     String customQuery = CommonLogic.getCustomCCPQuery(projSelDTO);
-                    List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
+                    List<Object> list = (List<Object>) executeSelectQuery(customQuery);
                     if (list != null && !list.isEmpty()) {
                         ccpId = new ArrayList();
                         for (int i = 0; i < list.size(); i++) {
@@ -4219,7 +4217,7 @@ public class DiscountProjectionResultsLogic {
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
-                    List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, discountString, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, yearList, user, session,viewFlag);
+                    List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, discountString, Constant.PARENT, StringUtils.EMPTY, yearList, user, session,viewFlag);
                     if (list != null && !list.isEmpty()) {
                         if (frequency.equals(QUARTERLY.getConstant())) {
                             dprDto = getValueForDTO(projSelDTO, list, dprDto, Constant.Q_SMALL);
@@ -4322,7 +4320,7 @@ public class DiscountProjectionResultsLogic {
             if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                 projSelDTO.setIsCustomHierarchy(true);
                 String customQuery = CommonLogic.getCustomCCPQuery(projSelDTO);
-                List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
+                List<Object> list = (List<Object>) executeSelectQuery(customQuery);
                 if (list != null && !list.isEmpty()) {
                     ccpId = new ArrayList();
                     for (int i = 0; i < list.size(); i++) {
@@ -4984,7 +4982,7 @@ public class DiscountProjectionResultsLogic {
                     year = selectedYear;
                     month = selectedMonth;
                     String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                    monthName = monthName.toLowerCase();
+                    monthName = monthName.toLowerCase(Locale.ENGLISH);
                     commonColumn = monthName + obj[0];
                     if (obj[NumericConstants.TWO] != null) {
                         Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
@@ -5034,7 +5032,7 @@ public class DiscountProjectionResultsLogic {
                     projectedSales = 0;
                     projectedAmount = 0;
                     String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                    monthName = monthName.toLowerCase();
+                    monthName = monthName.toLowerCase(Locale.ENGLISH);
                     commonColumn = monthName + obj[0];
                     year = (Integer) obj[0];
                     month = (Integer) obj[1];
@@ -5087,7 +5085,7 @@ public class DiscountProjectionResultsLogic {
                 projectedSales = 0;
                 projectedAmount = 0;
                 String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                monthName = monthName.toLowerCase();
+                monthName = monthName.toLowerCase(Locale.ENGLISH);
                 commonColumn = monthName + obj[0];
                 year = (Integer) obj[0];
                 month = (Integer) obj[1];
@@ -5588,7 +5586,7 @@ public class DiscountProjectionResultsLogic {
         int currentYear = (Integer) object[0];
         int currentMonth = (Integer) object[NumericConstants.SEVEN];
         String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + object[NumericConstants.SEVEN]) - 1);
-        monthName = monthName.toLowerCase();
+        monthName = monthName.toLowerCase(Locale.ENGLISH);
         commonColumn = monthName + object[0];
         dto.setIsParent(ZERO_SYMBOL);
         dto.setGroup(currentDiscount);
@@ -5698,7 +5696,7 @@ public class DiscountProjectionResultsLogic {
                         projectedSales = 0;
                         projectedAmount = 0;
                         monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.SEVEN]) - 1);
-                        monthName = monthName.toLowerCase();
+                        monthName = monthName.toLowerCase(Locale.ENGLISH);
                         commonColumn = monthName + obj[0];
                         currentYear = selectedYear;
                         currentMonth = selectedMonth;
@@ -5763,7 +5761,7 @@ public class DiscountProjectionResultsLogic {
                     dto.setGroup(currentDiscount);
                     discountList.remove(currentDiscount);
                     monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.SEVEN]) - 1);
-                    monthName = monthName.toLowerCase();
+                    monthName = monthName.toLowerCase(Locale.ENGLISH);
                     commonColumn = monthName + obj[0];
                     currentYear = selectedYear;
                     currentMonth = selectedMonth;
@@ -6103,9 +6101,9 @@ public class DiscountProjectionResultsLogic {
         return count;
     }
 
-    public static Object executeSelectQuery(String query, Object udc1, Object udc2) {
+    public static Object executeSelectQuery(String query) {
 
-        return commonDao.executeSelectQuery(query, udc1, udc2);
+        return commonDao.executeSelectQuery(query);
 
     }
 

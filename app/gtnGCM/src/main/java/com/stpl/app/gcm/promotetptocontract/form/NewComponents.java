@@ -476,9 +476,7 @@ public class NewComponents extends CustomComponent implements View {
 
                             } catch (SystemException ex) {
                                 LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            } catch (Exception ex) {
-                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            }
+                            } 
                         } else {
                             if (searchField.equals(Constants.ITEM_TYPE)) {
                                 try {
@@ -487,9 +485,7 @@ public class NewComponents extends CustomComponent implements View {
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
                                     LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                } catch (Exception ex) {
-                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                }
+                                } 
                             }
                             if (searchField.equals("PS Type")) {
                                 try {
@@ -509,9 +505,7 @@ public class NewComponents extends CustomComponent implements View {
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
                                     LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                } catch (Exception ex) {
-                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                }
+                                } 
                             }
                         }
                         searchType.setVisible(true);
@@ -631,9 +625,7 @@ public class NewComponents extends CustomComponent implements View {
                             massValue = CommonLogic.getNativeSelect(massValue, itemStatusList);
                         } catch (SystemException ex) {
                             LoggerFactory.getLogger(NewComponents.class.getName()).error("", ex);
-                        } catch (Exception ex) {
-                            LoggerFactory.getLogger(NewComponents.class.getName()).error("", ex);
-                        }
+                        } 
                     }
 
                 }
@@ -1282,7 +1274,7 @@ public class NewComponents extends CustomComponent implements View {
         /* This loop is used to check atleast one record is selected at component Details-selected Item table or not */
         List<ComponentInfoDTO> list = componentDetailResultsContainer.getItemIds();
         for (int i = 0; i < list.size(); i++) {
-            ComponentInfoDTO dto = (ComponentInfoDTO) list.get(i);
+            ComponentInfoDTO dto = list.get(i);
             if (dto.getCheckRecord()) {
                 flag = true;
             }
@@ -1638,22 +1630,22 @@ public class NewComponents extends CustomComponent implements View {
                     contractMasterSid = contractMaster.getContractMasterSid();
                     session.setContractMasterSid(String.valueOf(contractMasterSid));
                     returnList.add(contractMasterSid);
-                    String AliasType = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "type").getValue());
-                    String AliasNumber = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "number").getValue());
+                    String aliasType = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "type").getValue());
+                    String aliasNumber = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "number").getValue());
 
                     /* Used to save At Contract Alias Master table */
-                    ContractAliasMaster CAM = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
-                    CAM.setContractAliasNo(AliasNumber);
-                    CAM.setContractAliasType(AliasType != null && !Constants.NULL.equals(AliasType) && !StringUtils.EMPTY.equals(AliasType) ? Integer.parseInt(AliasType) : 0);
-                    CAM.setStartDate(new Date());
-                    CAM.setModifiedDate(new Date());
-                    CAM.setCreatedBy(1);
-                    CAM.setCreatedDate(new Date());
-                    CAM.setSource("BPI");
-                    CAM.setInboundStatus("A");
-                    CAM.setContractMasterSid(contractMasterSid);
-                    ContractAliasMaster CAM1 = ContractAliasMasterLocalServiceUtil.addContractAliasMaster(CAM);
-                    LOGGER.debug("CAM1 {} " , CAM1.getContractAliasMasterSid());
+                    ContractAliasMaster cam = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
+                    cam.setContractAliasNo(aliasNumber);
+                    cam.setContractAliasType(aliasType != null && !Constants.NULL.equals(aliasType) && !StringUtils.EMPTY.equals(aliasType) ? Integer.parseInt(aliasType) : 0);
+                    cam.setStartDate(new Date());
+                    cam.setModifiedDate(new Date());
+                    cam.setCreatedBy(1);
+                    cam.setCreatedDate(new Date());
+                    cam.setSource("BPI");
+                    cam.setInboundStatus("A");
+                    cam.setContractMasterSid(contractMasterSid);
+                    ContractAliasMaster camAlias = ContractAliasMasterLocalServiceUtil.addContractAliasMaster(cam);
+                    LOGGER.debug("CAM1 {} " , camAlias.getContractAliasMasterSid());
 
                 } else if (level.equals(Constants.ONE)) {
 
@@ -1840,7 +1832,7 @@ public class NewComponents extends CustomComponent implements View {
                         input.add(ifpmodel.getIfpModelSid());
                         input.add(simpleDateFormat.format(ifpmodel.getIfpStartDate()));
                         input.add(ifpmodel.getIfpEndDate() == null ? null : simpleDateFormat.format(ifpmodel.getIfpEndDate()));
-                        IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
+                        IfpContractDetailsImpl.saveIfpDetailsAttached(input);
                     }
                 } else if (level.equals(Constants.THREE)) {
                     String psModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
@@ -1920,9 +1912,9 @@ public class NewComponents extends CustomComponent implements View {
                     }
 
                     Object parentItem = contractDashboardResultsTable.getParent(item);
-                    String IFPsystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
+                    String ifpSystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
                     Object parentCFPItem = contractDashboardResultsTable.getParent(parentItem);
-                    String CFPsystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
+                    String cfpSystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
 
                     /* Used to save value in ps_contract table */
                     PsContract psContract;
@@ -1937,8 +1929,8 @@ public class NewComponents extends CustomComponent implements View {
                     psContract.setPsStartDate(psmodel.getPsStartDate());
                     psContract.setPsEndDate(psmodel.getPsEndDate());
                     psContract.setContractMasterSid(contractMasterSid);
-                    psContract.setCfpContractSid(CFPsystemId);
-                    psContract.setIfpContractSid(IFPsystemId);
+                    psContract.setCfpContractSid(cfpSystemId);
+                    psContract.setIfpContractSid(ifpSystemId);
                     psContract.setInboundStatus("A");
                     psContract.setRecordLockStatus(false);
                     psContract.setSource("GCM");
@@ -1959,7 +1951,7 @@ public class NewComponents extends CustomComponent implements View {
                     input.add(psModelId);
                     input.add(simpleDateFormat.format(psmodel.getPsStartDate()));
                     input.add(psmodel.getPsEndDate() == null ? null : simpleDateFormat.format(psmodel.getPsEndDate()));
-                    PsContractDetailsImpl.savePsDetailsAttached(input, null);
+                    PsContractDetailsImpl.savePsDetailsAttached(input);
 
                 } else if (level.equals(Constants.FOUR)) {
                     /*Below line is used to get temp table sid from tree node */
@@ -2060,7 +2052,7 @@ public class NewComponents extends CustomComponent implements View {
                         input.add(rsModel.getRsModelSid());
                         input.add(rsModel.getRsStartDate());
                         input.add(rsModel.getRsEndDate() == null ? null : rsModel.getRsEndDate());
-                        RsContractDetailsImpl.saveRsDetailsAttached(input, null);
+                        RsContractDetailsImpl.saveRsDetailsAttached(input);
 
                     }
                 }

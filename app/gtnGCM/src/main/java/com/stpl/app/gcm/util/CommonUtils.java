@@ -70,8 +70,8 @@ public class CommonUtils {
      * @param toAddQuote
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString, toAddQuote, false);
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToString(collectionOfString, toAddQuote, false);
     }
 
     /**
@@ -82,7 +82,7 @@ public class CommonUtils {
      * @param toRemoveSpace
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
@@ -146,8 +146,8 @@ public class CommonUtils {
     }
 
     public static String getCurrentTimestamp() {
-        DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        return DATE_FORMAT.format(new Date());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        return dateFormat.format(new Date());
     }
 
     public static Object getDBinput(String identifier) {
@@ -175,12 +175,11 @@ public class CommonUtils {
         return outputDateFormatter.format(date);
     }
 
-    public static int getDataCount(String QueryName, final List<String> input) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+    public static int getDataCount(String queryName, final List<String> input) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
@@ -188,8 +187,7 @@ public class CommonUtils {
     public static int getDdlbCountThroughList(final List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
@@ -215,8 +213,7 @@ public class CommonUtils {
     public static final String getDateTime(final String aMask, final Date aDate) {
         if (aDate  != null) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat(aMask);
-            final String returnValue = dateFormat.format(aDate);
-            return returnValue;
+            return dateFormat.format(aDate);
         }
         return StringUtils.EMPTY;
     }

@@ -24,9 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.bpm.dto.WorkflowRuleDTO;
 import com.stpl.app.gtnforecasting.abstractforecast.AbstractForm;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.utils.AccrualRateUtils;
@@ -244,11 +241,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
                                     CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
                                 }
-                            } catch (SystemException ex) {
-                                LOGGER.error(ex.getMessage());
                             } catch (PortalException ex) {
-                                LOGGER.error(ex.getMessage());
-                            } catch (Exception ex) {
                                 LOGGER.error(ex.getMessage());
                             }
                         }

@@ -25,8 +25,7 @@ public class QueryUtils {
      * @return
      */
     public String getForecastConfigQuery() {
-        String query = SQLUtil.getQuery("forecast-config");
-        return query;
+        return SQLUtil.getQuery("forecast-config");
     }
 
     /**

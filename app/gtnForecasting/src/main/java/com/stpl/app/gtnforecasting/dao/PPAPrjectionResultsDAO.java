@@ -24,7 +24,7 @@ public interface PPAPrjectionResultsDAO {
  */
     public void savePPAProjectionView(String indicater, String projectionId)throws PortalException;
 
-    public List<Object[]> getPPAResultsData(Integer projectionId,int levelNo,String parent,boolean last,int startIndex,int endIndex,boolean isCount,List input,String levelName);
+    public List<Object[]> getPPAResultsData(Integer projectionId,int levelNo,String parent, int endIndex,boolean isCount,List input,String levelName);
 
     public List getLevelValues(int projectionId, int levelNo, String parent);
     
