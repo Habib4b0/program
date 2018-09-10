@@ -26,7 +26,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.util.converter.StringToDateConverter;
