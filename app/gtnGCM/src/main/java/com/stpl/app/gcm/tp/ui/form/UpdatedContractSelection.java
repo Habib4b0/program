@@ -1688,12 +1688,12 @@ public class UpdatedContractSelection extends VerticalLayout {
         }
         List<String> contractLists = contractSelectionLogic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.STATUS_S);
         if (((session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant())) || (session.getModuleName().equals(TRADING_PARTNER_UPDATE.getConstant()))) && contractLists != null && !contractLists.isEmpty()) {
-            AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please select Status for the following Contract records: " + CommonUtils.CollectionToString(contractLists, false));
+            AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please select Status for the following Contract records: " + CommonUtils.collectionToString(contractLists, false));
             return false;
         }
         if (session.getModuleName().equals(TRANSFER_TRADING_PARTNER.getConstant())) {
             if (contractLists != null && !contractLists.isEmpty()) {
-                AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter a Status and Start Date for the following Contracts: " + CommonUtils.CollectionToString(contractLists, false) + ". Then try again.");
+                AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter a Status and Start Date for the following Contracts: " + CommonUtils.collectionToString(contractLists, false) + ". Then try again.");
                 return false;
             }
             if (!singleContractCheck("single contract check for customere check")) {
@@ -1705,18 +1705,18 @@ public class UpdatedContractSelection extends VerticalLayout {
         List<String> contractList = contractSelectionLogic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.START_DATE);
         if (session.getModuleName().equals(TRANSFER_TRADING_PARTNER.getConstant())) {
             if (contractList != null && !contractList.isEmpty()) {
-                AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter a Status and Start Date for the following Contracts: " + CommonUtils.CollectionToString(contractList, false) + ". Then try again.");
+                AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter a Status and Start Date for the following Contracts: " + CommonUtils.collectionToString(contractList, false) + ". Then try again.");
                 return false;
             }
         } else if (contractList != null && !contractList.isEmpty()) {
-            AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter an Start Date for the following Contract records: " + CommonUtils.CollectionToString(contractList, false));
+            AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter an Start Date for the following Contract records: " + CommonUtils.collectionToString(contractList, false));
             return false;
         }
         if ((session.getModuleName().equals(TRADING_PARTNER_UPDATE.getConstant())) || (session.getModuleName().equals(TRANSFER_TRADING_PARTNER.getConstant())
                 || session.getModuleName().equals(PROJECTION_DETAILS_TRANSFER.getConstant())) && TAB_CURRENT_CONTRACT.getConstant().equals(screenName)) {
             contractList = contractSelectionLogic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.END_DATE);
             if (contractList != null && !contractList.isEmpty()) {
-                AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter an End Date for the following Contract records: " + CommonUtils.CollectionToString(contractList, false));
+                AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter an End Date for the following Contract records: " + CommonUtils.collectionToString(contractList, false));
                 return false;
             }
         }
@@ -1924,7 +1924,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         LOGGER.debug("Inside isHavingDifferentProducts");
         List<String> nonAssociatedProductsList = contractSelectionLogic.getNonAssociatedProducts(session.getSessionId());
         if (nonAssociatedProductsList != null && !nonAssociatedProductsList.isEmpty()) {
-            nonAssociatedProducts = CommonUtils.CollectionToString(nonAssociatedProductsList, false);
+            nonAssociatedProducts = CommonUtils.collectionToString(nonAssociatedProductsList, false);
             LOGGER.debug("Exiting isHavingDifferentProducts");
             return true;
         } else {

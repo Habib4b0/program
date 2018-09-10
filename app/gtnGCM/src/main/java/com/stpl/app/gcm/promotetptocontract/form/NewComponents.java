@@ -476,9 +476,7 @@ public class NewComponents extends CustomComponent implements View {
 
                             } catch (SystemException ex) {
                                 LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            } catch (Exception ex) {
-                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            }
+                            } 
                         } else {
                             if (searchField.equals(Constants.ITEM_TYPE)) {
                                 try {
@@ -487,9 +485,7 @@ public class NewComponents extends CustomComponent implements View {
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
                                     LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                } catch (Exception ex) {
-                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                }
+                                } 
                             }
                             if (searchField.equals("PS Type")) {
                                 try {
@@ -509,9 +505,7 @@ public class NewComponents extends CustomComponent implements View {
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
                                     LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                } catch (Exception ex) {
-                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                }
+                                } 
                             }
                         }
                         searchType.setVisible(true);
@@ -631,9 +625,7 @@ public class NewComponents extends CustomComponent implements View {
                             massValue = CommonLogic.getNativeSelect(massValue, itemStatusList);
                         } catch (SystemException ex) {
                             LoggerFactory.getLogger(NewComponents.class.getName()).error("", ex);
-                        } catch (Exception ex) {
-                            LoggerFactory.getLogger(NewComponents.class.getName()).error("", ex);
-                        }
+                        } 
                     }
 
                 }

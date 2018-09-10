@@ -1137,7 +1137,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     @Override
     protected void excelBtnLogic() {
         try {
-            ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
+            ConsolidatedFinancialForecastUI.setExcelClose(true);
             excelTable.setRefresh(BooleanConstant.getFalseFlag());
             levelFilterDdlbChangeOption(true);
             excelForCFFProjectionVariance();

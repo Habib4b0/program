@@ -1516,9 +1516,7 @@ public class DiscountLogic {
                 results = discountDAO.getRebates(query);
             } catch (SystemException ex) {
                 LoggerFactory.getLogger(DiscountLogic.class.getName()).error("", ex);
-            } catch (Exception ex) {
-                LoggerFactory.getLogger(DiscountLogic.class.getName()).error("", ex);
-            }
+            } 
         } else if (Constants.IndicatorConstants.CFP.getConstant().equals(newDiscountTabDto.getCategory())) {
             if (selectedItemsTable && !isAdd) {
                 operation = Constants.IndicatorConstants.SELECTED_COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant();

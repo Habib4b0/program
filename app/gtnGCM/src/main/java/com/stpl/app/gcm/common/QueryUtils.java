@@ -301,14 +301,14 @@ public class QueryUtils {
     }
 
     public String getLatestCCPQuery(List contractSid, List rsSid) {
-        CommonUtils.CollectionToString(contractSid, true);
+        CommonUtils.collectionToString(contractSid, true);
         String query = StringUtils.EMPTY;
          query = query + "select top 1 PROJECTION_MASTER_SID,FORECASTING_TYPE from PROJECTION_MASTER where PROJECTION_MASTER_SID in\n"
                 + " (select distinct PD.PROJECTION_MASTER_SID  from PROJECTION_DETAILS PD\n"
                 + "JOIN CCP_DETAILS CCP ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND\n"
-                + "CCP.CONTRACT_MASTER_SID IN (" + CommonUtils.CollectionToString(contractSid, true) + ") \n"
+                + "CCP.CONTRACT_MASTER_SID IN (" + CommonUtils.collectionToString(contractSid, true) + ") \n"
                 + "JOIN RS_CONTRACT RSC ON RSC.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID\n"
-                + "AND RSC.RS_CONTRACT_SID in (" + CommonUtils.CollectionToString(rsSid, true) + ")\n"
+                + "AND RSC.RS_CONTRACT_SID in (" + CommonUtils.collectionToString(rsSid, true) + ")\n"
                 + "JOIN RS_CONTRACT_DETAILS RSD ON RSC.RS_CONTRACT_SID = RSD.RS_CONTRACT_SID\n"
                 + "AND RSD.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID\n"
                 + "JOIN WORKFLOW_MASTER WM ON PD.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID\n"

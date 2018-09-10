@@ -390,19 +390,19 @@ public class AbstractComponentInfo extends CustomComponent {
                 if (componentSelection.getValue() != null && !"null".equals(String.valueOf(componentSelection.getValue()))) {
                     if (componentSelection.getValue().equals(Constants.CFP) && (Constants.STATUS_S.equals(propertyId) || "itemStatus".equals(propertyId))) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, BooleanConstant.getTrueFlag());
+                            abstractLogic.lazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, BooleanConstant.getTrueFlag());
                             return status;
                     }
 
                     if (componentSelection.getValue().equals(Constants.IFP)) {
                         if (Constants.STATUS_S.equals(propertyId)) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, BooleanConstant.getTrueFlag());
+                            abstractLogic.lazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, BooleanConstant.getTrueFlag());
                             return status;
                         }
                         if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, BooleanConstant.getTrueFlag());
+                            abstractLogic.lazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, BooleanConstant.getTrueFlag());
                             return brandDdlb;
                         }
                     }
@@ -410,7 +410,7 @@ public class AbstractComponentInfo extends CustomComponent {
                     if (componentSelection.getValue().equals(Constants.PS)) {
                         if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, BooleanConstant.getTrueFlag());
+                            abstractLogic.lazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, BooleanConstant.getTrueFlag());
                             return brandDdlb;
                         }
                         if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
@@ -485,17 +485,17 @@ public class AbstractComponentInfo extends CustomComponent {
                         }
                         if (Constants.PRICE_TOLERANCE_INTERVAL.equals(propertyId)) {
                             ComboBox pricetolerenceintDdlb = new ComboBox();
-                            logic.LazyLoadDdlb(pricetolerenceintDdlb, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BooleanConstant.getTrueFlag());
+                            logic.lazyLoadDdlb(pricetolerenceintDdlb, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BooleanConstant.getTrueFlag());
                             return pricetolerenceintDdlb;
                         }
                         if (Constants.PRICE_TOLERANCE_TYPE_PROPERTY.equals(propertyId)) {
                             ComboBox pricetolerencetypeDdlb = new ComboBox();
-                            logic.LazyLoadDdlb(pricetolerencetypeDdlb, "Load PS_TYPE Count", "Load PS_TYPE", BooleanConstant.getTrueFlag());
+                            logic.lazyLoadDdlb(pricetolerencetypeDdlb, "Load PS_TYPE Count", "Load PS_TYPE", BooleanConstant.getTrueFlag());
                             return pricetolerencetypeDdlb;
                         }
                         if (Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY.equals(propertyId)) {
                             ComboBox pricetolerencefreqDdlb = new ComboBox();
-                            logic.LazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", BooleanConstant.getTrueFlag());
+                            logic.lazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", BooleanConstant.getTrueFlag());
                             return pricetolerencefreqDdlb;
                         }
                     }
@@ -504,12 +504,12 @@ public class AbstractComponentInfo extends CustomComponent {
 
                         if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, BooleanConstant.getTrueFlag());
+                            abstractLogic.lazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, BooleanConstant.getTrueFlag());
                             return brandDdlb;
                         }
                         if (Constants.STATUS_S.equals(propertyId)) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, BooleanConstant.getTrueFlag());
+                            abstractLogic.lazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, BooleanConstant.getTrueFlag());
                             return status;
                         }
                     }
@@ -619,11 +619,11 @@ public class AbstractComponentInfo extends CustomComponent {
         compStartDate.setValue(dto.getComponentStartDate());
         compEndDate.setValue(dto.getComponentEndDate());
         if (componentFlag.equals("RS text")) {
-            rsTypeText.setValue(dto.getRsType_Value());
-            rsProgramTypeText.setValue(dto.getRsProgramType_Value());
-            rsCategoryText.setValue(dto.getRsCategory_Value());
-            paymentFrequencyText.setValue(dto.getPaymentFrequency_Value());
-            rebatePlanLevelText.setValue(dto.getRebatePlanLevel_Value());
+            rsTypeText.setValue(dto.getRsTypeValue());
+            rsProgramTypeText.setValue(dto.getRsProgramTypeValue());
+            rsCategoryText.setValue(dto.getRsCategoryValue());
+            paymentFrequencyText.setValue(dto.getPaymentFrequencyValue());
+            rebatePlanLevelText.setValue(dto.getRebatePlanLevelValue());
         }
         setReadOnlyComponents(Boolean.TRUE);
     }
@@ -690,14 +690,14 @@ public class AbstractComponentInfo extends CustomComponent {
      * loadPaymentFrequency
      */
     private void loadPaymentFrequency() {
-        abstractLogic.LazyLoadDdlb(paymentFrequencyDTO, "LoadPaymentFreqCount", "LoadPaymentFreq", BooleanConstant.getFalseFlag());
+        abstractLogic.lazyLoadDdlb(paymentFrequencyDTO, "LoadPaymentFreqCount", "LoadPaymentFreq", BooleanConstant.getFalseFlag());
     }
 
     /**
      * loadRPLevel
      */
     private void loadRPLevel() {
-        abstractLogic.LazyLoadDdlb(rebatePlanLevelDTO, "LoadRPLevelCount", "LoadRPLevel", BooleanConstant.getFalseFlag());
+        abstractLogic.lazyLoadDdlb(rebatePlanLevelDTO, "LoadRPLevelCount", "LoadRPLevel", BooleanConstant.getFalseFlag());
     }
 
     public void fireComponentListener(final String value, final SelectionDTO selection) {
@@ -760,7 +760,7 @@ public class AbstractComponentInfo extends CustomComponent {
     }
 
     @UiHandler("rebatePlanLevel")
-    public void RPLevelDdlbChange(Property.ValueChangeEvent event) throws FieldGroup.CommitException {
+    public void rpLevelDdlbChange(Property.ValueChangeEvent event) throws FieldGroup.CommitException {
         binder.commit();
         tablelogic.loadSetData(binderDto, selection);
     }

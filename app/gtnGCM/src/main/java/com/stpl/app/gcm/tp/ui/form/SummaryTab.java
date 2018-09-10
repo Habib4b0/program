@@ -385,7 +385,7 @@ public class SummaryTab extends VerticalLayout {
                                             String toCustomerStartDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), true, true, false);
                                             String companies;
                                             if (session.getModuleName().equalsIgnoreCase(TRANSFER_TRADING_PARTNER.getConstant())) {
-                                                companies = CommonUtils.CollectionToString(session.getCompanyMasterSids(), false);
+                                                companies = CommonUtils.collectionToString(session.getCompanyMasterSids(), false);
                                             } else {
                                                 companies = CommmonLogic.generateCustomerMappings(session.getCompanyMasterSids(), session.getPhCompanyMasterSids());
                                             }

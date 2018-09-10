@@ -49,7 +49,7 @@ public class CustomViewLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomViewLogic.class.getName());
-    public Map<Integer, String> getData_custom_view(String projectionId, String customViewMasterSid) {
+    public Map<Integer, String> getDataCustomView(String projectionId, String customViewMasterSid) {
         levelValueMap.clear();
         levelTableFieldNames.clear();
         tableName.setLength(0);
@@ -63,15 +63,15 @@ public class CustomViewLogic {
         levelNoSet.clear();
         executeInsertOrUpdate(projectionId, customViewMasterSid, "CUSTOM_CCP_MAP_INSERT_QUERY");
         List<Object[]> rawList = executeQuery(projectionId, customViewMasterSid, "GET_TABLE_NAME-AND-COLUMN");
-        customize_data(rawList);
+        customizeData(rawList);
         getHelperListData();
-        List<Object[]> finalrawList = build_custom_query();
+        List<Object[]> finalrawList = buildCustomQuery();
         customizeFinalResult(finalrawList);
         updateHelperListValues();
         List<Object[]> rawListCcp = executeQuery(projectionId, customViewMasterSid, "GET_CCP_VALUES");
-        split_ccp(rawListCcp);
-        build_executeFinalQuery(hierarchyList);
-        buildAndExecute_customCCP_update();
+        splitCcp(rawListCcp);
+        buildexecuteFinalQuery(hierarchyList);
+        buildAndExecuteCustomCCPUpdate();
 
         return levelValueMap;
 
@@ -103,7 +103,7 @@ public class CustomViewLogic {
 
     }
 
-    private void build_executeFinalQuery(List<LevelMapKey> hierarchyList) {
+    private void buildexecuteFinalQuery(List<LevelMapKey> hierarchyList) {
         LOGGER.debug("Building the final query and inserting :");
         StringBuilder customQuery = new StringBuilder(SQlUtil.getQuery("INSERT_CUSTOM_RELATIONSHIP_BUILDER"));
         int i = 0;
@@ -130,7 +130,7 @@ public class CustomViewLogic {
 
     }
 
-    private void buildAndExecute_customCCP_update() {
+    private void buildAndExecuteCustomCCPUpdate() {
         LOGGER.debug("Building the final query and inserting :");
 
         StringBuilder ccpfinalQuery = new StringBuilder(SQlUtil.getQuery("UPDATE_CUSTOM_CCP_MAP"));
@@ -161,7 +161,7 @@ public class CustomViewLogic {
         }
     }
 
-    private void customize_data(List<Object[]> rawList) {
+    private void customizeData(List<Object[]> rawList) {
 
         for (ListIterator<Object[]> it = rawList.listIterator(); it.hasNext();) { 
             Object[] obj = it.next();
@@ -214,7 +214,7 @@ listNameCollection.add(listName);
 
     }
 
-    private List<Object[]> build_custom_query() {
+    private List<Object[]> buildCustomQuery() {
         LOGGER.debug("build_custom_query for selecting the table values :");
         String query;
         StringBuilder queryBuilder = new StringBuilder();
@@ -268,7 +268,7 @@ listNameCollection.add(listName);
         }
     }
 
-    public void split_ccp(List<Object[]> rawList) {
+    public void splitCcp(List<Object[]> rawList) {
         LOGGER.debug("spliting the ccp data :");
         levelNoSet.clear();
         if (ccpMap != null) {

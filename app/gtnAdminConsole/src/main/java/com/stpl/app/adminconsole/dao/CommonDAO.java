@@ -4,7 +4,6 @@
  */
 package com.stpl.app.adminconsole.dao;
 
-import com.stpl.app.model.HelperTable;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;

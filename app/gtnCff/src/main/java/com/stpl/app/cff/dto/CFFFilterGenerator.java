@@ -5,7 +5,6 @@
  */
 package com.stpl.app.cff.dto;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.security.StplSecurity;
