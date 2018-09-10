@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConf
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.textbox.GtnUIFrameworkTextBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
@@ -27,9 +28,10 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.generalsearch.GtnGeneralSearchBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
-public class PrivatePublicViewLookup 
+public class ProjectionOptionsPrivateViewLookup 
 
 {
 	private GtnUIFrameworkDataSelectionScreenConfig privatePublicViewConfig = new GtnUIFrameworkDataSelectionScreenConfig();
@@ -186,6 +188,16 @@ public class PrivatePublicViewLookup
 				.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkForecastingStringConstants.PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT);
 		privateViewSearchLookupSearchButton.setAddToParent(true);
+                
+                List<GtnUIFrameWorkActionConfig> actionConfigListSearch = new ArrayList<>();
+                GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
+                loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
+                loadDataSearchTableActionConfig.setActionParameterList(
+                Arrays.asList(new Object[]{namespace+"_"+GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE}));
+                loadDataSearchTableActionConfig.setFieldValues(
+                        Arrays.asList(new String[]{namespace+"_"+GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME}));
+                actionConfigListSearch.add(loadDataSearchTableActionConfig);
+                privateViewSearchLookupSearchButton.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
 
 		componentList.add(privateViewSearchLookupSearchButton);
 		
@@ -288,14 +300,12 @@ public class PrivatePublicViewLookup
 		tableStyle.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
 		tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
 		privateViewPagedTableComponent.setComponentStyle(tableStyle);
-		privateViewPagedTableComponent.setModuleName(GtnFrameworkForecastingStringConstants.REPORT);
+		privateViewPagedTableComponent.setModuleName("serviceRegistry");
 		componentList.add(privateViewPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig privateViewPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 		privateViewPagedTableConfig.setEditable(false);
 		privateViewPagedTableConfig.setFilterBar(true);
 		privateViewPagedTableConfig.setSelectable(true);
-		privateViewPagedTableConfig.setPageLength(10);
-		privateViewPagedTableConfig.setItemPerPage(10);
 		privateViewPagedTableConfig.setPaginationOff(true);
 		
 		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
@@ -303,10 +313,11 @@ public class PrivatePublicViewLookup
 		alertAction.addActionParameter("Invalid Search");
 		alertAction.addActionParameter("There are no Views that match the search criteria.  Please try again.");
 		privateViewPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
-		privateViewPagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
-				+ GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_COUNT_SERVICE);
-		privateViewPagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
-				+ GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE);
+		privateViewPagedTableConfig.setCountUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
+		privateViewPagedTableConfig.setResultSetUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
+                privateViewPagedTableConfig.setPagedTableWsUrl("/gtnSearch");
+                privateViewPagedTableConfig.setRegisteredWebContext("/GtnSearchWebService");
+                privateViewPagedTableConfig.setModuleName("generalSearch");
 		privateViewPagedTableConfig.setTableColumnDataType(new Class<?>[] {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
@@ -323,7 +334,11 @@ public class PrivatePublicViewLookup
 		privateViewPagedTableConfig.setTableColumnMappingId(
 				new Object[] { "viewName", "description", "fromDate","toDate","customerHierarchy","customerLevel","customerGroup","company","brandType","productHierarchy","productLevel","productGroup","createdDate","modifiedDate",
 						"createdBy","businessUnit"});
-		privateViewPagedTableConfig.setQueryName("Private");
+		privateViewPagedTableConfig.setQueryName("privatePublic");
+                List<String> additionalSearchCriteria = new ArrayList<>();
+		additionalSearchCriteria.add("Private");
+                additionalSearchCriteria.add("non mandated");
+                privateViewPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
 
 		privateViewPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		
