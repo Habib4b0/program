@@ -276,6 +276,7 @@ public class ForecastForm extends AbstractForm {
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			LOGGER.info(e.getMessage(),e);
 		}
 	}
         

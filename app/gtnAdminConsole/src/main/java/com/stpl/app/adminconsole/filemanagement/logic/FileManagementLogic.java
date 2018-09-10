@@ -158,7 +158,7 @@ public class FileManagementLogic {
 			final String country) throws SystemException {
 		List<ForecastingMaster> resultsList;
 		final FileManagementDTO fileMgtDTO = new FileManagementDTO();
-		final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+		final DateFormat dateFormatDetails = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 
 		Criterion criterion;
 		String sqlString;
@@ -187,10 +187,10 @@ public class FileManagementLogic {
 				fileMgtDTO.setForecastName(fmMaster.getForecastName());
 				fileMgtDTO.setForecastVersion(fmMaster.getForecastVer());
 				if (fmMaster.getForecastDate() != null) {
-					fileMgtDTO.setForecastDate(dateFormat.format(fmMaster.getForecastDate()));
+					fileMgtDTO.setForecastDate(dateFormatDetails.format(fmMaster.getForecastDate()));
 				}
 				if (fmMaster.getCreatedDate() != null) {
-					fileMgtDTO.setCreatedDate(dateFormat.format(fmMaster.getCreatedDate()));
+					fileMgtDTO.setCreatedDate(dateFormatDetails.format(fmMaster.getCreatedDate()));
 				}
 			}
 		} else if (ConstantsUtils.DEMAND.equals(fileType.getDescription())) {
@@ -203,7 +203,7 @@ public class FileManagementLogic {
 					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(dateFormatDetails.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY.equals(fileType.getDescription())) {
@@ -216,7 +216,7 @@ public class FileManagementLogic {
 					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(dateFormatDetails.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(fileType.getDescription())) {
@@ -229,7 +229,7 @@ public class FileManagementLogic {
 					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(dateFormatDetails.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.CUSTOMERGTS.equals(fileType.getDescription())) {
@@ -242,7 +242,7 @@ public class FileManagementLogic {
 					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(dateFormatDetails.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.ADJUSTED_DEMAND.equals(fileType.getDescription())) {
@@ -255,7 +255,7 @@ public class FileManagementLogic {
 					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(dateFormatDetails.format(obj[NumericConstants.TWO])));
 				}
 			}
 		}
@@ -395,11 +395,11 @@ public class FileManagementLogic {
 		resultsList = DAO.getFilesList(dynamicQuery);
 		if (!resultsList.isEmpty()) {
 			final FileManagement fileMgt = (FileManagement) resultsList.get(0);
-			final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+			final DateFormat dateFormatCurrentFile = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 			fileMgtDTO.setCurrentFile(fileMgt.getForecastName());
 			fileMgtDTO.setForecastVersion(fileMgt.getVersion());
 			fileMgtDTO.setEffectiveDate(fileMgt.getCreatedDate() == null ? ConstantsUtils.EMPTY
-					: dateFormat.format(fileMgt.getCreatedDate()));
+					: dateFormatCurrentFile.format(fileMgt.getCreatedDate()));
 		}
 
 		LOGGER.debug("getCurrentFileInfo return FileManagementDTO fileMgtDTO");

@@ -1410,87 +1410,48 @@ public class DataSelectionLogic {
 		}
 		return resultList;
 	}
+        
+        
+        public List<Leveldto> customizeLevelDtoFromRecordBean(List<GtnWsRecordBean> resultss, int relationVersion){
+            Leveldto dto;
+            List<Leveldto> resultList = new ArrayList<>();
+            for(GtnWsRecordBean record : resultss){
+                dto = new Leveldto();
+                dto.setLevelNo(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(0)));
+					dto.setRelationshipLevelValue((String) record.getPropertyValueByIndex(1));
+					dto.setParentNode(String.valueOf(record.getPropertyValueByIndex(2)));
+					dto.setLevel(String.valueOf(record.getPropertyValueByIndex(3)));
+					dto.setLevelValueReference(String.valueOf(record.getPropertyValueByIndex(4)));
+					dto.setTableName(String.valueOf(record.getPropertyValueByIndex(5)));
+					dto.setFieldName(String.valueOf(record.getPropertyValueByIndex(6)));
+					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(7)));
+					dto.setHierarchyNo(String.valueOf(record.getPropertyValueByIndex(8)));
+					dto.setRelationShipBuilderId(String.valueOf(record.getPropertyValueByIndex(9)));
+					dto.setHierarchyLevelDefnId(String.valueOf(record.getPropertyValueByIndex(10)));
+					dto.setHierarchyId(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(11)));
+					dto.setHierarchyVersionNo(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(12)));
+					dto.setRelationShipVersionNo(relationVersion);
+                                        resultList.add(dto);
+                
+            }
+            
+           
+            return resultList;
+        }
 
         public List<Leveldto> getChildLevelsWithHierarchyNoNewArch(int lowestLevelNo, final Map<String, String> descriptionMap,
 			Object businessUnit, Leveldto selectedLevelDto, int hierarchyVersion, int relationShipVersion,
-			int subListIndex, Date forecastEligibleDate, boolean isProduct,List<Object> queryparameterList,ExtFilterTable availableCustomer) {
+			int subListIndex, Date forecastEligibleDate, boolean isProduct,List<Object> queryparameterList,ExtFilterTable availableTable,String url) {
 		List<Object[]> resultss = null;
 		List<Leveldto> resultList = null;
 		try {
 			Leveldto dto;
-			String query;
 			if (isProduct) {
-//				query = relationLogic.getFinalChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,
-//						String.valueOf(businessUnit), lowestLevelNo, subListIndex);
-//				resultss = HelperTableLocalServiceUtil.executeSelectQuery(query);
+                                    resultss = getSelectedTableResultListDto(selectedLevelDto, hierarchyVersion, availableTable, queryparameterList,url);
 			} else {
-				List<Object> inputs = new ArrayList<>();
-				List<Leveldto> levelList = relationLogic.getHierarchyLevelDefinition(selectedLevelDto.getHierarchyId(),
-						hierarchyVersion);
-                                
-                                
-                           
-                                List<GtnWsRecordBean> recordBeanList = new ArrayList<>();
-                                 Leveldto levelDtoRecordBean = (Leveldto) availableCustomer.getValue();
-                                
-                                    ArrayList<Object> recordBeanColList = new ArrayList<>();
-                                    
-                                    recordBeanColList.add(0,levelDtoRecordBean.getRelationshipLevelValue());
-                                    recordBeanColList.add(1,null);
-                                    recordBeanColList.add(2,null);
-                                    recordBeanColList.add(3,levelDtoRecordBean.getRelationshipLevelSid());
-                                    recordBeanColList.add(4,levelDtoRecordBean.getHierarchyNo());
-                                    recordBeanColList.add(5,levelDtoRecordBean.getRelationShipBuilderId());
-                                    GtnWsRecordBean recordBean = new GtnWsRecordBean(); 
-                                    recordBean.setProperties(recordBeanColList);
-                                    recordBeanList.add(recordBean);
-                                
-                                
-                                List<GtnReportHierarchyLevelBean> selectedHierarchyBeanList = new ArrayList<>();
-                                for(int i=0;i<levelList.size();i++){
-                                    selectedHierarchyBeanList.add(getSelectedHierarchyLevelBean(levelList.get(i)));
-                                }
-                                
-                            Leveldto selectedLevelDtoCusomer = (Leveldto) availableCustomer.getValue();
-                            GtnReportHierarchyLevelBean selectedHierarchyBean = getSelectedHierarchyLevelBean(selectedLevelDtoCusomer);
-                            
-                            GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-                            GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-                             
-                            GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
-                             gtnWsSearchRequest.setQueryInputList(queryparameterList);
-                             request.setGtnWsSearchRequest(gtnWsSearchRequest);
-                                     
-                             GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-                             reportRequest.setRecordBean(recordBeanList);
-                             reportRequest.setHierarchyInputBean(selectedHierarchyBean);
-                             reportRequest.setHierarchyLevelList(selectedHierarchyBeanList);
-                             request.setGtnWsReportRequest(reportRequest);
-                             
-                             
-                            GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
-                            GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
-                            serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
-                            serviceRegistryBean.setUrl("/loadCustomerSelectedTable");
-                            serviceRegistryBean.setModuleName("hierarchyRelationship");
-                            serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
-                            request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
-
-                            GtnUIFrameworkWebserviceResponse availableTableCustomerLevelResponse = client.callGtnWebServiceUrl(
-                                    "/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
-                                    request, getGsnWsSecurityToken());
-
-        
-//				List<String> relationHierarchy = relationLogic.getSelectedCustomerLevel(selectedLevelDto,
-//						Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, levelList,
-//						StringUtils.EMPTY, StringUtils.EMPTY, relationShipVersion, forecastEligibleDate, lowestLevelNo);
-//				inputs.add(StringUtils.join(relationHierarchy, ","));
-//				inputs.add(lowestLevelNo);
-//				inputs.add(relationShipVersion);
-//				inputs.add(hierarchyVersion);
-
-	
-                        resultss = availableTableCustomerLevelResponse.getGtnWsForecastResponse().getInputBean().getResultList();
+                            resultss = getSelectedTableResultListDto(selectedLevelDto, hierarchyVersion, availableTable, queryparameterList,url);
+				
+                        }
 			if (resultss != null) {
 				resultList = new ArrayList<>();
 				for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
@@ -1516,15 +1477,90 @@ public class DataSelectionLogic {
 					resultList.add(dto);
 				}
 			}
-		}
+		
                 }
                 catch (NumberFormatException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
 	}
+
+    private List<Object[]> getSelectedTableResultListDto(Leveldto selectedLevelDto, int hierarchyVersion, ExtFilterTable availableTable, List<Object> queryparameterList,String url) {
+        List<Object[]> resultss;
+        List<Leveldto> levelList = relationLogic.getHierarchyLevelDefinition(selectedLevelDto.getHierarchyId(),
+                hierarchyVersion);
+        List<GtnWsRecordBean> recordBeanList = new ArrayList<>();
+        Leveldto levelDtoRecordBean = (Leveldto) availableTable.getValue();
+        ArrayList<Object> recordBeanColList = new ArrayList<>();
+        if(url.contains("Bulk")){
+            List<Leveldto> availableTableList = (List<Leveldto>) availableTable.getContainerDataSource().getItemIds();
+            for(Leveldto levelDto : availableTableList){
+                 
+        recordBeanColList.add(0,levelDto.getRelationshipLevelValue());
+        recordBeanColList.add(1,null);
+        recordBeanColList.add(2,null);
+        recordBeanColList.add(3,levelDto.getRelationshipLevelSid());
+        recordBeanColList.add(4,levelDto.getHierarchyNo());
+        recordBeanColList.add(5,levelDto.getRelationShipBuilderId());
+        GtnWsRecordBean recordBean = new GtnWsRecordBean();
+        recordBean.setProperties(recordBeanColList);
+        recordBeanList.add(recordBean);
+            }
+        }
+        else{
+        recordBeanColList.add(0,levelDtoRecordBean.getRelationshipLevelValue());
+        recordBeanColList.add(1,null);
+        recordBeanColList.add(2,null);
+        recordBeanColList.add(3,levelDtoRecordBean.getRelationshipLevelSid());
+        recordBeanColList.add(4,levelDtoRecordBean.getHierarchyNo());
+        recordBeanColList.add(5,levelDtoRecordBean.getRelationShipBuilderId());
+        GtnWsRecordBean recordBean = new GtnWsRecordBean();
+        recordBean.setProperties(recordBeanColList);
+        recordBeanList.add(recordBean);
+        }
+        List<GtnReportHierarchyLevelBean> selectedHierarchyBeanList = new ArrayList<>();
+        for(int i=0;i<levelList.size();i++){
+            selectedHierarchyBeanList.add(getSelectedHierarchyLevelBean(levelList.get(i)));
+        }
+        GtnReportHierarchyLevelBean selectedHierarchyBean = (GtnReportHierarchyLevelBean)queryparameterList.get(2);
+        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setQueryInputList(queryparameterList);
+        request.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+        reportRequest.setRecordBean(recordBeanList);
+        reportRequest.setHierarchyInputBean(selectedHierarchyBean);
+        reportRequest.setHierarchyLevelList(selectedHierarchyBeanList);
+        request.setGtnWsReportRequest(reportRequest);
+        GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+        GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+        serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+        serviceRegistryBean.setUrl(url);
+        serviceRegistryBean.setModuleName("hierarchyRelationship");
+        serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+        request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+        GtnUIFrameworkWebserviceResponse availableTableCustomerLevelResponse = client.callGtnWebServiceUrl(
+                "/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
+                request, getGsnWsSecurityToken());
+        resultss = availableTableCustomerLevelResponse.getGtnWsForecastResponse().getInputBean().getResultList();
         
-	public void getEndLevelRelationshipLevels(final List<String> endLevelSids, final String relationshipSid,
+
+        
+//				List<String> relationHierarchy = relationLogic.getSelectedCustomerLevel(selectedLevelDto,
+//						Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, levelList,
+//						StringUtils.EMPTY, StringUtils.EMPTY, relationShipVersion, forecastEligibleDate, lowestLevelNo);
+//				inputs.add(StringUtils.join(relationHierarchy, ","));
+//				inputs.add(lowestLevelNo);
+//				inputs.add(relationShipVersion);
+//				inputs.add(hierarchyVersion);
+//				query = relationLogic.getFinalChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,
+//						String.valueOf(businessUnit), lowestLevelNo, subListIndex);
+//				resultss = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        return resultss;
+    }
+    
+    public void getEndLevelRelationshipLevels(final List<String> endLevelSids, final String relationshipSid,
 			List<Leveldto> ccList, List<String> availableHierNo) throws SystemException {
 		Leveldto dto;
 		Map<String, Object> parameters = new HashMap<>();

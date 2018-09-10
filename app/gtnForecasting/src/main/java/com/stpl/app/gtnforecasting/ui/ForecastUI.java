@@ -57,6 +57,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 
 /**
  * UI class of Non-Mandated.
@@ -393,7 +394,7 @@ public class ForecastUI extends UI {
      return levelCaption.get(String.valueOf(deductionValue));
     }
     
-    public void getContentForecasting(String userId,String sessionId,List<Object> actionParamList) {
+    public void getContentForecasting(String userId,String sessionId,List<Object> actionParamList, GtnFrameworkForecastInputBean inputBean) {
         LOGGER.info("getContentForecasting------------------------------------------");
 //        Navigator navigator = new Navigator(this, this);
 //        VaadinRequest vaadinRequest = VaadinService.getCurrentRequest();
@@ -417,8 +418,8 @@ public class ForecastUI extends UI {
 ////        LOGGER.info("USER_ID= {} " , userId);
 ////        LOGGER.info("SESSION_ID= {} " , sessionId);
         
-        sessionDto.setUserId(userId);
-        sessionDto.setSessionId(sessionId);
+        sessionDto.setUserId(inputBean.getUserId());
+        sessionDto.setSessionId(inputBean.getSessionId());
         
         DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
         dataSelectionDto.setFromPeriod((String)actionParamList.get(0));
@@ -427,7 +428,10 @@ public class ForecastUI extends UI {
         dataSelectionDto.setDescription((String)actionParamList.get(3));
         dataSelectionDto.setCustomerRelationShipVersionNo(Integer.parseInt((String)actionParamList.get(4)));
         dataSelectionDto.setCustomerHierVersionNo(Integer.parseInt((String)actionParamList.get(5)));
-        DataSelectionForm form = new DataSelectionForm(sessionDto,dataSelectionDto);
+        dataSelectionDto.setProductRelationShipVersionNo(Integer.parseInt((String)actionParamList.get(6)));
+        dataSelectionDto.setProductHierVersionNo(Integer.parseInt((String)actionParamList.get(7)));
+        dataSelectionDto.setBusinessUnitSystemId(Integer.parseInt((String)actionParamList.get(7)));
+        DataSelectionForm form = new DataSelectionForm(sessionDto,dataSelectionDto, inputBean);
     }
 
 }
