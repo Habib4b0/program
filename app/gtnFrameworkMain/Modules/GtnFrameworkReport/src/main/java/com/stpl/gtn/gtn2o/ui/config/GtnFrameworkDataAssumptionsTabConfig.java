@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.action.DataAssumptionFilterAction;
 import static com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportDataSelectionTabConfig.getResetParameters;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -156,10 +157,11 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVAUTIL_DATE,
-				GtnFrameworkCommonConstants.JAVAUTIL_DATE, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
+				GtnFrameworkCommonConstants.JAVAUTIL_DATE, GtnFrameworkCommonConstants.JAVA_LANG_STRING });         
 		dataAssumptionsPagedTableConfig.setCountUrl("/gtnReport/gtnWsReportLoadDataAssumptions");
 		dataAssumptionsPagedTableConfig.setResultSetUrl("/gtnReport/gtnWsReportLoadDataAssumptions");
-		dataAssumptionsPagedTableConfig.setRefreshAtStart(true);
+        dataAssumptionsPagedTableConfig.setFilteron(true);
+        dataAssumptionsPagedTableConfig.setGridHeaderCustomClassLoadURL(GtnFrameworkReportStringConstants.REPORT_DATA_ASSUMPTION_FILTER_ACTION);
 		dataAssumptionsPagedTableConfig.setItemsPerPageAlignCentre(false);
 		dataAssumptionsPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		dataAssumptionsPagedTableComponent.setGtnPagedTableConfig(dataAssumptionsPagedTableConfig);

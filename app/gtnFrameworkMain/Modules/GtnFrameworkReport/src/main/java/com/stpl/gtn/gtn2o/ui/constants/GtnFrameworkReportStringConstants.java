@@ -578,7 +578,9 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
 			+ "GtnReportingComparisonBreakdownHeaderLoadAction";
-
+        
+        public static final String REPORT_DATA_ASSUMPTION_FILTER_ACTION = REPORT_ACTION_PACKAGE
+			+ "DataAssumptionFilterAction";
 	public static List<String> getReportDataAssumptionsTabId() {
 		return REPORT_DATAASSUMPTIONS_TAB_ID;
 	}

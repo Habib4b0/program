@@ -72,9 +72,10 @@ public class PagedGrid {
 
 	private static final String EMPTY = "";
       
+        private GtnUIFrameworkComponentConfig componentConfig;
 	public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
 		this.tableConfig = tableConfig;
-		
+		this.componentConfig = componentConfig;
 		grid = new Grid<>();
 		int i = 0;
 
@@ -554,7 +555,9 @@ public class PagedGrid {
                     String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
                     GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
                     action.addActionParameter(event.getValue());
-                    classLoader(action, classPath, event.getComponent().getId());
+                    action.addActionParameter(event.getComponent().getId());
+                    gtnlogger.info("component......."+componentConfig.getComponentId());
+                    classLoader(action, classPath,componentConfig.getComponentId());
                 } else {
                     tableConfig.getFilterValueMap().put(event.getComponent().getId(), getFilterValueForEventChange(event));
                     refreshGrid();
@@ -579,7 +582,8 @@ public class PagedGrid {
                     String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
                     GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
                     action.addActionParameter(event.getValue());
-                    classLoader(action, classPath, event.getComponent().getId());
+                    action.addActionParameter(event.getComponent().getId());
+                    classLoader(action, classPath, componentConfig.getComponentId());
                 } else {
                     tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
                     refreshGrid();

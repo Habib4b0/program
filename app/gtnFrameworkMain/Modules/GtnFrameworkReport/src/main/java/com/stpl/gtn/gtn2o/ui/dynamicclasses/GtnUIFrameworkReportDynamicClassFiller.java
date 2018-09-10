@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPagedTree
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPagedTreeTableGetCountAction;
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkReturnCheckAllAction;
 import com.stpl.gtn.gtn2o.ui.action.ComparisonProjectionResultFilterAction;
+import com.stpl.gtn.gtn2o.ui.action.DataAssumptionFilterAction;
 import com.stpl.gtn.gtn2o.ui.action.ForecastEligibilityDateValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCVSaveValidationAction;
@@ -324,6 +325,8 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new ComparisonProjectionResultFilterAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonProjectionBeforeCloseAction.class.getName(),
 				new GtnReportComparisonProjectionBeforeCloseAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(DataAssumptionFilterAction.class.getName(),
+				new DataAssumptionFilterAction());
 
 	}
 
