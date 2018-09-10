@@ -22,4 +22,8 @@ public enum GtnWsHierarchyType {
 		}
 		throw new IllegalArgumentException("No type found for " + type);
 	}
+
+	public String getType() {
+		return type;
+	}
 }

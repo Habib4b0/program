@@ -6,9 +6,12 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.bean.GtnFrameworkDisplayFormatBean;
 
 public class GtnDisplayFormatMasterBean {
+
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnDisplayFormatMasterBean.class);
 
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
@@ -43,7 +46,7 @@ public class GtnDisplayFormatMasterBean {
 				addDisplayFormatList(formatBean);
 			}
 		} catch (GtnFrameworkGeneralException e) {
-
+			gtnLogger.error(e.getErrorMessage(), e);
 		}
 	}
 

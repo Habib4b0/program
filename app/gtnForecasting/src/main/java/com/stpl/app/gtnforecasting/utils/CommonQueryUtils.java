@@ -91,7 +91,7 @@ public class CommonQueryUtils {
                 queryBuilder.append(" WHERE PROJECTION_MASTER_SID = '").append(projectionID).append(" ' AND SCREEN_NAME = '").append(screenName).append("' AND FIELD_NAME ='").append(obj[i]).append("'\n");
             }
         }
-        commonDao.executeBulkUpdateQuery(queryBuilder.toString(), null, null);
+        commonDao.executeBulkUpdateQuery(queryBuilder.toString());
     }
     
 }

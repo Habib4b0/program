@@ -509,7 +509,7 @@ public class NMProjectionVarianceLogic {
 								// PPA Count
 								query = getPPACount(Boolean.FALSE, Boolean.TRUE);
 								list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query,
-										pVSelectionDTO.getSessionDTO().getCurrentTableNames()), null, null);
+										pVSelectionDTO.getSessionDTO().getCurrentTableNames()));
 								if (list != null && !list.isEmpty()) {
 									Object ob = list.get(0);
 									count = count + Integer.parseInt(String.valueOf(ob));
@@ -519,7 +519,7 @@ public class NMProjectionVarianceLogic {
 								// PPA Count
 								query = getPPACount(Boolean.TRUE, Boolean.TRUE);
 								list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query,
-										pVSelectionDTO.getSessionDTO().getCurrentTableNames()), null, null);
+										pVSelectionDTO.getSessionDTO().getCurrentTableNames()));
 								if (list != null && !list.isEmpty()) {
 									Object ob = list.get(0);
 									count = count + Integer.parseInt(String.valueOf(ob));
@@ -530,7 +530,7 @@ public class NMProjectionVarianceLogic {
 							query = QueryUtil.replaceTableNames(
 									query.replace("@CCP", Constant.SELECTED_HIERARCHY_NO_HASH),
 									pVSelectionDTO.getSessionDTO().getCurrentTableNames());
-							List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+							List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
 							if (list != null && !list.isEmpty()) {
 								Object ob = list.get(0);
 								count = count + Integer.parseInt(String.valueOf(ob));
@@ -540,7 +540,7 @@ public class NMProjectionVarianceLogic {
 							query = QueryUtil.replaceTableNames(
 									query.replace("@CCP", Constant.SELECTED_HIERARCHY_NO_HASH),
 									pVSelectionDTO.getSessionDTO().getCurrentTableNames());
-							list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+							list = (List<Object>) CommonLogic.executeSelectQuery(query);
 							if (list != null && !list.isEmpty()) {
 								Object ob = list.get(0);
 								count = count + Integer.parseInt(String.valueOf(ob));
@@ -550,7 +550,7 @@ public class NMProjectionVarianceLogic {
 							query = QueryUtil.replaceTableNames(
 									query.replace("@CCP", Constant.SELECTED_HIERARCHY_NO_HASH),
 									pVSelectionDTO.getSessionDTO().getCurrentTableNames());
-							List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+							List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
 							if (list != null && !list.isEmpty()) {
 								Object ob = list.get(0);
 								count = count + Integer.parseInt(String.valueOf(ob));
@@ -560,7 +560,7 @@ public class NMProjectionVarianceLogic {
 							query = QueryUtil.replaceTableNames(
 									query.replace("@CCP", Constant.SELECTED_HIERARCHY_NO_HASH),
 									pVSelectionDTO.getSessionDTO().getCurrentTableNames());
-							list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+							list = (List<Object>) CommonLogic.executeSelectQuery(query);
 							if (list != null && !list.isEmpty()) {
 								Object ob = list.get(0);
 								count = count + Integer.parseInt(String.valueOf(ob));
@@ -573,7 +573,7 @@ public class NMProjectionVarianceLogic {
 							String query = getQueryForRebatesAndUdcs(pVSelectionDTO);
 							query = QueryUtil.replaceTableNames(query,
 									pVSelectionDTO.getSessionDTO().getCurrentTableNames());
-							List list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+							List list = (List<Object>) CommonLogic.executeSelectQuery(query);
 							if (list != null && !list.isEmpty()) {
 								Object ob = list.get(0);
 								count = count + Integer.parseInt(String.valueOf(ob));
@@ -667,7 +667,7 @@ public class NMProjectionVarianceLogic {
 								// PPA Count
 								query = getPPACount(Boolean.FALSE, Boolean.TRUE);
 								totalList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(
-										query, pVSelectionDTO.getSessionDTO().getCurrentTableNames()), null, null);
+										query, pVSelectionDTO.getSessionDTO().getCurrentTableNames()));
 								if (totalList != null && !totalList.isEmpty()) {
 									Object ob = totalList.get(0);
 									count = count + Integer.parseInt(String.valueOf(ob));
@@ -676,7 +676,7 @@ public class NMProjectionVarianceLogic {
 								// PPA Count
 								query = getPPACount(Boolean.TRUE, Boolean.TRUE);
 								totalList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(
-										query, pVSelectionDTO.getSessionDTO().getCurrentTableNames()), null, null);
+										query, pVSelectionDTO.getSessionDTO().getCurrentTableNames()));
 								if (totalList != null && !totalList.isEmpty()) {
 									Object ob = totalList.get(0);
 									count = count + Integer.parseInt(String.valueOf(ob));
@@ -1214,7 +1214,7 @@ public class NMProjectionVarianceLogic {
 		dto.setGroup(CommonUtil.getDisplayFormattedName(hierarchy, 
 				projSelDTO.isIsCustomHierarchy() ? projSelDTO.getSessionDTO().getDiscountHierarchyLevelDetails()
 						: projSelDTO.getSessionDTO().getHierarchyLevelDetails(),
-				projSelDTO.getSessionDTO(), projSelDTO.getDisplayFormat()));
+				 projSelDTO.getDisplayFormat()));
 		dto.setLevelValue(detailsList.get(0).toString());
 		dto.setHierarchyNo(hierarchyNo);
 		dto.setHierarchyIndicator(hierarchyIndicator);
@@ -2747,7 +2747,7 @@ public class NMProjectionVarianceLogic {
 		}
 		String resultString = new PVQueryUtils().getComparisionSearchResults(comparisonLookup, screenName, parameters,
 				null, 0, 0, true);
-		List result = (List) COMMONDAO.executeSelectQuery(resultString, null, null);
+		List result = (List) COMMONDAO.executeSelectQuery(resultString);
 		if (result != null && !result.isEmpty()) {
 			count = Integer.valueOf(String.valueOf(result.get(0)));
 		} else {
@@ -2800,7 +2800,7 @@ public class NMProjectionVarianceLogic {
 
 		String resultString = new PVQueryUtils().getComparisionSearchResults(comparisonLookup, screenName, parameters,
 				sortColumns, start, offset, false);
-		List result = (List) COMMONDAO.executeSelectQuery(resultString, null, null);
+		List result = (List) COMMONDAO.executeSelectQuery(resultString);
 		return getCustomizedComparisonList(result);
 	}
 
@@ -2838,7 +2838,7 @@ public class NMProjectionVarianceLogic {
 			projIds = projIds.substring(1, projIds.length() - 1);
 			String query = "SELECT PROJECTION_MASTER_SID,PROJECTION_NAME FROM PROJECTION_MASTER WHERE PROJECTION_MASTER_SID IN ("
 					+ projIds + ");";
-			resultList = (List) COMMONDAO.executeSelectQuery(query, null, null);
+			resultList = (List) COMMONDAO.executeSelectQuery(query);
 		}
 		List<List> list = new ArrayList<>();
 		if (resultList != null && !resultList.isEmpty()) {

@@ -407,8 +407,8 @@ public class CommonUtils {
      * @param toAddQuote
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString,toAddQuote, false);
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToString(collectionOfString,toAddQuote, false);
     }
       /**
      * To convert List<String> into a comma separated String
@@ -418,7 +418,7 @@ public class CommonUtils {
      * @param toRemoveSpace
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = StringUtils.EMPTY;
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
