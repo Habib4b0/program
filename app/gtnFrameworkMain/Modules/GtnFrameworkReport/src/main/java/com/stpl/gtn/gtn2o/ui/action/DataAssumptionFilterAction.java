@@ -32,12 +32,6 @@ public class DataAssumptionFilterAction
 	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(DataAssumptionFilterAction.class);
 
 	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		return;
-	}
-
-	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
@@ -51,35 +45,36 @@ public class DataAssumptionFilterAction
 			}
 		}
 		try {
-			List<Object> filterValue = gtnUIFrameWorkActionConfig.getActionParameterList();
-			GtnUIFrameworkBaseComponent selectedGrid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
-			PagedGrid pagedGrid = (PagedGrid) selectedGrid.getComponentData().getCustomData();
-			Grid<GtnWsRecordBean> grid = pagedGrid.getGrid();
-			ListDataProvider<GtnWsRecordBean> dataprovider = (ListDataProvider<GtnWsRecordBean>) grid.getDataProvider();
-			if (filterValue.get(0) == null) {
-				dataprovider.clearFilters();
+			List<Object> filterValues = gtnUIFrameWorkActionConfig.getActionParameterList();
+			GtnUIFrameworkBaseComponent selectedGrids = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
+			PagedGrid pagedGrids = (PagedGrid) selectedGrids.getComponentData().getCustomData();
+			Grid<GtnWsRecordBean> gridList = pagedGrids.getGrid();
+			ListDataProvider<GtnWsRecordBean> dataProvider = (ListDataProvider<GtnWsRecordBean>) gridList.getDataProvider();
+			if (filterValues.get(0) == null) {
+				dataProvider.clearFilters();
 				return;
 			}
-			filterDate(dataprovider, componentId, filterValue);
-		} catch (Exception exception) {
-			logger.error("EXCEPTION", exception);
+			dateFilter(dataProvider,filterValues);
+		} 
+		catch (Exception exception) {
+			logger.error("Exception in filtering", exception);
 		}
 	}
 
-	private void filterDate(ListDataProvider<GtnWsRecordBean> dataprovider, String componentId,
-			List<Object> filterValue) {
-		dataprovider.setFilter(s -> {
-			String filteringValue = "";
-			String value = "";
-			if ((filterValue.get(1).toString().contains("activeFrom"))||(filterValue.get(1).toString().contains("toPeriod"))) {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
-				filteringValue = formatter.format((LocalDate) filterValue.get(0));
-				value = String.valueOf(s.getPropertyValue(filterValue.get(1).toString()));
-			} else {
-				filteringValue = (String) filterValue.get(0);
-				value = s.getPropertyValue(filterValue.get(1).toString()).toString().toLowerCase(Locale.ENGLISH);
+	private void dateFilter(ListDataProvider<GtnWsRecordBean> dataProvider,List<Object> filterValues) {
+		dataProvider.setFilter(s -> {
+			String filterValue = "";
+			String finalValue = "";
+			if ((filterValues.get(1).toString().contains("activeFrom"))||(filterValues.get(1).toString().contains("toPeriod"))) {
+				DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
+				filterValue = dateTimeFormatter.format((LocalDate) filterValues.get(0));
+				finalValue = String.valueOf(s.getPropertyValue(filterValues.get(1).toString()));
+			}
+			else {
+				filterValue = (String) filterValues.get(0);
+				finalValue = s.getPropertyValue(filterValues.get(1).toString()).toString().toLowerCase(Locale.ENGLISH);
 			}			
-			return value.contains(filteringValue.toLowerCase(Locale.ENGLISH));
+			return finalValue.contains(filterValue.toLowerCase(Locale.ENGLISH));
 		});
 	}
 
