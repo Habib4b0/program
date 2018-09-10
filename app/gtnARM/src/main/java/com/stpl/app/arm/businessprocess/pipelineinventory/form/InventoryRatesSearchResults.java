@@ -39,7 +39,7 @@ public class InventoryRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getSummaryLogic();
+        return getSummaryLogic();
     }
 
     @Override

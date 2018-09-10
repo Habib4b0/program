@@ -418,11 +418,11 @@ public class AdjustmentRateDTO implements Serializable {
         this.excelviewMasterSid = excelviewMasterSid;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream adjRateDtoout) throws IOException {
+        adjRateDtoout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream adjRateDtoout) throws IOException, ClassNotFoundException {
+        adjRateDtoout.defaultReadObject();
     }
 }

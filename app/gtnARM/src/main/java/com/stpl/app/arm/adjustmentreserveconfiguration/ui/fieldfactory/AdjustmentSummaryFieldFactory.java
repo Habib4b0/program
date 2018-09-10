@@ -234,11 +234,11 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
         }
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream sumFieldFactout) throws IOException {
+        sumFieldFactout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream sumFieldFactout) throws IOException, ClassNotFoundException {
+        sumFieldFactout.defaultReadObject();
     }
 }
