@@ -53,6 +53,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     private boolean isValueChange;
     private String leftHeader = CommonConstant.CUSTOMER;
     private AbstractBSummaryLogic abstractBSummaryLogic;
+    public final Logger absBalSumLogger = LoggerFactory.getLogger(AbstractBalanceSummaryResutls.class);
     /**
      * The Constant LOGGER.
      */
@@ -132,14 +133,14 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
     @Override
     public Object[] getExcelHierarchy() {
-        Map<Integer, String> hierarchy = getHierarchy();
-        Object[] value = new Object[hierarchy.size()];
-        for (int i = 0; i < hierarchy.size(); i++) {
-            String val = hierarchy.get(i + 1);
-            if (val.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) {
-                val = getSelection().getSummarydeductionLevelDes().toUpperCase(Locale.ENGLISH);
+        Map<Integer, String> summaryHierarchy = getHierarchy();
+        Object[] value = new Object[summaryHierarchy.size()];
+        for (int i = 0; i < summaryHierarchy.size(); i++) {
+            String bsrSummaryVal = summaryHierarchy.get(i + 1);
+            if (bsrSummaryVal.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) {
+                bsrSummaryVal = getSelection().getSummarydeductionLevelDes().toUpperCase(Locale.ENGLISH);
             }
-            value[i] = ARMUtils.getLevelExcelQueryName(val);
+            value[i] = ARMUtils.getLevelExcelQueryName(bsrSummaryVal);
         }
         getSelection().setExcelHierarchy(value);
         return value;
@@ -147,34 +148,39 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
     @Override
     public List getExcelExportVisibleColumn() {
+        absBalSumLogger.debug("inside getExcelExport");
         return getSelection().getExcelVisibleColumn();
     }
 
     @Override
     public boolean getisFixedColumns() {
+        absBalSumLogger.debug("inside getisFixedColumns");
         return Boolean.TRUE;
     }
 
     @Override
     public int getInterval() {
+        absBalSumLogger.debug("inside getInterval");
         return 1;
     }
 
     @Override
     public int discountColumnNeeded() {
+        absBalSumLogger.debug("inside discountColumnNeeded");
         return 2;
     }
 
     @Override
     public boolean getisDeductionCustomer() {
+        absBalSumLogger.debug("inside getisDeductionCustomer");
         return Boolean.FALSE;
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class BsrResultsCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String bsrResultsbuttonName;
 
-        public CustomNotification() {
+        public BsrResultsCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -187,9 +193,9 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
         @Override
         public void yesMethod() {
-            loggerBal.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            loggerBal.debug("buttonName :{}", bsrResultsbuttonName);
+            if (null != bsrResultsbuttonName) {
+                switch (bsrResultsbuttonName) {
                     case "reset":
                         break;
                     case "save":
@@ -200,7 +206,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.bsrResultsbuttonName = buttonName;
         }
 
     }

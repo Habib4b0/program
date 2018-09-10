@@ -144,8 +144,8 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         AdjustmentDTO dto = null;
         boolean ovverrideFlag = false;
         boolean isTotal = false;
-        DecimalFormat decimalformat = new DecimalFormat("$#,##0.##");
-        DecimalFormat percentageformat = new DecimalFormat("#,##0.##");
+        DecimalFormat deciformat = new DecimalFormat("$#,##0.##");
+        DecimalFormat percenformat = new DecimalFormat("#,##0.##");
         for (int j = 0; j < data.size(); j++) {
             Object[] get = data.get(j);
             Object[] next = j != data.size() - 1 ? data.get(j + 1) : null;
@@ -181,15 +181,15 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             }
             if (dto != null) {
                 if (index < totalColumnIndex) {
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.THREE]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.FOUR] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FOUR]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.FIVE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FIVE]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : percentageformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))) + "%");
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.EIGHT] == null && selection.isCancelOverride() ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.EIGHT]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.NINE] == null || dto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.NINE]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.TEN] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TEN]))));
+                    dto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : deciformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
+                    dto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : deciformat.format(Double.valueOf(String.valueOf(get[NumericConstants.THREE]))));
+                    dto.addStringProperties(variables.get(index++), get[NumericConstants.FOUR] == null ? StringUtils.EMPTY : deciformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FOUR]))));
+                    dto.addStringProperties(variables.get(index++), get[NumericConstants.FIVE] == null ? StringUtils.EMPTY : deciformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FIVE]))));
+                    dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null ? StringUtils.EMPTY : deciformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))));
+                    dto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : percenformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))) + "%");
+                    dto.addStringProperties(variables.get(index++), get[NumericConstants.EIGHT] == null && selection.isCancelOverride() ? StringUtils.EMPTY : deciformat.format(Double.valueOf(String.valueOf(get[NumericConstants.EIGHT]))));
+                    dto.addStringProperties(variables.get(index++), get[NumericConstants.NINE] == null || dto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : deciformat.format(Double.valueOf(String.valueOf(get[NumericConstants.NINE]))));
+                    dto.addStringProperties(variables.get(index++), get[NumericConstants.TEN] == null ? StringUtils.EMPTY : deciformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TEN]))));
 
                     totalColumnValue[0] += Double.valueOf(String.valueOf(get[NumericConstants.TWO]));
                     totalColumnValue[1] += Double.valueOf(String.valueOf(get[NumericConstants.THREE]));
@@ -203,21 +203,21 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                     }
                     totalColumnValue[NumericConstants.EIGHT] += Double.valueOf(get[NumericConstants.TEN].toString());
                 }
-                if (getCondition(selection, index, totalColumnIndex, nextBrand, brand)
-                        || ((!ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && getConditionMultiplePeriod(selection, startIndex, nextStartIndex))
+                if (getPaymentCondition(selection, index, totalColumnIndex, nextBrand, brand)
+                        || ((!ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && getPaymentConditionMultiplePeriod(selection, startIndex, nextStartIndex))
                         || (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview()) && ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && index >= totalColumnIndex))) {
-                    dto.addStringProperties(variables.get(totalColumnIndex), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[0]))));
-                    dto.addStringProperties(variables.get(totalColumnIndex + 1), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[1]))));
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.TWO), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.TWO]))));
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.THREE), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.THREE]))));
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FOUR), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.FOUR]))));
+                    dto.addStringProperties(variables.get(totalColumnIndex), deciformat.format(Double.valueOf(String.valueOf(totalColumnValue[0]))));
+                    dto.addStringProperties(variables.get(totalColumnIndex + 1), deciformat.format(Double.valueOf(String.valueOf(totalColumnValue[1]))));
+                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.TWO), deciformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.TWO]))));
+                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.THREE), deciformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.THREE]))));
+                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FOUR), deciformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.FOUR]))));
                     if (Double.compare(totalColumnValue[NumericConstants.FOUR], 0.0) != 0 && Double.compare(totalColumnValue[NumericConstants.THREE], 0.0) != 0) {
                         totalColumnValue[NumericConstants.FIVE] = totalColumnValue[NumericConstants.THREE] / totalColumnValue[NumericConstants.FOUR] * NumericConstants.HUNDRED;
                     }
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FIVE), percentageformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.FIVE]))) + "%");
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.SIX), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.SIX]))));
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.SEVEN), ovverrideFlag ? decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.SEVEN]))) : StringUtils.EMPTY);
-                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.EIGHT), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.EIGHT]))));
+                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FIVE), percenformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.FIVE]))) + "%");
+                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.SIX), deciformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.SIX]))));
+                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.SEVEN), ovverrideFlag ? deciformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.SEVEN]))) : StringUtils.EMPTY);
+                    dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.EIGHT), deciformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.EIGHT]))));
                 }
 
             }
@@ -225,27 +225,27 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             dto.setUserId(selection.getSessionDTO().getUserId());
             dto.setSessionId(selection.getSessionDTO().getSessionId());
         }
-        OriginalDataResult<T> dataResult = new OriginalDataResult<>();
-        dataResult.setDataResults(resultList);
-        return dataResult;
+        OriginalDataResult<T> paymentDataResult = new OriginalDataResult<>();
+        paymentDataResult.setDataResults(resultList);
+        return paymentDataResult;
     }
 
-    private boolean getCondition(SelectionDTO selection, int index, int totalColumnIndex, String nextBrand, String brand) {
-        if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
+    private boolean getPaymentCondition(SelectionDTO paymentSelection, int index, int totalColumnIndex, String nextBrand, String brand) {
+        if (ARMConstants.getSinglePeriod().equals(paymentSelection.getSummarydemandview())) {
             return index >= totalColumnIndex || !nextBrand.equals(brand);
         }
         return false;
     }
 
-    private boolean getConditionMultiplePeriod(SelectionDTO selection, int startIndex, int nextIndex) {
-        if (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())) {
+    private boolean getPaymentConditionMultiplePeriod(SelectionDTO paymentSelection, int startIndex, int nextIndex) {
+        if (ARMConstants.getMultiplePeriod().equals(paymentSelection.getSummarydemandview())) {
             return startIndex == nextIndex;
         }
         return false;
     }
 
     @Override
-    protected Object[] generateInputs(Object dto, SelectionDTO selection) {
+    protected Object[] generateInputs(Object paymentsDto, SelectionDTO selection) {
         List<String[]> frequency = selection.getSummaryfrequencyList();
         Object[] returnObj = new Object[NumericConstants.TWO];
         List<Object> inputs = new ArrayList<>();
@@ -255,11 +255,11 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         String viewType = "";
         String currentViewType = "";
         TreeMap<String, Integer> masterSids = null;
-        if (dto instanceof AdjustmentDTO) {
-            AdjustmentDTO val = (AdjustmentDTO) dto;
-            int levelNo = val.getLevelNo();
+        if (paymentsDto instanceof AdjustmentDTO) {
+            AdjustmentDTO paymentsVal = (AdjustmentDTO) paymentsDto;
+            int levelNo = paymentsVal.getLevelNo();
             LOGGER.debug("levelNo----{}", levelNo);
-            masterSids = val.getMasterIds();
+            masterSids = paymentsVal.getMasterIds();
 
             if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
                 if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
@@ -275,7 +275,7 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 viewType = selection.getSummarydemandLevel().get(++levelNo);
                 inputs.add(1);
             }
-            masterSids.put(currentViewType, Integer.valueOf(val.getBranditemmasterSid()));
+            masterSids.put(currentViewType, Integer.valueOf(paymentsVal.getBranditemmasterSid()));
         } else {
             masterSids = new TreeMap<>();
             if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
