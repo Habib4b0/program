@@ -2927,71 +2927,6 @@ public class SalesLogic {
         return resultList;
     }
 
-    /**
-     *
-     * @param projectionSelectionDTO
-     * @param historyPeriods
-     * @param projectionPeriods
-     * @return
-     * @throws SystemException
-     * @throws SQLException
-     */
-    public boolean callAdjustmentProcedure(final ProjectionSelectionDTO projectionSelectionDTO, final String historyPeriods, final String projectionPeriods, final String adjType, final String adjVal, final String adjBasis, final String adsVar, final String adsMeth) throws SQLException {
-
-        boolean status = false;
-
-        final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        CallableStatement statement = null;
-        try (Connection connection = dataSourceConnection.getConnection()) {
-
-            if (connection != null) {
-                LOGGER.info("PRC_SALES_ADJUSTMENT_TEMP");
-                LOGGER.info("BASLINE_PERIODS= {}" , historyPeriods);
-                LOGGER.info("SELECTED_PERIODS= {}" , projectionPeriods);
-                LOGGER.info("PROJECTION_SID= {}" , projectionSelectionDTO.getProjectionId());
-                LOGGER.info("Frequency= {}" , projectionSelectionDTO.getFrequency());
-                LOGGER.info("USER_ID= {}" , projectionSelectionDTO.getUserId());
-                LOGGER.info("SESSION_ID= {}" , projectionSelectionDTO.getSessionDTO().getSessionId());
-                LOGGER.info("adjType= {}" , adjType);
-                LOGGER.info("adjBasis= {}" , adjBasis);
-                LOGGER.info("adsVar= {}" , adsVar);
-                LOGGER.info("adsMeth= {}" , adsMeth);
-                LOGGER.info("adjVal= {}" , adjVal);
-                LOGGER.info(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
-                LOGGER.info(projectionSelectionDTO.getUomCode());
-
-                if (Constants.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(projectionSelectionDTO.getScreenName())) {
-                    statement = connection.prepareCall("{call PRC_SALES_ADJUSTMENT_TEMP (?,?,?,?,?,?,?,?,?,?,?,?,?)}");
-                } else {
-                    statement = connection.prepareCall("{call PRC_SALES_ADJUSTMENT (?,?,?,?,?,?,?,?,?,?,?)}");
-                }
-                statement.setObject(1, historyPeriods); //@BASLINE_PERIODS 
-                statement.setObject(NumericConstants.TWO, projectionPeriods); //@SELECTED_PERIODS
-                statement.setObject(NumericConstants.THREE, projectionSelectionDTO.getProjectionId()); //@PROJECTION_SID
-                statement.setObject(NumericConstants.FOUR, projectionSelectionDTO.getFrequency());//Frequency
-                statement.setObject(NumericConstants.FIVE, projectionSelectionDTO.getUserId()); //@USER_ID
-                statement.setObject(NumericConstants.SIX, projectionSelectionDTO.getSessionDTO().getSessionId()); //@SESSION_ID
-                statement.setObject(NumericConstants.SEVEN, adjType);
-                statement.setObject(NumericConstants.EIGHT, adjBasis);
-                statement.setObject(NumericConstants.NINE, adsVar);
-                statement.setObject(NumericConstants.TEN, adsMeth);
-                statement.setObject(NumericConstants.ELEVEN, adjVal);
-                if (Constants.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(projectionSelectionDTO.getScreenName())) {
-                    statement.setObject(NumericConstants.TWELVE, projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
-                    statement.setObject(NumericConstants.THIRTEEN, projectionSelectionDTO.getUomCode());
-                }
-                status = statement.execute();
-            }
-
-        } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex.getMessage());
-        } finally {
-            if (statement != null) {
-                statement.close();
-            }
-        }
-        return status;
-    }
     public static final String ALL = "ALL";
 
     /**
@@ -4551,21 +4486,6 @@ public class SalesLogic {
             customViewDto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
         }
         return customViewDto;
-    }
-
-    public int getLevelListCount(int projectionId, String hierarchyIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isCustom, int customId, String userGroup, int userId, int sessionId, String custRelSid, String prodRelSid, SessionDTO session) {
-        int count = 0;
-        try {
-            String query = getLevelListQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, false, true, 0, 0, false, isCustom, customId, userGroup, userId, sessionId, custRelSid, prodRelSid);
-            List<Object> list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
-            if (list != null && !list.isEmpty()) {
-                Object ob = list.get(0);
-                count = Integer.parseInt(String.valueOf(ob));
-            }
-        } catch (NumberFormatException ex) {
-            LOGGER.error(ex.getMessage());
-        }
-        return count;
     }
 
     private void cumulativeCalculation(ProjectionSelectionDTO projectionSelectionDTO, String calcBased, String methodology, final String tableName) {
