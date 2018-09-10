@@ -436,7 +436,7 @@ public class ProjectionResults extends ForecastProjectionResults {
 
     @Override
     protected void excelExportLogic() {
-        ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
+        ConsolidatedFinancialForecastUI.setExcelClose(true);
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
         exceltable.setRefresh(BooleanConstant.getTrueFlag());

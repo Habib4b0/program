@@ -18,6 +18,7 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.stpl.ifs.util.constants.WorkflowMessages;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +31,11 @@ import org.asi.ui.custommenubar.CustomMenuBar;
 public class AdjustmentDetailsPayment extends AbstractAdjustmentDetails {
 
     private boolean creditFlag;
+    private AbstractSelectionDTO paymentsSelection;
 
     public AdjustmentDetailsPayment(AbstractSelectionDTO selectionDto) {
         super(new DPDetailsLogic(), selectionDto);
+        this.paymentsSelection = selectionDto;
         init();
     }
 
@@ -40,22 +43,22 @@ public class AdjustmentDetailsPayment extends AbstractAdjustmentDetails {
      * To set the values to the DTO This method will be called before generate
      */
     public void setSelection() {
-        selection.setDetailLevel(level.getValue().toString());
-        selection.setDetailvariables(Arrays.asList(variableValue));
+        paymentsSelection.setDetailLevel(level.getValue().toString());
+        paymentsSelection.setDetailvariables(Arrays.asList(variableValue));
         List<List> account = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
-        selection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
+        paymentsSelection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
         List<String> amtFilter = CommonUtils.getSelectedVariables(amountFilterItem);
-        selection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
+        paymentsSelection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
 
-        selection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
-        creditFlag = logic.cerditDebitEqualCheck(selection);
+        paymentsSelection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) :  new ArrayList());
+        creditFlag = logic.cerditDebitEqualCheck(paymentsSelection);
     }
 
     @Override
     protected void generateBtn() {
         setSelection();
-        if (logic.generateButtonCheck(selection) && !creditFlag) {
+        if (logic.generateButtonCheck(paymentsSelection) && !creditFlag) {
             super.generateBtn();
             tableLogic.loadSetData(Boolean.TRUE);
         } else if (creditFlag && isGenerateFlag()) {
@@ -67,9 +70,9 @@ public class AdjustmentDetailsPayment extends AbstractAdjustmentDetails {
 
     @Override
     protected void loadReserveAccount() {
-        List<List> list = logic.getReserveAccountDetails(selection, GlobalConstants.getReserveDetail().equals(level.getValue().toString()));
-        CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
-                Arrays.copyOf(list.get(1).toArray(), list.get(1).size(), String[].class));
+        List<List> paymentsList = logic.getReserveAccountDetails(paymentsSelection, GlobalConstants.getReserveDetail().equals(level.getValue().toString()));
+        CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(paymentsList.get(0).toArray(), paymentsList.get(0).size(), String[].class),
+                Arrays.copyOf(paymentsList.get(1).toArray(), paymentsList.get(1).size(), String[].class));
         CommonUtils.checkAllMenuBarItem(reserveMenuItem);
     }
 
@@ -84,11 +87,11 @@ public class AdjustmentDetailsPayment extends AbstractAdjustmentDetails {
      */
     @Override
     protected void variableDefaultSelection() {
-        List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
+        List paymentsList = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
                 ? VariableConstants.getAdjustmentDemandPipelineReserveVariableDefaultSelection()
                 : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-            if (list.contains(object.getMenuItem().getWindow())) {
+            if (paymentsList.contains(object.getMenuItem().getWindow())) {
                 object.setChecked(Boolean.TRUE);
             }
         }
@@ -105,9 +108,9 @@ public class AdjustmentDetailsPayment extends AbstractAdjustmentDetails {
     }
 
     public void configurePermission(String userId, StplSecurity stplSecurity) {
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction4", "Adjustment Details");
-        reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", functionHM));
-        generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
+        Map<String, AppPermission> paymentsFunctionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction4", "Adjustment Details");
+        reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", paymentsFunctionHM));
+        generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", paymentsFunctionHM));
 
     }
 

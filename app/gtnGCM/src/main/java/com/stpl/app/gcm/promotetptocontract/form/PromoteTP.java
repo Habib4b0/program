@@ -527,7 +527,7 @@ public class PromoteTP extends VerticalLayout {
      *
      */
     private void loadCompanyType() {
-        logic.LazyLoadDdlb(companyType, "getCompanyTypeCountForPromoteTpToCh", "getCompanyTypeForPromoteTpToCh");
+        logic.lazyLoadDdlb(companyType, "getCompanyTypeCountForPromoteTpToCh", "getCompanyTypeForPromoteTpToCh");
     }
 
     /**
@@ -535,7 +535,7 @@ public class PromoteTP extends VerticalLayout {
      *
      */
     private void loadTradeClass() {
-        logic.LazyLoadDdlb(tradeClassDto, "getTradeClassCountForPromoteTpToCh", "getTradeClassForPromoteTpToCh");
+        logic.lazyLoadDdlb(tradeClassDto, "getTradeClassCountForPromoteTpToCh", "getTradeClassForPromoteTpToCh");
     }
 
     /**
@@ -543,7 +543,7 @@ public class PromoteTP extends VerticalLayout {
      *
      */
     private void loadCompanyQualifier() {
-        logic.LazyLoadDdlb(identifierType, "getCompanyQualifierCountForPromoteTpToCh", "getCompanyQualifierForPromoteTpToCh");
+        logic.lazyLoadDdlb(identifierType, "getCompanyQualifierCountForPromoteTpToCh", "getCompanyQualifierForPromoteTpToCh");
     }
 
     /**
@@ -551,7 +551,7 @@ public class PromoteTP extends VerticalLayout {
      *
      */
     private void loadCompanyCategory() {
-        logic.LazyLoadDdlb(companyCategory, "getCompanyCategoryCountForPromoteTpToCh", "getCompanyCategoryForPromoteTpToCh");
+        logic.lazyLoadDdlb(companyCategory, "getCompanyCategoryCountForPromoteTpToCh", "getCompanyCategoryForPromoteTpToCh");
     }
 
     public void disableButtonLogic() {

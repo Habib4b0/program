@@ -932,10 +932,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
                                 } catch (PortalException e) {
                                     LOGGER.error(e.getMessage());
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
-                                } catch (Exception e) {
-                                    LOGGER.error(e.getMessage());
-                                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
-                                }
+                                } 
                             }
                         }
                     }, ButtonId.YES, ButtonId.NO);

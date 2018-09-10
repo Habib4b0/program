@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -34,12 +33,13 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
 import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 
 @Service
 public class HeaderGeneratorService {
+
+	private static final String PERIOD_DATE = " PERIOD_DATE = '";
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(HeaderGeneratorService.class);
 
@@ -104,7 +104,7 @@ public class HeaderGeneratorService {
 		return variableMap;
 	}
 
-	public GtnWsPagedTreeTableResponse getReportLeftTableColumns(GtnWsForecastRequest request) {
+	public GtnWsPagedTreeTableResponse getReportLeftTableColumns() {
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 		tableHeaderDTO.addSingleColumn(LEVEL_VALUE, "Level", String.class);
 		tableHeaderDTO.addDoubleColumn(LEVEL_VALUE, "");
@@ -130,11 +130,11 @@ public class HeaderGeneratorService {
 		gtnForecastBean.setAscending(true);
 		gtnForecastBean.setColumn(false);
 		gtnForecastBean.setVariablesVariances(false);
-		return this.getReportRightTableColumns(gtnForecastBean, gtnUIFrameworkWebserviceRequest);
+		return this.getReportRightTableColumns(gtnUIFrameworkWebserviceRequest);
 
 	}
 
-	public GtnWsPagedTreeTableResponse getReportRightTableColumns(GtnForecastBean gtnForecastBean,
+	public GtnWsPagedTreeTableResponse getReportRightTableColumns(
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 		try {
@@ -197,22 +197,26 @@ public class HeaderGeneratorService {
 
 			switch (headerSequence) {
 			case 0:// 0. Time/Variable/Comparison
-				createTableHeader(comparisonBasisColumn, combinedVariableCategoryColumn, periodColumn,
-						comparisonBasisHeader, combinedVariableCategoryHeader, periodHeader, tableHeaderDTO,
-						headerSequence);
+				createTableHeader(
+						Arrays.asList(comparisonBasisColumn, combinedVariableCategoryColumn, periodColumn,
+								comparisonBasisHeader, combinedVariableCategoryHeader, periodHeader),
+						tableHeaderDTO, headerSequence);
 				break;
 			case 1:// 1. Comparison/Variable/Time
-				createTableHeader(periodColumn, combinedVariableCategoryColumn, comparisonBasisColumn, periodHeader,
-						combinedVariableCategoryHeader, comparisonBasisHeader, tableHeaderDTO, headerSequence);
-				break;
-			case 2:// 2. Comparison/Time/Variable
-				createTableHeader(combinedVariableCategoryColumn, periodColumn, comparisonBasisColumn,
-						combinedVariableCategoryHeader, periodHeader, comparisonBasisHeader, tableHeaderDTO,
+				createTableHeader(Arrays.asList(periodColumn, combinedVariableCategoryColumn, comparisonBasisColumn,
+						periodHeader, combinedVariableCategoryHeader, comparisonBasisHeader), tableHeaderDTO,
 						headerSequence);
 				break;
+			case 2:// 2. Comparison/Time/Variable
+				createTableHeader(
+						Arrays.asList(combinedVariableCategoryColumn, periodColumn, comparisonBasisColumn,
+								combinedVariableCategoryHeader, periodHeader, comparisonBasisHeader),
+						tableHeaderDTO, headerSequence);
+				break;
 			case 3:// 3. Variable/Comparison/Time
-				createTableHeader(periodColumn, comparisonBasisColumn, combinedVariableCategoryColumn, periodHeader,
-						comparisonBasisHeader, combinedVariableCategoryHeader, tableHeaderDTO, headerSequence);
+				createTableHeader(Arrays.asList(periodColumn, comparisonBasisColumn, combinedVariableCategoryColumn,
+						periodHeader, comparisonBasisHeader, combinedVariableCategoryHeader), tableHeaderDTO,
+						headerSequence);
 				break;
 			default:
 				break;
@@ -232,7 +236,6 @@ public class HeaderGeneratorService {
 			Set<String> dateheaderColumnId = new LinkedHashSet<>();
 			for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusMonths(1)) {
 				getFormat(dateheaderColumnId, dateString, dashboardBean.getSelectFreqString(), date);
-
 			}
 
 			getFormat(dateheaderColumnId, dateString, dashboardBean.getSelectFreqString(), endDate);
@@ -360,18 +363,18 @@ public class HeaderGeneratorService {
 		case "Quarter":
 			previousQuaterLastMonth = (Character.getNumericValue(yearData[0].trim().charAt(1)) - 1) * 3;
 			startMonth = Month.of(previousQuaterLastMonth + 1);
-			startDate = LocalDate.of(Integer.valueOf(yearData[1].trim()), startMonth, 1);
+			startDate = LocalDate.of(Integer.parseInt(yearData[1].trim()), startMonth, 1);
 			break;
 		case "Semi-Annual":
 			previousQuaterLastMonth = (Character.getNumericValue(yearData[0].trim().charAt(1))) > 1 ? 6 : 1;
 			startMonth = Month.of(previousQuaterLastMonth);
-			startDate = LocalDate.of(Integer.valueOf(yearData[1].trim()), startMonth, 1);
+			startDate = LocalDate.of(Integer.parseInt(yearData[1].trim()), startMonth, 1);
 			break;
 		case ANNUAL2:
-			startDate = LocalDate.of(Integer.valueOf(yearData[0].trim()), 1, 1);
+			startDate = LocalDate.of(Integer.parseInt(yearData[0].trim()), 1, 1);
 			break;
 		case "Month":
-			startDate = LocalDate.of(Integer.valueOf(yearData[1].trim()), getMonthIntegerFromYear(yearData[0]), 1);
+			startDate = LocalDate.of(Integer.parseInt(yearData[1].trim()), getMonthIntegerFromYear(yearData[0]), 1);
 			break;
 		default:
 			break;
@@ -444,23 +447,23 @@ public class HeaderGeneratorService {
 		return dfs.getShortMonths()[num];
 	}
 
-	private void createTableHeader(Object[] singleColumn, Object[] doubleColumn, Object[] tripleColumn,
-			Object[] singleHeader, Object[] doubleHeader, Object[] tripleHeader,
-			GtnWsPagedTreeTableResponse tableHeaderDTO, int headerSequence) {
+	private void createTableHeader(List<Object[]> input, GtnWsPagedTreeTableResponse tableHeaderDTO,
+			int headerSequence) {
 
+		Object[] singleColumn = input.get(0);
+		Object[] doubleColumn = input.get(1);
+		Object[] tripleColumn = input.get(2);
+		Object[] singleHeader = input.get(3);
+		Object[] doubleHeader = input.get(4);
+		Object[] tripleHeader = input.get(5);
 		List<String> tripleMap = new ArrayList<>();
 		List<String> doubleMap = new ArrayList<>();
-		Set<String> headerColumnId = new HashSet<>();
 
 		for (int i = 0; i < tripleColumn.length; i++) {
 			for (int j = 0; j < doubleColumn.length; j++) {
 				for (int k = 0; k < singleColumn.length; k++) {
 					Object single = createSingleColumn(singleColumn[k].toString(), doubleColumn[j].toString(),
 							tripleColumn[i].toString(), headerSequence);
-
-					if (!headerColumnId.add(String.valueOf(single))) {
-
-					}
 					tableHeaderDTO.addSingleColumn(single, singleHeader[k].toString(), String.class);
 					doubleMap.add(single.toString());
 				}
@@ -475,7 +478,7 @@ public class HeaderGeneratorService {
 		}
 	}
 
-	private void createTableHeader(Object[] singleColumn, Object[] doubleColumn, Object[] singleHeader,
+	public void createTableHeader(Object[] singleColumn, Object[] doubleColumn, Object[] singleHeader,
 			Object[] doubleHeader, GtnWsPagedTreeTableResponse tableHeaderDTO) {
 		List<String> doubleMap = new ArrayList<>();
 
@@ -630,7 +633,7 @@ public class HeaderGeneratorService {
 
 	}
 
-	private List<Object[]> getTimeRange(GtnForecastBean gtnForecastBean) {
+	public List<Object[]> getTimeRange(GtnForecastBean gtnForecastBean) {
 		List<Object[]> periods = new ArrayList<>();
 		Date date = gtnForecastBean.getProjectionEndDate().after(gtnForecastBean.getForecastEndDate())
 				? gtnForecastBean.getProjectionEndDate()
@@ -650,10 +653,11 @@ public class HeaderGeneratorService {
 			if (year == endYear) {
 				endMonthIndex = endMonth;
 			}
-			for (int month = startIndex; month <= endMonthIndex;) {
+			int month = startIndex;
+			while (month <= endMonthIndex) {
 				String[] returnValue = getCommonColumnHeader(gtnForecastBean.getFrequency(), year, month);
 				periods.add(returnValue);
-				month = Integer.valueOf(returnValue[2]);
+				month = Integer.parseInt(returnValue[2]);
 			}
 		}
 		return getPeriodColumnHeader(periods);
@@ -708,11 +712,11 @@ public class HeaderGeneratorService {
 				frequency = "MONTH,";
 			}
 			if (i < variableBreakdown.size() - 1) {
-				whereClauseParameters.append(" PERIOD_DATE = '");
+				whereClauseParameters.append(PERIOD_DATE);
 				whereClauseParameters.append(dateFromPeriodQuery);
 				whereClauseParameters.append("' OR  ");
 			} else {
-				whereClauseParameters.append("PERIOD_DATE = '");
+				whereClauseParameters.append(PERIOD_DATE);
 				whereClauseParameters.append(dateFromPeriodQuery);
 				whereClauseParameters.append("' ");
 			}
@@ -728,7 +732,7 @@ public class HeaderGeneratorService {
 		for (int i = 0; i < periodList.size(); i++) {
 			if (i < periodList.size() - 1) {
 				date.append(periodList.get(i));
-				date.append("-");
+				date.append('-');
 			} else {
 				date.append(periodList.get(i));
 			}
@@ -743,7 +747,7 @@ public class HeaderGeneratorService {
 		String dateFromPeriodQuery = null;
 		String splitParameter = " ";
 		String frequency = "";
-		String whereClauseParameters = "";
+		StringBuilder whereClauseParameters = new StringBuilder();
 		for (int i = 0; i < comnparisonBreakdownList.size(); i++) {
 			String fromPeriod = comnparisonBreakdownList.get(i).toString();
 
@@ -751,7 +755,7 @@ public class HeaderGeneratorService {
 				List<Integer> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod, splitParameter);
 				dateFromPeriodQuery = getDateFromFrequency(quarterToDateForFromPeriod);
 				frequency = "QUARTER,";
-			} else if (fromPeriod.startsWith("S") && !fromPeriod.toLowerCase().startsWith("sep")) {
+			} else if (fromPeriod.startsWith("S") && !fromPeriod.toLowerCase(Locale.ENGLISH).startsWith("sep")) {
 
 				List<Integer> semiAnnualToDateForFromPeriod = getSemiAnnualToDate(fromPeriod, splitParameter);
 
@@ -778,9 +782,13 @@ public class HeaderGeneratorService {
 				frequency = "MONTH,";
 			}
 			if (i < comnparisonBreakdownList.size() - 1) {
-				whereClauseParameters = whereClauseParameters + " PERIOD_DATE = '" + dateFromPeriodQuery + "' OR  ";
+				whereClauseParameters.append(PERIOD_DATE);
+				whereClauseParameters.append(dateFromPeriodQuery);
+				whereClauseParameters.append("' OR  ");
 			} else {
-				whereClauseParameters = whereClauseParameters + "PERIOD_DATE = '" + dateFromPeriodQuery + "'";
+				whereClauseParameters.append(PERIOD_DATE);
+				whereClauseParameters.append(dateFromPeriodQuery);
+				whereClauseParameters.append("' ");
 			}
 		}
 		String finalQuery = GtnWsQueryConstants.VARIABLE_AND_COMPARISON_BREAKDOWN_PERIOD_DATAS;
@@ -1112,7 +1120,7 @@ public class HeaderGeneratorService {
 
 	private int getMonthIntegerFromYear(String month) {
 		int monthCount = 0;
-		switch (month.toUpperCase()) {
+		switch (month.toUpperCase(Locale.ENGLISH)) {
 		case "JAN":
 			monthCount = 1;
 			break;

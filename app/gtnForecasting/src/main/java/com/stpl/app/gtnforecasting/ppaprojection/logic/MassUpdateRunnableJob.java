@@ -29,7 +29,7 @@ public class MassUpdateRunnableJob implements Runnable {
     private static final Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
 
     public MassUpdateRunnableJob(Object value, String fieldValue, String columnName, int startQuater, int endQuater,
-            int startYear, int endYear, String group, ProjectionSelectionDTO selection) {
+            int startYear, int endYear, ProjectionSelectionDTO selection) {
         this.value = value;
         this.fieldValue = fieldValue;
         this.columnName = columnName;

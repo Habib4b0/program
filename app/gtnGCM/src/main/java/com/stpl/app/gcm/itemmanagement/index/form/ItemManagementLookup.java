@@ -251,20 +251,7 @@ public class ItemManagementLookup extends CustomWindow {
 
     }
 
-    private void tabLazyLoad(int tabPosition) {
-        LOGGER.debug("tabLazyLoad inside");
-
-        if (tabPosition == 1) {
-            if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
-                mainTab.replaceComponent(itemsummary, itemsummary.getContent(itemList, selection));
-                addSummaryFlag = true;
-            } else {
-                mainTab.replaceComponent(removeSummary, removeSummary);
-            }
-        }
-        LOGGER.debug("tabLazyLoad outside");
-
-    }
+    
 
     public void enableActionButton(int tabPosition) {
         if (tabPosition == 0) {

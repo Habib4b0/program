@@ -191,11 +191,11 @@ public class PromoteTpToChDto implements Serializable {
         this.identifier = identifier;
     }
 
-    public HelperDTO getTradeClass_DTO() {
+    public HelperDTO getTradeClassDto() {
         return tradeClassDto;
     }
 
-    public void setTradeClass_DTO(HelperDTO tradeClassDto) {
+    public void setTradeClassDto(HelperDTO tradeClassDto) {
         this.tradeClassDto = tradeClassDto;
     }
     

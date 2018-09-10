@@ -198,7 +198,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
      * The table bean.
      */
     private ContractsDetailsDto tableBean;
-    private static final BeanItem<?> NULL_OBJECT = null;
     /* Current Level Value */
     private int levelValue;
     private static final Logger LOGGER = LoggerFactory.getLogger(ContractProcessingDashboard.class);

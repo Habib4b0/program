@@ -78,7 +78,6 @@ public class CopyContractform extends CustomComponent implements View {
     private static final Logger LOGGER = LoggerFactory.getLogger(CopyContractform.class);
     
     private final CopyContractWindow editWindow;
-    private ExtFilterTable resultTable;
     @UiField("main")
     public VerticalLayout layout;
     private final TabSheet tabsheet = new TabSheet();

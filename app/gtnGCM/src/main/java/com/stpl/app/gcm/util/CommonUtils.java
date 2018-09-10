@@ -70,8 +70,8 @@ public class CommonUtils {
      * @param toAddQuote
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString, toAddQuote, false);
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToString(collectionOfString, toAddQuote, false);
     }
 
     /**
@@ -82,7 +82,7 @@ public class CommonUtils {
      * @param toRemoveSpace
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {

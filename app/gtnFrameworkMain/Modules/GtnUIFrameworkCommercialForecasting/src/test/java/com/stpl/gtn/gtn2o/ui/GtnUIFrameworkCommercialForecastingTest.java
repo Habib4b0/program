@@ -98,4 +98,4 @@ public class GtnUIFrameworkCommercialForecastingTest {
 	public static void main(String[] args) {
 		new org.junit.runner.JUnitCore().run(GtnUIFrameworkCommercialForecastingTest.class);
 	}
-}
+	}

@@ -5,7 +5,6 @@
 package com.stpl.app.adminconsole.dao.impl;
 
 import com.stpl.app.adminconsole.dao.CommonDAO;
-import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.BrandMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.HierarchyDefinitionLocalServiceUtil;

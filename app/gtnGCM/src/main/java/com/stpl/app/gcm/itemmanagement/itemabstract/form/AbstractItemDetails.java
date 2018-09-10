@@ -79,9 +79,9 @@ public final class AbstractItemDetails extends CustomComponent {
             this.selection = selection;
             lay.setMargin(true);
             lay.setSpacing(true);
-            ConfigureItemTable();
+            configureItemTable();
             if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                ConfigureTransferItemTable();
+                configureTransferItemTable();
             }
             itemDetailsSummary.setContent(lay);
             setCompositionRoot(itemDetailsSummary);
@@ -91,7 +91,7 @@ public final class AbstractItemDetails extends CustomComponent {
         }
     }
 
-    final Component ConfigureItemTable() {
+    final Component configureItemTable() {
         itemdetailstableLogic.setContainerDataSource(container);
         itemdetailstableLogic.sinkItemPerPageWithPageLength(false);
         itemdetailstable.setVisibleColumns(visibleColumn);
@@ -240,7 +240,7 @@ public final class AbstractItemDetails extends CustomComponent {
         ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), list.size(), this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));
     }
 
-    Component ConfigureTransferItemTable() {
+    Component configureTransferItemTable() {
 
         itemTransferTableLogic.setContainerDataSource(transferContainer);
         itemTransferTable.setVisibleColumns(visibleColumn);
