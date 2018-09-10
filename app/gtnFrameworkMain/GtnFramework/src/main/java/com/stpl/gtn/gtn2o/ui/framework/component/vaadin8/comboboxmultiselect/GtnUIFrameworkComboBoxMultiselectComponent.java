@@ -20,7 +20,6 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUiFrameworkComboBoxSourceType;
-import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkClassLoader;
@@ -76,7 +75,11 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 				List<String> valueList = new ArrayList<>(multiSelectResponse.getItemValueList());
 				comboBoxVaadinMultiSelect.setItems(idList);
 				comboBoxVaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
-                                setSelectedItemInComboboxMultiselect(checkedComboBoxConfig, comboBoxVaadinMultiSelect, idList,valueList);
+				setSelectedItemInComboboxMultiselect(checkedComboBoxConfig, comboBoxVaadinMultiSelect, idList,
+						valueList);
+				setPageLengthBasedOnTheNumberOfRecords(checkedComboBoxConfig.getItemValueList().size(),
+						comboBoxVaadinMultiSelect);
+
 			}
                         
 			return comboBoxVaadinMultiSelect;
@@ -88,12 +91,12 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 				comboBoxVaadinMultiSelect.setItems(checkedComboBoxConfig.getItemCodeList());
 				comboBoxVaadinMultiSelect.setItemCaptionGenerator(item -> checkedComboBoxConfig.getItemValueList()
 						.get(checkedComboBoxConfig.getItemCodeList().indexOf(item)));
-				
+				setPageLengthBasedOnTheNumberOfRecords(checkedComboBoxConfig.getItemValueList().size() ,comboBoxVaadinMultiSelect);
 				return comboBoxVaadinMultiSelect;
 				
 			}
 			comboBoxVaadinMultiSelect.setItems(checkedComboBoxConfig.getItemValueList());
-			new GtnUIFrameworkComboBoxComponent().setPageLengthBasedOnTheNumberOfRecords(checkedComboBoxConfig.getItemValueList().size() ,comboBoxVaadinMultiSelect);
+			setPageLengthBasedOnTheNumberOfRecords(checkedComboBoxConfig.getItemValueList().size() ,comboBoxVaadinMultiSelect);
 		}
 		
 		return comboBoxVaadinMultiSelect;
@@ -247,7 +250,7 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 				}
 			}
 			gtnLogger.info("Fill Data And Caption to the Component" + vaadinMultiSelect);
-			new GtnUIFrameworkComboBoxComponent().setPageLengthBasedOnTheNumberOfRecords(valueList.size() ,vaadinMultiSelect);
+			setPageLengthBasedOnTheNumberOfRecords(valueList.size() ,vaadinMultiSelect);
 			return vaadinMultiSelect;
 		} catch (Exception e) {
 			gtnLogger.error("Error message", e);
@@ -329,5 +332,36 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 			});
 		}
 	}
+	
+	public void setPageLengthBasedOnTheNumberOfRecords(int valueListSize, Component component) {
+
+		int[] arr = new int[7];
+
+		for (int i = 0; i < 7; i++) {
+			arr[i] = ((7 + i) - (valueListSize % (7 + i)));
+			if (valueListSize % (7 + i) == 0) {
+				arr[i] = 0;
+			}
+		}
+		if (component instanceof ComboBoxMultiselect) {
+			ComboBoxMultiselect comboBoxMultiselect = (ComboBoxMultiselect) component;
+			comboBoxMultiselect.setPageLength(7 + indexOfMin(arr));
+		}
+
+	}
+
+	private int indexOfMin(int[] a) {
+
+		int min = a[0];
+		int index = 0;
+		for (int i = 0; i < a.length; i++) {
+			if (min >= a[i]) {
+				min = a[i];
+				index = i;
+			}
+		}
+		return index;
+	}
+
 
 }
