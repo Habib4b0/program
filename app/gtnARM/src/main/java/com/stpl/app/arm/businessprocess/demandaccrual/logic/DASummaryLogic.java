@@ -242,7 +242,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
     }
 
     @Override
-    protected Object[] generateInputs(Object dto, SelectionDTO selection) {
+    protected Object[] generateInputs(Object accrualDto, SelectionDTO selection) {
 
         List<String[]> frequency = selection.getSummaryfrequencyList();
         Object[] returnObj = new Object[NumericConstants.TWO];
@@ -254,11 +254,11 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             String accrualViewType = "";
             String currentViewType = "";
             TreeMap<String, Integer> masterSids = null;
-            if (dto instanceof AdjustmentDTO) {
-                AdjustmentDTO val = (AdjustmentDTO) dto;
-                int levelNo = val.getLevelNo();
+            if (accrualDto instanceof AdjustmentDTO) {
+                AdjustmentDTO accrualVal = (AdjustmentDTO) accrualDto;
+                int levelNo = accrualVal.getLevelNo();
                 LOGGER.debug("levelNo----{}", levelNo);
-                masterSids = val.getMasterIds();
+                masterSids = accrualVal.getMasterIds();
 
                 if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
                     if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
@@ -274,7 +274,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                     accrualViewType = selection.getSummarydemandLevel().get(++levelNo);
                     accrualInputs.add(1);
                 }
-                masterSids.put(currentViewType, Integer.valueOf(val.getBranditemmasterSid()));
+                masterSids.put(currentViewType, Integer.valueOf(accrualVal.getBranditemmasterSid()));
             } else {
                 masterSids = new TreeMap<>();
                 if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
