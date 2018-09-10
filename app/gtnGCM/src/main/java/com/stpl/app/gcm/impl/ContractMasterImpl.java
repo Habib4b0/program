@@ -265,7 +265,6 @@ public class ContractMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(queryString.toString());
-            //return null;
         } 
         return resultList;
     }

@@ -21,11 +21,11 @@ public final class ValidationUtils {
     /**
      * The special characters.
      */
-    public final static String SPECIAL_CHARACTERS = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*";
+    public static final String SPECIAL_CHARACTERS = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*";
     /**
      * The special characters error msg.
      */
-    public final static String SPCL_CHARS_ERROR_MSG = "allowed Special characters are @,*,#,.,$,&,_,-";
+    public static final String SPCL_CHARS_ERROR_MSG = "allowed Special characters are @,*,#,.,$,&,_,-";
     public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("properties.validation");
     
     private ValidationUtils()
