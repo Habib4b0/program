@@ -104,9 +104,9 @@ public class GlobalChangeIndex extends CustomComponent implements View {
                 public void valueChange(Property.ValueChangeEvent event) {
 
                     if (valueChange) {
-                        String processName = String.valueOf(process.getValue());
+                        String processNameValue = String.valueOf(process.getValue());
                         String updateTypeVal = String.valueOf(updateType.getValue());                       
-                        if (Constants.ITEM_MANAGEMENT.equals(processName) && "Item Update".equals(updateTypeVal)) {
+                        if (Constants.ITEM_MANAGEMENT.equals(processNameValue) && "Item Update".equals(updateTypeVal)) {
                             if (modeSelectRadio.getValue().equals(ITEM_FAMILY_PLAN.getConstant())) {
                                 selection.setIsIFP(BooleanConstant.getTrueFlag());
                             } else {
@@ -129,11 +129,11 @@ public class GlobalChangeIndex extends CustomComponent implements View {
     @UiHandler("updateType")
     public void updateTypeLogic(Property.ValueChangeEvent event) {
         try {
-            String processName = String.valueOf(process.getValue());
+            String processNameUpdate = String.valueOf(process.getValue());
             String updateTypeVal = String.valueOf(updateType.getValue());
             sessionDTO = CommonUtils.attachSessionId(sessionDTO);
             sessionDTO.setModuleName(updateTypeVal);
-            if ("Customer Management".equals(processName)) {
+            if ("Customer Management".equals(processNameUpdate)) {
                     if (PROMOTE_TRADING_PARTNER.getConstant().equals(updateTypeVal)) {
 
                         layout.removeAllComponents();
@@ -189,7 +189,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
 
                 
 
-            } else if (Constants.ITEM_MANAGEMENT.equals(processName)) {
+            } else if (Constants.ITEM_MANAGEMENT.equals(processNameUpdate)) {
                 sessionDTO.setProcessName(Constants.ITEM_MANAGEMENT);
                 if ("Item Update".equals(updateTypeVal)) {
                     selection.setButtonMode(ConstantsUtil.EDIT);
@@ -217,7 +217,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
                 layout.addComponent(new ItemManagementIndex(selection));
                 customerSelectRadio.setItemEnabled(CUSTOMER_NEW.getConstant(), BooleanConstant.getFalseFlag());
 
-            } else if (CONTRACT_MANAGEMENT.getConstant().equals(processName)) {
+            } else if (CONTRACT_MANAGEMENT.getConstant().equals(processNameUpdate)) {
                 if ("Copy Contract".equals(updateTypeVal)) {
                     layout.removeAllComponents();
                     layout.addComponent(new CopyContractindex());
@@ -271,9 +271,9 @@ public class GlobalChangeIndex extends CustomComponent implements View {
 
     @UiHandler("customerSelectRadio")
     public void massUpdateEnDisLogic(Property.ValueChangeEvent event) {
-        String processName = String.valueOf(process.getValue());
+        String processNameEnd = String.valueOf(process.getValue());
         String updateTypeVal = String.valueOf(updateType.getValue());        
-        if ("Customer Management".equals(processName)) {
+        if ("Customer Management".equals(processNameEnd)) {
             try {
                 if (ADD_TRADING_PARTNER.getConstant().equals(updateTypeVal)) {
                     layout.removeAllComponents();
