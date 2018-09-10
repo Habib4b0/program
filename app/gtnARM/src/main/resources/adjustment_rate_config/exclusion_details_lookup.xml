@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Panel xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui" xmlns:ct="urn:import:org.asi.ui.customtextfield"
+<Panel xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui" xmlns:ct="urn:import:org.asi.ui.customtextfield"
        xmlns:eft="urn:import:org.asi.ui.extfilteringtable">
     <VerticalLayout margin = "true" spacing = "true" width="100%" height="100%">
         <Panel caption = "View"  spacing="true" width="100%" height="100%">
