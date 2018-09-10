@@ -190,7 +190,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(privateViewLookupLayoutConfig);
 
 		GtnUIFrameworkComponentConfig privateViewLookup = new GtnUIFrameworkComponentConfig();
-		privateViewLookup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+		privateViewLookup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		privateViewLookup.setComponentId(nameSpace + "_" + "privateViewLookup");
 		privateViewLookup.setComponentName("Private Views");
 		privateViewLookup.setAddToParent(Boolean.TRUE);
@@ -238,7 +238,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(publicViewLookupLayoutConfig);
 
 		GtnUIFrameworkComponentConfig publicViewLookup = new GtnUIFrameworkComponentConfig();
-		publicViewLookup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+		publicViewLookup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		publicViewLookup.setComponentId(nameSpace + "_" + "publicView");
 		publicViewLookup.setComponentName("Public Views");
 		publicViewLookup.setAddToParent(Boolean.TRUE);
@@ -439,10 +439,33 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 		componentList.add(generateBtn);
 
-		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
-		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName());
-		generateBtn.addGtnUIFrameWorkActionConfig(gtnUIFrameWorkGeneratePopupAction);
+		GtnUIFrameWorkActionConfig generateAction = new GtnUIFrameWorkActionConfig();
+		generateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		generateAction.addActionParameter(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName());
+		generateAction.addActionParameter("Commercial Forecasting_customerDualListBox");
+		generateAction.addActionParameter("Commercial Forecasting_productDualListBox");
+		generateAction.addActionParameter("forecastLandingScreen_customerHierarchy");
+		generateAction.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
+		generateAction.addActionParameter("Commercial_Forecasting_customerRelationshipVersion");
+		generateAction.addActionParameter("Commercial_Forecasting_customerSelectionForecastLevel");
+		generateAction.addActionParameter("Commercial_Forecasting_customerSelectionForecastEligibilityDate");
+		generateAction.addActionParameter("Commercial Forecasting_prodhierarchyName");
+		generateAction.addActionParameter("Commercial Forecasting_prodrelationship");
+		generateAction.addActionParameter("Commercial Forecasting_prodforecastLevel");
+		generateAction.addActionParameter("Commercial_Forecasting_productRelationshipVersion");
+		generateAction.addActionParameter("Commercial Forecasting_productGroup");
+		generateAction.addActionParameter("Commercial Forecasting_company");
+		generateAction.addActionParameter("Commercial Forecasting_businessUnit");
+		generateAction.addActionParameter("Commercial Forecasting_from");
+		generateAction.addActionParameter("Commercial Forecasting_productLevel");
+		generateAction.addActionParameter("Commercial Forecasting_to");
+		generateAction.addActionParameter("Commercial Forecasting_projectionName");
+		generateAction.addActionParameter("Commercial Forecasting_projectionDescription");
+		generateAction.addActionParameter("Commercial Forecasting_customerGroup");
+		generateAction.addActionParameter("Commercial_Forecasting_customerSelectionLevel");
+		generateAction.addActionParameter("Commercial Forecasting_privateViewLookup");
+		generateAction.addActionParameter("Commercial Forecasting_publicView");
+		generateBtn.addGtnUIFrameWorkActionConfig(generateAction);
 	}
 
 	private void addSearchBtn(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
