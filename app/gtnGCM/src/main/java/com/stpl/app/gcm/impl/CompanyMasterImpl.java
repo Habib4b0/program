@@ -103,6 +103,7 @@ public class CompanyMasterImpl {
 
         
         String sql = StringUtils.EMPTY;
+        String identifierNew = identifier;
         try {
 
             sql = SQlUtil.getQuery("com.companymaster.service.persistence.CompanyMasterFinder.findCompanyMaster");
@@ -111,10 +112,10 @@ public class CompanyMasterImpl {
                 sql += " and crti.companyQualifierSid="
                         + identifierType + " ";
             }
-            if (identifier.length() != 0) {
-                identifier = identifier.replace('*', '%');
+            if (identifierNew.length() != 0) {
+                identifierNew = identifierNew.replace('*', '%');
                 sql += " and crti.companyIdentifierValue like '"
-                        + identifier + "' ";
+                        + identifierNew + "' ";
             }
 
             if (companyId.length() != 0) {
@@ -174,6 +175,7 @@ public class CompanyMasterImpl {
         try {
 
             String andOperator = "";
+            String identifierNew = "";
             if (identifierType == 0 && identifier == null) {
 
                 sql = new StringBuilder(SQlUtil.getQuery("com.companymaster.service.persistence.CompanyMasterFinder.findCompanyMasterWithoutIdentifier"));
@@ -187,8 +189,8 @@ public class CompanyMasterImpl {
                     andOperator = CONST_AND;
                 }
                 if (identifier.length() != 0) {
-                    identifier = identifier.replace('*', '%');
-                    sql.append(andOperator).append(" crti.COMPANY_IDENTIFIER_VALUE like '").append(identifier).append("' ");
+                    identifierNew = identifier.replace('*', '%');
+                    sql.append(andOperator).append(" crti.COMPANY_IDENTIFIER_VALUE like '").append(identifierNew).append("' ");
                     andOperator = CONST_AND;
                 }
 

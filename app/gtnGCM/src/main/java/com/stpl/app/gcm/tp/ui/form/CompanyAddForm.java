@@ -200,11 +200,11 @@ public class CompanyAddForm extends VerticalLayout {
      */
     public final ErrorfulFieldGroup getBinder() {
         final CompanyCrtIdentifierDTO bean = new CompanyCrtIdentifierDTO();
-        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(bean));
-        binder.setBuffered(true);
-        binder.bindMemberFields(this);
-        binder.setErrorDisplay(errorMsg);
-        return binder;
+        final ErrorfulFieldGroup binderField = new ErrorfulFieldGroup(new BeanItem<>(bean));
+        binderField.setBuffered(true);
+        binderField.bindMemberFields(this);
+        binderField.setErrorDisplay(errorMsg);
+        return binderField;
     }
 
     protected final void configureFields() {
