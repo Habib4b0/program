@@ -74,7 +74,7 @@ public class RemoveDiscountLookUp extends Window {
         mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
         mainTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         mainTab.addTab(removeDiscount.getContent(selecteditemList, mainTab, summary, removeDiscount, userId, sessionId), "Discount Selection", null, 0);
-        mainTab.addTab(summary.getContent(selecteditemList, dto, mainTab, removeDiscount), "Summary", null, 1);
+        mainTab.addTab(summary.getContent(selecteditemList, dto, removeDiscount), "Summary", null, 1);
         baseLayout.addComponent(mainTab);
         baseLayout.addComponent(getActionButton());
         setResizable(true);

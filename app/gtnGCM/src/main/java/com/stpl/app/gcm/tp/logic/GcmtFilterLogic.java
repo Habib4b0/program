@@ -37,46 +37,46 @@ public class GcmtFilterLogic {
         return instance;
     }
 
-    public StringBuilder filterQueryGenerator(java.util.Set<Container.Filter> filterSet, Map<String, String> queryMap) {
-        StringBuilder str = new StringBuilder("AND ( * LIKE '?' OR * IS NULL )");
-        StringBuilder sql = new StringBuilder();
-        if (!filterSet.isEmpty()) {
-            for (Container.Filter filter : filterSet) {
-                if (filter instanceof SimpleStringFilter) {
-                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    if (queryMap.get(stringFilter.getPropertyId().toString()) != null && !queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) {
-                        if (sql.length() == 0) {
+    public StringBuilder filterQueryGenerator(java.util.Set<Container.Filter> filterSetGcmFilter, Map<String, String> queryMapGcm) {
+        StringBuilder strFilterGen = new StringBuilder("AND ( * LIKE '?' OR * IS NULL )");
+        StringBuilder sqlFilterGenerator = new StringBuilder();
+        if (!filterSetGcmFilter.isEmpty()) {
+            for (Container.Filter filterGcm : filterSetGcmFilter) {
+                if (filterGcm instanceof SimpleStringFilter) {
+                    SimpleStringFilter stringFilter = (SimpleStringFilter) filterGcm;
+                    if (queryMapGcm.get(stringFilter.getPropertyId().toString()) != null && !queryMapGcm.get(stringFilter.getPropertyId().toString()).isEmpty()) {
+                        if (sqlFilterGenerator.length() == 0) {
                             StringBuilder initial = new StringBuilder("where ( ( * LIKE '?' )");
                             StringBuilder temp = new StringBuilder(initial);
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMapGcm.get(stringFilter.getPropertyId().toString()));
                             temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
-                            sql.append(temp);
+                            sqlFilterGenerator.append(temp);
 
                         } else {
-                            StringBuilder temp = new StringBuilder(str);
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
-                            sql.append(temp);
+                            StringBuilder tempGcm = new StringBuilder(strFilterGen);
+                            tempGcm.replace(tempGcm.indexOf("*"), tempGcm.indexOf("*") + 1, queryMapGcm.get(stringFilter.getPropertyId().toString()));
+                            tempGcm.replace(tempGcm.indexOf("*"), tempGcm.indexOf("*") + 1, queryMapGcm.get(stringFilter.getPropertyId().toString()));
+                            tempGcm.replace(tempGcm.indexOf("?"), tempGcm.indexOf("?") + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
+                            sqlFilterGenerator.append(tempGcm);
                         }
                     }
                 }
-                if (filter instanceof Between) {
-                    betweenOperator(filter, queryMap, sql);
-                } else if (filter instanceof Compare) {
-                    Compare stringFilter = (Compare) filter;
-                    if (!queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) {
+                if (filterGcm instanceof Between) {
+                    betweenOperator(filterGcm, queryMapGcm, sqlFilterGenerator);
+                } else if (filterGcm instanceof Compare) {
+                    Compare stringFilter = (Compare) filterGcm;
+                    if (!queryMapGcm.get(stringFilter.getPropertyId().toString()).isEmpty()) {
                         Compare.Operation operation = stringFilter.getOperation();
-                        equalOperator(operation, stringFilter, sql, queryMap);
-                        greaterlOperator(operation, stringFilter, sql, queryMap);
-                        lessOperator(operation, stringFilter, sql, queryMap);
-                        dateOperator(stringFilter, operation, sql, queryMap);
+                        equalOperator(operation, stringFilter, sqlFilterGenerator, queryMapGcm);
+                        greaterlOperator(operation, stringFilter, sqlFilterGenerator, queryMapGcm);
+                        lessOperator(operation, stringFilter, sqlFilterGenerator, queryMapGcm);
+                        dateOperator(stringFilter, operation, sqlFilterGenerator, queryMapGcm);
                     }
                 }
             }
-            sql.append(')');
+            sqlFilterGenerator.append(')');
         }
-        return sql;
+        return sqlFilterGenerator;
     }
 
     public void betweenOperator(Container.Filter filter, Map<String, String> queryMap, StringBuilder sql) {
@@ -122,24 +122,24 @@ public class GcmtFilterLogic {
         }
     }
 
-    public void dateOperator(Compare stringFilter, Compare.Operation operation, StringBuilder sql, Map<String, String> queryMap) {
-        if (stringFilter.getValue() instanceof Date) {
-            Date value = (Date) stringFilter.getValue();
-            StringBuilder tempStart;
+    public void dateOperator(Compare stringFilterGcm, Compare.Operation operation, StringBuilder sqlGcm, Map<String, String> queryMap) {
+        if (stringFilterGcm.getValue() instanceof Date) {
+            Date valueGcm = (Date) stringFilterGcm.getValue();
+            StringBuilder tempStartGcm;
             if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                if (sql.length() == 0) {
-                    tempStart = new StringBuilder("where ( ( * >= '?')");
+                if (sqlGcm.length() == 0) {
+                    tempStartGcm = new StringBuilder("where ( ( * >= '?')");
                 } else {
-                    tempStart = new StringBuilder("AND ( * >='?')");
+                    tempStartGcm = new StringBuilder("AND ( * >='?')");
                 }
-            } else if (sql.length() == 0) {
-                tempStart = new StringBuilder("where ( ( * <='?')");
+            } else if (sqlGcm.length() == 0) {
+                tempStartGcm = new StringBuilder("where ( ( * <='?')");
             } else {
-                tempStart = new StringBuilder("AND ( * <='?' )");
+                tempStartGcm = new StringBuilder("AND ( * <='?' )");
             }
-            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, dbDate.format(value));
-            sql.append(tempStart);
+            tempStartGcm.replace(tempStartGcm.indexOf("*"), tempStartGcm.indexOf("*") + 1, queryMap.get(stringFilterGcm.getPropertyId().toString()));
+            tempStartGcm.replace(tempStartGcm.indexOf("?"), tempStartGcm.indexOf("?") + 1, dbDate.format(valueGcm));
+            sqlGcm.append(tempStartGcm);
         }
     }
 

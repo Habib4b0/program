@@ -137,7 +137,7 @@ public class CommonUtils {
     /**
      * The WorkFlowStatus list name.
      */
-    public final static String WORKFLOW_STATUS = "WorkFlowStatus";
+    public static final String WORKFLOW_STATUS = "WorkFlowStatus";
     /**
      * The Constant YES.
      */
@@ -1220,11 +1220,11 @@ public class CommonUtils {
         return object;
     }
 
-     public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString, toAddQuote, false);
+     public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToString(collectionOfString, toAddQuote, false);
     }
 
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {

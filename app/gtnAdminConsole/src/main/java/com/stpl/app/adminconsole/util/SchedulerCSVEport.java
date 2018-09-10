@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 public class SchedulerCSVEport {
 
 	private static final String CREATE_WORK_SHEET_CONTENT = "createWorkSheetContent";
-	public final static char QUOTE = '"';
+	public static final char QUOTE = '"';
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerCSVEport.class);
 	private static boolean isFileCreated;
 

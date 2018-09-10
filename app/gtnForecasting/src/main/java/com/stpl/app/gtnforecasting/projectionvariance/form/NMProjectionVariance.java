@@ -273,16 +273,16 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         nonMandatedForm = form;
         session = nonMandatedForm.getSessions();
         projectionId = session.getProjectionId();
-//        pvSelectionDTO.setUserId(Integer.parseInt(session.getUserId()));
-//        pvSelectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
-//        pvSelectionDTO.setSessionDTO(sessionDTO);
-//        excelTable.setVisible(false);
-//        if (flag) {
-//            configure();
-//        }
-//        flag = true;
-//        CommonUtil commonUtils = CommonUtil.getInstance();
-        //commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
+        pvSelectionDTO.setUserId(Integer.parseInt(session.getUserId()));
+        pvSelectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
+        pvSelectionDTO.setSessionDTO(sessionDTO);
+        excelTable.setVisible(false);
+        if (flag) {
+            configure();
+        }
+        flag = true;
+        CommonUtil commonUtils = CommonUtil.getInstance();
+        commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
 
         LOGGER.info("ProjectionVariance Constructor ends ");
     }
@@ -588,7 +588,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         if (editFlag || !projIdList.isEmpty()) {
             editFlag = false;
             try {
-                List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(projIdList), null, null);
+                List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(projIdList));
                 selectedList = logic.getCustomizedPVComparisonList(list);
             } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
@@ -1031,9 +1031,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         } else {
             List<Leveldto> newLevelList = null;
             if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getCustomerLevelNo(), projectionId, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, pvSelectionDTO.getGroupFilter(), pvSelectionDTO.getUserId(), pvSelectionDTO.getSessionId(), pvSelectionDTO.getCustRelationshipBuilderSid(), pvSelectionDTO.getSessionDTO().getAction());
+                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getCustomerLevelNo(), projectionId, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, pvSelectionDTO.getGroupFilter(), pvSelectionDTO.getUserId(), pvSelectionDTO.getSessionId());
             } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getProductLevelNo(), projectionId, Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY, pvSelectionDTO.getGroupFilter(), pvSelectionDTO.getUserId(), pvSelectionDTO.getSessionId(), pvSelectionDTO.getProdRelationshipBuilderSid(), pvSelectionDTO.getSessionDTO().getAction());
+                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getProductLevelNo(), projectionId, Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY, pvSelectionDTO.getGroupFilter(), pvSelectionDTO.getUserId(), pvSelectionDTO.getSessionId());
             }
             if (newLevelList != null) {
                 for (Leveldto levelDto : newLevelList) {
@@ -1879,9 +1879,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
                     generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
                 }
-                security();
+//                security();
                 flag = false;
-            } catch (PortalException | SystemException ex) {
+            } catch (SystemException ex) {
                 LoggerFactory.getLogger(NMProjectionVariance.class.getName()).error(StringUtils.EMPTY, ex);
             }
         }

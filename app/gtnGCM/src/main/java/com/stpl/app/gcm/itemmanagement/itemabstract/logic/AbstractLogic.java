@@ -91,7 +91,7 @@ public class AbstractLogic {
         return logic;
     }
 
-    public void LazyLoadDdlb(final ComboBox comboBox, String countFlag, String findFlag, Boolean isFilter) {
+    public void lazyLoadDdlb(final ComboBox comboBox, String countFlag, String findFlag, Boolean isFilter) {
         final List inputList = new ArrayList();
         inputList.add(countFlag);
         inputList.add(findFlag);
@@ -512,28 +512,28 @@ public class AbstractLogic {
         List<Object> input = new ArrayList();
         input.add(binderDto.getSystemId());
         if (selection.getComponent().equals(Constants.RS)) {
-            if (binderDto.getRsType_DTO() != null) {
-                input.add(binderDto.getRsType_DTO().getId());
+            if (binderDto.getRsTypeDto() != null) {
+                input.add(binderDto.getRsTypeDto().getId());
             } else {
                 input.add(Constants.PERCENT);
             }
-            if (binderDto.getRsProgramType_DTO() != null) {
-                input.add(binderDto.getRsProgramType_DTO().getId());
+            if (binderDto.getRsProgramTypeDto() != null) {
+                input.add(binderDto.getRsProgramTypeDto().getId());
             } else {
                 input.add(Constants.PERCENT);
             }
-            if (binderDto.getRsCategory_DTO() != null) {
-                input.add(binderDto.getRsCategory_DTO().getId());
+            if (binderDto.getRsCategoryDto() != null) {
+                input.add(binderDto.getRsCategoryDto().getId());
             } else {
                 input.add(Constants.PERCENT);
             }
-            if (binderDto.getPaymentFrequency_DTO() != null) {
-                input.add(binderDto.getPaymentFrequency_DTO().getId());
+            if (binderDto.getPaymentFrequencyDto() != null) {
+                input.add(binderDto.getPaymentFrequencyDto().getId());
             } else {
                 input.add(Constants.PERCENT);
             }
-            if (binderDto.getRebatePlanLevel_DTO() != null) {
-                input.add(binderDto.getRebatePlanLevel_DTO().getId());
+            if (binderDto.getRebatePlanLevelDto() != null) {
+                input.add(binderDto.getRebatePlanLevelDto().getId());
             } else {
                 input.add(Constants.PERCENT);
             }
@@ -568,7 +568,7 @@ public class AbstractLogic {
         return 0;
     }
 
-    public ComponentInfoDTO getComponentTextFields(final String componentFlag,Integer systemid,boolean isItemAddTab) {
+    public ComponentInfoDTO getComponentTextFields(final String componentFlag,Integer systemid) {
         List input = new ArrayList();
         ComponentInfoDTO dto = new ComponentInfoDTO();
         input.add(systemid);
@@ -582,17 +582,17 @@ public class AbstractLogic {
             dto.setComponentStartDate(str[NumericConstants.FIVE] == null ? null : (Date) str[NumericConstants.FIVE]);
             dto.setComponentEndDate(str[NumericConstants.SIX] == null ? null : (Date) str[NumericConstants.SIX]);
             if (componentFlag.equals("RS text")) {
-                dto.setRsType_Value((str[NumericConstants.FOUR] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
+                dto.setRsTypeValue((str[NumericConstants.FOUR] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
                         ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOUR]));
-                dto.setRebateFrequency_Value((str[NumericConstants.SEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
+                dto.setRebateFrequencyValue((str[NumericConstants.SEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
                         ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
-                dto.setRsProgramType_Value((str[NumericConstants.EIGHT] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
+                dto.setRsProgramTypeValue((str[NumericConstants.EIGHT] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
                         StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-                dto.setRsCategory_Value((str[NumericConstants.NINE] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
+                dto.setRsCategoryValue((str[NumericConstants.NINE] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
                         ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
-                dto.setPaymentFrequency_Value((str[NumericConstants.TEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
+                dto.setPaymentFrequencyValue((str[NumericConstants.TEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
                         StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
-                dto.setRebatePlanLevel_Value((str[NumericConstants.ELEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
+                dto.setRebatePlanLevelValue((str[NumericConstants.ELEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
                         StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
             }
         }
@@ -643,7 +643,7 @@ public class AbstractLogic {
         return input;
     }
 
-    public void LazyTableLoadDdlb(ComboBox comboBox, String loadItemStatusCount, String loadItemStatus) {
+    public void lazyTableLoadDdlb(ComboBox comboBox, String loadItemStatusCount, String loadItemStatus) {
         final List inputList = new ArrayList();
         inputList.add(loadItemStatusCount);
         inputList.add(loadItemStatus);
@@ -1241,8 +1241,8 @@ public class AbstractLogic {
             input.add(Constants.PERCENT);
         }
 
-        if (binderDto.getComponentStatus_DTO() != null) {
-            input.add(binderDto.getComponentStatus_DTO().getId());
+        if (binderDto.getComponentStatusDto() != null) {
+            input.add(binderDto.getComponentStatusDto().getId());
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1288,8 +1288,8 @@ public class AbstractLogic {
         } else {
             input.add(Constants.PERCENT);
         }
-        if (binderDto.getComponentStatus_DTO() != null) {
-            input.add(binderDto.getComponentStatus_DTO().getId());
+        if (binderDto.getComponentStatusDto() != null) {
+            input.add(binderDto.getComponentStatusDto().getId());
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1345,8 +1345,8 @@ public class AbstractLogic {
         } else {
             input.add(Constants.PERCENT);
         }
-        if (binderDto.getComponentStatus_DTO() != null) {
-            input.add(binderDto.getComponentStatus_DTO().getId());
+        if (binderDto.getComponentStatusDto() != null) {
+            input.add(binderDto.getComponentStatusDto().getId());
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1402,8 +1402,8 @@ public class AbstractLogic {
         } else {
             input.add(Constants.PERCENT);
         }
-        if (binderDto.getRsProgramType_DTO() != null) {
-            input.add(binderDto.getRsProgramType_DTO().getId());
+        if (binderDto.getRsProgramTypeDto() != null) {
+            input.add(binderDto.getRsProgramTypeDto().getId());
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1412,13 +1412,13 @@ public class AbstractLogic {
         } else {
             input.add(Constants.PERCENT);
         }
-        if (binderDto.getComponentStatus_DTO() != null) {
-            input.add(binderDto.getComponentStatus_DTO().getId());
+        if (binderDto.getComponentStatusDto() != null) {
+            input.add(binderDto.getComponentStatusDto().getId());
         } else {
             input.add(Constants.PERCENT);
         }
-        if (binderDto.getComponentCategory_DTO() != null) {
-            input.add(binderDto.getComponentCategory_DTO().getId());
+        if (binderDto.getComponentCategoryDto() != null) {
+            input.add(binderDto.getComponentCategoryDto().getId());
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1499,18 +1499,18 @@ public class AbstractLogic {
         List finalResult = new ArrayList();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
-            dto.setComponentId(ObjNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
-            dto.setComponentNo(ObjNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
-            dto.setComponentName(ObjNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
-            dto.setComponentType(ObjNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
-            dto.setCategory(ObjNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
-            dto.setDesignation(ObjNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
-            dto.setPlanId(ObjNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
-            dto.setPlanName(ObjNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
-            dto.setComponentStatus(ObjNullCheck(str[NumericConstants.EIGHT]) ? StringUtils.EMPTY : (String) str[NumericConstants.EIGHT]);
-            dto.setTradeClass(ObjNullCheck(str[NumericConstants.NINE]) ? StringUtils.EMPTY : (String) str[NumericConstants.NINE]);
-            dto.setStartDate(ObjNullCheck(str[NumericConstants.TEN]) ? null : (Date) str[NumericConstants.TEN]);
-            dto.setEndDate(ObjNullCheck(str[NumericConstants.ELEVEN]) ? null : (Date) str[NumericConstants.ELEVEN]);
+            dto.setComponentId(objNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
+            dto.setComponentNo(objNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
+            dto.setComponentName(objNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
+            dto.setComponentType(objNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
+            dto.setCategory(objNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
+            dto.setDesignation(objNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
+            dto.setPlanId(objNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
+            dto.setPlanName(objNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
+            dto.setComponentStatus(objNullCheck(str[NumericConstants.EIGHT]) ? StringUtils.EMPTY : (String) str[NumericConstants.EIGHT]);
+            dto.setTradeClass(objNullCheck(str[NumericConstants.NINE]) ? StringUtils.EMPTY : (String) str[NumericConstants.NINE]);
+            dto.setStartDate(objNullCheck(str[NumericConstants.TEN]) ? null : (Date) str[NumericConstants.TEN]);
+            dto.setEndDate(objNullCheck(str[NumericConstants.ELEVEN]) ? null : (Date) str[NumericConstants.ELEVEN]);
             finalResult.add(dto);
         }
         return finalResult;
@@ -1526,16 +1526,16 @@ public class AbstractLogic {
         List finalResult = new ArrayList();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
-            dto.setComponentNo(ObjNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
-            dto.setComponentName(ObjNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
-            dto.setComponentType(ObjNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
-            dto.setCategory(ObjNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
-            dto.setDesignation(ObjNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
-            dto.setPlanId(ObjNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
-            dto.setPlanName(ObjNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
-            dto.setComponentStatus(ObjNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
-            dto.setStartDate(ObjNullCheck(str[NumericConstants.EIGHT]) ? null : (Date) str[NumericConstants.EIGHT]);
-            dto.setEndDate(ObjNullCheck(str[NumericConstants.NINE]) ? null : (Date) str[NumericConstants.NINE]);
+            dto.setComponentNo(objNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
+            dto.setComponentName(objNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
+            dto.setComponentType(objNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
+            dto.setCategory(objNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
+            dto.setDesignation(objNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
+            dto.setPlanId(objNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
+            dto.setPlanName(objNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
+            dto.setComponentStatus(objNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
+            dto.setStartDate(objNullCheck(str[NumericConstants.EIGHT]) ? null : (Date) str[NumericConstants.EIGHT]);
+            dto.setEndDate(objNullCheck(str[NumericConstants.NINE]) ? null : (Date) str[NumericConstants.NINE]);
             finalResult.add(dto);
         }
         return finalResult;
@@ -1551,17 +1551,17 @@ public class AbstractLogic {
         List finalResult = new ArrayList();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
-            dto.setComponentNo(ObjNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
-            dto.setComponentName(ObjNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
-            dto.setComponentType(ObjNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
-            dto.setCategory(ObjNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
-            dto.setTradeClass(ObjNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
-            dto.setDesignation(ObjNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
-            dto.setPlanId(ObjNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
-            dto.setPlanName(ObjNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
-            dto.setComponentStatus(ObjNullCheck(str[NumericConstants.EIGHT]) ? StringUtils.EMPTY : (String) str[NumericConstants.EIGHT]);
-            dto.setStartDate(ObjNullCheck(str[NumericConstants.NINE]) ? null : (Date) str[NumericConstants.NINE]);
-            dto.setEndDate(ObjNullCheck(str[NumericConstants.TEN]) ? null : (Date) str[NumericConstants.TEN]);
+            dto.setComponentNo(objNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
+            dto.setComponentName(objNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
+            dto.setComponentType(objNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
+            dto.setCategory(objNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
+            dto.setTradeClass(objNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
+            dto.setDesignation(objNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
+            dto.setPlanId(objNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
+            dto.setPlanName(objNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
+            dto.setComponentStatus(objNullCheck(str[NumericConstants.EIGHT]) ? StringUtils.EMPTY : (String) str[NumericConstants.EIGHT]);
+            dto.setStartDate(objNullCheck(str[NumericConstants.NINE]) ? null : (Date) str[NumericConstants.NINE]);
+            dto.setEndDate(objNullCheck(str[NumericConstants.TEN]) ? null : (Date) str[NumericConstants.TEN]);
 
             finalResult.add(dto);
         }
@@ -1578,25 +1578,25 @@ public class AbstractLogic {
         List finalResult = new ArrayList();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
-            dto.setComponentId(ObjNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
-            dto.setComponentNo(ObjNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
-            dto.setComponentName(ObjNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
-            dto.setComponentType(ObjNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
-            dto.setRsProgramType(ObjNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
-            dto.setCategory(ObjNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
-            dto.setTradeClass(ObjNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
-            dto.setDesignation(ObjNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
-            dto.setPlanId(ObjNullCheck(str[NumericConstants.EIGHT]) ? StringUtils.EMPTY : (String) str[NumericConstants.EIGHT]);
-            dto.setPlanName(ObjNullCheck(str[NumericConstants.NINE]) ? StringUtils.EMPTY : (String) str[NumericConstants.NINE]);
-            dto.setComponentStatus(ObjNullCheck(str[NumericConstants.TEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.TEN]);
-            dto.setStartDate(ObjNullCheck(str[NumericConstants.ELEVEN]) ? null : (Date) str[NumericConstants.ELEVEN]);
-            dto.setEndDate(ObjNullCheck(str[NumericConstants.TWELVE]) ? null : (Date) str[NumericConstants.TWELVE]);
+            dto.setComponentId(objNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
+            dto.setComponentNo(objNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
+            dto.setComponentName(objNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
+            dto.setComponentType(objNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
+            dto.setRsProgramType(objNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
+            dto.setCategory(objNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
+            dto.setTradeClass(objNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
+            dto.setDesignation(objNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
+            dto.setPlanId(objNullCheck(str[NumericConstants.EIGHT]) ? StringUtils.EMPTY : (String) str[NumericConstants.EIGHT]);
+            dto.setPlanName(objNullCheck(str[NumericConstants.NINE]) ? StringUtils.EMPTY : (String) str[NumericConstants.NINE]);
+            dto.setComponentStatus(objNullCheck(str[NumericConstants.TEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.TEN]);
+            dto.setStartDate(objNullCheck(str[NumericConstants.ELEVEN]) ? null : (Date) str[NumericConstants.ELEVEN]);
+            dto.setEndDate(objNullCheck(str[NumericConstants.TWELVE]) ? null : (Date) str[NumericConstants.TWELVE]);
             finalResult.add(dto);
         }
         return finalResult;
     }
 
-    public static Boolean ObjNullCheck(Object obj) {
+    public static Boolean objNullCheck(Object obj) {
         if (obj == null || Constants.NULL.equals(obj) || Constants.SELECT_ONE.contains(String.valueOf(obj))) {
             return Boolean.TRUE;
         } else {
@@ -1905,7 +1905,7 @@ public class AbstractLogic {
         return searchColumn;
     }
     
-    public String updateBaseLineWacColumn(String baseLineColumnName, Object baseLineValue, AbstractContractSearchDTO dto, SelectionDTO selection) {
+    public String updateBaseLineWacColumn(String baseLineColumnName, Object baseLineValue, SelectionDTO selection) {
         String operation = ConstantsUtil.TRANSFER.equals(selection.getButtonMode()) ? ConstantsUtil.TRANSFER_CONTRACT : selection.getButtonMode();
         String updateQuery = "UPDATE GCM_GLOBAL_DETAILS SET " + baseLineColumnName + " ='" + baseLineValue + "' WHERE SESSION_ID ='" + selection.getSessionId() + "' "
                 + " AND OPERATION ='" + operation + "' " + Constants.AND_CHECK_RECORD;

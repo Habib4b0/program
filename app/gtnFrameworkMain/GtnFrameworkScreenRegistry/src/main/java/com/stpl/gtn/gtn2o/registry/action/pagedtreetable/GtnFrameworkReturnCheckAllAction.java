@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.registry.action.pagedtreetable;
 
+import com.stpl.gtn.gtn2o.registry.action.GtnCustomerAvailableTableLoadAction;
 import java.util.Set;
 
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
@@ -7,19 +8,25 @@ import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActionParameter;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -63,10 +70,21 @@ public class GtnFrameworkReturnCheckAllAction
 
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 
-		client.callGtnWebServiceUrl(
+		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
 				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_UPDATE_CHECKBOX_SERVICE,
 				GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME, gtnWsRequest,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                
+                if (response == null) {
+                GtnUIFrameWorkActionConfig alert = new GtnUIFrameWorkActionConfig();
+                alert.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+                alert.addActionParameter("Error");
+                alert.addActionParameter("Requested Url " + GtnWsReportConstants.GTN_REPORT_SERVICE
+                        + GtnWsReportConstants.GTN_REPORT_LOADELIGIBLEDATE_SERVICE
+                        + " not found");
+                GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alert);
+                return;
+            }
 
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData("resultTable",
 				componentId);

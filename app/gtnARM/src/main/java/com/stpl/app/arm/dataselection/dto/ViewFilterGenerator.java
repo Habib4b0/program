@@ -60,6 +60,10 @@ public class ViewFilterGenerator implements ExtFilterGenerator {
         }
         return null;
     }
+    @Override
+    public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        LOGGER.debug("Inside filterAdded Method");
+    }
 
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
@@ -90,19 +94,14 @@ public class ViewFilterGenerator implements ExtFilterGenerator {
         return null;
     }
 
-    @Override
-    public void filterRemoved(Object propertyId) {
-        LOGGER.debug("Inside filterRemoved Method");
-    }
-
-    @Override
-    public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-        LOGGER.debug("Inside filterAdded Method");
-    }
-
+    
     @Override
     public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
         return null;
+    }
+    @Override
+    public void filterRemoved(Object propertyId) {
+        LOGGER.debug("Inside filterRemoved Method");
     }
 
 }

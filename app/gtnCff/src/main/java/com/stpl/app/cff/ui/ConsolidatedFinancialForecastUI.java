@@ -122,8 +122,8 @@ public class ConsolidatedFinancialForecastUI extends UI {
 	 *
 	 */
 	public static void makeSessionInValidate() {
-		if (isEXCEL_CLOSE()) { // Fix to avoid blank page issue while excel export
-			setEXCEL_CLOSE(false);
+		if (isExcelClose()) { // Fix to avoid blank page issue while excel export
+			setExcelClose(false);
 		} else {
 			UI.getCurrent().close();
 		}
@@ -143,11 +143,11 @@ public class ConsolidatedFinancialForecastUI extends UI {
 		});
 	}
 
-	public static boolean isEXCEL_CLOSE() {
+	public static boolean isExcelClose() {
 		return EXCEL_CLOSE;
 	}
 
-	public static void setEXCEL_CLOSE(boolean excelClose) {
+	public static void setExcelClose(boolean excelClose) {
 		EXCEL_CLOSE = excelClose;
 	}
 }

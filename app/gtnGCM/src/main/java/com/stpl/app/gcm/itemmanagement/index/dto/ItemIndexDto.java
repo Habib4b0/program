@@ -69,75 +69,75 @@ public class ItemIndexDto {
         this.identifier = identifier;
     }
 
-    public HelperDTO getTherapeuticClass_DTO() {
+    public HelperDTO getTherapeuticClassDto() {
         return therapeuticClassDTO;
     }
 
-    public void setTherapeuticClass_DTO(HelperDTO therapeuticClassDto) {
+    public void setTherapeuticClassDto(HelperDTO therapeuticClassDto) {
         this.therapeuticClassDTO = therapeuticClassDto;
     }
 
-    public HelperDTO getForm_DTO() {
+    public HelperDTO getFormDto() {
         return formDTO;
     }
 
-    public void setForm_DTO(HelperDTO formDto) {
+    public void setFormDto(HelperDTO formDto) {
         this.formDTO = formDto;
     }
 
-    public HelperDTO getIdentifierType_DTO() {
+    public HelperDTO getIdentifierTypeDto() {
         return identifierTypeDTO;
     }
 
-    public void setIdentifierType_DTO(HelperDTO identifierTypeDto) {
+    public void setIdentifierTypeDto(HelperDTO identifierTypeDto) {
         this.identifierTypeDTO = identifierTypeDto;
     }
 
-    public HelperDTO getBrand_DTO() {
+    public HelperDTO getBrandDto() {
         return brandDTO;
     }
 
-    public void setBrand_DTO(HelperDTO brandDto) {
+    public void setBrandDto(HelperDTO brandDto) {
         this.brandDTO = brandDto;
     }
 
-    public HelperDTO getStrength_DTO() {
+    public HelperDTO getStrengthDto() {
         return strengthDTO;
     }
 
-    public void setStrength_DTO(HelperDTO strengthDto) {
+    public void setStrengthDto(HelperDTO strengthDto) {
         this.strengthDTO = strengthDto;
     }
 
-    public HelperDTO getCompany_DTO() {
+    public HelperDTO getCompanyDto() {
         return companyDTO;
     }
 
-    public void setCompany_DTO(HelperDTO companyDto) {
+    public void setCompanyDto(HelperDTO companyDto) {
         this.companyDTO = companyDto;
     }
 
-    public HelperDTO getPlaceHolder_DTO() {
+    public HelperDTO getPlaceHolderDto() {
         return placeHolderDTO;
     }
 
-    public void setPlaceHolder_DTO(HelperDTO placeHolderDto) {
+    public void setPlaceHolderDto(HelperDTO placeHolderDto) {
         this.placeHolderDTO = placeHolderDto;
     }
 
-    public HelperDTO getItemCategory_DTO() {
+    public HelperDTO getItemCategoryDto() {
         return itemCategoryDTO;
     }
 
-    public void setItemCategory_DTO(HelperDTO itemCategoryDto) {
+    public void setItemCategoryDto(HelperDTO itemCategoryDto) {
         this.itemCategoryDTO = itemCategoryDto;
     }
 
-    public HelperDTO getItemType_DTO() {
+    public HelperDTO getItemTypeDto() {
         return itemTypeDTO;
     }
 
-    public void setItemType_DTO(HelperDTO itemTypeDto) {
+    public void setItemTypeDto(HelperDTO itemTypeDto) {
         this.itemTypeDTO = itemTypeDto;
     }
 

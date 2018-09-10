@@ -54,11 +54,11 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
 
     @Override
     public List<Object> getMonthYear() {
-        String sql = SQlUtil.getQuery("getMonthYear");
-        List result = HelperTableLocalServiceUtil.executeSelectQuery(sql);
+        String sqlQuery = SQlUtil.getQuery("getMonthYear");
+        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
         List<Object> defaultValues = new ArrayList<>();
-        if (!result.isEmpty()) {
-            Object[] value = (Object[]) result.get(0);
+        if (!resultList.isEmpty()) {
+            Object[] value = (Object[]) resultList.get(0);
             for (Object value1 : value) {
                 defaultValues.add(String.valueOf(value1));
             }
@@ -69,65 +69,65 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
     /**
      * Get month name from month number
      *
-     * @param monthNo
+     * @param inflationMonthNo
      * @return Jan-1........Dec-12
      */
-    public static String getMonthName(int monthNo) {
-        String monthName = StringUtils.EMPTY;
+    public static String getMonthName(int inflationMonthNo) {
+        String inventoryMonthName = StringUtils.EMPTY;
         try {
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
             String[] months = dateFormatSymbols.getShortMonths();
-            monthName = months[monthNo - 1];
+            inventoryMonthName = months[inflationMonthNo - 1];
         } catch (Exception e) {
             LOGGER.error("Error in getMonthName :", e);
         }
-        return monthName;
+        return inventoryMonthName;
     }
 
-    public int getSalesCount(Object parentId, E selection) {
+    public int getSalesCount(Object inflationParentId, E inflationSelection) {
 
         List input = new ArrayList();
         int levelNo;
-        TreeMap<String, Integer> masterSids;
-        input.add(selection.getDataSelectionDTO().getProjectionId());
-        if (parentId instanceof AdjustmentDTO) {
-            AdjustmentDTO dto = (AdjustmentDTO) parentId;
+        TreeMap<String, Integer> inflationMasterSids;
+        input.add(inflationSelection.getDataSelectionDTO().getProjectionId());
+        if (inflationParentId instanceof AdjustmentDTO) {
+            AdjustmentDTO dto = (AdjustmentDTO) inflationParentId;
             levelNo = dto.getLevelNo();
 
-            masterSids = (TreeMap<String, Integer>) dto.getMasterIds().clone();
-            masterSids.put(ARMUtils.getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo), Integer.valueOf(dto.getBranditemmasterSid()));
+            inflationMasterSids = (TreeMap<String, Integer>) dto.getMasterIds().clone();
+            inflationMasterSids.put(ARMUtils.getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo), Integer.valueOf(dto.getBranditemmasterSid()));
             levelNo++;
         } else {
-            masterSids = ARMUtils.getMasterIdsMapForTrx6();
+            inflationMasterSids = ARMUtils.getMasterIdsMapForTrx6();
             levelNo = 1;
-            if ("Brand".equals(selection.getSaleslevelFilterValue())) {
+            if ("Brand".equals(inflationSelection.getSaleslevelFilterValue())) {
                 levelNo = NumericConstants.TWO;
-            } else if ("Product".equals(selection.getSaleslevelFilterValue())) {
+            } else if ("Product".equals(inflationSelection.getSaleslevelFilterValue())) {
                 levelNo = NumericConstants.THREE;
             }
         }
         input.add(ARMUtils.getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo));
-        if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
+        if (inflationSelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
             input.add(ARM_INFLATION_INVENTORY);
         } else {
-            input.add(selection.getSessionDTO().getCurrentTableNames().get("ST_ARM_INFLATION_INVENTORY"));
+            input.add(inflationSelection.getSessionDTO().getCurrentTableNames().get("ST_ARM_INFLATION_INVENTORY"));
         }
-        for (Map.Entry<String, Integer> entry : masterSids.entrySet()) {
+        for (Map.Entry<String, Integer> entry : inflationMasterSids.entrySet()) {
             input.add(entry.getValue() == null ? "%" : entry.getValue());
         }
         List result = QueryUtils.getItemData(input, "getTrx6_Inventory_Count", null);
         return CommonLogic.getCount(result);
     }
 
-    public List<AdjustmentDTO> getSalesData(Object parentId, E selection, int start, int offset) {
+    public List<AdjustmentDTO> getSalesData(Object inflationParentId, E inflationSelection, int start, int offset) {
 
         List input = new ArrayList();
         int levelNo = 0;
         TreeMap<String, Integer> masterSids;
-        input.add(selection.getDataSelectionDTO().getProjectionId());
-        input.add(selection.getSaleslevelFilterValue());
-        if (parentId instanceof AdjustmentDTO) {
-            AdjustmentDTO dto = (AdjustmentDTO) parentId;
+        input.add(inflationSelection.getDataSelectionDTO().getProjectionId());
+        input.add(inflationSelection.getSaleslevelFilterValue());
+        if (inflationParentId instanceof AdjustmentDTO) {
+            AdjustmentDTO dto = (AdjustmentDTO) inflationParentId;
             levelNo = dto.getLevelNo();
             masterSids = (TreeMap<String, Integer>) dto.getMasterIds().clone();
             masterSids.put(ARMUtils.getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo), Integer.valueOf(dto.getBranditemmasterSid()));
@@ -135,19 +135,19 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
         } else {
             masterSids = ARMUtils.getMasterIdsMapForTrx6();
             levelNo = 1;
-            if ("Brand".equals(selection.getSaleslevelFilterValue())) {
+            if ("Brand".equals(inflationSelection.getSaleslevelFilterValue())) {
                 levelNo = NumericConstants.TWO;
-            } else if ("Product".equals(selection.getSaleslevelFilterValue())) {
+            } else if ("Product".equals(inflationSelection.getSaleslevelFilterValue())) {
                 levelNo = NumericConstants.THREE;
             }
         }
-        selection.setLevelNo(levelNo);
-        selection.setMasterSids(masterSids);
+        inflationSelection.setLevelNo(levelNo);
+        inflationSelection.setMasterSids(masterSids);
         input.add(ARMUtils.getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo));
-        if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
+        if (inflationSelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
             input.add(ARM_INFLATION_INVENTORY);
         } else {
-            input.add(selection.getSessionDTO().getCurrentTableNames().get("ST_ARM_INFLATION_INVENTORY"));
+            input.add(inflationSelection.getSessionDTO().getCurrentTableNames().get("ST_ARM_INFLATION_INVENTORY"));
         }
 
         for (Map.Entry<String, Integer> entry : masterSids.entrySet()) {
@@ -156,7 +156,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
         input.add(start);
         input.add(offset);
         List result = QueryUtils.getItemData(input, "getTrx6_SgetSalesBrandInventory", null);
-        return cutomize(result, selection);
+        return cutomize(result, inflationSelection);
     }
 
     private List<AdjustmentDTO> cutomize(List<Object[]> data, E selection) {
@@ -222,19 +222,19 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
     }
 
     @Override
-    public List getExcelResultList(AbstractSelectionDTO selection) {
+    public List getExcelResultList(AbstractSelectionDTO inflationSelection) {
         String query;
-        boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
+        boolean isView = inflationSelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (isView) {
             query = SQlUtil.getQuery("getInventoryExcelQuery_For_TRx6_View");
         } else {
             query = SQlUtil.getQuery("getInventoryExcelQuery_For_TRx6");
         }
-        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
-        query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
-        query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
+        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(inflationSelection.getProjectionMasterSid()));
+        query = query.replace("@USERID", String.valueOf(inflationSelection.getSessionDTO().getUserId()));
+        query = query.replace("@SESSIONID", String.valueOf(inflationSelection.getSessionDTO().getSessionId()));
         query = query.replace("@ARM_INVENTORY_TABLE_VIEW", isView ? ARM_INFLATION_INVENTORY : "CONCAT( 'ST_ARM_INFLATION_INVENTORY_', @USER_ID, '_', @SESSION_ID, '_', REPLACE( CONVERT( VARCHAR( 50 ), GETDATE(), 2 ), '.', '' ))");
-        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
+        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, inflationSelection.getSessionDTO().getCurrentTableNames()));
     }
 
     @Override
@@ -249,22 +249,22 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
         List<String> columnList = getColumns(selection.getSalesVariables());
         String[] variableVisibleColumn = selection.getVariableVisibleColumns();
         HashMap<String, String> map = new HashMap<>();
-        for (String column : variableVisibleColumn) {
-            singleColumn.add(column + "." + index++);
+        for (String inflationColumn : variableVisibleColumn) {
+            singleColumn.add(inflationColumn + "." + index++);
 
-            if (columnList.contains(column)) {
-                int listIndex = columnList.indexOf(column);
+            if (columnList.contains(inflationColumn)) {
+                int listIndex = columnList.indexOf(inflationColumn);
                 String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + "." + index;
                 String header = selection.getSalesVariables().get(listIndex)[1];
                 singleVisibleColumn.add(visibleColumn);
                 singleVisibleHeader.add(header);
             }
 
-            if (column.contains("~") && columnList.contains(column)) {
-                int listIndex = columnList.indexOf(column);
+            if (inflationColumn.contains("~") && columnList.contains(inflationColumn)) {
+                int listIndex = columnList.indexOf(inflationColumn);
                 String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + "." + index;
                 defaultVisibleColumn.add(visibleColumn);
-            } else if (!column.contains("~")) {
+            } else if (!inflationColumn.contains("~")) {
                 String column1 = ARMUtils.getVariableInventoryVisibleColumn()[defaultindex++];
                 String visibleColumn = column1 + "." + index;
                 defaultVisibleColumn.add(visibleColumn);

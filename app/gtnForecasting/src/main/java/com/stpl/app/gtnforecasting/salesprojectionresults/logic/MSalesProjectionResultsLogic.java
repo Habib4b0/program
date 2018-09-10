@@ -273,7 +273,7 @@ public class MSalesProjectionResultsLogic {
 
     public List<SalesProjectionResultsDTO> getContractSalesAndUnits(ProjectionSelectionDTO projSelDTO) {
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(getSalesProjectionResultsSalesQuery(projSelDTO), null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(getSalesProjectionResultsSalesQuery(projSelDTO));
         return getCustomizedSalesProjectionResultsSales(list, projSelDTO);
     }
 
@@ -405,7 +405,7 @@ public class MSalesProjectionResultsLogic {
     public List<SalesProjectionResultsDTO> getProjectionPivot(ProjectionSelectionDTO projSelDTO) {
         List<SalesProjectionResultsDTO> projDTOList;
 
-        List<Object[]> gtsList = (List<Object[]>) CommonLogic.executeSelectQuery(getSalesProjectionResultsSalesQuery(projSelDTO), null, null);
+        List<Object[]> gtsList = (List<Object[]>) CommonLogic.executeSelectQuery(getSalesProjectionResultsSalesQuery(projSelDTO));
         projDTOList = getCustomizedProjectionPivot(gtsList, projSelDTO);
         if (projSelDTO.getProjectionOrder().equalsIgnoreCase(Constant.DESCENDING)) {
             Collections.reverse(projDTOList);

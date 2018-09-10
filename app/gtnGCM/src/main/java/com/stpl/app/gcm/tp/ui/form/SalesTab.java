@@ -112,7 +112,7 @@ public class SalesTab extends VerticalLayout {
     private ExtCustomTreeTable exportSalesPeriodViewTable;
     private ExtTreeContainer<SalesTabDTO> excelSalesBean = new ExtTreeContainer<>(SalesTabDTO.class, ExtContainer.DataStructureMode.MAP);
     private final LoadTabLogic tabLogic = new LoadTabLogic();
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     private final SessionDTO session;
     private boolean load = false;
     private int projectionId = 0;
@@ -433,7 +433,7 @@ public class SalesTab extends VerticalLayout {
      * @return the list
      */
     protected final List<String> loadHistory(String frequency, String period) {
-        List<String> history = new ArrayList<>();
+        List<String> historyload = new ArrayList<>();
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.equals(frequency)) {
@@ -456,13 +456,13 @@ public class SalesTab extends VerticalLayout {
         for (int i = 1; i <= endValue; i++) {
             if ((i == 1) && (QUARTERS.getConstant().equals(freq) || MONTHS.getConstant().equals(freq) || YEARS.getConstant().equals(freq))) {
                 period = freq.replace("s", StringUtils.EMPTY);
-                history.add(String.valueOf(i) + SPACE + period);
+                historyload.add(String.valueOf(i) + SPACE + period);
             } else {
-                history.add(String.valueOf(i) + SPACE + freq);
+                historyload.add(String.valueOf(i) + SPACE + freq);
             }
         }
 
-        return history;
+        return historyload;
     }
 
 	public boolean isLoad() {

@@ -114,12 +114,12 @@ public abstract class Summary extends CustomComponent {
         Panel panel = new Panel();
         panel.setContent(layout);
         configureFields();
-        ConfigureSalesSummaryTable();
+        configureSalesSummaryTable();
         loadResultTable();
         return panel;
     }
 
-    void ConfigureSalesSummaryTable() {
+    void configureSalesSummaryTable() {
         fullHeader = new CustomTableHeaderDTO();
         String[] his = history.getValue().toString().split(" ");
         selectionDTO.setFrequency(StringConstantsUtil.QUARTER_LABEL);

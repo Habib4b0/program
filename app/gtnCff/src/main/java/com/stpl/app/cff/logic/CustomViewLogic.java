@@ -6,7 +6,6 @@
 package com.stpl.app.cff.logic;
 
 import com.stpl.app.cff.ui.projectionresults.dto.LevelMapKey;
-import com.stpl.app.cff.util.HelperListUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -48,7 +47,7 @@ public class CustomViewLogic {
 
     }
 
-    public void split_ccp(List<Object[]> rawList) {
+    public void splitCcp(List<Object[]> rawList) {
         LOGGER.debug("spliting the ccp data :");
         levelNoSet.clear();
         if (ccpMap != null) {

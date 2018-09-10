@@ -250,7 +250,7 @@ public class ForecastForm extends AbstractForm {
       
 	public ForecastForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, SessionDTO session,
 			ForecastEditWindow editWindow, final ExtFilterTable resultTable, final String screenName,
-			final DataSelectionForm dataSelectionForm, ForecastWindow forecastWindow) throws Exception {
+			final DataSelectionForm dataSelectionForm, ForecastWindow forecastWindow) {
 
 		this.dataSelectionBinder = dataSelectionBinder;
 		this.dataSelectionDTO = dataSelectionDTO;
@@ -276,6 +276,7 @@ public class ForecastForm extends AbstractForm {
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			LOGGER.info(e.getMessage(),e);
 		}
 	}
         

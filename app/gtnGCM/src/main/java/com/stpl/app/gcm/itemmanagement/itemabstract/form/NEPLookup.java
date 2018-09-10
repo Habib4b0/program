@@ -15,7 +15,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
@@ -156,9 +155,7 @@ public class NEPLookup extends Window {
         CommonUtil.loadComboBoxForGCM(netSalesFormulaType, Constants.NS_FORMULA_TYPE_LISTNAME, false);
     }
 
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-        return;
-    }
+    
 
     @UiHandler("closeBtn")
     public void closeButton(Button.ClickEvent event) {

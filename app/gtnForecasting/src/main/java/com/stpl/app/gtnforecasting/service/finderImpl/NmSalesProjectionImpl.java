@@ -15,6 +15,7 @@ import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.SEMI_ANNUAL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -2493,7 +2494,7 @@ if(!custom){
         } catch (Exception ex) {
             LOGGER.error(StringUtils.EMPTY,ex);
             LOGGER.error(customQuery);
-            return null;
+            return Collections.emptyList();
         } 
     }
 }

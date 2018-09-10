@@ -117,7 +117,7 @@ public class BusinessRoleModuleImpl {
 		} 
 	}
 	
-	 public Object executeSelectQuery(String query, Object udc1) {
+	 public Object executeSelectQuery(String query) {
 	        
 	        List<Object[]> returnList = new ArrayList<>();
 	        try {
@@ -223,7 +223,7 @@ public class BusinessRoleModuleImpl {
 		}
 			
 			@SuppressWarnings("rawtypes")
-			public List findsubmodulePropertyDetails(String businessRoleName,String moduleName,String subModuleName){
+			public List findsubmodulePropertyDetails(String moduleName,String subModuleName){
 				
                                 String sql = StringUtils.EMPTY;
 				try {
@@ -270,7 +270,7 @@ public class BusinessRoleModuleImpl {
 			}
 				
 				@SuppressWarnings("rawtypes")
-				public List findSubModuleFieldDetails(String businessRoleName,String moduleName,String subModuleName){
+				public List findSubModuleFieldDetails(String moduleName,String subModuleName){
 					
                                         String sql = StringUtils.EMPTY;
 					try {
