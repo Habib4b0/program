@@ -50,37 +50,37 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
 
     @Override
     public List getTableInput(SessionDTO sessionDTO) {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        returnReserveLogger.debug("Inside ReturnReserve getTableInput");
         return Collections.emptyList();
     }
 
     @Override
     protected String getCommonQueryName() {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        returnReserveLogger.debug("Inside ReturnReserve getCommonQueryName");
         return "BSummaryCommonQuery-ReturnReserve";
     }
 
     @Override
     protected String getLoadDataQueryName() {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        returnReserveLogger.debug("Inside ReturnReserve getLoadDataQueryName");
         return "BSummaryLoadData-ReturnReserve";
     }
 
     @Override
     protected String getCountQueryName() {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        returnReserveLogger.debug("Inside ReturnReserve getCountQueryName");
         return "BSummaryCount-ReturnReserve";
     }
 
     @Override
     protected String getTotalQueryName() {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        returnReserveLogger.debug("Inside ReturnReserve getTotalQueryName");
         return "BSummaryLoadTotalData-ReturnReserve";
     }
 
     @Override
     protected String getExcelQueryName() {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        returnReserveLogger.debug("Inside ReturnReserve getExcelQueryName");
         return "getBSummaryExcelQuery-ReturnReserve";
     }
 
