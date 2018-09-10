@@ -1758,7 +1758,7 @@ public class NonMandatedLogic {
 		}
 		for (int loop = 0, limit = returnlist.size(); loop < limit; loop++) {
 			helperDTO = new HelperDTO();
-			Object[] objects = (Object[]) returnlist.get(loop);
+			Object[] objects =  returnlist.get(loop);
 			helperDTO.setId(Integer.parseInt(String.valueOf(objects[0])));
 			helperDTO.setDescription(String.valueOf(objects[1]));
 			companies.add(helperDTO);
@@ -2293,8 +2293,8 @@ public class NonMandatedLogic {
 				+ "		dbo.PROJECTION_DETAILS B\n" + "		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID \n"
 				+ "			AND B.PROJECTION_MASTER_SID = " + projectionId + ";";
 
-		SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-		salesProjectionDAO.executeUpdateQuery(insertQuery);
+		SalesProjectionDAO inserSalesProjectionDAO = new SalesProjectionDAOImpl();
+		inserSalesProjectionDAO.executeUpdateQuery(insertQuery);
 
 	}
 

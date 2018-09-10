@@ -78,7 +78,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
     protected Object[] variablesValue;
     private Trx7SalesSearchResult salesResults;
     private Trx7SalesLogic logic = new Trx7SalesLogic();
-    private Trx7SelectionDTO selection;
+    private Trx7SelectionDTO distributionSelection;
     private static final Logger LOGGER = LoggerFactory.getLogger(Trx7SalesTab.class);
     /**
      * priceddlb holds the list of periods
@@ -87,7 +87,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
 
     public Trx7SalesTab(DataSelectionDTO dataselection, Trx7SelectionDTO selection) {
         this.dataselection = dataselection;
-        this.selection = selection;
+        this.distributionSelection = selection;
         init();
         configureFields();
         configureWorkFlow();
@@ -99,7 +99,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
     }
 
     private void init() {
-        salesResults = new Trx7SalesSearchResult(logic, selection);
+        salesResults = new Trx7SalesSearchResult(logic, distributionSelection);
         addComponent(Clara.create(getClass().getResourceAsStream("/bussinessprocess/sale_dataselection.xml"), this));
         salesResults.getResults();
         exclusionDetails.addStyleName(Reindeer.BUTTON_LINK);
@@ -112,7 +112,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
     @UiHandler("exclusionDetails")
     public void exclusionDetailsLookup(Button.ClickEvent event) {
         LOGGER.debug("exclusionDetails starts");
-        Trx7ExclusionDetailsLookup exclusionDetailsLookup = new Trx7ExclusionDetailsLookup(dataselection.getProjectionId(), selection.getSessionDTO(), dataselection);
+        Trx7ExclusionDetailsLookup exclusionDetailsLookup = new Trx7ExclusionDetailsLookup(dataselection.getProjectionId(), distributionSelection.getSessionDTO(), dataselection);
         UI.getCurrent().addWindow(exclusionDetailsLookup);
         exclusionDetailsLookup.addCloseListener(new Window.CloseListener() {
             @Override
@@ -122,7 +122,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
             }
         });
     }
-    private final CustomNotification notifier = new CustomNotification();
+    private final DistributionSalesCustomNotification distributionNotifier = new DistributionSalesCustomNotification();
 
     private void configureFields() {
         String[] variableVisibleColumns;
@@ -136,7 +136,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
         Integer vvalue = Integer.valueOf(String.valueOf(defaultValue.get(1)));
         String month = Trx7SalesLogic.getMonthName(vvalue);
         String str = month + " " + defaultValue.get(NumericConstants.TWO);
-        priceddlb = CommonUtils.getPeriodsByFrequency("M", selection.getDataSelectionDTO().getFromPeriodMonth(), str);
+        priceddlb = CommonUtils.getPeriodsByFrequency("M", distributionSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
         price.removeAllItems();
         price.setContainerDataSource(new IndexedContainer(priceddlb));
         price.setNullSelectionAllowed(false);
@@ -144,23 +144,23 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
     }
 
     private void configureWorkFlow() {
-        if (selection.getSessionDTO().isWorkFlow()) {
+        if (distributionSelection.getSessionDTO().isWorkFlow()) {
             salesResults.setValueChangeAllowed(false);
             loadDetails();
-            selection.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
-            salesResults.generateButtonLogic(selection, Boolean.TRUE);
-            if (ARMUtils.VIEW_SMALL.equals(selection.getSessionDTO().getAction())) {
+            distributionSelection.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
+            salesResults.generateButtonLogic(distributionSelection, Boolean.TRUE);
+            if (ARMUtils.VIEW_SMALL.equals(distributionSelection.getSessionDTO().getAction())) {
                 configureFieldsOnViewMode();
             }
             salesResults.setValueChangeAllowed(true);
         }
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class DistributionSalesCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String distributionSalesButtonName;
 
-        public CustomNotification() {
+        public DistributionSalesCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -173,9 +173,9 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", distributionSalesButtonName);
+            if (null != distributionSalesButtonName) {
+                switch (distributionSalesButtonName) {
                     case CommonConstant.RESET:
                         setDefaultValue();
                         CommonUtils.unCheckMenuBarItem(customMenuItem);
@@ -188,7 +188,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.distributionSalesButtonName = buttonName;
         }
 
     }
@@ -198,8 +198,8 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 try {
-                    notifier.setButtonName(CommonConstant.RESET);
-                    notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
+                    distributionNotifier.setButtonName(CommonConstant.RESET);
+                    distributionNotifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
 
                 } catch (Exception e) {
                     LOGGER.error("Error in reset", e);
@@ -221,12 +221,12 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
                     } else {
                         salesResults.setValueChangeAllowed(false);
                         String description = HelperListUtil.getInstance().getDescriptionByID((int) dateType.getValue()).trim();
-                        selection.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
-                        selection.setPrice(CommonUtils.getPeriodValue('M', price.getValue().toString()));
-                        selection.setDateType(description);
-                        selection.setProjectionMasterSid(dataselection.getProjectionId());
+                        distributionSelection.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
+                        distributionSelection.setPrice(CommonUtils.getPeriodValue('M', price.getValue().toString()));
+                        distributionSelection.setDateType(description);
+                        distributionSelection.setProjectionMasterSid(dataselection.getProjectionId());
 
-                        salesResults.generateButtonLogic(selection, Boolean.FALSE);
+                        salesResults.generateButtonLogic(distributionSelection, Boolean.FALSE);
                         salesResults.setValueChangeAllowed(true);
                     }
                 } catch (Exception e) {
@@ -239,10 +239,10 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
     private void setDefaultValue() {
         try {
             List<String> defaultValueList = logic.getRateConfigSettings(new ArrayList<>(Arrays.asList(dataselection.getCompanyMasterSid(), dataselection.getBucompanyMasterSid(), dataselection.getAdjustmentId(),
-                    StringUtils.isNotBlank(selection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(selection.getDataSelectionDTO().getFromPeriodMonth().trim().split(" ")[0]) : 1)));
+                    StringUtils.isNotBlank(distributionSelection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(distributionSelection.getDataSelectionDTO().getFromPeriodMonth().trim().split(" ")[0]) : 1)));
             if (!defaultValueList.isEmpty()) {
                 if (!"0".equals(defaultValueList.get(NumericConstants.THREE)) || defaultValueList.get(NumericConstants.THREE).contains("CURRENT")) {
-                    price.setValue(logic.getRatePeriod(defaultValueList.get(NumericConstants.THREE), "M", selection.getDataSelectionDTO().getFromPeriodMonth(), priceddlb));
+                    price.setValue(logic.getRatePeriod(defaultValueList.get(NumericConstants.THREE), "M", distributionSelection.getDataSelectionDTO().getFromPeriodMonth(), priceddlb));
                 } else {
                     price.setValue(GlobalConstants.getSelectOne());
                 }
@@ -270,33 +270,33 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
 
     private void loadDetails() {
         try {
-            List<Object[]> list = CommonLogic.loadPipelineAccrual(selection.getProjectionMasterSid());
+            List<Object[]> list = CommonLogic.loadPipelineAccrual(distributionSelection.getProjectionMasterSid());
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = list.get(i);
                 if (VariableConstants.SALES_VARIABLE.equals(String.valueOf(obj[0]))) {
-                    String str1 = (String) obj[1];
-                    String[] str2 = str1.split(",");
+                    String ditribstr1 = (String) obj[1];
+                    String[] distribStr2 = ditribstr1.split(",");
                     String str3 = null;
-                    for (String strings : str2) {
+                    for (String strings : distribStr2) {
                         str3 = strings;
                         CommonUtils.checkMenuBarItem(customMenuItem, str3);
                     }
                 } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
-                    BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
+                    BeanUtils.setProperty(distributionSelection, String.valueOf(obj[0]), obj[1]);
 
                 }
             }
             HelperListUtil.getInstance().loadValuesWithListName("DATA_SELECTION");
             CommonUtils.loadComboBoxWithInteger(dateType, CommonConstant.ARM_DATE_TYPE, false);
-            dateType.setValue(HelperListUtil.getInstance().getIdByDesc(CommonConstant.ARM_DATE_TYPE, selection.getDateType()));
+            dateType.setValue(HelperListUtil.getInstance().getIdByDesc(CommonConstant.ARM_DATE_TYPE, distributionSelection.getDateType()));
             List<Object> defaultValueList = logic.getMonthYear();
             Integer vvalue = Integer.valueOf(String.valueOf(defaultValueList.get(1)));
             String month = Trx7SalesLogic.getMonthName(vvalue);
             String str = month + " " + defaultValueList.get(NumericConstants.TWO);
-            List<String> priceddlbList = CommonUtils.getPeriodsByFrequency("M", selection.getDataSelectionDTO().getFromPeriodMonth(), str);
+            List<String> priceddlbList = CommonUtils.getPeriodsByFrequency("M", distributionSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
             price.removeAllItems();
             price.setContainerDataSource(new IndexedContainer(priceddlbList));
-            price.setValue(selection.getPrice());
+            price.setValue(distributionSelection.getPrice());
             price.setNullSelectionAllowed(false);
         } catch (Exception e) {
             LOGGER.error("Error in loadDetails", e);

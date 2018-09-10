@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.request.filemanagement.GtnWsFileManagementRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastProjectionSubmitRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecastconfiguration.GtnWsForecastConfigurationRequest;
+import com.stpl.gtn.gtn2o.ws.request.forecastingsearch.GtnGeneralSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.request.itemgroup.GtnWsItemGroupRequest;
 import com.stpl.gtn.gtn2o.ws.request.itemmaster.GtnWsItemMasterRequest;
@@ -130,6 +131,16 @@ public class GtnUIFrameworkWebserviceRequest {
     private GtnWsUdcRequest gtnWsUdcRequest;
 
     private GtnWsAdjustmentDetailsSaveViewMasterRequest gtnWsAdjustmentDetailsSaveViewMasterRequest;
+    
+    private GtnGeneralSearchRequest GtnGeneralSearchRequest;
+
+    public GtnGeneralSearchRequest getGtnGeneralSearchRequest() {
+        return GtnGeneralSearchRequest;
+    }
+
+    public void setGtnGeneralSearchRequest(GtnGeneralSearchRequest GtnGeneralSearchRequest) {
+        this.GtnGeneralSearchRequest = GtnGeneralSearchRequest;
+    }
 
     public GtnWsSearchRequest getGtnWsSearchRequest() {
         return gtnWsSearchRequest;

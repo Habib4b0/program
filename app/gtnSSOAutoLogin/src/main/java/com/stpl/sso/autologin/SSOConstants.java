@@ -9,5 +9,8 @@ public interface SSOConstants {
 	 String RELAYSTATE ="relaystate";
 	 String SAML ="saml";
 	 String SPNEGO ="spnego";
+	 String ISSAMLREQUIRED = "is.saml.request.needed";
+	 String ACSURL = "acs.url";
 	 String CONFIGPATH ="/opt/bpigtn/conf/gtnSSOConfig.xml";
+	 
 }

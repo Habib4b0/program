@@ -23,196 +23,179 @@ import com.vaadin.ui.TreeGrid;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
 
 public class GtnFrameworkNewToOldArchitectureGenerateAction
-		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+        implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkNewToOldArchitectureGenerateAction.class);
+    GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkNewToOldArchitectureGenerateAction.class);
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		try {
-			logger.info("doAction----------------------------------------------");
-			final String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
-			String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_").substring(0, 12);
-			List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
+    @SuppressWarnings("unchecked")
+    @Override
+    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        try {
+            logger.info("doAction----------------------------------------------");
+            final String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
+            String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_").substring(0, 12);
+            List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
-			String fromPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_from")
-					.getStringCaptionFromV8ComboBox();
-			String toPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_to")
-					.getStringCaptionFromV8ComboBox();
-			String projectionName = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("Commercial Forecasting_projectionName").getV8StringFromField();
-			String description = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("Commercial Forecasting_projectionDescription").getV8StringFromField();
+            String fromPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_from").getStringCaptionFromV8ComboBox();
+            String toPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_to").getStringCaptionFromV8ComboBox();
+            String projectionName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_projectionName").getV8StringFromField();
+            String description = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_projectionDescription").getV8StringFromField();
 
-			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("forecastLandingScreen_customerHierarchy", componentId).getComponentData()
-					.getCustomData();
-			Integer hierarchyDefSid = (Integer) recordBean.getPropertyValueByIndex(7);
+            GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent("forecastLandingScreen_customerHierarchy", componentId).getComponentData().getCustomData();
 
-			String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("Commercial_Forecasting_customerRelationshipVersion", componentId)
-					.getCaptionFromV8ComboBox());
-			String hierarchyVersionNo = recordBean.getPropertyValueByIndex(6).toString();
+            String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_customerRelationshipVersion", componentId).getCaptionFromV8ComboBox());
+            String hierarchyVersionNo = recordBean.getPropertyValueByIndex(6).toString();
 
-			String customerRelBuilderSid = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("Commercial_Forecasting_customerSelectionRelationship", componentId)
-					.getCaptionFromV8ComboBox();
+            List<Object> parametersForDataSelection = new ArrayList<>();
+            parametersForDataSelection.add(fromPeriod);
+            parametersForDataSelection.add(toPeriod);
+            parametersForDataSelection.add(projectionName);
+            parametersForDataSelection.add(description);
+            parametersForDataSelection.add(relationshipVersionNo);
+            parametersForDataSelection.add(hierarchyVersionNo);
 
-			String productRelBuilderSid = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("Commercial Forecasting_prodrelationship", componentId)
-					.getCaptionFromV8ComboBox();
+            List<GtnWsRecordBean> selectedCustomerList = null;
+            List<GtnWsRecordBean> selectedProductList = null;
 
-			List<Object> parametersForDataSelection = new ArrayList<>();
-			parametersForDataSelection.add(fromPeriod);
-			parametersForDataSelection.add(toPeriod);
-			parametersForDataSelection.add(projectionName);
-			parametersForDataSelection.add(description);
-			parametersForDataSelection.add(relationshipVersionNo);
-			parametersForDataSelection.add(hierarchyVersionNo);
-			parametersForDataSelection.add(customerRelBuilderSid);
+            selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
+            selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
 
-			List<GtnWsRecordBean> selectedCustomerList = null;
-			List<GtnWsRecordBean> selectedProductList = null;
+            GtnFrameworkForecastInputBean dto = getForecastDataSelectionDto(
+                    gtnUIFrameWorkActionConfig.getActionParameterList(), selectedCustomerList, selectedProductList,
+                    componentId);
 
-			selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
-			selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
+            ForecastUI ui = new ForecastUI();
+            ui.getContentForecasting(userId, uniqueId, parametersForDataSelection, dto);
 
-			GtnFrameworkForecastInputBean dto = getForecastDataSelectionDto(
-					gtnUIFrameWorkActionConfig.getActionParameterList(), selectedCustomerList, selectedProductList,
-					componentId);
+        } catch (Exception ex) {
+            logger.error("Error", ex);
+        }
+    }
 
-			ForecastUI ui = new ForecastUI();
-			ui.getContentForecasting(userId, uniqueId, parametersForDataSelection,dto);
+    private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId)
+            throws GtnFrameworkValidationFailedException {
+        GtnUIFrameworkComponentData selectedTableComponentData = GtnUIFrameworkGlobalUI
+                .getVaadinComponentData(tableComponentId, componentId);
+        GtnFrameworkV8DualListBoxBean selectedDualListBoxBean = (GtnFrameworkV8DualListBoxBean) selectedTableComponentData
+                .getCustomData();
+        TreeGrid<GtnWsRecordBean> selectedRightTable = selectedDualListBoxBean.getRightTable();
+        selectedRightTable.expand(selectedRightTable.getTreeData().getRootItems());
+        List<GtnWsRecordBean> selectedValues = selectedRightTable.getTreeData().getRootItems();
+        if (selectedValues == null || selectedValues.isEmpty()) {
+            throw new GtnFrameworkValidationFailedException("Selected Table is Empty");
+        }
+        List<GtnWsRecordBean> selectedRecordList = new ArrayList<>(10);
+        for (GtnWsRecordBean gtnWsRecordBean : selectedValues) {
 
-		} catch (Exception ex) {
-			logger.error("Error", ex);
-		}
-	}
+            selectedRecordList.add(gtnWsRecordBean);
+            addSelectedValues(selectedRightTable, gtnWsRecordBean, selectedRecordList);
+        }
+        return selectedRecordList;
+    }
 
-	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId)
-			throws GtnFrameworkValidationFailedException {
-		GtnUIFrameworkComponentData selectedTableComponentData = GtnUIFrameworkGlobalUI
-				.getVaadinComponentData(tableComponentId, componentId);
-		GtnFrameworkV8DualListBoxBean selectedDualListBoxBean = (GtnFrameworkV8DualListBoxBean) selectedTableComponentData
-				.getCustomData();
-		TreeGrid<GtnWsRecordBean> selectedRightTable = selectedDualListBoxBean.getRightTable();
-		selectedRightTable.expand(selectedRightTable.getTreeData().getRootItems());
-		List<GtnWsRecordBean> selectedValues = selectedRightTable.getTreeData().getRootItems();
-		if (selectedValues == null || selectedValues.isEmpty()) {
-			throw new GtnFrameworkValidationFailedException("Selected Table is Empty");
-		}
-		List<GtnWsRecordBean> selectedRecordList = new ArrayList<>(10);
-		for (GtnWsRecordBean gtnWsRecordBean : selectedValues) {
+    private void addSelectedValues(TreeGrid<GtnWsRecordBean> rightTable, GtnWsRecordBean selectedvalues,
+            List<GtnWsRecordBean> selectedList) {
+        for (GtnWsRecordBean gtnWsRecordBean : rightTable.getTreeData().getChildren(selectedvalues)) {
+            selectedList.add(gtnWsRecordBean);
+            addSelectedValues(rightTable, gtnWsRecordBean, selectedList);
+        }
+    }
 
-			selectedRecordList.add(gtnWsRecordBean);
-			addSelectedValues(selectedRightTable, gtnWsRecordBean, selectedRecordList);
-		}
-		return selectedRecordList;
-	}
+    private GtnFrameworkForecastInputBean getForecastDataSelectionDto(List<Object> actionParamList,
+            List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList, String componentId)
+            throws Exception {
 
-	private void addSelectedValues(TreeGrid<GtnWsRecordBean> rightTable, GtnWsRecordBean selectedvalues,
-			List<GtnWsRecordBean> selectedList) {
-		for (GtnWsRecordBean gtnWsRecordBean : rightTable.getTreeData().getChildren(selectedvalues)) {
-			selectedList.add(gtnWsRecordBean);
-			addSelectedValues(rightTable, gtnWsRecordBean, selectedList);
-		}
-	}
+        GtnFrameworkForecastInputBean dto = new GtnFrameworkForecastInputBean();
+        Date forecastEligibleDate = null;
 
-	private GtnFrameworkForecastInputBean getForecastDataSelectionDto(List<Object> actionParamList,
-			List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList, String componentId)
-			throws Exception {
+        String hierarchyComponentId = actionParamList.get(3).toString();
+        String relationshipComponentId = actionParamList.get(4).toString();
+        GtnWsRecordBean customerRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(hierarchyComponentId).getComponentData().getCustomData();
+        GtnWsRecordBean productRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(8).toString()).getComponentData().getCustomData();
 
-		GtnFrameworkForecastInputBean dto = new GtnFrameworkForecastInputBean();
-		Date forecastEligibleDate = null;
+        LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(7).toString())
+                .getFieldValue();
+        if (date != null) {
+            forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        }
 
-		String hierarchyComponentId = actionParamList.get(3).toString();
-		String relationshipComponentId = actionParamList.get(4).toString();
-		GtnWsRecordBean customerRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(hierarchyComponentId).getComponentData().getCustomData();
-		GtnWsRecordBean productRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(8).toString()).getComponentData().getCustomData();
+        dto.setForecastEligibleDate(forecastEligibleDate);
+        generateButtonMandatoryCheck(dto, actionParamList, customerRecordBean, productRecordBean, relationshipComponentId);
+        String privateView = String.valueOf(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(22).toString(), componentId).getV8PopupFieldValue());
+        if (privateView != "") {
+            dto.setPrivateViewName(privateView);
+        }
+        String publicViewName = String.valueOf(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(23).toString(), componentId).getV8PopupFieldValue());
+        if (publicViewName != "") {
+            dto.setPublicViewName(publicViewName);
+        }
+        dto.setCustomerHierarchyBean(customerRecordBean);
+        dto.setProductHierarchyBean(productRecordBean);
+        dto.setSelectedCustomerList(selectedCustomerList);
+        dto.setSelectedProductList(selectedProductList);
 
-		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(7).toString())
-				.getFieldValue();
-		if (date != null) {
-			forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		}
+        dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+        String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_").substring(0, 12);
+        dto.setSessionId(uniqueId);
+        dto.setUniqueId(uniqueId);
 
-		dto.setForecastEligibleDate(forecastEligibleDate);
-                generateButtonMandatoryCheck(dto, actionParamList, customerRecordBean, productRecordBean, relationshipComponentId);
-		String privateView = String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(22).toString(), componentId).getV8PopupFieldValue());
-		if (privateView != "") {
-			dto.setPrivateViewName(privateView);
-		}
-		String publicViewName = String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(23).toString(), componentId).getV8PopupFieldValue());
-		if (publicViewName != "") {
-			dto.setPublicViewName(publicViewName);
-		}
-		dto.setCustomerHierarchyBean(customerRecordBean);
-		dto.setProductHierarchyBean(productRecordBean);
-		dto.setSelectedCustomerList(selectedCustomerList);
-		dto.setSelectedProductList(selectedProductList);
+        return dto;
+    }
 
-		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_").substring(0, 12);
-		dto.setSessionId(uniqueId);
-		dto.setUniqueId(uniqueId);
+    private void generateButtonMandatoryCheck(GtnFrameworkForecastInputBean dto, List<Object> actionParamList,
+            GtnWsRecordBean customerRecordBean, GtnWsRecordBean productRecordBean, String relationshipComponentId)
+            throws NumberFormatException, GtnFrameworkValidationFailedException {
+        dto.setCompany(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox())));
+        dto.setBusinessUnit(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(14).toString()).getCaptionFromV8ComboBox())));
+        dto.setFromPeriod(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(15).toString()).getStringCaptionFromV8ComboBox());
+        dto.setToPeriod(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(17).toString()).getStringCaptionFromV8ComboBox());
+        dto.setCustomerHierarchySid(
+                checkDDLBValues(Integer.valueOf(String.valueOf(customerRecordBean.getPropertyValueByIndex(7)))));
+        dto.setCustomerHierarchyVersion(
+                checkDDLBValues(Integer.parseInt(String.valueOf(customerRecordBean.getPropertyValueByIndex(6)))));
+        dto.setCustomerRelationSid(checkDDLBValues(Integer.parseInt(String.valueOf(
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getCaptionFromV8ComboBox()))));
+        dto.setCustomerRelationVersionNo(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(5).toString()).getCaptionFromV8ComboBox()))));
+        dto.setCustomerHierarchyLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(6).toString()).getCaptionFromV8ComboBox()))));
+        dto.setProductHierarchySid(
+                checkDDLBValues(Integer.valueOf(String.valueOf(productRecordBean.getPropertyValueByIndex(7)))));
+        dto.setProductHierarchyVersion(
+                checkDDLBValues(Integer.parseInt(String.valueOf(productRecordBean.getPropertyValueByIndex(7)))));
+        dto.setProductRelationSid(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(9).toString()).getCaptionFromV8ComboBox()))));
+        dto.setProductRelationVersionNo(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(11).toString()).getCaptionFromV8ComboBox()))));
+        dto.setCustomerHierarchyLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(10).toString()).getCaptionFromV8ComboBox()))));
+        dto.setCustomerRelationLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(21).toString()).getCaptionFromV8ComboBox()))));
+        dto.setProductRelationLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(16).toString()).getCaptionFromV8ComboBox()))));
+        dto.setProjectionName(String.valueOf(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(18).toString()).getV8StringFromField()));
+        dto.setProjectionDescription(String.valueOf(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(19).toString()).getV8StringFromField()));
+        dto.setCustomerHierarchyName(String.valueOf(customerRecordBean.getPropertyValueByIndex(0)));
+        dto.setProductHierarchyName(String.valueOf(productRecordBean.getPropertyValueByIndex(0)));
+    }
 
-		return dto;
-	}
-
-	private void generateButtonMandatoryCheck(GtnFrameworkForecastInputBean dto, List<Object> actionParamList,
-			GtnWsRecordBean customerRecordBean, GtnWsRecordBean productRecordBean, String relationshipComponentId)
-			throws NumberFormatException, GtnFrameworkValidationFailedException {
-		dto.setCompany(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox())));
-		dto.setBusinessUnit(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(14).toString()).getCaptionFromV8ComboBox())));
-		dto.setFromPeriod(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(15).toString()).getStringCaptionFromV8ComboBox());
-		dto.setToPeriod(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(17).toString()).getStringCaptionFromV8ComboBox());
-		dto.setCustomerHierarchySid(
-				checkDDLBValues(Integer.valueOf(String.valueOf(customerRecordBean.getPropertyValueByIndex(7)))));
-		dto.setCustomerHierarchyVersion(
-				checkDDLBValues(Integer.parseInt(String.valueOf(customerRecordBean.getPropertyValueByIndex(6)))));
-		dto.setCustomerRelationSid(checkDDLBValues(Integer.parseInt(String.valueOf(
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getCaptionFromV8ComboBox()))));
-		dto.setCustomerRelationVersionNo(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(5).toString()).getCaptionFromV8ComboBox()))));
-		dto.setCustomerHierarchyLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(6).toString()).getCaptionFromV8ComboBox()))));
-		dto.setProductHierarchySid(
-				checkDDLBValues(Integer.valueOf(String.valueOf(productRecordBean.getPropertyValueByIndex(7)))));
-		dto.setProductHierarchyVersion(
-				checkDDLBValues(Integer.parseInt(String.valueOf(productRecordBean.getPropertyValueByIndex(7)))));
-		dto.setProductRelationSid(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(9).toString()).getCaptionFromV8ComboBox()))));
-		dto.setProductRelationVersionNo(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(11).toString()).getCaptionFromV8ComboBox()))));
-		dto.setCustomerHierarchyLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(10).toString()).getCaptionFromV8ComboBox()))));
-		dto.setCustomerRelationLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(21).toString()).getCaptionFromV8ComboBox()))));
-		dto.setProductRelationLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(16).toString()).getCaptionFromV8ComboBox()))));
-		dto.setProjectionName(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(18).toString()).getV8StringFromField()));
-		dto.setProjectionDescription(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(19).toString()).getV8StringFromField()));
-		dto.setCustomerHierarchyName(String.valueOf(customerRecordBean.getPropertyValueByIndex(0)));
-                dto.setProductHierarchyName(String.valueOf(productRecordBean.getPropertyValueByIndex(0)));
-	}
-
-	private int checkDDLBValues(int value) throws GtnFrameworkValidationFailedException {
-		if (value == 0) {
-			throw new GtnFrameworkValidationFailedException("Generate Validation Exception");
-		}
-		return value;
-	}
+    private int checkDDLBValues(int value) throws GtnFrameworkValidationFailedException {
+        if (value == 0) {
+            throw new GtnFrameworkValidationFailedException("Generate Validation Exception");
+        }
+        return value;
+    }
 
 }

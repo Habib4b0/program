@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -498,6 +499,38 @@ public class GtnWsContractDashboardLookupLogicTest {
         gtnWsContractDashboardLookupLogic.getFormulaLookupTableData(gtnWsRequest,gtnResponse);
         assertFalse(gtnWsSearchRequest.getSearchColumnNameList().isEmpty());
     }
+    
+        @Test
+    public void testGetFormulaLookupTableDataFalse() throws Exception {
+        System.out.println("getFormulaLookupTableData");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("794");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"formulaType", "formulaId", "formulaNo", "formulaName", "version"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDFormulaNoView_FormulaNo");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("LIKE");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+        
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        gtnWsContractDashboardLookupLogic.getFormulaLookupTableData(gtnWsRequest,gtnResponse);
+        assertFalse(gtnWsSearchRequest.getSearchColumnNameList().isEmpty());
+    }
 
     /**
      * Test of getNetSalesFormulaSearchInput method, of class GtnWsContractDashboardLookupLogic.
@@ -544,6 +577,54 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+    public void testGetNetSalesFormulaSearchInputFalse() throws Exception {
+    try{
+        System.out.println("getNetSalesFormulaSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("137");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"formulaType", "formulaId", "formulaNo", "formulaName", "createdBy", "createdDate", "modifiedBy", "modifiedDate"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDNSFormulaView_FormulaType");
+        criteria.setFilterValue1("215");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+        
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("CDNSFormulaView_FormulaID");
+        criteria2.setFilterValue1("*");
+        criteria2.setExpression("LIKE");
+        criteria2.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(10);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getNetSalesFormulaSearchInput",GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+          } catch (Exception ex) {
+            assertEquals(InvocationTargetException.class, ex.getClass());
+        }
+
+    }
 
     /**
      * Test of getNetSalesFormulaSortedInputs method, of class GtnWsContractDashboardLookupLogic.
@@ -557,6 +638,25 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.setAccessible(true);
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
         assertFalse( !gtnWebServiceOrderByCriteriaList.isEmpty());
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+     @Test
+    public void testGetNetSalesFormulaSortedInputsFalse() {
+    try{
+        System.out.println("getNetSalesFormulaSortedInputs");
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+        GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
+        gtnWebServiceOrderByCriteriaList.add(e);
+        String orderByCriteria = "itemId";
+        e.setOrderByCriteria(orderByCriteria);
+        e.setPropertyId(orderByCriteria);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getNetSalesFormulaSortedInputs",List.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
+        assertFalse( gtnWebServiceOrderByCriteriaList.isEmpty());
         } catch (Exception ex) {
             Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -618,6 +718,43 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+       public void testGetCFPSearchInputFalse() throws Exception {
+       System.out.println("getCFPSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("836");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"systemId", "cfpId", "cfpNo", "cfpName", "cfpType", "cfpStatus", "cfpCategory", "startDate",
+        "endDate","cfpDesignation","parentCfpId","parentCfpName","modifiedDate","modifiedBy","createdBy","createdDate"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDCFPView_CFPID");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("LIKE");
+        criteria.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(10);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getCFPSearchInput",GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
 
     /**
      * Test of getCFPSortedInputs method, of class GtnWsContractDashboardLookupLogic.
@@ -631,6 +768,25 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.setAccessible(true);
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
         assertFalse(!gtnWebServiceOrderByCriteriaList.isEmpty());
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void testGetCFPSortedInputsFalse() {
+    try{
+        System.out.println("testGetCFPSortedInputsFalse");
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+        GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
+        gtnWebServiceOrderByCriteriaList.add(e);
+        String orderByCriteria = "itemId";
+        e.setOrderByCriteria(orderByCriteria);
+        e.setPropertyId(orderByCriteria);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getCFPSortedInputs",List.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
+        assertFalse(gtnWebServiceOrderByCriteriaList.isEmpty());
         } catch (Exception ex) {
             Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -739,6 +895,43 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+    public void testGetIFPSearchInputFalse() throws Exception {
+        System.out.println("getIFPSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("836");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"systemId", "ifpId", "ifpNo", "ifpName", "ifpType", "ifpStatus", "ifpCategory", "startDate",
+        "endDate","ifpDesignation","parentIfpId","parentIfpName","createdBy","createdDate"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDIFPView_IFPID");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("LIKE");
+        criteria.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(10);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getIFPSearchInput",GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
 
     /**
      * Test of getIFPSortedInputs method, of class GtnWsContractDashboardLookupLogic.
@@ -756,6 +949,25 @@ public class GtnWsContractDashboardLookupLogicTest {
             Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+   @Test
+   public void testGetIFPSortedInputsFalse() {
+   try{
+        System.out.println("getIFPSortedInputs");
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+        GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
+        gtnWebServiceOrderByCriteriaList.add(e);
+        String orderByCriteria = "itemId";
+        e.setOrderByCriteria(orderByCriteria);
+        e.setPropertyId(orderByCriteria);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getIFPSortedInputs",List.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
+        assertFalse(gtnWebServiceOrderByCriteriaList.isEmpty());
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 
     /**
      * Test of getIFPColumns method, of class GtnWsContractDashboardLookupLogic.
@@ -825,6 +1037,41 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+    public void testGetTPSearchInputFalse() throws Exception {
+        System.out.println("getTPSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("836");
+        generalRequest.setExcel(false);   
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"companyId", "companyNo", "companyName", "companyStatus", "companyType"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDTPView_CompanyID");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("LIKE");
+        criteria.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(10);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getTPSearchInput",GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
 
     /**
      * Test of getTPSortedInputs method, of class GtnWsContractDashboardLookupLogic.
@@ -838,6 +1085,25 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.setAccessible(true);
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
         assertFalse(!gtnWebServiceOrderByCriteriaList.isEmpty());
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void testGetTPSortedInputsFalse() {
+    try{
+        System.out.println("getTPSortedInputs");
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+        GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
+        gtnWebServiceOrderByCriteriaList.add(e);
+        String orderByCriteria = "itemId";
+        e.setOrderByCriteria(orderByCriteria);
+        e.setPropertyId(orderByCriteria);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getTPSortedInputs",List.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
+        assertFalse(gtnWebServiceOrderByCriteriaList.isEmpty());
         } catch (Exception ex) {
             Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -911,6 +1177,42 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+    public void testGetPSSearchInputFalse() throws Exception {
+        System.out.println("getPSSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("836");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"systemId", "psId", "psNo", "psName", "psType", "psStatus", "psCategory", "startDate", "endDate", "psDesignation", "parentPsId", "parentPsName", "tradeClass"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDPSView_PSID");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("LIKE");
+        criteria.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(10);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getPSSearchInput",GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
 
     /**
      * Test of getPSSortedInputs method, of class GtnWsContractDashboardLookupLogic.
@@ -924,6 +1226,25 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.setAccessible(true);
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
         assertFalse(!gtnWebServiceOrderByCriteriaList.isEmpty());
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+      @Test
+    public void testGetPSSortedInputsFalse() {
+    try{
+        System.out.println("testGetPSSortedInputsFalse");
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+        GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
+        gtnWebServiceOrderByCriteriaList.add(e);
+        String orderByCriteria = "itemId";
+        e.setOrderByCriteria(orderByCriteria);
+        e.setPropertyId(orderByCriteria);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getPSSortedInputs",List.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
+        assertFalse(gtnWebServiceOrderByCriteriaList.isEmpty());
         } catch (Exception ex) {
             Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -999,6 +1320,42 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+     @Test
+    public void testGetRSSearchInputFalse() throws Exception {
+        System.out.println("getRSSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("836");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"systemId", "rsId", "rsNo", "rsName", "rsType", "rsStatus"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDPSView_PSID");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("LIKE");
+        criteria.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(10);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getRSSearchInput",GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
 
     /**
      * Test of getRSSortedInputs method, of class GtnWsContractDashboardLookupLogic.
@@ -1012,6 +1369,25 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.setAccessible(true);
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
         assertFalse(!gtnWebServiceOrderByCriteriaList.isEmpty());
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+      @Test
+    public void testGetRSSortedInputsFalse() {
+   try{
+        System.out.println("getRSSortedInputs");
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+        GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
+        gtnWebServiceOrderByCriteriaList.add(e);
+        String orderByCriteria = "itemId";
+        e.setOrderByCriteria(orderByCriteria);
+        e.setPropertyId(orderByCriteria);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getRSSortedInputs",List.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
+        assertFalse(gtnWebServiceOrderByCriteriaList.isEmpty());
         } catch (Exception ex) {
             Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1058,6 +1434,43 @@ public class GtnWsContractDashboardLookupLogicTest {
         gtnWsSearchRequest.setTableRecordOffset(1);
 
         gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getRuleSearchInput",GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getSearchColumnNameList().isEmpty());
+    }
+    
+      @Test
+    public void testGetRuleSearchInputFalse() throws Exception {
+        System.out.println("getRuleSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("836");
+        generalRequest.setExtraParameter(64);
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"lineType", "itemGroupAsso", "keyword", "keyOperator","value","comparison","compOperator"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+        GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
+        gtnWebServiceOrderByCriteriaList.add(e);
+        String orderByCriteria = "itemId";
+        e.setOrderByCriteria(orderByCriteria);
+        e.setPropertyId(orderByCriteria);
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
         
         GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
         gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
@@ -1154,6 +1567,42 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getSearchColumnNameList().isEmpty());
     }
+     @Test
+    public void testGetRPSearchInputFalse() throws Exception {
+        System.out.println("getRPSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("794");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"rebatePlanId", "rebatePlanNo", "rebatePlanName", "rebatePlanStatus", "rebatePlanType", "rebateStructure", "rangeBasedOn", "netSalesFormula", "netSalesRule", "rebateBasedOn", "createdDate", "createdBy", "modifiedDate", "modifiedBy"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDRPNoView_RPID");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("LIKE");
+        criteria.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+        
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(10);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getRPSearchInput",GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getSearchColumnNameList().isEmpty());
+    }
+    
 
     /**
      * Test of getRPSortedInputs method, of class GtnWsContractDashboardLookupLogic.
@@ -1167,6 +1616,25 @@ public class GtnWsContractDashboardLookupLogicTest {
         method.setAccessible(true);
         method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
         assertFalse(!gtnWebServiceOrderByCriteriaList.isEmpty());
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void testGetRPSortedInputsFalse() {
+    try{
+        System.out.println("getRPSortedInputs");
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+        GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
+        gtnWebServiceOrderByCriteriaList.add(e);
+        String orderByCriteria = "itemId";
+        e.setOrderByCriteria(orderByCriteria);
+        e.setPropertyId(orderByCriteria);
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getRPSortedInputs",List.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, gtnWebServiceOrderByCriteriaList);
+        assertFalse(gtnWebServiceOrderByCriteriaList.isEmpty());
         } catch (Exception ex) {
             Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1187,6 +1655,20 @@ public class GtnWsContractDashboardLookupLogicTest {
             Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @Test
+    public void testGetRPColumnsFalse() {
+    try{
+        System.out.println("getRPColumns");
+        String property = "CDRPNoView_RPI";
+        Method method = gtnWsContractDashboardLookupLogic.getClass().getDeclaredMethod("getRPColumns",String.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLookupLogic, property);
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardLookupLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 
     
     //CDRPNoView_RPID

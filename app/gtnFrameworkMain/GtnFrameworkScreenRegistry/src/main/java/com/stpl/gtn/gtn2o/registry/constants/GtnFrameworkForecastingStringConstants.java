@@ -16,6 +16,7 @@ public final class GtnFrameworkForecastingStringConstants {
 
 	}
 
+
 	public static final String VALUE = "value";
 
 	public static final String LEVEL = "Level";
@@ -25,20 +26,40 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String LINK = "link";
 
 	public static final String UNDERSCORE = "_";
+	
+	public static final String INVALID_SEARCH = "Invalid Search";
 
 	public static final String STATUS = "STATUS";
 
 	public static final String FORECAST = "forecast";
-
+	
 	public static final String HIER_NAME = "hierName";
-
+	
+	public static final String SEARCH_BUTTON="privateViewSearchLookupSearchButton";
+	
 	public static final String HIGHEST_LEVEL = "highestLevel";
+	
+	public static final String RESULT_CONFIG="privateViewSearchLookupResultConfig";
+	
+	public static final String RESULTS_PANEL="privateViewSearchLookupResultsPanel";
 
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
 
 	public static final String PRODUCT_HIERARCHY_GROUP_BUILDER = "Product Hierarchy Group Builder";
+	
+	public static final String VIEW_INVALID_SEARCH_MESSAGE_BODY = "There are no Views that match the search criteria.  Please try again.";
 
 	public static final String RESET_CONFIRMATION = "Reset Confirmation";
+	
+	public static final String VIEW_LAYOUT="privateViewLookupRootLayout";
+	
+	public static final String  CRITERIA_PANEL="privateViewSearchLookupSearchCriteriaPanel";
+	
+	public static final String  CRITERIA_LAYOUT="privateViewSearchLookupSearchCriteriaLayout";
+	
+	
+	
+	public static final String REPORT = "report";
 
 	public static final String RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Search Criteria ?";
 
@@ -114,7 +135,7 @@ public final class GtnFrameworkForecastingStringConstants {
 
 	public static final String REMOVE_VARIABLES_BTN = "removeVariablesBtn";
 
-	public static final String MODULE_TYPE = FORECAST;
+	public static final String MODULE_TYPE = "forecast";
 
 	public static final String HUNDRED_ONE_PERCENT = "101%";
 
@@ -145,17 +166,17 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String CUST_SELECTION_MAINLAYOUT = "custSelectionMainlayout";
 
 	public static final String CUSTOMER_SELECTION_INNERLAYOUT = "customerSelectionInnerlayout";
-
+	
 	public static final String DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP = "dataSelectionTab_customerSelectionRelationship";
-
+	
 	public static final String DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION = "dataSelectionTab_customerRelationshipVersion";
-
+	
 	public static final String DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL = "dataSelectionTab_customerSelectionLevel";
 
 	public static final String DATA_SELECTION_TAB_RELATIONSHIP = "dataSelectionTab_relationship";
-
+	
 	public static final String DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION = "dataSelectionTab_productRelationshipVersion";
-
+	
 	public static final String DATA_SELECTION_TAB_LEVEL = "dataSelectionTab_level";
 
 	public static final String RESULTS_MAIN_LAYOUT_CONFIG = "resultsMainLayoutConfig";

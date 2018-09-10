@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +28,10 @@ public class CommonUtil {
     private static final Object[] HIERARCHY_CATEGORY = {"hierarchyCategory"};
     private static final Object[] NO_OF_LEVELS = {"nooflevels"};
     private static final Object[] VERSION = {"version"};
-    
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtil.class);
+    private CommonUtil() {
+        LOGGER.debug("Entering CommonUtil ");
+    }
     public static String workFlowQuery(int start, int offset,boolean count, boolean scheduler,String orderByColumn,boolean orderBy) throws SQLException {
         String query;
         String query1 = "?";

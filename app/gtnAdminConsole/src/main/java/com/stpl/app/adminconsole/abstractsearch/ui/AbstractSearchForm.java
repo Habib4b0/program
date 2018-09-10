@@ -1011,9 +1011,7 @@ public class AbstractSearchForm extends CustomComponent {
                         LOGGER.error(errorMsg.getErrorMessage().toString());
                     } catch (PortalException e) {
                         LOGGER.error(e.getMessage());
-                    } catch (Exception e) {
-                        LOGGER.error(e.getMessage());
-                    }
+                    } 
 
                 }
             }

@@ -526,8 +526,7 @@ public class GtnFrameworkDeductionAutoUpdateServiceImplTest {
             
             List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = new LinkedList();
             HierarchyLevelDefinitionBean bean = new HierarchyLevelDefinitionBean();
-            bean.setLevelValueReference(GtnFrameworkWebserviceConstant.USER_DEFINED);
-            bean.setLevelNo(0);
+            bean.setLevelNo(2);
             hierarchyLevelDefinitionList.add(bean);
             HierarchyDefinition hd=new HierarchyDefinition();
             productrelationshipBuilder.setHierarchyDefinition(hd);

@@ -225,9 +225,6 @@ public class OutboundLogic {
         return stringBuilder;
     }
 
-//    public void loadHierarchyTypeMap() {
-//      
-//    }
 
     /**
      * Check search criteria.
@@ -289,16 +286,14 @@ public class OutboundLogic {
      */
     public List getRelationshipSearchResults(ErrorfulFieldGroup binder, int start, int offset, final boolean isCount, final List<SortByColumn> columns,
             final Set<Container.Filter> filterSet, final boolean isCheckAll) throws SystemException, ParseException {
-        List list = (List) loadRelationshipBuilderLogic(binder, isCheckAll, start, offset, isCount, columns, filterSet);
-        return list;
+        return (List) loadRelationshipBuilderLogic(binder, isCheckAll, start, offset, isCount, columns, filterSet);
     }
 
     private Object loadRelationshipBuilderLogic(ErrorfulFieldGroup binder, final boolean isCheckAll, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException, ParseException {
 
         List list;
         if (isCount) {
-            int count = (Integer) getSearchResults(binder, isCheckAll, false, start, start + offset, columns, filterSet, isCount);
-            return count;
+            return (Integer) getSearchResults(binder, isCheckAll, false, start, start + offset, columns, filterSet, isCount);
         } else {
             list = (List<RelationshipOutboundDTO>) getSearchResults(binder, isCheckAll, false, start, start + offset, columns, filterSet, isCount);
             return list;
@@ -560,8 +555,7 @@ public class OutboundLogic {
             input = new HashMap<>();
             input.put("?HIERARCHY_DEFINITION_SID", ids);
         }
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, queryName));
-        return list;
+        return (List) HelperTableLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, queryName));
     }
    
     /**
@@ -596,9 +590,7 @@ public class OutboundLogic {
         Map<String, String> input = new HashMap<>();
         input.put("?CONDITIONS", queryBuilder.toString());
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, "getHierarchyDefinitionOuboundCheckAllResults"));
-       
-         List<OutboundTableDTO> resultList = getCustomizedOutboundTableDTO(list);
-        return resultList;
+        return getCustomizedOutboundTableDTO(list);
         
     }
     
@@ -611,8 +603,7 @@ public class OutboundLogic {
     */
     public List<OutboundTableDTO> hierarchyDefinitionOutbound(String checkedIds, String queryName,boolean isScheduled) {
         List queryList = hierarchyQueryResults(checkedIds, queryName,isScheduled);
-        List<OutboundTableDTO> resultList = getCustomizedOutboundTableDTO(queryList);
-        return resultList;
+        return getCustomizedOutboundTableDTO(queryList);
     }
 
     /**

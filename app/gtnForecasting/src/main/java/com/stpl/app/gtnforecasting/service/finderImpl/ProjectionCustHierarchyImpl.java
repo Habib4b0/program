@@ -10,6 +10,7 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
@@ -119,7 +120,7 @@ public class ProjectionCustHierarchyImpl {
         } catch (ParseException e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 }

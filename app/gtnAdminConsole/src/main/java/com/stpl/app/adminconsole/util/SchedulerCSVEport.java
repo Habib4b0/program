@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 public class SchedulerCSVEport {
 
 	private static final String CREATE_WORK_SHEET_CONTENT = "createWorkSheetContent";
-	public final static char QUOTE = '"';
+	public static final char QUOTE = '"';
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerCSVEport.class);
 	private static boolean isFileCreated;
 
@@ -144,7 +144,6 @@ public class SchedulerCSVEport {
 			throws NoSuchFieldException, IllegalAccessException {
 		Field field = myDTO.getClass().getDeclaredField(variable);
 		field.setAccessible(true);
-		Object value = field.get(myDTO);
-		return value;
+		return field.get(myDTO);
 	}
 }

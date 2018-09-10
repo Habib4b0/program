@@ -9,10 +9,12 @@ import java.util.Map;
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnModeOptionValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastEligibleDateLoadAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -25,6 +27,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
@@ -32,6 +35,19 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
+	
+	public GtnUIFrameworkComponentConfig getHorizontalLayoutConfig(String compId, String parentLayout) {
+		GtnUIFrameworkComponentConfig profileOptionLayoutConf = new GtnUIFrameworkComponentConfig();
+		profileOptionLayoutConf.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		profileOptionLayoutConf.setComponentId(compId + GtnFrameworkCssConstants.HORIZONTAL);
+		profileOptionLayoutConf.setComponentName(compId + GtnFrameworkCssConstants.HORIZONTAL);
+		profileOptionLayoutConf.setParentComponentId(parentLayout);
+		profileOptionLayoutConf.setAddToParent(true);
+		GtnUIFrameworkLayoutConfig conf = new GtnUIFrameworkLayoutConfig();
+		conf.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		profileOptionLayoutConf.setGtnLayoutConfig(conf);
+		return profileOptionLayoutConf;
+	}
 	public GtnUIFrameworkViewConfig getDataSelectionView(String nameSpace) {
 
 		GtnUIFrameworkViewConfig dataSelectionView = configProvider.getViewConfig(nameSpace + "_" + "Data Selection",
@@ -167,7 +183,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(modeLayoutConfig);
 
 		GtnUIFrameworkComponentConfig modeOptionRadioGroup = new GtnUIFrameworkComponentConfig();
-		modeOptionRadioGroup.setComponentType(GtnUIFrameworkComponentType.OPTIONGROUP);
+		modeOptionRadioGroup.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
 		modeOptionRadioGroup.setComponentId(nameSpace + "_" + "profileMode");
 		modeOptionRadioGroup.setComponentName("Mode");
 		modeOptionRadioGroup.setAddToParent(Boolean.TRUE);
@@ -182,6 +198,28 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		modeOptionRadioGroup.setGtnUIFrameworkOptionGroupConfig(modeOptionGroupConfig);
 
 		componentList.add(modeOptionRadioGroup);
+                
+                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig optionChangeActionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfigList.add(optionChangeActionConfig);
+		optionChangeActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		List<Object> popupActionParam = new ArrayList<>();
+		popupActionParam.add(GtnModeOptionValueChangeAction.class.getName());
+		popupActionParam.add(nameSpace + "_" + "profileMode");
+		popupActionParam.add(nameSpace + "_" + "dsGenerate");
+		popupActionParam.add(nameSpace + "_" + "searchBtn");
+		popupActionParam.add(nameSpace + "_" + "resetBtn");
+		popupActionParam.add(nameSpace + "_" + "saveViewBtn");
+		popupActionParam.add(nameSpace + "_" + "deleteViewBtn");
+		popupActionParam.add(nameSpace + "_" + "resetCtrlBtn");
+		popupActionParam.add(nameSpace + "_" + "editBtn");
+		popupActionParam.add(nameSpace + "_" + "viewBtn");
+		popupActionParam.add(nameSpace + "_" + "deleteBtn");
+		popupActionParam.add(nameSpace + "_" + "to");
+
+		optionChangeActionConfig.setActionParameterList(popupActionParam);
+                
+                modeOptionRadioGroup.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
 
 	private void addPrivateViewLookup(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
@@ -196,6 +234,21 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		privateViewLookup.setAddToParent(Boolean.TRUE);
 		privateViewLookup.setParentComponentId(nameSpace + "_" + "privateViewLookupLayout");
 		componentList.add(privateViewLookup);
+		
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig popupActionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfigList.add(popupActionConfig);
+		popupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		List<Object> popupActionParam = new ArrayList<>();
+		popupActionParam.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		popupActionParam.add("Private View");
+		popupActionParam.add("70%");
+		popupActionParam.add("70%");
+
+		popupActionConfig.setActionParameterList(popupActionParam);
+		privateViewLookup.addGtnUIFrameWorkActionConfig(popupActionConfig);
+		
 	}
 
 	private void addCompany(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
@@ -209,6 +262,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		company.setComponentName( GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
 		company.setAddToParent(Boolean.TRUE);
 		company.setParentComponentId(nameSpace + "_" + "companyLayout");
+		 company.setCustomReference("integerId");
 
 		GtnUIFrameworkComboBoxConfig companyConfig = new GtnUIFrameworkComboBoxConfig();
 		companyConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -244,6 +298,19 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		publicViewLookup.setAddToParent(Boolean.TRUE);
 		publicViewLookup.setParentComponentId(nameSpace + "_" + "publicViewLayout");
 		componentList.add(publicViewLookup);
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig popupActionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfigList.add(popupActionConfig);
+		popupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		List<Object> popupActionParam = new ArrayList<>();
+		popupActionParam.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		popupActionParam.add("Public View");
+		popupActionParam.add("70%");
+		popupActionParam.add("70%");
+
+		popupActionConfig.setActionParameterList(popupActionParam);
+		publicViewLookup.addGtnUIFrameWorkActionConfig(popupActionConfig);
 
 	}
 
@@ -258,6 +325,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		businessUnit.setComponentName("Business Unit");
 		businessUnit.setAddToParent(Boolean.TRUE);
 		businessUnit.setParentComponentId(nameSpace + "_" + "businessUnitLayout");
+		 businessUnit.setCustomReference("integerId");
 
 		GtnUIFrameworkComboBoxConfig businessUnitConfig = new GtnUIFrameworkComboBoxConfig();
 		businessUnitConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -333,6 +401,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		fromPeriod.setComponentName("From ");
 		fromPeriod.setAddToParent(Boolean.TRUE);
 		fromPeriod.setParentComponentId(nameSpace + "_" + "fromPeriodLayout");
+		fromPeriod.setCustomReference("integerId");
 
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
 		fromPeriodConfig.setItemCaptionValues(new ArrayList<>());
@@ -476,6 +545,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		searchBtn.setComponentName("SEARCH");
 		searchBtn.setParentComponentId(parentComponentId);
 		searchBtn.setAddToParent(true);
+		searchBtn.setEnable(false);
 
 		componentList.add(searchBtn);
 
@@ -489,6 +559,41 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		resetBtn.setParentComponentId(parentComponentId);
 		resetBtn.setAddToParent(true);
 		componentList.add(resetBtn);
+		
+		
+		List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
+		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+		List<Object> params = new ArrayList<>();
+		params.add(GtnFrameworkScreenRegisteryConstants.GTN_NEWARCHITECTURE_CONFIRMATION_MSG_RESET_HEADER);
+		params.add(GtnFrameworkScreenRegisteryConstants.GTN_VALIDATION_MSG_RESET);
+		params.add(Arrays.asList(
+				nameSpace + "_" + "profileMode",
+				nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
+				nameSpace + "_" + "projectionName",
+				nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
+				nameSpace + "_" + "projectionDescription",
+				nameSpace + "_" + "privateViewLookup",
+				nameSpace + "_" + "publicView"
+				
+				));
+		
+		params.add(Arrays.asList(
+				"Add",
+				0,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				0,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY
+				
+				
+				));
+		
+		resetActionConfig.setActionParameterList(params);
+		resetActionConfigList.add(resetActionConfig);
+		resetBtn.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
+		
 	}
 
 	private void addSaveViewBtn(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
@@ -508,6 +613,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteViewBtn.setComponentName("DELETE VIEW");
 		deleteViewBtn.setParentComponentId(parentComponentId);
 		deleteViewBtn.setAddToParent(true);
+		deleteViewBtn.setEnable(false);
 		componentList.add(deleteViewBtn);
 	}
 
@@ -618,6 +724,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		resetCtrlBtn.setComponentName("RESET");
 		resetCtrlBtn.setParentComponentId(parentComponentId);
 		resetCtrlBtn.setAddToParent(true);
+		resetCtrlBtn.setEnable(false);
 		componentList.add(resetCtrlBtn);
 	}
 	
@@ -628,6 +735,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		editBtn.setComponentName("EDIT");
 		editBtn.setParentComponentId(parentComponentId);
 		editBtn.setAddToParent(true);
+		editBtn.setEnable(false);;
 		componentList.add(editBtn);
 	}
 	
@@ -638,6 +746,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		viewBtn.setComponentName("VIEW");
 		viewBtn.setParentComponentId(parentComponentId);
 		viewBtn.setAddToParent(true);
+		viewBtn.setEnable(false);
 		componentList.add(viewBtn);
 	}
 	
@@ -648,6 +757,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteBtn.setComponentName("DELETE");
 		deleteBtn.setParentComponentId(parentComponentId);
 		deleteBtn.setAddToParent(true);
+		deleteBtn.setEnable(false);
 		componentList.add(deleteBtn);
 	}
 	

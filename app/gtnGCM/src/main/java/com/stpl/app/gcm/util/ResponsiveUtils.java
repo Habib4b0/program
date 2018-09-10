@@ -34,12 +34,16 @@ import org.slf4j.LoggerFactory;
  */
 public class ResponsiveUtils {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
     public static final String PREV_NEXT_LAYOUT = "prev-next-layout";
     public static final String NEXTCOLUMN_BUTTON = "next-column-button";
     public static final String PREVCOLUMN_BUTTON = "prev-column-button";
     public static final String STYLECOLOR = " <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>";
-
+    
+    private ResponsiveUtils()
+    {
+        LOGGER.debug("HeaderUtils");
+    }
     public static Label makeLabel(String value, boolean isMandatory) {
         StringBuilder sb = new StringBuilder();
         sb.append(value);
@@ -212,7 +216,7 @@ public class ResponsiveUtils {
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
     }
-
+   
     private static String[] getCollapsibleColumns(Table table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);

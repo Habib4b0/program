@@ -38,7 +38,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class PrivatePublicLookup extends Window {
 

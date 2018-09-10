@@ -225,7 +225,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (StringConstantsUtil.COMPONENT_STATUS_PROPERTY.equals(propertyId)) {
                     final ComboBox componentStatusDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(componentStatusDdlb, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(componentStatusDdlb, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getTrueFlag());
                     return componentStatusDdlb;
                 }
 
@@ -326,7 +326,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatusDto, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(componentStatusDto, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getFalseFlag());
     }
 
     /**
