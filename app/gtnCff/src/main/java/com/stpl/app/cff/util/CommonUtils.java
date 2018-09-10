@@ -137,7 +137,7 @@ public class CommonUtils {
     /**
      * The WorkFlowStatus list name.
      */
-    public final static String WORKFLOW_STATUS = "WorkFlowStatus";
+    public static final String WORKFLOW_STATUS = "WorkFlowStatus";
     /**
      * The Constant YES.
      */

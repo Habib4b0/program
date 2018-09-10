@@ -561,7 +561,8 @@ AS
                                 TIER_OPERATOR,
                                 NET_CALCULATED_SALES,
 								 NET_UNITS,
-                                REBATE_RANGE_BASED_ON
+                                REBATE_RANGE_BASED_ON,
+								CALCULATION_TYPE
                          FROM   (SELECT DISTINCT R.ARM_ADJUSTMENT_DETAILS_SID,
                                                  R.RS_MODEL_SID,
                                                  CALCULATION_LEVEL,
@@ -574,7 +575,8 @@ AS
                                                  TIER_OPERATOR,
                                                  NET_CALCULATED_SALES,
 												 NET_UNITS,
-                                                 REBATE_RANGE_BASED_ON
+                                                 REBATE_RANGE_BASED_ON,
+												 CALCULATION_TYPE
                                  FROM   #REBATE_INFO1 R
                                         LEFT JOIN #TEMP_RATE_IDENTIFICATION SNSP
                                                ON R.ARM_ADJUSTMENT_DETAILS_SID = SNSP.ARM_ADJUSTMENT_DETAILS_SID
@@ -609,7 +611,8 @@ AS
                                           END
                                       END,
                                 REBATE_RANGE_BASED_ON,
-								c.NET_UNITS
+								c.NET_UNITS,
+								C.CALCULATION_TYPE
                          FROM   CONTRACT_DETAILS_INFO C
                                 OUTER APPLY (SELECT DISCOUNT_RATE,
                                                     REBATE_PER_UNIT,
@@ -646,7 +649,8 @@ AS
                                 CALCULATION_LEVEL,
                                 TIER_OPERATOR,
                                 VALUE,
-								NET_UNITS
+								NET_UNITS,
+								CALCULATION_TYPE
                          FROM   TIER_INFO WHERE TIER_SELECT IS NOT NULL),
                      CONTRACT_DETAILS
                      AS (SELECT ARM_ADJUSTMENT_DETAILS_SID,
@@ -657,14 +661,14 @@ AS
                                 PROJECTION_REBATE_PER_UNIT= ( AMOUNT / NULLIF(NET_UNITS, 0) ),
                                 NET_CALCULATED_SALES,
 								NET_UNITS,
-                                SALES_PROJECTED_VALUE,SUM_PROJECTION----GAL-12531
+                                SALES_PROJECTED_VALUE,SUM_PROJECTION,CALCULATION_TYPE----GAL-12531
                          FROM   (SELECT ARM_ADJUSTMENT_DETAILS_SID,
                                         RS_MODEL_SID,
                                         PERIOD_SID,
                                         AMOUNT,
                                         NET_CALCULATED_SALES,
 										NET_UNITS,
-                                        SALES_PROJECTED_VALUE,SUM_PROJECTION--------GAL-12531
+                                        SALES_PROJECTED_VALUE,SUM_PROJECTION,CALCULATION_TYPE--------GAL-12531
                                  FROM   (SELECT ARM_ADJUSTMENT_DETAILS_SID,
                                                 RS_MODEL_SID,
                                                 PERIOD_SID,
@@ -676,7 +680,7 @@ AS
                                                 NET_CALCULATED_SALES,
 												NET_UNITS,
                                                 SALES_PROJECTED_VALUE,
-                                                REBATE_STRUCTURE,SUM_PROJECTION----GAL-12531
+                                                REBATE_STRUCTURE,SUM_PROJECTION,CALCULATION_TYPE----GAL-12531
                                          FROM   AGGREGATION
                                          WHERE  RN = 1)B)A)
                 INSERT INTO #CONTRACT_DETAILS1
@@ -699,7 +703,7 @@ AS
                        ISNULL(NET_CALCULATED_SALES, 0),
                        ISNULL(NET_UNITS, 0),
                        ISNULL(SALES_PROJECTED_VALUE, 0),
-                       ''REBATE PLAN'',SUM_PROJECTION--------GAL-12531
+                       CALCULATION_TYPE,SUM_PROJECTION--------GAL-12531
                 FROM   CONTRACT_DETAILS')
 
                       EXEC Sp_executesql
@@ -733,7 +737,8 @@ AS
                                      RS_MODEL_SID,
                                      PERIOD_SID,
                                      PROJECTION_AMOUNT,
-									 SUM_PROJECTION*100 PROJECTION_RATE,--------galuat-939
+									 CASE WHEN CALCULATION_TYPE IS NULL THEN 0
+                                           ELSE  SUM_PROJECTION*100 END PROJECTION_RATE,--------galuat-939
                                      ------PROJECTION_RATE,--------galuat-939
                                      PROJECTION_REBATE_PER_UNIT,
                                      NET_CALCULATED_SALES,

@@ -58,9 +58,10 @@ public class CfpContractDetailsImpl {
     public List getCompaniesList(String searchField, String searchVal, Map<String, Object> filterMap, int start, int offset, String column, String orderBy) {
 
         String sql = StringUtils.EMPTY;
+        String orderByNew = orderBy;
         try {
-            if (orderBy == null) {
-                orderBy = "ASC";
+            if (orderByNew == null) {
+                orderByNew = "ASC";
             }
             String companyId = String.valueOf(filterMap.get("companyId"));
             String companyNo = String.valueOf(filterMap.get("companyNo"));
@@ -217,7 +218,7 @@ public class CfpContractDetailsImpl {
             sql += ")\n"
                     + "B where rn=1";
             if (column != null) {
-                sql += " ORDER BY " + column + " " + orderBy + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
+                sql += " ORDER BY " + column + " " + orderByNew + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
             }
             LOGGER.debug("getCompaniesList {} " , sql);
             

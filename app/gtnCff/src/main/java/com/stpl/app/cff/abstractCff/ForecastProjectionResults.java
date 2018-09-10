@@ -147,7 +147,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected String screenName;
     protected int projectionId = 0, customId = 0, customIdToSelect = 0;
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     protected CustomTableHeaderDTO leftHeader, rightHeader, fullHeader = new CustomTableHeaderDTO();
     protected List<CffCustomViewMaster> customViewList = new ArrayList<>();
     protected final float maxSplitPosition = 1000, minSplitPosition = NumericConstants.TWO_HUNDRED, splitPosition = 300;
