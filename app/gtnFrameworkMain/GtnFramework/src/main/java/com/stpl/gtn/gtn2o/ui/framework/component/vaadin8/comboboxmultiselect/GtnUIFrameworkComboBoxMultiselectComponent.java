@@ -77,7 +77,7 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 				comboBoxVaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
 				setSelectedItemInComboboxMultiselect(checkedComboBoxConfig, comboBoxVaadinMultiSelect, idList,
 						valueList);
-				setPageLengthBasedOnTheNumberOfRecords(checkedComboBoxConfig.getItemValueList().size(),
+				setPageLengthBasedOnTheNumberOfRecords(valueList.size(),
 						comboBoxVaadinMultiSelect);
 
 			}
