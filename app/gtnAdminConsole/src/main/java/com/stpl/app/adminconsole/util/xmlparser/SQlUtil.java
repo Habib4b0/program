@@ -52,8 +52,6 @@ public class SQlUtil {
         while (urls.hasMoreElements()) {
             URL tempUrl = urls.nextElement();
             if (tempUrl.getFile() != null && tempUrl.getFile().contains(".xml")) {
-//                properties.put("javax.xml.bind.context.factory",
-//                        "org.eclipse.persistence.jaxb.JAXBContextFactory");
                 JAXBContext jaxbContext = JAXBContext.newInstance(Sql.class);
                 Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
                 Sql que = (Sql) jaxbUnmarshaller.unmarshal(tempUrl);
