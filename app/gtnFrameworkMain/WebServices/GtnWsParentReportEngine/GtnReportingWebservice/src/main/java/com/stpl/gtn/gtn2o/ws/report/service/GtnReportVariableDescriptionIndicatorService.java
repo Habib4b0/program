@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -21,8 +20,12 @@ public class GtnReportVariableDescriptionIndicatorService {
 			.getGTNLogger(GtnReportVariableDescriptionIndicatorService.class);
 	private String[] indicatorStringData = new String[14];
 
+	public GtnReportVariableDescriptionIndicatorService() {
+		super();
+	}
+
 	@Autowired
-	GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@PostConstruct
 	public void loadVariableDescription() {

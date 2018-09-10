@@ -144,7 +144,6 @@ public class SchedulerCSVEport {
 			throws NoSuchFieldException, IllegalAccessException {
 		Field field = myDTO.getClass().getDeclaredField(variable);
 		field.setAccessible(true);
-		Object value = field.get(myDTO);
-		return value;
+		return field.get(myDTO);
 	}
 }

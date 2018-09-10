@@ -140,7 +140,7 @@ public class FileSelection extends CustomComponent {
                 public void buttonClick(final Button.ClickEvent event) {
                     try {
                         LOGGER.debug("Entering EXCEL Export Button Click");
-                        ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
+                        ConsolidatedFinancialForecastUI.setExcelClose(true);
                         final ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(resultsTable), StringConstantsUtil.FILE_SELECTION, StringConstantsUtil.FILE_SELECTION, "FileSelection.xls", false);
                         excel.export();
                         LOGGER.debug(" Ends  EXCEL Export Button Click");

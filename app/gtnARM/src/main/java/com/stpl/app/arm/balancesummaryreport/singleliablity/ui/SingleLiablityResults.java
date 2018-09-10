@@ -31,25 +31,25 @@ public class SingleLiablityResults extends AbstractBalanceSummaryResutls {
         try {
             Map properties = new HashMap();
             List<Object> header = getSummaryLogic().getRightTableHeaders(getSummarySelection());
-            List rightSingleVisibleColumn = (ArrayList) header.get(0);
-            List rightSingleVisibleHeader = (ArrayList) header.get(1);
-            List<String> rightDoubleVisibleColumn = (ArrayList) header.get(2);
-            List<String> rightDoubleVisibleHeader = (ArrayList) header.get(3);
-            for (Object variableColumn : rightSingleVisibleColumn) {
+            List slRightSingleVisibleColumn = (ArrayList) header.get(0);
+            List slRightSingleVisibleHeader = (ArrayList) header.get(1);
+            List<String> slRightDoubleVisibleColumn = (ArrayList) header.get(2);
+            List<String> slRightDoubleVisibleHeader = (ArrayList) header.get(3);
+            for (Object variableColumn : slRightSingleVisibleColumn) {
                 properties.put(variableColumn, String.class);
             }
             getExcelContainer().setColumnProperties(properties);
-            getExcelContainer().setRecordHeader(rightSingleVisibleColumn);
-            List rightsingleVisibleColumn1 = new ArrayList(rightSingleVisibleColumn);
+            getExcelContainer().setRecordHeader(slRightSingleVisibleColumn);
+            List rightsingleVisibleColumn1 = new ArrayList(slRightSingleVisibleColumn);
             rightsingleVisibleColumn1.add(0, ARMUtils.CUSTOMERORPRODUCT_COLUMN);
-            rightSingleVisibleHeader.add(0, ARMUtils.CUSTOMERORPRODUCT);
-            rightDoubleVisibleColumn.add(0, ARMUtils.CUSTOMERORPRODUCT_COLUMN);
-            rightDoubleVisibleHeader.add(0, "");
+            slRightSingleVisibleHeader.add(0, ARMUtils.CUSTOMERORPRODUCT);
+            slRightDoubleVisibleColumn.add(0, ARMUtils.CUSTOMERORPRODUCT_COLUMN);
+            slRightDoubleVisibleHeader.add(0, "");
             getExcelTable().setVisibleColumns(rightsingleVisibleColumn1.toArray());
-            getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
+            getExcelTable().setColumnHeaders(Arrays.copyOf((slRightSingleVisibleHeader).toArray(), (slRightSingleVisibleHeader).size(), String[].class));
             getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
-            getExcelTable().setDoubleHeaderVisibleColumns(rightDoubleVisibleColumn.toArray());
-            getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(rightDoubleVisibleHeader.toArray(), rightDoubleVisibleHeader.size(), String[].class));
+            getExcelTable().setDoubleHeaderVisibleColumns(slRightDoubleVisibleColumn.toArray());
+            getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(slRightDoubleVisibleHeader.toArray(), slRightDoubleVisibleHeader.size(), String[].class));
             getExcelTable().setDoubleHeaderMap((Map) header.get(5));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {

@@ -63,11 +63,11 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
 
     private CustomMenuBar.CustomMenuItem customMenuItem;
     @UiField("dateType")
-    protected CustomComboBox dateType;
+    protected CustomComboBox salesDateType;
     @UiField("price")
-    protected CustomComboBox price;
+    protected CustomComboBox salesPrice;
     @UiField("exclusionDetails")
-    protected Button exclusionDetails;
+    protected Button salesExclusionDetails;
     @UiField("reset")
     private Button reset;
     @UiField("generate")
@@ -76,8 +76,8 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
     public final Map<String, String> listNameMapper = new HashMap<>(ARMUtils.listNameMapper());
     protected Object[] variablesValue;
     private SalesSearchResults salesResults;
-    private SalesLogic logic = new SalesLogic();
-    private PipelineAccrualSelectionDTO selection;
+    private SalesLogic salesLogic = new SalesLogic();
+    private PipelineAccrualSelectionDTO salesSelection;
     /**
      * priceddlb holds the list of periods
      */
@@ -87,7 +87,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
 
     public Sales(DataSelectionDTO dataselection, PipelineAccrualSelectionDTO selection) {
         this.dataselection = dataselection;
-        this.selection = selection;
+        this.salesSelection = selection;
         init();
         configureFields();
         configureWorkFlow();
@@ -101,18 +101,18 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
     }
 
     private void init() {
-        salesResults = new SalesSearchResults(logic, selection);
+        salesResults = new SalesSearchResults(salesLogic, salesSelection);
         addComponent(Clara.create(getClass().getResourceAsStream("/bussinessprocess/sale_dataselection.xml"), this));
         salesResults.getResults();
-        exclusionDetails.addStyleName(Reindeer.BUTTON_LINK);
+        salesExclusionDetails.addStyleName(Reindeer.BUTTON_LINK);
         addComponent(salesResults);
-        CommonUtils.loadComboBoxWithInteger(dateType, CommonConstant.ARM_DATE_TYPE, false);
+        CommonUtils.loadComboBoxWithInteger(salesDateType, CommonConstant.ARM_DATE_TYPE, false);
     }
 
     @UiHandler("exclusionDetails")
     public void exclusionDetailsLookup(Button.ClickEvent event) {
         LOGGER.debug("exclusionDetails starts");
-        ExclusionDetailsLookup exclusionDetailsLookup = new ExclusionDetailsLookup(dataselection, selection.getSessionDTO()); // Changed for GAL-7235
+        ExclusionDetailsLookup exclusionDetailsLookup = new ExclusionDetailsLookup(dataselection, salesSelection.getSessionDTO()); // Changed for GAL-7235
         UI.getCurrent().addWindow(exclusionDetailsLookup);
         exclusionDetailsLookup.addCloseListener(new Window.CloseListener() {
             @Override
@@ -122,7 +122,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             }
         });
     }
-    private final CustomNotification notifier = new CustomNotification();
+    private final SalesCustomNotification salesNotifier = new SalesCustomNotification();
 
     private void configureFields() {
         String[] variableValues;
@@ -133,34 +133,34 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
         customMenuItem = customMenuBar.addItem("-Select One-", null);
         variableVisibleColumns = VariableConstants.getVariableSalesVisibleColumn();
         CommonUtils.loadCustomMenu(customMenuItem, variableValues, variableVisibleColumns);
-        List<Object> defaultValue = logic.getMonthYear();
+        List<Object> defaultValue = salesLogic.getMonthYear();
         Integer vvalue = Integer.valueOf(String.valueOf(defaultValue.get(1)));
         String month = SalesLogic.getMonthName(vvalue);
         String str = month + " " + defaultValue.get(NumericConstants.TWO);
-        priceddlb = CommonUtils.getPeriodsByFrequency("M", selection.getDataSelectionDTO().getFromPeriodMonth(), str);
-        price.removeAllItems();
-        price.setContainerDataSource(new IndexedContainer(priceddlb));
+        priceddlb = CommonUtils.getPeriodsByFrequency("M", salesSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
+        salesPrice.removeAllItems();
+        salesPrice.setContainerDataSource(new IndexedContainer(priceddlb));
         setDefaultValue();
     }
 
     private void configureWorkFlow() {
-        if (selection.getSessionDTO().isWorkFlow()) {
+        if (salesSelection.getSessionDTO().isWorkFlow()) {
             salesResults.setValueChangeAllowed(false);
             loadDetails();
-            selection.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
-            salesResults.generateButtonLogic(selection, Boolean.TRUE);
-            if (ARMUtils.VIEW_SMALL.equals(selection.getSessionDTO().getAction())) {
+            salesSelection.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
+            salesResults.generateButtonLogic(salesSelection, Boolean.TRUE);
+            if (ARMUtils.VIEW_SMALL.equals(salesSelection.getSessionDTO().getAction())) {
                 configureFieldsOnViewMode();
             }
             salesResults.setValueChangeAllowed(true);
         }
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class SalesCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String salesButtonName;
 
-        public CustomNotification() {
+        public SalesCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -173,9 +173,9 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", salesButtonName);
+            if (null != salesButtonName) {
+                switch (salesButtonName) {
                     case CommonConstant.RESET:
                         setDefaultValue();
                         CommonUtils.unCheckMenuBarItem(customMenuItem);
@@ -188,7 +188,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.salesButtonName = buttonName;
         }
 
     }
@@ -198,8 +198,8 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 try {
-                    notifier.setButtonName(CommonConstant.RESET);
-                    notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
+                    salesNotifier.setButtonName(CommonConstant.RESET);
+                    salesNotifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
                 } catch (Exception e) {
                     LOGGER.error("Error in reset :", e);
                 }
@@ -214,17 +214,17 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
                 LOGGER.debug("Inside generate ButtonClick Btn");
 
                 try {
-                    if ("null".equals(String.valueOf(price.getValue())) || String.valueOf(price.getValue()).equals(GlobalConstants.getSelectOne()) || CommonUtils.getCheckedValues(customMenuItem).isEmpty()) {
+                    if ("null".equals(String.valueOf(salesPrice.getValue())) || String.valueOf(salesPrice.getValue()).equals(GlobalConstants.getSelectOne()) || CommonUtils.getCheckedValues(customMenuItem).isEmpty()) {
                         AbstractNotificationUtils.getErrorNotification("Error", "Please make sure at least one value is selected from the Variables and Price drop downs.");
                     } else {
                         salesResults.setValueChangeAllowed(false);
-                        String description = HelperListUtil.getInstance().getDescriptionByID((int) dateType.getValue()).trim();
-                        selection.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
-                        selection.setPrice(CommonUtils.getPeriodValue('M', price.getValue().toString()));
-                        selection.setDateType(description);
-                        selection.setProjectionMasterSid(dataselection.getProjectionId());
+                        String description = HelperListUtil.getInstance().getDescriptionByID((int) salesDateType.getValue()).trim();
+                        salesSelection.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
+                        salesSelection.setPrice(CommonUtils.getPeriodValue('M', salesPrice.getValue().toString()));
+                        salesSelection.setDateType(description);
+                        salesSelection.setProjectionMasterSid(dataselection.getProjectionId());
 
-                        salesResults.generateButtonLogic(selection, Boolean.FALSE);
+                        salesResults.generateButtonLogic(salesSelection, Boolean.FALSE);
                         salesResults.setValueChangeAllowed(true);
                     }
                 } catch (Exception e) {
@@ -236,21 +236,21 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
 
     private void setDefaultValue() {
         try {
-            List<String> defaultValue = logic.getRateConfigSettings(new ArrayList<>(Arrays.asList(dataselection.getCompanyMasterSid(), dataselection.getBucompanyMasterSid(), dataselection.getAdjustmentId(),
-                    StringUtils.isNotBlank(selection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(selection.getDataSelectionDTO().getFromPeriodMonth().trim().split(" ")[0]) : 1)));
+            List<String> defaultValue = salesLogic.getRateConfigSettings(new ArrayList<>(Arrays.asList(dataselection.getCompanyMasterSid(), dataselection.getBucompanyMasterSid(), dataselection.getAdjustmentId(),
+                    StringUtils.isNotBlank(salesSelection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(salesSelection.getDataSelectionDTO().getFromPeriodMonth().trim().split(" ")[0]) : 1)));
             if (!defaultValue.isEmpty()) {
                 if (!"0".equals(defaultValue.get(NumericConstants.FOUR))) {
-                    dateType.setValue(Integer.valueOf(defaultValue.get(NumericConstants.FOUR)));
+                    salesDateType.setValue(Integer.valueOf(defaultValue.get(NumericConstants.FOUR)));
                 } else {
-                    dateType.setValue(0);
+                    salesDateType.setValue(0);
                 }
                 if (!"0".equals(defaultValue.get(NumericConstants.THREE))) {
-                    price.setValue(logic.getRatePeriod(defaultValue.get(NumericConstants.THREE), "M", selection.getDataSelectionDTO().getFromPeriodMonth(), priceddlb));
+                    salesPrice.setValue(salesLogic.getRatePeriod(defaultValue.get(NumericConstants.THREE), "M", salesSelection.getDataSelectionDTO().getFromPeriodMonth(), priceddlb));
                 } else {
-                    price.setValue(GlobalConstants.getSelectOne());
+                    salesPrice.setValue(GlobalConstants.getSelectOne());
                 }
             } else {
-                price.setValue(GlobalConstants.getSelectOne());
+                salesPrice.setValue(GlobalConstants.getSelectOne());
             }
 
         } catch (Exception e) {
@@ -259,40 +259,40 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
     }
 
     private void configureFieldsOnViewMode() {
-        dateType.setEnabled(false);
-        price.setEnabled(false);
-        exclusionDetails.setEnabled(false);
+        salesDateType.setEnabled(false);
+        salesPrice.setEnabled(false);
+        salesExclusionDetails.setEnabled(false);
         reset.setEnabled(false);
     }
 
     private void loadDetails() {
         try {
-            List<Object[]> list = CommonLogic.loadPipelineAccrual(selection.getProjectionMasterSid());
+            List<Object[]> list = CommonLogic.loadPipelineAccrual(salesSelection.getProjectionMasterSid());
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = list.get(i);
                 if (VariableConstants.SALES_VARIABLE.equals(String.valueOf(obj[0]))) {
-                    String str1 = (String) obj[1];
-                    String[] str2 = str1.split(",");
+                    String salesstr1 = (String) obj[1];
+                    String[] salesstr2 = salesstr1.split(",");
                     String str3 = null;
-                    for (String strings : str2) {
+                    for (String strings : salesstr2) {
                         str3 = strings;
                         CommonUtils.checkMenuBarItem(customMenuItem, str3);
                     }
                 } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
-                    BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
+                    BeanUtils.setProperty(salesSelection, String.valueOf(obj[0]), obj[1]);
                 }
             }
             HelperListUtil.getInstance().loadValuesWithListName("DATA_SELECTION");
-            CommonUtils.loadComboBoxWithInteger(dateType, CommonConstant.ARM_DATE_TYPE, false);
-            dateType.setValue(HelperListUtil.getInstance().getIdByDesc(CommonConstant.ARM_DATE_TYPE, selection.getDateType()));
-            List<Object> defaultValue = logic.getMonthYear();
+            CommonUtils.loadComboBoxWithInteger(salesDateType, CommonConstant.ARM_DATE_TYPE, false);
+            salesDateType.setValue(HelperListUtil.getInstance().getIdByDesc(CommonConstant.ARM_DATE_TYPE, salesSelection.getDateType()));
+            List<Object> defaultValue = salesLogic.getMonthYear();
             Integer vvalue = Integer.valueOf(String.valueOf(defaultValue.get(1)));
             String month = SalesLogic.getMonthName(vvalue);
             String str = month + " " + defaultValue.get(NumericConstants.TWO);
-            priceddlb = CommonUtils.getPeriodsByFrequency("M", selection.getDataSelectionDTO().getFromPeriodMonth(), str);
-            price.removeAllItems();
-            price.setContainerDataSource(new IndexedContainer(priceddlb));
-            price.setValue(selection.getPrice());
+            priceddlb = CommonUtils.getPeriodsByFrequency("M", salesSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
+            salesPrice.removeAllItems();
+            salesPrice.setContainerDataSource(new IndexedContainer(priceddlb));
+            salesPrice.setValue(salesSelection.getPrice());
         } catch (Exception e) {
             LOGGER.error("Error in loadDetails :", e);
         }
@@ -318,18 +318,13 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
     }
 
     @Override
-    public String leaveConfirmationMessage() {
-        return ARMMessages.getSalesLeaveConfirmMessageTransaction1();
-    }
-
-    @Override
     public boolean checkLeave() {
         return isGenerated();
     }
 
     @Override
-    public boolean isRestrict() {
-        return false;
+    public String leaveConfirmationMessage() {
+        return ARMMessages.getSalesLeaveConfirmMessageTransaction1();
     }
 
     @Override
@@ -338,23 +333,28 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
     }
 
     @Override
+    public boolean isRestrict() {
+        return false;
+    }
+
+    @Override
     public String leaveRestrictionMessage() {
         return ARMMessages.getSalesLeaveConfirmMessageTransaction1();
     }
 
     public void configurePermission(String userId, StplSecurity stplSecurity) {
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction1", "Sales");
-        reset.setVisible(CommonLogic.isButtonVisibleAccess(CommonConstant.RESET, functionHM));
-        generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
-        salesResults.getExpandbtn().setVisible(CommonLogic.isButtonVisibleAccess("expandbtn", functionHM));
-        salesResults.getCollapseBtn().setVisible(CommonLogic.isButtonVisibleAccess("collapseBtn", functionHM));
-        salesResults.getCalculateBtn().setVisible(CommonLogic.isButtonVisibleAccess("calculateBtn", functionHM));
+        Map<String, AppPermission> salesFunctionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction1", "Sales");
+        reset.setVisible(CommonLogic.isButtonVisibleAccess(CommonConstant.RESET, salesFunctionHM));
+        generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", salesFunctionHM));
+        salesResults.getExpandbtn().setVisible(CommonLogic.isButtonVisibleAccess("expandbtn", salesFunctionHM));
+        salesResults.getCollapseBtn().setVisible(CommonLogic.isButtonVisibleAccess("collapseBtn", salesFunctionHM));
+        salesResults.getCalculateBtn().setVisible(CommonLogic.isButtonVisibleAccess("calculateBtn", salesFunctionHM));
 
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object salesobj) {
+        return super.equals(salesobj);
     }
 
     @Override
@@ -362,11 +362,11 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream salesobj) throws IOException {
+        salesobj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream salesobj) throws IOException, ClassNotFoundException {
+        salesobj.defaultReadObject();
     }
 }

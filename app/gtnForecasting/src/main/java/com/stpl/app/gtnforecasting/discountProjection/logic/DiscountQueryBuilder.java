@@ -284,7 +284,7 @@ public class DiscountQueryBuilder {
     }
 
     public void massUpdate(SessionDTO session,ProjectionSelectionDTO projectionSelection, List<Integer> startAndEndPeriods, String selectedField, String fieldValue,
-           List<String> checkedDiscounts, boolean isProgram, List<String[]> massUpdateData, List<String> selectedPeriods,boolean isCustomHierarchy) {
+           List<String> checkedDiscounts, boolean isProgram, List<String[]> massUpdateData, boolean isCustomHierarchy) {
 
         String customSql = "";
         String frequency = projectionSelection.getFrequency();
@@ -832,7 +832,7 @@ public class DiscountQueryBuilder {
 	}
     
     public List getDiscountProjectionLastLevel(final String frequency, final List<String> discountList,
-            final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo, final boolean isCustom, final List<String> customViewDetails, final int treeLevelNo,
+            final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo, final List<String> customViewDetails, final int treeLevelNo,
             final int start, final int end, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
         String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
         String dedQuery = NINE_LEVEL_DED;
@@ -1064,7 +1064,7 @@ public class DiscountQueryBuilder {
         }
         return countQuery;
     }
-    public String getDiscountCountQueryForAllLevel(SessionDTO sessionDTO, String hierarchyNo, int levelNo, String hierarchyIndicator, List<String> discountList, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
+    public String getDiscountCountQueryForAllLevel(SessionDTO sessionDTO, String hierarchyNo, int levelNo, String hierarchyIndicator, List<String> discountList, final String userGroup) {
         String countQuery = SQlUtil.getQuery("GET_COUNT_ALL_LEVEL").replace(Constant.HIERARCHY_NO, commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo))
                 .replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(hierarchyIndicator,sessionDTO))
                 .replace(SELECTED_REBATE_AT, getRSDiscountHierarchyNo(discountList,sessionDTO,levelNo)).replace("@CUSTORPROD", "P".equals(hierarchyIndicator)?"PROD_HIERARCHY_NO":"CUST_HIERARCHY_NO");

@@ -57,11 +57,11 @@ public class ComponentInfo extends AbstractComponentInfo {
         itemSrGrid.replaceComponent(rebatePlanLevelDTO, rebatePlanLevelText);
         setRsReadOnlyField(false);
         ComponentInfoDTO rsDTO = getComponentDto();
-        rsTypeText.setValue(rsDTO.getRsType_Value());
-        rsProgramTypeText.setValue(rsDTO.getRsProgramType_Value());
-        rsCategoryText.setValue(rsDTO.getRsCategory_Value());
-        paymentFrequencyText.setValue(rsDTO.getPaymentFrequency_Value());
-        rebatePlanLevelText.setValue(rsDTO.getRebatePlanLevel_Value());
+        rsTypeText.setValue(rsDTO.getRsTypeValue());
+        rsProgramTypeText.setValue(rsDTO.getRsProgramTypeValue());
+        rsCategoryText.setValue(rsDTO.getRsCategoryValue());
+        paymentFrequencyText.setValue(rsDTO.getPaymentFrequencyValue());
+        rebatePlanLevelText.setValue(rsDTO.getRebatePlanLevelValue());
         setRsReadOnlyField(true);
     }
 

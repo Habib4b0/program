@@ -9,8 +9,15 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.cff.GtnWsCFFSubmitRequest;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsCFFSubmitBean;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.constants.GtnWsWorkFlowConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VarianceCalculationLogic {
+    private static final Logger LOGGER = LoggerFactory.getLogger(VarianceCalculationLogic.class);
+    private VarianceCalculationLogic()
+    {
+        LOGGER.debug("VarianceCalculationLogic");
+    }
 
     public static void submitWorkflow(final Long processInstanceId, final SessionDTO session, String moduleName) {
         

@@ -194,7 +194,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The file name.
      */
-    private final static String FILENAME = "Notes_History_National_Assumptions";
+    private static final String FILENAME = "Notes_History_National_Assumptions";
     /**
      * The word file.
      */

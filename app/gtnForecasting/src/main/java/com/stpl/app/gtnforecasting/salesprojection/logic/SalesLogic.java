@@ -867,7 +867,7 @@ public class SalesLogic {
             salesRowDto.setLevelName("Total Alternate History");
             salesRowDto.setParent(0);
             for (int i = 0; i < list.size(); i++) {
-                Object obj[] = (Object[]) list.get(i);
+                Object obj[] = list.get(i);
                 int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
                 String key = Constant.Q_SMALL + String.valueOf(obj[NumericConstants.THREE]) + "-" + String.valueOf(obj[NumericConstants.TWO]);
                 if (frequencyDivision == 1) {
@@ -904,7 +904,7 @@ public class SalesLogic {
                     salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(hierarchy).get(NumericConstants.TWO))));
                 }
                 salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(hierarchy).get(1)));
-                String levelName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat());
+                String levelName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), relationshipDetailsMap, projectionSelectionDTO.getDisplayFormat());
                 salesRowDto.setLevelName(levelName);
                 if (levelName.contains("-")) {
                     String[] tempArr = levelName.split("-");
@@ -937,7 +937,7 @@ public class SalesLogic {
                     salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(hierarchy).get(NumericConstants.TWO))));
                 }
                 salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(hierarchy).get(1)));
-                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(),  relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
+                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(),  relationshipDetailsMap, projectionSelectionDTO.getDisplayFormat()));
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
             }
             salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ?  Boolean.FALSE :  Boolean.TRUE :  Boolean.FALSE);
@@ -2741,7 +2741,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public void adjustSalesProjection(final ProjectionSelectionDTO projectionSelectionDTO, final String adjType, final String adjVal,
-            final String adjBasis, final String adsVar,final String historyPeriods, String projectionPeriods) throws SystemException {
+            final String adjBasis, final String adsVar, String projectionPeriods) throws SystemException {
         List<String> inputList = new ArrayList<>();
         inputList.add(projectionSelectionDTO.getFrequency());
         inputList.add(projectionPeriods);
@@ -4173,12 +4173,12 @@ public class SalesLogic {
                     .append(SQlUtil.getQuery("alternate-join-loaddata"))
                     .append(SQlUtil.getQuery("alternate-histroy-period-date").replace("?F", String.valueOf(projSelDTO.getFrequency().charAt(0))))
                     .append(SQlUtil.getQuery("alternate-histroy-sales-summary-pivot").replace("@PERIOD_DATE", CommonLogic.getPeriodRestrictionQuery(projSelDTO)));
-            List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(builder.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(builder.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()));
             projDTOList = getCustomizedProjectionPivot(gtsList, projSelDTO);
             LOGGER.debug("Ending getProjection Pivot NonMandated");
         } else if (projSelDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
             LOGGER.debug("Entering getProjectionPivot Mandated");
-            List<Object> gtsList = (List<Object>) SPRCommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(getSalesProjectionUnitsQuery(projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            List<Object> gtsList = (List<Object>) SPRCommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(getSalesProjectionUnitsQuery(projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames()));
             projDTOList = getCustomizedProjectionPivot(gtsList, projSelDTO);
             LOGGER.debug("Ends getProjectionPivot Mandated");
         }

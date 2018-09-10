@@ -230,9 +230,7 @@ public class ArchiveIndex extends CustomComponent implements View {
                         valueBean.addAll(list);
                     } catch (SystemException ex) {
                        LOGGER.error(ex.getMessage());
-                    } catch (Exception ex) {
-                       LOGGER.error(ex.getMessage());
-                    }
+                    } 
                 }
             }
         });
@@ -356,10 +354,7 @@ public class ArchiveIndex extends CustomComponent implements View {
                     } catch (SystemException ex) {
                        LOGGER.error(ex.getMessage());
                         LoggerFactory.getLogger(ArchiveIndex.class.getName()).error(ex.getMessage());
-                    } catch (Exception ex) {
-                       LOGGER.error(ex.getMessage());
-                        LoggerFactory.getLogger(ArchiveIndex.class.getName()).error(ex.getMessage());
-                    }
+                    } 
                 } else {
                     IndexedContainer con = new IndexedContainer();
                     businessProcess.setContainerDataSource(con);

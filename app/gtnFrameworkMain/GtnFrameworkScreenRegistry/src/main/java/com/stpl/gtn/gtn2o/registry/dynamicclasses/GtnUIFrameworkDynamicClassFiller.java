@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDateValueChangeAct
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnModeOptionValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction;
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkConfigureRightTableHeaderForPTTCompoAction;
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPTTCompLeftHeaderFormHeaderAndConfigAction;
@@ -73,6 +74,8 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 				new GtnCallForecastingAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName(),
 				new GtnFrameworkNewToOldArchitectureGenerateAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnModeOptionValueChangeAction.class.getName(),
+                                new GtnModeOptionValueChangeAction());
 	}
 
 }

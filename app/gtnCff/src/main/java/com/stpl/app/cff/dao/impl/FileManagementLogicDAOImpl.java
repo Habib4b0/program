@@ -1,7 +1,6 @@
 package com.stpl.app.cff.dao.impl;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.CommonServiceImpl;
 import com.stpl.app.cff.dao.FileManagementLogicDAO;
@@ -60,7 +59,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
     @Override
     public List getForecastDetails(final String fileName, final String version, final String fileType, final String country, int year) throws SystemException {
         LOGGER.debug("In query-getForecastDetails started with P1:String fileName= {} and P2:String version= {} and P3:String fileType={} and P4:String country={}", fileName, version, fileType, country);
-        return CommonServiceImpl.getInstance().getDetailsResults(fileName, version, fileType, country, year);
+        return CommonServiceImpl.getInstance().getDetailsResults(fileName, version, fileType, country);
     }
 
     /**

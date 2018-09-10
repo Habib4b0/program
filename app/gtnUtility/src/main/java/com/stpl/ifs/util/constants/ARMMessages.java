@@ -387,6 +387,10 @@ public class ARMMessages {
     public static String getSalesLeaveConfirmMessageTransaction1() {
         return properties.getProperty("SALES_LEAVE_CONFORM_MESSAGE_1");
     }
+    
+    public static String getSalesLeaveConfirmMessageTransaction7() {
+        return properties.getProperty("SALES_LEAVE_CONFORM_MESSAGE_1");
+    }
 
     public static String getRatesLeaveConfirmHeaderTransaction7() {
         return properties.getProperty("RATES_LEAVE_CONFORM_HEADER_7");

@@ -278,6 +278,30 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		}
 		return count;
 	}
+        	public int executeCountQueryWithParams(String sqlQuery,Object[] params, GtnFrameworkDataType[] type) throws GtnFrameworkGeneralException {
+		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
+		int count = 0;
+		try (Session session = sessionFactory.openSession()) {
+			long startTime = queryLogger.startQueryLog(sqlQuery);
+			logger.debug(
+					GtnWsQueryEngineConstants.START + new SimpleDateFormat(GtnWsQueryEngineConstants.TIME).format(new Date(startTime)));
+			Query query = generateSQLQuery(session, sqlQuery, params, type);
+			List<?> queryValueList = query.list();
+			if (queryValueList != null && !queryValueList.isEmpty()) {
+				count = (Integer) queryValueList.get(0);
+			}
+			queryLogger.endQueryLog(startTime, sqlQuery);
+			logger.debug(GtnWsQueryEngineConstants.END
+					+ new SimpleDateFormat(GtnWsQueryEngineConstants.TIME).format(new Date(System.currentTimeMillis())));
+			logger.info(
+					GtnWsQueryEngineConstants.TOTAL+ (double) (System.currentTimeMillis() - startTime) / 1000 + "secs");
+		} catch (Exception ex) {
+			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
+			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
+					ex);
+		}
+		return count;
+	}
 
 
 	@Override
