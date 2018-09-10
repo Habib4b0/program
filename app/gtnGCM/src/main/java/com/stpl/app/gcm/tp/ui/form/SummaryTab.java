@@ -338,33 +338,33 @@ public class SummaryTab extends VerticalLayout {
 
                                 CommonLogic common = new CommonLogic();
 
-                                int projectionId = CommonLogic.getProjectionIdForSubmittedContract(session.getSessionId(), session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()));
+                                int projectionIdOnListener = CommonLogic.getProjectionIdForSubmittedContract(session.getSessionId(), session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()));
                                 int toProjectionId = CommonLogic.getProjectionIdForSubmittedContract(session.getSessionId(), session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()));
-                                session.setFromProjectionId(projectionId);
+                                session.setFromProjectionId(projectionIdOnListener);
                                 session.setToProjectionId(toProjectionId);
                                 boolean transferSalesFlag = true;
                                 if (ttpForm != null) {
                                     transferSalesFlag = ttpForm.isSalesCopyFlag();
                                 }
 
-                                if (projectionId != 0) {
+                                if (projectionIdOnListener != 0) {
                                     ContractResultDTO dto = currentTPDetailsContainer.getItemIds().get(0);
                                     session.setContractMasterSid(dto.getContractMasterSid());
                                     session.setContractType(dto.getContractType());
                                     if (session.getModuleName().equalsIgnoreCase(TRADING_PARTNER_REMOVE.getConstant()) || session.getModuleName().equalsIgnoreCase(TRADING_PARTNER_UPDATE.getConstant())) {
-                                        tempList = common.createNewProjection(projectionId, session.getCompanyMasterSids(), session);
+                                        tempList = common.createNewProjection(projectionIdOnListener, session.getCompanyMasterSids(), session);
                                         if (tempList != null && !tempList.isEmpty()) {
                                             projectionCreationFlag = true;
                                         }
 
                                     } else if (session.getModuleName().equalsIgnoreCase(ADD_TRADING_PARTNER.getConstant())) {
-                                        tempList = common.generateNewProjection(session.getUserId(), session.getSessionId(), projectionId, session.getCompanyMasterSids(), true, true,session);
+                                        tempList = common.generateNewProjection(session.getUserId(), session.getSessionId(), projectionIdOnListener, session.getCompanyMasterSids(), true, true,session);
                                         if (tempList != null && !tempList.isEmpty()) {
                                             projectionCreationFlag = true;
                                         }
 
                                     } else if (session.getModuleName().equalsIgnoreCase(TRANSFER_TRADING_PARTNER.getConstant()) || PROJECTION_DETAILS_TRANSFER.getConstant().equals(session.getModuleName())) {
-                                        int fromProjectionId = projectionId;                                        
+                                        int fromProjectionId = projectionIdOnListener;                                        
                                         session.setFromProjectionId(fromProjectionId);
                                         tempList = common.copyTempProjection(fromProjectionId, false, null, null, null,session);
                                         if (tempList != null && !tempList.isEmpty()) {

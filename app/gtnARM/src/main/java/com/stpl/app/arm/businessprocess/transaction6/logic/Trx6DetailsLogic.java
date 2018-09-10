@@ -15,6 +15,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,6 +24,8 @@ import org.apache.commons.lang.StringUtils;
  * @param <T>
  */
 public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
+
+    private final Logger tr6DetailsLogger = LoggerFactory.getLogger(Trx6DetailsLogic.class);
 
     @Override
     public List<List> getReserveAccountDetails(AbstractSelectionDTO inflationSelection, Boolean isReserve) {
@@ -81,26 +85,31 @@ public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmen
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
+        tr6DetailsLogger.debug("Inside getExcelResultList");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected String getTableNameForView() {
+        tr6DetailsLogger.debug("Inside getTableNameForView");
         return "ARM_INFLATION_INVENTORY_ADJ";
     }
 
     @Override
     protected String getTableNameForEdit() {
+        tr6DetailsLogger.debug("Inside getTableNameForEdit");
         return "ST_ARM_INFLATION_INVENTORY_ADJ";
     }
 
     @Override
     protected CharSequence getRateColumn() {
+        tr6DetailsLogger.debug("Inside getRateColumn");
         return "INFLATION_FACTOR";
     }
 
     @Override
     protected String getGTNQuery() {
+        tr6DetailsLogger.debug("Inside getGTNQuery");
         return "Adjustment GTN Details Trx6 query ";
     }
 

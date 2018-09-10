@@ -2418,8 +2418,8 @@ INSERT INTO #TEMP_RATE
                          WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
                        END                        AS INDICATOR 
                 FROM   ? 
-                WHERE  OVERRIDE IS NOT NULL 
-                       AND OVERRIDE != 0 
+              --  WHERE  OVERRIDE IS NOT NULL 
+                   --    AND OVERRIDE != 0 
 
                 ---UPDATE for Credit and debit Values in adjustments table
                 UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
@@ -2503,8 +2503,8 @@ INSERT INTO #TEMP_RATE
                          WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
                        END                        AS INDICATOR 
                 FROM   ? 
-                WHERE  OVERRIDE IS NOT NULL 
-                       AND OVERRIDE != 0 
+               -- WHERE  OVERRIDE IS NOT NULL 
+                    --   AND OVERRIDE != 0 
 
                 ---UPDATE for Credit and debit Values in adjustments table
                 UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
@@ -2589,8 +2589,8 @@ INSERT INTO #TEMP_RATE
                          WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
                        END                        AS INDICATOR 
                 FROM   ? 
-                WHERE  OVERRIDE IS NOT NULL 
-                       AND OVERRIDE != 0 
+              --  WHERE  OVERRIDE IS NOT NULL 
+                --       AND OVERRIDE != 0 
 
                 ---UPDATE for Credit and debit Values in adjustments table
                 UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
@@ -2672,8 +2672,8 @@ INSERT INTO #TEMP_RATE
                          WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
                        END                        AS INDICATOR 
                 FROM   ? 
-                WHERE  OVERRIDE IS NOT NULL 
-                       AND OVERRIDE != 0 
+              --  WHERE  OVERRIDE IS NOT NULL 
+                --       AND OVERRIDE != 0 
 
                 ---UPDATE for Credit and debit Values in adjustments table
                 UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
@@ -2753,8 +2753,8 @@ INSERT INTO #TEMP_RATE
                          WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
                        END                        AS INDICATOR 
                 FROM   ? 
-                WHERE  OVERRIDE IS NOT NULL 
-                       AND OVERRIDE != 0 
+               -- WHERE  OVERRIDE IS NOT NULL 
+                   --    AND OVERRIDE != 0 
 
                 ---UPDATE for Credit and debit Values in adjustments table
                 UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
@@ -2835,8 +2835,8 @@ INSERT INTO #TEMP_RATE
                          WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
                        END                        AS INDICATOR 
                 FROM   ? 
-                WHERE  OVERRIDE IS NOT NULL 
-                       AND OVERRIDE != 0 
+               -- WHERE  OVERRIDE IS NOT NULL 
+                  --     AND OVERRIDE != 0 
 
                 ---UPDATE for Credit and debit Values in adjustments table
                 UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT

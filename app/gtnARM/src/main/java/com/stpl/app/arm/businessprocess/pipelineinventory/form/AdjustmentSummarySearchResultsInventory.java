@@ -26,7 +26,7 @@ public class AdjustmentSummarySearchResultsInventory extends AbstractPipelineSum
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getSummaryLogic();
+        return getSummaryLogic();
     }
 
     @Override

@@ -793,10 +793,10 @@ public class CustomerSelection extends VerticalLayout {
     }
 
     private void insertDataIntoTempTable() {
-        ContractSelectionLogic logic = new ContractSelectionLogic();
-        logic.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getCompanyMasterSids(), TAB_CURRENT_CONTRACT.getConstant(), false);
-        logic.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getPhCompanyMasterSids(), TAB_TRANSFER_CONTRACT.getConstant(), false);
-        logic.removeStartDateFromTempTable(session.getUserId(), session.getSessionId(), TAB_TRANSFER_CONTRACT.getConstant()); //To remove start date from temp table for Transfer projection details transfer tab
+        ContractSelectionLogic logicInsertData = new ContractSelectionLogic();
+        logicInsertData.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getCompanyMasterSids(), TAB_CURRENT_CONTRACT.getConstant(), false);
+        logicInsertData.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getPhCompanyMasterSids(), TAB_TRANSFER_CONTRACT.getConstant(), false);
+        logicInsertData.removeStartDateFromTempTable(session.getUserId(), session.getSessionId(), TAB_TRANSFER_CONTRACT.getConstant()); //To remove start date from temp table for Transfer projection details transfer tab
     }
     private void configureSecurityPermissionsForProjectionDetails() {
         try {
