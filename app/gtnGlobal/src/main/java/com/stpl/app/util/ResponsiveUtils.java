@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ResponsiveUtils {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
    
     public static Label makeLabel(String value, boolean isMandatory) {
         StringBuilder sb = new StringBuilder();

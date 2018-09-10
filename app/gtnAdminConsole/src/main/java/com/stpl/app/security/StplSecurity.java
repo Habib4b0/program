@@ -49,7 +49,7 @@ public class StplSecurity {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StplSecurity.class);
 
-    final private StplSecurityDAO dto = new StplSecurityDAOImpl();
+     private final StplSecurityDAO dto = new StplSecurityDAOImpl();
 
     private static final List<String> DOMAINIDS1 = null;
 

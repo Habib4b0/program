@@ -32,8 +32,8 @@ public class CommonUtils {
      * The log.
      */
 	private static PortletConfig portletConfig;
-    public final static String COMPANY_NAME = "companyName";
-    public final static String QUOTES = "'";
+    public static final String COMPANY_NAME = "companyName";
+    public static final String QUOTES = "'";
     public static final String MMDDYYYY = "MM/dd/yyyy";
     /**
      * The Constant CHAR_ASTERISK.
