@@ -97,7 +97,17 @@ public class GtnUIFrameworkWebserviceResponse {
     private GtnWsReportResponse gtnWsReportResponse;
     private GtnWsReportResponse gtnReportResponse;
     private GtnWsPagedTableResponse gtnWsPagedTableResponse;
+    
+//    private Listbean listBean;
+    private List<Object[]> gtnGeneralSearchWsList;
 
+    public List<Object[]> getGtngeneralSearchWsList() {
+        return gtnGeneralSearchWsList == null ? gtnGeneralSearchWsList : Collections.unmodifiableList(gtnGeneralSearchWsList);
+    }
+
+    public void setGtnGeneralSearchWsList(List<Object[]> gtnGeneralSearchWsList) {
+        this.gtnGeneralSearchWsList = gtnGeneralSearchWsList;
+    }
     private GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse;
     
     public GtnWsPagedTableResponse getGtnWsPagedTableResponse() {

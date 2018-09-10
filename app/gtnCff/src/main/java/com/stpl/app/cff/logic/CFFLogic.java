@@ -222,7 +222,7 @@ public class CFFLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
         VaadinSession.getCurrent().setAttribute(CommonUtils.CFF_MASTER_SYSTEM_ID_SESSION, cffMasterSystemId);
-        String noOfLevel = getNoOfLevelFromJbpm(sessionDTO, cffMasterSid, userId);
+        String noOfLevel = getNoOfLevelFromJbpm(sessionDTO, userId);
         result = submitCffPendingDetails(userId, Integer.parseInt(cffMasterSid), noOfLevel);
         if (result.equals(CommonUtils.FAIL) || noOfLevel.isEmpty()) {
             return CommonUtils.FAIL;
@@ -1153,7 +1153,7 @@ public class CFFLogic {
     }
 
 
-    public String getNoOfLevelFromJbpm(SessionDTO sessionDTO, String cffMasterSid, String userId) {
+    public String getNoOfLevelFromJbpm(SessionDTO sessionDTO, String userId) {
         String noOfLevel = StringUtils.EMPTY;
         if (null == sessionDTO.getWorkflowStatus()) {
             try {
@@ -1749,7 +1749,7 @@ public class CFFLogic {
         
     }
 
-    public void callCFFHierarachyDetailsProcedure(SessionDTO session, boolean isDataSelection) {
+    public void callCFFHierarachyDetailsProcedure(SessionDTO session) {
         LOGGER.info("callCFFHierarachyDetailsProcedure");
              service.submitRunnable(new Runnable() {
             @Override

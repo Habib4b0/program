@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +31,12 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Converters {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Converters.class);
     
+    private Converters()
+    {
+        LOGGER.debug("Converters");
+    }
     
     /**
      * Set the Values to respective fields for Company Search

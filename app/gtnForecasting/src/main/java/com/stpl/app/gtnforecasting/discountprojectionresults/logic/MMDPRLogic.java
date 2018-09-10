@@ -1839,7 +1839,7 @@ public class MMDPRLogic {
             DiscountProjectionResultsDTO dto = null;
             for (int i = 0; i < list.size(); i++) {
 
-                final Object[] obj = (Object[]) list.get(i);
+                final Object[] obj = list.get(i);
 
                 int period;
                 int year;

@@ -25,7 +25,7 @@ import com.stpl.gtn.gtn2o.ws.response.forecastconfiguration.GtnWsForecastConfigu
  *
  * @author Abhiram.Giri
  */
-public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
+public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -44,10 +44,7 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction ,GtnU
 	private void saveForecastConfiguration(String componentId, GtnUIFrameworkWebserviceRequest request, String tableId)
 			throws GtnFrameworkGeneralException {
 		final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceResponse newResponse = wsclient.callGtnWebServiceUrl(
-				GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
-						+ GtnWsForecastConfigurationConstants.SAVE_FORECAST_CONF,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse newResponse = getResponse(request, wsclient);
 		GtnWsForecastConfigurationResponse fcNewResponse = newResponse.getGtnWsForecastConfigurationResponse();
 		if (fcNewResponse.isSuccess()) {
 			loadGrid(componentId, tableId);
@@ -58,6 +55,15 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction ,GtnU
 			notificationActionConfig.addActionParameter(-1);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationActionConfig);
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request,
+			final GtnUIFrameworkWebServiceClient wsclient) {
+		return wsclient.callGtnWebServiceUrl(
+		GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE 
+		+ GtnWsForecastConfigurationConstants.SAVE_FORECAST_CONF,
+		request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
 	}
 
 	private void loadGrid(String componentId, String tableId) throws GtnFrameworkGeneralException {

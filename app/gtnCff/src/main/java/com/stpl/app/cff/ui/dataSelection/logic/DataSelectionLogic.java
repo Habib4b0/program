@@ -1723,7 +1723,7 @@ public class DataSelectionLogic {
 		return returnList;
 	}
 
-	public int searchGroupCount(String name, String no, List<String> sids, String indicator, String groupIdentifier,
+	public int searchGroupCount(String name, String no, String indicator, String groupIdentifier,
 			String action) throws SystemException {
 		List<Object> countList = null;
 		int count = 0;

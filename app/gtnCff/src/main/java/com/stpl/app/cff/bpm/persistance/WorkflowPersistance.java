@@ -14,7 +14,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
 
             String customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (CFF_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(" + projectionId + "," + processInstanceId + ")";
 
-            return executeBulkUpdateQuery(customSql, null, null);
+            return executeBulkUpdateQuery(customSql);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -27,7 +27,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
         try {
 
             String customSql = "SELECT PROCESS_INSTANCE_ID FROM WORKFLOW_PROCESS_INFO WHERE CFF_MASTER_SID=" + projectionId;
-            obj = executeSelectQuery(customSql, null, null);
+            obj = executeSelectQuery(customSql);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -43,7 +43,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
             customSql=customSql.replace("?PROJECTION_ID", String.valueOf(projectionId));
             customSql=customSql.replace("?USER_ID", String.valueOf(userId));
             customSql=customSql.replace("?SESSION_ID", String.valueOf(sessionId));
-            obj = executeSelectQuery(customSql, null, null);
+            obj = executeSelectQuery(customSql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
@@ -60,7 +60,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
             customSql=customSql.replace("?PROJECTION_ID", String.valueOf(projectionId));
             customSql=customSql.replace("?USER_ID", String.valueOf(userId));
             customSql=customSql.replace("?SESSION_ID", String.valueOf(sessionId));
-            obj = executeSelectQuery(customSql, null, null);
+            obj = executeSelectQuery(customSql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }

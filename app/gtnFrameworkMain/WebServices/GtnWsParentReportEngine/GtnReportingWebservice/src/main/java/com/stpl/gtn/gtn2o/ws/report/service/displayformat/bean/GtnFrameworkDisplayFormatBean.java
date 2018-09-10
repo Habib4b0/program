@@ -6,6 +6,10 @@ public class GtnFrameworkDisplayFormatBean {
 	private String columnName;
 	private String selectedColumnName;
 
+	public GtnFrameworkDisplayFormatBean() {
+		super();
+	}
+
 	public String getTableName() {
 		return tableName;
 	}

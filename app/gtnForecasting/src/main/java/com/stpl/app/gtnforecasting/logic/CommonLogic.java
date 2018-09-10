@@ -707,8 +707,9 @@ public class CommonLogic {
     public static String getHierarchyTreeQuery(int projectionId, String hierarchyIndicator, final int levelNo, final int versionNo) {
 
         List<Object> queryInputs = new ArrayList<>();
+        String relationshipColumnName = getRelationshipTableColumn(hierarchyIndicator);
         queryInputs.add(hierarchyIndicator);
-        queryInputs.add(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator) ? "CUST_RELATIONSHIP_BUILDER_SID" : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator) ? "PROD_RELATIONSHIP_BUILDER_SID" : "DED_RELATIONSHIP_BULDER_SID");
+        queryInputs.add(relationshipColumnName);
         queryInputs.add(versionNo);
         queryInputs.add(projectionId);
         queryInputs.add(levelNo);
@@ -1087,7 +1088,7 @@ public class CommonLogic {
             list = MProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj = list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -1112,7 +1113,7 @@ public class CommonLogic {
             list = NmProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj = list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -1988,7 +1989,7 @@ public class CommonLogic {
             list = MProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj = list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -2617,8 +2618,8 @@ public class CommonLogic {
      */
     public static void saveProjectionSelection(final Map<String, String> map, final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
 
-        String screenName = projectionSelectionDTO.getScreenName();
-        String tableName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName) ? "NM_PROJECTION_SELECTION" : CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName) ? Constant.M_PROJECTION_SELECTION : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName) ? "CH_PROJECTION_SELECTION" : StringUtils.EMPTY;
+        String screenNameProjSelection = projectionSelectionDTO.getScreenName();
+        String tableName = getProjectionResultsTableName(screenNameProjSelection);
         StringBuilder query = new StringBuilder();
         query.append("DELETE\n" + "FROM\n" + " ").append(tableName).append("\n" + "WHERE\n" + "PROJECTION_MASTER_SID = ").append(projectionSelectionDTO.getProjectionId()).append("\n" + "AND SCREEN_NAME LIKE '").append(tabName).append("';\n");
 
@@ -2630,7 +2631,7 @@ public class CommonLogic {
         salesProjectionDAO.executeUpdateQuery(query.toString());
 
     }
-
+    
     public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
         try {
@@ -2661,11 +2662,10 @@ public class CommonLogic {
 
     public static Map editProjectionResults(final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
 
-        String screenName = projectionSelectionDTO.getScreenName();
-        String tableName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName) ? "NM_PROJECTION_SELECTION" : CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName) ? Constant.M_PROJECTION_SELECTION : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName) ? "CH_PROJECTION_SELECTION" : StringUtils.EMPTY;
-
+        String screenNameEdit = projectionSelectionDTO.getScreenName();
+        String tableNameEdit = getProjectionResultsTableName(screenNameEdit);
         StringBuilder query = new StringBuilder();
-        query.append("SELECT FIELD_NAME, FIELD_VALUES FROM ").append(tableName).append("\n" + "WHERE PROJECTION_MASTER_SID = ").append(projectionSelectionDTO.getProjectionId()).append("\n AND SCREEN_NAME LIKE '").append(tabName).append("';\n");
+        query.append("SELECT FIELD_NAME, FIELD_VALUES FROM ").append(tableNameEdit).append("\n" + "WHERE PROJECTION_MASTER_SID = ").append(projectionSelectionDTO.getProjectionId()).append("\n AND SCREEN_NAME LIKE '").append(tabName).append("';\n");
         SalesProjectionDAO dao = new SalesProjectionDAOImpl();
         List<Object[]> resultlist = (List) dao.executeSelectQuery(query.toString());
         Map<String, String> resultmap = new HashMap<>();
@@ -5435,6 +5435,32 @@ public class CommonLogic {
     public List<Object[]> getCustomViewSids(int projectionSid) {
         String query = "select CUSTOM_VIEW_MASTER_SID,CUSTOM_VIEW_MASTER_DEDUCTION_SID from projection_master where projection_master_sid=" + projectionSid;
         return (List<Object[]>)HelperTableLocalServiceUtil.executeSelectQuery(query);
+    }
+    
+    private static String getProjectionResultsTableName(String screenName) {
+        String name;
+        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
+            name = "NM_PROJECTION_SELECTION";
+        } else if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
+            name = Constant.M_PROJECTION_SELECTION;
+        } else if (CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName)) {
+            name = "CH_PROJECTION_SELECTION";
+        } else {
+            name = StringUtils.EMPTY;
+        }
+        return name;
+    }
+
+    private static String getRelationshipTableColumn(String hierarchyIndicator) {
+        String queryTerna;
+        if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator)) {
+            queryTerna = "CUST_RELATIONSHIP_BUILDER_SID";
+        } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator)) {
+            queryTerna = "PROD_RELATIONSHIP_BUILDER_SID";
+        } else {
+            queryTerna = "DED_RELATIONSHIP_BULDER_SID";
+        }
+        return queryTerna;
     }
     
 }

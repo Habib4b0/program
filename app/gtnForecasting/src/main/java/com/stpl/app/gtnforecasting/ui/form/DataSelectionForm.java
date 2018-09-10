@@ -4244,11 +4244,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 				String dedValue = StringUtils.EMPTY;
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)
 						&& !(deductionValue.getValue() instanceof String)) {
-					{
 						dedLevel = getDedutionLevel(String.valueOf(deductionLevel.getValue()));
 						dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
 								: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
-					}
 				}
 
 				customerDescMap = relationLogic.getLevelValueMap(
