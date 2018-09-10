@@ -3221,15 +3221,11 @@ public class DataSelection extends AbstractDataSelection {
 									|| StringConstantsUtil.COMPANY_LABEL.equals(levelName))) {
 						List<Leveldto> filteredValues = new ArrayList<>();
 						if (!groupFilteredCompanies.isEmpty()) {
-							try {
 								for (Leveldto leveldto : custVlues) {
 									if (groupFilteredCompanies.contains(leveldto.getRelationshipLevelValue().trim())) {
 										filteredValues.add(leveldto);
 									}
 								}
-							} catch (Exception ex) {
-								LOGGER.error(" level ValueChangeListener = {}", ex);
-							}
 
 						}
 						availableCustomerContainer.addAll(filteredValues);

@@ -54,7 +54,6 @@ import com.stpl.app.service.GcmGlobalDetailsLocalServiceUtil;
 import com.stpl.app.service.GcmItemDetailsLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.GcmCompanyDetailsLocalServiceUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
@@ -778,12 +777,7 @@ public class Newcomponent extends CustomComponent {
                         } else if (String.valueOf(Constants.CHECK).equals(propertyId)) {
 
                             field = new CheckBox();
-                        } else if (Constants.START_DATE.equals(propertyId)) {
-                            PopupDateField field1 = new PopupDateField();
-                            field1.setDateFormat(Constants.MM_DD_YYYY);
-                            field1.setStyleName(Constants.DATE_FIELD_CENTER);
-                            field = field1;
-                        } else if (Constants.END_DATE.equals(propertyId)) {
+                        } else if (Constants.START_DATE.equals(propertyId) || Constants.END_DATE.equals(propertyId)) {
                             PopupDateField field1 = new PopupDateField();
                             field1.setDateFormat(Constants.MM_DD_YYYY);
                             field1.setStyleName(Constants.DATE_FIELD_CENTER);
@@ -930,7 +924,7 @@ public class Newcomponent extends CustomComponent {
                 }
             });
 
-            String query = queryUtils.LoadmassupdateCompany(ids);
+            String query = queryUtils.loadmassupdateCompany(ids);
             List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (itemList != null && !itemList.isEmpty()) {
                 for (int i = 0; i < itemList.size(); i++) {
@@ -1101,13 +1095,10 @@ public class Newcomponent extends CustomComponent {
     private void loadSearchFields(String value) {
         searchDDLB.removeAllItems();
         String cType = String.valueOf(componenttype.getValue());
-        if (cType.equalsIgnoreCase(Constants.PRICE_SCHEDULE)) {
+        if (cType.equalsIgnoreCase(Constants.PRICE_SCHEDULE) || cType.equalsIgnoreCase(Constants.REBATE_SCHEDULE)) {
             loadSearchFieldsIfpStatus(value);
             loadMassUpdateField();
-        } else if (cType.equalsIgnoreCase(Constants.REBATE_SCHEDULE)) {
-            loadSearchFieldsIfpStatus(value);
-            loadMassUpdateField();
-        } else {
+        }  else {
             if (value.equalsIgnoreCase(Constants.COMPANYSTATUS)) {
                 searchDDLB.setVisible(true);
                 commonUtil.loadComboBox(searchDDLB, UiUtils.STATUS, false);
@@ -1546,7 +1537,6 @@ public class Newcomponent extends CustomComponent {
                                     String hiddenId = String.valueOf(imtdItemPriceRebateDetails1.getGcmGlobalDetailsSid());
 
                                     Collection<?> returnList = componentDetailsSelectedItem.getItemIds();
-                                    try {
                                         for (Object item : returnList) {
                                             Boolean checked = (Boolean) componentResultsContainer.getContainerProperty(item, Constants.CHECK).getValue();
                                             if (checked) {
@@ -1578,9 +1568,7 @@ public class Newcomponent extends CustomComponent {
                                         if (!setA.isEmpty()) {
                                             selectedItems = getIdString(setA);
                                         }
-                                    } catch (Exception e) {
-                                        LOGGER.error("",e);
-                                    }
+                                    
 
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(hiddenId);
                                     clearIFPFields();
@@ -1669,7 +1657,6 @@ public class Newcomponent extends CustomComponent {
                                 imtdItemPriceRebateDetails.setCreatedDate(new Date());
                                 imtdItemPriceRebateDetails.setModifiedBy(Integer.parseInt(userID));
                                 imtdItemPriceRebateDetails.setModifiedDate(new Date());
-                                try {
                                     imtdItemPriceRebateDetails = GcmGlobalDetailsLocalServiceUtil.addGcmGlobalDetails(imtdItemPriceRebateDetails);
                                     final Object rootId = dashboardResultsTable.addItem();
                                     String hiddenId = String.valueOf(imtdItemPriceRebateDetails.getGcmGlobalDetailsSid());
@@ -1717,9 +1704,7 @@ public class Newcomponent extends CustomComponent {
                                             clearPSFields();
                                         }
                                     }
-                                } catch (SystemException ex) {
-                                    LOGGER.error("",ex);
-                                }
+                                
                             } else {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, PLEASE_ENTER_ALL_THE_FIELDS);
                             }
@@ -1823,7 +1808,6 @@ public class Newcomponent extends CustomComponent {
                                 imtdItemPriceRebateDetails.setModifiedDate(new Date());
                                 final Object rootId = dashboardResultsTable.addItem();
 
-                                try {
                                     imtdItemPriceRebateDetails = GcmGlobalDetailsLocalServiceUtil.addGcmGlobalDetails(imtdItemPriceRebateDetails);
                                     String hiddenId = String.valueOf(imtdItemPriceRebateDetails.getGcmGlobalDetailsSid());
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.RS);
@@ -1891,9 +1875,7 @@ public class Newcomponent extends CustomComponent {
                                             clearPSFields();
                                         }
                                     }
-                                } catch (SystemException ex) {
-                                    LOGGER.error("",ex);
-                                }
+                                
                             } else {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Enter all the fields in Component Selection section");
                             }
@@ -2316,7 +2298,7 @@ public class Newcomponent extends CustomComponent {
                 cfpDetailsName.setValue(detailsName);
                 cfpDetailsNo.setEnabled(false);
                 cfpDetailsName.setEnabled(false);
-                String query = queryUtils.LoadmassupdateCompany(selectedCompanies);
+                String query = queryUtils.loadmassupdateCompany(selectedCompanies);
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (itemList != null && !itemList.isEmpty()) {
                     for (int i = 0; i < itemList.size(); i++) {

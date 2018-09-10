@@ -134,7 +134,6 @@ public class GlobalChangeIndex extends CustomComponent implements View {
             sessionDTO = CommonUtils.attachSessionId(sessionDTO);
             sessionDTO.setModuleName(updateTypeVal);
             if ("Customer Management".equals(processName)) {
-                try {
                     if (PROMOTE_TRADING_PARTNER.getConstant().equals(updateTypeVal)) {
 
                         layout.removeAllComponents();
@@ -188,9 +187,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
                         layout.removeAllComponents();
                     }
 
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
+                
 
             } else if (Constants.ITEM_MANAGEMENT.equals(processName)) {
                 sessionDTO.setProcessName(Constants.ITEM_MANAGEMENT);

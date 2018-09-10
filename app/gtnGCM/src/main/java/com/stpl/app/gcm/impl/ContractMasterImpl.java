@@ -207,7 +207,7 @@ public class ContractMasterImpl {
 
     }
 
-    public List fetchFieldsForSecurity(String moduleName, String tabName, Object obj1, Object obj2, Object obj3) {
+    public List fetchFieldsForSecurity(String moduleName, String tabName) {
         String query = StringUtils.EMPTY;
         try {
 

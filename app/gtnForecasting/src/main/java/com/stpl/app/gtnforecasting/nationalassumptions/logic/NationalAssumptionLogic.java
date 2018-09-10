@@ -424,7 +424,7 @@ public class NationalAssumptionLogic {
         return newNDC;
     }
 
-    public List<Object[]> NewNDCSetupCook(int projectionId) throws NamingException, SQLException {
+    public List<Object[]> newNDCSetupCook(int projectionId) throws NamingException, SQLException {
         DataSource datasource = null;
         ResultSet resultSet = null;
         List<Object[]> objectList = new ArrayList<>();

@@ -865,7 +865,6 @@ public class BussinessProcessForm extends Window {
                                         StringBuilder sb = new StringBuilder("Hi,<br /><br />");
                                         sb.append("The workflow with workflow Id " + workflowIdUpdate + " is cancelled Succesfully.");
                                         sb.append("<br /><br />Thanks,<br />BPI Technical Team");
-//                                        MailWorkItemHandler.sendMail("support@bpitechnologies.com", "Workflow Cancelled Succesfully", sb);
                                         btnApprove.setEnabled(false);
                                         btnWithdraw.setEnabled(false);
                                         btnCancel.setEnabled(false);

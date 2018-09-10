@@ -1161,12 +1161,9 @@ public class CFFLogic {
                 GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(sessionDTO,userId);
                 if (response.isHasPermission()) {
                     Long processInstanceId = Long.valueOf(String.valueOf(response.getProcessInstanceId()));
-                    try {
                         GtnWsCommonWorkflowResponse taskSummary = DSCalculationLogic.startAndCompleteTask(sessionDTO,userId);
                         processInstanceId = Long.valueOf(String.valueOf(taskSummary.getProcessInstanceId()));
-                    } catch (NumberFormatException e) {
-                        LOGGER.error(e.getMessage());
-                    }
+                   
                     VarianceCalculationLogic.submitWorkflow(processInstanceId, sessionDTO,"CFF");
                     noOfLevel = DSCalculationLogic.getProcessVariableLog(processInstanceId, "NoOfUsers");
                 } else {
@@ -1177,7 +1174,7 @@ public class CFFLogic {
                     NotificationUtils.getAlertNotification("Permission Denined", notiMsg.toString());
 
                 }
-            }  catch (SystemException ex) {
+            }  catch (NumberFormatException ex) {
                 java.util.logging.Logger.getLogger(CFFLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (sessionDTO.getWorkflowStatus() != null && sessionDTO.getWorkflowStatus().equals("Rejected")) {

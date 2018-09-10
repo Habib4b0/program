@@ -179,6 +179,7 @@ public class RelationShipFilterLogic {
         
 		List<Leveldto> resultList = new ArrayList<>();
 		List<Object[]> resultsDataList = availableTableCustomerLevelResponse.getGtnWsForecastResponse().getInputBean().getResultList();
+
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
@@ -283,6 +284,7 @@ public class RelationShipFilterLogic {
 		String finalQuery = getQueryForCustomer(selectedHierarchyLevelDto, relationshipSid, groupFilteredCompanies,
 				dedLevel, dedValue, relationVersionNo, forecastEligibleDate, levelHierarchyLevelDefinitionList,
 				lastLevelNo);
+
             
             GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
             inputBean.setHieraryQuery(finalQuery);
@@ -310,6 +312,7 @@ public class RelationShipFilterLogic {
 //                commaSeperatedList.add("'".concat(data).concat("'"));
 //            }
             return commaSeperatedList;
+
 	}
 
 

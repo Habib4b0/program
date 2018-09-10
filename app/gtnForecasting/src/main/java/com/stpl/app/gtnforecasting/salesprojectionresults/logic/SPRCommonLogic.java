@@ -121,7 +121,7 @@ public class SPRCommonLogic {
         List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = getHierarchyTreeQuery(projectionId, hierarchyIndicator, levelNo);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -217,8 +217,8 @@ public class SPRCommonLogic {
      * @param priceGroupType
      * @return object
      */
-    public static Object executeSelectQuery(String query, Object udc1, Object udc2) {
-        return commonDao.executeSelectQuery(query, udc1, udc2);
+    public static Object executeSelectQuery(String query) {
+        return commonDao.executeSelectQuery(query);
 
     }
 
@@ -258,7 +258,7 @@ public class SPRCommonLogic {
         int count = 0;
         String query = getLevelListQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo, StringUtils.EMPTY,
                 StringUtils.EMPTY, isFilter, false, true, 0, 0, false, false, 0, isGroupFilter, levelName);
-        List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+        List<Object> list = (List<Object>) executeSelectQuery(query);
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
             count = Integer.parseInt(String.valueOf(ob));
@@ -389,7 +389,7 @@ public class SPRCommonLogic {
                     customerHierarchyNo, isFilter, isExpand, false, start, offset, true, isCustom, customId,
                     StringUtils.EMPTY, 0, 0, filterDdlb, levelName);
 
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -661,7 +661,7 @@ public class SPRCommonLogic {
         try {
             String query = getAllHierarchyLevelsQuery(startLevelNo, projectionId, hierarchyIndicator, StringUtils.EMPTY,
                     0, 0);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -742,7 +742,7 @@ public class SPRCommonLogic {
         int index = 0;
         String levelIndexQuery = getLevelIndexQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo,
                 productHierarchyNo, customerHierarchyNo, findHierarchyNo, isCustom, customId, StringUtils.EMPTY, 0, 0);
-        List<Object> list = (List<Object>) executeSelectQuery(levelIndexQuery, null, null);
+        List<Object> list = (List<Object>) executeSelectQuery(levelIndexQuery);
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
             index = Integer.parseInt(String.valueOf(ob));
@@ -1106,7 +1106,7 @@ public class SPRCommonLogic {
                         .append(obj[i]).append("'\n");
             }
         }
-        commonDao.executeBulkUpdateQuery(queryBuilder.toString(), null, null);
+        commonDao.executeBulkUpdateQuery(queryBuilder.toString());
     }
 
     public static String getIndicator(int levelNo, int viewName) {
@@ -1192,7 +1192,7 @@ public class SPRCommonLogic {
         try {
             String query = getHierarchyTreeQuery(projectionId, hierarchyIndicator);
 
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -1283,7 +1283,7 @@ public class SPRCommonLogic {
         int count = 0;
         String query = getLevelListQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo,
                 customerHierarchyNo, isFilter, false, true, 0, 0, false, isCustom, customId, false, StringUtils.EMPTY);
-        List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+        List<Object> list = (List<Object>) executeSelectQuery(query);
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
             count = Integer.parseInt(String.valueOf(ob));
@@ -1386,7 +1386,7 @@ public class SPRCommonLogic {
             String query = getLevelListQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo,
                     customerHierarchyNo, isFilter, isExpand, false, start, offset, true, isCustom, customId, userGroup,
                     userId, sessionId, filterDdlb, levelName);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -1408,7 +1408,7 @@ public class SPRCommonLogic {
             String query = getLevelListQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo,
                     customerHierarchyNo, isFilter, false, true, 0, 0, false, isCustom, customId, userGroup, userId,
                     sessionId, isGroupFilter, levelName);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
                 count = Integer.parseInt(String.valueOf(ob));
@@ -1427,7 +1427,7 @@ public class SPRCommonLogic {
             String levelIndexQuery = getLevelIndexQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo,
                     productHierarchyNo, customerHierarchyNo, findHierarchyNo, isCustom, customId, userGroup, userId,
                     sessionId);
-            List<Object> list = (List<Object>) executeSelectQuery(levelIndexQuery, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(levelIndexQuery);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
                 index = Integer.parseInt(String.valueOf(ob));
@@ -1458,7 +1458,7 @@ public class SPRCommonLogic {
 
             String hierIndicatorQuery = "select HIERARCHY_INDICATOR from dbo.CUSTOM_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID="
                     + customId + " and LEVEL_NO=" + levelNo;
-            List<Object> list = (List<Object>) executeSelectQuery(hierIndicatorQuery, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(hierIndicatorQuery);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
                 hierIndicator = String.valueOf(ob);
@@ -1593,7 +1593,7 @@ public class SPRCommonLogic {
         List<String> groupList = new ArrayList<>();
         try {
             String query = getGroupQuery(projectionId, sessionId, userId, "ST_M_DISCOUNT_PROJ_MASTER");
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     groupList.add(Constant.DISCOUNT + String.valueOf(list1));
@@ -1609,7 +1609,7 @@ public class SPRCommonLogic {
         List<String> groupList = new ArrayList<>();
         try {
             String query = getGroupQuery(projectionId, sessionId, userId, "ST_M_PPA_PROJECTION_MASTER");
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     groupList.add(Constant.PPA + String.valueOf(list1));
@@ -1625,7 +1625,7 @@ public class SPRCommonLogic {
         List<String> groupList = new ArrayList<>();
         try {
             String query = getGroupQuery(projectionId, sessionId, userId, "ST_NM_SALES_PROJECTION_MASTER");
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     groupList.add(Constant.SALES_WITH_HYPHEN + String.valueOf(list1));
@@ -1665,7 +1665,7 @@ public class SPRCommonLogic {
                     + "                 WHERE RLD.LEVEL_NAME = 'Trading Partner'";
         }
         try {
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
                 levelNo = Integer.parseInt(String.valueOf(ob));
@@ -1683,7 +1683,7 @@ public class SPRCommonLogic {
         try {
             String query = getAllHierarchyLevelsQuery(startLevelNo, projectionId, hierarchyIndicator, userGroup, userId,
                     sessionId);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -1826,7 +1826,7 @@ public class SPRCommonLogic {
             str = "select FIELD_NAME from HIERARCHY_LEVEL_DEFINITION hld,PROJECTION_MASTER pm  where \n"
                     + " LEVEL_NAME in('Customer','Trading Partner')  and pm.CUSTOMER_HIERARCHY_SID=hld.HIERARCHY_DEFINITION_SID\n"
                     + "and pm.PROJECTION_MASTER_SID=" + definedValue;
-            List<Object> list = (List<Object>) executeSelectQuery(str, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(str);
             return list;
         } catch (Exception e) {
 			LOGGER.error(e.getMessage());

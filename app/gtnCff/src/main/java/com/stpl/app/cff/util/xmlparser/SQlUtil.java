@@ -65,12 +65,12 @@ public class SQlUtil {
 
     }
 
-    private Map<String, String> getQUERY_MAP() {
+    private Map<String, String> getQueryMap() {
         return queryMap;
     }
 
     public static String getQuery(String sqlId) {
-        return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
+        return SQlUtil.getContext().getQueryMap().get(sqlId);
     }
 
 }

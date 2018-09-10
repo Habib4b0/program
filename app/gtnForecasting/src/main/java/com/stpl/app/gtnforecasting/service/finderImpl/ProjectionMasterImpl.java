@@ -644,7 +644,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     if (fkTbName[i] != null && !StringUtils.EMPTY.equals(fkTbName[i]) && !ConstantsUtils.NULL.equals(fkTbName[i])) {
                         sqlBuilder.append(fkTbName[i]);
                     }
-                    String projectionDetailsSid = CommonUtils.CollectionToString(idList, false);
+                    String projectionDetailsSid = CommonUtils.collectionToStringCommon(idList, false);
 
                     sqlBuilder.append(" where PROJECTION_DETAILS_SID IN (" ).append( projectionDetailsSid ).append( ");");
 

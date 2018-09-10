@@ -208,9 +208,7 @@ public class GtnReportDataSelectionReGenerateAction
 					comparisonProjectionBeanListInDataSelectionBean);
 			selectedCustomerSet.addAll(customerSelectedSet);
 			return (selectedCustomerSet
-					.size() > (comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig != null
-							? comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig.size()
-							: 0));
+					.size() >dsComparisonProjectionListSize);
 		}
 		return true;
 	}

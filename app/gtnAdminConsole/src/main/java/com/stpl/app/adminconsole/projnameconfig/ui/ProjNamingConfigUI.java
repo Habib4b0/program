@@ -80,17 +80,11 @@ public class ProjNamingConfigUI extends UI {
             navigator.addView(ProjNameConfigMainView.NAME, new ProjNameConfigMainView());
             navigator.addView(ProjNameConfigAddView.NAME, new ProjNameConfigAddView());
             LOGGER.info("init method ended");
-        } catch (SystemException ex) {
+        } catch (SystemException| PortalException ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
            LOGGER.error(ex.getMessage());
-        } catch (PortalException ex) {
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4011));
-           LOGGER.error(ex.getMessage());
-        } catch (Exception ex) {
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4011));
-           LOGGER.error(ex.getMessage());
-        }
+        }  
 
     }
 
