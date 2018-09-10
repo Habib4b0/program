@@ -39,15 +39,18 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentSummaryDemandPayment.class);
 
+    private DPSelectionDTO paymentsSelectionDTO;
+
     public AdjustmentSummaryDemandPayment(DPSelectionDTO selection) throws InvocationTargetException {
         super(selection, new DPSummaryLogic());
+        this.paymentsSelectionDTO = selection;
         configureWorkFlow();
     }
 
     @Override
     protected void configureSummary() {
         view.select(ARMConstants.getMultiplePeriod());
-        selectionDTO.setSummarydemandview("Multiple Period");
+        paymentsSelectionDTO.setSummarydemandview("Multiple Period");
         variableHeader = new String[]{VariableConstants.DemandPaymentSummaryVariables.DEMANDACCRUAL.toString(), VariableConstants.DemandPaymentSummaryVariables.DEMANDACCRUALREFORECAST.toString(),
             VariableConstants.DemandPaymentSummaryVariables.DEMANDACCRUALRECON.toString(),
             VariableConstants.DemandPaymentSummaryVariables.TOTALDEMANDACCRUAL.toString(), VariableConstants.DemandPaymentSummaryVariables.ACTUALPAYMENTS.toString(),
@@ -84,10 +87,10 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
     }
 
     public void configureWorkFlow() throws InvocationTargetException {
-        if (selectionDTO.getSessionDTO().isWorkFlow()) {
+        if (paymentsSelectionDTO.getSessionDTO().isWorkFlow()) {
             loadDetails();
             loadSelection();
-            if (ARMUtils.VIEW_SMALL.equals(selectionDTO.getSessionDTO().getAction())) {
+            if (ARMUtils.VIEW_SMALL.equals(paymentsSelectionDTO.getSessionDTO().getAction())) {
                 configureFieldsOnViewMode();
             }
             generateButtonLogic();
@@ -95,29 +98,29 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
     }
 
     public void loadDetails() throws InvocationTargetException {
-        List<Object[]> list = CommonLogic.loadPipelineAccrual(selectionDTO.getProjectionMasterSid());
+        List<Object[]> list = CommonLogic.loadPipelineAccrual(paymentsSelectionDTO.getProjectionMasterSid());
         for (int i = 0; i < list.size(); i++) {
             Object[] obj = list.get(i);
             if (VariableConstants.SUMMARY_DEDUCTION_VALUE.equals(String.valueOf(obj[0]))) {
-                deductionLevelDdlb.setValue(selectionDTO.getSummarydeductionLevel());
-                String str1 = (String) obj[1];
-                String[] str2 = str1.split(",");
-                String str3 = null;
-                for (String strings : str2) {
-                    str3 = strings;
-                    CommonUtils.checkMenuBarItem(getDeductionCustomMenuItem(), str3);
+                deductionLevelDdlb.setValue(paymentsSelectionDTO.getSummarydeductionLevel());
+                String paymentStr1 = (String) obj[1];
+                String[] paymentStr2 = paymentStr1.split(",");
+                String paymnetStr3 = null;
+                for (String strings : paymentStr2) {
+                    paymnetStr3 = strings;
+                    CommonUtils.checkMenuBarItem(getDeductionCustomMenuItem(), paymnetStr3);
                 }
             } else if (VariableConstants.SUMMARY_VARIABLES.equals(String.valueOf(obj[0]))) {
-                String str1 = (String) obj[1];
-                String[] str2 = str1.split(",");
+                String paymentstr1 = (String) obj[1];
+                String[] paymnetstr2 = paymentstr1.split(",");
                 String str3 = null;
-                for (String strings : str2) {
+                for (String strings : paymnetstr2) {
                     str3 = strings;
                     CommonUtils.checkMenuBarItem(customMenuItem, str3);
                 }
             } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
                 try {
-                    BeanUtils.setProperty(selectionDTO, String.valueOf(obj[0]), obj[1]);
+                    BeanUtils.setProperty(paymentsSelectionDTO, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
                     LOGGER.error("Error in loadDetails :", ex);
                 }
@@ -133,17 +136,17 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
 
     private void loadSelection() {
         try {
-            view.setValue(selectionDTO.getSummarydemandview());
-            frequencyDdlb.select(Integer.valueOf(selectionDTO.getSummarydemandfrequency()));
-            selectionDTO.setSummarydemandfrequency(String.valueOf(frequencyDdlb.getItemCaption(frequencyDdlb.getValue())));
-            fromDate.setValue(selectionDTO.getSummarydemandfromDate());
-            toDate.setValue(selectionDTO.getSummarydemandtoDate());
-            LOGGER.debug("selectionDTO.getSummary_glDate()!!!!!!!!{}", selectionDTO.getSummaryglDate());
+            view.setValue(paymentsSelectionDTO.getSummarydemandview());
+            frequencyDdlb.select(Integer.valueOf(paymentsSelectionDTO.getSummarydemandfrequency()));
+            paymentsSelectionDTO.setSummarydemandfrequency(String.valueOf(frequencyDdlb.getItemCaption(frequencyDdlb.getValue())));
+            fromDate.setValue(paymentsSelectionDTO.getSummarydemandfromDate());
+            toDate.setValue(paymentsSelectionDTO.getSummarydemandtoDate());
+            LOGGER.debug("selectionDTO.getSummary_glDate()!!!!!!!!{}", paymentsSelectionDTO.getSummaryglDate());
             glImpactDate.removeValueChangeListener(glListener);
-            defaultWorkFlowDate = dateFormat.parse(selectionDTO.getSummaryglDate());
+            defaultWorkFlowDate = dateFormat.parse(paymentsSelectionDTO.getSummaryglDate());
             resetWorkFlowDate = defaultWorkFlowDate;
             glImpactDate.setValue(resetWorkFlowDate);
-            glImpactDate.addValueChangeListener(glWorkflowListener);
+            glImpactDate.addValueChangeListener(gldemandWorkflowListener);
         } catch (Exception ex) {
             LOGGER.error("Error in loadSelection :", ex);
         }
@@ -155,13 +158,13 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
     }
 
     public void configurePermission(String userId, StplSecurity stplSecurity) {
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction4", "Adjustment Summary");
-        reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", functionHM));
-        generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
-        adjustmentResults.getExpandbtn().setVisible(CommonLogic.isButtonVisibleAccess("expandbtn", functionHM));
-        adjustmentResults.getCollapseBtn().setVisible(CommonLogic.isButtonVisibleAccess("collapseBtn", functionHM));
-        adjustmentResults.getCancelOverride().setVisible(CommonLogic.isButtonVisibleAccess("cancelOverride", functionHM));
-        adjustmentResults.getCalculateBtn().setVisible(CommonLogic.isButtonVisibleAccess("calculateBtn", functionHM));
+        Map<String, AppPermission> paymentFunctionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction4", "Adjustment Summary");
+        reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", paymentFunctionHM));
+        generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", paymentFunctionHM));
+        adjustmentResults.getExpandbtn().setVisible(CommonLogic.isButtonVisibleAccess("expandbtn", paymentFunctionHM));
+        adjustmentResults.getCollapseBtn().setVisible(CommonLogic.isButtonVisibleAccess("collapseBtn", paymentFunctionHM));
+        adjustmentResults.getCancelOverride().setVisible(CommonLogic.isButtonVisibleAccess("cancelOverride", paymentFunctionHM));
+        adjustmentResults.getCalculateBtn().setVisible(CommonLogic.isButtonVisibleAccess("calculateBtn", paymentFunctionHM));
 
     }
 

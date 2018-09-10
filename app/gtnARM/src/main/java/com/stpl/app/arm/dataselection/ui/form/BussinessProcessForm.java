@@ -250,7 +250,7 @@ public class BussinessProcessForm extends Window {
         return binder;
     }
 
-    private final CustomNotification notifier = new CustomNotification();
+    private final CustomNotificationBPForm notifier = new CustomNotificationBPForm();
 
     private void insertToSummaryCCP() {
         List input = new ArrayList();
@@ -263,12 +263,12 @@ public class BussinessProcessForm extends Window {
         QueryUtil.callProcedure("PRC_ARM_CURRENT_BALANCE", orderedArgs);
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class CustomNotificationBPForm extends AbstractNotificationUtils {
 
         private String buttonName;
         private int tabNo;
 
-        public CustomNotification() {
+        public CustomNotificationBPForm() {
             /*
         THE DEFAULT CONSTRUCTOR
              */

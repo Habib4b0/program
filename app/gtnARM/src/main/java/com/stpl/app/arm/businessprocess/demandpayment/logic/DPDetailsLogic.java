@@ -15,12 +15,16 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Jayaram.LeelaRam
  */
 public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
+
+    private final Logger dpDetailsLogger = LoggerFactory.getLogger(DPDetailsLogic.class);
 
     @Override
     public List<List> getReserveAccountDetails(AbstractSelectionDTO paymentsSelection, Boolean isReserve) {
@@ -81,21 +85,25 @@ public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
+        dpDetailsLogger.debug("Inside getExcelResultList");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected String getTableNameForView() {
+        dpDetailsLogger.debug("Inside getTableNameForView");
         return "ARM_DEMAND_RECON_SUMMARY";
     }
 
     @Override
     protected String getTableNameForEdit() {
+        dpDetailsLogger.debug("Inside getTableNameForEdit");
         return "ST_ARM_DEMAND_RECON_SUMMARY";
     }
 
     @Override
     protected CharSequence getRateColumn() {
+        dpDetailsLogger.debug("Inside getRateColumn");
         return "B.PROJECTED_RATE";
     }
 
