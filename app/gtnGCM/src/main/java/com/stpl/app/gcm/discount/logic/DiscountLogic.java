@@ -988,7 +988,7 @@ public class DiscountLogic {
                 input.add(null);
             }
             if (list.isEmpty()) {
-                RsContractDetailsImpl.saveRsDetailsAttached(input, null);
+                RsContractDetailsImpl.saveRsDetailsAttached(input);
             }
         } catch (Exception e) {
             LOGGER.error("",e);
@@ -1516,9 +1516,7 @@ public class DiscountLogic {
                 results = discountDAO.getRebates(query);
             } catch (SystemException ex) {
                 LoggerFactory.getLogger(DiscountLogic.class.getName()).error("", ex);
-            } catch (Exception ex) {
-                LoggerFactory.getLogger(DiscountLogic.class.getName()).error("", ex);
-            }
+            } 
         } else if (Constants.IndicatorConstants.CFP.getConstant().equals(newDiscountTabDto.getCategory())) {
             if (selectedItemsTable && !isAdd) {
                 operation = Constants.IndicatorConstants.SELECTED_COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant();
@@ -2128,7 +2126,7 @@ public class DiscountLogic {
                 input.add(null);
             }
             if (list.isEmpty()) {
-                PsContractDetailsImpl.savePsDetailsAttached(input, null);
+                PsContractDetailsImpl.savePsDetailsAttached(input);
             }
         } catch (Exception e) {
             LOGGER.error("",e);
@@ -2235,7 +2233,7 @@ public class DiscountLogic {
             input.add(null);
         }
         if (list.isEmpty()) {
-            IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
+            IfpContractDetailsImpl.saveIfpDetailsAttached(input);
         }
 
         LOGGER.debug("End of saveIFP method");
@@ -2302,7 +2300,7 @@ public class DiscountLogic {
             input.add(null);
         }
         if (list.isEmpty()) {
-            CfpContractDetailsImpl.saveCfpDetailsAttached(input, null);
+            CfpContractDetailsImpl.saveCfpDetailsAttached(input);
         }
         LOGGER.debug("End of saveCFp method");
 
@@ -2533,7 +2531,7 @@ public class DiscountLogic {
         return new Date();
     }
     
-    public List<PSComponentDetailsDTO> getDiscountItemsForPS_RS(String userId, String sessionId, List<String> itemsList) {
+    public List<PSComponentDetailsDTO> getDiscountItemsForPsRs(String userId, String sessionId, List<String> itemsList) {
         LOGGER.debug(" Inside getDiscountItemsForPS");
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);

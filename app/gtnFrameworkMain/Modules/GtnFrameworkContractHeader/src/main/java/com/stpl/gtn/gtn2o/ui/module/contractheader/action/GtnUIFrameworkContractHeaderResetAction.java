@@ -69,10 +69,7 @@ public class GtnUIFrameworkContractHeaderResetAction
 				GtnUIFrameworkWebserviceRequest gtnRequest = new GtnUIFrameworkWebserviceRequest();
 				gtnRequest.setGtnWsContractHeaderRequest(imRequest);
 
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SERVICE
-								+ GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_FETCH_INFORMATION_SERVICE,
-						gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = callFetchInformationService(						gtnRequest);
 
 				setValueToComponents(response.getGtnWsContractHeaderResponse().getGtnWsContractMasterBean(), position);
 				if (position == 2) {
@@ -90,6 +87,14 @@ public class GtnUIFrameworkContractHeaderResetAction
 		}
 
 	}
+
+    public GtnUIFrameworkWebserviceResponse callFetchInformationService(GtnUIFrameworkWebserviceRequest gtnRequest) {
+        return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SERVICE
+                        + GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_FETCH_INFORMATION_SERVICE,
+                gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

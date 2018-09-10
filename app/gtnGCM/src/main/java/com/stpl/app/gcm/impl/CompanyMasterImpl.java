@@ -99,7 +99,7 @@ public class CompanyMasterImpl {
             
             public List findCompanyMaster(String companyId, String companyNo,
             String companyName, String companyStatus, String companyType,
-            String tradeClass, int identifierType, String identifier, String orderByColumn, Boolean sortOrder) {
+            int identifierType, String identifier, String orderByColumn, Boolean sortOrder) {
 
         
         String sql = StringUtils.EMPTY;
@@ -701,7 +701,7 @@ public class CompanyMasterImpl {
         } 
     }
 
-    public Object executeSelectQuery(String query, Object udc1, Object udc2) {
+    public Object executeSelectQuery(String query) {
         List<Object[]> returnList = new ArrayList<>();
         try {
 
@@ -1181,7 +1181,6 @@ public class CompanyMasterImpl {
                 LOGGER.debug("End of saveCcp method");
             } else {
                 List list = null;
-                try {
                     List<String> relationshipBuilderSids = (List<String>) parameters.get("relationshipBuilderSids");
                     List<StringBuilder> logic = new ArrayList<>();
                     List<String> condition = new ArrayList<>();
@@ -1393,12 +1392,7 @@ public class CompanyMasterImpl {
                         }
                     }
 
-                } catch (Exception ex) {
-                    LOGGER.error(ex.getMessage());
-                    LOGGER.error(hierarchyQuery);
-                    LOGGER.error(levelQuery);
-                    LOGGER.error(ccpQueryList.toString());
-                }
+               
             }
         } catch (Exception e) {
             LOGGER.error("In saveCcp -> {} ",e.getMessage());

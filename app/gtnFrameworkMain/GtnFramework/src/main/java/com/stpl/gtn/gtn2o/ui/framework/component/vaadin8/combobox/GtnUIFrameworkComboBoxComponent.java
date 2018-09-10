@@ -444,7 +444,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 	@SuppressWarnings("unchecked")
 	private ComboBox fillDataAndCaption(GtnUIFrameworkComboBoxConfig comboboxConfig, List itemCodeList,
 			List<String> itemValueList, ComboBox vaadinComboBox) {
-
+		vaadinComboBox.markAsDirty();
 		try {
 			List valueList = new ArrayList<>(itemCodeList);
 			List<String> captionList = new ArrayList<>(itemValueList);

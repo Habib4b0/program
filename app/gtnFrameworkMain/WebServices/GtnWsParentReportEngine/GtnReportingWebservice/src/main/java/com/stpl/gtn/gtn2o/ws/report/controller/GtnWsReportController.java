@@ -190,7 +190,7 @@ public class GtnWsReportController {
 		GtnReportHierarchyLookupBean lookupBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		String query = GtnWsQueryConstants.HIERARCHY_SID_AND_LEVEL_DEFINITION_SID;
-		query.replace("@HIERARCHY_DEFINITION_SID", String.valueOf(lookupBean.getHierarchyDefSid()))
+		query=query.replace("@HIERARCHY_DEFINITION_SID", String.valueOf(lookupBean.getHierarchyDefSid()))
 				.replace("@VERSION_NO", String.valueOf(lookupBean.getVersionNo()));
 		List<Object[]> results = executeQuery(query);
 		GtnWsReportResponse gtnWsReportResponse = new GtnWsReportResponse();
@@ -483,8 +483,8 @@ public class GtnWsReportController {
 			resultList = gtnWsReportWebsevice.getUOMDDLBValues(
 					gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getReportBean().getDataSelectionBean());
 			Optional.ofNullable(resultList).ifPresent(e -> {
-				List<String> itemCodeList = new ArrayList<>();
-				List<String> itemValueList = new ArrayList<>();
+				List<String> itemCodeList = new ArrayList<>(e.size() + 1);
+				List<String> itemValueList = new ArrayList<>(e.size() + 1);
 				itemCodeList.add(GtnWsQueryConstants.UOM_DEFAULT);
 				itemValueList.add(GtnWsQueryConstants.UOM_DEFAULT);
 				for (Object[] object : e) {

@@ -214,7 +214,7 @@ public class SalesProjectionLogic {
     }
 
 
-    public int LoadHistoryValues(int projectionId) {
+    public int loadHistoryValues(int projectionId) {
         int totalQuators = NumericConstants.FOUR;
         DynamicQuery dynamicquerryFrom = ProjectionMasterLocalServiceUtil.dynamicQuery();
         ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
@@ -385,7 +385,7 @@ public class SalesProjectionLogic {
                 lives.setStartDate(startDate);
                 lives.setEndDate(endDate);
                 lives.setLives(Double.parseDouble(String.valueOf(obj[NumericConstants.THREE])));
-                lives.setComp_Name((String) obj[0]);
+                lives.setCompName((String) obj[0]);
                 livesDto.add(lives);
 
             }
@@ -396,16 +396,16 @@ public class SalesProjectionLogic {
             for (int i = 0; i < livesDto.size(); i++) {
                 companyDto = livesDto.get(i);
                 if (tempcompName.equals(STRING_EMPTY)) {
-                    tempcompName = companyDto.getComp_Name();
+                    tempcompName = companyDto.getCompName();
                     livesList = new ArrayList<>();
 
                 }
 
-                if (tempcompName.equals(companyDto.getComp_Name())) {
+                if (tempcompName.equals(companyDto.getCompName())) {
                     livesList.add(companyDto);
 
                 } else {
-                    tempcompName = companyDto.getComp_Name();
+                    tempcompName = companyDto.getCompName();
                     companyList.add(livesList);
                     livesList = new ArrayList<>();
                     livesList.add(companyDto);
@@ -431,7 +431,7 @@ public class SalesProjectionLogic {
 
                 for (LivesDTO dto : livesDtoList) {
 
-                    tempCompanyName = dto.getComp_Name();
+                    tempCompanyName = dto.getCompName();
                     boolean tempBool = true;
                     int ia = 0;
                     while (tempBool) {

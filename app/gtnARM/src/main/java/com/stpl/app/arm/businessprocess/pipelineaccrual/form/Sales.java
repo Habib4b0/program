@@ -122,7 +122,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             }
         });
     }
-    private final CustomNotification notifier = new CustomNotification();
+    private final SalesCustomNotification salesNotifier = new SalesCustomNotification();
 
     private void configureFields() {
         String[] variableValues;
@@ -156,11 +156,11 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
         }
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class SalesCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String salesButtonName;
 
-        public CustomNotification() {
+        public SalesCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -173,9 +173,9 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", salesButtonName);
+            if (null != salesButtonName) {
+                switch (salesButtonName) {
                     case CommonConstant.RESET:
                         setDefaultValue();
                         CommonUtils.unCheckMenuBarItem(customMenuItem);
@@ -188,7 +188,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.salesButtonName = buttonName;
         }
 
     }
@@ -198,8 +198,8 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 try {
-                    notifier.setButtonName(CommonConstant.RESET);
-                    notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
+                    salesNotifier.setButtonName(CommonConstant.RESET);
+                    salesNotifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
                 } catch (Exception e) {
                     LOGGER.error("Error in reset :", e);
                 }
@@ -271,10 +271,10 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = list.get(i);
                 if (VariableConstants.SALES_VARIABLE.equals(String.valueOf(obj[0]))) {
-                    String str1 = (String) obj[1];
-                    String[] str2 = str1.split(",");
+                    String salesstr1 = (String) obj[1];
+                    String[] salesstr2 = salesstr1.split(",");
                     String str3 = null;
-                    for (String strings : str2) {
+                    for (String strings : salesstr2) {
                         str3 = strings;
                         CommonUtils.checkMenuBarItem(customMenuItem, str3);
                     }

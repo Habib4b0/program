@@ -24,7 +24,7 @@ public class NMSalesProjectionMasterImpl {
     
     
 
-    public Object executeSelectQuery(String query, Object udc1, Object udc2) {
+    public Object executeSelectQuery(String query) {
 
         List<Object[]> returnList = new ArrayList<Object[]>();
         try {
@@ -37,7 +37,7 @@ public class NMSalesProjectionMasterImpl {
         return returnList;
     }
 
-    public Object executeBulkUpdateQuery(String query, Object udc1, Object udc2) {
+    public Object executeBulkUpdateQuery(String query) {
 
         try {
             HelperTableLocalServiceUtil.executeUpdateQuery(query);
@@ -49,7 +49,7 @@ public class NMSalesProjectionMasterImpl {
         return BooleanConstant.getTrueFlag();
     }
 
-    public Object executeUpdateQuery(List<?> nmSalesList, Object udc1, Object udc2, Object udc3) {
+    public Object executeUpdateQuery(List<?> nmSalesList) {
 
         try {
             HelperTableLocalServiceUtil.executeUpdateEntitiy(nmSalesList);

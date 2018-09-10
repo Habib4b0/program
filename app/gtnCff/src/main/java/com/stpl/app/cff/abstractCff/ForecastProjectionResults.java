@@ -5,7 +5,6 @@
  */
 package com.stpl.app.cff.abstractCff;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dto.CustomTreeBuild;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;

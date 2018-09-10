@@ -69,17 +69,17 @@ public class SQlUtil {
 
 	}
 
-	private Map<String, String> getQUERY_MAP() {
+	private Map<String, String> getQUERYMAP() {
 		return queryMap;
 	}
 
 	public static String getQuery(String sqlId) {
-		return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
+		return SQlUtil.getContext().getQUERYMAP().get(sqlId);
 	}
 
 	public static String getQuery(Class clasName, String sqlId) {
                 LOGGER.debug("clasName {} " , clasName);
-		return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
+		return SQlUtil.getContext().getQUERYMAP().get(sqlId);
 	}
 
 }

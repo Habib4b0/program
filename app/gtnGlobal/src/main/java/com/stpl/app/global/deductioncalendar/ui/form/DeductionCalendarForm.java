@@ -509,7 +509,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                             customerSelection.selectedResultsContainer.removeAllItems();
                             selectionLogic.resetCompanyAndItem(sessionDTO, BooleanConstant.getFalseFlag());
                             if ((ConstantsUtils.EDIT).equals(mode) || (ConstantsUtils.COPY).equals(mode)) {
-                                deductionCalendarLogic.deleteCustomer_TempDeductionDetails(sessionDTO);
+                                deductionCalendarLogic.deleteCustomerTempDeductionDetails(sessionDTO);
                                 deductionCalendarLogic.insertToTempSelectionForCust(sessionDTO.getUserId(), sessionDTO.getUiSessionId(), sessionDTO.getSystemId());
                                 customerSelection.loadInEdit(sessionDTO);
                             }
@@ -521,7 +521,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                             itemSelection.resetBtnLogic();
                             selectionLogic.resetCompanyAndItem(sessionDTO, BooleanConstant.getTrueFlag());
                             if ((ConstantsUtils.EDIT).equals(mode) || (ConstantsUtils.COPY).equals(mode)) {
-                                deductionCalendarLogic.deleteItem_TempDeductionDetails(sessionDTO);
+                                deductionCalendarLogic.deleteItemTempDeductionDetails(sessionDTO);
                                 deductionCalendarLogic.insertToTempSelectionForProd(sessionDTO.getUserId(), sessionDTO.getUiSessionId(), sessionDTO.getSystemId());
                                 itemSelection.loadInEdit();
                             }

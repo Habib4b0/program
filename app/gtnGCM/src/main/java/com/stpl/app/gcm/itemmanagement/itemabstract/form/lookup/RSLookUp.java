@@ -202,7 +202,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
                 }
                 if ("componentStatus".equals(propertyId)) {
                         ComboBox componentStatus = new ComboBox();
-                    logic.LazyLoadDdlb(componentStatus, "rsStatus count", "rsStatus", BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(componentStatus, "rsStatus count", "rsStatus", BooleanConstant.getTrueFlag());
                         return componentStatus;
                     }
                 return null;
@@ -295,7 +295,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatusDto, "rsStatus count", "rsStatus", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(componentStatusDto, "rsStatus count", "rsStatus", BooleanConstant.getFalseFlag());
     }
 
     private void loadComponentType() {
