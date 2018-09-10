@@ -427,6 +427,9 @@ public class ForecastUI extends UI {
         dataSelectionDto.setDescription((String)actionParamList.get(3));
         dataSelectionDto.setCustomerRelationShipVersionNo(Integer.parseInt((String)actionParamList.get(4)));
         dataSelectionDto.setCustomerHierVersionNo(Integer.parseInt((String)actionParamList.get(5)));
+         dataSelectionDto.setProductRelationShipVersionNo(Integer.parseInt((String)actionParamList.get(6)));
+        dataSelectionDto.setProductHierVersionNo(Integer.parseInt((String)actionParamList.get(7)));
+        dataSelectionDto.setBusinessUnitSystemId(Integer.parseInt((String)actionParamList.get(7)));
         DataSelectionForm form = new DataSelectionForm(sessionDto,dataSelectionDto);
     }
 
