@@ -70,7 +70,11 @@ public class GtnWsReportDashboardFilterOptionService {
 				GtnFrameworkDataType.INTEGER };
 		List<Object[]> hierarchyData = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(custProdLevelQuery,
 				parameterValues, dataTypes);
-		return Optional.ofNullable(hierarchyData).get();
+		Optional<List<Object[]>> result = Optional.ofNullable(hierarchyData);
+		if (result.isPresent()) {
+			return result.get();
+		}
+		return Collections.emptyList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -83,7 +87,11 @@ public class GtnWsReportDashboardFilterOptionService {
 		gtnLogger.debug(custProdLevelQuery);
 		List<Object[]> deductionList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(custProdLevelQuery,
 				parameterValues, dataTypes);
-		return Optional.ofNullable(deductionList).get();
+		Optional<List<Object[]>> deductionResult = Optional.ofNullable(deductionList);
+		if (deductionResult.isPresent()) {
+			return deductionResult.get();
+		}
+		return Collections.emptyList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -144,8 +152,7 @@ public class GtnWsReportDashboardFilterOptionService {
 	}
 
 	private String getDynamicCustomerDeductionLoadQuery(GtnWsReportDataSelectionBean dataSelectionBean,
-			GtnWsReportDashboardFilterBean filterBean, boolean isUserDefined, String query)
-			throws GtnFrameworkGeneralException {
+			GtnWsReportDashboardFilterBean filterBean, boolean isUserDefined, String query) {
 		String queryStr = (filterBean.getSelectedCustomerList().isEmpty() || isUserDefined) ? query
 				: getProductCustomerFilterQuery(filterBean, dataSelectionBean) + query;
 		return getFinalJoinedQuery(queryStr, filterBean, isUserDefined);
@@ -227,8 +234,7 @@ public class GtnWsReportDashboardFilterOptionService {
 	}
 
 	private String getDynamicProductDeductionLoadQuery(GtnWsReportDataSelectionBean dataSelectionBean,
-			GtnWsReportDashboardFilterBean filterBean, boolean isUserDefined, String query)
-			throws GtnFrameworkGeneralException {
+			GtnWsReportDashboardFilterBean filterBean, boolean isUserDefined, String query) {
 		String queryStr = (filterBean.getSelectedProductList().isEmpty() || isUserDefined) ? query
 				: getCustProductFilterQuery(filterBean, dataSelectionBean) + query;
 		return getCustDeductionJoinedQuery(queryStr, filterBean, isUserDefined);
@@ -464,7 +470,7 @@ public class GtnWsReportDashboardFilterOptionService {
 				joinQuery.append(
 						" JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO + '%'");
 			}
-			getCCPSidQuery = joinQuery.toString().equals("") ? getCCPSidQuery : getCCPSidQuery.append(joinQuery);
+			getCCPSidQuery = joinQuery.length() == 0 ? getCCPSidQuery : getCCPSidQuery.append(joinQuery);
 
 			String finalQuery = getDeductionCCP(getCCPSidQuery, filterBean);
 			Map<String, String> tableNameMap = dataSelectionBean.getSessionTableMap();
@@ -493,7 +499,7 @@ public class GtnWsReportDashboardFilterOptionService {
 	}
 
 	private String getDeductionCCP(StringBuilder getCCPSidQuery, GtnWsReportDashboardFilterBean filterBean) {
-		StringBuilder queryString = getCCPSidQuery.toString().equals("") ? new StringBuilder()
+		StringBuilder queryString = getCCPSidQuery.length() == 0 ? new StringBuilder()
 				: new StringBuilder(getCCPSidQuery);
 		if (!filterBean.getSelectedDeductionList().isEmpty()) {
 			queryString.insert(queryString.lastIndexOf("from"), ",rc.RS_CONTRACT_SID \n");

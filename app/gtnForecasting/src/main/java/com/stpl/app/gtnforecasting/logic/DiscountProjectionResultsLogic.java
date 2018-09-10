@@ -211,7 +211,7 @@ public class DiscountProjectionResultsLogic {
             if (hierarchy.equals(Constant.CUSTOM_LABEL)) {
                 proSelDTO.setIsCustomHierarchy(true);
                 String customQuery = CommonLogic.getCustomCCPQuery(proSelDTO);
-                List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
+                List<Object> list = (List<Object>) executeSelectQuery(customQuery);
                 if (list != null && !list.isEmpty()) {
                     ccpid = new ArrayList();
                     for (int i = 0; i < list.size(); i++) {
@@ -1729,7 +1729,7 @@ public class DiscountProjectionResultsLogic {
         if (selectedView.equals(Constant.CUSTOM_LABEL)) {
             projSelDTO.setIsCustomHierarchy(true);
             String customQuery = CommonLogic.getCustomCCPQuery(projSelDTO);
-            List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(customQuery);
             if (list != null && !list.isEmpty()) {
                 ccpId = new ArrayList();
                 for (int i = 0; i < list.size(); i++) {
@@ -4184,7 +4184,7 @@ public class DiscountProjectionResultsLogic {
                 if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                     projSelDTO.setIsCustomHierarchy(true);
                     String customQuery = CommonLogic.getCustomCCPQuery(projSelDTO);
-                    List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
+                    List<Object> list = (List<Object>) executeSelectQuery(customQuery);
                     if (list != null && !list.isEmpty()) {
                         ccpId = new ArrayList();
                         for (int i = 0; i < list.size(); i++) {
@@ -4320,7 +4320,7 @@ public class DiscountProjectionResultsLogic {
             if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                 projSelDTO.setIsCustomHierarchy(true);
                 String customQuery = CommonLogic.getCustomCCPQuery(projSelDTO);
-                List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
+                List<Object> list = (List<Object>) executeSelectQuery(customQuery);
                 if (list != null && !list.isEmpty()) {
                     ccpId = new ArrayList();
                     for (int i = 0; i < list.size(); i++) {
@@ -6101,7 +6101,7 @@ public class DiscountProjectionResultsLogic {
         return count;
     }
 
-    public static Object executeSelectQuery(String query, Object udc1, Object udc2) {
+    public static Object executeSelectQuery(String query) {
 
         return commonDao.executeSelectQuery(query);
 

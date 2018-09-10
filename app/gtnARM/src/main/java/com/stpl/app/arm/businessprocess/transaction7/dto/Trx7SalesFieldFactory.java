@@ -85,10 +85,11 @@ public class Trx7SalesFieldFactory implements TableFieldFactory {
                 List tr7Input = new ArrayList();
                 tr7Input.add(selection.getSessionDTO().getCurrentTableNames().get("ST_ARM_DISTRIBUTION_FEES_SALES"));
                 tr7Input.add(value.toString());
-                tr7Input.add(Integer.valueOf(dto.getCompSids()));
+                tr7Input.add(dto.getCompSids().isEmpty() || dto.getCompSids().equals("0") ? '%' : dto.getCompSids());
                 tr7Input.add(Integer.valueOf(dto.getBranditemmasterSid()));
                 tr7Input.add(projectionId);
                 service.submit(new Tr7UpdateOverride(tr7Input));
+
             } catch (NumberFormatException e) {
                 LOGGER.debug("User is supposed to give Double value");
                 LOGGER.error("Error in priceOverrideListener :", e);

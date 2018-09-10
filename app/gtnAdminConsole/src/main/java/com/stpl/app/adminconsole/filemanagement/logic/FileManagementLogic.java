@@ -158,7 +158,7 @@ public class FileManagementLogic {
 			final String country) throws SystemException {
 		List<ForecastingMaster> resultsList;
 		final FileManagementDTO fileMgtDTO = new FileManagementDTO();
-		final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+		final DateFormat dateFormatDetails = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 
 		Criterion criterion;
 		String sqlString;
@@ -187,10 +187,10 @@ public class FileManagementLogic {
 				fileMgtDTO.setForecastName(fmMaster.getForecastName());
 				fileMgtDTO.setForecastVersion(fmMaster.getForecastVer());
 				if (fmMaster.getForecastDate() != null) {
-					fileMgtDTO.setForecastDate(dateFormat.format(fmMaster.getForecastDate()));
+					fileMgtDTO.setForecastDate(dateFormatDetails.format(fmMaster.getForecastDate()));
 				}
 				if (fmMaster.getCreatedDate() != null) {
-					fileMgtDTO.setCreatedDate(dateFormat.format(fmMaster.getCreatedDate()));
+					fileMgtDTO.setCreatedDate(dateFormatDetails.format(fmMaster.getCreatedDate()));
 				}
 			}
 		} else if (ConstantsUtils.DEMAND.equals(fileType.getDescription())) {
@@ -203,7 +203,7 @@ public class FileManagementLogic {
 					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(dateFormatDetails.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY.equals(fileType.getDescription())) {
@@ -216,7 +216,7 @@ public class FileManagementLogic {
 					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(dateFormatDetails.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(fileType.getDescription())) {
@@ -229,7 +229,7 @@ public class FileManagementLogic {
 					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(dateFormatDetails.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.CUSTOMERGTS.equals(fileType.getDescription())) {
@@ -242,7 +242,7 @@ public class FileManagementLogic {
 					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(dateFormatDetails.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.ADJUSTED_DEMAND.equals(fileType.getDescription())) {
@@ -255,7 +255,7 @@ public class FileManagementLogic {
 					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(dateFormatDetails.format(obj[NumericConstants.TWO])));
 				}
 			}
 		}
@@ -395,11 +395,11 @@ public class FileManagementLogic {
 		resultsList = DAO.getFilesList(dynamicQuery);
 		if (!resultsList.isEmpty()) {
 			final FileManagement fileMgt = (FileManagement) resultsList.get(0);
-			final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+			final DateFormat dateFormatCurrentFile = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 			fileMgtDTO.setCurrentFile(fileMgt.getForecastName());
 			fileMgtDTO.setForecastVersion(fileMgt.getVersion());
 			fileMgtDTO.setEffectiveDate(fileMgt.getCreatedDate() == null ? ConstantsUtils.EMPTY
-					: dateFormat.format(fileMgt.getCreatedDate()));
+					: dateFormatCurrentFile.format(fileMgt.getCreatedDate()));
 		}
 
 		LOGGER.debug("getCurrentFileInfo return FileManagementDTO fileMgtDTO");
@@ -3192,7 +3192,7 @@ public class FileManagementLogic {
 		return HelperTableLocalServiceUtil.executeSelectQuery(query);
 	}
 
-	public Object getForecastDetails_Excel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
+	public Object getForecastDetailsExcel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
 			boolean isCount, boolean isRecordLock, boolean isExcelFlag) {
 		LOGGER.debug("Entering getForecastDetails ");
@@ -3314,7 +3314,7 @@ public class FileManagementLogic {
 		}
 	}
 
-	public Object getDemandDetailsResults_Excel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
+	public Object getDemandDetailsResultsExcel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
 			boolean isCount, boolean isRecordLock, boolean isExcelFlag) {
 		LOGGER.debug("Entering getDemandDetailsResults_Excel Details Results");
@@ -3460,7 +3460,7 @@ public class FileManagementLogic {
 		}
 	}
 
-	public Object getAdjustedDemandDetailsResults_Excel(FileMananagementResultDTO detailsResultDTO,
+	public Object getAdjustedDemandDetailsResultsExcel(FileMananagementResultDTO detailsResultDTO,
 			final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns,
 			final Set<Container.Filter> filterSet, boolean isCount, boolean isRecordLock, boolean isExcelflag) {
 		LOGGER.debug("Entering getAdjustedDemandDetailsResults_Excel Details Results");
@@ -3606,7 +3606,7 @@ public class FileManagementLogic {
 		}
 	}
 
-	public Object getInventorySummaryResults_Excel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
+	public Object getInventorySummaryResultsExcel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
 			boolean isCount, boolean isRecordLock, boolean isExcelflag) {
 		LOGGER.debug("Entering getInventorySummaryResults_Excel Details Results");
@@ -3738,7 +3738,7 @@ public class FileManagementLogic {
 		}
 	}
 
-	public Object getInventoryDetailsResults_Excel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
+	public Object getInventoryDetailsResultsExcel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
 			boolean isCount, boolean isExcelflag) throws Exception {
 
@@ -3886,7 +3886,7 @@ public class FileManagementLogic {
 		}
 	}
 
-	public Object getCustomerSalesResults_Excel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
+	public Object getCustomerSalesResultsExcel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
 			boolean isCount, boolean isExcelflag) {
 		LOGGER.debug("Entering getCustomerSalesResults_Excel Details Results");

@@ -178,12 +178,12 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("componentStatus".equals(propertyId)) {
                     ComboBox status = new ComboBox();
-                    logic.LazyLoadDdlb(status, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(status, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getTrueFlag());
                     return status;
                 }
                 if ("componentType".equals(propertyId)) {
                     ComboBox type = new ComboBox();
-                    logic.LazyLoadDdlb(type, countFlag.get(1), loadDataFlag.get(1), BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(type, countFlag.get(1), loadDataFlag.get(1), BooleanConstant.getTrueFlag());
                     return type;
                 }
                 return null;
@@ -267,11 +267,11 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatusDto, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(componentStatusDto, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getFalseFlag());
     }
 
     private void loadComponentType() {
-        logic.LazyLoadDdlb(componentTypeDto, countFlag.get(1), loadDataFlag.get(1), BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(componentTypeDto, countFlag.get(1), loadDataFlag.get(1), BooleanConstant.getFalseFlag());
     }
 
   

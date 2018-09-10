@@ -18,6 +18,7 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.stpl.ifs.util.constants.WorkflowMessages;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class AdjustmentDetailsPayment extends AbstractAdjustmentDetails {
         paymentsSelection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
 
-        paymentsSelection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
+        paymentsSelection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) :  new ArrayList());
         creditFlag = logic.cerditDebitEqualCheck(paymentsSelection);
     }
 

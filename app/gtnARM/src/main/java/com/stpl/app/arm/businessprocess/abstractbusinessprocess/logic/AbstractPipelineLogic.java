@@ -140,11 +140,11 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
     }
 
     private int getMonthNo(String description, int monthNoWithPlus) {
-        return description.contains("-") ? Integer.valueOf(description.split("-")[1].trim()) : monthNoWithPlus;
+        return description.contains("-") ? Integer.parseInt(description.split("-")[1].trim()) : monthNoWithPlus;
     }
 
     private int getMonthNoWithPlus(String description) {
-        return description.contains("+") ? Integer.valueOf(description.split("[+]")[1].trim()) : 0;
+        return description.contains("+") ? Integer.parseInt(description.split("[+]")[1].trim()) : 0;
     }
 
     /**
@@ -312,6 +312,15 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
     public boolean updateOverride(List input) {
         try {
             QueryUtils.itemUpdate(input, "OVERRIDE_QUERY");
+        } catch (Exception e) {
+            LOGGER.error("Error in updateOverride :", e);
+            return false;
+        }
+        return true;
+    }
+     public boolean updateOverrideLevelFilter(List input) {
+         try {
+            QueryUtils.itemUpdate(input, "OVERRIDE_QUERY_LEVEL_FILTER");
         } catch (Exception e) {
             LOGGER.error("Error in updateOverride :", e);
             return false;

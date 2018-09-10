@@ -261,8 +261,6 @@ public class ContractSearchForm extends VerticalLayout {
 
         } catch (FieldGroup.CommitException ex) {
             LOGGER.error("",ex);
-        } catch (Exception ex) {
-            LOGGER.error("",ex);
-        }
+        } 
     }
 }

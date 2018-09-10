@@ -6,7 +6,6 @@
 package com.stpl.app.adminconsole.util;
 
 import com.vaadin.server.FileDownloader;
-import com.vaadin.server.Resource;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinResponse;

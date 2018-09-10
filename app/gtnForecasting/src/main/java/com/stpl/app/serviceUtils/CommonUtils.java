@@ -294,7 +294,7 @@ public class CommonUtils {
      * @return
      * @throws java.text.ParseException
      */
-    public static String TimeStampConverter(final String inputFormat,
+    public static String timeStampConverter(final String inputFormat,
             String inputTimeStamp, final String outputFormat)
             throws java.text.ParseException {
         return new SimpleDateFormat(outputFormat).format(new SimpleDateFormat(
@@ -318,8 +318,8 @@ public class CommonUtils {
      * @param toAddQuote
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString, toAddQuote, false);
+    public static String collectionToStringCommon(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToStringCommon(collectionOfString, toAddQuote, false);
     }
 
     /**
@@ -330,7 +330,7 @@ public class CommonUtils {
      * @param toRemoveSpace
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToStringCommon(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {

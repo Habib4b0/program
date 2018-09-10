@@ -1236,7 +1236,7 @@ public class TransferComponents extends CustomComponent implements View {
                     input.add(ifpModelId);
                     input.add(simpleDateFormat.format(ifpmodel.getIfpStartDate()));
                     input.add(ifpmodel.getIfpEndDate() == null ? null : simpleDateFormat.format(ifpmodel.getIfpEndDate()));
-                    IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
+                    IfpContractDetailsImpl.saveIfpDetailsAttached(input);
                 } else if (level.equals(Constants.THREE)) {
 
                     String psModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
@@ -1278,7 +1278,7 @@ public class TransferComponents extends CustomComponent implements View {
                     input.add(psModelId);
                     input.add(simpleDateFormat.format(psmodel.getPsStartDate()));
                     input.add(psmodel.getPsEndDate() == null ? null : simpleDateFormat.format(psmodel.getPsEndDate()));
-                    PsContractDetailsImpl.savePsDetailsAttached(input, null);
+                    PsContractDetailsImpl.savePsDetailsAttached(input);
 
                 } else if (level.equals(Constants.FOUR)) {
                     String rsModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
@@ -1326,7 +1326,7 @@ public class TransferComponents extends CustomComponent implements View {
                     input.add(rsModelId);
                     input.add(rsmodel.getRsStartDate());
                     input.add(rsmodel.getRsEndDate() == null ? null : rsmodel.getRsEndDate());
-                    RsContractDetailsImpl.saveRsDetailsAttached(input, null);
+                    RsContractDetailsImpl.saveRsDetailsAttached(input);
 
                 }
             }
@@ -1337,20 +1337,20 @@ public class TransferComponents extends CustomComponent implements View {
         return returnList;
     }
 
-    public void SaveCFP(String cfpId, String cfpModelId) {
-        logic.SaveCFPForTransferComponent(cfpId, cfpModelId);
+    public void saveCfp(String cfpId, String cfpModelId) {
+        logic.saveCfpForTransferComponent(cfpId, cfpModelId);
     }
 
-    public void SaveIFP(String ifpId, String ifpModelId) {
-        logic.SaveIFPForTransferComponent(ifpId, ifpModelId);
+    public void saveIfp(String ifpId, String ifpModelId) {
+        logic.saveIfpForTransferComponent(ifpId, ifpModelId);
     }
 
-    public void SavePS(String psid, String psModelId) {
-        logic.SavePSForTransferComponent(psid, psModelId);
+    public void savePs(String psid, String psModelId) {
+        logic.savePsForTransferComponent(psid, psModelId);
     }
 
-    public void SaveRS(String rsid, String rsModelId) {
-        logic.SaveRSForTransferComponent(rsid, rsModelId);
+    public void saveRs(String rsid, String rsModelId) {
+        logic.saveRsForTransferComponent(rsid, rsModelId);
 
     }
 

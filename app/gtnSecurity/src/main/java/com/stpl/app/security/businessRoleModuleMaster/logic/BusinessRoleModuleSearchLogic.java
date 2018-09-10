@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusinessRoleModuleForm>
         implements Serializable {
 
-    private transient final  GtnAuditMessageProducer auditMessageProducer = new GtnAuditMessageProducer();
+    private final transient GtnAuditMessageProducer auditMessageProducer = new GtnAuditMessageProducer();
 
     public BusinessRoleModuleSearchLogic() {
         super(SearchBusinessRoleModuleForm.class);

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableFilterGenerator;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.component.tree.GtnUIFrameworkTreeComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.comboboxmultiselect.GtnUIFrameworkComboBoxMultiselectComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
@@ -73,7 +75,6 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
-import java.util.HashMap;
 
 public class GtnUIFrameworkBaseComponent {
 
@@ -431,6 +432,7 @@ public class GtnUIFrameworkBaseComponent {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
 			vaadinMultiSelect.setItems(idList);
 			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
+			new GtnUIFrameworkComboBoxMultiselectComponent().setPageLengthBasedOnTheNumberOfRecords(valueList.size() ,vaadinMultiSelect);
 			vaadinMultiSelect.markAsDirty();
 
 		} catch (Exception typeException) {
@@ -465,7 +467,6 @@ public class GtnUIFrameworkBaseComponent {
 			vaadinComboBox.setItems(idList);
 			vaadinComboBox
 					.setItemCaptionGenerator(item -> Optional.ofNullable(valueList.get(idList.indexOf(item))).get());
-
 			GtnUIFrameworkComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnComboboxConfig();
 			if (!comboboxConfig.isHasDefaultValue()) {
 				String defaultValue = comboboxConfig.getDefaultValue() != null
