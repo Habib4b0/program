@@ -530,10 +530,10 @@ FROM   @TEMP_ADJ_SUMMARY
           @PROJECTION_MASTER_SID INT = ?,
             @ITEM_MASTER_SID       INT = ?, 
             @OVERRIDE_VALUE        NUMERIC(22,6) = ? ,
-            @CONTRACT_MASTER_SID   varchar(6) = '?',
-            @COMPANY_MASTER_SID   varchar(6) = '?',
-            @BRAND_MASTER_SID   varchar(6) = '?',
-            @RS_MODEL_SID   varchar(6) = '?'
+            @CONTRACT_MASTER_SID   varchar = '?',
+            @COMPANY_MASTER_SID   varchar = '?',
+            @BRAND_MASTER_SID   varchar = '?',
+            @RS_MODEL_SID   varchar = '?'
  
           UPDATE	
                 RATE SET

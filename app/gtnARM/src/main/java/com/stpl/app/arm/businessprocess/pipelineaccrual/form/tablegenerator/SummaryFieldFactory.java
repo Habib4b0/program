@@ -11,6 +11,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSu
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.supercode.LeaveCheckAble;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.ARMCheckUtils;
 import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
@@ -102,8 +103,8 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
     protected void valueChangeLogic(AdjustmentDTO dto, Object val, Object propertyId, Component uiContext) {
         ExtCustomTable table = (ExtCustomTable) uiContext;
         int singleVisibleColumn = Integer.valueOf(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
-        if (isSingleVisibleColumnPresentInDto(singleVisibleColumn, dto)
-                || (checkIsSummaryTypeDeductionCustomerContract() && checkIsSummaryTypeDeductionCustomerContract())) {
+        if (ARMCheckUtils.isSingleVisibleColumnPresentInDto(singleVisibleColumn, dto)
+                || (ARMCheckUtils.checkIsSummaryTypeDeductionCustomerContract(selection) && ARMCheckUtils.checkIsProductFilterLevel(selection))) {
             Double value = 0.0;
             boolean isEmptied = false;
             try {
@@ -131,18 +132,6 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
             checkLeave = true;
             service.submit(new UpdateOverride(input));
         }
-    }
-
-    private static boolean isSingleVisibleColumnPresentInDto(int singleVisibleColumn, AdjustmentDTO dto) {
-        return dto.getMasterIds().isEmpty() ? false : singleVisibleColumn == (dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
-    }
-    
-     private boolean checkIsSummaryTypeDeductionCustomerContract() {
-        return selection.getSummaryviewType() == null ? false : selection.getSummaryviewType().equalsIgnoreCase(ARMConstants.getDeductionCustomerContract());
-    }
-
-    private boolean checkIsProductFilterLevel() {
-        return selection.getSummarylevelFilterValue() != null ? selection.getSummarylevelFilterValue().equals("Product") : false;
     }
 
     @Override

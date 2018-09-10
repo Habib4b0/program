@@ -85,9 +85,7 @@ public class Trx7SalesFieldFactory implements TableFieldFactory {
                 List input = new ArrayList();
                 input.add(selection.getSessionDTO().getCurrentTableNames().get("ST_ARM_DISTRIBUTION_FEES_SALES"));
                 input.add(value.toString());
-                if (!selection.getSaleslevelFilterValue().equalsIgnoreCase(ARMUtils.levelVariablesVarables.ITEM.toString())) {
-                    input.add(Integer.valueOf(dto.getCompSids()));
-                }
+                input.add(dto.getCompSids().isEmpty() || dto.getCompSids().equals("0") ?'%':dto.getCompSids());
                 input.add(Integer.valueOf(dto.getBranditemmasterSid()));
                 input.add(projectionId);
                 service.submit(new UpdateOverride(input));
@@ -110,7 +108,7 @@ public class Trx7SalesFieldFactory implements TableFieldFactory {
 
         @Override
         public void run() {
-            updateSuccess = logic.updatePriceOverride(input,selection.getSaleslevelFilterValue());
+            updateSuccess = logic.updatePriceOverride(input);
         }
 
         public boolean isUpdateSuccess() {
