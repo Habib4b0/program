@@ -1428,24 +1428,23 @@ public class DataSelectionLogic {
 				List<Leveldto> levelList = relationLogic.getHierarchyLevelDefinition(selectedLevelDto.getHierarchyId(),
 						hierarchyVersion);
                                 
-                                BeanItemContainer<Leveldto> availableCustomerDataSource = (BeanItemContainer<Leveldto>) availableCustomer.getContainerDataSource();
-                                List<Leveldto> items = new ArrayList<>(availableCustomerDataSource.getItemIds());
+                                
                            
                                 List<GtnWsRecordBean> recordBeanList = new ArrayList<>();
+                                 Leveldto levelDtoRecordBean = (Leveldto) availableCustomer.getValue();
                                 
-                                for(int i=0;i<items.size();i++){
                                     ArrayList<Object> recordBeanColList = new ArrayList<>();
-                                    Leveldto leveldto = items.get(i);
-                                    recordBeanColList.add(0,leveldto.getRelationshipLevelValue());
+                                    
+                                    recordBeanColList.add(0,levelDtoRecordBean.getRelationshipLevelValue());
                                     recordBeanColList.add(1,null);
                                     recordBeanColList.add(2,null);
-                                    recordBeanColList.add(3,leveldto.getRelationshipLevelSid());
-                                    recordBeanColList.add(4,null);
-                                    recordBeanColList.add(5,leveldto.getRelationShipBuilderId());
+                                    recordBeanColList.add(3,levelDtoRecordBean.getRelationshipLevelSid());
+                                    recordBeanColList.add(4,levelDtoRecordBean.getHierarchyNo());
+                                    recordBeanColList.add(5,levelDtoRecordBean.getRelationShipBuilderId());
                                     GtnWsRecordBean recordBean = new GtnWsRecordBean(); 
                                     recordBean.setProperties(recordBeanColList);
                                     recordBeanList.add(recordBean);
-                                }
+                                
                                 
                                 List<GtnReportHierarchyLevelBean> selectedHierarchyBeanList = new ArrayList<>();
                                 for(int i=0;i<levelList.size();i++){
@@ -1482,13 +1481,13 @@ public class DataSelectionLogic {
                                     request, getGsnWsSecurityToken());
 
         
-				List<String> relationHierarchy = relationLogic.getSelectedCustomerLevel(selectedLevelDto,
-						Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, levelList,
-						StringUtils.EMPTY, StringUtils.EMPTY, relationShipVersion, forecastEligibleDate, lowestLevelNo);
-				inputs.add(StringUtils.join(relationHierarchy, ","));
-				inputs.add(lowestLevelNo);
-				inputs.add(relationShipVersion);
-				inputs.add(hierarchyVersion);
+//				List<String> relationHierarchy = relationLogic.getSelectedCustomerLevel(selectedLevelDto,
+//						Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, levelList,
+//						StringUtils.EMPTY, StringUtils.EMPTY, relationShipVersion, forecastEligibleDate, lowestLevelNo);
+//				inputs.add(StringUtils.join(relationHierarchy, ","));
+//				inputs.add(lowestLevelNo);
+//				inputs.add(relationShipVersion);
+//				inputs.add(hierarchyVersion);
 
 	
                         resultss = availableTableCustomerLevelResponse.getGtnWsForecastResponse().getInputBean().getResultList();

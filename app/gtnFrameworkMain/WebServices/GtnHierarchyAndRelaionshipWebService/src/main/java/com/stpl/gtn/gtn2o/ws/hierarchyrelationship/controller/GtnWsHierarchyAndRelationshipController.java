@@ -223,7 +223,7 @@ public class GtnWsHierarchyAndRelationshipController {
 		inputValuesList.add(String.valueOf(inputList.get(4)));
 		inputValuesList.add(selectedHierarchyLevelDto.getHierarchyNo() + "%'");
 		inputValuesList.add(String.valueOf(inputList.get(4)));
-		inputValuesList.add(String.valueOf(inputList.get(6)));
+		inputValuesList.add(String.valueOf((int) inputList.get(6)+1));
 		inputValuesList.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
 		Date forecastEligibleDate = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getForecastEligibleDate();
 		if (forecastEligibleDate != null) {
