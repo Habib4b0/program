@@ -167,7 +167,7 @@ public class PrivatePublicLookup extends Window {
                 availableResultsContainer.removeAllItems();
                 dtoValue.setViewTypeFlag("privateView".equalsIgnoreCase(viewType));
                 dtoValue.setCreatedBy(String.valueOf(userId));
-                dtoValue.setViewName(String.valueOf(viewNameEpl));
+                dtoValue.setViewName(String.valueOf(viewNameEpl.getValue()));
                 dtoValue.setViewType(viewType);
                 dtoValue.setDetailsValue(detailsName);
                 tableLogic.configureSearchData(dtoValue, true, viewCategory);

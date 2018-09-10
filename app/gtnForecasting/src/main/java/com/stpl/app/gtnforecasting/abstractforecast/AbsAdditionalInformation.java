@@ -149,7 +149,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         AbsAdditionalInformation.moduleName = moduleName;
         this.mode = mode;
         setCompositionRoot(Clara.create(ForecastDataSelection.class.getResourceAsStream("/ui/notestabform.xml"), this));
-//        init();
+        init();
 
     }
 

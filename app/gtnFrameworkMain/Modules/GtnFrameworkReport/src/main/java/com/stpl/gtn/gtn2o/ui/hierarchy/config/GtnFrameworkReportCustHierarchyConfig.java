@@ -161,7 +161,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionHierarchypopupAction
 				.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY));
 		customerSelectionHierarchy.addGtnUIFrameWorkActionConfig(customerSelectionHierarchypopupAction);
-                
+
 		GtnUIFrameworkComponentConfig customerSelectionRelationshipLayout = configProvider.getHorizontalLayoutConfig(
 				"customerSelectionRelationshipLayout", true,
 				customerSelectionHierarchyRelationshipConfig.getComponentId());
@@ -309,16 +309,16 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionForecastEligibilityDate.setComponentName("Forecast Eligibility Date: ");
 		customerSelectionForecastEligibilityDate.addComponentStyle("datefieldcentered");
 		customerSelectionForecastEligibilityDate.setComponentHight("20px");
-                
-                GtnUIFrameWorkActionConfig actionConfig=new GtnUIFrameWorkActionConfig();
-                actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-                actionConfig.addActionParameter(ForecastEligibilityDateValueChangeAction.class.getName());
-                actionConfig.addActionParameter(levelactionConfigList);
-                
-                GtnUIFrameworkDateFieldConfig dateFieldConfig=new GtnUIFrameworkDateFieldConfig();
-                dateFieldConfig.addValueChangeActionConfig(actionConfig);
-                customerSelectionForecastEligibilityDate.setGtnDateFieldConfig(dateFieldConfig);               
-                componentList.add(customerSelectionHierarchyLayout);
+
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(ForecastEligibilityDateValueChangeAction.class.getName());
+		actionConfig.addActionParameter(levelactionConfigList);
+
+		GtnUIFrameworkDateFieldConfig dateFieldConfig = new GtnUIFrameworkDateFieldConfig();
+		dateFieldConfig.addValueChangeActionConfig(actionConfig);
+		customerSelectionForecastEligibilityDate.setGtnDateFieldConfig(dateFieldConfig);
+		componentList.add(customerSelectionHierarchyLayout);
 		componentList.add(customerSelectionHierarchy);
 		componentList.add(customerSelectionRelationshipLayout);
 		componentList.add(customerSelectionRelationship);
@@ -368,13 +368,13 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				"parentNode", "levelName", "levelValuReference", "tableName", "fieldName", "relationshipLevelSid",
 				"hierarchyNo", "relationshipBuilderSid", "hierarchyLevelDefSid", "hierarchyDefSid", "versionNo",
 				GtnFrameworkReportStringConstants.LEVEL_VALUE));
-		customerSelectionDualListBoxConfig.setModuleType("");
-		customerSelectionDualListBoxConfig
-				.setLeftTableURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE);
-		customerSelectionDualListBoxConfig
-				.setMoveRightURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_RIGHT_TABLELOAD_SERVICE);
-		customerSelectionDualListBoxConfig
-				.setMoveAllDataURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_ALL_DATA_TABLELOAD_SERVICE);
+		customerSelectionDualListBoxConfig.setModuleType("report");
+		customerSelectionDualListBoxConfig.setLeftTableURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE);
+		customerSelectionDualListBoxConfig.setMoveRightURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_RIGHT_TABLELOAD_SERVICE);
+		customerSelectionDualListBoxConfig.setMoveAllDataURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_ALL_DATA_TABLELOAD_SERVICE);
 
 		customerSelectionDualListBoxComponent.setGtnUIFrameworkV8DualListBoxConfig(customerSelectionDualListBoxConfig);
 	}

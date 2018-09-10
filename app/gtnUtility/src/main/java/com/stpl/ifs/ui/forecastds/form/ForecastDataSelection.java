@@ -6,6 +6,7 @@
 package com.stpl.ifs.ui.forecastds.form;
 
 import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -605,6 +606,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	 * the deduction Value ddlb
 	 */
 	protected ComboBox deductionValue = new ComboBox();
+	public GtnFrameworkForecastInputBean inputBean;
         
       
         @UiField("forecastEligibleDateLB")

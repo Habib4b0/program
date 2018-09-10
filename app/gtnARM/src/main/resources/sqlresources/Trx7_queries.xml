@@ -7,14 +7,11 @@ and open the template in the editor.
 
 
 <sql>
-    
-     
-    
     <entity id="trx7_PA_sales_updatePriceOverride">
         <query>
     
      <![CDATA[
-      UPDATE  ? set PRICE_OVERRIDE = ? where COMPANY_MASTER_SID= ? AND ITEM_MASTER_SID = ? 
+      UPDATE  ? set PRICE_OVERRIDE = ? where COMPANY_MASTER_SID LIKE '?' AND ITEM_MASTER_SID = ? 
             and PROJECTION_MASTER_SID = ?
         ]]>  
         </query>
@@ -534,10 +531,10 @@ ORDER BY
            
             @ITEM_MASTER_SID       INT = ?, 
             @OVERRIDE_VALUE        INT = ? ,
-            @CONTRACT_MASTER_SID   INT = ?,
-            @COMPANY_MASTER_SID   INT = ?,
-            @BRAND_MASTER_SID   INT = ?,
-            @RS_MODEL_SID   INT = ?
+            @CONTRACT_MASTER_SID   VARCHAR = '?',
+            @COMPANY_MASTER_SID   VARCHAR = '?',
+            @BRAND_MASTER_SID   VARCHAR = '?',
+            @RS_MODEL_SID   VARCHAR = '?'
  
           UPDATE	
                 RATE SET
@@ -564,7 +561,7 @@ ORDER BY
                                   AND CCP.CONTRACT_MASTER_SID LIKE @CONTRACT_MASTER_SID
                                   AND CCP.COMPANY_MASTER_SID LIKE @COMPANY_MASTER_SID
                                   AND IM.BRAND_MASTER_SID LIKE @BRAND_MASTER_SID
-                                  AND AD.RS_MODEL_SID = @RS_MODEL_SID
+                                  AND AD.RS_MODEL_SID LIKE @RS_MODEL_SID
                   ) A ON
                   RATE.ARM_ADJUSTMENT_DETAILS_SID = A.ARM_ADJUSTMENT_DETAILS_SID
             ]]>  
