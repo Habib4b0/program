@@ -56,6 +56,10 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String  CRITERIA_PANEL="privateViewSearchLookupSearchCriteriaPanel";
 	
 	public static final String  CRITERIA_LAYOUT="privateViewSearchLookupSearchCriteriaLayout";
+	                        
+	public static final String  PRIVATE_VIEW_SEARCH_LOOKUP = "PrivateViewSearchLookUp";
+	
+	public static final String REPORT_PRIVATEVIEW_SEARCHLOOKUP = "reportLandingScreen_privateViews";
 	
 	
 	
