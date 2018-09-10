@@ -145,11 +145,11 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 	}
 
 	private static int returnMonth(int month) {
-		if(month<=3) {
+		if (month <= 3) {
 			return 1;
-		} else if(month<=6) {
+		} else if (month <= 6) {
 			return 2;
-		} else if(month<=9) {
+		} else if (month <= 9) {
 			return 3;
 		} else {
 			return 4;
@@ -158,27 +158,28 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 
 	public static String convertFromSemiAnnualToSelectedFrequency(String frequency, String periodAndYearInLandingScreen,
 			String stringToBeCompared) {
+		String returnString;
 		if (frequency.startsWith("M")) {
 			int semiAnnualIdForMonth = Character.getNumericValue(periodAndYearInLandingScreen.charAt(1));
-			stringToBeCompared = getTheStringToBeCompared(periodAndYearInLandingScreen, stringToBeCompared,
+			returnString = getTheStringToBeCompared(periodAndYearInLandingScreen, stringToBeCompared,
 					semiAnnualIdForMonth);
 		} else if (frequency.startsWith("Q")) {
 			int part = Character.getNumericValue(periodAndYearInLandingScreen.charAt(1)) > 1 ? 3 : 1;
-			stringToBeCompared = "Q" + part + " - " + periodAndYearInLandingScreen.substring(2);
+			returnString = "Q" + part + " - " + periodAndYearInLandingScreen.substring(2);
 		} else if (frequency.startsWith("S")) {
-			stringToBeCompared = periodAndYearInLandingScreen.substring(0, 2) + "-"
+			returnString = periodAndYearInLandingScreen.substring(0, 2) + "-"
 					+ periodAndYearInLandingScreen.substring(2);
 		} else {
-			stringToBeCompared = periodAndYearInLandingScreen.substring(2);
+			returnString = periodAndYearInLandingScreen.substring(2);
 		}
-		return stringToBeCompared;
+		return returnString;
 	}
 
 	private static String getTheStringToBeCompared(String periodAndYearInLandingScreen, String stringToBeCompared,
 			int semiAnnualIdForMonth) {
-		if(semiAnnualIdForMonth==1) {
+		if (semiAnnualIdForMonth == 1) {
 			stringToBeCompared = "Jan " + periodAndYearInLandingScreen.substring(2);
-		} else if(semiAnnualIdForMonth==2) {
+		} else if (semiAnnualIdForMonth == 2) {
 			stringToBeCompared = "Jul " + periodAndYearInLandingScreen.substring(2);
 		}
 		return stringToBeCompared;
@@ -186,20 +187,21 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 
 	public static String convertFromQuarterToSelectedFrequency(String frequency, String periodAndYearInLandingScreen,
 			String stringToBeCompared) {
+		String returnString;
 		if (frequency.startsWith("M")) {
 			int quarterIdForMonth = Character.getNumericValue(periodAndYearInLandingScreen.charAt(1));
-			stringToBeCompared = getTheStringToBeComparedBasedOnQuarter(periodAndYearInLandingScreen,
-					stringToBeCompared, quarterIdForMonth);
+			returnString = getTheStringToBeComparedBasedOnQuarter(periodAndYearInLandingScreen, stringToBeCompared,
+					quarterIdForMonth);
 		} else if (frequency.startsWith("Q")) {
-			stringToBeCompared = periodAndYearInLandingScreen.substring(0, 2) + " - "
+			returnString = periodAndYearInLandingScreen.substring(0, 2) + " - "
 					+ periodAndYearInLandingScreen.substring(2);
 		} else if (frequency.startsWith("S")) {
 			int part = Character.getNumericValue(periodAndYearInLandingScreen.charAt(1)) > 2 ? 2 : 1;
-			stringToBeCompared = "S" + part + "-" + periodAndYearInLandingScreen.substring(2);
+			returnString = "S" + part + "-" + periodAndYearInLandingScreen.substring(2);
 		} else {
-			stringToBeCompared = periodAndYearInLandingScreen.substring(2);
+			returnString = periodAndYearInLandingScreen.substring(2);
 		}
-		return stringToBeCompared;
+		return returnString;
 	}
 
 	private static String getTheStringToBeComparedBasedOnQuarter(String periodAndYearInLandingScreen,
@@ -224,7 +226,7 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 	}
 
 	public static String convertFromYearToSelectedFrequency(String frequency, String periodAndYearInLandingScreen) {
-		
+
 		String finalString;
 		if (frequency.startsWith("M")) {
 			finalString = "Jan " + periodAndYearInLandingScreen;
