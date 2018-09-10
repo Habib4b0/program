@@ -111,7 +111,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
         LOGGER.debug("inside inventoryDetailsDdlbValueChange Method");
     }
 
-    private final CustomNotification notifier = new CustomNotification();
+    private final InflcationInventoryCustomNotification notifier = new InflcationInventoryCustomNotification();
 
     private void configureDblbLoading() {
         List<Object> defaultValues = logic.getMonthYear();
@@ -165,11 +165,11 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
         }
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class InflcationInventoryCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String inventoryButtonName;
 
-        public CustomNotification() {
+        public InflcationInventoryCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -182,9 +182,9 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", inventoryButtonName);
+            if (null != inventoryButtonName) {
+                switch (inventoryButtonName) {
                     case CommonConstant.RESET:
                         setDefaultValue();
                         CommonUtils.unCheckMenuBarItem(customMenuItem);
@@ -197,7 +197,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.inventoryButtonName = buttonName;
         }
 
     }
@@ -306,12 +306,12 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = list.get(i);
                 if (VariableConstants.SALES_VARIABLE.equals(String.valueOf(obj[0]))) {
-                    String str1 = (String) obj[1];
-                    String[] str2 = str1.split(",");
-                    String str3 = null;
+                    String inventoryStr1 = (String) obj[1];
+                    String[] str2 = inventoryStr1.split(",");
+                    String inventoryStr3 = null;
                     for (String strings : str2) {
-                        str3 = strings;
-                        CommonUtils.checkMenuBarItem(customMenuItem, str3);
+                        inventoryStr3 = strings;
+                        CommonUtils.checkMenuBarItem(customMenuItem, inventoryStr3);
                     }
                 } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
                     BeanUtils.setProperty(selectionDto, String.valueOf(obj[0]), obj[1]);
@@ -352,18 +352,13 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
     }
 
     @Override
-    public String leaveConfirmationHeader() {
-        return ARMMessages.getInventoryLeaveConfirmHeaderTransaction3();
-    }
-
-    @Override
     public String leaveConfirmationMessage() {
         return ARMMessages.getInventoryLeaveConfirmMessageTransaction6();
     }
 
     @Override
-    public boolean checkLeave() {
-        return isGenerated();
+    public String leaveConfirmationHeader() {
+        return ARMMessages.getInventoryLeaveConfirmHeaderTransaction3();
     }
 
     @Override
@@ -372,8 +367,8 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
     }
 
     @Override
-    public String leaveRestrictionHeader() {
-        return ARMMessages.getInventoryLeaveConfirmHeaderTransaction3();
+    public boolean checkLeave() {
+        return isGenerated();
     }
 
     @Override
@@ -381,19 +376,24 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
         return ARMMessages.getInventoryLeaveConfirmMessageTransaction6();
     }
 
+    @Override
+    public String leaveRestrictionHeader() {
+        return ARMMessages.getInventoryLeaveConfirmHeaderTransaction3();
+    }
+
     public void configurePermission(String userId, StplSecurity stplSecurity) {
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction6", "Inventory");
-        reset.setVisible(CommonLogic.isButtonVisibleAccess(CommonConstant.RESET, functionHM));
-        generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
-        inventoryResults.getExpandbtn().setVisible(CommonLogic.isButtonVisibleAccess("expandbtn", functionHM));
-        inventoryResults.getCollapseBtn().setVisible(CommonLogic.isButtonVisibleAccess("collapseBtn", functionHM));
-        inventoryResults.getCalculateBtn().setVisible(CommonLogic.isButtonVisibleAccess("calculateBtn", functionHM));
+        Map<String, AppPermission> inventoryFunctionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction6", "Inventory");
+        reset.setVisible(CommonLogic.isButtonVisibleAccess(CommonConstant.RESET, inventoryFunctionHM));
+        generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", inventoryFunctionHM));
+        inventoryResults.getExpandbtn().setVisible(CommonLogic.isButtonVisibleAccess("expandbtn", inventoryFunctionHM));
+        inventoryResults.getCollapseBtn().setVisible(CommonLogic.isButtonVisibleAccess("collapseBtn", inventoryFunctionHM));
+        inventoryResults.getCalculateBtn().setVisible(CommonLogic.isButtonVisibleAccess("calculateBtn", inventoryFunctionHM));
 
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object inflationInventoryObj) {
+        return super.equals(inflationInventoryObj);
     }
 
     @Override
@@ -401,11 +401,11 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream inflationInventoryObj) throws IOException {
+        inflationInventoryObj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream inflationInventoryObj) throws IOException, ClassNotFoundException {
+        inflationInventoryObj.defaultReadObject();
     }
 }

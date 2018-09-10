@@ -64,9 +64,7 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
                 return typeDdlb;
             } catch (SystemException ex) {
                LOGGER.error(ex.getMessage());
-            } catch (Exception ex) {
-               LOGGER.error(ex.getMessage());
-            }
+            } 
         }  else if ("deductionType".equals(propertyId)) {
             try {
                 final ComboBox deductionType = new ComboBox();

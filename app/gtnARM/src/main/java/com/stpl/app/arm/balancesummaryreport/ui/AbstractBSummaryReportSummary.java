@@ -203,7 +203,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
         selection.setSummarydeductionValues(deductions);
 
         if (isAdjustNotSelected || isDeductionNotSelected || checkMandatoryFields() || (CommonConstant.SELECT_ONE).equals(String.valueOf(fromDate.getValue()))) {
-            CustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
+            AbstractReportCustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
             return false;
         }
         selection.setFrequency(frequencyDdlb.getItemCaption(frequencyDdlb.getValue()));
@@ -257,11 +257,11 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
         selection.getSessionDTO().setCurrentTableNames(createTempTables);
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class AbstractReportCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String reportSummaryButtonName;
 
-        public CustomNotification() {
+        public AbstractReportCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -274,9 +274,9 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", reportSummaryButtonName);
+            if (null != reportSummaryButtonName) {
+                switch (reportSummaryButtonName) {
                     case CommonConstant.RESET:
                         break;
                     case "save":
@@ -287,7 +287,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.reportSummaryButtonName = buttonName;
         }
 
     }

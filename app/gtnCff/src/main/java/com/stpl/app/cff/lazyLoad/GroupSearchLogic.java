@@ -41,7 +41,7 @@ public class GroupSearchLogic extends PageTableLogic{
         int count = 0;
         if (loadData) {
             try {
-                count = logic.searchGroupCount(groupName, groupNo, itemsOrCompanySids, "searchGroupCount", groupIdentifier, "count");
+                count = logic.searchGroupCount(groupName, groupNo, "searchGroupCount", groupIdentifier, "count");
             } catch (SystemException ex) {
                 LOGGER.error(" in getCount= {}", ex);
             }

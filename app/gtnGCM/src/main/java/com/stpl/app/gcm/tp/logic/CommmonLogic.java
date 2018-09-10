@@ -136,7 +136,7 @@ public class CommmonLogic {
             companyMasterContractSidsList = conSelDTO.getCompanyMasterSids();
         }
 
-        String companyMasterContractSids = CommonUtils.CollectionToString(companyMasterContractSidsList, true);
+        String companyMasterContractSids = CommonUtils.collectionToString(companyMasterContractSidsList, true);
 
         Map<String, Object> dataParameters = new HashMap<>();
         if (filters != null) {
@@ -762,7 +762,7 @@ public class CommmonLogic {
             companyMasterSidsList = conSelDTO.getCompanyMasterSids();
         }
 
-        String companyMasterSids = CommonUtils.CollectionToString(companyMasterSidsList, true);
+        String companyMasterSids = CommonUtils.collectionToString(companyMasterSidsList, true);
         Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
@@ -1879,7 +1879,7 @@ public class CommmonLogic {
         customSql.append(SQlUtil.getQuery("updateCfpDetails"));
         customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, session.getUserId());
         customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, session.getSessionId());
-        customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, CommonUtils.CollectionToString(session.getCompanyMasterSids(), false));
+        customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, CommonUtils.collectionToString(session.getCompanyMasterSids(), false));
         if (TRADING_PARTNER_REMOVE.getConstant().equalsIgnoreCase(session.getModuleName())) {
             customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, "GetDate()");
         } else {
@@ -2184,8 +2184,8 @@ public class CommmonLogic {
         List<String> newCfpContractMasterSidList = CommonLogic.getSelectedCfpSid(session.getSessionId(), true);
         List<String> oldCfpContractMasterSidList = CommonLogic.getSelectedCfpSid(session.getSessionId(), false);
 
-        String newCfpContractMasterSid = CommonUtils.CollectionToString(newCfpContractMasterSidList, true);
-        String oldCfpContractMasterSid = CommonUtils.CollectionToString(oldCfpContractMasterSidList, true);
+        String newCfpContractMasterSid = CommonUtils.collectionToString(newCfpContractMasterSidList, true);
+        String oldCfpContractMasterSid = CommonUtils.collectionToString(oldCfpContractMasterSidList, true);
 
         queryString.append(SQlUtil.getQuery("tp.transferIFPQuery"));
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, oldContractMasterSid);
@@ -2340,7 +2340,7 @@ public class CommmonLogic {
     }
 
     public static List<String> getCustomerName(List<String> companyMasterSids) {
-        String query = "Select COMPANY_NAME from COMPANY_MASTER where COMPANY_MASTER_SID in(" + CommonUtils.CollectionToString(companyMasterSids, true) + ")";
+        String query = "Select COMPANY_NAME from COMPANY_MASTER where COMPANY_MASTER_SID in(" + CommonUtils.collectionToString(companyMasterSids, true) + ")";
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 }

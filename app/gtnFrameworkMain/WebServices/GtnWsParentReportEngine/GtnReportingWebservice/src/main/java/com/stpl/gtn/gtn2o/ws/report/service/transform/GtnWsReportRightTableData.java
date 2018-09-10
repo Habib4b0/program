@@ -1,9 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.report.service.transform;
 
-import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.tuple.Pair;
 
 public class GtnWsReportRightTableData {
 	private String hierarchyNo;
@@ -12,6 +9,10 @@ public class GtnWsReportRightTableData {
 	private String projectionName;
 	private Map<String, Double> dataMap;
 	private String variableName;
+
+	public GtnWsReportRightTableData() {
+		super();
+	}
 
 	public String getHierarchyNo() {
 		return hierarchyNo;

@@ -5,6 +5,10 @@ public class RelationshipLevelValuesBean {
 	private String query;
 	private String defaultGroupBy;
 
+	public RelationshipLevelValuesBean() {
+		super();
+	}
+
 	public int getNoOfSelectFormed() {
 		return noOfSelectFormed;
 	}

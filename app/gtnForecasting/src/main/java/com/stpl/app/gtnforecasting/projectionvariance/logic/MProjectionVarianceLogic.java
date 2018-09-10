@@ -1921,7 +1921,7 @@ public class MProjectionVarianceLogic {
         List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = getLevelListQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, isExpand, false, start, offset, true, isCustom, customId, projSelDTO);
-            list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+            list = (List<Object>) CommonLogic.executeSelectQuery(query);
             
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
@@ -2151,7 +2151,7 @@ public class MProjectionVarianceLogic {
             pvsdto.setYear("ALL");
             pvsdto.setProjectionId(pvsdto.getCurrentProjectionID());
             String query = ccpQuery + CommonLogic.getMandatedTempCCPQueryForCOGS(pvsdto) + " \n" + getProjectionVarianceQuery(pvsdto);
-            List<Object> currentPivotDetails = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, pvsdto.getSession().getCurrentTableNames()), null, null);
+            List<Object> currentPivotDetails = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, pvsdto.getSession().getCurrentTableNames()));
             List<Object> programCodequeryList = new ArrayList<>();
             if (Constant.DETAIL.equals(pvsdto.getLevel()) && Constant.COMPONENT.equals(pvsdto.getDiscountLevel()) && (pvsdto.isVarDisAmount() || pvsdto.isVarDisRate())) {
                 String programCodequery = getCCPProgramCodeTempTableQuery(pvsdto) + getCCPQueryForProgramCode(pvsdto) + " \n" + getPivotProgramCodeQuery(pvsdto, true);
@@ -2159,7 +2159,7 @@ public class MProjectionVarianceLogic {
                     programCodequery += getPivotProgramCodeQuery(pvsdto, false);
                 }
                 programCodequery += getDeclarationQuery();
-                programCodequeryList = (List<Object>) CommonLogic.executeSelectQuery(programCodequery, null, null);
+                programCodequeryList = (List<Object>) CommonLogic.executeSelectQuery(programCodequery);
             }
             List<Integer> priorProjIdList = new ArrayList<>();
             for (Integer projId : pvsdto.getProjectionMap().keySet()) {
@@ -4431,7 +4431,7 @@ public class MProjectionVarianceLogic {
         String customSQL = "SELECT DISTINCT CM.CONTRACT_NAME FROM dbo.CONTRACT_MASTER CM \n"
                 + "JOIN dbo.CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID\n"
                 + "JOIN dbo.PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID  = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " + projectionId;
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(customSQL, null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(customSQL);
         if (list != null && !list.isEmpty()) {
             strList = CommonUtils.objectListToStringList(list);
         }
@@ -4959,7 +4959,7 @@ public class MProjectionVarianceLogic {
         pvsdto.setProjectionId(pvsdto.getSession().getProjectionId());
         String query;
         query = ccpQuery + CommonLogic.getMandatedTempCCPQueryForCOGS(pvsdto) + " \n" + getProjectionVarianceQuery(pvsdto);
-        List<Object> currentPivotDetails = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, pvsdto.getSession().getCurrentTableNames()), null, null);
+        List<Object> currentPivotDetails = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, pvsdto.getSession().getCurrentTableNames()));
         pvsdto.setProjectionId(pvsdto.getSession().getProjectionId());
         return currentPivotDetails;
     }
@@ -6126,7 +6126,7 @@ public class MProjectionVarianceLogic {
                 programCodequery += getPivotProgramCodeQuery(pvsdto, false);
             }
             programCodequery += getDeclarationQuery();
-            programCodequeryList = (List<Object>) CommonLogic.executeSelectQuery(programCodequery, null, null);
+            programCodequeryList = (List<Object>) CommonLogic.executeSelectQuery(programCodequery);
         }
         }catch(Exception e){
             LOGGER.error(e.getMessage());

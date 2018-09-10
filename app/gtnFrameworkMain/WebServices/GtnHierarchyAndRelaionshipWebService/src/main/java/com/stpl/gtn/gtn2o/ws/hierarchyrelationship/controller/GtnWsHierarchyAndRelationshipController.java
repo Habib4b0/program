@@ -223,7 +223,7 @@ public class GtnWsHierarchyAndRelationshipController {
 		inputValuesList.add(String.valueOf(inputList.get(4)));
 		inputValuesList.add(selectedHierarchyLevelDto.getHierarchyNo() + "%'");
 		inputValuesList.add(String.valueOf(inputList.get(4)));
-		inputValuesList.add(String.valueOf(inputList.get(6)));
+		inputValuesList.add(String.valueOf((int) inputList.get(6)+1));
 		inputValuesList.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
 		Date forecastEligibleDate = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getForecastEligibleDate();
 		if (forecastEligibleDate != null) {
@@ -247,6 +247,12 @@ public class GtnWsHierarchyAndRelationshipController {
 		GtnSerachResponse searchResponse = new GtnSerachResponse();
 		searchResponse.setResultSet(dataTable);
 		gtnResponse.setGtnSerachResponse(searchResponse);
+		
+		inputBean.setResultList(results);
+		GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
+		forecastResponse.setInputBean(inputBean);
+		gtnResponse.setGtnWsForecastResponse(forecastResponse);
+		
 		return gtnResponse;
 	}
 

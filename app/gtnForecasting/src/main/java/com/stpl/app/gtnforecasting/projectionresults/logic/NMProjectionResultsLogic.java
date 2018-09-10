@@ -70,7 +70,7 @@ public class NMProjectionResultsLogic {
             String query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
           query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
         query += getProjectionResultsDiscountsPerQuery(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, false,0,false);
         projDTOList.addAll(projDTOList1);
         LOGGER.debug("= = = Ending getDiscountPer = = =");
@@ -137,7 +137,7 @@ public class NMProjectionResultsLogic {
                 + "     ,RS_CONTRACT_SID\n"
                 + "	)";
         query += getProjectionResultsDiscountsRPUQuery(projSelDTO, isVariable);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List<ProjectionResultsDTO> projDTOList1 = null;
         if (!isVariable) {
             projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, false, value, false);
@@ -169,7 +169,7 @@ public class NMProjectionResultsLogic {
           String query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
            query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
         query += getProjectionResultsDiscountsQuery(projSelDTO, " order by DISCOUNTS");
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, false,0,false);
         projDTOList.addAll(projDTOList1);
         LOGGER.debug("= = = Ending getDiscountDollar = = =");
@@ -196,7 +196,7 @@ public class NMProjectionResultsLogic {
 
         if (projSelDTO.isIsTotal()) {
             query += getProjectionResultsTotalDiscount(projSelDTO);
-            list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
             projDTOList1 = getCustomizedProjectionTotalDiscount(list, projSelDTO);
         } else if (value == 1 || value == NumericConstants.TWO || value == NumericConstants.THREE || value == NumericConstants.FOUR) {
             projDTOList1 = getTotalRPUDollar(projSelDTO, Boolean.FALSE, value);
@@ -348,7 +348,7 @@ public class NMProjectionResultsLogic {
         projSelDTO.setSales(Constant.RATE);
         ProjectionResultsDTO ppaDto = new ProjectionResultsDTO();
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPAPerQuery(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, true,0,false);
         if (projDTOList1 != null && !projDTOList1.isEmpty()) {
             ppaDto = projDTOList1.get(0);
@@ -362,7 +362,7 @@ public class NMProjectionResultsLogic {
         projSelDTO.setSales(Constant.RATE);
         ProjectionResultsDTO ppaDto = new ProjectionResultsDTO();
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPARPU(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, true,1,false);
         if (projDTOList1 != null && !projDTOList1.isEmpty()) {
             ppaDto = projDTOList1.get(0);
@@ -374,11 +374,11 @@ public class NMProjectionResultsLogic {
 
     
     
-     public List<ProjectionResultsDTO> PPARPUtest(ProjectionSelectionDTO projSelDTO) {
+     public List<ProjectionResultsDTO> ppaRPUtest(ProjectionSelectionDTO projSelDTO) {
             List<ProjectionResultsDTO> projDTOList;
         projSelDTO.setSales(Constant.RATE);
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPARPU(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
          projDTOList = getCustomizedProjectionResultsDiscount(list, projSelDTO, true,NumericConstants.TWO,false);
         return projDTOList;
     }
@@ -386,7 +386,7 @@ public class NMProjectionResultsLogic {
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         ProjectionResultsDTO ppaDto = new ProjectionResultsDTO();
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPAQuery(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, true,NumericConstants.THREE,false);
         if (projDTOList1 != null && !projDTOList1.isEmpty()) {
             ppaDto = projDTOList1.get(0);
@@ -600,7 +600,7 @@ public class NMProjectionResultsLogic {
          query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
           query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
          query += getProjectionResultsSalesQuery(projSelDTO,BooleanConstant.getFalseFlag());
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List<ProjectionResultsDTO> projDTOList = getCustomizedProjectionResultsSales(list, projSelDTO);
         LOGGER.debug("= = = Ending getContractSalesAndUnits = = =");
         return projDTOList;
@@ -630,7 +630,7 @@ public class NMProjectionResultsLogic {
                 + "WHERE PERIOD_DATE = @PROJECTION_DATE\n"
                 + "\n";
         String gtsListQuery = cogsSelect + " \n " + ccpQuery + " \n" + getProjectionResultsPivotQuery(projSelDTO);
-        List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(gtsListQuery, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(gtsListQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List discList = getTotalRPUDollar(projSelDTO, Boolean.TRUE, 0);
         projDTOList = getCustomizedProjectionPivot(gtsList, discList, projSelDTO);
         return projDTOList;
@@ -1767,7 +1767,7 @@ public class NMProjectionResultsLogic {
             List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
             columnList.remove(Constant.GROUP);
             for (int i = 0; i < list.size(); i++) {
-                final Object[] obj = (Object[]) list.get(i);
+                final Object[] obj =  list.get(i);
                 String column;
                 int year = Integer.parseInt(String.valueOf(obj[1]));
                 int period = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
@@ -1892,7 +1892,7 @@ public class NMProjectionResultsLogic {
             String query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
              query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
                 query += getProjectionResultsNetSalesQuery(projSelDTO);
-            list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
             projDTOList = getCustomizedProjectionResultsDiscount(list, projSelDTO, false,1,false);
             if (projDTOList != null && !projDTOList.isEmpty()) {
                 netSalesDto = projDTOList.get(0);
@@ -1966,7 +1966,7 @@ public class NMProjectionResultsLogic {
             query += commonLogic.insertAvailableHierarchyNo(projSelDTO);
             query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
             query += getCOGSNetProfitValue(projSelDTO);
-            List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
             projDTOList = getCustomizedCOGSandNetProfit(list, projSelDTO);
             LOGGER.info("= = = Ending getCOGSandNetProfit = = = = = =");
             return projDTOList;
@@ -2687,13 +2687,13 @@ public class NMProjectionResultsLogic {
             String ccpQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
              ccpQuery +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
                      query+=ccpQuery + getDiscountCountForCurrentHierarchy(projSelDTO);
-                    List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+                    List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
                     if (list != null && !list.isEmpty()) {
                         Object ob = list.get(0);
                         count = count + Integer.parseInt(String.valueOf(ob));
                     }
                     query = ccpQuery + getPPACount(Boolean.FALSE);
-                   list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+                   list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
                     if (list != null && !list.isEmpty()) {
                         Object ob = list.get(0);
                         count = count + Integer.parseInt(String.valueOf(ob));
@@ -4520,7 +4520,7 @@ public class NMProjectionResultsLogic {
 
         query += "\n" + CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n";
         query += getReturnsQuery(projSelDTO);
-        list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         projDTOList = getCustomizedProjectionResultsReturns(list, projSelDTO);
         LOGGER.debug("= = = Ending getReturns = = =");
         return projDTOList;
@@ -5055,7 +5055,7 @@ public class NMProjectionResultsLogic {
             String query = "SELECT COUNT(DISTINCT RS.RS_NAME) "
                 + "FROM ST_NM_PPA_PROJECTION_MASTER TEMP \n"
                     + "JOIN RS_CONTRACT RS ON RS.RS_CONTRACT_SID = TEMP.RS_CONTRACT_SID \n";
-            List list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            List list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
                 count = count + Integer.parseInt(String.valueOf(ob));

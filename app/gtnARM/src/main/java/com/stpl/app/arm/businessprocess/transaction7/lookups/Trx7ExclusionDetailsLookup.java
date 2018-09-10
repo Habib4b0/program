@@ -49,7 +49,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  * Nameâ€™ drop down to search by all the fields in the actual Customer
  * Gross Trades Sales data set.
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
 

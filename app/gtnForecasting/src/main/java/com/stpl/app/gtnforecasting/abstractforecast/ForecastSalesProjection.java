@@ -2392,8 +2392,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             final String adjBasis = String.valueOf(basis.getValue());
             final String adjVariable = Constant.A;
             final String adjPeriod = (String) adjustPeriods.getValue();
-            final String adjMethodology = String.valueOf(allocMethodology.getValue());
-            final String HISTORY_PERIODS = null;
             final String projectionPeriods;
 
 			if (adjType.equals(Constant.LabelConstants.INCREMENTAL.getConstant()) || adjType.equals("Override")) {
@@ -2441,8 +2439,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                     }
                     getTableLogic().setRefresh(false);
-                    salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
-                            HISTORY_PERIODS, projectionPeriods);
+                    salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,projectionPeriods);
                     CommonUtil.getInstance().waitForSeconds();
                     CommonLogic.procedureCompletionCheck(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
                     refreshTableData(getCheckedRecordsHierarchyNo());
@@ -2551,7 +2548,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                             }
                             getTableLogic().setRefresh(false);
-                            salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,  historyPeriods, projectionPeriods);
+                            salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, projectionPeriods);
                             CommonUtil.getInstance().waitForSeconds();
                             refreshTableData(getCheckedRecordsHierarchyNo());
                             getTableLogic().setRefresh(true);

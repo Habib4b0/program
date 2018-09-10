@@ -5,6 +5,9 @@
  */
 package com.stpl.app.cff.bpm.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author harlin
@@ -20,5 +23,10 @@ public class MessageUtils {
     public static final String WFP_REJECT_PER_ERROR = "You dont have permission to approve a projection.";
     public static final String WFP_SUBMIT_ERROR = "The workflow cannot be submitted for approval.  Not all required fields have been completed.";
     public static final String WFP_SUBMIT_SUCCESS = "Workflow succesfully submitted for Approval process.";
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageUtils.class);
+    private MessageUtils()
+    {
+        LOGGER.debug("MessageUtils");
+    }
 
 }

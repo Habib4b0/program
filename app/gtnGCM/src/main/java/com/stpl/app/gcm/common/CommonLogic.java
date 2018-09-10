@@ -1377,9 +1377,9 @@ public class CommonLogic {
         LOGGER.debug(" Inside getSelectedCompanyNames");
         String queryString = StringUtils.EMPTY;
         queryString += "select DISTINCT COMPANY_NAME from COMPANY_MASTER where COMPANY_MASTER_SID in ("
-                + CommonUtils.CollectionToString(companyMasterSids, true) + ")";
+                + CommonUtils.collectionToString(companyMasterSids, true) + ")";
         List<String> companyNamesList = (List<String>) DAO.executeSelect(queryString);
-        String companyNames = CommonUtils.CollectionToString(companyNamesList, false);
+        String companyNames = CommonUtils.collectionToString(companyNamesList, false);
         LOGGER.debug(" exiting getSelectedCompanyNames  =  {} " , companyNames);
         return companyNames;
 
@@ -1673,7 +1673,7 @@ public class CommonLogic {
         LOGGER.debug("Entering getRelationShipLevelSid {} " , masterSidList);
         String query = "select DISTINCT RELATIONSHIP_LEVEL_SID from RELATIONSHIP_LEVEL_DEFINITION RLD, (select HIERARCHY_NO from RELATIONSHIP_LEVEL_DEFINITION where \n";
         if (masterSidList != null && !masterSidList.isEmpty()) {
-            query += " RELATIONSHIP_LEVEL_VALUES in (" + CommonUtils.CollectionToString(masterSidList, true) + ") and ";
+            query += " RELATIONSHIP_LEVEL_VALUES in (" + CommonUtils.collectionToString(masterSidList, true) + ") and ";
         }
         query += " RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSid + ") A \n"
                 + " where RLD.HIERARCHY_NO like A.HIERARCHY_NO+'%'";
@@ -1941,21 +1941,21 @@ public class CommonLogic {
         salesQuery.replace(salesQuery.indexOf("?CON"), salesQuery.indexOf("?CON") + NumericConstants.FOUR,
                 contractMasterSid);
         salesQuery.replace(salesQuery.indexOf("?COM"), salesQuery.indexOf("?COM") + NumericConstants.FOUR,
-                CommonUtils.CollectionToString(companyMasterSids, false));
+                CommonUtils.collectionToString(companyMasterSids, false));
         salesQuery.replace(salesQuery.indexOf("?PM"), salesQuery.indexOf("?PM") + NumericConstants.THREE,
                 String.valueOf(newProjectionId));
 
         discountQuery.replace(discountQuery.indexOf("?CON"), discountQuery.indexOf("?CON") + NumericConstants.FOUR,
                 contractMasterSid);
         discountQuery.replace(discountQuery.indexOf("?COM"), discountQuery.indexOf("?COM") + NumericConstants.FOUR,
-                CommonUtils.CollectionToString(companyMasterSids, false));
+                CommonUtils.collectionToString(companyMasterSids, false));
         discountQuery.replace(discountQuery.indexOf("?PM"), discountQuery.indexOf("?PM") + NumericConstants.THREE,
                 String.valueOf(newProjectionId));
 
         rebateQuery.replace(rebateQuery.indexOf("?CON"), rebateQuery.indexOf("?CON") + NumericConstants.FOUR,
                 contractMasterSid);
         rebateQuery.replace(rebateQuery.indexOf("?COM"), rebateQuery.indexOf("?COM") + NumericConstants.FOUR,
-                CommonUtils.CollectionToString(companyMasterSids, false));
+                CommonUtils.collectionToString(companyMasterSids, false));
         rebateQuery.replace(rebateQuery.indexOf("?PM"), rebateQuery.indexOf("?PM") + NumericConstants.THREE,
                 String.valueOf(newProjectionId));
 
@@ -2281,23 +2281,23 @@ public class CommonLogic {
             salesQuery.replace(salesQuery.indexOf("?CON"), salesQuery.indexOf("?CON") + NumericConstants.FOUR,
                     String.valueOf(contractList.get(0)));
             salesQuery.replace(salesQuery.indexOf("?COM"), salesQuery.indexOf("?COM") + NumericConstants.FOUR,
-                    CommonUtils.CollectionToString(companyMasterSids, true));
+                    CommonUtils.collectionToString(companyMasterSids, true));
             salesQuery.replace(salesQuery.indexOf("?PM"), salesQuery.indexOf("?PM") + NumericConstants.THREE,
                     String.valueOf(newProjectionId));
 
             discountQuery.replace(discountQuery.indexOf("?CON"), discountQuery.indexOf("?CON") + NumericConstants.FOUR,
                     String.valueOf(contractList.get(0)));
             discountQuery.replace(discountQuery.indexOf("?COM"), discountQuery.indexOf("?COM") + NumericConstants.FOUR,
-                    CommonUtils.CollectionToString(companyMasterSids, true));
+                    CommonUtils.collectionToString(companyMasterSids, true));
             discountQuery.replace(discountQuery.indexOf("?PM"), discountQuery.indexOf("?PM") + NumericConstants.THREE,
                     String.valueOf(newProjectionId));
             discountQuery.replace(discountQuery.indexOf("?RS"), discountQuery.indexOf("?RS") + NumericConstants.THREE,
-                    CommonUtils.CollectionToString(rsList, false));
+                    CommonUtils.collectionToString(rsList, false));
 
             rebateQuery.replace(rebateQuery.indexOf("?CON"), rebateQuery.indexOf("?CON") + NumericConstants.FOUR,
                     String.valueOf(contractList.get(0)));
             rebateQuery.replace(rebateQuery.indexOf("?COM"), rebateQuery.indexOf("?COM") + NumericConstants.FOUR,
-                    CommonUtils.CollectionToString(companyMasterSids, true));
+                    CommonUtils.collectionToString(companyMasterSids, true));
             rebateQuery.replace(rebateQuery.indexOf("?PM"), rebateQuery.indexOf("?PM") + NumericConstants.THREE,
                     String.valueOf(newProjectionId));
 

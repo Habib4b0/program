@@ -267,7 +267,9 @@ public class ForecastUI extends UI {
                             
                             sessionDto.setCustomRelationShipSid(dataList!=null && !dataList.isEmpty()&&  dataList.get(0)[0]!=null? Integer.parseInt(String.valueOf(dataList.get(0)[0])) : 0);
                             sessionDto.setCustomDeductionRelationShipSid(dataList!=null && !dataList.isEmpty() &&dataList.get(0)[1]!=null ? Integer.parseInt(String.valueOf(dataList.get(0)[1])) : 0);
-                            }
+                            sessionDto.setSalesHierarchyLevelDetails(dsLogic.getRelationshipDetailsCustom(sessionDto, String.valueOf(sessionDto.getCustomRelationShipSid())));
+                            sessionDto.setDiscountCustomerProductLevelDetails(dsLogic.getRelationshipDetailsCustom(sessionDto, String.valueOf(sessionDto.getCustomDeductionRelationShipSid()))); 
+                        }
                         editWindow = new ForecastEditWindow(projectionName, sessionDto, null, screenName, null);
                     } else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
                         DSLogic dSLogic = new DSLogic();
