@@ -26,10 +26,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class DataAssumptionFilterAction
+public class GtnFrameworkDataAssumptionFilterAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(DataAssumptionFilterAction.class);
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkDataAssumptionFilterAction.class);
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)

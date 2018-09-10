@@ -580,7 +580,7 @@ public final class GtnFrameworkReportStringConstants {
 			+ "GtnReportingComparisonBreakdownHeaderLoadAction";
         
         public static final String REPORT_DATA_ASSUMPTION_FILTER_ACTION = REPORT_ACTION_PACKAGE
-			+ "DataAssumptionFilterAction";
+			+ "GtnFrameworkDataAssumptionFilterAction";
 	public static List<String> getReportDataAssumptionsTabId() {
 		return REPORT_DATAASSUMPTIONS_TAB_ID;
 	}

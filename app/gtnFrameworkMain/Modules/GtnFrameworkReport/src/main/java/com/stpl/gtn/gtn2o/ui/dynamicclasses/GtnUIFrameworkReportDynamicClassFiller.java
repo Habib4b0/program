@@ -9,13 +9,13 @@ import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPagedTree
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPagedTreeTableGetCountAction;
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkReturnCheckAllAction;
 import com.stpl.gtn.gtn2o.ui.action.ComparisonProjectionResultFilterAction;
-import com.stpl.gtn.gtn2o.ui.action.DataAssumptionFilterAction;
 import com.stpl.gtn.gtn2o.ui.action.ForecastEligibilityDateValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCVSaveValidationAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkComparisonLookupTextFieldEnableAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkConfirmSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCustomTreeConfirmedSaveAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkDataAssumptionFilterAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadFromInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadToInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkPublicViewDeleteValidation;
@@ -325,8 +325,8 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new ComparisonProjectionResultFilterAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonProjectionBeforeCloseAction.class.getName(),
 				new GtnReportComparisonProjectionBeforeCloseAction());
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(DataAssumptionFilterAction.class.getName(),
-				new DataAssumptionFilterAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkDataAssumptionFilterAction.class.getName(),
+				new GtnFrameworkDataAssumptionFilterAction());
 
 	}
 
