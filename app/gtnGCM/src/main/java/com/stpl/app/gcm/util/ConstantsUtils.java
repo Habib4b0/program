@@ -1518,7 +1518,6 @@ public final class ConstantsUtils {
     /**
      * The rebate plan master id.
      */
-// 	public static final String REBATE_PLAN_MASTER_ID = "rebatePlanMasterId";
     // REBATE SCHEDULE
     /**
      * The attached status.

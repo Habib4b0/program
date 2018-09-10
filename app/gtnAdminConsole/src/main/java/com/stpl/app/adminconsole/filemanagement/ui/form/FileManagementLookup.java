@@ -1752,39 +1752,39 @@ public class FileManagementLookup extends Window {
 				String dataQuery;
 				switch (detailsResultDTO.getHelperType().getDescription()) {
 				case ConstantsUtils.CUSTOMERGTS:
-					dataQuery = String.valueOf(logic.getCustomerSalesResults_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getCustomerSalesResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-					countQuery = String.valueOf(logic.getCustomerSalesResults_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getCustomerSalesResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, true));
 					break;
 				case ConstantsUtils.ADJUSTED_DEMAND:
-					dataQuery = String.valueOf(logic.getAdjustedDemandDetailsResults_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getAdjustedDemandDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-					countQuery = String.valueOf(logic.getAdjustedDemandDetailsResults_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getAdjustedDemandDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, false, true));
 					break;
 				case ConstantsUtils.DEMAND:
-					dataQuery = String.valueOf(logic.getDemandDetailsResults_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getDemandDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-					countQuery = String.valueOf(logic.getDemandDetailsResults_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getDemandDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, false, true));
 					break;
 				case ConstantsUtils.EX_FACTORY_SALES:
-					dataQuery = String.valueOf(logic.getForecastDetails_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getForecastDetailsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-					countQuery = String.valueOf(logic.getForecastDetails_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getForecastDetailsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, false, true));
 					break;
 				case ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL:
-					dataQuery = String.valueOf(logic.getInventoryDetailsResults_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getInventoryDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-					countQuery = String.valueOf(logic.getInventoryDetailsResults_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getInventoryDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, true));
 					break;
 				default:
-					dataQuery = String.valueOf(logic.getInventorySummaryResults_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getInventorySummaryResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-					countQuery = String.valueOf(logic.getInventorySummaryResults_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getInventorySummaryResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, false, true));
 					break;
 				}

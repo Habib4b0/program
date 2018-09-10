@@ -371,9 +371,7 @@ public class ExistingComponents extends CustomComponent implements View {
                                 searchType = CommonLogic.getNativeSelect(searchType, itemStatusListInEC);
                             } catch (SystemException ex) {
                                 LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            } catch (Exception ex) {
-                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            }
+                            } 
                         }
                         if (searchFieldInEC.equals("PS Type")) {
                             try {
@@ -382,9 +380,7 @@ public class ExistingComponents extends CustomComponent implements View {
                                 searchType = CommonLogic.getNativeSelect(searchType, itemStatusListInEC);
                             } catch (SystemException ex) {
                                 LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            } catch (Exception ex) {
-                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            }
+                            } 
                         }
                         if (searchFieldInEC.equals("RS Type")) {
                             try {
@@ -393,9 +389,7 @@ public class ExistingComponents extends CustomComponent implements View {
                                 searchType = CommonLogic.getNativeSelect(searchType, itemStatusListInEC);
                             } catch (SystemException ex) {
                                 LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            } catch (Exception ex) {
-                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            }
+                            } 
                         }
                     }
                     searchType.setVisible(true);

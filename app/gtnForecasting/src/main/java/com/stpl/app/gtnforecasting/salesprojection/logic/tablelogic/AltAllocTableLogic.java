@@ -37,7 +37,7 @@ public class AltAllocTableLogic extends PageTableLogic {
         try {
 
             if (firstTime) {
-                count = logic.getCount_allocationTab(session, addToQueue, getFilters());
+                count = logic.getCountAllocationTab(session, addToQueue, getFilters());
                 if(!addToQueue){
                     count++;
                 }

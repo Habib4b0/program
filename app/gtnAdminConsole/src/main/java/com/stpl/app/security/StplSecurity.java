@@ -16,7 +16,6 @@ import com.stpl.domain.adminconsole.security.StplSecurityDAO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -50,7 +49,7 @@ public class StplSecurity {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StplSecurity.class);
 
-    final private StplSecurityDAO dto = new StplSecurityDAOImpl();
+     private final StplSecurityDAO dto = new StplSecurityDAOImpl();
 
     private static final List<String> DOMAINIDS1 = null;
 

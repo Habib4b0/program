@@ -37,7 +37,6 @@ import com.vaadin.ui.CustomComponent;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
-import com.vaadin.ui.TabSheet;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.text.SimpleDateFormat;
@@ -200,7 +199,7 @@ public class Summary extends CustomComponent {
                 AbstractLogic logic = AbstractLogic.getInstance();
                 if ("contractStatus".equals(propertyId)) {
                     ComboBox marketTypeDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BooleanConstant.getTrueFlag());
                     return marketTypeDdlb;
                 }
                 return null;

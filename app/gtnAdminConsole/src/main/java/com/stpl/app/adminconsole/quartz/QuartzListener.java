@@ -80,7 +80,7 @@ public class QuartzListener implements ServletContextListener {
 				createJob(profile);
 			}
 
-			DeleteSchedule();
+			deleteSchedule();
 
 			printJobList();
 
@@ -376,7 +376,7 @@ public class QuartzListener implements ServletContextListener {
 
 	}
 
-	public static void DeleteSchedule() {
+	public static void deleteSchedule() {
 		try {
 			String time = getTimeConstant();
 			LOGGER.debug("time= {}" , time);

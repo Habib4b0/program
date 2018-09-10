@@ -1337,20 +1337,20 @@ public class TransferComponents extends CustomComponent implements View {
         return returnList;
     }
 
-    public void SaveCFP(String cfpId, String cfpModelId) {
-        logic.SaveCFPForTransferComponent(cfpId, cfpModelId);
+    public void saveCfp(String cfpId, String cfpModelId) {
+        logic.saveCfpForTransferComponent(cfpId, cfpModelId);
     }
 
-    public void SaveIFP(String ifpId, String ifpModelId) {
-        logic.SaveIFPForTransferComponent(ifpId, ifpModelId);
+    public void saveIfp(String ifpId, String ifpModelId) {
+        logic.saveIfpForTransferComponent(ifpId, ifpModelId);
     }
 
-    public void SavePS(String psid, String psModelId) {
-        logic.SavePSForTransferComponent(psid, psModelId);
+    public void savePs(String psid, String psModelId) {
+        logic.savePsForTransferComponent(psid, psModelId);
     }
 
-    public void SaveRS(String rsid, String rsModelId) {
-        logic.SaveRSForTransferComponent(rsid, rsModelId);
+    public void saveRs(String rsid, String rsModelId) {
+        logic.saveRsForTransferComponent(rsid, rsModelId);
 
     }
 

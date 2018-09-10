@@ -238,8 +238,8 @@ public class AddContractSelection extends CustomComponent {
         Panel panel = new Panel();
         panel.setContent(layout);
         field.addItem(Constants.SELECT_ONE);
-        LoadField();
-        LoadTempToTableMap();
+        loadField();
+        loadTempToTableMap();
         loadFieldAndPropertyMap();
         field.setNullSelectionAllowed(true);
         field.setNullSelectionItemId(Constants.SELECT_ONE);
@@ -823,27 +823,27 @@ public class AddContractSelection extends CustomComponent {
                 }
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
                     ComboBox marketTypeDdlbs = new ComboBox();
-                    logic.LazyLoadDdlb(marketTypeDdlbs, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(marketTypeDdlbs, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
                     return marketTypeDdlbs;
                 }
                 if (Constants.STATUS_S.equals(propertyId)) {
                     ComboBox statusDdlbS = new ComboBox();
-                    logic.LazyLoadDdlb(statusDdlbS, "Load Item Status Count", "Load Item Status", BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(statusDdlbS, "Load Item Status Count", "Load Item Status", BooleanConstant.getTrueFlag());
                     return statusDdlbS;
                 }
                 if (Constants.PRICE_TOLERANCE_INTERVAL.equals(propertyId)) {
                     ComboBox pricetolerenceintDdlbInv = new ComboBox();
-                    logic.LazyLoadDdlb(pricetolerenceintDdlbInv, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(pricetolerenceintDdlbInv, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BooleanConstant.getTrueFlag());
                     return pricetolerenceintDdlbInv;
                 }
                 if (Constants.PRICE_TOLERANCE_TYPE_PROPERTY.equals(propertyId)) {
                     ComboBox pricetolerencetypeDdlbType = new ComboBox();
-                    logic.LazyLoadDdlb(pricetolerencetypeDdlbType, "Load PS_TYPE Count", "Load PS_TYPE", BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(pricetolerencetypeDdlbType, "Load PS_TYPE Count", "Load PS_TYPE", BooleanConstant.getTrueFlag());
                     return pricetolerencetypeDdlbType;
                 }
                 if (Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY.equals(propertyId)) {
                     ComboBox pricetolerencefreqDdlbPr = new ComboBox();
-                    logic.LazyLoadDdlb(pricetolerencefreqDdlbPr, "Load PS_FREQ Count", "Load PS_FREQ", BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(pricetolerencefreqDdlbPr, "Load PS_FREQ Count", "Load PS_FREQ", BooleanConstant.getTrueFlag());
                     return pricetolerencefreqDdlbPr;
                 }
                 if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
@@ -1150,14 +1150,14 @@ public class AddContractSelection extends CustomComponent {
      * Load Alias Type
      */
     private void loadAliasType() {
-        logic.LazyLoadDdlb(typeDdlb, "Load Alias Type Count", "Load Alias Type", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(typeDdlb, "Load Alias Type Count", "Load Alias Type", BooleanConstant.getFalseFlag());
     }
 
     /**
      * Load Market Type
      */
     private void loadMarketType() {
-        logic.LazyLoadDdlb(marketTypeDTO, "Load Market Type Count", "Load Market Type", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(marketTypeDTO, "Load Market Type Count", "Load Market Type", BooleanConstant.getFalseFlag());
     }
 
     /**
@@ -1638,7 +1638,7 @@ public class AddContractSelection extends CustomComponent {
     }
 
 
-    private void LoadTempToTableMap() {
+    private void loadTempToTableMap() {
         tempTableMap.put(Constants.STATUS_FIELD, StringConstantsUtil.ITEM_STATUS_COLUMN);
         tempTableMap.put(Constants.START_DATE_HEADER, StringConstantsUtil.START_DATE_COLUMN);
         tempTableMap.put(Constants.END_DATE_HEADER, StringConstantsUtil.END_DATE_COLUMN);
@@ -1736,7 +1736,7 @@ public class AddContractSelection extends CustomComponent {
         fieldAndPropertyMap.put(Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME, Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME);
     }
     
-    public void LoadField() {
+    public void loadField() {
         field.addItems(Arrays.asList(ConstantsUtil.MassUpdateConstants.values()));
     }
 

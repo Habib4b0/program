@@ -128,7 +128,7 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
                     if (GlobalConstants.getReserveDetail().equals(selection.getDetailLevel())) {
                         account.append(str[NumericConstants.TWO].trim());
                     } else {
-                        account = new StringBuilder(ARMUtils.SINGLE_QUOTES);
+                        account = new StringBuilder().append(ARMUtils.SINGLE_QUOTES);
                         account.append(str[NumericConstants.TWO].trim()).append(ARMUtils.SINGLE_QUOTES);
                     }
                 } else {

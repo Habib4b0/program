@@ -236,7 +236,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                     relationBuildLogic.executeDelete(String.valueOf(customId));
                 }
                 returnBack = CommonLogic.customViewSaveLogic(session, customId, viewName, treecontainer.getItemIds());
-                relationBuildLogic.getData_custom_view(String.valueOf(session.getProjectionId()), String.valueOf(returnBack));
+                relationBuildLogic.getDataCustomView(String.valueOf(session.getProjectionId()), String.valueOf(returnBack));
             } else {
                 AbstractNotificationUtils.getErrorNotification("Error", "That view name is taken. Please enter a new View name.");
             }

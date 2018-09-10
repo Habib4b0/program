@@ -823,7 +823,7 @@ public class ProjectionVarianceLogic {
         for (Integer projId : projSelDTO.getProjIdList()) {
             projectionIdList.add(String.valueOf(projId));
         }
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionId = CommonUtils.collectionToString(projectionIdList, false);
         String salesInclusion = projSelDTO.getSessionDTO().getSalesInclusion();
         String deductionInclusion = projSelDTO.getSessionDTO().getDeductionInclusion();
         if (projSelDTO.getLevel().equals(DETAIL)) {
@@ -1183,7 +1183,7 @@ public class ProjectionVarianceLogic {
             dedInput.add(dto.getCurrentProjId());
             dedInput.add(dto.getCcpIds());
             dedInput.add(getRSIds(dto));
-            String commonQuery = HelperJoinQuery(dto, dedInput);
+            String commonQuery = helperJoinQuery(dto, dedInput);
             list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(commonQuery, dto.getSessionDTO().getCurrentTableNames()));
         } else {
             String rsQuery = CommonQueryUtils.getAppDataQuery(input, "getCffDiscountExpandCount",
@@ -1199,47 +1199,47 @@ public class ProjectionVarianceLogic {
         return CFFLogic.getCount(list);
     }
     
-    public String HelperJoinQuery(PVSelectionDTO dto,List dedInput){
+    public String helperJoinQuery(PVSelectionDTO dto,List dedInput){
         String commonQuery = CommonQueryUtils.getAppQuery(dedInput, "getCffDiscountExpandDeductionCount");
         commonQuery = commonQuery.replace("@RS_SELECTION", " HT.DESCRIPTION ");
             
         switch (dto.getSessionDTO().getSelectedDeductionLevelNo()) {
             case 1:
                 commonQuery = commonQuery.replace(StringConstantsUtil.UDCJOIN, "   ");
-                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.RS_CATEGORY AND HT.HELPER_TABLE_SID in ("+ CommonUtils.CollectionToString(dto.getDeductionLevelFilter(), false) +")");
+                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.RS_CATEGORY AND HT.HELPER_TABLE_SID in ("+ CommonUtils.collectionToString(dto.getDeductionLevelFilter(), false) +")");
                 break;
             case 2:
                 commonQuery = commonQuery.replace(StringConstantsUtil.UDCJOIN, "  ");
-                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.RS_TYPE  AND HT.HELPER_TABLE_SID in ("+ CommonUtils.CollectionToString(dto.getDeductionLevelFilter(), false) +")");
+                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.RS_TYPE  AND HT.HELPER_TABLE_SID in ("+ CommonUtils.collectionToString(dto.getDeductionLevelFilter(), false) +")");
                 break;
             case 3:
                 commonQuery = commonQuery.replace(StringConstantsUtil.UDCJOIN, "  ");
-                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.REBATE_PROGRAM_TYPE  AND HT.HELPER_TABLE_SID in ("+ CommonUtils.CollectionToString(dto.getDeductionLevelFilter(), false) +")");
+                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.REBATE_PROGRAM_TYPE  AND HT.HELPER_TABLE_SID in ("+ CommonUtils.collectionToString(dto.getDeductionLevelFilter(), false) +")");
                 break;
             case 4:
                 commonQuery = commonQuery.replace(StringConstantsUtil.UDCJOIN, StringConstantsUtil.UDC_MASTER_SID);
-                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC1 AND HT.HELPER_TABLE_SID in ("+ CommonUtils.CollectionToString(dto.getDeductionLevelFilter(), false) +")");
+                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC1 AND HT.HELPER_TABLE_SID in ("+ CommonUtils.collectionToString(dto.getDeductionLevelFilter(), false) +")");
                 break;
 
             case 5:
                 commonQuery = commonQuery.replace(StringConstantsUtil.UDCJOIN, StringConstantsUtil.UDC_MASTER_SID);
-                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC2 AND HT.HELPER_TABLE_SID in ("+ CommonUtils.CollectionToString(dto.getDeductionLevelFilter(), false) +")");
+                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC2 AND HT.HELPER_TABLE_SID in ("+ CommonUtils.collectionToString(dto.getDeductionLevelFilter(), false) +")");
                 break;
             case 6:
                 commonQuery = commonQuery.replace(StringConstantsUtil.UDCJOIN, StringConstantsUtil.UDC_MASTER_SID);
-                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC3 AND HT.HELPER_TABLE_SID in ("+ CommonUtils.CollectionToString(dto.getDeductionLevelFilter(), false) +")");
+                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC3 AND HT.HELPER_TABLE_SID in ("+ CommonUtils.collectionToString(dto.getDeductionLevelFilter(), false) +")");
                 break;
             case 7:
                 commonQuery = commonQuery.replace(StringConstantsUtil.UDCJOIN, StringConstantsUtil.UDC_MASTER_SID);
-                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC4 AND HT.HELPER_TABLE_SID in (" + CommonUtils.CollectionToString(dto.getDeductionLevelFilter(), false) + ")");
+                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC4 AND HT.HELPER_TABLE_SID in (" + CommonUtils.collectionToString(dto.getDeductionLevelFilter(), false) + ")");
                 break;
             case 8:
                 commonQuery = commonQuery.replace(StringConstantsUtil.UDCJOIN, StringConstantsUtil.UDC_MASTER_SID);
-                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC5 AND HT.HELPER_TABLE_SID in (" + CommonUtils.CollectionToString(dto.getDeductionLevelFilter(), false) + ")");
+                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC5 AND HT.HELPER_TABLE_SID in (" + CommonUtils.collectionToString(dto.getDeductionLevelFilter(), false) + ")");
                 break;
             case 9:
                 commonQuery = commonQuery.replace(StringConstantsUtil.UDCJOIN, StringConstantsUtil.UDC_MASTER_SID);
-                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC6 AND HT.HELPER_TABLE_SID in (" + CommonUtils.CollectionToString(dto.getDeductionLevelFilter(), false) + ")");
+                commonQuery = commonQuery.replace(StringConstantsUtil.HELPERTABLEJOIN, " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC6 AND HT.HELPER_TABLE_SID in (" + CommonUtils.collectionToString(dto.getDeductionLevelFilter(), false) + ")");
                 break;
             case 10:
                 commonQuery = commonQuery.replace(StringConstantsUtil.UDCJOIN, " ");
@@ -1432,7 +1432,7 @@ public class ProjectionVarianceLogic {
         for (Integer projId : pvsdto.getProjIdList()) {
             projectionIdList.add(String.valueOf(projId));
         }
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionId = CommonUtils.collectionToString(projectionIdList, false);
         String salesInclusion = pvsdto.getSessionDTO().getSalesInclusion();
         String deductionInclusion = pvsdto.getSessionDTO().getDeductionInclusion();
         String ccps = null;

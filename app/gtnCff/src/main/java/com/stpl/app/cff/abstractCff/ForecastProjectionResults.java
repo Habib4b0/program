@@ -5,7 +5,6 @@
  */
 package com.stpl.app.cff.abstractCff;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dto.CustomTreeBuild;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
@@ -148,7 +147,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected String screenName;
     protected int projectionId = 0, customId = 0, customIdToSelect = 0;
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     protected CustomTableHeaderDTO leftHeader, rightHeader, fullHeader = new CustomTableHeaderDTO();
     protected List<CffCustomViewMaster> customViewList = new ArrayList<>();
     protected final float maxSplitPosition = 1000, minSplitPosition = NumericConstants.TWO_HUNDRED, splitPosition = 300;
