@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -288,6 +289,10 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 				.setTableColumnMappingId(new Object[] { GtnFrameworkCommonConstants.SCREEN_REGISTRY_HIERACHY_NAME,
 						GtnFrameworkCommonConstants.SCREEN_REGISTRY_HIGHEST_LEVEL, "lowestLevel", "createdDate",
 						"modifiedDate" });
+                GtnFrameworkAlertUtil alertActionUtil = new GtnFrameworkAlertUtil();
+                GtnUIFrameWorkActionConfig alertAction = alertActionUtil.throwAlertUtil(GtnWsForecastConstants.GTN_FORECAST_SERVICE
+				+ GtnWsForecastConstants.GTN_FORECAST_PRODUCTHIERARCHY_SEARCHSERVICE);
+		productHierarchyPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
 
 		productHierarchyPagedTableConfig.setCountUrl(GtnWsForecastConstants.GTN_FORECAST_SERVICE
 				+ GtnWsForecastConstants.GTN_FORECAST_PRODUCTHIERARCHY_SEARCHSERVICE);

@@ -50,7 +50,7 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
 		        parametersForDataSelection.add(hierarchyVersionNo);
 		        
 		        ForecastUI ui = new ForecastUI();
-		        ui.getContentForecasting(userId,uniqueId,parametersForDataSelection);
+		        ui.getContentForecasting(userId, uniqueId,parametersForDataSelection);
 
 		} catch (Exception ex) {
 			logger.error("Error", ex);

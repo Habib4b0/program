@@ -1094,22 +1094,23 @@ public class CommonLogic {
 
     public static ComboBox loadExistingTabSearchField(ComboBox searchDdlb, ComboBox componentType) {
         String compType = String.valueOf(componentType.getValue());
+        ComboBox searchDdlbNew = searchDdlb;
         if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
-            searchDdlb.removeAllItems();
-            searchDdlb = loadValues(searchDdlb, Constants.CFP);
+            searchDdlbNew.removeAllItems();
+            searchDdlbNew = loadValues(searchDdlbNew, Constants.CFP);
         } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
-            searchDdlb.removeAllItems();
-            searchDdlb = loadValues(searchDdlb, Constants.IFP);
+            searchDdlbNew.removeAllItems();
+            searchDdlbNew = loadValues(searchDdlbNew, Constants.IFP);
         } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
-            searchDdlb.removeAllItems();
-            searchDdlb = loadValues(searchDdlb, Constants.PS);
+            searchDdlbNew.removeAllItems();
+            searchDdlbNew = loadValues(searchDdlbNew, Constants.PS);
         } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
-            searchDdlb.removeAllItems();
-            searchDdlb = loadValues(searchDdlb, Constants.RS);
+            searchDdlbNew.removeAllItems();
+            searchDdlbNew = loadValues(searchDdlbNew, Constants.RS);
         } else {
-            searchDdlb.removeAllItems();
+            searchDdlbNew.removeAllItems();
         }
-        return searchDdlb;
+        return searchDdlbNew;
     }
 
     private static ComboBox loadValues(ComboBox searchDdlb, String rs) {

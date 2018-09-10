@@ -523,12 +523,13 @@ public class ExistingDiscountTab extends CustomComponent {
     private int configureLevel(Object item) {
         levelValue = 1;
         parentList.clear();
-        while (!dashboardTreeTable.getContainerDataSource().isRoot(item)) {
-            parentList.add(item);
-            item = dashboardTreeTable.getContainerDataSource().getParent(item);
+        Object itemNew = item;
+        while (!dashboardTreeTable.getContainerDataSource().isRoot(itemNew)) {
+            parentList.add(itemNew);
+            itemNew = dashboardTreeTable.getContainerDataSource().getParent(itemNew);
             levelValue++;
         }
-        parentList.add(item);
+        parentList.add(itemNew);
         Collections.reverse(parentList);
         return levelValue;
     }

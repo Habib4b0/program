@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
+import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -113,6 +114,10 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP, "hierarchyRelationship", request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                if(relationResponse==null){
+                     GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+                     alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP);
+                }
 		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
@@ -129,6 +134,10 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				"/loadLevelValueMapResults", "hierarchyRelationship", request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                if(response==null){
+                     GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+                     alertAction.throwAlertUtil("", "/loadLevelValueMapResults");
+                }
 		return response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
 	}
 
@@ -144,6 +153,10 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				"/getHierarchyLevelValues", "hierarchyRelationship", request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                if (response == null) {
+                GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+                alertAction.throwAlertUtil("", "/getHierarchyLevelValues");
+            }
 		return response.getGtnWsForecastResponse().getInputBean().getLevelList();
 	}
 
@@ -165,6 +178,10 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL, "hierarchyRelationship", request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                if(response==null){
+                         GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+                alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL);
+                }
 		return response.getGtnWsForecastResponse().getInputBean().getHieraryQuery();
 	}
 

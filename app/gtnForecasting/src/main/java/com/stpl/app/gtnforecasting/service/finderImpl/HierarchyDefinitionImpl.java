@@ -9,6 +9,7 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -80,7 +81,7 @@ public class HierarchyDefinitionImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return null;
+            return Collections.emptyList(); 
         }
     }
     public static final String HIERARCHY_ID = "hierarchyId";
