@@ -273,16 +273,16 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         nonMandatedForm = form;
         session = nonMandatedForm.getSessions();
         projectionId = session.getProjectionId();
-//        pvSelectionDTO.setUserId(Integer.parseInt(session.getUserId()));
-//        pvSelectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
-//        pvSelectionDTO.setSessionDTO(sessionDTO);
-//        excelTable.setVisible(false);
-//        if (flag) {
-//            configure();
-//        }
-//        flag = true;
-//        CommonUtil commonUtils = CommonUtil.getInstance();
-        //commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
+        pvSelectionDTO.setUserId(Integer.parseInt(session.getUserId()));
+        pvSelectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
+        pvSelectionDTO.setSessionDTO(sessionDTO);
+        excelTable.setVisible(false);
+        if (flag) {
+            configure();
+        }
+        flag = true;
+        CommonUtil commonUtils = CommonUtil.getInstance();
+        commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
 
         LOGGER.info("ProjectionVariance Constructor ends ");
     }
@@ -1879,9 +1879,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
                     generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
                 }
-                security();
+//                security();
                 flag = false;
-            } catch (PortalException | SystemException ex) {
+            } catch (SystemException ex) {
                 LoggerFactory.getLogger(NMProjectionVariance.class.getName()).error(StringUtils.EMPTY, ex);
             }
         }

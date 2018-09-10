@@ -22,8 +22,10 @@ import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
+import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.vaadin.ui.AbstractComponent;
 
 public class GtnCustomerAvailableTableLoadAction
@@ -107,12 +109,12 @@ public class GtnCustomerAvailableTableLoadAction
 		inputBean.setHierarchyVersionNo(Integer.parseInt(hierarchyVersionNo));
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
 		forecastRequest.setInputBean(inputBean);
-		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnServiceRegistryWsRequest serviceRegistryWsRequest = buildServiceRequest(
+				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP);
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP, "hierarchyRelationship", request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
+		GtnUIFrameworkWebserviceResponse relationResponse = callGtnService(request);
 		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
@@ -126,9 +128,9 @@ public class GtnCustomerAvailableTableLoadAction
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/loadLevelValueMapResults", "hierarchyRelationship", request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnServiceRegistryWsRequest serviceRegistryWsRequest = buildServiceRequest("/loadLevelValueMapResults");
+		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
+		GtnUIFrameworkWebserviceResponse response = callGtnService(request);
 		return response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
 	}
 
@@ -141,9 +143,9 @@ public class GtnCustomerAvailableTableLoadAction
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/getHierarchyLevelValues", "hierarchyRelationship", request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnServiceRegistryWsRequest serviceRegistryWsRequest = buildServiceRequest("/getHierarchyLevelValues");
+		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
+		GtnUIFrameworkWebserviceResponse response = callGtnService(request);
 		return response.getGtnWsForecastResponse().getInputBean().getLevelList();
 	}
 
@@ -162,10 +164,29 @@ public class GtnCustomerAvailableTableLoadAction
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL, "hierarchyRelationship", request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnServiceRegistryWsRequest serviceRegistryWsRequest = buildServiceRequest(
+				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL);
+		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
+		GtnUIFrameworkWebserviceResponse response = callGtnService(request);
 		return response.getGtnWsForecastResponse().getInputBean().getHieraryQuery();
+	}
+
+	private GtnServiceRegistryWsRequest buildServiceRequest(String webserviceUrl) {
+		GtnServiceRegistryWsRequest serviceRegistryWsRequest = new GtnServiceRegistryWsRequest();
+		GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+
+		serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+		serviceRegistryBean.setUrl(webserviceUrl);
+		serviceRegistryBean.setModuleName("hierarchyRelationship");
+		serviceRegistryWsRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+		return serviceRegistryWsRequest;
+	}
+
+	private GtnUIFrameworkWebserviceResponse callGtnService(
+			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
+				gtnUIFrameworkWebserviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override
