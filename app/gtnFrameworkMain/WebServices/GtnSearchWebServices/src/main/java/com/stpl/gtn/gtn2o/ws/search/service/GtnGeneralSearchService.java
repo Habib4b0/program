@@ -13,7 +13,6 @@ import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
-import com.stpl.gtn.gtn2o.ws.generalsearch.GtnGeneralSearchBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
@@ -85,7 +84,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 
     public GtnUIFrameworkWebserviceResponse commonMethod(
             GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
-        String key = gtnUiFrameworkWebservicerequest.getGtnGeneralSearchRequest().getGtnGeneralSearchBean().getKey();
+        String key=gtnUiFrameworkWebservicerequest.getGtnWsSearchRequest().getSearchQueryName();
         String query = gtnSearchSqlService.getQuery(key);
         if (keyMap == null) {
             keyMap = new HashMap();

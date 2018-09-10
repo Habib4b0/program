@@ -10,11 +10,13 @@ import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
+import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
-import com.stpl.gtn.gtn2o.ws.generalsearch.GtnGeneralSearchBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.web.client.RestTemplate;
@@ -49,10 +51,10 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 //        List<String> list = gtnGeneralSearchBean.getList();
         List<GtnWebServiceSearchCriteria> webSearchCriteriaList = gtnUiFrameworkWebservicerequest
                 .getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList();
-        String viewType = webSearchCriteriaList.get(0).getFilterValue1();;
-        String userId = webSearchCriteriaList.get(1).getFilterValue1();;
-        String viewName = webSearchCriteriaList.get(2).getFilterValue1();;
-        String forecastType = webSearchCriteriaList.get(3).getFilterValue1();;
+        String viewType = webSearchCriteriaList.get(1).getFilterValue1();
+        String viewName = webSearchCriteriaList.get(0).getFilterValue1();
+        String forecastType = webSearchCriteriaList.get(2).getFilterValue1();
+        String userId=gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId();
         Object[] params = new Object[3];
         params[0] = viewType.replaceAll("\\*", "%");
         params[1] = viewName.replaceAll("\\*", "%");
@@ -76,7 +78,11 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
                 gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
         List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
-        response.setGtnGeneralSearchWsList(resultList);
+        GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+        GtnSerachResponse searchResponse = new GtnSerachResponse();
+        dataTable.addData(resultList);
+        searchResponse.setResultSet(dataTable);
+        response.setGtnSerachResponse(searchResponse);
         }
         catch(Exception e)
         {
