@@ -79,11 +79,12 @@ import com.stpl.app.utils.DateToStringConverter;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.TableHeaderColumnsUtil;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
@@ -106,8 +107,6 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -218,12 +217,13 @@ public class DataSelectionForm extends ForecastDataSelection {
              this.scrName = "Non Mandated";
          }
          
-        public DataSelectionForm(SessionDTO sessionDto,DataSelectionDTO dataSelectionDto) {
+        public DataSelectionForm(SessionDTO sessionDto,DataSelectionDTO dataSelectionDto, GtnFrameworkForecastInputBean inputBean) {
 		super();
                 this.scrName = "Non Mandated";
                 this.dataSelectionDTO = dataSelectionDto;
+                this.inputBean = inputBean;
 		LOGGER.info("DataSelectionIndex Initializing... ");
-                generateButtonLogicNewArch(sessionDto);
+                generateButtonLogicNewArch(sessionDto,inputBean);
 		LOGGER.info("DataSelectionIndex Ends");
 	}
         
@@ -912,6 +912,299 @@ public class DataSelectionForm extends ForecastDataSelection {
                         dataSelectionDTO.setForecastEligibleDate(forecastEligibleDate.getValue());
                         dataSelectionDTO.setCustomRelationShipSid(customRelationDdlb.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlb.getValue())): 0 );
                         dataSelectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlbDeduction.getValue())):0 );
+
+		} catch (ParseException ex) {
+
+			LOGGER.error(" in binding for save, can't parse dates= {}", ex);
+		}
+		return dataSelectionDTO;
+	}
+	public DataSelectionDTO bindDataselectionDtoToSaveNewArch(GtnFrameworkForecastInputBean inputBean) {
+		try {
+			SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
+
+			dataSelectionDTO.clear();
+			SimpleDateFormat format = new SimpleDateFormat(Constants.CommonConstants.DATE_FORMAT.getConstant());
+//			if (company.getValue() != null && !SELECT_ONE.equals(company.getValue())) {
+
+				dataSelectionDTO.setCompanySid(String.valueOf(inputBean.getCompany()));
+//			} else {
+//				dataSelectionDTO.setCompanySid(String.valueOf(0));
+//			}
+
+//			if (businessUnit.getValue() != null && !SELECT_ONE.equals(businessUnit.getValue())) {
+				dataSelectionDTO.setBusinessUnitSystemId((Integer) inputBean.getBusinessUnit());
+//			} else {
+//				dataSelectionDTO.setBusinessUnitSystemId(0);
+//			}
+//			if (deductionLevel.getValue() != null && !SELECT_ONE.equals(deductionLevel.getValue())) {
+				dataSelectionDTO.setDeductionLevel(String.valueOf(1));
+//			}
+//			if (deductionValue.getValue() != null && !SELECT_ONE.equals(deductionValue.getValue())) {
+				dataSelectionDTO.setDeductionValue(String.valueOf("Schedule Category"));
+//			}
+
+//			if (customerRelationComboBox.getValue() != null
+//					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
+
+				dataSelectionDTO.setCustRelationshipBuilderSid(String.valueOf(inputBean.getCustomerRelationSid()));
+                                dataSelectionDTO.setCustomerRelationShipVersionNo(inputBean.getCustomerRelationVersionNo());
+//			} else {
+//				dataSelectionDTO.setCustRelationshipBuilderSid(String.valueOf(0));
+//			}
+//			if (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue())) {
+
+				dataSelectionDTO.setProdRelationshipBuilderSid(String.valueOf(inputBean.getProductRelationSid()));
+                                dataSelectionDTO.setProductRelationShipVersionNo(inputBean.getProductRelationVersionNo());
+//			} else {
+//				dataSelectionDTO.setProdRelationshipBuilderSid(String.valueOf(0));
+//			}
+//			if (customerHierarchyDto != null
+//					&& !Constants.CommonConstants.NULL.getConstant()
+//							.equals(String.valueOf(customerHierarchyDto.getHierarchyId()))
+//					&& !StringUtils.isEmpty(String.valueOf(customerHierarchyDto.getHierarchyId()))
+//					&& !StringUtils.isBlank(String.valueOf(customerHierarchyDto.getHierarchyId()))) {
+
+//				if (!StringUtils.isBlank(customerHierarchy.getValue())
+//						|| Constant.NULL.equals(customerHierarchy.getValue())) {
+					dataSelectionDTO.setCustomerHierSid(String.valueOf(inputBean.getCustomerHierarchySid()));
+//				} else {
+//					dataSelectionDTO.setCustomerHierSid(String.valueOf(0));
+//				}
+//			} else {
+//				dataSelectionDTO.setCustomerHierSid(String.valueOf(0));
+//			}
+//			if (productHierarchyDto != null
+//					&& !Constants.CommonConstants.NULL.getConstant()
+//							.equals(String.valueOf(productHierarchyDto.getHierarchyId()))
+//					&& !StringUtils.isEmpty(String.valueOf(productHierarchyDto.getHierarchyId()))
+//					&& !StringUtils.isBlank(String.valueOf(productHierarchyDto.getHierarchyId()))) {
+
+//				if (!(StringUtils.isBlank(productHierarchy.getValue())
+//						|| Constant.NULL.equals(productHierarchy.getValue()))) {
+					dataSelectionDTO.setProdHierSid(String.valueOf(inputBean.getProductHierarchySid()));
+//				} else {
+//					dataSelectionDTO.setProdHierSid(String.valueOf(0));
+//				}
+
+//			} else {
+//				dataSelectionDTO.setProdHierSid(String.valueOf(0));
+//			}
+
+//			if (selectedCustomerGroupDTO != null
+//					&& !Constants.CommonConstants.NULL.getConstant()
+//							.equals(String.valueOf(selectedCustomerGroupDTO.getCustomerGroupSid()))
+//					&& !StringUtils.isEmpty(String.valueOf(selectedCustomerGroupDTO.getCustomerGroupSid()))
+//					&& !StringUtils.isBlank(String.valueOf(selectedCustomerGroupDTO.getCustomerGroupSid()))
+//					&& !customerGroup.getValue().isEmpty()) {
+//				dataSelectionDTO.setCustomerGrpSid(String.valueOf(selectedCustomerGroupDTO.getCustomerGroupSid()));
+//			} else {
+				dataSelectionDTO.setCustomerGrpSid(String.valueOf(0));
+//			}
+//			if (selectedProductGroupDTO != null
+//					&& !Constants.CommonConstants.NULL.getConstant()
+//							.equals(String.valueOf(selectedProductGroupDTO.getProductGroupSid()))
+//					&& !StringUtils.isEmpty(String.valueOf(selectedProductGroupDTO.getProductGroupSid()))
+//					&& !StringUtils.isBlank(String.valueOf(selectedProductGroupDTO.getProductGroupSid()))
+//					&& !productGroup.getValue().isEmpty()) {
+//				dataSelectionDTO.setProdGrpSid(String.valueOf(selectedProductGroupDTO.getProductGroupSid()));
+//			} else {
+				dataSelectionDTO.setProdGrpSid(String.valueOf(0));
+//			}
+//                        if (dataSelectionDeductionLevel.getValue() != null
+//					&& !SELECT_ONE.equals(dataSelectionDeductionLevel.getValue())) {
+
+				dataSelectionDTO.setDataSelectionDeductionLevelSid(Integer.parseInt(String.valueOf("1")));
+//			} else {
+//				dataSelectionDTO.setDataSelectionDeductionLevelSid(0);
+//			}
+//                        if (frequency.getValue() != null
+//					&& !SELECT_ONE.equals(frequency.getValue())) {
+
+				dataSelectionDTO.setFrequency(String.valueOf("Quarterly"));
+//			} else {
+//				dataSelectionDTO.setFrequency("0");
+//			}
+
+			int customerForecastLevel = 0;
+			int productForecastLevel = 0;
+			int customerForecastInnerLevel = 0;
+			int productForecastInnerLevel = 0;
+//			if (customerLevel.getValue() != null && !SELECT_ONE.equals(customerLevel.getValue())) {
+				customerForecastLevel = inputBean.getCustomerHierarchyLevel();
+//			}
+//			if (productLevel.getValue() != null && !SELECT_ONE.equals(productLevel.getValue())) {
+				productForecastLevel = inputBean.getProductHierarchyLevel();
+//			}
+//			if (level.getValue() != null && !SELECT_ONE.equals(level.getValue())) {
+				customerForecastInnerLevel = inputBean.getCustomerRelationLevel();
+//			}
+//			if (productlevelDdlb.getValue() != null && !SELECT_ONE.equals(productlevelDdlb.getValue())) {
+				productForecastInnerLevel = inputBean.getProductRelationLevel();
+//			}
+
+			dataSelectionDTO.setCustomerHierarchyLevel(String.valueOf(customerForecastLevel));
+			dataSelectionDTO.setProductHierarchyLevel(String.valueOf(productForecastLevel));
+			dataSelectionDTO.setProductHierarchy(inputBean.getProductHierarchyName());
+			dataSelectionDTO.setCustomerHierarchy(inputBean.getCustomerHierarchyName());
+			dataSelectionDTO.setCustomerGroup("0");
+			dataSelectionDTO.setProductGroup("0");
+//			if (customerHierarchyDto != null && customerRelationVersionComboBox.getValue()!= null) {
+//				int custHierarchyVersionNo = Integer
+//						.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
+				dataSelectionDTO.setCustomerHierVersionNo(inputBean.getCustomerHierarchyVersion());
+//			} else {
+//				dataSelectionDTO.setCustomerHierVersionNo(0);
+//			}
+//			if (productHierarchyDto != null && productRelationVersionComboBox.getValue() != null) {
+//				int prodHierarchyVersionNo = Integer
+//						.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
+				dataSelectionDTO.setProductHierVersionNo(inputBean.getProductHierarchyVersion());
+//			} else {
+//				dataSelectionDTO.setProductHierVersionNo(0);
+//			}
+
+//			if (fromPeriod.getData() == null) {
+//				if (fromPeriod.getValue() != null) {
+//					if (MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(modeOption.getValue()))) {
+//						dataSelectionDTO.setFromPeriod(String.valueOf(fromPeriod.getValue()));
+//						if (!String.valueOf(fromPeriod.getValue()).isEmpty()
+//								&& !Constant.SELECT_ONE.equals(String.valueOf(fromPeriod.getValue()))) {
+//							dataSelectionDTO.setFromDate(format.parse(
+//									DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue()))));
+//						}
+//					} else {
+//						dataSelectionDTO.setFromPeriod(
+//								DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue())));
+//						dataSelectionDTO.setFromDate(format
+//								.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue()))));
+//					}
+//
+//				}
+//			} else 
+//                            if (fromPeriod.getValue() != null) {
+//				if (MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(modeOption.getValue()))) {
+//					dataSelectionDTO.setFromPeriod(String.valueOf(fromPeriod.getValue()));
+//					if (!String.valueOf(fromPeriod.getValue()).isEmpty()
+//							&& !Constant.SELECT_ONE.equals(String.valueOf(fromPeriod.getValue()))) {
+//						dataSelectionDTO.setFromDate(format
+//								.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue()))));
+//					}
+//				} else {
+//					// Getting Current Year & Period Value
+//					Date dateFromValue = format
+//							.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue())));
+//					int quarterFromValue = DataSelectionUtil.getQuarter(dateFromValue);
+//					int yearFromValue = DataSelectionUtil.getYearFromDate(dateFromValue);
+//
+//					// Getting Existing Year & Period Value
+//					Date date = inputFormat.parse(String.valueOf(fromPeriod.getData()));
+//					int quarterFromFc = DataSelectionUtil.getQuarter(date);
+//					int yearFromFc = DataSelectionUtil.getYearFromDate(date);
+//					// Comparing Existing year Value with New Value
+//					if (yearFromValue == yearFromFc) {
+//						// Comparing Existing year Period with New Year Period
+//						if (quarterFromValue == quarterFromFc) {
+//							String outputString = format.format(date);
+//							dataSelectionDTO.setFromPeriod(outputString);
+//							dataSelectionDTO.setFromDate(format.parse(outputString));
+//						} else {
+//							dataSelectionDTO.setFromPeriod(
+//									DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue())));
+//							dataSelectionDTO.setFromDate(format.parse(
+//									DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue()))));
+//						}
+//					} else {
+						dataSelectionDTO.setFromPeriod(
+								DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod())));
+						dataSelectionDTO.setFromDate(format
+								.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod()))));
+//					}
+//				}
+//
+//			}
+//			if (toPeriod.getData() == null) {
+//				if (toPeriod.getValue() != null) {
+//					if (MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(modeOption.getValue()))) {
+//						dataSelectionDTO.setToPeriod(String.valueOf(toPeriod.getValue()));
+//						if (!String.valueOf(toPeriod.getValue()).isEmpty()
+//								&& !Constant.SELECT_ONE.equals(String.valueOf(toPeriod.getValue()))) {
+//							dataSelectionDTO.setToDate(format.parse(
+//									DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue()))));
+//						}
+//					} else {
+						dataSelectionDTO.setToPeriod(
+								DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod())));
+						dataSelectionDTO.setToDate(format
+								.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod()))));
+//					}
+//				}
+//
+//			} else 
+//                            if (toPeriod.getValue() != null) {
+//				if (MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(modeOption.getValue()))) {
+//					dataSelectionDTO.setToPeriod(String.valueOf(toPeriod.getValue()));
+//					if (!String.valueOf(toPeriod.getValue()).isEmpty()
+//							&& !Constant.SELECT_ONE.equals(String.valueOf(toPeriod.getValue()))) {
+//						Date date = inputFormat.parse(String.valueOf(toPeriod.getData()));
+//						String outputString = format.format(date);
+//						dataSelectionDTO.setToDate(format.parse(outputString));
+//					}
+//				} else {
+//					Date date = inputFormat.parse(String.valueOf(toPeriod.getData()));
+//					Date dateToValue = format
+//							.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue())));
+//					int quarterToValue = DataSelectionUtil.getQuarter(dateToValue);
+//					int yearToValue = DataSelectionUtil.getYearFromDate(dateToValue);
+//					int quarterToFc = DataSelectionUtil.getQuarter(date);
+//					int yearToFc = DataSelectionUtil.getYearFromDate(dateToValue);
+//					if (yearToValue == yearToFc) {
+//						if (quarterToValue == quarterToFc) {
+//							String outputString = format.format(date);
+//							dataSelectionDTO.setToPeriod(outputString);
+//							dataSelectionDTO.setToDate(format.parse(outputString));
+//						} else {
+//							dataSelectionDTO.setToPeriod(
+//									DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue())));
+//							dataSelectionDTO.setToDate(format.parse(
+//									DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue()))));
+//						}
+//
+//					} else {
+//						dataSelectionDTO.setToPeriod(
+//								DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue())));
+//						dataSelectionDTO.setToDate(format
+//								.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue()))));
+//					}
+//				}
+//			}
+
+//			if (discount.getValue() != null && !SELECT_ONE.equals(discount.getValue())
+//					&& StringUtils.isNotBlank(discount.getValue().toString())) {
+//				CompanyDdlbDto dto = (CompanyDdlbDto) discount.getValue();
+//				dataSelectionDTO.setDiscount(dto.getRsNo());
+//				dataSelectionDTO.setDiscountSid(dto.getRsModelSid());
+//			} else {
+//				dataSelectionDTO.setDiscount(SELECT_ONE);
+//				dataSelectionDTO.setDiscountSid(0);
+//			}
+
+			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
+
+				dataSelectionDTO.setCustomerHierarchyLevel(String.valueOf(customerForecastInnerLevel));
+				dataSelectionDTO.setProductHierarchyLevel(String.valueOf(productForecastInnerLevel));
+			} else {
+				dataSelectionDTO.setCustomerHierarchyLevel(String.valueOf(customerForecastLevel));
+				dataSelectionDTO.setProductHierarchyLevel(String.valueOf(productForecastLevel));
+			}
+
+			dataSelectionDTO.setCustomerHierarchyInnerLevel(String.valueOf(customerForecastInnerLevel));
+			dataSelectionDTO.setProductHierarchyInnerLevel(String.valueOf(productForecastInnerLevel));
+			dataSelectionDTO.setProjectionName(inputBean.getProjectionName());
+			dataSelectionDTO.setDescription(inputBean.getProjectionDescription());
+                        dataSelectionDTO.setForecastEligibleDate(inputBean.getForecastEligibleDate());
+//                        dataSelectionDTO.setCustomRelationShipSid(inputBean.getCustomerRelationSid());
+//                        dataSelectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlbDeduction.getValue())):0 );
 
 		} catch (ParseException ex) {
 
@@ -3725,7 +4018,15 @@ public class DataSelectionForm extends ForecastDataSelection {
 		}
 		return relationshipSids;
 	}
-
+        
+        
+        private List<String> getNewArchRelationshipSid(List<GtnWsRecordBean> recordBeanList) {
+		List<String> relationshipSids = new ArrayList<>();
+		for (GtnWsRecordBean dto : recordBeanList) {
+			relationshipSids.add(String.valueOf(dto.getPropertyValueByIndex(9)));
+		}
+		return relationshipSids;
+	}
 	/**
 	 * Load customer hierarchy.
 	 *
@@ -4675,17 +4976,17 @@ public class DataSelectionForm extends ForecastDataSelection {
 		}
 	}
 
-        public void generateButtonLogicNewArch(SessionDTO sessionDto) {
+        public void generateButtonLogicNewArch(SessionDTO sessionDto,GtnFrameworkForecastInputBean inputBean) {
 		LOGGER.info("generateBtn click listener started= {} " , scrName);
 
-//		if (dsLogic.checkForActiveFiles(businessUnit.getValue(), company.getValue())) {
-			setPrivateViewName(privateView.getValue());
-			setPublicViewName(publicView.getValue());
+		if (dsLogic.checkForActiveFiles(inputBean.getBusinessUnit(), inputBean.getCompany())) {
+			setPrivateViewName(inputBean.getPrivateViewName());
+			setPublicViewName(inputBean.getPublicViewName());
 
 			if (scrName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 				try {
-//					if (selectedCustomer.size() <= 0 || selectedProduct.size() <= 0 || fromPeriod.getValue() == null
-//							|| StringUtils.isBlank(projectionName.getValue())
+//					if (inputBean.getSelectedCustomerList().size() <= 0 || inputBean.getSelectedProductList().size() <= 0 || fromPeriod.getValue() == null
+//							|| StringUtils.isBlank(inputBean.getProjectionName())
 //							|| Constants.CommonConstants.NULL.getConstant().equalsIgnoreCase(projectionName.getValue())
 //							|| company.getValue() == null || SELECT_ONE.equals(company.getValue())
 //							|| (Integer) company.getValue() == 0 || (Integer) businessUnit.getValue() == 0) {
@@ -4694,82 +4995,91 @@ public class DataSelectionForm extends ForecastDataSelection {
 //						return;
 //					}
 
-//					bindDataselectionDtoToSave();
-//                                        dataSelectionDTO.setCustomRelationShipSid(customRelationDdlb.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlb.getValue())) :0 );
-//                                        dataSelectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlbDeduction.getValue())): 0);
-//					int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName,false);
-//					VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
+					bindDataselectionDtoToSaveNewArch(inputBean);
+                                        dataSelectionDTO.setCustomRelationShipSid(0);
+                                        dataSelectionDTO.setCustomDeductionRelationShipSid(0);
+                                        VaadinSession.getCurrent().setAttribute(Constant.USER_ID, inputBean.getUserId());
+					int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName,false);
+					VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
 //					projectionId.setValue(String.valueOf(projectionIdValue));
-//					dataSelectionDTO.setProjectionId(projectionIdValue);
-//					relationshipBuilderSids.clear();
-//					setRelationshipBuilderSids(String.valueOf(customerRelationComboBox.getValue()));
-//					setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
-//					dataSelectionDTO
-//							.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
-//					dataSelectionDTO
-//							.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
+					dataSelectionDTO.setProjectionId(projectionIdValue);
+					relationshipBuilderSids.clear();
+					setRelationshipBuilderSids(String.valueOf(inputBean.getCustomerRelationSid()));
+					setRelationshipBuilderSids(String.valueOf(inputBean.getProductRelationSid()));
+					dataSelectionDTO
+							.setSelectedCustomerRelationSid(getNewArchRelationshipSid(inputBean.getSelectedCustomerList()));
+					dataSelectionDTO
+							.setSelectedProductRelationSid(getNewArchRelationshipSid(inputBean.getSelectedProductList()));
 
-//					if (projectionIdValue != 0) {
+					if (projectionIdValue != 0) {
 						SessionDTO session = SessionUtil.createSession();
+                                                session.setUserId(inputBean.getUserId());
+                                                session.setSessionId(session.getSessionId());
 						session.setGenerateFlag(true);
-//                                                session.setDsFrequency(String.valueOf(frequency.getValue()));
-//                                                session.setDataSelectionDeductionLevel(String.valueOf(dataSelectionDeductionLevel.getValue()));
-//                                                session.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(dataSelectionDeductionLevel.getValue()));
-//						session.setProjectionId(projectionIdValue);
+                                                session.setDsFrequency(String.valueOf("Quarterly"));
+                                                session.setDataSelectionDeductionLevel("1");
+                                                session.setDataSelectionDeductionLevelCaption("Schedule Category");
+						session.setProjectionId(projectionIdValue);
 //						session.setBusineesUnit(businessUnitlist);
 						session.setAction(Constant.ADD_FULL_SMALL);
 //						session.setCustomerDescription(customerDescMap);
 //						session.setProductDescription(productDescMap);
-//						session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
-//						session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
-//						session.setCustomRelationShipSid(dataSelectionDTO.getCustomRelationShipSid());
-//						session.setCustomDeductionRelationShipSid(dataSelectionDTO.getCustomDeductionRelationShipSid());
-//                                                session.setCustomerHierarchyVersion(
-//								dataSelectionDTO.getCustomerHierVersionNo());
-//						session.setProductHierarchyVersion(dataSelectionDTO.getProductHierVersionNo());
-//						session.setCustomerRelationVersion(dataSelectionDTO.getCustomerRelationShipVersionNo());
-//						session.setProductRelationVersion(dataSelectionDTO.getProductRelationShipVersionNo());
-//						if (CommonUtil.isValueEligibleForLoading()) {
-//							 Object[] obj = nmLogic
-//                                                        .deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
-//                                                session.setDedRelationshipBuilderSid(obj[0].toString());
-//                                                List versionNoList = nmLogic.getDeductionVersionNoList(session.getDedRelationshipBuilderSid());
-//                                                if (versionNoList != null) {
-//                                                    session.setDeductionRelationVersion((int) versionNoList.get(0));
-//                                                }
-//						}
-//						session.setScreenName(scrName);
+						session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
+						session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
+						session.setCustomRelationShipSid(dataSelectionDTO.getCustomRelationShipSid());
+						session.setCustomDeductionRelationShipSid(dataSelectionDTO.getCustomDeductionRelationShipSid());
+                                                session.setCustomerHierarchyVersion(
+								dataSelectionDTO.getCustomerHierVersionNo());
+						session.setProductHierarchyVersion(dataSelectionDTO.getProductHierVersionNo());
+						session.setCustomerRelationVersion(dataSelectionDTO.getCustomerRelationShipVersionNo());
+						session.setProductRelationVersion(dataSelectionDTO.getProductRelationShipVersionNo());
+						if (CommonUtil.isValueEligibleForLoading()) {
+							 Object[] obj = nmLogic
+                                                        .deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
+                                                session.setDedRelationshipBuilderSid(obj[0].toString());
+                                                List versionNoList = nmLogic.getDeductionVersionNoList(session.getDedRelationshipBuilderSid());
+                                                if (versionNoList != null) {
+                                                    session.setDeductionRelationVersion((int) versionNoList.get(0));
+                                                }
+						}
+						session.setScreenName(scrName);
 						session.setFunctionMode("G");
 						//session.setLayout(sessionDto.getLayout());
-//						session.setProjectionName(dataSelectionDTO.getProjectionName());
+						session.setProjectionName(dataSelectionDTO.getProjectionName());
 						// To create the temp tables with userId and session id
 						QueryUtils.createTempTables(session);
-//						int hierarchyVersionNo = Integer
-//								.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
-//						customerHierarchyLevelDefinitionList = relationLogic
-//								.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
-//						relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(),
-//								selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(),
-//								dataSelectionDTO);
+						int hierarchyVersionNo = Integer
+								.parseInt(String.valueOf(inputBean.getCustomerHierarchyVersion()));
+						int prodHierarchyVersionNo = Integer
+								.parseInt(String.valueOf(inputBean.getProductHierarchyVersion()));
+						customerHierarchyLevelDefinitionList = relationLogic
+								.getHierarchyLevelDefinition(inputBean.getCustomerHierarchySid(), hierarchyVersionNo);
+                                                productHierarchyLevelDefinitionList = relationLogic
+						.getHierarchyLevelDefinition(inputBean.getProductHierarchySid(), prodHierarchyVersionNo);
+						relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(),
+								dataLogic.customizeLevelDtoFromRecordBean(inputBean.getSelectedCustomerList(),inputBean.getCustomerRelationVersionNo()), dataLogic.customizeLevelDtoFromRecordBean(inputBean.getSelectedProductList(),inputBean.getProductRelationVersionNo()),
+								dataSelectionDTO);
+                                                
+                                                
 
-//                                            session.setCustomerLevelDetails(
-//                                                    dsLogic.getLevelValueDetails(session, customerRelationComboBox.getValue(), true));
-//                                            session.setProductLevelDetails(
-//                                                    dsLogic.getLevelValueDetails(session, productRelation.getValue(), false));
-//                                             session.setSalesHierarchyLevelDetails(
-//                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
-//                                        session.setDiscountCustomerProductLevelDetails(
-//                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
-//                                            dsLogic.loadProjectionFileDetailsTabInGenerate(session);
+                                            session.setCustomerLevelDetails(
+                                                    dsLogic.getLevelValueDetails(session, inputBean.getCustomerRelationSid(), true));
+                                            session.setProductLevelDetails(
+                                                    dsLogic.getLevelValueDetails(session, inputBean.getProductRelationSid(), false));
+                                             session.setSalesHierarchyLevelDetails(
+                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
+                                        session.setDiscountCustomerProductLevelDetails(
+                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
+                                            dsLogic.loadProjectionFileDetailsTabInGenerate(session);
                                             ForecastWindow forecastWindow = new ForecastWindow(projectionName.getValue(), session,
 								resultTable, scrName, this, dataSelectionDTO);
 						UI.getCurrent().addWindow(forecastWindow);
 						session.setGenerateFlag(false);
-//					}
+					}
 //					resetOne();
 //					resetTwo();
 					LOGGER.debug("generateBtn click listener ends  ");
-				} catch (Exception e) {
+				}catch (Exception e) {
 
 					LOGGER.error(" generateBtn click listener = {}",e);
 				}
@@ -4790,6 +5100,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 //					"No active file available for the selected Business Unit");
 //		}
 	}
+        }
         
 	public void generateBtn() {
 

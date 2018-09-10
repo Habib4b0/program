@@ -1410,6 +1410,34 @@ public class DataSelectionLogic {
 		}
 		return resultList;
 	}
+        
+        
+        public List<Leveldto> customizeLevelDtoFromRecordBean(List<GtnWsRecordBean> resultss, int relationVersion){
+            Leveldto dto;
+            List<Leveldto> resultList = new ArrayList<>();
+            for(GtnWsRecordBean record : resultss){
+                dto = new Leveldto();
+                dto.setLevelNo(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(0)));
+					dto.setRelationshipLevelValue((String) record.getPropertyValueByIndex(1));
+					dto.setParentNode(String.valueOf(record.getPropertyValueByIndex(2)));
+					dto.setLevel(String.valueOf(record.getPropertyValueByIndex(3)));
+					dto.setLevelValueReference(String.valueOf(record.getPropertyValueByIndex(4)));
+					dto.setTableName(String.valueOf(record.getPropertyValueByIndex(5)));
+					dto.setFieldName(String.valueOf(record.getPropertyValueByIndex(6)));
+					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(7)));
+					dto.setHierarchyNo(String.valueOf(record.getPropertyValueByIndex(8)));
+					dto.setRelationShipBuilderId(String.valueOf(record.getPropertyValueByIndex(9)));
+					dto.setHierarchyLevelDefnId(String.valueOf(record.getPropertyValueByIndex(10)));
+					dto.setHierarchyId(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(11)));
+					dto.setHierarchyVersionNo(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(12)));
+					dto.setRelationShipVersionNo(relationVersion);
+                                        resultList.add(dto);
+                
+            }
+            
+           
+            return resultList;
+        }
 
         public List<Leveldto> getChildLevelsWithHierarchyNoNewArch(int lowestLevelNo, final Map<String, String> descriptionMap,
 			Object businessUnit, Leveldto selectedLevelDto, int hierarchyVersion, int relationShipVersion,
