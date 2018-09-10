@@ -37,9 +37,9 @@ public class SelectionDTO implements Cloneable {
     private Integer form;
     private Integer identifierType;
     private String itemDesc = StringUtils.EMPTY;
-    private Integer Brand;
+    private Integer brand;
     private Integer strength;
-    private String Identifier = StringUtils.EMPTY;
+    private String identifier = StringUtils.EMPTY;
     private Integer placeHolder;
     private String ndc9 = StringUtils.EMPTY;
     private Integer itemCategory;
@@ -53,7 +53,7 @@ public class SelectionDTO implements Cloneable {
     private Set<ItemContractSelectionDTO> contractList = new HashSet<>();
     private Integer projectionId = 0;
     private ForecastDTO forecastDTO;
-    private Map<String, List> FrequencyAndQuater = new HashMap<>();
+    private Map<String, List> frequencyAndQuater = new HashMap<>();
     private Map<String, Map<String, Integer>> historyEndDetails = new HashMap<>();
     private Integer levelNo = 0;
     private String tableName = StringUtils.EMPTY;
@@ -78,7 +78,7 @@ public class SelectionDTO implements Cloneable {
     private Integer sessionId = 0;
     private Date sessionDate;
     private Integer userId;
-    private String InternalSessionid = StringUtils.EMPTY;
+    private String internalSessionid = StringUtils.EMPTY;
     private boolean reset;
     private String componentCount = StringUtils.EMPTY;
     private String componentLoad = StringUtils.EMPTY;
@@ -174,11 +174,11 @@ public class SelectionDTO implements Cloneable {
     }
 
     public String getInternalSessionid() {
-        return InternalSessionid;
+        return internalSessionid;
     }
 
-    public void setInternalSessionid(String InternalSessionid) {
-        this.InternalSessionid = InternalSessionid;
+    public void setInternalSessionid(String internalSessionId) {
+        this.internalSessionid = internalSessionId;
     }
 
     public Integer getSessionId() {
@@ -304,11 +304,11 @@ public class SelectionDTO implements Cloneable {
     }
 
     public Integer getBrand() {
-        return Brand;
+        return brand;
     }
 
-    public void setBrand(Integer Brand) {
-        this.Brand = Brand;
+    public void setBrand(Integer brand) {
+        this.brand = brand;
     }
 
     public Integer getStrength() {
@@ -320,11 +320,11 @@ public class SelectionDTO implements Cloneable {
     }
 
     public String getIdentifier() {
-        return Identifier;
+        return identifier;
     }
 
-    public void setIdentifier(String Identifier) {
-        this.Identifier = Identifier;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public Integer getPlaceHolder() {
@@ -648,19 +648,19 @@ public class SelectionDTO implements Cloneable {
     }
 
     public Map<String, List> getFrequencyAndQuater() {
-        return FrequencyAndQuater;
+        return frequencyAndQuater;
     }
 
-    public void setFrequencyAndQuater(Map<String, List> FrequencyAndQuater) {
-        this.FrequencyAndQuater = FrequencyAndQuater;
+    public void setFrequencyAndQuater(Map<String, List> frequencyAndQuater) {
+        this.frequencyAndQuater = frequencyAndQuater;
     }
 
     public List getFrequencyAndQuaterValue(String frequency) {
-        return FrequencyAndQuater.get(frequency);
+        return frequencyAndQuater.get(frequency);
     }
 
-    public void addFrequencyAndQuater(String frequency, List HistoryCount) {
-        this.FrequencyAndQuater.put(frequency, HistoryCount);
+    public void addFrequencyAndQuater(String frequency, List historyCount) {
+        this.frequencyAndQuater.put(frequency, historyCount);
     }
 
     public Map<String, Map<String, Integer>> getHistoryEndDetails() {
@@ -782,9 +782,9 @@ public class SelectionDTO implements Cloneable {
         selection.setForm(form);
         selection.setIdentifierType(identifierType);
         selection.setItemDesc(itemDesc);
-        selection.setBrand(Brand);
+        selection.setBrand(brand);
         selection.setStrength(strength);
-        selection.setIdentifier(Identifier);
+        selection.setIdentifier(identifier);
         selection.setPlaceHolder(placeHolder);
         selection.setNdc9(ndc9);
         selection.setItemCategory(itemCategory);
@@ -821,7 +821,7 @@ public class SelectionDTO implements Cloneable {
         selection.setReset(reset);
         selection.setComponentLoad(componentLoad);
         selection.setComponentCount(componentCount);
-        selection.setInternalSessionid(InternalSessionid);
+        selection.setInternalSessionid(internalSessionid);
         selection.setComponentScreen(componentScreen);
         selection.setComponent(component);
         selection.setCountQueryName(countQueryName);

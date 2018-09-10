@@ -56,7 +56,7 @@ public class CommonLogic {
                 PhsQueryUtils.saveSelection(map, projectionID, screenName, Constant.UPDATE);
             }
             
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
               LOGGER.error(ex.getMessage());
         }
     }
@@ -112,7 +112,7 @@ public class CommonLogic {
       
         try {
             LOGGER.debug("Entering tempOperation method ");
-            NACommonResultsDAO DAO = new NACommonResultsDAOImpl();
+            NACommonResultsDAO dao = new NACommonResultsDAOImpl();
             LOGGER.debug("Query Name = {} " , queryName);
              String customSql = SQlUtil.getQuery(getClass(),queryName);
             for (Map.Entry<String, Object> key : input.entrySet()) {
@@ -121,9 +121,9 @@ public class CommonLogic {
             }
            
             LOGGER.debug("End of tempOperation method");
-            Object temp =DAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames())) ;
+            Object temp =dao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames())) ;
             return temp;
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
            
             LOGGER.error(e.getMessage());
             return null;
@@ -141,13 +141,13 @@ public class CommonLogic {
     }
     public HelperDTO getBrand(int id) {
 
-        NACommonResultsDAO DAO = new NACommonResultsDAOImpl();
+        NACommonResultsDAO daoBrand = new NACommonResultsDAOImpl();
 
         HelperDTO ht = new HelperDTO();
         try {
             String query = "Select distinct BM.BRAND_MASTER_SID,BM.BRAND_NAME from dbo.BRAND_MASTER BM join dbo.ITEM_MASTER IM on BM.BRAND_MASTER_SID= \n"
                     + "IM.BRAND_MASTER_SID where IM.ITEM_MASTER_SID = '" + id + "'";
-            List result = (List) DAO.executeSelectQuery(query);
+            List result = (List) daoBrand.executeSelectQuery(query);
             if (result != null && !result.isEmpty()) {
                 Object[] obj = (Object[]) result.get(0);
                 ht.setId(Integer.parseInt(String.valueOf(obj[0])));
@@ -155,7 +155,7 @@ public class CommonLogic {
             } else {
                 ht = new HelperDTO(0, SELECT_ONE.getConstant());
             }
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LoggerFactory.getLogger(FcpResults.class.getName()).error( StringUtils.EMPTY, ex);
         }
         return ht;
@@ -163,13 +163,13 @@ public class CommonLogic {
     }
     public HelperDTO getBrandForMedicaid(String ndc) {
 
-        NACommonResultsDAO DAO = new NACommonResultsDAOImpl();
+        NACommonResultsDAO daoBrandForMedicaid = new NACommonResultsDAOImpl();
 
         HelperDTO ht = new HelperDTO();
         try {
             String query = "Select distinct BM.BRAND_MASTER_SID,BM.BRAND_NAME from dbo.BRAND_MASTER BM join dbo.ITEM_MASTER IM on BM.BRAND_MASTER_SID= \n"
                     + "IM.BRAND_MASTER_SID where IM.ndc9 = (SELECT ITEM_MASTER_SID FROM ITEM_MASTER WHERE ITEM_ID ='" + ndc + "')";
-            List result = (List) DAO.executeSelectQuery(query);
+            List result = (List) daoBrandForMedicaid.executeSelectQuery(query);
             if (result != null && !result.isEmpty()) {
                 Object[] obj = (Object[]) result.get(0);
                 ht.setId(Integer.parseInt(String.valueOf(obj[0])));
@@ -178,7 +178,7 @@ public class CommonLogic {
                 ht = new HelperDTO(0, SELECT_ONE.getConstant());
             }
 
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LoggerFactory.getLogger(FcpResults.class.getName()).error( StringUtils.EMPTY, ex);
         }
         return ht;

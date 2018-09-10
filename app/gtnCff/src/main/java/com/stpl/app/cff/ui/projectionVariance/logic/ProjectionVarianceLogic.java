@@ -251,7 +251,7 @@ public class ProjectionVarianceLogic {
      * @param list
      * @return list
      */
-    public List<ComparisonLookupDTO> getCustomizedComparisonList(final List list) throws PortalException, SystemException {
+    public List<ComparisonLookupDTO> getCustomizedComparisonList(final List list) throws PortalException {
         final List<ComparisonLookupDTO> finalList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
@@ -380,7 +380,7 @@ public class ProjectionVarianceLogic {
      * @param list
      * @return list
      */
-    public List<ComparisonLookupDTO> getCustomizedPVComparisonList(final List list) throws PortalException, SystemException {
+    public List<ComparisonLookupDTO> getCustomizedPVComparisonList(final List list) throws PortalException{
         final List<ComparisonLookupDTO> finalList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
@@ -1491,13 +1491,13 @@ public class ProjectionVarianceLogic {
          Comparator c=new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
-                if (Integer.valueOf(String.valueOf(((List) o1).get(0))) > Integer.valueOf(String.valueOf(((List) o2).get(0)))) {
+                if (Integer.parseInt(String.valueOf(((List) o1).get(0))) > Integer.parseInt(String.valueOf(((List) o2).get(0)))) {
                     return 1;
-                } else if (Integer.valueOf(String.valueOf(((List) o1).get(0))) < Integer.valueOf(String.valueOf(((List) o2).get(0)))) {
+                } else if (Integer.parseInt(String.valueOf(((List) o1).get(0))) < Integer.parseInt(String.valueOf(((List) o2).get(0)))) {
                     return -1;
-                } else if ((Integer.valueOf(String.valueOf(((List) o1).get(1))) > Integer.valueOf(String.valueOf(((List) o2).get(1))))) {
+                } else if ((Integer.parseInt(String.valueOf(((List) o1).get(1))) > Integer.parseInt(String.valueOf(((List) o2).get(1))))) {
                     return 1;
-                } else if ((Integer.valueOf(String.valueOf(((List) o1).get(1))) < Integer.valueOf(String.valueOf(((List) o2).get(1))))) {
+                } else if ((Integer.parseInt(String.valueOf(((List) o1).get(1))) < Integer.parseInt(String.valueOf(((List) o2).get(1))))) {
                     return -1;
                 }
                 return 0;
@@ -2713,36 +2713,46 @@ public class ProjectionVarianceLogic {
             List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
 
                 Map<Object, List<Object[]>> groupedResult = gtsList.stream().map(obj -> (Object[]) obj)
-                        .collect(Collectors.groupingBy(x -> {
+                     .collect(Collectors.groupingBy(x -> {
                             return new ArrayList<>(Arrays.asList( x[2], x[3]));
                         }));
                 for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
+                    Object period ;
+                    Object year ;
                     List<Object[]> list = entry.getValue();
 
                     final Object[] obj = list.get(0);
-                    final Object[] proj;
-                    final Object[] actual;
+                     Object[] proj=null;
+                     Object[] actual=null;
                     if(list.size()>1){
                     if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
                         actual = list.get(0);
                         proj = list.get(1);
+                        period=actual[3];
+                        year=actual[2];
                     } else {
                         actual = list.get(1);
                         proj = list.get(0);
+                        period=proj[3];
+                        year=proj[2];
                     }
                     }else{
                       Object[] empty= IntStream.rangeClosed(0, obj.length).boxed().map(e -> 0).toArray();
                       if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
+                          
                         actual = list.get(0);
+                        period=actual[3];
+                        year=actual[2];
                         proj = empty;
                     } else {
                         actual = empty;
                         proj = list.get(0);
+                        period=proj[3];
+                        year=proj[2];
                     }  
                     }
                     String commonColumn = StringUtils.EMPTY;
-                    Object period = actual[3];
-                    Object year = actual[2];
+                   
                     if (frequencyDivision == NumericConstants.FOUR) {
                         commonColumn = "Q" + period + StringUtils.EMPTY + year;
                     } else if (frequencyDivision == NumericConstants.TWO) {
@@ -3013,8 +3023,7 @@ public class ProjectionVarianceLogic {
     }
 
     private String getCommonColumn(String column, int frequencyDivision) {
-        if (frequencyDivision == 1) {
-        } else if (frequencyDivision == NumericConstants.FOUR) {
+         if (frequencyDivision == NumericConstants.FOUR) {
             column = column.replace('q', 'Q');
         } else if (frequencyDivision == NumericConstants.TWO) {
             column = column.replace('s', 'S');
@@ -3389,7 +3398,7 @@ public class ProjectionVarianceLogic {
         return stringBuilder.toString();
     }
 
-    private String hierachyQueryIndicator(String hierarchyNo, Map<String, List> relationshipLevelDetailsMap, int levelNo, String hierarchyIndicator, StringBuilder stringBuilder) throws NumberFormatException {
+    private String hierachyQueryIndicator(String hierarchyNo, Map<String, List> relationshipLevelDetailsMap, int levelNo, String hierarchyIndicator, StringBuilder stringBuilder)  {
         boolean isNotFirstElement = false;
         boolean isNotFirstHierarchy = false;
         String hierarchyForLevel=StringUtils.EMPTY;

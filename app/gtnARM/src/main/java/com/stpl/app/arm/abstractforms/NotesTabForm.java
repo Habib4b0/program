@@ -204,7 +204,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
                 sb.replace(0, index, file);
                 Date date = new Date();
                 long value = date.getTime();
-                sb.insert(sb.lastIndexOf("."), "_" + value);
+                sb.insert(sb.lastIndexOf("."), ARMUtils.UNDERSCORE + value);
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
                 attachmentDTO.setDocumentName(name);
@@ -263,17 +263,17 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
 
     @Override
     public void removeButtonLogic(Button.ClickEvent event) {
-        String currentUserName = tableBean.getUserName();
-        if (currentUserName.contains(",")) {
-            String[] str = currentUserName.split(",");
-            currentUserName = str[1] + " " + str[0];
+        String currentUsersName = tableBean.getUserName();
+        if (currentUsersName.contains(",")) {
+            String[] str = currentUsersName.split(",");
+            currentUsersName = str[1] + " " + str[0];
         }
         if (tableBeanId == null || !table.isSelected(tableBeanId)) {
             AbstractNotificationUtils.getErrorNotification(CommonConstant.REMOVE_ATTACHMENT, "Please select an attachment to remove ");
-        } else if (!currentUserName.trim().equalsIgnoreCase(userName.trim())) {
+        } else if (!currentUsersName.trim().equalsIgnoreCase(userName.trim())) {
             AbstractNotificationUtils.getInfoNotification(CommonConstant.REMOVE_ATTACHMENT, "You can only remove attachments that you have uploaded.");
         } else {
-            AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+            AbstractNotificationUtils removeNotification = new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
                     LOGGER.debug("Inside the removeButtonLogic Listener NO Method");
@@ -281,16 +281,16 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
 
                 @Override
                 public void yesMethod() {
-                    NotesDTO dtoValue = new NotesDTO();
-                    dtoValue.setDocDetailsId(tableBean.getDocDetailsId());
-                    dtoValue.setDocumentFullPath(tableBean.getDocumentFullPath());
-                    removeDetailsList.add(dtoValue);
+                    NotesDTO notesDtoValue = new NotesDTO();
+                    notesDtoValue.setDocDetailsId(tableBean.getDocDetailsId());
+                    notesDtoValue.setDocumentFullPath(tableBean.getDocumentFullPath());
+                    removeDetailsList.add(notesDtoValue);
                     table.removeItem(tableBeanId);
                     tableBeanId = null;
                     tableBean = null;
                 }
             };
-            notification.getConfirmationMessage(CommonConstant.REMOVE_ATTACHMENT, "Are you sure you want to delete this Attachment?");
+            removeNotification.getConfirmationMessage(CommonConstant.REMOVE_ATTACHMENT, "Are you sure you want to delete this Attachment?");
 
         }
     }

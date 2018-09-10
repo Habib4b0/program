@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.queryutils;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.CommonResultsDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonResultsDAOImpl;
@@ -19,6 +18,7 @@ import com.vaadin.server.VaadinSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
@@ -31,7 +31,7 @@ public class PhsQueryUtils {
     private static final CommonResultsDAO DAO = new CommonResultsDAOImpl();
     public final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
 
-    public List loadPhsResultsChild(SessionDTO session, int parentSid, List<String> priceTypeList, boolean percentFlag) throws PortalException, SystemException {
+    public List loadPhsResultsChild(SessionDTO session, int parentSid, List<String> priceTypeList, boolean percentFlag) throws SystemException {
         Map<String, Object> input = new HashMap<>();
         List phsList;
         String customSql;
@@ -40,9 +40,9 @@ public class PhsQueryUtils {
         int lastOne = size - 1;
         for (int i = 0; i < size; i++) {
             if (i == lastOne) {
-                priceType.append(priceTypeList.get(i).toUpperCase());
+                priceType.append(priceTypeList.get(i).toUpperCase(Locale.ENGLISH));
             } else {
-                priceType.append(priceTypeList.get(i).toUpperCase()).append(',');
+                priceType.append(priceTypeList.get(i).toUpperCase(Locale.ENGLISH)).append(',');
             }
         }
 
@@ -66,7 +66,7 @@ public class PhsQueryUtils {
 
     }
 
-    public List loadPhsResultsTable(int projMasterId, int brandSid, String queryName, int parentLevelId, int itemMasterSID, int therapeuticSid) throws PortalException, SystemException {
+    public List loadPhsResultsTable(int projMasterId, int brandSid, String queryName, int parentLevelId, int itemMasterSID, int therapeuticSid) throws SystemException {
         List phsList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
@@ -97,7 +97,7 @@ public class PhsQueryUtils {
 
     }
 
-    public static void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate) throws PortalException, SystemException {
+    public static void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate) throws SystemException {
         Object[] obj = map.keySet().toArray();
         StringBuilder queryBuilder = new StringBuilder();
         if (Constant.SAVE.equalsIgnoreCase(saveOrUpdate)) {
@@ -116,7 +116,7 @@ public class PhsQueryUtils {
         DAO.executeBulkUpdateQuery(queryBuilder.toString());
     }
 
-    public List loadPhsWorksheet(SessionDTO session, int ndcSid, boolean adjustFlag) throws PortalException, SystemException {
+    public List loadPhsWorksheet(SessionDTO session, int ndcSid, boolean adjustFlag) throws SystemException {
         List phsWSList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", session.getProjectionId());
@@ -137,7 +137,7 @@ public class PhsQueryUtils {
         return phsWSList;
     }
 
-    public void saveNotes(Map<String, String> editedValues, SessionDTO session, int itemSid) throws PortalException, SystemException {
+    public void saveNotes(Map<String, String> editedValues, SessionDTO session, int itemSid) throws SystemException {
 
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
@@ -181,13 +181,13 @@ public class PhsQueryUtils {
 
     public void saveNotesCondition(String rowId, String formatedValue, StringBuilder queryBuilder1) {
         Double finalvalue;
-
+            String formatedValueNotes = formatedValue;
         if (rowId.equals(Constant.ADJUSTMENT)) {
-            formatedValue = formatedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
-            formatedValue = formatedValue.replace("$", StringUtils.EMPTY);
-            formatedValue = formatedValue.trim();
-            if (StringUtils.isNotBlank(formatedValue)) {
-                Double value = Double.valueOf(formatedValue);
+            formatedValueNotes = formatedValueNotes.replace(Constant.PERCENT, StringUtils.EMPTY);
+            formatedValueNotes = formatedValueNotes.replace("$", StringUtils.EMPTY);
+            formatedValueNotes = formatedValueNotes.trim();
+            if (StringUtils.isNotBlank(formatedValueNotes)) {
+                Double value = Double.valueOf(formatedValueNotes);
                 finalvalue = value;
                 if (value == 0) {
                     queryBuilder1.append(" UPDATE dbo.ST_PHS_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
@@ -204,7 +204,7 @@ public class PhsQueryUtils {
         }
     }
 
-    public Map<String, String> getPhsPriceTypeNameDynamic(String screenName) throws PortalException, SystemException {
+    public Map<String, String> getPhsPriceTypeNameDynamic(String screenName) throws SystemException {
         List<Object[]> phsWSList;
         Map<String, String> priceType = new HashMap<>();
 
@@ -219,7 +219,7 @@ public class PhsQueryUtils {
         return priceType;
     }
 
-    public List loadPhsParent(int projMasterId, int brandSid, int parentLevelId, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws PortalException, SystemException {
+    public List loadPhsParent(int projMasterId, int brandSid, int parentLevelId, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws SystemException {
         List fcpList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);

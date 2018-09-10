@@ -14,7 +14,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.v7.ui.VerticalLayout;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class FileManagementIndexView.
  *

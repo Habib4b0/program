@@ -20,7 +20,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class BrandItemLogic.
  *
@@ -28,6 +28,9 @@ import org.slf4j.LoggerFactory;
  */
 public class BrandItemLogic {
     
+    private BrandItemLogic() {
+        // BrandItemLogic
+    }
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(BrandItemLogic.class);
     

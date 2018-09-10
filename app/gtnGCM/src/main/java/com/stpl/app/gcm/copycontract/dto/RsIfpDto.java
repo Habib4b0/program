@@ -31,12 +31,12 @@ public class RsIfpDto implements Serializable {
      * The rebate schedule trans ref name.
      */
     private String statusRebate = StringUtils.EMPTY;
-    private String RebateSchduleStatusvalue = StringUtils.EMPTY;
+    private String rebateSchduleStatusvalue = StringUtils.EMPTY;
     private String rebateScheduleTransRefName = StringUtils.EMPTY;
     private String rebatenumber = StringUtils.EMPTY;
     private String rebatetype = StringUtils.EMPTY;
-    private String RSStartdate = StringUtils.EMPTY;
-    private String RSenddate = StringUtils.EMPTY;
+    private String rsStartdate = StringUtils.EMPTY;
+    private String rsEndDate = StringUtils.EMPTY;
     private String therapeuticClass = StringUtils.EMPTY;
     private String brand = StringUtils.EMPTY;
     private String itemStatus = StringUtils.EMPTY;
@@ -1396,27 +1396,27 @@ public class RsIfpDto implements Serializable {
     }
 
     public String getRSStartdate() {
-        return RSStartdate;
+        return rsStartdate;
     }
 
-    public void setRSStartdate(String RSStartdate) {
-        this.RSStartdate = RSStartdate;
+    public void setRSStartdate(String rsStartDate) {
+        this.rsStartdate = rsStartDate;
     }
 
     public String getRSenddate() {
-        return RSenddate;
+        return rsEndDate;
     }
 
-    public void setRSenddate(String RSenddate) {
-        this.RSenddate = RSenddate;
+    public void setRSenddate(String rsEndDate) {
+        this.rsEndDate = rsEndDate;
     }
 
     public String getRebateSchduleStatusvalue() {
-        return RebateSchduleStatusvalue;
+        return rebateSchduleStatusvalue;
     }
 
-    public void setRebateSchduleStatusvalue(String RebateSchduleStatusvalue) {
-        this.RebateSchduleStatusvalue = RebateSchduleStatusvalue;
+    public void setRebateSchduleStatusvalue(String rebateSchduleStatusValue) {
+        this.rebateSchduleStatusvalue = rebateSchduleStatusValue;
     }
 
     public String getStatusRebate() {

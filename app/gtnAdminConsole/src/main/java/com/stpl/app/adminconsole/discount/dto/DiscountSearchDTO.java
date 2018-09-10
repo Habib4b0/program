@@ -6,7 +6,7 @@ import java.util.Date;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class DiscountSearchDTO.
  */

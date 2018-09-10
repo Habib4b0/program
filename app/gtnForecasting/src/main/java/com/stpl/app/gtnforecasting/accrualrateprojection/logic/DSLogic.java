@@ -111,7 +111,7 @@ public class DSLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public int updateProjection(final DataSelectionDTO dataSelectionDTO, int projectionId, final boolean markAsSaved, String screenName) throws PortalException, SystemException, ParseException {
+    public int updateProjection(final DataSelectionDTO dataSelectionDTO, int projectionId, final boolean markAsSaved, String screenName) throws PortalException, ParseException {
 
         String fromDateValue = "01-01-2016";
         String toDateValue = "01-01-2018";
@@ -252,7 +252,7 @@ public class DSLogic {
 
     }
 
-    public void updateSaveFlag(final int projectionId, String userId) throws SystemException, PortalException {
+    public void updateSaveFlag(final int projectionId, String userId) throws PortalException {
         ProjectionMaster projectionMaster = ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
         if (!StringUtils.isEmpty(String.valueOf(projectionId)) && !Constant.NULL.equalsIgnoreCase(String.valueOf(projectionId))) {
             projectionMaster = ProjectionMasterLocalServiceUtil.getProjectionMaster(projectionId);

@@ -101,7 +101,7 @@ public class Summary extends CustomComponent {
      */
     private ContractsDetailsDto dto;
     private RemoveDiscount removeDiscount;
-    private final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
+    private final SimpleDateFormat dbDate = new SimpleDateFormat(MMDDYYYY.getConstant());
     
     public Summary() {
         super();
@@ -280,7 +280,7 @@ public class Summary extends CustomComponent {
         List<RemoveDiscountDto> projDetails = discountLogic.getprojectionValues(removeDiscountDto, contractList, rsList);
         removeDiscountDto.setContractSid(Integer.parseInt(contractList.get(0).toString()));
         removeDiscountDto.setRsContractSid(dto.getRsSystemId());
-        if (projDetails.size() > 0 && dto.getRsSystemId() != null && !dto.getRsSystemId().equals(Constants.NULL) && !dto.getRsSystemId().equals(StringUtils.EMPTY) && !dto.getRsSystemId().equals(Constants.ZEROSTRING)) {
+        if (!projDetails.isEmpty() && dto.getRsSystemId() != null && !dto.getRsSystemId().equals(Constants.NULL) && !dto.getRsSystemId().equals(StringUtils.EMPTY) && !dto.getRsSystemId().equals(Constants.ZEROSTRING)) {
             tableLogic.setData(removeDiscountDto);
         }
         LOGGER.debug("Ended loadResultTable ");
@@ -291,8 +291,8 @@ public class Summary extends CustomComponent {
             contractNo.setValue(remove.getContractNo());
             contractName.setValue(remove.getContractName());
             contractType.setValue(remove.getMarketType());
-            contractStartDate.setValue(remove.getContractstartDate() == null ? StringUtils.EMPTY : DBDate.format((Date) remove.getContractstartDate()));
-            contractEndDate.setValue(remove.getContractendDate() == null ? StringUtils.EMPTY : DBDate.format((Date) remove.getContractendDate()));
+            contractStartDate.setValue(remove.getContractstartDate() == null ? StringUtils.EMPTY : dbDate.format((Date) remove.getContractstartDate()));
+            contractEndDate.setValue(remove.getContractendDate() == null ? StringUtils.EMPTY : dbDate.format((Date) remove.getContractendDate()));
         }
     }
 

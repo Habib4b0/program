@@ -1,6 +1,6 @@
 package com.stpl.app.gtnforecasting.utils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Class contains the String constants used in functions.
  *
@@ -49,7 +49,7 @@ public final class FunctionNameUtil {
     public static final String POPULATE_BTN = "populateBtn";
     public static final String COLLAPSE_BTN = "collapse";
     
-    public FunctionNameUtil() {
+    private FunctionNameUtil() {
         //Empty
     }
 }

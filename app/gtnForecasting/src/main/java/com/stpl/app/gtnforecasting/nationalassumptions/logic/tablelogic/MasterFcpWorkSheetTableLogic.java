@@ -35,7 +35,7 @@ public class MasterFcpWorkSheetTableLogic  extends PageTreeTableLogic {
     /**
      * The Constant LOGGER.
      */
-    private final Logger LOGGER = LoggerFactory.getLogger(MasterFcpWorkSheetTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MasterFcpWorkSheetTableLogic.class);
 
     public MasterFcpWorkSheetTableLogic() {
         super();

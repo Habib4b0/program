@@ -52,6 +52,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -79,31 +80,31 @@ public class ItemSelection extends CustomComponent {
     @UiField("itemName")
     private TextField itemName;
     @UiField("therapeuticClass")
-    private ComboBox therapeuticClass_DTO;
+    private ComboBox therapeuticClassDto;
     @UiField("form")
-    private ComboBox form_DTO;
+    private ComboBox formDto;
     @UiField("identifierType")
-    private ComboBox identifierType_DTO;
+    private ComboBox identifierTypeDto;
     @UiField("itemNo")
     private TextField itemNo;
     @UiField("itemDesc")
     private TextField itemDesc;
     @UiField("brand")
-    private ComboBox brand_DTO;
+    private ComboBox brandDto;
     @UiField("strength")
-    private ComboBox strength_DTO;
+    private ComboBox strengthDro;
     @UiField("identifier")
     private TextField identifier;
     @UiField("company")
-    private ComboBox company_DTO;
+    private ComboBox companyDto;
     @UiField("placeHolder")
-    private ComboBox placeHolder_DTO;
+    private ComboBox placeHolderDto;
     @UiField("ndc9")
     private TextField ndc9;
     @UiField("itemCategory")
-    private ComboBox itemCategory_DTO;
+    private ComboBox itemCategoryDto;
     @UiField("itemType")
-    private ComboBox itemType_DTO;
+    private ComboBox itemTypeDto;
     @UiField("resetBtn")
     private Button resetBtn;
     @UiField("searchBtn")
@@ -315,7 +316,7 @@ public class ItemSelection extends CustomComponent {
         }
         List<String> visibleList = Arrays.asList(itemResult.getColumnHeaders()).subList(1, itemResult.getVisibleColumns().length);
         excelName = StringConstantsUtil.ITEM_RESULTS;
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());        
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));        
     }
 
 
@@ -369,12 +370,12 @@ public class ItemSelection extends CustomComponent {
         recordCount = list.size();
         List<String> visibleList = Arrays.asList(transferTable.getColumnHeaders()).subList(1, transferTable.getVisibleColumns().length);
         excelName = StringConstantsUtil.TRANSFER_ITEMS;
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase());        
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase(Locale.ENGLISH));        
     }
 
     @UiHandler("identifierType")
     public void identifierTypeDdlbChange(Property.ValueChangeEvent event) {
-        if (identifierType_DTO.getValue() != null) {
+        if (identifierTypeDto.getValue() != null) {
             identifier.setValue(StringUtils.EMPTY);
             identifier.setEnabled(true);
         } else {
@@ -481,38 +482,38 @@ public class ItemSelection extends CustomComponent {
 
     public void configureSearch() {
 
-        therapeuticClass_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        therapeuticClass_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        therapeuticClass_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        therapeuticClass_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        form_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        form_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        form_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        form_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        identifierType_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        identifierType_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        identifierType_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        identifierType_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        brand_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        brand_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        brand_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        brand_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        strength_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        strength_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        strength_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        strength_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        company_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        company_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        company_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        company_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        itemCategory_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        itemCategory_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        itemCategory_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        itemCategory_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        itemType_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        itemType_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        itemType_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        itemType_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        therapeuticClassDto.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        therapeuticClassDto.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        therapeuticClassDto.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        therapeuticClassDto.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        formDto.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        formDto.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        formDto.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        formDto.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        identifierTypeDto.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        identifierTypeDto.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        identifierTypeDto.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        identifierTypeDto.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        brandDto.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        brandDto.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        brandDto.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        brandDto.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        strengthDro.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        strengthDro.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        strengthDro.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        strengthDro.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        companyDto.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        companyDto.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        companyDto.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        companyDto.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        itemCategoryDto.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        itemCategoryDto.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        itemCategoryDto.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        itemCategoryDto.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        itemTypeDto.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        itemTypeDto.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        itemTypeDto.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        itemTypeDto.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         loadAllDdlb();
         getBinder();
         identifier.setEnabled(false);
@@ -528,7 +529,7 @@ public class ItemSelection extends CustomComponent {
             loadItemType();
             loadCategory();
             loadItemTherapeuticClass();
-            loadPlaceHolder(placeHolder_DTO, false);
+            loadPlaceHolder(placeHolderDto, false);
             loadIdentifierType();
         } catch (Exception ex) {
            LOGGER.error("",ex);
@@ -536,34 +537,34 @@ public class ItemSelection extends CustomComponent {
     }
 
     private void loadCompany() {
-        logic.LazyLoadDdlb(company_DTO, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(companyDto, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
     }
 
     private void loadForm() {
-        logic.LazyLoadDdlb(form_DTO, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(formDto, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
     }
 
     private void loadBrand() {
-        logic.LazyLoadDdlb(brand_DTO, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(brandDto, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
     }
 
     private void loadStrength() {
-        logic.LazyLoadDdlb(strength_DTO, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(strengthDro, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
     }
 
     private void loadItemType() {
-        logic.loadComboBox(itemType_DTO, "ITEM_TYPE", false);
+        logic.loadComboBox(itemTypeDto, "ITEM_TYPE", false);
     }
 
     private void loadItemTherapeuticClass() {
-        logic.loadComboBox(therapeuticClass_DTO, "THERAPEUTIC_CLASS", false);
+        logic.loadComboBox(therapeuticClassDto, "THERAPEUTIC_CLASS", false);
     }
 
     private void loadCategory() {
-        logic.loadComboBox(itemCategory_DTO, "ITEM_CATEGORY", false);
+        logic.loadComboBox(itemCategoryDto, "ITEM_CATEGORY", false);
     }
 
-    private void loadPlaceHolder(ComboBox placeHolder_DTO, boolean isFilter) {
+    private void loadPlaceHolder(ComboBox placeHolderDto, boolean isFilter) {
         BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         List<HelperDTO> placeHolderList = new ArrayList<>();
         HelperDTO dto = new HelperDTO(NumericConstants.ELEVEN, Constants.SELECT_ONE);
@@ -577,20 +578,20 @@ public class ItemSelection extends CustomComponent {
         }
         placeHolderList.add(yesDto);
         placeHolderList.add(noDto);
-        placeHolder_DTO.setContainerDataSource(container);
+        placeHolderDto.setContainerDataSource(container);
         if (!isFilter) {
-            placeHolder_DTO.setNullSelectionItemId(dto);
+            placeHolderDto.setNullSelectionItemId(dto);
         } else {
-            placeHolder_DTO.setNullSelectionItemId(showAll);
+            placeHolderDto.setNullSelectionItemId(showAll);
         }
-        placeHolder_DTO.setNullSelectionAllowed(true);
-        placeHolder_DTO.setItemCaptionPropertyId("description");
+        placeHolderDto.setNullSelectionAllowed(true);
+        placeHolderDto.setItemCaptionPropertyId("description");
         container.addAll(placeHolderList);
-        placeHolder_DTO.select(dto);
+        placeHolderDto.select(dto);
     }
 
     private void loadIdentifierType() {
-        logic.LazyLoadDdlb(identifierType_DTO, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(identifierTypeDto, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
     }
 
     @SuppressWarnings("serial")
@@ -642,15 +643,15 @@ public class ItemSelection extends CustomComponent {
             itemDesc.setValue(StringUtils.EMPTY);
             identifier.setValue(StringUtils.EMPTY);
             ndc9.setValue(StringUtils.EMPTY);
-            therapeuticClass_DTO.setValue(null);
-            form_DTO.setValue(null);
-            identifierType_DTO.setValue(null);
-            brand_DTO.setValue(null);
-            strength_DTO.setValue(null);
-            itemCategory_DTO.setValue(null);
-            itemType_DTO.setValue(null);
-            company_DTO.setValue(null);
-            placeHolder_DTO.setValue(null);
+            therapeuticClassDto.setValue(null);
+            formDto.setValue(null);
+            identifierTypeDto.setValue(null);
+            brandDto.setValue(null);
+            strengthDro.setValue(null);
+            itemCategoryDto.setValue(null);
+            itemTypeDto.setValue(null);
+            companyDto.setValue(null);
+            placeHolderDto.setValue(null);
             binder.commit();
         } catch (FieldGroup.CommitException ex) {
             LOGGER.error("",ex);

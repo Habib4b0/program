@@ -5,6 +5,7 @@
  */
 package com.stpl.ifs.ui.forecastds.dto;
 
+import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.bean.GtnWsRelationshipBuilderBean;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -63,9 +64,37 @@ public class HierarchyLookupDTO {
      */
     private int hierarchyId = 0;
 
+    public String getHierarchySelection() {
+        return hierarchySelection;
+    }
+
+    public void setHierarchySelection(String hierarchySelection) {
+        this.hierarchySelection = hierarchySelection;
+    }
+
     private Date modifiedDateSearch;
     private Date createdDateSearch;
 
+    private String hierarchySelection;
+    
+    public Map<Integer, List<GtnWsRelationshipBuilderBean>> getRelationshipMap() {
+        return relationshipMap;
+    }
+
+    public void setRelationshipMap(Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap) {
+        this.relationshipMap = relationshipMap;
+    }
+
+    public Map<Integer, String> getHierarchyMap() {
+        return hierarchyMap;
+    }
+
+    public void setHierarchyMap(Map<Integer, String> hierarchyMap) {
+        this.hierarchyMap = hierarchyMap;
+    }
+
+    private Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap;
+    private Map<Integer, String> hierarchyMap; 
     /**
      * Gets the hierarchy name.
      *

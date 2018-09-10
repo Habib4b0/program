@@ -65,7 +65,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(CFPLookUp.class);
     @UiField("componentNo")
     public TextField componentNo;
     @UiField("componentStatus_DTO")
-    public ComboBox componentStatus_DTO;
+    public ComboBox componentStatusDto;
     @UiField("componentType")
     public TextField componentType;
     @UiField("searchBtn")
@@ -88,9 +88,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(CFPLookUp.class);
     private final SelectionDTO selection = new SelectionDTO();
     private final AbstractLogic logic = AbstractLogic.getInstance();
     private final CustomTextField componentTextField;
-    private final Object[] CFP_SEARCH_COLUMNS = new Object[]{
+    private static final Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentId", "componentNo", "componentName", "componentType", "category", "designation", "planId", "planName", "componentStatus", "tradeClass", Constants.START_DATE, Constants.END_DATE};
-    private final String[] CFP_SEARCH_HEADERS = new String[]{"CFP ID", "CFP No", "CFP Name", "CFP Type", "CFP Category", "CFP Designation", "CFP Plan ID", "CFP Plan Name", "CFP Status", "CFP Trade Class", "CFP Start Date", "CFP End Date"};
+    private static final String[] CFP_SEARCH_HEADERS = new String[]{"CFP ID", "CFP No", "CFP Name", "CFP Type", "CFP Category", "CFP Designation", "CFP Plan ID", "CFP Plan Name", "CFP Status", "CFP Trade Class", "CFP Start Date", "CFP End Date"};
 
     public CFPLookUp(final CustomTextField componentTextField) {
         this.componentTextField = componentTextField;
@@ -220,7 +220,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(CFPLookUp.class);
                     componentId.setValue(StringUtils.EMPTY);
                     componentName.setValue(StringUtils.EMPTY);
                     componentNo.setValue(StringUtils.EMPTY);
-                    componentStatus_DTO.setValue(null);
+                    componentStatusDto.setValue(null);
                     componentType.setValue(StringUtils.EMPTY);
                     category.setValue(StringUtils.EMPTY);
                     startDate.setValue(null);
@@ -260,7 +260,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(CFPLookUp.class);
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, "cfpStatus count", "cfpStatus", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(componentStatusDto, "cfpStatus count", "cfpStatus", BooleanConstant.getFalseFlag());
     }
 
    

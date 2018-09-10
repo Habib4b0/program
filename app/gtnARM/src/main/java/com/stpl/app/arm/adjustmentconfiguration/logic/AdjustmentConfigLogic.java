@@ -53,7 +53,7 @@ public class AdjustmentConfigLogic {
         try {
             resultList = new QueryUtils().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
-            LOGGER.error("Error in getFieldsForSecurity :" , ex);
+            LOGGER.error("Error in getFieldsForSecurity :", ex);
         }
         return resultList;
     }
@@ -98,16 +98,16 @@ public class AdjustmentConfigLogic {
         List finalList = new ArrayList<>();
         for (Object[] itemData1 : itemData) {
             AdjustmentConfigDTO dto = new AdjustmentConfigDTO();
-            dto.setAdjustmentConfigSid(itemData1[0] == null ? 0 : Integer.valueOf(itemData1[0].toString()));
-            dto.setTransactionName(itemData1[1] == null ? StringUtils.EMPTY : itemData1[1].toString());
-            dto.setTransactionDesc(itemData1[NumericConstants.TWO] == null ? StringUtils.EMPTY : itemData1[NumericConstants.TWO].toString());
-            dto.setMethodologyDDLB(itemData1[NumericConstants.THREE] == null ? 0 : Integer.valueOf(itemData1[NumericConstants.THREE].toString()));
-            dto.setMethodology(itemData1[NumericConstants.FOUR] == null ? StringUtils.EMPTY : itemData1[NumericConstants.FOUR].toString());
+            dto.setAdjustmentConfigSid(getIntegerValue(0, itemData1));
+            dto.setTransactionName(getStringValue(1, itemData1));
+            dto.setTransactionDesc(getStringValue(NumericConstants.TWO, itemData1));
+            dto.setMethodologyDDLB(getIntegerValue(NumericConstants.THREE, itemData1));
+            dto.setMethodology(getStringValue(NumericConstants.FOUR, itemData1));
             dto.setRedemptionPeriod(String.valueOf(itemData1[NumericConstants.FIVE]));
-            dto.setCreatedDate(itemData1[NumericConstants.SIX] == null ? null : CommonUtils.convertStringToDate(String.valueOf(itemData1[NumericConstants.SIX])));
-            dto.setCreatedBy(itemData1[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : itemData1[NumericConstants.SEVEN].toString());
-            dto.setModifiedDate(itemData1[NumericConstants.EIGHT] == null ? null : CommonUtils.convertStringToDate(String.valueOf(itemData1[NumericConstants.EIGHT])));
-            dto.setModifiedBy(itemData1[NumericConstants.NINE] == null ? StringUtils.EMPTY : itemData1[NumericConstants.NINE].toString());
+            dto.setCreatedDate(getDateValue(NumericConstants.SIX, itemData1));
+            dto.setCreatedBy(getStringValue(NumericConstants.SEVEN, itemData1));
+            dto.setModifiedDate(getDateValue(NumericConstants.SIX, itemData1));
+            dto.setModifiedBy(getStringValue(NumericConstants.NINE, itemData1));
             finalList.add(dto);
         }
         LOGGER.debug("Exit getCustomizedAdjustmentConfig method --{}", finalList.size());
@@ -264,6 +264,18 @@ public class AdjustmentConfigLogic {
         List input = new ArrayList();
         input.add(adjustmentConfigSid);
         return CommonLogic.getCount(QueryUtils.getItemData(input, "AdjustmentConfigDelCount", null));
+    }
+
+    private int getIntegerValue(int index, Object[] itemData) {
+        return itemData[index] == null ? 0 : (Integer) (itemData[index]);
+    }
+
+    private String getStringValue(int index, Object[] itemData) {
+        return itemData[index] == null ? StringUtils.EMPTY : String.valueOf(itemData[index]);
+    }
+
+    private String getDateValue(int index, Object[] itemData) {
+        return itemData[index] == null ? null : CommonUtils.convertStringToDate(String.valueOf(itemData[index]));
     }
 
 }

@@ -49,7 +49,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DataSelectionDAOImpl.
  *
@@ -71,7 +71,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
      */
     @Override
     public List findViewByName(final String viewName, final String forecastType, final String userId, final String viewType)
-            throws SystemException, PortalException {
+            throws PortalException {
         return new ForecastingViewMasterImpl().findViewByName(viewName, forecastType, userId, viewType);
     }
 
@@ -85,7 +85,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
      * @throws Exception the exception
      */
     @Override
-    public ForecastingViewMaster deleteForecastingViewMaster(final int systemId) throws SystemException, PortalException {
+    public ForecastingViewMaster deleteForecastingViewMaster(final int systemId) throws PortalException {
         return ForecastingViewMasterLocalServiceUtil.deleteForecastingViewMaster(systemId);
     }
 
@@ -112,7 +112,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
      * @throws Exception the exception
      */
     @Override
-    public User getUser(final Long systemId) throws SystemException, PortalException{
+    public User getUser(final Long systemId) throws PortalException{
         return UserLocalServiceUtil.getUser(systemId);
     }
 
@@ -178,7 +178,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
      * @throws Exception the exception
      */
     @Override
-    public ForecastingViewMaster getForecastingViewMaster(final int systemId) throws SystemException, PortalException{
+    public ForecastingViewMaster getForecastingViewMaster(final int systemId) throws PortalException{
         return ForecastingViewMasterLocalServiceUtil.getForecastingViewMaster(systemId);
     }
 
@@ -218,7 +218,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
      * @throws Exception the exception
      */
     @Override
-    public ProjectionMaster getProjectionMaster(final int systemId) throws PortalException, SystemException {
+    public ProjectionMaster getProjectionMaster(final int systemId) throws PortalException {
         return ProjectionMasterLocalServiceUtil.getProjectionMaster(systemId);
     }
 
@@ -232,7 +232,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
      * @throws Exception the exception
      */
     @Override
-    public ProjectionMaster updateProjectionMaster(final ProjectionMaster projectionMaster) throws PortalException, SystemException{
+    public ProjectionMaster updateProjectionMaster(final ProjectionMaster projectionMaster) throws SystemException{
         return ProjectionMasterLocalServiceUtil.updateProjectionMaster(projectionMaster);
     }
 
@@ -284,7 +284,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
      * @throws Exception the exception
      */
     @Override
-    public ProjectionProdDetails deleteProjectionProdDetailsById(final int systemId) throws SystemException, PortalException {
+    public ProjectionProdDetails deleteProjectionProdDetailsById(final int systemId) throws PortalException {
         return ProjectionProdDetailsLocalServiceUtil.deleteProjectionProdDetails(systemId);
     }
 
@@ -381,7 +381,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
      */
     @Override
     public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct, final String action) {
-        return new HierarchyDefinitionImpl().getHierarchyGroup(hierarchyName, hierarchyType, customerOrProduct, action);
+        return new HierarchyDefinitionImpl().getHierarchyGroup(hierarchyName, hierarchyType, customerOrProduct);
     }
 
 
@@ -567,7 +567,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
 
     @Override
     public List getParentLevels(int levelNo, int relationshipLevelSid, final Map<String, Object> parameters) throws SystemException {
-        return new ProjectionMasterImpl().getParentLevels(levelNo, relationshipLevelSid, parameters);
+        return new ProjectionMasterImpl().getParentLevels(relationshipLevelSid, parameters);
     }
 
     @Override
@@ -616,42 +616,42 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
     }
 
     @Override
-    public ProjectionDetails deleteProjectionDetails(int systemId) throws PortalException, SystemException {
+    public ProjectionDetails deleteProjectionDetails(int systemId) throws PortalException {
         return ProjectionDetailsLocalServiceUtil.deleteProjectionDetails(systemId);
     }
 
     @Override
-    public List<ProjectionDetails> getProjectionDetails(final DynamicQuery dynamicQuery) throws PortalException, SystemException {
+    public List<ProjectionDetails> getProjectionDetails(final DynamicQuery dynamicQuery) throws SystemException {
         return ProjectionDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
     @Override
-    public ProjectionCustHierarchy deleteProjectionCustHierarchy(int systemId) throws PortalException, SystemException {
+    public ProjectionCustHierarchy deleteProjectionCustHierarchy(int systemId) throws PortalException {
         return ProjectionCustHierarchyLocalServiceUtil.deleteProjectionCustHierarchy(systemId);
     }
 
     @Override
-    public List<ProjectionCustHierarchy> getProjectionCustHierarchy(final DynamicQuery dynamicQuery) throws PortalException, SystemException {
+    public List<ProjectionCustHierarchy> getProjectionCustHierarchy(final DynamicQuery dynamicQuery) throws SystemException {
         return ProjectionCustHierarchyLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
     @Override
-    public ProjectionProdHierarchy deleteProjectionProdHierarchy(int systemId) throws PortalException, SystemException {
+    public ProjectionProdHierarchy deleteProjectionProdHierarchy(int systemId) throws PortalException {
         return ProjectionProdHierarchyLocalServiceUtil.deleteProjectionProdHierarchy(systemId);
     }
 
     @Override
-    public List<ProjectionProdHierarchy> getProjectionProdHierarchy(final DynamicQuery dynamicQuery) throws PortalException, SystemException {
+    public List<ProjectionProdHierarchy> getProjectionProdHierarchy(final DynamicQuery dynamicQuery) throws SystemException {
         return ProjectionProdHierarchyLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
     @Override
-    public ProjectionMaster deleteProjectionMaster(int systemId) throws PortalException, SystemException {
+    public ProjectionMaster deleteProjectionMaster(int systemId) throws PortalException {
         return ProjectionMasterLocalServiceUtil.deleteProjectionMaster(systemId);
     }
 
     @Override
-    public List<ProjectionMaster> getProjectionMaster(final DynamicQuery dynamicQuery) throws PortalException, SystemException {
+    public List<ProjectionMaster> getProjectionMaster(final DynamicQuery dynamicQuery) throws SystemException {
         return ProjectionMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -666,7 +666,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
     }
 
     @Override
-    public ProjectionDetails addProjectionDetails(ProjectionDetails projectionDetails) throws PortalException, SystemException{
+    public ProjectionDetails addProjectionDetails(ProjectionDetails projectionDetails) throws SystemException{
         return ProjectionDetailsLocalServiceUtil.addProjectionDetails(projectionDetails);
     }
 
@@ -676,22 +676,22 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
     }
 
     @Override
-    public List getProjections(DynamicQuery dynamicQuery) throws SystemException, PortalException {
+    public List getProjections(DynamicQuery dynamicQuery) throws  PortalException {
         return ProjectionDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
     @Override
-    public int getRelationshipCount(DynamicQuery dynamicQuery) throws SystemException, PortalException {
+    public int getRelationshipCount(DynamicQuery dynamicQuery) throws PortalException {
         return (int) RelationshipBuilderLocalServiceUtil.dynamicQueryCount(dynamicQuery);
     }
 
     @Override
-    public List getRelationship(DynamicQuery dynamicQuery) throws SystemException, PortalException {
+    public List getRelationship(DynamicQuery dynamicQuery) throws PortalException {
         return RelationshipBuilderLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
     @Override
-    public List getChildLevels(Map<String, Object> parameters) throws SystemException, PortalException {
+    public List getChildLevels(Map<String, Object> parameters) throws PortalException {
         return new ProjectionMasterImpl().getChildLevels(parameters);
     }
     @Override
@@ -710,7 +710,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
     }
 
     @Override
-    public List getHelperTableList(DynamicQuery dynamicQuery) throws PortalException, SystemException  {
+    public List getHelperTableList(DynamicQuery dynamicQuery) throws SystemException  {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 }

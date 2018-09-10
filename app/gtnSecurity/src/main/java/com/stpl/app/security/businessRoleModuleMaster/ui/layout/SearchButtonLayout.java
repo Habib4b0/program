@@ -48,7 +48,7 @@ public class SearchButtonLayout extends HorizontalLayout {
         private final CheckBox view;
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchButtonLayout.class
 			.getName());
-	private final String Select=CommonUtils.SELECT_ONE;
+	private final String select=CommonUtils.SELECT_ONE;
 	public SearchButtonLayout(ErrorfulFieldGroup binder,BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans,BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult,ExtFilterTable table,ExtFilterTable tableField,ComboBox subModuleName,ComboBox moduleName,ComboBox businessRoleName
         ,CheckBox add,CheckBox edit,CheckBox view) {
 		super();
@@ -100,9 +100,9 @@ public class SearchButtonLayout extends HorizontalLayout {
 					binder.commit();
 					
 					try {
-					    if(businessRoleName.getValue()!=Select || subModuleName.getValue()!=Select || moduleName.getValue() !=Select){	
-					    if(subModuleName.getValue()!=Select || moduleName.getValue() !=Select){	
-					    if( moduleName.getValue() !=Select){	
+					    if(businessRoleName.getValue()!=select || subModuleName.getValue()!=select || moduleName.getValue() !=select){	
+					    if(subModuleName.getValue()!=select || moduleName.getValue() !=select){	
+					    if( moduleName.getValue() !=select){	
 						List<SearchBusinessRoleModuleForm> searchResults=businessRoleModuleLogic.searchmoduleAccessDetails(binder);
 						List<SearchBusinessRoleModuleForm> searchFieldResults=businessRoleModuleLogic.searchFieldAccessDetails(binder);
 						searchFieldResult.removeAllItems();

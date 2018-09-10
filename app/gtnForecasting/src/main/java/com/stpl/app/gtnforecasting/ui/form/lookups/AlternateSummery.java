@@ -92,7 +92,6 @@ public class AlternateSummery extends CustomComponent {
      * The split position.
      */
     private final float splitPosition = 300;
-    private ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
     private ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     private ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
     private CustomTableHeaderDTO excelHeader = new CustomTableHeaderDTO();
@@ -173,8 +172,6 @@ public class AlternateSummery extends CustomComponent {
      */
     private ExtFilterTreeTable leftTable;
     private ExtFilterTreeTable rightTable;
-    private CustomTableHeaderDTO leftHeader = null;
-    private CustomTableHeaderDTO rightHeader = null;
     private SessionDTO session;
     private FreezePagedTreeTable resultsTable;
     private AHSummeryTableLogic summeryTableLogic;
@@ -545,10 +542,7 @@ public class AlternateSummery extends CustomComponent {
         if ((PRODUCT.getConstant()).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, true);
-        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
-            leftTable.setColumnCollapsingAllowed(true);
-            leftTable.setColumnCollapsed(Constant.GROUP, false);
-        } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {
+        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         }
@@ -682,18 +676,19 @@ public class AlternateSummery extends CustomComponent {
     /**
      * Formats the given value based on the passed decimal format.
      *
-     * @param FORMAT
+     * @param formatAltSummary
      * @param value
      * @param appendChar
      * @return
      */
-    public String getFormatValue(DecimalFormat FORMAT, String value, String appendChar) {
+    public String getFormatValue(DecimalFormat formatAltSummary, String value, String appendChar) {
+        String valueAltSummary = value;
         if (Constant.CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(FORMAT.format(Double.valueOf(value)));
+            valueAltSummary = appendChar.concat(formatAltSummary.format(Double.valueOf(valueAltSummary)));
         } else {
-            value = FORMAT.format(Double.valueOf(value)).concat(appendChar);
+            valueAltSummary = formatAltSummary.format(Double.valueOf(valueAltSummary)).concat(appendChar);
         }
-        return value;
+        return valueAltSummary;
     }
 
     /**
@@ -1098,12 +1093,11 @@ public class AlternateSummery extends CustomComponent {
         List<Integer> pagelength = CommonLogic.getPageNumber();
         summeryTableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         excelHeader = new CustomTableHeaderDTO();
-        leftHeader = HeaderUtils.getAHSummeryTabLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO leftHeader = HeaderUtils.getAHSummeryTabLeftTableColumns(fullHeader);
         session.setForecastName(Constant.SALES_PROJECTION);
         projectionDTO.setIsSumarry(true);
-        rightHeader = HeaderUtils.getAlternateHistoryRightTableColumns(projectionDTO, session, fullHeader);
-
-        customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
+        CustomTableHeaderDTO rightHeader = HeaderUtils.getAlternateHistoryRightTableColumns(projectionDTO, session, fullHeader);
+        ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
         customContainer.setColumnProperties(leftHeader.getProperties());
         customContainer.setColumnProperties(rightHeader.getProperties());
 
@@ -1161,10 +1155,7 @@ public class AlternateSummery extends CustomComponent {
         if ((PRODUCT.getConstant()).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, true);
-        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
-            leftTable.setColumnCollapsingAllowed(true);
-            leftTable.setColumnCollapsed(Constant.GROUP, false);
-        } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {
+        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         }

@@ -103,7 +103,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
     private Map<Integer, String> ndc9Map = new HashMap<>();
     private final DataFormatConverter dollarFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
     private boolean flag;
-    private String SelectedNDC = StringUtils.EMPTY;
+    private String selectedNDC = StringUtils.EMPTY;
     private final NewNdcDTO deletedItem = new NewNdcDTO();
     private final NationalAssumptionLogic nationalAssumptionLogic = new NationalAssumptionLogic();
     private final List<NewNdcDTO> removedMedicaidNdc = new ArrayList<>();
@@ -333,7 +333,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
         } else {
             newNDC.setNdc9(String.valueOf(ndc.getValue()));
         }
-        SelectedNDC = newNDC.getNdc9();
+        selectedNDC = newNDC.getNdc9();
 
         newNDC.setItemMasterSid(Integer.parseInt(String.valueOf(ndc.getValue()).trim()));
         newNDC.setForecastAMP(forecastAMP.getValue());
@@ -371,7 +371,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
 
             @Override
             public void noMethod() {
-                // TODO Auto-generated method stub
+                //noMethod()
             }
         }.getConfirmationMessage(RESET_CONFIRMATION.getConstant(),
                 "Are you sure you want to reset the page to default/previous values?");
@@ -485,8 +485,8 @@ public class MedicaidNdcPopUp extends CustomComponent {
         for (Map.Entry<Integer, String> key : ndc9Map.entrySet()) {
             String des = key.getValue();
             String[] value = des.split(",");
-            String NDC9 = value[1].trim();
-            if (SelectedNDC.equals(NDC9)) {
+            String ndc9 = value[1].trim();
+            if (selectedNDC.equals(ndc9)) {
                 if (itemSid.length() == 0) {
                     itemSid.append('\'' ).append( value[0].trim() ).append( '\'');
                 } else {

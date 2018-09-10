@@ -49,7 +49,7 @@ public class OutboundProcess {
     private String filePath = ftpProperties.getScripts();
 
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    private SimpleDateFormat format_time = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+    private SimpleDateFormat formattime = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
     private String processName;
 
     public OutboundProcess() {
@@ -72,7 +72,7 @@ public class OutboundProcess {
                 LOGGER.debug("Hierarchy filePath= {}" , filePath);
                 configureHierarchyExcel(StringUtils.EMPTY, true);
                 loadHierarchyExcel(StringUtils.EMPTY, true);
-                SchedulerExcelEport exp = new SchedulerExcelEport(new ExtCustomTableHolder(exceltable), excelName, excelName, "Hierarchy_Definition_" + format_time.format(new Date()) + ".xls", false, filePath);
+                SchedulerExcelEport exp = new SchedulerExcelEport(new ExtCustomTableHolder(exceltable), excelName, excelName, "Hierarchy_Definition_" + formattime.format(new Date()) + ".xls", false, filePath);
                 exp.export();
             }
             Long endTime = System.currentTimeMillis();
@@ -125,7 +125,7 @@ public class OutboundProcess {
                 String csvName = "Relationship_Builder_Outbound";
                 rbCsvList = outboundLogic.getRelationShipSheduledResults();
                 recordCount = rbCsvList.size();
-                SchedulerCSVEport.createWorkSheet(recordCount, this, filePath, csvName + format_time.format(new Date()));
+                SchedulerCSVEport.createWorkSheet(recordCount, this, filePath, csvName + formattime.format(new Date()));
             }
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());

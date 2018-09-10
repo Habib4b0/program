@@ -69,11 +69,6 @@ public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
     }
 
     @Override
-    protected void resetBtn() {
-        super.resetBtn();
-    }
-
-    @Override
     protected void loadReserveAccount() {
         List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
         CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),

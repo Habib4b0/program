@@ -36,11 +36,13 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsExcelResponse;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Abhiram.Giri
  */
+@Service
 public class GtnWsContractDashboardItemLogic {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsContractDashboardItemLogic.class);

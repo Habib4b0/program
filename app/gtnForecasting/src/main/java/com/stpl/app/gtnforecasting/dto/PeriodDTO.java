@@ -18,11 +18,11 @@ public class PeriodDTO {
     private Integer rowId = 0;
     private Integer ccpId = 0;
     private String level = StringUtils.EMPTY;
-    private String LevelName = StringUtils.EMPTY;
+    private String levelName = StringUtils.EMPTY;
     private Integer levelNo = 0;
     private String key = StringUtils.EMPTY;
-    private String LevelValues = StringUtils.EMPTY;
-    private String HierarchyLevel = StringUtils.EMPTY;
+    private String levelValues = StringUtils.EMPTY;
+    private String hierarchyLevel = StringUtils.EMPTY;
     private Integer actualsOrProj = 0;
     private String accountGrowth = "0.0";
     private String productGrowth = "0.0";
@@ -44,7 +44,7 @@ public class PeriodDTO {
     private String product = StringUtils.EMPTY;
     private String contract = StringUtils.EMPTY;
     private Integer rowCount = Integer.valueOf(Constant.DASH);
-    private String BaseLine = StringUtils.EMPTY;
+    private String baseLine = StringUtils.EMPTY;
     private String userGroup = StringUtils.EMPTY;
     private String methodologyUsed = StringUtils.EMPTY;
     private String hierarchyNo = Constant.PERCENT;
@@ -71,11 +71,11 @@ public class PeriodDTO {
     }
 
     public String getHierarchyLevel() {
-        return HierarchyLevel;
+        return hierarchyLevel;
     }
 
     public void setHierarchyLevel(String hierarchyLevel) {
-        this.HierarchyLevel = hierarchyLevel;
+        this.hierarchyLevel = hierarchyLevel;
     }
 
     public Double getLives() {
@@ -103,11 +103,11 @@ public class PeriodDTO {
     }
 
     public String getBaseLine() {
-        return BaseLine;
+        return baseLine;
     }
 
     public void setBaseLine(String baseline) {
-        this.BaseLine = baseline;
+        this.baseLine = baseline;
     }
 
     public String getUserGroup() {
@@ -131,11 +131,11 @@ public class PeriodDTO {
     }
 
     public String getLevelName() {
-        return LevelName;
+        return levelName;
     }
 
     public void setLevelName(String levelName) {
-        this.LevelName = levelName;
+        this.levelName = levelName;
     }
 
     public Integer getLevelNo() {
@@ -155,11 +155,11 @@ public class PeriodDTO {
     }
 
     public String getLevelValues() {
-        return LevelValues;
+        return levelValues;
     }
 
     public void setLevelValues(String levelValue) {
-        this.LevelValues = levelValue;
+        this.levelValues = levelValue;
     }
 
     public void setCustomer(String customer) {

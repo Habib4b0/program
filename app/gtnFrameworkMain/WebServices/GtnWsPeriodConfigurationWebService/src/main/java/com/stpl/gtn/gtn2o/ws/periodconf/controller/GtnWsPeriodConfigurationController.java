@@ -39,7 +39,7 @@ public class GtnWsPeriodConfigurationController extends GtnServiceRegistryImplCl
 		super.logInformation(GtnWsPeriodConfigurationController.class);
 	}
 
-	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
+	private GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
 	@RequestMapping(value = "/loadDate", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadDate(

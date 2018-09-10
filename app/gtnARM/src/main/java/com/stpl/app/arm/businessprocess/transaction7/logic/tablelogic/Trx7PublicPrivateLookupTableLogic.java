@@ -23,19 +23,19 @@ public class Trx7PublicPrivateLookupTableLogic extends PageTableLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Trx7PublicPrivateLookupTableLogic.class);
     private ViewLookupDTO exRateDTO = new ViewLookupDTO();
-    private Trx7ExclusionDetailsLogic logic = new Trx7ExclusionDetailsLogic();
-    private boolean isGenerate = false;
+    private Trx7ExclusionDetailsLogic tr7logic = new Trx7ExclusionDetailsLogic();
+    private boolean isPrivateGenerate = false;
 
     @Override
     public int getCount() {
         try {
-            if (isGenerate) {
-                List<Object> count = logic.getSavedViewList(exRateDTO, true, 0, 0, null, this.getFilters());
+            if (isPrivateGenerate) {
+                List<Object> count = tr7logic.getSavedViewList(exRateDTO, true, 0, 0, null, this.getFilters());
                 return Integer.valueOf(count.get(0).toString());
             }
             return 0;
         } catch (Exception ex) {
-            LOGGER.error("Error in getCount :" , ex);
+            LOGGER.error("Error in getCount :", ex);
             return 0;
         }
     }
@@ -43,9 +43,9 @@ public class Trx7PublicPrivateLookupTableLogic extends PageTableLogic {
     @Override
     public List loadData(int start, int offset) {
         try {
-            return logic.getSavedViewList(exRateDTO, false, start, offset, this.getSortByColumns(), this.getFilters());
+            return tr7logic.getSavedViewList(exRateDTO, false, start, offset, this.getSortByColumns(), this.getFilters());
         } catch (Exception ex) {
-            LOGGER.error("Error in loadData :" , ex);
+            LOGGER.error("Error in loadData :", ex);
             return Collections.emptyList();
         }
     }
@@ -59,7 +59,7 @@ public class Trx7PublicPrivateLookupTableLogic extends PageTableLogic {
 
     public void configureSearchData(ViewLookupDTO exRateDTO, boolean isGenerate) {
         try {
-            this.isGenerate = isGenerate;
+            this.isPrivateGenerate = isGenerate;
             this.exRateDTO = exRateDTO;
             clearAll();
             setRequiredCount(true);

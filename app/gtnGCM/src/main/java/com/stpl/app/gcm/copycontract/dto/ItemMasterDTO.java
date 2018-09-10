@@ -463,7 +463,7 @@ public class ItemMasterDTO implements Serializable {
     /**
      * The company system id.
      */
-    private String SystemId = StringUtils.EMPTY;
+    private String systemId = StringUtils.EMPTY;
 
     /**
      * The internal notes.
@@ -2025,10 +2025,10 @@ public class ItemMasterDTO implements Serializable {
     }
 
     public String getSystemId() {
-        return SystemId;
+        return systemId;
     }
 
-    public void setSystemId(String SystemId) {
-        this.SystemId = SystemId;
+    public void setSystemId(String systemId) {
+        this.systemId = systemId;
     }
 }

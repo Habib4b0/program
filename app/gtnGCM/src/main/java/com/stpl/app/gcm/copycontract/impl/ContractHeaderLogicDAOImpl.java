@@ -46,17 +46,17 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     @Override
-    public int getCFPCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc) {
-        String query = QUERYUTILS.getCFPcount(CFPCompanyDTO);
+    public int getCFPCount(CFPCompanyDTO cfpCompanyDto, BeanSearchCriteria bsc) {
+        String query = QUERYUTILS.getCFPcount(cfpCompanyDto);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         LOGGER.debug("getCFPCount:::list.size() {}" , list.size());
         return list.size();
     }
 
     @Override
-    public List<CFPCompanyDTO> getCFPdetails(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
+    public List<CFPCompanyDTO> getCFPdetails(CFPCompanyDTO cfpCompanyDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<CFPCompanyDTO> resultLists;
-        String query = QUERYUTILS.getCFPcount(CFPCompanyDTO);
+        String query = QUERYUTILS.getCFPcount(cfpCompanyDto);
         query = query + "  order by  cfp.CFP_ID " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS FETCH NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<CFPCompanyDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
@@ -64,8 +64,8 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     @Override
-    public int getCompanyCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc) {
-        String query = QUERYUTILS.getCFPAttachedCompanies(CFPCompanyDTO);
+    public int getCompanyCount(CFPCompanyDTO cfpCompanyDto, BeanSearchCriteria bsc) {
+        String query = QUERYUTILS.getCFPAttachedCompanies(cfpCompanyDto);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         LOGGER.debug("getCompanyCount:::list.size() {} " , list.size());
         return list.size();
@@ -73,67 +73,67 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     @Override
-    public List getCompanydetails(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
+    public List getCompanydetails(CFPCompanyDTO cfpCompanyDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<CFPCompanyDTO> resultLists;
-        String query = QUERYUTILS.getCFPAttachedCompanies(CFPCompanyDTO);
+        String query = QUERYUTILS.getCFPAttachedCompanies(cfpCompanyDto);
         query = query + "  order by  cm.COMPANY_ID " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS FETCH NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<CFPCompanyDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
 
     @Override
-    public int getIFPCount(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc) {
+    public int getIFPCount(IFPItemDTO ifpItemDto, BeanSearchCriteria bsc) {
 
-        String query = QUERYUTILS.getIFPcount(IFPItemDTO);
+        String query = QUERYUTILS.getIFPcount(ifpItemDto);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list.size();
     }
 
     @Override
-    public List getIFPdetails(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
+    public List getIFPdetails(IFPItemDTO ifpItemDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<IFPItemDTO> resultLists;
-        String query = QUERYUTILS.getIFPcount(IFPItemDTO);
+        String query = QUERYUTILS.getIFPcount(ifpItemDto);
         query = query + "  order by  ifp.IFP_ID " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS  FETCH  NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<IFPItemDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
 
     @Override
-    public int getPSCount(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc) {
-        String query = QUERYUTILS.getPScount(PSIFPDTO);
+    public int getPSCount(PSIFPDTO psIfpDto, BeanSearchCriteria bsc) {
+        String query = QUERYUTILS.getPScount(psIfpDto);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         LOGGER.debug("getPSCount:::list.size() {} " , list.size());
         return list.size();
     }
 
     @Override
-    public List getPSdetails(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
+    public List getPSdetails(PSIFPDTO psifpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<PSIFPDTO> resultLists;
-        String query = QUERYUTILS.getPScount(PSIFPDTO);
+        String query = QUERYUTILS.getPScount(psifpDto);
         query = query + "  order by  ps.PS_ID " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "   ROWS FETCH NEXT  " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<PSIFPDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
 
     @Override
-    public int getRSCount(RsIfpDto RsIfpDto, BeanSearchCriteria bsc) {
-        String query = QUERYUTILS.getRScount(RsIfpDto);
+    public int getRSCount(RsIfpDto rsIfpDto, BeanSearchCriteria bsc) {
+        String query = QUERYUTILS.getRScount(rsIfpDto);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list.size();
     }
 
     @Override
-    public List getRsdetails(RsIfpDto RsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
+    public List getRsdetails(RsIfpDto rsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<RsIfpDto> resultLists;
-        String query = QUERYUTILS.getRScount(RsIfpDto);
+        String query = QUERYUTILS.getRScount(rsIfpDto);
         query = query + "  order by  rs.RS_ID " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS FETCH NEXT   " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<RsIfpDto>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
 
     @Override
-    public int getAttachedItemCount(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc) {
-        String query = QUERYUTILS.GetIFPAttachedItems(IFPItemDTO);
+    public int getAttachedItemCount(IFPItemDTO ifpItemDTO, BeanSearchCriteria bsc) {
+        String query = QUERYUTILS.getIfpAttachedItems(ifpItemDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         LOGGER.debug("getAttachedItemCount:::list.size() {} " , list.size());
         return list.size();
@@ -141,43 +141,43 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     @Override
-    public List getIFPItemdetails(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
+    public List getIFPItemdetails(IFPItemDTO ifpItemDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<IFPItemDTO> resultLists;
-        String query = QUERYUTILS.GetIFPAttachedItems(IFPItemDTO);
+        String query = QUERYUTILS.getIfpAttachedItems(ifpItemDTO);
         query = query + "  order by  im.ITEM_NO " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS FETCH  NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<IFPItemDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
 
     @Override
-    public int getPSAttachedItemCount(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc) {
-        String query = QUERYUTILS.getPSItemcount(PSIFPDTO);
+    public int getPSAttachedItemCount(PSIFPDTO psIfpDto, BeanSearchCriteria bsc) {
+        String query = QUERYUTILS.getPSItemcount(psIfpDto);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         LOGGER.debug("getPSAttachedItemCount:::list.size() {} " , list.size());
         return list.size();
     }
 
     @Override
-    public List getPSAttachedItemdetails(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
+    public List getPSAttachedItemdetails(PSIFPDTO psIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<PSIFPDTO> resultLists;
-        String query = QUERYUTILS.getPSItemcount(PSIFPDTO);
+        String query = QUERYUTILS.getPSItemcount(psIfpDto);
         query = query + "  order by im.ITEM_NO " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS  FETCH NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<PSIFPDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
 
     @Override
-    public int getRSAttachedItemCount(RsIfpDto RsIfpDto, BeanSearchCriteria bsc) {
-        String query = QUERYUTILS.getRSAttachedItems(RsIfpDto);
+    public int getRSAttachedItemCount(RsIfpDto rsIfpDto, BeanSearchCriteria bsc) {
+        String query = QUERYUTILS.getRSAttachedItems(rsIfpDto);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         LOGGER.debug("getRSAttachedItemCount:::list.size() {} " , list.size());
         return list.size();
     }
 
     @Override
-    public List getRsItemdetails(RsIfpDto RsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
+    public List getRsItemdetails(RsIfpDto rsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<RsIfpDto> resultLists;
-        String query = QUERYUTILS.getRSAttachedItems(RsIfpDto);
+        String query = QUERYUTILS.getRSAttachedItems(rsIfpDto);
         query = query + "  order by im.ITEM_NO " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS  FETCH NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<RsIfpDto>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;

@@ -597,13 +597,11 @@ public class FcpResults extends CustomComponent implements View {
      * Configure Result Table.
      */
     private void configureResultTable() {
-        CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-        CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
         fullHeader = new CustomTableHeaderDTO();
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         
-        leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, StringUtils.EMPTY);
+        CustomTableHeaderDTO leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, StringUtils.EMPTY);
         resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
@@ -911,8 +909,8 @@ public class FcpResults extends CustomComponent implements View {
         tempVariables = tempVariables.substring(1, tempVariables.length() - 1);
         HelperDTO helperDTO = (HelperDTO) therapeuticDdlb.getValue();
         String therapy = helperDTO.getDescription() + "," + helperDTO.getId();
-        HelperDTO DTO = (HelperDTO) brandDdlb.getValue();
-        String brand = DTO.getDescription() + "," + DTO.getId();
+        HelperDTO dto = (HelperDTO) brandDdlb.getValue();
+        String brand = dto.getDescription() + "," + dto.getId();
 
         map.put(Constant.HISTORY, historyDdlb.getValue() != null ? historyDdlb.getValue().toString() : Constant.SELECT_ONE);
         map.put("therapeutic", therapy);

@@ -8,6 +8,7 @@ package com.stpl.app.adminconsole.service;
 import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -36,7 +37,7 @@ public class AdminConsoleImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
     public static final String AND_SPM_MODULE_NAME_IN = " AND spm.MODULE_NAME in ('";
@@ -82,7 +83,7 @@ public class AdminConsoleImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -114,7 +115,7 @@ public class AdminConsoleImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
     
@@ -127,7 +128,7 @@ public class AdminConsoleImpl {
         } catch(Exception ex){
            LOGGER.error(ex.getMessage());
            LOGGER.error(query);
-           return null;           
+           return Collections.emptyList();           
         } 
         
     }
@@ -162,7 +163,7 @@ public class AdminConsoleImpl {
         return list;
     }
     public Object executeSelectQuery(List input, String queryName, String quaryName2) {
-        List<Object[]> returnList = new ArrayList<Object[]>();
+        List<Object[]> returnList = new ArrayList<>();
         try {
             if (queryName != null && !queryName.isEmpty()) {
                 StringBuilder sql = new StringBuilder(SQlUtil.getQuery(queryName));

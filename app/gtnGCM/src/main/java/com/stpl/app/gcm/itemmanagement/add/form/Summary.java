@@ -83,7 +83,7 @@ public class Summary extends CustomComponent {
     @UiField("brand")
     private TextField brand;
     @UiField("Contract Processing Dashboard")
-    private Panel ContractProcessingDashboard;
+    private Panel contractProcessingDashboard;
     @UiField("Add Trading Partner Results")
     private Panel addTradingPartnerResults;
     @UiField("lay")
@@ -93,13 +93,13 @@ public class Summary extends CustomComponent {
     @UiField("excelBtn")
     private Button excelBtn;
     @UiField("contractDashboardResults")
-    private Panel ContractDashboardResults;
+    private Panel contractDashboardResults;
     @UiField("contractDashboardLay")
     private VerticalLayout contractDashboardLay;
     private final Button remove1 = new Button("REMOVE");
     private final Button populate = new Button("POPULATE");
     @UiField("Component Details")
-    private Panel ComponentDetails;
+    private Panel componentDetails;
     @UiField("componentDetailsLay")
     private VerticalLayout componentDetailsLay;
     private final ItemDetailsTableLogic contractTableLogic = new ItemDetailsTableLogic();
@@ -108,10 +108,10 @@ public class Summary extends CustomComponent {
     private final FreezePagedTreeTable contractDashBoardtable = new FreezePagedTreeTable(contractDashboardTableLogic);
     private List<ItemIndexDto> selecteditemList;
     public static final Logger LOGGER = LoggerFactory.getLogger(Summary.class);
-    private final Object[] visibleColumn = {Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs"};
-    private final String[] columnHeader = {"Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", Constants.CFP, Constants.IFP, Constants.PS, Constants.RS};
-    private final Object[] contractDashBoardColumn = {"component", "id", "number", "name"};
-    private final String[] contractDashBoardHeader = {"Component", "ID", "Number", "Name"};
+    private static final Object[] VISIBLE_COLUMN = {Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs"};
+    private static final String[] COLUMN_HEADER = {"Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", Constants.CFP, Constants.IFP, Constants.PS, Constants.RS};
+    private static final Object[] CONTRACT_DASHBOARD_COLUMN = {"component", "id", "number", "name"};
+    private static final String[] CONTRACT_DASHBOARD_HEADER = {"Component", "ID", "Number", "Name"};
     private final ExtTreeContainer<ContractDashboardDTO> contractDashBoardContainer = new ExtTreeContainer<>(ContractDashboardDTO.class);
     private SelectionDTO selection;
     private ContractDashboardDTO componentInfoDTO = new ContractDashboardDTO();
@@ -212,8 +212,8 @@ public class Summary extends CustomComponent {
 
     Component ConfigureTable() {
         contractTableLogic.setContainerDataSource(contractContainer);
-        addContractTable.setVisibleColumns(visibleColumn);
-        addContractTable.setColumnHeaders(columnHeader);
+        addContractTable.setVisibleColumns(VISIBLE_COLUMN);
+        addContractTable.setColumnHeaders(COLUMN_HEADER);
         addContractTable.setFilterBarVisible(true);
         addContractTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         addContractTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
@@ -311,8 +311,8 @@ public class Summary extends CustomComponent {
         contractDashboardTableLogic.setContainerDataSource(contractDashBoardContainer);
         contractDashboardTableLogic.setPageLength(NumericConstants.FIVE);
         contractDashboardTableLogic.sinkItemPerPageWithPageLength(false);
-        leftTable.setVisibleColumns(contractDashBoardColumn);
-        leftTable.setColumnHeaders(contractDashBoardHeader);
+        leftTable.setVisibleColumns(CONTRACT_DASHBOARD_COLUMN);
+        leftTable.setColumnHeaders(CONTRACT_DASHBOARD_HEADER);
         leftTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         leftTable.setSelectable(true);
         HorizontalLayout horizontalLayout = new HorizontalLayout();

@@ -24,9 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.bpm.dto.WorkflowRuleDTO;
 import com.stpl.app.gtnforecasting.abstractforecast.AbstractForm;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.utils.AccrualRateUtils;
@@ -244,11 +241,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
                                     CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
                                 }
-                            } catch (SystemException ex) {
-                                LOGGER.error(ex.getMessage());
                             } catch (PortalException ex) {
-                                LOGGER.error(ex.getMessage());
-                            } catch (Exception ex) {
                                 LOGGER.error(ex.getMessage());
                             }
                         }
@@ -544,7 +537,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
     }
 
-    public void saveLogic(boolean onSave) throws SystemException, PortalException {
+    public void saveLogic(boolean onSave) throws PortalException {
 
         LOGGER.debug("Enters Save Logic");
         if ((AccrualRateUtils.ADD.equalsIgnoreCase(session.getAction()) && map.containsKey(Constant.IS_SALES_GENERATED) && map.containsKey(Constant.IS_RATES_GENERATED))
@@ -721,11 +714,9 @@ public class AccrualRateProjectionForm extends AbstractForm {
     /**
      * Submits the projection. Saves and calls the workflow
      */
-    private boolean submitProjection(final String notes, final String screenName, final List<NotesDTO> getUploadedData) throws SystemException, PortalException {
+    private boolean submitProjection(final String notes, final String screenName, final List<NotesDTO> getUploadedData) throws PortalException {
 
         NonMandatedLogic logic = new NonMandatedLogic();
-        Map<String, Object> params = new HashMap<>();
-        params.put("projectionId", session.getProjectionId());
         boolean workflowFlag = false;
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || "add".equalsIgnoreCase(session.getAction()) || session.getWorkflowId() != 0) {
 
@@ -742,7 +733,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                     } catch (Exception e) {
                         LOGGER.error(e.getMessage());
                     }
-                    String workflowId = submitProjToWorkflow(params, notes, screenName, getUploadedData);
+                    String workflowId = submitProjToWorkflow(notes, screenName, getUploadedData);
                     showSubmitNotification(workflowId);
                 } else {
                     StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
@@ -754,7 +745,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             } else {
                 saveLogic(false);
                 logic.deleteTempBySession();
-                String workflowId = submitProjToWorkflow(params, notes, screenName, getUploadedData);
+                String workflowId = submitProjToWorkflow(notes, screenName, getUploadedData);
                 showSubmitNotification(workflowId);
             }
         } else {
@@ -763,7 +754,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
         return workflowFlag;
     }
 
-    private String submitProjToWorkflow(Map<String, Object> params, final String notes, final String screenName, final List<NotesDTO> getUploadedData) {
+    private String submitProjToWorkflow(final String notes, final String screenName, final List<NotesDTO> getUploadedData) {
         String workflowId = "Not Saved";
         try {
             Long processId = 0L;

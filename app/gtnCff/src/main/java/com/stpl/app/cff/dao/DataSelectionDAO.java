@@ -37,7 +37,7 @@ public interface DataSelectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    CffViewMaster deleteForecastingViewMaster(int systemId) throws SystemException, PortalException;
+    CffViewMaster deleteForecastingViewMaster(int systemId) throws PortalException;
 
     /**
      * Gets the forecast view masterdynamic query count.
@@ -58,7 +58,7 @@ public interface DataSelectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    User getUser(Long systemId) throws SystemException, PortalException;
+    User getUser(Long systemId) throws PortalException;
 
     /**
      * Gets the item master.
@@ -109,7 +109,7 @@ public interface DataSelectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    CffViewMaster getForecastingViewMaster(int systemId) throws SystemException, PortalException;
+    CffViewMaster getForecastingViewMaster(int systemId) throws PortalException;
 
     /**
      * Adds the forecasting view master.
@@ -140,7 +140,7 @@ public interface DataSelectionDAO {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    ProjectionMaster getProjectionMaster(int systemId) throws PortalException, SystemException;
+    ProjectionMaster getProjectionMaster(int systemId) throws PortalException;
 
     /**
      * Update projection master.
@@ -151,7 +151,7 @@ public interface DataSelectionDAO {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    ProjectionMaster updateProjectionMaster(ProjectionMaster projectionMaster) throws PortalException, SystemException;
+    ProjectionMaster updateProjectionMaster(ProjectionMaster projectionMaster) throws SystemException;
 
     /**
      * Find by projection id_ projection cust details.
@@ -191,7 +191,7 @@ public interface DataSelectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    ProjectionProdDetails deleteProjectionProdDetailsById(int systemId) throws SystemException, PortalException;
+    ProjectionProdDetails deleteProjectionProdDetailsById(int systemId) throws PortalException;
 
     /**
      * Gets the brand master list.
@@ -325,13 +325,13 @@ public interface DataSelectionDAO {
 
     public Object tempOperation(final Map<String, Object> input, final String queryName) throws SystemException;
 
-    public int getRelationshipCount(DynamicQuery dynamicQuery) throws SystemException, PortalException;
+    public int getRelationshipCount(DynamicQuery dynamicQuery) throws PortalException;
 
-    public List getRelationship(DynamicQuery query) throws SystemException, PortalException;
+    public List getRelationship(DynamicQuery query) throws PortalException;
 
     public List<Object[]> getDiscounts(DynamicQuery dynamicQuery) throws SystemException;
 
     CffMaster addCffMaster(CffMaster cffMaster) throws SystemException;
 
-    public List getHelperTableList(DynamicQuery dynamicQuery) throws PortalException, SystemException;
+    public List getHelperTableList(DynamicQuery dynamicQuery) throws SystemException;
 }

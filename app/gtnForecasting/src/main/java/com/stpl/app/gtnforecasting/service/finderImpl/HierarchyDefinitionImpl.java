@@ -23,7 +23,7 @@ public class HierarchyDefinitionImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HierarchyDefinitionImpl.class);
 
-    public List getHierarchyGroup(final String HIERARCHY_NAME, final String hierarchyType, final String customerOrProduct, final String action) {
+    public List getHierarchyGroup(final String HIERARCHY_NAME, final String hierarchyType, final String customerOrProduct) {
         List list = new ArrayList();
 
         StringBuilder queryBuilder = new StringBuilder();

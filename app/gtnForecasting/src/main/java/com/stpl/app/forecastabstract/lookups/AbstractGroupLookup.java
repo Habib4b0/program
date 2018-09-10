@@ -5,7 +5,6 @@
  */
 package com.stpl.app.forecastabstract.lookups;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.logic.GroupSearchLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
@@ -166,7 +165,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 			public void buttonClick(Button.ClickEvent event) {
 				try {
 					btnSearchLogic();
-				} catch (PortalException | SystemException ex) {
+				} catch (SystemException ex) {
 					LOGGER.error(ex.getMessage());
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5039));
@@ -347,7 +346,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 	/**
 	 * Override this to customize search logic in the extending classes
 	 */
-	protected abstract void btnSearchLogic() throws PortalException, SystemException;
+	protected abstract void btnSearchLogic() throws SystemException;
 
 	/**
 	 * Override this to customize reset logic in the extending classes

@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsColumnDetailsConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.module.workflowinbox.constants.GtnWsWorkflowQueryContants;
 
 public class GtnWebServiceForecastingWorkflowSearchConfig implements GtnWsSearchQueryConfigLoader {
@@ -38,6 +39,8 @@ public class GtnWebServiceForecastingWorkflowSearchConfig implements GtnWsSearch
 		gtnWebServiceSearchQueryConfig.setSearchQuery(GtnWsWorkflowQueryContants.GTN_WF_FORECASTING_SEARCH_QUERY);
 		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
 		GtnWebServiceReturnWorkflowSearchConfig.addWorkflowSearchQueryConfig(fieldToColumnDetailsMap);
+		
+		addWorkflowStatus(fieldToColumnDetailsMap);
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		GtnWebServiceWorkflowSearchConfig.addWfDateColumnsInMap(configProvider, fieldToColumnDetailsMap);
 		GtnWebServiceArpWorkflowSearchConfig.addDetailsSearchFieldArpWorkflowInbox(fieldToColumnDetailsMap);
@@ -54,5 +57,16 @@ public class GtnWebServiceForecastingWorkflowSearchConfig implements GtnWsSearch
 
 		return searchQueryConfigMap;
 	}
+	
+	private void addWorkflowStatus(Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap) {
+        fieldToColumnDetailsMap.remove("status");
+        GtnWsColumnDetailsConfig userColumnConfig = new GtnWsColumnDetailsConfig();
+        userColumnConfig.setDbColumnName("WORKFLOW_STATUS_ID");
+        userColumnConfig.setDataType(GtnFrameworkWebserviceConstant.HELPER);
+        userColumnConfig.setTableAlias("WM");
+        userColumnConfig.setHelperTableAliasName("WM");
+        userColumnConfig.setHelperTableColumnName("WORKFLOW_STATUS_ID");
+        fieldToColumnDetailsMap.put("status", userColumnConfig);
+    } 
         
     }

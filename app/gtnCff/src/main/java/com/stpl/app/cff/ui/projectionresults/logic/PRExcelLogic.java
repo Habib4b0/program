@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -513,10 +514,10 @@ public class PRExcelLogic {
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             if(isTotal){
             String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[baseColumnFreq])) - 1);
-            commonColumn = monthName.toLowerCase() + obj[NumericConstants.THREE];
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.THREE];
             }else{
                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.SIX])) - 1);
-                commonColumn = monthName.toLowerCase() + obj[NumericConstants.FIVE]; 
+                commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.FIVE]; 
             }
         }
 
@@ -738,7 +739,7 @@ public class PRExcelLogic {
                         commonColumn = StringUtils.EMPTY + obj[isTotal ? 0 : baseColumnYrIndex];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
                         String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[isTotal ? 1 : NumericConstants.FOUR])) - 1);
-                        commonColumn = monthName.toLowerCase() + obj[isTotal ? 0 : NumericConstants.THREE];
+                        commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[isTotal ? 0 : NumericConstants.THREE];
                     }
 
                     column = commonColumn + Constants.LabelConstants.ACTUALS.getConstant();
@@ -825,7 +826,7 @@ public class PRExcelLogic {
                             commonColumn = StringUtils.EMPTY + obj[isTotal ? 0 : baseColumnYrIndex];
                         } else if (frequencyDivision == NumericConstants.TWELVE) {
                             String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[isTotal ? 1 : baseColumnBaseColumnIndex])) - 1);
-                            commonColumn = monthName.toLowerCase() + obj[isTotal ? 0 : baseColumnYrIndex];
+                            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[isTotal ? 0 : baseColumnYrIndex];
                         }
 
                        column = commonColumn + Constants.LabelConstants.ACTUALS.getConstant();
@@ -926,7 +927,7 @@ public class PRExcelLogic {
                             commonColumn = StringUtils.EMPTY + obj[isTotal ? 0 : baseColumnYrIndex];
                         } else if (frequencyDivision == NumericConstants.TWELVE) {
                             String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[isTotal ? 1 : baseColumnBaseColumnIndex])) - 1);
-                            commonColumn = monthName.toLowerCase() + obj[isTotal ? 0 : baseColumnYrIndex];
+                            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[isTotal ? 0 : baseColumnYrIndex];
                         }
 
                         column = commonColumn + Constants.LabelConstants.ACTUALS.getConstant();
@@ -1040,7 +1041,7 @@ public class PRExcelLogic {
                             commonColumn = StringUtils.EMPTY + obj[isTotal ? 0 : baseColumnYrIndex];
                         } else if (frequencyDivision == NumericConstants.TWELVE) {
                             String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[isTotal ? 1 : baseColumnBaseColumnIndex])) - 1);
-                            commonColumn = monthName.toLowerCase() + obj[isTotal ? 0 : baseColumnYrIndex];
+                            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[isTotal ? 0 : baseColumnYrIndex];
                         }
 
                        column = commonColumn + Constants.LabelConstants.ACTUALS.getConstant();
@@ -1170,7 +1171,7 @@ public class PRExcelLogic {
             List<String> periodList = new ArrayList<>(selection.getPeriodList());
             
             ProjectionResultsDTO freVarianceDTO = new ProjectionResultsDTO();
-            if (periodList.contains(pcommonColumn) || (frequencyDivision==NumericConstants.TWELVE && periodList.contains(pcommonColumn.toLowerCase()))) {
+            if (periodList.contains(pcommonColumn) || (frequencyDivision==NumericConstants.TWELVE && periodList.contains(pcommonColumn.toLowerCase(Locale.ENGLISH)))) {
                 periodList.remove(pcommonColumn);
                       
                 freVarianceDTO.setGroup(groupId);
@@ -1299,10 +1300,10 @@ public class PRExcelLogic {
        } else if (frequencyDivision == NumericConstants.TWELVE) {
            if (isTotal) {
                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])) - 1);
-               commonColumn = monthName.toLowerCase() + obj[NumericConstants.THREE];
+               commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.THREE];
            } else {
                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.SIX])) - 1);
-               commonColumn = monthName.toLowerCase() + obj[NumericConstants.FIVE];
+               commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.FIVE];
            }
        }
        Map<String, ProjectionResultsDTO> valueMap=null;
@@ -1417,10 +1418,10 @@ public class PRExcelLogic {
        } else if (frequencyDivision == NumericConstants.TWELVE) {
            if (isTotal) {
                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])) - 1);
-               commonColumn = monthName.toLowerCase() + obj[NumericConstants.THREE];
+               commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.THREE];
            } else {
                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.SIX])) - 1);
-               commonColumn = monthName.toLowerCase() + obj[NumericConstants.FIVE];
+               commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.FIVE];
            }
        }
         Map<String, ProjectionResultsDTO> valueMap = null;
@@ -1500,7 +1501,7 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
                     commonColumn = StringUtils.EMPTY + obj[1];
                 } else if (frequencyDivision == NumericConstants.TWELVE) {
                     String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])) - 1);
-                    commonColumn = monthName.toLowerCase() + obj[1];
+                    commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[1];
                 }
                 column = commonColumn + Constants.LabelConstants.ACTUALS.getConstant();
                   if( obj[NumericConstants.FOUR]==null){
@@ -1581,7 +1582,7 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
                     commonColumn = StringUtils.EMPTY + obj[1];
                 } else if (frequencyDivision == NumericConstants.TWELVE) {
                     String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])) - 1);
-                    commonColumn = monthName.toLowerCase() + obj[1];
+                    commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[1];
                 }
 
                 totalDiscDollar.setGroup(String.valueOf(obj[NumericConstants.THREE]));
@@ -1686,7 +1687,7 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
                     commonColumn = StringUtils.EMPTY + obj[1];
                 } else if (frequencyDivision == NumericConstants.TWELVE) {
                     String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])) - 1);
-                    commonColumn = monthName.toLowerCase() + obj[1];
+                    commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[1];
                 }
 
                 column = commonColumn + Constants.LabelConstants.ACTUALS.getConstant();
@@ -1914,10 +1915,10 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             if (istotal) {
                 String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])) - 1);
-                commonColumn = monthName.toLowerCase() + obj[1];
+                commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[1];
             } else {
                 String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])) - 1);
-                commonColumn = monthName.toLowerCase() + obj[NumericConstants.THREE];
+                commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.THREE];
             }
         }
         return commonColumn;

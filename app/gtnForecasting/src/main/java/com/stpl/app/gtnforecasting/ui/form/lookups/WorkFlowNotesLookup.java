@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
@@ -89,7 +90,6 @@ public class WorkFlowNotesLookup extends Window {
         this.notes = notes;
     }
 
-    private Receiver uploadReceiver;
     private Upload uploadComponent;
     private final TextField uploader = new TextField();
     private final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
@@ -99,7 +99,6 @@ public class WorkFlowNotesLookup extends Window {
     private String fileUploadPath;
     private final List<NotesDTO> removeDetailsList = new ArrayList<>();
     private final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
-    private boolean isFileRename;
     private NotesDTO tableBean = new NotesDTO();
     private static String SUBMIT_FLAG="";
 
@@ -137,7 +136,7 @@ public class WorkFlowNotesLookup extends Window {
         uploader.setStyleName(Constant.SEARCH_TEXT);
         uploader.setImmediate(true);
         uploader.setEnabled(false);
-        uploadReceiver = (Receiver) new FileUploader(StringUtils.EMPTY + "/" + userId);
+        Receiver uploadReceiver = (Receiver) new FileUploader(StringUtils.EMPTY + "/" + userId);
         uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
         fileUploadPath = FileUploader.FILE_PATH + StringUtils.EMPTY + "/" + userId + "/";
         uploadComponent.setButtonCaption(Constant.ADD);
@@ -311,7 +310,7 @@ public class WorkFlowNotesLookup extends Window {
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
                 File renameFileUpload = CommonUtil.getFilePath(fileUploadPath + name);
-                isFileRename=destFileUpload.renameTo(renameFileUpload);
+                boolean isFileRename=destFileUpload.renameTo(renameFileUpload);
                 LOGGER.info("File renamed successfully = {} ",isFileRename);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);
@@ -344,7 +343,7 @@ public class WorkFlowNotesLookup extends Window {
         try {
             String file = fileNameField.getValue();
             if (file.matches(ValidationUtils.SPECIAL_CHAR)) {
-                String filename = event.getFilename().toLowerCase();
+                String filename = event.getFilename().toLowerCase(Locale.ENGLISH);
                 if (event.getFilename().equals(StringUtils.EMPTY)) {
                     uploadComponent.interruptUpload();
                     AbstractNotificationUtils.getErrorNotification("No File Name", "Please Enter a valid File Name");
@@ -355,12 +354,7 @@ public class WorkFlowNotesLookup extends Window {
                     AbstractNotificationUtils.getErrorNotification("Invalid File", "File Not Supported");
                     uploader.setValue(StringUtils.EMPTY);
                     fileNameField.setValue(StringUtils.EMPTY);
-                } else if (fileExists(file)) {
-                    uploadComponent.interruptUpload();
-                    AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
-                    uploader.setValue(StringUtils.EMPTY);
-                    fileNameField.setValue(StringUtils.EMPTY);
-                } else if (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf('.')))) {
+                } else if (fileExists(file) ||( StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf('.'))))) {
                     uploadComponent.interruptUpload();
                     AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
                     uploader.setValue(StringUtils.EMPTY);
@@ -469,7 +463,7 @@ public class WorkFlowNotesLookup extends Window {
 		return SUBMIT_FLAG;
 	}
 
-	public static void setSUBMIT_FLAG(String sUBMIT_FLAG) {
-		SUBMIT_FLAG = sUBMIT_FLAG;
+	public static void setSUBMIT_FLAG(String sumbitFlag) {
+		SUBMIT_FLAG = sumbitFlag;
 	}
 }

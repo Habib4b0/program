@@ -86,7 +86,7 @@ public class RemoveContractSearch extends AbstractContractSearch {
 
     private void configureFields() {
         getContent();
-        MassUpdatePanel1.setVisible(BooleanConstant.getFalseFlag());
+        massUpdatePanelOne.setVisible(BooleanConstant.getFalseFlag());
         allItems.addItem("Yes");
         allItems.select("Yes");
         allItems.setEnabled(BooleanConstant.getFalseFlag());

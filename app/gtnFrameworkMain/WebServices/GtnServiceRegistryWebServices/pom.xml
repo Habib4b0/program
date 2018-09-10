@@ -23,6 +23,13 @@
 	</properties>
 	
   <dependencies>
+  <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt</artifactId>
+    <version>0.6.0</version>
+</dependency>
+  
    		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -94,5 +101,24 @@
   </dependencies>
   <build>
     <finalName>GtnServiceRegistryWebServices</finalName>
+    <plugins>
+      <plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.7.6.201602180812</version>
+			<configuration>
+				<destFile>${sonar.jacoco.reportPath}</destFile>
+				<append>true</append>
+			</configuration>
+			<executions>
+				<execution>
+					<id>agent</id>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+    </plugins>
   </build>
 </project>

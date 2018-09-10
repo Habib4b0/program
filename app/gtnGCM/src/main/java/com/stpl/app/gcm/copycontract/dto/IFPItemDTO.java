@@ -135,7 +135,7 @@ public class IFPItemDTO implements Serializable {
      */
     private Integer itemFamilyplanStatus = 0;
     
-     private Integer IFPtype = 0;
+     private Integer ifpType = 0;
     private String itemFamilyplanType = StringUtils.EMPTY;
 
     private String displayIFPStatus = StringUtils.EMPTY;
@@ -982,11 +982,11 @@ public class IFPItemDTO implements Serializable {
     }
 
     public Integer getIFPtype() {
-        return IFPtype;
+        return ifpType;
     }
 
-    public void setIFPtype(Integer IFPtype) {
-        this.IFPtype = IFPtype;
+    public void setIFPtype(Integer ifpType) {
+        this.ifpType = ifpType;
     }
 
 }

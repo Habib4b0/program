@@ -183,12 +183,7 @@ public class MSalesProjectionTableLogic extends PageTreeTableLogic {
             if (expandLevelNo >= levelNo) {
 
                 List<SalesRowDto> levelList = null;
-                try {
                     levelList = CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(projSelDTO.getScreenName()) ? salesLogic.getReturnsSalesResults(projSelDTO, 0, projSelDTO.getLevelCount()) : salesLogic.getSalesResults(projSelDTO, 0, projSelDTO.getLevelCount());
-
-                } catch (Exception ex) {
-                    LOGGER.error(ex.getMessage());
-                }
                 if (levelList != null) {
                     int size = levelList.size();
                     int index = count - size + 1;

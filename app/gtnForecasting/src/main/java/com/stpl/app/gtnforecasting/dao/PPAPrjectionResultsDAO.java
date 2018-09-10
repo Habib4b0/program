@@ -22,7 +22,7 @@ public interface PPAPrjectionResultsDAO {
  * @throws PortalException
  * @throws Exception 
  */
-    public void savePPAProjectionView(String indicater, String projectionId)throws SystemException, PortalException;
+    public void savePPAProjectionView(String indicater, String projectionId)throws PortalException;
 
     public List<Object[]> getPPAResultsData(Integer projectionId,int levelNo,String parent,boolean last,int startIndex,int endIndex,boolean isCount,List input,String levelName);
 

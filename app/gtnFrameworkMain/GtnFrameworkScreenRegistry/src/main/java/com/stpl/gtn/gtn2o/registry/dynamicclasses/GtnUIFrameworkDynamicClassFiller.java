@@ -1,8 +1,13 @@
 package com.stpl.gtn.gtn2o.registry.dynamicclasses;
 
+import com.stpl.gtn.gtn2o.registry.action.GtnCallForecastingAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnForecastingProductAvailableTableLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDateValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction;
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkConfigureRightTableHeaderForPTTCompoAction;
@@ -58,6 +63,16 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 				new GtnCustomerSelectionForecastLevelLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastInnerLevelLoadAction.class.getName(),
 				new GtnFrameworkForecastInnerLevelLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnCustomerAvailableTableLoadAction.class.getName(),
+				new GtnCustomerAvailableTableLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnForecastingProductAvailableTableLoadAction.class.getName(),
+				new GtnForecastingProductAvailableTableLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastDateValueChangeAction.class.getName(),
+				new GtnForecastEligibleDateLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnCallForecastingAction.class.getName(),
+				new GtnCallForecastingAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName(),
+				new GtnFrameworkNewToOldArchitectureGenerateAction());
 	}
 
 }

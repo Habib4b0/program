@@ -1128,7 +1128,7 @@ public class DPRQueryUtils {
 
             String forecastStartPeriod = StringUtils.EMPTY;
             String forecastEndPeriod = StringUtils.EMPTY;
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heYear = String.valueOf(startAndEndPeriods.get(NumericConstants.TWO));
@@ -1157,27 +1157,28 @@ public class DPRQueryUtils {
                 forecastEndPeriod = feYear + feMonth;
 
             }
+            String frequencyStringValue = StringUtils.EMPTY;
             if (frequency.equals(Constant.QUARTERLY)) {
-                frequency = Constant.QUARTER;
+                frequencyStringValue = Constant.QUARTER;
             }
             if (frequency.equals(ANNUALLY.getConstant())) {
-                frequency = "YEAR";
+                frequencyStringValue = "YEAR";
             }
             if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = Constant.SEMI_ANNUAL;
+                frequencyStringValue = Constant.SEMI_ANNUAL;
 
             }
             if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = Constant.MONTH_WITHOUT_SPACE;
+                frequencyStringValue = Constant.MONTH_WITHOUT_SPACE;
             }
             String projectionQuery;
             projectionQuery = "SELECT PR.YEAR,\n"
-                    + "       PR." + frequency + "             AS BASE,\n"
+                    + "       PR." + frequencyStringValue + "             AS BASE,\n"
                     + "       0.00                        AS ACTUAL_SALES,\n"
                     + "       0.00                        AS ACTUAL_DISCOUNT,\n"
                     + "       Max(NMDPM.PROJECTION_SALES)  AS PROJECTION_SALES,\n"
                     + "       Sum(NMDPM.PROJECTION_SALES) AS PROJECTION_DISCOUNT,\n"
-                    + "       PR." + frequency + ",\n"
+                    + "       PR." + frequencyStringValue + ",\n"
                     + "       PR.MONTH\n"
                     + "FROM   ST_CCP_HIERARCHY PD\n"
                     + "JOIN   ST_M_DISCOUNT_PROJECTION NMDPM ON NMDPM.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
@@ -1192,18 +1193,18 @@ public class DPRQueryUtils {
                     + "   AND Cast(PR.YEAR AS VARCHAR(4))\n"
                     + "       + RIGHT('0'+Cast(PR.MONTH AS VARCHAR), 2) <=" + forecastEndPeriod + "\n"
                     + "GROUP  BY PR.YEAR,\n"
-                    + PR + frequency + ",\n"
+                    + PR + frequencyStringValue + ",\n"
                     + "          PR.MONTH,\n"
                     + "          PD.CCP_DETAILS_SID \n"
                     + "\n"
                     + "UNION ALL \n"
                     + "SELECT    PR.YEAR,\n"
-                    + PR + frequency + "                 AS BASE,\n"
+                    + PR + frequencyStringValue + "                 AS BASE,\n"
                     + "          Max(NMADM.ACTUAL_SALES)                AS ACTUAL_SALES,\n"
                     + "          Sum(NMADM.ACTUAL_SALES)               AS ACTUAL_DISCOUNT,\n"
                     + "          Max(IsNull(NMSP.PROJECTION_SALES, 0)) AS PROJECTION_SALES,\n"
                     + "          Sum(IsNull(NMAS.ACTUAL_SALES, 0)) AS PROJECTION_DISCOUNT,\n"
-                    + PR + frequency + ",\n"
+                    + PR + frequencyStringValue + ",\n"
                     + "          PR.MONTH\n"
                     + "FROM      ST_CCP_HIERARCHY PD\n"
                     + "JOIN      ST_M_ACTUAL_DISCOUNT NMADM ON NMADM.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
@@ -1222,21 +1223,21 @@ public class DPRQueryUtils {
                     + "      AND Cast(PR.YEAR AS VARCHAR(4))\n"
                     + "          + RIGHT('0'+Cast(PR.MONTH AS VARCHAR), 2) <=" + endPeriod + "\n"
                     + "      GROUP     BY PR.YEAR,\n"
-                    + "             PR." + frequency + ",\n"
+                    + "             PR." + frequencyStringValue + ",\n"
                     + "             PR.MONTH,\n"
                     + "             PD.CCP_DETAILS_SID\n";
 
             if (view.equalsIgnoreCase(Constant.PARENT)) {
-                if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
+                if (frequencyStringValue.equals("YEAR") || frequencyStringValue.equals(Constant.MONTH_WITHOUT_SPACE)) {
                     projectionQuery = projectionQuery + "ORDER BY PR.YEAR";
                 } else {
-                    projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR." + frequency + "";
+                    projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR." + frequencyStringValue + "";
                 }
             } else {
-                if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
+                if (frequencyStringValue.equals("YEAR") || frequencyStringValue.equals(Constant.MONTH_WITHOUT_SPACE)) {
                     projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR";
                 } else {
-                    projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + "";
+                    projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequencyStringValue + "";
                 }
             }
 
@@ -1254,6 +1255,7 @@ public class DPRQueryUtils {
 
     public List getMandatedSupp2(List<Integer> discountprojectionId, String frequency, List<Integer> startAndEndPeriods,ProjectionSelectionDTO selection) {
         List list = new ArrayList();
+        String frequencyMandated = frequency;
         try {
 
             String idString;
@@ -1271,7 +1273,7 @@ public class DPRQueryUtils {
 
             String forecastStartPeriod = StringUtils.EMPTY;
             String forecastEndPeriod = StringUtils.EMPTY;
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heYear = String.valueOf(startAndEndPeriods.get(NumericConstants.TWO));
@@ -1300,28 +1302,28 @@ public class DPRQueryUtils {
                 forecastEndPeriod = feYear + feMonth;
 
             }
-            if (frequency.equals(Constant.QUARTERLY)) {
-                frequency = Constant.QUARTER;
+            if (frequencyMandated.equals(Constant.QUARTERLY)) {
+                frequencyMandated = Constant.QUARTER;
             }
-            if (frequency.equals(ANNUALLY.getConstant())) {
-                frequency = "YEAR";
+            if (frequencyMandated.equals(ANNUALLY.getConstant())) {
+                frequencyMandated = "YEAR";
             }
-            if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = Constant.SEMI_ANNUAL;
+            if (frequencyMandated.equals(SEMI_ANNUALLY.getConstant())) {
+                frequencyMandated = Constant.SEMI_ANNUAL;
 
             }
-            if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = Constant.MONTH_WITHOUT_SPACE;
+            if (frequencyMandated.equals(MONTHLY.getConstant())) {
+                frequencyMandated = Constant.MONTH_WITHOUT_SPACE;
             }
             String projectionQuery;
 
             projectionQuery = "SELECT PR.YEAR,\n"
-                    + "    PR." + frequency + "            AS BASE,\n"
+                    + "    PR." + frequencyMandated + "            AS BASE,\n"
                     + "       0.00                        AS ACTUAL_SALES,\n"
                     + "       0.00                        AS ACTUAL_DISCOUNT,\n"
                     + "       Max(NMDPM.PROJECTION_SALES)  AS PROJECTION_SALES,\n"
                     + "       Sum(NMDPM.PROJECTION_SALES) AS PROJECTION_DISCOUNT,\n"
-                    + "    PR." + frequency + ",\n"
+                    + "    PR." + frequencyMandated + ",\n"
                     + "       PR.MONTH\n"
                     + "FROM   ST_CCP_HIERARCHY PD\n"
                     + "JOIN   ST_M_SUPPLEMENTAL_DISC_PROJ NMDPM ON NMDPM.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
@@ -1336,19 +1338,19 @@ public class DPRQueryUtils {
                     + "   AND Cast(PR.YEAR AS VARCHAR(4))\n"
                     + "       + RIGHT('0'+Cast(PR.MONTH AS VARCHAR), 2) <=" + forecastEndPeriod + "\n"
                     + "GROUP  BY PR.YEAR,\n"
-                    + PR + frequency + ",\n"
+                    + PR + frequencyMandated + ",\n"
                     + "          PR.MONTH,\n"
                     + "          PD.CCP_DETAILS_SID \n"
                     + "\n"
                     + "UNION ALL\n"
                     + "SELECT    PR.YEAR,\n"
-                    + PR + frequency + "                            AS BASE,\n"
+                    + PR + frequencyMandated + "                            AS BASE,\n"
                     + "          Max(NMADM.ACTUAL_SALES)                AS ACTUAL_SALES,\n"
                     + "          Sum(NMADM.ACTUAL_SALES)               AS ACTUAL_DISCOUNT,\n"
                     + "          Max(IsNull(NMDP.PROJECTION_SALES, 0)) AS PROJECTION_SALES,\n"
                     + "          Sum(IsNull(NMDP.PROJECTION_SALES, 0)) AS PROJECTION_DISCOUNT"
                     + ",\n"
-                    + PR + frequency + ",\n"
+                    + PR + frequencyMandated + ",\n"
                     + "          PR.MONTH\n"
                     + "  FROM      ST_CCP_HIERARCHY PD\n"
                     + "JOIN      ST_M_SUPPLEMENTAL_DISC_ACTUALS NMADM ON NMADM.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
@@ -1369,7 +1371,7 @@ public class DPRQueryUtils {
                     + "      AND Cast(PR.YEAR AS VARCHAR(4))\n"
                     + "          + RIGHT('0'+Cast(PR.MONTH AS VARCHAR), 2) <=" + endPeriod + "\n"
                     + "      GROUP     BY PR.YEAR,\n"
-                    + "             PR." + frequency + ",\n"
+                    + "             PR." + frequencyMandated + ",\n"
                     + "             PR.MONTH,\n"
                     + "             PD.CCP_DETAILS_SID\n";
 
@@ -1387,24 +1389,25 @@ public class DPRQueryUtils {
 
     public List getMandatedTotal(String frequency, ProjectionSelectionDTO projSelDTO) {
         List list;
+        String frequencyMan = frequency;
         try {
 
-            if (frequency.equals(Constant.QUARTERLY)) {
-                frequency = Constant.QUARTER;
+            if (frequencyMan.equals(Constant.QUARTERLY)) {
+                frequencyMan = Constant.QUARTER;
             }
-            if (frequency.equals(ANNUALLY.getConstant())) {
-                frequency = "YEAR";
+            if (frequencyMan.equals(ANNUALLY.getConstant())) {
+                frequencyMan = "YEAR";
             }
-            if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = Constant.SEMI_ANNUAL;
+            if (frequencyMan.equals(SEMI_ANNUALLY.getConstant())) {
+                frequencyMan = Constant.SEMI_ANNUAL;
 
             }
-            if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = Constant.MONTH_WITHOUT_SPACE;
+            if (frequencyMan.equals(MONTHLY.getConstant())) {
+                frequencyMan = Constant.MONTH_WITHOUT_SPACE;
             }
 
             String str = "SELECT PR.YEAR, \n"
-                    + "        PR." + frequency + " AS BASE,\n"
+                    + "        PR." + frequencyMan + " AS BASE,\n"
                     + "      \n"
                     + "sum(SUPMAS.ACTUAL_SALES) As Actual_Sale,\n"
                     + "Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(m_mas.ACTUAL_SALES),0),0)*100       AS  Disc_Rate,\n"
@@ -1427,12 +1430,12 @@ public class DPRQueryUtils {
                     + ""
                     + "\n"
                     + " GROUP  BY PR.YEAR,\n"
-                    + "           PR." + frequency + "\n"
+                    + "           PR." + frequencyMan + "\n"
                     + "\n"
                     + "\n"
                     + " UNION ALL\n"
                     + " SELECT    PR.YEAR,\n"
-                    + "           PR." + frequency + "                            AS BASE,\n"
+                    + "           PR." + frequencyMan + "                            AS BASE,\n"
                     + "sum(SUPMAS.PROJECTION_SALES) As Proj_Sale,\n"
                     + " Coalesce(Sum(SUPMAS.PROJECTION_SALES)/Nullif(Sum(m_mas.PROJECTION_SALES),0),0)*100       AS  Disc_Rate,\n"
                     + "  '1' As Flag,\n"
@@ -1454,10 +1457,10 @@ public class DPRQueryUtils {
                     + " and m_mac.CCP_DETAILS_SID=pd.CCP_DETAILS_SID\n"
                     + "\n"
                     + "       GROUP     BY PR.YEAR,\n"
-                    + "              PR." + frequency + "\n"
+                    + "              PR." + frequencyMan + "\n"
                     + "\n";
-            if (!frequency.equals("YEAR")) {
-                str += " ORDER BY PR.YEAR,PR." + frequency + "";
+            if (!frequencyMan.equals("YEAR")) {
+                str += " ORDER BY PR.YEAR,PR." + frequencyMan + "";
             } else {
                 str += " ORDER BY PR.YEAR";
             }
@@ -1476,6 +1479,7 @@ public class DPRQueryUtils {
 
     public List getSuppTotal(List<Integer> discountprojectionId, String frequency, ProjectionSelectionDTO projSelDTO) {
         List list = new ArrayList();
+        String frequencySuppTotal = frequency;
         try {
 
             String idString;
@@ -1488,22 +1492,22 @@ public class DPRQueryUtils {
                 }
             }
             idString = idStringBuilder.toString();
-            if (frequency.equals(Constant.QUARTERLY)) {
-                frequency = Constant.QUARTER;
+            if (frequencySuppTotal.equals(Constant.QUARTERLY)) {
+                frequencySuppTotal = Constant.QUARTER;
             }
-            if (frequency.equals(ANNUALLY.getConstant())) {
-                frequency = "YEAR";
+            if (frequencySuppTotal.equals(ANNUALLY.getConstant())) {
+                frequencySuppTotal = "YEAR";
             }
-            if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = Constant.SEMI_ANNUAL;
+            if (frequencySuppTotal.equals(SEMI_ANNUALLY.getConstant())) {
+                frequencySuppTotal = Constant.SEMI_ANNUAL;
 
             }
-            if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = Constant.MONTH_WITHOUT_SPACE;
+            if (frequencySuppTotal.equals(MONTHLY.getConstant())) {
+                frequencySuppTotal = Constant.MONTH_WITHOUT_SPACE;
             }
 
             String str = "SELECT PR.YEAR ,\n"
-                    + " PR." + frequency + "  AS BASE,\n"
+                    + " PR." + frequencySuppTotal + "  AS BASE,\n"
                     + "  SUM(STPROJ.PROJECTION_SALES)  AS PROJECTION_SALES,\n"
                     + "Coalesce(Sum(STPROJ.PROJECTION_SALES)/Nullif(Sum(STMSP.PROJECTION_SALES),0),0)*100       AS ProJ_Rate,\n"
                     + "      1  AS Flag,Coalesce(Sum(STPROJ.PROJECTION_SALES)/Nullif(Sum(STMSP.PROJECTION_UNITS),0),0) AS RPU  FROM ST_M_SUPPLEMENTAL_DISC_PROJ STPROJ,\n"
@@ -1518,11 +1522,11 @@ public class DPRQueryUtils {
                     + "AND STMSP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
                     + "AND STMSP.PERIOD_SID=PR.PERIOD_SID\n"
                     + "AND STMSPM.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
-                    + " GROUP BY PR.YEAR,PR." + frequency + "\n"
+                    + " GROUP BY PR.YEAR,PR." + frequencySuppTotal + "\n"
                     + "UNION ALL\n"
                     + "\n"
                     + " SELECT PR.YEAR,\n"
-                    + "         PR." + frequency + "            AS BASE,\n"
+                    + "         PR." + frequencySuppTotal + "            AS BASE,\n"
                     + "\n"
                     + "         SUM(STPROJ.ACTUAL_SALES)  AS PROJECTION_SALES,\n"
                     + "Coalesce(Sum(STPROJ.ACTUAL_SALES)/Nullif(Sum(STMAS.ACTUAL_SALES),0),0)*100       AS Actual_Rate,\n"
@@ -1539,10 +1543,10 @@ public class DPRQueryUtils {
                     + "AND STMAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
                     + "AND STMAS.PERIOD_SID=PR.PERIOD_SID\n"
                     + "AND STMSPM.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
-                    + "  GROUP BY PR.YEAR,PR." + frequency + "\n";
+                    + "  GROUP BY PR.YEAR,PR." + frequencySuppTotal + "\n";
 
-            if (!frequency.equals("YEAR")) {
-                str += " ORDER BY PR.YEAR,PR." + frequency + "";
+            if (!frequencySuppTotal.equals("YEAR")) {
+                str += " ORDER BY PR.YEAR,PR." + frequencySuppTotal + "";
             } else {
                 str += " ORDER BY PR.YEAR";
             }

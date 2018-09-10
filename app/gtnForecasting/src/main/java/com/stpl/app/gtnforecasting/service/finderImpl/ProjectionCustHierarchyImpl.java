@@ -22,10 +22,7 @@ public class ProjectionCustHierarchyImpl {
     public List getComparisonSearch(String workflowStatus, String marketType, String brand,
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
             String from, String to) {
-        char QUOTES = '\'';
-        String ASTERIK = "*";
-        String PERCENT = "%";
-        String workflowStatusVal;
+        char quotes = '\'';
         String marketTypeVal;
         String brandVal;
         String projNameVal;
@@ -34,8 +31,6 @@ public class ProjectionCustHierarchyImpl {
         String ndcNameVal;
         String descVal;
         String contractVal;
-        String fromVal;
-        String toVal;
         boolean isProjectionStatus = false;
         StringBuilder customSql = new StringBuilder();
         try {
@@ -53,62 +48,62 @@ public class ProjectionCustHierarchyImpl {
                 marketTypeVal = "'%'";
             } else {
                 marketTypeVal = marketType.replace('*', '%');
-                marketTypeVal = QUOTES + marketTypeVal + QUOTES;
+                marketTypeVal = quotes + marketTypeVal + quotes;
             }
             customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE " ).append( marketTypeVal ).append( ')');
             if (brand == null || brand.equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
                 brandVal = brand.replace('*', '%');
-                brandVal = QUOTES + brandVal + QUOTES;
+                brandVal = quotes + brandVal + quotes;
             }
             customSql.append("  AND (BM.BRAND_NAME LIKE " ).append( brandVal ).append( " or BM.BRAND_NAME is null)");
             if (projName == null || projName.equals(StringUtils.EMPTY)) {
                 projNameVal = "'%'";
             } else {
                 projNameVal = projName.replace('*', '%');
-                projNameVal = QUOTES + projNameVal + QUOTES;
+                projNameVal = quotes + projNameVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_NAME LIKE " ).append( projNameVal ).append( " or PM.PROJECTION_NAME is null)");
             if (contHldr == null || contHldr.equals(StringUtils.EMPTY)) {
                 contHldrVal = "'%'";
             } else {
                 contHldrVal = contHldr.replace('*', '%');
-                contHldrVal = QUOTES + contHldrVal + QUOTES;
+                contHldrVal = quotes + contHldrVal + quotes;
             }
             customSql.append("AND (C.CONTRACT_NO LIKE " ).append( contHldrVal ).append( " or C.CONTRACT_NO is null)");
             if (ndcName == null || ndcName.equals(StringUtils.EMPTY)) {
                 ndcNameVal = "'%'";
             } else {
                 ndcNameVal = ndcName.replace('*', '%');
-                ndcNameVal = QUOTES + ndcNameVal + QUOTES;
+                ndcNameVal = quotes + ndcNameVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NAME LIKE " ).append( ndcNameVal ).append( " or IM.ITEM_NAME is null)");
             if (ndcNo == null || ndcNo.equals(StringUtils.EMPTY)) {
                 ndcNoVal = "'%'";
             } else {
                 ndcNoVal = ndcNo.replace('*', '%');
-                ndcNoVal = QUOTES + ndcNoVal + QUOTES;
+                ndcNoVal = quotes + ndcNoVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NO LIKE " ).append( ndcNoVal ).append( "or IM.ITEM_NO is null)");
             if (contract == null || contract.equals(StringUtils.EMPTY)) {
                 contractVal = "'%'";
             } else {
                 contractVal = contract.replace('*', '%');
-                contractVal = QUOTES + contractVal + QUOTES;
+                contractVal = quotes + contractVal + quotes;
             }
             customSql.append("AND (CM.COMPANY_NO LIKE " ).append( contractVal ).append( "or CM.COMPANY_NO is null)");
             if (desc == null || desc.equals(StringUtils.EMPTY)) {
                 descVal = "'%'";
             } else {
                 descVal = desc.replace('*', '%');
-                descVal = QUOTES + descVal + QUOTES;
+                descVal = quotes + descVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_NAME LIKE " ).append( descVal ).append( "or PM.PROJECTION_NAME is null)");
             if (isProjectionStatus) {
                 customSql.append("and pm.is_approved not in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " ).append( QUOTES ).append( workflowStatus ).append( QUOTES);
+                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " ).append( quotes ).append( workflowStatus ).append( quotes);
             }
             if (from != null && to != null && !StringUtils.isEmpty(to) && !StringUtils.isEmpty(from) && !"null".equals(from) 
                      && !"null".equals(to) ) {

@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.logic;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
@@ -166,7 +165,7 @@ public class FcpResultsLogic {
             if (fcpList != null) {
                 projDTOList = getCustomizedFcp(fcpList);
             }
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getFcp method ends ");
@@ -188,7 +187,7 @@ public class FcpResultsLogic {
             } else {
                 projDTOList = getCustPivotFcpChild(fcpList, projSelDTO);
             }
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getFcpChild method ends ");
@@ -556,7 +555,7 @@ public class FcpResultsLogic {
             if (nonFampList != null) {
                 projDTOList = getCustomizedNonFamp(nonFampList, projSelDTO);
             }
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getNonFamp method ends ");
@@ -775,7 +774,7 @@ public class FcpResultsLogic {
             Map<String, String> priceTypeList = queryUtil.getFcpPriceTypeNameDynamic("FCP");
             projDTOList = getCustFcpWorksheetChild(projSelDTO, fcpQtrList, fcpYearlist, priceTypeList);
 
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getFcpWorksheetChild method ends ");
@@ -858,7 +857,7 @@ public class FcpResultsLogic {
             List<Object[]> fcpYearlist = queryUtil.loadFCPWorksheet(session, ndcSid, true, projSelDTO.isAdjust());
             Map<String, String> priceTypeList = queryUtil.getFcpPriceTypeNameDynamic("FCP");
             projDTOList = getCustomizedFcpWorksheet(projSelDTO, fcpQtrList, fcpYearlist, priceTypeList);
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getFcpWorksheet method ends ");
@@ -948,8 +947,8 @@ public class FcpResultsLogic {
         DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
-            String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            String dataSourceContext = "java:jboss/datasources/jdbc/appDataPool";
+            datasource = (DataSource) initialContext.lookup(dataSourceContext);
         } catch (NamingException ex)
         {
             LOGGER.debug(ex.getMessage());

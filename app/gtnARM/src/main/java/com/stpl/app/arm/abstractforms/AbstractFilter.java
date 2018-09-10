@@ -160,36 +160,12 @@ public class AbstractFilter {
                                 String initial;
                                 initial = "where ( ( * LIKE '?' )";
                                 StringBuilder temp = new StringBuilder(initial);
-                                String filterVal;
-                                if (stringFilter.getFilterString().contains("%")) {
-                                    filterVal = "[" + stringFilter.getFilterString() + "]";
-                                } else {
-                                    filterVal = stringFilter.getFilterString();
-                                }
-                                String filterString;
-                                if (ARMUtils.ADJUSTMENT_CONFIG_CONSTANTS.METHODOLOGY.getPropertyId().equals(stringFilter.getPropertyId().toString())
-                                        && "0".equals(filterVal)) {
-                                    filterString = "%";
-                                } else {
-                                    filterString = "%" + filterVal + "%";
-                                }
+                                String filterString = getFilterVal(stringFilter);
                                 temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                                 temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, filterString);
                                 sql.append(temp);
                             } else {
-                                String filterVal;
-                                if (stringFilter.getFilterString().contains("%")) {
-                                    filterVal = "[" + stringFilter.getFilterString() + "]";
-                                } else {
-                                    filterVal = stringFilter.getFilterString();
-                                }
-                                String filterString;
-                                if (ARMUtils.ADJUSTMENT_CONFIG_CONSTANTS.METHODOLOGY.getPropertyId().equals(stringFilter.getPropertyId().toString())
-                                        && "0".equals(filterVal)) {
-                                    filterString = "%";
-                                } else {
-                                    filterString = "%" + filterVal + "%";
-                                }
+                                String filterString = getFilterVal(stringFilter);
                                 StringBuilder temp = new StringBuilder(str);
                                 temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                                 temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
@@ -258,13 +234,30 @@ public class AbstractFilter {
 
                 }
                 if (sql.length() != 0) {
-                    sql.append(")");
+                    sql.append(ARMUtils.CLOSE_BRACES);
                 }
             }
         } catch (Exception ex) {
             LOGGER.error("Error in filterQueryGenerator :", ex);
         }
         return sql;
+    }
+
+    private String getFilterVal(SimpleStringFilter stringFilter) {
+        String filterVal;
+        if (stringFilter.getFilterString().contains("%")) {
+            filterVal = "[" + stringFilter.getFilterString() + "]";
+        } else {
+            filterVal = stringFilter.getFilterString();
+        }
+        String filterString;
+        if (ARMUtils.ADJUSTMENT_CONFIG_CONSTANTS.METHODOLOGY.getPropertyId().equals(stringFilter.getPropertyId().toString())
+                && "0".equals(filterVal)) {
+            filterString = "%";
+        } else {
+            filterString = "%" + filterVal + "%";
+        }
+        return filterString;
     }
 
     public StringBuilder orderByQueryGenerator(List<SortByColumn> orderByColumns, Map<String, String> orderMap) {

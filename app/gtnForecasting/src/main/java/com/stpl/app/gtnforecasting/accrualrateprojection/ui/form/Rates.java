@@ -100,8 +100,6 @@ public class Rates extends CustomComponent {
 
     private CustomTableHeaderDTO tableHeaderDTO;
 
-    private ExtContainer<AccrualRateProjectionDTO> resultBeanContainer;
-
     private static final ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
 
     private final AccrualRateProjectionLogic accrualRateProjectionLogic = AccrualRateProjectionLogic.getInstance();
@@ -220,7 +218,7 @@ public class Rates extends CustomComponent {
         leftTable.setSortEnabled(false);
         tableLogic.sinkItemPerPageWithPageLength(false);
         tableLogic.setPageLength(NumericConstants.TEN);
-        resultBeanContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
+        ExtContainer<AccrualRateProjectionDTO> resultBeanContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
         tableLogic.setContainerDataSource(resultBeanContainer);
         resultBeanContainer.setRecordHeader(tableHeaderDTO.getSingleColumns());
         resultBeanContainer.setColumnProperties(tableHeaderDTO.getProperties());

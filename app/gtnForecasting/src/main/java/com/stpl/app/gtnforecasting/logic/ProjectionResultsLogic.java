@@ -825,16 +825,17 @@ public class ProjectionResultsLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
+        String val;
         if (value.contains(Constant.NULL)) {
-            value = DASH.getConstant();
+            val = DASH.getConstant();
         } else {
             Double newValue = Double.valueOf(value);
             if (decFormat.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = decFormat.format(newValue);
+            val = decFormat.format(newValue);
         }
-        return value;
+        return val;
     }
 
     public void getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
@@ -1508,11 +1509,12 @@ public class ProjectionResultsLogic {
 
     public List<ProjectionResultsDTO> configureLevels(int start, int offset, int started, ProjectionSelectionDTO projSelDTO) {
         int neededRecord = offset;
+        int startedLevel = started;
         List<ProjectionResultsDTO> resultList = new ArrayList<>();
         if (neededRecord > 0) {
             List<Leveldto> levelList = CommonLogic.getConditionalLevelList(projSelDTO.getProjectionId(), StringUtils.EMPTY, start, offset, projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), projSelDTO.getHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.isIsFilter(), false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO.getGroupFilter(), projSelDTO.getUserId(), projSelDTO.getSessionId(), projSelDTO.getCustRelationshipBuilderSid(), projSelDTO.getProdRelationshipBuilderSid(), false, true, projSelDTO.getDiscountNoList(),projSelDTO);
             for (int i = 0; i < levelList.size() && neededRecord > 0; neededRecord--, i++) {
-                if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
+                if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (startedLevel + i))) {
 
                     Leveldto levelDto = levelList.get(i);
                     ProjectionResultsDTO dto = new ProjectionResultsDTO();
@@ -1534,7 +1536,7 @@ public class ProjectionResultsLogic {
                     dto.setParent(1);
                     resultList.add(dto);
                 }
-                started++;
+                startedLevel++;
             }
         }
         return resultList;

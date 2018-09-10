@@ -346,7 +346,7 @@ public class RelationshipOutboundProcess extends Window {
 
     }
 
-    public void createWorkSheet(String csvName, String checkedIds, boolean isCheckAll) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheet(String csvName, String checkedIds, boolean isCheckAll) throws PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount;
         try {
             if (isCheckAll) {

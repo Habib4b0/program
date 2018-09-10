@@ -30,7 +30,7 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
      */
     @Override
     public List getContractHolderSummary(int projectionId, String indicator, List<Integer> comparisonProjections, String frequency,
-            String level, String discountLevel) throws SystemException, PortalException {
+            String level, String discountLevel) throws PortalException {
 
         return Collections.emptyList();
     }
@@ -51,10 +51,8 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
      */
     @Override
     public List generateProjectionVariance(int projectionId, String indicator,
-            List<Integer> comparisonProjections, String frequency, String level, String discountLevel, int levelNo, String sales, List<Integer> periods, ProjectionSelectionDTO projSelDTO) throws SystemException,
-            PortalException{
+            List<Integer> comparisonProjections, String frequency, String level, String discountLevel, int levelNo, String sales, List<Integer> periods, ProjectionSelectionDTO projSelDTO) throws PortalException{
         List resuList = new ArrayList();
-        // TODO Auto-generated method stub
         return resuList;
     }
 
@@ -75,9 +73,8 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
     @Override
     public List<ProjectionVarianceDTO> generatePivotProjectionVariance(int projectionId, String indicator,
             List<Integer> comparisonProjections, String frequency, String level, String discountLevel)
-            throws SystemException, PortalException{
+            throws PortalException{
 
-        // TODO Auto-generated method stub
         return Collections.emptyList();
     }
 
@@ -103,7 +100,7 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
     @Override
     public List searchForProjections(String workflowStatus, String marketType, String brand,
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
-            String from, String to) throws SystemException, PortalException{
+            String from, String to) throws PortalException{
 
         List list = new ProjectionCustHierarchyImpl().getComparisonSearch(workflowStatus, marketType, brand, projName, contHldr, ndcNo, ndcName, desc, contract, from, to);
         return list;
@@ -122,7 +119,7 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
 
     @Override
     public List getPVResultsSales(int projectionId, String frequency, List<Integer> periods, String actualsOrProjections, String parentName, String year, int levelNo, String sales) {
-        return new NmSalesProjectionImpl().getVarianceSales(projectionId, frequency, periods, actualsOrProjections, parentName, year, levelNo, sales);
+        return new NmSalesProjectionImpl().getVarianceSales(projectionId, frequency, periods, parentName, year, levelNo, sales);
     }
 
     @Override

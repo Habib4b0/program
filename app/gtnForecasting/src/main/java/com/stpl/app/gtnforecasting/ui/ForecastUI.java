@@ -33,6 +33,7 @@ import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionUtil;
+import com.stpl.app.gtnforecasting.ui.form.DataSelectionForm;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
@@ -182,7 +183,6 @@ public class ForecastUI extends UI {
                 sessionDto.setProjectionId(Integer.parseInt(projectionId));
                 RelationShipFilterLogic logic = RelationShipFilterLogic.getInstance();
                 ProjectionMaster temp = dataSelectionDao.getProjectionMaster(Integer.parseInt(projectionId));
-                String projectionName = StringUtils.EMPTY;
                 if (!getReturnsConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                     int hierarchySid = Integer.parseInt(temp.getCustomerHierarchySid());
                     sessionDto.setCustomerDescription(
@@ -193,7 +193,7 @@ public class ForecastUI extends UI {
                 sessionDto.setProductDescription(
                         logic.getLevelValueMap(temp.getProdRelationshipBuilderSid(), hierarchySid,
                                 temp.getProductHierVersionNo(), temp.getProjectionProdVersionNo()));
-                projectionName = temp.getProjectionName();
+                String projectionName = temp.getProjectionName();
                 sessionDto.setWorkflowId(Integer.parseInt(workflowId));
                 sessionDto.setWorkflowStatus(workflowStatus);
                 sessionDto.setWorkflowUserType(userType);
@@ -263,7 +263,11 @@ public class ForecastUI extends UI {
                                     dsLogic.getLevelValueDetails(sessionDto, dto.getProdRelationshipBuilderSid(), false));
                             Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
                             sessionDto.setDedRelationshipBuilderSid(obj[0].toString());
-                        }
+                            List<Object[]> dataList=new CommonLogic().getCustomViewSids(Integer.parseInt(projectionId));
+                            
+                            sessionDto.setCustomRelationShipSid(dataList!=null && !dataList.isEmpty()&&  dataList.get(0)[0]!=null? Integer.parseInt(String.valueOf(dataList.get(0)[0])) : 0);
+                            sessionDto.setCustomDeductionRelationShipSid(dataList!=null && !dataList.isEmpty() &&dataList.get(0)[1]!=null ? Integer.parseInt(String.valueOf(dataList.get(0)[1])) : 0);
+                            }
                         editWindow = new ForecastEditWindow(projectionName, sessionDto, null, screenName, null);
                     } else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
                         DSLogic dSLogic = new DSLogic();
@@ -374,8 +378,8 @@ public class ForecastUI extends UI {
 		return EXCEL_CLOSE;
 	}
 
-	public static void setEXCEL_CLOSE(boolean eXCEL_CLOSE) {
-		EXCEL_CLOSE = eXCEL_CLOSE;
+	public static void setEXCEL_CLOSE(boolean excelClose) {
+		EXCEL_CLOSE = excelClose;
 	}
 
     private String getDeductionCaptionWithSid(Object deductionValue,SessionDTO session) {
@@ -385,6 +389,43 @@ public class ForecastUI extends UI {
             levelCaption.put(String.valueOf(strings[0]), String.valueOf(strings[1]));
         }
      return levelCaption.get(String.valueOf(deductionValue));
+    }
+    
+    public void getContentForecasting(String userId,String sessionId,List<Object> actionParamList) {
+        LOGGER.info("getContentForecasting------------------------------------------");
+//        Navigator navigator = new Navigator(this, this);
+//        VaadinRequest vaadinRequest = VaadinService.getCurrentRequest();
+////        getCurrent().getUI().
+////		GtnUIFrameworkRootConfig rootConfig = new GtnFrameworkCommercialForecastingConfig().getForecastingRootConfig();
+//		GtnUIFrameworkRootConfig rootConfig = new GtnFrameworkCommercialForecastingConfig().getForecastingRootConfig();
+//		GtnUIForecastingFrameworkEngine frameworkEngine = new GtnUIForecastingFrameworkEngine();
+////                GtnUIFrameworkView currentVaddinView = new GtnUIFrameworkView(rootConfig.getGtnViewConfigList().get(0));
+//		frameworkEngine.buildVaadinScreen(rootConfig, navigator, vaadinRequest, this, "Commercial Forecasting DS",
+//				new GtnUIFrameworkDynamicClassFiller());
+//                LOGGER.info("component------------>" +frameworkEngine.getLayout());
+//                LOGGER.info("component-----***------->" +navigator.getUI());
+////                navigator.getDisplay().showView(view);
+////               GtnUIFrameworkView view =  (GtnUIFrameworkView)navigator.getUI().getContent();
+////               List<GtnUIFrameworkComponentConfig> configList = view.getGtnComponentList();
+////               LOGGER.info("getContentForecasting---------------%%%%%%%%%%%%%%%%--------end-------------------"+configList.get(0).getComponentName());      
+////               VerticalLayout layout =  (VerticalLayout)navigator.getCurrentView().getViewComponent();
+////              VerticalLayout layout =  (VerticalLayout) view.getRootLayout();
+//        LOGGER.info("getContentForecasting-----------------------end-------------------"); 
+        //        sessionDto.setLayout(frameworkEngine.getLayout());
+////        LOGGER.info("USER_ID= {} " , userId);
+////        LOGGER.info("SESSION_ID= {} " , sessionId);
+        
+        sessionDto.setUserId(userId);
+        sessionDto.setSessionId(sessionId);
+        
+        DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
+        dataSelectionDto.setFromPeriod((String)actionParamList.get(0));
+        dataSelectionDto.setToPeriod((String)actionParamList.get(1));
+        dataSelectionDto.setProjectionName((String)actionParamList.get(2));
+        dataSelectionDto.setDescription((String)actionParamList.get(3));
+        dataSelectionDto.setCustomerRelationShipVersionNo(Integer.parseInt((String)actionParamList.get(4)));
+        dataSelectionDto.setCustomerHierVersionNo(Integer.parseInt((String)actionParamList.get(5)));
+        DataSelectionForm form = new DataSelectionForm(sessionDto,dataSelectionDto);
     }
 
 }

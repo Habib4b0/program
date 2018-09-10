@@ -29,7 +29,6 @@ import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CalculatePeriods.CALCULATE;
 import static com.stpl.app.utils.Constants.CommonConstants.*;
 import static com.stpl.app.utils.Constants.FrequencyConstants.*;
@@ -799,8 +798,6 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 for (CustomViewMaster obj : customViewList) {
                     int customSid = obj.getCustomViewMasterSid();
                     Object itemId = customSid;
-                    if (customIdToSelect == customSid) {
-                    }
                     customDdlb.addItem(itemId);
                     customDdlb.setItemCaption(itemId, obj.getViewName());
                 }
@@ -1280,13 +1277,6 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             if (value != null) {
                 view.setValue(value.toString());
             }
-        }
-    }
-
-    public void pushUpdate(String indicator) {
-        if (Constants.IndicatorConstants.INDICATOR_REFRESH_UPDATE.getConstant().equals(indicator)) {
-        }
-        if (Constants.IndicatorConstants.INDICATOR_TIME_PERIOD_CHANGED.getConstant().equals(indicator)) {
         }
     }
 

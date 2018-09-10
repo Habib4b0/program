@@ -79,15 +79,15 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAX_SPLIT_POSITION = 1000;
     /**
      * The min split position.
      */
-    private final float minSplitPosition = NumericConstants.TWO_HUNDRED;
+    private static final float MIN_SPLIT_POSITION = NumericConstants.TWO_HUNDRED;
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION = 300;
     private ExtFilterTable resultTable;
 
     public SummarySalesProjectionTransfer(ExtFilterTable resultTable, SessionDTO session) {
@@ -205,9 +205,9 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     private void initializeResultTable() {
         resultsTable.markAsDirty();
         resultsTable.setSelectable(false);
-        resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        resultsTable.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
     }
 

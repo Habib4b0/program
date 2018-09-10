@@ -20,11 +20,13 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Abhiram.Giri
  */
+@Service
 public class GtnWsContractDashboardLookupLogic {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsContractDashboardLookupLogic.class);

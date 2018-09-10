@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.dao.impl;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.NationalAssumptionsDAO;
 import com.stpl.app.model.HelperTable;
@@ -32,27 +31,27 @@ import java.util.List;
 public class NationalAssumptionsDAOImpl implements NationalAssumptionsDAO {
 
     @Override
-    public List getBrandList(final DynamicQuery brandQuery) throws PortalException, SystemException {
+    public List getBrandList(final DynamicQuery brandQuery) throws  SystemException {
         return BrandMasterLocalServiceUtil.dynamicQuery(brandQuery);
     }
 
     @Override
-    public List getItemList(final DynamicQuery therapeuticQuery) throws PortalException, SystemException {
+    public List getItemList(final DynamicQuery therapeuticQuery) throws  SystemException {
         return ItemMasterLocalServiceUtil.dynamicQuery(therapeuticQuery);
     }
     @Override
     public  List<HelperTable> getHelperTable(final DynamicQuery dynamicQuery)
-			throws PortalException, SystemException{
+			throws  SystemException{
             return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
       }
     @Override
     public  List<ItemMaster> getItemMaster(final DynamicQuery dynamicQuery)
-			throws PortalException, SystemException{
+			throws SystemException{
            return ItemMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
       }
     @Override
     public  List<NaProjDetails> getNaProjDetails(final DynamicQuery dynamicQuery)
-			throws PortalException, SystemException{
+			throws SystemException{
                return NaProjDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
         }
   public List<StNewNdc> getStNewNdc(final DynamicQuery dynamicQuery)

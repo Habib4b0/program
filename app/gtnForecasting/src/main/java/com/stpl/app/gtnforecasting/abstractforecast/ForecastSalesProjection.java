@@ -25,7 +25,6 @@ import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
@@ -139,6 +138,7 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
+import java.util.Locale;
 
 /**
  *
@@ -566,13 +566,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
     protected List<Object> checkedDiscountsPropertyIds = new ArrayList<>();
     @UiField("AlternateGrid")
-    private GridLayout AlternateGrid;
+    private GridLayout alternateGrid;
     @UiField("ContractLabel")
-    protected Label ContractLabel;
+    protected Label contractLabel;
     @UiField("BrandLabel")
-    protected Label BrandLabel;
+    protected Label brandLabel;
     @UiField("GridLayoutProjection")
-    protected GridLayout GridLayoutProjection;
+    protected GridLayout gridLayoutProjection;
 
     @UiField("gridPopulate")
     protected GridLayout gridPopulate;
@@ -582,10 +582,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiField("projPeriodOrdr")
     protected Label projPeriodOrdr;
     @UiField("ForecastHorizonyalLayout")
-    protected HorizontalLayout ForecastHorizonyalLayout;
+    protected HorizontalLayout forecastHorizonyalLayout;
     protected HorizontalLayout forecastReturnsLayout = new HorizontalLayout();
     @UiField("Allocation")
-    protected Label Allocation;
+    protected Label allocation;
     @UiField("forecastSPeriod")
     protected Label forecastSPeriod;
     @UiField("forecastEPeriod")
@@ -719,21 +719,21 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             populateLevel.setVisible(true);
             populateLabel.setEnabled(true);
             populateLevel.setEnabled(true);
-            ContractLabel.setCaption("Brand:");
-            AlternateGrid.replaceComponent(contract, brand);
-            BrandLabel.setVisible(false);
+            contractLabel.setCaption("Brand:");
+            alternateGrid.replaceComponent(contract, brand);
+            brandLabel.setVisible(false);
             brand.setVisible(false);
-            BrandLabel.setVisible(false);
+            brandLabel.setVisible(false);
             variables.setMultiSelect(false);
             labelVariables.setVisible(false);
             actualsProjections.setVisible(true);
-            GridLayoutProjection.replaceComponent(variables, proPeriodOrd);
-            GridLayoutProjection.replaceComponent(labelVariables, projPeriodOrdr);
+            gridLayoutProjection.replaceComponent(variables, proPeriodOrd);
+            gridLayoutProjection.replaceComponent(labelVariables, projPeriodOrdr);
             totalLivesLayout.setVisible(false);
             adjustmentLayout.setVisible(false);
 
             adjustmentLayout.setVisible(false);
-            ForecastHorizonyalLayout.setVisible(false);
+            forecastHorizonyalLayout.setVisible(false);
             forecastReturnsLayout.setSpacing(false);
             forecastReturnsLayout.setMargin(false);
             forecastReturnsLayout.addComponent(new Label("Methodology:"));
@@ -1123,7 +1123,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void generateBtn(Button.ClickEvent event) {
             
         checkBoxMap.clear();
-        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         radioMap.clear();
         generateBtnLogic(event);
     }
@@ -1391,11 +1390,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
                 resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
             }
-        } else if ((PRODUCT.getConstant()).equals(view.getValue())) {
-            resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED, Sizeable.Unit.PIXELS);
-            resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
-            resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
-        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
+        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) ||  (PRODUCT.getConstant()).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
             resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED, Sizeable.Unit.PIXELS);
             resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
             resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
@@ -1403,11 +1398,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         if ((PRODUCT.getConstant()).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, true);
-        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
-            leftTable.setColumnCollapsingAllowed(true);
-            leftTable.setColumnCollapsed(Constant.GROUP, false);
-        } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {
-
+        } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue()) ||   (Constant.CUSTOM_LABEL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         }
@@ -1779,9 +1770,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equalsIgnoreCase(screenName)) {
                                         salesLogic.saveEditedRecsReturns(propertyId.toString(), changedValue, incOrDec, salesRowDto, projectionDTO);
                                     } else if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)) {
-                                        salesLogic.saveRecords(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
+                                        salesLogic.saveRecords(propertyId.toString(), changedValue,  changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
                                     } else {
-                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
+                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, new boolean[] {checkAll, !tempArray1[0].contains(Constant.GROWTH)});
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     refreshFlag = true;
@@ -2445,24 +2436,19 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                 @Override
                 public void yesMethod() {
-                    try {
-                        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-                            CommonUtil.getInstance()
-                                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
-                        }
-                        getTableLogic().setRefresh(false);
-                        salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
-                                adjMethodology, HISTORY_PERIODS, projectionPeriods);
-                        CommonUtil.getInstance().waitForSeconds();
-                        CommonLogic.procedureCompletionCheck(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
-                        refreshTableData(getCheckedRecordsHierarchyNo());
-                        getTableLogic().setRefresh(true);
-                        session.setActualAdjustment(true);
-                        session.setActualAdjustmentPeriods(projectionPeriods);
-
-                    } catch (PortalException | SQLException ex) {
-                        LOGGER.error(ex.getMessage());
+                    if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+                        CommonUtil.getInstance()
+                                .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                     }
+                    getTableLogic().setRefresh(false);
+                    salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
+                            HISTORY_PERIODS, projectionPeriods);
+                    CommonUtil.getInstance().waitForSeconds();
+                    CommonLogic.procedureCompletionCheck(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
+                    refreshTableData(getCheckedRecordsHierarchyNo());
+                    getTableLogic().setRefresh(true);
+                    session.setActualAdjustment(true);
+                    session.setActualAdjustmentPeriods(projectionPeriods);
                 }
             }.getOkCancelMessage(confirmMessage, messageBody);
 
@@ -2561,18 +2547,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                         @Override
                         public void yesMethod() {
-                            try {
-                                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-                                    CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
-                                }
-                                getTableLogic().setRefresh(false);
-                                salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
-                                CommonUtil.getInstance().waitForSeconds();
-                                refreshTableData(getCheckedRecordsHierarchyNo());
-                                getTableLogic().setRefresh(true);
-                            } catch (PortalException  | SQLException ex) {
-                                LOGGER.error(ex.getMessage());
+                            if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+                                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                             }
+                            getTableLogic().setRefresh(false);
+                            salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,  historyPeriods, projectionPeriods);
+                            CommonUtil.getInstance().waitForSeconds();
+                            refreshTableData(getCheckedRecordsHierarchyNo());
+                            getTableLogic().setRefresh(true);
                         }
                     }.getOkCancelMessage(confirmMessage, messageBody);
                 } else {
@@ -2633,7 +2615,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 selectedPeriods = selectedPeriods + value;
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -2685,7 +2667,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -2736,7 +2718,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 selectedPeriods = selectedPeriods + value;
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -2748,12 +2730,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      * @return
      */
     public String getFormatValue(DecimalFormat decFormat, String value, String appendChar) {
+        String finalValue;
         if (Constant.CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(decFormat.format(Double.valueOf(value)));
+            finalValue = appendChar.concat(decFormat.format(Double.valueOf(value)));
         } else {
-            value = decFormat.format(Double.valueOf(value)).concat(appendChar);
+            finalValue = decFormat.format(Double.valueOf(value)).concat(appendChar);
         }
-        return value;
+        return finalValue;
     }
 
     /**
@@ -3728,9 +3711,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                if (Constant.GROUP.equals(propertyId)) {
-
-                } else if (Constant.METHODOLOGY.equals(propertyId)) {
+                if (Constant.METHODOLOGY.equals(propertyId)) {
                     TextField filterForMetohdology = new TextField();
                     filterForMetohdology.setReadOnly(true);
                     filterForMetohdology.setWidth("100%");
@@ -3787,11 +3768,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             case 1:
                 periods[0] = Integer.valueOf(key.toString().substring(0, NumericConstants.FOUR));
                 break;
-            case NumericConstants.TWO:
-                periods[0] = (int) key.toString().charAt(1) - NumericConstants.FORTY_EIGHT;
-                periods[1] = Integer.valueOf(key.toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
-                break;
-            case NumericConstants.FOUR:
+            case NumericConstants.TWO | NumericConstants.FOUR :
                 periods[0] = (int) key.toString().charAt(1) - NumericConstants.FORTY_EIGHT;
                 periods[1] = Integer.valueOf(key.toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
                 break;

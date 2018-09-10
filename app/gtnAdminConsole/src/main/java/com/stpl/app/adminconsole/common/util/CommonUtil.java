@@ -339,7 +339,7 @@ public final class CommonUtil {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public static String getDescriptionFromHelper(final int helperTableSid) throws SystemException, PortalException {
+    public static String getDescriptionFromHelper(final int helperTableSid) throws PortalException {
 
         String description = ConstantsUtils.EMPTY;
 
@@ -443,17 +443,6 @@ public final class CommonUtil {
             final HelperDTO helperDTO = iterator.next();
             select.addItem(helperDTO);
         }
-
-        select.addValueChangeListener(new Property.ValueChangeListener() {
-            /**
-             *
-             */
-            public void valueChange(final Property.ValueChangeEvent event) {
-                if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue()) || ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
-
-                }
-            }
-        });
         LOGGER.debug("getBrandDropDown RETURN NativeSelect select");
         return select;
     }

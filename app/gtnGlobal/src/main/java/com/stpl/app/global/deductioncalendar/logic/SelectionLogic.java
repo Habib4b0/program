@@ -61,7 +61,7 @@ public class SelectionLogic {
 
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-    private static final HashMap<String, String> criteria = new HashMap<String, String>();
+    private static final HashMap<String, String> criteria = new HashMap<>();
     /**
      * The Constant LOGGER.
      */
@@ -613,7 +613,7 @@ public class SelectionLogic {
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
     }
 
-    public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperCode(String listName, String description) throws PortalException {
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));

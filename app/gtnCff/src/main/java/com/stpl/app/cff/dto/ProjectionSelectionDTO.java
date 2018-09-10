@@ -224,7 +224,7 @@ public class ProjectionSelectionDTO {
     private String selectedCust;
     private String filterCustomerDDLB = StringUtils.EMPTY;
     private String filterLevelValue = StringUtils.EMPTY;
-    private boolean FilterFlag;
+    private boolean filterFlag;
     private int start = 0;
     private int offset = 0;
     private String discountLevel = StringUtils.EMPTY;
@@ -1878,11 +1878,11 @@ public class ProjectionSelectionDTO {
     }
 
     public boolean isFilterFlag() {
-        return FilterFlag;
+        return filterFlag;
     }
 
     public void setFilterFlag(boolean filterFlag) {
-        this.FilterFlag = filterFlag;
+        this.filterFlag = filterFlag;
     }
 
     public int getStart() {

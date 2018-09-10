@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
@@ -296,14 +297,13 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		List<String> additionalSearchCriteria = new ArrayList<>();
 		additionalSearchCriteria.add("Customer Hierarchy");
 		customerHierarchyPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
-		
                 GtnFrameworkAlertUtil alertActionUtil = new GtnFrameworkAlertUtil();
-                GtnUIFrameWorkActionConfig alertAction = alertActionUtil.throwAlertUtil(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_URL);
+                GtnUIFrameWorkActionConfig alertAction = alertActionUtil.throwAlertUtil("/loadHierarchyResults");
 		customerHierarchyPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
-
-                customerHierarchyPagedTableConfig.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);
+		
+		customerHierarchyPagedTableConfig.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);
 		customerHierarchyPagedTableConfig.setResultSetUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);
-		customerHierarchyPagedTableConfig.setPagedTableWsUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_URL);
+		customerHierarchyPagedTableConfig.setPagedTableWsUrl("/loadHierarchyResults");
 		customerHierarchyPagedTableConfig.setRegisteredWebContext(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_REGISTERED_WEB_CONTEXT);
 		customerHierarchyPagedTableConfig.setModuleName(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_END_POINT_URL_NAME);
 		customerHierarchyPagedTableComponent.setGtnPagedTableConfig(customerHierarchyPagedTableConfig);
@@ -345,9 +345,9 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkForecastingStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE);
-		actionParameter.add("forecastLandingScreen_customerHierarchy");
+		actionParameter.add(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
 		actionParameter.add(Arrays.asList("custHierarchyLookupHierName"));
-		actionParameter.add(Arrays.asList("forecastLandingScreen_customerHierarchy"));
+		actionParameter.add(Arrays.asList(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP));
 		forecastCustomerHierarchySelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(forecastCustomerHierarchySelectAction);
 		
@@ -359,7 +359,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		GtnUIFrameWorkActionConfig forecastingCustomerHierarchyRelationshipLoadAction = new GtnUIFrameWorkActionConfig();
 		forecastingCustomerHierarchyRelationshipLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		forecastingCustomerHierarchyRelationshipLoadAction.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
-		forecastingCustomerHierarchyRelationshipLoadAction.addActionParameter("forecastLandingScreen_customerHierarchy");
+		forecastingCustomerHierarchyRelationshipLoadAction.addActionParameter(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
 		forecastingCustomerHierarchyRelationshipLoadAction.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
 		actionConfigList.add(forecastingCustomerHierarchyRelationshipLoadAction);
 		

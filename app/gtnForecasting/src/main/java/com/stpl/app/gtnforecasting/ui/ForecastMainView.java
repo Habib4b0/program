@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Adds the dataselection to the screen.
  *
@@ -44,7 +44,7 @@ public class ForecastMainView extends VerticalLayout implements View {
     /**
      * Default constructor.
      */
-    public ForecastMainView() throws Exception {
+    public ForecastMainView() {
         /**
          * CONSTRUCTOR.
          */

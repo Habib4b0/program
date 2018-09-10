@@ -307,9 +307,7 @@ public class GtnWsTransactionService {
 			}
 			criteria.add(Restrictions.in(columns.getFieldId(), keys));
 		} else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
-			Object doubleFilterValues = columns.getFilterValue1().replaceAll("\\*", "%");
-			Type doubleFilterTypes = StandardBasicTypes.STRING;
-			criteria.add(Restrictions.sqlRestriction(columnName + " like ?", doubleFilterValues, doubleFilterTypes));
+			getDoubleFilterValue(columns, criteria, columnName);
 
 		} else {
 
@@ -328,6 +326,12 @@ public class GtnWsTransactionService {
 			}
 		}
 	}
+
+    private void getDoubleFilterValue(GtnWebServiceSearchCriteria columns, Criteria criteria, String columnName) {
+        Object doubleFilterValues = columns.getFilterValue1().contains("*") ? columns.getFilterValue1().replaceAll("\\*", "%") : "%" + columns.getFilterValue1() + "%";
+        Type doubleFilterTypes = StandardBasicTypes.STRING;
+        criteria.add(Restrictions.sqlRestriction(columnName + " like ?", doubleFilterValues, doubleFilterTypes));
+    }
 
 	private void betweenConditon(Criteria criteria, GtnWebServiceSearchCriteria columns, String type, String dateFormat)
 			throws ParseException {

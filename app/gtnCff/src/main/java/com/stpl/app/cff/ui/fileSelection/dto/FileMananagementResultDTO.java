@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
-// TODO: Auto-generated Javadoc
+   
 /**
  * The Class FileMananagementResultDTO.
  *
@@ -217,7 +217,7 @@ public class FileMananagementResultDTO implements Serializable {
     private String deductionInclusion = StringUtils.EMPTY;
     private String forecastValueType = StringUtils.EMPTY;
     private String forecastDate = StringUtils.EMPTY;
-    private String SearchforcastYear = StringUtils.EMPTY;
+    private String searchForCastYear = StringUtils.EMPTY;
     private String brandName = StringUtils.EMPTY;
     private String businessUnit=StringUtils.EMPTY;
     private int company;
@@ -1154,11 +1154,11 @@ public class FileMananagementResultDTO implements Serializable {
     }
 
     public String getSearchforcastYear() {
-        return SearchforcastYear;
+        return searchForCastYear;
     }
 
     public void setSearchforcastYear(String searchForcastYear) {
-        this.SearchforcastYear = searchForcastYear;
+        this.searchForCastYear = searchForcastYear;
     }
 
     public String getBusinessUnit() {

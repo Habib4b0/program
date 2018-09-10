@@ -73,7 +73,7 @@ public class PVExcelLogic {
     private List<Object> pivotDiscountList = new ArrayList<>();
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private List<Integer> pivotPriorProjIdList;
-    private final Map<String, String> CUSTOM_VIEW_RELATIONSHIP_HIER = new HashMap();
+    private final Map<String, String> customViewRelationshipHier = new HashMap();
     private final PVParameters parameterDto;
     private boolean discountFlag;
     private boolean isCustomView;
@@ -91,7 +91,6 @@ public class PVExcelLogic {
     public static final String EXCEL_FLAG = "isExcel";
     public static final String DISPLAY_FORMAT = "format";
     public static final String PIVOT_LABEL = "PIVOT";
-    private static final int COLUMN_COUNT_TOTAL = 96;
     private static final int COLUMN_COUNT_DISCOUNT = 12;
     public static final String PROGRAM = "PROGRAM";
     public static final String PROGRAM_CATEGORY = "PROGRAM CATEGORY";
@@ -133,7 +132,7 @@ public class PVExcelLogic {
         isCustomView = selection.isIsCustomHierarchy();
         if (isCustomView) {
             selection.setHierarchyIndicator(StringUtils.EMPTY);
-            CUSTOM_VIEW_RELATIONSHIP_HIER.putAll(getGroupCustomViewNM());
+            customViewRelationshipHier.putAll(getGroupCustomViewNM());
         }
         isRefreshNeeded(selection.getLevelFilterValue(), selection.getGroupFilter(), selection.getHierarchyIndicator(), selection.getFrequencyDivision());
         if (Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(selection.getPivotView())) {
@@ -374,7 +373,6 @@ public class PVExcelLogic {
         String frequency = selection.getFrequency();
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
       
-        List<Object[]> rawListDiscount;
         String levelNo= selection.getView().equalsIgnoreCase(CUSTOMER_VARIABLE)? selection.getSessionDTO().getProductLevelNumber():selection.getSessionDTO().getCustomerLevelNumber();
         levelNo = selection.getView().equalsIgnoreCase(CUSTOM_CONSTANT) ? "1" : levelNo;
         String viewName=selection.getView().equalsIgnoreCase(CUSTOM_CONSTANT)?String.valueOf(D_INDICATOR):selection.getView();
@@ -384,14 +382,19 @@ public class PVExcelLogic {
            ALL.equals(selection.getSessionDTO().getDeductionInclusion())? null : selection.getSessionDTO().getDeductionInclusion(),levelNo};
         List<Object[]> rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         PROCRAWLIST_DETAIL.addAll(rawList);
+        discountProcedureExecute(projectionId, frequency, viewName, levelNo);
+    }
+
+    private void discountProcedureExecute(String projectionId, String frequency, String viewName, String levelNo) {
+        List<Object[]> rawListDiscount;
         if (discountFlag) {
             String discountLevelName = !selection.getDeductionLevelFilter().isEmpty() ? selection.getDeductionLevelValues() : selection.getDiscountLevel();
-        discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM_CATEGORY) ? PROGRAM_TYPESMALL : discountLevelName;
-        discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM) ? SCHEDULE_ID : discountLevelName;
-        Object[] orderedArgDiscountCustomPivot = {projectionId, frequency, discountLevelName, 
-                 ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), 
-                 ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),
-                    null,selection.getCustomId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getUserId(),viewName,levelNo};
+            discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM_CATEGORY) ? PROGRAM_TYPESMALL : discountLevelName;
+            discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM) ? SCHEDULE_ID : discountLevelName;
+            Object[] orderedArgDiscountCustomPivot = {projectionId, frequency, discountLevelName,
+                ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(),
+                ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),
+                null,selection.getCustomId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getUserId(),viewName,levelNo};
             rawListDiscount = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, orderedArgDiscountCustomPivot);
             PROCRAWLIST_DETAIL_DISCOUNT.addAll(rawListDiscount);
 
@@ -413,7 +416,10 @@ public class PVExcelLogic {
     }
 
     private void addListPivot(List<ProjectionVarianceDTO> pvList, Object[] obj, ProjectionVarianceDTO frequencyBasedDTO, 
-            int indexTotal, String key, String group,List<Object[]> rawList,Object[] actual,Object[] proj) {
+            int indexTotal, String key, String group,Object[] inputData) {
+        List<Object[]> rawList = (List<Object[]>) inputData[0];
+        Object[] actual = (Object[]) inputData[1];
+        Object[] proj = (Object[]) inputData[2];
         List<String> periodList = new ArrayList<>(selection.getPeriodList());
         int indexForTotal = indexTotal - 1;
         int tempFrequencyDivision = selection.getFrequencyDivision();
@@ -455,15 +461,15 @@ public class PVExcelLogic {
             if (selection.isVarExFacSales()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("ExFacValue", Constants.VALUE, actual, NumericConstants.TWO, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("ExFacValue", Constants.VALUE, actual, NumericConstants.TWO, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("ExFacVariance", Constants.VARIANCE,actual, NumericConstants.TWO, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("ExFacVariance", Constants.VARIANCE,actual, NumericConstants.TWO, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("ExFacPer", Constants.CHANGE, actual, NumericConstants.TWO, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("ExFacPer", Constants.CHANGE, actual, NumericConstants.TWO, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -471,15 +477,15 @@ public class PVExcelLogic {
             if (selection.isVarExFacSales()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("CustExFacValue", Constants.VALUE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("CustExFacValue", Constants.VALUE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("CustExFacVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("CustExFacVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("CustExFacPer", Constants.CHANGE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("CustExFacPer", Constants.CHANGE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -487,15 +493,15 @@ public class PVExcelLogic {
             if (selection.isVarDemandSales()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("DemandSalesValue", Constants.VALUE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("DemandSalesValue", Constants.VALUE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("DemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("DemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("DemandSalesPer", Constants.CHANGE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DemandSalesPer", Constants.CHANGE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -504,13 +510,13 @@ public class PVExcelLogic {
 
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("AdjDemandValue", Constants.VALUE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("AdjDemandValue", Constants.VALUE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("AdjDemandVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("AdjDemandVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("AdjDemandPer", Constants.CHANGE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("AdjDemandPer", Constants.CHANGE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -518,15 +524,15 @@ public class PVExcelLogic {
             if (selection.isVarInvSales()) {
                 if (selection.isColValue()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("InvWithValue", Constants.VALUE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("InvWithValue", Constants.VALUE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("InvWithVariance", Constants.VARIANCE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("InvWithVariance", Constants.VARIANCE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                      selection.setConversionNeeded(false);
-                    calculateForTotal("InvWithPer", Constants.CHANGE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("InvWithPer", Constants.CHANGE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -534,15 +540,15 @@ public class PVExcelLogic {
             if (selection.isVarIwDetails()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("InvWithDetailsValue", Constants.VALUE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("InvWithDetailsValue", Constants.VALUE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("InvWithDetailsVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("InvWithDetailsVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("InvWithDetailsPer", Constants.CHANGE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("InvWithDetailsPer", Constants.CHANGE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -550,13 +556,13 @@ public class PVExcelLogic {
             if (selection.isVarPerExFacSales()) {
                  selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("PerExFacValue", Constants.VALUE,actual, NumericConstants.NINE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerExFacValue", Constants.VALUE,actual, NumericConstants.NINE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerExFacVariance", Constants.VARIANCE, actual, NumericConstants.NINE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerExFacVariance", Constants.VARIANCE, actual, NumericConstants.NINE, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerExFacPer", Constants.CHANGE, actual, NumericConstants.NINE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerExFacPer", Constants.CHANGE, actual, NumericConstants.NINE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -564,13 +570,13 @@ public class PVExcelLogic {
             if (selection.isVarPerExFacCustomer()) {
                  selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("PerCustExFacValue", Constants.VALUE, actual, NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerCustExFacValue", Constants.VALUE, actual, NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerCustExFacVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerCustExFacVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerCustExFacPer", Constants.CHANGE, actual,NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerCustExFacPer", Constants.CHANGE, actual,NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -578,13 +584,13 @@ public class PVExcelLogic {
             if (selection.isVarPerDemandSales()) {
                  selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("PerDemandSalesValue", Constants.VALUE, actual, NumericConstants.TWENTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerDemandSalesValue", Constants.VALUE, actual, NumericConstants.TWENTY, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerDemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerDemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerDemandSalesPer", Constants.CHANGE,actual, NumericConstants.TWENTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerDemandSalesPer", Constants.CHANGE,actual, NumericConstants.TWENTY, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -592,13 +598,13 @@ public class PVExcelLogic {
             if (selection.isVarPerAdjDemand()) {
                  selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("PerAdjDemandValue", Constants.VALUE,actual, NumericConstants.THIRTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerAdjDemandValue", Constants.VALUE,actual, NumericConstants.THIRTY, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerAdjDemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerAdjDemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerAdjDemandSalesPer", Constants.CHANGE,actual, NumericConstants.THIRTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerAdjDemandSalesPer", Constants.CHANGE,actual, NumericConstants.THIRTY, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -606,13 +612,13 @@ public class PVExcelLogic {
             if (selection.isVarPerInvSales()) {
                  selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("PerInvWithValue", Constants.VALUE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithValue", Constants.VALUE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerInvWithVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerInvWithPer", Constants.CHANGE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithPer", Constants.CHANGE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
 
@@ -620,13 +626,13 @@ public class PVExcelLogic {
             if (selection.isVarPerIwDetails()) {
                  selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("PerInvWithDetailsValue", Constants.VALUE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithDetailsValue", Constants.VALUE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerInvWithDetailsVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithDetailsVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerInvWithDetailsPer", Constants.CHANGE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithDetailsPer", Constants.CHANGE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -634,110 +640,110 @@ public class PVExcelLogic {
             if (selection.isVarContractsales()) {
                 if (selection.isColValue()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("ContractSalesWACValue", Constants.VALUE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("ContractSalesWACValue", Constants.VALUE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("ContractSalesWACVar", Constants.VARIANCE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("ContractSalesWACVar", Constants.VARIANCE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                      selection.setConversionNeeded(false);
-                    calculateForTotal("ContractSalesWACVarPer", Constants.CHANGE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("ContractSalesWACVarPer", Constants.CHANGE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             //Contract Units
             if (selection.isVarContractUnits()) {
                  selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("ContractUnitsValue", Constants.VALUE, actual, NumericConstants.SIX, frequencyBasedDTO, selection, UNIT,rawList,proj);
+                    calculateForTotal("ContractUnitsValue", Constants.VALUE, actual, NumericConstants.SIX, frequencyBasedDTO, selection,new Object[]{ UNIT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("ContractUnitsVar", Constants.VARIANCE, actual, NumericConstants.SIX, frequencyBasedDTO, selection, UNIT,rawList,proj);
+                    calculateForTotal("ContractUnitsVar", Constants.VARIANCE, actual, NumericConstants.SIX, frequencyBasedDTO, selection,new Object[]{ UNIT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("ContractUnitsPer", Constants.CHANGE, actual, NumericConstants.SIX, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("ContractUnitsPer", Constants.CHANGE, actual, NumericConstants.SIX, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             //Discount $
             if (selection.isVarDisAmount()) {
                 if (selection.isColValue()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("DiscountAmountValue", Constants.VALUE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("DiscountAmountValue", Constants.VALUE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("DiscountAmountVar", Constants.VARIANCE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("DiscountAmountVar", Constants.VARIANCE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("DiscountAmountPer", Constants.CHANGE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountAmountPer", Constants.CHANGE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
             //Discount %
             if (selection.isVarDisRate()) {
                  selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("DiscountSalesValue", Constants.VALUE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountSalesValue", Constants.VALUE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("DiscountSalesVar", Constants.VARIANCE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountSalesVar", Constants.VARIANCE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("DiscountSalesPer", Constants.CHANGE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountSalesPer", Constants.CHANGE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             //RPU
             if (selection.isVarRPU()) {
                  selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("RPUValue", Constants.VALUE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("RPUValue", Constants.VALUE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("RPUVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("RPUVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("RPUPer", Constants.CHANGE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("RPUPer", Constants.CHANGE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             //DiscountPerExFactory
             if (selection.isDiscountPerExFactory()) {
                  selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("DiscountPerExFactoryValue", Constants.VALUE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountPerExFactoryValue", Constants.VALUE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("DiscountPerExFactoryVar", Constants.VARIANCE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountPerExFactoryVar", Constants.VARIANCE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("DiscountPerExFactoryPer", Constants.CHANGE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountPerExFactoryPer", Constants.CHANGE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             //Net Sales 
             if (selection.isVarNetSales()) {
                 if (selection.isColValue()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("NetSalesValue", Constants.VALUE, actual, NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("NetSalesValue", Constants.VALUE, actual, NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("NetSalesVariance", Constants.VARIANCE, actual, NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("NetSalesVariance", Constants.VARIANCE, actual, NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                      selection.setConversionNeeded(false);
-                    calculateForTotal("NetSalesPer", Constants.CHANGE, actual, NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("NetSalesPer", Constants.CHANGE, actual, NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             //NetSales%ExFactory 
             if (selection.isNetSalesExFactory()) {
                  selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("NetSalesExFactoryValue", Constants.VALUE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("NetSalesExFactoryValue", Constants.VALUE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("NetSalesExFactoryVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("NetSalesExFactoryVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("NetSalesExFactoryPer", Constants.CHANGE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("NetSalesExFactoryPer", Constants.CHANGE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
         
@@ -752,15 +758,15 @@ public class PVExcelLogic {
                 if (selection.isNetExFactorySales()) {
                     if (selection.isColValue()) {
                          selection.setConversionNeeded(true);
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_VALUE, Constants.VALUE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_VALUE, Constants.VALUE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                     }
                     if (selection.isColVariance()) {
                          selection.setConversionNeeded(true);
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_VARIANCE, Constants.VARIANCE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_VARIANCE, Constants.VARIANCE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                     }
                     if (selection.isColPercentage()) {
                          selection.setConversionNeeded(false);
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_PER_CHANGE, Constants.CHANGE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection, RATE,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_PER_CHANGE, Constants.CHANGE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection, new Object[]{RATE,rawList,proj});
                     }
                 }
                 /**
@@ -769,13 +775,13 @@ public class PVExcelLogic {
                 if (selection.isNetExFactorySalesPerExFactory()) {
                      selection.setConversionNeeded(false);
                     if (selection.isColValue()) {
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VALUE, Constants.VALUE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection, RATE,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VALUE, Constants.VALUE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection,new Object[]{ RATE,rawList,proj});
                     }
                     if (selection.isColVariance()) {
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VARIANCE, Constants.VARIANCE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection, RATE,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VARIANCE, Constants.VARIANCE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection,new Object[]{ RATE,rawList,proj});
                     }
                     if (selection.isColPercentage()) {
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_PER_CHANGE, Constants.CHANGE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection, RATE,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_PER_CHANGE, Constants.CHANGE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection, new Object[]{RATE,rawList,proj});
                     }
                 }
             }
@@ -784,30 +790,30 @@ public class PVExcelLogic {
             if (selection.isVarCOGC()) {
                 if (selection.isColValue()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("COGCValue", Constants.VALUE, actual, indexForTotal + NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("COGCValue", Constants.VALUE, actual, indexForTotal + NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("COGCVariance", Constants.VARIANCE, actual, indexForTotal + NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("COGCVariance", Constants.VARIANCE, actual, indexForTotal + NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                      selection.setConversionNeeded(false);
-                    calculateForTotal("COGCPer", Constants.CHANGE, actual, indexForTotal + NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("COGCPer", Constants.CHANGE, actual, indexForTotal + NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
             //Net Profit
             if (selection.isVarNetProfit()) {
                 if (selection.isColValue()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("NetProfitValue", Constants.VALUE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("NetProfitValue", Constants.VALUE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                      selection.setConversionNeeded(true);
-                    calculateForTotal("NetProfitVariance", Constants.VARIANCE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("NetProfitVariance", Constants.VARIANCE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                      selection.setConversionNeeded(false);
-                    calculateForTotal("NetProfitPer", Constants.CHANGE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("NetProfitPer", Constants.CHANGE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             String commonColumn = StringUtils.EMPTY;
@@ -838,11 +844,13 @@ public class PVExcelLogic {
     public static final String PROJECTION_TOTAL = "Projection Total";
 
     private void calculateForTotal(String variableName, String varibaleCat,Object[] actual, int index, ProjectionVarianceDTO pvDTO, 
-            PVSelectionDTO selection, DecimalFormat format,List<Object[]> rawList,Object[] proj) {
-        
+            PVSelectionDTO selection, Object[] inputData) {
+        DecimalFormat format=(DecimalFormat)inputData[0];
+        List<Object[]> rawList=(List<Object[]>)inputData[1];
+        Object[] proj=(Object[])inputData[2];
         PVCommonLogic.customizePeriodV2(variableName, varibaleCat, selection, pvDTO, format, index, actual,proj, format.equals(RATE_PER),true);
         
-        List<Object[]> priorList=rawList.stream().filter(e->Integer.valueOf(String.valueOf(e[0]))!=selection.getCurrentProjId()).collect(Collectors.toList());
+        List<Object[]> priorList=rawList.stream().filter(e->Integer.parseInt(String.valueOf(e[0]))!=selection.getCurrentProjId()).collect(Collectors.toList());
         for (int j = 0; j < PRIOR_LIST.size(); j++) {
             PVCommonLogic.getPriorCommonCustomizationV2(varibaleCat, selection, priorList, pvDTO, variableName, index, j, format.equals(RATE_PER), format,true);
         }
@@ -887,7 +895,7 @@ public class PVExcelLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId,rawList,actual,proj);
+                addListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId,new Object[]{rawList,actual,proj});
 				hierarchyAndTPkeys(obj, key, pvList);
             } else {
                 updateListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId,rawList,actual,proj);
@@ -913,15 +921,15 @@ public class PVExcelLogic {
             if (selection.isVarExFacSales()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("ExFacValue", Constants.VALUE, actual, NumericConstants.TWO, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("ExFacValue", Constants.VALUE, actual, NumericConstants.TWO, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("ExFacVariance", Constants.VARIANCE, actual, NumericConstants.TWO, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("ExFacVariance", Constants.VARIANCE, actual, NumericConstants.TWO, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("ExFacPer", Constants.CHANGE, actual, NumericConstants.TWO, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("ExFacPer", Constants.CHANGE, actual, NumericConstants.TWO, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
 
@@ -929,15 +937,15 @@ public class PVExcelLogic {
             if (selection.isVarExFacCustomer()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("CustExFacValue", Constants.VALUE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("CustExFacValue", Constants.VALUE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("CustExFacVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("CustExFacVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                      selection.setConversionNeeded(false);
-                    calculateForTotal("CustExFacPer", Constants.CHANGE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("CustExFacPer", Constants.CHANGE, actual, NumericConstants.TWENTY_EIGHT, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
 
@@ -945,15 +953,15 @@ public class PVExcelLogic {
             if (selection.isVarDemandSales()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("DemandSalesValue", Constants.VALUE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("DemandSalesValue", Constants.VALUE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("DemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("DemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                      selection.setConversionNeeded(false);
-                    calculateForTotal("DemandSalesPer", Constants.CHANGE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DemandSalesPer", Constants.CHANGE, actual, NumericConstants.EIGHTEEN, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
 
@@ -961,13 +969,13 @@ public class PVExcelLogic {
             if (selection.isVarAdjDemand()) {
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("AdjDemandValue", Constants.VALUE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("AdjDemandValue", Constants.VALUE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("AdjDemandVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("AdjDemandVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("AdjDemandPer", Constants.CHANGE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("AdjDemandPer", Constants.CHANGE, actual, NumericConstants.TWENTY_SEVEN, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -975,42 +983,42 @@ public class PVExcelLogic {
             if (selection.isVarInvSales()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("InvWithValue", Constants.VALUE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("InvWithValue", Constants.VALUE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("InvWithVariance", Constants.VARIANCE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("InvWithVariance", Constants.VARIANCE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("InvWithPer", Constants.CHANGE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("InvWithPer", Constants.CHANGE, actual, NumericConstants.NINETEEN, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
             //Inventory Withdraw Details
             if (selection.isVarIwDetails()) {
                 if (selection.isColValue()) {
-                    calculateForTotal("InvWithDetailsValue", Constants.VALUE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("InvWithDetailsValue", Constants.VALUE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("InvWithDetailsVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("InvWithDetailsVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("InvWithDetailsPer", Constants.CHANGE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("InvWithDetailsPer", Constants.CHANGE, actual, NumericConstants.TWENTY_NINE, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
 
             //% of Ex-Factory
             if (selection.isVarPerExFacSales()) {
                 if (selection.isColValue()) {
-                    calculateForTotal("PerExFacValue", Constants.VALUE, actual, NumericConstants.NINE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerExFacValue", Constants.VALUE, actual, NumericConstants.NINE, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerExFacVariance", Constants.VARIANCE, actual, NumericConstants.NINE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerExFacVariance", Constants.VARIANCE, actual, NumericConstants.NINE, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerExFacPer", Constants.CHANGE, actual, NumericConstants.NINE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerExFacPer", Constants.CHANGE, actual, NumericConstants.NINE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -1018,13 +1026,13 @@ public class PVExcelLogic {
             if (selection.isVarPerExFacCustomer()) {
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("PerCustExFacValue", Constants.VALUE, actual, NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerCustExFacValue", Constants.VALUE, actual, NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerCustExFacVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerCustExFacVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerCustExFacPer", Constants.CHANGE, actual, NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerCustExFacPer", Constants.CHANGE, actual, NumericConstants.THIRTY_ONE, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
 
@@ -1032,13 +1040,13 @@ public class PVExcelLogic {
             if (selection.isVarPerDemandSales()) {
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("PerDemandSalesValue", Constants.VALUE, actual, NumericConstants.TWENTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerDemandSalesValue", Constants.VALUE, actual, NumericConstants.TWENTY, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerDemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerDemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerDemandSalesPer", Constants.CHANGE, actual, NumericConstants.TWENTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerDemandSalesPer", Constants.CHANGE, actual, NumericConstants.TWENTY, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -1046,13 +1054,13 @@ public class PVExcelLogic {
             if (selection.isVarPerAdjDemand()) {
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("PerAdjDemandValue", Constants.VALUE, actual, NumericConstants.THIRTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerAdjDemandValue", Constants.VALUE, actual, NumericConstants.THIRTY, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerAdjDemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerAdjDemandSalesVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerAdjDemandSalesPer", Constants.CHANGE, actual, NumericConstants.THIRTY, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerAdjDemandSalesPer", Constants.CHANGE, actual, NumericConstants.THIRTY, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
 
@@ -1060,13 +1068,13 @@ public class PVExcelLogic {
             if (selection.isVarPerInvSales()) {
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("PerInvWithValue", Constants.VALUE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithValue", Constants.VALUE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerInvWithVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerInvWithPer", Constants.CHANGE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithPer", Constants.CHANGE, actual, NumericConstants.TWENTY_ONE, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
 
@@ -1074,13 +1082,13 @@ public class PVExcelLogic {
             if (selection.isVarPerIwDetails()) {
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("PerInvWithDetailsValue", Constants.VALUE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithDetailsValue", Constants.VALUE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("PerInvWithDetailsVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithDetailsVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("PerInvWithDetailsPer", Constants.CHANGE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("PerInvWithDetailsPer", Constants.CHANGE, actual, NumericConstants.THIRTY_TWO, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -1088,28 +1096,28 @@ public class PVExcelLogic {
             if (selection.isVarContractsales()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("ContractSalesWACValue", Constants.VALUE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("ContractSalesWACValue", Constants.VALUE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("ContractSalesWACVar", Constants.VARIANCE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("ContractSalesWACVar", Constants.VARIANCE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("ContractSalesWACVarPer", Constants.CHANGE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("ContractSalesWACVarPer", Constants.CHANGE, actual, NumericConstants.FIVE, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
             //Contract Units
             if (selection.isVarContractUnits()) {
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("ContractUnitsValue", Constants.VALUE, actual, NumericConstants.SIX, frequencyBasedDTO, selection, UNIT,rawList,proj);
+                    calculateForTotal("ContractUnitsValue", Constants.VALUE, actual, NumericConstants.SIX, frequencyBasedDTO, selection, new Object[]{UNIT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("ContractUnitsVar", Constants.VARIANCE, actual, NumericConstants.SIX, frequencyBasedDTO, selection, UNIT,rawList,proj);
+                    calculateForTotal("ContractUnitsVar", Constants.VARIANCE, actual, NumericConstants.SIX, frequencyBasedDTO, selection, new Object[]{UNIT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("ContractUnitsPer", Constants.CHANGE, actual, NumericConstants.SIX, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("ContractUnitsPer", Constants.CHANGE, actual, NumericConstants.SIX, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -1117,82 +1125,82 @@ public class PVExcelLogic {
             if (selection.isVarDisAmount()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("DiscountAmountValue", Constants.VALUE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("DiscountAmountValue", Constants.VALUE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("DiscountAmountVar", Constants.VARIANCE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("DiscountAmountVar", Constants.VARIANCE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("DiscountAmountPer", Constants.CHANGE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountAmountPer", Constants.CHANGE, actual, NumericConstants.SEVEN, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             //Discount %
             if (selection.isVarDisRate()) {
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("DiscountSalesValue", Constants.VALUE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountSalesValue", Constants.VALUE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("DiscountSalesVar", Constants.VARIANCE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountSalesVar", Constants.VARIANCE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("DiscountSalesPer", Constants.CHANGE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountSalesPer", Constants.CHANGE, actual, NumericConstants.EIGHT, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
             //RPU
             if (selection.isVarRPU()) {
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("RPUValue", Constants.VALUE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("RPUValue", Constants.VALUE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("RPUVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("RPUVariance", Constants.VARIANCE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("RPUPer", Constants.CHANGE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("RPUPer", Constants.CHANGE, actual, NumericConstants.TWENTY_TWO, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             //DiscountPerExFactory
             if (selection.isDiscountPerExFactory()) {
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("DiscountPerExFactoryValue", Constants.VALUE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountPerExFactoryValue", Constants.VALUE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("DiscountPerExFactoryVar", Constants.VARIANCE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountPerExFactoryVar", Constants.VARIANCE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("DiscountPerExFactoryPer", Constants.CHANGE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("DiscountPerExFactoryPer", Constants.CHANGE, actual, NumericConstants.THIRTY_FOUR, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             //Net Sales 
             if (selection.isVarNetSales()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("NetSalesValue", Constants.VALUE, actual, indexForTotal + NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("NetSalesValue", Constants.VALUE, actual, indexForTotal + NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("NetSalesVariance", Constants.VARIANCE, actual, indexForTotal + NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("NetSalesVariance", Constants.VARIANCE, actual, indexForTotal + NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("NetSalesPer", Constants.CHANGE, actual, indexForTotal + NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("NetSalesPer", Constants.CHANGE, actual, indexForTotal + NumericConstants.SEVENTEEN, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             //NetSales%ExFactory 
             if (selection.isNetSalesExFactory()) {
                 selection.setConversionNeeded(false);
                 if (selection.isColValue()) {
-                    calculateForTotal("NetSalesExFactoryValue", Constants.VALUE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("NetSalesExFactoryValue", Constants.VALUE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColVariance()) {
-                    calculateForTotal("NetSalesExFactoryVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("NetSalesExFactoryVariance", Constants.VARIANCE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
-                    calculateForTotal("NetSalesExFactoryPer", Constants.CHANGE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("NetSalesExFactoryPer", Constants.CHANGE, actual, NumericConstants.THIRTY_THREE, frequencyBasedDTO, selection,new Object[]{ RATE_PER,rawList,proj});
                 }
             }
             String hierarchyNo = String.valueOf(obj[1]);
@@ -1206,15 +1214,15 @@ public class PVExcelLogic {
                 if (selection.isNetExFactorySales()) {
                     if (selection.isColValue()) {
                         selection.setConversionNeeded(true);
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_VALUE, Constants.VALUE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_VALUE, Constants.VALUE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                     }
                     if (selection.isColVariance()) {
                         selection.setConversionNeeded(true);
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_VARIANCE, Constants.VARIANCE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_VARIANCE, Constants.VARIANCE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                     }
                     if (selection.isColPercentage()) {
                         selection.setConversionNeeded(false);
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_PER_CHANGE, Constants.CHANGE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection, RATE,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_COLUMN_PER_CHANGE, Constants.CHANGE, actual, NumericConstants.THIRTY_FIVE, frequencyBasedDTO, selection, new Object[]{RATE,rawList,proj});
                     }
                 }
                 /**
@@ -1223,13 +1231,13 @@ public class PVExcelLogic {
                 if (selection.isNetExFactorySalesPerExFactory()) {
                     selection.setConversionNeeded(false);
                     if (selection.isColValue()) {
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VALUE, Constants.VALUE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection, RATE,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VALUE, Constants.VALUE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection,new Object[]{ RATE,rawList,proj});
                     }
                     if (selection.isColVariance()) {
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VARIANCE, Constants.VARIANCE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection, RATE,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VARIANCE, Constants.VARIANCE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection, new Object[]{RATE,rawList,proj});
                     }
                     if (selection.isColPercentage()) {
-                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_PER_CHANGE, Constants.CHANGE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection, RATE,rawList,proj);
+                        calculateForTotal(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_PER_CHANGE, Constants.CHANGE, actual, NumericConstants.THIRTY_SIX, frequencyBasedDTO, selection, new Object[]{RATE,rawList,proj});
                     }
                 }
             }
@@ -1237,30 +1245,30 @@ public class PVExcelLogic {
             if (selection.isVarCOGC()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("COGCValue", Constants.VALUE, actual, indexForTotal + NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("COGCValue", Constants.VALUE, actual, indexForTotal + NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection,new Object[]{ AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("COGCVariance", Constants.VARIANCE, actual, indexForTotal + NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("COGCVariance", Constants.VARIANCE, actual, indexForTotal + NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("COGCPer", Constants.CHANGE, actual, indexForTotal + NumericConstants.SIXTY_SIX, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("COGCPer", Constants.CHANGE, actual, indexForTotal + NumericConstants.SIXTY_SIX, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
             //Net Profit
             if (selection.isVarNetProfit()) {
                 if (selection.isColValue()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("NetProfitValue", Constants.VALUE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("NetProfitValue", Constants.VALUE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColVariance()) {
                     selection.setConversionNeeded(true);
-                    calculateForTotal("NetProfitVariance", Constants.VARIANCE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection, AMOUNT,rawList,proj);
+                    calculateForTotal("NetProfitVariance", Constants.VARIANCE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection, new Object[]{AMOUNT,rawList,proj});
                 }
                 if (selection.isColPercentage()) {
                     selection.setConversionNeeded(false);
-                    calculateForTotal("NetProfitPer", Constants.CHANGE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection, RATE_PER,rawList,proj);
+                    calculateForTotal("NetProfitPer", Constants.CHANGE, actual, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, selection, new Object[]{RATE_PER,rawList,proj});
                 }
             }
 
@@ -1498,7 +1506,7 @@ public class PVExcelLogic {
         String hierarchyNo = String.valueOf(obj[1]);
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
         if (isCustomView) {
-            groupName = CUSTOM_VIEW_RELATIONSHIP_HIER.get(hierarchy.trim() == null ? StringUtils.EMPTY : hierarchy.trim());
+            groupName = customViewRelationshipHier.get(hierarchy.trim() == null ? StringUtils.EMPTY : hierarchy.trim());
             groupName = groupName == null ? StringUtils.EMPTY : groupName;
             dto.setHierarchyNo(obj[NumericConstants.TWO].toString());
             dto.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
@@ -3394,7 +3402,7 @@ public class PVExcelLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId,rawList,actual,proj);
+                addListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId,new Object[]{rawList,actual,proj});
                 appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1];
                 if (isCustomView && !isTotal) {
                     customHierarchyAndTPKeys(obj, key, pvList);
@@ -3408,7 +3416,7 @@ public class PVExcelLogic {
                         : temp[1].toString();
                 if (!currValue.equals(tempValue)) {
                     pvList = new ArrayList();
-                    addListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId,rawList,actual,proj);
+                    addListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId,new Object[]{rawList,actual,proj});
                     if (isCustomView && !isTotal) {
                         customHierarchyAndTPKeys(obj, key, pvList);
                     } else {

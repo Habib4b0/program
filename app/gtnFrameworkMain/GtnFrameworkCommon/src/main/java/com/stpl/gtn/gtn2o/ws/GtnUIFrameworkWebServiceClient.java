@@ -64,9 +64,9 @@ public class GtnUIFrameworkWebServiceClient {
 
         } catch (Exception e) {
             logger.error(e.getMessage());
-            logger.info("Failed Url---------------------" + request.getGtnServiceRegistryWsRequest().getGtnWsServiceRegistryBean().getUrl());
+            logger.info("Failed Url---------------------" + url);
                 GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure = new GtnUIFrameworkWebServiceClientCallOnFailure();
-                gtnWebServiceClientCallOnFailure.setUrl(request.getGtnServiceRegistryWsRequest().getGtnWsServiceRegistryBean().getUrl());
+                gtnWebServiceClientCallOnFailure.setUrl(url);
                 gtnWebServiceClientCallOnFailure.setModuleName(moduleName);
                 gtnWebServiceClientCallOnFailure.setRequest(request);
                 gtnWebServiceClientCallOnFailure.setSecurityToken(securityToken);

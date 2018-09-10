@@ -9,7 +9,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class HelperTableDAOImpl.
  */
@@ -18,7 +18,7 @@ public class HelperTableDAOImpl implements HelperTableDAO{
  	/** (non-Javadoc)
  	 * @see com.stpl.app.adminconsole.dao.HelperTableDAO#getHelperTable(int)
  	 */
- 	public HelperTable getHelperTable(final int helperTableSid) throws  PortalException, SystemException{		    
+ 	public HelperTable getHelperTable(final int helperTableSid) throws  PortalException {		    
 	        return HelperTableLocalServiceUtil.getHelperTable(helperTableSid);
 	    }
  	public List getHelperID(final DynamicQuery dynamicQuery) throws SystemException

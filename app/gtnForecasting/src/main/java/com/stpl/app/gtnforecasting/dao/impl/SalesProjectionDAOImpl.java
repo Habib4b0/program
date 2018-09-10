@@ -19,8 +19,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
-// TODO: Auto-generated Javadoc
+
+
 /**
  * The Class SalesProjectionDAOImpl.
  *
@@ -38,7 +38,7 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public List<String> getPMPYTradingPartnerList(String tpName) throws SystemException, PortalException {
+    public List<String> getPMPYTradingPartnerList(String tpName) throws PortalException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -46,7 +46,7 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @see com.stpl.app.gtnforecasting.dao.SalesProjectionDAO#getPMPYContractHolder()
      */
     @Override
-    public List<String> getPMPYContractHolder(DynamicQuery dynamicQuery) throws SystemException, PortalException {
+    public List<String> getPMPYContractHolder(DynamicQuery dynamicQuery) throws PortalException {
         return CompanyMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -60,7 +60,7 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public List getSalesProjection(Object[] inputs) throws SystemException, PortalException {
+    public List getSalesProjection(Object[] inputs) throws PortalException {
         return new NmSalesProjectionImpl().getSalesResult(inputs);
 
     }
@@ -75,7 +75,7 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public List getSalesProjectionResult(DynamicQuery query) throws SystemException, PortalException {
+    public List getSalesProjectionResult(DynamicQuery query) throws PortalException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -95,7 +95,7 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      */
     @Override
     public List getContractHolderSummary(int projectionId, String indicator, List<Integer> comparisonProjections, String frequency,
-            String level, String discountLevel) throws SystemException, PortalException {
+            String level, String discountLevel) throws PortalException {
 
         return Collections.emptyList();
     }
@@ -124,12 +124,12 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public List getSalesProjectionResults(Object[] inputs) throws SystemException, PortalException {
+    public List getSalesProjectionResults(Object[] inputs) throws PortalException {
         return new NmSalesProjectionImpl().getSalesProjectionResults(inputs);
     }
 
     @Override
-    public List getSalesProjectionResultLevels(Object[] inputs) throws SystemException, PortalException {
+    public List getSalesProjectionResultLevels(Object[] inputs) throws PortalException {
         return new NmSalesProjectionImpl().getSalesProjectionResultLevels(inputs);
     }
 
@@ -143,30 +143,30 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public List executeQuery(Map<String, Object> parameters) throws SystemException, PortalException {
+    public List executeQuery(Map<String, Object> parameters) throws PortalException {
         return new StChSalesProjectionImpl().executeQuery(parameters);
     }
 
     @Override
-    public Object executeSelectQuery(String query) throws SystemException, PortalException {
+    public Object executeSelectQuery(String query) throws PortalException {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     
     @Override
-    public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException, SystemException {
+    public List<HelperTable> getHelperTableList(final DynamicQuery query) throws  SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(query);
     }
 
     @Override
-    public List executeUpdateQuery(String queryList) throws SystemException, PortalException {
+    public List executeUpdateQuery(String queryList) throws PortalException {
         List list = new ArrayList();
         list.add(HelperTableLocalServiceUtil.executeUpdateQueryCount(queryList));
         return list;
     }
    
     @Override
-    public void executeUpdateQuery(List<StringBuilder> queryList) throws SystemException, PortalException {
+    public void executeUpdateQuery(List<StringBuilder> queryList) throws PortalException {
         new NACommonResultsDAOImpl().executeUpdateQuery(queryList);
     }
 

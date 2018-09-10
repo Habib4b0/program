@@ -110,8 +110,7 @@ public class ItemManagementLookup extends CustomWindow {
         if (!selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             insertToTempTable();
         }
-        if (selection.isIsIFP()) {
-        } else if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
+        else if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
             addBtn.setVisible(false);
             mainTab.addTab(contractSelection.getContent(itemList, selection), "Contract Selection", null, 0);
             removeSummary.getContent(itemList, selection);
@@ -256,8 +255,7 @@ public class ItemManagementLookup extends CustomWindow {
         LOGGER.debug("tabLazyLoad inside");
 
         if (tabPosition == 1) {
-            if (selection.isIsIFP()) {
-            } else if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
+            if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
                 mainTab.replaceComponent(itemsummary, itemsummary.getContent(itemList, selection));
                 addSummaryFlag = true;
             } else {
@@ -375,22 +373,22 @@ public class ItemManagementLookup extends CustomWindow {
                 } else {
                     List<String> tempTransferList = commonLogic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) list.get(0), (List<String>) list.get(1), BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag(), session);
                     int newProjectionId = commonLogic.getNewProjectionId();
-                    String msgContent = "The selected Item has been added successfully";
+                    String msgContentAdd = "The selected Item has been added successfully";
 
                     if (tempTransferList != null && !tempTransferList.isEmpty()) {
-                        msgContent = msgContent + StringConstantsUtil.NEW_PROJECTION_CREATED_WITH_FORECASTING + tempTransferList.get(0)
+                        msgContentAdd = msgContentAdd + StringConstantsUtil.NEW_PROJECTION_CREATED_WITH_FORECASTING + tempTransferList.get(0)
                                 + StringConstantsUtil.AND_PROJECTION_NAME + tempTransferList.get(1) + " ";
                     }
                     Object[] orderedArgs = {list.get(0), newProjectionId, selection.getForecastingType()};
                     AbstractLogic.callProcedure("PRC_FE_ADD_EVENT", orderedArgs);
-                    MessageBox.showPlain(Icon.INFO, "Added Successfully", msgContent, new MessageBoxListener() {
+                    MessageBox.showPlain(Icon.INFO, "Added Successfully", msgContentAdd, new MessageBoxListener() {
                         /**
-                         * The method is triggered when a button of the message
+                         * The mtgh is triggered when a button of the message
                          * box is pressed.
                          */
                         @SuppressWarnings("PMD")
                         @Override
-                        public void buttonClicked(final ButtonId buttonId) {
+                        public void buttonClicked(final ButtonId buttonIdClick) {
                             close();
                         }
                     }, ButtonId.OK);
@@ -411,45 +409,45 @@ public class ItemManagementLookup extends CustomWindow {
             public void yesMethod() {
 
                 selection.setReset(true);
-                List input = new ArrayList();
-                input.add(selection.getSessionId());
-                ItemQueries.itemUpdate(input, "IFP Upadte query");
-                ItemQueries.itemUpdate(input, "PS Upadte query");
-                ItemQueries.itemUpdate(input, "RS Upadte query");
+                List inputEdit = new ArrayList();
+                inputEdit.add(selection.getSessionId());
+                ItemQueries.itemUpdate(inputEdit, "IFP Upadte query");
+                ItemQueries.itemUpdate(inputEdit, "PS Upadte query");
+                ItemQueries.itemUpdate(inputEdit, "RS Upadte query");
                 close();
-                List list = getCloneProjectionParametrs(ConstantsUtil.SUMMARY);
-                CommonLogic commonLogic = new CommonLogic();
-                String builderType = commonLogic.getRelationBuilderType((Integer) list.get(0));
+                List listEdit = getCloneProjectionParametrs(ConstantsUtil.SUMMARY);
+                CommonLogic commonLogicEdit = new CommonLogic();
+                String builderType = commonLogicEdit.getRelationBuilderType((Integer) listEdit.get(0));
                 if (!builderType.equals(StringUtils.EMPTY) && !builderType.equalsIgnoreCase("Automatic")) {
                     AbstractNotificationUtils.getErrorNotification("No Projection Created", "There is some error in creating projection. "
                             + "\n kindly check whether the selected Projection has relationship that is set to Automatic");
                 } else {
-                    List<String> tempTransferList = commonLogic.createNewProjection((Integer) list.get(0), (List<String>) list.get(1), selection.getSessionDTO());
-                    int projectionId = commonLogic.getNewProjectionId();
-                    String forecastType = commonLogic.getForecastingType();
-                    List updateInput = new ArrayList();
-                    if ("Mandated".equalsIgnoreCase(forecastType)) {
-                        updateInput.add("M_SALES_PROJECTION");
+                    List<String> tempTransferList = commonLogicEdit.createNewProjection((Integer) listEdit.get(0), (List<String>) listEdit.get(1), selection.getSessionDTO());
+                    int projectionId = commonLogicEdit.getNewProjectionId();
+                    String forecastTypeEdit = commonLogicEdit.getForecastingType();
+                    List updateInputEdit = new ArrayList();
+                    if ("Mandated".equalsIgnoreCase(forecastTypeEdit)) {
+                        updateInputEdit.add("M_SALES_PROJECTION");
                     } else {
-                        updateInput.add("NM_SALES_PROJECTION");
+                        updateInputEdit.add("NM_SALES_PROJECTION");
                     }
-                    updateInput.add(projectionId);
-                    updateInput.add(selection.getSessionId());
-                    updateInput.add(ConstantsUtil.SUMMARY);
-                    ItemQueries.itemUpdate(updateInput, "Update sales in projection");
-                    String msgContent = "The selected Item has been Updated successfully";
+                    updateInputEdit.add(projectionId);
+                    updateInputEdit.add(selection.getSessionId());
+                    updateInputEdit.add(ConstantsUtil.SUMMARY);
+                    ItemQueries.itemUpdate(updateInputEdit, "Update sales in projection");
+                    String msgContentEdit = "The selected Item has been Updated successfully";
                     if (tempTransferList != null && !tempTransferList.isEmpty()) {
-                        msgContent = msgContent + StringConstantsUtil.NEW_PROJECTION_CREATED_WITH_FORECASTING + tempTransferList.get(0)
+                        msgContentEdit = msgContentEdit + StringConstantsUtil.NEW_PROJECTION_CREATED_WITH_FORECASTING + tempTransferList.get(0)
                                 + StringConstantsUtil.AND_PROJECTION_NAME + tempTransferList.get(1) + " ";
                     }
-                    MessageBox.showPlain(Icon.INFO, "Updated Successfully", msgContent, new MessageBoxListener() {
+                    MessageBox.showPlain(Icon.INFO, "Updated Successfully", msgContentEdit, new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message
                          * box is pressed.
                          */
                         @SuppressWarnings("PMD")
                         @Override
-                        public void buttonClicked(final ButtonId buttonId) {
+                        public void buttonClicked(final ButtonId buttonIdEdit) {
                             close();
                         }
                     }, ButtonId.OK);

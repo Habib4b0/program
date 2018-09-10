@@ -463,66 +463,9 @@ public abstract class AbstractReserve extends CustomWindow {
         resultsTable.addStyleName(ARMUtils.FILTERCOMBOBOX);
         resultsTable.addStyleName(CommonConstant.TABLEHEADERNORMAL);
         resultsTable.addStyleName(ARMUtils.CENTER_CHECK);
-        if (selection.isIsViewMode()) {
-            resultsTable.setSelectable(false);
-        } else {
-            resultsTable.setSelectable(true);
-        }
+        resultsTable.setSelectable(!selection.isIsViewMode());
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        resultsTable.setFilterGenerator(new ExtFilterGenerator() {
-            @Override
-            public Container.Filter generateFilter(Object propertyId, Object value) {
-                return null;
-            }
-
-            @Override
-            public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
-                if (originatingField.getValue() != null && !originatingField.getValue().toString().equals(StringUtils.EMPTY)) {
-                    String value = String.valueOf(originatingField.getValue().toString());
-                    if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.getConstant()) && !value.isEmpty()) {
-                        value = reportIndicatorMethod(value);
-                        return new SimpleStringFilter(propertyId, ZERO.equals(originatingField.getValue().toString()) ? StringUtils.EMPTY : value, false, false);
-                    }
-                    if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.getConstant()) || propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.getConstant()) && !value.isEmpty()) {
-                        value = creditAndDebitIndicator(value);
-                        return new SimpleStringFilter(propertyId, ZERO.equals(originatingField.getValue().toString()) ? StringUtils.EMPTY : value, false, false);
-                    }
-                    return new SimpleStringFilter(propertyId, ZERO.equals(originatingField.getValue().toString()) ? StringUtils.EMPTY : originatingField.getValue().toString(), false, false);
-                } else {
-                    return null;
-                }
-            }
-
-            @Override
-            public void filterRemoved(Object propertyId) {
-                LOGGER.debug("Inside filterRemoved Method");
-            }
-
-            @Override
-            public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-                LOGGER.debug("Inside filterAdded Method");
-            }
-
-            @Override
-            public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
-                return null;
-            }
-
-            @Override
-            public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant().equals(propertyId) || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COMPANYNO.getConstant().equals(propertyId)
-                        || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DIVISION.getConstant().equals(propertyId) || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.BUSINESS_UNIT.getConstant().equals(propertyId)) {
-                    CustomTextField text = new CustomTextField();
-                    text.setVisible(false);
-                    text.setImmediate(true);
-                    return text;
-                } else {
-                    CustomTextField text = new CustomTextField();
-                    text.setImmediate(true);
-                    return text;
-                }
-            }
-        });
+        resultsTable.setFilterGenerator(resultsFilters);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         if (!selection.isIsViewMode()) {
             resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true);
@@ -648,7 +591,7 @@ public abstract class AbstractReserve extends CustomWindow {
 
     @UiHandler("reportTypeDdlb")
     public void loadReportTypeDdlbValue(Property.ValueChangeEvent event) {
-        selection.setReportType(Integer.valueOf(String.valueOf(reportTypeDdlb.getValue())));
+        selection.setReportType((Integer)(reportTypeDdlb.getValue()));
         balSummaryConfigurationTableLogic.getFilters().clear();
         if ((reportTypeDdlb.getValue() != null) && Integer.valueOf(String.valueOf(reportTypeDdlb.getValue())) != 0) {
             LOGGER.debug(event.toString());
@@ -714,7 +657,7 @@ public abstract class AbstractReserve extends CustomWindow {
     @UiHandler("methodologyDdlb")
     public void loadmethodologyDdlb(Property.ValueChangeEvent event) throws Exception {
         LOGGER.debug(event.toString());
-        selection.setMethodology(Integer.valueOf(String.valueOf(methodologyDdlb.getValue())));
+        selection.setMethodology((Integer)(methodologyDdlb.getValue()));
         adjustmentSummaryTableLogic.getFilters().clear();
         if ((methodologyDdlb.getValue() != null) && Integer.valueOf(String.valueOf(methodologyDdlb.getValue())) != 0) {
             String transaction = methodologyDdlb.getItemCaption(methodologyDdlb.getValue());
@@ -850,7 +793,7 @@ public abstract class AbstractReserve extends CustomWindow {
                         }
                         detailsTableLogic.loadsetData(true, selection);
                     } catch (Exception ex) {
-                        LOGGER.error("Error in configureTabRemoveLineLogic :" , ex);
+                        LOGGER.error("Error in configureTabRemoveLineLogic :", ex);
                     }
                 }
 
@@ -869,13 +812,13 @@ public abstract class AbstractReserve extends CustomWindow {
      *
      */
     private void adjustmentSummaryRemoveLineLogic() {
-        List<Validation> removeLineValidation = new ArrayList<>(2);
-        removeLineValidation.add(new ValidationAddRemoveLine(selection, false));
-        removeLineValidation.add(new ValidationForParentRecordRemoveLine(selection));
+        List<Validation> removeLineValidationAdjSum = new ArrayList<>(2);
+        removeLineValidationAdjSum.add(new ValidationAddRemoveLine(selection, false));
+        removeLineValidationAdjSum.add(new ValidationForParentRecordRemoveLine(selection));
 
-        for (Validation validation : removeLineValidation) {
-            if (!validation.doValidate()) {
-                AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, validation.validationMessage());
+        for (Validation summaryValidation : removeLineValidationAdjSum) {
+            if (!summaryValidation.doValidate()) {
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, summaryValidation.validationMessage());
                 return;
             }
         }
@@ -886,7 +829,7 @@ public abstract class AbstractReserve extends CustomWindow {
                     adjustmentSummaryConfigLogic.deleteDataFromDB(selection);
                     adjustmentSummaryTableLogic.loadSetData(true, selection);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in adjustmentSummaryRemoveLineLogic :" , ex);
+                    LOGGER.error("Error in adjustmentSummaryRemoveLineLogic :", ex);
                 }
             }
 
@@ -920,7 +863,7 @@ public abstract class AbstractReserve extends CustomWindow {
                     adjustmentSummaryConfigLogic.deleteDataFromDB(selection);
                     balSummaryConfigurationTableLogic.loadSetData(true, selection);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in balanceSummaryRemoveLineLogic :" , ex);
+                    LOGGER.error("Error in balanceSummaryRemoveLineLogic :", ex);
                 }
             }
 
@@ -952,44 +895,53 @@ public abstract class AbstractReserve extends CustomWindow {
             LOGGER.debug("massValueDdlbRes.getValue() = {}", massfieldDdlbRes.getValue());
             Object value = massValueDdlbRes.isVisible() ? massValueDdlbRes.getValue() : massValueRes.getValue();
             if (value != null) {
-                List<AdjustmentReserveDTO> list = detailsTableContainer.getItemIds();
-                for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getCheckRecord()) {
-                        resultsTable.getContainerProperty(list.get(i), massfieldDdlbRes.getValue()).setValue(value);
-                    }
-                }
-                if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue()) || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())
-                        || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())) {
-                    Object oppositValueToBeUpdated = null;
-                    switch ((int) value) {
-                        // value = 0 for positive and value = 1 for negative
-                        case 0:
-                            value = null;
-                            break;
-                        case -1:
-                            value = 0;
-                            oppositValueToBeUpdated = 1;
-                            break;
-                        case 1:
-                            value = 1;
-                            oppositValueToBeUpdated = 0;
-                            break;
-                        default:
-                            break;
-                    }
-                    if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())) {
-                        String property = ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())
-                                ? ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString() : ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString();
-                        logic.massUpdateValue(oppositValueToBeUpdated, selection, property);
-                    }
-                }
-                logic.massUpdateValue(value, selection, massfieldDdlbRes.getValue());
-                detailsTableLogic.loadsetData(true, selection);
+                populateAction();
             } else {
                 AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage002());
             }
         } else {
             AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage002());
+        }
+    }
+
+    private void populateAction() throws Property.ReadOnlyException {
+        Object value = massValueRes.getValue();
+        List<AdjustmentReserveDTO> list = detailsTableContainer.getItemIds();
+        setTableContainerProperties(list, value);
+        if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue()) || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())
+                || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())) {
+            Object oppositValueToBeUpdated = null;
+            switch ((int) value) {
+                // value = 0 for positive and value = 1 for negative
+                case 0:
+                    value = null;
+                    break;
+                case -1:
+                    value = 0;
+                    oppositValueToBeUpdated = 1;
+                    break;
+                case 1:
+                    value = 1;
+                    oppositValueToBeUpdated = 0;
+                    break;
+                default:
+                    break;
+            }
+            if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())) {
+                String property = ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())
+                        ? ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString() : ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString();
+                logic.massUpdateValue(oppositValueToBeUpdated, selection, property);
+            }
+        }
+        logic.massUpdateValue(value, selection, massfieldDdlbRes.getValue());
+        detailsTableLogic.loadsetData(true, selection);
+    }
+
+    private void setTableContainerProperties(List<AdjustmentReserveDTO> list, Object value) throws Property.ReadOnlyException {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getCheckRecord()) {
+                resultsTable.getContainerProperty(list.get(i), massfieldDdlbRes.getValue()).setValue(value);
+            }
         }
     }
 
@@ -1034,7 +986,7 @@ public abstract class AbstractReserve extends CustomWindow {
         try {
             saveConfigDetails();
         } catch (Exception ex) {
-            LOGGER.error("Error in saveButtonLogic :" , ex);
+            LOGGER.error("Error in saveButtonLogic :", ex);
         }
     }
 
@@ -1096,59 +1048,7 @@ public abstract class AbstractReserve extends CustomWindow {
             selection.setIsGTNDetails(true);
         }
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        resultsTable.setFilterGenerator(new ExtFilterGenerator() {
-            @Override
-            public Container.Filter generateFilter(Object propertyId, Object value) {
-                return null;
-            }
-
-            @Override
-            public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
-                if (originatingField.getValue() != null && !originatingField.getValue().toString().equals(StringUtils.EMPTY)) {
-                    String value = String.valueOf(originatingField.getValue().toString());
-                    if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.getConstant())) {
-                        value = reportIndicatorMethod(value);
-                        return new SimpleStringFilter(propertyId, ZERO.equals(originatingField.getValue().toString()) ? StringUtils.EMPTY : value, false, false);
-                    }
-                    if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.getConstant()) || propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.getConstant())) {
-                        value = creditAndDebitIndicator(value);
-                        return new SimpleStringFilter(propertyId, ZERO.equals(originatingField.getValue().toString()) ? StringUtils.EMPTY : value, false, false);
-                    }
-                    return new SimpleStringFilter(propertyId, ZERO.equals(originatingField.getValue().toString()) ? StringUtils.EMPTY : originatingField.getValue().toString(), false, false);
-                } else {
-                    return null;
-                }
-            }
-
-            @Override
-            public void filterRemoved(Object propertyId) {
-                LOGGER.debug("filterRemoved Method");
-            }
-
-            @Override
-            public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-                LOGGER.debug("filterAdded Method");
-            }
-
-            @Override
-            public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
-                return null;
-            }
-
-            @Override
-            public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant().equals(propertyId)) {
-                    CustomTextField text = new CustomTextField();
-                    text.setVisible(false);
-                    text.setImmediate(true);
-                    return text;
-                } else {
-                    CustomTextField text = new CustomTextField();
-                    text.setImmediate(true);
-                    return text;
-                }
-            }
-        });
+        resultsTable.setFilterGenerator(resultsFilters);
         loadMassfield();
         LOGGER.debug("selection.getMasterSID()-->>>{}", selection.getMasterSID());
         detailsTableLogic.loadsetData(true, selection);
@@ -1190,7 +1090,7 @@ public abstract class AbstractReserve extends CustomWindow {
                             break;
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("Error in resetLineBtnResLogic :" , ex);
+                    LOGGER.error("Error in resetLineBtnResLogic :", ex);
                 }
             }
 
@@ -1316,7 +1216,7 @@ public abstract class AbstractReserve extends CustomWindow {
                         notif.setPosition(Position.MIDDLE_CENTER);
                         notif.show(Page.getCurrent());
                     } catch (Exception ex) {
-                        LOGGER.error("Error in saveConfigDetails :" , ex);
+                        LOGGER.error("Error in saveConfigDetails :", ex);
                     }
                 }
 
@@ -1429,7 +1329,7 @@ public abstract class AbstractReserve extends CustomWindow {
         in.defaultReadObject();
     }
 
-    private String reportIndicatorMethod(String value) {
+    public String reportIndicatorMethod(String value) {
         String val;
         if ("YES".contains(value.toUpperCase(Locale.ENGLISH))) {
             val = ZERO;
@@ -1441,7 +1341,7 @@ public abstract class AbstractReserve extends CustomWindow {
         return val;
     }
 
-    private String creditAndDebitIndicator(String value) {
+    public String creditAndDebitIndicator(String value) {
         String val;
         if ("POSITIVE".contains(value.toUpperCase(Locale.ENGLISH)) && "NEGATIVE".contains(value.toUpperCase(Locale.ENGLISH))) {
             val = StringUtils.EMPTY;
@@ -1454,5 +1354,61 @@ public abstract class AbstractReserve extends CustomWindow {
         }
         return val;
     }
+
+    private ExtFilterGenerator resultsFilters = new ExtFilterGenerator() {
+        @Override
+        public Container.Filter generateFilter(Object propertyId, Object value) {
+            return null;
+        }
+
+        @Override
+        public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
+
+            if (originatingField.getValue() != null && !originatingField.getValue().toString().equals(StringUtils.EMPTY)) {
+                String value = String.valueOf(originatingField.getValue().toString());
+                if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.getConstant()) && !value.isEmpty()) {
+                    value = reportIndicatorMethod(value);
+                    return new SimpleStringFilter(propertyId, ZERO.equals(originatingField.getValue().toString()) ? StringUtils.EMPTY : value, false, false);
+                }
+                if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.getConstant()) || propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.getConstant()) && !value.isEmpty()) {
+                    value = creditAndDebitIndicator(value);
+                    return new SimpleStringFilter(propertyId, ZERO.equals(originatingField.getValue().toString()) ? StringUtils.EMPTY : value, false, false);
+                }
+                return new SimpleStringFilter(propertyId, ZERO.equals(originatingField.getValue().toString()) ? StringUtils.EMPTY : originatingField.getValue().toString(), false, false);
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        public void filterRemoved(Object absReservepropertyId) {
+            LOGGER.debug("Inside filterRemoved Method");
+        }
+
+        @Override
+        public void filterAdded(Object absReservepropertyId, Class<? extends Container.Filter> filterType, Object value) {
+            LOGGER.debug("Inside filterAdded Method");
+        }
+
+        @Override
+        public Container.Filter filterGeneratorFailed(Exception reason, Object absReservepropertyId, Object value) {
+            return null;
+        }
+
+        @Override
+        public AbstractField<?> getCustomFilterComponent(Object absReservepropertyId) {
+            if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant().equals(absReservepropertyId) || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COMPANYNO.getConstant().equals(absReservepropertyId)
+                    || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DIVISION.getConstant().equals(absReservepropertyId) || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.BUSINESS_UNIT.getConstant().equals(absReservepropertyId)) {
+                CustomTextField text = new CustomTextField();
+                text.setVisible(false);
+                text.setImmediate(true);
+                return text;
+            } else {
+                CustomTextField text = new CustomTextField();
+                text.setImmediate(true);
+                return text;
+            }
+        }
+    };
 
 }

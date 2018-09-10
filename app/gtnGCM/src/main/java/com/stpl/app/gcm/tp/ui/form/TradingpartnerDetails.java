@@ -123,7 +123,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
                             } else {
                                 checkedCount.remove(itemId);
                             }
-                            if (checkedCount.size() > 0) {
+                            if (!checkedCount.isEmpty()) {
                                 session.setRemoveCheck(true);
                             } else {
                                 session.setRemoveCheck(false);

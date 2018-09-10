@@ -370,11 +370,11 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				GtnFrameworkReportStringConstants.LEVEL_VALUE));
 		customerSelectionDualListBoxConfig.setModuleType("");
 		customerSelectionDualListBoxConfig
-				.setLeftTableURL(GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE);
+				.setLeftTableURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE);
 		customerSelectionDualListBoxConfig
-				.setMoveRightURL(GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_RIGHT_TABLELOAD_SERVICE);
+				.setMoveRightURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_RIGHT_TABLELOAD_SERVICE);
 		customerSelectionDualListBoxConfig
-				.setMoveAllDataURL(GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_ALL_DATA_TABLELOAD_SERVICE);
+				.setMoveAllDataURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_ALL_DATA_TABLELOAD_SERVICE);
 
 		customerSelectionDualListBoxComponent.setGtnUIFrameworkV8DualListBoxConfig(customerSelectionDualListBoxConfig);
 	}

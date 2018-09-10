@@ -8,7 +8,6 @@ package com.stpl.app.gtnforecasting.service.finderImpl;
 
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -57,8 +56,6 @@ public class BusinessRoleModuleImpl {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
 			return null;
-		} finally {
-			
 		}
 		
 	}
@@ -113,8 +110,6 @@ public class BusinessRoleModuleImpl {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
 			return null;
-		} finally {
-			
 		}
 	}
 	public List getBusinessTabPermission(String businessRoleId,String moduleName) {
@@ -143,28 +138,9 @@ public class BusinessRoleModuleImpl {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
 			return null;
-		} finally {
-			
 		}
 	}
 	
-	 public Object executeSelectQuery(String query, Object udc1) {
-	        
-	        List<Object[]> returnList = new ArrayList<Object[]>();
-	        try {
-	            
-
-	            returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-
-	        } catch (Exception e) {
-	            LOGGER.error(e.getMessage());
-                    LOGGER.error(query);
-	        } finally {
-	            
-	        }
-	        return returnList;
-	    }
-	 
 	 @SuppressWarnings("rawtypes")
 		public List getContractBusinessFunctionPermission(String businessRoleId, String moduleName) {
 			LOGGER.debug("enters getBusinessFunctionPermission()");
@@ -189,8 +165,6 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return null;
-			} finally {
-				
 			}
 
 		}
@@ -217,8 +191,6 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return null;
-			} finally {
-				
 			}
 		}
 
@@ -245,8 +217,6 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return null;
-			} finally {
-				
 			}
 		}
 	        
@@ -279,41 +249,10 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return null;
-			} finally {
-				
 			}
 		}
     public static final String AND_MSM_SUBMODULE_NAME = " AND MSM.SUBMODULE_NAME = '";
     public static final String AND_MSM_MODULE_NAME = " AND MSM.MODULE_NAME = '";
-			
-			@SuppressWarnings("rawtypes")
-			public List findsubmodulePropertyDetails(String businessRoleName,String moduleName,String subModuleName){
-				
-                                String sql = StringUtils.EMPTY;
-				try {
-	                            LOGGER.debug("----Inside findsubmodulePropertyDetails----");
-					
-
-					sql = SQlUtil.getQuery(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findsubmodulePropertyDetails");
-					
-
-					if (moduleName.length()!=0) {
-						sql += AND_MSM_MODULE_NAME + moduleName + "' ";
-					}
-					if (subModuleName.length()!=0) {
-						sql += AND_MSM_SUBMODULE_NAME + subModuleName + "' ";
-					}
-					
-					sql+=" order by SPM.CATEGORY_NAME";
-					return HelperTableLocalServiceUtil.executeSelectQuery(sql);
-				} catch (Exception e) {                            
-					LOGGER.error(e.getMessage());
-	                                LOGGER.error(sql);
-					return null;
-				} finally {
-					
-				}
-		}
 			
 			@SuppressWarnings("rawtypes")
 			public List findFieldAccessDetails(String businessRoleName,String moduleName,String subModuleName){
@@ -343,38 +282,6 @@ public class BusinessRoleModuleImpl {
 					LOGGER.error(e.getMessage());
 	                                LOGGER.error(sql);
 					return null;
-				} finally {
-					
 				}
 			}
-				
-				@SuppressWarnings("rawtypes")
-				public List findSubModuleFieldDetails(String businessRoleName,String moduleName,String subModuleName){
-					
-                                        String sql = StringUtils.EMPTY;
-					try {
-	                                    LOGGER.debug("---Inside findSubModuleFieldDetails----");
-						
-
-						sql = SQlUtil.getQuery(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findsubmoduleFieldDetails");
-						
-
-						if (moduleName.length()!=0) {
-							sql += AND_MSM_MODULE_NAME + moduleName + "' ";
-						}
-						if (subModuleName.length()!=0) {
-							sql += AND_MSM_SUBMODULE_NAME + subModuleName + "' ";
-						}
-						
-						
-						return HelperTableLocalServiceUtil.executeSelectQuery(sql);
-					} catch (Exception e) {
-						LOGGER.error(e.getMessage());
-	                                        LOGGER.error(sql);
-						return null;
-					} finally {
-						
-					}
-			}
-                                
 }

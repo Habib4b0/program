@@ -45,11 +45,13 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsExcelResponse;
 import com.stpl.gtn.gtn2o.ws.response.contract.GtnWsContractDashboardResponse;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Abhiram.Giri
  */
+@Service
 public class GtnWsContractDashboardProcessLogic {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsContractDashboardProcessLogic.class);

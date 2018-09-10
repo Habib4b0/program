@@ -34,11 +34,14 @@ import com.stpl.app.arm.accountconfiguration.logic.AccountConfigLogic;
 import com.stpl.app.arm.accountconfiguration.logic.tablelogic.AccountConfigTableLogic;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
+import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
+import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.app.utils.VariableConstants;
+import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
@@ -162,6 +165,8 @@ public abstract class AbstractAccountConfig extends CustomWindow {
      * This field is used to save the field values.
      */
     protected AccountConfigSelection selection;
+
+    protected CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
     /**
      * The Constant LOGGER.
      */
@@ -333,13 +338,13 @@ public abstract class AbstractAccountConfig extends CustomWindow {
     @UiHandler("removeLineBtn")
     public void removeLineButtonLogic(Button.ClickEvent event) {
         final List<AccountConfigDTO> list = detailsTableContainer.getItemIds();
-        final List<AccountConfigDTO> finalList = new ArrayList();
+        final List<AccountConfigDTO> removefinalList = new ArrayList();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getCheckRecord()) {
-                finalList.add(list.get(i));
+                removefinalList.add(list.get(i));
             }
         }
-        if (finalList.isEmpty()) {
+        if (removefinalList.isEmpty()) {
             AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getRemoveLineMessageID001());
         } else {
             new AbstractNotificationUtils() {
@@ -347,15 +352,15 @@ public abstract class AbstractAccountConfig extends CustomWindow {
                 public void yesMethod() {
                     try {
                         logic.removeLineLogic(selection);
-                        for (int i = 0; i < finalList.size(); i++) {
-                            detailsTableContainer.removeItem(finalList.get(i));
+                        for (int i = 0; i < removefinalList.size(); i++) {
+                            detailsTableContainer.removeItem(removefinalList.get(i));
                         }
                         if (list.isEmpty()) {
                             resultsTable.setColumnCheckBox(CommonConstant.CHECK_RECORD, true, false);
                         }
                         detailsTableLogic.loadsetData(true, selection);
                     } catch (Exception ex) {
-                        GTNLOGGER.error("Error in removeLineButtonLogic :" , ex);
+                        GTNLOGGER.error("Error in removeLineButtonLogic :", ex);
                     }
                 }
 
@@ -505,7 +510,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
                     logic.resetLineLogic(selection.getTempTableName());
                     detailsTableLogic.loadsetData(true, selection);
                 } catch (Exception ex) {
-                    GTNLOGGER.error("Error in resetLineBtnResLogic :" , ex);
+                    GTNLOGGER.error("Error in resetLineBtnResLogic :", ex);
                 }
             }
 
@@ -566,7 +571,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             createWorkSheet("Account Configuration", resultsTable);
 
         } catch (Exception ex) {
-            GTNLOGGER.error("Error in exportButtonLogic :" , ex);
+            GTNLOGGER.error("Error in exportButtonLogic :", ex);
         }
     }
 
@@ -578,9 +583,9 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             if (resultTable.size() != 0) {
                 recordCount = selection.isViewMode() && selection.isCurrentView() ? 1 : logic.getAccountConfigCount(selection, detailsTableLogic.getFilters());
             }
-            ExcelExportforBB.createWorkSheet(ARMUtils.getExcelAccountConfigSearchHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase(Locale.ENGLISH));
+            ExcelExportforBB.createWorkSheet(ARMUtils.getExcelAccountConfigSearchHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(" ", String.valueOf(ARMUtils.UNDERSCORE)).toUpperCase(Locale.ENGLISH));
         } catch (Exception ex) {
-            GTNLOGGER.error("Error in createWorkSheet :" , ex);
+            GTNLOGGER.error("Error in createWorkSheet :", ex);
         }
     }
 
@@ -609,16 +614,16 @@ public abstract class AbstractAccountConfig extends CustomWindow {
      * @return
      */
     protected String getCompanyNo(int sysid) {
-        List input = new ArrayList<>();
-        input.add(sysid);
-        List dataList = QueryUtils.getItemData(input, "Load_Company_No", null);
+        List companyInput = new ArrayList<>();
+        companyInput.add(sysid);
+        List dataList = QueryUtils.getItemData(companyInput, "Load_Company_No", null);
         if (dataList.isEmpty()) {
             return StringUtils.EMPTY;
         }
         return String.valueOf(dataList.get(0));
     }
 
-    public void closeBtnLogic() {
+    public void closeAccountBtnLogic() {
         new AbstractNotificationUtils() {
             @Override
             public void yesMethod() {
@@ -787,20 +792,97 @@ public abstract class AbstractAccountConfig extends CustomWindow {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object absAccConfigObj) {
+        return super.equals(absAccConfigObj);
     }
 
     @Override
     public int hashCode() {
+        GTNLOGGER.debug("Abstract Account Config HashCode");
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream objectOutputStreamOut) throws IOException {
+        objectOutputStreamOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream objectOutputStreamIn) throws IOException, ClassNotFoundException {
+        objectOutputStreamIn.defaultReadObject();
+    }
+
+    protected void getButtonVisiblity(Map<String, AppPermission> functionHM, String buttonName, Button button) {
+        if (functionHM.get(buttonName) != null && !(functionHM.get(buttonName)).isFunctionFlag()) {
+            button.setVisible(false);
+        } else {
+            button.setVisible(true);
+        }
+    }
+
+    protected void securityForButtons() {
+        final StplSecurity stplSecurity = new StplSecurity();
+        final String userId = String.valueOf(sessionDTO.getUserId());
+        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + ARMUtils.COMMA_CHAR + "Landing screen");
+        getButtonVisiblity(functionHM, "addLineBtn", getAddLineBtn());
+        getButtonVisiblity(functionHM, "resetLineBtn", getResetLineBtn());
+        getButtonVisiblity(functionHM, "removeLineBtn", getRemoveLineBtn());
+        getButtonVisiblity(functionHM, "copyLineBtn", getCopyLineBtn());
+        getButtonVisiblity(functionHM, "saveBtn", getSaveBtn());
+        getButtonVisiblity(functionHM, "closeBtn", getCloseBtn());
+        securityForButton(functionHM);
+    }
+
+    protected void securityForFields() {
+
+        final StplSecurity stplSecurity = new StplSecurity();
+        final String userId = String.valueOf(sessionDTO.getUserId());
+        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + ARMUtils.COMMA_CHAR + "Landing Screen");
+        configureFieldPermission(functionHMforFields);
+        if (functionHMforFields.get("massfieldDdlb") != null && !(functionHMforFields.get("massfieldDdlb")).isFunctionFlag()) {
+            getMassfieldDdlb().setVisible(false);
+            getLabelField().setVisible(false);
+
+        } else {
+            getMassfieldDdlb().setVisible(true);
+            getLabelField().setVisible(true);
+
+        }
+        if (functionHMforFields.get("massValue") != null && !(functionHMforFields.get("massValue")).isFunctionFlag()) {
+            getMassValue().setVisible(false);
+            getLabelValue().setVisible(false);
+        } else {
+            getMassValue().setVisible(true);
+            getLabelValue().setVisible(true);
+
+        }
+
+    }
+
+    protected void configureFieldPermission(Map<String, AppPermission> functionHMforFields) {
+        GTNLOGGER.debug("Entering configurePermission");
+        List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ACCOUNT_CONFIGURATION, "Landing Screen");
+        HorizontalLayout horizontalLayout = getHorizontalDetailsLayout();
+        commonSecurity.removeComponentOnPermission(resultList, horizontalLayout, functionHMforFields, CommonSecurityLogic.ADD);
+        GTNLOGGER.debug("Ending configurePermission");
+
+    }
+
+    protected void securityForButton(Map<String, AppPermission> functionHM) {
+        if (functionHM.get("exportBtn") != null && !(functionHM.get("exportBtn")).isFunctionFlag()) {
+            getExportBtn().setVisible(false);
+        } else {
+            getExportBtn().setVisible(true);
+        }
+        if (functionHM.get("populateBtn") != null && !(functionHM.get("populateBtn")).isFunctionFlag()) {
+            getPopulateBtn().setVisible(false);
+        } else {
+            getPopulateBtn().setVisible(true);
+        }
+        if (functionHM.get("viewOpg") != null && !(functionHM.get("viewOpg")).isFunctionFlag()) {
+            getViewOpg().setVisible(false);
+            getLabelView().setVisible(false);
+        } else {
+            getViewOpg().setVisible(true);
+            getLabelView().setVisible(true);
+        }
     }
 }

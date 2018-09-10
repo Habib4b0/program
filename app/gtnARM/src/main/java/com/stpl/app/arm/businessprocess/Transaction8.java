@@ -109,11 +109,13 @@ public class Transaction8 extends AbstractTransaction {
 
     @Override
     public String getGtnQuery() {
+        LOGGER.debug("Transaction 8 Gtn Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
+        LOGGER.debug("Transaction 8 Reserve Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 

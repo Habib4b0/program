@@ -46,6 +46,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIUOMLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionBeforeCloseAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionRemoveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionSubmitAction;
@@ -304,7 +305,7 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
 				GtnReportingVariableBreakdownGridLoadActionBasedOnHistory.class.getName(),
 				new GtnReportingVariableBreakdownGridLoadActionBasedOnHistory());
-				
+
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkGridToBarChartAction.class.getName(),
 				new GtnFrameworkGridToBarChartAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkPublicViewDeleteValidation.class.getName(),
@@ -312,15 +313,17 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportOptionsViewOptionsAction.class.getName(),
 				new GtnFrameworkReportOptionsViewOptionsAction());
-                
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportSearchNotification.class.getName(),
+
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportSearchNotification.class.getName(),
 				new GtnFrameworkReportSearchNotification());
-                
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(ForecastEligibilityDateValueChangeAction.class.getName(),
+
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(ForecastEligibilityDateValueChangeAction.class.getName(),
 				new ForecastEligibilityDateValueChangeAction());
-                
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(ComparisonProjectionResultFilterAction.class.getName(),
+
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(ComparisonProjectionResultFilterAction.class.getName(),
 				new ComparisonProjectionResultFilterAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonProjectionBeforeCloseAction.class.getName(),
+				new GtnReportComparisonProjectionBeforeCloseAction());
 
 	}
 

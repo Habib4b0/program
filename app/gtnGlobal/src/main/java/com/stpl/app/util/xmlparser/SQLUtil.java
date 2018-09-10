@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SQLUtil {
 
-    private final Map<String, String> QUERY_MAP = new HashMap<>();
+    private final Map<String, String> queryMap = new HashMap<>();
     private static SQLUtil sqlUtil = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(SQLUtil.class);
 
@@ -58,7 +58,7 @@ public class SQLUtil {
                 Sql que = (Sql) jaxbUnmarshaller.unmarshal(tempUrl);
                 List<SqlEntity> list = que.getSqlEntity();
                 for (SqlEntity ans : list) {
-                    QUERY_MAP.put(ans.getSqlID(), ans.getSqlQuery());
+                    queryMap.put(ans.getSqlID(), ans.getSqlQuery());
                 }
             }
         }
@@ -66,7 +66,7 @@ public class SQLUtil {
     }
 
     private Map<String, String> getQUERY_MAP() {
-        return QUERY_MAP;
+        return queryMap;
     }
 
     public static String getQuery(String sqlId) {

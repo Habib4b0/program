@@ -37,7 +37,7 @@ public class NotificationMgmtLogicDAOImpl implements NotificationMgmtLogicDAO {
     }
 
     @Override
-    public MailNotificationMaster getMailNotificationMaster(int systemId) throws SystemException, PortalException {
+    public MailNotificationMaster getMailNotificationMaster(int systemId) throws PortalException {
         return MailNotificationMasterLocalServiceUtil.getMailNotificationMaster(systemId);
     }
 
@@ -47,7 +47,7 @@ public class NotificationMgmtLogicDAOImpl implements NotificationMgmtLogicDAO {
     }
 
     @Override
-    public MailNotificationMaster deleteNotification(int mailNotificationSystemId) throws SystemException, PortalException {
+    public MailNotificationMaster deleteNotification(int mailNotificationSystemId) throws PortalException {
         return MailNotificationMasterLocalServiceUtil.deleteMailNotificationMaster(mailNotificationSystemId);
     }
 

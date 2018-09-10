@@ -49,13 +49,13 @@ public class ExistingComponentDTO {
     private int companyFamilyPlanSystemId;
     private int ifpDetailsSystemId;
     private String itemFamilyplanType = StringUtils.EMPTY;
-    private Integer IFPtype = 0;
+    private Integer ifpType = 0;
     private Integer itemFamilyplanStatus = 0;
     private String itemFamilyplanDesignation = StringUtils.EMPTY;
     private String priceScheduleSystemId;
     private String priceScheduleNameValue = StringUtils.EMPTY;
-    private Integer PStatus = 0;
-    private Integer Ptype = 0;
+    private Integer pStatus = 0;
+    private Integer ptype = 0;
     private Integer rebateScheduleSystemId;
     private String rebateScheduleName = StringUtils.EMPTY;
     private Integer rebateScheduleStatus = 0;
@@ -277,19 +277,19 @@ public class ExistingComponentDTO {
     }
 
     public Integer getPStatus() {
-        return PStatus;
+        return pStatus;
     }
 
-    public void setPStatus(Integer PStatus) {
-        this.PStatus = PStatus;
+    public void setPStatus(Integer pStatus) {
+        this.pStatus = pStatus;
     }
 
     public Integer getPtype() {
-        return Ptype;
+        return ptype;
     }
 
-    public void setPtype(Integer Ptype) {
-        this.Ptype = Ptype;
+    public void setPtype(Integer pType) {
+        this.ptype = pType;
     }
 
     public int getIfpDetailsSystemId() {
@@ -309,11 +309,11 @@ public class ExistingComponentDTO {
     }
 
     public Integer getIFPtype() {
-        return IFPtype;
+        return ifpType;
     }
 
-    public void setIFPtype(Integer IFPtype) {
-        this.IFPtype = IFPtype;
+    public void setIFPtype(Integer ifpType) {
+        this.ifpType = ifpType;
     }
 
     public Integer getItemFamilyplanStatus() {

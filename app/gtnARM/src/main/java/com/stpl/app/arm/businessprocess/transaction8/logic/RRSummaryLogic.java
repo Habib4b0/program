@@ -238,16 +238,16 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
                 value = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? new Object[]{"D", "B", "I"} : new Object[]{"B", "I"};
             }
-            query = query.replace("@LEVEL_VAL", "'" + StringUtils.join(value, ",") + "'");
+            query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
             query = query.replace("@DEDCONDITION", selection.getSummarydeductionLevelDes());
-            query = query.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+            query = query.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
             query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
             query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
             query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
             query = query.replace("@TABLE_NAME", isView ? CommonConstant.ARM_RETURN_RESERVE : CommonConstant.ST_ARM_RETURN_RESERVE);
             return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
         } catch (Exception ex) {
-            LOGGER.error("Error in getExcelResultList :" , ex);
+            LOGGER.error("Error in getExcelResultList :", ex);
             return Collections.emptyList();
         }
     }

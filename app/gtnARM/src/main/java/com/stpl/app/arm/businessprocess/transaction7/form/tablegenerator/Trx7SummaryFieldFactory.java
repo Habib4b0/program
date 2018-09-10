@@ -105,39 +105,39 @@ public class Trx7SummaryFieldFactory implements TableFieldFactory {
         input.add(dto.getMasterSids()[NumericConstants.TWO] == null ? "%" : dto.getMasterSids()[NumericConstants.TWO]);
         input.add(dto.getMasterSids()[NumericConstants.THREE] == null ? "%" : dto.getMasterSids()[NumericConstants.THREE]);
         input.addAll(logic.getTableInput(selection.getSessionDTO()));
-        service.submit(new UpdateOverride(input));
+        service.submit(new Tr7SummaryUpdateOverride(input));
     }
 
-    class UpdateOverride implements Runnable {
+    class Tr7SummaryUpdateOverride implements Runnable {
 
-        private List input;
-        private boolean updateSuccess;
+        private List summaryInput;
+        private boolean summaryUpdateSuccess;
 
-        public UpdateOverride(List input) {
-            this.input = CommonLogic.getInstance().getArrayListCloned(input);
+        public Tr7SummaryUpdateOverride(List input) {
+            this.summaryInput = CommonLogic.getInstance().getArrayListCloned(input);
 
         }
 
         @Override
         public void run() {
-            updateSuccess = logic.updateOverride(input);
+            summaryUpdateSuccess = logic.updateOverride(summaryInput);
         }
 
         public boolean isUpdateSuccess() {
-            return updateSuccess;
+            return summaryUpdateSuccess;
         }
 
     }
 
-    AbstractSummaryLogic getLogic() {
+    public AbstractSummaryLogic getLogic() {
         return logic;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream tr7SummaryOut) throws IOException {
+        tr7SummaryOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream tr7SummaryIn) throws IOException, ClassNotFoundException {
+        tr7SummaryIn.defaultReadObject();
     }
 }

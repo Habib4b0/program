@@ -24,24 +24,24 @@ import org.apache.commons.lang.StringUtils;
 public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
     @Override
-    public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
+    public List<List> getReserveAccountDetails(AbstractSelectionDTO inflationSelection, Boolean isReserve) {
         List replaceList = new ArrayList();
         List<String> reserveHeader = new ArrayList<>();
         List<String> reserveProperty = new ArrayList<>();
         List<List> finalList = new ArrayList<>();
-        StringBuilder value;
+        StringBuilder inflationValue;
         StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
         replaceList.add(isReserveValue);
-        replaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
-        replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-        replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
+        replaceList.add(inflationSelection.getDataSelectionDTO().getAdjustmentId());
+        replaceList.add(inflationSelection.getDataSelectionDTO().getProjectionId());
+        replaceList.add(inflationSelection.getDataSelectionDTO().getProjectionId());
+        replaceList.add(inflationSelection.getDataSelectionDTO().getCompanyMasterSid());
+        replaceList.add(inflationSelection.getDataSelectionDTO().getBucompanyMasterSid());
         StringBuilder query;
-        if (selection.isIsWorkFlow()) {
+        if (inflationSelection.isIsWorkFlow()) {
             query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
+            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(inflationSelection.getDataSelectionDTO().getProjectionId()));
             query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
         } else {
             query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
@@ -55,21 +55,21 @@ public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmen
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                value = new StringBuilder(StringUtils.EMPTY);
+                inflationValue = new StringBuilder(StringUtils.EMPTY);
                 property = new StringBuilder(StringUtils.EMPTY);
                 if (isValid(obj[0])) {
-                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
+                    inflationValue = new StringBuilder(helperId.getDescriptionByID((Integer) (obj[0])));
                     property = new StringBuilder(String.valueOf(obj[0]));
                 }
                 if (isValid(obj[1])) {
-                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
+                    inflationValue.append(DASH).append(helperId.getDescriptionByID((Integer) (obj[1])));
                     property.append(DASH).append(String.valueOf(obj[1]));
                 }
                 if (isValid(obj[NumericConstants.TWO])) {
-                    value.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
+                    inflationValue.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
                     property.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
                 }
-                reserveHeader.add(value.toString());
+                reserveHeader.add(inflationValue.toString());
                 reserveProperty.add(property.toString());
             }
             finalList.add(reserveHeader);
@@ -105,14 +105,14 @@ public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmen
     }
 
     @Override
-    protected String getAmountFilterCondition(List<String> condition, String tableAliasName) {
+    protected String getAmountFilterCondition(List<String> inflationCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
-        if (condition != null && !condition.isEmpty() && condition.size() < NumericConstants.THREE) {
+        if (inflationCondition != null && !inflationCondition.isEmpty() && inflationCondition.size() < NumericConstants.THREE) {
             StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
-            for (int i = 0; i < condition.size(); i++) {
-                String str = condition.get(i);
+            for (int i = 0; i < inflationCondition.size(); i++) {
+                String str = inflationCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
-                if (condition.size() > 1 && i != 1) {
+                if (inflationCondition.size() > 1 && i != 1) {
                     grlStr.append(" OR ");
                 }
             }

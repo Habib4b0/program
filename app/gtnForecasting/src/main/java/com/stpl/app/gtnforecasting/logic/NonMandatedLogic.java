@@ -88,7 +88,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class NonMandatedLogic.
  *
@@ -128,7 +128,6 @@ public class NonMandatedLogic {
 	 * the SALES_SMALL dao.
 	 */
 	private final SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
-        private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	/**
 	 * Searh view.
@@ -148,7 +147,7 @@ public class NonMandatedLogic {
 	 *             the exception
 	 */
 	public static List<ViewDTO> searhView(final String viewName, final String forecastType, final String viewType)
-			throws SystemException, PortalException, ParseException {
+			throws PortalException, ParseException {
 		LOGGER.debug("Entering searchView method");
 		List list = null;
 		final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
@@ -162,7 +161,7 @@ public class NonMandatedLogic {
 	}
 
 	public static List<ViewDTO> searhViewARP(final String viewName, final String forecastType, final String viewType)
-			throws SystemException, PortalException, ParseException {
+			throws PortalException, ParseException {
 		LOGGER.debug("Entering searchView method");
 		List list = null;
 		final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
@@ -188,7 +187,7 @@ public class NonMandatedLogic {
 	 * @throws Exception
 	 *             the exception
 	 */
-	public static String deleteView(final int viewId) throws SystemException, PortalException {
+	public static String deleteView(final int viewId) throws PortalException {
 		LOGGER.debug("Entering deleteView method with viewId= {} " , viewId);
 		final ForecastingViewMaster fvm = dataSelection.deleteForecastingViewMaster(viewId);
 		LOGGER.debug("End of deleteView method");
@@ -212,7 +211,7 @@ public class NonMandatedLogic {
 	 *             the exception
 	 */
 	public int updateProjection(final DataSelectionDTO dataSelectionDTO, int projectionId, final boolean markAsSaved,
-			final String screenName) throws PortalException, SystemException {
+			final String screenName) throws PortalException {
 
 		final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
 		ProjectionMaster projectionMaster = ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
@@ -521,7 +520,7 @@ public class NonMandatedLogic {
 	 * @throws Exception
 	 *             the exception
 	 */
-	public PMPYCalculatorDTO pmpyGenerateLogic(final String tpName) throws SystemException, PortalException {
+	public PMPYCalculatorDTO pmpyGenerateLogic(final String tpName) throws PortalException {
 		final PMPYCalculatorDTO bean = new PMPYCalculatorDTO();
 		String tpName1;
 
@@ -1204,7 +1203,7 @@ public class NonMandatedLogic {
 	 */
 	public List<ProjectionVarianceDTO> generatePivotProjectionVariance(final int projectionId, final String indicator,
 			final List<Integer> comparisonProjections, final String frequency, final String level,
-			final String discountLevel) throws SystemException, PortalException {
+			final String discountLevel) throws PortalException {
 		LOGGER.debug("Generate Pivot Projection Variance");
 
 		return projectionVarianceDAO.generatePivotProjectionVariance(projectionId, indicator, comparisonProjections,
@@ -1236,7 +1235,7 @@ public class NonMandatedLogic {
 	 */
 	public List<ProjectionVarianceDTO> getVariancePPAGroup(final int projectionId, final String indicator,
 			final List<Integer> comparisonProjections, final String frequency, final String level,
-			final String discountLevel) throws SystemException, PortalException {
+			final String discountLevel) throws PortalException {
 		LOGGER.debug("Generate PPA Group for Projection Variance");
 
 		return pPAProjectionDao.getContractHolderSummary(projectionId, indicator, comparisonProjections, frequency,
@@ -1268,7 +1267,7 @@ public class NonMandatedLogic {
 	 */
 	public List<ProjectionVarianceDTO> getVarianceSalesGroup(final int projectionId, final String indicator,
 			final List<Integer> comparisonProjections, final String frequency, final String level,
-			final String discountLevel) throws SystemException, PortalException {
+			final String discountLevel) throws PortalException {
 		LOGGER.debug("Generate PPA Group for Projection Variance");
 
 		return salesProjectionDAO.getContractHolderSummary(projectionId, indicator, comparisonProjections, frequency,
@@ -1300,7 +1299,7 @@ public class NonMandatedLogic {
 	 */
 	public List<ProjectionVarianceDTO> getVarianceDiscountGroup(final int projectionId, final String indicator,
 			final List<Integer> comparisonProjections, final String frequency, final String level,
-			final String discountLevel) throws SystemException, PortalException {
+			final String discountLevel) throws PortalException {
 		LOGGER.debug("Generate PPA Group for  Projection Variance");
 
 		return projectionVarianceDAO.getContractHolderSummary(projectionId, indicator, comparisonProjections, frequency,
@@ -1342,7 +1341,7 @@ public class NonMandatedLogic {
 	 */
 	public List<DataSelectionDTO> searchForProjections(String workflowStatus, String marketType, String brand,
 			String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract, String from,
-			String to) throws SystemException, PortalException {
+			String to) throws PortalException {
 
 		return projectionVarianceDAO.searchForProjections(workflowStatus, marketType, brand, projName, contHldr, ndcNo,
 				ndcName, desc, contract, from, to);
@@ -1392,10 +1391,12 @@ public class NonMandatedLogic {
 	public List<GroupDTO> getCustomerGroup(String customerName, String customerNo, List<String> companySids)
 			throws SystemException {
 		Map<String, Object> parameters = new HashMap<>();
-		customerName = customerName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-		customerNo = customerNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-		parameters.put(Constant.CUSTOMER_NO, customerNo);
-		parameters.put(Constant.CUSTOMER_NAME, customerName);
+                String customerNamGroup  =customerName; 
+                String customerNoGroup  =customerNo; 
+		customerNamGroup = customerNamGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		customerNoGroup = customerNoGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		parameters.put(Constant.CUSTOMER_NO, customerNoGroup);
+		parameters.put(Constant.CUSTOMER_NAME, customerNamGroup);
 		parameters.put("companySids", companySids);
 		parameters.put(Constant.INDICATOR, "CustomerGroup");
 
@@ -1416,12 +1417,14 @@ public class NonMandatedLogic {
 	 */
 	public List<GroupDTO> getProductGroup(String productName, String productNo, List<String> itemSids)
             throws SystemException {
+        String productNameGroup  =productName; 
+        String productNoGroup  =productNo; 
         Map<String, Object> parameters = new HashMap<>();
-        productName = productName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-        productNo = productNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        productNameGroup = productNameGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        productNoGroup = productNoGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 
-        parameters.put(Constant.PRODUCT_NAME, productName);
-        parameters.put(Constant.PRODUCT_NO, productNo);
+        parameters.put(Constant.PRODUCT_NAME, productNameGroup);
+        parameters.put(Constant.PRODUCT_NO, productNoGroup);
         parameters.put("itemSids", itemSids);
         parameters.put(Constant.INDICATOR, "ProductGroup");
         return Converters.convertItemGroupList(dataSelection.getProductGroup(parameters));
@@ -1437,10 +1440,10 @@ public class NonMandatedLogic {
      */
     public int saveProjection(final DataSelectionDTO dataSelectionDTO, String screenName, boolean isUpdate) throws SystemException {
         int projectionId = 0;
-        SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd ");
+        SimpleDateFormat dbDateSaveProjection = new SimpleDateFormat("yyyy-MM-dd ");
         SimpleDateFormat hoursMinutes = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
-        String customSql = StringUtils.EMPTY;
+        String customSql;
         if (isUpdate) {
             List input = new ArrayList();
             input.add(dataSelectionDTO.getProjectionId());
@@ -1470,8 +1473,8 @@ public class NonMandatedLogic {
         customSql = customSql.replace("@ITEM_GROUP_SID",getValue(dataSelectionDTO.getProdGrpSid(),Constant.NULL));
 
         customSql = customSql.replace("@COMPANY_MASTER_SID",getValue( dataSelectionDTO.getCompanySid(),Constant.NULL));
-        customSql = customSql.replace("@FROM_DATE", DBDate.format(dataSelectionDTO.getFromDate()));
-        customSql = customSql.replace("@TO_DATE", DBDate.format(dataSelectionDTO.getToDate()));
+        customSql = customSql.replace("@FROM_DATE", dbDateSaveProjection.format(dataSelectionDTO.getFromDate()));
+        customSql = customSql.replace("@TO_DATE", dbDateSaveProjection.format(dataSelectionDTO.getToDate()));
 
         customSql = customSql.replace("@CUST_RELATIONSHIP_BUILDER_SID", getValue(dataSelectionDTO.getCustRelationshipBuilderSid(),Constant.ZERO_STRING));
         customSql = customSql.replace("@PROD_RELATIONSHIP_BUILDER_SID",getValue(dataSelectionDTO.getProdRelationshipBuilderSid(),Constant.ZERO_STRING));
@@ -1489,7 +1492,7 @@ public class NonMandatedLogic {
             customSql = customSql.replace("@DED_RELATIONSHIP_BULDER_SID", String.valueOf(obj1[0]));
             customSql = customSql.replace("@DEDUCTION_HIERARCHY_SID", String.valueOf(obj1[1]));
             customSql = customSql.replace("@PROJECTION_DED_VERSION", String.valueOf(versionNoList.get(0)));
-            customSql = customSql.replace("@FORECAST_ELIGIBLE_DATE", DBDate.format(dataSelectionDTO.getForecastEligibleDate()));
+            customSql = customSql.replace("@FORECAST_ELIGIBLE_DATE", dbDateSaveProjection.format(dataSelectionDTO.getForecastEligibleDate()));
             customSql = customSql.replace("@CUSTSID", String.valueOf(dataSelectionDTO.getCustomRelationShipSid()));
             customSql = customSql.replace("@CUSTDEDSID", String.valueOf(dataSelectionDTO.getCustomDeductionRelationShipSid()));
         }
@@ -1697,7 +1700,7 @@ public class NonMandatedLogic {
 						getUploadedData, description);
 			}
 
-		} catch (PortalException | SystemException e) {
+		} catch (SystemException e) {
 			LOGGER.error(e.getMessage());
 			return "Not Saved";
 		}
@@ -1731,7 +1734,8 @@ public class NonMandatedLogic {
 	 */
 	public List<HelperDTO> getCompanies(int startIndex, int endIndex, String filterText) throws SystemException {
 		DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
-		filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+		String filterTextCompanies = filterText;
+                       filterTextCompanies = StringUtils.trimToEmpty(filterTextCompanies) + Constant.PERCENT;
 		dynamicQuery.add(PropertyFactoryUtil.forName("companyType")
 				.in(HelperTableLocalServiceUtil.dynamicQuery()
 						.add(RestrictionsFactoryUtil.eq(Constant.DESCRIPTION, "GLCOMP"))
@@ -1740,7 +1744,7 @@ public class NonMandatedLogic {
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.COMPANYMASTERSID));
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.COMPANY_NAME));
 		dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
-		dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.COMPANY_NAME, filterText));
+		dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.COMPANY_NAME, filterTextCompanies));
 		dynamicQuery.setLimit(startIndex, endIndex);
 		List<Object[]> returnlist = dataSelection.getCompanies(dynamicQuery);
 		List<HelperDTO> companies = new ArrayList<>();
@@ -1770,7 +1774,8 @@ public class NonMandatedLogic {
 	 * @throws Exception
 	 */
 	public int getCompaniesCount(String filterText) throws SystemException {
-		filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+            String filterTextCompany = filterText;
+		filterTextCompany = StringUtils.trimToEmpty(filterTextCompany) + Constant.PERCENT;
 		DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(PropertyFactoryUtil.forName("companyType")
 				.in(HelperTableLocalServiceUtil.dynamicQuery()
@@ -1779,7 +1784,7 @@ public class NonMandatedLogic {
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.COMPANYMASTERSID));
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.COMPANY_NAME));
-		dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.COMPANY_NAME, filterText));
+		dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.COMPANY_NAME, filterTextCompany));
 		dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
 		return dataSelection.getCompaniesCount(dynamicQuery);
 	}
@@ -2172,7 +2177,7 @@ public class NonMandatedLogic {
 		return returnList;
 	}
 
-	public void updateSaveFlag(final int projectionId) throws SystemException, PortalException {
+	public void updateSaveFlag(final int projectionId) throws PortalException {
 		ProjectionMaster projectionMaster = ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
 		if (!StringUtils.isEmpty(String.valueOf(projectionId))
 				&& !CommonConstants.NULL.getConstant().equalsIgnoreCase(String.valueOf(projectionId))) {
@@ -2221,7 +2226,7 @@ public class NonMandatedLogic {
 	}
 
 	public int updateBasicsProjectionMaster(final DataSelectionDTO dataSelectionDTO, int projectionId,
-			final boolean markAsSaved) throws PortalException, SystemException {
+			final boolean markAsSaved) throws PortalException {
 
 		final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
 		ProjectionMaster projectionMaster = ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
@@ -2244,7 +2249,7 @@ public class NonMandatedLogic {
 		return projectionMaster.getProjectionMasterSid();
 	}
 
-	public void tempInsert(final SessionDTO inputDto) throws SystemException, ParseException, PortalException {
+	public void tempInsert(final SessionDTO inputDto) throws ParseException, PortalException {
 
 		final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
 		Date tempDate = fmt.parse(inputDto.getSessionDate());
@@ -2267,14 +2272,14 @@ public class NonMandatedLogic {
 	}
 
 	public void insertIntoTempTables(String userId, String sessionId, Date lastModifiedDate, String projectionId)
-			throws PortalException, SystemException {
+			throws PortalException {
 		insertTempSalesProjectionMaster(userId, sessionId, lastModifiedDate, projectionId);
 		insertTempActualSales(userId, sessionId, lastModifiedDate, projectionId);
 		insertTempSalesProjection(userId, sessionId, lastModifiedDate, projectionId);
 	}
 
 	public void insertTempSalesProjectionMaster(String userId, String sessionId, Date lastModifiedDate,
-			String projectionId) throws PortalException, SystemException {
+			String projectionId) throws PortalException {
 		final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
 		String lastModified = fmt.format(lastModifiedDate);
 		String insertQuery = "INSERT INTO ST_M_SALES_PROJECTION_MASTER(\n" + "	PROJECTION_DETAILS_SID,\n"
@@ -2288,13 +2293,13 @@ public class NonMandatedLogic {
 				+ "		dbo.PROJECTION_DETAILS B\n" + "		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID \n"
 				+ "			AND B.PROJECTION_MASTER_SID = " + projectionId + ";";
 
-		SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
-		salesDAO.executeUpdateQuery(insertQuery);
+		SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
+		salesProjectionDAO.executeUpdateQuery(insertQuery);
 
 	}
 
 	public void insertTempSalesProjection(String userId, String sessionId, Date lastModifiedDate, String projectionId)
-			throws PortalException, SystemException {
+			throws PortalException {
 		final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
 		String lastModified = fmt.format(lastModifiedDate);
 		String insertQuery = "INSERT INTO dbo.ST_M_SALES_PROJECTION(\n" + "			PROJECTION_DETAILS_SID,\n"
@@ -2314,13 +2319,13 @@ public class NonMandatedLogic {
 				+ "		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID\n"
 				+ "			AND B.PROJECTION_MASTER_SID=" + projectionId + ";";
 
-		SalesProjectionDAO DAO = new SalesProjectionDAOImpl();
-		DAO.executeUpdateQuery(insertQuery);
+		SalesProjectionDAO dao = new SalesProjectionDAOImpl();
+		dao.executeUpdateQuery(insertQuery);
 
 	}
 
 	public void insertTempActualSales(String userId, String sessionId, Date lastModifiedDate, String projectionId)
-			throws PortalException, SystemException {
+			throws PortalException {
 		final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
 		String lastModified = fmt.format(lastModifiedDate);
 		String insertQuery = "INSERT INTO dbo.ST_M_ACTUAL_SALES(\n" + "			PROJECTION_DETAILS_SID,\n"
@@ -2384,7 +2389,7 @@ public class NonMandatedLogic {
 	 * @throws PortalException
 	 * @throws Exception
 	 */
-	public boolean checkForZeroActuals(final SessionDTO session) throws PortalException, SystemException {
+	public boolean checkForZeroActuals(final SessionDTO session) throws PortalException {
 
 		String query = SQlUtil.getQuery("checktpcustomeractual");
 		List<Object> list = (List<Object>) salesProjectionDAO
@@ -2400,10 +2405,10 @@ public class NonMandatedLogic {
 	 * @throws PortalException
 	 * @throws Exception
 	 */
-	   public void removeTPOrCustomerFromProjection(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) throws PortalException, SystemException {
+	   public void removeTPOrCustomerFromProjection(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) throws PortalException {
 
         List<Integer> levelnoList = null;
-        levelnoList = getMaximumLevelno(session, dataSelectionDTO);
+        levelnoList = getMaximumLevelno(dataSelectionDTO);
         String query = SQlUtil.getQuery("remove-tp-customer-with-no-actuals");
         query = query.replace("@PROJECTION_MASTER_SID", String.valueOf(dataSelectionDTO.getProjectionId()));
         query = query.replace("@PROJECTION_ID", String.valueOf(session.getProjectionId()));
@@ -2412,7 +2417,7 @@ public class NonMandatedLogic {
 
     }
 
-    public List<Integer> getMaximumLevelno(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) {
+    public List<Integer> getMaximumLevelno(final DataSelectionDTO dataSelectionDTO) {
         List<Object> input = new ArrayList<>();
         input.add(String.valueOf(dataSelectionDTO.getCustomerHierSid()));
         input.add(String.valueOf(dataSelectionDTO.getCustomerHierVersionNo()));
@@ -2498,7 +2503,7 @@ public class NonMandatedLogic {
 			for (ProjectionMaster pm : resultList) {
 				workflowStatus = pm.getIsApproved();
 			}
-		} catch (PortalException | SystemException ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		return workflowStatus;

@@ -26,8 +26,7 @@ public interface NationalAssumptionsDAO {
 	 * @throws SystemException
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
-	List getBrandList(DynamicQuery brandQuery) throws PortalException,
-			SystemException;
+	List getBrandList(DynamicQuery brandQuery) throws SystemException;
        /** 
 	 * <!-- begin-UML-doc -->
 	 * <!-- end-UML-doc -->
@@ -37,12 +36,11 @@ public interface NationalAssumptionsDAO {
 	 * @throws SystemException
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
-        List getItemList(DynamicQuery therapeuticQuery) throws PortalException,
-			SystemException;
+        List getItemList(DynamicQuery therapeuticQuery) throws SystemException;
         List<HelperTable> getHelperTable(final DynamicQuery dynamicQuery)
-			throws PortalException, SystemException;
+			throws SystemException;
         List<ItemMaster> getItemMaster(final DynamicQuery dynamicQuery)
-			throws PortalException, SystemException;
+			throws SystemException;
         List<NaProjDetails> getNaProjDetails(final DynamicQuery dynamicQuery)
-			throws PortalException, SystemException;
+			throws SystemException;
 	}

@@ -8,14 +8,9 @@ package com.stpl.gtn.gtn2o.ws;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import de.steinwedel.messagebox.ButtonId;
-import de.steinwedel.messagebox.Icon;
-import de.steinwedel.messagebox.MessageBox;
-import de.steinwedel.messagebox.MessageBoxListener;
 
 /**
  *
@@ -35,7 +30,7 @@ public class GtnUIFrameworkWebServiceClientCallOnFailure {
     public void callGtnWebServiceUrlOnFailure() {
         try {
             logger.info("staticTime****----------------" +staticTime);
-            if((System.currentTimeMillis() - staticTime)/1000 < 30){
+            if((System.currentTimeMillis() - staticTime)/1000 < 150){
                 Long startTime = System.currentTimeMillis();
                 TimeUnit.SECONDS.sleep(10);
                 logger.info("Waiting Time in milliseconds----------------" + (System.currentTimeMillis() - startTime));

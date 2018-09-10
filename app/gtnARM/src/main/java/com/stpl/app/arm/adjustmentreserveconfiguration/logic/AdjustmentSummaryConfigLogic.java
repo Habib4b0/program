@@ -100,23 +100,23 @@ public class AdjustmentSummaryConfigLogic {
         List<AdjustmentReserveDTO> dataList = new ArrayList<>();
         for (Object[] objects : resultList) {
             AdjustmentReserveDTO data = new AdjustmentReserveDTO();
-            data.setAdjustmentSummarySid(objects[0] != null ? Integer.valueOf(String.valueOf(objects[0])) : 0);
+            data.setAdjustmentSummarySid(CommonLogic.getIntegerValue(0, objects));
             data.setCheckRecord(objects[1] == null ? Boolean.FALSE : (Boolean) objects[1]);
             data.setAdjSummaryAdjustmentType(objects[2] != null && !isAddedLineAdjustmentType(objects[12]) ? (String) objects[2] : StringUtils.EMPTY);
-            data.setAdjSummaryPipeLineAccrual(objects[3] != null ? Integer.valueOf(String.valueOf(objects[3])) : 0);
-            data.setAdjSummaryPipeLineAccrualAccountValue(objects[4] != null ? (String) objects[4] : StringUtils.EMPTY);
-            data.setAdjSummaryCurrentBalance(objects[3] != null ? Integer.valueOf(String.valueOf(objects[3])) : 0);
-            data.setAdjSummaryCurrentBalanceAccountValue(objects[4] != null ? (String) objects[4] : StringUtils.EMPTY);
-            data.setAdjSummaryCurrentPipleLine(objects[3] != null ? Integer.valueOf(String.valueOf(objects[3])) : 0);
-            data.setAdjSummaryCurrentPipleLineAccountValue(objects[4] != null ? (String) objects[4] : StringUtils.EMPTY);
-            data.setAdjSummaryDemandAccrual(objects[5] != null ? Integer.valueOf(String.valueOf(objects[5])) : 0);
-            data.setAdjSummaryDemandAccrualAccountValue(objects[6] != null ? (String) objects[6] : StringUtils.EMPTY);
-            data.setAdjSummaryDemandForecast(objects[7] != null ? Integer.valueOf(String.valueOf(objects[7])) : 0);
-            data.setAdjSummaryDemandForecastAccountValue(objects[8] != null ? (String) objects[8] : StringUtils.EMPTY);
-            data.setAdjSummarydemandPaymentRecon(objects[9] != null ? Integer.valueOf(String.valueOf(objects[9])) : 0);
-            data.setAdjSummarydemandPaymentReconAccountValue(objects[10] != null ? (String) objects[10] : StringUtils.EMPTY);
-            data.setMethodology(objects[11] != null ? Integer.valueOf(String.valueOf(objects[11])) : 0);
-            data.setVersionNo(objects[12] != null ? (String) objects[12] : StringUtils.EMPTY);
+            data.setAdjSummaryPipeLineAccrual(CommonLogic.getIntegerValue(3, objects));
+            data.setAdjSummaryPipeLineAccrualAccountValue(CommonLogic.getStringValue(4, objects));
+            data.setAdjSummaryCurrentBalance(CommonLogic.getIntegerValue(3, objects));
+            data.setAdjSummaryCurrentBalanceAccountValue(CommonLogic.getStringValue(4, objects));
+            data.setAdjSummaryCurrentPipleLine(CommonLogic.getIntegerValue(3, objects));
+            data.setAdjSummaryCurrentPipleLineAccountValue(CommonLogic.getStringValue(4, objects));
+            data.setAdjSummaryDemandAccrual(CommonLogic.getIntegerValue(5, objects));
+            data.setAdjSummaryDemandAccrualAccountValue(CommonLogic.getStringValue(6, objects));
+            data.setAdjSummaryDemandForecast(CommonLogic.getIntegerValue(7, objects));
+            data.setAdjSummaryDemandForecastAccountValue(CommonLogic.getStringValue(8, objects));
+            data.setAdjSummarydemandPaymentRecon(CommonLogic.getIntegerValue(9, objects));
+            data.setAdjSummarydemandPaymentReconAccountValue(CommonLogic.getStringValue(10, objects));
+            data.setMethodology(CommonLogic.getIntegerValue(11, objects));
+            data.setVersionNo(CommonLogic.getStringValue(12, objects));
             dataList.add(data);
         }
         return dataList;
@@ -132,23 +132,23 @@ public class AdjustmentSummaryConfigLogic {
         List<AdjustmentReserveDTO> dataList = new ArrayList<>();
         for (Object[] objects : resultList) {
             AdjustmentReserveDTO data = new AdjustmentReserveDTO();
-            data.setAdjustmentSummarySid(objects[0] != null ? Integer.valueOf(String.valueOf(objects[0])) : 0);
+            data.setAdjustmentSummarySid(CommonLogic.getIntegerValue(0, objects));
             data.setCheckRecord(objects[1] == null ? Boolean.FALSE : (Boolean) objects[1]);
             data.setAdjSummaryAdjustmentType(objects[2] != null && !isAddedLineAdjustmentType(objects[12]) ? (String) objects[2] : StringUtils.EMPTY);
-            data.setAdjSummaryPipeLineAccrualDesc(objects[3] != null ? (String.valueOf(objects[3])) : StringUtils.EMPTY);
-            data.setAdjSummaryPipeLineAccrualAccount(objects[4] != null ? (String) objects[4] : StringUtils.EMPTY);
-            data.setAdjSummaryCurrentBalanceDesc(objects[3] != null ? (String.valueOf(objects[3])) : StringUtils.EMPTY);
-            data.setAdjSummaryCurrentBalanceAccount(objects[4] != null ? (String) objects[4] : StringUtils.EMPTY);
-            data.setAdjSummaryCurrentPipleLineDesc(objects[3] != null ? (String.valueOf(objects[3])) : StringUtils.EMPTY);
-            data.setAdjSummaryCurrentPipleLineAccount(objects[4] != null ? (String) objects[4] : StringUtils.EMPTY);
-            data.setAdjSummaryDemandAccrualDesc(objects[5] != null ? (String.valueOf(objects[5])) : StringUtils.EMPTY);
-            data.setAdjSummaryDemandAccrualAccount(objects[6] != null ? (String) objects[6] : StringUtils.EMPTY);
-            data.setAdjSummaryDemandForecastDesc(objects[7] != null ? (String.valueOf(objects[7])) : StringUtils.EMPTY);
-            data.setAdjSummaryDemandForecastAccount(objects[8] != null ? (String) objects[8] : StringUtils.EMPTY);
-            data.setAdjSummarydemandPaymentReconDesc(objects[9] != null ? (String.valueOf(objects[9])) : StringUtils.EMPTY);
-            data.setAdjSummarydemandPaymentReconAccount(objects[10] != null ? (String) objects[10] : StringUtils.EMPTY);
-            data.setMethodology(objects[11] != null ? Integer.valueOf(String.valueOf(objects[11])) : 0);
-            data.setVersionNo(objects[12] != null ? (String) objects[12] : StringUtils.EMPTY);
+            data.setAdjSummaryPipeLineAccrualDesc(CommonLogic.getStringValue(3, objects));
+            data.setAdjSummaryPipeLineAccrualAccount(CommonLogic.getStringValue(4, objects));
+            data.setAdjSummaryCurrentBalanceDesc(CommonLogic.getStringValue(3, objects));
+            data.setAdjSummaryCurrentBalanceAccount(CommonLogic.getStringValue(4, objects));
+            data.setAdjSummaryCurrentPipleLineDesc(CommonLogic.getStringValue(3, objects));
+            data.setAdjSummaryCurrentPipleLineAccount(CommonLogic.getStringValue(4, objects));
+            data.setAdjSummaryDemandAccrualDesc(CommonLogic.getStringValue(5, objects));
+            data.setAdjSummaryDemandAccrualAccount(CommonLogic.getStringValue(6, objects));
+            data.setAdjSummaryDemandForecastDesc(CommonLogic.getStringValue(7, objects));
+            data.setAdjSummaryDemandForecastAccount(CommonLogic.getStringValue(8, objects));
+            data.setAdjSummarydemandPaymentReconDesc(CommonLogic.getStringValue(9, objects));
+            data.setAdjSummarydemandPaymentReconAccount(CommonLogic.getStringValue(10, objects));
+            data.setMethodology(CommonLogic.getIntegerValue(11, objects));
+            data.setVersionNo(CommonLogic.getStringValue(12, objects));
             dataList.add(data);
         }
         return dataList;
@@ -215,7 +215,7 @@ public class AdjustmentSummaryConfigLogic {
         inputList.add(column);
         String values = null;
         if (value != null) {
-            values = "'" + value.toString() + "'";
+            values = ARMUtils.SINGLE_QUOTES + value.toString() + ARMUtils.SINGLE_QUOTES;
         }
         inputList.add(values);
         inputList.add(dto.getAdjustmentSummarySid());

@@ -22,7 +22,6 @@ import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface DataSelectionDAO.
  *
@@ -43,7 +42,7 @@ public interface DataSelectionDAO {
      * @throws Exception the exception
      */
     List findViewByName(String viewName, String forecastType, String userId, String viewType)
-            throws SystemException, PortalException;
+            throws PortalException;
 
     /**
      * Delete forecasting view master.
@@ -54,7 +53,7 @@ public interface DataSelectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    ForecastingViewMaster deleteForecastingViewMaster(int systemId) throws SystemException, PortalException;
+    ForecastingViewMaster deleteForecastingViewMaster(int systemId) throws PortalException;
 
     /**
      * Gets the forecast view masterdynamic query count.
@@ -75,7 +74,7 @@ public interface DataSelectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    User getUser(Long systemId) throws SystemException, PortalException;
+    User getUser(Long systemId) throws PortalException;
 
     /**
      * Gets the item master.
@@ -126,7 +125,7 @@ public interface DataSelectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    ForecastingViewMaster getForecastingViewMaster(int systemId) throws SystemException, PortalException;
+    ForecastingViewMaster getForecastingViewMaster(int systemId) throws PortalException;
 
     /**
      * Adds the forecasting view master.
@@ -157,7 +156,7 @@ public interface DataSelectionDAO {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    ProjectionMaster getProjectionMaster(int systemId) throws PortalException, SystemException;
+    ProjectionMaster getProjectionMaster(int systemId) throws PortalException;
 
     /**
      * Update projection master.
@@ -168,7 +167,7 @@ public interface DataSelectionDAO {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    ProjectionMaster updateProjectionMaster(ProjectionMaster projectionMaster) throws PortalException, SystemException;
+    ProjectionMaster updateProjectionMaster(ProjectionMaster projectionMaster) throws SystemException;
 
     /**
      * Find by projection id_ projection cust details.
@@ -208,7 +207,7 @@ public interface DataSelectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    ProjectionProdDetails deleteProjectionProdDetailsById(int systemId) throws SystemException, PortalException;
+    ProjectionProdDetails deleteProjectionProdDetailsById(int systemId) throws PortalException;
 
     /**
      * Gets the brand master list.
@@ -391,42 +390,42 @@ public interface DataSelectionDAO {
 
     public List getForecastConfig(final DynamicQuery dynamicQuery) throws SystemException;
 
-    public List<ProjectionDetails> getProjectionDetails(final DynamicQuery dynamicQuery) throws PortalException, SystemException;
+    public List<ProjectionDetails> getProjectionDetails(final DynamicQuery dynamicQuery) throws SystemException;
 
-    public ProjectionDetails deleteProjectionDetails(final int systemId) throws PortalException, SystemException;
+    public ProjectionDetails deleteProjectionDetails(final int systemId) throws  PortalException;
 
-    public List<ProjectionCustHierarchy> getProjectionCustHierarchy(final DynamicQuery dynamicQuery) throws PortalException, SystemException;
+    public List<ProjectionCustHierarchy> getProjectionCustHierarchy(final DynamicQuery dynamicQuery) throws SystemException;
 
-    public ProjectionCustHierarchy deleteProjectionCustHierarchy(final int systemId) throws PortalException, SystemException;
+    public ProjectionCustHierarchy deleteProjectionCustHierarchy(final int systemId) throws PortalException;
 
-    public List<ProjectionProdHierarchy> getProjectionProdHierarchy(final DynamicQuery dynamicQuery) throws PortalException, SystemException;
+    public List<ProjectionProdHierarchy> getProjectionProdHierarchy(final DynamicQuery dynamicQuery) throws SystemException;
 
-    public ProjectionProdHierarchy deleteProjectionProdHierarchy(final int systemId) throws PortalException, SystemException;
+    public ProjectionProdHierarchy deleteProjectionProdHierarchy(final int systemId) throws PortalException;
 
-    public List<ProjectionMaster> getProjectionMaster(final DynamicQuery dynamicQuery) throws PortalException, SystemException;
+    public List<ProjectionMaster> getProjectionMaster(final DynamicQuery dynamicQuery) throws SystemException;
 
-    public ProjectionMaster deleteProjectionMaster(final int systemId) throws PortalException, SystemException;
+    public ProjectionMaster deleteProjectionMaster(final int systemId) throws PortalException;
 
     public List getCcpMap(final Map<String, Object> parameters) throws SystemException;
 
     public void saveCcp(final Map<String, Object> parameters) throws SystemException;
 
-    ProjectionDetails addProjectionDetails(ProjectionDetails projectionDetails) throws PortalException, SystemException;
+    ProjectionDetails addProjectionDetails(ProjectionDetails projectionDetails) throws SystemException;
     
     public Object tempOperation(final Map<String, Object> input, final String queryName) throws SystemException;
 
-    public List getProjections(final DynamicQuery dynamicQuery) throws SystemException, PortalException;
+    public List getProjections(final DynamicQuery dynamicQuery) throws  PortalException;
 
-    public int getRelationshipCount(DynamicQuery dynamicQuery) throws SystemException, PortalException;
+    public int getRelationshipCount(DynamicQuery dynamicQuery) throws  PortalException;
 
-    public List getRelationship(DynamicQuery query) throws SystemException, PortalException;
+    public List getRelationship(DynamicQuery query) throws  PortalException;
 
-    public List getChildLevels(final Map<String, Object> parameters) throws SystemException, PortalException;
+    public List getChildLevels(final Map<String, Object> parameters) throws  PortalException;
     
     public int getDiscountCount(DynamicQuery dynamicQuery) throws SystemException;
     
     public List<Object[]> getDiscounts(DynamicQuery dynamicQuery) throws SystemException;
     
-    public List getHelperTableList(DynamicQuery dynamicQuery) throws PortalException, SystemException;
+    public List getHelperTableList(DynamicQuery dynamicQuery) throws SystemException;
     
 }

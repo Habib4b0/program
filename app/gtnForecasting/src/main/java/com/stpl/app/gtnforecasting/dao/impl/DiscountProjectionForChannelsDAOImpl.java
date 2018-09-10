@@ -5,8 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.dao.impl;
 
-import com.liferay.portal.kernel.dao.orm.ORMException;
-import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.stpl.app.gtnforecasting.dao.DiscountProjectionForChannelsDAO;
@@ -41,7 +39,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountProjectionForChannelsDAOImpl.class);
     protected CommonUtils commonUtils = new CommonUtils();
     protected DPQueryUtils queryUtils = new DPQueryUtils();
-    public final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
+    public final SimpleDateFormat dBDateImpl = new SimpleDateFormat(Constant.DATE_FORMAT);
 
     @Override
     public List<DiscountProjectionDTO> getDiscountProjection(
@@ -134,8 +132,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 LOGGER.debug("?HIE= {}" , hierarchyNo);
                 LOGGER.debug("?HIST= {}" , selecthistoryQuery);
                 LOGGER.debug("?FUT= {}" , selectfutureQuery);
-                LOGGER.debug("?EP= {}" , DBDate.format(projectionSelection.getToDates()));
-                LOGGER.debug("?SP= {}" , DBDate.format(projectionSelection.getStartDate()));
+                LOGGER.debug("?EP= {}" , dBDateImpl.format(projectionSelection.getToDates()));
+                LOGGER.debug("?SP= {}" , dBDateImpl.format(projectionSelection.getStartDate()));
                 LOGGER.debug("?FRE= {}" , freq);
 
                 input.put("?UID", session.getUserId());
@@ -144,8 +142,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 input.put("?CCPQUERY", ccpDetails);
                 input.put("?HIST", selecthistoryQuery);
                 input.put("?FUT", selectfutureQuery);
-                input.put("?EP", DBDate.format(projectionSelection.getToDates()));
-                input.put("?SP", DBDate.format(projectionSelection.getStartDate()));
+                input.put("?EP", dBDateImpl.format(projectionSelection.getToDates()));
+                input.put("?SP", dBDateImpl.format(projectionSelection.getStartDate()));
                 input.put("?FRE", freq);
 
                 String custSql = SQlUtil.getQuery(getClass(),"ch.generateQuery");
@@ -473,8 +471,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             String selectedPeriodsToUpdate = CommonUtils.CollectionToString(selectedPeriodsList, false);
             selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
             selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace(Constant.Q, StringUtils.EMPTY).replace(Constant.S, StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
-            String DiscountProjectionTableUpdateQuery = queryUtils.discountProjectionTableUpdateQuery(adjustmentType, adjustmentBasis, allocationMethodology, adjustmentValue, projectionId, discountName, userId, sessionId, period, selectedPeriodsToUpdate);
-           HelperTableLocalServiceUtil.executeUpdateQuery(DiscountProjectionTableUpdateQuery);
+            String discountProjectionTableUpdateQuery = queryUtils.discountProjectionTableUpdateQuery(adjustmentType, adjustmentBasis, allocationMethodology, adjustmentValue, projectionId, discountName, userId, sessionId, period, selectedPeriodsToUpdate);
+           HelperTableLocalServiceUtil.executeUpdateQuery(discountProjectionTableUpdateQuery);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -552,62 +550,6 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             LOGGER.debug(" exiting saveDiscountProjectionListView");
         }
 
-    }
-
-    public List getLevelvalues(int projectionId, String hierarchyIndicator, int startLevelNo, int endLevelNo, boolean isCustomHierarchy, boolean isLevelFilter) {
-        Session session = null;
-        LOGGER.debug(" entering getLevelvalues");
-        try {
-            session = openSession();
-            String hierarchy = StringUtils.EMPTY;
-            isCustomHierarchy = true;
-            // C indicates customer, P indicates product
-            if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
-                isCustomHierarchy = false;
-            } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                hierarchy = Constant.PROJECTION_PROD_HIERARCHY;
-                isCustomHierarchy = false;
-            }
-
-            String customSql = queryUtils.getLevelvalues(isLevelFilter, endLevelNo, isCustomHierarchy, projectionId, hierarchy, startLevelNo);
-            List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-            return list;
-        } catch (ORMException e) {
-            LOGGER.error(e.getMessage());
-            return Collections.emptyList();
-        } finally {
-            LOGGER.debug(" exiting getLevelvalues");
-            closeSession(session);
-        }
-
-    }
-
-    @Override
-    public List loadLevels(int projectionId, String hierarchyIndicator, int startLevelNo, int endLevelNo, int customId, boolean isCustomHierarchy, boolean isLevelFilter) {
-        LOGGER.debug(" entering getLevelvalues");
-        try {
-            String hierarchy = StringUtils.EMPTY;
-            isCustomHierarchy = true;
-            // C indicates customer, P indicates product
-            if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
-                isCustomHierarchy = false;
-            } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                hierarchy = Constant.PROJECTION_PROD_HIERARCHY;
-                isCustomHierarchy = false;
-            }
-
-            String customSql = queryUtils.getLevelvalues(isLevelFilter, endLevelNo, isCustomHierarchy, projectionId, hierarchy, startLevelNo);
-            List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-            return list;
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            return Collections.emptyList();
-        } finally {
-            LOGGER.debug(" exiting getLevelvalues");
-
-        }
     }
 
     /**

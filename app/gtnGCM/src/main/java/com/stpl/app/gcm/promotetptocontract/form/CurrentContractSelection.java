@@ -72,6 +72,7 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
+import java.util.Locale;
 import org.apache.commons.lang.ArrayUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 
@@ -192,13 +193,13 @@ public class CurrentContractSelection extends CustomComponent implements View {
     @UiField("basisLabel")
     private Label basisLabel;
     @UiField("RSProgramType")
-    private TextField RSProgramType;
+    private TextField rsProgramType;
     @UiField("RSCategory")
-    private TextField RSCategory;
+    private TextField rsCategory;
     @UiField("RebatePlanlevel")
-    private TextField RebatePlanlevel;
+    private TextField rebatePlanlevel;
     @UiField("PaymentFrequency")
-    private TextField PaymentFrequency;
+    private TextField paymentFrequency;
     @UiField("rsProgrmtypeLabel")
     private Label rsProgrmtypeLabel;
     @UiField("rsCategoryLabel")
@@ -364,13 +365,13 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         basisLabel.setVisible(false);
                         basis.setVisible(false);
                         rsProgrmtypeLabel.setVisible(false);
-                        RSProgramType.setVisible(false);
+                        rsProgramType.setVisible(false);
                         rsCategoryLabel.setVisible(false);
-                        RSCategory.setVisible(false);
+                        rsCategory.setVisible(false);
                         rebatePlanLevelLabel.setVisible(false);
-                        RebatePlanlevel.setVisible(false);
+                        rebatePlanlevel.setVisible(false);
                         paymentFrequencyLabel.setVisible(false);
-                        PaymentFrequency.setVisible(false);
+                        paymentFrequency.setVisible(false);
                         compInfoTable.setVisibleColumns(Constants.getInstance().componentInfoColumnsCfp);
                         compInfoTable.setColumnHeaders(Constants.getInstance().componentInfoHeadersCfp);
                     }
@@ -385,13 +386,13 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         basisLabel.setVisible(false);
                         basis.setVisible(false);
                         rsProgrmtypeLabel.setVisible(false);
-                        RSProgramType.setVisible(false);
+                        rsProgramType.setVisible(false);
                         rsCategoryLabel.setVisible(false);
-                        RSCategory.setVisible(false);
+                        rsCategory.setVisible(false);
                         rebatePlanLevelLabel.setVisible(false);
-                        RebatePlanlevel.setVisible(false);
+                        rebatePlanlevel.setVisible(false);
                         paymentFrequencyLabel.setVisible(false);
-                        PaymentFrequency.setVisible(false);
+                        paymentFrequency.setVisible(false);
                         compInfoTable.setVisibleColumns(Constants.getInstance().adComponentDetailsColumnsIfp);
                         compInfoTable.setColumnHeaders(Constants.getInstance().adComponentDetailsHeadersIfp);
                     }
@@ -406,14 +407,14 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         basisLabel.setVisible(false);
                         basis.setVisible(false);
                         rsProgrmtypeLabel.setVisible(false);
-                        RSProgramType.setVisible(false);
+                        rsProgramType.setVisible(false);
                         rsCategoryLabel.setVisible(false);
-                        RSCategory.setVisible(false);
+                        rsCategory.setVisible(false);
                         rebatePlanLevelLabel.setVisible(false);
-                        RebatePlanlevel.setVisible(false);
+                        rebatePlanlevel.setVisible(false);
                         paymentFrequencyLabel.setVisible(false);
-                        PaymentFrequency.setVisible(false);
-                        compInfoTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsPs);
+                        paymentFrequency.setVisible(false);
+                        compInfoTable.setVisibleColumns(Constants.getTpComponentInformationColumnsPs());
                         compInfoTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
                     }
                     if (compType.equals(Constants.REBATE_SCHEDULE)) {
@@ -427,15 +428,15 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         basisLabel.setVisible(true);
                         basis.setVisible(true);
                         rsProgrmtypeLabel.setVisible(true);
-                        RSProgramType.setVisible(true);
+                        rsProgramType.setVisible(true);
                         rsCategoryLabel.setVisible(true);
-                        RSCategory.setVisible(true);
+                        rsCategory.setVisible(true);
                         rebatePlanLevelLabel.setVisible(true);
-                        RebatePlanlevel.setVisible(true);
+                        rebatePlanlevel.setVisible(true);
                         paymentFrequencyLabel.setVisible(true);
-                        PaymentFrequency.setVisible(true);
-                        compInfoTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
-                        compInfoTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
+                        paymentFrequency.setVisible(true);
+                        compInfoTable.setVisibleColumns(Constants.getTpComponentInformationColumnsRs());
+                        compInfoTable.setColumnHeaders(Constants.getTpComponentInformationHeadersRs());
                     }
                     loadComponentInformation(String.valueOf(event.getProperty().getValue()), currentTradingPartnerTable2.getValue());
                 }
@@ -477,8 +478,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
         tableLogic.setContainerDataSource(searchContainer);        
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        currentTradingPartnerTable2.setVisibleColumns(Constants.getInstance().currentTradingPartnerColumns);
-        currentTradingPartnerTable2.setColumnHeaders(Constants.getInstance().currentTradingPartnerHeaders);
+        currentTradingPartnerTable2.setVisibleColumns(Constants.getCurrentTradingPartnerColumns());
+        currentTradingPartnerTable2.setColumnHeaders(Constants.getCurrentTradingPartnerHeaders());
         currentTradingPartnerTable2.setSizeFull();
         currentTradingPartnerTable2.setEditable(true);
         currentTradingPartnerTable2.markAsDirty();
@@ -586,8 +587,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
         compInfoTable.setHeight("270px");
         compInfoTable.setPageLength(NumericConstants.FIVE);
         compInfoTable.setContainerDataSource(componentInfoContainer);
-        compInfoTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumns);
-        compInfoTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeaders);
+        compInfoTable.setVisibleColumns(Constants.getPtpComponentInfoColumns());
+        compInfoTable.setColumnHeaders(Constants.getPtpComponentInfoHeaders());
         LOGGER.debug("configureCompInfoTable method Ended");
     }
 
@@ -842,7 +843,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         LOGGER.debug("Contract selection submitButtonlogic initiated");
         List<Boolean> startDateAndEndDate = logic.startDateAndEndDateValidation(session.getUserId(), session.getSessionId(), screenName);
 
-        if (startDateAndEndDate.size() > 0 && startDateAndEndDate.get(0)) {
+        if (!startDateAndEndDate.isEmpty() && startDateAndEndDate.get(0)) {
             AbstractNotificationUtils.getErrorNotification("No Record Selected", "Please select any record to submit");
             return;
         }
@@ -982,10 +983,10 @@ public class CurrentContractSelection extends CustomComponent implements View {
         componentInfoContainer.removeAllItems();
         if (tableData != null && !tableData.isEmpty()) {
             if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-                compInfoTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
-                compInfoTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
+                compInfoTable.setVisibleColumns(Constants.getTpComponentInformationColumnsRs());
+                compInfoTable.setColumnHeaders(Constants.getTpComponentInformationHeadersRs());
             } else if (PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-                compInfoTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsPs);
+                compInfoTable.setVisibleColumns(Constants.getTpComponentInformationColumnsPs());
                 compInfoTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
             } else if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
                 compInfoTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsIfp);
@@ -1048,7 +1049,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
-        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
+        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));
     }
 
     public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) {

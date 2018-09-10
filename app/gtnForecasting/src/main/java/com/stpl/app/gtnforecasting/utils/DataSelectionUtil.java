@@ -21,6 +21,12 @@ import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_CU
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
 import static com.stpl.app.utils.Constants.LabelConstants.MODE_SEARCH;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -41,7 +47,9 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
@@ -53,7 +61,10 @@ import org.slf4j.LoggerFactory;
  * @author soundarrajan.l
  */
 public class DataSelectionUtil {
-
+    
+    private DataSelectionUtil() {
+        // DataSelectionUtil
+    }
 	/**
 	 * The Constant LOGGER.
 	 */
@@ -531,7 +542,7 @@ public class DataSelectionUtil {
 	public static void configureTimeDdlb(ComboBox fromPeriod, ComboBox toPeriod, Date from, Date to, final String mode,
 			String screenName) {
 		try {
-			Date fromDate = null;
+			/*Date fromDate = null;
 			Date toDate = null;
 			DataSelectionLogic logic = new DataSelectionLogic();
 			ForecastConfig forecastConfig = logic.getTimePeriod(screenName);
@@ -547,16 +558,49 @@ public class DataSelectionUtil {
 					fromDate = forecastConfig.getFromDate();
 					toDate = forecastConfig.getToDate();
 				}
-			}
+			}*/
 
+			GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+			GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+			GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+
+			serviceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
+			serviceRegistryBean.setUrl("/gtnPeriodConfigurationController/loadDate");
+			serviceRegistryBean.setModuleName("periodConfiguration");
+			GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+			//generalRequest.setUserId(session.getUserId());
+			//generalRequest.setSessionId(String.valueOf(session.getSessionId()));
+			serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+
+			request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+			request.setGtnWsGeneralRequest(generalRequest);
+
+			GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
+					"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request,
+					RelationShipFilterLogic.getGsnWsSecurityToken());
+
+			List<String> fromPeriodItemValueList = new ArrayList<>(
+					response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
+			List<String> fromPeriodItemCodeList = new ArrayList<>(
+					response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
+
+			List<String> toPeriodItemValueList = new ArrayList<>();
+			toPeriodItemValueList.add(fromPeriodItemValueList.get(fromPeriodItemValueList.size() - 1));
+
+			List<String> toPeriodItemCodeList = new ArrayList<>();
+			toPeriodItemCodeList.add(fromPeriodItemCodeList.get(fromPeriodItemCodeList.size() - 1));
+			
 			List<String> timePeriodList = new ArrayList<>();
 			if (MODE_SEARCH.getConstant().equalsIgnoreCase(mode)) {
 				timePeriodList.add(SELECT_ONE);
 			}
-			timePeriodList.addAll(getTimePeriodList(fromDate, toDate));
-			fromPeriod.setContainerDataSource(new IndexedContainer(timePeriodList));
-			toPeriod.setContainerDataSource(new IndexedContainer(timePeriodList));
-			if (forecastConfig != null) {
+			//timePeriodList.addAll(getTimePeriodList(fromDate, toDate));
+			fromPeriod.setContainerDataSource(new IndexedContainer(fromPeriodItemValueList));
+			toPeriod.setContainerDataSource(new IndexedContainer(toPeriodItemValueList));
+			fromPeriod.select(fromPeriodItemValueList.get(0));
+			toPeriod.select(toPeriodItemValueList.get(toPeriodItemValueList.size()-1));
+			/*if (forecastConfig != null) {
 				if (Constant.MONTH1
 						.equals(HelperListUtil.getInstance().getDescriptionByID(forecastConfig.getHistFreq()))
 						|| !forecastConfig.getProcessMode()) {
@@ -585,7 +629,7 @@ public class DataSelectionUtil {
 					fromPeriod.select(fromValue);
 					toPeriod.select(toValue);
 				}
-			}
+			}*/
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}
@@ -632,23 +676,23 @@ public class DataSelectionUtil {
 	public static String getDateFromQuarter(String quarter) {
 		String slash = "/";
 		String dd = "01";
-		String MM = "01";
+		String mMonth = "01";
 		String date;
 		String split[] = quarter.split(" - ");
 		String splitQuarter = split[0];
 		int quarterValue = UiUtils.parseStringToInteger(splitQuarter);
 		String yyyy = split[1];
 		if (quarterValue == 1) {
-			MM = "01";
+			mMonth = "01";
 		} else if (quarterValue == NumericConstants.TWO) {
-			MM = "04";
+			mMonth = "04";
 		} else if (quarterValue == NumericConstants.THREE) {
-			MM = "07";
+			mMonth = "07";
 		} else if (quarterValue == NumericConstants.FOUR) {
-			MM = "10";
+			mMonth = "10";
 		}
 
-		date = MM + slash + dd + slash + yyyy;
+		date = mMonth + slash + dd + slash + yyyy;
 		return date;
 	}
 
@@ -827,27 +871,27 @@ public class DataSelectionUtil {
 	public static String getLastDateFromQuarter(String quarter) {
 		String slash = "/";
 		String dd = "30";
-		String MM = "01";
+		String mm = "01";
 		String date;
 		String split[] = quarter.split(" - ");
 		String splitQuarter = split[0];
 		int quarterValue = UiUtils.parseStringToInteger(splitQuarter);
 		String yyyy = split[1];
 		if (quarterValue == 1) {
-			MM = "03";
+			mm = "03";
 			dd = "31";
 		} else if (quarterValue == NumericConstants.TWO) {
-			MM = "06";
+			mm = "06";
 			dd = "30";
 		} else if (quarterValue == NumericConstants.THREE) {
-			MM = "09";
+			mm = "09";
 			dd = "30";
 		} else if (quarterValue == NumericConstants.FOUR) {
-			MM = "12";
+			mm = "12";
 			dd = "31";
 		}
 
-		date = MM + slash + dd + slash + yyyy;
+		date = mm + slash + dd + slash + yyyy;
 		return date;
 	}
 
@@ -861,7 +905,7 @@ public class DataSelectionUtil {
 		String userIds;
 		if (userMap != null) {
 			for (Map.Entry<String, String> entry : userMap.entrySet()) {
-				if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+				if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
 					keys.add(String.valueOf(entry.getKey()));
 				}
 			}
@@ -983,7 +1027,7 @@ public class DataSelectionUtil {
 		String userIds;
 		if (userIdMap != null) {
 			for (Map.Entry<String, String> entry : userIdMap.entrySet()) {
-				if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+				if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
 					keys.add(String.valueOf(entry.getKey()));
 				}
 			}
@@ -1033,7 +1077,7 @@ public class DataSelectionUtil {
 		String discountIds;
 		if (discountMap != null) {
 			for (Map.Entry<String, String> entry : discountMap.entrySet()) {
-				if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+				if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
 					keys.add(String.valueOf(entry.getKey()));
 				}
 			}

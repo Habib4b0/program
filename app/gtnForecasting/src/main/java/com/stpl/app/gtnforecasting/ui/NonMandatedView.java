@@ -6,13 +6,10 @@
 package com.stpl.app.gtnforecasting.ui;
 
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.ui.VerticalLayout;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.LoggerFactory;
 
 
 
@@ -45,11 +42,6 @@ public class NonMandatedView extends VerticalLayout {
     public NonMandatedView(SessionDTO session, DataSelectionDTO dataSelectionDTO)  {
         this.session = session;
         this.dataSelectionDTO = dataSelectionDTO;
-        try {
-       
-        } catch (Exception ex) {
-            LoggerFactory.getLogger(NonMandatedView.class.getName()).error( StringUtils.EMPTY, ex);
-        }
         enter();
     }
 

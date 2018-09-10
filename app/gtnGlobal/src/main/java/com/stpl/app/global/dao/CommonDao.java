@@ -26,8 +26,7 @@ public interface CommonDao {
     * @throws SystemException
     * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
     */
-   List getBrandList(DynamicQuery ifpDynamicQuery) throws PortalException,
-                SystemException;
+   List getBrandList(DynamicQuery ifpDynamicQuery) throws PortalException;
    /** 
     * <!-- begin-UML-doc -->
     * <br>@param&nbsp;cfpDynamicQuery<br>@return&nbsp;
@@ -39,7 +38,7 @@ public interface CommonDao {
     * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
     */
    List itemIrtQualifierNameList(DynamicQuery cfpDynamicQuery)
-                   throws PortalException, SystemException;
+                   throws PortalException;
    /** 
     * <!-- begin-UML-doc -->
     * Performs&nbsp;a&nbsp;dynamic&nbsp;query&nbsp;on&nbsp;the&nbsp;database&nbsp;and&nbsp;returns&nbsp;the&nbsp;matching&nbsp;rows.<br><br>@param&nbsp;query<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;dynamic&nbsp;query&nbsp;of&nbsp;HelperTable<br>@return&nbsp;list&nbsp;of&nbsp;HelperTable<br>@throws&nbsp;SystemException
@@ -51,7 +50,7 @@ public interface CommonDao {
     * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
     */
    List<HelperTable> getHelperTableList(DynamicQuery query)
-                   throws PortalException, SystemException;
+                   throws PortalException;
 
    /** 
     * <!-- begin-UML-doc -->
@@ -64,6 +63,6 @@ public interface CommonDao {
     * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
     */
    List<HelperTable> getHelperTableDetailsByListName()
-                   throws PortalException, SystemException;
+                   throws PortalException;
    
 }

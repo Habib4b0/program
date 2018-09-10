@@ -36,7 +36,10 @@ public class PVCommonLogic {
     private static final String COMPARISON_CURRENT = "Current Projection";
     private static final Logger LOGGER = LoggerFactory.getLogger(PVCommonLogic.class);
     private static boolean priorComparison = false;
-
+    private PVCommonLogic() {
+        // PVCommonLogic
+    }
+    
     public static void customizePeriod(String commonColumn, String variableCategory, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, DecimalFormat format, int index, Object[] obj, boolean isPer) {
         try {
             String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index - 2])));
@@ -124,10 +127,11 @@ public class PVCommonLogic {
     }
 
     public static String isNull(String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valueString = value;
+        if (valueString.contains(NULL.getConstant())) {
+            valueString = ZERO;
         }
-        return value;
+        return valueString;
     }
 
     public static Boolean nullCheck(String value) {
@@ -144,7 +148,7 @@ public class PVCommonLogic {
         String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
             value = String.valueOf(roundToFraction((val - val1), 10000));
-            value = roundToFraction(Double.parseDouble(value), 100) + "";
+            value = Double.toString(roundToFraction(Double.parseDouble(value), 100));
             value = getFormattedValue(format, value);
         } else {
             variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
@@ -161,7 +165,7 @@ public class PVCommonLogic {
         String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
             value = String.valueOf(roundToFraction((val - val1), 10000));
-            value = roundToFraction(Double.parseDouble(value), 100) + "";
+            value = Double.toString(roundToFraction(Double.parseDouble(value), 100));
         } else {
             variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
             value = getFormattedValue(formatter, variance);
@@ -187,13 +191,14 @@ public class PVCommonLogic {
         return (double) Math.round(x * fraction) / fraction;
     }
 
-    public static String getFormattedValue(DecimalFormat FORMAT, String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+    public static String getFormattedValue(DecimalFormat formatterPv, String value) {
+        String valueProj = value;
+        if (valueProj.contains(NULL.getConstant())) {
+            valueProj = ZERO;
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            valueProj = formatterPv.format(Double.valueOf(valueProj));
         }
-        return value;
+        return valueProj;
     }
 
     public static void comparisonBasisCustomization(String varibaleCat, String commonValue, String currentValue, DecimalFormat format, String commonColumn, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, boolean isPer) {

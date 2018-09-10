@@ -22,16 +22,16 @@ import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 public class RSAttachedItemDAO implements BeanDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(RSAttachedItemDAO.class);
     private final CopyContractLogic logic = new CopyContractLogic();
-    private RsIfpDto RsIfpDto = new RsIfpDto();
+    private RsIfpDto rsIfpDto = new RsIfpDto();
 
-    public RSAttachedItemDAO(RsIfpDto RsIfpDto) {
-        this.RsIfpDto = RsIfpDto;
+    public RSAttachedItemDAO(RsIfpDto rsIfpDto) {
+        this.rsIfpDto = rsIfpDto;
     }
 
 @Override
     public int count(BeanSearchCriteria bsc) {
         int count = 0;
-        count = logic.getRSAttachedItemSearchCount(RsIfpDto, bsc);
+        count = logic.getRSAttachedItemSearchCount(rsIfpDto, bsc);
         return count;
     }
 
@@ -39,7 +39,7 @@ public class RSAttachedItemDAO implements BeanDAO {
     public List find(BeanSearchCriteria bsc, int i, int i1, List list) {
         List<ExistingComponentDTO> resultList = new ArrayList<>();
         try {
-            resultList = logic.getRSAttachedItemSearch(RsIfpDto, i, i1, bsc, list);
+            resultList = logic.getRSAttachedItemSearch(rsIfpDto, i, i1, bsc, list);
         } catch (ParseException ex) {
             LOGGER.error("",ex);
         }

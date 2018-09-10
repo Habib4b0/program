@@ -248,7 +248,7 @@ public class SearchAccountConfig extends CustomComponent {
                     binder.setItemDataSource(new BeanItem<>(binderDto));
                     binder.commit();
                 } catch (Exception ex) {
-                    GTNLOGGER.error("Error in resetButtonLogic : " , ex);
+                    GTNLOGGER.error("Error in resetButtonLogic : ", ex);
                 }
             }
 
@@ -445,7 +445,7 @@ public class SearchAccountConfig extends CustomComponent {
                             CommonUtils.successNotification("The Record is deleted");
                         }
                     } catch (Exception ex) {
-                        GTNLOGGER.error("Error in deleteButtonLogic :" , ex);
+                        GTNLOGGER.error("Error in deleteButtonLogic :", ex);
                     }
                 }
 
@@ -467,7 +467,7 @@ public class SearchAccountConfig extends CustomComponent {
         selection.setSessionId(Integer.valueOf(ARMUtils.getInstance().getFmtID().format(sessionDate)));
         selection.setSessionDate(sessionDate);
         GTNLOGGER.info("UserId-->>{}", VaadinSession.getCurrent().getAttribute("userId").toString());
-        selection.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("userId"))));
+        selection.setUserId(ARMUtils.getIntegerValue(String.valueOf(VaadinSession.getCurrent().getAttribute("userId"))));
         return selection;
     }
 
@@ -476,22 +476,22 @@ public class SearchAccountConfig extends CustomComponent {
         accSelection.setTempTableName(session.getCurrentTableNames().get("ST_ARM_ACC_CONFIG"));
     }
 
-    private void createWindow(final AbstractAccountConfig editWindow) {
-        editWindow.setClosable(false);
-        UI.getCurrent().addWindow(editWindow);
-        editWindow.addCloseListener(new CustomWindow.CloseListener() {
+    private void createWindow(final AbstractAccountConfig editAccountWindow) {
+        editAccountWindow.setClosable(false);
+        UI.getCurrent().addWindow(editAccountWindow);
+        editAccountWindow.addCloseListener(new CustomWindow.CloseListener() {
 
             @Override
             public void windowClose(Window.CloseEvent e) {
-                closeEditTray(editWindow);
+                closeEditTray(editAccountWindow);
             }
         });
-        editWindow.getCloseBtnRes().addClickListener(new Button.ClickListener() {
+        editAccountWindow.getCloseBtnRes().addClickListener(new Button.ClickListener() {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                editWindow.closeBtnLogic();
-                closeEditTray(editWindow);
+                editAccountWindow.closeAccountBtnLogic();
+                closeEditTray(editAccountWindow);
             }
         });
     }
@@ -553,9 +553,9 @@ public class SearchAccountConfig extends CustomComponent {
                 binderDto.setFilters(accountConfigSearchTableLogic.getFilters());
                 recordCount = logic.getAccountConfigCount(binderDto);
             }
-            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase(Locale.ENGLISH));
+            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", String.valueOf(ARMUtils.UNDERSCORE)).toUpperCase(Locale.ENGLISH));
         } catch (Exception ex) {
-            GTNLOGGER.error("Error in createWorkSheet :" , ex);
+            GTNLOGGER.error("Error in createWorkSheet :", ex);
         }
     }
 
@@ -578,7 +578,7 @@ public class SearchAccountConfig extends CustomComponent {
     private void securityForButtons() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + "," + "Landing screen");
+        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + ARMUtils.COMMA_CHAR + "Landing screen");
         if (functionHM.get("addBtn") != null && !(functionHM.get("addBtn")).isFunctionFlag()) {
             addBtn.setVisible(false);
         } else {
@@ -610,7 +610,7 @@ public class SearchAccountConfig extends CustomComponent {
     private void securityForFields() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN);
+        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + ARMUtils.COMMA_CHAR + CommonConstant.LANDING_SCREEN);
         configureFieldPermission(functionHMforFields);
         if (functionHMforFields.get("companyDdlb") != null && !(functionHMforFields.get("companyDdlb")).isFunctionFlag()) {
             companyDdlb.setVisible(false);
@@ -648,7 +648,7 @@ public class SearchAccountConfig extends CustomComponent {
             List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ACCOUNT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
             commonSecurity.removeComponentOnPermission(resultList, resultsTableLayout, functionHMforFields, CommonSecurityLogic.ADD);
         } catch (Exception ex) {
-            GTNLOGGER.error("Error in configureFieldPermission:" , ex);
+            GTNLOGGER.error("Error in configureFieldPermission:", ex);
         }
         GTNLOGGER.debug("Ending configurePermission");
 
@@ -657,7 +657,7 @@ public class SearchAccountConfig extends CustomComponent {
     private void securityForTables() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN, false);
+        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + ARMUtils.COMMA_CHAR + CommonConstant.LANDING_SCREEN, false);
         List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ACCOUNT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
         Object[] obj = ARMUtils.getAccountConfigSearchColumns();
         TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, obj, fieldIfpHM, CommonSecurityLogic.ADD);
@@ -672,21 +672,22 @@ public class SearchAccountConfig extends CustomComponent {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object searchAccObj) {
+        return super.equals(searchAccObj);
     }
 
     @Override
     public int hashCode() {
+        GTNLOGGER.debug("Enters the AccountConfig Hashcode");
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream searchAccObj) throws IOException {
+        searchAccObj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream searchAccObj) throws IOException, ClassNotFoundException {
+        searchAccObj.defaultReadObject();
     }
 
     private void securityForField(Map<String, AppPermission> functionHMforFields) {

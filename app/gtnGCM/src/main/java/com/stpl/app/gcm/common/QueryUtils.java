@@ -55,7 +55,7 @@ public class QueryUtils {
 
 	private String rdMarketType = "select DESCRIPTION from HELPER_TABLE where LIST_NAME= 'CONTRACT_TYPE'";
     private static final HashMap<String, String> columnNames = new HashMap<>();
-    public final SimpleDateFormat DB_DATE = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    public final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     public static final char CHAR_PERCENT = '%';
     private static final Map<String, String> fieldMap = new HashMap<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(QueryUtils.class);
@@ -69,7 +69,7 @@ public class QueryUtils {
      */
     //This method will return the query for contract search in landing screem
     public String getDiscContract(ErrorfulFieldGroup removeDiscountDto, Set<Container.Filter> filters, List<SortByColumn> sortByColumn) {
-        String Query = searchQuery(removeDiscountDto);
+        String query = searchQuery(removeDiscountDto);
         Map parameters = new HashMap();
         try {
             parameters.put(Constants.IS_ORDERED, StringConstantsUtil.STRING_FALSE);
@@ -89,68 +89,68 @@ public class QueryUtils {
             if (getNull(removeDiscountDto.getField(Constants.CONTRACT_HOLDER).getValue().toString())) {
                 String contractHolder = removeDiscountDto.getField(Constants.CONTRACT_HOLDER).getValue().toString();
                 contractHolder = contractHolder.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND CM.COMPANY_NAME like '" + contractHolder + "'";
+                query = query + " AND CM.COMPANY_NAME like '" + contractHolder + "'";
             }
             if (getNull(String.valueOf(removeDiscountDto.getField(Constants.MARKET_TYPE).getValue()))
                     && !Constants.IndicatorConstants.SELECT_ONE.getConstant().equals(removeDiscountDto.getField(Constants.MARKET_TYPE).getValue().toString())) {
                 String marketType = removeDiscountDto.getField(Constants.MARKET_TYPE).getValue().toString();
 
                 marketType = marketType.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND HT.DESCRIPTION like '" + marketType
+                query = query + " AND HT.DESCRIPTION like '" + marketType
                         + "' and HT.LIST_NAME = 'CONTRACT_TYPE'";
             }
             if (getNull(removeDiscountDto.getField(Constants.CFP_NAME).getValue().toString())) {
                 String cfpName = removeDiscountDto.getField(Constants.CFP_NAME).getValue().toString();
                 cfpName = cfpName.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND CFC.CFP_NAME  like '" + cfpName + "'";
+                query = query + " AND CFC.CFP_NAME  like '" + cfpName + "'";
 
             }
             if (getNull(removeDiscountDto.getField(Constants.CONTRACT_NO).getValue().toString())) {
                 String contractNo = removeDiscountDto.getField(Constants.CONTRACT_NO).getValue().toString();
                 contractNo = contractNo.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND CN.CONTRACT_NO like '" + contractNo + "'";
+                query = query + " AND CN.CONTRACT_NO like '" + contractNo + "'";
 
             }
             if (getNull(String.valueOf(removeDiscountDto.getField("contractstartDate").getValue()))) {
                 Date startDate = (Date) removeDiscountDto.getField("contractstartDate").getValue();
-                Query = Query + " AND CN.START_DATE = '" + DB_DATE.format(startDate) + "'";
+                query = query + " AND CN.START_DATE = '" + dbDate.format(startDate) + "'";
 
             }
             if (getNull(String.valueOf(removeDiscountDto.getField("contractendDate").getValue()))) {
                 Date endDate = (Date) removeDiscountDto.getField("contractendDate").getValue();
-                Query = Query + " AND CN.END_DATE = '" + DB_DATE.format(endDate) + "'";
+                query = query + " AND CN.END_DATE = '" + dbDate.format(endDate) + "'";
 
             }
             if (getNull(removeDiscountDto.getField(Constants.IFPNAME).getValue().toString())) {
                 String ifpName = removeDiscountDto.getField(Constants.IFPNAME).getValue().toString();
                 ifpName = ifpName.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND IFC.IFP_NAME like '" + ifpName + "'";
+                query = query + " AND IFC.IFP_NAME like '" + ifpName + "'";
 
             }
             if (getNull(removeDiscountDto.getField(Constants.CONTRACT_NAME).getValue().toString())) {
                 String contractName = removeDiscountDto.getField(Constants.CONTRACT_NAME).getValue().toString();
                 contractName = contractName.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND CN.CONTRACT_NAME like '" + contractName + "'";
+                query = query + " AND CN.CONTRACT_NAME like '" + contractName + "'";
 
             }
             if (getNull(removeDiscountDto.getField(Constants.PSNAME).getValue().toString())) {
                 String psName = removeDiscountDto.getField(Constants.PSNAME).getValue().toString();
                 psName = psName.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND PSC.PS_NAME like '" + psName + "'";
+                query = query + " AND PSC.PS_NAME like '" + psName + "'";
 
             }
 
             if (getNull(removeDiscountDto.getField(Constants.RSNAME).getValue().toString())) {
                 String rsName = removeDiscountDto.getField(Constants.RSNAME).getValue().toString();
                 rsName = rsName.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND RSC.RS_NAME like '" + rsName + "'";
+                query = query + " AND RSC.RS_NAME like '" + rsName + "'";
 
             }
 
             if (getNull(String.valueOf(removeDiscountDto.getField(StringConstantsUtil.ALIASTYPE).getValue()))
                     && !Constants.IndicatorConstants.SELECT_ONE.getConstant().equals(removeDiscountDto.getField(StringConstantsUtil.ALIASTYPE).getValue().toString())) {
                 String aliesType = String.valueOf(removeDiscountDto.getField(StringConstantsUtil.ALIASTYPE).getValue());
-                Query = Query + "AND CAM.CONTRACT_ALIAS_TYPE like '" + aliesType + "'";
+                query = query + "AND CAM.CONTRACT_ALIAS_TYPE like '" + aliesType + "'";
 
             }
 
@@ -158,17 +158,17 @@ public class QueryUtils {
                     && !Constants.IndicatorConstants.SELECT_ONE.getConstant().equals(removeDiscountDto.getField(StringConstantsUtil.ALIASNUMBER).getValue().toString())) {
                 String aliasnumber = removeDiscountDto.getField(StringConstantsUtil.ALIASNUMBER).getValue().toString();
                 aliasnumber = aliasnumber.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + "AND CAM.CONTRACT_ALIAS_NO like '" + aliasnumber + "'";
+                query = query + "AND CAM.CONTRACT_ALIAS_NO like '" + aliasnumber + "'";
             }
 
             if (getNull(String.valueOf(removeDiscountDto.getField("aliasStartDate").getValue()))) {
                 Date startDate = (Date) removeDiscountDto.getField("aliasStartDate").getValue();
-                Query = Query + " AND CAM.START_DATE = '" + DB_DATE.format(startDate) + "'";
+                query = query + " AND CAM.START_DATE = '" + dbDate.format(startDate) + "'";
             }
 
             if (getNull(String.valueOf(removeDiscountDto.getField("aliasEndDate").getValue()))) {
                 Date aliasEndDate = (Date) removeDiscountDto.getField("aliasEndDate").getValue();
-                Query = Query + " AND CAM.END_DATE = '" + DB_DATE.format(aliasEndDate) + "'";
+                query = query + " AND CAM.END_DATE = '" + dbDate.format(aliasEndDate) + "'";
             }
             }
             if (!filters.isEmpty()) {
@@ -178,39 +178,39 @@ public class QueryUtils {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterString = "%" + stringFilter.getFilterString() + "%";
                         if (Constants.CONTRACT_HOLDER.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CM.COMPANY_NAME like '" + filterString + "'";
+                            query = query + " AND CM.COMPANY_NAME like '" + filterString + "'";
                         }
                         if (Constants.CONTRACT_NO.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.CONTRACT_NO like '" + filterString + "'";
+                            query = query + " AND CN.CONTRACT_NO like '" + filterString + "'";
                         }
                         if (Constants.CFP_NAME.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND  CFC.CFP_NAME like '" + filterString + "'";
+                            query = query + " AND  CFC.CFP_NAME like '" + filterString + "'";
                         }
                         if (Constants.CONTRACT_NAME.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.CONTRACT_NAME like '" + filterString + "'";
+                            query = query + " AND CN.CONTRACT_NAME like '" + filterString + "'";
                         }
                         if (Constants.MARKET_TYPE.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND HT.DESCRIPTION like '" + filterString
+                            query = query + " AND HT.DESCRIPTION like '" + filterString
                                     + "' and HT.LIST_NAME = 'CONTRACT_TYPE'";
                         }
                         if (Constants.IFPNAME.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND IFC.IFP_NAME like '" + filterString + "'";
+                            query = query + " AND IFC.IFP_NAME like '" + filterString + "'";
                         }
                         if (Constants.PSNAME.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND PSC.PS_NAME like '" + filterString + "'";
+                            query = query + " AND PSC.PS_NAME like '" + filterString + "'";
                         }
                         if (Constants.RSNAME.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND RSC.RS_NAME like '" + filterString + "'";
+                            query = query + " AND RSC.RS_NAME like '" + filterString + "'";
                         }
                     } else if (filter instanceof Between) {
                         Between stringFilter = (Between) filter;
                         Date filterString = (Date) stringFilter.getStartValue();
                         Date filterString1 = (Date) stringFilter.getEndValue();
                         if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.START_DATE BETWEEN  '" + DB_DATE.format(filterString) + "' AND '" + DB_DATE.format(filterString1) + "'";
+                            query = query + " AND CN.START_DATE BETWEEN  '" + dbDate.format(filterString) + "' AND '" + dbDate.format(filterString1) + "'";
                         }
                         if (Constants.END_DATE.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.END_DATE = '" + DB_DATE.format(filterString) + "' AND '" + DB_DATE.format(filterString1) + "'";
+                            query = query + " AND CN.END_DATE = '" + dbDate.format(filterString) + "' AND '" + dbDate.format(filterString1) + "'";
                         }
                     } else if (filter instanceof Compare) {
                         Compare stringFilter = (Compare) filter;
@@ -225,71 +225,71 @@ public class QueryUtils {
                                 operator = "<=";
                             }
                             if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
-                                Query = Query + " AND CN.START_DATE " + operator + " '" + DB_DATE.format(value) + "'  ";
+                                query = query + " AND CN.START_DATE " + operator + " '" + dbDate.format(value) + "'  ";
 
                             }
                             if (Constants.END_DATE.equals(stringFilter.getPropertyId())) {
-                                Query = Query + " AND CN.END_DATE " + operator + " '" + DB_DATE.format(value) + "'  ";
+                                query = query + " AND CN.END_DATE " + operator + " '" + dbDate.format(value) + "'  ";
                             }
                         }
                 }
                 }
             }
-            Query = Query + " GROUP BY CM.COMPANY_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,HT.DESCRIPTION,\n"
+            query = query + " GROUP BY CM.COMPANY_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,HT.DESCRIPTION,\n"
                     + " CN.START_DATE,CN.END_DATE,\n"
                     + " CFC.CFP_NAME,IFC.IFP_NAME,PSC.PS_NAME,RSC.RS_NAME,\n"
                     + " CN.CONTRACT_MASTER_SID,CFC.CFP_MODEL_SID,\n"
                     + " IFC.IFP_MODEL_SID,PSC.PS_MODEL_SID,\n"
                     + " RSC.RS_CONTRACT_SID,CM.COMPANY_MASTER_SID,CN.CONTRACT_ID,CN_ST.DESCRIPTION  ORDER BY  ";
             if (parameters.get(Constants.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(Constants.IS_ORDERED)))) {
-                Query += "CN.CONTRACT_MASTER_SID ";
+                query += "CN.CONTRACT_MASTER_SID ";
             } else if (parameters.get(Constants.IS_ORDERED) != null && Constants.TRUE.equalsIgnoreCase(String.valueOf(parameters.get(Constants.IS_ORDERED)))) {
                 if (parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_HOLDER) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_HOLDER))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_HOLDER)))) {
-                    Query += " CM.COMPANY_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_HOLDER));
+                    query += " CM.COMPANY_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_HOLDER));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NO))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NO)))) {
-                    Query += " CN.CONTRACT_NO ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NO));
+                    query += " CN.CONTRACT_NO ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NO));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYCFP_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCFP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCFP_NAME)))) {
-                    Query += " CFC.CFP_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCFP_NAME));
+                    query += " CFC.CFP_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCFP_NAME));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME)))) {
-                    Query += " CN.CONTRACT_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME));
+                    query += " CN.CONTRACT_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYMARKET_TYPE) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMARKET_TYPE))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMARKET_TYPE)))) {
-                    Query += " HT.DESCRIPTION ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMARKET_TYPE));
+                    query += " HT.DESCRIPTION ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMARKET_TYPE));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYSTART_DATE) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYSTART_DATE))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYSTART_DATE)))) {
-                    Query += " CN.START_DATE ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYSTART_DATE));
+                    query += " CN.START_DATE ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYSTART_DATE));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYEND_DATE) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYEND_DATE))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYEND_DATE)))) {
-                    Query += " CN.END_DATE ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYEND_DATE));
+                    query += " CN.END_DATE ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYEND_DATE));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYIFP_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYIFP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYIFP_NAME)))) {
-                    Query += " IFC.IFP_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYIFP_NAME));
+                    query += " IFC.IFP_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYIFP_NAME));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYPS_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYPS_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYPS_NAME)))) {
-                    Query += " PSC.PS_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYPS_NAME));
+                    query += " PSC.PS_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYPS_NAME));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYRS_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYRS_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYRS_NAME)))) {
-                    Query += " RSC.RS_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYRS_NAME));
+                    query += " RSC.RS_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYRS_NAME));
                 }
             }
 
         } catch (Exception e) {
             LOGGER.error("",e);
         }
-        return Query;
+        return query;
     }
 
     public boolean getNull(String value) {
@@ -302,7 +302,8 @@ public class QueryUtils {
 
     public String getLatestCCPQuery(List contractSid, List rsSid) {
         CommonUtils.CollectionToString(contractSid, true);
-        String query = "select top 1 PROJECTION_MASTER_SID,FORECASTING_TYPE from PROJECTION_MASTER where PROJECTION_MASTER_SID in\n"
+        String query = StringUtils.EMPTY;
+         query = query + "select top 1 PROJECTION_MASTER_SID,FORECASTING_TYPE from PROJECTION_MASTER where PROJECTION_MASTER_SID in\n"
                 + " (select distinct PD.PROJECTION_MASTER_SID  from PROJECTION_DETAILS PD\n"
                 + "JOIN CCP_DETAILS CCP ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND\n"
                 + "CCP.CONTRACT_MASTER_SID IN (" + CommonUtils.CollectionToString(contractSid, true) + ") \n"
@@ -324,6 +325,7 @@ public class QueryUtils {
         String groupBy = StringUtils.EMPTY;
         String orderBy;
         String prjQuery = StringUtils.EMPTY;
+        String finalQuery  = StringUtils.EMPTY;
 
         if ("Channel".equals(dto.getForecastingType())) {
             prjQuery = " join CH_SALES_PROJECTION NMSP \n";
@@ -367,11 +369,11 @@ public class QueryUtils {
                 + where
                 + "join \"PERIOD\" I on I.PERIOD_SID = NMSP.PERIOD_SID \n"
                 + "WHERE PD.PROJECTION_MASTER_SID= " + dto.getProjectionSid() + " \n"
-                + "AND I.PERIOD_DATE  BETWEEN CONVERT(DATE, '" + DB_DATE.format(dto.getFromDate())
-                + "') AND CONVERT(DATE, '" + DB_DATE.format(dto.getToDate()) + "')"
+                + "AND I.PERIOD_DATE  BETWEEN CONVERT(DATE, '" + dbDate.format(dto.getFromDate())
+                + "') AND CONVERT(DATE, '" + dbDate.format(dto.getToDate()) + "')"
                 + "group by I.\"YEAR\", I.QUARTER," + groupBy;
 
-        String finalQuery = "select LEVEL_NAME,YEARS,PERIODS,Sales,Units,LEVEL_NO from(" + query + ") MAINQ where MAINQ.ROW_NUM>" + dto.getStartIndex() + " AND MAINQ.ROW_NUM<=" + (dto.getStartIndex() + dto.getOffSet()) + " " + orderBy;
+         finalQuery = finalQuery + "select LEVEL_NAME,YEARS,PERIODS,Sales,Units,LEVEL_NO from(" + query + ") MAINQ where MAINQ.ROW_NUM>" + dto.getStartIndex() + " AND MAINQ.ROW_NUM<=" + (dto.getStartIndex() + dto.getOffSet()) + " " + orderBy;
         return finalQuery;
     }
 
@@ -379,6 +381,7 @@ public class QueryUtils {
         LOGGER.debug("Entering getSummaryCountQuery {} {} " , dto.getFromDate() , dto.getToDate());
         String select = StringUtils.EMPTY;
         String where = StringUtils.EMPTY;
+        String query = StringUtils.EMPTY;
         if (dto.getLevelNo() == 1) {
             select = "CM.COMPANY_NAME ";
             where = " join CONTRACT_MASTER CTM ON CCPD.CONTRACT_MASTER_SID = CTM.CONTRACT_MASTER_SID\n "
@@ -396,7 +399,7 @@ public class QueryUtils {
             where = " join ITEM_MASTER IM ON CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID\n ";
         }
 
-        String query = "select count ( DISTINCT " + select + ")  \n"
+         query = query + "select count ( DISTINCT " + select + ")  \n"
                 + "from \n"
                 + " PROJECTION_DETAILS PD\n"
                 + "join CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID \n"
@@ -408,18 +411,19 @@ public class QueryUtils {
     }
 
     public String getForecastDates(String type) {
-        String forecastDates = "SELECT TOP 1 FROM_DATE,TO_DATE FROM FORECAST_CONFIG FC JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID = FC.BUSINESS_PROCESS_TYPE \n" +
+        String forecastDates  = StringUtils.EMPTY;
+        forecastDates = forecastDates + "SELECT TOP 1 FROM_DATE,TO_DATE FROM FORECAST_CONFIG FC JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID = FC.BUSINESS_PROCESS_TYPE \n" +
          " WHERE ht.DESCRIPTION ='"+type + "'ORDER BY VERSION_NO DESC";
         return forecastDates;
     }
     
-    public String getCFPcount(CFPCompanyDTO CFPCompanyDTO) {
-        String CFPid;
-        String CFPName;
-        String CFPType;
-        String CFPStatus;
-        String CFPNO;
-        String Query = "select DISTINCT cfp.CFP_ID, cfp.CFP_NO, cfp.CFP_NAME, cfp.CFP_TYPE, cfp.CFP_STATUS, cfp.CFP_START_DATE, cfp.CFP_END_DATE, cfp.CFP_TRADE_CLASS, cfp.CFP_CATEGORY,\n"
+    public String getCFPcount(CFPCompanyDTO cfpCompanyDto) {
+        String cfpId;
+        String cfpName;
+        String cfpType;
+        String cfpStatus;
+        String cfpNo;
+        String query = "select DISTINCT cfp.CFP_ID, cfp.CFP_NO, cfp.CFP_NAME, cfp.CFP_TYPE, cfp.CFP_STATUS, cfp.CFP_START_DATE, cfp.CFP_END_DATE, cfp.CFP_TRADE_CLASS, cfp.CFP_CATEGORY,\n"
                 + "cfp.CFP_DESIGNATION,cfp.PARENT_CFP_NAME,parenCfp.CFP_ID as PARENT_ID,htype.DESCRIPTION as ctype,hstatus.DESCRIPTION as cstatus,htrade.DESCRIPTION as trade,\n"
                 + "hcategory.DESCRIPTION as category,cfp.CFP_MODEL_SID from CFP_MODEL cfp \n"
                 + "LEFT JOIN CFP_MODEL parenCfp on parenCfp.CFP_MODEL_SID = cfp.PARENT_CFP_ID"
@@ -429,45 +433,46 @@ public class QueryUtils {
                 + " LEFT JOIN HELPER_TABLE hstatus on hstatus.HELPER_TABLE_SID =  cfp.CFP_STATUS "
                 + " JOIN CFP_DETAILS cfd on cfp.CFP_MODEL_SID=cfd.CFP_MODEL_SID  where cfp.INBOUND_STATUS <> 'D'";
 
-        if (CFPCompanyDTO.getCompanyFamilyPlanId() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanId().equals(StringUtils.EMPTY)) {
-            CFPid = CFPCompanyDTO.getCompanyFamilyPlanId();
-            Query = Query + " and  cfp.CFP_ID like '" + CFPid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (cfpCompanyDto.getCompanyFamilyPlanId() == null ? StringUtils.EMPTY != null : !cfpCompanyDto.getCompanyFamilyPlanId().equals(StringUtils.EMPTY)) {
+            cfpId = cfpCompanyDto.getCompanyFamilyPlanId();
+            query = query + " and  cfp.CFP_ID like '" + cfpId.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (CFPCompanyDTO.getCompanyFamilyPlanNo() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanNo().equals(StringUtils.EMPTY)) {
-            CFPNO = CFPCompanyDTO.getCompanyFamilyPlanNo();
-            Query = Query + " and  cfp.CFP_NO like '" + CFPNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (cfpCompanyDto.getCompanyFamilyPlanNo() == null ? StringUtils.EMPTY != null : !cfpCompanyDto.getCompanyFamilyPlanNo().equals(StringUtils.EMPTY)) {
+            cfpNo = cfpCompanyDto.getCompanyFamilyPlanNo();
+            query = query + " and  cfp.CFP_NO like '" + cfpNo.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (CFPCompanyDTO.getCompanyFamilyPlanName() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanName().equals(StringUtils.EMPTY)) {
-            CFPName = CFPCompanyDTO.getCompanyFamilyPlanName();
-            Query = Query + " and  cfp.CFP_NAME like '" + CFPName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
-
-        }
-
-        if (CFPCompanyDTO.getCompanyFamilyPlanTypeValue() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanTypeValue().equals(StringUtils.EMPTY)) {
-            CFPType = CFPCompanyDTO.getCompanyFamilyPlanTypeValue();
-            Query = Query + " and  cfp.CFP_TYPE=" + CFPType;
-
-        }
-        if (CFPCompanyDTO.getCompanyFamilyPlanStatusValue() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanStatusValue().equals(StringUtils.EMPTY)) {
-            CFPStatus = CFPCompanyDTO.getCompanyFamilyPlanStatusValue();
-            Query = Query + " and  cfp.CFP_STATUS=" + CFPStatus;
+        if (cfpCompanyDto.getCompanyFamilyPlanName() == null ? StringUtils.EMPTY != null : !cfpCompanyDto.getCompanyFamilyPlanName().equals(StringUtils.EMPTY)) {
+            cfpName = cfpCompanyDto.getCompanyFamilyPlanName();
+            query = query + " and  cfp.CFP_NAME like '" + cfpName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
 
-        return Query;
+        if (cfpCompanyDto.getCompanyFamilyPlanTypeValue() == null ? StringUtils.EMPTY != null : !cfpCompanyDto.getCompanyFamilyPlanTypeValue().equals(StringUtils.EMPTY)) {
+            cfpType = cfpCompanyDto.getCompanyFamilyPlanTypeValue();
+            query = query + " and  cfp.CFP_TYPE=" + cfpType;
+
+        }
+        if (cfpCompanyDto.getCompanyFamilyPlanStatusValue() == null ? StringUtils.EMPTY != null : !cfpCompanyDto.getCompanyFamilyPlanStatusValue().equals(StringUtils.EMPTY)) {
+            cfpStatus = cfpCompanyDto.getCompanyFamilyPlanStatusValue();
+            query = query + " and  cfp.CFP_STATUS=" + cfpStatus;
+
+        }
+
+        return query;
     }
 
-    public String getCFPAttachedCompanies(CFPCompanyDTO CFPCompanyDTO) {
-        int sidvalue = CFPCompanyDTO.getCompanyFamilyPlanSystemId();
-        String Query = "select DISTINCT cm.COMPANY_ID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,hstatus.DESCRIPTION as cstatus from CFP_MODEL cfp"
+    public String getCFPAttachedCompanies(CFPCompanyDTO cfpCompanyDto) {
+        int sidvalue = cfpCompanyDto.getCompanyFamilyPlanSystemId();
+         String query = StringUtils.EMPTY;
+         query = query + "select DISTINCT cm.COMPANY_ID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,hstatus.DESCRIPTION as cstatus from CFP_MODEL cfp"
         
                 + " JOIN CFP_DETAILS cfd on cfp.CFP_MODEL_SID=cfd.CFP_MODEL_SID \n"
                 + " JOIN COMPANY_MASTER cm on cfd.COMPANY_MASTER_SID=cm.COMPANY_MASTER_SID"
                 + " JOIN HELPER_TABLE hstatus on hstatus.HELPER_TABLE_SID =  cm.COMPANY_STATUS "
                 + "  where cfp.INBOUND_STATUS <> 'D' and cfd.CFP_MODEL_SID=" + sidvalue + StringUtils.EMPTY;
-        return Query;
+        return query;
     }
 
     public static String getDbColumnNames(String visibleColumnName) {
@@ -494,9 +499,10 @@ public class QueryUtils {
         return columnNames;
     }
 
-    public String GetIFPAttachedItems(IFPItemDTO IFPItemDTO) {
-        int sidvalue = IFPItemDTO.getIfpDetailsSystemId();
-        String sql = "SELECT DISTINCT im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,\n"
+    public String getIfpAttachedItems(IFPItemDTO ifpItemDto) {
+        int sidvalue = ifpItemDto.getIfpDetailsSystemId();
+         String sql =StringUtils.EMPTY;
+         sql = sql + "SELECT DISTINCT im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,\n"
                 + " itemsatus.DESCRIPTION "
                 + "                 from IFP_MODEL ifp JOIN IFP_DETAILS ifd on ifp.IFP_MODEL_SID=ifd.IFP_MODEL_SID JOIN ITEM_MASTER im on ifd.ITEM_MASTER_SID=im.ITEM_MASTER_SID\n"
                 + "                LEFT JOIN HELPER_TABLE htype on htype.HELPER_TABLE_SID =  ifp.IFP_TYPE​\n"
@@ -511,12 +517,12 @@ public class QueryUtils {
         return sql;
     }
 
-    public String getIFPcount(IFPItemDTO IFPItemDTO) {
-        String IFPid;
-        String IFPName;
-        String IFPType;
-        String IFPStatus;
-        String IFPNO;
+    public String getIFPcount(IFPItemDTO ifpItemDto) {
+        String ifpId;
+        String ifpName;
+        String ifpType;
+        String ifpStatus;
+        String ifpNo;
 
         String sql = "SELECT DISTINCT ifp.IFP_MODEL_SID,ifp.IFP_ID,ifp.IFP_NO, ifp.IFP_NAME,ifp.IFP_STATUS,"
                 + "              ifp.IFP_TYPE,ifp.IFP_CATEGORY, ifp.IFP_START_DATE, ifp.IFP_END_DATE,ifp.IFP_DESIGNATION,"
@@ -533,41 +539,41 @@ public class QueryUtils {
               
                 + "                WHERE ifp.INBOUND_STATUS <> 'D'";
     
-        if (IFPItemDTO.getItemFamilyplanId() == null ? StringUtils.EMPTY != null : !IFPItemDTO.getItemFamilyplanId().equals(StringUtils.EMPTY)) {
-            IFPid = IFPItemDTO.getItemFamilyplanId();
-            sql = sql + " and  ifp.IFP_ID like '" + IFPid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (ifpItemDto.getItemFamilyplanId() == null ? StringUtils.EMPTY != null : !ifpItemDto.getItemFamilyplanId().equals(StringUtils.EMPTY)) {
+            ifpId = ifpItemDto.getItemFamilyplanId();
+            sql = sql + " and  ifp.IFP_ID like '" + ifpId.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (IFPItemDTO.getItemFamilyplanNo() == null ? StringUtils.EMPTY != null : !IFPItemDTO.getItemFamilyplanNo().equals(StringUtils.EMPTY)) {
-            IFPNO = IFPItemDTO.getItemFamilyplanNo();
-            sql = sql + " and  ifp.IFP_NO like '" + IFPNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (ifpItemDto.getItemFamilyplanNo() == null ? StringUtils.EMPTY != null : !ifpItemDto.getItemFamilyplanNo().equals(StringUtils.EMPTY)) {
+            ifpNo = ifpItemDto.getItemFamilyplanNo();
+            sql = sql + " and  ifp.IFP_NO like '" + ifpNo.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (IFPItemDTO.getItemFamilyplanName() == null ? StringUtils.EMPTY != null : !IFPItemDTO.getItemFamilyplanName().equals(StringUtils.EMPTY)) {
-            IFPName = IFPItemDTO.getItemFamilyplanName();
-            sql = sql + " and  ifp.IFP_NAME like '" + IFPName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (ifpItemDto.getItemFamilyplanName() == null ? StringUtils.EMPTY != null : !ifpItemDto.getItemFamilyplanName().equals(StringUtils.EMPTY)) {
+            ifpName = ifpItemDto.getItemFamilyplanName();
+            sql = sql + " and  ifp.IFP_NAME like '" + ifpName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (IFPItemDTO.getIFPtype() != 0) {
-            IFPType = IFPItemDTO.getIFPtype().toString();
-            sql = sql + " and   ifp.IFP_TYPE=" + IFPType;
+        if (ifpItemDto.getIFPtype() != 0) {
+            ifpType = ifpItemDto.getIFPtype().toString();
+            sql = sql + " and   ifp.IFP_TYPE=" + ifpType;
 
         }
-        if (IFPItemDTO.getItemFamilyplanStatus() != 0) {
-            IFPStatus = IFPItemDTO.getItemFamilyplanStatus().toString();
-            sql = sql + " and  ifp.IFP_STATUS=" + IFPStatus;
+        if (ifpItemDto.getItemFamilyplanStatus() != 0) {
+            ifpStatus = ifpItemDto.getItemFamilyplanStatus().toString();
+            sql = sql + " and  ifp.IFP_STATUS=" + ifpStatus;
 
         }
 
         return sql;
     }
 
-    public String getPScount(PSIFPDTO PSIFPDTO) {
-        String Pid;
-        String PName;
-        String PType;
-        String PStatus;
-        String PNO;
+    public String getPScount(PSIFPDTO psIfpDto) {
+        String pId;
+        String pName;
+        String pType;
+        String pStatus;
+        String pNo;
         String sql = "SELECT DISTINCT ps.PS_MODEL_SID,ps.PS_ID,ps.PS_NO,ps.PS_NAME,ps.PS_TYPE,ps.PS_STATUS,ps.PS_CATEGORY,ps.PS_START_DATE,ps.PS_END_DATE,"
                 + "ps.PS_DESIGNATION,ps.PARENT_PS_ID,ps.PARENT_PS_NAME,ps.PS_TRADE_CLASS,htype.DESCRIPTION as type,hstatus.DESCRIPTION as status,"
                 + "hcategory.DESCRIPTION as category,hdesign.DESCRIPTION as designation,htrade.DESCRIPTION as trade,ps.RECORD_LOCK_STATUS,ifp.IFP_NAME,ifp.IFP_MODEL_SID"
@@ -581,38 +587,39 @@ public class QueryUtils {
                 + " LEFT JOIN HELPER_TABLE hdesign on hdesign.HELPER_TABLE_SID=ps.PS_DESIGNATION"
                 + " LEFT JOIN HELPER_TABLE htrade on htrade.HELPER_TABLE_SID=ps.PS_TRADE_CLASS"
                 + " WHERE ps.INBOUND_STATUS <> 'D' ";
-        if (PSIFPDTO.getPriceScheduleIdValue() == null ? StringUtils.EMPTY != null : !PSIFPDTO.getPriceScheduleIdValue().equals(StringUtils.EMPTY)) {
-            Pid = PSIFPDTO.getPriceScheduleIdValue();
-            sql = sql + " and  ps.PS_ID like '" + Pid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (psIfpDto.getPriceScheduleIdValue() == null ? StringUtils.EMPTY != null : !psIfpDto.getPriceScheduleIdValue().equals(StringUtils.EMPTY)) {
+            pId = psIfpDto.getPriceScheduleIdValue();
+            sql = sql + " and  ps.PS_ID like '" + pId.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (PSIFPDTO.getPriceScheduleNoValue() == null ? StringUtils.EMPTY != null : !PSIFPDTO.getPriceScheduleNoValue().equals(StringUtils.EMPTY)) {
-            PNO = PSIFPDTO.getPriceScheduleNoValue();
-            sql = sql + " and  ps.PS_NO like '" + PNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (psIfpDto.getPriceScheduleNoValue() == null ? StringUtils.EMPTY != null : !psIfpDto.getPriceScheduleNoValue().equals(StringUtils.EMPTY)) {
+            pNo = psIfpDto.getPriceScheduleNoValue();
+            sql = sql + " and  ps.PS_NO like '" + pNo.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (PSIFPDTO.getPriceScheduleNameValue() == null ? StringUtils.EMPTY != null : !PSIFPDTO.getPriceScheduleNameValue().equals(StringUtils.EMPTY)) {
-            PName = PSIFPDTO.getPriceScheduleNameValue();
-            sql = sql + " and  ps.PS_NAME like '" + PName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (psIfpDto.getPriceScheduleNameValue() == null ? StringUtils.EMPTY != null : !psIfpDto.getPriceScheduleNameValue().equals(StringUtils.EMPTY)) {
+            pName = psIfpDto.getPriceScheduleNameValue();
+            sql = sql + " and  ps.PS_NAME like '" + pName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (PSIFPDTO.getPtype() != 0) {
-            PType = PSIFPDTO.getPtype().toString();
-            sql = sql + " and  ps.PS_TYPE=" + PType;
+        if (psIfpDto.getPtype() != 0) {
+            pType = psIfpDto.getPtype().toString();
+            sql = sql + " and  ps.PS_TYPE=" + pType;
 
         }
-        if (PSIFPDTO.getPStatus() != 0) {
-            PStatus = PSIFPDTO.getPStatus().toString();
-            sql = sql + " and  ps.PS_STATUS=" + PStatus;
+        if (psIfpDto.getPStatus() != 0) {
+            pStatus = psIfpDto.getPStatus().toString();
+            sql = sql + " and  ps.PS_STATUS=" + pStatus;
 
         }
 
         return sql;
     }
 
-    public String getPSItemcount(PSIFPDTO PSIFPDTO) {
-        String psSid = PSIFPDTO.getPriceScheduleSystemId();
-        String sql = "SELECT DISTINCT  im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,itemsatus.DESCRIPTION,IPQ.ITEM_PRICING_QUALIFIER_NAME,psd.PRICE_PROTECTION_START_DATE"
+    public String getPSItemcount(PSIFPDTO psIfpDto) {
+        String psSid = psIfpDto.getPriceScheduleSystemId();
+        String sql= StringUtils.EMPTY;
+        sql = sql + "SELECT DISTINCT  im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,itemsatus.DESCRIPTION,IPQ.ITEM_PRICING_QUALIFIER_NAME,psd.PRICE_PROTECTION_START_DATE"
                 + " FROM PS_MODEL ps"
                 + " JOIN PS_DETAILS psd on ps.PS_MODEL_SID=psd.PS_MODEL_SID"
                 + "  JOIN IFP_MODEL ifp on ifp.IFP_MODEL_SID=psd.IFP_MODEL_SID"
@@ -630,9 +637,10 @@ public class QueryUtils {
         return sql;
     }
 
-    public String getRSAttachedItems(RsIfpDto RsIfpDto) {
-        int sidvalue = RsIfpDto.getRebateScheduleSystemId();
-        String sql = "SELECT DISTINCT im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,"
+    public String getRSAttachedItems(RsIfpDto rsIfpDto) {
+        int sidvalue = rsIfpDto.getRebateScheduleSystemId();
+        String sql = StringUtils.EMPTY;
+        sql = sql + "SELECT DISTINCT im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,"
                 + "itemsatus.DESCRIPTION,rsd.FORMULA_ID,RPM.REBATE_PLAN_NAME\n"
                 + " from RS_MODEL rs"
                 + " LEFT JOIN RS_DETAILS rsd on rsd.RS_MODEL_SID=rs.RS_MODEL_SID"
@@ -651,12 +659,12 @@ public class QueryUtils {
         return sql;
     }
 
-    public String getRScount(RsIfpDto RsIfpDto) {
-        String Pid;
-        String PName;
-        String PType;
-        String PStatus;
-        String PNO;
+    public String getRScount(RsIfpDto rsIfpDto) {
+        String pId;
+        String pName;
+        String pType;
+        String pStatus;
+        String pNo;
         String sql = "SELECT DISTINCT rs.RS_MODEL_SID, rs.RS_ID, rs.RS_NO, rs.RS_NAME, rs.RS_STATUS, rs.RS_TYPE, rs.REBATE_PROGRAM_TYPE, htype.DESCRIPTION as rtype, hstatus.DESCRIPTION as rstatus, hpstatus.DESCRIPTION as rptype,hcategory.DESCRIPTION as rscategory,"
                 + "rs.RS_START_DATE,rs.RS_END_DATE,hdesignation.DESCRIPTION as rsdesignation,rs.PARENT_RS_ID,rs.PARENT_RS_NAME,rs.RECORD_LOCK_STATUS,ifp.IFP_NAME"
                 + " from RS_MODEL rs"
@@ -668,29 +676,29 @@ public class QueryUtils {
                 + " LEFT JOIN HELPER_TABLE hcategory on hcategory.HELPER_TABLE_SID =  rs.RS_CATEGORY"
                 + " LEFT JOIN HELPER_TABLE hdesignation on hdesignation.HELPER_TABLE_SID =  rs.RS_DESIGNATION"
                 + " WHERE rs.INBOUND_STATUS != 'D'";
-        if (RsIfpDto.getRebateScheduleId() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebateScheduleId().equals(StringUtils.EMPTY)) {
-            Pid = RsIfpDto.getRebateScheduleId();
-            sql = sql + " and  rs.RS_ID like '" + Pid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (rsIfpDto.getRebateScheduleId() == null ? StringUtils.EMPTY != null : !rsIfpDto.getRebateScheduleId().equals(StringUtils.EMPTY)) {
+            pId = rsIfpDto.getRebateScheduleId();
+            sql = sql + " and  rs.RS_ID like '" + pId.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (RsIfpDto.getRebateScheduleNo() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebateScheduleNo().equals(StringUtils.EMPTY)) {
-            PNO = RsIfpDto.getRebateScheduleNo();
-            sql = sql + " and  rs.RS_NO like '" + PNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (rsIfpDto.getRebateScheduleNo() == null ? StringUtils.EMPTY != null : !rsIfpDto.getRebateScheduleNo().equals(StringUtils.EMPTY)) {
+            pNo = rsIfpDto.getRebateScheduleNo();
+            sql = sql + " and  rs.RS_NO like '" + pNo.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (RsIfpDto.getRebateScheduleName() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebateScheduleName().equals(StringUtils.EMPTY)) {
-            PName = RsIfpDto.getRebateScheduleName();
-            sql = sql + " and  rs.RS_NAME like '" + PName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (rsIfpDto.getRebateScheduleName() == null ? StringUtils.EMPTY != null : !rsIfpDto.getRebateScheduleName().equals(StringUtils.EMPTY)) {
+            pName = rsIfpDto.getRebateScheduleName();
+            sql = sql + " and  rs.RS_NAME like '" + pName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (RsIfpDto.getRebatetype() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebatetype().equals(StringUtils.EMPTY)) {
-            PType = RsIfpDto.getRebatetype();
-            sql = sql + " and  rs.RS_TYPE=" + PType;
+        if (rsIfpDto.getRebatetype() == null ? StringUtils.EMPTY != null : !rsIfpDto.getRebatetype().equals(StringUtils.EMPTY)) {
+            pType = rsIfpDto.getRebatetype();
+            sql = sql + " and  rs.RS_TYPE=" + pType;
 
         }
-        if (RsIfpDto.getRebateScheduleStatus() != 0) {
-            PStatus = RsIfpDto.getRebateScheduleStatus().toString();
-            sql = sql + " and  rs.RS_STATUS=" + PStatus;
+        if (rsIfpDto.getRebateScheduleStatus() != 0) {
+            pStatus = rsIfpDto.getRebateScheduleStatus().toString();
+            sql = sql + " and  rs.RS_STATUS=" + pStatus;
 
         }
         return sql;
@@ -892,7 +900,8 @@ public class QueryUtils {
 
     public String updateDate(String rsSid) {
         Date date = new Date();
-        String query = "UPDATE RS_CONTRACT SET RS_END_DATE = '" + DB_DATE.format(date) + "' from"
+        String query = StringUtils.EMPTY;
+        query = query + "UPDATE RS_CONTRACT SET RS_END_DATE = '" + dbDate.format(date) + "' from"
                 + " RS_CONTRACT WHERE RS_CONTRACT_SID in (" + rsSid + ")";
 
         return query;
@@ -991,34 +1000,40 @@ public class QueryUtils {
     }
 
     public String getCFPDetails(int cfpIdValue) {
-        String query = " select cfpm.CFP_ID,cfpc.CFP_NO,cfpc.CFP_NAME,h.DESCRIPTION,cfpc.CFP_START_DATE,mdf.FILE_PATH from dbo.CFP_MODEL cfpm join dbo.CFP_CONTRACT cfpc on cfpm.CFP_MODEL_SID=cfpc.CFP_MODEL_SID and cfpc.CFP_CONTRACT_SID=" + cfpIdValue + " join dbo.HELPER_TABLE h on cfpm.CFP_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on cfpm.CFP_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='CFP_MODEL' ";
+        String query = StringUtils.EMPTY;
+        query = query + " select cfpm.CFP_ID,cfpc.CFP_NO,cfpc.CFP_NAME,h.DESCRIPTION,cfpc.CFP_START_DATE,mdf.FILE_PATH from dbo.CFP_MODEL cfpm join dbo.CFP_CONTRACT cfpc on cfpm.CFP_MODEL_SID=cfpc.CFP_MODEL_SID and cfpc.CFP_CONTRACT_SID=" + cfpIdValue + " join dbo.HELPER_TABLE h on cfpm.CFP_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on cfpm.CFP_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='CFP_MODEL' ";
         return query;
     }
 
     public String getIFPDetails(int ifpIdValue) {
-        String query = "select ifpm.IFP_ID,ifpc.IFP_NO,ifpc.IFP_NAME,h.DESCRIPTION,ifpc.IFP_START_DATE,mdf.FILE_PATH from dbo.IFP_MODEL ifpm join dbo.IFP_CONTRACT ifpc on ifpm.IFP_MODEL_SID=ifpc.IFP_MODEL_SID and ifpc.IFP_CONTRACT_SID=" + ifpIdValue + " join dbo.HELPER_TABLE h on ifpm.IFP_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on ifpm.IFP_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='IFP_MODEL'";
+        String query = StringUtils.EMPTY;
+        query = query + "select ifpm.IFP_ID,ifpc.IFP_NO,ifpc.IFP_NAME,h.DESCRIPTION,ifpc.IFP_START_DATE,mdf.FILE_PATH from dbo.IFP_MODEL ifpm join dbo.IFP_CONTRACT ifpc on ifpm.IFP_MODEL_SID=ifpc.IFP_MODEL_SID and ifpc.IFP_CONTRACT_SID=" + ifpIdValue + " join dbo.HELPER_TABLE h on ifpm.IFP_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on ifpm.IFP_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='IFP_MODEL'";
         return query;
     }
 
     public String getPSDetails(int psIdValue) {
-        String query = "select pm.PS_ID,pc.PS_NO,pc.PS_NAME,h.DESCRIPTION,pc.PS_START_DATE,mdf.FILE_PATH from dbo.PS_MODEL pm join dbo.PS_CONTRACT pc on pm.PS_MODEL_SID=pc.PS_MODEL_SID and pc.PS_CONTRACT_SID=" + psIdValue + " left join dbo.HELPER_TABLE h on pm.PS_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on pm.PS_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='PS_MODEL'";
+        String query = StringUtils.EMPTY;
+        query = query + "select pm.PS_ID,pc.PS_NO,pc.PS_NAME,h.DESCRIPTION,pc.PS_START_DATE,mdf.FILE_PATH from dbo.PS_MODEL pm join dbo.PS_CONTRACT pc on pm.PS_MODEL_SID=pc.PS_MODEL_SID and pc.PS_CONTRACT_SID=" + psIdValue + " left join dbo.HELPER_TABLE h on pm.PS_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on pm.PS_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='PS_MODEL'";
         return query;
     }
 
     public String getCompanyMasterSid(String ids) {
-        String query = "select distinct COMPANY_MASTER_SID from dbo.CFP_CONTRACT_DETAILS where CFP_CONTRACT_SID in (" + ids + ")";
+        String query = StringUtils.EMPTY;
+        query = query + "select distinct COMPANY_MASTER_SID from dbo.CFP_CONTRACT_DETAILS where CFP_CONTRACT_SID in (" + ids + ")";
         return query;
     }
 
     public String getItemMasterDetails(String ids) {
-        String query = "select im.ITEM_NO,im.ITEM_NAME,h1.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE from dbo.ITEM_MASTER im join dbo.IFP_CONTRACT_DETAILS icd "
+        String query = StringUtils.EMPTY;
+        query = query + "select im.ITEM_NO,im.ITEM_NAME,h1.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE from dbo.ITEM_MASTER im join dbo.IFP_CONTRACT_DETAILS icd "
                 + " on im.ITEM_MASTER_SID=icd.ITEM_MASTER_SID and icd.IFP_CONTRACT_SID in (" + ids + ") join dbo.HELPER_TABLE h on im.ITEM_STATUS=h.HELPER_TABLE_SID join dbo.HELPER_TABLE h1 on im.THERAPEUTIC_CLASS=h1.HELPER_TABLE_SID "
                 + " join dbo.BRAND_MASTER bm on im.BRAND_MASTER_SID=bm.BRAND_MASTER_SID ";
 
         return query;
     }
      public String getItemMasterDetailsTransContract(String ids) {
-        String query = "select im.ITEM_NO,im.ITEM_NAME,h1.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE from dbo.ITEM_MASTER im join dbo.IFP_DETAILS icd "
+          String query = StringUtils.EMPTY;
+          query = query + "select im.ITEM_NO,im.ITEM_NAME,h1.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE from dbo.ITEM_MASTER im join dbo.IFP_DETAILS icd "
                 + " on im.ITEM_MASTER_SID=icd.ITEM_MASTER_SID join IFP_CONTRACT ic on icd.IFP_MODEL_SID = ic.IFP_MODEL_SID and ic.IFP_CONTRACT_SID in (" + ids + ") join dbo.HELPER_TABLE h on im.ITEM_STATUS=h.HELPER_TABLE_SID join dbo.HELPER_TABLE h1 on im.THERAPEUTIC_CLASS=h1.HELPER_TABLE_SID "
                 + " join dbo.BRAND_MASTER bm on im.BRAND_MASTER_SID=bm.BRAND_MASTER_SID ";
 
@@ -1026,7 +1041,8 @@ public class QueryUtils {
     }
 
     public String getPSDetails(String ids) {
-        String query = "SELECT distinct \n " +
+        String query = StringUtils.EMPTY;
+        query = query + "SELECT distinct \n " +
                     "    im.ITEM_NO,\n" +
                     "    im.ITEM_NAME, \n" +
                     "    h.DESCRIPTION AS THERAPHY, \n" +
@@ -1072,7 +1088,8 @@ public class QueryUtils {
     }
     
     public String getPSDetailsTransContract(String ids) {
-        String query = "SELECT\n " +
+        String query = StringUtils.EMPTY;
+        query = query + "SELECT\n " +
                     "     im.ITEM_NO,\n" +
                     "    im.ITEM_NAME, \n" +
                     "    h.DESCRIPTION AS THERAPHY, \n" +
@@ -1119,7 +1136,8 @@ public class QueryUtils {
     }
 
     public String getRSDetails(String ids) {
-        String query = "SELECT distinct\n " +
+        String query = StringUtils.EMPTY;
+        query = query + "SELECT distinct\n " +
                     "    im.ITEM_NO,  \n" +
                     "    im.ITEM_NAME,\n" +
                     "    h.DESCRIPTION AS THERAPHY,\n" +
@@ -1147,7 +1165,8 @@ public class QueryUtils {
     }
     
      public String getRSDetailsTransContract(String ids) {
-        String query = "SELECT \n" +
+         String query = StringUtils.EMPTY;
+         query = query + "SELECT \n" +
                     "    im.ITEM_NO,\n" +
                     "    im.ITEM_NAME,\n" +
                     "    h.DESCRIPTION AS THERAPHY,\n" +
@@ -1176,13 +1195,15 @@ public class QueryUtils {
     }
 
     public String getCompanyDetails(String id) {
-        String query = "select cm.COMPANY_NO,COMPANY_NAME,h.DESCRIPTION AS STATUS,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from dbo.COMPANY_MASTER cm join dbo.CFP_DETAILS cfpd on cfpd.COMPANY_MASTER_SID=cm.COMPANY_MASTER_SID"
+        String query = StringUtils.EMPTY;
+        query = query + "select cm.COMPANY_NO,COMPANY_NAME,h.DESCRIPTION AS STATUS,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from dbo.COMPANY_MASTER cm join dbo.CFP_DETAILS cfpd on cfpd.COMPANY_MASTER_SID=cm.COMPANY_MASTER_SID"
                 + " and cfpd.CFP_MODEL_SID=" + id + " left join dbo.HELPER_TABLE h on cm.COMPANY_STATUS=h.HELPER_TABLE_SID";
         return query;
     }
 
     public String getIFP(String id) {
-        String query = "SELECT \n" +
+         String query = StringUtils.EMPTY;
+         query = query + "SELECT \n" +
 "	IFP_M.IFP_ID,\n" +
 "	ifp_c.IFP_NO,\n" +
 "	ifp_c.IFP_NAME,\n" +
@@ -1195,28 +1216,32 @@ public class QueryUtils {
     }
 
     public String getCompanyValues(String cfpModelId) {
-        String componentQuery = "select cm.COMPANY_NO,cm.COMPANY_NAME,h1.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from dbo.COMPANY_MASTER cm join dbo.CFP_DETAILS cd on cm.COMPANY_MASTER_SID=cd.COMPANY_MASTER_SID"
+        String componentQuery = StringUtils.EMPTY;
+        componentQuery = componentQuery + "select cm.COMPANY_NO,cm.COMPANY_NAME,h1.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from dbo.COMPANY_MASTER cm join dbo.CFP_DETAILS cd on cm.COMPANY_MASTER_SID=cd.COMPANY_MASTER_SID"
                 + " and cd.CFP_MODEL_SID =" + cfpModelId + " join dbo.HELPER_TABLE h1 on h1.HELPER_TABLE_SID=cm.COMPANY_STATUS";
 
         return componentQuery;
     }
 
     public String getItemsForIFPName(String searchValue) {
-        String query = "select distinct im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,im.ITEM_STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID,im.ITEM_MASTER_SID  from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_MODEL_SID in ( " + searchValue + ")\n"
+        String query = StringUtils.EMPTY;
+        query = query + "select distinct im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,im.ITEM_STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID,im.ITEM_MASTER_SID  from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_MODEL_SID in ( " + searchValue + ")\n"
                 + " left join dbo.HELPER_TABLE h on h.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS join dbo.BRAND_MASTER bm on bm.BRAND_MASTER_SID=im.BRAND_MASTER_SID \n"
                 + " left join dbo.PS_DETAILS psd on psd.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpd.ITEM_MASTER_SID=psd.ITEM_MASTER_SID left join dbo.HELPER_TABLE h3 on h3.HELPER_TABLE_SID=psd.PRICE_TOLERANCE_TYPE";
         return query;
     }
 
     public String getItemsForIFPID(String searchValue) {
-        String query = "select im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h2.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_ID like '" + searchValue + "'\n"
+        String query = StringUtils.EMPTY;
+        query = query + "select im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h2.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_ID like '" + searchValue + "'\n"
                 + " left join dbo.HELPER_TABLE h on h.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS join dbo.BRAND_MASTER bm on bm.BRAND_MASTER_SID=im.BRAND_MASTER_SID join dbo.HELPER_TABLE h2 on h2.HELPER_TABLE_SID=im.ITEM_STATUS\n"
                 + " left join dbo.PS_DETAILS psd on psd.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpd.ITEM_MASTER_SID=psd.ITEM_MASTER_SID left join dbo.HELPER_TABLE h3  on h3.HELPER_TABLE_SID=psd.PRICE_TOLERANCE_TYPE";
         return query;
     }
 
     public String getItemsForIFPNO(String searchValue) {
-        String query = "select im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h2.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_NO like '" + searchValue + "'\n"
+        String query = StringUtils.EMPTY;
+         query = query + "select im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h2.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_NO like '" + searchValue + "'\n"
                 + " left join dbo.HELPER_TABLE h on h.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS join dbo.BRAND_MASTER bm on bm.BRAND_MASTER_SID=im.BRAND_MASTER_SID join dbo.HELPER_TABLE h2 on h2.HELPER_TABLE_SID=im.ITEM_STATUS\n"
                 + " left join dbo.PS_DETAILS psd on psd.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpd.ITEM_MASTER_SID=psd.ITEM_MASTER_SID left join dbo.HELPER_TABLE h3 on h3.HELPER_TABLE_SID=psd.PRICE_TOLERANCE_TYPE";
         return query;
@@ -1343,11 +1368,11 @@ public class QueryUtils {
                     + " Where CM.CFP_ID like '" + astToPerConverter(binderDTO.getCfpId()) + "' AND CM.CFP_NO like '" + astToPerConverter(binderDTO.getCfpNo()) + "'  AND CM.CFP_NAME like '" + astToPerConverter(binderDTO.getCfpName()) + "'"
                     + " AND CM.CFP_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpType() == null ? StringUtils.EMPTY : binderDTO.getCfpType().getId())) + "' AND CM.CFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpCategory() == null ? StringUtils.EMPTY : binderDTO.getCfpCategory().getId())) + "' AND CM.CFP_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpStatus() == null ? StringUtils.EMPTY : binderDTO.getCfpStatus().getId())) + '\'';
             if (binderDTO.getCfpStartDate() != null) {
-                query += "AND CM.CFP_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.CFP_START_DATE).getValue()) + "'\n";
+                query += "AND CM.CFP_START_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.CFP_START_DATE).getValue()) + "'\n";
             }
 
             if (binderDTO.getCfpEndDate() != null) {
-                query += "AND CM.CFP_END_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.CFP_END_DATE).getValue()) + "'\n";
+                query += "AND CM.CFP_END_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.CFP_END_DATE).getValue()) + "'\n";
             }
             if (parameters.get(StringConstantsUtil.FILTERCFP_ID) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_ID))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_ID)))) {
                 query += " AND CM.CFP_ID like '";
@@ -1451,11 +1476,11 @@ public class QueryUtils {
                     + " Where IM.IFP_NO like '" + astToPerConverter(binderDTO.getIfpNo()) + "'  AND IM.IFP_NAME like '" + astToPerConverter(binderDTO.getIfpName()) + "'"
                     + StringConstantsUtil.IFP_TYPE + zeroToPerConverter(String.valueOf(binderDTO.getIfpType() == null ? StringUtils.EMPTY : binderDTO.getIfpType().getId())) + "' AND IM.IFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpCategory() == null ? StringUtils.EMPTY : binderDTO.getIfpCategory().getId())) + "' AND IM.IFP_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpStatus() == null ? StringUtils.EMPTY : binderDTO.getIfpStatus().getId())) + '\'';
             if (binderDTO.getIfpStartDate() != null) {
-                query += "AND IM.IFP_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.IFP_START_DATE).getValue()) + "'\n";
+                query += "AND IM.IFP_START_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.IFP_START_DATE).getValue()) + "'\n";
             }
 
             if (binderDTO.getIfpEndDate() != null) {
-                query += "AND IM.IFP_END_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.IFP_END_DATE).getValue()) + "'\n";
+                query += "AND IM.IFP_END_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.IFP_END_DATE).getValue()) + "'\n";
             }
             if (parameters.get(StringConstantsUtil.FILTERIFP_NO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_NO))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_NO)))) {
                 query += " AND IM.IFP_NO like '";
@@ -1551,11 +1576,11 @@ public class QueryUtils {
                     + " Where PS.PS_NO like '" + astToPerConverter(binderDTO.getPsNo()) + "'  AND PS.PS_NAME like '" + astToPerConverter(binderDTO.getPsName()) + "'"
                     + " AND PS.PS_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsType() == null ? StringUtils.EMPTY : binderDTO.getPsType().getId())) + "' AND PS.PS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsCategory() == null ? StringUtils.EMPTY : binderDTO.getPsCategory().getId())) + "' AND PS.PS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsStatus() == null ? StringUtils.EMPTY : binderDTO.getPsStatus().getId())) + '\'';
             if (binderDTO.getPsStartDate() != null) {
-                query += "AND PS.PS_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.PS_START_DATE).getValue()) + "'\n";
+                query += "AND PS.PS_START_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.PS_START_DATE).getValue()) + "'\n";
             }
 
             if (binderDTO.getPsEndDate() != null) {
-                query += "AND PS.PS_END_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.PS_END_DATE).getValue()) + "'\n";
+                query += "AND PS.PS_END_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.PS_END_DATE).getValue()) + "'\n";
             }
             if (parameters.get(StringConstantsUtil.FILTERPS_NO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_NO))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_NO)))) {
                 query += " AND PS.PS_NO  like '";
@@ -1663,11 +1688,11 @@ public class QueryUtils {
                     + " AND RS.RS_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsType() == null ? StringUtils.EMPTY : binderDTO.getRsType().getId())) + "' AND RS.RS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsCategory() == null ? StringUtils.EMPTY : binderDTO.getRsCategory().getId())) + "' AND RS.RS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsStatus() == null ? StringUtils.EMPTY : binderDTO.getRsStatus().getId())) + "' AND RS.REBATE_PROGRAM_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getRebateProgramType() == null ? StringUtils.EMPTY : binderDTO.getRebateProgramType().getId())) + '\'';
             if (binderDTO.getRsStartDate() != null) {
 
-                query += " AND CONVERT(VARCHAR, RS.RS_START_DATE, NumericConstants.ONE_TWO_ZERO) like '" + getDB_DATE((Date) discountChBinder.getField(Constants.RS_START_DATE).getValue()) + "%'\n";
+                query += " AND CONVERT(VARCHAR, RS.RS_START_DATE, NumericConstants.ONE_TWO_ZERO) like '" + getDbDate((Date) discountChBinder.getField(Constants.RS_START_DATE).getValue()) + "%'\n";
             }
 
             if (binderDTO.getRsEndDate() != null) {
-                query += " AND CONVERT(VARCHAR, RS.RS_END_DATE, NumericConstants.ONE_TWO_ZERO) like '" + getDB_DATE((Date) discountChBinder.getField(Constants.RS_END_DATE).getValue()) + "%'\n";
+                query += " AND CONVERT(VARCHAR, RS.RS_END_DATE, NumericConstants.ONE_TWO_ZERO) like '" + getDbDate((Date) discountChBinder.getField(Constants.RS_END_DATE).getValue()) + "%'\n";
             }
 
             if (parameters.get(Constants.FILTERRS_ID) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constants.FILTERRS_ID))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.FILTERRS_ID)))) {
@@ -1790,11 +1815,11 @@ public class QueryUtils {
                     + " WHERE CM.CFP_ID like '" + astToPerConverter(binderDTO.getCfpId()) + "' AND CM.CFP_NO like '" + astToPerConverter(binderDTO.getCfpNo()) + "'  AND CM.CFP_NAME like '" + astToPerConverter(binderDTO.getCfpName()) + "'"
                     + " AND CM.CFP_TYPE  like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpType() == null ? StringUtils.EMPTY : binderDTO.getCfpType().getId())) + "' AND CM.CFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpCategory() == null ? StringUtils.EMPTY : binderDTO.getCfpCategory().getId())) + "' AND CM.CFP_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpStatus() == null ? StringUtils.EMPTY : binderDTO.getCfpStatus().getId())) + '\'';
             if (binderDTO.getCfpStartDate() != null) {
-                query += "AND CM.CFP_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.CFP_START_DATE).getValue()) + "'\n";
+                query += "AND CM.CFP_START_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.CFP_START_DATE).getValue()) + "'\n";
             }
 
             if (binderDTO.getCfpEndDate() != null) {
-                query += "AND CM.CFP_END_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.CFP_END_DATE).getValue()) + "'\n";
+                query += "AND CM.CFP_END_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.CFP_END_DATE).getValue()) + "'\n";
             }
 
             if (parameters.get(StringConstantsUtil.FILTERCFP_ID) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_ID))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_ID)))) {
@@ -1846,11 +1871,11 @@ public class QueryUtils {
                     + "' AND IM.IFP_STATUS like '" 
                     + zeroToPerConverter(String.valueOf(binderDTO.getIfpStatus() == null ? StringUtils.EMPTY : binderDTO.getIfpStatus().getId())) + '\'';
             if (binderDTO.getIfpStartDate() != null) {
-                query += "AND IM.IFP_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.IFP_START_DATE).getValue()) + "'\n";
+                query += "AND IM.IFP_START_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.IFP_START_DATE).getValue()) + "'\n";
             }
 
             if (binderDTO.getIfpEndDate() != null) {
-                query += "AND IM.IFP_END_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.IFP_END_DATE).getValue()) + "'\n";
+                query += "AND IM.IFP_END_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.IFP_END_DATE).getValue()) + "'\n";
             }
             if (parameters.get(StringConstantsUtil.FILTERIFP_NO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_NO))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_NO)))) {
                 query += " AND IM.IFP_NO  like '";
@@ -1890,11 +1915,11 @@ public class QueryUtils {
                     + " WHERE PS.PS_NO like '" + astToPerConverter(binderDTO.getPsNo()) + "'  AND PS.PS_NAME like '" + astToPerConverter(binderDTO.getPsName()) + "'"
                     + " AND PS.PS_TYPE  like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsType() == null ? StringUtils.EMPTY : binderDTO.getPsType().getId())) + "' AND PS.PS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsCategory() == null ? StringUtils.EMPTY : binderDTO.getPsCategory().getId())) + "' AND PS.PS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsStatus() == null ? StringUtils.EMPTY : binderDTO.getPsStatus().getId())) + '\'';
             if (binderDTO.getPsStartDate() != null) {
-                query += "AND PS.PS_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.PS_START_DATE).getValue()) + "'\n";
+                query += "AND PS.PS_START_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.PS_START_DATE).getValue()) + "'\n";
             }
 
             if (binderDTO.getPsEndDate() != null) {
-                query += "AND PS.PS_END_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.PS_END_DATE).getValue()) + "'\n";
+                query += "AND PS.PS_END_DATE = '" + getDbDate((Date) discountChBinder.getField(Constants.PS_END_DATE).getValue()) + "'\n";
             }
             if (parameters.get(StringConstantsUtil.FILTERPS_NO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_NO))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_NO)))) {
                 query += " AND PS.PS_NO like '";
@@ -1938,11 +1963,11 @@ public class QueryUtils {
                     + " WHERE RS.RS_ID like '" + astToPerConverter(binderDTO.getRsId()) + "' AND RS.RS_NO like '" + astToPerConverter(binderDTO.getRsNo()) + "'  AND RS.RS_NAME like '" + astToPerConverter(binderDTO.getRsName()) + "'"
                     + " AND RS.RS_TYPE like  '" + zeroToPerConverter(String.valueOf(binderDTO.getRsType() == null ? StringUtils.EMPTY : binderDTO.getRsType().getId())) + "' AND RS.RS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsCategory() == null ? StringUtils.EMPTY : binderDTO.getRsCategory().getId())) + "' AND RS.RS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsStatus() == null ? StringUtils.EMPTY : binderDTO.getRsStatus().getId())) + "' AND RS.REBATE_PROGRAM_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getRebateProgramType() == null ? StringUtils.EMPTY : binderDTO.getRebateProgramType().getId())) + '\'';
             if (binderDTO.getRsStartDate() != null) {
-                query += " AND CONVERT(VARCHAR, RS.RS_START_DATE, NumericConstants.ONE_TWO_ZERO) like '" + getDB_DATE((Date) discountChBinder.getField(Constants.RS_START_DATE).getValue()) + "%'\n";
+                query += " AND CONVERT(VARCHAR, RS.RS_START_DATE, NumericConstants.ONE_TWO_ZERO) like '" + getDbDate((Date) discountChBinder.getField(Constants.RS_START_DATE).getValue()) + "%'\n";
             }
 
             if (binderDTO.getRsEndDate() != null) {
-                query += " AND CONVERT(VARCHAR, RS.RS_END_DATE, NumericConstants.ONE_TWO_ZERO) like '" + getDB_DATE((Date) discountChBinder.getField(Constants.RS_END_DATE).getValue()) + "%'\n";
+                query += " AND CONVERT(VARCHAR, RS.RS_END_DATE, NumericConstants.ONE_TWO_ZERO) like '" + getDbDate((Date) discountChBinder.getField(Constants.RS_END_DATE).getValue()) + "%'\n";
             }
             if (parameters.get(Constants.FILTERRS_ID) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constants.FILTERRS_ID))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.FILTERRS_ID)))) {
                 query += " AND RS.RS_ID like '";
@@ -1992,7 +2017,7 @@ public class QueryUtils {
         return query;
     }
 
-    public String LoadNewCompany(Map<String, String> input) {
+    public String loadNewCompany(Map<String, String> input) {
 
         String query = "select distinct cm.COMPANY_MASTER_SID,cm.COMPANY_ID,cm.COMPANY_NO,cm.COMPANY_NAME,COMPANY_TYPE.DESCRIPTION as type,Status.DESCRIPTION as status,CATEGORY.DESCRIPTION as category,"
                 + " tradeclass.DESCRIPTION  as tradeclassvalue from  COMPANY_MASTER cm "
@@ -2019,7 +2044,7 @@ public class QueryUtils {
         return query;
     }
 
-    public String LoadItemCompany(Map<String, String> input) {
+    public String loadItemCompany(Map<String, String> input) {
         String query = "select ITEM_ID,ITEM_NAME,ITEM_NO,status.DESCRIPTION as status,itype.DESCRIPTION as type,br.BRAND_NAME,HT.DESCRIPTION as form,str.DESCRIPTION as atrength,tc.DESCRIPTION as tc,ITEM_START_DATE,ITEM_END_DATE,im.ITEM_MASTER_SID from ITEM_MASTER im\n"
                 + "inner join HELPER_TABLE HT on HT.HELPER_TABLE_SID=im.FORM inner join HELPER_TABLE status on\n"
                 + "status.HELPER_TABLE_SID=im.ITEM_STATUS inner join HELPER_TABLE str on str.HELPER_TABLE_SID=im.STRENGTH\n"
@@ -2053,13 +2078,14 @@ public class QueryUtils {
         return StringUtils.isBlank(inputString) || Constants.NULL.equals(inputString) ? StringUtils.EMPTY : inputString;
     }
 
-    public String getDB_DATE(final Date input) {
+    public String getDbDate(final Date input) {
         SimpleDateFormat temp = new SimpleDateFormat("yyyy-MM-dd");
         return input == null ? StringUtils.EMPTY : temp.format(input);
     }
 
     public String LoadmassupdateCompany(String sid) {
-        String query = "select distinct cm.COMPANY_MASTER_SID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_STATUS as status ,"
+        String query = StringUtils.EMPTY;
+        query = query + "select distinct cm.COMPANY_MASTER_SID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_STATUS as status ,"
                 + " cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,Status.DESCRIPTION as statusdescription from  COMPANY_MASTER cm "
                 + " inner join HELPER_TABLE Status on Status.HELPER_TABLE_SID=cm.COMPANY_STATUS "
                 + " inner join HELPER_TABLE COMPANY_TYPE on COMPANY_TYPE.HELPER_TABLE_SID=cm.COMPANY_TYPE  "
@@ -2071,8 +2097,9 @@ public class QueryUtils {
         return query;
     }
 
-    public String Loadmassupdateitem(String sid) {
-        String query = "select ITEM_NAME,ITEM_NO,im.ITEM_STATUS as status,br.BRAND_NAME,ITEM_START_DATE,ITEM_END_DATE,im.ITEM_MASTER_SID,tc.DESCRIPTION as tc,status.DESCRIPTION as statusdescription from ITEM_MASTER im\n"
+    public String loadMassUpdateItem(String sid) {
+        String query = StringUtils.EMPTY;
+        query = query + "select ITEM_NAME,ITEM_NO,im.ITEM_STATUS as status,br.BRAND_NAME,ITEM_START_DATE,ITEM_END_DATE,im.ITEM_MASTER_SID,tc.DESCRIPTION as tc,status.DESCRIPTION as statusdescription from ITEM_MASTER im\n"
                 + "inner join HELPER_TABLE HT on HT.HELPER_TABLE_SID=im.FORM inner join HELPER_TABLE status on\n"
                 + "status.HELPER_TABLE_SID=im.ITEM_STATUS inner join HELPER_TABLE str on str.HELPER_TABLE_SID=im.STRENGTH\n"
                 + "left join HELPER_TABLE  itype on itype.HELPER_TABLE_SID=im.ITEM_TYPE left join HELPER_TABLE tc on tc.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS\n"
@@ -2082,12 +2109,14 @@ public class QueryUtils {
     }
 
     public String getTempTableValue(String temptableSId) {
-        String query = " select ITEM_ID,ITEM_NO,ITEM_NAME,ITEM_STATUS_SID,START_DATE,FORMULA_NAME from GCM_GLOBAL_DETAILS where GCM_GLOBAL_DETAILS_SID='" + temptableSId + "'";
+        String query = StringUtils.EMPTY;
+         query = query + " select ITEM_ID,ITEM_NO,ITEM_NAME,ITEM_STATUS_SID,START_DATE,FORMULA_NAME from GCM_GLOBAL_DETAILS where GCM_GLOBAL_DETAILS_SID='" + temptableSId + "'";
         return query;
     }
 
     public String getActuals(RemoveDiscountDto dto) {
-        String query = StringConstantsUtil.SELECT +
+        String query = StringUtils.EMPTY;
+        query = query + StringConstantsUtil.SELECT +
                         "  MAX(AM.SALES_AMOUNT) AS Sales,\n" +
                         "  MAX(AM.QUANTITY) AS Units\n" +
                         "  FROM CONTRACT_MASTER CM\n" +
@@ -2189,7 +2218,8 @@ public class QueryUtils {
     }
 
     public String getTempTableValueForPS(String temptableSId) {
-        String query = " select\n"
+        String query = StringUtils.EMPTY;
+        query = query + " select\n"
                 + "ITEM_ID,\n"
                 + "ITEM_NO,\n"
                 + "ITEM_NAME,\n"
@@ -2208,13 +2238,15 @@ public class QueryUtils {
     }
 
     public String getTempTableIFP(String temptableSId) {
-        String query = " select iiprd.ITEM_ID,iiprd.ITEM_NAME,iiprd.ITEM_NO,h.DESCRIPTION AS STATUS,iiprd.START_DATE,iiprd.END_DATE,h1.DESCRIPTION AS TYPE,iiprd.IMTD_ITEM_PRICE_REBATE_SID from dbo.IMTD_ITEM_PRICE_REBATE_DETAILS iiprd "
+        String query = StringUtils.EMPTY;
+         query = query + " select iiprd.ITEM_ID,iiprd.ITEM_NAME,iiprd.ITEM_NO,h.DESCRIPTION AS STATUS,iiprd.START_DATE,iiprd.END_DATE,h1.DESCRIPTION AS TYPE,iiprd.IMTD_ITEM_PRICE_REBATE_SID from dbo.IMTD_ITEM_PRICE_REBATE_DETAILS iiprd "
                 + " left join dbo.HELPER_TABLE h on h.HELPER_TABLE_SID=iiprd.PS_STATUS join dbo.HELPER_TABLE h1 on h1.HELPER_TABLE_SID=iiprd.ITEM_TYPE and iiprd.IMTD_ITEM_PRICE_REBATE_SID in ( " + temptableSId + ")";
         return query;
     }
 
     public String contractSearch(final ErrorfulFieldGroup binder) {
-        String query = "SELECT DISTINCT CM.CONT_HOLD_COMPANY_MASTER_SID,COMP.COMPANY_NAME,CM.CONTRACT_NAME,CM.CONTRACT_NO,H1.DESCRIPTION AS MARKET_TYPE,CM.START_DATE,CM.END_DATE,CCT.CFP_NAME,IFP_CONT.IFP_NAME,PSC.PS_NAME,\n"
+        String query = StringUtils.EMPTY;
+         query = query + "SELECT DISTINCT CM.CONT_HOLD_COMPANY_MASTER_SID,COMP.COMPANY_NAME,CM.CONTRACT_NAME,CM.CONTRACT_NO,H1.DESCRIPTION AS MARKET_TYPE,CM.START_DATE,CM.END_DATE,CCT.CFP_NAME,IFP_CONT.IFP_NAME,PSC.PS_NAME,\n"
                 + "                RSC.RS_NAME,CM.CONTRACT_MASTER_SID,CCT.CFP_CONTRACT_SID,IFP_CONT.IFP_CONTRACT_SID,PSC.PS_CONTRACT_SID,RSC.RS_CONTRACT_SID FROM   CONTRACT_ALIAS_MASTER CAM JOIN CONTRACT_MASTER CM\n"
                 + "         ON CAM.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID INNER JOIN CFP_CONTRACT CCT ON CM.CONTRACT_MASTER_SID = CCT.CONTRACT_MASTER_SID  AND CM.INBOUND_STATUS <> 'D'\n"
                 + "                  AND CCT.INBOUND_STATUS <> 'D' LEFT JOIN CFP_CONTRACT_DETAILS CCD ON CCT.CFP_CONTRACT_SID = CCD.CFP_CONTRACT_SID LEFT JOIN COMPANY_MASTER CMP_MAS ON CMP_MAS.COMPANY_MASTER_SID = CCD.COMPANY_MASTER_SID\n"
@@ -2258,10 +2290,10 @@ public class QueryUtils {
         String sDate = Constants.NULL;
         String eDate = Constants.NULL;
         if (binderDTO.getStartDate() != null) {
-            sDate = DB_DATE.format(binderDTO.getStartDate());
+            sDate = dbDate.format(binderDTO.getStartDate());
         }
         if (binderDTO.getEndDate() != null) {
-            eDate = DB_DATE.format(binderDTO.getEndDate());
+            eDate = dbDate.format(binderDTO.getEndDate());
         }
         query = query + " CM.START_DATE BETWEEN ISNULL(" + sDate + ",'1965-01-01') AND ISNULL(" + eDate + ",'2065-01-01') AND";
         if (!StringUtils.EMPTY.equals(binderDTO.getAliasNumber()) && !Constants.NULL.equals(binderDTO.getAliasNumber())) {
@@ -2274,10 +2306,10 @@ public class QueryUtils {
         String asDate = Constants.NULL;
         String aeDate = Constants.NULL;
         if (binderDTO.getAliasStartDate() != null) {
-            asDate = DB_DATE.format(binderDTO.getAliasStartDate());
+            asDate = dbDate.format(binderDTO.getAliasStartDate());
         }
         if (binderDTO.getAliasEndDate() != null) {
-            aeDate = DB_DATE.format(binderDTO.getAliasEndDate());
+            aeDate = dbDate.format(binderDTO.getAliasEndDate());
         }
         query = query + " CAM.START_DATE BETWEEN ISNULL(" + asDate + ",'1965-01-01') AND ISNULL(" + aeDate + ",'2065-01-01') AND";
         query = query.trim();
@@ -2296,7 +2328,8 @@ public class QueryUtils {
     public String getIFPInformation(String searchValue) {
 
         searchValue = searchValue.replace(CHAR_ASTERISK, CHAR_PERCENT);
-        String query2 = "select distinct\n"
+        String query2 = StringUtils.EMPTY;
+        query2 = query2 + "select distinct\n"
                 + "IM.ITEM_MASTER_SID,\n"
                 + "IM.ITEM_ID,\n"
                 + "IM.ITEM_NAME,\n"
@@ -2321,14 +2354,16 @@ public class QueryUtils {
     }
 
     public String rsValue(int rsIdValue) {
-        String query = "select rm.RS_ID,h.DESCRIPTION AS STATUS,rm.RS_NO,rm.RS_START_DATE,rm.RS_NAME,rm.RS_END_DATE,h1.DESCRIPTION AS FREQ,h2.DESCRIPTION AS TYPE "
+        String query = StringUtils.EMPTY;
+        query = query + "select rm.RS_ID,h.DESCRIPTION AS STATUS,rm.RS_NO,rm.RS_START_DATE,rm.RS_NAME,rm.RS_END_DATE,h1.DESCRIPTION AS FREQ,h2.DESCRIPTION AS TYPE "
                 + " from RS_MODEL rm join RS_CONTRACT rc on rm.RS_MODEL_SID=rc.RS_MODEL_SID and rc.RS_CONTRACT_SID=" + rsIdValue + " left join HELPER_TABLE h on rm.RS_STATUS=h.HELPER_TABLE_SID join HELPER_TABLE h1 "
                 + " on h1.HELPER_TABLE_SID=rm.REBATE_FREQUENCY join dbo.HELPER_TABLE h2 on h2.HELPER_TABLE_SID=rm.REBATE_PROGRAM_TYPE";
         return query;
     }
 
     public String compValue(String value) {
-        String query = "select cm.COMPANY_NO,cm.COMPANY_NAME,H.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,tradeclass.DESCRIPTION as tradeclass from dbo.COMPANY_MASTER cm "
+        String query = StringUtils.EMPTY;
+         query = query + "select cm.COMPANY_NO,cm.COMPANY_NAME,H.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,tradeclass.DESCRIPTION as tradeclass from dbo.COMPANY_MASTER cm "
                 + "INNER JOIN COMPANY_TRADE_CLASS CT\n"
                 + "  ON CT.COMPANY_MASTER_SID = cm.COMPANY_MASTER_SID\n"
                 + "INNER JOIN HELPER_TABLE tradeclass\n"
@@ -2338,7 +2373,8 @@ public class QueryUtils {
     }
 
     public String cfpValue(String id) {
-        String query = StringConstantsUtil.SELECT +
+        String query = StringUtils.EMPTY;
+        query = query + StringConstantsUtil.SELECT +
 "	CFP_ID,\n" +
 "	CFP_C.CFP_NO,\n" +
 "	CFP_C.CFP_NAME,\n" +
@@ -2352,7 +2388,8 @@ public class QueryUtils {
     }
 
     public String psValue(String id) {
-        String query = "SELECT distinct\n" +
+        String query = StringUtils.EMPTY;
+        query = query + "SELECT distinct\n" +
 "	PS_M.PS_ID,\n" +
 "	PS_C.PS_NO,\n" +
 "	PS_C.PS_NAME,\n" +
@@ -2367,12 +2404,14 @@ public class QueryUtils {
     }
 
     public String conditionQuery(String modelId, String modelSId) {
-        String query = "select * from PS_DETAILS where PS_MODEL_SID=" + modelId + " and IFP_MODEL_SID=" + modelSId;
+        String query = StringUtils.EMPTY;
+        query = query + "select * from PS_DETAILS where PS_MODEL_SID=" + modelId + " and IFP_MODEL_SID=" + modelSId;
         return query;
     }
 
     public String rsValue(String id) {
-        String query = StringConstantsUtil.SELECT +
+        String query = StringUtils.EMPTY;
+         query = query + StringConstantsUtil.SELECT +
 "	RS_M.RS_ID,\n" +
 "	Rs_C.RS_NO,\n" +
 "	Rs_C.RS_NAME,\n" +
@@ -2387,13 +2426,15 @@ public class QueryUtils {
     }
 
     public String populateQuery(String value) {
-        String query = "select cm.COMPANY_NO,cm.COMPANY_NAME,H.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from COMPANY_MASTER cm join HELPER_TABLE H"
+        String query = StringUtils.EMPTY;
+         query = query + "select cm.COMPANY_NO,cm.COMPANY_NAME,H.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from COMPANY_MASTER cm join HELPER_TABLE H"
                 + " ON H.HELPER_TABLE_SID = cm.COMPANY_STATUS and COMPANY_MASTER_SID in (" + value + ")";
         return query;
     }
 
     public String cfpContractDetailsInsert(String contractSid, String createdDate, String cfpContractSId) {
-        String query = "INSERT INTO CFP_CONTRACT (CFP_MODEL_SID,CFP_NAME,CFP_TYPE,CFP_CATEGORY,CFP_DESIGNATION,CFP_STATUS,CFP_TRADE_CLASS,CFP_START_DATE,CFP_END_DATE,"
+        String query = StringUtils.EMPTY;
+        query = query + "INSERT INTO CFP_CONTRACT (CFP_MODEL_SID,CFP_NAME,CFP_TYPE,CFP_CATEGORY,CFP_DESIGNATION,CFP_STATUS,CFP_TRADE_CLASS,CFP_START_DATE,CFP_END_DATE,"
                 + " CONTRACT_MASTER_SID,CFP_CONTRACT_ATTACHED_STATUS,CFP_CONTRACT_ATTACHED_DATE,PARENT_CFP_ID,PARENT_CFP_NAME,INBOUND_STATUS,RECORD_LOCK_STATUS,"
                 + " BATCH_ID,SOURCE,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE,CFP_NO,SALES_INCLUSION) SELECT CFP_MODEL_SID,CFP_NAME,CFP_TYPE,CFP_CATEGORY,CFP_DESIGNATION,CFP_STATUS,CFP_TRADE_CLASS,CFP_START_DATE,CFP_END_DATE," + contractSid + ", CFP_CONTRACT_ATTACHED_STATUS,"
                 + " CFP_CONTRACT_ATTACHED_DATE,PARENT_CFP_ID,PARENT_CFP_NAME,'A',RECORD_LOCK_STATUS,BATCH_ID,SOURCE," + 1 + "," + createdDate + ",1,1,CFP_NO,SALES_INCLUSION FROM   CFP_CONTRACT WHERE  CFP_CONTRACT_SID =" + cfpContractSId;
@@ -2401,32 +2442,38 @@ public class QueryUtils {
     }
 
     public String idenCFPQuery() {
-        String query = " select IDENT_CURRENT('CFP_CONTRACT')";
+        String query = StringUtils.EMPTY;
+        query = query + " select IDENT_CURRENT('CFP_CONTRACT')";
         return query;
     }
 
     public String cfpModelQuery(String id) {
-        String query = " select CFP_MODEL_SID from CFP_CONTRACT where CFP_CONTRACT_SID=" + id;
+        String query = StringUtils.EMPTY;
+        query = query + " select CFP_MODEL_SID from CFP_CONTRACT where CFP_CONTRACT_SID=" + id;
         return query;
     }
 
     public String ifpModelQuery(String id) {
-        String query = " select IFP_MODEL_SID from dbo.IFP_CONTRACT where IFP_CONTRACT_SID=" + id;
+        String query = StringUtils.EMPTY;
+        query = query + " select IFP_MODEL_SID from dbo.IFP_CONTRACT where IFP_CONTRACT_SID=" + id;
         return query;
     }
 
     public String psModelQuery(String id) {
-        String query = " select PS_MODEL_SID from dbo.PS_CONTRACT where PS_CONTRACT_SID=" + id;
+        String query = StringUtils.EMPTY;
+        query = query + " select PS_MODEL_SID from dbo.PS_CONTRACT where PS_CONTRACT_SID=" + id;
         return query;
     }
 
     public String rsModelQuery(String id) {
-        String query = " select RS_MODEL_SID from dbo.RS_CONTRACT where RS_CONTRACT_SID=" + id;
+        String query = StringUtils.EMPTY;
+        query = query + " select RS_MODEL_SID from dbo.RS_CONTRACT where RS_CONTRACT_SID=" + id;
         return query;
     }
 
     public String ifpContractDetailsInsert(String parentCFPId, String contractSid, String createdDate, String ifpContractSId) {
-        String query = "INSERT INTO IFP_CONTRACT (IFP_MODEL_SID,IFP_NAME,IFP_TYPE,IFP_CATEGORY,IFP_DESIGNATION,IFP_STATUS,IFP_START_DATE,IFP_END_DATE,CFP_CONTRACT_SID,"
+        String query = StringUtils.EMPTY;
+         query = query + "INSERT INTO IFP_CONTRACT (IFP_MODEL_SID,IFP_NAME,IFP_TYPE,IFP_CATEGORY,IFP_DESIGNATION,IFP_STATUS,IFP_START_DATE,IFP_END_DATE,CFP_CONTRACT_SID,"
                 + " CONTRACT_MASTER_SID,IFP_CONTRACT_ATTACHED_STATUS,IFP_CONTRACT_ATTACHED_DATE,PARENT_IFP_ID,PARENT_IFP_NAME,"
                 + " INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID,SOURCE,CREATED_BY,CREATED_DATE, MODIFIED_BY,MODIFIED_DATE,IFP_NO)"
                 + " SELECT IFP_MODEL_SID,IFP_NAME,IFP_TYPE,IFP_CATEGORY,IFP_DESIGNATION,IFP_STATUS,IFP_START_DATE,IFP_END_DATE," + parentCFPId + ", " + contractSid + ",IFP_CONTRACT_ATTACHED_STATUS,IFP_CONTRACT_ATTACHED_DATE,PARENT_IFP_ID,PARENT_IFP_NAME,INBOUND_STATUS,"
@@ -2436,7 +2483,8 @@ public class QueryUtils {
     }
 
     public String psContractDetailsInsert(String contractSid, String parentCFPId, String parentIFPId, String createdDate, String psContractSId) {
-        String query = "INSERT INTO PS_CONTRACT (PS_MODEL_SID,PS_NAME,PS_TYPE,PS_CATEGORY,PS_STATUS,PS_DESIGNATION,PS_START_DATE,PS_END_DATE,CONTRACT_MASTER_SID,CFP_CONTRACT_SID,IFP_CONTRACT_SID,PS_CONTRACT_ATTACHED_STATUS,"
+        String query = StringUtils.EMPTY;
+         query = query + "INSERT INTO PS_CONTRACT (PS_MODEL_SID,PS_NAME,PS_TYPE,PS_CATEGORY,PS_STATUS,PS_DESIGNATION,PS_START_DATE,PS_END_DATE,CONTRACT_MASTER_SID,CFP_CONTRACT_SID,IFP_CONTRACT_SID,PS_CONTRACT_ATTACHED_STATUS,"
                 + " PS_CONTRACT_ATTACHED_DATE,PARENT_PS_ID,PARENT_PS_NAME,INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID,SOURCE,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE,PS_NO)"
                 + " SELECT PS_MODEL_SID,PS_NAME,PS_TYPE,PS_CATEGORY,PS_STATUS,PS_DESIGNATION,PS_START_DATE,PS_END_DATE," + contractSid + "," + parentCFPId + "," + parentIFPId + ",PS_CONTRACT_ATTACHED_STATUS,PS_CONTRACT_ATTACHED_DATE,PARENT_PS_ID,PARENT_PS_NAME,INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID,SOURCE,1," + createdDate + ",1,1,PS_NO"
                 + " FROM   PS_CONTRACT WHERE  PS_CONTRACT_SID =" + psContractSId;
@@ -2445,7 +2493,8 @@ public class QueryUtils {
 
     public String rsContractDetailsInsert(String contractSid, String parentCFPId, String parentIFPId, String parentPSId, String createdDate, String rsContractSId) {
         String bpi = "BPI";
-        String query = "INSERT INTO RS_CONTRACT (RS_MODEL_SID,RS_ID,RS_NO,RS_NAME,RS_TYPE,REBATE_PROGRAM_TYPE,RS_CATEGORY,RS_STATUS,RS_DESIGNATION,RS_START_DATE,RS_END_DATE,RS_TRADE_CLASS,PARENT_RS_ID,PARENT_RS_NAME,CONTRACT_MASTER_SID,CFP_CONTRACT_SID,"
+        String query = StringUtils.EMPTY;
+         query = query + "INSERT INTO RS_CONTRACT (RS_MODEL_SID,RS_ID,RS_NO,RS_NAME,RS_TYPE,REBATE_PROGRAM_TYPE,RS_CATEGORY,RS_STATUS,RS_DESIGNATION,RS_START_DATE,RS_END_DATE,RS_TRADE_CLASS,PARENT_RS_ID,PARENT_RS_NAME,CONTRACT_MASTER_SID,CFP_CONTRACT_SID,"
                 + " IFP_CONTRACT_SID,PS_CONTRACT_SID,RS_CONTRACT_ATTACHED_STATUS,RS_CONTRACT_ATTACHED_DATE,RS_TRANS_REF_ID,RS_TRANS_REF_NO,RS_TRANS_REF_NAME,REBATE_RULE_TYPE,REBATE_RULE_ASSOCIATION,REBATE_PLAN_LEVEL,"
                 + " INTEREST_BEARING_INDICATOR,INTEREST_BEARING_BASIS,REBATE_PROCESSING_TYPE,REBATE_FREQUENCY,PAYMENT_METHOD,PAYMENT_FREQUENCY,PAYMENT_TERMS,PAYMENT_GRACE_PERIOD,RS_CALENDAR,RS_VALIDATION_PROFILE,MAKE_PAYABLE_TO,"
                 + " ADDRESS_1,ADDRESS_2,CITY,STATE,ZIP_CODE,RS_ALIAS,FORMULA_METHOD_ID,INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID, SOURCE,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE,CALCULATION_TYPE,DEDUCTION_INCLUSION,CALCULATION_LEVEL)"
@@ -2458,22 +2507,26 @@ public class QueryUtils {
     }
 
     public String idenIFPQuery() {
-        String query = " select IDENT_CURRENT('IFP_CONTRACT')";
+        String query = StringUtils.EMPTY;
+         query = query + " select IDENT_CURRENT('IFP_CONTRACT')";
         return query;
     }
 
     public String idenPSQuery() {
-        String query = " select IDENT_CURRENT('PS_CONTRACT')";
+        String query = StringUtils.EMPTY;
+         query = query + " select IDENT_CURRENT('PS_CONTRACT')";
         return query;
     }
 
     public String idenRSQuery() {
-        String query = " select IDENT_CURRENT('RS_CONTRACT')";
+        String query = StringUtils.EMPTY;
+         query = query + " select IDENT_CURRENT('RS_CONTRACT')";
         return query;
     }
 
     public String getItemInfo(String ids, String ifpIds) {
-        String query = "SELECT IFP_MODEL_SID,\n" +
+         String query = StringUtils.EMPTY;
+         query = query + "SELECT IFP_MODEL_SID,\n" +
                         "       ITEM_MASTER_SID,\n" +
                         "       ITEM_NO,\n" +
                         "       ITEM_NAME,\n" +
@@ -2509,13 +2562,15 @@ public class QueryUtils {
     }
 
     public String getCompanyInformation(String companySid) {
-        String query = "select CM.COMPANY_ID,CM.COMPANY_NO,CM.COMPANY_NAME,CM.COMPANY_START_DATE,CM.COMPANY_END_DATE,HT.DESCRIPTION AS STATUS from dbo.COMPANY_MASTER CM\n"
+         String query = StringUtils.EMPTY;
+         query = query + "select CM.COMPANY_ID,CM.COMPANY_NO,CM.COMPANY_NAME,CM.COMPANY_START_DATE,CM.COMPANY_END_DATE,HT.DESCRIPTION AS STATUS from dbo.COMPANY_MASTER CM\n"
                 + "LEFT JOIN DBO.HELPER_TABLE HT ON CM.COMPANY_STATUS=HT.HELPER_TABLE_SID WHERE CM.COMPANY_MASTER_SID='" + companySid + "'";
         return query;
     }
 
     public String getRsValueFromTempTable(String tempTableSid) {
-        String query = "select COMPONENT_NAME,COMPONENT_ID,COMPONENT_NO,START_DATE,END_DATE,COMPONENT_TYPE,COMPONENT_STATUS,PROGRAM_TYPE,"
+         String query = StringUtils.EMPTY;
+         query = query + "select COMPONENT_NAME,COMPONENT_ID,COMPONENT_NO,START_DATE,END_DATE,COMPONENT_TYPE,COMPONENT_STATUS,PROGRAM_TYPE,"
                 + "PLAN_LEVEL,PAYMENT_FREQUENCY,PAYMENT_METHOD from dbo.GCM_CONTRACT_DETAILS WHERE GCM_CONTRACT_DETAILS_SID='" + tempTableSid + "'";
         return query;
     }
@@ -2535,13 +2590,13 @@ public class QueryUtils {
         query1 = query1.replaceAll("\\?IFP_MODEL_ID", ifpModelId);
         query1 = query1.replaceAll("\\?ITEM_MASTER_ID", itemMasterId);
         if (startDate != null) {
-            String date = DB_DATE.format((Date) startDate);
+            String date = dbDate.format((Date) startDate);
             query1 = query1.replaceAll("\\?ITEM_REBATE_START_DATE", "'" + date + "'");
         } else {
             query1 = query1.replaceAll("\\?ITEM_REBATE_START_DATE", "NULL");
         }
         query1 = query1.replaceAll("\\?RECORD_LOCK_STATUS", "'false'");
-        String createdDate = DB_DATE.format(new Date());
+        String createdDate = dbDate.format(new Date());
         query1 = query1.replaceAll("\\?CREATED_DATE", createdDate);
         query1 = query1.replaceAll("\\?MODIFIED_DATE", createdDate);
         query1 = query1.replaceAll("\\?CREATED_BY", userId);

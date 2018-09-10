@@ -21,6 +21,10 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -75,9 +79,6 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 		return resultLayout;
 	}
 
-
-	
-
 	private void addSelectionListener(GtnUIFrameworkComponentConfig componentConfig, PagedGrid pagedGrid) {
 		if (componentConfig.getGtnPagedTableConfig().getItemClickActionConfigList() != null) {
 			pagedGrid.getGrid().addSelectionListener(event -> {
@@ -108,6 +109,19 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 		PagedGrid baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentData()
 				.getPagedGrid();
 		baseComponent.getGrid().setItems(Collections.emptyList());
+		if (!componentConfig.getGtnPagedTableConfig().isPaginationOff()){
+		HorizontalLayout controlLayout = baseComponent.getControlLayout();
+		HorizontalLayout horizontalLayoutForPage = (HorizontalLayout) controlLayout.getComponent(2);
+		HorizontalLayout horizontalLayoutpageNoFieldText = (HorizontalLayout) horizontalLayoutForPage.getComponent(3);
+		TextField textField = (TextField) horizontalLayoutpageNoFieldText.getComponent(0);
+		textField.setValue("1");
+		gtnLogger.info("inside resetToDefault ");
+		HorizontalLayout horizontalLayoutForComboBox = (HorizontalLayout) controlLayout.getComponent(1);
+		ComboBox comboBox = (ComboBox) horizontalLayoutForComboBox.getComponent(0);
+		comboBox.setSelectedItem(10);
+		Label horizontalLayoutpageCountLabel = (Label) horizontalLayoutForPage.getComponent(5);
+		horizontalLayoutpageCountLabel.setValue("1");
+		}
 		postCreateComponent(baseComponent.getGrid(), componentConfig);
 	}
 

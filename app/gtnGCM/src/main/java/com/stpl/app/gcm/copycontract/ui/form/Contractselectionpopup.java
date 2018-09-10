@@ -65,8 +65,8 @@ public class Contractselectionpopup extends Window {
         if (contractscount.getValue() != null && !contractscount.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.SELECT_ONE.getConstant())) {
 
             UI.getCurrent().removeWindow(this);
-            CopyContractWindow CCWindow = new CopyContractWindow(new SessionDTO(), selectedList, contractscount.getValue().toString());
-            UI.getCurrent().addWindow(CCWindow);
+            CopyContractWindow ccWindow = new CopyContractWindow(new SessionDTO(), selectedList, contractscount.getValue().toString());
+            UI.getCurrent().addWindow(ccWindow);
 
         }
     }

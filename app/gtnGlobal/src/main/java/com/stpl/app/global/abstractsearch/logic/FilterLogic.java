@@ -25,7 +25,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class FilterLogic {
 
-    public final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+    public final SimpleDateFormat dbDate = new SimpleDateFormat("yyyy-MM-dd");
     private static FilterLogic instance;
 
     private FilterLogic() {
@@ -79,7 +79,7 @@ public class FilterLogic {
                                 tempStart = new StringBuilder(dateStartstr);
                             }
                             tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(startValue));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, dbDate.format(startValue));
                             sql.append(tempStart);
                         }
                         if (!betweenFilter.getEndValue().toString().isEmpty()) {
@@ -91,7 +91,7 @@ public class FilterLogic {
                             }
 
                             tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, DBDate.format(endValue));
+                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, dbDate.format(endValue));
                             sql.append(tempEnd);
                         }
                     }
@@ -100,7 +100,7 @@ public class FilterLogic {
                     if (!queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) {
                         Compare.Operation operation = stringFilter.getOperation();
                         if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
-                            StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
+                            StringBuilder startStr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder tempStart;
                             String value;
@@ -114,7 +114,7 @@ public class FilterLogic {
                                 if (sql.length() == 0) {
                                     tempStart = new StringBuilder(intStartstr);
                                 } else {
-                                    tempStart = new StringBuilder(Startstr);
+                                    tempStart = new StringBuilder(startStr);
                                 }
                                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                                 tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
@@ -187,7 +187,7 @@ public class FilterLogic {
                                 }
                             }
                             tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(value));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, dbDate.format(value));
                             sql.append(tempStart);
                         }
                     }

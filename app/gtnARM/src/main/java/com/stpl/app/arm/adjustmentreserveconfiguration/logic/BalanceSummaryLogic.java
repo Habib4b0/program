@@ -149,22 +149,22 @@ public class BalanceSummaryLogic {
         List<AdjustmentReserveDTO> dataList = new ArrayList<>();
         for (Object[] objects : resultList) {
             AdjustmentReserveDTO data = new AdjustmentReserveDTO();
-            data.setBalanceSummarySid(objects[0] != null ? Integer.valueOf(String.valueOf(objects[0])) : 0);
+            data.setBalanceSummarySid(CommonLogic.getIntegerValue(0, objects));
             data.setCheckRecord(objects[1] == null ? Boolean.FALSE : (Boolean) objects[1]);
             data.setBalSummaryAccount(objects[2] != null ? (String) objects[2] : GlobalConstants.getSelectOne());
-            data.setBalSummaryPipelineAccrualAdjustmentType(objects[3] != null ? Integer.valueOf(String.valueOf(objects[3])) : 0);
-            data.setBalSummaryDemandAccrualAdjustmentType(objects[4] != null ? Integer.valueOf(String.valueOf(objects[4])) : 0);
-            data.setBalSummaryPipelinelineInventoryTrueupAdjustmentType(objects[5] != null ? Integer.valueOf(String.valueOf(objects[5])) : 0);
-            data.setBalSummaryDemandReforecastAdjustmentType(objects[6] != null ? Integer.valueOf(String.valueOf(objects[6])) : 0);
-            data.setBalSummaryPaymentTrueupAdjustmentType(objects[7] != null ? Integer.valueOf(String.valueOf(objects[7])) : 0);
-            data.setBalSummaryDemandTrueupAdjustmentType(objects[7] != null ? Integer.valueOf(String.valueOf(objects[7])) : 0);
-            data.setBalSummaryFeesAccrualAdjustmentType(objects[8] != null ? Integer.valueOf(String.valueOf(objects[8])) : 0);
-            data.setBalSummaryInflationAdjustmentAdjustmentType(objects[9] != null ? Integer.valueOf(String.valueOf(objects[9])) : 0);
-            data.setBalSummaryCreditCardFeesAdjustmentType(objects[10] != null ? Integer.valueOf(String.valueOf(objects[10])) : 0);
-            data.setBalSummaryOtherFixedDollarFeesAdjustmentType(objects[11] != null ? Integer.valueOf(String.valueOf(objects[11])) : 0);
-            data.setBalSummaryInventoryValuationAdjustmentType(objects[12] != null ? Integer.valueOf(String.valueOf(objects[12])) : 0);
-            data.setBalSummaryReturnReserveAdjustmentType(objects[13] != null ? Integer.valueOf(String.valueOf(objects[13])) : 0);
-            data.setVersionNo(objects[14] != null ? (String) objects[14] : StringUtils.EMPTY);
+            data.setBalSummaryPipelineAccrualAdjustmentType(CommonLogic.getIntegerValue(3, objects));
+            data.setBalSummaryDemandAccrualAdjustmentType(CommonLogic.getIntegerValue(4, objects));
+            data.setBalSummaryPipelinelineInventoryTrueupAdjustmentType(CommonLogic.getIntegerValue(5, objects));
+            data.setBalSummaryDemandReforecastAdjustmentType(CommonLogic.getIntegerValue(6, objects));
+            data.setBalSummaryPaymentTrueupAdjustmentType(CommonLogic.getIntegerValue(7, objects));
+            data.setBalSummaryDemandTrueupAdjustmentType(CommonLogic.getIntegerValue(7, objects));
+            data.setBalSummaryFeesAccrualAdjustmentType(CommonLogic.getIntegerValue(8, objects));
+            data.setBalSummaryInflationAdjustmentAdjustmentType(CommonLogic.getIntegerValue(9, objects));
+            data.setBalSummaryCreditCardFeesAdjustmentType(CommonLogic.getIntegerValue(10, objects));
+            data.setBalSummaryOtherFixedDollarFeesAdjustmentType(CommonLogic.getIntegerValue(11, objects));
+            data.setBalSummaryInventoryValuationAdjustmentType(CommonLogic.getIntegerValue(12, objects));
+            data.setBalSummaryReturnReserveAdjustmentType(CommonLogic.getIntegerValue(13, objects));
+            data.setVersionNo(CommonLogic.getStringValue(14, objects));
             dataList.add(data);
         }
         return dataList;
@@ -180,22 +180,22 @@ public class BalanceSummaryLogic {
         List<AdjustmentReserveDTO> dataList = new ArrayList<>();
         for (Object[] objects : resultList) {
             AdjustmentReserveDTO data = new AdjustmentReserveDTO();
-            data.setBalanceSummarySid(objects[0] != null ? Integer.valueOf(String.valueOf(objects[0])) : 0);
+            data.setBalanceSummarySid(CommonLogic.getIntegerValue(0, objects));
             data.setCheckRecord(objects[1] == null ? Boolean.FALSE : (Boolean) objects[1]);
             data.setBalSummaryAccount(objects[2] != null ? (String) objects[2] : GlobalConstants.getSelectOne());
-            data.setBalSummaryPipelineAccrualAdjustmentTypeDesc(objects[3] != null ? (String.valueOf(objects[3])) : StringUtils.EMPTY);
-            data.setBalSummaryDemandAccrualAdjustmentTypeDesc(objects[4] != null ? (String.valueOf(objects[4])) : StringUtils.EMPTY);
-            data.setBalSummaryPipelinelineInventoryTrueupAdjustmentTypeDesc(objects[5] != null ? (String.valueOf(objects[5])) : StringUtils.EMPTY);
-            data.setBalSummaryDemandReforecastAdjustmentTypeDesc(objects[6] != null ? (String.valueOf(objects[6])) : StringUtils.EMPTY);
-            data.setBalSummaryPaymentTrueupAdjustmentTypeDesc(objects[7] != null ? (String.valueOf(objects[7])) : StringUtils.EMPTY);
-            data.setBalSummaryDemandTrueupAdjustmentTypeDesc(objects[7] != null ? (String.valueOf(objects[7])) : StringUtils.EMPTY);
-            data.setBalSummaryFeesAccrualAdjustmentTypeDesc(objects[8] != null ? (String.valueOf(objects[8])) : StringUtils.EMPTY);
-            data.setBalSummaryInflationAdjustmentAdjustmentTypeDesc(objects[9] != null ? (String.valueOf(objects[9])) : StringUtils.EMPTY);
-            data.setBalSummaryCreditCardFeesAdjustmentTypeDesc(objects[10] != null ? (String.valueOf(objects[10])) : StringUtils.EMPTY);
-            data.setBalSummaryOtherFixedDollarFeesAdjustmentTypeDesc(objects[11] != null ? (String.valueOf(objects[11])) : StringUtils.EMPTY);
-            data.setBalSummaryInventoryValuationAdjustmentTypeDesc(objects[12] != null ? (String.valueOf(objects[12])) : StringUtils.EMPTY);
-            data.setBalSummaryReturnReserveAdjustmentTypeDesc(objects[13] != null ? (String.valueOf(objects[13])) : StringUtils.EMPTY);
-            data.setVersionNo(objects[14] != null ? (String) objects[14] : StringUtils.EMPTY);
+            data.setBalSummaryPipelineAccrualAdjustmentTypeDesc(CommonLogic.getStringValue(3, objects));
+            data.setBalSummaryDemandAccrualAdjustmentTypeDesc(CommonLogic.getStringValue(4, objects));
+            data.setBalSummaryPipelinelineInventoryTrueupAdjustmentTypeDesc(CommonLogic.getStringValue(5, objects));
+            data.setBalSummaryDemandReforecastAdjustmentTypeDesc(CommonLogic.getStringValue(6, objects));
+            data.setBalSummaryPaymentTrueupAdjustmentTypeDesc(CommonLogic.getStringValue(7, objects));
+            data.setBalSummaryDemandTrueupAdjustmentTypeDesc(CommonLogic.getStringValue(7, objects));
+            data.setBalSummaryFeesAccrualAdjustmentTypeDesc(CommonLogic.getStringValue(8, objects));
+            data.setBalSummaryInflationAdjustmentAdjustmentTypeDesc(CommonLogic.getStringValue(9, objects));
+            data.setBalSummaryCreditCardFeesAdjustmentTypeDesc(CommonLogic.getStringValue(10, objects));
+            data.setBalSummaryOtherFixedDollarFeesAdjustmentTypeDesc(CommonLogic.getStringValue(11, objects));
+            data.setBalSummaryInventoryValuationAdjustmentTypeDesc(CommonLogic.getStringValue(12, objects));
+            data.setBalSummaryReturnReserveAdjustmentTypeDesc(CommonLogic.getStringValue(13, objects));
+            data.setVersionNo(CommonLogic.getStringValue(14, objects));
             dataList.add(data);
         }
         return dataList;
@@ -215,7 +215,7 @@ public class BalanceSummaryLogic {
         inputList.add(column);
         Object values;
         if (value != null) {
-            values = "'" + value + "'";
+            values = StringUtils.EMPTY + ARMUtils.SINGLE_QUOTES + value + ARMUtils.SINGLE_QUOTES;
         } else {
             values = value;
         }

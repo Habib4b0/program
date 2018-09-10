@@ -24,7 +24,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,7 +128,7 @@ public class PhsResultsLogic {
             } else {
                 projDTOList = getCustomizedPriceTypeChild(phsList, projSelDTO);
             }
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getPhsChild method ends ");
@@ -241,7 +240,7 @@ public class PhsResultsLogic {
         return count;
     }
 
-    public int getPhsParentCount(ProjectionSelectionDTO projSelDTO) throws SystemException, PortalException {
+    public int getPhsParentCount(ProjectionSelectionDTO projSelDTO) throws PortalException {
         projSelDTO.setIsProjectionTotal(true);
         projSelDTO.setIsTotal(true);
         projSelDTO.setTreeLevelNo(0);
@@ -285,7 +284,7 @@ public class PhsResultsLogic {
             if (phsList != null) {
                 projDTOList = getCustomizedProjectionTotal(phsList);
             }
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getPhs method ends ");
@@ -520,7 +519,7 @@ public class PhsResultsLogic {
             List<Object[]> pfsWSList = queryUtil.loadPhsWorksheet(session, ndcSid, projSelDTO.isAdjust());
             Map<String, String> priceTypeList = projSelDTO.getLoadPhsPriceMap();
             projDTOList = getCustPHSWorksheetChild(projSelDTO, pfsWSList, priceTypeList);
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getPhsWorksheetChild method ends ");
@@ -596,7 +595,7 @@ public class PhsResultsLogic {
             List<Object[]> phsWSList = queryUtil.loadPhsWorksheet(session, ndcSid, projSelDTO.isAdjust());
             Map<String, String> priceTypeList = projSelDTO.getLoadPhsPriceMap();
             projDTOList = getCustomizedPhsWorksheet(projSelDTO, phsWSList, priceTypeList);
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getPHSWorksheet method ends ");
@@ -851,7 +850,7 @@ public class PhsResultsLogic {
             if (!medicaidIndex.isEmpty()) {
                 count = StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? medicaidIndex.get(0) : Constant.ZERO;
             }
-        } catch (PortalException | SystemException | NumberFormatException e) {
+        } catch (SystemException | NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
         return count;

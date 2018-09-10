@@ -179,7 +179,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      * @param sessionDTO
      * @param screenName
      */
-    public ForecastProjectionResults(final SessionDTO sessionDTO, final String screenName) throws SystemException, PortalException {
+    public ForecastProjectionResults(final SessionDTO sessionDTO, final String screenName) throws  PortalException {
         this.sessionDTO = sessionDTO;
         this.screenName = screenName;
         projectionSelectionDTO.setSessionDTO(sessionDTO);
@@ -191,7 +191,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             groupDdlbLabel.setVisible(false);
             groupDdlb.setVisible(false);
         }
-        configureProjectionDTO();
+        //configureProjectionDTO();
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(sessionDTO.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(sessionDTO.getAction())) {
             loadOnEdit();
         }
@@ -341,23 +341,19 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             String frequency = String.valueOf(frequencyDdlb.getValue());
             switch (frequency) {
                 case Constant.ANNUALLY:
-                    historyBean.addAll(loadHistoryDdlb(Constant.ANNUALLY, YEAR.getConstant()));
+                    historyBean.addAll(loadHistoryDdlb(Constant.ANNUALLY));
                     historyConstant = "1 Year";
                     break;
                 case Constant.SEMIANNUALLY:
-                    historyBean.addAll(loadHistoryDdlb(SEMI_ANNUALLY.getConstant(), SEMI_ANNUAL.getConstant()));
+                    historyBean.addAll(loadHistoryDdlb(SEMI_ANNUALLY.getConstant()));
                     historyConstant = "2 Semi-Annual";
                     break;
-                case Constant.QUARTERLY:
-                    historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant(), QUARTERS.getConstant()));
-                    historyConstant = Constant.FOUR_QUARTERS;
-                    break;
                 case Constant.MONTHLY:
-                    historyBean.addAll(loadHistoryDdlb(MONTHLY.getConstant(), MONTHS.getConstant()));
+                    historyBean.addAll(loadHistoryDdlb(MONTHLY.getConstant()));
                     historyConstant = "12 Months";
                     break;
                 default:
-                    historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant(), QUARTERS.getConstant()));
+                    historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant()));
                     historyConstant = Constant.FOUR_QUARTERS;
                     break;
             }
@@ -367,7 +363,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         LOGGER.debug("Loading Frequency Combo Box Ended");
     }
 
-    protected final List<String> loadHistoryDdlb(String frequency, String period) {
+    protected final List<String> loadHistoryDdlb(String frequency) {
         LOGGER.debug("Loading Frequency Combo Box Initiated");
         List<String> history = new ArrayList<>();
         int endValue = 0;
@@ -393,8 +389,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             if ((i == 1)
                     && (QUARTERS.getConstant().equals(freq) || MONTHS
                     .getConstant().equals(freq) || YEARS.getConstant().equals(freq))) {
-                period = freq.replace(Constant.S_SMALL, StringUtils.EMPTY);
-                history.add(String.valueOf(i) + SPACE.getConstant() + period);
+                history.add(String.valueOf(i) + SPACE.getConstant() + freq.replace(Constant.S_SMALL, StringUtils.EMPTY));
             } else {
                 history.add(String.valueOf(i) + SPACE.getConstant() + freq);
             }
@@ -728,7 +723,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      * @param isExpand
      * @param value
      */
-    private void expandCollapseLevelOption(boolean isExpand, Object value) throws PortalException, SystemException{
+    private void expandCollapseLevelOption(boolean isExpand, Object value) throws PortalException{
 
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
         int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
@@ -751,7 +746,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         }
     }
 
-    public void saveProjectionResultsSelection() throws PortalException, SystemException {
+    public void saveProjectionResultsSelection() throws  PortalException {
         LOGGER.debug("save Projection Results method starts");
             Map map = new HashMap();
             map.put(Constant.FREQUENCY_SMALL, frequencyDdlb.getValue().toString());
@@ -764,7 +759,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         LOGGER.debug("save Projection Results method ends");
     }
 
-    private void loadOnEdit() throws SystemException, PortalException {
+    private void loadOnEdit() throws  PortalException {
 
         Map<String, String> resultmap = CommonLogic.editProjectionResults(Constant.PROJECTION_RESULTS_LABEL, projectionSelectionDTO);
         if (resultmap != null && !resultmap.isEmpty()) {

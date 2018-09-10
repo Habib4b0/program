@@ -41,7 +41,7 @@ public class AccountConfigUI extends UI {
      * The Logger for Adjustment Rate UI the logger usually logs into a file
      * (this can be configured through jboss logging )
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountConfigUI.class);
+    private static final Logger ACCOUNT_CONFIG_LOGGER = LoggerFactory.getLogger(AccountConfigUI.class);
 
     /**
      * The method is used to adding styles, navigator initialization and view
@@ -58,7 +58,7 @@ public class AccountConfigUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
         try {
-            LOGGER.info("Enters inside the AccountConfigUI");
+            ACCOUNT_CONFIG_LOGGER.info("Enters inside the AccountConfigUI");
             CommonLogic.beforeUnloadCloseUi(this);
             addStyleName("bootstrap bootstrap-ui bootstrap-forecast bootstrap-nm");
             final String userId = request.getRemoteUser();
@@ -72,27 +72,31 @@ public class AccountConfigUI extends UI {
                 Navigator navigator = new Navigator(this, this);
                 navigator.addView(AccountConfigView.NAME, new AccountConfigView(sessionDTO));
             }
-            LOGGER.info("Exits the AccountConfigUI UI");
+            ACCOUNT_CONFIG_LOGGER.info("Exits the AccountConfigUI UI");
         } catch (Exception ex) {
-            LOGGER.error("Error While Creating AccountConfigUI ", ex);
+            ACCOUNT_CONFIG_LOGGER.error("Error While Creating AccountConfigUI ", ex);
         }
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object accUiobj) {
+        ACCOUNT_CONFIG_LOGGER.debug("Enters the AccountConfig Equals");
+        return super.equals(accUiobj);
     }
 
     @Override
     public int hashCode() {
+        ACCOUNT_CONFIG_LOGGER.debug("Enters the AccountConfig Hashcode");
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream accUiout) throws IOException {
+        ACCOUNT_CONFIG_LOGGER.debug("Enters the AccountConfig WriteObject");
+        accUiout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream accUiin) throws IOException, ClassNotFoundException {
+        ACCOUNT_CONFIG_LOGGER.debug("Enters the AccountConfig ReadObject");
+        accUiin.defaultReadObject();
     }
 }

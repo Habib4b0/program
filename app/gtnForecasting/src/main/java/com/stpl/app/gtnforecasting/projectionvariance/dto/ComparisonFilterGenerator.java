@@ -99,7 +99,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-            String indicator = StringUtils.EMPTY;
+            String indicator ;
             int levelNo = 0;
             MultiKey multikey;
 
@@ -136,7 +136,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 List<Leveldto> list;
                 if (!contractTypeList.containsKey(multikey)) {
                     
-                    list = CommonLogic.getAllHierarchyLevels(levelNo, pvSelectionDTO.getProjectionId(), indicator,pvSelectionDTO.getMandatedView());
+                    list = CommonLogic.getAllHierarchyLevels(levelNo, pvSelectionDTO.getProjectionId(), indicator);
                     contractTypeList.put(multikey, list);
                 } else {
                     list = contractTypeList.get(multikey);
@@ -155,7 +155,6 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
                     @Override
                     public void valueChange(Property.ValueChangeEvent event) {
-                        // TODO Auto-generated method stub
                         if (event.getProperty().getValue() != null && !DASH.equals(event.getProperty().getValue().toString())) {
                             pvSelectionDTO.setIsCustomerDdlb(true);
                             pvSelectionDTO.setHierarchyNo(event.getProperty().getValue().toString());
@@ -187,58 +186,58 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 sprProjectionDTO.setLevelName("'" + sprProjectionDTO.getView() + "'");
                 levelNo = sprProjectionDTO.getCustomerLevelNo();
             }
-            final ComboBox contractType = new ComboBox();
-            contractType.setNullSelectionAllowed(true);
-            contractType.setNullSelectionItemId(SELECT_ONE);
-            contractType.setImmediate(true);
-            contractType.addStyleName(Constant.FILTER_COMBOBOX);
-            contractType.setValue(SELECT_ONE);
+            final ComboBox contractTypeComparison = new ComboBox();
+            contractTypeComparison.setNullSelectionAllowed(true);
+            contractTypeComparison.setNullSelectionItemId(SELECT_ONE);
+            contractTypeComparison.setImmediate(true);
+            contractTypeComparison.addStyleName(Constant.FILTER_COMBOBOX);
+            contractTypeComparison.setValue(SELECT_ONE);
             if (!Constant.CUSTOM_LABEL.equals(sprProjectionDTO.getView())) {
-                contractType.addItem(ZERO);
-                contractType.setItemCaption(ZERO, SELECT_ONE);
-                List<Leveldto> list = CommonLogic.getAllHierarchyLevels(levelNo, sprProjectionDTO.getProjectionId(), indicator,pvSelectionDTO.getMandatedView());
+                contractTypeComparison.addItem(ZERO);
+                contractTypeComparison.setItemCaption(ZERO, SELECT_ONE);
+                List<Leveldto> list = CommonLogic.getAllHierarchyLevels(levelNo, sprProjectionDTO.getProjectionId(), indicator);
                 if (list != null && !list.isEmpty()) {
                     for (Leveldto dto : list) {
                         if (sprProjectionDTO.getLevelName().contains(dto.getLevel())) {
-                            contractType.addItem(dto.getHierarchyNo());
-                            contractType.setItemCaption(dto.getHierarchyNo(), dto.getRelationshipLevelName());
+                            contractTypeComparison.addItem(dto.getHierarchyNo());
+                            contractTypeComparison.setItemCaption(dto.getHierarchyNo(), dto.getRelationshipLevelName());
                         }
                     }
                 }
-                contractType.select(ZERO);
+                contractTypeComparison.select(ZERO);
             } else {
-                contractType.setEnabled(false);
+                contractTypeComparison.setEnabled(false);
             }
-            return contractType;
+            return contractTypeComparison;
         }
         if (Constant.GROUP.equals(propertyId)) {
-            final ComboBox contractType = new ComboBox();
+            final ComboBox contractTypeGroup = new ComboBox();
             try {
 
-                contractType.setNullSelectionAllowed(true);
-                contractType.setNullSelectionItemId(SELECT_ONE);
-                contractType.setImmediate(true);
-                contractType.addStyleName(Constant.FILTER_COMBOBOX);
-                contractType.setValue(SELECT_ONE);
+                contractTypeGroup.setNullSelectionAllowed(true);
+                contractTypeGroup.setNullSelectionItemId(SELECT_ONE);
+                contractTypeGroup.setImmediate(true);
+                contractTypeGroup.addStyleName(Constant.FILTER_COMBOBOX);
+                contractTypeGroup.setValue(SELECT_ONE);
                 String str = logic.getCheckValue(String.valueOf(psDTO.getProjectionId()));
                 if (str.length() > 0) {
                     MMDPRLogic mmLogic = new MMDPRLogic();
                     List list = mmLogic.loadCustomerDdlb(psDTO, str);
-                    contractType.addItem(0);
-                    contractType.setItemCaption(0, SELECT_ONE);
+                    contractTypeGroup.addItem(0);
+                    contractTypeGroup.setItemCaption(0, SELECT_ONE);
                     if (list != null && !list.isEmpty()) {
                         for (int i = 0; i < list.size(); i++) {
                             Object[] obj = (Object[]) list.get(i);
-                            contractType.addItem(obj[0] == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_DISCOUNT);
-                            contractType.setItemCaption(obj[0].toString() + "~" + Constant.MANDATED_DISCOUNT == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_DISCOUNT, obj[0] == null ? StringUtils.EMPTY
+                            contractTypeGroup.addItem(obj[0] == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_DISCOUNT);
+                            contractTypeGroup.setItemCaption(obj[0].toString() + "~" + Constant.MANDATED_DISCOUNT == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_DISCOUNT, obj[0] == null ? StringUtils.EMPTY
                                     : "Mandated Discount " + "-" + " " + obj[0]);
-                            contractType.addItem(obj[0] == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_SUPPLEMENTAL);
-                            contractType.setItemCaption(obj[0].toString() + "~" + Constant.MANDATED_SUPPLEMENTAL == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_SUPPLEMENTAL, obj[0] == null ? StringUtils.EMPTY
+                            contractTypeGroup.addItem(obj[0] == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_SUPPLEMENTAL);
+                            contractTypeGroup.setItemCaption(obj[0].toString() + "~" + Constant.MANDATED_SUPPLEMENTAL == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_SUPPLEMENTAL, obj[0] == null ? StringUtils.EMPTY
                                     : "Mandated Supplemental " + "-" + " " + obj[0]);
                         }
                     }
                 }
-                return contractType;
+                return contractTypeGroup;
 
             } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
                 LOGGER.error(e.getMessage());
@@ -270,7 +269,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 pvSelectionDTO.setHierarchyIndicator(sprProjectionDTO.getHierarchyIndicator());
                 filterBox.addItem(ZERO);
                 filterBox.setItemCaption(ZERO, SELECT_ONE);
-                List<Leveldto> list = CommonLogic.getAllHierarchyLevels(levelNo, sprProjectionDTO.getProjectionId(), indicator,pvSelectionDTO.getMandatedView());
+                List<Leveldto> list = CommonLogic.getAllHierarchyLevels(levelNo, sprProjectionDTO.getProjectionId(), indicator);
                 if (list != null && !list.isEmpty()) {
                     for (Leveldto dto : list) {
                         if ((pvSelectionDTO.getLevelName().replaceAll("'", StringUtils.EMPTY)).equalsIgnoreCase(dto.getLevel())) {
@@ -284,7 +283,6 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
                     @Override
                     public void valueChange(Property.ValueChangeEvent event) {
-                        // TODO Auto-generated method stub
                         if (event.getProperty().getValue() != null && !DASH.equals(event.getProperty().getValue().toString())) {
                             sprProjectionDTO.setFilterDdlb(true);
                             sprProjectionDTO.setHierarchyNo(event.getProperty().getValue().toString());

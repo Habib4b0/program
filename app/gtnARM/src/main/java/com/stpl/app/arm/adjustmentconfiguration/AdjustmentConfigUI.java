@@ -81,25 +81,26 @@ public class AdjustmentConfigUI extends UI {
             }
             LOGGER.debug("Exits the Adjustment Reserve UI");
         } catch (Exception ex) {
-            LOGGER.error("Error While Creating AdjustmentRateUI " , ex);
+            LOGGER.error("Error While Creating AdjustmentRateUI ", ex);
         }
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object adjConfigobj) {
+        return super.equals(adjConfigobj);
     }
 
     @Override
     public int hashCode() {
+        LOGGER.debug("Inside hash Code of Adjustment Config");
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream adjConfigOut) throws IOException {
+        adjConfigOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream adjuConfigIn) throws IOException, ClassNotFoundException {
+        adjuConfigIn.defaultReadObject();
     }
 }

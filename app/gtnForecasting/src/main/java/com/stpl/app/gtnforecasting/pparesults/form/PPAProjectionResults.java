@@ -251,7 +251,6 @@ public class PPAProjectionResults extends CustomComponent implements View {
     private int customId = 0;
     private List<CustomViewMaster> customViewList = new ArrayList<>();
     private final ProjectionSelectionDTO selection = new ProjectionSelectionDTO();
-    private boolean isGenerated;
     private final PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
     private ExtTreeContainer<PPAProjectionResultsDTO> excelContainer = new ExtTreeContainer<>(PPAProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
     private final Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
@@ -405,17 +404,17 @@ public class PPAProjectionResults extends CustomComponent implements View {
      */
     protected final List<String> loadHistory(String frequency, String period)  {
         LOGGER.debug("Entering loadHistory method");
-        List<String> historyList;
-        historyList = session.getFrequencyAndQuaterValue(frequency);
+        List<String> loadHistoryList;
+        loadHistoryList = session.getFrequencyAndQuaterValue(frequency);
         Integer endValue = 0;
-        if (historyList == null || historyList.isEmpty()) {
+        if (loadHistoryList == null || loadHistoryList.isEmpty()) {
             endValue = CommonUtils.getProjections(session.getFromDate(), new Date(), frequency);
-            historyList = CommonUtils.getHistoryDdlbList(endValue, period);
+            loadHistoryList = CommonUtils.getHistoryDdlbList(endValue, period);
         }
 
-        session.addFrequencyAndQuater(frequency, historyList);
+        session.addFrequencyAndQuater(frequency, loadHistoryList);
         LOGGER.debug("End of loadHistory method");
-        return historyList;
+        return loadHistoryList;
     }
 
     /**
@@ -454,7 +453,6 @@ public class PPAProjectionResults extends CustomComponent implements View {
                     resultsCaption.setCaption("Period View");
                 }
 
-                isGenerated = BooleanConstant.getTrueFlag();
                 tableLogic.setFirstGenerated(false);
                 periodTableId.constructRightFreeze(true);
                 rightTable = periodTableId.getRightFreezeAsTable();
@@ -627,7 +625,6 @@ public class PPAProjectionResults extends CustomComponent implements View {
                 tableLogic.loadExpandData(levelNo);
             }
         } else {
-            isGenerated = BooleanConstant.getFalseFlag();
             generateButtonLogic();
         }
     }
@@ -817,7 +814,6 @@ public class PPAProjectionResults extends CustomComponent implements View {
                     group.setEnabled(BooleanConstant.getTrueFlag());
                     if (viewChange && firstGenerated) {
                         try {
-                            isGenerated = BooleanConstant.getFalseFlag();
                             generateButtonLogic();
                         } catch (Exception ex) {
                             LoggerFactory.getLogger(PPAProjectionResults.class.getName()).error( StringUtils.EMPTY, ex);
@@ -901,7 +897,6 @@ public class PPAProjectionResults extends CustomComponent implements View {
         }
         if (!generated && firstGenerated && !"null".equals(String.valueOf(customDdlb.getValue()))) {
             try {
-                isGenerated = BooleanConstant.getFalseFlag();
                 generateButtonLogic();
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
@@ -1057,7 +1052,6 @@ public class PPAProjectionResults extends CustomComponent implements View {
         } else if (excelExport) {
             loadExcelResultTable(hierarchyLevelNo, StringUtils.EMPTY);
         } else {
-            isGenerated = BooleanConstant.getFalseFlag();
             generateButtonLogic();
         }
     }
@@ -1139,7 +1133,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         return date;
     }
 
-    public void security() throws PortalException, SystemException{
+    public void security() throws PortalException{
 
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getCommercialConstant() + "," + UISecurityUtil.PPA_PROJECTION_RESULTS);
         if (!(functionPsHM.get(FunctionNameUtil.GENERATE) != null && ((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag())) {

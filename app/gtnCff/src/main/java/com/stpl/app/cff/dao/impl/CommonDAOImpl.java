@@ -29,7 +29,7 @@ public class CommonDAOImpl implements CommonDAO {
     }
 
     @Override
-    public RelationshipLevelDefinition getRelationshipLevel(int relationshipLevelSid) throws SystemException, PortalException {
+    public RelationshipLevelDefinition getRelationshipLevel(int relationshipLevelSid) throws PortalException {
         return RelationshipLevelDefinitionLocalServiceUtil.getRelationshipLevelDefinition(relationshipLevelSid);
     }
 
@@ -49,12 +49,12 @@ public class CommonDAOImpl implements CommonDAO {
     }
 
     @Override
-    public CffCustomViewMaster deleteCustomView(int customViewMasterId) throws SystemException, PortalException {
+    public CffCustomViewMaster deleteCustomView(int customViewMasterId) throws PortalException {
         return CffCustomViewMasterLocalServiceUtil.deleteCffCustomViewMaster(customViewMasterId);
     }
 
     @Override
-    public CffCustomViewMaster getCustomView(int customViewMasterId) throws SystemException, PortalException {
+    public CffCustomViewMaster getCustomView(int customViewMasterId) throws PortalException {
         return CffCustomViewMasterLocalServiceUtil.getCffCustomViewMaster(customViewMasterId);
     }
 
@@ -79,12 +79,12 @@ public class CommonDAOImpl implements CommonDAO {
     }
 
     @Override
-    public CffCustomViewDetails deleteCustomViewDetails(int customViewDetailsId) throws SystemException, PortalException {
+    public CffCustomViewDetails deleteCustomViewDetails(int customViewDetailsId) throws PortalException {
         return CffCustomViewDetailsLocalServiceUtil.deleteCffCustomViewDetails(customViewDetailsId);
     }
 
     @Override
-    public CffCustomViewDetails getCustomViewDetails(int customViewDetailsId) throws SystemException, PortalException {
+    public CffCustomViewDetails getCustomViewDetails(int customViewDetailsId) throws PortalException {
         return CffCustomViewDetailsLocalServiceUtil.getCffCustomViewDetails(customViewDetailsId);
     }
 

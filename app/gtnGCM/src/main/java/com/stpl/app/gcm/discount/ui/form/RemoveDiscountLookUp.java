@@ -170,7 +170,7 @@ public class RemoveDiscountLookUp extends Window {
                                         + " \n and Projection Name - " + tempTransferList.get(1) + " ";
                             }
 
-                            if (tempTransferList != null && tempTransferList.size() > 0 && !tempTransferList.isEmpty() ) {
+                            if (tempTransferList != null && !tempTransferList.isEmpty() ) {
                                 MessageBox.showPlain(Icon.INFO, "Updated Successfully", msgContent, new MessageBoxListener() {
                                     /**
                                      * The method is triggered when a button of

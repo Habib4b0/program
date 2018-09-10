@@ -1087,9 +1087,9 @@ public class MedicaidUraWorkSheet extends Window {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 public void yesMethod() {
-                    MedicaidQueryUtils QueryUtil = new MedicaidQueryUtils();
+                    MedicaidQueryUtils queryUtil = new MedicaidQueryUtils();
                     try {
-                        QueryUtil.updateAdjustment(projectionDTO.getNdc9(), "updateMedicaidAdjustment",sessionDTO);
+                        queryUtil.updateAdjustment(projectionDTO.getNdc9(), "updateMedicaidAdjustment",sessionDTO);
                         submitFlag = true;
                         submitMsg = false;
                     } catch (PortalException | SystemException ex) {
@@ -1204,7 +1204,7 @@ public class MedicaidUraWorkSheet extends Window {
                     notif.show(Page.getCurrent());
                 }
             }
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
     }
@@ -1271,7 +1271,7 @@ public class MedicaidUraWorkSheet extends Window {
                     queryUtil.saveBaseYear(baseYear, sessionDTO, projectionDTO.getNdc9(),StringUtils.EMPTY);
                 }
             }
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
     }

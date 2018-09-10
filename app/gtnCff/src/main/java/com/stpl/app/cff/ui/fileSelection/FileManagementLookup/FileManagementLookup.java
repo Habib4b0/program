@@ -158,7 +158,7 @@ public class FileManagementLookup extends Window {
 	@UiField("createdDate")
 	private TextField createdDate;
 	@UiField("SearchForecastddlb")
-	private ComboBox SearchForecastddlb;
+	private ComboBox searchForecastddlb;
 
 	/**
 	 * The forecast year.
@@ -530,11 +530,11 @@ public class FileManagementLookup extends Window {
 	}
 
 	public ComboBox getSearchForecastddlb() {
-		return SearchForecastddlb;
+		return searchForecastddlb;
 	}
 
 	public void setSearchForecastddlb(ComboBox searchForecastddlb) {
-		this.SearchForecastddlb = searchForecastddlb;
+		this.searchForecastddlb = searchForecastddlb;
 	}
 
 	/**
@@ -865,15 +865,15 @@ public class FileManagementLookup extends Window {
 		forecastYearCombo.markAsDirty();
 		forecastYearCombo.select(helperDto);
 		forecastYearCombo.setImmediate(true);
-		SearchForecastddlb.setImmediate(true);
-		SearchForecastddlb.setEnabled(false);
-		SearchForecastddlb.setNullSelectionAllowed(true);
-		SearchForecastddlb.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
-		SearchForecastddlb.setPageLength(NumericConstants.SEVEN);
-		SearchForecastddlb.addItem(ConstantsUtils.SELECT_ONE);
-		SearchForecastddlb.select(ConstantsUtils.SELECT_ONE);
-		SearchForecastddlb.markAsDirty();
-		SearchForecastddlb.setEnabled(true);
+		searchForecastddlb.setImmediate(true);
+		searchForecastddlb.setEnabled(false);
+		searchForecastddlb.setNullSelectionAllowed(true);
+		searchForecastddlb.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
+		searchForecastddlb.setPageLength(NumericConstants.SEVEN);
+		searchForecastddlb.addItem(ConstantsUtils.SELECT_ONE);
+		searchForecastddlb.select(ConstantsUtils.SELECT_ONE);
+		searchForecastddlb.markAsDirty();
+		searchForecastddlb.setEnabled(true);
 		getSearchForecastyear();
 		vFileType.setReadOnly(true);
 		type.addValidator(new StringLengthValidator("Type length should be less than 50 characters", 0,
@@ -984,11 +984,11 @@ public class FileManagementLookup extends Window {
 		} else {
 			forcaste = forecastYearCombo.getValue().toString();
 		}
-		if (SearchForecastddlb.getValue() == null
-				|| ConstantsUtils.SELECT_ONE.equals(SearchForecastddlb.getValue().toString())) {
+		if (searchForecastddlb.getValue() == null
+				|| ConstantsUtils.SELECT_ONE.equals(searchForecastddlb.getValue().toString())) {
 			searchForecastYear = StringUtils.EMPTY;
 		} else {
-			searchForecastYear = SearchForecastddlb.getValue().toString();
+			searchForecastYear = searchForecastddlb.getValue().toString();
 		}
 		if (StringUtils.isEmpty(fileName.getValue().trim()) && StringUtils.isEmpty(type.getValue().trim())
 				&& StringUtils.isEmpty(version.getValue().trim())
@@ -1184,8 +1184,7 @@ public class FileManagementLookup extends Window {
 											if (buttonId.name().equals(ConstantsUtils.YES)) {
 												close();
 											}
-											if (buttonId.name().equals("NO")) {
-											}
+											
 										}
 									}, ButtonId.YES, ButtonId.NO);
 
@@ -1370,7 +1369,7 @@ public class FileManagementLookup extends Window {
 										forecastYearCombo.select(helperDto);
 										fromDate.setValue(null);
 										toDate.setValue(null);
-										SearchForecastddlb.select(ConstantsUtils.SELECT_ONE);
+										searchForecastddlb.select(ConstantsUtils.SELECT_ONE);
 										country.select(ConstantsUtils.COUNTRY_US);
 									} catch (Property.ReadOnlyException | Converter.ConversionException e) {
 										LOGGER.error(e.getMessage());
@@ -1690,59 +1689,7 @@ public class FileManagementLookup extends Window {
 			if (!changeFlag) {
 				Collections.sort(existingSystemId);
 				Collections.sort(currentSystemId);
-				if (existingSystemId.equals(currentSystemId)) {
-					for (int i = 0; i < itemIds.size(); i++) {
-						final FileMananagementResultDTO beanItem = itemIds.get(i);
-						if (!beanItem.isRecordLockStatus()) {
-							if ((beanItem.getPrice().equals(beanItem.getHiddenPrice())
-									&& beanItem.getUnits().equals(beanItem.getHiddenUnits()))
-									&& fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-							} else if (beanItem.getForecastType().equals(beanItem.getHiddenForecastType())
-									&& beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
-									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getOrganizationKey())
-									&& fileType.equals(ConstantsUtils.DEMAND)) {
-
-							} else if (beanItem.getForecastType().equals(beanItem.getHiddenForecastType())
-									&& beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
-									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getOrganizationKey())
-									&& fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-
-							} else if (beanItem.getYear().equals(beanItem.getHiddenYear())
-									&& beanItem.getMonth().equals(beanItem.getHiddenMonth())
-									&& beanItem.getDay().equals(beanItem.getHiddenDay())
-									&& beanItem.getWeek().equals(beanItem.getHiddenWeek())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getBatchId().equals(beanItem.getHiddenbatchId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getHiddenOrganisationKey())
-									&& fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-
-							} else if (beanItem.getYear().equals(beanItem.getHiddenYear())
-									&& beanItem.getMonth().equals(beanItem.getHiddenMonth())
-									&& beanItem.getDay().equals(beanItem.getHiddenDay())
-									&& beanItem.getWeek().equals(beanItem.getHiddenWeek())
-									&& beanItem.getCompanyId().equals(beanItem.getHiddenCompanyId())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getBatchId().equals(beanItem.getHiddenbatchId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getHiddenOrganisationKey())
-									&& fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-
-							} else if (beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
-									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getOrganizationKey())
-									&& ((HelperDTO) fmFileType.getValue()).getDescription()
-											.equals(ConstantsUtils.CUSTOMERGTS)) {
-
-							} else {
-								changeFlag = true;
-							}
-						}
-					}
-				} else {
+				if (!existingSystemId.equals(currentSystemId)) {
 					changeFlag = true;
 				}
 			}
@@ -3881,7 +3828,7 @@ public class FileManagementLookup extends Window {
 			currentyear.add(year + i);
 		}
 		for (Object i : currentyear) {
-			SearchForecastddlb.addItem(i);
+			searchForecastddlb.addItem(i);
 		}
 
 	}

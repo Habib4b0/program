@@ -9,7 +9,6 @@ import com.stpl.app.model.CdrModel;
 import com.stpl.app.service.CdrModelLocalServiceUtil;
 import com.stpl.domain.global.ComplianceDeduction.ComplianceDeductionDao;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  *
@@ -18,25 +17,25 @@ import com.liferay.portal.kernel.exception.SystemException;
 public class ComplianceDeductionDaoImpl implements  ComplianceDeductionDao{
 
     @Override
-    public CdrModel getCdrModelBySystemId(int crModelId) throws SystemException, PortalException {
+    public CdrModel getCdrModelBySystemId(int crModelId) throws PortalException {
 
    return CdrModelLocalServiceUtil.getCdrModel(crModelId);
     
     }
 
     @Override
-    public CdrModel updateCdrModel(CdrModel cdrModel) throws SystemException, PortalException {
+    public CdrModel updateCdrModel(CdrModel cdrModel) throws PortalException {
       return CdrModelLocalServiceUtil.updateCdrModel(cdrModel);
     }
 
     @Override
-    public CdrModel createCdrModel(int crModelId) throws SystemException, PortalException {
+    public CdrModel createCdrModel(int crModelId) throws PortalException {
 
      return CdrModelLocalServiceUtil.createCdrModel(crModelId);
     }
 
     @Override
-    public CdrModel deleteCdrModel(int crModelId) throws SystemException, PortalException {
+    public CdrModel deleteCdrModel(int crModelId) throws PortalException {
 
      return CdrModelLocalServiceUtil.deleteCdrModel(crModelId);
     }

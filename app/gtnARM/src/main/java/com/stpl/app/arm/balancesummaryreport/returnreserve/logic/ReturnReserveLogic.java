@@ -75,13 +75,21 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
     @Override
     protected DataResult getCustomizedData(SelectionDTO data, List list) {
         SummarySelection selection = (SummarySelection) data;
+
+        Map<Object, String> headerValueMap = selection.getHeaderVisibleColumnMap();
+        boolean isChild = !Collections.max(selection.getSummaryLevel().keySet()).equals(selection.getLevelNo());
+        List finalList = getFinalList(list, selection, isChild, headerValueMap);
+        OriginalDataResult dataResult = new OriginalDataResult();
+        dataResult.setDataResults(finalList);
+        return dataResult;
+    }
+
+    private List getFinalList(List list, SummarySelection selection, boolean isChild, Map<Object, String> headerValueMap) {
+        AdjustmentDTO dto = null;
         String lastMasterSid = StringUtils.EMPTY;
         String mastersId;
+        DecimalFormat decimalformatfinalList = new DecimalFormat("$#,##0.00");
         List finalList = new ArrayList();
-        Map<Object, String> headerValueMap = selection.getHeaderVisibleColumnMap();
-        AdjustmentDTO dto = null;
-        DecimalFormat decimalformat = new DecimalFormat("$#,##0.00");
-        boolean isChild = !Collections.max(selection.getSummaryLevel().keySet()).equals(selection.getLevelNo());
         for (Object[] list1 : (List<Object[]>) list) {
             mastersId = String.valueOf(list1[1]);
             if (!lastMasterSid.equals(mastersId) || dto == null) {
@@ -94,26 +102,27 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
 
                 dto.setChildrenAllowed((!ARMUtils.TOTAL.equalsIgnoreCase(dto.getGroup()) && selection.getSummarylevelFilterNo() == 0) ? isChild : false);
             }
-
             int period = Integer.parseInt(list1[NumericConstants.TWO].toString());
             int year = Integer.parseInt(list1[NumericConstants.THREE].toString());
-            if (list1[8] != null) {
-                String headerKey = StringUtils.EMPTY + (period == 99999 ? ARMUtils.TOTAL : period) + (year == 99999 ? StringUtils.EMPTY : year);
-                if (selection.getSelectedAdjustmentTypeValues().contains("Starting Balance")) {
-                    dto.setDTOValues(headerValueMap, headerKey + "Starting Balance", list1[5], decimalformat);
-                }
-                if (selection.getSelectedAdjustmentTypeValues().contains("Return Reserve")) {
-                    dto.setDTOValues(headerValueMap, headerKey + "Return Reserve", list1[6], decimalformat);
-                }
-                if (selection.getSelectedAdjustmentTypeValues().contains("Ending Balance")) {
-                    dto.setDTOValues(headerValueMap, headerKey + (headerKey.equals(ARMUtils.TOTAL) ? "Balance" : "Ending Balance"), list1[7], decimalformat);
-                }
-            }
+            setTableFields(list1, period, year, selection, dto, headerValueMap, decimalformatfinalList);
             lastMasterSid = mastersId;
         }
-        OriginalDataResult dataResult = new OriginalDataResult();
-        dataResult.setDataResults(finalList);
-        return dataResult;
+        return finalList;
+    }
+
+    private void setTableFields(Object[] list1, int period, int year, SummarySelection selection, AdjustmentDTO dto, Map<Object, String> headerValueMap, DecimalFormat decimalformatfinalList) {
+        if (list1[8] != null) {
+            String headerKey = StringUtils.EMPTY + (period == 99999 ? ARMUtils.TOTAL : period) + (year == 99999 ? StringUtils.EMPTY : year);
+            if (selection.getSelectedAdjustmentTypeValues().contains("Starting Balance")) {
+                dto.setDTOValues(headerValueMap, headerKey + "Starting Balance", list1[5], decimalformatfinalList);
+            }
+            if (selection.getSelectedAdjustmentTypeValues().contains("Return Reserve")) {
+                dto.setDTOValues(headerValueMap, headerKey + "Return Reserve", list1[6], decimalformatfinalList);
+            }
+            if (selection.getSelectedAdjustmentTypeValues().contains("Ending Balance")) {
+                dto.setDTOValues(headerValueMap, headerKey + (headerKey.equals(ARMUtils.TOTAL) ? "Balance" : "Ending Balance"), list1[7], decimalformatfinalList);
+            }
+        }
     }
 
     @Override

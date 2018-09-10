@@ -171,10 +171,7 @@ public class MasterFcpWorkSheet extends Window {
      */
     private final float splitPosition = 300;
 
-    /**
-     * The table control Layout.
-     */
-    private HorizontalLayout controlLayout;
+   
     /**
      * The TableVerticalLayout.
      */
@@ -184,14 +181,11 @@ public class MasterFcpWorkSheet extends Window {
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private MasterFcpWorkSheetTableLogic tableLogic = new MasterFcpWorkSheetTableLogic();
     private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
-    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     private final FcpResultsLogic fcpLogic = new FcpResultsLogic();
     private final ProjectionSelectionDTO projectionDTO;
     private LazyContainer ndcContainer;
-    private LazyContainer brandContainer;
+    
     private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
     private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
     private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
@@ -275,7 +269,7 @@ public class MasterFcpWorkSheet extends Window {
             if (!projectionDTO.isBrandSeclected()) {
                 projectionDTO.setBrand(brandResultdto);
             }
-            brandContainer = new LazyContainer(HelperDTO.class, new BrandContainer(projectionDTO.getTherapeuticSid(), projectionDTO.getBrand()), new BrandCriteria());
+            LazyContainer brandContainer = new LazyContainer(HelperDTO.class, new BrandContainer(projectionDTO.getTherapeuticSid(), projectionDTO.getBrand()), new BrandCriteria());
             brandContainer.setMinFilterLength(0);
             brandDdlb.setContainerDataSource(brandContainer);
             if(brandContainer.size()==1){
@@ -534,7 +528,7 @@ public class MasterFcpWorkSheet extends Window {
                     notif.show(Page.getCurrent());
                 }
             }
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
     }
@@ -618,7 +612,7 @@ public class MasterFcpWorkSheet extends Window {
      */
     private void addResultTable() {
         tableVerticalLayout.addComponent(periodTableId);
-        controlLayout = tableLogic.createControls();
+        HorizontalLayout controlLayout = tableLogic.createControls();
         controlLayout.addStyleName(Constant.RESPONSIVE_PAGED_TABLE);
         tableLogic.sinkItemPerPageWithPageLength(false);
         tableVerticalLayout.addComponent(controlLayout);
@@ -630,9 +624,9 @@ public class MasterFcpWorkSheet extends Window {
     private void configureResultTable() {
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         fullHeader = new CustomTableHeaderDTO();
-        leftHeader = CommonUiUtils.getWorkSheetLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getWorkSheetRightTableColumns(projectionDTO, fullHeader);
-        resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        CustomTableHeaderDTO leftHeader = CommonUiUtils.getWorkSheetLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO rightHeader = CommonUiUtils.getWorkSheetRightTableColumns(projectionDTO, fullHeader);
+        ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
         tableLogic.setTreeNodeMultiClick(false);

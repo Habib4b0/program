@@ -20,15 +20,15 @@ public class ItemIndexDto {
     private String itemId = StringUtils.EMPTY;
     private String itemNo = StringUtils.EMPTY;
     private String itemName = StringUtils.EMPTY;
-    private HelperDTO therapeuticClass_DTO;
-    private HelperDTO form_DTO;
-    private HelperDTO identifierType_DTO;
-    private HelperDTO brand_DTO;
-    private HelperDTO strength_DTO;
-    private HelperDTO company_DTO;
-    private HelperDTO placeHolder_DTO;
-    private HelperDTO itemCategory_DTO;
-    private HelperDTO itemType_DTO;
+    private HelperDTO therapeuticClassDTO;
+    private HelperDTO formDTO;
+    private HelperDTO identifierTypeDTO;
+    private HelperDTO brandDTO;
+    private HelperDTO strengthDTO;
+    private HelperDTO companyDTO;
+    private HelperDTO placeHolderDTO;
+    private HelperDTO itemCategoryDTO;
+    private HelperDTO itemTypeDTO;
     private String identifier = StringUtils.EMPTY;
     private Integer count = 0;
     private Integer startIndex = 0;
@@ -70,75 +70,75 @@ public class ItemIndexDto {
     }
 
     public HelperDTO getTherapeuticClass_DTO() {
-        return therapeuticClass_DTO;
+        return therapeuticClassDTO;
     }
 
-    public void setTherapeuticClass_DTO(HelperDTO therapeuticClass_DTO) {
-        this.therapeuticClass_DTO = therapeuticClass_DTO;
+    public void setTherapeuticClass_DTO(HelperDTO therapeuticClassDto) {
+        this.therapeuticClassDTO = therapeuticClassDto;
     }
 
     public HelperDTO getForm_DTO() {
-        return form_DTO;
+        return formDTO;
     }
 
-    public void setForm_DTO(HelperDTO form_DTO) {
-        this.form_DTO = form_DTO;
+    public void setForm_DTO(HelperDTO formDto) {
+        this.formDTO = formDto;
     }
 
     public HelperDTO getIdentifierType_DTO() {
-        return identifierType_DTO;
+        return identifierTypeDTO;
     }
 
-    public void setIdentifierType_DTO(HelperDTO identifierType_DTO) {
-        this.identifierType_DTO = identifierType_DTO;
+    public void setIdentifierType_DTO(HelperDTO identifierTypeDto) {
+        this.identifierTypeDTO = identifierTypeDto;
     }
 
     public HelperDTO getBrand_DTO() {
-        return brand_DTO;
+        return brandDTO;
     }
 
-    public void setBrand_DTO(HelperDTO brand_DTO) {
-        this.brand_DTO = brand_DTO;
+    public void setBrand_DTO(HelperDTO brandDto) {
+        this.brandDTO = brandDto;
     }
 
     public HelperDTO getStrength_DTO() {
-        return strength_DTO;
+        return strengthDTO;
     }
 
-    public void setStrength_DTO(HelperDTO strength_DTO) {
-        this.strength_DTO = strength_DTO;
+    public void setStrength_DTO(HelperDTO strengthDto) {
+        this.strengthDTO = strengthDto;
     }
 
     public HelperDTO getCompany_DTO() {
-        return company_DTO;
+        return companyDTO;
     }
 
-    public void setCompany_DTO(HelperDTO company_DTO) {
-        this.company_DTO = company_DTO;
+    public void setCompany_DTO(HelperDTO companyDto) {
+        this.companyDTO = companyDto;
     }
 
     public HelperDTO getPlaceHolder_DTO() {
-        return placeHolder_DTO;
+        return placeHolderDTO;
     }
 
-    public void setPlaceHolder_DTO(HelperDTO placeHolder_DTO) {
-        this.placeHolder_DTO = placeHolder_DTO;
+    public void setPlaceHolder_DTO(HelperDTO placeHolderDto) {
+        this.placeHolderDTO = placeHolderDto;
     }
 
     public HelperDTO getItemCategory_DTO() {
-        return itemCategory_DTO;
+        return itemCategoryDTO;
     }
 
-    public void setItemCategory_DTO(HelperDTO itemCategory_DTO) {
-        this.itemCategory_DTO = itemCategory_DTO;
+    public void setItemCategory_DTO(HelperDTO itemCategoryDto) {
+        this.itemCategoryDTO = itemCategoryDto;
     }
 
     public HelperDTO getItemType_DTO() {
-        return itemType_DTO;
+        return itemTypeDTO;
     }
 
-    public void setItemType_DTO(HelperDTO itemType_DTO) {
-        this.itemType_DTO = itemType_DTO;
+    public void setItemType_DTO(HelperDTO itemTypeDto) {
+        this.itemTypeDTO = itemTypeDto;
     }
 
     public Boolean getCheckRecord() {

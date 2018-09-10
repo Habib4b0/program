@@ -534,9 +534,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                                         List inputList=new ArrayList();
                                         inputList.add(sessionDto.getProjectionId());
                                         final List<String> loadFrequency = CommonQueryUtils.getAppData(inputList, "loadEditFrequency", null);
-                                        sessionDto.setFrequency(loadFrequency.get(0));
+                                        sessionDto.setFrequency(!loadFrequency.isEmpty() ? loadFrequency.get(0) : ConstantsUtil.QUARTERLY);
                                         final List<Object> loadDeduction = CommonQueryUtils.getAppData(inputList, "loadEditDeduction", null);
-                                        sessionDto.setDeductionNo(loadDeduction.get(0)!=null && !String.valueOf(loadDeduction.get(0)).equals("null") ?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
+                                        sessionDto.setDeductionNo(loadDeduction.isEmpty() ? 1 : loadDeduction.get(0)!=null && !String.valueOf(loadDeduction.get(0)).equals("null") ?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
                                         dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDto.getCustomerHierarchyId()));
 					dataSelectionDto
 							.setCustRelationshipBuilderSid(String.valueOf(sessionDto.getCustRelationshipBuilderSid()));
@@ -592,11 +592,11 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						cffLogic.callDeductionCCPHierarchyInsertion(sessionDto, sessionDto.getCurrentTableNames(),
 								BooleanConstant.getFalseFlag());
 					}
-                                        sessionDto.setStatusName("E");
+                                        sessionDto.setStatusName("G");
                                         sessionDto.setDeductionName(getDeductionCaptionWithSid(sessionDto));
                                         cffLogic.loadSalesTempTableInThread(sessionDto,false);
                                         cffLogic.loadDiscountTempTableInThread(sessionDto,false);
-                                        cffLogic.loadDiscountCustomTempTableInThread(sessionDto,false);
+                                        cffLogic.callCFFHierarachyDetailsProcedure(sessionDto, false);
 					approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 					approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
 							sessionDto, dataSelectionDto);
@@ -631,7 +631,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				AbstractNotificationUtils.getErrorNotification(NO_RECORD_SELECTED, "Please select a record to EDIT.");
 			}
 
-		} catch (final PortalException | SystemException | IllegalArgumentException | InterruptedException | NullPointerException | ExecutionException ex) {
+		} catch (final Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}
 	}
@@ -1003,7 +1003,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
         Map<String, String> levelCaption = new HashMap<>();
         List<String[]> deductionLevel = CommonLogic.getDeductionLevel(session.getProjectionId());
         for (Object[] strings : deductionLevel) {
-            levelCaption.put(String.valueOf(strings[0]), String.valueOf(strings[1]));
+            String keyValue=String.valueOf(strings[1]).startsWith("UDC")?String.valueOf(strings[1]).replace(" ", StringUtils.EMPTY):String.valueOf(strings[1]);
+            levelCaption.put(String.valueOf(strings[0]), keyValue);
         }
         return levelCaption.get(String.valueOf(session.getDeductionNo()));
     }

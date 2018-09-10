@@ -26,37 +26,31 @@ public class DataSelectionSearchCriteria implements BeanSearchCriteria {
 	
 	@Override
 	public Set<Filter> getFilters() {
-		// TODO Auto-generated method stub
 		return filters == null ? filters : Collections.unmodifiableSet(filters);
 	}
 
 	@Override
 	public int getLastCount() {
-		// TODO Auto-generated method stub
 		return lastCount;
 	}
 
 	@Override
 	public boolean isDirty() {
-		// TODO Auto-generated method stub
 		return dirty;
 	}
 
 	@Override
 	public void setDirty(boolean dirty) {
-		// TODO Auto-generated method stub
 		this.dirty = dirty;
 	}
 
 	@Override
 	public void setFilters(Set<Filter> filters) {
-		// TODO Auto-generated method stub
 		this.filters = filters == null ? filters : Collections.unmodifiableSet(filters);
 	}
 
 	@Override
 	public void setLastCount(int lastCount) {
-		// TODO Auto-generated method stub
 		this.lastCount = lastCount;
 	}
 

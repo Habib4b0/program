@@ -19,7 +19,7 @@ import com.stpl.gtn.gtn2o.ws.queryengine.querytype.GtnWsQueryTypeInterface;
 public class GtnFrameworkWsSqlQueryEngineService extends GtnServiceRegistryImplClass {
 
 	@Autowired
-	private GtnFrameworkWsSqlQueryEngine gtnSqlQueryEngine;
+	private volatile GtnFrameworkWsSqlQueryEngine gtnSqlQueryEngine;
 
 	public GtnFrameworkWsSqlQueryEngineService() {
 		super();
@@ -27,7 +27,7 @@ public class GtnFrameworkWsSqlQueryEngineService extends GtnServiceRegistryImplC
 	}
 
 	@PostConstruct
-	public void initializeLogger() {
+	public final void initializeLogger() {
 		super.logInformation(GtnFrameworkWsSqlQueryEngineService.class);
 	}
 
@@ -44,8 +44,7 @@ public class GtnFrameworkWsSqlQueryEngineService extends GtnServiceRegistryImplC
 				queryExecutorBean.getQueryType().toUpperCase(Locale.ENGLISH));
 		logger.info("Executing Query Type" + queryType);
 		GtnWsQueryTypeInterface execute = queryType.getGtnWsQueryTypeInterface();
-		GtnFrameworkQueryResponseBean result = execute.executeQuery(queryExecutorBean, gtnSqlQueryEngine);
-		return result;
+		return execute.executeQuery(queryExecutorBean, gtnSqlQueryEngine);
 	}
 
 }

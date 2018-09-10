@@ -253,7 +253,7 @@ public class CommonUtils {
         return null;
     }
 
-    public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperCode(String listName, String description) throws PortalException {
         final DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
@@ -708,7 +708,7 @@ public class CommonUtils {
      * @throws PortalException
      * @throws SystemException
      */
-    public static String getHelperDescription(int code) throws PortalException, SystemException {
+    public static String getHelperDescription(int code) throws PortalException {
         HelperTable helperTable = HelperTableLocalServiceUtil.getHelperTable(code);
         return helperTable.getDescription();
     }
@@ -742,7 +742,7 @@ public class CommonUtils {
      * @throws PortalException
      * @throws SystemException
      */
-    public static String getUserFLName(String userId) throws PortalException, SystemException {
+    public static String getUserFLName(String userId) throws PortalException {
         String name = StringUtils.EMPTY;
         User userInfo = getUser(userId);
         if (userInfo != null) {
@@ -767,7 +767,7 @@ public class CommonUtils {
         return returnValue;
     }
 
-    public static User getUser(final String userId) throws PortalException, SystemException {
+    public static User getUser(final String userId) throws PortalException {
         User loggedUserDetails = null;
 
         try {
@@ -951,8 +951,7 @@ public class CommonUtils {
     static int getEndDay(int monthNo, int year) {
         Calendar ob = Calendar.getInstance();
         ob.set(year, monthNo - 1, 1);
-        int daysInMonth = ob.getActualMaximum(Calendar.DAY_OF_MONTH);
-        return daysInMonth;
+        return ob.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     public static int[] getQSPeriodDetails(ProjectionSelectionDTO projSelDTO, int freqDiv) {
@@ -1108,8 +1107,7 @@ public class CommonUtils {
     public static int getHistoryProjectionNum(String frequency, SessionDTO session) {
         Map<String, Integer> historyEndDetails = getHistoryEndDetails(session, frequency);
         Date dt = getDate(historyEndDetails.get(HISTORY_END_MONTH.getConstant()), historyEndDetails.get(HISTORY_END_YEAR.getConstant()));
-        int endValue = getProjections(session.getForecastDTO().getProjectionStartDate(), dt, frequency);
-        return endValue;
+        return getProjections(session.getForecastDTO().getProjectionStartDate(), dt, frequency);
     }
 
     public static Date getDate(int month, int year) {
@@ -1374,7 +1372,7 @@ public class CommonUtils {
                         return String.valueOf(levelName.get(NumericConstants.ZERO));
                     }
                 } else {
-                    return String.valueOf(levelName.get(NumericConstants.ZERO)!=null?levelName.get(NumericConstants.ZERO):relationshipValues.get(0));
+                    return getLevelNameValue(levelName, relationshipValues);
                 }
             } else {
                 return session.getLevelValueDiscription(hierarchyNumber, indicator);
@@ -1383,6 +1381,10 @@ public class CommonUtils {
             LOGGER.error(ex.getMessage());
         }
         return formattedName.toString();
+    }
+
+    private static String getLevelNameValue(List<Object> levelName, List<Object> relationshipValues) {
+        return String.valueOf(levelName.get(NumericConstants.ZERO)!=null?levelName.get(NumericConstants.ZERO):relationshipValues.get(0));
     }
     
     private static boolean displayFormatConditionCheck(List<Object> relationshipValues, Object[] displayFormatIndex) {

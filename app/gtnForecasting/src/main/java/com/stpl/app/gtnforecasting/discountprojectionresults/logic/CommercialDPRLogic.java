@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -40,7 +41,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CommercialDPRLogic {
 
-    protected Logger LOGGER = LoggerFactory.getLogger(CommercialDPRLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommercialDPRLogic.class);
     private static final DecimalFormat DOLLAR_RPU_FORMAT = new DecimalFormat("#,##0.00");
     private static final DecimalFormat UNIT_VOLUME_FORMAT = new DecimalFormat("#,##0.000");
     private static final DecimalFormat EXFAC_PER_FORMAT = new DecimalFormat("#,##0.00");
@@ -397,10 +398,10 @@ public class CommercialDPRLogic {
         int neededRecord = offset;
         List<DiscountProjectionResultsDTO> dataList = new ArrayList<>();
         boolean isPeriodView = projSelDTO.getPivotView().contains(PERIOD.getConstant());
-
+        int prStart = start;
         if (projSelDTO.isIsProjectionTotal()) {
 
-            if (start == 0) {
+            if (prStart == 0) {
                 dataList.addAll(getProjectionTotal(projSelDTO, isPeriodView));
                 neededRecord--;
 
@@ -411,24 +412,24 @@ public class CommercialDPRLogic {
                         neededRecord = neededRecord - discountList.size();
                     } else {
                         int recordsToFetch = neededRecord < discountList.size() ? neededRecord : discountList.size();
-                        dataList.addAll(discountList.subList(start, start + recordsToFetch));
+                        dataList.addAll(discountList.subList(prStart, prStart + recordsToFetch));
                         neededRecord = neededRecord < discountList.size() ? 0 : neededRecord - discountList.size();
                     }
                 }
 
             } else {
-                start--;
+                prStart--;
                 if (isPeriodView) {                    
-                    start = start - projSelDTO.getDiscountList().get(0).size();
+                    prStart = prStart - projSelDTO.getDiscountList().get(0).size();
                 } else {
-                    if (start < projSelDTO.getPeriodList().size()) {
+                    if (prStart < projSelDTO.getPeriodList().size()) {
                         List discountList = getAllRSDiscount(projSelDTO, isPeriodView);
-                        int recordsToFetch = neededRecord < discountList.size() ? Math.abs(discountList.size() - start) : discountList.size();
-                        dataList.addAll(discountList.subList(start, start + recordsToFetch));
-                        neededRecord = neededRecord < discountList.size() ? Math.abs(discountList.size() - start - neededRecord) : neededRecord - discountList.size();
-                        start = 0;
+                        int recordsToFetch = neededRecord < discountList.size() ? Math.abs(discountList.size() - prStart) : discountList.size();
+                        dataList.addAll(discountList.subList(prStart, prStart + recordsToFetch));
+                        neededRecord = neededRecord < discountList.size() ? Math.abs(discountList.size() - prStart - neededRecord) : neededRecord - discountList.size();
+                        prStart = 0;
                     } else {
-                        start = Math.abs(start - projSelDTO.getPeriodList().size());
+                        prStart = Math.abs(prStart - projSelDTO.getPeriodList().size());
                     }
                 }
             }
@@ -436,29 +437,29 @@ public class CommercialDPRLogic {
         } else {
             if (parentId instanceof DiscountProjectionResultsDTO) {
                 DiscountProjectionResultsDTO parentDTO = (DiscountProjectionResultsDTO) parentId;
-                if (start == 0 || start < parentDTO.getTotalDiscountCount()) {
-                    List discountList = getDiscountBasedOnLevelValue(start, offset, projSelDTO, isPeriodView, parentId);
+                if (prStart == 0 || prStart < parentDTO.getTotalDiscountCount()) {
+                    List discountList = getDiscountBasedOnLevelValue(prStart, offset, projSelDTO, isPeriodView, parentId);
                     if (isPeriodView) {
                         neededRecord = neededRecord - discountList.size();
                         dataList.addAll(discountList);
                     } else {
-                        int recordsToFetch = neededRecord < discountList.size() ? neededRecord : Math.abs(discountList.size() - start);
-                        dataList.addAll(discountList.subList(start, start + recordsToFetch));
+                        int recordsToFetch = neededRecord < discountList.size() ? neededRecord : Math.abs(discountList.size() - prStart);
+                        dataList.addAll(discountList.subList(prStart, prStart + recordsToFetch));
                         neededRecord = neededRecord < discountList.size() ? 0 : neededRecord - discountList.size();
                     }
                 } else {
 
                     if (isPeriodView) {
-                        start = Math.abs(start - parentDTO.getTotalDiscountCount());
+                        prStart = Math.abs(prStart - parentDTO.getTotalDiscountCount());
                     } else {
-                        if (start < projSelDTO.getPeriodList().size()) {
-                            List discountList = getDiscountBasedOnLevelValue(start, offset, projSelDTO, isPeriodView, parentId);
-                            int recordsToFetch = Math.abs(discountList.size() - start);
-                            dataList.addAll(discountList.subList(start, start + recordsToFetch));
-                            neededRecord = Math.abs(discountList.size() - start - neededRecord);
-                            start = 0;
+                        if (prStart < projSelDTO.getPeriodList().size()) {
+                            List discountList = getDiscountBasedOnLevelValue(prStart, offset, projSelDTO, isPeriodView, parentId);
+                            int recordsToFetch = Math.abs(discountList.size() - prStart);
+                            dataList.addAll(discountList.subList(prStart, prStart + recordsToFetch));
+                            neededRecord = Math.abs(discountList.size() - prStart - neededRecord);
+                            prStart = 0;
                         } else {
-                            start = Math.abs(start - projSelDTO.getPeriodList().size());
+                            prStart = Math.abs(prStart - projSelDTO.getPeriodList().size());
                         }
                     }
                 }
@@ -469,7 +470,7 @@ public class CommercialDPRLogic {
 
         if (neededRecord > 0 && projSelDTO.getTreeLevelNo() + 1 <= maxLevelNo) {
             projSelDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo() + 1);
-            dataList.addAll(configureLevels(start, neededRecord, projSelDTO, isPeriodView));
+            dataList.addAll(configureLevels(prStart, neededRecord, projSelDTO, isPeriodView));
         }
 
         return dataList;
@@ -832,7 +833,7 @@ public class CommercialDPRLogic {
             column = Constant.S_SMALL + String.valueOf(object[NumericConstants.TWO]) + String.valueOf(object[1]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
             String monthName = getMonthForInt(Integer.parseInt(String.valueOf(object[NumericConstants.TWO])) - 1);
-            column = monthName.toLowerCase() + String.valueOf(object[1]);
+            column = monthName.toLowerCase(Locale.ENGLISH) + String.valueOf(object[1]);
         }
         return column;
     }  

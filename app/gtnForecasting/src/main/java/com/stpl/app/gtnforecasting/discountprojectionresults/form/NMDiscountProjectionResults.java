@@ -166,8 +166,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
 
     @Override
     protected void generateButtonLogic() {
-        List checkedValues = new ArrayList<>();
-        checkedValues = getCheckedValues();
+        List checkedValues = getCheckedValues();
         
         if (checkedValues.isEmpty()) {
             AbstractNotificationUtils.getErrorNotification("No variables were selected", "Please select at least one variable and try again.");
@@ -388,7 +387,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         addResultTable();
     }
 
-    public void loadGroupFilter() throws SystemException, PortalException {
+    public void loadGroupFilter() throws PortalException {
         return;
     }
 

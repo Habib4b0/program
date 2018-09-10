@@ -164,6 +164,7 @@ public class InventorySearchResults extends AbstractSearchResults {
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainerInv.setColumnProperties(properties);
         resultBeanContainerInv.setRecordHeader(rightSingleVisibleColumn);
+        resultBeanContainerInv.setIndexable(true);
         rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(1)).toArray(), ((List) header.get(1)).size(), String[].class));
         for (Object propertyId : rightTable.getVisibleColumns()) {
@@ -276,7 +277,7 @@ public class InventorySearchResults extends AbstractSearchResults {
             getExcelContainer().removeAllItems();
             tableLayout.removeComponent(getExcelTable());
         } catch (Exception ex) {
-            LOGGER.error("Error in excelExportLogic :" , ex);
+            LOGGER.error("Error in excelExportLogic :", ex);
         }
     }
 

@@ -63,14 +63,16 @@ public class EditAdjustmentReserve extends AbstractReserve {
         try {
             binder.commit();
             logic.addLineLogic(selection);
-            if (configurationTypeOpgRes.getValue().equals(ARMConstants.getReserveDetails())) {
+            LOGGER.debug("inside Edit After AddLine");
+            if (ARMConstants.getReserveDetails().equals(configurationTypeOpgRes.getValue())) {
                 selection.setMasterSID(selection.getReserveMasterSid());
             } else {
                 selection.setMasterSID(selection.getGtnDetailsMasterSid());
             }
             detailsTableLogic.loadsetData(true, selection);
+            LOGGER.debug("End of Edit AddLine Logic");
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error("Error in configureTabAddLineLogic :" , ex);
+            LOGGER.error("Error in Edit configureTabAddLineLogic :", ex);
         }
     }
 
@@ -80,9 +82,9 @@ public class EditAdjustmentReserve extends AbstractReserve {
      */
     @Override
     public void adjustmentSummaryAddLineLogic() {
-        Validation validation = new ValidationAddRemoveLine(selection, true);
-        if (!validation.doValidate()) {
-            AbstractNotificationUtils.getErrorNotification("Error", validation.validationMessage());
+        Validation editValidation = new ValidationAddRemoveLine(selection, true);
+        if (!editValidation.doValidate()) {
+            AbstractNotificationUtils.getErrorNotification("Error", editValidation.validationMessage());
             return;
         }
         adjustmentSummaryConfigLogic.addLineLogic(selection);
@@ -178,21 +180,23 @@ public class EditAdjustmentReserve extends AbstractReserve {
     @Override
     protected void resetBalanceSummaryLine() {
         LOGGER.debug("resetBalanceSummaryLine Method in Copy");
+        boolean value = true;
         balanceSummaryLogic.deleteTempTableRecords(selection);
+
         balanceSummaryLogic.insertBalanceSummaryToTempTableFromMainTable(selection);
-        balSummaryConfigurationTableLogic.loadSetData(true, selection);
+        balSummaryConfigurationTableLogic.loadSetData(value, selection);
         if (balSummaryConfigurationTableLogic.getCount() == 0) {
             reportTypeDdlb.setValue(0);
         }
-        List list = adjustmentSummaryConfigLogic.isAllCheckBoxesAreChecked(selection);
-        balanceSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
+        List editList = adjustmentSummaryConfigLogic.isAllCheckBoxesAreChecked(selection);
+        balanceSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, editList.size() != 1 ? false : "true".equals(String.valueOf(editList.get(0))));
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream erOut) throws IOException {
+        erOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream erIn) throws IOException, ClassNotFoundException {
+        erIn.defaultReadObject();
     }
 }

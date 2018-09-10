@@ -329,6 +329,166 @@
 		]]>
 	</entry>
 	
+	<entry key="getProjectionComparisonResultsCount">
+		<![CDATA[
+				IF OBJECT_ID(
+		'TEMPDB.DBO.#PROJECTION_DETAILS',
+		'U'
+		) IS NOT NULL DROP
+		TABLE
+			#PROJECTION_DETAILS;
+	
+		SELECT
+			PROJECTION_DETAILS_SID,
+			CCP_DETAILS_SID INTO
+			#PROJECTION_DETAILS
+		FROM
+			PROJECTION_MASTER PM
+		INNER JOIN PROJECTION_DETAILS PD ON
+			PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID 
+		SELECT
+				COUNT(*)
+			FROM
+				(
+					SELECT
+						PM.PROJECTION_NAME,
+						PM.PROJECTION_DESCRIPTION,
+						CASE
+							WHEN Count( DISTINCT HT.DESCRIPTION )> 1 THEN 'MULTIPLE'
+							ELSE Max( HT.DESCRIPTION )
+						END AS MARKET_TYPE,
+						CASE
+							WHEN Count( DISTINCT CM.COMPANY_NO )> 1 THEN 'MULTIPLE'
+							ELSE Max( CM.COMPANY_NO )
+						END AS CONTRACT_HOLDER,
+						CASE
+							WHEN Count( DISTINCT C.CONTRACT_NO )> 1 THEN 'MULTIPLE'
+							ELSE Max( C.CONTRACT_NO )
+						END AS CONTRACT,
+						CASE
+							WHEN Count( DISTINCT BM.BRAND_NAME )> 1 THEN 'MULTIPLE'
+							ELSE Max( BM.BRAND_NAME )
+						END AS BRAND,
+						FORMAT( CONVERT( date , PM.CREATED_DATE ) , 'MM/dd/yyyy' )  as CREATED_DATE ,
+					ISNULL(
+						USR.lastName,
+						''
+					) + ' ' + ISNULL(
+						USR.middleName,
+						''
+					) + ' ' + ISNULL(
+						USR.firstName,
+						''
+					) AS USER_ID,PM.CREATED_BY,
+						CASE
+							WHEN Count( DISTINCT IM.ITEM_NO )> 1 THEN 'MULTIPLE'
+							ELSE Max( IM.ITEM_NO )
+						END AS ITEM_NO,
+						CASE
+							WHEN Count( DISTINCT IM.ITEM_NAME )> 1 THEN 'MULTIPLE'
+							ELSE Max( IM.ITEM_NAME )
+						END AS ITEM_NAME,
+						PM.PROJECTION_MASTER_SID
+						
+					FROM
+						PROJECTION_MASTER PM ?
+					INNER JOIN PROJECTION_DETAILS PD ON
+						PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+					JOIN CUSTOM_CCP_DETAILS CCD ON
+						CCD.CUST_VIEW_MASTER_SID = ? AND
+						CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+					INNER JOIN CCP_DETAILS CCP ON
+						CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+					INNER JOIN CONTRACT_MASTER C ON
+						C.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+					LEFT JOIN HELPER_TABLE HT ON
+						C.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+						AND(
+							HT.LIST_NAME = 'CONTRACT_TYPE'
+						)
+					LEFT JOIN COMPANY_MASTER CM ON
+						C.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+					JOIN ITEM_MASTER IM ON
+						CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+					LEFT JOIN BRAND_MASTER BM ON
+						BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+						JOIN ?.dbo.User_ USR ON
+					USR.userId = PM.CREATED_BY
+					WHERE
+						?
+						AND(
+							HT.list_name = 'CONTRACT_TYPE'
+							AND HT.DESCRIPTION LIKE ?
+						)
+						AND(
+							BM.BRAND_NAME LIKE ?
+							or BM.BRAND_NAME is null
+						)
+						AND(
+							PM.PROJECTION_NAME LIKE ?
+							or PM.PROJECTION_NAME is null
+						)
+						AND(
+							C.CONTRACT_NO LIKE ?
+							AND C.CONTRACT_NO is  not null
+						)
+						AND(
+							IM.ITEM_NAME LIKE ?
+							or IM.ITEM_NAME is null
+						)
+						AND(
+							IM.ITEM_NO LIKE ?
+							or IM.ITEM_NO is null
+						)
+						AND(
+							CM.COMPANY_NO LIKE ?
+							or CM.COMPANY_NO is null
+						)
+						AND(
+							PM.PROJECTION_DESCRIPTION LIKE ?
+							AND PM.PROJECTION_DESCRIPTION is not null
+						) 
+                                                AND(						
+							CONVERT (date,PM.CREATED_DATE) LIKE ?
+							or CONVERT (date,PM.CREATED_DATE) is null
+						)   AND (
+								  CONVERT(date,PM.CREATED_DATE) BETWEEN ? AND ?
+                                 or CONVERT(date,PM.CREATED_DATE) >= ?
+                                 or CONVERT(date,PM.CREATED_DATE) <= ?
+                                 or CONVERT(date,PM.CREATED_DATE) is null
+						)  
+                                                 AND ISNULL(
+                                                USR.lastName,
+                                                ''
+                                        ) + ' ' + ISNULL(
+                                                USR.middleName,
+                                                ''
+                                        ) + ISNULL(
+                                                USR.firstName,
+                                                ''
+                                        ) like ?                                      
+					group by
+						pm.projection_name,
+						pm.projection_description,
+						pm.projection_master_sid,
+						PM.created_date,
+						ISNULL(
+						USR.lastName,
+						''
+					) + ' ' + ISNULL(
+						USR.middleName,
+						''
+					) + ' ' + ISNULL(
+						USR.firstName,
+						''
+					),PM.CREATED_BY
+                                        
+				) RSLT 
+                                
+		]]>
+	</entry>
+	
+	
 	<entry key="loadProjectionComparisonResults">
 		<![CDATA[
 				IF OBJECT_ID(
@@ -489,6 +649,119 @@
                                 
 		]]>
 	</entry>
+	
+	
+	<entry key="getCFFComparisonResultsCount">
+		<![CDATA[
+		IF Object_id( 'TEMPDB.DBO.#CFF_APPROVAL_DETAILS', 'U' ) IS NOT NULL DROP
+	TABLE
+		#CFF_APPROVAL_DETAILS;
+
+ select
+	* into
+		#CFF_APPROVAL_DETAILS
+	from
+		( select
+			*, row_number() over( partition by cff_master_sid
+		order by
+			CFF_APPROVAL_DETAILS_sid desc ) as rn
+		from
+			CFF_APPROVAL_DETAILS ) a
+	JOIN HELPER_TABLE HT1 ON
+			HT1.HELPER_TABLE_SID = a.APPROVAL_STATUS
+			AND HT1.DESCRIPTION = ?
+		where
+			rn = 1 ;
+
+ WITH CTE AS ( SELECT
+	PM.CFF_NAME, PM.CFF_NAME AS CFF_DESCRIPTION, CASE
+		WHEN COUNT( DISTINCT HT.DESCRIPTION ) > 1 THEN 'MULTIPLE'
+		ELSE MAX( HT.DESCRIPTION )
+	END AS MARKET_TYPE, CASE
+		WHEN COUNT( DISTINCT CM.COMPANY_NO ) > 1 THEN 'MULTIPLE'
+		ELSE MAX( CM.COMPANY_NO )
+	END AS CONTRACT_HOLDER, CASE
+		WHEN COUNT( DISTINCT C.CONTRACT_NO ) > 1 THEN 'MULTIPLE'
+		ELSE MAX( C.CONTRACT_NO )
+	END AS CONTRACT, CASE
+		WHEN COUNT( DISTINCT BM.BRAND_NAME ) > 1 THEN 'MULTIPLE'
+		ELSE MAX( BM.BRAND_NAME )
+	END AS BRAND,  FORMAT( CONVERT( date , PM.CREATED_DATE ) , 'MM/dd/yyyy' )  as CREATED_DATE ,  ISNULL( USR.lastName, '' ) + ' ' + ISNULL( USR.middleName, '' ) + ' ' + ISNULL( USR.firstName, '' ) AS USER_ID, PM.CREATED_BY, CASE
+		WHEN Count( DISTINCT IM.ITEM_NO )> 1 THEN 'MULTIPLE'
+		ELSE Max( IM.ITEM_NO )
+	END AS ITEM_NO, CASE
+		WHEN Count( DISTINCT IM.ITEM_NAME )> 1 THEN 'MULTIPLE'
+		ELSE Max( IM.ITEM_NAME )
+	END AS ITEM_NAME, PM.CFF_MASTER_SID
+FROM
+	CFF_MASTER PM
+INNER JOIN CFF_DETAILS PD ON
+		PD.CFF_MASTER_SID = PM.CFF_MASTER_SID 
+		AND ( PM.CFF_NAME LIKE ?
+		or PM.CFF_NAME is NULL )
+		AND ( PM.CFF_NAME LIKE ?
+		or PM.CFF_NAME is NULL )
+		AND ( CONVERT( date, PM.CREATED_DATE ) BETWEEN ? AND ?
+		or CONVERT( date, PM.CREATED_DATE ) >= ?
+		or CONVERT( date, PM.CREATED_DATE ) <= ?
+		or CONVERT( date, PM.CREATED_DATE ) is null )
+	JOIN #CFF_APPROVAL_DETAILS CAD ON
+			CAD.CFF_MASTER_SID = PM.CFF_MASTER_SID
+		JOIN CUSTOM_CCP_DETAILS CCD ON
+             CCD.CUST_VIEW_MASTER_SID = ? AND
+             CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+		INNER JOIN CCP_DETAILS CCP ON
+				CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+			INNER JOIN CONTRACT_MASTER C ON
+					C.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+					AND C.CONTRACT_NAME LIKE ?
+					AND EXISTS ( SELECT
+						1
+					FROM
+						CFF_DETAILS CD
+					WHERE
+						PD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+						)
+				LEFT JOIN HELPER_TABLE HT ON
+						C.CONTRACT_TYPE = HT.HELPER_TABLE_SID						
+					LEFT JOIN COMPANY_MASTER CM ON
+							C.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID						
+							JOIN ITEM_MASTER IM ON
+								CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+								AND IM.ITEM_NAME LIKE ?
+								AND IM.ITEM_NO LIKE ?
+							LEFT JOIN BRAND_MASTER BM ON
+									BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+									JOIN ?.dbo.User_ USR ON
+					USR.userId = PM.CREATED_BY
+					where
+						( HT.LIST_NAME = 'CONTRACT_TYPE'
+						  AND HT.DESCRIPTION LIKE ? )
+						  AND ( CM.COMPANY_NO LIKE ?
+						  OR CM.COMPANY_NO IS NULL )
+						  AND ( BM.BRAND_NAME LIKE ?
+						  OR BM.BRAND_NAME IS NULL )
+                                                  AND(	CONVERT (date,PM.CREATED_DATE) LIKE ?
+						  OR CONVERT (date,PM.CREATED_DATE) is null)  
+                                                  AND ISNULL(
+                                                USR.lastName,
+                                                ''
+                                                ) + ' ' + ISNULL(
+                                                    USR.middleName,
+                                                ''
+                                                ) + ISNULL(
+                                                    USR.firstName,
+                                                ''
+                                                 ) like ?          
+								GROUP BY
+									PM.CFF_NAME, PM.CFF_MASTER_SID, PM.CREATED_DATE, PM.CREATED_BY ,  ISNULL( USR.lastName, '' ) + ' ' + ISNULL( USR.middleName, '' ) + ' ' + ISNULL( USR.firstName, '' ))
+ SELECT
+	COUNT(*)
+FROM
+	CTE
+		]]>
+	</entry>
+	
 	
 	<entry key="loadCFFComparisonResults">
 		<![CDATA[

@@ -40,6 +40,7 @@ import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
@@ -70,8 +71,6 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     protected final boolean isEditMode;
     protected final boolean isViewMode;
     protected CommonUIUtils commonUiUtil = new CommonUIUtils();
-    private boolean isFileRename;
-
 
     /**
      * The logo.
@@ -85,10 +84,10 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     public AdditionalInformationForm(String moduleName, int projectionIds, String mode)  {
         super(moduleName, projectionIds, mode);
-        mode = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
-        this.isAddMode = Constant.ADD_SMALL.equalsIgnoreCase(mode);
-        this.isEditMode = Constant.EDIT.equalsIgnoreCase(mode);
-        this.isViewMode = "View".equalsIgnoreCase(mode);
+        String modeValue = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
+        this.isAddMode = Constant.ADD_SMALL.equalsIgnoreCase(modeValue);
+        this.isEditMode = Constant.EDIT.equalsIgnoreCase(modeValue);
+        this.isViewMode = "View".equalsIgnoreCase(modeValue);
         table.setContainerDataSource(attachmentsListBean);
         table.setVisibleColumns("documentName", "dateAdded", "userName");
         table.setColumnHeaders("Document Name", "Date Added", "User Name");
@@ -148,7 +147,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
                 File renameFileUpload = CommonUtil.getFilePath(fileUploadPath + name);
-                isFileRename=destFileUpload.renameTo(renameFileUpload);
+                boolean isFileRename=destFileUpload.renameTo(renameFileUpload);
                 LOGGER.info("File renamed successfully= {} ",isFileRename);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);
@@ -182,7 +181,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
         try {
             String file = fileNameField.getValue();
             if (file.matches(ValidationUtils.SPECIAL_CHAR)) {
-                String filename = event.getFilename().toLowerCase();
+                String filename = event.getFilename().toLowerCase(Locale.ENGLISH);
                 if (event.getFilename().equals(StringUtils.EMPTY)) {
                     uploadComponent.interruptUpload();
                     AbstractNotificationUtils.getErrorNotification("No File Name", "Please Enter a valid File Name");
@@ -193,12 +192,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                     AbstractNotificationUtils.getErrorNotification("Invalid File", "File Not Supported");
                     uploader.setValue(StringUtils.EMPTY);
                     fileNameField.setValue(StringUtils.EMPTY);
-                } else if (fileExists(file)) {
-                    uploadComponent.interruptUpload();
-                    AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
-                    uploader.setValue(StringUtils.EMPTY);
-                    fileNameField.setValue(StringUtils.EMPTY);
-                } else if (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf('.')))) {
+                } else if (fileExists(file) ||  (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf('.'))))) {
                     uploadComponent.interruptUpload();
                     AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
                     uploader.setValue(StringUtils.EMPTY);
@@ -253,7 +247,6 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     @Override
     public void itemClickLogic(ItemClickEvent event) {
         try {
-            AttachmentDTO attachmentSaveDTO;
             tableBeanId = event.getItemId();
             BeanItem<?> targetItem = null;
             if (tableBeanId instanceof BeanItem<?>) {
@@ -338,7 +331,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     }
 
-    public void security() throws PortalException, SystemException{
+    public void security() throws PortalException{
 
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getCommercialConstant() + "," + UISecurityUtil.PPA_PROJECTION_RESULTS);
 

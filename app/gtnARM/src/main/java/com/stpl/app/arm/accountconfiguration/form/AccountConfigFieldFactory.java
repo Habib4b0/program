@@ -60,17 +60,17 @@ public class AccountConfigFieldFactory implements TableFieldFactory {
     /**
      * This is value change listener used to update the value to DB tables.
      */
-    private FocusListener focus = new FocusListener() {
+    private FocusListener costCentreFocus = new FocusListener() {
         /**
          * Will execute,when we click an uploader.
          */
         @Override
-        public void focus(FocusEvent event) {
-            ((Field) event.getComponent()).addValueChangeListener(valueChange);
-            if (event.getComponent() instanceof ComboBox) {
-                ((ComboBox) event.getComponent()).removeFocusListener(this);
-            } else if (event.getComponent() instanceof TextField) {
-                ((TextField) event.getComponent()).removeFocusListener(this);
+        public void focus(FocusEvent fieldEvent) {
+            ((Field) fieldEvent.getComponent()).addValueChangeListener(valueChange);
+            if (fieldEvent.getComponent() instanceof ComboBox) {
+                ((ComboBox) fieldEvent.getComponent()).removeFocusListener(this);
+            } else if (fieldEvent.getComponent() instanceof TextField) {
+                ((TextField) fieldEvent.getComponent()).removeFocusListener(this);
             }
         }
     };
@@ -142,73 +142,81 @@ public class AccountConfigFieldFactory implements TableFieldFactory {
             map.put(ARMUtils.ITEM_ID, itemId);
             map.put(ARMUtils.CONTAINER, container);
             if ("checkRecord".equals(propertyId)) {
-                final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                fieldFactoryValuesDTO.addFieldFactoryMap(propertyId.toString(), check);
-                check.addClickListener(new ExtCustomCheckBox.ClickListener() {
-                    @Override
-                    public void click(ExtCustomCheckBox.ClickEvent event) {
-                        Boolean val = ((ExtCustomCheckBox) event.getComponent()).getValue();
-                        if (val == null || !val) {
-                            if (resultsTable.getColumnCheckBox(VariableConstants.CHECK_RECORD)) {
-                                resultsTable.setColumnCheckBox(VariableConstants.CHECK_RECORD, true, false);
-                            }
-                        } else {
-                            resultsTable.setColumnCheckBox(VariableConstants.CHECK_RECORD, true, findAllChecked());
-                        }
-                        Object value = check.getValue();
-                        logic.updateTableValues(value, updateFieldFactoryValues.get(propertyId.toString()), fieldFactoryValuesDTO, selection);
-                    }
-                });
-
-                return check;
+                return getAccountCheckBox(fieldFactoryValuesDTO, propertyId);
             }
             if ("costCentre".equals(propertyId)) {
                 final TextField costCentre = new TextField();
                 costCentre.setImmediate(true);
                 fieldFactoryValuesDTO.addFieldFactoryMap(propertyId.toString(), costCentre);
-                costCentre.addFocusListener(focus);
+                costCentre.addFocusListener(costCentreFocus);
                 costCentre.setData(map);
 
                 return costCentre;
             }
             if (ArrayUtils.contains(ARMUtils.getAccountConfigComboboxProperties(), propertyId.toString())) {
-                final ComboBox comboBox = new ComboBox();
-                comboBox.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
-                comboBox.setImmediate(true);
-                if (CommonConstant.ACCOUNT.equals(propertyId.toString())) {
-                    comboBox.setImmediate(true);
-                    int company = fieldFactoryValuesDTO.getCompanyNoHelperDto() != null ? fieldFactoryValuesDTO.getCompanyNoHelperDto().getId() : NumericConstants.ZERO;
-                    int businessUnit = fieldFactoryValuesDTO.getBusinessNoHelperDto() != null ? fieldFactoryValuesDTO.getBusinessNoHelperDto().getId() : NumericConstants.ZERO;
-                    logic.loadAccount(comboBox, company, businessUnit);
-                }
-                if ("companyNoHelperDto".equals(propertyId.toString())) {
-                    if (selection.getSession().getMode().equals(ARMUtils.EDIT)) {
-                        return null;
-                    }
-                    logic.loadCompanyOrBusinessUnitDdlb(comboBox, resultsCompanyFactoryDdlbList, "getCompanyQuery", Boolean.TRUE, Boolean.FALSE);
-                } else if ("businessNoHelperDto".equals(propertyId.toString())) {
-                    if (selection.getSession().getMode().equals(ARMUtils.EDIT)) {
-                        return null;
-                    }
-                    logic.loadCompanyOrBusinessUnitDdlb(comboBox, resultsBusinessUnitFactoryDdlbList, "getBusinessQuery", Boolean.TRUE, Boolean.FALSE);
-                } else if ("brandDdlb".equals(propertyId.toString())) {
-                    logic.loadBrandDdlb(comboBox, resultsBrandFactoryDdlbList, Boolean.TRUE, Boolean.FALSE);
-                }
-                fieldFactoryValuesDTO.addFieldFactoryMap(propertyId.toString(), comboBox);
-                comboBox.addFocusListener(focus);
-                comboBox.setData(map);
-                return comboBox;
+                return getAccountComboBox(propertyId, fieldFactoryValuesDTO, map);
             }
         }
         return null;
 
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private Field<?> getAccountComboBox(final Object propertyId, final AccountConfigDTO fieldFactoryValuesDTO, Map<String, Object> map) {
+        final ComboBox comboBox = new ComboBox();
+        comboBox.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
+        comboBox.setImmediate(true);
+        if (CommonConstant.ACCOUNT.equals(propertyId.toString())) {
+            comboBox.setImmediate(true);
+            int company = fieldFactoryValuesDTO.getCompanyNoHelperDto() != null ? fieldFactoryValuesDTO.getCompanyNoHelperDto().getId() : NumericConstants.ZERO;
+            int businessUnit = fieldFactoryValuesDTO.getBusinessNoHelperDto() != null ? fieldFactoryValuesDTO.getBusinessNoHelperDto().getId() : NumericConstants.ZERO;
+            logic.loadAccount(comboBox, company, businessUnit);
+        }
+        if ("companyNoHelperDto".equals(propertyId.toString())) {
+            if (selection.getSession().getMode().equals(ARMUtils.EDIT)) {
+                return null;
+            }
+            logic.loadCompanyOrBusinessUnitDdlb(comboBox, resultsCompanyFactoryDdlbList, "getCompanyQuery", Boolean.TRUE, Boolean.FALSE);
+        } else if ("businessNoHelperDto".equals(propertyId.toString())) {
+            if (selection.getSession().getMode().equals(ARMUtils.EDIT)) {
+                return null;
+            }
+            logic.loadCompanyOrBusinessUnitDdlb(comboBox, resultsBusinessUnitFactoryDdlbList, "getBusinessQuery", Boolean.TRUE, Boolean.FALSE);
+        } else if ("brandDdlb".equals(propertyId.toString())) {
+            logic.loadBrandDdlb(comboBox, resultsBrandFactoryDdlbList, Boolean.TRUE, Boolean.FALSE);
+        }
+        fieldFactoryValuesDTO.addFieldFactoryMap(propertyId.toString(), comboBox);
+        comboBox.addFocusListener(costCentreFocus);
+        comboBox.setData(map);
+        return comboBox;
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private Field<?> getAccountCheckBox(final AccountConfigDTO fieldFactoryValuesDTO, final Object propertyId) {
+        final ExtCustomCheckBox check = new ExtCustomCheckBox();
+        fieldFactoryValuesDTO.addFieldFactoryMap(propertyId.toString(), check);
+        check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+            @Override
+            public void click(ExtCustomCheckBox.ClickEvent event) {
+                Boolean val = ((ExtCustomCheckBox) event.getComponent()).getValue();
+                if (val == null || !val) {
+                    if (resultsTable.getColumnCheckBox(VariableConstants.CHECK_RECORD)) {
+                        resultsTable.setColumnCheckBox(VariableConstants.CHECK_RECORD, true, false);
+                    }
+                } else {
+                    resultsTable.setColumnCheckBox(VariableConstants.CHECK_RECORD, true, findAllChecked());
+                }
+                Object value = check.getValue();
+                logic.updateTableValues(value, updateFieldFactoryValues.get(propertyId.toString()), fieldFactoryValuesDTO, selection);
+            }
+        });
+
+        return check;
+    }
+
+    private void writeObject(ObjectOutputStream accFieldFacOut) throws IOException {
+        accFieldFacOut.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream accFieldIn) throws IOException, ClassNotFoundException {
+        accFieldIn.defaultReadObject();
     }
 }

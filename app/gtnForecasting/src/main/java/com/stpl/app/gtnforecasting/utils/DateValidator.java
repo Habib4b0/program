@@ -11,7 +11,7 @@ import com.vaadin.v7.data.validator.AbstractValidator;
 import com.vaadin.v7.ui.PopupDateField;
 import org.apache.commons.lang.StringUtils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DateValidator.
  *

@@ -23,54 +23,54 @@ import org.apache.commons.lang.StringUtils;
 public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
     @Override
-    public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
-        List replaceList = new ArrayList();
-        List<String> reserveHeader = new ArrayList<>();
-        List<String> reserveProperty = new ArrayList<>();
+    public List<List> getReserveAccountDetails(AbstractSelectionDTO reforecastSelection, Boolean isReserve) {
+        List reforecastReplaceList = new ArrayList();
+        List<String> reforecastReserveHeader = new ArrayList<>();
+        List<String> reforecastReserveProperty = new ArrayList<>();
         List<List> finalList = new ArrayList<>();
         StringBuilder value;
         StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
-        replaceList.add(isReserveValue);
-        replaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
-        replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-        replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
-        StringBuilder query;
-        if (selection.getSessionDTO().isWorkFlow()) {
-            query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
+        reforecastReplaceList.add(isReserveValue);
+        reforecastReplaceList.add(reforecastSelection.getDataSelectionDTO().getAdjustmentId());
+        reforecastReplaceList.add(reforecastSelection.getDataSelectionDTO().getProjectionId());
+        reforecastReplaceList.add(reforecastSelection.getDataSelectionDTO().getProjectionId());
+        reforecastReplaceList.add(reforecastSelection.getDataSelectionDTO().getCompanyMasterSid());
+        reforecastReplaceList.add(reforecastSelection.getDataSelectionDTO().getBucompanyMasterSid());
+        StringBuilder reforecastQuery;
+        if (reforecastSelection.getSessionDTO().isWorkFlow()) {
+            reforecastQuery = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
+            reforecastQuery.replace(reforecastQuery.indexOf("?"), reforecastQuery.indexOf("?") + 1, String.valueOf(reforecastSelection.getDataSelectionDTO().getProjectionId()));
+            reforecastQuery.replace(reforecastQuery.indexOf("?"), reforecastQuery.indexOf("?") + 1, isReserve ? "0" : "1");
         } else {
-            query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
-            for (Object temp : replaceList) {
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
+            reforecastQuery = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
+            for (Object temp : reforecastReplaceList) {
+                reforecastQuery.replace(reforecastQuery.indexOf("?"), reforecastQuery.indexOf("?") + 1, String.valueOf(temp));
             }
         }
-        List list = QueryUtils.executeSelect(query.toString());
+        List list = QueryUtils.executeSelect(reforecastQuery.toString());
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-                Object[] obj = (Object[]) list.get(i);
+                Object[] reforecastObj = (Object[]) list.get(i);
                 value = new StringBuilder(StringUtils.EMPTY);
                 property = new StringBuilder(StringUtils.EMPTY);
-                if (isValid(obj[0])) {
-                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
-                    property = new StringBuilder(String.valueOf(obj[0]));
+                if (isValid(reforecastObj[0])) {
+                    value = new StringBuilder(helperId.getDescriptionByID((Integer) (reforecastObj[0])));
+                    property = new StringBuilder(String.valueOf(reforecastObj[0]));
                 }
-                if (isValid(obj[1])) {
-                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
-                    property.append(DASH).append(String.valueOf(obj[1]));
+                if (isValid(reforecastObj[1])) {
+                    value.append(DASH).append(helperId.getDescriptionByID((Integer) (reforecastObj[1])));
+                    property.append(DASH).append(String.valueOf(reforecastObj[1]));
                 }
-                if (isValid(obj[NumericConstants.TWO])) {
-                    value.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
-                    property.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
+                if (isValid(reforecastObj[NumericConstants.TWO])) {
+                    value.append(DASH).append(String.valueOf(reforecastObj[NumericConstants.TWO]));
+                    property.append(DASH).append(String.valueOf(reforecastObj[NumericConstants.TWO]));
                 }
-                reserveHeader.add(value.toString());
-                reserveProperty.add(property.toString());
+                reforecastReserveHeader.add(value.toString());
+                reforecastReserveProperty.add(property.toString());
             }
-            finalList.add(reserveHeader);
-            finalList.add(reserveProperty);
+            finalList.add(reforecastReserveHeader);
+            finalList.add(reforecastReserveProperty);
         }
         return finalList;
     }
@@ -96,14 +96,14 @@ public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     }
 
     @Override
-    protected String getAmountFilterCondition(List<String> condition, String tableAliasName) {
+    protected String getAmountFilterCondition(List<String> reforecastCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
-        if (condition != null && !condition.isEmpty() && condition.size() < NumericConstants.THREE) {
+        if (reforecastCondition != null && !reforecastCondition.isEmpty() && reforecastCondition.size() < NumericConstants.THREE) {
             StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
-            for (int i = 0; i < condition.size(); i++) {
-                String str = condition.get(i);
+            for (int i = 0; i < reforecastCondition.size(); i++) {
+                String str = reforecastCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
-                if (condition.size() > 1 && i != 1) {
+                if (reforecastCondition.size() > 1 && i != 1) {
                     grlStr.append(" OR ");
                 }
             }

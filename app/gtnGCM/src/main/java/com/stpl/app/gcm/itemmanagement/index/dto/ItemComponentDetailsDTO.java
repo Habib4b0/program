@@ -27,7 +27,7 @@ public class ItemComponentDetailsDTO implements Cloneable {
     private Date itemStartDate;
     private Date itemEndDate;
     private String itemMasterSid = StringUtils.EMPTY;
-    private String UOM = StringUtils.EMPTY;
+    private String uom = StringUtils.EMPTY;
     private String packageSize = StringUtils.EMPTY;
     private String price = StringUtils.EMPTY;
     private HelperDTO priceType;
@@ -148,11 +148,11 @@ public class ItemComponentDetailsDTO implements Cloneable {
     }
 
     public String getUOM() {
-        return UOM;
+        return uom;
     }
 
-    public void setUOM(String UOM) {
-        this.UOM = UOM;
+    public void setUOM(String uom) {
+        this.uom = uom;
     }
 
     public String getPackageSize() {
@@ -314,7 +314,7 @@ public class ItemComponentDetailsDTO implements Cloneable {
         selection.setItemStartDate(itemStartDate);
         selection.setItemEndDate(itemEndDate);
         selection.setItemMasterSid(itemMasterSid);
-        selection.setUOM(UOM);
+        selection.setUOM(uom);
         selection.setPackageSize(packageSize);
         selection.setPrice(price);
         selection.setPriceType(priceType);

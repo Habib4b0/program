@@ -73,6 +73,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -518,8 +519,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     int end = 0;
                     if (StringConstantsUtil.DESCENDING1.equalsIgnoreCase(String.valueOf(projectionPeriodOrder.getValue()))) {
                         if (frequency.getValue().equals(ConstantsUtil.MONTHLY) && pivotView.getValue().equals(Constants.VARIABLE_LABEL)) {
-                            start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
-                            end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                            start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH));
+                            end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH));
                         } else {
                             start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
                             end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
@@ -527,8 +528,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     } else {
                         if (frequency.getValue().equals(ConstantsUtil.MONTHLY) && pivotView.getValue().equals(Constants.VARIABLE_LABEL)) {
 
-                            start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
-                            end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                            start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH));
+                            end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH));
                         } else {
                             start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
                             end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
@@ -633,11 +634,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     @Override
     protected void callTableLogic(int levelNo, String hierarchyNo, boolean excelFlag) {
         loadVariables();
-        if (excelFlag) {
-        } else {
+        if (!excelFlag) {
             tableLogic.clearAll();
             loadResultTable(levelNo, hierarchyNo);
-        }
+        } 
     }
 
     @UiHandler("fromDate")
@@ -705,8 +705,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     
                     tempTableProcedureCalling(tempComaprision, cffLogicForTempTable);
                     
-                    commonLogic.checkForCompletionALL(sessionDTO, Constants.SALES);
-                    commonLogic.checkForCompletionALL(sessionDTO,  Constants.DISCOUNT);
+                    commonLogic.checkForCompletionALL(sessionDTO, Constants.SALES,pvSelectionDTO);
+                    commonLogic.checkForCompletionALL(sessionDTO,  Constants.DISCOUNT,pvSelectionDTO);
                     
                     Object[] sortedList=sortingTempAndCurrentFilterValues();
                     
@@ -901,10 +901,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             for (int i = 0; i < periodList.size(); i++) {
 
-                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
+                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
             }
             for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-                listMap.put(entry.getKey().toLowerCase(), entry.getValue());
+                listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
             }
             if (!periodList.isEmpty()) {
                 for (int i = 0; i < periodList.size(); i++) {
@@ -931,16 +931,16 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             for (int i = 0; i < periodList.size(); i++) {
 
-                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
+                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
             }
             for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-                listMap.put(entry.getKey().toLowerCase(), entry.getValue());
+                listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
             }
             if (fromDate.getValue() != null && !"null".equals(String.valueOf(fromDate.getValue())) && !"".equals(String.valueOf(fromDate.getValue()))
                     && !Constants.SELECT_ONE_LABEL.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constants.SELECT_ONE_LABEL)) {
                 String fromVal = fromDateVal.replace(" ", "");
 
-                fromVal = fromVal.toLowerCase();
+                fromVal = fromVal.toLowerCase(Locale.ENGLISH);
                 start = periodList.indexOf(fromVal);
             }
             int end = periodList.size() - 1;
@@ -975,7 +975,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     tableLogic.getControlTable().getContainerDataSource().removeAllItems();
                 }
                 loadCustomDDLB();
+                if(isAlreadyLoaded){
+                    callGenerateLogic();
+                }
                 levelFilter.setEnabled(false);
+                
             } else {
                 if ("Total".equalsIgnoreCase(String.valueOf(level.getValue()))) {
                     levelFilter.setEnabled(false);
@@ -1116,7 +1120,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
     
     
-    public void resetForAdd() throws IllegalStateException {
+    public void resetForAdd()  {
         pvSelectionDTO.setDeductionLevelFilter(Collections.EMPTY_LIST);
         pvSelectionDTO.setDeductionLevelCaptions(Collections.EMPTY_LIST);
         pvSelectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
@@ -1476,6 +1480,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         } else if ("P".equals(pvSelectionDTO.getHierarchyIndicator())) {
             hierarchy = CommonLogic.getProductHierarchyMandated(sessionDTO.getProjectionId(), pvSelectionDTO.getProductLevelNo());
         }
+        hierarchy = pvSelectionDTO.isIsCustomHierarchy() ? CommonLogic.getCustomHierarchy(sessionDTO.getCustomViewMasterSid()) : hierarchy;
         if (hierarchy != null) {
             for (Leveldto levelDto : hierarchy) {
                 String levelFiterSid = levelDto.getTreeLevelNo() + "~" + levelDto.getHierarchyIndicator();
@@ -1649,6 +1654,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             getDate();
             configureExcelTable();
+            commonLogic.checkForCompletionALL(sessionDTO, Constants.CFF_EXCEL,pvSelectionDTO);
             excelLogic.getPVData();
             excelParentRecords.clear();
 
@@ -2291,7 +2297,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         customerFilterDdlb.addSubMenuCloseListener(customerlistener);
     }
 
-    private void loadDeductionInclusion(boolean reset) throws IllegalStateException {
+    private void loadDeductionInclusion(boolean reset)  {
         String[] deductionValues = {"Yes", "No"};
         if(!reset){
         deductionInclusionValues = deductionInclusionDdlb.addItem(SELECT_VALUES, null);

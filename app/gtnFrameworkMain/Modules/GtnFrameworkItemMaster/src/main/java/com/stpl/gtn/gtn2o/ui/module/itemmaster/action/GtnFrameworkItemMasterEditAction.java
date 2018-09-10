@@ -31,6 +31,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.itemmaster.GtnWsItemMasterRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -111,6 +112,14 @@ public class GtnFrameworkItemMasterEditAction
 
 	public void configureInformationTabComponents(String sourceComponentId, GtnWsItemMasterInfoBean imEditBean)
 			throws GtnFrameworkGeneralException {
+		
+		String intValue = "";
+		if(imEditBean.getUpps()!=null){
+			double value = (imEditBean.getUpps());
+			DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+	        intValue = decimalFormat.format(value);
+		}
+
 		List<Object> imFielsValues = Arrays.asList(new Object[] { imEditBean.getItemId(), imEditBean.getItemNo(),
 				imEditBean.getItemDesc(), imEditBean.getItemName(), imEditBean.getItemId(), imEditBean.getItemNo(),
 				imEditBean.getItemDesc(), imEditBean.getItemName(), imEditBean.getItemStatus(),
@@ -131,7 +140,7 @@ public class GtnFrameworkItemMasterEditAction
 				imEditBean.getNonFederalExpirationDate(), imEditBean.getMarketTerminationDate(),
 				imEditBean.getBaseCpiPeriod(), imEditBean.getAuthorizedGeneric(),
 				imEditBean.getPediatricExclusiveIndicator(), imEditBean.getClottingFactorIndicator(),
-				imEditBean.getDualPricingIndicator(), imEditBean.getNewFormulationIndicator(), imEditBean.getUpps(),
+				imEditBean.getDualPricingIndicator(), imEditBean.getNewFormulationIndicator(), intValue,
 				imEditBean.getBaselineAmp(), imEditBean.getBaseCpi(), imEditBean.getAcquiredAmp(),
 				imEditBean.getAcquiredBamp(), imEditBean.getDra(), imEditBean.getObraBamp(),
 				imEditBean.getNewFormulationStartDate(), imEditBean.getNewFormulationEndDate(),

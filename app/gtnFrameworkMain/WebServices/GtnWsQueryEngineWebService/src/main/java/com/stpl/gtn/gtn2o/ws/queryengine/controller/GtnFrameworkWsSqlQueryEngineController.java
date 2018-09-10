@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryResponseBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
@@ -20,20 +21,23 @@ public class GtnFrameworkWsSqlQueryEngineController extends GtnServiceRegistryIm
 
 	@Autowired
 	private GtnFrameworkWsSqlQueryEngineService gtnFrameworkWsSqlQueryEngineService;
+	
+	@Autowired
+	private GtnFrameworkQueryExecutorBean gtnFrameworkQueryExecutorBean;
 
 	public GtnFrameworkWsSqlQueryEngineController() {
 		super();
-		initializeLogger();
+	  initializeLogger();
 	}
 
 	@PostConstruct
-	public void initializeLogger() {
+	public final void initializeLogger() {
 		super.logInformation(GtnFrameworkWsSqlQueryEngineController.class);
 	}
 
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public boolean test() {
-		return true;
+	public int test(int a) {
+		return a;
 	}
 
 	@RequestMapping(value = "/executeQuery", method = RequestMethod.POST)

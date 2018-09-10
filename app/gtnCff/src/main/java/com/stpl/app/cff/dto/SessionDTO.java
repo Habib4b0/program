@@ -57,8 +57,8 @@ public class SessionDTO implements Cloneable {
     private Boolean assumptionDiscount;
     private Boolean assumptionPPA;
     private Map<String, Integer> projectionPeriod = new HashMap<>();
-    private Map<String, List> FrequencyAndQuater = new HashMap<>();
-    private Map<String, Date> HistoryAndStartDate = new HashMap<>();
+    private Map<String, List> frequencyAndQuater = new HashMap<>();
+    private Map<String, Date> historyAndStartDate = new HashMap<>();
     private Date currentDate;
     private Map<String, Map<String, Integer>> historyEndDetails = new HashMap<>();
     private Map<String, Integer> projectionDetails = new HashMap<>();
@@ -399,27 +399,27 @@ public class SessionDTO implements Cloneable {
     }
 
     public Map<String, List> getFrequencyAndQuater() {
-        return FrequencyAndQuater;
+        return frequencyAndQuater;
     }
 
     public void setFrequencyAndQuater(Map<String, List> frequencyAndQuater) {
-        this.FrequencyAndQuater = frequencyAndQuater;
+        this.frequencyAndQuater = frequencyAndQuater;
     }
 
     public void addFrequencyAndQuater(String frequency, List historyCount) {
-        this.FrequencyAndQuater.put(frequency, historyCount);
+        this.frequencyAndQuater.put(frequency, historyCount);
     }
 
     public List getFrequencyAndQuaterValue(String frequency) {
-        return FrequencyAndQuater.get(frequency);
+        return frequencyAndQuater.get(frequency);
     }
 
     public Map<String, Date> getHistoryAndStartDate() {
-        return HistoryAndStartDate;
+        return historyAndStartDate;
     }
 
     public void setHistoryAndStartDate(Map<String, Date> historyAndStartDate) {
-        this.HistoryAndStartDate = historyAndStartDate;
+        this.historyAndStartDate = historyAndStartDate;
     }
 
     public Date getCurrentDate() {
@@ -738,8 +738,7 @@ public class SessionDTO implements Cloneable {
 
     @Override
     public SessionDTO clone() throws CloneNotSupportedException {
-        SessionDTO sessiondto = (SessionDTO) super.clone();
-        return sessiondto;
+        return (SessionDTO) super.clone();
     }
     
 

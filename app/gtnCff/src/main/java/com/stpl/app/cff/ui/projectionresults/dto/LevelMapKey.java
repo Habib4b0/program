@@ -21,7 +21,7 @@ public class LevelMapKey implements Serializable, Comparable<LevelMapKey>,Clonea
     private String levelNo;
     private String levelValuesSid;
     private  List<Integer> ccpIds = new ArrayList();
-    private String HierarchyNo;
+    private String hierarchyNo;
     private int customViewDetailsSid;
 
     public LevelMapKey(String levelNo, String levelValuesSid) {
@@ -74,7 +74,7 @@ public class LevelMapKey implements Serializable, Comparable<LevelMapKey>,Clonea
 
     @Override
     public String toString() {
-        return "LevelMapKey{" + "levelNo=" + levelNo + ", levelValuesSid=" + levelValuesSid + ", ccpIds=" + ccpIds + ", HierarchyNo=" + HierarchyNo + ", customViewDetailsSid=" + customViewDetailsSid + '}';
+        return "LevelMapKey{" + "levelNo=" + levelNo + ", levelValuesSid=" + levelValuesSid + ", ccpIds=" + ccpIds + ", HierarchyNo=" + hierarchyNo + ", customViewDetailsSid=" + customViewDetailsSid + '}';
     }
 
     
@@ -93,11 +93,11 @@ public class LevelMapKey implements Serializable, Comparable<LevelMapKey>,Clonea
     }
 
     public String getHierarchyNo() {
-        return HierarchyNo;
+        return hierarchyNo;
     }
 
     public void setHierarchyNo(String hierarchyNo) {
-        this.HierarchyNo = hierarchyNo;
+        this.hierarchyNo = hierarchyNo;
     }
 
     @Override

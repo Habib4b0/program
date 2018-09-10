@@ -6,7 +6,6 @@ package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 
 import com.stpl.app.gcm.tp.logic.GcmtFilterLogic;
 import com.stpl.app.gcm.util.StringConstantsUtil;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
@@ -34,7 +33,7 @@ public class AbstractFilter {
     private Map<String, String> psComponentInfoMap = new HashMap<>();
     private Map<String, String> rsComponentInfoMap = new HashMap<>();
     private static AbstractFilter instance;
-    private final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
     private AbstractFilter() {
         setFilterMap();
@@ -114,8 +113,8 @@ public class AbstractFilter {
         
     }
 
-    public void setFilterMap(String key, String Value) {
-        filterMap.put(key, Value);
+    public void setFilterMap(String key, String value) {
+        filterMap.put(key, value);
     }
 
     public void setFilterMap(Map m) {
@@ -249,7 +248,7 @@ public class AbstractFilter {
                                 tempStart = new StringBuilder(dateStartstr);
                             }
                             tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(startValue));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, dbDate.format(startValue));
                             sql.append(tempStart);
                         }
                         if (!betweenFilter.getEndValue().toString().isEmpty()) {
@@ -261,7 +260,7 @@ public class AbstractFilter {
                             }
 
                             tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, DBDate.format(endValue));
+                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, dbDate.format(endValue));
                             sql.append(tempEnd);
                         }
                     }

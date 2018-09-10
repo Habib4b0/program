@@ -128,7 +128,7 @@ public class AddContractSelection extends CustomComponent {
     @UiField("massUpdateValue")
     private ComboBox massUpdateValue;
     @UiField("marketType")
-    private ComboBox marketType_DTO;
+    private ComboBox marketTypeDTO;
     @UiField("typeDdlb")
     private ComboBox typeDdlb;
     @UiField("field")
@@ -178,7 +178,7 @@ public class AddContractSelection extends CustomComponent {
     private static final String SEARCHICON = "searchicon";
     private List<ItemIndexDto> selecteditemList;
     
-    private final Object[] addColumn = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO,
+    private static final Object[] ADD_COLUMN = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO,
         Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "itemStartDate",
         "itemEndDate", StringConstantsUtil.CP_START_DATE, StringConstantsUtil.CP_END_DATE, Constants.PRICE_TYPE_PROPERTY,
         StringConstantsUtil.PRICE_PROPERTY, Constants.PRICE_PROTECTION_STATUS_PROPERTY, Constants.PRICE_PROTECTION_START_DATE_PROPERTY, Constants.PRICE_PROTECTION_END_DATE_PROPERTY,
@@ -189,7 +189,7 @@ public class AddContractSelection extends CustomComponent {
         Constants.RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_FORMULA_PROPERTY, Constants.NET_PRICE_TYPE_PROPERTY, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY,
         "cfpNO", Constants.CFP_NAME, "ifpNo", Constants.IFPNAME, "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
 
-    private final String[] addHeader = {StringUtils.EMPTY, Constants.PROJECTION_ID_HEADER, Constants.WORK_FLOW_STATUS_HEADER, Constants.CONTRACT_HOLDER_HEADER, Constants.CONTRACT_NO_HEADER,
+    private static final String[] ADD_HEADER = {StringUtils.EMPTY, Constants.PROJECTION_ID_HEADER, Constants.WORK_FLOW_STATUS_HEADER, Constants.CONTRACT_HOLDER_HEADER, Constants.CONTRACT_NO_HEADER,
         Constants.CONTRACT_NAME_HEADER, Constants.MARKET_TYPE_HEADER, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.ITEM_START_DATE,
         Constants.ITEM_END_DATE, StringConstantsUtil.CP_START_DATE_LABEL, StringConstantsUtil.CP_END_DATE_LABEL, Constants.PRICE_TYPE_LABEL,
         StringConstantsUtil.PRICE_LABEL, Constants.PRICE_PROTECTION_STATUS_LABEL, Constants.PRICE_PROTECTION_START_DATE_LABEL, Constants.PRICE_PROTECTION_END_DATE_LABEL,
@@ -547,13 +547,13 @@ public class AddContractSelection extends CustomComponent {
         selection.setCountQueryName("Add Load Contract Count");
         selection.setDataQueryName("Add Load Contract");
         selection.setReset(true);
-        if ((binderDto.getContractHolder() == null || binderDto.getContractHolder().isEmpty()) && (binderDto.getMarketType_DTO() == null)
+        if ((binderDto.getContractHolder() == null || binderDto.getContractHolder().isEmpty()) && (binderDto.getMarketTypeDto() == null)
                 && (binderDto.getCfp() == null || binderDto.getCfp().isEmpty()) && (binderDto.getContractNo() == null || binderDto.getContractNo().isEmpty())
-                && (binderDto.getContractNo_SID()== null || binderDto.getContractNo_SID().isEmpty())
-                && (binderDto.getContractName_SID()== null || binderDto.getContractName_SID().isEmpty()) && (binderDto.getContractHolder_SID()== null || binderDto.getContractHolder_SID().isEmpty())
-                && (binderDto.getCustomer_SID()== null || binderDto.getCustomer_SID().isEmpty()) && (binderDto.getCfp_SID()== null || binderDto.getCfp_SID().isEmpty())
-                && (binderDto.getPs_SID()== null || binderDto.getPs_SID().isEmpty()) && (binderDto.getIfp_SID()== null || binderDto.getIfp_SID().isEmpty())
-                && (binderDto.getRs_SID()== null || binderDto.getRs_SID().isEmpty()) && (binderDto.getStartDate() == null) && (binderDto.getEndDate() == null)
+                && (binderDto.getContractNoSid()== null || binderDto.getContractNoSid().isEmpty())
+                && (binderDto.getContractNameSid()== null || binderDto.getContractNameSid().isEmpty()) && (binderDto.getContractHolderSid()== null || binderDto.getContractHolderSid().isEmpty())
+                && (binderDto.getCustomerSid()== null || binderDto.getCustomerSid().isEmpty()) && (binderDto.getCfpSid()== null || binderDto.getCfpSid().isEmpty())
+                && (binderDto.getPsSid()== null || binderDto.getPsSid().isEmpty()) && (binderDto.getIfpSid()== null || binderDto.getIfpSid().isEmpty())
+                && (binderDto.getRsSid()== null || binderDto.getRsSid().isEmpty()) && (binderDto.getStartDate() == null) && (binderDto.getEndDate() == null)
                 && (binderDto.getIfp() == null || binderDto.getIfp().isEmpty())
                 && (binderDto.getContractName() == null || binderDto.getContractName().isEmpty()) && (binderDto.getPriceSchedule() == null || binderDto.getPriceSchedule().isEmpty())
                 && (binderDto.getCustomerNo() == null || binderDto.getCustomerNo().isEmpty()) && (binderDto.getCustomerName() == null || binderDto.getCustomerName().isEmpty())
@@ -576,8 +576,7 @@ public class AddContractSelection extends CustomComponent {
     public Boolean checkrecord() {
         List input = AbstractLogic.getResultsInput(selection);
         String queryname = "checkrecord condition check";
-        Boolean isUpdated = ItemQueries.itemUpdate(input, queryname);
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, queryname);
 
     }
 
@@ -624,7 +623,7 @@ public class AddContractSelection extends CustomComponent {
     
     private void resetSearchField() {
         vCntHolder.setValue(StringUtils.EMPTY);
-        marketType_DTO.setValue(null);
+        marketTypeDTO.setValue(null);
         cfp.setValue(StringUtils.EMPTY);
         vCntNo.setValue(StringUtils.EMPTY);
         rsSchedule.setValue(StringUtils.EMPTY);
@@ -742,8 +741,8 @@ public class AddContractSelection extends CustomComponent {
         addItemTableLogic.setPageLength(NumericConstants.FIVE);
         addItemTableLogic.setContainerDataSource(itemContractContainer);
         addItemTableLogic.sinkItemPerPageWithPageLength(false);
-        addItemTable.setVisibleColumns(addColumn);
-        addItemTable.setColumnHeaders(addHeader);
+        addItemTable.setVisibleColumns(ADD_COLUMN);
+        addItemTable.setColumnHeaders(ADD_HEADER);
         addItemTable.setFilterBarVisible(true);
         addItemTable.addStyleName(ConstantsUtil.FILTERCOMBOBOX);
         addItemTable.setPageLength(NumericConstants.FIVE);
@@ -818,104 +817,104 @@ public class AddContractSelection extends CustomComponent {
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.CHECK_RECORD.equals(propertyId)) {
-                    CustomTextField text = new CustomTextField();
-                    text.setEnabled(false);
-                    return text;
+                    CustomTextField textCheckRecord = new CustomTextField();
+                    textCheckRecord.setEnabled(false);
+                    return textCheckRecord;
                 }
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
-                    ComboBox marketTypeDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
-                    return marketTypeDdlb;
+                    ComboBox marketTypeDdlbs = new ComboBox();
+                    logic.LazyLoadDdlb(marketTypeDdlbs, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
+                    return marketTypeDdlbs;
                 }
                 if (Constants.STATUS_S.equals(propertyId)) {
-                    ComboBox statusDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(statusDdlb, "Load Item Status Count", "Load Item Status", BooleanConstant.getTrueFlag());
-                    return statusDdlb;
+                    ComboBox statusDdlbS = new ComboBox();
+                    logic.LazyLoadDdlb(statusDdlbS, "Load Item Status Count", "Load Item Status", BooleanConstant.getTrueFlag());
+                    return statusDdlbS;
                 }
                 if (Constants.PRICE_TOLERANCE_INTERVAL.equals(propertyId)) {
-                    ComboBox pricetolerenceintDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(pricetolerenceintDdlb, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BooleanConstant.getTrueFlag());
-                    return pricetolerenceintDdlb;
+                    ComboBox pricetolerenceintDdlbInv = new ComboBox();
+                    logic.LazyLoadDdlb(pricetolerenceintDdlbInv, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BooleanConstant.getTrueFlag());
+                    return pricetolerenceintDdlbInv;
                 }
                 if (Constants.PRICE_TOLERANCE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox pricetolerencetypeDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(pricetolerencetypeDdlb, "Load PS_TYPE Count", "Load PS_TYPE", BooleanConstant.getTrueFlag());
-                    return pricetolerencetypeDdlb;
+                    ComboBox pricetolerencetypeDdlbType = new ComboBox();
+                    logic.LazyLoadDdlb(pricetolerencetypeDdlbType, "Load PS_TYPE Count", "Load PS_TYPE", BooleanConstant.getTrueFlag());
+                    return pricetolerencetypeDdlbType;
                 }
                 if (Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY.equals(propertyId)) {
-                    ComboBox pricetolerencefreqDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", BooleanConstant.getTrueFlag());
-                    return pricetolerencefreqDdlb;
+                    ComboBox pricetolerencefreqDdlbPr = new ComboBox();
+                    logic.LazyLoadDdlb(pricetolerencefreqDdlbPr, "Load PS_FREQ Count", "Load PS_FREQ", BooleanConstant.getTrueFlag());
+                    return pricetolerencefreqDdlbPr;
                 }
                 if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
-                    ComboBox priceProtectionDdlb = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlb, UiUtils.STATUS, true);
-                    return priceProtectionDdlb;
+                    ComboBox priceProtectionDdlbStat = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlbStat, UiUtils.STATUS, true);
+                    return priceProtectionDdlbStat;
                 }
                 if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
-                    ComboBox basePriceType = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(basePriceType, Constants.BASE_PRICE_TYPE_COLUMN_NAME, true);
-                    return basePriceType;
+                    ComboBox basePriceTypePropBas = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(basePriceTypePropBas, Constants.BASE_PRICE_TYPE_COLUMN_NAME, true);
+                    return basePriceTypePropBas;
                 }
                 if (Constants.PRICE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    loadPriceType(comboBox, true);
-                    return comboBox;
+                    ComboBox comboBoxPricTyp = new ComboBox();
+                    loadPriceType(comboBoxPricTyp, true);
+                    return comboBoxPricTyp;
                 }
                 if (Constants.MEASUREMENT_PRICE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    loadPriceType(comboBox, true);
-                    return comboBox;
+                    ComboBox comboBoxMeau = new ComboBox();
+                    loadPriceType(comboBoxMeau, true);
+                    return comboBoxMeau;
                 }
                 if (Constants.RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    loadPriceType(comboBox, true);
-                    return comboBox;
+                    ComboBox comboBoxTypePri = new ComboBox();
+                    loadPriceType(comboBoxTypePri, true);
+                    return comboBoxTypePri;
                 }
                 if (Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    loadPriceType(comboBox, true);
-                    return comboBox;
+                    ComboBox comboBoxPerPeriod = new ComboBox();
+                    loadPriceType(comboBoxPerPeriod, true);
+                    return comboBoxPerPeriod;
                 }
                 if (Constants.RESET_ELIGIBLE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
-                    return comboBox;
+                    ComboBox comboBoxElig = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxElig, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBoxElig;
                 }
                 if (Constants.RESET_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.RESET_TYPE_COLUMN_NAME, true);
-                    return comboBox;
+                    ComboBox comboBoxProInit = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxProInit, Constants.RESET_TYPE_COLUMN_NAME, true);
+                    return comboBoxProInit;
                 }
                 if (Constants.RESET_INTERVAL_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, true);
-                    return comboBox;
+                    ComboBox comboBoxx = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxx, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, true);
+                    return comboBoxx;
                 }
                 if (Constants.RESET_FREQUENCY_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, true);
-                    return comboBox;
+                    ComboBox comboBoxPro = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxPro, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, true);
+                    return comboBoxPro;
                 }
                 if (Constants.NET_RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
-                    return comboBox;
+                    ComboBox comboBoxNet = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxNet, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBoxNet;
                 }
                 if (Constants.NET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
-                    return comboBox;
+                    ComboBox comboBoxProper = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxProper, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBoxProper;
                 }
                 if (Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
-                    return comboBox;
+                    ComboBox comboBoxProp = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxProp, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBoxProp;
                 }
                 if (Constants.BASELINE_NET_WAC_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
-                    return comboBox;
+                    ComboBox comboBoxWac = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxWac, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBoxWac;
                 }
                 return null;
             }
@@ -946,7 +945,7 @@ public class AddContractSelection extends CustomComponent {
                 if (vCntHolder.getData() != null) {
                     ComponentLookUpDTO object = (ComponentLookUpDTO) vCntHolder.getData();
                     vCntHolder.setValue(object.getComponentName());
-                    binderDto.setContractHolder_SID(object.getMasterSid());
+                    binderDto.setContractHolderSid(object.getMasterSid());
                 }
             }
         });
@@ -968,7 +967,7 @@ public class AddContractSelection extends CustomComponent {
                 if (cfp.getData() != null) {
                     ComponentLookUpDTO object = (ComponentLookUpDTO) cfp.getData();
                     cfp.setValue(object.getComponentName());
-                    binderDto.setCfp_SID(object.getMasterSid());
+                    binderDto.setCfpSid(object.getMasterSid());
                 }
             }
         });
@@ -991,8 +990,8 @@ public class AddContractSelection extends CustomComponent {
                     ComponentLookUpDTO object = (ComponentLookUpDTO) vCntNo.getData();
                     vCntNo.setValue(object.getComponentNo());
                     vCntName.setValue(object.getComponentNo());
-                    binderDto.setContractNo_SID(object.getMasterSid());
-                    binderDto.setContractName_SID(object.getMasterSid());
+                    binderDto.setContractNoSid(object.getMasterSid());
+                    binderDto.setContractNameSid(object.getMasterSid());
                 }
             }
         });
@@ -1014,7 +1013,7 @@ public class AddContractSelection extends CustomComponent {
                 if (ifp.getData() != null) {
                     ComponentLookUpDTO object = (ComponentLookUpDTO) ifp.getData();
                     ifp.setValue(object.getComponentName());
-                    binderDto.setIfp_SID(object.getMasterSid());
+                    binderDto.setIfpSid(object.getMasterSid());
                 }
             }
         });
@@ -1037,8 +1036,8 @@ public class AddContractSelection extends CustomComponent {
                     ComponentLookUpDTO object = (ComponentLookUpDTO) vCntName.getData();
                     vCntNo.setValue(object.getComponentNo());
                     vCntName.setValue(object.getComponentNo());
-                    binderDto.setContractNo_SID(object.getMasterSid());
-                    binderDto.setContractName_SID(object.getMasterSid());
+                    binderDto.setContractNoSid(object.getMasterSid());
+                    binderDto.setContractNameSid(object.getMasterSid());
                 }
             }
         });
@@ -1060,7 +1059,7 @@ public class AddContractSelection extends CustomComponent {
                 if (vPriceSchdle.getData() != null) {
                     ComponentLookUpDTO object = (ComponentLookUpDTO) vPriceSchdle.getData();
                     vPriceSchdle.setValue(object.getComponentName());
-                    binderDto.setPs_SID(object.getMasterSid());
+                    binderDto.setPsSid(object.getMasterSid());
                 }
             }
         });
@@ -1083,7 +1082,7 @@ public class AddContractSelection extends CustomComponent {
                     ComponentLookUpDTO object = (ComponentLookUpDTO) vCustNo.getData();
                     vCustNo.setValue(object.getComponentNo());
                     vCustName.setValue(object.getComponentName());
-                    binderDto.setCustomer_SID(object.getMasterSid());
+                    binderDto.setCustomerSid(object.getMasterSid());
                 }
             }
         });
@@ -1106,7 +1105,7 @@ public class AddContractSelection extends CustomComponent {
                     ComponentLookUpDTO object = (ComponentLookUpDTO) vCustName.getData();
                     vCustNo.setValue(object.getComponentNo());
                     vCustName.setValue(object.getComponentName());
-                    binderDto.setCustomer_SID(object.getMasterSid());
+                    binderDto.setCustomerSid(object.getMasterSid());
                 }
             }
         });
@@ -1129,7 +1128,7 @@ public class AddContractSelection extends CustomComponent {
                     if (rsSchedule.getData() != null) {
                         ComponentLookUpDTO object = (ComponentLookUpDTO) rsSchedule.getData();
                         rsSchedule.setValue(object.getComponentName());
-                        binderDto.setRs_SID(object.getMasterSid());
+                        binderDto.setRsSid(object.getMasterSid());
                     }
                 }
             });
@@ -1158,7 +1157,7 @@ public class AddContractSelection extends CustomComponent {
      * Load Market Type
      */
     private void loadMarketType() {
-        logic.LazyLoadDdlb(marketType_DTO, "Load Market Type Count", "Load Market Type", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(marketTypeDTO, "Load Market Type Count", "Load Market Type", BooleanConstant.getFalseFlag());
     }
 
     /**
@@ -1178,13 +1177,13 @@ public class AddContractSelection extends CustomComponent {
         input.add(AbstractLogic.getItemIds(selecteditemList));
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
-        if (binderDto.getContractNo_SID() != null && !binderDto.getContractNo_SID().isEmpty()) {
-            input.add(binderDto.getContractNo_SID().replace('*', '%'));
+        if (binderDto.getContractNoSid() != null && !binderDto.getContractNoSid().isEmpty()) {
+            input.add(binderDto.getContractNoSid().replace('*', '%'));
         } else {
             input.add("%");
         }
-        if (binderDto.getContractName_SID() != null && !binderDto.getContractName_SID().isEmpty()) {
-            input.add(binderDto.getContractName_SID().replace('*', '%'));
+        if (binderDto.getContractNameSid() != null && !binderDto.getContractNameSid().isEmpty()) {
+            input.add(binderDto.getContractNameSid().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -1201,46 +1200,46 @@ public class AddContractSelection extends CustomComponent {
             input.add(" ");
         }
         input.add(AbstractLogic.getItemIds(selecteditemList));
-        if (binderDto.getContractHolder_SID() != null && !binderDto.getContractHolder_SID().isEmpty()) {
-            input.add(binderDto.getContractHolder_SID().replace('*', '%'));
+        if (binderDto.getContractHolderSid() != null && !binderDto.getContractHolderSid().isEmpty()) {
+            input.add(binderDto.getContractHolderSid().replace('*', '%'));
         } else {
             input.add("%");
         }
 
-        if (binderDto.getMarketType_DTO() != null) {
-            input.add(binderDto.getMarketType_DTO().getId());
+        if (binderDto.getMarketTypeDto() != null) {
+            input.add(binderDto.getMarketTypeDto().getId());
         } else {
             input.add("%");
         }
 
-        if (binderDto.getCfp_SID() != null && !binderDto.getCfp_SID().isEmpty()) {
-            input.add(binderDto.getCfp_SID().replace('*', '%'));
+        if (binderDto.getCfpSid() != null && !binderDto.getCfpSid().isEmpty()) {
+            input.add(binderDto.getCfpSid().replace('*', '%'));
         } else {
             input.add("%");
         }
-        if (binderDto.getCustomer_SID() != null && !binderDto.getCustomer_SID().isEmpty()) {
-            input.add(binderDto.getCustomer_SID().replace('*', '%'));
+        if (binderDto.getCustomerSid() != null && !binderDto.getCustomerSid().isEmpty()) {
+            input.add(binderDto.getCustomerSid().replace('*', '%'));
         } else {
             input.add("%");
         }
-        if (binderDto.getCustomer_SID() != null && !binderDto.getCustomer_SID().isEmpty()) {
-            input.add(binderDto.getCustomer_SID().replace('*', '%'));
+        if (binderDto.getCustomerSid() != null && !binderDto.getCustomerSid().isEmpty()) {
+            input.add(binderDto.getCustomerSid().replace('*', '%'));
         } else {
             input.add("%");
         }
 
-        if (binderDto.getIfp_SID() != null && !binderDto.getIfp_SID().isEmpty()) {
-            input.add(binderDto.getIfp_SID().replace('*', '%'));
+        if (binderDto.getIfpSid() != null && !binderDto.getIfpSid().isEmpty()) {
+            input.add(binderDto.getIfpSid().replace('*', '%'));
         } else {
             input.add("%");
         }
-        if (binderDto.getPs_SID() != null && !binderDto.getPs_SID().isEmpty()) {
-            input.add(binderDto.getPs_SID().replace('*', '%'));
+        if (binderDto.getPsSid() != null && !binderDto.getPsSid().isEmpty()) {
+            input.add(binderDto.getPsSid().replace('*', '%'));
         } else {
             input.add("%");
         }
-        if (binderDto.getRs_SID() != null && !binderDto.getRs_SID().isEmpty()) {
-            input.add(binderDto.getRs_SID().replace('*', '%'));
+        if (binderDto.getRsSid() != null && !binderDto.getRsSid().isEmpty()) {
+            input.add(binderDto.getRsSid().replace('*', '%'));
         } else {
             input.add("%");
         }

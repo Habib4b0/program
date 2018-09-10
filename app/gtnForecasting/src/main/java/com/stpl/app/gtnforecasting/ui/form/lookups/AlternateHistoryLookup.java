@@ -36,7 +36,7 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class AlternateHistoryLookup.
  *
@@ -210,13 +210,7 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
                 }
 
             }
-        } catch (CommitException e) {
-
-            LOGGER.error(e.getMessage());
-        } catch (SystemException e) {
-
-            LOGGER.error(e.getMessage());
-        } catch (Exception e) {
+        } catch (SystemException | CommitException e) {
 
             LOGGER.error(e.getMessage());
         }

@@ -93,30 +93,30 @@ public class Exixtingcomponent extends CustomComponent {
     private VerticalLayout levelDetailsResultsLayout;
     private final TreeTable dashboardResultsTable;
     @UiField("ComponenttypeEC")
-    private ComboBox ComponenttypeNC;
+    private ComboBox componenttypeNC;
     @UiField("SearchfieldEC")
-    private ComboBox SearchfieldEC;
+    private ComboBox searchfieldEC;
     @UiField("SearchfieldECDDlb")
-    private ComboBox SearchfieldECDDlb;
+    private ComboBox searchfieldECDDlb;
     @UiField("SearchvaluedEC")
-    private TextField SearchvaluedEC;
+    private TextField searchvaluedEC;
     @UiField("componentInformationGrid")
     private GridLayout componentInformationGrid;
     private final BeanItemContainer componentDetailsContainer = new BeanItemContainer(ExistingComponentDTO.class);
     public static final String PLEASE_SELECT_CORRECT_NODE = "Please Select Correct Node";
     public static final String THERE_WERE_NO_RECORDS_MATCHING = "There were no records matching the search criteria.  Please try again.";
-    private final TextField CFPname = new TextField();
+    private final TextField cfpName = new TextField();
     @UiField("contractDashBoardLayout")
     private VerticalLayout contractDashBoardLayout;
-    private final TextField CFPno = new TextField();
-    private final TextField CFPid = new TextField();
-    private final TextField CFPstatus = new TextField();
+    private final TextField cfpNo = new TextField();
+    private final TextField cfpId = new TextField();
+    private final TextField cfpStatus = new TextField();
     private final TextField sdate = new TextField();
     private final TextField edate = new TextField();
-    private final TextField CFPtype = new TextField();
-    private final TextField CFPcategory = new TextField();
-    private final TextField CFPtradeclass = new TextField();
-    private final TextField CFPdesignation = new TextField();
+    private final TextField cfpType = new TextField();
+    private final TextField cfpCategory = new TextField();
+    private final TextField cfpTradeClass = new TextField();
+    private final TextField cfpDesignation = new TextField();
     @UiField("componentDetails")
     private Panel componentDetails;
     @UiField("componentDetailsSelectedItemPanel")
@@ -126,7 +126,7 @@ public class Exixtingcomponent extends CustomComponent {
     @UiField("contractComponentDetails")
     private Panel contractComponentDetails;
     @UiField("BtnsearchEC")
-    private Button BtnsearchEC;
+    private Button btnSearchEC;
     @UiField("resultpop")
     private Button resultpop;
     @UiField("levelRemoveBtn")
@@ -167,7 +167,7 @@ public class Exixtingcomponent extends CustomComponent {
     private final BeanItemContainer<CopyComponentDTO> contractInfoContainer = new BeanItemContainer<>(CopyComponentDTO.class);
     private ExistingComponentDTO selectedItemDto;
     
-    private final CopyContractLogic CopyContractLogic = new CopyContractLogic();
+    private final CopyContractLogic copyContractLogic = new CopyContractLogic();
     private final ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
     private final CommonUtil commonUtil = CommonUtil.getInstance();
     public static final String SAVED_SYSTEM_ID = "savedSystemId";
@@ -178,6 +178,9 @@ public class Exixtingcomponent extends CustomComponent {
     private final ExtPagedTable componentDetailsTable = new ExtPagedTable(componentDetailsTableLogic);
     private final ExistingLevelDataTableLogic componentLevelTableLogic = new ExistingLevelDataTableLogic();
     private final ExtPagedTable levelDetailsResultsTable = new ExtPagedTable(componentLevelTableLogic);
+    private static final Object[] NEW_IFP_DETAILS_COLUMNS = new Object[] { Constants.ITEM_NO_PROPERTY,
+			Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY,
+			Constants.START_DATE, Constants.END_DATE, Constants.ATTACHED_DATE_PROPERTY };
 
     public Exixtingcomponent(TreeTable contractDashBoardTable,ExtTreeContainer<CopyComponentDTO> dashBoardContainer) {
         this.dashboardResultsTable = contractDashBoardTable;
@@ -196,18 +199,18 @@ public class Exixtingcomponent extends CustomComponent {
             componentDetailsSelectedItemPanel.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
             componentDetailsSelectedItemPanel.setHeight(NumericConstants.HUNDRED,Unit.PERCENTAGE);
             contractDashBoardResults.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
-            ComponenttypeNC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-            ComponenttypeNC.setNullSelectionAllowed(true);
-            ComponenttypeNC.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-            ComponenttypeNC.addItem(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN);
-            ComponenttypeNC.addItem(Constants.IndicatorConstants.ITEM_FAMILY_PLAN);
-            ComponenttypeNC.addItem(Constants.IndicatorConstants.PRICE_SCHEDULE);
-            ComponenttypeNC.addItem(Constants.IndicatorConstants.REBATE_SCHEDULE);
-            ComponenttypeNC.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-            SearchfieldEC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-            SearchfieldEC.setNullSelectionAllowed(true);
-            SearchfieldEC.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-            ComponenttypeNC.setImmediate(true);
+            componenttypeNC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+            componenttypeNC.setNullSelectionAllowed(true);
+            componenttypeNC.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+            componenttypeNC.addItem(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN);
+            componenttypeNC.addItem(Constants.IndicatorConstants.ITEM_FAMILY_PLAN);
+            componenttypeNC.addItem(Constants.IndicatorConstants.PRICE_SCHEDULE);
+            componenttypeNC.addItem(Constants.IndicatorConstants.REBATE_SCHEDULE);
+            componenttypeNC.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+            searchfieldEC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+            searchfieldEC.setNullSelectionAllowed(true);
+            searchfieldEC.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+            componenttypeNC.setImmediate(true);
             dashboardResultsTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             dashboardResultsTable.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             
@@ -219,16 +222,16 @@ public class Exixtingcomponent extends CustomComponent {
             dashboardResultsTable.setSelectable(true);
             dashboardResultsTable.setMultiSelect(false);
             
-            CFPname.setEnabled(false);
-            CFPno.setEnabled(false);
-            CFPid.setEnabled(false);
-            CFPstatus.setEnabled(false);
+            cfpName.setEnabled(false);
+            cfpNo.setEnabled(false);
+            cfpId.setEnabled(false);
+            cfpStatus.setEnabled(false);
             sdate.setEnabled(false);
             edate.setEnabled(false);
-            CFPtype.setEnabled(false);
-            CFPcategory.setEnabled(false);
-            CFPtradeclass.setEnabled(false);
-            CFPdesignation.setEnabled(false);
+            cfpType.setEnabled(false);
+            cfpCategory.setEnabled(false);
+            cfpTradeClass.setEnabled(false);
+            cfpDesignation.setEnabled(false);
             componentResultsSearchTable.addListener(new ItemClickEvent.ItemClickListener() {
                 @Override
                 public void itemClick(ItemClickEvent event) {
@@ -242,16 +245,16 @@ public class Exixtingcomponent extends CustomComponent {
                     if (resultsLazyContainer6 != null) {
                         resultsLazyContainer6.removeAllItems();
                     }
-                    if (Constants.COMPANY_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+                    if (Constants.COMPANY_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
                         selectedItemDto = (ExistingComponentDTO) event.getItemId();
                     }
-                    if (Constants.ITEM_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+                    if (Constants.ITEM_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
                         selectedItemDto = (ExistingComponentDTO) event.getItemId();
                     }
-                    if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+                    if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
                         selectedItemDto = (ExistingComponentDTO) event.getItemId();
                     }
-                    if (Constants.REBATE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+                    if (Constants.REBATE_SCHEDULE.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
                         selectedItemDto = (ExistingComponentDTO) event.getItemId();
                     }
                     
@@ -281,7 +284,7 @@ public class Exixtingcomponent extends CustomComponent {
     }
 
     @UiHandler("ComponenttypeEC")
-    public void ComponenttypeChange(Property.ValueChangeEvent event) {
+    public void componenttypeChange(Property.ValueChangeEvent event) {
 
         loadComponentResultsSection();
         componentInformationGrid.removeAllComponents();
@@ -305,111 +308,111 @@ public class Exixtingcomponent extends CustomComponent {
     }
 
     @UiHandler("SearchfieldEC")
-    public void SearchfieldECChange(Property.ValueChangeEvent event) {
-        SearchfieldECDDlb.removeAllItems();
-        if (SearchfieldEC.getValue() != null && SearchfieldEC.getValue().toString().contains(Constants.STATUS_FIELD)) {
-            SearchfieldECDDlb.setVisible(true);
-            commonUtil.loadComboBox(SearchfieldECDDlb, UiUtils.STATUS, false);
-            SearchfieldECDDlb.setValidationVisible(true);
-            SearchvaluedEC.setVisible(false);
-        } else if (SearchfieldEC.getValue() != null && SearchfieldEC.getValue().toString().contains("Type")) {
+    public void searchFieldEcChange(Property.ValueChangeEvent event) {
+        searchfieldECDDlb.removeAllItems();
+        if (searchfieldEC.getValue() != null && searchfieldEC.getValue().toString().contains(Constants.STATUS_FIELD)) {
+            searchfieldECDDlb.setVisible(true);
+            commonUtil.loadComboBox(searchfieldECDDlb, UiUtils.STATUS, false);
+            searchfieldECDDlb.setValidationVisible(true);
+            searchvaluedEC.setVisible(false);
+        } else if (searchfieldEC.getValue() != null && searchfieldEC.getValue().toString().contains("Type")) {
 
-            SearchfieldECDDlb.setVisible(true);
-            SearchfieldECDDlb.setNullSelectionItemId(Constants.ZEROSTRING);
-            if (SearchfieldEC.getValue().toString().contains(Constants.CFP)) {
-                commonUtil.loadComboBox(SearchfieldECDDlb, UiUtils.CFP_TYPE, false);
+            searchfieldECDDlb.setVisible(true);
+            searchfieldECDDlb.setNullSelectionItemId(Constants.ZEROSTRING);
+            if (searchfieldEC.getValue().toString().contains(Constants.CFP)) {
+                commonUtil.loadComboBox(searchfieldECDDlb, UiUtils.CFP_TYPE, false);
             }
-            if (SearchfieldEC.getValue().toString().contains(Constants.IFP)) {
-                commonUtil.loadComboBox(SearchfieldECDDlb, UiUtils.IFP_TYPE, false);
+            if (searchfieldEC.getValue().toString().contains(Constants.IFP)) {
+                commonUtil.loadComboBox(searchfieldECDDlb, UiUtils.IFP_TYPE, false);
             }
-            if (SearchfieldEC.getValue().toString().contains(Constants.PS)) {
-                commonUtil.loadComboBox(SearchfieldECDDlb, UiUtils.PS_TYPE, false);
+            if (searchfieldEC.getValue().toString().contains(Constants.PS)) {
+                commonUtil.loadComboBox(searchfieldECDDlb, UiUtils.PS_TYPE, false);
             }
-            if (SearchfieldEC.getValue().toString().contains(Constants.RS)) {
-                commonUtil.loadComboBox(SearchfieldECDDlb, UiUtils.RS_TYPE, false);
+            if (searchfieldEC.getValue().toString().contains(Constants.RS)) {
+                commonUtil.loadComboBox(searchfieldECDDlb, UiUtils.RS_TYPE, false);
             }
-            SearchfieldECDDlb.setImmediate(true);
-            SearchfieldECDDlb.setValidationVisible(true);
-            SearchvaluedEC.setVisible(false);
+            searchfieldECDDlb.setImmediate(true);
+            searchfieldECDDlb.setValidationVisible(true);
+            searchvaluedEC.setVisible(false);
 
         } else {
-            SearchfieldECDDlb.removeAllItems();
-            SearchfieldECDDlb.setVisible(false);
-            SearchvaluedEC.setVisible(true);
-            SearchvaluedEC.setValue(StringUtils.EMPTY);
+            searchfieldECDDlb.removeAllItems();
+            searchfieldECDDlb.setVisible(false);
+            searchvaluedEC.setVisible(true);
+            searchvaluedEC.setValue(StringUtils.EMPTY);
         }
 
     }
 
     private void loadComponentResultsSection() {
-        SearchfieldEC.removeAllItems();
-        SearchfieldEC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        SearchfieldEC.setNullSelectionAllowed(true);
-        SearchfieldEC.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        if (Constants.COMPANY_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
-            SearchfieldEC.addItem("CFP ID");
-            SearchfieldEC.addItem("CFP No");
-            SearchfieldEC.addItem("CFP Name");
-            SearchfieldEC.addItem("CFP Status");
-            SearchfieldEC.addItem("CFP Type");
+        searchfieldEC.removeAllItems();
+        searchfieldEC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        searchfieldEC.setNullSelectionAllowed(true);
+        searchfieldEC.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        if (Constants.COMPANY_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
+            searchfieldEC.addItem("CFP ID");
+            searchfieldEC.addItem("CFP No");
+            searchfieldEC.addItem("CFP Name");
+            searchfieldEC.addItem("CFP Status");
+            searchfieldEC.addItem("CFP Type");
             componentResultsSearchTable.setVisibleColumns(Constants.getInstance().copycontractCfpResultsColumns);
             componentResultsSearchTable.setColumnHeaders(Constants.getInstance().copycontractCfpResultsHeaders);
             componentDetailsTable.setVisibleColumns(UiUtils.getInstance().newCompanyDetailsColumns);
             componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newCompanyDetailsHeaders);
         }
 
-        if (Constants.ITEM_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
-            SearchfieldEC.addItem(Constants.IFP_ID);
-            SearchfieldEC.addItem(Constants.IFP_NO);
-            SearchfieldEC.addItem(Constants.IFP_NAME_LABEL);
-            SearchfieldEC.addItem(Constants.IFP_STATUS);
-            SearchfieldEC.addItem(Constants.IFPTYPE);
+        if (Constants.ITEM_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
+            searchfieldEC.addItem(Constants.IFP_ID);
+            searchfieldEC.addItem(Constants.IFP_NO);
+            searchfieldEC.addItem(Constants.IFP_NAME_LABEL);
+            searchfieldEC.addItem(Constants.IFP_STATUS);
+            searchfieldEC.addItem(Constants.IFPTYPE);
             componentResultsSearchTable.setVisibleColumns(Constants.getInstance().copycontractIfpResultsColumns);
             componentResultsSearchTable.setColumnHeaders(Constants.getInstance().copycontractIfpResultsHeaders);
-            componentDetailsTable.setVisibleColumns(UiUtils.getInstance().newIfpDetailsColumns);
-            componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newIfpDetailsHeaders);
+            componentDetailsTable.setVisibleColumns(NEW_IFP_DETAILS_COLUMNS);
+            componentDetailsTable.setColumnHeaders(UiUtils.getNewIfpDetailsHeaders());
         }
 
-        if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+        if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
             componentResultsSearchTable.setVisibleColumns(Constants.getInstance().copycontractPsResultsColumns);
             componentResultsSearchTable.setColumnHeaders(Constants.getInstance().copycontractPsResultsHeaders);
-            SearchfieldEC.addItem("PS ID");
-            SearchfieldEC.addItem("PS No");
-            SearchfieldEC.addItem("PS Name");
-            SearchfieldEC.addItem("PS Status");
-            SearchfieldEC.addItem("PS Type");
+            searchfieldEC.addItem("PS ID");
+            searchfieldEC.addItem("PS No");
+            searchfieldEC.addItem("PS Name");
+            searchfieldEC.addItem("PS Status");
+            searchfieldEC.addItem("PS Type");
             componentDetailsTable.setVisibleColumns(UiUtils.getInstance().newPsDetailsColumns);
             componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newPsDetailsHeaders);
 
         }
 
-        if (Constants.REBATE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+        if (Constants.REBATE_SCHEDULE.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
             componentResultsSearchTable.setVisibleColumns(Constants.getInstance().copycontractRsResultsColumns);
             componentResultsSearchTable.setColumnHeaders(Constants.getInstance().copycontractRsResultsHeaders);
-            SearchfieldEC.addItem("RS ID");
-            SearchfieldEC.addItem("RS No");
-            SearchfieldEC.addItem("RS Name");
-            SearchfieldEC.addItem("RS Status");
-            SearchfieldEC.addItem("RS Type");
+            searchfieldEC.addItem("RS ID");
+            searchfieldEC.addItem("RS No");
+            searchfieldEC.addItem("RS Name");
+            searchfieldEC.addItem("RS Status");
+            searchfieldEC.addItem("RS Type");
             componentDetailsTable.setVisibleColumns(UiUtils.getInstance().newRsDetailsColumns);
             componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newRsDetailsHeaders);
         }
     }
 
     private void loadComponentInformationSection() {
-        if (Constants.COMPANY_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+        if (Constants.COMPANY_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
             componentInformationGrid.addComponent(new Label("CFP ID:"));
-            componentInformationGrid.addComponent(CFPid);
-            CFPid.setValue(StringUtils.EMPTY);
+            componentInformationGrid.addComponent(cfpId);
+            cfpId.setValue(StringUtils.EMPTY);
             componentInformationGrid.addComponent(new Label("CFP No:"));
-            componentInformationGrid.addComponent(CFPno);
-            CFPno.setValue(StringUtils.EMPTY);
+            componentInformationGrid.addComponent(cfpNo);
+            cfpNo.setValue(StringUtils.EMPTY);
             componentInformationGrid.addComponent(new Label("CFP Name:"));
-            componentInformationGrid.addComponent(CFPname);
-            CFPname.setValue(StringUtils.EMPTY);
+            componentInformationGrid.addComponent(cfpName);
+            cfpName.setValue(StringUtils.EMPTY);
             componentInformationGrid.addComponent(new Label("CFP Status:"));
-            componentInformationGrid.addComponent(CFPstatus);
-            CFPstatus.setValue(StringUtils.EMPTY);
+            componentInformationGrid.addComponent(cfpStatus);
+            cfpStatus.setValue(StringUtils.EMPTY);
             componentInformationGrid.addComponent(new Label("CFP Start Date:"));
             componentInformationGrid.addComponent(sdate);
             sdate.setValue(StringUtils.EMPTY);
@@ -417,146 +420,146 @@ public class Exixtingcomponent extends CustomComponent {
             componentInformationGrid.addComponent(edate);
             edate.setValue(StringUtils.EMPTY);
             componentInformationGrid.addComponent(new Label("CFP Type:"));
-            componentInformationGrid.addComponent(CFPtype);
-            CFPtype.setValue(StringUtils.EMPTY);
+            componentInformationGrid.addComponent(cfpType);
+            cfpType.setValue(StringUtils.EMPTY);
             componentInformationGrid.addComponent(new Label("CFP Category:"));
-            componentInformationGrid.addComponent(CFPcategory);
-            CFPcategory.setValue(StringUtils.EMPTY);
+            componentInformationGrid.addComponent(cfpCategory);
+            cfpCategory.setValue(StringUtils.EMPTY);
             componentInformationGrid.addComponent(new Label("CFP Designation:"));
-            componentInformationGrid.addComponent(CFPdesignation);
-            CFPdesignation.setValue(StringUtils.EMPTY);
-        } else if (Constants.ITEM_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+            componentInformationGrid.addComponent(cfpDesignation);
+            cfpDesignation.setValue(StringUtils.EMPTY);
+        } else if (Constants.ITEM_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
             componentInformationGrid.addComponent(new Label("IFP ID:"));
-            componentInformationGrid.addComponent(CFPid);
+            componentInformationGrid.addComponent(cfpId);
             componentInformationGrid.addComponent(new Label("IFP No:"));
-            componentInformationGrid.addComponent(CFPno);
+            componentInformationGrid.addComponent(cfpNo);
             componentInformationGrid.addComponent(new Label("IFP Name:"));
-            componentInformationGrid.addComponent(CFPname);
+            componentInformationGrid.addComponent(cfpName);
             componentInformationGrid.addComponent(new Label("IFP Status:"));
-            componentInformationGrid.addComponent(CFPstatus);
+            componentInformationGrid.addComponent(cfpStatus);
             componentInformationGrid.addComponent(new Label("IFP Start Date:"));
             componentInformationGrid.addComponent(sdate);
             componentInformationGrid.addComponent(new Label("IFP End Date:"));
             componentInformationGrid.addComponent(edate);
             componentInformationGrid.addComponent(new Label("IFP Type:"));
-            componentInformationGrid.addComponent(CFPtype);
+            componentInformationGrid.addComponent(cfpType);
             componentInformationGrid.addComponent(new Label("IFP Designation:"));
-            componentInformationGrid.addComponent(CFPdesignation);
-            CFPid.setValue(StringUtils.EMPTY);
-            CFPno.setValue(StringUtils.EMPTY);
-            CFPname.setValue(StringUtils.EMPTY);
-            CFPstatus.setValue(StringUtils.EMPTY);
+            componentInformationGrid.addComponent(cfpDesignation);
+            cfpId.setValue(StringUtils.EMPTY);
+            cfpNo.setValue(StringUtils.EMPTY);
+            cfpName.setValue(StringUtils.EMPTY);
+            cfpStatus.setValue(StringUtils.EMPTY);
             sdate.setValue(StringUtils.EMPTY);
             edate.setValue(StringUtils.EMPTY);
-            CFPtype.setValue(StringUtils.EMPTY);
-            CFPdesignation.setValue(StringUtils.EMPTY);
+            cfpType.setValue(StringUtils.EMPTY);
+            cfpDesignation.setValue(StringUtils.EMPTY);
 
-        } else if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+        } else if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
             componentInformationGrid.addComponent(new Label("PS ID:"));
-            componentInformationGrid.addComponent(CFPid);
+            componentInformationGrid.addComponent(cfpId);
             componentInformationGrid.addComponent(new Label("PS No:"));
-            componentInformationGrid.addComponent(CFPno);
+            componentInformationGrid.addComponent(cfpNo);
             componentInformationGrid.addComponent(new Label("PS Name:"));
-            componentInformationGrid.addComponent(CFPname);
+            componentInformationGrid.addComponent(cfpName);
             componentInformationGrid.addComponent(new Label("PS Status:"));
-            componentInformationGrid.addComponent(CFPstatus);
+            componentInformationGrid.addComponent(cfpStatus);
             componentInformationGrid.addComponent(new Label("PS Start Date:"));
             componentInformationGrid.addComponent(sdate);
             componentInformationGrid.addComponent(new Label("PS End Date:"));
             componentInformationGrid.addComponent(edate);
             componentInformationGrid.addComponent(new Label("PS Type:"));
-            componentInformationGrid.addComponent(CFPtype);
+            componentInformationGrid.addComponent(cfpType);
             componentInformationGrid.addComponent(new Label("PS Designation:"));
-            componentInformationGrid.addComponent(CFPdesignation);
-            CFPid.setValue(StringUtils.EMPTY);
-            CFPno.setValue(StringUtils.EMPTY);
-            CFPname.setValue(StringUtils.EMPTY);
-            CFPstatus.setValue(StringUtils.EMPTY);
+            componentInformationGrid.addComponent(cfpDesignation);
+            cfpId.setValue(StringUtils.EMPTY);
+            cfpNo.setValue(StringUtils.EMPTY);
+            cfpName.setValue(StringUtils.EMPTY);
+            cfpStatus.setValue(StringUtils.EMPTY);
             sdate.setValue(StringUtils.EMPTY);
             edate.setValue(StringUtils.EMPTY);
-            CFPtype.setValue(StringUtils.EMPTY);
-            CFPdesignation.setValue(StringUtils.EMPTY);
+            cfpType.setValue(StringUtils.EMPTY);
+            cfpDesignation.setValue(StringUtils.EMPTY);
         }
-        if (Constants.REBATE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+        if (Constants.REBATE_SCHEDULE.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
             componentInformationGrid.addComponent(new Label("RS ID:"));
-            componentInformationGrid.addComponent(CFPid);
+            componentInformationGrid.addComponent(cfpId);
             componentInformationGrid.addComponent(new Label("RS Status:"));
-            componentInformationGrid.addComponent(CFPstatus);
+            componentInformationGrid.addComponent(cfpStatus);
             componentInformationGrid.addComponent(new Label("RS Frequency:"));
-            componentInformationGrid.addComponent(CFPtype);
+            componentInformationGrid.addComponent(cfpType);
             componentInformationGrid.addComponent(new Label("RS Number:"));
-            componentInformationGrid.addComponent(CFPno);
+            componentInformationGrid.addComponent(cfpNo);
             componentInformationGrid.addComponent(new Label("Start Date:"));
             componentInformationGrid.addComponent(sdate);
             componentInformationGrid.addComponent(new Label("RAR Type:"));
-            componentInformationGrid.addComponent(CFPcategory);
+            componentInformationGrid.addComponent(cfpCategory);
             componentInformationGrid.addComponent(new Label("RS Name:"));
-            componentInformationGrid.addComponent(CFPname);
+            componentInformationGrid.addComponent(cfpName);
             componentInformationGrid.addComponent(new Label("End Date:"));
             componentInformationGrid.addComponent(edate);
             componentInformationGrid.addComponent(new Label("Basis:"));
-            componentInformationGrid.addComponent(CFPdesignation);
-            CFPid.setValue(StringUtils.EMPTY);
-            CFPstatus.setValue(StringUtils.EMPTY);
-            CFPtype.setValue(StringUtils.EMPTY);
-            CFPno.setValue(StringUtils.EMPTY);
+            componentInformationGrid.addComponent(cfpDesignation);
+            cfpId.setValue(StringUtils.EMPTY);
+            cfpStatus.setValue(StringUtils.EMPTY);
+            cfpType.setValue(StringUtils.EMPTY);
+            cfpNo.setValue(StringUtils.EMPTY);
             sdate.setValue(StringUtils.EMPTY);
             edate.setValue(StringUtils.EMPTY);
-            CFPtype.setValue(StringUtils.EMPTY);
-            CFPdesignation.setValue(StringUtils.EMPTY);
-            CFPcategory.setValue(StringUtils.EMPTY);
+            cfpType.setValue(StringUtils.EMPTY);
+            cfpDesignation.setValue(StringUtils.EMPTY);
+            cfpCategory.setValue(StringUtils.EMPTY);
 
         }
     }
 
     @UiHandler("BtnsearchEC")
-    public void BtnsearchECClick(Button.ClickEvent event) {
+    public void btnSearchEcClick(Button.ClickEvent event) {
         LOGGER.debug("Entered search method");
 
-        if (ComponenttypeNC.getValue() != null && SearchfieldEC.getValue() != null && (!SearchvaluedEC.getValue().equalsIgnoreCase(StringUtils.EMPTY) || SearchfieldECDDlb.getValue() != null)) {
+        if (componenttypeNC.getValue() != null && searchfieldEC.getValue() != null && (!searchvaluedEC.getValue().equalsIgnoreCase(StringUtils.EMPTY) || searchfieldECDDlb.getValue() != null)) {
             List input = new ArrayList();
-            if (SearchfieldEC.getValue().toString().contains("ID")) {
-                input.add(SearchvaluedEC.getValue().replace(CHAR_ASTERISK, CHAR_PERCENT));
+            if (searchfieldEC.getValue().toString().contains("ID")) {
+                input.add(searchvaluedEC.getValue().replace(CHAR_ASTERISK, CHAR_PERCENT));
             } else {
                 input.add(Constants.PERCENT);
             }
-            if (SearchfieldEC.getValue().toString().contains("No")) {
-                input.add(SearchvaluedEC.getValue().replace(CHAR_ASTERISK, CHAR_PERCENT));
+            if (searchfieldEC.getValue().toString().contains("No")) {
+                input.add(searchvaluedEC.getValue().replace(CHAR_ASTERISK, CHAR_PERCENT));
             } else {
                 input.add(Constants.PERCENT);
             }
-            if (SearchfieldEC.getValue().toString().contains("Name")) {
-                input.add(SearchvaluedEC.getValue().replace(CHAR_ASTERISK, CHAR_PERCENT));
+            if (searchfieldEC.getValue().toString().contains("Name")) {
+                input.add(searchvaluedEC.getValue().replace(CHAR_ASTERISK, CHAR_PERCENT));
             } else {
                 input.add(Constants.PERCENT);
             }
-            if (SearchfieldEC.getValue().toString().contains("Type")) {
-                input.add(SearchfieldECDDlb.getValue().toString().replace(CHAR_ASTERISK, CHAR_PERCENT));
+            if (searchfieldEC.getValue().toString().contains("Type")) {
+                input.add(searchfieldECDDlb.getValue().toString().replace(CHAR_ASTERISK, CHAR_PERCENT));
                 input.add("");
             } else {
                 input.add(Constants.PERCENT);
-                if (SearchfieldEC.getValue().toString().contains("PS")) {
+                if (searchfieldEC.getValue().toString().contains("PS")) {
                     input.add(" OR ps.PS_TYPE IS NULL");
-                } else if (SearchfieldEC.getValue().toString().contains("RS")) {
+                } else if (searchfieldEC.getValue().toString().contains("RS")) {
                     input.add(" OR rs.RS_TYPE IS NULL");
-                } else if (SearchfieldEC.getValue().toString().contains("CFP")) {
+                } else if (searchfieldEC.getValue().toString().contains("CFP")) {
                     input.add(" OR cfp.CFP_TYPE IS NULL");
-                } else if (SearchfieldEC.getValue().toString().contains("IFP")) {
+                } else if (searchfieldEC.getValue().toString().contains("IFP")) {
                     input.add(" OR ifp.IFP_TYPE IS NULL");
                 }
             }
-            if (SearchfieldEC.getValue().toString().contains(Constants.STATUS_FIELD)) {
-                input.add(SearchfieldECDDlb.getValue().toString().replace(CHAR_ASTERISK, CHAR_PERCENT));
+            if (searchfieldEC.getValue().toString().contains(Constants.STATUS_FIELD)) {
+                input.add(searchfieldECDDlb.getValue().toString().replace(CHAR_ASTERISK, CHAR_PERCENT));
             } else {
                 input.add(Constants.PERCENT);
             }
-            if (Constants.COMPANY_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+            if (Constants.COMPANY_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
                 componentResultsSearchTable.setVisibleColumns(Constants.getInstance().copycontractCfpResultsColumns);
                 componentResultsSearchTable.setColumnHeaders(Constants.getInstance().copycontractCfpResultsHeaders);
                 componentResultsSearchTable.setColumnAlignment("companyFamilyPlanStartDate", ExtCustomTable.Align.CENTER);
                 componentResultsSearchTable.setColumnAlignment("companyFamilyPlanEndDate", ExtCustomTable.Align.CENTER);
             }
-            if (Constants.ITEM_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+            if (Constants.ITEM_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
                 componentResultsSearchTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
                 componentResultsSearchTable.setVisibleColumns(Constants.getInstance().copycontractIfpResultsColumns);
                 componentResultsSearchTable.setColumnHeaders(Constants.getInstance().copycontractIfpResultsHeaders);
@@ -565,7 +568,7 @@ public class Exixtingcomponent extends CustomComponent {
                 componentResultsSearchTable.setRefresh(true);
             }
 
-            if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+            if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
                 componentResultsSearchTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
                 componentResultsSearchTable.setVisibleColumns(Constants.getInstance().copycontractPsResultsColumns);
                 componentResultsSearchTable.setColumnHeaders(Constants.getInstance().copycontractPsResultsHeaders);
@@ -573,7 +576,7 @@ public class Exixtingcomponent extends CustomComponent {
                 componentResultsSearchTable.setColumnAlignment("priceScheduleEndDate", ExtCustomTable.Align.CENTER);
                 componentResultsSearchTable.setRefresh(true);
             }
-            if (Constants.REBATE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
+            if (Constants.REBATE_SCHEDULE.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
                 componentResultsSearchTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
                 componentResultsSearchTable.setVisibleColumns(Constants.getInstance().copycontractRsResultsColumns);
                 componentResultsSearchTable.setColumnHeaders(Constants.getInstance().copycontractRsResultsHeaders);
@@ -581,7 +584,7 @@ public class Exixtingcomponent extends CustomComponent {
                 componentResultsSearchTable.setColumnAlignment("itemRebateStartDate", ExtCustomTable.Align.CENTER);
                 componentResultsSearchTable.setColumnAlignment("itemRebateEndDate", ExtCustomTable.Align.CENTER);
             }
-            if (componentReseultsTableLogic.loadSetData(String.valueOf(ComponenttypeNC.getValue()), input, true)) {
+            if (componentReseultsTableLogic.loadSetData(String.valueOf(componenttypeNC.getValue()), input, true)) {
                 AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS, THERE_WERE_NO_RECORDS_MATCHING);
             }
             LOGGER.debug(
@@ -597,14 +600,14 @@ public class Exixtingcomponent extends CustomComponent {
         selectedItemDto = (ExistingComponentDTO) componentResultsSearchTable.getValue();
         
         if (componentResultsSearchTable.getValue() != null) {
-            if (Constants.COMPANY_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
-                CFPid.setValue(selectedItemDto.getCompanyFamilyPlanId());
-                CFPname.setValue(selectedItemDto.getCompanyFamilyPlanName());
-                CFPno.setValue(selectedItemDto.getCompanyFamilyPlanNo());
-                CFPstatus.setValue(selectedItemDto.getCompanyFamilyPlanStatusValue());
-                CFPtype.setValue(selectedItemDto.getCompanyFamilyPlanTypeValue());
-                CFPcategory.setValue(selectedItemDto.getCompanyFamilyPlanCategoryValue());
-                CFPdesignation.setValue(selectedItemDto.getCompanyFamilyPlanDesignation());
+            if (Constants.COMPANY_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
+                cfpId.setValue(selectedItemDto.getCompanyFamilyPlanId());
+                cfpName.setValue(selectedItemDto.getCompanyFamilyPlanName());
+                cfpNo.setValue(selectedItemDto.getCompanyFamilyPlanNo());
+                cfpStatus.setValue(selectedItemDto.getCompanyFamilyPlanStatusValue());
+                cfpType.setValue(selectedItemDto.getCompanyFamilyPlanTypeValue());
+                cfpCategory.setValue(selectedItemDto.getCompanyFamilyPlanCategoryValue());
+                cfpDesignation.setValue(selectedItemDto.getCompanyFamilyPlanDesignation());
                 sdate.setValue(selectedItemDto.getCompanyFamilyPlanStartDate());
                 edate.setValue(selectedItemDto.getCompanyFamilyPlanEndDate());
                 componentDetailsTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
@@ -618,17 +621,17 @@ public class Exixtingcomponent extends CustomComponent {
                 }
 
             }
-            if (Constants.ITEM_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
-                CFPid.setValue(selectedItemDto.getItemFamilyplanId());
-                CFPname.setValue(selectedItemDto.getItemFamilyplanName());
-                CFPno.setValue(selectedItemDto.getItemFamilyplanNo());
-                CFPstatus.setValue(selectedItemDto.getDisplayIFPStatus());
-                CFPtype.setValue(selectedItemDto.getItemFamilyplanType());
+            if (Constants.ITEM_FAMILY_PLAN.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
+                cfpId.setValue(selectedItemDto.getItemFamilyplanId());
+                cfpName.setValue(selectedItemDto.getItemFamilyplanName());
+                cfpNo.setValue(selectedItemDto.getItemFamilyplanNo());
+                cfpStatus.setValue(selectedItemDto.getDisplayIFPStatus());
+                cfpType.setValue(selectedItemDto.getItemFamilyplanType());
                 sdate.setValue(selectedItemDto.getIfpStartDate());
                 edate.setValue(selectedItemDto.getIfpEndDate());
-                CFPdesignation.setValue(selectedItemDto.getItemFamilyplanDesignation());
-                componentDetailsTable.setVisibleColumns(UiUtils.getInstance().newIfpDetailsColumns);
-                componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newIfpDetailsHeaders);
+                cfpDesignation.setValue(selectedItemDto.getItemFamilyplanDesignation());
+                componentDetailsTable.setVisibleColumns(NEW_IFP_DETAILS_COLUMNS);
+                componentDetailsTable.setColumnHeaders(UiUtils.getNewIfpDetailsHeaders());
                 componentDetailsTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
                 componentDetailsTable.setRefresh(true);
                 componentDetailsTable.setColumnAlignment(Constants.ITEM_START_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
@@ -639,15 +642,15 @@ public class Exixtingcomponent extends CustomComponent {
 
             }
 
-            if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
-                CFPid.setValue(selectedItemDto.getPriceScheduleIdValue());
-                CFPname.setValue(selectedItemDto.getPriceScheduleNameValue());
-                CFPtype.setValue(selectedItemDto.getPriceScheduleTypeValue());
-                CFPno.setValue(selectedItemDto.getPriceScheduleNoValue());
-                CFPstatus.setValue(selectedItemDto.getPriceScheduleStatusValue());
+            if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
+                cfpId.setValue(selectedItemDto.getPriceScheduleIdValue());
+                cfpName.setValue(selectedItemDto.getPriceScheduleNameValue());
+                cfpType.setValue(selectedItemDto.getPriceScheduleTypeValue());
+                cfpNo.setValue(selectedItemDto.getPriceScheduleNoValue());
+                cfpStatus.setValue(selectedItemDto.getPriceScheduleStatusValue());
                 sdate.setValue(selectedItemDto.getPriceScheduleStartDate());
                 edate.setValue(selectedItemDto.getPriceScheduleEndDate());
-                CFPdesignation.setValue(selectedItemDto.getPriceScheduleDesignationValue());
+                cfpDesignation.setValue(selectedItemDto.getPriceScheduleDesignationValue());
                 componentDetailsTable.setVisibleColumns(UiUtils.getInstance().newPsDetailsColumns);
                 componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newPsDetailsHeaders);
                 componentDetailsTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
@@ -660,11 +663,11 @@ public class Exixtingcomponent extends CustomComponent {
 
             }
 
-            if (Constants.REBATE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
-                CFPid.setValue(selectedItemDto.getRebateScheduleId());
-                CFPname.setValue(selectedItemDto.getRebateScheduleName());
-                CFPno.setValue(selectedItemDto.getRebateScheduleNo());
-                CFPstatus.setValue(selectedItemDto.getStatusRebate());
+            if (Constants.REBATE_SCHEDULE.equalsIgnoreCase(String.valueOf(componenttypeNC.getValue()))) {
+                cfpId.setValue(selectedItemDto.getRebateScheduleId());
+                cfpName.setValue(selectedItemDto.getRebateScheduleName());
+                cfpNo.setValue(selectedItemDto.getRebateScheduleNo());
+                cfpStatus.setValue(selectedItemDto.getStatusRebate());
                 sdate.setValue(selectedItemDto.getItemRebateStartDate());
                 edate.setValue(selectedItemDto.getItemRebateEndDate());
                 componentDetailsTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
@@ -700,14 +703,14 @@ public class Exixtingcomponent extends CustomComponent {
             if (root != null) {
                 String levelNo = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.LEVELNO).getValue());
                 int levelNumber = Integer.parseInt(levelNo);
-                String level = String.valueOf(ComponenttypeNC.getValue());
+                String level = String.valueOf(componenttypeNC.getValue());
                 if (level.equals(Constants.COMPANY_FAMILY_PLAN)) {
                     if (1 - levelNumber == 1) {
 
-                        Integer cfpId = selectedItemDto.getCompanyFamilyPlanSystemId();
-                        String query = "select CFP_ID,CFP_NO,CFP_NAME from dbo.CFP_MODEL where CFP_MODEL_SID=" + cfpId;
+                        Integer cfpIdTree = selectedItemDto.getCompanyFamilyPlanSystemId();
+                        String query = "select CFP_ID,CFP_NO,CFP_NAME from dbo.CFP_MODEL where CFP_MODEL_SID=" + cfpIdTree;
                         List cfpList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-                        if (cfpList != null && cfpList.size() > 0) {
+                        if (cfpList != null && !cfpList.isEmpty()) {
                             Object[] obj = (Object[]) cfpList.get(0);
                             final Object rootId = dashboardResultsTable.addItem();
                             dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.CFP);
@@ -715,7 +718,7 @@ public class Exixtingcomponent extends CustomComponent {
                             dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NUMBER).setValue(String.valueOf(obj[1]));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(String.valueOf(obj[NumericConstants.TWO]));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue("1");
-                            dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(String.valueOf(cfpId));
+                            dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(String.valueOf(cfpIdTree));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("2");
                             dashboardResultsTable.setParent(rootId, root);
                             dashboardResultsTable.setChildrenAllowed(rootId, true);
@@ -731,7 +734,7 @@ public class Exixtingcomponent extends CustomComponent {
                         Integer ifpId = selectedItemDto.getIfpDetailsSystemId();
                         String query = "select IFP_ID,IFP_NO,IFP_NAME from dbo.IFP_MODEL where IFP_MODEL_SID=" + ifpId;
                         List cfpList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-                        if (cfpList != null && cfpList.size() > 0) {
+                        if (cfpList != null && !cfpList.isEmpty()) {
                             Object[] obj = (Object[]) cfpList.get(0);
                             final Object rootId = dashboardResultsTable.addItem();
                             dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.IFP);
@@ -753,13 +756,13 @@ public class Exixtingcomponent extends CustomComponent {
                     if (NumericConstants.THREE - levelNumber == 1) {
 
                         String psId = selectedItemDto.getPriceScheduleSystemId();
-                        String Parent = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
-                        String conditionQuery = "select * from PS_DETAILS where PS_MODEL_SID=" + psId + " and IFP_MODEL_SID=" + Parent;
+                        String parent = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
+                        String conditionQuery = "select * from PS_DETAILS where PS_MODEL_SID=" + psId + " and IFP_MODEL_SID=" + parent;
                         List conditionList = HelperTableLocalServiceUtil.executeSelectQuery(conditionQuery);
-                        if (conditionList != null && conditionList.size() > 0) {
+                        if (conditionList != null && !conditionList.isEmpty()) {
                             String query = "select PS_ID,PS_NO,PS_NAME from dbo.PS_MODEL where PS_MODEL_SID=" + psId;
                             List cfpList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-                            if (cfpList != null && cfpList.size() > 0) {
+                            if (cfpList != null && !cfpList.isEmpty()) {
                                 Object[] obj = (Object[]) cfpList.get(0);
                                 final Object rootId = dashboardResultsTable.addItem();
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.PS);
@@ -787,7 +790,7 @@ public class Exixtingcomponent extends CustomComponent {
                         Integer rsId = selectedItemDto.getRebateScheduleSystemId();
                         String query = "select RS_ID,RS_NO,RS_NAME from dbo.RS_MODEL where RS_MODEL_SID=" + rsId;
                         List cfpList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-                        if (cfpList != null && cfpList.size() > 0) {
+                        if (cfpList != null && !cfpList.isEmpty()) {
                             Object[] obj = (Object[]) cfpList.get(0);
                             final Object rootId = dashboardResultsTable.addItem();
                             dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.RS);
@@ -833,7 +836,7 @@ public class Exixtingcomponent extends CustomComponent {
         Object root = dashboardResultsTable.getValue();
         if (root != null) {
             Integer level = Integer.valueOf(String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.LEVELNO).getValue()));
-            Integer cfpId = Integer.valueOf(String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue()));
+            Integer cfpIdBtnClick = Integer.valueOf(String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue()));
             if (level.equals(1)) {
                 levelDetailsResultsTable.setVisibleColumns("companyNo", "companyName", "companyStatus", Constants.COMPANY_START_DATE, Constants.COMPANY_END_DATE);
                 levelDetailsResultsTable.setColumnHeaders(Constants.COMPANYNO, Constants.COMPANYNAME, Constants.COMPANYSTATUS, "Start Date", "Company End Date");
@@ -890,7 +893,7 @@ public class Exixtingcomponent extends CustomComponent {
                     rsDetailsName.setReadOnly(true);
                 }
             }
-            componentLevelTableLogic.loadSetData(level, cfpId, true);
+            componentLevelTableLogic.loadSetData(level, cfpIdBtnClick, true);
 
         } else {
             AbstractNotificationUtils.getErrorNotification("Populate", "Please highlight a component to Populate");
@@ -917,10 +920,10 @@ public class Exixtingcomponent extends CustomComponent {
                 Date endDate = (Date) dashboardResultsTable.getContainerProperty(itemIds[i], Constants.END_DATE).getValue();
                 String contractHolder = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], "contractHolder").getValue());
                 int status1 = ((HelperDTO) dashboardResultsTable.getContainerProperty(itemIds[i], "status").getValue()).getId();
-                int AliasType = ((HelperDTO) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasType").getValue()).getId();
-                Date AliasSDATE = (Date) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasstartdate").getValue();
-                String AliasNumber = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], "aliasNumber").getValue());
-                Date AliasEDATE = (Date) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasenddate").getValue();
+                int aliasType = ((HelperDTO) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasType").getValue()).getId();
+                Date aliasSdate = (Date) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasstartdate").getValue();
+                String aliasNumber = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], "aliasNumber").getValue());
+                Date aliasEdate = (Date) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasenddate").getValue();
                 ContractMaster cm;
                 cm = ContractMasterLocalServiceUtil.createContractMaster(0);
                 cm.setContractId(contractId);
@@ -941,18 +944,18 @@ public class Exixtingcomponent extends CustomComponent {
                 ContractMaster cm1 = ContractMasterLocalServiceUtil.addContractMaster(cm);
                 contractsidvalue = String.valueOf(cm1.getContractMasterSid());
                 dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(contractsidvalue);
-                ContractAliasMaster CAM = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
-                CAM.setContractAliasNo(AliasNumber);
-                CAM.setContractAliasType(AliasType);
-                CAM.setStartDate(AliasSDATE);
-                CAM.setEndDate(AliasEDATE);
-                CAM.setModifiedDate(new Date());
-                CAM.setCreatedBy(Integer.parseInt(userID));
-                CAM.setCreatedDate(new Date());
-                CAM.setSource("BPI");
-                CAM.setInboundStatus("A");
-                CAM.setContractMasterSid(cm1.getContractMasterSid());
-                ContractAliasMasterLocalServiceUtil.addContractAliasMaster(CAM);
+                ContractAliasMaster camaster = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
+                camaster.setContractAliasNo(aliasNumber);
+                camaster.setContractAliasType(aliasType);
+                camaster.setStartDate(aliasSdate);
+                camaster.setEndDate(aliasEdate);
+                camaster.setModifiedDate(new Date());
+                camaster.setCreatedBy(Integer.parseInt(userID));
+                camaster.setCreatedDate(new Date());
+                camaster.setSource("BPI");
+                camaster.setInboundStatus("A");
+                camaster.setContractMasterSid(cm1.getContractMasterSid());
+                ContractAliasMasterLocalServiceUtil.addContractAliasMaster(camaster);
             }
             if (level.equalsIgnoreCase("1")) {
                 String category = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.CATEGORY).getValue());
@@ -987,7 +990,7 @@ public class Exixtingcomponent extends CustomComponent {
                     cfpMasterAttached.setInboundStatus("A");
                     cfpMasterAttached.setSalesInclusion(companyFamily.getSalesInclusion());
                     CfpContract cm1 = CfpContractLocalServiceUtil.addCfpContract(cfpMasterAttached);
-                    SaveCFP(String.valueOf(cm1.getCfpContractSid()), companyFamily.getCfpModelSid());
+                    saveCfp(String.valueOf(cm1.getCfpContractSid()), companyFamily.getCfpModelSid());
                     dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(String.valueOf(cm1.getCfpContractSid()));
                 }
 
@@ -1026,7 +1029,7 @@ public class Exixtingcomponent extends CustomComponent {
                     String contractSId = String.valueOf(dashboardResultsTable.getContainerProperty(contractItem, SAVED_SYSTEM_ID).getValue());
                     ifpMasterAttached.setContractMasterSid(Integer.parseInt(contractSId));
                     IfpContract im1 = IfpContractLocalServiceUtil.addIfpContract(ifpMasterAttached);
-                    SaveIFP(String.valueOf(im1.getIfpContractSid()), itemFamily.getIfpModelSid());
+                    saveIfp(String.valueOf(im1.getIfpContractSid()), itemFamily.getIfpModelSid());
                     dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(String.valueOf(im1.getIfpContractSid()));
                 }
             }
@@ -1065,7 +1068,7 @@ public class Exixtingcomponent extends CustomComponent {
                 psMasterAttached.setCfpContractSid(parentCFPId);
                 psMasterAttached.setIfpContractSid(parentIFPId);
                 PsContract im1 = PsContractLocalServiceUtil.addPsContract(psMasterAttached);
-                SavePS(String.valueOf(im1.getPsContractSid()), priceSchedule.getPsModelSid());
+                savePs(String.valueOf(im1.getPsContractSid()), priceSchedule.getPsModelSid());
                 dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(String.valueOf(im1.getPsContractSid()));
             } else if (level.equals("4")) {
                 Object psParentItem = dashboardResultsTable.getParent(itemIds[i]);
@@ -1134,7 +1137,7 @@ public class Exixtingcomponent extends CustomComponent {
                 rsMasterAttached.setCalculationType(rebateMaster.getCalculationType());
                 RsContract rsContract = RsContractLocalServiceUtil.addRsContract(rsMasterAttached);
                 dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(String.valueOf(rsContract.getRsContractSid()));
-                SaveRS(String.valueOf(rsContract.getRsContractSid()), rebateMaster.getRsModelSid());
+                saveRs(String.valueOf(rsContract.getRsContractSid()), rebateMaster.getRsModelSid());
                 
             }
             
@@ -1142,23 +1145,23 @@ public class Exixtingcomponent extends CustomComponent {
         
     }
     
-    public void SaveCFP(String cfpId, Integer CFPmodelid) {
-        CopyContractLogic.SaveCFP(cfpId, CFPmodelid);
+    public void saveCfp(String cfpId, Integer cfpModelId) {
+        copyContractLogic.saveCfp(cfpId, cfpModelId);
         
     }
     
-    public void SaveIFP(String ifpId, Integer IFPmodelid) {
-        CopyContractLogic.SaveIFP(ifpId, IFPmodelid);
+    public void saveIfp(String ifpId, Integer ifpModelid) {
+        copyContractLogic.saveIfp(ifpId, ifpModelid);
         
     }
     
-    public void SavePS(String psid, Integer IFPmodelid) {
-        CopyContractLogic.SavePS(psid, IFPmodelid);
+    public void savePs(String psid, Integer ifpModelId) {
+        copyContractLogic.savePs(psid, ifpModelId);
         
     }
     
-    public void SaveRS(String rsid, Integer RSmodalid) {
-        CopyContractLogic.SaveRS(rsid, RSmodalid);
+    public void saveRs(String rsid, Integer rsModalId) {
+        copyContractLogic.saveRs(rsid, rsModalId);
         
     }
     
@@ -1221,7 +1224,7 @@ public class Exixtingcomponent extends CustomComponent {
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
             Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Contract Management", "Copy Contract", "Existing Tab Screen");
-            BtnsearchEC.setVisible(CommonLogic.isButtonVisibleAccess("BtnsearchEC", functionHM));
+            btnSearchEC.setVisible(CommonLogic.isButtonVisibleAccess("BtnsearchEC", functionHM));
             resultpop.setVisible(CommonLogic.isButtonVisibleAccess("resultpop", functionHM));
             levelRemoveBtn.setVisible(CommonLogic.isButtonVisibleAccess("levelRemoveBtn", functionHM));
             levelpop.setVisible(CommonLogic.isButtonVisibleAccess("levelpop", functionHM));

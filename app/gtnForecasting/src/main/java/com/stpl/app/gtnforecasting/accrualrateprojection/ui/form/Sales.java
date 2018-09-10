@@ -125,10 +125,6 @@ public class Sales extends CustomComponent {
 
     private CustomTableHeaderDTO rightHeaderDTO;
 
-    private CustomTableHeaderDTO leftHeaderDTO;
-
-    private ExtContainer<AccrualRateProjectionDTO> resultBeanContainer;
-
     protected static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
     private final DSLogic dsLogic = new DSLogic();
     private final SessionDTO session;
@@ -138,7 +134,7 @@ public class Sales extends CustomComponent {
     protected final AccrualRateSelectionDTO accrualRateSelectionDTO = new AccrualRateSelectionDTO();
 
     protected final ExtContainer<AccrualRateProjectionDTO> excelContainer = new ExtContainer<>(AccrualRateProjectionDTO.class);
-    private CustomTableHeaderDTO excelHeaderDTO;
+    
 
     private boolean isFilterLoadNeeded = true;
 
@@ -257,7 +253,7 @@ public class Sales extends CustomComponent {
         ExtPagedTable leftTable = resultsTable.getLeftFreezeAsTable();
         ExtPagedTable rightTable = resultsTable.getRightFreezeAsTable();
         rightHeaderDTO = new CustomTableHeaderDTO();
-        leftHeaderDTO = new CustomTableHeaderDTO();
+        CustomTableHeaderDTO leftHeaderDTO = new CustomTableHeaderDTO();
         CustomTableHeaderDTO recordHeaderDTO = new CustomTableHeaderDTO();
 
         AccrualRateUtils.getRightHeadersForAccrual(rightHeaderDTO, historyDdlb.getValue(), accrualRateSelectionDTO, AccrualRateUtils.SALES, selectedVariables, recordHeaderDTO);
@@ -266,7 +262,7 @@ public class Sales extends CustomComponent {
         leftTable.setSortEnabled(false);
         tableLogic.sinkItemPerPageWithPageLength(false);
         tableLogic.setPageLength(NumericConstants.TEN);
-        resultBeanContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
+        ExtContainer<AccrualRateProjectionDTO> resultBeanContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
         tableLogic.setContainerDataSource(resultBeanContainer);
         resultBeanContainer.setRecordHeader(rightHeaderDTO.getSingleColumns());
         resultBeanContainer.setColumnProperties(rightHeaderDTO.getProperties());
@@ -504,7 +500,7 @@ public class Sales extends CustomComponent {
         excelTable.setImmediate(true);
         excelTable.setVisible(true);
         tableLayout.addComponent(excelTable);
-        excelHeaderDTO = new CustomTableHeaderDTO();
+        CustomTableHeaderDTO excelHeaderDTO = new CustomTableHeaderDTO();
         CustomTableHeaderDTO recordHeaderDTO = new CustomTableHeaderDTO();
         AccrualRateUtils.getLeftHeadersForSales(excelHeaderDTO);
         AccrualRateUtils.getRightHeadersForAccrual(excelHeaderDTO, historyDdlb.getValue(), accrualRateSelectionDTO, AccrualRateUtils.SALES, selectedVariables, recordHeaderDTO);

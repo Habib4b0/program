@@ -8,7 +8,6 @@ package com.stpl.app.arm.adjustmentreserveconfiguration.logic;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -113,70 +112,67 @@ public class AdjustmentReserveLogic {
     public List getReserveData(ReserveSelection selection, int start, int offset, Set<Container.Filter> filter, List<SortByColumn> sortByColumns) {
         List input = new ArrayList();
         if (selection.isIsViewMode()) {
-            if (filter != null && !filter.isEmpty()) {
-                joinHelperTable(input, filter);
-            } else {
-                input.add(StringUtils.EMPTY);
-            }
-            input.add(selection.getMasterSID());
-            StringBuilder sql = AbstractFilter.getInstance().getFilterForReserves(filter);
-            if (sql == null) {
-                input.add(StringUtils.EMPTY);
-
-            } else {
-                input.add(sql);
-            }
-            input.add(start);
-            input.add(offset);
-            if (selection.isIsCurrent()) {
-                if (selection.isIsGTNDetails()) {
-                    forARCSortingView(NumericConstants.FOUR, sortByColumns, input);
-                    return customizeGTN(QueryUtils.getItemData(input, "Load_GTN_Details_Data_For_view", null), selection);
-                } else {
-                    forARCSortingView(NumericConstants.FOUR, sortByColumns, input);
-                    return customizeReserve(QueryUtils.getItemData(input, "Load_Reserve_Details_Data_For_view", null), selection);
-                }
-            } else if (selection.isIsGTNDetails()) {
-                forARCSortingView(NumericConstants.FOUR, sortByColumns, input);
-                return customizeGTN(QueryUtils.getItemData(input, "Load_GTN_Details_Data_For_Hist", null), selection);
-            } else {
-                forARCSortingView(NumericConstants.FOUR, sortByColumns, input);
-                return customizeReserve(QueryUtils.getItemData(input, "Load_Reserve_Details_Data_For_Hist", null), selection);
-            }
+            getInputs(filter, input, selection, start, offset);
+            return getCustomizedReserveGtn(selection, sortByColumns, input);
         } else if (selection.isIsCurrent()) {
             input = getInputForLoadData(selection, filter);
             input.add(start);
             input.add(offset);
+            return getCustomizedResGtn(selection, sortByColumns, input);
+        } else {
+            getInputs(filter, input, selection, start, offset);
+            return getHistAdjResAndGtn(selection, sortByColumns, input);
+        }
+    }
+
+    private void getInputs(Set<Container.Filter> filter, List input, ReserveSelection selection, int start, int offset) {
+        if (filter != null && !filter.isEmpty()) {
+            joinHelperTable(input, filter);
+        } else {
+            input.add(StringUtils.EMPTY);
+        }
+        input.add(selection.getMasterSID());
+        StringBuilder sql = AbstractFilter.getInstance().getFilterForReserves(filter);
+        if (sql == null) {
+            input.add(StringUtils.EMPTY);
+        } else {
+            input.add(sql);
+        }
+        input.add(start);
+        input.add(offset);
+    }
+
+    private List getHistAdjResAndGtn(ReserveSelection selection, List<SortByColumn> sortByColumns, List input) {
+        if (selection.isIsGTNDetails()) {
+            forARCSortingView(NumericConstants.FOUR, sortByColumns, input);
+            return customizeGTN(QueryUtils.getItemData(input, "Load_GTN_Details_Data_For_Hist", null), selection);
+        } else {
+            forARCSortingView(NumericConstants.FOUR, sortByColumns, input);
+            return customizeReserve(QueryUtils.getItemData(input, "Load_Reserve_Details_Data_For_Hist", null), selection);
+        }
+    }
+
+    private List getCustomizedResGtn(ReserveSelection selection, List<SortByColumn> sortByColumns, List input) {
+        if (selection.isIsGTNDetails()) {
+            forARCSorting(NumericConstants.FIVE, sortByColumns, input);
+            return customizeGTN(QueryUtils.getItemData(input, "Load_GTN_Details_Data", null), selection);
+        } else {
+            forARCSorting(NumericConstants.FIVE, sortByColumns, input);
+            return customizeReserve(QueryUtils.getItemData(input, "Load_Reserve_Details_Data", null), selection);
+        }
+    }
+
+    private List getCustomizedReserveGtn(ReserveSelection selection, List<SortByColumn> sortByColumns, List input) {
+        if (selection.isIsCurrent()) {
             if (selection.isIsGTNDetails()) {
-                forARCSorting(NumericConstants.FIVE, sortByColumns, input);
-                return customizeGTN(QueryUtils.getItemData(input, "Load_GTN_Details_Data", null), selection);
+                forARCSortingView(NumericConstants.FOUR, sortByColumns, input);
+                return customizeGTN(QueryUtils.getItemData(input, "Load_GTN_Details_Data_For_view", null), selection);
             } else {
-                forARCSorting(NumericConstants.FIVE, sortByColumns, input);
-                return customizeReserve(QueryUtils.getItemData(input, "Load_Reserve_Details_Data", null), selection);
+                forARCSortingView(NumericConstants.FOUR, sortByColumns, input);
+                return customizeReserve(QueryUtils.getItemData(input, "Load_Reserve_Details_Data_For_view", null), selection);
             }
         } else {
-            if (filter != null && !filter.isEmpty()) {
-                joinHelperTable(input, filter);
-            } else {
-                input.add(StringUtils.EMPTY);
-            }
-            input.add(selection.getMasterSID());
-            StringBuilder sql = AbstractFilter.getInstance().getFilterForReserves(filter);
-            if (sql == null) {
-                input.add(StringUtils.EMPTY);
-
-            } else {
-                input.add(sql);
-            }
-            input.add(start);
-            input.add(offset);
-            if (selection.isIsGTNDetails()) {
-                forARCSortingView(NumericConstants.FOUR, sortByColumns, input);
-                return customizeGTN(QueryUtils.getItemData(input, "Load_GTN_Details_Data_For_Hist", null), selection);
-            } else {
-                forARCSortingView(NumericConstants.FOUR, sortByColumns, input);
-                return customizeReserve(QueryUtils.getItemData(input, "Load_Reserve_Details_Data_For_Hist", null), selection);
-            }
+            return getHistAdjResAndGtn(selection, sortByColumns, input);
         }
     }
 
@@ -245,7 +241,7 @@ public class AdjustmentReserveLogic {
             if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COST_CENTER.getConstant().equals(propertyId) && value.toString().trim().equals(StringUtils.EMPTY)) {
                 values = "null";
             } else {
-                values = "'" + value.toString() + "'";
+                values = ARMUtils.SINGLE_QUOTES + value.toString() + ARMUtils.SINGLE_QUOTES;
             }
         }
         input.add(values);
@@ -263,126 +259,130 @@ public class AdjustmentReserveLogic {
     }
 
     private List getInputForLoadData(ReserveSelection selection, Set<Container.Filter> filter) {
-        List input = new ArrayList(NumericConstants.THREE);
-        input.add(selection.getTempTableName());
+        List dataInput = new ArrayList(NumericConstants.THREE);
+        dataInput.add(selection.getTempTableName());
         if (filter != null && !filter.isEmpty()) {
-            joinHelperTable(input, filter);
+            joinHelperTable(dataInput, filter);
         } else {
-            input.add(StringUtils.EMPTY);
+            dataInput.add(StringUtils.EMPTY);
         }
-        input.add(selection.getMasterSID());
+        dataInput.add(selection.getMasterSID());
         StringBuilder sql = AbstractFilter.getInstance().getFilterForReserves(filter);
         if (sql == null) {
-            input.add(StringUtils.EMPTY);
+            dataInput.add(StringUtils.EMPTY);
 
         } else {
-            input.add(sql);
+            dataInput.add(sql);
         }
-        return input;
+        return dataInput;
     }
 
     private List customizeReserve(List<Object[]> itemData, ReserveSelection selection) {
         List<AdjustmentReserveDTO> finalResult = new ArrayList<>();
         for (Object[] str : itemData) {
-            AdjustmentReserveDTO dto = new AdjustmentReserveDTO();
-            dto.setDetailsId(str[0] == null ? 0 : Integer.valueOf(String.valueOf(str[0])));
-            dto.setAdjustmentType(str[NumericConstants.ONE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.ONE])));
-            dto.setAdjustmentLevel(str[NumericConstants.TWO] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWO])));
-            dto.setAccountCategory(str[NumericConstants.THREE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.THREE])));
-            dto.setAccountType(str[NumericConstants.FOUR] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FOUR])));
-            dto.setAccount(str[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIVE]));
-            dto.setAccountDescription(str[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
-            dto.setAccountIndictor(str[NumericConstants.SEVEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SEVEN])));
-            dto.setCostCenter(str[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-            dto.setProject(str[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
-            dto.setFuture1(str[NumericConstants.TEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
-            dto.setFuture2(str[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
-            dto.setBalanceType(str[NumericConstants.TWELVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWELVE]));
-            dto.setDatabase(str[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTEEN]));
-            dto.setDataAccessSet(str[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOURTEEN]));
-            dto.setChartOfAccounts(str[NumericConstants.FIFTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIFTEEN]));
-            dto.setLedger(str[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIXTEEN]));
-            dto.setCategory(str[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVENTEEN]));
-            dto.setSource(str[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHTEEN]));
-            dto.setCurrency(str[NumericConstants.NINETEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.NINETEEN])));
-            dto.setJournalName(str[NumericConstants.TWENTY] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY]));
-            dto.setJournalDescription(str[NumericConstants.TWENTY_ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_ONE]));
-            dto.setReverseJournal(str[NumericConstants.TWENTY_TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_TWO]));
-            dto.setReversalPeriodDate(str[NumericConstants.TWENTY_THREE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_THREE])));
-            dto.setLineDescription(str[NumericConstants.TWENTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_FOUR]));
-            dto.setUdc1(str[NumericConstants.TWENTY_FIVE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_FIVE])));
-            dto.setUdc2(str[NumericConstants.TWENTY_SIX] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_SIX])));
-            dto.setUdc3(str[NumericConstants.TWENTY_SEVEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_SEVEN])));
-            dto.setUdc4(str[NumericConstants.TWENTY_EIGHT] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_EIGHT])));
-            dto.setUdc5(str[NumericConstants.TWENTY_NINE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_NINE])));
-            dto.setUdc6(str[NumericConstants.THIRTY] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.THIRTY])));
-            dto.setCheckRecord(str[NumericConstants.THIRTY_ONE] == null ? Boolean.FALSE : (Boolean) str[NumericConstants.THIRTY_ONE]);
-            if (str[NumericConstants.THIRTY_THREE] == null) {
-                dto.setDebitIndicator(0);
-            } else {
-                dto.setDebitIndicator((boolean) str[NumericConstants.THIRTY_THREE] ? 1 : -1);
-            }
-            if (str[NumericConstants.THIRTY_TWO] == null) {
-                dto.setCreditIndicator(0);
-            } else {
-                dto.setCreditIndicator((boolean) str[NumericConstants.THIRTY_TWO] ? 1 : -1);
-            }
+            AdjustmentReserveDTO reserveDto = new AdjustmentReserveDTO();
+            reserveDto.setDetailsId(CommonLogic.getIntegerValue(NumericConstants.ZERO, str));
+            reserveDto.setAdjustmentType(CommonLogic.getIntegerValue(NumericConstants.ONE, str));
+            reserveDto.setAdjustmentLevel(CommonLogic.getIntegerValue(NumericConstants.TWO, str));
+            reserveDto.setAccountCategory(CommonLogic.getIntegerValue(NumericConstants.THREE, str));
+            reserveDto.setAccountType(CommonLogic.getIntegerValue(NumericConstants.FOUR, str));
+            reserveDto.setAccount(CommonLogic.getStringValue(NumericConstants.FIVE, str));
+            reserveDto.setAccountDescription(CommonLogic.getStringValue(NumericConstants.SIX, str));
+            reserveDto.setAccountIndictor(CommonLogic.getIntegerValue(NumericConstants.SEVEN, str));
+            reserveDto.setCostCenter(CommonLogic.getStringValue(NumericConstants.EIGHT, str));
+            reserveDto.setProject(CommonLogic.getStringValue(NumericConstants.NINE, str));
+            reserveDto.setFuture1(CommonLogic.getStringValue(NumericConstants.TEN, str));
+            reserveDto.setFuture2(CommonLogic.getStringValue(NumericConstants.ELEVEN, str));
+            reserveDto.setBalanceType(CommonLogic.getStringValue(NumericConstants.TWELVE, str));
+            reserveDto.setDatabase(CommonLogic.getStringValue(NumericConstants.THIRTEEN, str));
+            reserveDto.setDataAccessSet(CommonLogic.getStringValue(NumericConstants.FOURTEEN, str));
+            reserveDto.setChartOfAccounts(CommonLogic.getStringValue(NumericConstants.FIFTEEN, str));
+            reserveDto.setLedger(CommonLogic.getStringValue(NumericConstants.SIXTEEN, str));
+            reserveDto.setCategory(CommonLogic.getStringValue(NumericConstants.SEVENTEEN, str));
+            reserveDto.setSource(CommonLogic.getStringValue(NumericConstants.EIGHTEEN, str));
+            reserveDto.setCurrency(CommonLogic.getIntegerValue(NumericConstants.NINETEEN, str));
+            reserveDto.setJournalName(CommonLogic.getStringValue(NumericConstants.TWENTY, str));
+            reserveDto.setJournalDescription(CommonLogic.getStringValue(NumericConstants.TWENTY_ONE, str));
+            reserveDto.setReverseJournal(CommonLogic.getStringValue(NumericConstants.TWENTY_TWO, str));
+            reserveDto.setReversalPeriodDate(CommonLogic.getIntegerValue(NumericConstants.TWENTY_THREE, str));
+            reserveDto.setLineDescription(CommonLogic.getStringValue(NumericConstants.TWENTY_FOUR, str));
+            reserveDto.setUdc1(CommonLogic.getIntegerValue(NumericConstants.TWENTY_FIVE, str));
+            reserveDto.setUdc2(CommonLogic.getIntegerValue(NumericConstants.TWENTY_SIX, str));
+            reserveDto.setUdc3(CommonLogic.getIntegerValue(NumericConstants.TWENTY_SEVEN, str));
+            reserveDto.setUdc4(CommonLogic.getIntegerValue(NumericConstants.TWENTY_EIGHT, str));
+            reserveDto.setUdc5(CommonLogic.getIntegerValue(NumericConstants.TWENTY_NINE, str));
+            reserveDto.setUdc6(CommonLogic.getIntegerValue(NumericConstants.THIRTY, str));
+            reserveDto.setCheckRecord(str[NumericConstants.THIRTY_ONE] == null ? Boolean.FALSE : (Boolean) str[NumericConstants.THIRTY_ONE]);
+            customizeReserveIndicators(str, reserveDto, selection);
+            reserveDto.setBusinessUnit(selection.getBusUnit() == null ? StringUtils.EMPTY : selection.getBusUnit());
+            reserveDto.setAdjustmentTypestr(CommonLogic.getComboDes(reserveDto.getAdjustmentType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.getConstant()))); // Added for GAL-5382
+            reserveDto.setAdjustmentLevelstr(CommonLogic.getComboDes(reserveDto.getAdjustmentLevel(), "ARM_RES_ADJUSTMENT_LEVEL"));
+            reserveDto.setAccountCategorystr(CommonLogic.getComboDes(reserveDto.getAccountCategory(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_CATEGORY.getConstant())));
+            reserveDto.setAccountTypestr(CommonLogic.getComboDes(reserveDto.getAccountType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_TYPE.getConstant())));
+            reserveDto.setAccountIndictorstr(CommonLogic.getComboDes(reserveDto.getAccountIndictor(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNTINDICTOR.getConstant())));
+            reserveDto.setCurrencystr(CommonLogic.getComboDes(reserveDto.getCurrency(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CURRENCY.getConstant())));
+            reserveDto.setReversalPeriodDatestr(CommonLogic.getComboDes(reserveDto.getReversalPeriodDate(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REVERSAL_PERIOD_DATE.getConstant())));
+            reserveDto.setDebitIndicatorstr(CommonLogic.getComboDes(reserveDto.getDebitIndicator(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.getConstant())));
+            reserveDto.setCreditIndicatorstr(CommonLogic.getComboDes(reserveDto.getCreditIndicator(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.getConstant())));
+            reserveDto.setReportIndicatorStr(CommonLogic.getComboDes(reserveDto.getReportIndicator(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.getConstant())));
+            reserveDto.setUdc1Str(CommonLogic.getComboDes(reserveDto.getUdc1(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC1.getConstant())));
+            reserveDto.setUdc2Str(CommonLogic.getComboDes(reserveDto.getUdc2(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC2.getConstant())));
+            reserveDto.setUdc3Str(CommonLogic.getComboDes(reserveDto.getUdc3(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC3.getConstant())));
+            reserveDto.setUdc4Str(CommonLogic.getComboDes(reserveDto.getUdc4(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC4.getConstant())));
+            reserveDto.setUdc5Str(CommonLogic.getComboDes(reserveDto.getUdc5(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC5.getConstant())));
+            reserveDto.setUdc6Str(CommonLogic.getComboDes(reserveDto.getUdc6(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC6.getConstant())));//Ends here
 
-            dto.setCompanyNo(selection.getCompanyNo() == null ? StringUtils.EMPTY : selection.getCompanyNo());
-            dto.setDivision(str[NumericConstants.THIRTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_FOUR]));
-            if (str[NumericConstants.THIRTY_FIVE] == null) {
-                dto.setReportIndicator(0);
-            } else {
-                dto.setReportIndicator((boolean) str[NumericConstants.THIRTY_FIVE] ? 1 : -1);
-            }
-            dto.setBusinessUnit(selection.getBusUnit() == null ? StringUtils.EMPTY : selection.getBusUnit());
-            dto.setAdjustmentTypestr(CommonLogic.getComboDes(dto.getAdjustmentType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.getConstant()))); // Added for GAL-5382
-            dto.setAdjustmentLevelstr(CommonLogic.getComboDes(dto.getAdjustmentLevel(), "ARM_RES_ADJUSTMENT_LEVEL"));
-            dto.setAccountCategorystr(CommonLogic.getComboDes(dto.getAccountCategory(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_CATEGORY.getConstant())));
-            dto.setAccountTypestr(CommonLogic.getComboDes(dto.getAccountType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_TYPE.getConstant())));
-            dto.setAccountIndictorstr(CommonLogic.getComboDes(dto.getAccountIndictor(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNTINDICTOR.getConstant())));
-            dto.setCurrencystr(CommonLogic.getComboDes(dto.getCurrency(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CURRENCY.getConstant())));
-            dto.setReversalPeriodDatestr(CommonLogic.getComboDes(dto.getReversalPeriodDate(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REVERSAL_PERIOD_DATE.getConstant())));
-            dto.setDebitIndicatorstr(CommonLogic.getComboDes(dto.getDebitIndicator(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.getConstant())));
-            dto.setCreditIndicatorstr(CommonLogic.getComboDes(dto.getCreditIndicator(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.getConstant())));
-            dto.setReportIndicatorStr(CommonLogic.getComboDes(dto.getReportIndicator(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.getConstant())));
-            dto.setUdc1Str(CommonLogic.getComboDes(dto.getUdc1(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC1.getConstant())));
-            dto.setUdc2Str(CommonLogic.getComboDes(dto.getUdc2(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC2.getConstant())));
-            dto.setUdc3Str(CommonLogic.getComboDes(dto.getUdc3(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC3.getConstant())));
-            dto.setUdc4Str(CommonLogic.getComboDes(dto.getUdc4(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC4.getConstant())));
-            dto.setUdc5Str(CommonLogic.getComboDes(dto.getUdc5(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC5.getConstant())));
-            dto.setUdc6Str(CommonLogic.getComboDes(dto.getUdc6(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC6.getConstant())));//Ends here
-
-            finalResult.add(dto);
+            finalResult.add(reserveDto);
         }
         return finalResult;
+    }
+
+    private void customizeReserveIndicators(Object[] str, AdjustmentReserveDTO dto, ReserveSelection selection) {
+        if (str[NumericConstants.THIRTY_THREE] == null) {
+            dto.setDebitIndicator(0);
+        } else {
+            dto.setDebitIndicator((boolean) str[NumericConstants.THIRTY_THREE] ? 1 : -1);
+        }
+        if (str[NumericConstants.THIRTY_TWO] == null) {
+            dto.setCreditIndicator(0);
+        } else {
+            dto.setCreditIndicator((boolean) str[NumericConstants.THIRTY_TWO] ? 1 : -1);
+        }
+
+        dto.setCompanyNo(selection.getCompanyNo() == null ? StringUtils.EMPTY : selection.getCompanyNo());
+        dto.setDivision(str[NumericConstants.THIRTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_FOUR]));
+        if (str[NumericConstants.THIRTY_FIVE] == null) {
+            dto.setReportIndicator(0);
+        } else {
+            dto.setReportIndicator((boolean) str[NumericConstants.THIRTY_FIVE] ? 1 : -1);
+        }
     }
 
     private List customizeGTN(List<Object[]> itemData, ReserveSelection selection) {
         List<AdjustmentReserveDTO> finalResult = new ArrayList<>();
         for (Object[] str : itemData) {
             AdjustmentReserveDTO dto = new AdjustmentReserveDTO();
-            dto.setDetailsId(str[0] == null ? 0 : Integer.valueOf(String.valueOf(str[0])));
-            dto.setAdjustmentType(str[NumericConstants.ONE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.ONE])));
-            dto.setAdjustmentLevel(str[NumericConstants.TWO] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWO])));
-            dto.setAccountCategory(str[NumericConstants.THREE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.THREE])));
-            dto.setAccountType(str[NumericConstants.FOUR] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FOUR])));
-            dto.setAccount(str[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIVE]));
-            dto.setAccountDescription(str[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
-            dto.setAccountIndictor(str[NumericConstants.SEVEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SEVEN])));
-            dto.setCostCenter(str[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-            dto.setProject(str[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
-            dto.setFuture1(str[NumericConstants.TEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
-            dto.setFuture2(str[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
-            dto.setUdc1(str[NumericConstants.TWELVE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWELVE])));
-            dto.setUdc2(str[NumericConstants.THIRTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.THIRTEEN])));
-            dto.setUdc3(str[NumericConstants.FOURTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FOURTEEN])));
-            dto.setUdc4(str[NumericConstants.FIFTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FIFTEEN])));
-            dto.setUdc5(str[NumericConstants.SIXTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SIXTEEN])));
-            dto.setUdc6(str[NumericConstants.SEVENTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SEVENTEEN])));
+            dto.setDetailsId(CommonLogic.getIntegerValue(0, str));
+            dto.setAdjustmentType(CommonLogic.getIntegerValue(NumericConstants.ONE, str));
+            dto.setAdjustmentLevel(CommonLogic.getIntegerValue(NumericConstants.TWO, str));
+            dto.setAccountCategory(CommonLogic.getIntegerValue(NumericConstants.THREE, str));
+            dto.setAccountType(CommonLogic.getIntegerValue(NumericConstants.FOUR, str));
+            dto.setAccount(CommonLogic.getStringValue(NumericConstants.FIVE, str));
+            dto.setAccountDescription(CommonLogic.getStringValue(NumericConstants.SIX, str));
+            dto.setAccountIndictor(CommonLogic.getIntegerValue(NumericConstants.SEVEN, str));
+            dto.setCostCenter(CommonLogic.getStringValue(NumericConstants.EIGHT, str));
+            dto.setProject(CommonLogic.getStringValue(NumericConstants.NINE, str));
+            dto.setFuture1(CommonLogic.getStringValue(NumericConstants.TEN, str));
+            dto.setFuture2(CommonLogic.getStringValue(NumericConstants.ELEVEN, str));
+            dto.setUdc1(CommonLogic.getIntegerValue(NumericConstants.TWELVE, str));
+            dto.setUdc2(CommonLogic.getIntegerValue(NumericConstants.THIRTEEN, str));
+            dto.setUdc3(CommonLogic.getIntegerValue(NumericConstants.FOURTEEN, str));
+            dto.setUdc4(CommonLogic.getIntegerValue(NumericConstants.FIFTEEN, str));
+            dto.setUdc5(CommonLogic.getIntegerValue(NumericConstants.SIXTEEN, str));
+            dto.setUdc6(CommonLogic.getIntegerValue(NumericConstants.SEVENTEEN, str));
             dto.setCheckRecord(str[NumericConstants.EIGHTEEN] == null ? Boolean.FALSE : (Boolean) str[NumericConstants.EIGHTEEN]);
             dto.setCompanyNo(selection.getCompanyNo() == null ? StringUtils.EMPTY : selection.getCompanyNo());
-            dto.setDivision(str[NumericConstants.NINETEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINETEEN]));
+            dto.setDivision(CommonLogic.getStringValue(NumericConstants.NINETEEN, str));
             dto.setBusinessUnit(selection.getBusUnit() == null ? StringUtils.EMPTY : selection.getBusUnit());
             dto.setAdjustmentTypestr(CommonLogic.getComboDes(dto.getAdjustmentType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.getConstant())));
             dto.setAdjustmentLevelstr(CommonLogic.getComboDes(dto.getAdjustmentLevel(), "ARM_GTN_ADJUSTMENT_LEVEL"));
@@ -411,7 +411,7 @@ public class AdjustmentReserveLogic {
         input.add(ARMUtils.getVisibleToDBColumnMap().get(properyId));
         String values = null;
         if (value != null) {
-            values = "'" + value.toString() + "'";
+            values = ARMUtils.SINGLE_QUOTES + value.toString() + ARMUtils.SINGLE_QUOTES;
         }
         input.add(values);
         input.add(selection.getMasterSID());
@@ -543,7 +543,7 @@ public class AdjustmentReserveLogic {
 
     }
 
-    public List getSearchResults(AdjustmentReserveDTO binderDto, int start, int offset, Set<Container.Filter> filter, List<SortByColumn> sortByColumns) throws PortalException, SystemException {
+    public List getSearchResults(AdjustmentReserveDTO binderDto, int start, int offset, Set<Container.Filter> filter, List<SortByColumn> sortByColumns) {
         List input = getSearchInput(binderDto, filter);
         if (!sortByColumns.isEmpty()) {
             for (Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
@@ -592,7 +592,7 @@ public class AdjustmentReserveLogic {
         return input;
     }
 
-    private List customizeReserveSearch(List<Object[]> itemData) throws PortalException, SystemException {
+    private List customizeReserveSearch(List<Object[]> itemData) {
         List<AdjustmentReserveDTO> finalResult = new ArrayList<>();
         for (Object[] str : itemData) {
             AdjustmentReserveDTO dto = new AdjustmentReserveDTO();
@@ -600,12 +600,12 @@ public class AdjustmentReserveLogic {
             dto.setCreatedBy(CommonLogic.getUser(str[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT])).getFullName());
             dto.setCreatedDate(str[NumericConstants.NINE] == null ? null : CommonUtils.convertStringToDate(String.valueOf(str[NumericConstants.NINE])));
             dto.setModifiedDate(str[NumericConstants.TEN] == null ? null : CommonUtils.convertStringToDate(String.valueOf(str[NumericConstants.TEN])));
-            dto.setSource(str[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
-            dto.setCompanyDdlbRes(str[NumericConstants.TWELVE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWELVE])));
-            dto.setBusinessDdlbRes(str[NumericConstants.THIRTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.THIRTEEN])));
-            dto.setDeductionCategoryDdlbRes(str[NumericConstants.FOURTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FOURTEEN])));
-            dto.setDeductionTypeDdlbRes(str[NumericConstants.FIFTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FIFTEEN])));
-            dto.setDeductionProgramDdlbRes(str[NumericConstants.SIXTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SIXTEEN])));
+            dto.setSource(CommonLogic.getStringValue(NumericConstants.ELEVEN, str));
+            dto.setCompanyDdlbRes(CommonLogic.getIntegerValue(NumericConstants.TWELVE, str));
+            dto.setBusinessDdlbRes(CommonLogic.getIntegerValue(NumericConstants.THIRTEEN, str));
+            dto.setDeductionCategoryDdlbRes(CommonLogic.getIntegerValue(NumericConstants.FOURTEEN, str));
+            dto.setDeductionTypeDdlbRes(CommonLogic.getIntegerValue(NumericConstants.FIFTEEN, str));
+            dto.setDeductionProgramDdlbRes(CommonLogic.getIntegerValue(NumericConstants.SIXTEEN, str));
             finalResult.add(dto);
         }
         return finalResult;
@@ -775,39 +775,39 @@ public class AdjustmentReserveLogic {
         if (!sortByColumns.isEmpty()) {
             for (Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
                 SortByColumn orderByColumn = iterator.next();
-                String columnId = orderByColumn.getName();
-                if (!columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COMPANYNO.getConstant())
-                        && !columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.BUSINESS_UNIT.getConstant())) {
-                    if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId) && ArrayUtils.contains(ARMUtils.getAdjustmentReserveCombobox(), columnId)) {
-                        input.add(2, " LEFT JOIN HELPER_TABLE HT on HT.HELPER_TABLE_SID = " + columnDetails.get(columnId));
-                        if (orderByColumn.getType() == SortByColumn.Type.ASC) {
-                            input.add(i, " HT.DESCRIPTION asc");
-                        } else {
-                            input.add(i, " HT.DESCRIPTION desc");
-                        }
-                    } else if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId)) {
-                        input.add(2, StringUtils.EMPTY);
-                        if (orderByColumn.getType() == SortByColumn.Type.ASC) {
-                            input.add(i, " ADC.TRANSACTION_NAME asc");
-                        } else {
-                            input.add(i, " ADC.TRANSACTION_NAME desc");
-                        }
-                    } else {
-                        input.add(2, StringUtils.EMPTY);
-                        if (orderByColumn.getType() == SortByColumn.Type.ASC) {
-                            input.add(i, columnDetails.get(columnId) + " asc");
-                        } else {
-                            input.add(i, columnDetails.get(columnId) + CommonConstant.DESC);
-                        }
-                    }
-                } else {
-                    input.add(2, StringUtils.EMPTY);
-                    input.add(i, " ARM_ADJ_RES_CONFIG_MASTER_SID ");
-                }
+                getInputs(input, columnDetails, orderByColumn, i);
             }
         } else {
             input.add(2, StringUtils.EMPTY);
             input.add(i, " ARC.ARM_ADJ_RES_CONFIG_DETAIL_SID ASC ");
+        }
+    }
+
+    private void getInputs(List input, Map<String, String> columnDetails, SortByColumn orderByColumn, int i) {
+        String columnId = orderByColumn.getName();
+        if (!columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COMPANYNO.getConstant())
+                && !columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.BUSINESS_UNIT.getConstant())) {
+            if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId) && ArrayUtils.contains(ARMUtils.getAdjustmentReserveCombobox(), columnId)) {
+                input.add(2, " LEFT JOIN HELPER_TABLE HT on HT.HELPER_TABLE_SID = " + columnDetails.get(columnId));
+                getOrderByColumn(orderByColumn, input, i, " HT.DESCRIPTION ");
+            } else if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId)) {
+                input.add(2, StringUtils.EMPTY);
+                getOrderByColumn(orderByColumn, input, i, " ADC.TRANSACTION_NAME  ");
+            } else {
+                input.add(2, StringUtils.EMPTY);
+                getOrderByColumn(orderByColumn, input, i, columnDetails.get(columnId));
+            }
+        } else {
+            input.add(2, StringUtils.EMPTY);
+            input.add(i, " ARM_ADJ_RES_CONFIG_MASTER_SID ");
+        }
+    }
+
+    private void getOrderByColumn(SortByColumn orderByColumn, List input, int i, String desc) {
+        if (orderByColumn.getType() == SortByColumn.Type.ASC) {
+            input.add(i, desc + " asc");
+        } else {
+            input.add(i, desc + " desc");
         }
     }
 
@@ -816,39 +816,31 @@ public class AdjustmentReserveLogic {
         if (!sortByColumns.isEmpty()) {
             for (Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
                 SortByColumn orderByColumn = iterator.next();
-                String columnId = orderByColumn.getName();
-                if (!columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COMPANYNO.getConstant())
-                        && !columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.BUSINESS_UNIT.getConstant())) {
-                    if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId) && ArrayUtils.contains(ARMUtils.getAdjustmentReserveCombobox(), columnId)) {
-                        input.add(1, " LEFT JOIN HELPER_TABLE HT on HT.HELPER_TABLE_SID = " + columnDetails.get(columnId));
-                        if (orderByColumn.getType() == SortByColumn.Type.ASC) {
-                            input.add(i, " HT.DESCRIPTION asc");
-                        } else {
-                            input.add(i, " HT.DESCRIPTION desc");
-                        }
-                    } else if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId)) {
-                        input.add(1, " LEFT JOIN ARM_ADJUSTMENT_CONFIG ARM on ARM.ARM_ADJUSTMENT_CONFIG_SID = " + columnDetails.get(columnId));
-                        if (orderByColumn.getType() == SortByColumn.Type.ASC) {
-                            input.add(i, " ARM.TRANSACTION_NAME asc");
-                        } else {
-                            input.add(i, " ARM.TRANSACTION_NAME desc");
-                        }
-                    } else {
-                        input.add(1, StringUtils.EMPTY);
-                        if (orderByColumn.getType() == SortByColumn.Type.ASC) {
-                            input.add(i, columnDetails.get(columnId) + " asc");
-                        } else {
-                            input.add(i, columnDetails.get(columnId) + CommonConstant.DESC);
-                        }
-                    }
-                } else {
-                    input.add(1, StringUtils.EMPTY);
-                    input.add(i, " ARM_ADJ_RES_CONFIG_MASTER_SID ");
-                }
+                getViewInputs(orderByColumn, input, columnDetails, i);
             }
         } else {
             input.add(1, StringUtils.EMPTY);
             input.add(i, " ARC.ARM_ADJ_RES_CONFIG_DETAIL_SID ASC ");
+        }
+    }
+
+    private void getViewInputs(SortByColumn orderByColumn, List input, Map<String, String> columnDetails, int i) {
+        String columnId = orderByColumn.getName();
+        if (!columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COMPANYNO.getConstant())
+                && !columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.BUSINESS_UNIT.getConstant())) {
+            if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId) && ArrayUtils.contains(ARMUtils.getAdjustmentReserveCombobox(), columnId)) {
+                input.add(1, " LEFT JOIN HELPER_TABLE HT on HT.HELPER_TABLE_SID = " + columnDetails.get(columnId));
+                getOrderByColumn(orderByColumn, input, i, " HT.DESCRIPTION ");
+            } else if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId)) {
+                input.add(1, " LEFT JOIN ARM_ADJUSTMENT_CONFIG ARM on ARM.ARM_ADJUSTMENT_CONFIG_SID = " + columnDetails.get(columnId));
+                getOrderByColumn(orderByColumn, input, i, " ADC.TRANSACTION_NAME  ");
+            } else {
+                input.add(1, StringUtils.EMPTY);
+                getOrderByColumn(orderByColumn, input, i, columnDetails.get(columnId));
+            }
+        } else {
+            input.add(1, StringUtils.EMPTY);
+            input.add(i, " ARM_ADJ_RES_CONFIG_MASTER_SID ");
         }
     }
 

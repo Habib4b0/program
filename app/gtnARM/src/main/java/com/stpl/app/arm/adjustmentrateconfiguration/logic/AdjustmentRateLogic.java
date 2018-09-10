@@ -11,6 +11,7 @@ import com.stpl.app.arm.adjustmentrateconfiguration.dto.ExclusionLookupDTO;
 import com.stpl.app.arm.adjustmentrateconfiguration.dto.LookUpDTO;
 import com.stpl.app.arm.adjustmentrateconfiguration.dto.SaveViewLookUpDTO;
 import com.stpl.app.arm.adjustmentrateconfiguration.dto.ViewLookupDTO;
+import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.dao.CommonDao;
 import com.stpl.app.arm.dao.impl.CommonImpl;
 import com.stpl.app.arm.utils.ARMUtils;
@@ -109,24 +110,22 @@ public class AdjustmentRateLogic {
             AdjustmentRateDTO rate;
             for (Object[] obj : rawList) {
                 if (selection.getRateConfigMasterSid() == 0) {
-                    selection.setRateConfigMasterSid(obj[0] == null ? 0 : (int) obj[0]);
+                    selection.setRateConfigMasterSid(CommonLogic.getIntegerValue(0, obj));
                 }
-                int rateConfigDetailsSid = obj[1] == null ? 0 : (int) obj[1];
-                int month = obj[NumericConstants.TWO] == null ? 0 : (int) obj[NumericConstants.TWO];
-                int dateType = obj[NumericConstants.THREE] == null ? 0 : (int) obj[NumericConstants.THREE];
-                String value = (String.valueOf(obj[NumericConstants.FOUR]).matches("^[-+]?\\d+(\\.\\d+)?$") ? getHelpDescriptionValue(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]))) : String.valueOf(obj[NumericConstants.FOUR]));
+                int rateConfigDetailsSid = CommonLogic.getIntegerValue(0, obj);
+                int month = CommonLogic.getIntegerValue(NumericConstants.TWO, obj);
+                int dateType = CommonLogic.getIntegerValue(NumericConstants.THREE, obj);
+                String value = (String.valueOf(obj[NumericConstants.FOUR]).matches("^[-+]?\\d+(\\.\\d+)?$") ? getHelpDescriptionValue((Integer)(obj[NumericConstants.FOUR])) : String.valueOf(obj[NumericConstants.FOUR]));
                 String price = obj[NumericConstants.FOUR] == null || StringUtils.isBlank(String.valueOf(obj[NumericConstants.FOUR])) || "0".equals(obj[NumericConstants.FOUR]) ? GlobalConstants.getSelectOne()
                         : value;
-                int rateBasis = obj[NumericConstants.SEVEN] == null ? 0 : (int) obj[NumericConstants.SEVEN];
-                int rateFrequency = obj[NumericConstants.EIGHT] == null ? 0 : (int) obj[NumericConstants.EIGHT];
-                int ratePeriod = obj[NumericConstants.NINE] == null ? 0 : (int) obj[NumericConstants.NINE];
-                int invenDetails = obj[NumericConstants.TEN] == null ? 0 : (int) obj[NumericConstants.TEN];
-                int viewMasterSid = obj[NumericConstants.ELEVEN] == null ? 0 : (int) obj[NumericConstants.ELEVEN];
-                String exclusionDetails = obj[NumericConstants.TWELVE] == null ? StringUtils.EMPTY : (String) obj[NumericConstants.TWELVE];
-                String inventoryCalculation = obj[NumericConstants.TWELVE] == null ? StringUtils.EMPTY : (String) obj[NumericConstants.TWELVE];
+                int rateBasis = CommonLogic.getIntegerValue(NumericConstants.SEVEN, obj);
+                int rateFrequency = CommonLogic.getIntegerValue(NumericConstants.EIGHT, obj);
+                int ratePeriod = CommonLogic.getIntegerValue(NumericConstants.NINE, obj);
+                int invenDetails = CommonLogic.getIntegerValue(NumericConstants.TEN, obj);
+                int viewMasterSid = CommonLogic.getIntegerValue(NumericConstants.ELEVEN, obj);
                 List<Integer> parameterSet = new ArrayList<>();
-                int inventoryCustomer = obj[NumericConstants.FIVE] == null ? 0 : (int) obj[NumericConstants.FIVE];
-                int reserveDate = obj[NumericConstants.SIX] == null ? 0 : (int) obj[NumericConstants.SIX];
+                int inventoryCustomer = CommonLogic.getIntegerValue(NumericConstants.FIVE, obj);
+                int reserveDate = CommonLogic.getIntegerValue(NumericConstants.SIX, obj);
                 parameterSet.add(0, rateConfigDetailsSid);
                 parameterSet.add(1, dateType);
                 parameterSet.add(2, rateBasis);
@@ -137,16 +136,7 @@ public class AdjustmentRateLogic {
                 parameterSet.add(7, ratePeriod);
                 parameterSet.add(8, invenDetails);
 
-                if (ARMConstants.getPipelineAccrual().equals(selection.getAdjustmentType()) || ARMConstants.getTransaction7().equals(selection.getAdjustmentType())) {
-                    rate = new AdjustmentRateDTO(parameterSet, ARMUtils.getMONTHS()[month - 1], price, exclusionDetails, ratePeriod);
-                } else if (ARMConstants.getPipelineInventoryTrueUp().equals(selection.getAdjustmentType())) {
-                    rate = new AdjustmentRateDTO(parameterSet, ARMUtils.getMONTHS()[month - 1], inventoryCalculation,
-                            price);
-                } else {
-                    String baseLinePrice = obj[NumericConstants.FOURTEEN] == null || StringUtils.isBlank(String.valueOf(obj[NumericConstants.THIRTEEN])) || "0".equals(obj[NumericConstants.FOURTEEN]) ? GlobalConstants.getSelectOne() : String.valueOf(obj[NumericConstants.FOURTEEN]);
-                    String adjustedPrice = obj[NumericConstants.THIRTEEN] == null || StringUtils.isBlank(String.valueOf(obj[NumericConstants.FOURTEEN])) || "0".equals(obj[NumericConstants.THIRTEEN]) ? GlobalConstants.getSelectOne() : String.valueOf(obj[NumericConstants.THIRTEEN]);
-                    rate = new AdjustmentRateDTO(parameterSet, ARMUtils.getMONTHS()[month - 1], inventoryCalculation, price, baseLinePrice, adjustedPrice, exclusionDetails);
-                }
+                rate = getRate(selection, parameterSet, month, price, ratePeriod, obj);
 
                 months.add(rate);
             }
@@ -157,22 +147,39 @@ public class AdjustmentRateLogic {
         return months;
     }
 
+    private AdjustmentRateDTO getRate(AdjustmentRateSelection selection, List<Integer> parameterSet, int month, String price, int ratePeriod, Object[] obj) {
+        AdjustmentRateDTO rate;
+        String exclusionDetails = CommonLogic.getStringValue(NumericConstants.TWELVE, obj);
+        String inventoryCalculation = CommonLogic.getStringValue(NumericConstants.TWELVE, obj);
+        if (ARMConstants.getPipelineAccrual().equals(selection.getAdjustmentType()) || ARMConstants.getTransaction7().equals(selection.getAdjustmentType())) {
+            rate = new AdjustmentRateDTO(parameterSet, ARMUtils.getMONTHS()[month - 1], price, exclusionDetails, ratePeriod);
+        } else if (ARMConstants.getPipelineInventoryTrueUp().equals(selection.getAdjustmentType())) {
+            rate = new AdjustmentRateDTO(parameterSet, ARMUtils.getMONTHS()[month - 1], inventoryCalculation,
+                    price);
+        } else {
+            String baseLinePrice = obj[NumericConstants.FOURTEEN] == null || StringUtils.isBlank(String.valueOf(obj[NumericConstants.THIRTEEN])) || "0".equals(obj[NumericConstants.FOURTEEN]) ? GlobalConstants.getSelectOne() : String.valueOf(obj[NumericConstants.FOURTEEN]);
+            String adjustedPrice = obj[NumericConstants.THIRTEEN] == null || StringUtils.isBlank(String.valueOf(obj[NumericConstants.FOURTEEN])) || "0".equals(obj[NumericConstants.THIRTEEN]) ? GlobalConstants.getSelectOne() : String.valueOf(obj[NumericConstants.THIRTEEN]);
+            rate = new AdjustmentRateDTO(parameterSet, ARMUtils.getMONTHS()[month - 1], inventoryCalculation, price, baseLinePrice, adjustedPrice, exclusionDetails);
+        }
+        return rate;
+    }
+
     public List<AdjustmentRateDTO> customizeExcel(List<AdjustmentRateDTO> rawList, List<String> priceList, AdjustmentRateSelection selection) {
         List<AdjustmentRateDTO> list = new ArrayList<>();
         try {
             for (AdjustmentRateDTO dto : rawList) {
 
-                String dateType = dto.getDateType() == 0 ? StringUtils.EMPTY : getHelpDescriptionValue(dto.getDateType());
-                String price = checkPriceList(dto, priceList) ? StringUtils.EMPTY : dto.getPrice();
-                String rateBasis = dto.getRateBasis() == 0 ? StringUtils.EMPTY : getHelpDescriptionValue(dto.getRateBasis());
-                String rateFrequency = dto.getRateFrequency() == 0 ? StringUtils.EMPTY : getHelpDescriptionValue(dto.getRateFrequency());
+                String dateType = getStringValue(dto.getDateType());
+                String price = getStringValue(dto, priceList, selection, dto.getPrice());
+                String rateBasis = getStringValue(dto.getRateBasis());
+                String rateFrequency = getStringValue(dto.getRateFrequency());
                 String ratePeriod = dto.getRatePeriod() == 0 ? StringUtils.EMPTY : getHelpDescriptionValue(dto.getRatePeriod());
                 String exclusionDetails = StringUtils.EMPTY.equals(dto.getExclusionDetails()) ? StringUtils.EMPTY : String.valueOf(dto.getExclusionDetails());
-                String inventoryCustomer = dto.getInventoryCustomer() == 0 ? StringUtils.EMPTY : getHelpDescriptionValue(dto.getInventoryCustomer());
-                String reserveDate = dto.getReserveDate() == 0 ? StringUtils.EMPTY : getHelpDescriptionValue(dto.getReserveDate());
-                String baseLinePrice = checkPriceList(dto, priceList) && !ARMConstants.getTransaction6().equals(selection.getAdjustmentType()) ? StringUtils.EMPTY : dto.getBaselinePrice();
-                String adjustedPrice = checkPriceList(dto, priceList) && !ARMConstants.getTransaction6().equals(selection.getAdjustmentType()) ? StringUtils.EMPTY : dto.getAdjustedPrice();
-                String invenDetails = dto.getInventoryDetails() == 0 ? StringUtils.EMPTY : getHelpDescriptionValue(dto.getInventoryDetails());
+                String inventoryCustomer = getStringValue(dto.getInventoryCustomer());
+                String reserveDate = getStringValue(dto.getReserveDate());
+                String baseLinePrice = getStringValue(dto, priceList, selection, dto.getBaselinePrice());
+                String adjustedPrice = getStringValue(dto, priceList, selection, dto.getAdjustedPrice());
+                String invenDetails = getStringValue(dto.getInventoryDetails());
                 String invenCalculation = StringUtils.isBlank(dto.getInventoryCalculation()) || "0".equals(dto.getInventoryCalculation()) ? StringUtils.EMPTY : dto.getInventoryCalculation();
                 dto.setexcelmonth(dto.getMonth());
                 dto.setexceldateType(dateType);
@@ -194,6 +201,14 @@ public class AdjustmentRateLogic {
         }
 
         return list;
+    }
+
+    private String getStringValue(AdjustmentRateDTO dto, List<String> priceList, AdjustmentRateSelection selection, String value) {
+        return checkPriceList(dto, priceList) && !ARMConstants.getTransaction6().equals(selection.getAdjustmentType()) ? StringUtils.EMPTY : value;
+    }
+
+    private String getStringValue(int value) {
+        return value == 0 ? StringUtils.EMPTY : getHelpDescriptionValue(value);
     }
 
     public String getHelpDescriptionValue(int helperId) {
@@ -334,15 +349,15 @@ public class AdjustmentRateLogic {
                     + "where AVM.ARM_VIEW_MASTER_SID='@ARM_VIEW_MASTER_SID' ;";
             query = query.replace("@ARM_VIEW_MASTER_SID", viewSid);
             LOGGER.debug("Inside getSavedViewList query--{}", query);
-            List<Object[]> rawList = QueryUtils.executeSelect(query);
-            if (!rawList.isEmpty()) {
+            List<Object[]> resultsList = QueryUtils.executeSelect(query);
+            if (!resultsList.isEmpty()) {
                 finalList = new ArrayList();
-                for (int i = 0; i < rawList.size(); i++) {
-                    Object[] obj = rawList.get(i);
-                    ExclusionLookupDTO dto = new ExclusionLookupDTO();
-                    dto.setExcludedField(String.valueOf(obj[0]));
-                    dto.setValues(String.valueOf(obj[1]));
-                    finalList.add(dto);
+                for (int i = 0; i < resultsList.size(); i++) {
+                    Object[] obj = resultsList.get(i);
+                    ExclusionLookupDTO ratesdto = new ExclusionLookupDTO();
+                    ratesdto.setExcludedField(String.valueOf(obj[0]));
+                    ratesdto.setValues(String.valueOf(obj[1]));
+                    finalList.add(ratesdto);
                 }
             }
             return finalList;
@@ -390,38 +405,38 @@ public class AdjustmentRateLogic {
                         filterQuery.append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
                         filterQuery.append(" like '");
                         filterQuery.append(filterString);
-                        filterQuery.append("'");
+                        filterQuery.append(ARMUtils.SINGLE_QUOTES);
 
                     } else if (filter instanceof Between) {
                         Between betweenFilter = (Between) filter;
-                        StringBuilder dateStartstr = new StringBuilder("AND ( * >='?')");
-                        StringBuilder dateEndstr = new StringBuilder("AND ( * <='?')");
+                        StringBuilder ratesDateStartstr = new StringBuilder("AND ( * >='?')");
+                        StringBuilder ratesDateEndstr = new StringBuilder("AND ( * <='?')");
                         if (!detailsColumn.get(betweenFilter.getPropertyId().toString()).isEmpty()) {
-                            Date startValue = (Date) betweenFilter.getStartValue();
-                            Date endValue = (Date) betweenFilter.getEndValue();
-                            StringBuilder initialStart = new StringBuilder("where ( ( * >= '?' )");
-                            StringBuilder initialEnd = new StringBuilder("where ( ( * <= '?' )");
+                            Date startVal = (Date) betweenFilter.getStartValue();
+                            Date endVal = (Date) betweenFilter.getEndValue();
+                            StringBuilder initStart = new StringBuilder("where ( ( * >= '?' )");
+                            StringBuilder initEnd = new StringBuilder("where ( ( * <= '?' )");
                             if (!betweenFilter.getStartValue().toString().isEmpty()) {
-                                StringBuilder tempStart;
+                                StringBuilder tmpStart;
                                 if (sqlQuery.length() == 0) {
-                                    tempStart = new StringBuilder(initialStart);
+                                    tmpStart = new StringBuilder(initStart);
                                 } else {
-                                    tempStart = new StringBuilder(dateStartstr);
+                                    tmpStart = new StringBuilder(ratesDateStartstr);
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
-                                sqlQuery.append(tempStart);
+                                tmpStart.replace(tmpStart.indexOf("*"), tmpStart.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
+                                tmpStart.replace(tmpStart.indexOf("?"), tmpStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startVal));
+                                sqlQuery.append(tmpStart);
                             }
                             if (!betweenFilter.getEndValue().toString().isEmpty()) {
                                 StringBuilder tempEnd;
                                 if (sqlQuery.length() == 0) {
-                                    tempEnd = new StringBuilder(initialEnd);
+                                    tempEnd = new StringBuilder(initEnd);
                                 } else {
-                                    tempEnd = new StringBuilder(dateEndstr);
+                                    tempEnd = new StringBuilder(ratesDateEndstr);
                                 }
 
                                 tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
+                                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endVal));
                                 sqlQuery.append(tempEnd);
                             }
                         }
@@ -429,38 +444,38 @@ public class AdjustmentRateLogic {
                 }
             }
             StringBuilder finalQuery;
-            String order = StringUtils.EMPTY;
+            String orderBy = StringUtils.EMPTY;
             if (!isCount) {
-                boolean sortOrder = false;
-                String columnName = null;
-                String orderByColumn = null;
+                boolean sortOrdering = false;
+                String colName = null;
+                String orderByCol = null;
                 if (sortByColumns != null) {
                     for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
                         final SortByColumn sortByColumn = iterator.next();
 
-                        columnName = sortByColumn.getName();
-                        orderByColumn = detailsColumn.get(columnName);
+                        colName = sortByColumn.getName();
+                        orderByCol = detailsColumn.get(colName);
 
                         if (sortByColumn.getType() == SortByColumn.Type.ASC) {
-                            sortOrder = false;
+                            sortOrdering = false;
                         } else {
-                            sortOrder = true;
+                            sortOrdering = true;
                         }
                     }
                 }
-                if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
-                    order = order + " ORDER BY AVM.VIEW_NAME ";
+                if (orderByCol == null || StringUtils.EMPTY.equals(orderByCol)) {
+                    orderBy = orderBy + " ORDER BY AVM.VIEW_NAME ";
                 } else {
-                    order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
+                    orderBy = orderBy + " ORDER BY " + orderByCol + ((!sortOrdering) ? " ASC " : " DESC ");
                 }
-                order = order + " " + "OFFSET ";
-                order = order + startIndex;
-                order = order + " ROWS FETCH NEXT " + endIndex;
-                order = order + " ROWS ONLY;";
+                orderBy = orderBy + " " + "OFFSET ";
+                orderBy = orderBy + startIndex;
+                orderBy = orderBy + " ROWS FETCH NEXT " + endIndex;
+                orderBy = orderBy + " ROWS ONLY;";
             }
 
             finalQuery = new StringBuilder();
-            finalQuery.append(sqlQuery).append(filterQuery).append(order);
+            finalQuery.append(sqlQuery).append(filterQuery).append(orderBy);
             if (isCount) {
                 return HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
             }
@@ -468,15 +483,15 @@ public class AdjustmentRateLogic {
             List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
             for (Object[] obj : list) {
                 LookUpDTO exRateDTO = new LookUpDTO();
-                exRateDTO.setViewMasterSid(Integer.valueOf(String.valueOf(obj[0])));
+                exRateDTO.setViewMasterSid((Integer)(obj[0]));
                 exRateDTO.setViewName(String.valueOf(obj[1]));
-                exRateDTO.setCreatedBy(StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TWO])) ? CommonUtils.getUserMap().get(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]))) : StringUtils.EMPTY);
+                exRateDTO.setCreatedBy(StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TWO])) ? CommonUtils.getUserMap().get((Integer)(obj[NumericConstants.TWO])) : StringUtils.EMPTY);
                 exRateDTO.setCreatedDate(CommonUtils.convertStringToDate(String.valueOf(obj[NumericConstants.THREE])));
                 resultList.add(exRateDTO);
             }
             return resultList;
         } catch (SQLException | NumberFormatException | NullPointerException | ArrayIndexOutOfBoundsException ex) {
-            LOGGER.error("Error in searchLogicForExclusionLookUp" , ex);
+            LOGGER.error("Error in searchLogicForExclusionLookUp", ex);
         }
         return Collections.emptyList();
     }

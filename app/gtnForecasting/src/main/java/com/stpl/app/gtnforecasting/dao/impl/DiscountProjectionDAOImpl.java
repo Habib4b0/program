@@ -29,7 +29,7 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
 
     @Override
     public void updateAdjustedDiscount(int projectionId) {
-        // TODO Auto-generated method stub
+        //updateAdjustedDiscount Method
     }
 
     @Override
@@ -86,13 +86,12 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
 
     @Override
     public List getGlobalRebateDetails(int projectionId) {
-        // TODO Auto-generated method stub
         return Collections.emptyList();
     }
 
     @Override
-    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkClear, boolean isProgram, List<String> discountList) {
-        new NmDiscountImpl().checkClearAll(projectionId, userId, sessionId, userGroup, checkClear, isProgram, discountList);
+    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkClear, List<String> discountList) {
+        new NmDiscountImpl().checkClearAll(projectionId, userId, sessionId, userGroup, checkClear, discountList);
     }
 
 }

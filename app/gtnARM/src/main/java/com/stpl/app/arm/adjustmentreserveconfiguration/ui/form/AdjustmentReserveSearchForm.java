@@ -216,7 +216,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
             excelBtnRes.setPrimaryStyleName("link");
             excelBtnRes.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
         } catch (Exception ex) {
-            LOGGER.error("Error in configureFields :" , ex);
+            LOGGER.error("Error in configureFields :", ex);
         }
     }
 
@@ -230,36 +230,36 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
 
             @Override
-            public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
+            public Container.Filter generateFilter(Object reserveSearchpropertyId, Field<?> originatingField) {
                 String value = null;
                 if ((originatingField instanceof ComboBox) && ((originatingField instanceof ComboBox) && (originatingField.getValue() != null))) {
-                    return new SimpleStringFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
+                    return new SimpleStringFilter(reserveSearchpropertyId, String.valueOf(originatingField.getValue()), false, false);
                 }
-                return generateFilter(propertyId, value);
+                return generateFilter(reserveSearchpropertyId, value);
             }
 
             @Override
-            public Container.Filter generateFilter(Object propertyId, Object value) {
+            public Container.Filter generateFilter(Object reserveSearchpropertyId, Object value) {
                 return null;
             }
 
             @Override
-            public void filterRemoved(Object propertyId) {
+            public void filterRemoved(Object reserveSearchpropertyId) {
                 LOGGER.debug("filterRemoved Method:");
             }
 
             @Override
-            public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+            public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object reserveSearchpropertyId) {
                 LOGGER.debug("filterAdded Method:");
             }
 
             @Override
-            public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
+            public Container.Filter filterGeneratorFailed(Exception reason, Object reserveSearchpropertyId, Object value) {
                 return null;
             }
 
             @Override
-            public AbstractField<?> getCustomFilterComponent(Object propertyId) {
+            public AbstractField<?> getCustomFilterComponent(Object reserveSearchpropertyId) {
                 return null;
 
             }
@@ -415,7 +415,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
                         adjustReserveConfigTableLogic.loadsetData(true, binderDto);
                         AbstractNotificationUtils.getInfoNotification("Delete Successful", ARMMessages.getSuccessful_msg_001());
                     } catch (Exception ex) {
-                        LOGGER.error("Error in deleteButtonLogic :" , ex);
+                        LOGGER.error("Error in deleteButtonLogic :", ex);
                     }
                 }
 
@@ -559,7 +559,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
         selection.setSessionId(Integer.valueOf(ARMUtils.getInstance().getFmtID().format(sessionDate)));
         selection.setSessionDate(sessionDate);
         LOGGER.debug("UserId-->> {}", VaadinSession.getCurrent().getAttribute("userId").toString());
-        selection.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("userId"))));
+        selection.setUserId((Integer)(VaadinSession.getCurrent().getAttribute("userId")));
         return selection;
     }
 

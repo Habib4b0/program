@@ -15,114 +15,114 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class FilterTab {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
-	
-	
-	public void addDiscountProjectionFilterTabLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
-		GtnUIFrameworkComponentConfig discountProjFilterLayoutConfig = configProvider
+	public void addDiscountProjectionFilterTabLayout(List<GtnUIFrameworkComponentConfig> componentList,
+			String nameSpace) {
+
+		GtnUIFrameworkComponentConfig discountProjFilterLayoutCommonConfig = configProvider
 				.getVerticalLayoutConfig(nameSpace + "_" + "discountProjFilterLayoutConfig", false, null);
-		discountProjFilterLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		discountProjFilterLayoutConfig.setTabComponent(true);
-		componentList.add(discountProjFilterLayoutConfig);
+		discountProjFilterLayoutCommonConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		discountProjFilterLayoutCommonConfig.setTabComponent(true);
+		componentList.add(discountProjFilterLayoutCommonConfig);
 
-		GtnUIFrameworkLayoutConfig discountProjFiilterInnerLayout = new GtnUIFrameworkLayoutConfig();
-		discountProjFiilterInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
-		discountProjFiilterInnerLayout.setComponentColumnSize(12);
-		GtnUIFrameworkComponentConfig filterInnerLayoutConfig = new GtnUIFrameworkComponentConfig();
-		filterInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		filterInnerLayoutConfig.setComponentId(nameSpace + "_" + "discountProjFiilterInnerLayout");
-		filterInnerLayoutConfig.setAddToParent(Boolean.TRUE);
-		filterInnerLayoutConfig.setSpacing(Boolean.TRUE);
-		filterInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
-		filterInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_4);
-		filterInnerLayoutConfig.setParentComponentId(discountProjFilterLayoutConfig.getComponentId());
-		filterInnerLayoutConfig.setGtnLayoutConfig(discountProjFiilterInnerLayout);
-		componentList.add(filterInnerLayoutConfig);
-		
+		GtnUIFrameworkLayoutConfig discountProjFiilterInnerCommonLayout = new GtnUIFrameworkLayoutConfig();
+		discountProjFiilterInnerCommonLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		discountProjFiilterInnerCommonLayout.setComponentColumnSize(12);
+		GtnUIFrameworkComponentConfig filterInnerLayoutCommonConfig = new GtnUIFrameworkComponentConfig();
+		filterInnerLayoutCommonConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		filterInnerLayoutCommonConfig.setComponentId(nameSpace + "_" + "discountProjFiilterInnerLayout");
+		filterInnerLayoutCommonConfig.setAddToParent(true);
+		filterInnerLayoutCommonConfig.setSpacing(true);
+		filterInnerLayoutCommonConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		filterInnerLayoutCommonConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_4);
+		filterInnerLayoutCommonConfig.setParentComponentId(discountProjFilterLayoutCommonConfig.getComponentId());
+		filterInnerLayoutCommonConfig.setGtnLayoutConfig(discountProjFiilterInnerCommonLayout);
+		componentList.add(filterInnerLayoutCommonConfig);
+
 	}
 
 	public void addSalesProjectionFilterTabLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
-		GtnUIFrameworkComponentConfig salesProjFilterLayoutConfig = configProvider
+		GtnUIFrameworkComponentConfig salesProjFilterLayoutCommonConfig = configProvider
 				.getVerticalLayoutConfig(nameSpace + "_" + "salesProjFilterLayoutConfig", false, null);
-		salesProjFilterLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		salesProjFilterLayoutConfig.setTabComponent(true);
-		componentList.add(salesProjFilterLayoutConfig);
+		salesProjFilterLayoutCommonConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		salesProjFilterLayoutCommonConfig.setTabComponent(true);
+		componentList.add(salesProjFilterLayoutCommonConfig);
 
-		GtnUIFrameworkLayoutConfig salesProjFilterInnerLayout = new GtnUIFrameworkLayoutConfig();
-		salesProjFilterInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
-		salesProjFilterInnerLayout.setComponentColumnSize(12);
-		GtnUIFrameworkComponentConfig filterInnerLayoutConfig = new GtnUIFrameworkComponentConfig();
-		filterInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		filterInnerLayoutConfig.setComponentId(nameSpace + "_" + "salesProjFilterInnerLayout");
-		filterInnerLayoutConfig.setAddToParent(Boolean.TRUE);
-		filterInnerLayoutConfig.setSpacing(Boolean.TRUE);
-		filterInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
-		filterInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_3);
-		filterInnerLayoutConfig.setParentComponentId(salesProjFilterLayoutConfig.getComponentId());
-		filterInnerLayoutConfig.setGtnLayoutConfig(salesProjFilterInnerLayout);
-		componentList.add(filterInnerLayoutConfig);
-		
+		GtnUIFrameworkLayoutConfig salesProjFilterInnerCommonLayout = new GtnUIFrameworkLayoutConfig();
+		salesProjFilterInnerCommonLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		salesProjFilterInnerCommonLayout.setComponentColumnSize(12);
+		GtnUIFrameworkComponentConfig filterInnerLayoutCommonConfig = new GtnUIFrameworkComponentConfig();
+		filterInnerLayoutCommonConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		filterInnerLayoutCommonConfig.setComponentId(nameSpace + "_" + "salesProjFilterInnerLayout");
+		filterInnerLayoutCommonConfig.setAddToParent(true);
+		filterInnerLayoutCommonConfig.setSpacing(true);
+		filterInnerLayoutCommonConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		filterInnerLayoutCommonConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_3);
+		filterInnerLayoutCommonConfig.setParentComponentId(salesProjFilterLayoutCommonConfig.getComponentId());
+		filterInnerLayoutCommonConfig.setGtnLayoutConfig(salesProjFilterInnerCommonLayout);
+		componentList.add(filterInnerLayoutCommonConfig);
+
 	}
 
 	public void addCustomerLevel(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
-		GtnUIFrameworkComponentConfig customerLevelLayout = configProvider
+		GtnUIFrameworkComponentConfig customerLevelCommonLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "customerLevelLayout", true, parentComponentId);
-		customerLevelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		componentList.add(customerLevelLayout);
-		
-		GtnUIFrameworkComponentConfig customerLevel = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "customerLevel", true, customerLevelLayout.getComponentId(),
-				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		customerLevel.setComponentName("Customer Level:");
+		customerLevelCommonLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		componentList.add(customerLevelCommonLayout);
 
-		GtnUIFrameworkComboBoxConfig customerLevelConfig = new GtnUIFrameworkComboBoxConfig();
-		customerLevelConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		customerLevelConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+		GtnUIFrameworkComponentConfig customerCommonLevel = configProvider.getUIFrameworkComponentConfig(
+				nameSpace + "_" + "customerLevel", true, customerLevelCommonLayout.getComponentId(),
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		customerCommonLevel.setComponentName("Customer Level:");
+
+		GtnUIFrameworkComboBoxConfig customerLevelCommonConfig = new GtnUIFrameworkComboBoxConfig();
+		customerLevelCommonConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
+		customerLevelCommonConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		customerLevel.setGtnComboboxConfig(customerLevelConfig);
-		componentList.add(customerLevel);
+		customerCommonLevel.setGtnComboboxConfig(customerLevelCommonConfig);
+		componentList.add(customerCommonLevel);
 	}
 
 	public void addProductLevel(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
-		GtnUIFrameworkComponentConfig productLevelLayout = configProvider
+		GtnUIFrameworkComponentConfig productLevelCommonLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "productLevelLayout", true, parentComponentId);
-		productLevelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		componentList.add(productLevelLayout);
-		
-		GtnUIFrameworkComponentConfig productLevel = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "productLevel", true, productLevelLayout.getComponentId(),
-				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		productLevel.setComponentName("Product Level:");
+		productLevelCommonLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		componentList.add(productLevelCommonLayout);
 
-		GtnUIFrameworkComboBoxConfig productLevelConfig = new GtnUIFrameworkComboBoxConfig();
-		productLevelConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		productLevelConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+		GtnUIFrameworkComponentConfig productCommonLevel = configProvider.getUIFrameworkComponentConfig(
+				nameSpace + "_" + "productLevel", true, productLevelCommonLayout.getComponentId(),
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		productCommonLevel.setComponentName("Product Level:");
+
+		GtnUIFrameworkComboBoxConfig productLevelCommonConfig = new GtnUIFrameworkComboBoxConfig();
+		productLevelCommonConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
+		productLevelCommonConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		productLevel.setGtnComboboxConfig(productLevelConfig);
-		componentList.add(productLevel);
+		productCommonLevel.setGtnComboboxConfig(productLevelCommonConfig);
+		componentList.add(productCommonLevel);
 	}
 
 	public void addDeductionLevel(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
-		GtnUIFrameworkComponentConfig deductionLevelLayout = configProvider
+		GtnUIFrameworkComponentConfig deductionLevelCommonLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "deductionLevelLayout", true, parentComponentId);
-		deductionLevelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		componentList.add(deductionLevelLayout);
-		
-		GtnUIFrameworkComponentConfig deductionLevel = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "deductionLevel", true, deductionLevelLayout.getComponentId(),
-				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		deductionLevel.setComponentName("Deduction Level:");
+		deductionLevelCommonLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		componentList.add(deductionLevelCommonLayout);
 
-		GtnUIFrameworkComboBoxConfig deductionLevelConfig = new GtnUIFrameworkComboBoxConfig();
-		deductionLevelConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		deductionLevelConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+		GtnUIFrameworkComponentConfig deductionCommonLevel = configProvider.getUIFrameworkComponentConfig(
+				nameSpace + "_" + "deductionLevel", true, deductionLevelCommonLayout.getComponentId(),
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		deductionCommonLevel.setComponentName("Deduction Level:");
+
+		GtnUIFrameworkComboBoxConfig deductionLevelCommonConfig = new GtnUIFrameworkComboBoxConfig();
+		deductionLevelCommonConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
+		deductionLevelCommonConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		deductionLevel.setGtnComboboxConfig(deductionLevelConfig);
-		componentList.add(deductionLevel);
+		deductionCommonLevel.setGtnComboboxConfig(deductionLevelCommonConfig);
+		componentList.add(deductionCommonLevel);
 	}
 
 	public void addCustomerFilter(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -131,7 +131,7 @@ public class FilterTab {
 				.getHorizontalLayoutConfig(nameSpace + "_" + "customerFilterLayout", true, parentComponentId);
 		customerFilterLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(customerFilterLayout);
-		
+
 		GtnUIFrameworkComponentConfig customerFilter = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + "_" + "customerFilter", true, customerFilterLayout.getComponentId(),
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
@@ -148,93 +148,93 @@ public class FilterTab {
 
 	public void addProductFilter(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
-		GtnUIFrameworkComponentConfig productFilterLayout = configProvider
+		GtnUIFrameworkComponentConfig productFilterCommonLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "productFilterLayout", true, parentComponentId);
-		productFilterLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		componentList.add(productFilterLayout);
-		
-		GtnUIFrameworkComponentConfig productFilter = new GtnUIFrameworkComponentConfig();
-		productFilter.setComponentType(GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
-		productFilter.setComponentName("Product Filter:");
-		productFilter.setComponentId(nameSpace + "_" + "productFilter");
-		productFilter.setParentComponentId(productFilterLayout.getComponentId());
-		productFilter.setAddToParent(true);
-		componentList.add(productFilter);
+		productFilterCommonLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		componentList.add(productFilterCommonLayout);
 
-		GtnUIFrameworkCheckedComboBoxConfig productFilterConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		productFilterConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		productFilterConfig.setDefaultValue(GtnFrameworkScreenRegisteryConstants.COMBOX_DEFAULT_VALUE);
-		productFilterConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+		GtnUIFrameworkComponentConfig productCommonFilter = new GtnUIFrameworkComponentConfig();
+		productCommonFilter.setComponentType(GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
+		productCommonFilter.setComponentName("Product Filter:");
+		productCommonFilter.setComponentId(nameSpace + "_" + "productFilter");
+		productCommonFilter.setParentComponentId(productFilterCommonLayout.getComponentId());
+		productCommonFilter.setAddToParent(true);
+		componentList.add(productCommonFilter);
+
+		GtnUIFrameworkCheckedComboBoxConfig productFilterCommonConfig = new GtnUIFrameworkCheckedComboBoxConfig();
+		productFilterCommonConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
+		productFilterCommonConfig.setDefaultValue(GtnFrameworkScreenRegisteryConstants.COMBOX_DEFAULT_VALUE);
+		productFilterCommonConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		productFilter.setGtnCheckedComboboxConfig(productFilterConfig);
+		productCommonFilter.setGtnCheckedComboboxConfig(productFilterCommonConfig);
 	}
 
 	public void addDeductionFilter(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
-		GtnUIFrameworkComponentConfig deductionFilterLayout = configProvider
+		GtnUIFrameworkComponentConfig deductionFilterCommonLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "deductionFilterLayout", true, parentComponentId);
-		deductionFilterLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		componentList.add(deductionFilterLayout);
-		
-		GtnUIFrameworkComponentConfig deductionFilter = new GtnUIFrameworkComponentConfig();
-		deductionFilter.setComponentType(GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
-		deductionFilter.setComponentName("Deduction Filter:");
-		deductionFilter.setComponentId(nameSpace + "_" + "deductionFilter");
-		deductionFilter.setParentComponentId(deductionFilterLayout.getComponentId());
-		deductionFilter.setAddToParent(true);
-		componentList.add(deductionFilter);
+		deductionFilterCommonLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		componentList.add(deductionFilterCommonLayout);
 
-		GtnUIFrameworkCheckedComboBoxConfig deductionFilterConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		deductionFilterConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		deductionFilterConfig.setDefaultValue(GtnFrameworkScreenRegisteryConstants.COMBOX_DEFAULT_VALUE);
-		deductionFilterConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+		GtnUIFrameworkComponentConfig deductionCommonFilter = new GtnUIFrameworkComponentConfig();
+		deductionCommonFilter.setComponentType(GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
+		deductionCommonFilter.setComponentName("Deduction Filter:");
+		deductionCommonFilter.setComponentId(nameSpace + "_" + "deductionFilter");
+		deductionCommonFilter.setParentComponentId(deductionFilterCommonLayout.getComponentId());
+		deductionCommonFilter.setAddToParent(true);
+		componentList.add(deductionCommonFilter);
+
+		GtnUIFrameworkCheckedComboBoxConfig deductionFilterCommonConfig = new GtnUIFrameworkCheckedComboBoxConfig();
+		deductionFilterCommonConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
+		deductionFilterCommonConfig.setDefaultValue(GtnFrameworkScreenRegisteryConstants.COMBOX_DEFAULT_VALUE);
+		deductionFilterCommonConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		deductionFilter.setGtnCheckedComboboxConfig(deductionFilterConfig);
+		deductionCommonFilter.setGtnCheckedComboboxConfig(deductionFilterCommonConfig);
 	}
 
 	public void addDeductionInclusion(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
-		GtnUIFrameworkComponentConfig deductionInclusionLayout = configProvider
+		GtnUIFrameworkComponentConfig deductionInclusionCommonLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "deductionInclusionLayout", true, parentComponentId);
-		deductionInclusionLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		componentList.add(deductionInclusionLayout);
-		
-		GtnUIFrameworkComponentConfig deductionInclusion = new GtnUIFrameworkComponentConfig();
-		deductionInclusion.setComponentType(GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
-		deductionInclusion.setComponentName("Deduction Inclusion:");
-		deductionInclusion.setComponentId(nameSpace + "_" + "deductionInclusion");
-		deductionInclusion.setParentComponentId(deductionInclusionLayout.getComponentId());
-		deductionInclusion.setAddToParent(true);
-		componentList.add(deductionInclusion);
+		deductionInclusionCommonLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		componentList.add(deductionInclusionCommonLayout);
 
-		GtnUIFrameworkCheckedComboBoxConfig deductionInclusionConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		deductionInclusionConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		deductionInclusionConfig.setDefaultValue(GtnFrameworkScreenRegisteryConstants.COMBOX_DEFAULT_VALUE);
-		deductionInclusionConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+		GtnUIFrameworkComponentConfig deductionCommonInclusion = new GtnUIFrameworkComponentConfig();
+		deductionCommonInclusion.setComponentType(GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
+		deductionCommonInclusion.setComponentName("Deduction Inclusion:");
+		deductionCommonInclusion.setComponentId(nameSpace + "_" + "deductionInclusion");
+		deductionCommonInclusion.setParentComponentId(deductionInclusionCommonLayout.getComponentId());
+		deductionCommonInclusion.setAddToParent(true);
+		componentList.add(deductionCommonInclusion);
+
+		GtnUIFrameworkCheckedComboBoxConfig deductionInclusionCommonConfig = new GtnUIFrameworkCheckedComboBoxConfig();
+		deductionInclusionCommonConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
+		deductionInclusionCommonConfig.setDefaultValue(GtnFrameworkScreenRegisteryConstants.COMBOX_DEFAULT_VALUE);
+		deductionInclusionCommonConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		deductionInclusion.setGtnCheckedComboboxConfig(deductionInclusionConfig);
+		deductionCommonInclusion.setGtnCheckedComboboxConfig(deductionInclusionCommonConfig);
 	}
-	
+
 	public void addSalesInclusion(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
-		GtnUIFrameworkComponentConfig salesInclusionLayout = configProvider
+		GtnUIFrameworkComponentConfig salesInclusionCommonLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "salesInclusionLayout", true, parentComponentId);
-		salesInclusionLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		componentList.add(salesInclusionLayout);
-		
-		GtnUIFrameworkComponentConfig salesInclusion = new GtnUIFrameworkComponentConfig();
-		salesInclusion.setComponentType(GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
-		salesInclusion.setComponentName("Sales Inclusion:");
-		salesInclusion.setComponentId(nameSpace + "_" + "salesInclusion");
-		salesInclusion.setParentComponentId(salesInclusionLayout.getComponentId());
-		salesInclusion.setAddToParent(true);
-		componentList.add(salesInclusion);
+		salesInclusionCommonLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		componentList.add(salesInclusionCommonLayout);
 
-		GtnUIFrameworkCheckedComboBoxConfig salesInclusionConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		salesInclusionConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		salesInclusionConfig.setDefaultValue(GtnFrameworkScreenRegisteryConstants.COMBOX_DEFAULT_VALUE);
-		salesInclusionConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+		GtnUIFrameworkComponentConfig salesCommonInclusion = new GtnUIFrameworkComponentConfig();
+		salesCommonInclusion.setComponentType(GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
+		salesCommonInclusion.setComponentName("Sales Inclusion:");
+		salesCommonInclusion.setComponentId(nameSpace + "_" + "salesInclusion");
+		salesCommonInclusion.setParentComponentId(salesInclusionCommonLayout.getComponentId());
+		salesCommonInclusion.setAddToParent(true);
+		componentList.add(salesCommonInclusion);
+
+		GtnUIFrameworkCheckedComboBoxConfig salesInclusionCommonConfig = new GtnUIFrameworkCheckedComboBoxConfig();
+		salesInclusionCommonConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
+		salesInclusionCommonConfig.setDefaultValue(GtnFrameworkScreenRegisteryConstants.COMBOX_DEFAULT_VALUE);
+		salesInclusionCommonConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		salesInclusion.setGtnCheckedComboboxConfig(salesInclusionConfig);
+		salesCommonInclusion.setGtnCheckedComboboxConfig(salesInclusionCommonConfig);
 	}
 }

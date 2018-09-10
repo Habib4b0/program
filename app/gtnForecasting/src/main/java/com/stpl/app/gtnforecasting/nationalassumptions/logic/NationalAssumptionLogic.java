@@ -59,7 +59,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -74,7 +73,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class NationalAssumptionLogic.
  *
@@ -83,11 +82,7 @@ import org.slf4j.LoggerFactory;
 public class NationalAssumptionLogic {
 
     
-    /**
-     * The current year.
-     */
-    private int currentYear;
-    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    private final String dataSourceContext = "java:jboss/datasources/jdbc/appDataPool";
     public static final String DESCRIPTION = "description";
     public static final String CALL_BRACKET = "{call ";
     /**
@@ -109,7 +104,7 @@ public class NationalAssumptionLogic {
     /**
      * The Dollar Four Decimal Places Format.
      */
-    private final DecimalFormat CUR_FOUR = new DecimalFormat("$#,##0.0000");
+    private final DecimalFormat curFour = new DecimalFormat("$#,##0.0000");
     private static final CommonResultsDAO commonDAO = new CommonResultsDAOImpl();
 
     public NationalAssumptionLogic() {
@@ -126,10 +121,10 @@ public class NationalAssumptionLogic {
     public List<BaselinePeriodDTO> getBasePeriods(int startIndex, int endIndex) {
         List<BaselinePeriodDTO> results = new ArrayList<>();
         List<BaselinePeriodDTO> totalresults = getBaselinePeriods();
+        int startedIndxed = startIndex;
+        for (; startedIndxed <= endIndex; startedIndxed++) {
 
-        for (; startIndex <= endIndex; startIndex++) {
-
-            results.add(totalresults.get(startIndex));
+            results.add(totalresults.get(startedIndxed));
 
         }
         return results;
@@ -138,10 +133,10 @@ public class NationalAssumptionLogic {
     public List<BaselinePeriodDTO> getRollingPeriods(int startIndex, int endIndex) {
         List<BaselinePeriodDTO> results = new ArrayList<>();
         List<BaselinePeriodDTO> totalresults = getRollingPeriods();
+        int startedIndxedPeriod = startIndex;
+        for (; startedIndxedPeriod <= endIndex; startedIndxedPeriod++) {
 
-        for (; startIndex <= endIndex; startIndex++) {
-
-            results.add(totalresults.get(startIndex));
+            results.add(totalresults.get(startedIndxedPeriod));
 
         }
         return results;
@@ -209,6 +204,7 @@ public class NationalAssumptionLogic {
 
     private List<BaselinePeriodDTO> getRollingPeriods() {
         Calendar now = Calendar.getInstance();
+        int currentYear;
         currentYear = now.get(Calendar.YEAR);
         List<BaselinePeriodDTO> periods = new ArrayList<>();
         for (int i = 0; i < NumericConstants.FIVE; i++) {
@@ -266,7 +262,7 @@ public class NationalAssumptionLogic {
 
             }
 
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return Constant.SUCCESS;
@@ -365,7 +361,7 @@ public class NationalAssumptionLogic {
             DataSelectionQueryUtils dsQueryUtils = new DataSelectionQueryUtils();
             List<Object[]> priceTypes = dsQueryUtils.getPriceTypesList(session);
             priceTypesDTOList = getCustomizedPriceTypeResults(priceTypes);
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -384,7 +380,7 @@ public class NationalAssumptionLogic {
             priceTypeResult.setBaselineMethodology(String.valueOf(obj[NumericConstants.TWO]));
             priceTypeResult.setForecastMethodology(String.valueOf(obj[NumericConstants.THREE]));
             if (GROWTH.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())||PER_OF_WAC.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())) {
-                priceTypeResult.setGrowthRate(getFormattedGrowth(String.valueOf(obj[NumericConstants.FOUR]), GROWTH.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())));
+                priceTypeResult.setGrowthRate(getFormattedGrowth(String.valueOf(obj[NumericConstants.FOUR])));
                 priceTypeResult.setFrequency(String.valueOf(obj[NumericConstants.NINE]));
             }
             priceTypeResult.setStartPeriod(String.valueOf(obj[NumericConstants.FIVE]));
@@ -434,7 +430,7 @@ public class NationalAssumptionLogic {
         List<Object[]> objectList = new ArrayList<>();
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            datasource = (DataSource) initialContext.lookup(dataSourceContext);
         } catch (NamingException ex)
         {
             LOGGER.error(ex.getMessage());
@@ -478,7 +474,7 @@ public class NationalAssumptionLogic {
         return objList;
     }
 
-    public static Object[] getBrandDynamicQuery(HelperDTO theraupticsid) throws SystemException, PortalException {
+    public static Object[] getBrandDynamicQuery(HelperDTO theraupticsid) throws PortalException {
 
         int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
         final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
@@ -518,9 +514,9 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyBrandCount(String filterText, final HelperDTO theraupticSid) throws PortalException, SystemException {
+    public static int getLazyBrandCount(String filterText, final HelperDTO theraupticSid) throws PortalException {
 
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextNew = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Long> qualifierList;
 
         Object[] brandSid = getBrandDynamicQuery(theraupticSid);
@@ -531,7 +527,7 @@ public class NationalAssumptionLogic {
             brandQuery.add(RestrictionsFactoryUtil.in(Constant.BRAND_MASTER_SID, brandSid));
         }
 
-        brandQuery.add(RestrictionsFactoryUtil.ilike(BRAND_NAME.getConstant(), filterText));
+        brandQuery.add(RestrictionsFactoryUtil.ilike(BRAND_NAME.getConstant(), filterTextNew));
         brandQuery.setProjection(ProjectionFactoryUtil.countDistinct(BRAND_NAME.getConstant()));
         qualifierList = DAO.getBrandList(brandQuery);
         count = Integer.parseInt(String.valueOf(qualifierList.get(0)));
@@ -549,9 +545,9 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<HelperDTO> getLazyBrandResults(final int start, final int end, String filterText, final HelperDTO theraupticSid, final HelperDTO preBrandVal) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyBrandResults(final int start, final int end, String filterText, final HelperDTO theraupticSid, final HelperDTO preBrandVal) throws PortalException {
 
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextLazyBrandResults = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Object[]> qualifierList;
         final List<HelperDTO> list = new ArrayList<>();
         int startValue;
@@ -573,7 +569,7 @@ public class NationalAssumptionLogic {
         projectionList.add(ProjectionFactoryUtil.property(BRAND_NAME.getConstant()));
         brandQuery.setProjection(projectionList);
         brandQuery.addOrder(OrderFactoryUtil.asc(BRAND_NAME.getConstant()));
-        brandQuery.add(RestrictionsFactoryUtil.ilike(BRAND_NAME.getConstant(), filterText));
+        brandQuery.add(RestrictionsFactoryUtil.ilike(BRAND_NAME.getConstant(), filterTextLazyBrandResults));
 
         if (brandSid.length != 0) {
             brandQuery.add(RestrictionsFactoryUtil.in(Constant.BRAND_MASTER_SID, brandSid));
@@ -605,7 +601,7 @@ public class NationalAssumptionLogic {
         return list;
     }
 
-    public static DynamicQuery getTheraupeuticDynamicQuery(String filterText) throws SystemException, PortalException {
+    public static DynamicQuery getTheraupeuticDynamicQuery(String filterText) throws PortalException {
 
         int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
         final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
@@ -632,18 +628,18 @@ public class NationalAssumptionLogic {
         return getHelperTableByListTypeAndDescription(therapeuticId, filterText);
     }
 
-    public static int getLazyTherapeuticClassCount(String filterText) throws PortalException, SystemException {
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+    public static int getLazyTherapeuticClassCount(String filterText) throws  PortalException {
+        String filterTextCount = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
 
-        DynamicQuery tcDynamicQuery = getTheraupeuticDynamicQuery(filterText);
+        DynamicQuery tcDynamicQuery = getTheraupeuticDynamicQuery(filterTextCount);
         tcDynamicQuery.setProjection(ProjectionFactoryUtil.countDistinct(DESCRIPTION));
         List<HelperTable> list = DAO.getHelperTable(tcDynamicQuery);
         return Integer.parseInt(String.valueOf(list.get(0)));
     }
 
-    public static List<HelperDTO> getLazyTherapeuticClassResults(final int start, final int end, String filterText) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyTherapeuticClassResults(final int start, final int end, String filterText) throws PortalException {
 
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextResults = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<HelperTable> list;
         final List<HelperDTO> helperDtoList = new ArrayList<>();
 
@@ -656,7 +652,7 @@ public class NationalAssumptionLogic {
             endValue = end - 1;
         }
 
-        final DynamicQuery tcDynamicQuery = getTheraupeuticDynamicQuery(filterText);
+        final DynamicQuery tcDynamicQuery = getTheraupeuticDynamicQuery(filterTextResults);
         tcDynamicQuery.setLimit(startValue, endValue);
         tcDynamicQuery.addOrder(OrderFactoryUtil.asc(HELPER_TABLE_SID));
         list = DAO.getHelperTable(tcDynamicQuery);
@@ -698,16 +694,16 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyNdcCount(String filterText, final HelperDTO brandMasterSid, boolean itemFlag) throws PortalException, SystemException {
+    public static int getLazyNdcCount(String filterText, final HelperDTO brandMasterSid, boolean itemFlag) throws PortalException {
 
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextNdc = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<ItemMaster> qualifierList;
         DynamicQuery ndcQuery = getNdcDynamicQuery(brandMasterSid, itemFlag);
         if (itemFlag) {
-            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterTextNdc));
             ndcQuery.setProjection(ProjectionFactoryUtil.count(Constant.ITEM_NO));
         } else {
-            ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterTextNdc));
             ndcQuery.setProjection(ProjectionFactoryUtil.countDistinct("ndc9"));
         }
         
@@ -730,9 +726,9 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<HelperDTO> getLazyNdcResults(final int start, final int end, String filterText, final HelperDTO brandMasterSid, boolean itemFlag, final HelperDTO medicaidNdc9) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyNdcResults(final int start, final int end, String filterText, final HelperDTO brandMasterSid, boolean itemFlag, final HelperDTO medicaidNdc9) throws PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextNdcResult = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Object[]> qualifierList;
         final List<HelperDTO> list = new ArrayList<>();
         int startValue;
@@ -754,7 +750,7 @@ public class NationalAssumptionLogic {
             projectionList.add(ProjectionFactoryUtil.property(ITEM_DESC));
             ndcQuery.setProjection(projectionList);
             ndcQuery.addOrder(OrderFactoryUtil.asc(Constant.ITEM_NO));
-            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterTextNdcResult));
             
             qualifierList = DAO.getItemList(ndcQuery);
             boolean wsflag = true;
@@ -827,7 +823,7 @@ public class NationalAssumptionLogic {
     }
     public static final String ITEM_DESC = "itemDesc";
 
-    public static DynamicQuery getNdcDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag) throws SystemException, PortalException {
+    public static DynamicQuery getNdcDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag) throws PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
 
         final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
@@ -858,7 +854,7 @@ public class NationalAssumptionLogic {
         DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            datasource = (DataSource) initialContext.lookup(dataSourceContext);
         } catch (NamingException ex)
         {
                LOGGER.error(ex.getMessage());
@@ -880,7 +876,7 @@ public class NationalAssumptionLogic {
         return SUCCESS.getConstant();
     }
 
-    public List<NewNdcDTO> getNdcTable(SessionDTO session) throws SystemException, PortalException {
+    public List<NewNdcDTO> getNdcTable(SessionDTO session) throws PortalException {
 
         List<NewNdcDTO> priceTypesDTOList = new ArrayList<>();
         DataSelectionQueryUtils queryUtils = new DataSelectionQueryUtils();
@@ -899,11 +895,11 @@ public class NationalAssumptionLogic {
             ndcDto = new NewNdcDTO();
             final Object[] obj = (Object[]) priceType;
             ndcDto.setNdc9(String.valueOf(obj[0]));
-            ndcDto.setWac(CUR_FOUR.format(obj[1]));
-            ndcDto.setBaseYearAMP(CUR_FOUR.format(obj[NumericConstants.TWO]));
-            ndcDto.setBaseYearCPI(CUR_FOUR.format(obj[NumericConstants.THREE]));
-            ndcDto.setForecastAMP(CUR_FOUR.format(obj[NumericConstants.FOUR]));
-            ndcDto.setForecastBestPrice(CUR_FOUR.format(obj[NumericConstants.FIVE]));
+            ndcDto.setWac(curFour.format(obj[1]));
+            ndcDto.setBaseYearAMP(curFour.format(obj[NumericConstants.TWO]));
+            ndcDto.setBaseYearCPI(curFour.format(obj[NumericConstants.THREE]));
+            ndcDto.setForecastAMP(curFour.format(obj[NumericConstants.FOUR]));
+            ndcDto.setForecastBestPrice(curFour.format(obj[NumericConstants.FIVE]));
             priceTypesResults.add(ndcDto);
         }
         return priceTypesResults;
@@ -920,16 +916,16 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyNdcFilterCount(String filterText, HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws PortalException, SystemException {
-
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+    public static int getLazyNdcFilterCount(String filterText, HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws PortalException {
+        String filterTextNdc = filterText;
+        filterTextNdc = StringUtils.trimToEmpty(filterTextNdc) + Constant.PERCENT;
         List<ItemMaster> qualifierList;
         final DynamicQuery ndcQuery = getNdcFilterDynamicQuery(brandMasterSid, itemFlag, therapeuticSid);
         if (itemFlag) {
-            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterTextNdc));
             ndcQuery.setProjection(ProjectionFactoryUtil.count(Constant.ITEM_NO));
         } else {
-            ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterTextNdc));
             ndcQuery.setProjection(ProjectionFactoryUtil.countDistinct("ndc9"));
         }
         
@@ -951,9 +947,9 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<HelperDTO> getLazyNdcFilterResults(final int start, final int end, String filterText, boolean itemFlag, HelperDTO brandMasterSid, HelperDTO therapeuticSid, final boolean isFilter) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyNdcFilterResults(final int start, final int end, String filterText, boolean itemFlag, HelperDTO brandMasterSid, HelperDTO therapeuticSid, final boolean isFilter) throws PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextNdcFilter = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Object[]> qualifierList;
         final List<HelperDTO> list = new ArrayList<>();
         int startValue;
@@ -976,7 +972,7 @@ public class NationalAssumptionLogic {
             ndcQuery.setProjection(projectionList);
 
             ndcQuery.addOrder(OrderFactoryUtil.asc(ITEM_DESC));
-            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterTextNdcFilter));
 
             qualifierList = DAO.getItemList(ndcQuery);
 
@@ -1027,7 +1023,7 @@ public class NationalAssumptionLogic {
         return list;
     }
 
-    public static DynamicQuery getNdcFilterDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws SystemException, PortalException {
+    public static DynamicQuery getNdcFilterDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
 
         final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
@@ -1077,24 +1073,25 @@ public class NationalAssumptionLogic {
                 commonDAO.executeBulkUpdateQuery(customSql);
             }
 
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return Constant.SUCCESS;
     }
 
-    public String getFormattedGrowth(String value, boolean isGrowth) {
-        if (value.contains(Constant.NULL)) {
-            value = StringUtils.EMPTY;
+    public String getFormattedGrowth(String value) {
+        String valueGrowth = value;
+        if (valueGrowth.contains(Constant.NULL)) {
+            valueGrowth = StringUtils.EMPTY;
         } else {
-            Double newValue = Double.valueOf(value.trim().replace(Constant.PERCENT, StringUtils.EMPTY));
+            Double newValue = Double.valueOf(valueGrowth.trim().replace(Constant.PERCENT, StringUtils.EMPTY));
             newValue = newValue / NumericConstants.HUNDRED;
-            value = perWithTwoDecimal.format(newValue) ;
+            valueGrowth = perWithTwoDecimal.format(newValue) ;
         }
-        return value;
+        return valueGrowth;
     }
 
-    public List<NewNdcDTO> getFederalTable(SessionDTO session) throws SystemException, PortalException {
+    public List<NewNdcDTO> getFederalTable(SessionDTO session) throws PortalException {
 
         List<NewNdcDTO> priceTypesDTOList = new ArrayList<>();
         DataSelectionQueryUtils queryUtils = new DataSelectionQueryUtils();
@@ -1114,9 +1111,9 @@ public class NationalAssumptionLogic {
             final Object[] obj = (Object[]) priceType;
             ndcDto.setItemMasterSid(Integer.parseInt(String.valueOf(obj[0])));
             ndcDto.setItemNo(String.valueOf(obj[1]));
-            ndcDto.setWac(CUR_FOUR.format(obj[NumericConstants.TWO]));
-            ndcDto.setNonFamp(CUR_FOUR.format(obj[NumericConstants.THREE]));
-            ndcDto.setFssOGA(CUR_FOUR.format(obj[NumericConstants.FOUR]));
+            ndcDto.setWac(curFour.format(obj[NumericConstants.TWO]));
+            ndcDto.setNonFamp(curFour.format(obj[NumericConstants.THREE]));
+            ndcDto.setFssOGA(curFour.format(obj[NumericConstants.FOUR]));
 
             priceTypesResults.add(ndcDto);
         }
@@ -1129,7 +1126,7 @@ public class NationalAssumptionLogic {
             String customSql = "DELETE FROM dbo.ST_MEDICAID_NEW_NDC WHERE NDC9 = '" + ndc9 + "'";
             
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
@@ -1149,7 +1146,7 @@ public class NationalAssumptionLogic {
             
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
@@ -1195,7 +1192,7 @@ public class NationalAssumptionLogic {
         }
     }
 
-    public List getFederalNdcDesc(int itemId) throws PortalException, SystemException {
+    public List getFederalNdcDesc(int itemId) throws SystemException {
 
         List federalList;
         Map<String, Object> input = new HashMap<>();
@@ -1215,7 +1212,7 @@ public class NationalAssumptionLogic {
         return federalList;
     }
 
-    public int getNewNdcCount(int projectionId) throws PortalException, SystemException {
+    public int getNewNdcCount(int projectionId) throws SystemException {
         List federalList;
         Map<String, Object> input = new HashMap<>();
 
@@ -1241,7 +1238,7 @@ public class NationalAssumptionLogic {
         
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            datasource = (DataSource) initialContext.lookup(dataSourceContext);
         } catch (NamingException ex)
         {
             LOGGER.error(ex.getMessage());
@@ -1263,7 +1260,7 @@ public class NationalAssumptionLogic {
         return SUCCESS.getConstant();
     }
 
-    public void saveFedralNdcPopUp(SessionDTO session, List list, NewNdcDTO newNdcDTO) throws PortalException, SystemException {
+    public void saveFedralNdcPopUp(SessionDTO session, List list, NewNdcDTO newNdcDTO) throws SystemException {
         String customSql = null;
         String replaceDollarWac = newNdcDTO.getWac();
         replaceDollarWac = replaceDollarWac.replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
@@ -1291,7 +1288,7 @@ public class NationalAssumptionLogic {
         commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
     }
 
-    public void saveMedicaidNdcPopUp(SessionDTO session, List list, NewNdcDTO newNdcDTO) throws PortalException, SystemException {
+   public void saveMedicaidNdcPopUp(SessionDTO session, List list, NewNdcDTO newNdcDTO) throws PortalException {
         String customSql = null;
         String replaceDollarAmp = newNdcDTO.getBaseYearAMP();
         replaceDollarAmp = replaceDollarAmp.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
@@ -1356,9 +1353,9 @@ public class NationalAssumptionLogic {
             String sql = SQlUtil.getQuery("isAFSS_PriceType_Available").replace("?", projectionId);
             
             List<Object[]> resultsList = (List<Object[]>) commonDAO.executeSelectQuery(sql);
-            int count = getCount(resultsList);
-            return count == 0 ? Boolean.TRUE : Boolean.FALSE;
-        } catch (PortalException | SystemException ex) {
+            int countIsAFSSPriceTypeAvailable = getCount(resultsList);
+            return countIsAFSSPriceTypeAvailable == 0 ? Boolean.TRUE : Boolean.FALSE;
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return BooleanConstant.getFalseFlag();

@@ -99,7 +99,6 @@ public class GtnWsReportRightTableLoadDataService {
 		procedure = procedure.replaceAll(":comparisonBasis:", comparisonBasis);
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
 
-		gtnLogger.info("Procedure SQL: " + procedure);
 
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(procedure,
 				new Object[] { frequency, annualTotals, currencyConversion,

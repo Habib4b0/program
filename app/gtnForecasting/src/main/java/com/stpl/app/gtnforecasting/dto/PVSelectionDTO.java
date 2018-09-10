@@ -75,7 +75,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private String varIndicator = StringUtils.EMPTY;
     private Map<String, Object> headerMap = new HashMap<>();
     private String graphHeader = StringUtils.EMPTY;
-    private boolean RPU = false;
+    private boolean rpu = false;
     private String discountGroupName = StringUtils.EMPTY;
 
     private Integer groupParent = 0;
@@ -700,11 +700,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     }
 
     public boolean isRPU() {
-        return RPU;
+        return rpu;
     }
 
-    public void setRPU(boolean RPU) {
-        this.RPU = RPU;
+    public void setRPU(boolean rPU) {
+        this.rpu = rPU;
     }
 
     public String getDiscountGroupName() {

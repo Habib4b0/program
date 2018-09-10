@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsColumnDetailsConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.workflowinbox.constants.GtnWsWorkflowQueryContants;
 
@@ -44,8 +45,9 @@ public class GtnWebServiceWorkflowSearchConfig implements GtnWsSearchQueryConfig
 			fieldToColumnDetailsMap.put("workflowId", configProvider.getColumnStringConfig("WORKFLOW_ID", "WM"));
 			fieldToColumnDetailsMap.put("workflowName", configProvider.getColumnStringConfig("CONTRACT_NAME", "CM"));
 			fieldToColumnDetailsMap.put("workflowDesc",
-					configProvider.getColumnStringConfig("WORKFLOW_DESCRPTION", "WM"));
-			fieldToColumnDetailsMap.put("status", configProvider.getColumnHelperConfig("WORKFLOW_STATUS_ID", "WM"));
+					configProvider.getColumnStringConfig("WORKFLOW_DESCRPTION", "WM"));			
+			addWorkflowStatus(fieldToColumnDetailsMap);
+
 			fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnUserConfig("CREATED_BY", "WM"));
 			fieldToColumnDetailsMap.put("creationDate", configProvider.getColumnDateConfig("CREATED_DATE", "WM"));
 			addWfDateColumnsInMap(configProvider, fieldToColumnDetailsMap);
@@ -69,6 +71,17 @@ public class GtnWebServiceWorkflowSearchConfig implements GtnWsSearchQueryConfig
 
 		}
 		return searchQueryConfigMap;
+	}
+	
+	private static void addWorkflowStatus(Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMapr) {
+		GtnWsColumnDetailsConfig userColumnConfig = new GtnWsColumnDetailsConfig();
+		userColumnConfig.setDbColumnName("WORKFLOW_STATUS_ID");
+		userColumnConfig.setDataType(GtnFrameworkWebserviceConstant.HELPER);
+		userColumnConfig.setTableAlias("WM");
+		userColumnConfig.setHelperTableAliasName("WM");
+		userColumnConfig.setHelperTableColumnName("WORKFLOW_STATUS_ID");
+		fieldToColumnDetailsMapr.put("status", userColumnConfig);
+
 	}
 
 	public static void addWfDateColumnsInMap(GtnWsSearchQueryConfigProvider configProvider,

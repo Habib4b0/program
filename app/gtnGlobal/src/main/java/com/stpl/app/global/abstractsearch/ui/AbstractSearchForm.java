@@ -11,7 +11,6 @@ import com.stpl.app.global.abstractsearch.util.MessageUtil;
 import com.stpl.app.global.abstractsearch.util.UIUtils;
 import com.stpl.app.global.abstractsearch.util.ValidationUtil;
 import com.stpl.app.global.common.dto.SessionDTO;
-import com.stpl.app.global.common.util.CommonUtil;
 import com.stpl.app.global.compliancededuction.logic.CDRLogic;
 import com.stpl.app.global.compliancededuction.ui.util.ComplianceDeductionFilterGenerator;
 import com.stpl.app.global.compliancededuction.ui.view.CDRView;
@@ -391,7 +390,7 @@ public final class AbstractSearchForm extends CustomComponent {
      * @throws com.stpl.portal.kernel.exception.PortalException
      * @throws com.stpl.portal.kernel.exception.SystemException
      */
-    public void init() throws PortalException, SystemException {
+    public void init() throws PortalException {
         configureFields();
         configureTable();
         securityForAllScreens();
@@ -898,7 +897,7 @@ public final class AbstractSearchForm extends CustomComponent {
         }
     }
 
-    private void loadComponents(String moduleName) throws SystemException, PortalException {
+    private void loadComponents(String moduleName) throws PortalException {
         if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
             commonsUtil.loadComboBox(combo1, UIUtils.DEDUCTION_CALENDAR_CATEGORY);
         } else if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
@@ -1336,7 +1335,7 @@ public final class AbstractSearchForm extends CustomComponent {
         }
     }
 
-    public void securityForAllScreens() throws PortalException, SystemException {
+    public void securityForAllScreens() throws PortalException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent()
                 .getAttribute(ConstantsUtils.USER_ID));

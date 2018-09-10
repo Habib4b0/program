@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DPQueryUtils {
     
-    private final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
+    private final SimpleDateFormat dbDateDP = new SimpleDateFormat(Constant.DATE_FORMAT);
     
     public String updateCheckRecordQuery(SessionDTO session, String hierarchyNo, String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, String hierarchy) {
         String ccpDetails;
@@ -107,7 +107,7 @@ public class DPQueryUtils {
                 + " AND M.RS_CONTRACT_SID = RS.RS_CONTRACT_SID \n"
                 + " AND RS.RS_TYPE ='" + discount + "' \n"
                 + " AND DP.PERIOD_SID = P.PERIOD_SID AND P.PERIOD_DATE "
-                + " BETWEEN CONVERT(DATE, '" + DBDate.format(startDate) + "') AND CONVERT(DATE, '" + DBDate.format(endDate) + "')" + "\n"
+                + " BETWEEN CONVERT(DATE, '" + dbDateDP.format(startDate) + "') AND CONVERT(DATE, '" + dbDateDP.format(endDate) + "')" + "\n"
                 + " AND B.PROJECTION_MASTER_SID ='" + projectionId + "' "
                 + ") A \n"
                 + " WHERE DPT.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID \n"
@@ -165,7 +165,7 @@ public class DPQueryUtils {
                 + " AND RS.RS_TYPE = '" + discountName + "' \n"
                 + " AND DP.PERIOD_SID = P.PERIOD_SID \n"
                 + " AND P.PERIOD_DATE "
-                + " BETWEEN CONVERT(DATE, '" + DBDate.format(startDate) + "') AND CONVERT(DATE, '" + DBDate.format(endDate) + "')" + "\n"
+                + " BETWEEN CONVERT(DATE, '" + dbDateDP.format(startDate) + "') AND CONVERT(DATE, '" + dbDateDP.format(endDate) + "')" + "\n"
                 + " AND B.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
                 + ") A "
                 + " WHERE DPT.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID "
@@ -178,7 +178,8 @@ public class DPQueryUtils {
 
     public String getCCPDetailsQuery(String hierarchy, int projectionId, String connector,
             String hierarchyNo, String hierarchyNumbers, String levelSelectionStatement, boolean isCount) {
-        hierarchyNo = hierarchyNo.replaceAll("'", StringUtils.EMPTY);
+         String  hierarchyNoCCP = hierarchyNo; 
+        hierarchyNoCCP = hierarchyNoCCP.replaceAll("'", StringUtils.EMPTY);
         String query = "(SELECT CCPMAP.CCP_DETAILS_SID,\n"
                 + "                         HLD.HIERARCHY_NO,\n"
                 + "                         HLD.RELATIONSHIP_LEVEL_SID\n"
@@ -195,7 +196,7 @@ public class DPQueryUtils {
                 + "                                 RLD1.LEVEL_NO\n"
                 + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1\n"
                 + "                          JOIN   " + hierarchy + "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID =  " + projectionId + " \n"
-                + "                         AND  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n";
+                + "                         AND  RLD1.HIERARCHY_NO LIKE '" + hierarchyNoCCP + "%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n";
         if (isCount) {
             query = query + " WHERE " + levelSelectionStatement + " \n";
         } else {
@@ -303,12 +304,13 @@ public class DPQueryUtils {
     public String discountProjectionTableUpdateQuery(String adjustmentType, String adjustmentBasis, String allocationMethodology, String adjustmentValue, int projectionId,
             int discountName, String userId, String sessionId, String period, String selectedPeriodsToUpdate) {
         StringBuilder query = new StringBuilder();
-        if ("Lowest Level (Month and Product)".equals(allocationMethodology)) {
-            allocationMethodology = "None";
+         String allocationMethodologyDP = allocationMethodology;
+        if ("Lowest Level (Month and Product)".equals(allocationMethodologyDP)) {
+            allocationMethodologyDP = "None";
         }
         query.append("UPDATE DP ");
         query.append(" SET ADJUSTMENT_TYPE='" ).append( adjustmentType ).append( "' , ADJUSTMENT_BASIS='" ).append( adjustmentBasis ).append( "', ADJUSTMENT_VALUE=" ).append( adjustmentValue ).append( ", ");
-        query.append(" ADJUSTMENT_METHODOLOGY = '" ).append( allocationMethodology ).append( "' FROM ST_CH_PROJECTION_DISCOUNT DP");
+        query.append(" ADJUSTMENT_METHODOLOGY = '" ).append( allocationMethodologyDP ).append( "' FROM ST_CH_PROJECTION_DISCOUNT DP");
         query.append(" JOIN (SELECT   DPM.PROJECTION_DETAILS_SID, DP.PERIOD_SID  FROM ST_CH_DISCOUNT_PROJ_MASTER DPM");
         query.append(" JOIN PROJECTION_DETAILS B ON DPM.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID ");
         query.append(" JOIN ST_CH_PROJECTION_DISCOUNT DP ON DP.PROJECTION_DETAILS_SID=DPM.PROJECTION_DETAILS_SID ");

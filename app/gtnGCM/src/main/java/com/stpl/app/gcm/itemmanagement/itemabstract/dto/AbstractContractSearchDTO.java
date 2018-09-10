@@ -38,8 +38,8 @@ public class AbstractContractSearchDTO {
     private HelperDTO priceToleranceFrequency;
     private HelperDTO priceToleranceType;
     private String basePrice = StringUtils.EMPTY;
-    private Date RSStartDate;
-    private Date RSEndDate;
+    private Date rsStartDate;
+    private Date rsEndDate;
     private String formulaId = StringUtils.EMPTY;
     private String rebatePlan = StringUtils.EMPTY;
     private String formulaMethodId = StringUtils.EMPTY;
@@ -55,12 +55,12 @@ public class AbstractContractSearchDTO {
     private String rarCategory = StringUtils.EMPTY;
     private String rebateScheduleId = StringUtils.EMPTY;
     private String rebateScheduleName = StringUtils.EMPTY;
-    private HelperDTO rebateScheduleType_DTO;
-    private HelperDTO rarCategory_DTO;
+    private HelperDTO rebateScheduleTypeDTO;
+    private HelperDTO rarCategoryDTO;
     private String rebateScheduleNo = StringUtils.EMPTY;
-    private HelperDTO rebateScheduleCategory_DTO;
-    private HelperDTO rebateProgramType_DTO;
-    private HelperDTO marketType_DTO;
+    private HelperDTO rebateScheduleCategoryDTO;
+    private HelperDTO rebateProgramTypeDTO;
+    private HelperDTO marketTypeDTO;
     private String rebateScheduleAlias = StringUtils.EMPTY;
     private Integer contractMasterSid = 0;
     private Integer endIndex = 0;
@@ -311,19 +311,19 @@ public class AbstractContractSearchDTO {
     }
 
     public Date getRSStartDate() {
-        return RSStartDate == null ? null : (Date) RSStartDate.clone();
+        return rsStartDate == null ? null : (Date) rsStartDate.clone();
     }
 
-    public void setRSStartDate(Date RSStartDate) {
-        this.RSStartDate = RSStartDate == null ? null : (Date) RSStartDate.clone();
+    public void setRSStartDate(Date rsStartDate) {
+        this.rsStartDate = rsStartDate == null ? null : (Date) rsStartDate.clone();
     }
 
     public Date getRSEndDate() {
-        return RSEndDate == null ? null : (Date) RSEndDate.clone();
+        return rsEndDate == null ? null : (Date) rsEndDate.clone();
     }
 
-    public void setRSEndDate(Date RSEndDate) {
-        this.RSEndDate = RSEndDate == null ? null : (Date) RSEndDate.clone();
+    public void setRSEndDate(Date rsEndDate) {
+        this.rsEndDate = rsEndDate == null ? null : (Date) rsEndDate.clone();
     }
 
     public String getFormulaId() {
@@ -447,19 +447,19 @@ public class AbstractContractSearchDTO {
     }
 
     public HelperDTO getRebateScheduleType_DTO() {
-        return rebateScheduleType_DTO;
+        return rebateScheduleTypeDTO;
     }
 
-    public void setRebateScheduleType_DTO(HelperDTO rebateScheduleType_DTO) {
-        this.rebateScheduleType_DTO = rebateScheduleType_DTO;
+    public void setRebateScheduleType_DTO(HelperDTO rebateScheduleTypeDto) {
+        this.rebateScheduleTypeDTO = rebateScheduleTypeDto;
     }
 
     public HelperDTO getRarCategory_DTO() {
-        return rarCategory_DTO;
+        return rarCategoryDTO;
     }
 
-    public void setRarCategory_DTO(HelperDTO rarCategory_DTO) {
-        this.rarCategory_DTO = rarCategory_DTO;
+    public void setRarCategory_DTO(HelperDTO rarCategoryDto) {
+        this.rarCategoryDTO = rarCategoryDto;
     }
 
     public String getRebateScheduleNo() {
@@ -471,27 +471,27 @@ public class AbstractContractSearchDTO {
     }
 
     public HelperDTO getRebateScheduleCategory_DTO() {
-        return rebateScheduleCategory_DTO;
+        return rebateScheduleCategoryDTO;
     }
 
-    public void setRebateScheduleCategory_DTO(HelperDTO rebateScheduleCategory_DTO) {
-        this.rebateScheduleCategory_DTO = rebateScheduleCategory_DTO;
+    public void setRebateScheduleCategory_DTO(HelperDTO rebateScheduleCategoryDto) {
+        this.rebateScheduleCategoryDTO = rebateScheduleCategoryDto;
     }
 
     public HelperDTO getRebateProgramType_DTO() {
-        return rebateProgramType_DTO;
+        return rebateProgramTypeDTO;
     }
 
-    public void setRebateProgramType_DTO(HelperDTO rebateProgramType_DTO) {
-        this.rebateProgramType_DTO = rebateProgramType_DTO;
+    public void setRebateProgramType_DTO(HelperDTO rebateProgramTypeDto) {
+        this.rebateProgramTypeDTO = rebateProgramTypeDto;
     }
 
     public HelperDTO getMarketType_DTO() {
-        return marketType_DTO;
+        return marketTypeDTO;
     }
 
-    public void setMarketType_DTO(HelperDTO marketType_DTO) {
-        this.marketType_DTO = marketType_DTO;
+    public void setMarketType_DTO(HelperDTO marketTypeDto) {
+        this.marketTypeDTO = marketTypeDto;
     }
 
     public String getRebateScheduleAlias() {

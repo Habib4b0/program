@@ -37,8 +37,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
-import org.apache.commons.io.output.StringBuilderWriter;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
@@ -139,8 +139,7 @@ public class UiUtils {
 	 * @return Label with empty space
 	 */
 	public static Label addSpaceLabel() {
-		final Label space = new Label("&nbsp;", ContentMode.HTML);
-		return space;
+		return new Label("&nbsp;", ContentMode.HTML);
 	}
 
 	/**
@@ -391,7 +390,7 @@ public class UiUtils {
 		String finalValue = StringUtils.EMPTY;
                 StringBuilder finalValueBuilder = new StringBuilder();
 		int loop = 0;
-		fieldName = fieldName.toLowerCase();
+		fieldName = fieldName.toLowerCase(Locale.ENGLISH);
 		String[] splitArray = fieldName.split("_");
 		if (indicator.equals("table")) {
 			loop = 0;
@@ -499,7 +498,7 @@ public class UiUtils {
 			for (Object propertyId : table.getVisibleColumns()) {
 				table.setColumnWidth(propertyId, columnWidth);
 				if (screenName.equals(TAB_PPA_PROJECTION.getConstant())
-						&& String.valueOf(propertyId).toLowerCase().contains("reset")) {
+						&& String.valueOf(propertyId).toLowerCase(Locale.ENGLISH).contains("reset")) {
 					table.setColumnWidth(propertyId, NumericConstants.SEVENTY);
 				}
 			}
@@ -524,7 +523,7 @@ public class UiUtils {
 	}
 
 	public static String getLevelNo(Object object) {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 }
