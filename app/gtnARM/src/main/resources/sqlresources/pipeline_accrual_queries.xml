@@ -530,10 +530,10 @@ FROM   @TEMP_ADJ_SUMMARY
           @PROJECTION_MASTER_SID INT = ?,
             @ITEM_MASTER_SID       INT = ?, 
             @OVERRIDE_VALUE        NUMERIC(22,6) = ? ,
-            @CONTRACT_MASTER_SID   INT = ?,
-            @COMPANY_MASTER_SID   INT = ?,
-            @BRAND_MASTER_SID   INT = ?,
-            @RS_MODEL_SID   INT = ?
+            @CONTRACT_MASTER_SID   varchar = '?',
+            @COMPANY_MASTER_SID   varchar = '?',
+            @BRAND_MASTER_SID   varchar = '?',
+            @RS_MODEL_SID   varchar = '?'
  
           UPDATE	
                 RATE SET
@@ -557,10 +557,10 @@ FROM   @TEMP_ADJ_SUMMARY
                           WHERE
                                   AD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
                                   AND CCP.ITEM_MASTER_SID = @ITEM_MASTER_SID
-                                  AND CCP.CONTRACT_MASTER_SID = @CONTRACT_MASTER_SID
-                                  AND CCP.COMPANY_MASTER_SID = @COMPANY_MASTER_SID
-                                  AND IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
-                                  AND AD.RS_MODEL_SID = @RS_MODEL_SID
+                                  AND CCP.CONTRACT_MASTER_SID LIKE @CONTRACT_MASTER_SID
+                                  AND CCP.COMPANY_MASTER_SID LIKE @COMPANY_MASTER_SID
+                                  AND IM.BRAND_MASTER_SID LIKE @BRAND_MASTER_SID
+                                  AND AD.RS_MODEL_SID LIKE @RS_MODEL_SID
                   ) A ON
                   RATE.ARM_ADJUSTMENT_DETAILS_SID = A.ARM_ADJUSTMENT_DETAILS_SID
             ]]>  

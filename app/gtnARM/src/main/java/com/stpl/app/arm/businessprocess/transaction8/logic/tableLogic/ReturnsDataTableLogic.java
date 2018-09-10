@@ -75,7 +75,7 @@ public class ReturnsDataTableLogic<T extends AdjustmentDTO> extends PageTableLog
         criteria.setParent(null);
         criteria.setStart(start);
         criteria.setOffset(offset);
-        return (List<AdjustmentDTO>) getData(criteria).getDataResults();
+        return getData(criteria).getDataResults();
     }
 
     @Override

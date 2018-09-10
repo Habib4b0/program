@@ -88,7 +88,7 @@ public class ParentCompanyLookup extends Window {
     /**
      * The Constant LOGGER.
      */
-    private final static Logger LOGGER = LoggerFactory.getLogger(ParentCompanyLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParentCompanyLookup.class);
     private CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     private ExtPagedTable resultTable = new ExtPagedTable(companyLogic);
 
@@ -191,17 +191,17 @@ public class ParentCompanyLookup extends Window {
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                  try {
                 if ("companyStatus".equals(propertyId)) {
-                    ComboBox companyStatus = new ComboBox();
-                    commonUtil.loadComboBox(companyStatus, UiUtils.STATUS, true);
+                    ComboBox companyStatusCustom = new ComboBox();
+                    commonUtil.loadComboBox(companyStatusCustom, UiUtils.STATUS, true);
 
-                    return companyStatus;
+                    return companyStatusCustom;
                 }
                 if ("companyType".equals(propertyId)) {
                    
-                        ComboBox companyType = new ComboBox();
-                        commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
+                        ComboBox companyTypeCustom = new ComboBox();
+                        commonUtil.loadComboBox(companyTypeCustom, UiUtils.COMPANY_TYPE, true);
 
-                        return companyType;
+                        return companyTypeCustom;
                     }
                 }
                   catch (Exception ex) {

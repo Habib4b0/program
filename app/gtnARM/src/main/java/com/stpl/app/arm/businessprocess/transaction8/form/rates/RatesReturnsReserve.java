@@ -38,7 +38,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RatesReturnsReserve extends AbstractPipelineRates {
 
-    private final RatesReturnsReserve.CustomNotification notifier = new RatesReturnsReserve.CustomNotification();
+    private final RatesReturnsReserve.ReturnReserveCustomNotification notifier = new RatesReturnsReserve.ReturnReserveCustomNotification();
 
     private final Logger loggerRates = LoggerFactory.getLogger(getClass());
 
@@ -96,11 +96,11 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
         return getRatelogicObject();
     }
 
-    public class CustomNotification extends AbstractNotificationUtils {
+    public class ReturnReserveCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String ratesButtonName;
 
-        public CustomNotification() {
+        public ReturnReserveCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -113,8 +113,8 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName && "reset".equals(buttonName)) {
+            LOGGER.debug("buttonName :{}", ratesButtonName);
+            if (null != ratesButtonName && "reset".equals(ratesButtonName)) {
                 deductionLevelDdlb.select(0);
                 CommonUtils.unCheckMenuBarItem(customMenuItem);
 
@@ -122,7 +122,7 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.ratesButtonName = buttonName;
         }
 
     }
