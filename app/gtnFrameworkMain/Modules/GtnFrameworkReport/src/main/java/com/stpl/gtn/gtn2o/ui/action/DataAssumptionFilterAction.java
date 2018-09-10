@@ -75,9 +75,6 @@ public class DataAssumptionFilterAction
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
 				filteringValue = formatter.format((LocalDate) filterValue.get(0));
 				value = String.valueOf(s.getPropertyValue(filterValue.get(1).toString()));
-                                logger.info("filteringValue..........."+filteringValue);
-                                logger.info("value........"+value);
-
 			} else {
 				filteringValue = (String) filterValue.get(0);
 				value = s.getPropertyValue(filterValue.get(1).toString()).toString().toLowerCase(Locale.ENGLISH);
