@@ -64,7 +64,7 @@ public class ReturnsData extends CustomComponent {
     private ExtContainer<AdjustmentDTO> resultsContainer = new ExtContainer<>(AdjustmentDTO.class, ExtContainer.DataStructureMode.LIST);
     private final ExtPagedTable resultsTable;
     private ReturnsDataTableLogic tableLogic;
-    private final ReturnsData.CustomNotification notifier = new ReturnsData.CustomNotification();
+    private final ReturnsData.ReturnsDataCustomNotification notifier = new ReturnsData.ReturnsDataCustomNotification();
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private Object[] visibleColumns;
     private String[] visibleHeaders;
@@ -123,11 +123,11 @@ public class ReturnsData extends CustomComponent {
         return variables;
     }
 
-    public class CustomNotification extends AbstractNotificationUtils {
+    public class ReturnsDataCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String returnsDatabuttonName;
 
-        public CustomNotification() {
+        public ReturnsDataCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -140,15 +140,15 @@ public class ReturnsData extends CustomComponent {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName && "reset".equals(buttonName)) {
+            LOGGER.debug("buttonName :{}", returnsDatabuttonName);
+            if (null != returnsDatabuttonName && "reset".equals(returnsDatabuttonName)) {
                 loadFirstTimeVariables();
             }
 
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.returnsDatabuttonName = buttonName;
         }
 
     }
