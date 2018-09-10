@@ -419,7 +419,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			boolean isProduct = false;
 			List<Leveldto> selectedCustomerContractList;
 			String levelName = Constant.LEVEL_LABEL;
-			List<Leveldto> resultedLevelsList;
+			List<Leveldto> resultedLevelsList = new ArrayList<>();
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
 				int relationVersionNo = Integer.parseInt(
@@ -453,10 +453,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 				List<String> tempGroupFileter = groupFilteredItems == null ? Collections.<String>emptyList()
 						: groupFilteredItems;
-				resultedLevelsList = relationLogic.loadAvailableProductlevel(selectedHierarchyLevelDto,
-						Integer.parseInt(relationshipSid), tempGroupFileter, selectedCustomerContractList, isProduct,
-						dedLevel, dedValue, relationVersionNo, customerRelationVersionNo, businessUnit.getValue(),
-						productDescMap);
+//				resultedLevelsList = relationLogic.loadAvailableProductlevel(selectedHierarchyLevelDto,
+//						Integer.parseInt(relationshipSid), tempGroupFileter, selectedCustomerContractList, isProduct,
+//						dedLevel, dedValue, relationVersionNo, customerRelationVersionNo, businessUnit.getValue(),
+//						productDescMap);
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
 				}
@@ -476,7 +476,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			availableProduct.setFilterDecorator(new ExtDemoFilterDecorator());
 			availableProduct.setStyleName(Constant.FILTER_TABLE);
 
-		} catch (CloneNotSupportedException | NumberFormatException ex) {
+		} catch (Exception ex) {
 
 			LOGGER.error(" - in loadFilteredProductSelection= {}", ex);
 		}
@@ -1285,7 +1285,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 									customerHierarchyVersionNo, customerRelationVersionNo,
                                                                         Integer.parseInt(String.valueOf(level.getValue())),
-									forecastEligibleDate.getValue(), false,queryParametersForSelectedTable,availableCustomer);
+									forecastEligibleDate.getValue(), false,queryParametersForSelectedTable,availableCustomer,DataSelection.LOAD_SELECTED_CUSTOMER);
                                                     
                                                     
 //							newChildLevels = logic.getChildLevelsWithHierarchyNo(
@@ -1417,7 +1417,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 									customerHierarchyVersionNo, customerRelationVersionNo,
                                                                         Integer.parseInt(String.valueOf(level.getValue())),
-									forecastEligibleDate.getValue(), false,queryParametersForSelectedTable,availableCustomer);
+									forecastEligibleDate.getValue(), false,queryParametersForSelectedTable,availableCustomer,DataSelection.LOAD_SELECTED_CUSTOMER);
 						}
  //                                               else {
 //							newChildLevels = logic.getChildLevelsWithHierarchyNo(
@@ -1536,7 +1536,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 									customerHierarchyVersionNo, customerRelationVersionNo,
                                                                         Integer.parseInt(String.valueOf(level.getValue())),
-									forecastEligibleDate.getValue(), false,queryParametersForSelectedTable,availableCustomer);
+									forecastEligibleDate.getValue(), false,queryParametersForSelectedTable,availableCustomer,DataSelection.LOAD_SELECTED_CUSTOMER);
                                             
 //						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 //								UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),

@@ -341,6 +341,12 @@ public class GtnWsHierarchyAndRelationshipController {
 		GtnSerachResponse searchResponse = new GtnSerachResponse();
 		searchResponse.setResultSet(dataTable);
 		gtnResponse.setGtnSerachResponse(searchResponse);
+		
+		dsInputBean.setResultList(results);
+		GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
+		forecastResponse.setInputBean(dsInputBean);
+		gtnResponse.setGtnWsForecastResponse(forecastResponse);
+		
 		return gtnResponse;
 	}
 
@@ -369,7 +375,7 @@ public class GtnWsHierarchyAndRelationshipController {
 		dsInputValuesList.add(String.valueOf(inputList.get(4)));
 		dsInputValuesList.add(String.valueOf("'%'"));
 		dsInputValuesList.add(String.valueOf(inputList.get(4)));
-		dsInputValuesList.add(String.valueOf(inputList.get(6)));
+		dsInputValuesList.add(String.valueOf(inputList.get(6))+1);
 		dsInputValuesList.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
 		Date dsForecastEligibleDate = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getForecastEligibleDate();
 		if (dsForecastEligibleDate != null) {
@@ -393,6 +399,12 @@ public class GtnWsHierarchyAndRelationshipController {
 		GtnSerachResponse dsSearchResponse = new GtnSerachResponse();
 		dsSearchResponse.setResultSet(dsFinalDataTable);
 		gtnResponse.setGtnSerachResponse(dsSearchResponse);
+		
+		inputBean.setResultList(results);
+		GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
+		forecastResponse.setInputBean(inputBean);
+		gtnResponse.setGtnWsForecastResponse(forecastResponse);
+		
 		return gtnResponse;
 	}
 
@@ -449,7 +461,7 @@ public class GtnWsHierarchyAndRelationshipController {
 		dataSelectionInput.add("'%'");
 		dataSelectionInput.add(selectedHierarchyLevelDto.getRelationshipBuilderSid());
 		dataSelectionInput.add(selectedHierarchyLevelDto.getRelationshipVersionNo());
-		dataSelectionInput.add(Integer.valueOf(String.valueOf(inputList.get(6))));
+		dataSelectionInput.add(Integer.valueOf(String.valueOf(inputList.get(6)))+1);
 		dataSelectionInput.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
 
 		List<Object[]> dsResultList = relationshipLevelValueService.getResultForSelectedProduct(inputQuery,
@@ -472,6 +484,11 @@ public class GtnWsHierarchyAndRelationshipController {
 		GtnSerachResponse searchResponse = new GtnSerachResponse();
 		searchResponse.setResultSet(productResultsDataTable);
 		gtnResponse.setGtnSerachResponse(searchResponse);
+		
+		dsInputBean.setResultList(results);
+		GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
+		forecastResponse.setInputBean(dsInputBean);
+		gtnResponse.setGtnWsForecastResponse(forecastResponse);
 		return gtnResponse;
 
 	}

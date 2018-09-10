@@ -48,6 +48,15 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
             String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_customerRelationshipVersion", componentId).getCaptionFromV8ComboBox());
             String hierarchyVersionNo = recordBean.getPropertyValueByIndex(6).toString();
 
+            GtnWsRecordBean recordBeanProduct = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent("Commercial Forecasting_prodhierarchyName", componentId).getComponentData()
+                    .getCustomData();
+            String productRelationVersionNo = String.valueOf((GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent("Commercial_Forecasting_productRelationshipVersion", componentId).getCaptionFromV8ComboBox()));
+            String productHierarchyVersionNo = recordBeanProduct.getPropertyValueByIndex(6).toString();
+
+            String businessUnit = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_businessUnit").getCaptionFromV8ComboBox();
+
             List<Object> parametersForDataSelection = new ArrayList<>();
             parametersForDataSelection.add(fromPeriod);
             parametersForDataSelection.add(toPeriod);
@@ -55,6 +64,9 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
             parametersForDataSelection.add(description);
             parametersForDataSelection.add(relationshipVersionNo);
             parametersForDataSelection.add(hierarchyVersionNo);
+            parametersForDataSelection.add(productRelationVersionNo);
+            parametersForDataSelection.add(productHierarchyVersionNo);
+            parametersForDataSelection.add(businessUnit);
 
             List<GtnWsRecordBean> selectedCustomerList = null;
             List<GtnWsRecordBean> selectedProductList = null;
