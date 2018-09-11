@@ -431,28 +431,28 @@ public class ProjectionOptionsPrivateViewLookup
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
-		GtnUIFrameWorkActionConfig reportCustomerHierarchySelectAction = new GtnUIFrameWorkActionConfig();
-		reportCustomerHierarchySelectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
+		GtnUIFrameWorkActionConfig privateViewSelectAction = new GtnUIFrameWorkActionConfig();
+		privateViewSelectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
 		actionParameter.add(GtnFrameworkForecastingStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
 		actionParameter.add(Arrays.asList("viewNameFilter"));
 		actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP));
-		reportCustomerHierarchySelectAction.setActionParameterList(actionParameter);
-		actionConfigList.add(reportCustomerHierarchySelectAction);
+		privateViewSelectAction.setActionParameterList(actionParameter);
+		actionConfigList.add(privateViewSelectAction);
 
-		GtnUIFrameWorkActionConfig reportCustomHierarchyClosepopup = new GtnUIFrameWorkActionConfig();
-		reportCustomHierarchyClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		reportCustomHierarchyClosepopup.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
-		actionConfigList.add(reportCustomHierarchyClosepopup);
+		GtnUIFrameWorkActionConfig privateViewClosepopup = new GtnUIFrameWorkActionConfig();
+		privateViewClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		privateViewClosepopup.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		actionConfigList.add(privateViewClosepopup);
 
-		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
-		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		loadViewAction.addActionParameter( GtnForecastingDataSelectionLoadViewAction.class.getName());
-		loadViewAction.addActionParameter(GtnFrameworkForecastingStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
-		loadViewAction.addActionParameter("reportLandingScreen");
-		actionConfigList.add(loadViewAction);
+//		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
+//		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+//		loadViewAction.addActionParameter( GtnForecastingDataSelectionLoadViewAction.class.getName());
+//		loadViewAction.addActionParameter(GtnFrameworkForecastingStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
+//		loadViewAction.addActionParameter("reportLandingScreen");
+//		actionConfigList.add(loadViewAction);
 //
 //		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 //		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
@@ -469,7 +469,7 @@ public class ProjectionOptionsPrivateViewLookup
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		privateViewSearchLookupCloseButton.setAddToParent(true);
 		componentList.add(privateViewSearchLookupCloseButton);
-		privateViewSearchLookupCloseButton.addGtnUIFrameWorkActionConfig(reportCustomHierarchyClosepopup);
+		privateViewSearchLookupCloseButton.addGtnUIFrameWorkActionConfig(privateViewClosepopup);
 
 	}
 	
