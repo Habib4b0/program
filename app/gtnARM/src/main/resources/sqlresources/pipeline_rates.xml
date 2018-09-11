@@ -2418,8 +2418,8 @@ INSERT INTO #TEMP_RATE
                          WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
                        END                        AS INDICATOR 
                 FROM   ? 
-                WHERE  OVERRIDE IS NOT NULL 
-                       AND OVERRIDE != 0 
+              --  WHERE  OVERRIDE IS NOT NULL 
+                   --    AND OVERRIDE != 0 
 
                 ---UPDATE for Credit and debit Values in adjustments table
                 UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
@@ -2503,8 +2503,8 @@ INSERT INTO #TEMP_RATE
                          WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
                        END                        AS INDICATOR 
                 FROM   ? 
-                WHERE  OVERRIDE IS NOT NULL 
-                       AND OVERRIDE != 0 
+               -- WHERE  OVERRIDE IS NOT NULL 
+                    --   AND OVERRIDE != 0 
 
                 ---UPDATE for Credit and debit Values in adjustments table
                 UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
@@ -2589,8 +2589,8 @@ INSERT INTO #TEMP_RATE
                          WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
                        END                        AS INDICATOR 
                 FROM   ? 
-                WHERE  OVERRIDE IS NOT NULL 
-                       AND OVERRIDE != 0 
+              --  WHERE  OVERRIDE IS NOT NULL 
+                --       AND OVERRIDE != 0 
 
                 ---UPDATE for Credit and debit Values in adjustments table
                 UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
@@ -2618,6 +2618,280 @@ INSERT INTO #TEMP_RATE
                                ACCOUNT) BB ON AA.ARM_ADJUSTMENT_DETAILS_SID=BB.ARM_ADJUSTMENT_DETAILS_SID AND AA.PERIOD_SID=BB.PERIOD_SID
                                AND AA.ACCOUNT=BB.ACCOUNT
                                --?
+
+        ]]>  
+        </query>
+    </entity>
+     <entity id="Txn7_rates_override_query_Level_Filter">
+        <query>
+        <![CDATA[
+              UPDATE  CB
+                  SET CB.CALCULATED_ADJUSTMENT= (CB.RATE * APS.NET_CALCULATED_SALES),
+				  CB.VARIANCE=CB.CURRENT_BALANCE - (CB.RATE * APS.NET_CALCULATED_SALES) FROM 
+		 ? CB
+				  JOIN DBO.ARM_ADJUSTMENT_DETAILS AD
+                    ON AD.ARM_ADJUSTMENT_DETAILS_SID =
+                       CB.ARM_ADJUSTMENT_DETAILS_SID
+                  JOIN DBO.CCP_DETAILS CCP
+                    ON CCP.CCP_DETAILS_SID = AD.CCP_DETAILS_SID
+                  JOIN DBO.ITEM_MASTER IM
+                    ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                  JOIN RS_CONTRACT RS ON AD.RS_MODEL_SID = RS.RS_MODEL_SID
+				  LEFT JOIN ? APS
+                  ON APS.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+								  AND APS.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
+				  AND APS.PROJECTION_MASTER_SID= @PROJECTION_MASTER_SID
+
+						WHERE  AD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                  AND CCP.ITEM_MASTER_SID = @ITEM_MASTER_SID
+                  AND RS.RS_MODEL_SID = @RS_MODEL_SID
+                  
+                  
+                  
+                IF OBJECT_ID('TEMPDB..#TEMP_AMOUNT') IS NOT NULL 
+                  DROP TABLE #TEMP_AMOUNT 
+
+                CREATE TABLE #TEMP_AMOUNT 
+                  ( 
+                     ARM_ADJUSTMENT_DETAILS_SID INT, 
+                     PERIOD_SID                 INT, 
+                     ACCRUAL_AMOUNT             NUMERIC(22, 6), 
+                     INDICATOR                  BIT 
+                  ) 
+
+                INSERT INTO #TEMP_AMOUNT 
+                            (ARM_ADJUSTMENT_DETAILS_SID, 
+                             PERIOD_SID, 
+                             ACCRUAL_AMOUNT, 
+                             INDICATOR) 
+                SELECT ARM_ADJUSTMENT_DETAILS_SID, 
+                       PERIOD_SID, 
+                       ISNULL(OVERRIDE, VARIANCE) AS ACCRUAL_AMOUNT, 
+                       CASE 
+                         WHEN ISNULL(OVERRIDE, VARIANCE) > 0 THEN 0 
+                         WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
+                       END                        AS INDICATOR 
+                FROM   ? 
+              --  WHERE  OVERRIDE IS NOT NULL 
+                --       AND OVERRIDE != 0 
+
+                ---UPDATE for Credit and debit Values in adjustments table
+                UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
+                 FROM  ? AA INNER JOIN(SELECT TAM.ARM_ADJUSTMENT_DETAILS_SID AS ARM_ADJUSTMENT_DETAILS_SID,
+                         TAM.PERIOD_SID AS PERIOD_SID,
+                         ACCOUNT,
+                         SUM(ABS(A1.ACCRUAL_AMOUNT))                  AS CREDIT,
+                         SUM(ABS(A2.ACCRUAL_AMOUNT))                  AS DEBIT
+                 FROM   #TEMP_AMOUNT TAM
+                        INNER JOIN ARM_ADJ_RES_CCP AAC 
+                              ON TAM.ARM_ADJUSTMENT_DETAILS_SID = AAC.ARM_ADJUSTMENT_DETAILS_SID 
+                        LEFT JOIN #TEMP_AMOUNT A1 
+                            ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A1.ARM_ADJUSTMENT_DETAILS_SID 
+                                   AND AAC.CREDIT = A1.INDICATOR
+                                   AND TAM.PERIOD_SID = A1.PERIOD_SID
+                                   AND A1.INDICATOR IS NOT NULL
+                        LEFT JOIN #TEMP_AMOUNT A2 
+                            ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A2.ARM_ADJUSTMENT_DETAILS_SID 
+                                   AND AAC.DEBIT = A2.INDICATOR
+                                    AND TAM.PERIOD_SID = A2.PERIOD_SID 
+                                    AND A2.INDICATOR IS NOT NULL
+                        WHERE AAC.CREDIT IS NOT NULL AND AAC.DEBIT IS NOT NULL
+                 GROUP  BY TAM.ARM_ADJUSTMENT_DETAILS_SID,
+                              TAM.PERIOD_SID,
+                               ACCOUNT) BB ON AA.ARM_ADJUSTMENT_DETAILS_SID=BB.ARM_ADJUSTMENT_DETAILS_SID AND AA.PERIOD_SID=BB.PERIOD_SID
+                               AND AA.ACCOUNT=BB.ACCOUNT
+                               --?
+
+        ]]>  
+        </query>
+    </entity>
+    <entity id="Txn1_rates_override_query_Level_Filter">
+        <query>
+        <![CDATA[
+               UPDATE  CB
+                  SET CB.PROJECTED_PIPELINE_ACCRUAL= (CB.RATE * APS.NET_CALCULATED_SALES),
+				  CB.VARIANCE=CB.CURRENT_PIPELINE_ACCRUAL - (CB.RATE * APS.NET_CALCULATED_SALES) FROM 
+		 ? CB
+				  JOIN DBO.ARM_ADJUSTMENT_DETAILS AD
+                    ON AD.ARM_ADJUSTMENT_DETAILS_SID =
+                       CB.ARM_ADJUSTMENT_DETAILS_SID
+                  JOIN DBO.CCP_DETAILS CCP
+                    ON CCP.CCP_DETAILS_SID = AD.CCP_DETAILS_SID
+                  JOIN DBO.ITEM_MASTER IM
+                    ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                  JOIN RS_CONTRACT RS ON AD.RS_MODEL_SID = RS.RS_MODEL_SID
+				  LEFT JOIN ? APS
+                  ON APS.ITEM_MASTER_SID =IM.ITEM_MASTER_SID
+				  AND APS.PROJECTION_MASTER_SID= @PROJECTION_MASTER_SID
+
+						WHERE  AD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                  AND CCP.ITEM_MASTER_SID = @ITEM_MASTER_SID
+                  
+                  AND RS.RS_MODEL_SID = @RS_MODEL_SID
+
+                IF OBJECT_ID('TEMPDB..#TEMP_AMOUNT') IS NOT NULL 
+                  DROP TABLE #TEMP_AMOUNT 
+
+                CREATE TABLE #TEMP_AMOUNT 
+                  ( 
+                     ARM_ADJUSTMENT_DETAILS_SID INT, 
+                     PERIOD_SID                 INT, 
+                     ACCRUAL_AMOUNT             NUMERIC(22, 6), 
+                     INDICATOR                  BIT 
+                  ) 
+
+                INSERT INTO #TEMP_AMOUNT 
+                            (ARM_ADJUSTMENT_DETAILS_SID, 
+                             PERIOD_SID, 
+                             ACCRUAL_AMOUNT, 
+                             INDICATOR) 
+                SELECT ARM_ADJUSTMENT_DETAILS_SID, 
+                       PERIOD_SID, 
+                       ISNULL(OVERRIDE, VARIANCE) AS ACCRUAL_AMOUNT, 
+                       CASE 
+                         WHEN ISNULL(OVERRIDE, VARIANCE) > 0 THEN 0 
+                         WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
+                       END                        AS INDICATOR 
+                FROM   ? 
+               -- WHERE  OVERRIDE IS NOT NULL 
+                   --    AND OVERRIDE != 0 
+
+                ---UPDATE for Credit and debit Values in adjustments table
+                UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
+                 FROM  ? AA INNER JOIN(SELECT TAM.ARM_ADJUSTMENT_DETAILS_SID AS ARM_ADJUSTMENT_DETAILS_SID,
+                         TAM.PERIOD_SID AS PERIOD_SID,
+                         ACCOUNT,
+                         SUM(ABS(A1.ACCRUAL_AMOUNT))                  AS CREDIT,
+                         SUM(ABS(A2.ACCRUAL_AMOUNT))                  AS DEBIT
+                 FROM   #TEMP_AMOUNT TAM
+                        INNER JOIN ARM_ADJ_RES_CCP AAC 
+                              ON TAM.ARM_ADJUSTMENT_DETAILS_SID = AAC.ARM_ADJUSTMENT_DETAILS_SID 
+                        LEFT JOIN #TEMP_AMOUNT A1 
+                            ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A1.ARM_ADJUSTMENT_DETAILS_SID 
+                                   AND AAC.CREDIT = A1.INDICATOR
+                                   AND TAM.PERIOD_SID = A1.PERIOD_SID
+                                   AND A1.INDICATOR IS NOT NULL
+                        LEFT JOIN #TEMP_AMOUNT A2 
+                            ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A2.ARM_ADJUSTMENT_DETAILS_SID 
+                                   AND AAC.DEBIT = A2.INDICATOR
+                                    AND TAM.PERIOD_SID = A2.PERIOD_SID 
+                                    AND A2.INDICATOR IS NOT NULL
+                        WHERE AAC.CREDIT IS NOT NULL AND AAC.DEBIT IS NOT NULL
+                 GROUP  BY TAM.ARM_ADJUSTMENT_DETAILS_SID,
+                              TAM.PERIOD_SID,
+                               ACCOUNT) BB ON AA.ARM_ADJUSTMENT_DETAILS_SID=BB.ARM_ADJUSTMENT_DETAILS_SID AND AA.PERIOD_SID=BB.PERIOD_SID
+                               AND AA.ACCOUNT=BB.ACCOUNT
+                               --?
+        ]]>  
+        </query>
+    </entity>
+     <entity id="Txn3_rates_override_query_Level_Filter">
+        <query>
+        <![CDATA[
+                
+              UPDATE  CB
+                  SET CB.PROJECTED_PIPELINE_INVENTORY= (CB.RATE * APS.NET_PIPELINE_VALUE),
+				  CB.VARIANCE=CB.CURRENT_PIPELINE_INVENTORY - (CB.RATE * APS.NET_PIPELINE_VALUE) FROM 
+		 ? CB
+				  JOIN DBO.ARM_ADJUSTMENT_DETAILS AD
+                    ON AD.ARM_ADJUSTMENT_DETAILS_SID =
+                       CB.ARM_ADJUSTMENT_DETAILS_SID
+                  JOIN DBO.CCP_DETAILS CCP
+                    ON CCP.CCP_DETAILS_SID = AD.CCP_DETAILS_SID
+                  JOIN DBO.ITEM_MASTER IM
+                    ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                  JOIN RS_CONTRACT RS ON AD.RS_MODEL_SID = RS.RS_MODEL_SID
+				  LEFT JOIN (SELECT ITEM_MASTER_SID, 
+                                                 MAX(NET_PIPELINE_VALUE) NET_PIPELINE_VALUE 
+                                          FROM   ? WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID GROUP  BY ITEM_MASTER_SID) APS 
+                                      ON APS.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+
+						WHERE  AD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                  AND CCP.ITEM_MASTER_SID = @ITEM_MASTER_SID
+                  AND RS.RS_MODEL_SID = @RS_MODEL_SID
+                  
+                  
+                IF OBJECT_ID('TEMPDB..#TEMP_AMOUNT') IS NOT NULL 
+                  DROP TABLE #TEMP_AMOUNT 
+
+                CREATE TABLE #TEMP_AMOUNT 
+                  ( 
+                     ARM_ADJUSTMENT_DETAILS_SID INT, 
+                     PERIOD_SID                 INT, 
+                     ACCRUAL_AMOUNT             NUMERIC(22, 6), 
+                     INDICATOR                  BIT 
+                  ) 
+
+                INSERT INTO #TEMP_AMOUNT 
+                            (ARM_ADJUSTMENT_DETAILS_SID, 
+                             PERIOD_SID, 
+                             ACCRUAL_AMOUNT, 
+                             INDICATOR) 
+                SELECT ARM_ADJUSTMENT_DETAILS_SID, 
+                       PERIOD_SID, 
+                       ISNULL(OVERRIDE, VARIANCE) AS ACCRUAL_AMOUNT, 
+                       CASE 
+                         WHEN ISNULL(OVERRIDE, VARIANCE) > 0 THEN 0 
+                         WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
+                       END                        AS INDICATOR 
+                FROM   ? 
+               -- WHERE  OVERRIDE IS NOT NULL 
+                  --     AND OVERRIDE != 0 
+
+                ---UPDATE for Credit and debit Values in adjustments table
+                UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
+                 FROM  ? AA INNER JOIN(SELECT TAM.ARM_ADJUSTMENT_DETAILS_SID AS ARM_ADJUSTMENT_DETAILS_SID,
+                         TAM.PERIOD_SID AS PERIOD_SID,
+                         ACCOUNT,
+                         SUM(ABS(A1.ACCRUAL_AMOUNT))                  AS CREDIT,
+                         SUM(ABS(A2.ACCRUAL_AMOUNT))                  AS DEBIT
+                 FROM   #TEMP_AMOUNT TAM
+                        INNER JOIN ARM_ADJ_RES_CCP AAC 
+                              ON TAM.ARM_ADJUSTMENT_DETAILS_SID = AAC.ARM_ADJUSTMENT_DETAILS_SID 
+                        LEFT JOIN #TEMP_AMOUNT A1 
+                            ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A1.ARM_ADJUSTMENT_DETAILS_SID 
+                                   AND AAC.CREDIT = A1.INDICATOR
+                                   AND TAM.PERIOD_SID = A1.PERIOD_SID
+                                   AND A1.INDICATOR IS NOT NULL
+                        LEFT JOIN #TEMP_AMOUNT A2 
+                            ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A2.ARM_ADJUSTMENT_DETAILS_SID 
+                                   AND AAC.DEBIT = A2.INDICATOR
+                                    AND TAM.PERIOD_SID = A2.PERIOD_SID 
+                                    AND A2.INDICATOR IS NOT NULL
+                        WHERE AAC.CREDIT IS NOT NULL AND AAC.DEBIT IS NOT NULL
+                 GROUP  BY TAM.ARM_ADJUSTMENT_DETAILS_SID,
+                              TAM.PERIOD_SID,
+                               ACCOUNT) BB ON AA.ARM_ADJUSTMENT_DETAILS_SID=BB.ARM_ADJUSTMENT_DETAILS_SID AND AA.PERIOD_SID=BB.PERIOD_SID
+                               AND AA.ACCOUNT=BB.ACCOUNT
+                               --?
+
+        ]]>  
+        </query>
+    </entity>
+     <entity id="pipeline_common_query_Level_Filter">
+        <query>
+        <![CDATA[
+                
+               DECLARE @PROJECTION_MASTER_SID INT = ?,
+                   @ITEM_MASTER_SID       INT = ?,
+                   @OVERRIDE_VALUE        NUMERIC(22,6) = ?,
+                   @RS_MODEL_SID   INT = ?
+
+           UPDATE RA
+           SET    RA.? = @OVERRIDE_VALUE
+           FROM   ? RA
+                  JOIN DBO.ARM_ADJUSTMENT_DETAILS AD
+                    ON AD.ARM_ADJUSTMENT_DETAILS_SID =
+                       RA.ARM_ADJUSTMENT_DETAILS_SID
+                  JOIN DBO.CCP_DETAILS CCP
+                    ON CCP.CCP_DETAILS_SID = AD.CCP_DETAILS_SID
+                  JOIN DBO.ITEM_MASTER IM
+                    ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                  JOIN RS_CONTRACT RS ON AD.RS_MODEL_SID = RS.RS_MODEL_SID
+
+           WHERE  AD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                  AND CCP.ITEM_MASTER_SID = @ITEM_MASTER_SID
+                  AND RS.RS_MODEL_SID = @RS_MODEL_SID
 
         ]]>  
         </query>

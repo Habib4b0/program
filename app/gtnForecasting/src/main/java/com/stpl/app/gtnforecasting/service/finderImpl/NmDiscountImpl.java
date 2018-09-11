@@ -14,6 +14,7 @@ import com.stpl.app.utils.Constants;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -54,7 +55,7 @@ public class NmDiscountImpl {
 
             return HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         } catch (Exception e) {
-            return null;
+            return Collections.emptyList(); 
         }
     }
 
@@ -86,7 +87,7 @@ public class NmDiscountImpl {
      * @return
      */
     public List getDiscountProjection(int projectionId, String userId, String sessionId, String frequency, List<Integer> startAndEndPeriods, String hierarchyNo, boolean isProgram, List<String> discountList,
-            String year, int historyNumber, int levelNo, String hierarchyIndicator, String userGroup, int startIndex, int endIndex, boolean isCount, boolean isCustom,
+            String year, int levelNo, String hierarchyIndicator, String userGroup, int startIndex, int endIndex, boolean isCount, boolean isCustom,
             List<String> customViewDetails, boolean isRefresh, String refreshHierarchyNumbers, String relationshipBuilderSid, boolean isAltHistory, String action) {
         String hierarchyNoDP  = hierarchyNo;
         String customQuery = StringUtils.EMPTY;
@@ -566,7 +567,7 @@ public class NmDiscountImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customQuery);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -645,7 +646,7 @@ public class NmDiscountImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return null;
+            return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getHierarchyListForCustomView");
         }
@@ -713,7 +714,7 @@ public class NmDiscountImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return null;
+            return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getHierarchyList");
         }
@@ -820,11 +821,11 @@ public class NmDiscountImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sb.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
-    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkValue, List<String> discountList) {
+    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkValue) {
 
         String query = StringUtils.EMPTY;
         LOGGER.debug(" inside checkClearAll");
@@ -1330,7 +1331,7 @@ public class NmDiscountImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1429,7 +1430,7 @@ public class NmDiscountImpl {
     }
 
     public boolean saveDiscountProjectionListView(int projectionId, String userId, String sessionId, String frequency, int period, int year, String hierarchyIndicator,
-            int levelNo, String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
+           String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
 
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" entering saveDiscountProjectionListView");
@@ -1605,7 +1606,7 @@ public class NmDiscountImpl {
     }
     
 
-    public List getDiscountProjectionResults(List<Integer> discountprojectionId, String frequency, String discountString, String actualsOrProjections, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId, boolean viewFlag) {
+    public List getDiscountProjectionResults(List<Integer> discountprojectionId, String frequency, String discountString, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId, boolean viewFlag) {
 
         String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
         String projectionQuery = "";
@@ -1763,7 +1764,7 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(projectionQuery);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getChildDiscount(List<Integer> discountprojectionId, String projection, List<Integer> startAndEndPeriods, String frequency, int userId, int sessionId) {
@@ -1922,7 +1923,7 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getVarianceDiscount(int projectionId, String frequency, List<Integer> startAndEndPeriods, String discountTotal, String parentName, List<String> discountList, String year, int levelNo, String sales) {
@@ -2022,7 +2023,7 @@ public class NmDiscountImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customQuery);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -2148,7 +2149,7 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(projectionQuery);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getSubDiscount(List<Integer> projectionDetailsId, String frequency, String discountList, List<Integer> startAndEndPeriods, int userId, int sessionId) {
@@ -2260,7 +2261,7 @@ public class NmDiscountImpl {
                 LOGGER.error(e.getMessage());
                 LOGGER.error(sql);
             }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getTotalDiscountCount(int projectionMasterId, String frequency, String actualsOrProjections, List<Integer> startAndEndPeriods, int userId, int sessionId) {
@@ -2408,7 +2409,7 @@ public class NmDiscountImpl {
                 LOGGER.error(e.getMessage());
                 LOGGER.error(sql);
             }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getCCPDetailsID(int projectionMasterSid, String hierarchyNo, String levelNo) {
@@ -2436,7 +2437,7 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getCCPDetailsIDForProductHierarchy(int projectionMasterSid, String hierarchyNo, String levelNo) {
@@ -2465,10 +2466,10 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
         }
-        return null;
+        return Collections.emptyList();
     }
 
-    public List getAllPesriodDiscount(List<Integer> discountprojectionId, String frequency, String discountName, String hist, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId) {
+    public List getAllPesriodDiscount(List<Integer> discountprojectionId, String frequency, String discountName, String order, List<Integer> startAndEndPeriods, int userId, int sessionId) {
 
         String sql = "";
         String frequencyAllPeriodDiscount = frequency;
@@ -2592,6 +2593,6 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
         }
-        return null;
+        return Collections.emptyList();
     }
 }

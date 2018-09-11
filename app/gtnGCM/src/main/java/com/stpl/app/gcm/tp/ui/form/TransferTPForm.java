@@ -188,9 +188,9 @@ public class TransferTPForm extends CustomWindow {
     }
 
     private void insertDataIntoTempTable() {
-        ContractSelectionLogic logic = new ContractSelectionLogic();
-        logic.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getCompanyMasterSids(), TAB_CURRENT_CONTRACT.getConstant(), false);
-        logic.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getCompanyMasterSids(), TAB_TRANSFER_CONTRACT.getConstant(), true);
+        ContractSelectionLogic logicTemp = new ContractSelectionLogic();
+        logicTemp.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getCompanyMasterSids(), TAB_CURRENT_CONTRACT.getConstant(), false);
+        logicTemp.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getCompanyMasterSids(), TAB_TRANSFER_CONTRACT.getConstant(), true);
     }
 
     public boolean isAutomaticTabChangedFlag() {

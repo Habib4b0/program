@@ -7,7 +7,6 @@ package com.stpl.app.adminconsole.dao.impl;
 
 import com.stpl.app.model.UsergroupBusinessrole;
 import com.stpl.app.model.UsergroupDomainMaster;
-import com.stpl.app.service.BusinessroleModuleLocalServiceUtil;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import com.stpl.domain.adminconsole.security.StplSecurityDAO;

@@ -30,7 +30,7 @@ public class IfpContractDetailsImpl {
      * @param future
      * @return 
      */
-    public static Boolean saveIfpDetailsAttached(final List<Object> input, final Object future){
+    public static Boolean saveIfpDetailsAttached(final List<Object> input){
         boolean retFlag;
         String sqlSaveIfpDetailsAttached = StringUtils.EMPTY;
         try {
@@ -56,7 +56,7 @@ public class IfpContractDetailsImpl {
 
     }
     
-    public List findIFP(final Object field, final Object value, final List<Integer> future,Map<String, Object> filterMap, int start, int end, String column, String orderBy, Object future1){
+    public List findIFP(final Object field, final Object value, final List<Integer> future,Map<String, Object> filterMap, int start, int end, String column, String orderBy){
         StringBuilder sql = new StringBuilder();
         try {
             

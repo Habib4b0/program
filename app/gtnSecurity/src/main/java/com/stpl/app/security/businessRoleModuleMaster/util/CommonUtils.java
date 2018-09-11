@@ -6,7 +6,6 @@ import java.util.List;
 import com.stpl.app.security.businessRoleModuleMaster.dto.HelperDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.ListType;
 import com.liferay.portal.kernel.service.ListTypeServiceUtil;
 import com.vaadin.v7.ui.NativeSelect;

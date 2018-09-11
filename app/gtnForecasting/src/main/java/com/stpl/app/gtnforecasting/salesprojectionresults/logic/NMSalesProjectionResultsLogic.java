@@ -1163,7 +1163,7 @@ public class NMSalesProjectionResultsLogic {
 			projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
 			String query = getContractSalesAndUnitsQuery(projSelDTO);
 			List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(
-					QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+					QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
 			projDTOList = getCustomizedSalesProjectionResultsSales(list, projSelDTO);
 			LOGGER.debug("Ending getContractSalesAndUnits NonMandated");
 		} else if (projSelDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
@@ -1171,8 +1171,7 @@ public class NMSalesProjectionResultsLogic {
 			projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
 			List<Object> list = (List<Object>) SPRCommonLogic.executeSelectQuery(
 					QueryUtil.replaceTableNames(getSalesProjectionResultsSalesQueryMandated(projSelDTO),
-							projSelDTO.getSessionDTO().getCurrentTableNames()),
-					null, null);
+							projSelDTO.getSessionDTO().getCurrentTableNames()));
 			projDTOList = getCustomizedSalesProjectionResultsSalesMandated(list, projSelDTO);
 			LOGGER.debug("Ends getContractSalesAndUnitsMandated");
 		}
@@ -1185,7 +1184,7 @@ public class NMSalesProjectionResultsLogic {
 		String sql = logic.insertSelectedHierarchHierarchyNo(nodeSet, projSelDTO);
 		sql += SQlUtil.getQuery("non-mandated-sales-projections-query-new");
 		List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(
-				getContractsAndUnit(sql, projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+				getContractsAndUnit(sql, projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames()));
 		return getCustomizedSalesProjectionResultsSalesMultiple(list, projSelDTO);
 
 	}
@@ -1196,7 +1195,7 @@ public class NMSalesProjectionResultsLogic {
 		String sql = logic.insertAvailableHierarchyNoForCustomExpand(nodeSet, projSelDTO);
 		sql += SQlUtil.getQuery("non-mandated-sales-projections-query-new-custom");
 		List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(
-				getContractsAndUnit(sql, projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+				getContractsAndUnit(sql, projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames()));
 		return getCustomizedSalesProjectionResultsSalesMultiple(list, projSelDTO);
 
 	}
@@ -1715,15 +1714,14 @@ public class NMSalesProjectionResultsLogic {
 
 			List<Object> gtsList = (List<Object>) CommonLogic
 					.executeSelectQuery(CommonLogic.getCCPQuery(projSelDTO, Boolean.FALSE) + " \n"
-							+ getSalesProjectionResultsSalesQuery(projSelDTO), null, null);
+							+ getSalesProjectionResultsSalesQuery(projSelDTO));
 			projDTOList = getCustomizedProjectionPivot(gtsList, projSelDTO);
 			LOGGER.debug("Ending getProjection Pivot NonMandated");
 		} else if (projSelDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
 			LOGGER.debug("Entering getProjectionPivot Mandated");
 			List<Object[]> gtsList = (List<Object[]>) SPRCommonLogic.executeSelectQuery(
 					QueryUtil.replaceTableNames(getSalesProjectionResultsSalesQueryMandated(projSelDTO),
-							projSelDTO.getSessionDTO().getCurrentTableNames()),
-					null, null);
+							projSelDTO.getSessionDTO().getCurrentTableNames()));
 			projDTOList = getCustomizedProjectionPivotMandated(gtsList, projSelDTO);
 			if (projSelDTO.getProjectionOrder().equalsIgnoreCase(Constant.DESCENDING)) {
 				Collections.reverse(projDTOList);
@@ -2611,7 +2609,7 @@ public class NMSalesProjectionResultsLogic {
 		projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
 		List<Object> list = (List<Object>) SPRCommonLogic
 				.executeSelectQuery(QueryUtil.replaceTableNames(getSalesProjectionResultsSalesQueryMandated(projSelDTO),
-						projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+						projSelDTO.getSessionDTO().getCurrentTableNames()));
 		List<SalesProjectionResultsDTO> projDTOList = getCustomizedSalesProjectionResultsSalesMandated(list,
 				projSelDTO);
 		LOGGER.debug("Ends getContractSalesAndUnitsMandated");
@@ -2758,7 +2756,7 @@ public class NMSalesProjectionResultsLogic {
 		List<SalesProjectionResultsDTO> projDTOList;
 		List<Object[]> gtsList = (List<Object[]>) SPRCommonLogic
 				.executeSelectQuery(QueryUtil.replaceTableNames(getSalesProjectionResultsSalesQueryMandated(projSelDTO),
-						projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+						projSelDTO.getSessionDTO().getCurrentTableNames()));
 		projDTOList = getCustomizedProjectionPivotMandated(gtsList, projSelDTO);
 		if (projSelDTO.getProjectionOrder().equalsIgnoreCase(Constant.DESCENDING)) {
 			Collections.reverse(projDTOList);

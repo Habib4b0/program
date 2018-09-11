@@ -1006,7 +1006,7 @@ public class AlternateHistoryLogic {
         return allocationList;
     }
 
-    public void check_available_allocationTab(AlternateHistoryDTO dto, SessionDTO session,
+    public void checkAvailableAllocationTab(AlternateHistoryDTO dto, SessionDTO session,
             int checkOrUncheck, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Line_Level_Available_Checkbox");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
@@ -1021,7 +1021,7 @@ public class AlternateHistoryLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
 
-    public void checkAll_available_allocationTab(SessionDTO session, int checkOrUncheck, java.sql.Date startDate, java.sql.Date endDate) {
+    public void checkAllAvailableAllocationTab(SessionDTO session, int checkOrUncheck, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Available_CheckAll");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
             query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
@@ -1115,7 +1115,7 @@ public class AlternateHistoryLogic {
     public int getCCPCount(String query, SessionDTO sessionDto) {
         int count = 0;
         List<Object> objList;
-        objList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDto.getCurrentTableNames()), null, null);
+        objList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDto.getCurrentTableNames()));
 
         if (objList != null && !objList.isEmpty()) {
             Object ob = objList.get(0);
@@ -1211,7 +1211,7 @@ public class AlternateHistoryLogic {
         query.append(" TARGET.TOTAL_ACTUAL_UNITS = SOURCE.ACTUAL_UNITS,   ");
         query.append("  TARGET.TOTAL_PROJECTION_UNITS = SOURCE.PROJECTION_UNITS;  ");
 
-        CommonLogic.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()), null, null);
+        CommonLogic.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()));
 
     }
 
@@ -1228,7 +1228,7 @@ public class AlternateHistoryLogic {
         query.append(" WHEN MATCHED THEN UPDATE SET \n");
         query.append(" TARGET.TOTAL_ACTUAL_AMOUNT = SOURCE.ACTUAL_AMOUNT, \n");
         query.append(" TARGET.TOTAL_PROJECTION_AMOUNT = SOURCE.PROJECTION_AMOUNT; ");
-        CommonLogic.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()), null, null);
+        CommonLogic.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()));
 
     }
 
@@ -1384,7 +1384,7 @@ public class AlternateHistoryLogic {
      * @return
      * @throws Exception
      */
-    public boolean checkAll_available_customerSelection(SessionDTO session, AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, boolean value) {
+    public boolean checkAllAvailableCstomerSelection(SessionDTO session, AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, boolean value) {
 
         try {
             Map<String, Object> parameters = new HashMap();
@@ -1435,7 +1435,7 @@ public class AlternateHistoryLogic {
                     }
                 }
             }
-            return queryUtils.insertOrUpdate_customerSelection(session, parameters, value);
+            return queryUtils.insertOrUpdateCustomerSelection(session, parameters, value);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             return false;
@@ -1443,7 +1443,7 @@ public class AlternateHistoryLogic {
 
     }
 
-    public boolean check_available_customerSelection(SessionDTO session, AlternateHistoryDTO altHistoryDTO) {
+    public boolean checkAvailableCustomerSelection(SessionDTO session, AlternateHistoryDTO altHistoryDTO) {
         String query;
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_INSERT_OR_UPDATE_SINGLE_RECORD");
         query = query.replace(Constant.CONTRACT_MASTER_SID_DOLLAR, String.valueOf(altHistoryDTO.getContractMasterSid()));
@@ -1454,7 +1454,7 @@ public class AlternateHistoryLogic {
         return true;
     }
 
-    public boolean uncheck_available_customerSelection(SessionDTO session, AlternateHistoryDTO altHistoryDTO) {
+    public boolean uncheckAvailableCustomerSelection(SessionDTO session, AlternateHistoryDTO altHistoryDTO) {
         String query;
 
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_SINGLE_UPDATE_QUERY_AVALILABLE");
@@ -1466,7 +1466,7 @@ public class AlternateHistoryLogic {
         return true;
     }
 
-    public boolean add_customerSelection(SessionDTO session) {
+    public boolean addCustomerSelection(SessionDTO session) {
         String query;
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_ADD_RECORDS");
         query = query.replace("[$SELECTED_RECORDS]", "1");
@@ -1475,7 +1475,7 @@ public class AlternateHistoryLogic {
         return true;
     }
 
-    public boolean check_uncheck_selected_customerSelection(SessionDTO session, AlternateHistoryDTO altHistoryDTO, boolean values) {
+    public boolean checkUncheckSelectedCustomerSelection(SessionDTO session, AlternateHistoryDTO altHistoryDTO, boolean values) {
         String query;
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_CHECK_UNCHECK_SELECTED");
         query = query.replace(Constant.CONTRACT_MASTER_SID_DOLLAR, String.valueOf(altHistoryDTO.getContractMasterSid()));
@@ -1486,14 +1486,14 @@ public class AlternateHistoryLogic {
         return true;
     }
 
-    public boolean remove_customerSelection(SessionDTO session) {
+    public boolean removecustomerSelection(SessionDTO session) {
         String query;
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_REMOVE_QUERY");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         return true;
     }
 
-    public boolean delete_unChecked_customerSelection(SessionDTO session) {
+    public boolean deleteUnCheckedCustomerSelection(SessionDTO session) {
         String query;
 
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_DELETE_QUERY");
@@ -1502,7 +1502,7 @@ public class AlternateHistoryLogic {
         return true;
     }
 
-    public boolean checkAll_selected_customerSelection(SessionDTO session, boolean value) {
+    public boolean checkAllSelectedCustomerSelection(SessionDTO session, boolean value) {
         String query;
 
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_SELECTED_CHECK_ALL_QUERY");
@@ -1512,7 +1512,7 @@ public class AlternateHistoryLogic {
         return true;
     }
 
-    public boolean count_available_customerSelection(SessionDTO session) {
+    public boolean countAvailableCustomerSelection(SessionDTO session) {
         String query;
 
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_CHECK_COUNT");
@@ -1522,7 +1522,7 @@ public class AlternateHistoryLogic {
         return list.isEmpty() || (list.get(0) == null) ? false : ((int) list.get(0) > 0);
     }
 
-    public boolean count_selected_customerSelection(SessionDTO session) {
+    public boolean countSelectedCustomerSelection(SessionDTO session) {
         String query;
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_CHECK_COUNT");
         query = query.replace("AVAILABLE_CHECKBOX", "SELECTED_CHECKBOX");
@@ -1688,7 +1688,7 @@ public class AlternateHistoryLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(deleteQuery, session.getCurrentTableNames()));
     }
 
-    public int count_avalibale_allocationTab(SessionDTO session, java.sql.Date startDate, java.sql.Date endDate) {
+    public int countAvalibaleAllocationTab(SessionDTO session, java.sql.Date startDate, java.sql.Date endDate) {
 
         String query = SQlUtil.getQuery("Count_Available_Table");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
@@ -1806,7 +1806,7 @@ public class AlternateHistoryLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
 
-    public void check_selected_allocationTab(AlternateHistoryDTO dto, SessionDTO session,
+    public void checkSlectedAllocationTab(AlternateHistoryDTO dto, SessionDTO session,
             int checkOrUncheck, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Selected_Line_Level_Check");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
@@ -1821,7 +1821,7 @@ public class AlternateHistoryLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
 
-    public void checkAll_selected_allocationTab(SessionDTO session, int checkOrUncheck, java.sql.Date startDate, java.sql.Date endDate) {
+    public void checkAllSelectedAllocationTab(SessionDTO session, int checkOrUncheck, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Selected_Check_All");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
             query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
@@ -1834,7 +1834,7 @@ public class AlternateHistoryLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
 
-    public int count_selected_allocationTab(SessionDTO session, java.sql.Date startDate, java.sql.Date endDate) {
+    public int countSelectedAllocationTab(SessionDTO session, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Count_Selected_Table");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
             query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
@@ -1847,7 +1847,7 @@ public class AlternateHistoryLogic {
         return (int) list.get(0);
     }
 
-    public void remove_selected_allocationTab(SessionDTO session, java.sql.Date startDate, java.sql.Date endDate) {
+    public void removeSelectedAllocationTab(SessionDTO session, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Selected_Remove");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
             query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
@@ -1859,7 +1859,7 @@ public class AlternateHistoryLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
 
-    public void removeAll_selected_allocationTab(SessionDTO session) {
+    public void removeAllSelectedAllocationTab(SessionDTO session) {
         String query = SQlUtil.getQuery("Selected_Remove_All");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
             query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
@@ -1874,7 +1874,7 @@ public class AlternateHistoryLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
 
-    public int getCount_allocationTab(SessionDTO session, boolean addToQueue, Set<Container.Filter> filters) {
+    public int getCountAllocationTab(SessionDTO session, boolean addToQueue, Set<Container.Filter> filters) {
         String query = SQlUtil.getQuery("Get_Count_Allocation_Tables");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
             query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);

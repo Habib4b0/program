@@ -419,7 +419,7 @@ public class CommonUtil {
                         break;
                     case Constant.PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.SEVEN], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,String.valueOf(inputs[6]));
+                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.SEVEN],inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,String.valueOf(inputs[6]));
                         break;
                     case Constant.PV_PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
@@ -544,7 +544,7 @@ public class CommonUtil {
         return System.getProperty(BUSINESS_PROCESS).equals(BP_NAME);
     }
     
-    public static String getDisplayFormattedName(String hierarchyNumber, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndex) {
+    public static String getDisplayFormattedName(String hierarchyNumber, Map<String, List> relationshipDetails, Object[] displayFormatIndex) {
         StringBuilder formattedName = new StringBuilder();
         try {
             List<Object> relationshipValues = relationshipDetails.get(hierarchyNumber);

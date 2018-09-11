@@ -70,11 +70,11 @@ public class LivesDTO {
         this.endYear = endYear;
     }
 
-    public String getComp_Name() {
+    public String getCompName() {
         return compName;
     }
 
-    public void setComp_Name(String compName) {
+    public void setCompName(String compName) {
         this.compName = compName;
     }
 

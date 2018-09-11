@@ -39,7 +39,7 @@ public class PromoteTpToChEdit extends VerticalLayout {
      */
     public PromoteTpToChEdit(final SessionDTO session, final PromoteTpToChDto promoteTpToChDto, final PromoteTpToChWindow editWindow, final ExtFilterTable resultTable) {
         this.promoteTpToChDto = promoteTpToChDto;
-        PromoteTPToChForm promoteTPToChForm = new PromoteTPToChForm(promoteTpToChBinder, session, editWindow, resultTable);
+        PromoteTPToChForm promoteTPToChForm = new PromoteTPToChForm(session, editWindow, resultTable);
         addComponent(promoteTPToChForm);
         enter();
     }

@@ -105,11 +105,6 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 			} else if (baseComponent.getComponent() instanceof DateField) {
 				baseComponent.loadV8DateValue(value);
 			}
-			else if (baseComponent.getComponent() instanceof HorizontalLayout) {
-				HorizontalLayout hl= (HorizontalLayout) baseComponent.getComponent();
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(hl.getComponent(0).getId(), componentId)
-				.setV8PopupFieldValue("");
-			}
 
 		} catch (Exception typeException) {
 			gtnLogger.error("Exception on reset component id=" + componentId, typeException);

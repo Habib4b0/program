@@ -1410,88 +1410,48 @@ public class DataSelectionLogic {
 		}
 		return resultList;
 	}
+        
+        
+        public List<Leveldto> customizeLevelDtoFromRecordBean(List<GtnWsRecordBean> resultss, int relationVersion){
+            Leveldto dto;
+            List<Leveldto> resultList = new ArrayList<>();
+            for(GtnWsRecordBean record : resultss){
+                dto = new Leveldto();
+                dto.setLevelNo(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(0)));
+					dto.setRelationshipLevelValue((String) record.getPropertyValueByIndex(1));
+					dto.setParentNode(String.valueOf(record.getPropertyValueByIndex(2)));
+					dto.setLevel(String.valueOf(record.getPropertyValueByIndex(3)));
+					dto.setLevelValueReference(String.valueOf(record.getPropertyValueByIndex(4)));
+					dto.setTableName(String.valueOf(record.getPropertyValueByIndex(5)));
+					dto.setFieldName(String.valueOf(record.getPropertyValueByIndex(6)));
+					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(7)));
+					dto.setHierarchyNo(String.valueOf(record.getPropertyValueByIndex(8)));
+					dto.setRelationShipBuilderId(String.valueOf(record.getPropertyValueByIndex(9)));
+					dto.setHierarchyLevelDefnId(String.valueOf(record.getPropertyValueByIndex(10)));
+					dto.setHierarchyId(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(11)));
+					dto.setHierarchyVersionNo(DataTypeConverter.convertObjectToInt(record.getPropertyValueByIndex(12)));
+					dto.setRelationShipVersionNo(relationVersion);
+                                        resultList.add(dto);
+                
+            }
+            
+           
+            return resultList;
+        }
 
         public List<Leveldto> getChildLevelsWithHierarchyNoNewArch(int lowestLevelNo, final Map<String, String> descriptionMap,
 			Object businessUnit, Leveldto selectedLevelDto, int hierarchyVersion, int relationShipVersion,
-			int subListIndex, Date forecastEligibleDate, boolean isProduct,List<Object> queryparameterList,ExtFilterTable availableCustomer) {
+			int subListIndex, Date forecastEligibleDate, boolean isProduct,List<Object> queryparameterList,ExtFilterTable availableTable,String url) {
 		List<Object[]> resultss = null;
 		List<Leveldto> resultList = null;
 		try {
 			Leveldto dto;
-			String query;
 			if (isProduct) {
-//				query = relationLogic.getFinalChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,
-//						String.valueOf(businessUnit), lowestLevelNo, subListIndex);
-//				resultss = HelperTableLocalServiceUtil.executeSelectQuery(query);
+                                    resultss = getSelectedTableResultListDto(selectedLevelDto, hierarchyVersion, availableTable, queryparameterList,url);
 			} else {
-				List<Object> inputs = new ArrayList<>();
-				List<Leveldto> levelList = relationLogic.getHierarchyLevelDefinition(selectedLevelDto.getHierarchyId(),
-						hierarchyVersion);
-                                
-                                BeanItemContainer<Leveldto> availableCustomerDataSource = (BeanItemContainer<Leveldto>) availableCustomer.getContainerDataSource();
-                                List<Leveldto> items = new ArrayList<>(availableCustomerDataSource.getItemIds());
-                           
-                                List<GtnWsRecordBean> recordBeanList = new ArrayList<>();
-                                
-                                for(int i=0;i<items.size();i++){
-                                    ArrayList<Object> recordBeanColList = new ArrayList<>();
-                                    Leveldto leveldto = items.get(i);
-                                    recordBeanColList.add(0,leveldto.getRelationshipLevelValue());
-                                    recordBeanColList.add(1,null);
-                                    recordBeanColList.add(2,null);
-                                    recordBeanColList.add(3,leveldto.getRelationshipLevelSid());
-                                    recordBeanColList.add(4,null);
-                                    recordBeanColList.add(5,leveldto.getRelationShipBuilderId());
-                                    GtnWsRecordBean recordBean = new GtnWsRecordBean(); 
-                                    recordBean.setProperties(recordBeanColList);
-                                    recordBeanList.add(recordBean);
-                                }
-                                
-                                List<GtnReportHierarchyLevelBean> selectedHierarchyBeanList = new ArrayList<>();
-                                for(int i=0;i<levelList.size();i++){
-                                    selectedHierarchyBeanList.add(getSelectedHierarchyLevelBean(levelList.get(i)));
-                                }
-                                
-                            Leveldto selectedLevelDtoCusomer = (Leveldto) availableCustomer.getValue();
-                            GtnReportHierarchyLevelBean selectedHierarchyBean = getSelectedHierarchyLevelBean(selectedLevelDtoCusomer);
-                            
-                            GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-                            GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-                             
-                            GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
-                             gtnWsSearchRequest.setQueryInputList(queryparameterList);
-                             request.setGtnWsSearchRequest(gtnWsSearchRequest);
-                                     
-                             GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-                             reportRequest.setRecordBean(recordBeanList);
-                             reportRequest.setHierarchyInputBean(selectedHierarchyBean);
-                             reportRequest.setHierarchyLevelList(selectedHierarchyBeanList);
-                             request.setGtnWsReportRequest(reportRequest);
-                             
-                             
-                            GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
-                            GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
-                            serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
-                            serviceRegistryBean.setUrl("/loadCustomerSelectedTable");
-                            serviceRegistryBean.setModuleName("hierarchyRelationship");
-                            serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
-                            request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
-
-                            GtnUIFrameworkWebserviceResponse availableTableCustomerLevelResponse = client.callGtnWebServiceUrl(
-                                    "/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
-                                    request, getGsnWsSecurityToken());
-
-        
-				List<String> relationHierarchy = relationLogic.getSelectedCustomerLevel(selectedLevelDto,
-						Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, levelList,
-						StringUtils.EMPTY, StringUtils.EMPTY, relationShipVersion, forecastEligibleDate, lowestLevelNo);
-				inputs.add(StringUtils.join(relationHierarchy, ","));
-				inputs.add(lowestLevelNo);
-				inputs.add(relationShipVersion);
-				inputs.add(hierarchyVersion);
-
-	
-                        resultss = availableTableCustomerLevelResponse.getGtnWsForecastResponse().getInputBean().getResultList();
+                            resultss = getSelectedTableResultListDto(selectedLevelDto, hierarchyVersion, availableTable, queryparameterList,url);
+				
+                        }
 			if (resultss != null) {
 				resultList = new ArrayList<>();
 				for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
@@ -1517,15 +1477,90 @@ public class DataSelectionLogic {
 					resultList.add(dto);
 				}
 			}
-		}
+		
                 }
                 catch (NumberFormatException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
 	}
+
+    private List<Object[]> getSelectedTableResultListDto(Leveldto selectedLevelDto, int hierarchyVersion, ExtFilterTable availableTable, List<Object> queryparameterList,String url) {
+        List<Object[]> resultss;
+        List<Leveldto> levelList = relationLogic.getHierarchyLevelDefinition(selectedLevelDto.getHierarchyId(),
+                hierarchyVersion);
+        List<GtnWsRecordBean> recordBeanList = new ArrayList<>();
+        Leveldto levelDtoRecordBean = (Leveldto) availableTable.getValue();
+        ArrayList<Object> recordBeanColList = new ArrayList<>();
+        if(url.contains("Bulk")){
+            List<Leveldto> availableTableList = (List<Leveldto>) availableTable.getContainerDataSource().getItemIds();
+            for(Leveldto levelDto : availableTableList){
+                 
+        recordBeanColList.add(0,levelDto.getRelationshipLevelValue());
+        recordBeanColList.add(1,null);
+        recordBeanColList.add(2,null);
+        recordBeanColList.add(3,levelDto.getRelationshipLevelSid());
+        recordBeanColList.add(4,levelDto.getHierarchyNo());
+        recordBeanColList.add(5,levelDto.getRelationShipBuilderId());
+        GtnWsRecordBean recordBean = new GtnWsRecordBean();
+        recordBean.setProperties(recordBeanColList);
+        recordBeanList.add(recordBean);
+            }
+        }
+        else{
+        recordBeanColList.add(0,levelDtoRecordBean.getRelationshipLevelValue());
+        recordBeanColList.add(1,null);
+        recordBeanColList.add(2,null);
+        recordBeanColList.add(3,levelDtoRecordBean.getRelationshipLevelSid());
+        recordBeanColList.add(4,levelDtoRecordBean.getHierarchyNo());
+        recordBeanColList.add(5,levelDtoRecordBean.getRelationShipBuilderId());
+        GtnWsRecordBean recordBean = new GtnWsRecordBean();
+        recordBean.setProperties(recordBeanColList);
+        recordBeanList.add(recordBean);
+        }
+        List<GtnReportHierarchyLevelBean> selectedHierarchyBeanList = new ArrayList<>();
+        for(int i=0;i<levelList.size();i++){
+            selectedHierarchyBeanList.add(getSelectedHierarchyLevelBean(levelList.get(i)));
+        }
+        GtnReportHierarchyLevelBean selectedHierarchyBean = (GtnReportHierarchyLevelBean)queryparameterList.get(2);
+        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setQueryInputList(queryparameterList);
+        request.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+        reportRequest.setRecordBean(recordBeanList);
+        reportRequest.setHierarchyInputBean(selectedHierarchyBean);
+        reportRequest.setHierarchyLevelList(selectedHierarchyBeanList);
+        request.setGtnWsReportRequest(reportRequest);
+        GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+        GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+        serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+        serviceRegistryBean.setUrl(url);
+        serviceRegistryBean.setModuleName("hierarchyRelationship");
+        serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+        request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+        GtnUIFrameworkWebserviceResponse availableTableCustomerLevelResponse = client.callGtnWebServiceUrl(
+                "/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
+                request, getGsnWsSecurityToken());
+        resultss = availableTableCustomerLevelResponse.getGtnWsForecastResponse().getInputBean().getResultList();
         
-	public void getEndLevelRelationshipLevels(final List<String> endLevelSids, final String relationshipSid,
+
+        
+//				List<String> relationHierarchy = relationLogic.getSelectedCustomerLevel(selectedLevelDto,
+//						Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, levelList,
+//						StringUtils.EMPTY, StringUtils.EMPTY, relationShipVersion, forecastEligibleDate, lowestLevelNo);
+//				inputs.add(StringUtils.join(relationHierarchy, ","));
+//				inputs.add(lowestLevelNo);
+//				inputs.add(relationShipVersion);
+//				inputs.add(hierarchyVersion);
+//				query = relationLogic.getFinalChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,
+//						String.valueOf(businessUnit), lowestLevelNo, subListIndex);
+//				resultss = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        return resultss;
+    }
+    
+    public void getEndLevelRelationshipLevels(final List<String> endLevelSids, final String relationshipSid,
 			List<Leveldto> ccList, List<String> availableHierNo) throws SystemException {
 		Leveldto dto;
 		Map<String, Object> parameters = new HashMap<>();
@@ -1569,7 +1604,7 @@ public class DataSelectionLogic {
 		try {
 			String query = SQlUtil.getQuery(getClass(), "getFileEndDate");
 			query = query.replace("[?BUSINESS_UNIT]", StringUtils.EMPTY + dto.getBusinessUnitSystemId());
-			List list = (List) salesProjectionDAO.executeSelectQuery(query, null, null);
+			List list = (List) salesProjectionDAO.executeSelectQuery(query);
 			if (list != null && !list.isEmpty()) {
 				Object[] tempDate = (Object[]) list.get(0);
 				dto.setFileEndYear(DataTypeConverter.convertObjectToInt(tempDate[0]));
@@ -1725,7 +1760,7 @@ public class DataSelectionLogic {
 							+ "RELATIONSHIP_BUILDER_SID='")
 					.append(rbID).append("'\n").append("and  LEVEL_NAME='Market Type'");
 			CommonDAO spDAO = new CommonDAOImpl();
-			list = (List) spDAO.executeSelectQuery(queryString.toString(), null, null);
+			list = (List) spDAO.executeSelectQuery(queryString.toString());
 			return list;
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
@@ -1752,7 +1787,7 @@ public class DataSelectionLogic {
 			CommonDAO commonDAO = new CommonDAOImpl();
 			str = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID="
 					+ definedValue + " and LEVEL_NAME='Market Type'";
-			return (List<Object>) commonDAO.executeSelectQuery(str, null, null);
+			return (List<Object>) commonDAO.executeSelectQuery(str);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
@@ -1781,7 +1816,7 @@ public class DataSelectionLogic {
 					+ "  ON PC.RELATIONSHIP_LEVEL_SID = RL.RELATIONSHIP_LEVEL_SID\n"
 					+ "  AND PC.PROJECTION_MASTER_SID = P.PROJECTION_MASTER_SID\n"
 					+ "WHERE RL.LEVEL_NAME = 'MARKET TYPE'\n" + "AND LIST_NAME = 'CONTRACT_TYPE'";
-			return (List<Object>) salesProjDAO.executeSelectQuery(str, null, null);
+			return (List<Object>) salesProjDAO.executeSelectQuery(str);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
@@ -1922,7 +1957,7 @@ public class DataSelectionLogic {
 				queryString.append(StringUtils.EMPTY).append(projectionId);
 				queryString.append(" ) and LEVEL_NAME='Market TYPE'");
 			}
-			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString(), null, null);
+			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString());
 			return list;
 
 		} catch (Exception ex) {
@@ -2022,7 +2057,7 @@ public class DataSelectionLogic {
 
 	public void insertToReturnDetails(int projectionIdValue) {
 		salesProjectionDAO.executeBulkUpdateQuery(SQlUtil.getQuery("RETURN_DETAILS_INSERT")
-				.replace(Constant.PROJECTION_ID_AT, String.valueOf(projectionIdValue)), null, null);
+				.replace(Constant.PROJECTION_ID_AT, String.valueOf(projectionIdValue)));
 	}
 
 	/**
@@ -2036,13 +2071,13 @@ public class DataSelectionLogic {
 			// Used to Insert the record in RETURNS_MAP TABLE
 			String query1 = SQlUtil.getQuery("RETURNS_MAP_INSERT").replace("@PROJECTION_SID",
 					String.valueOf(session.getProjectionId()));
-			salesProjectionDAO.executeBulkUpdateQuery(query1, null, null);
+			salesProjectionDAO.executeBulkUpdateQuery(query1);
 		}
 
 		Map<String, String> returnDetilsMap = new HashMap<>();
 		String query = SQlUtil.getQuery("RETURN_DETAILS_RESULTS").replace(Constant.PROJECTION_ID_AT,
 				String.valueOf(session.getProjectionId()));
-		List resultsList = (List) salesProjectionDAO.executeSelectQuery(query, null, null);
+		List resultsList = (List) salesProjectionDAO.executeSelectQuery(query);
 		for (int i = 0; i < resultsList.size(); i++) {
 			Object[] ob = (Object[]) resultsList.get(i);
 			returnDetilsMap.put(ob[0].toString(), ob[1].toString());
@@ -2076,7 +2111,7 @@ public class DataSelectionLogic {
 			CommonDAO resultDAO = new CommonDAOImpl();
 			str = "select FIELD_NAME from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID=" + definedValue
 					+ " and  LEVEL_NAME in('Customer','Trading Partner')";
-			return (List<Object>) resultDAO.executeSelectQuery(str, null, null);
+			return (List<Object>) resultDAO.executeSelectQuery(str);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
@@ -2207,8 +2242,7 @@ public class DataSelectionLogic {
 	public void updateReturnDetails(SessionDTO session) {
 		String query1 = SQlUtil.getQuery("UPDATE_RETURN_DETAILS").replace(Constant.PROJECTION_ID_AT,
 				String.valueOf(session.getProjectionId()));
-		salesProjectionDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query1, session.getCurrentTableNames()),
-				null, null);
+		salesProjectionDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query1, session.getCurrentTableNames()));
 	}
 
 	/**
@@ -2220,7 +2254,7 @@ public class DataSelectionLogic {
 		LOGGER.debug("Entering dataSelectionInsert= {}", relationshipBuilderSids);
 		String query = SQlUtil.getQuery(getClass(), "nm.saveCustomerCcp");
 		query = query.replace("?RBS", relationshipBuilderSids);
-		salesProjectionDAO.executeBulkUpdateQuery(query, null, null);
+		salesProjectionDAO.executeBulkUpdateQuery(query);
 
 	}
 
@@ -2689,7 +2723,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 
     }
     
-    public void callViewInsertProcedureForNm(SessionDTO session,String mode,String screenName,String view,String startPeriod,String endPeriod) {
+    public void callViewInsertProcedureForNm(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod) {
         int masterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
         String frequency = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
         String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
@@ -2997,13 +3031,13 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 	public void deleteFromTempCCPTable(final SessionDTO session) {
 		String finalQuery = QueryUtil.replaceTableNames(
 				QueryUtils.getQuery(Collections.emptyList(), "deleteTempCCPTable"), session.getCurrentTableNames());
-		salesProjectionDAO.executeBulkUpdateQuery(finalQuery, null, null);
+		salesProjectionDAO.executeBulkUpdateQuery(finalQuery);
 
 	}
 
 	public Date getDefaultEligibleDateFromForecastConfiguration() {
 		String query = "SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Commercial')";
-		List forecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(query, null, null);
+		List forecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(query);
 		return forecastEligibleDate != null && !forecastEligibleDate.isEmpty() ? (Date) forecastEligibleDate.get(0)
 				: null;
 	}
@@ -3017,7 +3051,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
         
     public Date getWorkflowEligibleDateFromProjMaster(final DataSelectionDTO dataSelectionDTO) {
         String datequery = "SELECT FORECAST_ELIGIBLE_DATE FROM PROJECTION_MASTER where PROJECTION_MASTER_SID=" + dataSelectionDTO.getProjectionId() + "";
-        List workflowforecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(datequery, null, null);
+        List workflowforecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(datequery);
         return workflowforecastEligibleDate != null ? (Date) workflowforecastEligibleDate.get(0) : null;
     }
 

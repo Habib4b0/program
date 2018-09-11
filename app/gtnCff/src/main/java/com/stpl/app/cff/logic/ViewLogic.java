@@ -146,11 +146,7 @@ public class ViewLogic {
             viewId = Integer.parseInt(String.valueOf(objects[0]));
             String userId = (String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID);
             CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(0);
-            try {
                 viewMaster = dataSelection.getForecastingViewMaster(viewId);
-            } catch (PortalException | SystemException ex) {
-                java.util.logging.Logger.getLogger(ViewLogic.class.getName()).log(Level.SEVERE, null, ex);
-            }
             if (saveViewDTO.getViewName() != null
                     && !StringUtils.isEmpty(saveViewDTO.getViewName())) {
                 viewMaster.setViewName(saveViewDTO.getViewName());
@@ -170,7 +166,10 @@ public class ViewLogic {
         } catch (SystemException | NumberFormatException e) {
             LOGGER.error(e.getMessage());
             return updatedViewMaster;
-        }
+        }   catch (PortalException ex) {
+                java.util.logging.Logger.getLogger(ViewLogic.class.getName()).log(Level.SEVERE, null, ex);
+                return updatedViewMaster;
+            }
 
     }
 }

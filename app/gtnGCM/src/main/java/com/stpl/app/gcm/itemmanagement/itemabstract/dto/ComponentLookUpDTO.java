@@ -93,19 +93,19 @@ public class ComponentLookUpDTO {
         this.isCount = isCount;
     }
 
-    public HelperDTO getComponentStatus_DTO() {
+    public HelperDTO getComponentStatusDto() {
         return componentStatusDTO;
     }
 
-    public void setComponentStatus_DTO(HelperDTO componentStatusDTO) {
+    public void setComponentStatusDto(HelperDTO componentStatusDTO) {
         this.componentStatusDTO = componentStatusDTO;
     }
 
-    public HelperDTO getComponentType_DTO() {
+    public HelperDTO getComponentTypeDto() {
         return componentTypeDTO;
     }
 
-    public void setComponentType_DTO(HelperDTO componentTypeDto) {
+    public void setComponentTypeDto(HelperDTO componentTypeDto) {
         this.componentTypeDTO = componentTypeDto;
     }
 
@@ -213,19 +213,19 @@ public class ComponentLookUpDTO {
         this.componentSid = componentSid;
     }
 
-    public HelperDTO getComponentCategory_DTO() {
+    public HelperDTO getComponentCategoryDto() {
         return componentCategoryDTO;
     }
 
-    public void setComponentCategory_DTO(HelperDTO componentCategoryDto) {
+    public void setComponentCategoryDto(HelperDTO componentCategoryDto) {
         this.componentCategoryDTO = componentCategoryDto;
     }
 
-    public HelperDTO getRsProgramType_DTO() {
+    public HelperDTO getRsProgramTypeDto() {
         return rsProgramTypeDTO;
     }
 
-    public void setRsProgramType_DTO(HelperDTO rsProgramTypeDto) {
+    public void setRsProgramTypeDto(HelperDTO rsProgramTypeDto) {
         this.rsProgramTypeDTO = rsProgramTypeDto;
     }
 

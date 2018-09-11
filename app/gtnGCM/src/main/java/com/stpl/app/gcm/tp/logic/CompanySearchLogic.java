@@ -61,7 +61,7 @@ public class CompanySearchLogic {
 
         //Used to load the companies for Customer Selection tab in Transfer projection Details module
         if (!tpDto.getCompanyMasterSids().isEmpty()) {
-            parameters.put("companyMasterSids", CommonUtils.CollectionToString(tpDto.getCompanyMasterSids(), true));
+            parameters.put("companyMasterSids", CommonUtils.collectionToString(tpDto.getCompanyMasterSids(), true));
         }
         //Used to restrict the companies for Customer Selection tab in Transfer projection Details module
         if (!tpDto.getCompanyRestrictionSessionId().isEmpty()) {
@@ -154,7 +154,7 @@ public class CompanySearchLogic {
             parameters.put(Constants.CHECK_RECORD, null);
         }
         if (!tpDTO.getCompanyMasterSids().isEmpty()) {
-            parameters.put("companyMasterSids", CommonUtils.CollectionToString(tpDTO.getCompanyMasterSids(), true));
+            parameters.put("companyMasterSids", CommonUtils.collectionToString(tpDTO.getCompanyMasterSids(), true));
         }
 
         if (!tpDTO.getCompanyRestrictionSessionId().isEmpty()) {
@@ -346,7 +346,7 @@ public class CompanySearchLogic {
         List resultList;
         List<TradingPartnerDTO> returnList;
         query.append(SQlUtil.getQuery(COMPANIES_FROM_MAIN_TABLE));
-        query.append(" AND cm.COMPANY_MASTER_SID in (" ).append( CommonUtils.CollectionToString(companyMasterSids, true) ).append( ')');
+        query.append(" AND cm.COMPANY_MASTER_SID in (" ).append( CommonUtils.collectionToString(companyMasterSids, true) ).append( ')');
         resultList = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         returnList = Converters.searchCompany(resultList);
         return returnList;

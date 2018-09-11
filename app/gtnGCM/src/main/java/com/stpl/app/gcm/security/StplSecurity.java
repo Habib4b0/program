@@ -54,7 +54,7 @@ public class StplSecurity {
     /**
      * The dao.
      */
-    final private StplSecurityDAO dto = new StplSecurityDAOImpl();
+     private final StplSecurityDAO dto = new StplSecurityDAOImpl();
     /**
      * The domain ids1.
      */

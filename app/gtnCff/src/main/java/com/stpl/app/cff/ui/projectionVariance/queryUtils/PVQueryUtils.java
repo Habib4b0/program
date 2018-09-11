@@ -433,7 +433,7 @@ public class PVQueryUtils {
                     discountTypeColumnName = " B.PRICE_GROUP_TYPE AS DISCOUNTS";
                     groupBy += ", " + " B.PRICE_GROUP_TYPE";
                 }
-                whereClause += " and B.PRICE_GROUP_TYPE in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNameList(), true) + ")";
+                whereClause += " and B.PRICE_GROUP_TYPE in (" + CommonUtils.collectionToString(projSelDTO.getDiscountNameList(), true) + ")";
             }
         } else {
             if (projSelDTO.getDiscountNoList() != null && !projSelDTO.getDiscountNoList().isEmpty()) {
@@ -442,7 +442,7 @@ public class PVQueryUtils {
                     groupBy += ", " + " J.RS_NAME";
                 }
                 if(!isPriorDiscount){
-                    whereClause += " and B.RS_MODEL_SID in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")";
+                    whereClause += " and B.RS_MODEL_SID in (" + CommonUtils.collectionToString(projSelDTO.getDiscountNoList(), false) + ")";
                 }
             }
         }
@@ -775,7 +775,7 @@ public class PVQueryUtils {
         try {
             String customSql = SQlUtil.getQuery("getProjectionLists");
             if (projId != null && !projId.isEmpty()) {
-                customSql += (" PM.PROJECTION_MASTER_SID IN (" + CommonUtils.CollectionToString(projId, false) + ")");
+                customSql += (" PM.PROJECTION_MASTER_SID IN (" + CommonUtils.collectionToString(projId, false) + ")");
             } else {
                 customSql += (" PM.PROJECTION_MASTER_SID IN ('')");
             }
@@ -843,7 +843,7 @@ public class PVQueryUtils {
                     discountTypeColumnName = " B.PRICE_GROUP_TYPE AS DISCOUNTS";
                     groupBy += ", " + " B.PRICE_GROUP_TYPE";
                 }
-                whereClause += " and B.PRICE_GROUP_TYPE in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNameList(), true) + ")";
+                whereClause += " and B.PRICE_GROUP_TYPE in (" + CommonUtils.collectionToString(projSelDTO.getDiscountNameList(), true) + ")";
             }
         } else {
             if (projSelDTO.getDiscountNoList() != null && !projSelDTO.getDiscountNoList().isEmpty()) {
@@ -851,7 +851,7 @@ public class PVQueryUtils {
                     discountTypeColumnName = " J.RS_NAME AS DISCOUNTS";
                     groupBy += ", " + " J.RS_NAME";
                 }
-                whereClause += " and B.RS_MODEL_SID in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")";
+                whereClause += " and B.RS_MODEL_SID in (" + CommonUtils.collectionToString(projSelDTO.getDiscountNoList(), false) + ")";
             }
         }
 
@@ -1358,7 +1358,7 @@ public class PVQueryUtils {
                 discountTypeColumnName = " J.RS_NAME as DISCOUNTS";
                 groupBy += ", " + "  J.RS_NAME";
             }
-            whereClause += " and B.RS_MODEL_SID  in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")";
+            whereClause += " and B.RS_MODEL_SID  in (" + CommonUtils.collectionToString(projSelDTO.getDiscountNoList(), false) + ")";
         }
         selectClause += discountTypeColumnName + ", ";
 

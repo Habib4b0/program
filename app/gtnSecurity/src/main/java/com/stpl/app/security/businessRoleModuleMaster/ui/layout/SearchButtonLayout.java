@@ -10,7 +10,6 @@ import com.stpl.app.security.businessRoleModuleMaster.util.UIUtils;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.HelperUtils;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -136,20 +135,17 @@ public class SearchButtonLayout extends HorizontalLayout {
                                   MessageBox.showPlain(Icon.ERROR, "Search Criteria", "Please enter Search Criteria", ButtonId.OK);
         
         }
-                                            } catch (SystemException | PortalException e) {
+                                            } catch (PortalException e) {
 						LOGGER.error(e.getMessage());
                                                 
 						
-					}
+                                            } 
 					
 				} catch (CommitException e) {
 					LOGGER.error(e.getMessage());
                                        
-				}
-                                catch (Exception e) {
-					LOGGER.error(e.getMessage());
-                                 
-				}
+                            } 
+                               
 			}
 		});
 		this.addComponent(btnSearch);

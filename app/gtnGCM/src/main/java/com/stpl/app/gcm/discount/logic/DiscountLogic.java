@@ -602,12 +602,13 @@ public class DiscountLogic {
      * @return String
      */
     public String getFormattedValue(DecimalFormat format, String value) {
-        if (value.contains(Constants.NULL)) {
-            value = Constants.ZEROSTRING;
+        String newValue = value;
+        if (newValue.contains(Constants.NULL)) {
+            newValue = Constants.ZEROSTRING;
         } else {
-            value = format.format(Double.valueOf(value));
+            newValue = format.format(Double.valueOf(newValue));
         }
-        return value;
+        return newValue;
     }
 
     public int getConfigureSalesCount(Object parentId, RemoveDiscountDto projSelDTO) {
@@ -988,7 +989,7 @@ public class DiscountLogic {
                 input.add(null);
             }
             if (list.isEmpty()) {
-                RsContractDetailsImpl.saveRsDetailsAttached(input, null);
+                RsContractDetailsImpl.saveRsDetailsAttached(input);
             }
         } catch (Exception e) {
             LOGGER.error("",e);
@@ -1516,9 +1517,7 @@ public class DiscountLogic {
                 results = discountDAO.getRebates(query);
             } catch (SystemException ex) {
                 LoggerFactory.getLogger(DiscountLogic.class.getName()).error("", ex);
-            } catch (Exception ex) {
-                LoggerFactory.getLogger(DiscountLogic.class.getName()).error("", ex);
-            }
+            } 
         } else if (Constants.IndicatorConstants.CFP.getConstant().equals(newDiscountTabDto.getCategory())) {
             if (selectedItemsTable && !isAdd) {
                 operation = Constants.IndicatorConstants.SELECTED_COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant();
@@ -2128,7 +2127,7 @@ public class DiscountLogic {
                 input.add(null);
             }
             if (list.isEmpty()) {
-                PsContractDetailsImpl.savePsDetailsAttached(input, null);
+                PsContractDetailsImpl.savePsDetailsAttached(input);
             }
         } catch (Exception e) {
             LOGGER.error("",e);
@@ -2235,7 +2234,7 @@ public class DiscountLogic {
             input.add(null);
         }
         if (list.isEmpty()) {
-            IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
+            IfpContractDetailsImpl.saveIfpDetailsAttached(input);
         }
 
         LOGGER.debug("End of saveIFP method");
@@ -2302,7 +2301,7 @@ public class DiscountLogic {
             input.add(null);
         }
         if (list.isEmpty()) {
-            CfpContractDetailsImpl.saveCfpDetailsAttached(input, null);
+            CfpContractDetailsImpl.saveCfpDetailsAttached(input);
         }
         LOGGER.debug("End of saveCFp method");
 
@@ -2533,7 +2532,7 @@ public class DiscountLogic {
         return new Date();
     }
     
-    public List<PSComponentDetailsDTO> getDiscountItemsForPS_RS(String userId, String sessionId, List<String> itemsList) {
+    public List<PSComponentDetailsDTO> getDiscountItemsForPsRs(String userId, String sessionId, List<String> itemsList) {
         LOGGER.debug(" Inside getDiscountItemsForPS");
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
@@ -2742,10 +2741,10 @@ public class DiscountLogic {
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
         inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
-        query1 = CommonUtil.getQuery(inputMap, query1);
-        query2 = CommonUtil.getQuery(inputMap, query2);
-        List queryList1 = HelperTableLocalServiceUtil.executeSelectQuery(query1);
-        List queryList2 = HelperTableLocalServiceUtil.executeSelectQuery(query2);
+        String query1New = CommonUtil.getQuery(inputMap, query1);
+        String query2New = CommonUtil.getQuery(inputMap, query2);
+        List queryList1 = HelperTableLocalServiceUtil.executeSelectQuery(query1New);
+        List queryList2 = HelperTableLocalServiceUtil.executeSelectQuery(query2New);
         if (queryList1.size() == queryList2.size()) {
             Object[] listArr = queryList2.toArray();
             Object[] dataArr = queryList1.toArray();
@@ -2760,8 +2759,8 @@ public class DiscountLogic {
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
         inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
-        query = CommonUtil.getQuery(inputMap, query);
-        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        String queryNew = CommonUtil.getQuery(inputMap, query);
+        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryNew);
         if (resultList.size() == dataList.size()) {
             Object[] listArr = dataList.toArray();
             Object[] dataArr = resultList.toArray();
@@ -2909,7 +2908,7 @@ public class DiscountLogic {
         rsList.clear();
         String query = "SELECT RS_CONTRACT_SID FROM RS_CONTRACT WHERE CONTRACT_MASTER_SID = ?";
         query = query.replace("?", contractDto.getContractSid() + "");
-        rsList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return rsList;
+        List<Object> rsListNew = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        return rsListNew;
     }
 }

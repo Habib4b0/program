@@ -12042,6 +12042,18 @@ GO
 				)
 		END
 				GO
+                
+                        IF EXISTS(
+                                SELECT 1   
+                                FROM   HELPER_TABLE 
+                                WHERE DESCRIPTION   = 'MONTHLY' collate SQL_Latin1_General_CP1_CS_AS
+                                AND LIST_NAME = 'PERIODCONFIG_FREQUENCY') 
+                BEGIN 
+                        UPDATE  HELPER_TABLE SET DESCRIPTION='Monthly' 
+                        WHERE DESCRIPTION='MONTHLY' AND LIST_NAME='PERIODCONFIG_FREQUENCY'
+                END
+                                GO
+
 			IF NOT EXISTS (
 				SELECT 1
 				FROM HELPER_TABLE
@@ -12065,6 +12077,17 @@ GO
 				)
 		END
 				GO
+
+                                IF EXISTS(SELECT 1   
+                                        FROM   HELPER_TABLE 
+                                        WHERE DESCRIPTION   = 'AUTO' collate SQL_Latin1_General_CP1_CS_AS
+                                        AND LIST_NAME = 'PERIODCONFIG_MODE') 
+                BEGIN 
+                        UPDATE  HELPER_TABLE SET DESCRIPTION='Auto' 
+                        WHERE DESCRIPTION='AUTO' AND LIST_NAME='PERIODCONFIG_MODE'
+                END
+                                GO
+
 			IF NOT EXISTS (
 				SELECT 1
 				FROM HELPER_TABLE
@@ -12088,6 +12111,17 @@ GO
 				)
 		END
 				GO
+
+                        IF EXISTS(
+                                SELECT 1   
+                                FROM   HELPER_TABLE 
+                                WHERE DESCRIPTION   = 'DEFINED' collate SQL_Latin1_General_CP1_CS_AS
+                                AND LIST_NAME = 'PERIODCONFIG_MODE') 
+                BEGIN 
+                        UPDATE  HELPER_TABLE SET DESCRIPTION='Defined' 
+                        WHERE DESCRIPTION='DEFINED' AND LIST_NAME='PERIODCONFIG_MODE'
+                END
+                                 GO
 				-----------------------GROUP-2 Helper table mappings
 			IF NOT EXISTS (
 				SELECT 1
