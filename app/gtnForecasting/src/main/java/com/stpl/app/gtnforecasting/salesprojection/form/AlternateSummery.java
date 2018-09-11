@@ -12,8 +12,6 @@ import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.lookups.NMPmpyCalculator;
-import com.stpl.app.gtnforecasting.lookups.logic.PmpyLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.MSalesProjectionTableLogic;
 import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
@@ -313,7 +311,7 @@ public class AlternateSummery extends CustomComponent {
             this.variableList = variableList;
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/AltenateSummeryTab.xml"), this));
 
-            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
+            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 projectionDTO.setScreenName(screenName);
                 mSalesProjectionTableLogic = new MSalesProjectionTableLogic();
                 resultsTable = new FreezePagedTreeTable(mSalesProjectionTableLogic);
@@ -826,8 +824,6 @@ public class AlternateSummery extends CustomComponent {
         leftTable = resultsTable.getLeftFreezeAsTable();
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             NonMandatedFilter();
-        } else if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionDTO.getScreenName())) {
-            MandatedFilter();
         }
         UiUtils.setExtFilterTreeTableColumnWidth(rightTable, NumericConstants.ONE_FOUR_FIVE, TAB_SALES_PROJECTION.getConstant());
         leftTable.addColumnCheckListener(checkListener);
@@ -985,11 +981,7 @@ public class AlternateSummery extends CustomComponent {
 
                                     String changedValue = ((TextField) event.getComponent()).getValue();
                                     changedValue = StringUtils.isBlank(changedValue) || Constant.NULL.equals(changedValue) ? "0.0" : changedValue;
-                                    if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equalsIgnoreCase(screenName)) {
-                                        salesLogic.saveEditedRecsReturns(propertyId.toString(), changedValue, incOrDecValue, salesRowDto, projectionDTO);
-                                    } else {
                                         salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDecValue, changedProperty, salesRowDto, projectionDTO, new boolean[]{checkAll, !tempArray1[0].contains(Constant.GROWTH)});
-                                    }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     tableHirarechyNos.add(mSalesProjectionTableLogic.getTreeLevelonCurrentPage(itemId));
                                 } catch (Exception ex) {
@@ -1938,79 +1930,6 @@ public class AlternateSummery extends CustomComponent {
         }
         actualsProjections.setValue(Constant.BOTH);
         proPeriodOrd.select(Constant.ASCENDING);
-
-    }
-
-    protected void pmpyLogic() {
-        PmpyLogic pmpyLogic = new PmpyLogic();
-
-        boolean tpSelected = false;
-        boolean hasActuals = false;
-        int i = 0;
-        String hierarchyNo = StringUtils.EMPTY;
-
-        for (SalesRowDto dto : customContainer.getBeans()) {
-            if ((Boolean) dto.getPropertyValue(Constant.CHECK) && (Constant.TRADINGPARTNER.equals(dto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(dto.getHierarchyLevel()))) {
-                tpSelected = true;
-                i++;
-                hierarchyNo = dto.getHierarchyNo();
-
-            }
-            for (Object key : dto.getProperties().keySet()) {
-                if (((Boolean) dto.getPropertyValue(Constant.CHECK) && (Constant.TRADINGPARTNER.equals(dto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(dto.getHierarchyLevel()))) && (String.valueOf(key).contains("Actual"))) {
-                    String value = String.valueOf(dto.getProperties().get(key));
-                    if (!value.equals("-") && !value.equals("0.00") && !value.equals("$0") && !value.equals(DASH.getConstant()) && !value.equals("0.000000")) {
-                        hasActuals = true;
-                    }
-
-                }
-
-            }
-
-        }
-
-        if (tpSelected && i == 1) {
-
-            if (!hasActuals) {
-                String historyPeriods = String.valueOf(historyDdlb.getValue());
-
-                hierarchyNo = " WHERE RLD1.HIERARCHY_NO like '" + hierarchyNo + "' ";
-                Object[] inputParameters = new Object[NumericConstants.TEN];
-                inputParameters[0] = session.getProjectionId();
-                inputParameters[1] = hierarchyNo;
-                List<Object> projectionDetailsIdForPMPY = pmpyLogic.getNmProjectionDetId(inputParameters);
-                int projectionDetailsId = Integer.parseInt(projectionDetailsIdForPMPY.get(0).toString());
-                List list = pmpyLogic.getTradingPartnerInfo(projectionDetailsId);
-
-                String tradeName = String.valueOf(list.get(0) != null ? list.get(0) : " ");
-                String tradeNo = String.valueOf(list.get(1) != null ? list.get(1) : " ");
-                String contractHolder = String.valueOf(list.get(NumericConstants.TWO) != null ? list.get(NumericConstants.TWO) : " ");
-
-                final NMPmpyCalculator pmpyCalc = new NMPmpyCalculator(historyPeriods, projectionDetailsIdForPMPY, rightHeader, tradeName, tradeNo, contractHolder, session, projectionDTO);
-                pmpyCalc.addCloseListener(new Window.CloseListener() {
-
-                    @Override
-                    public void windowClose(Window.CloseEvent e) {
-                        if (pmpyCalc.isImportEvent()) {
-                            refreshTableData(getCheckedRecordsHierarchyNo());
-                        }
-
-                    }
-                });
-                getUI().addWindow(pmpyCalc);
-            } else {
-                AbstractNotificationUtils.getErrorNotification("PMPY calculation cannot be performed",
-                        "PMPY calculation cannot be performed for trading partner which already have history values.");
-            }
-        } else if (tpSelected && i > 1) {
-            AbstractNotificationUtils.getErrorNotification("More than one Trading Partner Selected",
-                    "There are More than one trading partners selected.\n Please select only one trading partner and try again");
-
-        } else {
-
-            AbstractNotificationUtils.getErrorNotification("No Trading Partner Selected.", "Please select a Trading Partner. ");
-
-        }
 
     }
 

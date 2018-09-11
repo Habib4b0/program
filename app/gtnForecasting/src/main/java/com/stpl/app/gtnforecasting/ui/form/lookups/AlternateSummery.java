@@ -206,7 +206,7 @@ public class AlternateSummery extends CustomComponent {
             this.session = session;
             this.screenName = screenName;
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/AltenateSummeryTab.xml"), this));
-            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
+            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 projectionDTO.setScreenName(screenName);
                 summeryTableLogic = new AHSummeryTableLogic();
                 resultsTable = new FreezePagedTreeTable(summeryTableLogic);
