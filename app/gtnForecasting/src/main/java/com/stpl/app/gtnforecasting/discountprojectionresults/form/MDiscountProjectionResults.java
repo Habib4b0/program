@@ -199,7 +199,6 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             public void yesMethod() {
                 frequencyDdlb.setValue(QUARTERLY);
                 historyDdlb.setValue(Constant.FOUR_QUARTERS);
-                discountOpg.setValue(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED);
                 actualOrProjectionsOpg.setValue(Constant.ACTUALS);
                 periodOrderOpg.setValue(ASCENDING.getConstant());
                 pivotViewOpg.setValue(Constant.PERIOD);
@@ -308,10 +307,8 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         discountOpg.setImmediate(true);
         discountOpg.addStyleName(Constant.HORIZONTAL);
         discountOpg.addStyleName(Constant.OPTION_GROUP_WIDTH);
-        discountOpg.addItem(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED);
         discountOpg.addItem(Constant.SUPPLEMENTAL);
         discountOpg.addItem(Constant.BOTH);
-        discountOpg.setValue(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED);
         periodOrderOpg.setImmediate(true);
         periodOrderOpg.addStyleName(Constant.HORIZONTAL);
         periodOrderOpg.addStyleName(Constant.OPTION_GROUP_WIDTH);
@@ -421,7 +418,6 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             projectionDTO.setProdRelationshipBuilderSid(sessionDTO.getProdRelationshipBuilderSid());
             projectionDTO.setForecastConfigPeriods(CommonUtils.prepareProjectionPeriodList(projectionDTO));
             projectionDTO.setTabName("M_Discount Projection Results");
-            projectionDTO.setScreenName(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED);
             tablePanel.setCaption(pivotViewOpg.getValue().toString() + SPACE + PIVOT_VIEW.getConstant());
             viewChange(false);
         }

@@ -295,11 +295,6 @@ public class ReturnsProjection extends ForecastSalesProjection {
         proPeriodOrd.select(Constant.ASCENDING);
     }
 
-    @Override
-    protected void pmpyLogic() {
-        return;
-    }
-
     private void addResultTable() {
         tableLayout.addComponent(resultsTable);
         resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED);

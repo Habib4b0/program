@@ -8,7 +8,6 @@ import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.Utility;
-import com.stpl.app.gtnforecasting.lookups.MPmpyCalculator;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.MSalesProjectionTableLogic;
 import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -36,7 +35,6 @@ import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.HorizontalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -248,63 +246,6 @@ public class MSalesProjection extends ForecastSalesProjection {
         variables.addItem(Constant.PRODUCT_GROWTH);
         variables.addItem(Constant.ACCOUNT_GROWTH);
         variables.select(Constant.SALES_SMALL);
-    }
-
-    @Override
-    protected void pmpyLogic() {
-
-        boolean contractSelected = false;
-        boolean hasActuals = false;
-        final String hierarchyNo;
-        int tempContractLevel = 0;
-        int tempCustomerLevel = 0;
-        int i = 0;
-        for (Object obj : rightTable.getItemIds()) {
-            SalesRowDto dto = getBeanFromId(obj);
-            if ((Boolean) dto.getPropertyValue(Constant.CHECK) && (("CONTRACT".equalsIgnoreCase(dto.getHierarchyLevel()) || Constant.CONTRACT.equalsIgnoreCase(dto.getHierarchyLevel()))
-                    || ("CUSTOMER".equalsIgnoreCase(dto.getHierarchyLevel()) || "customer".equalsIgnoreCase(dto.getHierarchyLevel())))) {
-                contractSelected = true;
-                i++;
-                if ("CONTRACT".equalsIgnoreCase(dto.getHierarchyLevel()) || Constant.CONTRACT.equalsIgnoreCase(dto.getHierarchyLevel())) {
-                    tempContractLevel++;
-                }
-                if ("CUSTOMER".equalsIgnoreCase(dto.getHierarchyLevel()) || "customer".equalsIgnoreCase(dto.getHierarchyLevel())) {
-                    tempCustomerLevel++;
-                }
-                for (Object key : dto.getProperties().keySet()) {
-                    if (String.valueOf(key).contains("Actual")) {
-                        String value = String.valueOf(dto.getProperties().get(key));
-                        if (!value.equalsIgnoreCase("-") && !value.equalsIgnoreCase("0.00") && !value.equalsIgnoreCase("$0") && !value.equalsIgnoreCase(DASH)) {
-                            hasActuals = true;
-                        }
-                    }
-                }
-                salesPMPYDTO = dto;
-            }
-
-        }
-        if (contractSelected && (tempContractLevel != 0 || tempCustomerLevel != 0) && (tempCustomerLevel <= 1)) {
-            if (!hasActuals) {
-                hierarchyNo = salesPMPYDTO.getHierarchyNo();
-                final MPmpyCalculator pmpyCalc = new MPmpyCalculator(session, projectedPeriodList);
-                getUI().addWindow(pmpyCalc);
-                pmpyCalc.addCloseListener(new Window.CloseListener() {
-                    @Override
-                    public void windowClose(Window.CloseEvent e) {
-                        if (pmpyCalc.isIsImport()) {
-                            updateOnPMPYImport(hierarchyNo, pmpyCalc.getUpdateValue(), pmpyCalc.getUpdatePeriod(), pmpyCalc.isIsSalesOrUnits(), salesPMPYDTO);
-                        }
-                    }
-                });
-            } else {
-                AbstractNotificationUtils.getErrorNotification("Contract LookUp", "Selected contract should not have  History");
-            }
-        } else if (contractSelected && i > 1) {
-            AbstractNotificationUtils.getErrorNotification("More than one Contract Selected",
-                    "There are More than one Contract selected.\n Please select only one Contract and try again");
-        } else {
-            AbstractNotificationUtils.getErrorNotification("No Contract Selected.", "Please select a Contract. ");
-        }
     }
 
     /**

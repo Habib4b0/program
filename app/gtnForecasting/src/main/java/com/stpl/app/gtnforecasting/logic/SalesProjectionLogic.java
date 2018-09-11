@@ -15,8 +15,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.LivesDTO;
-import com.stpl.app.gtnforecasting.dto.PMPYRowDto;
-import com.stpl.app.gtnforecasting.dto.PeriodDTO;
 import com.stpl.app.gtnforecasting.dto.SalesProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
@@ -593,95 +591,6 @@ public class SalesProjectionLogic {
             LOGGER.debug(ex.getMessage());
         }
         return list;
-    }
-
-    public List<PMPYRowDto> getPMPYResultList(Object[] inputs) {
-
-        List<PMPYRowDto> resultList = new ArrayList<>();
-
-        List list = null;
-        try {
-            list = callPMPYProcedure(inputs);
-        }  catch (SQLException ex) {
-
-            LoggerFactory.getLogger(SalesProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
-        } 
-
-        List<Object> propertyList = (List<Object>) inputs[NumericConstants.FOUR];
-
-        if (list != null) {
-            List<PeriodDTO> tempList = new ArrayList<>();
-            PeriodDTO periodDTO = null;
-            for (int i = 0; i < list.size(); i++) {
-                Object obj[] = (Object[]) list.get(i);
-                periodDTO = new PeriodDTO();
-                if (obj[0] != null) {
-                    periodDTO.setQuator(String.valueOf(obj[0]));
-
-                  
-                }
-                if (obj[1] != null) {
-                    periodDTO.setYear(String.valueOf(obj[1]));
-
-                  
-                }
-                if (obj[NumericConstants.TWO] != null) {
-                    periodDTO.setActualSales(String.valueOf(CommonUtils.MONEY.format(Double.valueOf(obj[NumericConstants.TWO].toString()))));
-
-                    
-                }
-
-                if (obj[NumericConstants.THREE] != null) {
-                   
-                    periodDTO.setActualUnits(String.valueOf(CommonUtils.UNITVOLUME.format(Double.valueOf(obj[NumericConstants.THREE].toString()))));
-                    
-                }
-                if (obj[NumericConstants.FOUR] != null) {
-                    
-                    periodDTO.setLives(Double.valueOf(CommonUtils.UNITVOLUME.format(Double.valueOf(obj[NumericConstants.FOUR].toString()))));
-                   
-                }
-
-                tempList.add(periodDTO);
-
-            }
-
-            PMPYRowDto pmpyRowDto1 = new PMPYRowDto();
-            PMPYRowDto pmpyRowDto2 = new PMPYRowDto();
-            PMPYRowDto pmpyRowDto3 = new PMPYRowDto();
-
-            Map<String, String> properties1 = new HashMap<>();
-            Map<String, String> properties2 = new HashMap<>();
-            Map<String, String> properties3 = new HashMap<>();
-            for (Object obj : propertyList) {
-
-                properties1.put(String.valueOf(obj), "0.0");
-                properties2.put(String.valueOf(obj), "0.0");
-                properties3.put(String.valueOf(obj), "0.0");
-
-            }
-
-            for (PeriodDTO pDto : tempList) {
-                properties1.put(Constant.Q_SMALL + pDto.getQuator() + "-" + pDto.getYear(), StringUtils.EMPTY + pDto.getActualSales() + StringUtils.EMPTY);
-                properties2.put(Constant.Q_SMALL + pDto.getQuator() + "-" + pDto.getYear(), StringUtils.EMPTY + pDto.getActualUnits() + StringUtils.EMPTY);
-                properties3.put(Constant.Q_SMALL + pDto.getQuator() + "-" + pDto.getYear(), StringUtils.EMPTY + pDto.getLives() + StringUtils.EMPTY);
-               
-            }
-
-            pmpyRowDto1.setProperties(properties1);
-            pmpyRowDto1.setType(Constant.SALES_SMALL);
-            pmpyRowDto2.setProperties(properties2);
-            pmpyRowDto2.setType(Constant.UNITS_SMALL);
-            pmpyRowDto3.setProperties(properties3);
-            pmpyRowDto3.setType(Constant.LIVES);
-
-            resultList.add(pmpyRowDto1);
-            resultList.add(pmpyRowDto2);
-            resultList.add(pmpyRowDto3);
-
-        }
-
-        return resultList;
     }
 
     public int getTotalHistoryPeriods(int fromYear, int toYear, int fromQuator, int toQuator) {

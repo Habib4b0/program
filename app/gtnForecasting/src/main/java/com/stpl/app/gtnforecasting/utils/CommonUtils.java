@@ -305,9 +305,6 @@ public class CommonUtils {
     public final String[] historyLookupBrandHeaders = new String[]{"Brand Name"};
 
     public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
-    public static final String BUSINESS_PROCESS_TYPE_MANDATED = "Mandated";
-    public static final String BUSINESS_PROCESS_TYPE_CHANNELS = "Channel";
-    public static final String BUSINESS_PROCESS_TYPE_RETURNS = "Returns";
     public static final String BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION = "AccrualRateProjection";
     public static final String BUSINESS_PROCESS_INDICATOR_NON_MANDATED = "NM";
     public static final String BUSINESS_PROCESS_INDICATOR_MANDATED = "M";
@@ -328,7 +325,6 @@ public class CommonUtils {
     private static final ResourceBundle returnsProperties = ResourceBundle.getBundle("custom-sql.ReturnsProjectionQueries");
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String BUSINESS_PROCESS_TYPE_COMMERCIAL = "Commercial";
-    public static final String BUSINESS_PROCESS_TYPE_GOVERNMENT = "Government";
     
     private static final String[] ARRAY_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
    

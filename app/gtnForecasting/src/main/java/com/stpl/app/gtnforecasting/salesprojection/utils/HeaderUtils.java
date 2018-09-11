@@ -228,46 +228,6 @@ public class HeaderUtils {
                         doubleHeaderMap.put(StringUtils.EMPTY, singleColumns.toArray());
                         k = tempYear;
                     }//Ends here
-            if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(projSelDTO.getScreenName())) {
-                if (projSelDTO.getFrequencyDivision() != 1) {
-                    StringBuilder str = new StringBuilder(commonColumn);
-                    commonColumn = str.insert(commonColumn.length() - NumericConstants.FOUR, '-').toString();
-                }
-
-                if (i >= projSelDTO.getHistoryStartIndex() && i <= projSelDTO.getHistoryEndIndex()) {
-                    if (Constant.ACTUALS.equals(projSelDTO.getActualsOrProjections()) || Constant.BOTH.equals(projSelDTO.getActualsOrProjections())) {
-
-                        columnConfigure(commonColumn + "-ActualReturned%", commonHeader + " Actual Returned %", "Actual Returned %", tableHeaderDTO, excelHeader, dmap);
-                        columnConfigure(commonColumn + "-ActualRPU", commonHeader + " Actual RPU", "Actual RPU", tableHeaderDTO, excelHeader, dmap);
-                        columnConfigure(commonColumn + "-ActualReturnedAmount", commonHeader + " Actual Returned Amount", "Actual Returned Amount", tableHeaderDTO, excelHeader, dmap);
-
-                    }
-                    if ((Constant.PROJECTIONS.equals(projSelDTO.getActualsOrProjections()) || Constant.BOTH.equals(projSelDTO.getActualsOrProjections())) && i < projSelDTO.getProjectionStartIndex()) {
-
-                        columnConfigure(commonColumn + Constant.HISTORY_PROJECTED_RETURN, commonHeader + Constant.PROJECTED_RETURN_PERCENT, Constant.PROJECTED_RETURN_PER, tableHeaderDTO, excelHeader, dmap);
-                        columnConfigure(commonColumn + Constant.HISTORY_PROJECTED_RPU, commonHeader + Constant.PROJECTED_RPU1, Constant.PROJECTED_RPU1, tableHeaderDTO, excelHeader, dmap);
-                        columnConfigure(commonColumn + Constant.HISTORY_PROJECTED_RETURN_AMOUNT, commonHeader + Constant.PROJECTED_RETURN_AMOUNT1, Constant.PROJECTED_RETURN_AMOUNT1, tableHeaderDTO, excelHeader, dmap);
-                        columnConfigure(commonColumn + Constant.HISTORY_GROWTH_RATE, commonHeader + Constant.GROWTH_RATE, Constant.GROWTH_RATE, tableHeaderDTO, excelHeader, dmap);
-                        colList.add(commonColumn);
-                        projSelDTO.setCommonColumn(colList);
-                    }
-                    tableHeaderDTO.addDoubleHistoryColumn(commonColumn, commonHeader);
-                }
-                if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
-                    columnConfigure(commonColumn + "-ProjectedReturn%", commonHeader + Constant.PROJECTED_RETURN_PERCENT, Constant.PROJECTED_RETURN_PER, tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-ProjectedRPU", commonHeader + Constant.PROJECTED_RPU1, Constant.PROJECTED_RPU1, tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-ProjectedReturnAmount", commonHeader + Constant.PROJECTED_RETURN_AMOUNT1, Constant.PROJECTED_RETURN_AMOUNT1, tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-GrowthRate", commonHeader + Constant.GROWTH_RATE, Constant.GROWTH_RATE, tableHeaderDTO, excelHeader, dmap);
-                    tableHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
-                } else if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
-
-                    columnConfigure(commonColumn + "-ProjectedReturn%", commonHeader + Constant.PROJECTED_RETURN_PERCENT, Constant.PROJECTED_RETURN_PER, tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-ProjectedRPU", commonHeader + Constant.PROJECTED_RPU1, Constant.PROJECTED_RPU1, tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + Constant.HISTORY_PROJECTED_SALES_DASH, commonHeader + Constant.PROJECTED_SALES, PROJECTED_SALES1, tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-ProjectedReturnAmount", commonHeader + Constant.PROJECTED_RETURN_AMOUNT1, Constant.PROJECTED_RETURN_AMOUNT1, tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-GrowthRate", commonHeader + Constant.GROWTH_RATE, Constant.GROWTH_RATE, tableHeaderDTO, excelHeader, dmap);
-                }
-            } else {
                 if (projSelDTO.getFrequencyDivision() != 1) {
                     StringBuilder str = new StringBuilder(commonColumn);
                     commonColumn = str.insert(commonColumn.length() - NumericConstants.FOUR, '-').toString();
@@ -417,7 +377,6 @@ public class HeaderUtils {
                         singleHeaderForExcel.add(commonHeader + Constant.CHILD_COUNT_HEADER);//Ends here
                     }
                 }
-            }
 
             if (!dmap.isEmpty()) {
                 tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);

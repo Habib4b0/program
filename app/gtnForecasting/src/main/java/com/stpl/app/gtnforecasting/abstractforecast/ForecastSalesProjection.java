@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
@@ -610,9 +609,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             this.session = session;
             this.screenName = screenName;
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/abstractforecast/forecastSalesProjection.xml"), this));
-            returnsFlag = CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName);
             projectionDTO.setTabName(Constant.SALES_PROJECTION_LABEL);
-            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
+            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 projectionDTO.setScreenName(screenName);
                 mSalesProjectionTableLogic = new MSalesProjectionTableLogic();
                 resultsTable = new FreezePagedTreeTable(mSalesProjectionTableLogic);
@@ -1037,15 +1035,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     }
 
-    /**
-     * Pmpy calculator.
-     *
-     * @param event the event
-     */
-    @UiHandler("pmpy")
-    public void pmpyCalculator(Button.ClickEvent event) {
-        pmpyLogic();
-    }
 
     @UiHandler("graphIcon")
     public void totalLiveGraph(Button.ClickEvent event) {
@@ -1254,8 +1243,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             CommonUtils.loadLevelDdlb(level, true, currentHierarchy);
             CommonUtils.loadLevelDdlb(levelFilter, false, currentHierarchy);
         } else if (view.equalsIgnoreCase(CUSTOM_HIERARCHY.getConstant())) {
-            //FOr Mandated Already loaded in Custom View Value Change Listener
-            if (!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
+            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION)) {
                 currentHierarchy = CommonLogic.getCustomTree(customId);
             }
             CommonUtils.loadLevelDdlb(level, true, currentHierarchy);
@@ -1284,8 +1272,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected abstract void fieldDdlbLogic();
 
     protected abstract void resetBtnLogic();
-
-    protected abstract void pmpyLogic();
 
     protected abstract void variableChangeLogic();
 
@@ -1568,8 +1554,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         leftTable = resultsTable.getLeftFreezeAsTable();
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             NonMandatedFilter();
-        } else if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionDTO.getScreenName())) {
-            MandatedFilter();
         }
         if ((!returnsFlag) && (leftHeader.getDoubleColumns() != null)) {
             leftTable.setDoubleHeaderVisible(false);
@@ -1607,8 +1591,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 final String tableHierarchyNo = getTableLogic().getTreeLevelonCurrentPage(itemId);
                                 checkDTO.addBooleanProperties(propertyId, checkValue);
                                 int updatedRecordsNo = 0;
-                                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)
-                                        || CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(screenName)) {
+                                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)) {
                                     updatedRecordsNo = salesLogic.updateCheckedRecords(projectionDTO, getBeanFromId(itemId), checkValue, false);
                                 } else {
                                     updatedRecordsNo = salesLogic.queryToUpdateCheckRecord(session, (checkValue ? 1 : 0), true, checkDTO.getReturnDetailsSid());
@@ -1767,9 +1750,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                                     String changedValue = ((TextField) event.getComponent()).getValue();
                                     changedValue = StringUtils.isBlank(changedValue) || Constant.NULL.equals(changedValue) ? "0.0" : changedValue;
-                                    if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equalsIgnoreCase(screenName)) {
-                                        salesLogic.saveEditedRecsReturns(propertyId.toString(), changedValue, incOrDec, salesRowDto, projectionDTO);
-                                    } else if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)) {
+                                        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)) {
                                         salesLogic.saveRecords(propertyId.toString(), changedValue,  changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
                                     } else {
                                         salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, new boolean[] {checkAll, !tempArray1[0].contains(Constant.GROWTH)});
@@ -2201,19 +2182,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 String enteredValue = Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue())) ? String.valueOf(valueDdlb.getValue()) : String.valueOf(valueTxt.getValue());
 
                 String updateVariable;
-                if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
-                    if (Constant.PROJECTED_RETURN_AMT.equals(String.valueOf(fieldDdlb.getValue()))) {
-                        updateVariable = Constant.PROJECTED_RETURN_AMT;
-                    } else if (Constant.PROJECTED_RETURN_PER.equals(String.valueOf(fieldDdlb.getValue()))) {
-                        updateVariable = Constant.PROJECTED_RETURN_PER;
-                    } else if (Constant.PROJECTED_RPU.equals(String.valueOf(fieldDdlb.getValue()))) {
-                        updateVariable = Constant.PROJECTED_RPU;
-                    } else if (Constant.GROWTH_RATE.equals(String.valueOf(fieldDdlb.getValue()))) {
-                        updateVariable = Constant.GROWTH_RATE;
-                    } else {
-                        updateVariable = StringUtils.EMPTY;
-                    }
-                } else if (Constant.ACCOUNT_GROWTH.equals(String.valueOf(fieldDdlb.getValue()))) {
+                    if (Constant.ACCOUNT_GROWTH.equals(String.valueOf(fieldDdlb.getValue()))) {
                     updateVariable = Constant.ACCOUNT_GROWTH;
                 } else if (Constant.PRODUCT_GROWTH.equals(String.valueOf(fieldDdlb.getValue()))) {
                     updateVariable = Constant.PRODUCT_GROWTH;
@@ -2227,78 +2196,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     updateVariable = StringUtils.EMPTY;
                 }
 
-                if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
-                    Set<String> returnDetilsSidSet = new HashSet<>();
-                    boolean levelFlag = false;
-                    for (String tableTreeLevelNo : getTableLogic().getAllLevels()) {
-                        Object itemId = getTableLogic().getcurrentTreeData(tableTreeLevelNo);
-                        if (itemId == null) {
-                            if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-                                ((NMSalesProjectionTableLogic) getTableLogic()).getExpandedTreeValues(tableTreeLevelNo);
-                            } else {
-                                mSalesProjectionTableLogic.getExpandedTreeValues(tableTreeLevelNo);
-                            }
-                        }
-                        if (itemId != null) {
-                            Map<String, Double> selectedValues = new TreeMap<>();
-                            SalesRowDto dto = (SalesRowDto) itemId;
-                            boolean levelNoFlag = false;
-                            if (Constant.GROWTH_RATE.equals(String.valueOf(fieldDdlb.getValue()))) {
-                                levelNoFlag = true;
-                            } else if (populateLevel.getValue().toString().trim().matches("^[0-9]+$")) {
-                                levelNoFlag = Integer.parseInt(String.valueOf(populateLevel.getValue())) == dto.getLevelNo();
-                            } else {
-                                levelNoFlag = Integer.parseInt((String.valueOf(populateLevel.getValue())).substring(0, 1)) == dto.getLevelNo();
-                            }
-                            if (dto.getPropertyValue(Constant.CHECK) != null && (Boolean) dto.getPropertyValue(Constant.CHECK) && levelNoFlag) {
-                                levelFlag = true;
-                                String[] str = dto.getReturnDetailsSid().split(",");
-                                for (String str1 : str) {
-                                    returnDetilsSidSet.add(str1);
-                                }
-                                if (Constant.PROJECTED_RETURN_AMT.equals(String.valueOf(fieldDdlb.getValue()))) {
-                                    for (Map.Entry<Object, Object> entry : dto.getProperties().entrySet()) {
-                                        if (entry.getKey().toString().endsWith("ProjectedReturnAmount")) {
-                                            Integer[] periods = getPeriod(entry.getKey(), projectionDTO.getFrequencyDivision());
-                                            if (projectionDTO.getFrequencyDivision() == 1 && periods[0] >= startYear
-                                                    && periods[0] <= endYear) {
-
-                                                String oldAmtValue = String.valueOf(entry.getValue()).replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
-                                                Double newNumber = Double.valueOf(enteredValue);
-                                                Double oldNumber = Double.valueOf(oldAmtValue);
-                                                Double incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
-                                                selectedValues.put(StringUtils.EMPTY + periods[0], incOrDec);
-                                            } else if (periods[0] >= startQuater
-                                                    && periods[0] <= endQuater
-                                                    && periods[1] >= startYear
-                                                    && periods[1] <= endYear) {
-
-                                                String oldProjAmtValue = String.valueOf(entry.getValue()).replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
-                                                Double newNumber = Double.valueOf(enteredValue);
-                                                Double oldNumber = Double.valueOf(oldProjAmtValue);
-                                                Double incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
-                                                selectedValues.put(periods[1] + "," + periods[0], incOrDec);
-                                            }
-                                        }
-                                    }
-                                }
-                                if (dto.getReturnDetailsSid().split(",").length == 1) {
-                                    salesLogic.saveOnMassUpdateReturns(projectionDTO, startYear, endYear, startQuater, endQuater, enteredValue, updateVariable, dto, true, selectedValues);
-                                } else {
-                                    salesLogic.saveOnMassUpdateReturns(projectionDTO, startYear, endYear, startQuater, endQuater, enteredValue, updateVariable, dto, false, selectedValues);
-                                }
-                            }
-                        }
-                    }
-                    if (levelFlag) {
-                        String[] returnDetilsSid = returnDetilsSidSet.toArray(new String[returnDetilsSidSet.size()]);
-                        salesLogic.callRefreshProcedure(projectionDTO.getProjectionId(), Arrays.toString(returnDetilsSid).replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY), startPeriod + "," + forecastPeriodend, String.valueOf(projectionDTO.getUserId()), projectionDTO.getSessionDTO().getSessionId(), true);
-                        isUpdated = true;
-                    } else {
-                        AbstractNotificationUtils.getErrorNotification("Selected Valid Record", "Please select a valid record");
-                        return;
-                    }
-                } else {
                     Map<String, Object> inputParameters = loadInputParameters(startYear, endYear, startQuater, endQuater, enteredValue, updateVariable);
                     salesLogic.saveOnMassUpdate(projectionDTO, inputParameters);
                     String startPeriodMassUpdate = salesLogic.getPeriodSid(startPeriodValue, projectionDTO.getFrequency(), "Min");
@@ -2313,8 +2210,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     if (Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue()))) {
                         refreshGroupDdlb();
                     }
-                }
-
                 if (isUpdated) {
                     refreshTableData(getCheckedRecordsHierarchyNo());
                     startPeriod.select(startPeriodValue);

@@ -628,19 +628,10 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     public static final String MASS_CHECK = "massCheck";
 
     private void screenLoad() {
-        switch (screenName) {
-            case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
-                mandatedScreenLoad();
-                break;
-            case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
-                nonMandatedScreenLoad();
-                break;
-            default:
-                LOGGER.warn("screenName is not valid= {} " , screenName);
-                break;
-                           
-            }
-            }
+        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
+            nonMandatedScreenLoad();
+        }
+    }
 
     private void nonMandatedScreenLoad() {
         projType.setVisible(false);
