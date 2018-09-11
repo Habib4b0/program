@@ -549,50 +549,6 @@ public class SalesProjectionLogic {
         return true;
     }
 
-    private List callPMPYProcedure(Object inputs[]) throws SQLException {
-
-        List list = null;
-
-        final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        try (Connection connection = dataSourceConnection.getConnection();
-                CallableStatement statement = connection.prepareCall("{call Nm_sales_pmpy (?,?,?,?)}")
-                 )
-        {
-                LOGGER.debug("Starting callSalesInsertProcedure return  staus ::::");
-                statement.setInt(1, Integer.parseInt((String) inputs[0]));  //PROJECTION_MASTER_SID
-                statement.setString(NumericConstants.TWO, String.valueOf(inputs[1]));   //@PROJECTION_DETAILS_SID
-                statement.setInt(NumericConstants.THREE, Integer.parseInt((String) inputs[NumericConstants.TWO])); //CONTRACT_HOLDER_SID
-                statement.setInt(NumericConstants.FOUR, Integer.parseInt((String) inputs[NumericConstants.THREE]));   //TRADING_PARTNER_SID
-                list = calculateResultSet(statement);
-            LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::");
-        } catch (NumberFormatException | SQLException | NamingException ex) {
-                 LOGGER.error("Error from callPMPYProcedure: {}", ex.getMessage());
-
-        } 
-        return list;
-    }
-
-    private List calculateResultSet(final CallableStatement statement) throws SQLException {
-        Object[] temp;
-         List list = new ArrayList();
-        try (ResultSet resList = statement.executeQuery())
-        {
-        while (resList.next()) {
-            temp = new Object[NumericConstants.FIVE];
-            temp[0] = resList.getString(1);
-            temp[1] = resList.getString(NumericConstants.TWO);
-            temp[NumericConstants.TWO] = resList.getString(NumericConstants.THREE);
-            temp[NumericConstants.THREE] = resList.getString(NumericConstants.FOUR);
-            temp[NumericConstants.FOUR] = resList.getString(NumericConstants.FIVE);
-            list.add(temp);
-        }
-        } catch (SQLException ex)
-        {
-            LOGGER.debug(ex.getMessage());
-        }
-        return list;
-    }
-
     public int getTotalHistoryPeriods(int fromYear, int toYear, int fromQuator, int toQuator) {
 
         int numberofQuators = 0;
@@ -771,50 +727,6 @@ public class SalesProjectionLogic {
         resultList.add(contractHolder);
 
         return resultList;
-    }
-
-
-    public void importPMPY(Object inputs[], SessionDTO session) {
-
-        try {
-
-            List input = new ArrayList();
-            input.add(inputs[NumericConstants.THREE]);
-            input.add(inputs[NumericConstants.TWO]);
-            input.add(session.getSessionId());
-            input.add(session.getUserId());
-            input.add(inputs[1]);
-            input.add(CommonUtils.getListToString((List) inputs[0]));
-
-            String changeProperty;
-            if (inputs[NumericConstants.FOUR].equals(Constant.SALES_CAPS)) {
-                PPAQuerys.PPAUpdate(input, "PMPY-UPDATE-SALES");
-                changeProperty = Constant.SALES_CAPS;
-            } else {
-                PPAQuerys.PPAUpdate(input, "PMPY-UPDATE-UNITS");
-                changeProperty = Constant.UNITS_SMALL;
-            }
-            callManualEntry(session, changeProperty);
-
-        } catch (Exception ex) {
-            LoggerFactory.getLogger(SalesProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
-        }
-    }
-
-    public int getPMPYProtDetID(Object input[]) {
-        List list = new ArrayList();
-        int id = 0;
-        SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-        try {
-            list = salesProjectionDAO.getSalesProjection(input);
-        } catch (PortalException | SystemException ex) {
-            LoggerFactory.getLogger(SalesProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
-        }
-        if (!list.isEmpty()) {
-            id = list.size();
-           
-        }
-        return id;
     }
 
     public List getProjectionDetailsSid(Object input[]) {

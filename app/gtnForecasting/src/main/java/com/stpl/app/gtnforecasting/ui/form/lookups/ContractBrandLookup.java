@@ -161,7 +161,6 @@ public class ContractBrandLookup extends Window {
         getBinder();
         configureFields();
         configureBasedOnScreenName();
-        LOGGER.debug("PmpyCalculator Constructor ends ");
 
     }
 

@@ -40,40 +40,11 @@ public class HeaderUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HeaderUtils.class);
 
-    /**
-     * The PMPY Available Product columns.
-     */
-    private static final Object[] pmpyProductColumns = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
-
-    /**
-     * The PMPY Available Product Headers.
-     */
-    private static final String[] pmpyProductHeader = new String[]{"Product #", "Product Name"};
-
-    /**
-     * The PMPY Available Product columns.
-     */
-    private static final Object[] pmpyColumns = new Object[]{"actuals", "projections"};
     public static final String PRODUCT_GROWTH1 = " Product Growth";
     public static final String PRODUCT_GROWTH1_SUM = " Product Growth Sum";
     public static final String PROJECTED_UNITS1 = " Projected Units";
     public static final String PROJECTED_SALES1 = "Projected Sales";
 
-    /**
-     * The PMPY Available Product Headers.
-     */
-    private static final String[] pmpyHeader = new String[]{Constant.ACTUALS, Constant.PROJECTIONS};
-
-    /**
-     * To load the Header
-     *
-     * @param visibleColumn
-     * @param excelheader
-     * @param columnHeader
-     * @param tableHeaderDTO
-     * @param excelHeader
-     * @param dmap
-     */
     private static void columnConfigure(String visibleColumn, String excelheader, String columnHeader, CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO excelHeader, List<Object> dmap) {
         dmap.add(visibleColumn);
         tableHeaderDTO.addSingleColumn(visibleColumn, columnHeader, String.class);
@@ -994,95 +965,6 @@ public class HeaderUtils {
         return NumericConstants.FOUR;
     }
 
-    public static CustomTableHeaderDTO getPMPYTableColumns(String frequency, int frequencyRange, boolean isExcelExport) {
-        LOGGER.debug("----Inside getPMPYTableColumns() -----");
-        CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
-        return getPMPYCalculatedColumns(tableHeaderDTO, frequency, frequencyRange, isExcelExport);
-    }
-
-    public static CustomTableHeaderDTO getPMPYCalculatedColumns(CustomTableHeaderDTO tableHeaderDTO, String frequency, int frequencyRange, boolean isExcelExport) {
-        int frequencyRangePMPY  = frequencyRange;
-        boolean isExcelExp = isExcelExport;
-        Calendar ob = Calendar.getInstance();
-        int curMonth = ob.get(Calendar.MONTH);
-        int curYear = ob.get(Calendar.YEAR);
-        int current = 1;
-        int division = 1;
-        if (frequency.equals(QUARTERLY)) {
-            current = curMonth / NumericConstants.THREE;
-            division = NumericConstants.FOUR;
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-            current = curMonth / NumericConstants.SIX;
-            division = NumericConstants.TWO;
-        } else if (frequency.equals(MONTHLY)) {
-            current = curMonth;
-            division = NumericConstants.TWELVE;
-        } else if (frequency.equals(ANNUALLY)) {
-            current = curYear;
-            division = 1;
-        }
-        int pastYear = curYear;
-        pastYear = pastYear - NumericConstants.THREE;
-        if (!frequency.equals(ANNUALLY)) {
-            int tempFreq = frequencyRangePMPY + current - 1;
-            frequencyRangePMPY = tempFreq + 1;
-        } else {
-            frequencyRangePMPY = NumericConstants.THREE;
-        }
-        int squr = 1;
-        int syear = pastYear;
-        List<Object> doubleHeaderMap = new ArrayList<>();
-        List<Object> tripleHeaderMap = new ArrayList<>();
-
-        for (int i = 0; i < frequencyRangePMPY; i++) {
-
-            if (isExcelExp) {
-                tableHeaderDTO.addSingleColumn("firstColumn", StringUtils.EMPTY, String.class);
-                isExcelExp = false;
-            }
-
-            String commonColumn = StringUtils.EMPTY;
-            String commonHeader = StringUtils.EMPTY;
-            if (frequency.contains(QUARTERLY)) {
-                commonColumn = Constant.Q + squr + StringUtils.EMPTY + syear;
-                commonHeader = Constant.Q + squr + " " + syear + "    ";
-            } else if (frequency.contains(SEMI_ANNUALLY.getConstant())) {
-                commonColumn = Constant.S + squr + StringUtils.EMPTY + syear;
-                commonHeader = Constant.S + squr + " " + syear + "    ";
-            } else if (frequency.contains(ANNUALLY)) {
-                commonColumn = StringUtils.EMPTY + syear;
-                commonHeader = StringUtils.EMPTY + syear + "    ";
-            } else if (frequency.contains(MONTHLY)) {
-                String monthName = getMonthForInt(squr - 1);
-                commonColumn = (monthName + syear).toUpperCase(Locale.ENGLISH);
-                commonHeader = monthName + " " + syear + "    ";
-            }
-
-            doubleHeaderMap.add(commonColumn);
-
-            tripleHeaderMap.add(commonColumn);
-            tableHeaderDTO.addSingleColumn(commonColumn, commonHeader, String.class);
-
-            if (!doubleHeaderMap.isEmpty()) {
-                tableHeaderDTO.addDoubleColumn(commonColumn, PROJECTIONS);
-                tableHeaderDTO.addDoubleHeaderMap(commonColumn, doubleHeaderMap.toArray());
-            }
-
-            if (!tripleHeaderMap.isEmpty()) {
-                tableHeaderDTO.addTripleColumn(commonColumn, ACTUALS);
-                tableHeaderDTO.addTripleHeaderMap(commonColumn, tripleHeaderMap.toArray());
-            }
-
-            squr++;
-            if (squr > division) {
-                squr = 1;
-                syear++;
-            }
-        }
-
-        return tableHeaderDTO;
-    }
-
     public static CustomTableHeaderDTO getProjectionReturnsLeftTableColumns( CustomTableHeaderDTO excelDto) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         tableHeaderDTO.addSingleColumn(Constant.CHECK, " ", Boolean.class);
@@ -1109,20 +991,4 @@ public class HeaderUtils {
         }
         return object;
     }
-
-	public Object[] getPmpyProductColumns() {
-		return pmpyProductColumns.clone();
-	}
-
-	public String[] getPmpyProductHeader() {
-		return pmpyProductHeader.clone();
-	}
-
-	public Object[] getPmpyColumns() {
-		return pmpyColumns.clone();
-	}
-
-	public String[] getPmpyHeader() {
-		return pmpyHeader.clone();
-	}
 }

@@ -206,7 +206,6 @@ public class CommonUtils {
     public static final String REFRESH = "refreshBtn";
     public static final String ADJUST = "adjust";
     public static final String ADJUST_BTN = "adjustBtn";
-    public static final String PMPY = "pmpy";
     public static final String PROGRAM_SELECTION = "programSelectionLookup";
     public static final String ALT_HISTORY_BTN = "altHistoryBtn";
     public static final String TOTAL_LIVES_LAYOUT = "totalLivesLayout";

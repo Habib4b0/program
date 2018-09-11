@@ -3218,7 +3218,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         massUpdateLayout.setEnabled(false);
         forecastLayout.setEnabled(false);
         adjustmentLayout.setEnabled(false);
-        pmpy.setEnabled(false);
 
     }
 
