@@ -58,7 +58,7 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (RRSummaryLogic) getSummaryLogic();
+        return getSummaryLogic();
     }
 
     @Override
@@ -109,9 +109,9 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
         Map properties = new HashMap();
         String view = String.valueOf(customerProductView.getValue());
         if (ARMConstants.getDeductionProduct().equalsIgnoreCase(view)) {
-            leftHeader = CommonConstant.PRODUCT;
+            pipelineSummaryLeftHeader = CommonConstant.PRODUCT;
         } else {
-            leftHeader = "Customer";
+            pipelineSummaryLeftHeader = "Customer";
         }
 
         selection.setSummaryviewType(view);
@@ -122,12 +122,12 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
         for (int i = 0; i < rightSingleVisibleColumn.size(); i++) {
             properties.put(rightSingleVisibleColumn.get(i), String.class);
         }
-        for (int i = 0; i < rightcolumns.length; i++) {
-            properties.put(rightcolumns[i], String.class);
+        for (int i = 0; i < pipelineSummaryRightcolumns.length; i++) {
+            properties.put(pipelineSummaryRightcolumns[i], String.class);
         }
         table.constructRightFreeze(true);
         leftTable = table.getLeftFreezeAsTable();
-        leftTable.setColumnHeaders(leftHeader);
+        leftTable.setColumnHeaders(pipelineSummaryLeftHeader);
         rightTable = table.getRightFreezeAsTable();
         rightTable.setDoubleHeaderVisible(true);
         rightTable.setContainerDataSource(tableLogic.getContainerDataSource());

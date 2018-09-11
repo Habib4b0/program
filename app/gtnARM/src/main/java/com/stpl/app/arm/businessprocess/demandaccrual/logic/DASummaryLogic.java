@@ -116,7 +116,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         return Boolean.FALSE;
     }
 
-    private DataResult<T> cutomize(List<Object[]> data, SelectionDTO selection, TreeMap<String, Integer> masterSids) {
+    private DataResult<T> cutomize(List<Object[]> accrualData, SelectionDTO selection, TreeMap<String, Integer> masterSids) {
         List resultList = new ArrayList<>();
         List<String> variables = selection.getSummarycolumnList();
         Map<String, Integer> indexMap = new HashMap();
@@ -146,9 +146,9 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         AdjustmentDTO dto = null;
         boolean ovverrideFlag = false;
         boolean isTotal = false;
-        for (int j = 0; j < data.size(); j++) {
-            Object[] get = data.get(j);
-            Object[] next = j != data.size() - 1 ? data.get(j + 1) : null;
+        for (int j = 0; j < accrualData.size(); j++) {
+            Object[] get = accrualData.get(j);
+            Object[] next = j != accrualData.size() - 1 ? accrualData.get(j + 1) : null;
             String brand = get[1] == null ? StringUtils.EMPTY : get[1].toString();
             nextBrand = next != null ? next[1].toString() : "aa";
             if (!brand.equals(lastBrand)) {
@@ -201,8 +201,8 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                     }
                     totalColumnValue[NumericConstants.SEVEN] += Double.valueOf(get[NumericConstants.NINE].toString());
                 }
-                if (getCondition(selection, index, totalColumnIndex, nextBrand, brand)
-                        || ((!ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && getConditionMultiplePeriod(selection, startIndex, nextStartIndex))
+                if (getaccrualCondition(selection, index, totalColumnIndex, nextBrand, brand)
+                        || ((!ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && getAccrualConditionMultiplePeriod(selection, startIndex, nextStartIndex))
                         || (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview()) && ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && index >= totalColumnIndex))) {
                     dto.addStringProperties(variables.get(totalColumnIndex), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[0]))));
                     dto.addStringProperties(variables.get(totalColumnIndex + 1), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[1]))));
@@ -227,62 +227,62 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         return dataResult;
     }
 
-    private boolean getCondition(SelectionDTO selection, int index, int totalColumnIndex, String nextBrand, String brand) {
-        if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
+    private boolean getaccrualCondition(SelectionDTO accrualSelection, int index, int totalColumnIndex, String nextBrand, String brand) {
+        if (ARMConstants.getSinglePeriod().equals(accrualSelection.getSummarydemandview())) {
             return index >= totalColumnIndex || !nextBrand.equals(brand);
         }
         return false;
     }
 
-    private boolean getConditionMultiplePeriod(SelectionDTO selection, int startIndex, int nextIndex) {
-        if (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())) {
+    private boolean getAccrualConditionMultiplePeriod(SelectionDTO accrualSelection, int startIndex, int nextIndex) {
+        if (ARMConstants.getMultiplePeriod().equals(accrualSelection.getSummarydemandview())) {
             return startIndex == nextIndex;
         }
         return false;
     }
 
     @Override
-    protected Object[] generateInputs(Object dto, SelectionDTO selection) {
+    protected Object[] generateInputs(Object accrualDto, SelectionDTO selection) {
 
         List<String[]> frequency = selection.getSummaryfrequencyList();
         Object[] returnObj = new Object[NumericConstants.TWO];
         try {
-            List<Object> inputs = new ArrayList<>();
-            inputs.add(selection.getProjectionMasterSid());
-            inputs.add(selection.getSummarydeductionLevelDes());
+            List<Object> accrualInputs = new ArrayList<>();
+            accrualInputs.add(selection.getProjectionMasterSid());
+            accrualInputs.add(selection.getSummarydeductionLevelDes());
 
-            String viewType = "";
+            String accrualViewType = "";
             String currentViewType = "";
             TreeMap<String, Integer> masterSids = null;
-            if (dto instanceof AdjustmentDTO) {
-                AdjustmentDTO val = (AdjustmentDTO) dto;
-                int levelNo = val.getLevelNo();
+            if (accrualDto instanceof AdjustmentDTO) {
+                AdjustmentDTO accrualVal = (AdjustmentDTO) accrualDto;
+                int levelNo = accrualVal.getLevelNo();
                 LOGGER.debug("levelNo----{}", levelNo);
-                masterSids = val.getMasterIds();
+                masterSids = accrualVal.getMasterIds();
 
                 if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
                     if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
                         currentViewType = ARMUtils.getDemandSummaryLevelsinglePeriod().get(levelNo);
-                        viewType = ARMUtils.getDemandSummaryLevelsinglePeriod().get(++levelNo);
+                        accrualViewType = ARMUtils.getDemandSummaryLevelsinglePeriod().get(++levelNo);
                     } else {
                         currentViewType = ARMUtils.getSummaryLevel().get(levelNo);
-                        viewType = ARMUtils.getSummaryLevel().get(++levelNo);
+                        accrualViewType = ARMUtils.getSummaryLevel().get(++levelNo);
                     }
-                    inputs.add(0);
+                    accrualInputs.add(0);
                 } else {
                     currentViewType = selection.getSummarydemandLevel().get(levelNo);
-                    viewType = selection.getSummarydemandLevel().get(++levelNo);
-                    inputs.add(1);
+                    accrualViewType = selection.getSummarydemandLevel().get(++levelNo);
+                    accrualInputs.add(1);
                 }
-                masterSids.put(currentViewType, Integer.valueOf(val.getBranditemmasterSid()));
+                masterSids.put(currentViewType, Integer.valueOf(accrualVal.getBranditemmasterSid()));
             } else {
                 masterSids = new TreeMap<>();
                 if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
-                    viewType = getView(selection.getSummarydeductionLevelDes(), selection.getSummaryviewType());
-                    inputs.add(0);
+                    accrualViewType = getView(selection.getSummarydeductionLevelDes(), selection.getSummaryviewType());
+                    accrualInputs.add(0);
                 } else {
-                    viewType = selection.getSummarydemandLevel().get(1);
-                    inputs.add(1);
+                    accrualViewType = selection.getSummarydemandLevel().get(1);
+                    accrualInputs.add(1);
                 }
                 if (selection.getSummaryvalueSid() != 0) {
                     masterSids.put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
@@ -291,20 +291,20 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 }
 
                 if (selection.getSummarylevelFilterNo() != 0) {
-                    viewType = selection.getSummarylevelFilterValue();
+                    accrualViewType = selection.getSummarylevelFilterValue();
                 }
             }
 
-            if (ARMConstants.getDeduction().equals(viewType)) {
-                viewType = ARMUtils.getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
+            if (ARMConstants.getDeduction().equals(accrualViewType)) {
+                accrualViewType = ARMUtils.getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
             }
-            inputs.add(viewType);
-            inputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
-            inputs.add(frequency.get(0)[1]);
-            inputs.add(frequency.get(frequency.size() - 1)[1]);
-            inputs.add(selection.getSummarydemandfrequency());
-            inputs = getFilterInputs(inputs, selection, masterSids);
-            returnObj[0] = inputs;
+            accrualInputs.add(accrualViewType);
+            accrualInputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
+            accrualInputs.add(frequency.get(0)[1]);
+            accrualInputs.add(frequency.get(frequency.size() - 1)[1]);
+            accrualInputs.add(selection.getSummarydemandfrequency());
+            accrualInputs = getFilterInputs(accrualInputs, selection, masterSids);
+            returnObj[0] = accrualInputs;
             returnObj[1] = masterSids;
         } catch (Exception e) {
             LOGGER.error("Error in generateInputs :", e);
@@ -313,12 +313,12 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
     }
 
     @Override
-    public List getExcelResultList(AbstractSelectionDTO selection) {
+    public List getExcelResultList(AbstractSelectionDTO accrualSelection) {
         String query;
-        boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
-        if (selection.isIsMultiple()) {
+        boolean isView = accrualSelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
+        if (accrualSelection.isIsMultiple()) {
             query = SQlUtil.getQuery(isView ? "Excel_Muliple_Period_Demand_Accrual_QueryView" : "Excel_Muliple_Period_Demand_Accrual_Query");
-            if (selection.getSummarydemandview().equals(ARMConstants.getSinglePeriod()) && selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
+            if (accrualSelection.getSummarydemandview().equals(ARMConstants.getSinglePeriod()) && accrualSelection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
                 query = query.replace("@SHIFT_VALUE", String.valueOf("S"));
             } else {
                 query = query.replace("@SHIFT_VALUE", String.valueOf("M"));
@@ -326,23 +326,23 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         } else {
             query = SQlUtil.getQuery(isView ? "Excel_Demand_Accrual_QueryView" : "Excel_Demand_Accrual_Query");
         }
-        List<String[]> frequency = selection.getSummaryfrequencyList();
-        Object[] value = selection.getExcelHierarchy();
+        List<String[]> frequency = accrualSelection.getSummaryfrequencyList();
+        Object[] value = accrualSelection.getExcelHierarchy();
         query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
-        String val = selection.getSummarydeductionLevelDes();
+        String val = accrualSelection.getSummarydeductionLevelDes();
         if (val.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION_PROGRAM.toString())) {
             val += " TYPE";
         }
         query = query.replace("@DEDUCTIONLEVEL", val);
-        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
-        query = query.replace("@FREQUENCYSELECTED", selection.getSummarydemandfrequency());
+        query = query.replace("@DEDUCTIONVALUE", accrualSelection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
+        query = query.replace("@FREQUENCYSELECTED", accrualSelection.getSummarydemandfrequency());
         query = query.replace("@STARTPERIOD", frequency.get(0)[1]);
         query = query.replace("@ENDPERIOD", frequency.get(frequency.size() - 1)[1]);
-        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
-        query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
-        query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
+        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(accrualSelection.getProjectionMasterSid()));
+        query = query.replace("@USERID", String.valueOf(accrualSelection.getSessionDTO().getUserId()));
+        query = query.replace("@SESSIONID", String.valueOf(accrualSelection.getSessionDTO().getSessionId()));
         query = query.replace("@ARM_DEMAND_ADJ_SUM_TABLE", isView ? "ARM_DEMAND_ADJ_SUMMARY" : "CONCAT( 'ST_ARM_DEMAND_ADJ_SUMMARY_', @USER_ID, '_', @SESSION_ID, '_', REPLACE( CONVERT( VARCHAR( 50 ), GETDATE(), 2 ), '.', '' ))");
-        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
+        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, accrualSelection.getSessionDTO().getCurrentTableNames()));
     }
 
     @Override

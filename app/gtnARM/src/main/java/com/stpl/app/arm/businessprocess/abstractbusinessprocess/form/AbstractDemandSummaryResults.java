@@ -43,10 +43,11 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     @UiField("valueLabel")
     protected Label valueLabel;
 
-    private Object[] columns = {VariableConstants.MONTH};
-    private Object[] rightcolumns = {VariableConstants.MONTH};
-    private Map<Object, Object[]> leftDoubleSingleVisibleColumn = new HashMap<>();
-    private String leftHeader = VariableConstants.PRODUCT;
+    private Object[] demandSummaryColumns = {VariableConstants.MONTH};
+    private Object[] demandSummaryRightcolumns = {VariableConstants.MONTH};
+
+    private Map<Object, Object[]> demandSummaryLeftDoubleSingleVisibleColumn = new HashMap<>();
+    private String demandSummaryLeftHeader = VariableConstants.PRODUCT;
     private String[] tableColumns;
     private Set previousValue = new HashSet<>();
     protected boolean isGenarate = Boolean.FALSE;
@@ -66,17 +67,17 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         rightTable.setImmediate(true);
         leftTable.setImmediate(true);
         getTable().setDoubleHeaderVisible(true);
-        leftTable.setVisibleColumns(rightcolumns);
-        leftTable.setColumnHeaders(leftHeader);
-        leftTable.setDoubleHeaderVisibleColumns(columns);
+        leftTable.setVisibleColumns(demandSummaryRightcolumns);
+        leftTable.setColumnHeaders(demandSummaryLeftHeader);
+        leftTable.setDoubleHeaderVisibleColumns(demandSummaryColumns);
         leftTable.setDoubleHeaderColumnHeaders("");
-        rightTable.setVisibleColumns(rightcolumns);
+        rightTable.setVisibleColumns(demandSummaryRightcolumns);
         rightTable.setColumnHeaders("");
-        rightTable.setDoubleHeaderVisibleColumns(columns);
+        rightTable.setDoubleHeaderVisibleColumns(demandSummaryColumns);
         rightTable.setDoubleHeaderColumnHeaders("");
-        leftDoubleSingleVisibleColumn.put(VariableConstants.MONTH, rightcolumns);
-        leftTable.setDoubleHeaderMap(leftDoubleSingleVisibleColumn);
-        rightTable.setDoubleHeaderMap(leftDoubleSingleVisibleColumn);
+        demandSummaryLeftDoubleSingleVisibleColumn.put(VariableConstants.MONTH, demandSummaryRightcolumns);
+        leftTable.setDoubleHeaderMap(demandSummaryLeftDoubleSingleVisibleColumn);
+        rightTable.setDoubleHeaderMap(demandSummaryLeftDoubleSingleVisibleColumn);
         for (Object propertyId : rightTable.getVisibleColumns()) {
             rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
 
@@ -85,21 +86,21 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
             rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.CENTER);
 
         }
-        rightTable.setDoubleHeaderMap(configureRightDoubleHeaderMap());
-        leftTable.setDoubleHeaderMap(configureLeftDoubleHeaderMap());
+        rightTable.setDoubleHeaderMap(configureDemandRightDoubleHeaderMap());
+        leftTable.setDoubleHeaderMap(configureDemandLeftDoubleHeaderMap());
         abstractSearchContent.setWidth("100%");
     }
 
-    private Map<Object, Object[]> configureRightDoubleHeaderMap() {
-        Map<Object, Object[]> headerMap = new HashMap<>();
-        headerMap.put(VariableConstants.MONTH, new String[]{VariableConstants.MONTH});
-        return headerMap;
+    private Map<Object, Object[]> configureDemandRightDoubleHeaderMap() {
+        Map<Object, Object[]> demadnHeaderMap = new HashMap<>();
+        demadnHeaderMap.put(VariableConstants.MONTH, new String[]{VariableConstants.MONTH});
+        return demadnHeaderMap;
     }
 
-    private Map<Object, Object[]> configureLeftDoubleHeaderMap() {
-        Map<Object, Object[]> headerMap = new HashMap<>();
-        headerMap.put(VariableConstants.MONTH, new String[]{VariableConstants.MONTH});
-        return headerMap;
+    private Map<Object, Object[]> configureDemandLeftDoubleHeaderMap() {
+        Map<Object, Object[]> demandHeaderMap = new HashMap<>();
+        demandHeaderMap.put(VariableConstants.MONTH, new String[]{VariableConstants.MONTH});
+        return demandHeaderMap;
     }
 
     private void configureOnAdjustmentSummarySearchResultsDemand() {
@@ -192,9 +193,9 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         Map properties = new HashMap();
         String view = String.valueOf(customerProductView.getValue());
         if ("Deduction Product".equals(view)) {
-            leftHeader = VariableConstants.PRODUCT;
+            demandSummaryLeftHeader = VariableConstants.PRODUCT;
         } else {
-            leftHeader = VariableConstants.CUSTOMER;
+            demandSummaryLeftHeader = VariableConstants.CUSTOMER;
         }
 
         getSelection().setSummaryviewType(view);
@@ -207,12 +208,12 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         for (int i = 0; i < rightSingleVisibleColumn.size(); i++) {
             properties.put(rightSingleVisibleColumn.get(i), String.class);
         }
-        for (int i = 0; i < rightcolumns.length; i++) {
-            properties.put(rightcolumns[i], String.class);
+        for (int i = 0; i < demandSummaryRightcolumns.length; i++) {
+            properties.put(demandSummaryRightcolumns[i], String.class);
         }
         getTable().constructRightFreeze(true);
         rightTable = getTable().getRightFreezeAsTable();
-        leftTable.setColumnHeaders(leftHeader);
+        leftTable.setColumnHeaders(demandSummaryLeftHeader);
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainer.setRecordHeader(rightSingleVisibleColumn);
         resultBeanContainer.setColumnProperties(properties);
@@ -297,8 +298,8 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
                 configureRightTable();
                 getSelection().setSummarydemandLevel(ARMUtils.getADJSummaryLevel(viewType));
                 getTableLogic().loadSetData(Boolean.FALSE);
-                leftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? VariableConstants.PRODUCT : VariableConstants.CUSTOMER;
-                leftTable.setColumnHeaders(leftHeader);
+                demandSummaryLeftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? VariableConstants.PRODUCT : VariableConstants.CUSTOMER;
+                leftTable.setColumnHeaders(demandSummaryLeftHeader);
             }
         }
         setLevelFilterEnable(true);
@@ -339,26 +340,30 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     @Override
     public List getExcelExportVisibleColumn() {
+        loggerAbstractDemandSummaryResults.debug("inside getExcelExportVisibleColumn");
         return getSelection().getExcelVisibleColumn();
     }
 
     @Override
     public String getExcelFileName() {
+        loggerAbstractDemandSummaryResults.debug("inside getExcelFileName");
         return "Adjustment_Summary";
     }
 
     @Override
     public boolean getisFixedColumns() {
+        loggerAbstractDemandSummaryResults.debug("inside getisFixedColumns");
         return Boolean.TRUE;
     }
 
     @Override
     public int discountColumnNeeded() {
+        loggerAbstractDemandSummaryResults.debug("inside discountColumnNeeded");
         return 1;
     }
 
     @Override
-    public Object[] getExcelHierarchy() {
+    public Object[] getExcelHierarchy() {        
         Map<Integer, String> hierarchy = getHierarchy();
         Object[] value = new Object[hierarchy.size()];
         for (int i = 0; i < hierarchy.size(); i++) {
@@ -374,6 +379,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     @Override
     public boolean getisDeductionCustomer() {
+        loggerAbstractDemandSummaryResults.debug("inside getisDeductionCustomer");
         return Boolean.FALSE;
     }
 
@@ -411,8 +417,8 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     protected abstract String getTableNameForEdit();
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object demSummout) {
+        return super.equals(demSummout);
     }
 
     @Override
@@ -420,11 +426,11 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream demSummout) throws IOException {
+        demSummout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream demSummout) throws IOException, ClassNotFoundException {
+        demSummout.defaultReadObject();
     }
 }

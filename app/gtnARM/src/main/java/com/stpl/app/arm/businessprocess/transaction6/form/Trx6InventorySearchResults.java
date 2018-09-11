@@ -197,7 +197,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getSummaryLogic();
+        return getSummaryLogic();
     }
 
     @Override
