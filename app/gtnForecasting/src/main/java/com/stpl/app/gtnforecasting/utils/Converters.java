@@ -244,13 +244,6 @@ public class Converters {
             dataSelectionDTO.setProductRelationShipVersionNo((Integer) objects[NumericConstants.TWENTY_EIGHT]);
             dataSelectionDTO.setCustomerHierVersionNo((Integer) objects[NumericConstants.TWENTY_NINE]);
             dataSelectionDTO.setProductHierVersionNo((Integer) objects[NumericConstants.THIRTY]);
-
-            if (channelsFlag) {
-                dataSelectionDTO.setDiscountSid(getDiscountSid(objects));
-                dataSelectionDTO.setDiscount(DataSelectionUtil.getDiscountName(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_ONE]))));
-                dataSelectionDTO.setDeductionLevel(getDeductionLevel(objects));
-                dataSelectionDTO.setDeductionValue(getDeductionValue(objects));
-            }
             dataSelectionDTO.setForecastEligibleDate(parsetDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.THIRTY_ONE]))));
             dataSelectionDTO.setDeductionRelationShipVersionNo(getDeductionRelationShipVersionNo(objects));
             dataSelectionDTO.setCustomRelationShipSid(getCustomRelationShipSid(objects));

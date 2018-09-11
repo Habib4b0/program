@@ -8,7 +8,6 @@ package com.stpl.app.gtnforecasting.abstractforecast;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.tablelogic.ComparisonTableLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
@@ -302,23 +301,13 @@ public abstract class ForecastPVComparisonLookup extends Window{
      * 
      */
     private void loadAvailableHeader(){
-        if(screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)){
-            resultsTable.setVisibleColumns(headerUtils.getComparisonColumns());
-            resultsTable.setColumnHeaders(headerUtils.getComparisonHeader());
-        }else{
             resultsTable.setVisibleColumns(comparisonResultsColumns);
             resultsTable.setColumnHeaders(comparisonResultsHeader);
-        }
     }
     
     private void loadSelectedHeader(){
-        if(screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)){
-            projectionTable.setVisibleColumns(headerUtils.getComparisonColumns());
-            projectionTable.setColumnHeaders(headerUtils.getComparisonHeader());
-        }else{
             projectionTable.setVisibleColumns(comparisonResultsColumns);
             projectionTable.setColumnHeaders(comparisonResultsHeader);
-        }
     }
     
     /**

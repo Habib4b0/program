@@ -44,12 +44,10 @@ public class ComparisonTableLogic extends PageTableLogic {
         int count = 0;
         if (loadData) {
             try {
-                if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                    count = projectionVarianceLogic.getProjectionCount(lookUpDTO, notNeededProjectionIds, getFilters());
-                } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                    if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                     count = new NMProjectionVarianceLogic().getComparisonCount(comparisonLookup, getFilters(), screenName);
                 }
-            } catch (PortalException | SystemException ex) {
+            } catch (SystemException ex) {
                 LOGGER.error(StringUtils.EMPTY, ex);
             }
         }
@@ -60,9 +58,7 @@ public class ComparisonTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         List<ComparisonLookupDTO> resultList = new ArrayList<>();
         try {
-            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                resultList = projectionVarianceLogic.getProjection(lookUpDTO, notNeededProjectionIds, start, offset, getSortByColumns(), getFilters());
-            } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 resultList = new NMProjectionVarianceLogic().getComparisonResults(comparisonLookup, start, offset, getFilters(), getSortByColumns(), screenName);
             }
         } catch (PortalException | SystemException ex) {
