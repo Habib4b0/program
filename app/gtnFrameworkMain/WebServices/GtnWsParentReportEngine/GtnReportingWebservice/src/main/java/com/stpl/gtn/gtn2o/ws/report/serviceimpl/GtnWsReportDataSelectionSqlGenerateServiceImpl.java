@@ -306,14 +306,26 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			List<Object[]> customviewData, GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		bean.getRecordHeader().stream().filter(e -> e != null && e.toString().contains("Total")).forEach(object -> {
 
-			Double total = bean.getRecordHeader().stream()
-					.filter(e -> e != null && e.toString().contains(object.toString().replace("Total", "")))
-					.mapToDouble(columns -> extractDouble(bean.getPropertyValue(columns.toString()))).sum();
+			Double total;
+			String levelName = "levelValue";
 			String indicator = hierachyBean.getData()[5].toString();
+			if (("V".equals(indicator)
+					&& bean.getStringProperty(levelName).contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
+					|| object.toString().contains("PER") || object.toString().contains("RATE")) {
+				total = bean.getRecordHeader().stream()
+						.filter(e -> e != null && e.toString().contains(object.toString().replace("Total", "")))
+						.mapToDouble(columns -> extractDouble(bean.getPropertyValue(columns.toString()))).average()
+						.getAsDouble();
+			} else {
+				total = bean.getRecordHeader().stream()
+						.filter(e -> e != null && e.toString().contains(object.toString().replace("Total", "")))
+						.mapToDouble(columns -> extractDouble(bean.getPropertyValue(columns.toString()))).sum();
+			}
+			
 			String customViewTypeInBackend = String.valueOf(customviewData.get(0));
 			String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
 			boolean isTotalSpecialCondition = !"V".equals(indicator) && !customViewTypeDataArray[2].equals("Columns");
-			String levelName = "levelValue";
+			
 			String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
 					.getCurrencyConversion();
 			if (!"0".equals(currencyConversionType)) {
@@ -603,7 +615,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private void currencyTypeNoConversionDataConverters(GtnWsRecordBean gtnWsRecordBean, String mapKey,
 			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition) {
 		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
-				|| mapKey.contains("PER") || mapKey.contains("RATE")) {
+				|| mapKey.contains("PER") || mapKey.contains("RATE") || mapKey.contains("WEIGHTED")) {
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
 					+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 		} else if (("V".equals(variableIndicator) && levelName.contains("Unit")) || mapKey.contains("UNIT")
