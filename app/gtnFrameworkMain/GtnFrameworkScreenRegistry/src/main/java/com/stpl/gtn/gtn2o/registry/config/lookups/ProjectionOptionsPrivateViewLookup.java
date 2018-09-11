@@ -39,8 +39,8 @@ public class ProjectionOptionsPrivateViewLookup
 	public GtnUIFrameworkViewConfig getPrivateViewLookUpView(String namespace) {
 
 		GtnUIFrameworkViewConfig privatePublicViewLookupView = new GtnUIFrameworkViewConfig();
-		privatePublicViewLookupView.setViewName("Private View");
-		privatePublicViewLookupView.setViewId(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		privatePublicViewLookupView.setViewName(namespace+" "+"View");
+		privatePublicViewLookupView.setViewId(namespace+"_"+"lookup");
 		privatePublicViewLookupView.setDefaultView(false);
 		privatePublicViewLookupView.setResetAllowed(true);
 		addPublicPrivateViewLookupComponentList(privatePublicViewLookupView, namespace);
@@ -336,7 +336,7 @@ public class ProjectionOptionsPrivateViewLookup
 						"createdBy","businessUnit"});
 		privateViewPagedTableConfig.setQueryName("privatePublic");
                 List<String> additionalSearchCriteria = new ArrayList<>();
-		additionalSearchCriteria.add("Private");
+		additionalSearchCriteria.add(namespace);
                 additionalSearchCriteria.add("non mandated");
                 privateViewPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
 

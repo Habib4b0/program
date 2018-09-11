@@ -25,9 +25,9 @@ public class GtnFrameworkCommercialForecastingConfig {
 		viewList.add(new GtnFrameworkForecastCustomertHierarchyLookUp()
                         .getCustHierarchyLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING));
 		viewList.add(new ProjectionOptionsPrivateViewLookup()
-                . getPrivateViewLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING));
-                viewList.add(new ProjectionOptionsPublicViewLookup()
-                . getPublicViewLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING));
+                . getPrivateViewLookUpView(GtnUIFrameworkCommercialForecastingConstants.PRIVATE));
+                viewList.add(new ProjectionOptionsPrivateViewLookup()
+                . getPrivateViewLookUpView(GtnUIFrameworkCommercialForecastingConstants.PUBLIC));
 		
 		rootConfig.setGtnViewConfigList(viewList);
 		return rootConfig;
