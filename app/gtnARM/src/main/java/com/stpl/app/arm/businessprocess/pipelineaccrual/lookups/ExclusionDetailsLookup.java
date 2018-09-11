@@ -202,13 +202,13 @@ public class ExclusionDetailsLookup extends Window {
             }
         }
     };
-    private final CustomNotification notifier = new CustomNotification();
+    private final ExclustionDetailsCustomNotification notifier = new ExclustionDetailsCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class ExclustionDetailsCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String exclButtonName;
 
-        public CustomNotification() {
+        public ExclustionDetailsCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -221,9 +221,9 @@ public class ExclusionDetailsLookup extends Window {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", exclButtonName);
+            if (null != exclButtonName) {
+                switch (exclButtonName) {
                     case "reset":
                         getIntialLoad();
                         getFieldValue();
@@ -246,7 +246,7 @@ public class ExclusionDetailsLookup extends Window {
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.exclButtonName = buttonName;
         }
 
     }

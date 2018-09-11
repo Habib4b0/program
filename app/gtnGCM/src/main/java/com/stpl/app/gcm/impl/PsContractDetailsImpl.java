@@ -30,7 +30,7 @@ public class PsContractDetailsImpl {
      {
           LOGGER.debug("PsContractDetailsImpl");
      }
-    public static Boolean savePsDetailsAttached(final List<Object> input, final Object future){
+    public static Boolean savePsDetailsAttached(final List<Object> input){
         boolean retFlag;
         String sqlSavePsDetailsAttached = SQlUtil.getQuery("com.contractDashboard.savePS");
         try {

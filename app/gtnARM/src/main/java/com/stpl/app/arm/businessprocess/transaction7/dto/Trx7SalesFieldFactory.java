@@ -53,19 +53,19 @@ public class Trx7SalesFieldFactory implements TableFieldFactory {
     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
         AdjustmentDTO dto = (AdjustmentDTO) itemId;
         if (!dto.getChildrenAllowed() && VariableConstants.PRICE_OVERRIDE.equals(propertyId.toString()) && !ARMUtils.levelVariablesVarables.CUSTOMER.toString().equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue())) && !ARMUtils.levelVariablesVarables.BRAND.toString().equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-            final TextField priceoverride = new TextField();
-            priceoverride.setData(itemId);
-            priceoverride.setImmediate(true);
-            priceoverride.addStyleName("txtRightAlign");
-            priceoverride.setConverter(curThree);
-            priceoverride.addFocusListener(new FocusListener() {
+            final TextField tr7Priceoverride = new TextField();
+            tr7Priceoverride.setData(itemId);
+            tr7Priceoverride.setImmediate(true);
+            tr7Priceoverride.addStyleName("txtRightAlign");
+            tr7Priceoverride.setConverter(curThree);
+            tr7Priceoverride.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(FocusEvent event) {
-                    priceoverride.addValueChangeListener(priceOverrideListener);
-                    priceoverride.removeFocusListener(this);
+                    tr7Priceoverride.addValueChangeListener(priceOverrideListener);
+                    tr7Priceoverride.removeFocusListener(this);
                 }
             });
-            return priceoverride;
+            return tr7Priceoverride;
         }
         if (dto.getChildrenAllowed()) {
             dto.addStringProperties("priceOverride.7", StringUtils.EMPTY);
@@ -82,13 +82,14 @@ public class Trx7SalesFieldFactory implements TableFieldFactory {
                 Double value;
                 value = Double.valueOf(val == null ? "0" : val.toString().trim().replaceAll("[^\\d.]", ""));
 
-                List input = new ArrayList();
-                input.add(selection.getSessionDTO().getCurrentTableNames().get("ST_ARM_DISTRIBUTION_FEES_SALES"));
-                input.add(value.toString());
-                input.add(Integer.valueOf(dto.getCompSids()));
-                input.add(Integer.valueOf(dto.getBranditemmasterSid()));
-                input.add(projectionId);
-                service.submit(new UpdateOverride(input));
+                List tr7Input = new ArrayList();
+                tr7Input.add(selection.getSessionDTO().getCurrentTableNames().get("ST_ARM_DISTRIBUTION_FEES_SALES"));
+                tr7Input.add(value.toString());
+                tr7Input.add(dto.getCompSids().isEmpty() || dto.getCompSids().equals("0") ? '%' : dto.getCompSids());
+                tr7Input.add(Integer.valueOf(dto.getBranditemmasterSid()));
+                tr7Input.add(projectionId);
+                service.submit(new Tr7UpdateOverride(tr7Input));
+
             } catch (NumberFormatException e) {
                 LOGGER.debug("User is supposed to give Double value");
                 LOGGER.error("Error in priceOverrideListener :", e);
@@ -96,19 +97,19 @@ public class Trx7SalesFieldFactory implements TableFieldFactory {
         }
     };
 
-    class UpdateOverride implements Runnable {
+    class Tr7UpdateOverride implements Runnable {
 
-        private List input;
+        private List tr7Input;
         private boolean updateSuccess;
 
-        public UpdateOverride(List input) {
-            this.input = CommonLogic.getInstance().getArrayListCloned(input);
+        public Tr7UpdateOverride(List input) {
+            this.tr7Input = CommonLogic.getInstance().getArrayListCloned(input);
 
         }
 
         @Override
         public void run() {
-            updateSuccess = logic.updatePriceOverride(input);
+            updateSuccess = logic.updatePriceOverride(tr7Input);
         }
 
         public boolean isUpdateSuccess() {
@@ -117,12 +118,12 @@ public class Trx7SalesFieldFactory implements TableFieldFactory {
 
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream tr7Fieldout) throws IOException {
+        tr7Fieldout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream tr7Fieldout) throws IOException, ClassNotFoundException {
+        tr7Fieldout.defaultReadObject();
     }
 
 }

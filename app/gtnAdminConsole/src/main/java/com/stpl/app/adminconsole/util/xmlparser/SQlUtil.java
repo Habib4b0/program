@@ -52,8 +52,6 @@ public class SQlUtil {
         while (urls.hasMoreElements()) {
             URL tempUrl = urls.nextElement();
             if (tempUrl.getFile() != null && tempUrl.getFile().contains(".xml")) {
-//                properties.put("javax.xml.bind.context.factory",
-//                        "org.eclipse.persistence.jaxb.JAXBContextFactory");
                 JAXBContext jaxbContext = JAXBContext.newInstance(Sql.class);
                 Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
                 Sql que = (Sql) jaxbUnmarshaller.unmarshal(tempUrl);
@@ -66,16 +64,16 @@ public class SQlUtil {
 
     }
 
-    private Map<String, String> getQUERY_MAP() {
+    private Map<String, String> getQueryMap() {
         return queryMap;
     }
 
     public static String getQuery(String sqlId) {
-        return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
+        return SQlUtil.getContext().getQueryMap().get(sqlId);
     }
     
      public static String getQuery(Class clasName,String sqlId) {
-        return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
+        return SQlUtil.getContext().getQueryMap().get(sqlId);
     }
 
 }

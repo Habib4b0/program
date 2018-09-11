@@ -7,7 +7,6 @@ package com.stpl.app.security.busineessRoleMgmt.ui.layout;
 import com.stpl.app.security.busineessRoleMgmt.dto.BusinessroleMasterDTO;
 import com.stpl.app.security.busineessRoleMgmt.logic.BusinessRoleMgmtLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -144,16 +143,10 @@ public class ButtonLayout extends HorizontalLayout {
 						notif.setStyleName("mystyle");
 						notif.show(Page.getCurrent());
 					}
-				} catch (SystemException e) {
-					LOGGER.error(e.getMessage());
-                                   
-				}  catch (CommitException e) {
+				}   catch (CommitException e) {
 					LOGGER.error(e.getMessage());
                                       
-				} catch (Exception e) {
-					LOGGER.error(e.getMessage());
-                                      
-				}
+				} 
 
 				binder.discard();
 				binder.setItemDataSource(new BeanItem<BusinessroleMasterDTO>(

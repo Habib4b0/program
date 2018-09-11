@@ -9,6 +9,8 @@ import com.stpl.app.arm.balancesummaryreport.singleliablity.logic.SingleLiablity
 import com.stpl.app.arm.balancesummaryreport.ui.AbstractBSummaryReportSummary;
 import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
 import com.stpl.app.utils.VariableConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,6 +21,8 @@ public class SingleLiablity extends AbstractBSummaryReportSummary {
     /**
      * SummaryLogic logic has all depended methods for all summary logic classes
      */
+    public final Logger singleLiablityLogger = LoggerFactory.getLogger(SingleLiablity.class);
+    
     private SingleLiablityResults results;
 
     private String[] defaultVariablesHeader = {"Beginning Balance", "Fees Accrual", "Inflation Adjustment", "Credit Card Fees", "Other Fixed Dollar Fees",
@@ -38,32 +42,37 @@ public class SingleLiablity extends AbstractBSummaryReportSummary {
 
     @Override
     public SingleLiablityResults getResultsObject() {
+        singleLiablityLogger.debug("Inside getResultsObject");
         return results;
     }
 
     @Override
     public String[] getDefaultColumnsHeader() {
+        singleLiablityLogger.debug("Inside getDefaultColumnsHeader");
         return defaultColumnsHeader.clone();
     }
 
     @Override
     public String[] getDefaultColumns() {
+        singleLiablityLogger.debug("Inside getDefaultColumns");
         return defaultColumns.clone();
     }
 
     @Override
     public String getProcedureName() {
+        singleLiablityLogger.debug("Inside getProcedureName");
         return "PRC_ARM_BSR_SINGLE_LIABILITY";
     }
 
     @Override
     public String getTempTablesPropertyName() {
+        singleLiablityLogger.debug("Inside getTempTablesPropertyName");
         return "ARM_BSR_SINGLE_LIABLITY";
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object singLiablityobj) {
+        return super.equals(singLiablityobj);
     }
 
     @Override
@@ -73,11 +82,13 @@ public class SingleLiablity extends AbstractBSummaryReportSummary {
 
     @Override
     public String[] getAdjustmentTypeHeader() {
+        singleLiablityLogger.debug("Inside getAdjustmentTypeHeader");
         return defaultVariablesHeader.clone();
     }
 
     @Override
     public String[] getAdjustmentTypeColumn() {
+        singleLiablityLogger.debug("Inside getAdjustmentTypeColumn");
         return defaultVariablesColumns.clone();
     }
 }

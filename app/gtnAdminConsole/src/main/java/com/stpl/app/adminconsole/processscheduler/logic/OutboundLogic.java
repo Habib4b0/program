@@ -225,9 +225,6 @@ public class OutboundLogic {
         return stringBuilder;
     }
 
-//    public void loadHierarchyTypeMap() {
-//      
-//    }
 
     /**
      * Check search criteria.

@@ -52,25 +52,28 @@ public class GtnReportingComparisonBreakdownSubmitAction
 			GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
 
 			List<Object[]> reportComparisonBreakdownLookupBeanList = (List<Object[]>) gridComponent.getCustomData();
-			
+
 			Set<Object[]> inputSet = new LinkedHashSet<>(reportComparisonBreakdownLookupBeanList);
-	        
-	        List<Object[]> gtnReportComparisonBreakdownLookupBeanList = new ArrayList<>(inputSet);
+
+			List<Object[]> gtnReportComparisonBreakdownLookupBeanList = new ArrayList<>(inputSet);
 
 			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownLookupBeanSaveList = new ArrayList<>();
 			for (int i = 0; i < gtnReportComparisonBreakdownLookupBeanList.size(); i++) {
-				
+
 				periodAndYearMap = getPeriodAndYear(gtnReportComparisonBreakdownLookupBeanList.get(i)[1].toString());
 				GtnReportComparisonBreakdownLookupBean comparisonBreakdownLookupBean = new GtnReportComparisonBreakdownLookupBean();
 				comparisonBreakdownLookupBean.setMasterSid((int) gtnReportComparisonBreakdownLookupBeanList.get(i)[2]);
-				comparisonBreakdownLookupBean.setPeriod(periodAndYearMap.get("period"));
+				comparisonBreakdownLookupBean.setPeriod(periodAndYearMap.get(GtnFrameworkReportStringConstants.PERIOD));
 				comparisonBreakdownLookupBean.setYear(periodAndYearMap.get("year"));
 				comparisonBreakdownLookupBean.setSelectedVariable(
-						Integer.valueOf((String) gtnReportComparisonBreakdownLookupBeanList.get(i)[0]));
-				comparisonBreakdownLookupBean.setRowCount((int)gtnReportComparisonBreakdownLookupBeanList.get(i)[5]);
-				comparisonBreakdownLookupBean.setProperty(gtnReportComparisonBreakdownLookupBeanList.get(i)[3].toString());
-				comparisonBreakdownLookupBean.setComponentId(gtnReportComparisonBreakdownLookupBeanList.get(i)[6].toString());
-				comparisonBreakdownLookupBean.setColumnId(gtnReportComparisonBreakdownLookupBeanList.get(i)[1].toString());
+						Integer.parseInt((String) gtnReportComparisonBreakdownLookupBeanList.get(i)[0]));
+				comparisonBreakdownLookupBean.setRowCount((int) gtnReportComparisonBreakdownLookupBeanList.get(i)[5]);
+				comparisonBreakdownLookupBean
+						.setProperty(gtnReportComparisonBreakdownLookupBeanList.get(i)[3].toString());
+				comparisonBreakdownLookupBean
+						.setComponentId(gtnReportComparisonBreakdownLookupBeanList.get(i)[6].toString());
+				comparisonBreakdownLookupBean
+						.setColumnId(gtnReportComparisonBreakdownLookupBeanList.get(i)[1].toString());
 				comparisonBreakdownLookupBeanSaveList.add(comparisonBreakdownLookupBean);
 			}
 			String sourceParentComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId)
@@ -98,17 +101,18 @@ public class GtnReportingComparisonBreakdownSubmitAction
 		Map<String, Integer> periodAndYearMap = new HashMap<>();
 
 		if (Pattern.matches("[0-9]{4}", s)) {
-			periodAndYearMap.put("period", 1);
+			periodAndYearMap.put(GtnFrameworkReportStringConstants.PERIOD, 1);
 			periodAndYearMap.put("year", Integer.valueOf(s));
 		} else if (s.startsWith("Q") || s.startsWith("S") && !s.startsWith("Sep")) {
-			periodAndYearMap.put("period", Integer.parseInt(String.valueOf(s.charAt(1))));
+			periodAndYearMap.put(GtnFrameworkReportStringConstants.PERIOD,
+					Integer.parseInt(String.valueOf(s.charAt(1))));
 			periodAndYearMap.put("year", Integer.valueOf(s.substring(3)));
 		} else {
 			Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(s.substring(0, 3));
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
 			int month = cal.get(Calendar.MONTH);
-			periodAndYearMap.put("period", ++month);
+			periodAndYearMap.put(GtnFrameworkReportStringConstants.PERIOD, ++month);
 			periodAndYearMap.put("year", Integer.valueOf(s.substring(4)));
 		}
 

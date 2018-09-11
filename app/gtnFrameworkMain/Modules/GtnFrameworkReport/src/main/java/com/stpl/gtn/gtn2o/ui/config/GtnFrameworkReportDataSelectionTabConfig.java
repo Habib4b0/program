@@ -86,7 +86,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnFrameworkReportProdHierarchyConfig productSelection = new GtnFrameworkReportProdHierarchyConfig();
 		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace, "dataSelection"));
 
-		addReportingDataSelectionFields(componentList, parentId, namespace);
+		addReportingDataSelectionFields(componentList, namespace);
 	}
 
 	private void addProjectionOptionPanel(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
@@ -112,7 +112,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 						+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_OPTION_MAIN_LAYOUT);
 		reportDataSelectionProjectionOptionMainLayoutConfig.addComponentStyle("v-report-overflow-auto");
 		reportDataSelectionProjectionOptionMainLayoutConfig.setComponentHight("155px");
-		reportDataSelectionProjectionOptionMainLayoutConfig.addComponentStyle("stpl-margin-top-10");
+		reportDataSelectionProjectionOptionMainLayoutConfig
+				.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
 		reportDataSelectionProjectionOptionMainLayoutConfig.addComponentStyle("stpl-margin-bottom-10");
 
 		reportDataSelectionProjectionOptionMainLayoutConfig.setAddToParent(true);
@@ -145,8 +146,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionModeSelectionlayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
 		GtnUIFrameworkComponentConfig reportDataSelectionModeLayoutConfig = new GtnUIFrameworkComponentConfig();
 		reportDataSelectionModeLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		reportDataSelectionModeLayoutConfig
-				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabModeSelectionLayout");
+		reportDataSelectionModeLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.DS_TAB_MODE_SELECTION_LAYOUT);
 		reportDataSelectionModeLayoutConfig.setAddToParent(true);
 		reportDataSelectionModeLayoutConfig.setGtnLayoutConfig(reportDataSelectionModeSelectionlayout);
 		reportDataSelectionModeLayoutConfig
@@ -158,8 +159,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		modeSelectionCsslayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
 		GtnUIFrameworkComponentConfig modeSelectionCsslayout = new GtnUIFrameworkComponentConfig();
 		modeSelectionCsslayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		modeSelectionCsslayout
-				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionDsCssLayout");
+		modeSelectionCsslayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.MODE_SELECTION_DS_CSS_LAYOUT);
 		modeSelectionCsslayout.setAddToParent(true);
 		modeSelectionCsslayout.setGtnLayoutConfig(modeSelectionCsslayoutConfig);
 		modeSelectionCsslayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -177,9 +178,9 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewLayout");
 		privateViewLayoutConfig.setAddToParent(true);
 		privateViewLayoutConfig.setSpacing(true);
-		privateViewLayoutConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabModeSelectionLayout");
-		privateViewLayoutConfig.addComponentStyle("stpl-margin-top-10");
+		privateViewLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.DS_TAB_MODE_SELECTION_LAYOUT);
+		privateViewLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
 		privateViewLayoutConfig.setGtnLayoutConfig(privateViewLayout);
 		componentList.add(privateViewLayoutConfig);
 
@@ -216,8 +217,9 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionCompanyLayoutConfig.setAddToParent(true);
 		reportDataSelectionCompanyLayoutConfig.setSpacing(true);
 		reportDataSelectionCompanyLayoutConfig.addComponentStyle("v-reportLandingScreen-companyLayout");
-		reportDataSelectionCompanyLayoutConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabModeSelectionLayout");
+		reportDataSelectionCompanyLayoutConfig
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.DS_TAB_MODE_SELECTION_LAYOUT);
 		reportDataSelectionCompanyLayoutConfig.setGtnLayoutConfig(reportDataSelectionCompanyLayout);
 		componentList.add(reportDataSelectionCompanyLayoutConfig);
 
@@ -246,8 +248,9 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionProjectionNameLayoutConfig.setAddToParent(true);
 		reportDataSelectionProjectionNameLayoutConfig.addComponentStyle("v-reportLandingScreen-dataSourceLayout");
 		reportDataSelectionProjectionNameLayoutConfig.setSpacing(true);
-		reportDataSelectionProjectionNameLayoutConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabModeSelectionLayout");
+		reportDataSelectionProjectionNameLayoutConfig
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.DS_TAB_MODE_SELECTION_LAYOUT);
 		reportDataSelectionProjectionNameLayoutConfig.setGtnLayoutConfig(reportDataSelectionProjectionNameLayout);
 		componentList.add(reportDataSelectionProjectionNameLayoutConfig);
 
@@ -280,8 +283,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewDsLayout");
 		publicViewLayoutConfig.setAddToParent(true);
 		publicViewLayoutConfig.setSpacing(true);
-		publicViewLayoutConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionDsCssLayout");
+		publicViewLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.MODE_SELECTION_DS_CSS_LAYOUT);
 		publicViewLayoutConfig.setGtnLayoutConfig(publicViewLayout);
 		componentList.add(publicViewLayoutConfig);
 
@@ -318,8 +321,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		businessUnitLayoutConfig.setAddToParent(true);
 		businessUnitLayoutConfig.addComponentStyle("v-BU-layout");
 		businessUnitLayoutConfig.setSpacing(true);
-		businessUnitLayoutConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionDsCssLayout");
+		businessUnitLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.MODE_SELECTION_DS_CSS_LAYOUT);
 		businessUnitLayoutConfig.setGtnLayoutConfig(reportDataSelectionBusinessUnitLayout);
 		componentList.add(businessUnitLayoutConfig);
 
@@ -351,7 +354,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		reportDataSelectionPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportDataSelectionPanel.setAddToParent(true);
-		reportDataSelectionPanel.addComponentStyle("stpl-margin-top-10");
+		reportDataSelectionPanel.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
 		reportDataSelectionPanel.addComponentStyle("stpl-margin-right-10");
 		reportDataSelectionPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_OPTION_MAIN_LAYOUT);
@@ -362,7 +365,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameworkComponentConfig reportDataSelectionFromAndToperiodLayoutConfig = new GtnUIFrameworkComponentConfig();
 		reportDataSelectionFromAndToperiodLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportDataSelectionFromAndToperiodLayoutConfig.setComponentHight("50");
-		reportDataSelectionFromAndToperiodLayoutConfig.addComponentStyle("stpl-margin-top-10");
+		reportDataSelectionFromAndToperiodLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
 		reportDataSelectionFromAndToperiodLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.DS_TAB_TIME_PERIOD_INNER_LAYOUT);
@@ -421,7 +424,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionToPeriodLayoutConfig.setSpacing(true);
 		reportDataSelectionToPeriodLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportDataSelectionToPeriodLayoutConfig.setAddToParent(true);
-		reportDataSelectionToPeriodLayoutConfig.addComponentStyle("stpl-margin-top-10");
+		reportDataSelectionToPeriodLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
 
 		reportDataSelectionToPeriodLayoutConfig.setGtnLayoutConfig(reportDataSelectionToPeriodLayout);
 		reportDataSelectionToPeriodLayoutConfig
@@ -492,8 +495,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 	}
 
-	private void addReportingDataSelectionFields(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
-			String namespace) {
+	private void addReportingDataSelectionFields(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 
 		GtnUIFrameworkLayoutConfig reportHorizontalCssLayout = new GtnUIFrameworkLayoutConfig();
 		reportHorizontalCssLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);

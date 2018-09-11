@@ -1,7 +1,9 @@
 package com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency;
 
+import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
@@ -14,6 +16,12 @@ import java.util.concurrent.Executors;
 import org.junit.*;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.doReturn;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -32,9 +40,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"file:src/test/resources/AutomaticContext.xml"})
 public class GtnFramworkCheckForAutoUpdateRunnableTest {
 
+    @InjectMocks
     @Autowired
     GtnFramworkCheckForAutoUpdateRunnable fixture;
-    
+
+    @Mock
+    @Autowired
+    private GtnFrameworkQueryGeneratorService queryGeneratorService;
 
     /**
      * Run the GtnFramworkCheckForAutoUpdateRunnable() constructor test.
@@ -219,15 +231,15 @@ public class GtnFramworkCheckForAutoUpdateRunnableTest {
 
         List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = new LinkedList();
         HierarchyLevelDefinitionBean bean = new HierarchyLevelDefinitionBean();
-        bean.setLevelValueReference(GtnFrameworkWebserviceConstant.USER_DEFINED);
         bean.setLevelNo(2);
         hierarchyLevelDefinitionList.add(bean);
-
+        GtnFrameworkQueryGeneratorBean qu = new GtnFrameworkQueryGeneratorBean();
+        doReturn(qu).when(queryGeneratorService).getQuerybySituationNameAndLevel(hierarchyLevelDefinitionList.get(0),  "CHECK_AUTO_UPDATE", hierarchyLevelDefinitionList);
         fixture.setHierarchyLevelDefinitionList(hierarchyLevelDefinitionList);
 
-
-        ExecutorService service = Executors.newFixedThreadPool(1);
-        System.out.println("" + service.submit(fixture));
+        fixture.call();
+//        ExecutorService service = Executors.newFixedThreadPool(1);
+//        System.out.println("" + service.submit(fixture));
     }
 
     /**
@@ -467,6 +479,7 @@ public class GtnFramworkCheckForAutoUpdateRunnableTest {
     @Before
     public void setUp()
             throws Exception {
+        MockitoAnnotations.initMocks(this);
         // add additional set up code here
     }
 

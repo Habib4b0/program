@@ -60,8 +60,8 @@ public class CompanySearchLogic {
             companyCategory = companyCategory.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             parameters.put("companyCategory", companyCategory);
         }
-        if (tpDto.getTradeClass_DTO()!=null) {
-            String tradeClass = tpDto.getTradeClass_DTO().toString();
+        if (tpDto.getTradeClassDto()!=null) {
+            String tradeClass = tpDto.getTradeClassDto().toString();
             tradeClass = tradeClass.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             parameters.put("companyTradeClass", tradeClass);
         }
@@ -135,8 +135,8 @@ public class CompanySearchLogic {
             companyCategory = companyCategory.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             parameters.put("companyCategory", companyCategory);
         }
-         if (tpDTO.getTradeClass_DTO()!=null) {
-            String tradeClass = tpDTO.getTradeClass_DTO().toString();
+         if (tpDTO.getTradeClassDto()!=null) {
+            String tradeClass = tpDTO.getTradeClassDto().toString();
             tradeClass = tradeClass.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             parameters.put("companyTradeClass", tradeClass);
         }

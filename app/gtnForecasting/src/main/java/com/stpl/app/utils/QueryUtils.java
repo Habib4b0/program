@@ -528,7 +528,7 @@ public class QueryUtils {
      * @param list
      * @return
      */
-    public  boolean insertOrUpdate_customerSelection(SessionDTO session, Map<String, Object> parameters,boolean values) {
+    public  boolean insertOrUpdateCustomerSelection(SessionDTO session, Map<String, Object> parameters,boolean values) {
          String  query = SQlUtil.getQuery("CUSTOMER_SELECTION_ADD_ALL_QUERY");
             query = query.replace("[$AVAILABLE_CHECKBOX]", values ? "1" : "0");
             query = query.replace("[$SELECTED_RECORDS]", "0");
@@ -763,7 +763,7 @@ public class QueryUtils {
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@LEVELVALUES", projectionSelection.getDeductionLevelFilter().toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY));
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@RELBUILDSID", projectionSelection.getSessionDTO().getDedRelationshipBuilderSid() );
                 masterTableUpdateQuery = masterTableUpdateQuery.replace(Constant.RELVERSION, String.valueOf(projectionSelection.getSessionDTO().getDeductionRelationVersion()));
-               commonDao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(masterTableUpdateQuery, projectionSelection.getSessionDTO().getCurrentTableNames()), null, null);
+               commonDao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(masterTableUpdateQuery, projectionSelection.getSessionDTO().getCurrentTableNames()));
     }
     
     private void updateBaseLinePeriodsCustom(String baselinePeriods, ProjectionSelectionDTO projectionSelection) {
@@ -775,7 +775,7 @@ public class QueryUtils {
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@FORECAST_END_PERIOD_SID", projectionSelection.getToDateDdlb());
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@CALCULATION_BASED", projectionSelection.getCalcBased());
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@METHODOLOGY", projectionSelection.getMethodology());
-               commonDao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(masterTableUpdateQuery, projectionSelection.getSessionDTO().getCurrentTableNames()), null, null);
+               commonDao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(masterTableUpdateQuery, projectionSelection.getSessionDTO().getCurrentTableNames()));
     }
     public static List getAppData(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside getPPAData");

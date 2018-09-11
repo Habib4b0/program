@@ -34,9 +34,6 @@ public class GtnReportDataSelectionReGenerateAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
-		GtnWsReportDataSelectionBean dataSelectionBeanPersist = new GtnWsReportDataSelectionBean();
-		dataSelectionBeanPersist = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 		List<GtnWsRecordBean> selectedCustomerList = getSelectedList("dataSelectionTab_customerDualListBox",
@@ -53,9 +50,11 @@ public class GtnReportDataSelectionReGenerateAction
 				.getVaadinBaseComponent("dataSelectionTab_comparisonLookup", componentId).getComponentData()
 				.getCustomData();
 		GtnUIFrameworkComponentData comparisonData = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportingDashboardTab_reportingDashboardComparisonConfig", componentId).getComponentData();
-		List<GtnReportComparisonProjectionBean> comparisonProjectionsListInReportingDashboard = (List<GtnReportComparisonProjectionBean>) comparisonData.getCustomData();
-		
+				.getVaadinBaseComponent("reportingDashboardTab_reportingDashboardComparisonConfig", componentId)
+				.getComponentData();
+		List<GtnReportComparisonProjectionBean> comparisonProjectionsListInReportingDashboard = (List<GtnReportComparisonProjectionBean>) comparisonData
+				.getCustomData();
+
 		boolean isComparisonProjectionChangedInDataSelection = comparisonProjectionsListInDataSelection == null
 				&& dataSelectionBean.getComparisonProjectionBeanList() == null ? false
 						: areComparisonListsEqual(comparisonProjectionsListInDataSelection,
@@ -104,7 +103,8 @@ public class GtnReportDataSelectionReGenerateAction
 		boolean isFromPeriodChanged = isUpdated(fromPeriod, String.valueOf(dataSelectionBean.getFromPeriodReport()));
 
 		if (isCustomerChanged || isProductChanged || isCustomView || isFrequencyChanged || isReportDataSourceChanged
-				|| isFromPeriodChanged||isComparisonProjectionChangedInDataSelection || isComparisonProjectionChangedInReportingDashboard) {
+				|| isFromPeriodChanged || isComparisonProjectionChangedInDataSelection
+				|| isComparisonProjectionChangedInReportingDashboard) {
 
 			List<GtnUIFrameWorkActionConfig> onSuccessActionList = new ArrayList<>();
 			List<GtnUIFrameWorkActionConfig> onFailureActionList = new ArrayList<>();
@@ -187,30 +187,27 @@ public class GtnReportDataSelectionReGenerateAction
 			Set<GtnWsRecordBean> selectedCustomerSet = new HashSet<>(newSelectedList);
 			Set<GtnWsRecordBean> customerSelectedSet = new HashSet<>(oldSelectedList);
 			selectedCustomerSet.addAll(customerSelectedSet);
-			if (selectedCustomerSet.size() > newSelectedList.size()) {
-				return true;
-			} else {
-				return false;
-			}
+			return selectedCustomerSet.size() > newSelectedList.size();
 		}
 		return true;
 	}
 
-	private boolean areComparisonListsEqual(List<GtnReportComparisonProjectionBean> comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig,
+	private boolean areComparisonListsEqual(
+			List<GtnReportComparisonProjectionBean> comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig,
 			List<GtnReportComparisonProjectionBean> comparisonProjectionBeanListInDataSelectionBean) {
-		int comparisonProjectionListSize = comparisonProjectionBeanListInDataSelectionBean != null ? comparisonProjectionBeanListInDataSelectionBean.size()
+		int comparisonProjectionListSize = comparisonProjectionBeanListInDataSelectionBean != null
+				? comparisonProjectionBeanListInDataSelectionBean.size()
 				: 0;
-		int dsComparisonProjectionListSize = comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig != null ? comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig.size() : 0;
+		int dsComparisonProjectionListSize = comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig != null
+				? comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig.size()
+				: 0;
 		if (dsComparisonProjectionListSize == comparisonProjectionListSize) {
 			Set<GtnReportComparisonProjectionBean> selectedCustomerSet = new HashSet<>(
 					comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig);
 			Set<GtnReportComparisonProjectionBean> customerSelectedSet = new HashSet<>(
 					comparisonProjectionBeanListInDataSelectionBean);
 			selectedCustomerSet.addAll(customerSelectedSet);
-			return (selectedCustomerSet
-					.size() > (comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig != null
-							? comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig.size()
-							: 0));
+			return (selectedCustomerSet.size() > dsComparisonProjectionListSize);
 		}
 		return true;
 	}
@@ -222,20 +219,13 @@ public class GtnReportDataSelectionReGenerateAction
 			Set<Object> selectedVariablesSet = new HashSet<>(variableList);
 			Set<Object> dsSelectedVariables = new HashSet<>(variablesList);
 			selectedVariablesSet.addAll(dsSelectedVariables);
-			if (selectedVariablesSet.size() > variableList.size()) {
-				return true;
-			} else {
-				return false;
-			}
+			return selectedVariablesSet.size() > dsvariableListSize;
 		}
 		return true;
 	}
 
 	private boolean isUpdated(String customViewName, String customViewMasterSid) {
-		if (customViewName.equals(customViewMasterSid)) {
-			return false;
-		}
-		return true;
+		return customViewName.equals(customViewMasterSid);
 	}
 
 	@Override

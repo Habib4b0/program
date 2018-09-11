@@ -118,7 +118,7 @@ public class CommonUtils {
     /**
      * The Constant historyBean.
      */
-    final public static BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
+    public static final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     public static final String YEARS1 = "Years";
     /**
      * The Constant CHAR_PERCENT.

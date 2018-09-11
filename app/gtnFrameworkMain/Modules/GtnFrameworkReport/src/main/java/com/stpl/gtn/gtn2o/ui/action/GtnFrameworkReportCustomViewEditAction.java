@@ -30,6 +30,10 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 
 	private String screenName;
 
+	public GtnFrameworkReportCustomViewEditAction() {
+		super();
+	}
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {

@@ -1330,9 +1330,9 @@ public class NMDPRLogic {
         return discountDto;
     }
 
-    public static Object executeSelectQuery(String query, Object udc1, Object udc2)  {
+    public static Object executeSelectQuery(String query)  {
 
-        return commonDao.executeSelectQuery(query, udc1, udc2);
+        return commonDao.executeSelectQuery(query);
 
     }
 

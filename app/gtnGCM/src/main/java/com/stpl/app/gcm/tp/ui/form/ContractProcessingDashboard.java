@@ -176,7 +176,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private final StplSecurity stplSecurity = new StplSecurity();
 
     
-    final private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
+    private final BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
     private BeanItemContainer<ContractResultDTO> selectedContractContainer = new BeanItemContainer<>(ContractResultDTO.class);
     private ExtTreeContainer<ContractsDetailsDto> contractDashboardContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
     private boolean contractRefresh;
@@ -198,7 +198,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
      * The table bean.
      */
     private ContractsDetailsDto tableBean;
-    private static final BeanItem<?> NULL_OBJECT = null;
     /* Current Level Value */
     private int levelValue;
     private static final Logger LOGGER = LoggerFactory.getLogger(ContractProcessingDashboard.class);
@@ -268,9 +267,9 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (propertyId.equals(Constants.STATUS_S)) {
                     try {
-                        ComboBox status = new ComboBox();
-                        CommonUtil.loadComboBoxForGCM(status, Constants.STATUS, true);
-                        return status;
+                        ComboBox statusCutomFilter = new ComboBox();
+                        CommonUtil.loadComboBoxForGCM(statusCutomFilter, Constants.STATUS, true);
+                        return statusCutomFilter;
                     } catch (Exception ex) {
                         LOGGER.error("",ex);
                     }
@@ -316,9 +315,9 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.STATUS_S)) {
                     try {
-                        ComboBox status = new ComboBox();
-                        CommonUtil.loadComboBoxForGCM(status, Constants.STATUS, true);
-                        return status;
+                        ComboBox statusCreateField = new ComboBox();
+                        CommonUtil.loadComboBoxForGCM(statusCreateField, Constants.STATUS, true);
+                        return statusCreateField;
                     } catch (Exception ex) {
                         LOGGER.error("",ex);
                     }
@@ -692,7 +691,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     }
 
     private void loadComponentInformation(String category) {
-        ContractSelectionLogic logic = new ContractSelectionLogic();
+        ContractSelectionLogic logicComponentInfo = new ContractSelectionLogic();
         if (tableBean != null) {
             String[] id = new String[NumericConstants.FIVE];
             ContractsDetailsDto crDTO = tableBean;
@@ -712,7 +711,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 category = REBATE_SCHEDULE.getConstant();
             }
             changeOnListener(category);
-            loadComponentInformationFields(Arrays.asList(logic.getComponentInformationData(category, id, false, false, 0, 0, null).get(0)));
+            loadComponentInformationFields(Arrays.asList(logicComponentInfo.getComponentInformationData(category, id, false, false, 0, 0, null).get(0)));
             loadComponentInformationTable(category);
             tablelogic.loadSetData(category, id, BooleanConstant.getTrueFlag());
         }

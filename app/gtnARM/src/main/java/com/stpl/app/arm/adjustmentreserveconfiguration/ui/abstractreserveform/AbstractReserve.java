@@ -591,7 +591,7 @@ public abstract class AbstractReserve extends CustomWindow {
 
     @UiHandler("reportTypeDdlb")
     public void loadReportTypeDdlbValue(Property.ValueChangeEvent event) {
-        selection.setReportType((Integer)(reportTypeDdlb.getValue()));
+        selection.setReportType((Integer) (reportTypeDdlb.getValue()));
         balSummaryConfigurationTableLogic.getFilters().clear();
         if ((reportTypeDdlb.getValue() != null) && Integer.valueOf(String.valueOf(reportTypeDdlb.getValue())) != 0) {
             LOGGER.debug(event.toString());
@@ -657,7 +657,7 @@ public abstract class AbstractReserve extends CustomWindow {
     @UiHandler("methodologyDdlb")
     public void loadmethodologyDdlb(Property.ValueChangeEvent event) throws Exception {
         LOGGER.debug(event.toString());
-        selection.setMethodology((Integer)(methodologyDdlb.getValue()));
+        selection.setMethodology((Integer) (methodologyDdlb.getValue()));
         adjustmentSummaryTableLogic.getFilters().clear();
         if ((methodologyDdlb.getValue() != null) && Integer.valueOf(String.valueOf(methodologyDdlb.getValue())) != 0) {
             String transaction = methodologyDdlb.getItemCaption(methodologyDdlb.getValue());
@@ -1321,12 +1321,12 @@ public abstract class AbstractReserve extends CustomWindow {
 
     protected abstract void balanceSummaryAddLineLogic();
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream resOut) throws IOException {
+        resOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream resOut) throws IOException, ClassNotFoundException {
+        resOut.defaultReadObject();
     }
 
     public String reportIndicatorMethod(String value) {

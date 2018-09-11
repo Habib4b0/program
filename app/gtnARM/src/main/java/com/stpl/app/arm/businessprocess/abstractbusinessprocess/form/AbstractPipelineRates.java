@@ -101,7 +101,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
     protected RateLogic rateLogic = new PipelineAccrualRateLogic();
     protected AbstractSelectionDTO selection;
     protected AbstractRatesSearchResults ratesResults;
-    private final CustomNotification notifier = new CustomNotification();
+    private final PipelienRatesCustomNotification notifier = new PipelienRatesCustomNotification();
     protected HelperListUtil helperId = HelperListUtil.getInstance();
     private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
     /**
@@ -180,7 +180,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
                 ratesResults.generateLogic(selection);
                 ratesResults.setValueChangeAllowed(true);
             } else {
-                CustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
+                PipelienRatesCustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
             }
         } catch (Exception e) {
             logger.error("Error in generate :", e);
@@ -231,30 +231,30 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
         selection.setRatePeriodValue(ratePeriod != null && !"-Select One-".equals(ratePeriod) ? CommonUtils.getPeriodValue(rateFrequencyDdlb.getItemCaption(rateFrequencyDdlb.getValue()).charAt(0), ratePeriod) : StringUtils.EMPTY);
     }
 
-    private StringBuilder getDeductionValues(List<String> listSize) {
+    private StringBuilder getDeductionValues(List<String> ratesListSize) {
         StringBuilder deductionValues = new StringBuilder();
-        if (!listSize.isEmpty()) {
-            for (int i = 0; i < listSize.size(); i++) {
-                String value = listSize.get(i);
-                if (value.contains(".")) {
-                    value = value.substring(0, value.lastIndexOf('.'));
+        if (!ratesListSize.isEmpty()) {
+            for (int i = 0; i < ratesListSize.size(); i++) {
+                String ratesValue = ratesListSize.get(i);
+                if (ratesValue.contains(".")) {
+                    ratesValue = ratesValue.substring(0, ratesValue.lastIndexOf('.'));
                 }
-                listSize.set(i, value.replace(" ", StringUtils.EMPTY).trim());
-                if (i != listSize.size() - 1) {
-                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
+                ratesListSize.set(i, ratesValue.replace(" ", StringUtils.EMPTY).trim());
+                if (i != ratesListSize.size() - 1) {
+                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(ratesValue).append("',");
                 } else {
-                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
+                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(ratesValue).append(ARMUtils.SINGLE_QUOTES);
                 }
             }
         }
         return deductionValues;
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class PipelienRatesCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String ratesButtonName;
 
-        public CustomNotification() {
+        public PipelienRatesCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -267,9 +267,9 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", ratesButtonName);
+            if (null != ratesButtonName) {
+                switch (ratesButtonName) {
                     case "reset":
                         setDefaultValue();
                         break;
@@ -282,7 +282,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.ratesButtonName = buttonName;
         }
 
     }
@@ -437,8 +437,8 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object absPipRateobj) {
+        return super.equals(absPipRateobj);
     }
 
     @Override
@@ -446,11 +446,11 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream absPipRateobj) throws IOException {
+        absPipRateobj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream absPipRateobj) throws IOException, ClassNotFoundException {
+        absPipRateobj.defaultReadObject();
     }
 }

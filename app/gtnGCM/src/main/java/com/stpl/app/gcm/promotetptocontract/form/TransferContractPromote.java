@@ -557,11 +557,11 @@ public class TransferContractPromote extends VerticalLayout implements View {
 	}
 
 	public void saveContract() {
-		CommonLogic logic = new CommonLogic();
+		CommonLogic logicSave = new CommonLogic();
 		if (tabPosition == 0) {
 			try {
-				logic.callCcpInsertProcedure();
-				logic.callActualsDetailsInsertProcedure();
+				logicSave.callCcpInsertProcedure();
+				logicSave.callActualsDetailsInsertProcedure();
 			} catch (SystemException ex) {
 				LoggerFactory.getLogger(TransferContractPromote.class.getName()).error("", ex);
 			}

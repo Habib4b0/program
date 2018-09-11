@@ -476,9 +476,7 @@ public class NewComponents extends CustomComponent implements View {
 
                             } catch (SystemException ex) {
                                 LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            } catch (Exception ex) {
-                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                            }
+                            } 
                         } else {
                             if (searchField.equals(Constants.ITEM_TYPE)) {
                                 try {
@@ -487,9 +485,7 @@ public class NewComponents extends CustomComponent implements View {
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
                                     LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                } catch (Exception ex) {
-                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                }
+                                } 
                             }
                             if (searchField.equals("PS Type")) {
                                 try {
@@ -509,9 +505,7 @@ public class NewComponents extends CustomComponent implements View {
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
                                     LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                } catch (Exception ex) {
-                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                }
+                                } 
                             }
                         }
                         searchType.setVisible(true);
@@ -631,9 +625,7 @@ public class NewComponents extends CustomComponent implements View {
                             massValue = CommonLogic.getNativeSelect(massValue, itemStatusList);
                         } catch (SystemException ex) {
                             LoggerFactory.getLogger(NewComponents.class.getName()).error("", ex);
-                        } catch (Exception ex) {
-                            LoggerFactory.getLogger(NewComponents.class.getName()).error("", ex);
-                        }
+                        } 
                     }
 
                 }
@@ -1840,7 +1832,7 @@ public class NewComponents extends CustomComponent implements View {
                         input.add(ifpmodel.getIfpModelSid());
                         input.add(simpleDateFormat.format(ifpmodel.getIfpStartDate()));
                         input.add(ifpmodel.getIfpEndDate() == null ? null : simpleDateFormat.format(ifpmodel.getIfpEndDate()));
-                        IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
+                        IfpContractDetailsImpl.saveIfpDetailsAttached(input);
                     }
                 } else if (level.equals(Constants.THREE)) {
                     String psModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
@@ -1959,7 +1951,7 @@ public class NewComponents extends CustomComponent implements View {
                     input.add(psModelId);
                     input.add(simpleDateFormat.format(psmodel.getPsStartDate()));
                     input.add(psmodel.getPsEndDate() == null ? null : simpleDateFormat.format(psmodel.getPsEndDate()));
-                    PsContractDetailsImpl.savePsDetailsAttached(input, null);
+                    PsContractDetailsImpl.savePsDetailsAttached(input);
 
                 } else if (level.equals(Constants.FOUR)) {
                     /*Below line is used to get temp table sid from tree node */
@@ -2060,7 +2052,7 @@ public class NewComponents extends CustomComponent implements View {
                         input.add(rsModel.getRsModelSid());
                         input.add(rsModel.getRsStartDate());
                         input.add(rsModel.getRsEndDate() == null ? null : rsModel.getRsEndDate());
-                        RsContractDetailsImpl.saveRsDetailsAttached(input, null);
+                        RsContractDetailsImpl.saveRsDetailsAttached(input);
 
                     }
                 }

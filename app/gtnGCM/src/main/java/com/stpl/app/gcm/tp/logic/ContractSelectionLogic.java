@@ -143,7 +143,7 @@ public class ContractSelectionLogic {
 
     public void insertDataIntoTempTable(String userId, String sessionId, List<String> companyMasterSids, String screenName, boolean isInverse) {
 
-        String companyMasterSid = CommonUtils.CollectionToString(companyMasterSids, false);
+        String companyMasterSid = CommonUtils.collectionToString(companyMasterSids, false);
         List input = new ArrayList();
         input.add(companyMasterSid);
         input.add(companyMasterSids.size());
@@ -155,7 +155,7 @@ public class ContractSelectionLogic {
     }
 
     public int getDataCount(List<String> companyMasterSid, boolean isInverse) {
-        String companyMasterSids = CommonUtils.CollectionToString(companyMasterSid, true);
+        String companyMasterSids = CommonUtils.collectionToString(companyMasterSid, true);
         String equalitySign = " in ";
         if (isInverse) {
             equalitySign = " not in ";
@@ -254,7 +254,7 @@ public class ContractSelectionLogic {
                 + "JOIN PERIOD PER ON SP.PERIOD_SID = PER.PERIOD_SID AND PERIOD_DATE>='" + givenDate + "' \n"
                 + "JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = SP.PROJECTION_DETAILS_SID and PD.PROJECTION_MASTER_SID = '" + projectionid + "'\n"
                 + "JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID \n"
-                + "WHERE CCP.COMPANY_MASTER_SID in (" + CommonUtils.CollectionToString(companyMasterSids, true) + ") and CCP.CONTRACT_MASTER_SID = '" + contractMasterSid + "'";
+                + "WHERE CCP.COMPANY_MASTER_SID in (" + CommonUtils.collectionToString(companyMasterSids, true) + ") and CCP.CONTRACT_MASTER_SID = '" + contractMasterSid + "'";
 
         int count = CommonUtils.convertToInteger(String.valueOf((daoImpl.executeSelect(query)).get(0)));
         return count > 0;

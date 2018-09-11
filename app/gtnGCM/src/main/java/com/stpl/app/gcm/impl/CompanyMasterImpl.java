@@ -99,10 +99,11 @@ public class CompanyMasterImpl {
             
             public List findCompanyMaster(String companyId, String companyNo,
             String companyName, String companyStatus, String companyType,
-            String tradeClass, int identifierType, String identifier, String orderByColumn, Boolean sortOrder) {
+            int identifierType, String identifier, String orderByColumn, Boolean sortOrder) {
 
         
         String sql = StringUtils.EMPTY;
+        String identifierNew = identifier;
         try {
 
             sql = SQlUtil.getQuery("com.companymaster.service.persistence.CompanyMasterFinder.findCompanyMaster");
@@ -111,10 +112,10 @@ public class CompanyMasterImpl {
                 sql += " and crti.companyQualifierSid="
                         + identifierType + " ";
             }
-            if (identifier.length() != 0) {
-                identifier = identifier.replace('*', '%');
+            if (identifierNew.length() != 0) {
+                identifierNew = identifierNew.replace('*', '%');
                 sql += " and crti.companyIdentifierValue like '"
-                        + identifier + "' ";
+                        + identifierNew + "' ";
             }
 
             if (companyId.length() != 0) {
@@ -174,6 +175,7 @@ public class CompanyMasterImpl {
         try {
 
             String andOperator = "";
+            String identifierNew = "";
             if (identifierType == 0 && identifier == null) {
 
                 sql = new StringBuilder(SQlUtil.getQuery("com.companymaster.service.persistence.CompanyMasterFinder.findCompanyMasterWithoutIdentifier"));
@@ -187,8 +189,8 @@ public class CompanyMasterImpl {
                     andOperator = CONST_AND;
                 }
                 if (identifier.length() != 0) {
-                    identifier = identifier.replace('*', '%');
-                    sql.append(andOperator).append(" crti.COMPANY_IDENTIFIER_VALUE like '").append(identifier).append("' ");
+                    identifierNew = identifier.replace('*', '%');
+                    sql.append(andOperator).append(" crti.COMPANY_IDENTIFIER_VALUE like '").append(identifierNew).append("' ");
                     andOperator = CONST_AND;
                 }
 
@@ -701,7 +703,7 @@ public class CompanyMasterImpl {
         } 
     }
 
-    public Object executeSelectQuery(String query, Object udc1, Object udc2) {
+    public Object executeSelectQuery(String query) {
         List<Object[]> returnList = new ArrayList<>();
         try {
 
@@ -1181,7 +1183,6 @@ public class CompanyMasterImpl {
                 LOGGER.debug("End of saveCcp method");
             } else {
                 List list = null;
-                try {
                     List<String> relationshipBuilderSids = (List<String>) parameters.get("relationshipBuilderSids");
                     List<StringBuilder> logic = new ArrayList<>();
                     List<String> condition = new ArrayList<>();
@@ -1393,12 +1394,7 @@ public class CompanyMasterImpl {
                         }
                     }
 
-                } catch (Exception ex) {
-                    LOGGER.error(ex.getMessage());
-                    LOGGER.error(hierarchyQuery);
-                    LOGGER.error(levelQuery);
-                    LOGGER.error(ccpQueryList.toString());
-                }
+               
             }
         } catch (Exception e) {
             LOGGER.error("In saveCcp -> {} ",e.getMessage());
