@@ -50,6 +50,7 @@ public class GtnWsReportDSGenerateButtonController {
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		GtnUIFrameworkWebserviceResponse repopulateCCPResponse = new GtnUIFrameWorkReportResponseBuilder().build();
 		generateButtonService.dataSelectionRegenerateLogic(gtnWsRequest);
+		repopulateCCPResponse.setResponseStatus("Success");
 		return repopulateCCPResponse;
 	}
 
