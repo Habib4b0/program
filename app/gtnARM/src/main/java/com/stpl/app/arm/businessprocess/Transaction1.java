@@ -23,13 +23,13 @@ import org.slf4j.LoggerFactory;
  * @author Abhiram
  */
 public class Transaction1 extends AbstractTransaction {
-
+    
     private PipelineAccrualSelectionDTO paSelectionDto;
     private Sales sales;
     private PipelineAccrualRates rates;
     private AdjustmentSummaryPipelineAccrual pipelineSummary;
     private AdjustmentDetailAccural pipelineDetails;
-    public static final Logger LOGGER = LoggerFactory.getLogger(Transaction1.class);
+    public static final Logger TXN1LOGGER = LoggerFactory.getLogger(Transaction1.class);
 
     public Transaction1(TabSheet tabSheet, CustomFieldGroup binder, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException {
         super(tabSheet, binder, 1, name, dataselectionDTO, sessionDTO);
@@ -59,7 +59,7 @@ public class Transaction1 extends AbstractTransaction {
             Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
-            LOGGER.error("Error in initializeTabs", e);
+            TXN1LOGGER.error("Error in initializeTabs", e);
         }
     }
 
@@ -91,13 +91,13 @@ public class Transaction1 extends AbstractTransaction {
 
     @Override
     public String getGtnQuery() {
-        LOGGER.debug("Transaction 1 Gtn Outbound Insert Query");
+        TXN1LOGGER.debug("Transaction 1 Gtn Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
-        LOGGER.debug("Transaction 1 Reserve Outbound Insert Query");
+        TXN1LOGGER.debug("Transaction 1 Reserve Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 
