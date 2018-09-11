@@ -56,6 +56,7 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import org.asi.ui.extfilteringtable.paged.logic.HierarchyString;
 
 /**
  * Allows the user to select the Data Selection work flow tab. All values in
@@ -756,8 +757,8 @@ public abstract class AbstractDataSelection extends CustomComponent {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object dsOut) {
+        return super.equals(dsOut);
     }
 
     @Override
@@ -769,12 +770,12 @@ public abstract class AbstractDataSelection extends CustomComponent {
         return;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream dsOut) throws IOException {
+        dsOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream dsOut) throws IOException, ClassNotFoundException {
+        dsOut.defaultReadObject();
     }
 
     protected GtnARMHierarchyInputBean createInputBean(HierarchyLookupDTO selectedHierarchyLevelDto, int relationshipSid, int relationVersionNo, int levelNo, int hierLevelDefnSid, boolean isNdc, Set<Integer> rsContractSids) {
@@ -816,5 +817,26 @@ public abstract class AbstractDataSelection extends CustomComponent {
             inputBean.setSelectedCustomerHierarchyVersionNo(customerVersionNo);
         }
         return inputBean;
+    }
+
+    protected void setDeductionTree(Map<String, DeductionLevelDTO> levelKeys,List<String> hierarchyKeys) {
+        List<HierarchyString> strkeys = HierarchyString.getHierarchyStringList(hierarchyKeys, true);
+        for (HierarchyString hKey : strkeys) {
+            String key = hKey.getString();
+            DeductionLevelDTO value = levelKeys.get(key);
+            String parentKey = key.substring(0, key.lastIndexOf('.'));
+            if (parentKey.lastIndexOf('.') >= 0) {
+                parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
+            }
+            selectedDeductionContainer.addItem(value);
+            DeductionLevelDTO parent = levelKeys.get(parentKey);
+
+            if (parent != null) {
+                selectedDeductionContainer.setParent(value, parent);
+            }
+            if (StringUtils.countMatches(key, ".") == NumericConstants.NINE) {
+                selectedDeductionContainer.setChildrenAllowed(value, false);
+            }
+        }
     }
 }

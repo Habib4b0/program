@@ -18,12 +18,16 @@ import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.CommonUtils;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author porchelvi.g
  */
 public class PipelineInventoryRates extends AbstractPipelineRates {
+    
+    private final Logger ratesDetailsLogger = LoggerFactory.getLogger(PipelineInventoryRates.class);
 
     public PipelineInventoryRates(AbstractSelectionDTO selection) {
         super(selection);
@@ -49,21 +53,25 @@ public class PipelineInventoryRates extends AbstractPipelineRates {
 
     @Override
     public AbstractBPLogic getRatelogicObject() {
+        ratesDetailsLogger.debug("Inside getRatelogicObject");
         return new PipelineInventoryRatelogic();
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
+        ratesDetailsLogger.debug("Inside getExcelLogic");
         return getRatelogicObject();
     }
 
     @Override
     public Focusable getDefaultFocusComponent() {
+        ratesDetailsLogger.debug("Inside getDefaultFocusComponent");
         return deductionLevelDdlb;
     }
 
     @Override
     public boolean checkLeave() {
+        ratesDetailsLogger.debug("Inside checkLeave");
         return true;
     }
 

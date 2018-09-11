@@ -34,6 +34,10 @@ public class GtnFrameworkReportCustHierarchyConfig {
 
 	private String currentScreenNameSpace;
 
+	public GtnFrameworkReportCustHierarchyConfig() {
+		super();
+	}
+
 	public List<GtnUIFrameworkComponentConfig> getCustomerSelectionLayoutComponents(String namespace,
 			String currentScreenNameSpace) {
 		this.currentScreenNameSpace = currentScreenNameSpace;
