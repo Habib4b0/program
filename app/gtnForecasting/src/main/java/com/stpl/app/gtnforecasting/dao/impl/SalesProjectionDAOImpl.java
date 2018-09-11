@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.service.finderImpl.NmSalesProjectionImpl;
 import com.stpl.app.gtnforecasting.service.finderImpl.StChSalesProjectionImpl;
 import com.stpl.app.model.HelperTable;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.Collections;
