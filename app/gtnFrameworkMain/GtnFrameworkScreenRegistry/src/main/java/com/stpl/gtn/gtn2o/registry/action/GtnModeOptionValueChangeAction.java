@@ -24,7 +24,7 @@ public class GtnModeOptionValueChangeAction implements GtnUIFrameWorkAction, Gtn
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
         List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
         GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(1)));
-        String modeValue = baseComponent.getStringFromField();
+        String modeValue = baseComponent.getV8StringFromField();
         boolean add = "Add".equals(modeValue);
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(2))).setEnable(add);
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(3))).setEnable(!add);
