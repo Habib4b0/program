@@ -1,8 +1,13 @@
 package com.stpl.gtn.gtn2o.ws.periodconf.service;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,12 +16,12 @@ import org.springframework.web.client.RestTemplate;
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
-import com.stpl.dependency.singleton.bean.GtnFrameworkSingletonObjectBean;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
+import com.stpl.gtn.gtn2o.ws.periodconf.constants.GtnWsPeriodConfigurationConstants;
+import com.stpl.gtn.gtn2o.ws.periodconf.model.PeriodConfData;
 import com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
@@ -24,34 +29,94 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 @Service
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
+	private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
+	
+	public List<Object[]> getPeriodResults(String businessProcessType) {
+		return loadDateBusinessType(businessProcessType);
+	}
+
 	@Autowired
 	private GtnWsPeriodConfSqlService gtnWsPeriodConfSqlService;
 
 	private GtnWsPeriodConfigurationService() {
-		super();
+		super(GtnWsPeriodConfigurationService.class);
 	}
-
-	@PostConstruct
-	private void initializeLogger() {
-		super.logInformation(GtnWsPeriodConfigurationService.class);
-	}
-
-
-	private GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
 	public void init() {
-		initializeLogger();
 		logger.info("Entering into init method");
 		GtnUIFrameworkWebserviceRequest request = registerWs();
-
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.postForObject(
-				getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
+				getWebServiceEndpointBasedOnModule(
+						GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REGISTERWEBSERVICE,
+						GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
 				request, GtnUIFrameworkWebserviceResponse.class);
 		logger.info("Webservice Registered");
-		List<Object[]> resultList = loadDate(request.getGtnWsGeneralRequest());
+		this.loadDate();
+	}
 
-		singletonObjectBean.setPeriodConfigResultList(resultList);
+	public GtnQueryEngineWebServiceRequest createQuery(String loadDateQuery)
+	{
+		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+		queryExecutorBean.setSqlQuery(loadDateQuery);
+		queryExecutorBean.setQueryType("SELECT");
+		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
+		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
+		return gtnQueryEngineWebServiceRequest;
+	}
+	public String readProperty(String lookUpValue)
+	{
+		String loadDateQuery = gtnWsPeriodConfSqlService.getQuery(lookUpValue);
+		logger.debug("LoadDate Query:" + loadDateQuery);
+		return loadDateQuery;
+	}
+	public GtnQueryEngineWebServiceResponse callQueryEngine( GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest)
+	{
+		RestTemplate restTemplate = new RestTemplate();
+		return restTemplate.postForObject(
+				getWebServiceEndpointBasedOnModule(
+						GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REDIRECTTOQUERYENGINE,
+						GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
+				gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+	}
+	
+	public void populateallBusinessProcessTypeResultObject (List <Object[]> resultDataSet)
+	{
+		for (Object[] resultList : resultDataSet ) {
+			PeriodConfData periodconfdata = new PeriodConfData();
+			periodconfdata.setFromDate(new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT)
+					.format(new Date((long) resultList[0])));
+			periodconfdata.setToDate(new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT)
+					.format(new Date((long) resultList[1])));
+			periodconfdata.setDescription(resultList[2].toString());
+			logger.debug("StartDate:"
+					+ new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT)
+							.format(new Date((long) resultList[0]))
+					+ ":EndDate:" + new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT)
+							.format(new Date((long) resultList[1]))
+					+ "Description:" + resultList[2]);
+			periodconfdata.setQuaterInfo(getQuarter(periodconfdata.getFromDate(), periodconfdata.getToDate()));
+			allBusinessProcessTypeResultObject.add(periodconfdata);
+		}
+	}
+	
+	public void loadDate() {
+		logger.debug("Entering into webservice loadDate  WS->SR->QE->SR->WS");
+		String lookUpValue = "loadDate";
+		GtnQueryEngineWebServiceResponse response = callQueryEngine(createQuery(readProperty(lookUpValue)));
+		populateallBusinessProcessTypeResultObject(response.getQueryResponseBean().getResultList());
+	}
+
+	public List<Object[]> loadDateBusinessType(String businessType) {
+		List<Object[]> result = new ArrayList<>();
+		Iterator<PeriodConfData> ite = allBusinessProcessTypeResultObject.iterator();
+		while (ite.hasNext()) {
+			PeriodConfData temp = ite.next();
+			if (temp.getDescription().equals(businessType)) {
+				return temp.getQuaterInfo();
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -75,26 +140,32 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 
 	}
 
-	public List<Object[]> loadDate(GtnWsGeneralRequest gtnWsGeneralRequest) {
+	private List<Object[]> getQuarter(String startDate, String endDate) {
+		List<Object[]> quarters = new ArrayList<>();
+		DateFormat df = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT);
+		DateFormat dfYY = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_YEAR_FORMAT);
 
-		logger.info("Entering into webservice loadDate  WS->SR->QE->SR->WS");
+		try {
+			Integer i = 1;
 
-		String loadDateQuery = gtnWsPeriodConfSqlService.getQuery("loadDate");
-		logger.debug("LoadDate Query:" + loadDateQuery);
-		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setSqlQuery(loadDateQuery);
-		queryExecutorBean.setQueryType("SELECT");
-		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
-		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-		RestTemplate restTemplate1 = new RestTemplate();
+			Calendar scal = Calendar.getInstance();
+			scal.setTime(df.parse(startDate));
+			Calendar ecal = Calendar.getInstance();
+			ecal.setTime(df.parse(endDate));
 
-		GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
-				getWebServiceEndpointBasedOnModule(
-						"/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-				gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
-		List<Object[]> resultList1 = response1.getQueryResponseBean().getResultList();
-		return resultList1;
+			while (ecal.getTime().after(scal.getTime()) || ecal.getTime().equals(scal.getTime())) {
+				int month = scal.get(Calendar.MONTH) + 1;
 
+				int quarter = month % 3 == 0 ? (month / 3) : (month / 3) + 1;
+				String[] s = { i.toString(), "Q" + quarter + "-" + dfYY.format(scal.getTime()) };
+				i++;
+				quarters.add(s);
+				scal.add(Calendar.MONTH, 3);
+			}
+		} catch (ParseException e) {
+			logger.error("Error in generating quarter information:" + e.toString());
+		}
+		return quarters;
 	}
 
 }

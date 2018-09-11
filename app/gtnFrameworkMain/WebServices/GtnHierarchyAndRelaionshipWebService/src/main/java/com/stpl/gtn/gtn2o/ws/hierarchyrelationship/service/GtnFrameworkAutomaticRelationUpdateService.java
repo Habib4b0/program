@@ -18,6 +18,10 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 @Service(value = "gtnFrameworkAutomaticRelationUpdateService")
 public class GtnFrameworkAutomaticRelationUpdateService extends GtnCommonWebServiceImplClass {
 
+	public GtnFrameworkAutomaticRelationUpdateService() {
+		super(GtnFrameworkAutomaticRelationUpdateService.class);
+		}
+
 	@Autowired
 	private GtnWsHierarchyAndRelationshipSqlService gtnWsHierarchyAndRelationshipSqlService;
 

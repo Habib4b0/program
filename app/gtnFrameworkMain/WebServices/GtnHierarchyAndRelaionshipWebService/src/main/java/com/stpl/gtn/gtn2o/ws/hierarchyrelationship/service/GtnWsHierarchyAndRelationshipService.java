@@ -38,16 +38,10 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 	private GtnFrameworkSingletonObjectBean hierarchyRelationship = GtnFrameworkSingletonObjectBean.getInstance();
 
 	private GtnWsHierarchyAndRelationshipService() {
-		super();
-	}
-
-	@PostConstruct
-	public void initializeLogger() {
-		super.logInformation(GtnWsHierarchyAndRelationshipService.class);
+		super(GtnWsHierarchyAndRelationshipService.class);
 	}
 
 	public void init() {
-		initializeLogger();
 		GtnUIFrameworkWebserviceRequest request = registerWs();
 
 		RestTemplate restTemplate = new RestTemplate();
