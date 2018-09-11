@@ -4658,65 +4658,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 		resultTable.setColumnHeaders(UIUtil.getInstance().dataSelectionHeaders);
 	}
 
-	private void generateLogicForReturns() {
-		try {
-			LOGGER.debug("generateBtn click  listener started ");
-			if (selectedProduct.size() <= 0 || fromPeriod.getValue() == null
-					|| StringUtils.isBlank(projectionName.getValue())
-					|| Constant.NULL.equalsIgnoreCase(projectionName.getValue()) || company.getValue() == null
-					|| SELECT_ONE.equals(company.getValue())) {
-				AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
-						Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
-				return;
-			}
-			List<Leveldto> productList = selectedProductContainer.getItemIds();
-			bindDataselectionDtoToSave();
-			int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName,false);
-			VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
-			projectionName.setValue(String.valueOf(projectionName.getValue()));
-			dataSelectionDTO.setProjectionId(projectionIdValue);
-			List<String> productListEndSids = DataSelectionUtil
-					.getEndLevelHierNo(getProductHierarchyEndLevels(selectedProductContainer));
-
-			dsLogic.saveProductHierarchyLogic(productList, productListEndSids, projectionIdValue, null, Constant.SAVE,
-					dataSelectionDTO);
-			relationshipBuilderSids.clear();
-			setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
-			dsLogic.insertToReturnDetails(projectionIdValue);
-			if (projectionIdValue != 0) {
-				final SessionDTO session = SessionUtil.createSession();
-				session.setProjectionId(projectionIdValue);
-				session.setProductLevelNumber(String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
-				session.setCustomerLevelNumber(String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
-				session.setAction(Constant.ADD_FULL_SMALL);
-				session.setBusineesUnit(businessUnitlist);
-				session.setFromDate(dataSelectionDTO.getFromDate());
-				session.setToDate(dataSelectionDTO.getToDate());
-				session.setFromPeriod(String.valueOf(fromPeriod.getValue()));
-				session.setToPeriod(String.valueOf(toPeriod.getValue()));
-				session.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
-				session.setProductRelationId(Integer.parseInt(dataSelectionDTO.getProdRelationshipBuilderSid()));
-				session.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
-				session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
-				session.setProductDescription(productDescMap);
-				session.setCustomerHierarchyId(0);
-				session.setReturnsDetailsMap(dsLogic.getReturnDetails(session, true));
-				session.setScreenName(scrName);
-				QueryUtils.createTempTables(session);
-				ForecastEditWindow editWindow = new ForecastEditWindow(projectionName.getValue(), session, resultTable,
-						scrName, this);
-				UI.getCurrent().addWindow(editWindow);
-			}
-			resetOne();
-			resetTwo();
-			LOGGER.debug("generateBtn click listener ends ");
-
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}
-		UI.getCurrent().setFocusedComponent(UI.getCurrent());
-	}
-
 	/**
 	 * Used to set the Visible Header for DataSelection ListView
 	 *

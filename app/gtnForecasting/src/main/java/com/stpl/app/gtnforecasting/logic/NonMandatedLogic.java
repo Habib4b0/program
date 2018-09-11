@@ -121,11 +121,6 @@ public class NonMandatedLogic {
 	public static final Logger LOGGER = LoggerFactory.getLogger(NonMandatedLogic.class);
 
 	/**
-	 * the SALES_SMALL dao.
-	 */
-	private final SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
-
-	/**
 	 * Searh view.
 	 *
 	 * @param viewName

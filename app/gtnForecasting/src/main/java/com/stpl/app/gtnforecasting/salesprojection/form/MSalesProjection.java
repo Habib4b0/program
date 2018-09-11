@@ -58,8 +58,6 @@ public class MSalesProjection extends ForecastSalesProjection {
     private static final Logger LOGGER = LoggerFactory.getLogger(MSalesProjection.class);
     
     private static Map<String, Integer> rowCountMap = new HashMap<>();
-    private final List<String> projectedPeriodList = new ArrayList();
-    private SalesRowDto salesPMPYDTO = new SalesRowDto();
 
     public MSalesProjection(SessionDTO session, String screenName) throws PortalException  {
         super(session, screenName);
