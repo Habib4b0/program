@@ -11,8 +11,6 @@ import com.stpl.app.gtnforecasting.bpm.util.MessageUtils;
 import com.stpl.app.gtnforecasting.dataassumptions.form.DataAssumptions;
 import com.stpl.app.gtnforecasting.dataassumptions.logic.DataAssumptionsLogic;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
-import com.stpl.app.gtnforecasting.discountprojectionresults.form.MDiscountProjectionResults;
-import com.stpl.app.gtnforecasting.discountprojectionresults.form.ManagedDiscountProjectionResult;
 import com.stpl.app.gtnforecasting.discountprojectionresults.form.NMDiscountProjectionResults;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
@@ -20,14 +18,10 @@ import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.ppaprojection.form.PPAProjection;
 import com.stpl.app.gtnforecasting.pparesults.form.PPAProjectionResults;
-import com.stpl.app.gtnforecasting.projectionresults.form.MProjectionResults;
 import com.stpl.app.gtnforecasting.projectionresults.form.NMProjectionResults;
-import com.stpl.app.gtnforecasting.projectionvariance.form.MProjectionVariance;
 import com.stpl.app.gtnforecasting.projectionvariance.form.NMProjectionVariance;
-import com.stpl.app.gtnforecasting.salesprojection.form.MSalesProjection;
 import com.stpl.app.gtnforecasting.salesprojection.form.NMSalesProjection;
 import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
-import com.stpl.app.gtnforecasting.salesprojectionresults.form.MSalesProjectionResults;
 import com.stpl.app.gtnforecasting.salesprojectionresults.form.NMSalesProjectionResults;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastEditWindow;
@@ -139,15 +133,10 @@ public class ForecastForm extends AbstractForm {
 	/**
 	 * Object for Sales Projection Tab.
 	 */
-	private MSalesProjection salesProjectionForMandated;
 	/**
 	 * Object for Sales Projection Tab.
 	 */
 	private NMSalesProjectionResults salesProjectionResults;
-	/**
-	 * Object for Sales Projection Tab.
-	 */
-	private MSalesProjectionResults salesProjectionResultsForMandated;
 	/**
 	 * Object for Sales Projection Tab.
 	 */
@@ -162,7 +151,6 @@ public class ForecastForm extends AbstractForm {
 	/**
 	 * Object for Discount Projection Results Tab.
 	 */
-	private MDiscountProjectionResults discountProjectionResultsForMandated;
 	/**
 	 * Object for PPA Projection Tab.
 	 */
@@ -174,7 +162,6 @@ public class ForecastForm extends AbstractForm {
 	/**
 	 * Object for Projection Results Tab.
 	 */
-	private MProjectionResults mandatedprojectionResults;
 	private NMProjectionResults nonmandatedprojectionResults;
 	/**
 	 * Object for Projection Variance Tab.
@@ -183,7 +170,6 @@ public class ForecastForm extends AbstractForm {
 	/**
 	 * Object for Projection Variance Tab.
 	 */
-	private MProjectionVariance projectionVarianceForMandated;
 	/**
 	 * Object for Additional Information Tab.
 	 */
@@ -194,7 +180,6 @@ public class ForecastForm extends AbstractForm {
 	/**
 	 * Object for Additional Information Tab.
 	 */
-	private ManagedDiscountProjectionResult mmdiscountProjectionResultsForMandated;
 	private DataAssumptions dataAssumptions;
 	/**
 	 * Tabsheet containing all the screens.
