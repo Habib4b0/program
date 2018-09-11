@@ -616,13 +616,15 @@ public class GtnWsForecastConfigurationController {
 				fcResponse.setMessage("Please Select Future Interval Frequency");
 				return;
 			}
-			int futureInterval = Integer.parseInt(fcRequest.getFutureInterval());
+			
 			if (fcRequest.getFutureInterval() == null || StringUtils.isEmpty(fcRequest.getFutureInterval())) {
 				fcResponse.setSuccess(false);
 				fcResponse.setMessageType(GtnFrameworkCommonStringConstants.VALIDATION);
 				fcResponse.setMessage("Please Enter Future Interval");
 				return;
 			}
+			
+			int futureInterval = Integer.parseInt(fcRequest.getFutureInterval());
 			if (futureInterval == 0) {
 				fcResponse.setSuccess(false);
 				fcResponse.setMessageType(GtnFrameworkCommonStringConstants.ERROR);
@@ -663,7 +665,7 @@ public class GtnWsForecastConfigurationController {
 		return false;
 	}
 
-	private void validatePeriod(GtnWsForecastConfigurationRequest fcRequest,
+	private void validatePeriod (GtnWsForecastConfigurationRequest fcRequest,
 			GtnWsForecastConfigurationResponse fcResponse) {
 		Date fromDate = fcRequest.getFromDate();
 		Date toDate = fcRequest.getToDate();
