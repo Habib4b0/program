@@ -161,7 +161,6 @@ public class ContractBrandLookup extends Window {
         getBinder();
         configureFields();
         configureBasedOnScreenName();
-        LOGGER.debug("PmpyCalculator Constructor ends ");
 
     }
 
@@ -232,9 +231,7 @@ public class ContractBrandLookup extends Window {
                 public void buttonClick(Button.ClickEvent event) {
 
                     try {
-                        if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                            mandatedContractSearchLogic();
-                        } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                             nonmandatedContractSearchLogic();
                         }
                     } catch (Exception ex) {
@@ -437,34 +434,7 @@ public class ContractBrandLookup extends Window {
     public void importButtonLogic() throws SQLException, SystemException {
         LOGGER.debug("Entering Import Logic Button Listener");
         ContractBrandDTO item;
-        if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-            if (Constant.CONTRACT.equalsIgnoreCase(lookupType)) {
-                item = (ContractBrandDTO) contractResultsTable.getValue();
-                if (item != null) {
-                    contractBrandDTO.setBrandSid(null);
-                    contractBrandDTO.setContractHierarchyNo(hierarchyNo);
-                    contractBrandDTO.setBrandHierarchyNo(null);
-                } else {
-                    AbstractNotificationUtils.getErrorNotification("No result selected", "There are no selected results. Please select a record and try again.");
-                }
-
-            } else {
-                item = (ContractBrandDTO) brandResultsTable.getValue();
-                if (item != null) {
-                    contractBrandDTO.setContractSid(0);
-                    contractBrandDTO.setBrandHierarchyNo(hierarchyNo);
-                    contractBrandDTO.setContractHierarchyNo(null);
-                } else {
-                    AbstractNotificationUtils.getErrorNotification("No result selected", "There are no selected results. Please select a record and try again.");
-                }
-
-            }
-            if (item != null) {
-                logic.callAlternateHistoryProcedure(sessionDTO, contractBrandDTO);                
-                close();
-            }
-            contractBrandDTO = item;
-        } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             Object selected = null;
             if (lookupType.equals(Constant.CONTRACT)) {
                 selected = contractResultsTable.getValue();
@@ -532,18 +502,6 @@ public class ContractBrandLookup extends Window {
             contractResultsTable.setContainerDataSource(nmContractContainer);
             contractResultsTable.setVisibleColumns(commonUtils.historyLookupContractColumnsNonMandated);
             contractResultsTable.setColumnHeaders(commonUtils.historyLookupContractHeaderNonMandated);
-        } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-            contractHolder.setVisible(false);
-            customerId.setVisible(false);
-            contractHolderNameLb.setVisible(false);
-            customerIdLb.setVisible(false);
-            contractResultsTable.setSelectable(true);
-            contractResultsTable.setFilterBarVisible(true);
-            contractResultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-            contractResultsTable.setStyleName(Constant.FILTER_TABLE);
-            contractResultsTable.setContainerDataSource(contractContainer);
-            contractResultsTable.setVisibleColumns(commonUtils.historyLookupContractColumnsMandated);
-            contractResultsTable.setColumnHeaders(commonUtils.historyLookupContractHeadersMandated);
         }
         LOGGER.debug("Ending Configure Based On ScreenName");
     }

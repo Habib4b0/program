@@ -48,19 +48,6 @@ public class DPRTableLogic extends PageTreeTableLogic {
         if (firstGenerated && offset > 0) {
             try {
                 switch (screenName) {
-                    case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
-                        if (Constant.MM.equalsIgnoreCase(projSelDTO.getMarketTypeValue())) {                            
-                            list = getMmdprLogic().getConfiguredMMDicountResults(getLastParent(), start, offset, projSelDTO);
-                        } else {
-                            List<String> indexList = new ArrayList<>();
-                            for (int i = 0; i < getNonFetchableData().size(); i++) {
-                                
-                                indexList.add(getNonFetchableData().getIndex(i).getKey().toString());
-                            }
-                            projSelDTO.setNonFetchableIndex(indexList);
-                            list = getDprLogic().getConfiguredDPResults(getLastParent(), start, offset, projSelDTO);
-                        }
-                        break;
                     case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
                         list = commercialDPRLogic.getConfiguredProjectionResults(getLastParent(), start, offset, projSelDTO);
                         break;
@@ -90,13 +77,6 @@ public class DPRTableLogic extends PageTreeTableLogic {
             if (firstGenerated) {
 
                 switch (screenName) {
-                    case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
-                        if (Constant.MM.equalsIgnoreCase(projSelDTO.getMarketTypeValue())) {
-                            count = getMmdprLogic().getConfiguredMMDiscountResultsCount(getLastParent(), projSelDTO);
-                        } else {
-                            count = getDprLogic().getConfiguredDPResultsCount(getLastParent(), projSelDTO, true, initialProjSelDTO);
-                        }
-                        break;
                     case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
                         count = commercialDPRLogic.getConfiguredProjectionResultsCount(getLastParent(), projSelDTO, true);
                         break;
@@ -131,7 +111,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
         Object custFilter = getColumnIdToFilterValue(Constant.GROUP);
         if (custFilter != null) {
             String[] custHeirarchyNo = custFilter.toString().split("~");
-            if (custHeirarchyNo != null && !Constant.DASH.equals(custHeirarchyNo[0]) && String.valueOf(custFilter).contains(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
+            if (custHeirarchyNo != null && !Constant.DASH.equals(custHeirarchyNo[0])) {
                 projSelDTO.setGroup(custHeirarchyNo[1]);
                 projSelDTO.setFilterCustomerDDLB(custHeirarchyNo[1]);
                 projSelDTO.setSelectedCust(custHeirarchyNo[0]);
@@ -169,11 +149,6 @@ public class DPRTableLogic extends PageTreeTableLogic {
         this.screenName = screenName;
         clearAll();
          dprLogic.setProjectionTotalList(new ArrayList<DiscountProjectionResultsDTO>());
-        if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
-            initialProjSelDTO.setCustomerLevelNo(projSelDTO.getCustomerLevelNo());
-            initialProjSelDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
-            initialProjSelDTO.setProductLevelNo(projSelDTO.getProductLevelNo());            
-        }
         firstGenerated = true;
         setCurrentPage(1);
     }
@@ -191,9 +166,6 @@ public class DPRTableLogic extends PageTreeTableLogic {
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) throws PortalException {
         switch (screenName) {
-            case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
-                mandatedExpandData(parentId, treeLevel, expandLevelNo);
-                break;
             case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
                 nmExpandData(parentId, treeLevel, expandLevelNo);
                 break;
