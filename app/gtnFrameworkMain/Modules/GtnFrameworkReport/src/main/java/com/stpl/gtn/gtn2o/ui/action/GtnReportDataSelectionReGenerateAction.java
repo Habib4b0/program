@@ -225,7 +225,7 @@ public class GtnReportDataSelectionReGenerateAction
 	}
 
 	private boolean isUpdated(String customViewName, String customViewMasterSid) {
-		return customViewName.equals(customViewMasterSid);
+		return !customViewName.equals(customViewMasterSid);
 	}
 
 	@Override
