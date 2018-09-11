@@ -13,7 +13,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewDataBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 public class GtnFrameworkCustomViewDeleteAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable {
 
@@ -41,11 +40,11 @@ public class GtnFrameworkCustomViewDeleteAction implements GtnUIFrameWorkAction,
 			request.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean()
 					.setCustomViewName(customViewName);
 
-			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+			new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 					GtnWsReportEndPointUrlConstants.DELETE_CUSTOM_VIEW,
 					GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, request,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			
+
 			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
 			String id = sourceComponentId + "_" + "reportingDashboardTab_displaySelectionTabCustomView";
 			GtnUIFrameworkBaseComponent baseComboBoxComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(id);

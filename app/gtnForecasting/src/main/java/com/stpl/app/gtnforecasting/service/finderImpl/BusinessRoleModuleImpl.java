@@ -8,6 +8,7 @@ package com.stpl.app.gtnforecasting.service.finderImpl;
 
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -55,7 +56,7 @@ public class BusinessRoleModuleImpl {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
-			return null;
+			return Collections.emptyList();         
 		}
 		
 	}
@@ -109,7 +110,7 @@ public class BusinessRoleModuleImpl {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
-			return null;
+			return Collections.emptyList();         
 		}
 	}
 	public List getBusinessTabPermission(String businessRoleId,String moduleName) {
@@ -137,7 +138,7 @@ public class BusinessRoleModuleImpl {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
-			return null;
+			return Collections.emptyList();         
 		}
 	}
 	
@@ -164,7 +165,7 @@ public class BusinessRoleModuleImpl {
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
-				return null;
+				return Collections.emptyList();         
 			}
 
 		}
@@ -190,7 +191,7 @@ public class BusinessRoleModuleImpl {
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
-				return null;
+				return Collections.emptyList();         
 			}
 		}
 
@@ -216,7 +217,7 @@ public class BusinessRoleModuleImpl {
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
-				return null;
+				return Collections.emptyList();         
 			}
 		}
 	        
@@ -248,7 +249,7 @@ public class BusinessRoleModuleImpl {
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
-				return null;
+				return Collections.emptyList();         
 			}
 		}
     public static final String AND_MSM_SUBMODULE_NAME = " AND MSM.SUBMODULE_NAME = '";
@@ -281,7 +282,7 @@ public class BusinessRoleModuleImpl {
 				} catch (Exception e) {
 					LOGGER.error(e.getMessage());
 	                                LOGGER.error(sql);
-					return null;
+					return Collections.emptyList();         
 				}
 			}
 }

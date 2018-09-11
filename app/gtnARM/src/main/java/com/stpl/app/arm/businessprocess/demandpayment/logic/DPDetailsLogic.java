@@ -15,6 +15,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,14 +24,14 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
+    private final Logger dpDetailsLogger = LoggerFactory.getLogger(DPDetailsLogic.class);
+
     @Override
     public List<List> getReserveAccountDetails(AbstractSelectionDTO paymentsSelection, Boolean isReserve) {
         List paymentsReplaceList = new ArrayList();
         List<String> paymentsReserveHeader = new ArrayList<>();
         List<String> paymentsReserveProperty = new ArrayList<>();
         List<List> paymentsFinalList = new ArrayList<>();
-        StringBuilder paymentsValue;
-        StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
         paymentsReplaceList.add(isReserveValue);
         paymentsReplaceList.add(paymentsSelection.getDataSelectionDTO().getAdjustmentId());
@@ -49,6 +51,12 @@ public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             }
         }
         List list = QueryUtils.executeSelect(paymentsQuery.toString());
+        return getPaymentsFinalList(list, paymentsReserveHeader, paymentsReserveProperty, paymentsFinalList);
+    }
+
+    private List<List> getPaymentsFinalList(List list, List<String> paymentsReserveHeader, List<String> paymentsReserveProperty, List<List> paymentsFinalList) {
+        StringBuilder paymentsValue;
+        StringBuilder property;
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] paymentObj = (Object[]) list.get(i);
@@ -77,21 +85,25 @@ public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
+        dpDetailsLogger.debug("Inside getExcelResultList");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected String getTableNameForView() {
+        dpDetailsLogger.debug("Inside getTableNameForView");
         return "ARM_DEMAND_RECON_SUMMARY";
     }
 
     @Override
     protected String getTableNameForEdit() {
+        dpDetailsLogger.debug("Inside getTableNameForEdit");
         return "ST_ARM_DEMAND_RECON_SUMMARY";
     }
 
     @Override
     protected CharSequence getRateColumn() {
+        dpDetailsLogger.debug("Inside getRateColumn");
         return "B.PROJECTED_RATE";
     }
 

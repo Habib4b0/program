@@ -87,21 +87,21 @@ public class PipelineInventoryLookupLogic {
     public List<CustomerGroupDTO> getMovedCustomerProductGroup(CustomerGroupDTO groupDTO) {
         LOGGER.debug("Inside getMovedCustomerProductGroup ");
         List<CustomerGroupDTO> searchList;
-        List input = new ArrayList();
+        List inventoryInput = new ArrayList();
         String query;
         if (StringUtils.isNotBlank(groupDTO.getCustomerGroupNo())) {
-            input.add(astToPerConverter(groupDTO.getCustomerGroupNo()));
+            inventoryInput.add(astToPerConverter(groupDTO.getCustomerGroupNo()));
         } else {
-            input.add("%");
+            inventoryInput.add("%");
         }
         if (StringUtils.isNotBlank(groupDTO.getCustomerGroupName())) {
-            input.add(astToPerConverter(groupDTO.getCustomerGroupName()));
+            inventoryInput.add(astToPerConverter(groupDTO.getCustomerGroupName()));
         } else {
-            input.add("%");
+            inventoryInput.add("%");
         }
         query = "movedCustomerGroup";
         LOGGER.debug("query--{}", query);
-        List resultList = QueryUtils.getItemData(input, query, null);
+        List resultList = QueryUtils.getItemData(inventoryInput, query, null);
         searchList = getMovedCustomisedGroupDto(resultList);
         return searchList;
     }

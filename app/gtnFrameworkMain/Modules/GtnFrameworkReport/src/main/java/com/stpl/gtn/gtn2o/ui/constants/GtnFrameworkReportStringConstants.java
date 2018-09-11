@@ -17,8 +17,8 @@ public final class GtnFrameworkReportStringConstants {
 	}
 
 	public static final String REPORT_DASHBOARD_TAB = "reportingDashboardTab";
-        
-        public static final String REPORT_DASHBOARD = "reportDashboard";
+
+	public static final String REPORT_DASHBOARD = "reportDashboard";
 
 	public static final String LEVEL_VALUE = "levelValue";
 
@@ -69,7 +69,7 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RESET_CONFIRMATION = "Reset Confirmation";
 
 	public static final String RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Search Criteria ?";
-        
+
 	public static final String RP_DASH_RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Reporting Dashboard Selection section to the previous values?";
 
 	public static final String RESET_CONFIRMATION_TABLE_MESSAGE = "Are you sure you want to reset the values in the table ?";
@@ -103,8 +103,6 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PUBLIC_VIEW_LOOKUP_SEARCH_AND_RESET_LAYOUT = "publicViewLookUpSearchAndResetLayout";
 
 	public static final String RELATIONSHIP_LEVEL_SID = "relationshipLevelSid";
-
-	public static final String VB_GRID_LOAD_HEADER_PROJECTION_NAMES = "projectionNames";
 
 	public static final String PROJ_DETAILS_TABSHEET_MAIN_LAYOUT = "projectionDetailsTabsheetMainLayout";
 
@@ -159,7 +157,7 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String HUNDRED_ONE_PERCENT = "101%";
 
 	public static final String HUNDRED_PERCENT = "100%";
-	
+
 	public static final String EIGHTY_PERCENT = "80%";
 
 	public static final String ONE_FIFTY_PIXEL = "150px";
@@ -337,19 +335,19 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO = "displaySelectionTabPeriodRangeTo";
 
 	public static final String FILTER_OPTIONS_TAB = "filterOptionsTab";
-	
+
 	public static final String FILTER_OPTIONS_TAB_PANEL = "filterOptionsTabPanel";
-	
+
 	public static final String FILTER_OPTIONS_TAB_PANEL_VERTICAL_LAYOUT = "filterOptionsTabPanelVerticalLayout";
-	
+
 	public static final String FILTER_OPTIONS_TAB_LAYOUT_TOP = "filterOptionsTabTopLayout";
-	
+
 	public static final String FILTER_OPTIONS_TAB_LAYOUT_BOTTOM = "filterOptionsTabBottomLayout";
 
 	public static final String FILTER_OPTIONS_TAB_CSS_LAYOUT = "filterOptionsTabCssLayout";
-	
+
 	public static final String FILTER_OPTIONS_TAB_TOP_CSS_LAYOUT = "filterOptionsTabTopCssLayout";
-	
+
 	public static final String FILTER_OPTIONS_TAB_BOTTOM_CSS_LAYOUT = "filterOptionsTabBottomCssLayout";
 
 	public static final String FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT = "filterOptionsTabCustomerLevelLayout";
@@ -455,10 +453,9 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String VARIABLE_TYPE_OPTION_GROUP = "custom_Variable_Type_OptionGroup";
 
 	public static final String PRODUCT_DUALLISTBOX = "product";
-	public static final String PRODUCT_LEVEL = "level";
-	public static final String PRODUCT_HIERARCHYRELATIONSHIP = "relationship";
+
 	public static final String PRODUCT_RELATIONSHIP_VERSION = "productRelationshipVersion";
-	public static final String CUSTOMER_DUALLISTBOX = "customerDualListBox";
+
 	public static final String EMPTY_SELECTION = "Empty Selection";
 	public static final String CUSTOM_TREETABLE = "customTreeTable";
 	public static final String UOM_DEFAULT = "EACH";
@@ -503,16 +500,16 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String VARIABLE_COMPARISON_TIME = "Variable/Comparison/Time";
 
 	public static final String PROJECTION_NAMES = "projectionNames";
+
+	public static final String VB_GRID_LOAD_HEADER_PROJECTION_NAMES = PROJECTION_NAMES;
+
 	public static final String RD_EXPAND_BUTTON = "reportingDashboardTab_expandButton";
+
 	public static final String RD_COLLPSE_BUTTON = "reportingDashboardTab_collapseButton";
 
 	public static final String REPORT_CUSTOMER_HIERARCHY = "customerHierarchy";
 
 	public static final String REPORT_CUSTOMER_RELATION_VERSION = "customerRelationshipVersion";
-
-	public static final String REPORT_CUSTOMER_SELECTION_LEVEL = "customerSelectionLevel";
-
-	public static final String REPORT_PRODUCT_SELECTION_LEVEL_RELATION = "customerSelectionRelationship";
 
 	public static final String CONFIRMATION = "Confirmation";
 
@@ -540,10 +537,134 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String COMPARISON_LOWER_PANEL_RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the contents of the ‘Projections’ list view?";
 
+	public static final String DATA_SELECTION_TAB_CUSTOMER_HIERARCHY = "dataSelectionTab_customerHierarchy";
+
+	public static final String DATA_SELECTION_TAB_COMPARISON_LOOKUP = "dataSelectionTab_comparisonLookup";
+
+	public static final String REPORTING_DASHBOARD_TAB_DISPLAY_SELECTION_TAB_CUSTOM_VIEW = "reportingDashboardTab_displaySelectionTabCustomView";
+
+	public static final String SEMI_ANNUAL = "Semi-Annual";
+
+	public static final String MONTH = "Month";
+
+	public static final String ANNUAL = "Annual";
+
+	public static final String MODE_SELECTION_DS_CSS_LAYOUT = "modeSelectionDsCssLayout";
+
+	public static final String DS_TAB_MODE_SELECTION_LAYOUT = "dsTabModeSelectionLayout";
+
+	public static final String RELATIONSHIP = "relationship";
+
+	public static final String PRODUCT_HIERARCHYRELATIONSHIP = RELATIONSHIP;
+
+	public static final String PRODUCTDUAL_LIST_BOX_COMP = "productdualListBoxComp";
+
+	public static final String MODE_SELECTION_LAYOUT = "modeSelectionLayout";
+
+	public static final String MODE_SELECTION_CSS_LAYOUT = "modeSelectionCssLayout";
+
+	public static final String LEVEL_LOWERCASE = "level";
+
+	public static final String PRODUCT_LEVEL = LEVEL_LOWERCASE;
+
+	public static final String FROM_PERIOD = "fromPeriod";
+
+	public static final String CUSTOMER_SELECTION_RELATIONSHIP = "customerSelectionRelationship";
+
+	public static final String REPORT_PRODUCT_SELECTION_LEVEL_RELATION = CUSTOMER_SELECTION_RELATIONSHIP;
+
+	public static final String CUSTOMER_SELECTION_LEVEL = "customerSelectionLevel";
+
+	public static final String REPORT_CUSTOMER_SELECTION_LEVEL = CUSTOMER_SELECTION_LEVEL;
+
+	public static final String CUSTOMER_DUAL_LIST_BOX = "customerDualListBox";
+
+	public static final String CUSTOMER_DUALLISTBOX = CUSTOMER_DUAL_LIST_BOX;
+
+	public static final String COMPANY = "company";
+
+	public static final String BUSINESS_UNIT = "businessUnit";
+
+	public static final String CONTRACT = "Contract";
+
+	public static final String REPORTING_DASHBOARD_LOWERCASE = "reportingDashboard_";
+
+	public static final String REPORT_OPTIONS_TAB_CSS_LAYOUT_BOTTOM = "reportOptionsTabCssLayoutBottom";
+
+	public static final String DISPLAY_SELECTION_TAB_PANEL_VERTICAL_LAYOUT = "displaySelectionTabPanelVerticalLayout";
+
+	public static final String PRODUCTHIERARCHY = "producthierarchy";
+
+	public static final String HIERARCHY_RELATIONSHIP_CONFIG = "hierarchyRelationshipConfig";
+
+	public static final String REPORT_LANDING_SCREEN_REPORTING_DASHBOARD_COMPARISON_CONFIG = "reportLandingScreen_reportingDashboardComparisonConfig";
+
+	public static final String PROJECTION_NAME = "projectionName";
+
+	public static final String MARKET_TYPE = "marketType";
+
+	public static final String DESCRIPTION2 = "description";
+
+	public static final String CREATED_DATE2 = "createdDate";
+
+	public static final String CREATED_BY = "createdBy";
+
+	public static final String CONTRACT_HOLDER = "contractHolder";
+
+	public static final String CONTRACT_LOWER = "contract";
+
+	public static final String COMPARISON_LOOKUP_RESULTS_PAGED_TABLE_COMPONENT = "comparisonLookupResultsPagedTableComponent";
+
+	public static final String COMPARISON_LOOKUP_PROJECTIONS_RESULTS_PAGED_TABLE_COMPONENT = "comparisonLookupProjectionsResultsPagedTableComponent";
+
+	public static final String FIELD_LAYOUT = "fieldLayout";
+
+	public static final String CUSTOM_VARIABLE_TYPE_OPTION_GROUP = CUSTOM_VARIABLE_TYPE_OPTIONGROUP;
+
+	public static final String REPORT_CUSTOMER_HIERARCHY_RESULTS_PANEL = "reportCustomerHierarchyResultsPanel";
+
+	public static final String RESULTS_PANEL = "resultsPanel";
+
+	public static final String DASHBOARD_COMPARISON_FROM_AND_TOPERIOD_VERTICAL_LAYOUT_CONFIG = "dashboardComparisonFromAndToperiodVerticalLayoutConfig";
+
+	public static final String REPORT_DASHBOARD_SAVE_PROFILE_NAME_TEXT_FIELD = "ReportDashboardSaveProfileNameTextField";
+
+	public static final String DATA_SELECTION_COMPARISON_SEARCH_RESULTS_GRID = "dataSelectionComparisonSearchResultsGrid";
+
+	public static final String DATA_SELECTION_COMPARISON_RESULTS_GRID = "dataSelectionComparisonResultsGrid";
+
+	public static final String DATA_SELECTION_COMPARISON_LOOKUP_VIEW = "dataSelectionComparisonLookupView";
+
+	public static final String COMPARISON_FROM_AND_TOPERIOD_VERTICAL_LAYOUT_CONFIG = "comparisonFromAndToperiodVerticalLayoutConfig";
+
+	public static final String BRAND = "brand";
+
+	public static final String CREATED_DATE = "Created Date";
+
+	public static final String VIEW_NAME_FILTER = "viewNameFilter";
+
+	public static final String PUBLIC_VIEW_LOOK_UP_VIEW_NAME_TEXT_BOX = "publicViewLookUpViewNameTextBox";
+
+	public static final String DS_SAVE_VIEW_LOOK_UP = "dsSaveViewLookUp";
+
+	public static final String VIEW_TYPE = "viewType";
+
+	public static final String VIEW_NAME = "viewName";
+
+	public static final String REPORTING_DASHBOARD_TAB_REPORT_PROFILE_CONFIG = "reportingDashboardTab_reportProfileConfig";
+
+	public static final String REPORT_PROFILE_PAGED_TABLE_COMPONENT = "reportProfilePagedTableComponent";
+
+	public static final String REPORT_LANDING_SCREEN_PUBLIC_VIEWS = "reportLandingScreen_publicViews";
+
+	public static final String VARIABLE_BREAKDOWN_RESULTS_LAYOUT = "variableBreakdownResultsLayout";
+
+	public static final String PERIOD = "period";
+
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
 
-	private static final List<String> REPORT_COMPARISON_PROJECTIONTYPE_LOADCOMBOBOX = Arrays.asList("Contract", "CFF");
+	private static final List<String> REPORT_COMPARISON_PROJECTIONTYPE_LOADCOMBOBOX = Arrays.asList(CONTRACT, "CFF");
 
 	private static final List<String> REPORT_COMPARISON_WORKFLOWSTATUS_LOADCOMBOBOX = Arrays.asList("Saved",
 			"Submitted", "Approved", "Rejected");
@@ -552,7 +673,7 @@ public final class GtnFrameworkReportStringConstants {
 			Integer.class, Integer.class, Date.class, Date.class };
 
 	private static final String[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_VISIBLE_HEADER = new String[] {
-			"Hierarchy Name", "Highest Level", "Lowest Level", "Created Date", "Modified Date" };
+			"Hierarchy Name", "Highest Level", "Lowest Level", CREATED_DATE, "Modified Date" };
 
 	private static final Object[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_MAPPING_ID = new Object[] {
 			"custHierarchyLookupHierName", "custHierarchyLookupHighestLevel", "custHierarchyLookupLowestLevel",
@@ -560,10 +681,10 @@ public final class GtnFrameworkReportStringConstants {
 
 	private static final String[] REPORT_PRODUCT_FILTER_PROPERTYID = new String[] {
 			GtnFrameworkReportStringConstants.HIER_NAME, GtnFrameworkReportStringConstants.HIGHEST_LEVEL, "lowestLevel",
-			"createdDate", "modifiedDate" };
+			CREATED_DATE2, "modifiedDate" };
 
-	private static final String[] REPORT_DATAASSUMPTIONS_FILTER_PROPERTYID = new String[] { "file", "company",
-			"businessUnit", "type", "version", "activeFrom", "toPeriod" ,"activeFile" };
+	private static final String[] REPORT_DATAASSUMPTIONS_FILTER_PROPERTYID = new String[] { "file", COMPANY,
+			BUSINESS_UNIT, "type", "version", "activeFrom", "toPeriod", "activeFile" };
 
 	private static final List<String> REPORT_DATAASSUMPTIONS_TAB_ID = Arrays.asList(
 			"dataAssumptionsPagedTableComponentdataAssumptionsTab0dataAssumptionsTab",
@@ -573,27 +694,29 @@ public final class GtnFrameworkReportStringConstants {
 			"dataAssumptionsPagedTableComponentdataAssumptionsTab4dataAssumptionsTab");
 
 	public static final String REPORT_LOOKUP_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.module.lookups.action.";
-        
-        public static final String REPORT_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.action.";
+
+	public static final String REPORT_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.action.";
 
 	public static final String REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
 			+ "GtnReportingComparisonBreakdownHeaderLoadAction";
-
+        
+        public static final String REPORT_DATA_ASSUMPTION_FILTER_ACTION = REPORT_ACTION_PACKAGE
+			+ "GtnFrameworkDataAssumptionFilterAction";
 	public static List<String> getReportDataAssumptionsTabId() {
 		return REPORT_DATAASSUMPTIONS_TAB_ID;
 	}
 
 	public static final String REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
 			+ "GtnReportingVariableBreakdownHeaderLoadAction";
-        
-        public static final String REPORT_COMPARISON_FILTER_ACTION = REPORT_ACTION_PACKAGE
+
+	public static final String REPORT_COMPARISON_FILTER_ACTION = REPORT_ACTION_PACKAGE
 			+ "ComparisonProjectionResultFilterAction";
 
 	private static final List<String> REPORT_VARIABLE_BREAKDOWN_HEADER = Arrays.asList("Projection Name", "Description",
-			"Market Type", "Contract Holder", "Contract", "Brand");
+			"Market Type", "Contract Holder", CONTRACT, "Brand");
 
 	private static final List<String> REPORT_COMPARISON_BREAKDOWN_HEADER = Arrays.asList("Projection Name",
-			"Description", "Market Type", "Contract Holder", "Contract", "Brand");
+			"Description", "Market Type", "Contract Holder", CONTRACT, "Brand");
 
 	public static Class<?>[] getReportCustomerHierarchyTableColumnsDataType() {
 		return REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE.clone();

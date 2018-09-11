@@ -80,8 +80,8 @@ public class AddTPForm extends CustomWindow {
             @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
-                int tabPosition = event.getTabSheet().getTabPosition(tab);
-                String tabName = tabSheet.getTab(tabPosition).getCaption();
+                int tabPositionTabChange = event.getTabSheet().getTabPosition(tab);
+                String tabName = tabSheet.getTab(tabPositionTabChange).getCaption();
 
                 if (TAB_SUMMARY.getConstant().equals(tabName) && updatedContractSelection.isSummaryRefreshed()) {
                     summary.refreshCurrentTPDetails(StringUtils.EMPTY);

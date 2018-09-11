@@ -12,7 +12,9 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsColumnDetailsConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.module.contractheader.constants.GtnWsContractHeaderQueryContants;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GtnWsContractHeaderConfig implements GtnWsSearchQueryConfigLoader {
 
 	private Map<String, GtnWsSearchQueryConfig> contractHeaderConfigMap = null;

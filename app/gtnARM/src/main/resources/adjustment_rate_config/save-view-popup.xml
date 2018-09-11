@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 
 
-<Panel  xmlns="urn:import:com.vaadin.ui" xmlns:ct="urn:import:org.asi.ui.customtextfield">
+<Panel  xmlns:ct="urn:import:org.asi.ui.customtextfield">
     <VerticalLayout margin = "true">
         <HorizontalLayout spacing = "true">
             <OptionGroup multiSelect="false" id="viewOption" immediate="true" enable="true" styleName = "horizontal">

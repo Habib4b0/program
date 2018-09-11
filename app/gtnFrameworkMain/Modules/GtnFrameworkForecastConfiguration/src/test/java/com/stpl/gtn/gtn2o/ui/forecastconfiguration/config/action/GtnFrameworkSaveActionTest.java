@@ -121,7 +121,7 @@ public class GtnFrameworkSaveActionTest {
     	 GtnUIFrameworkBaseComponent object = Mockito.mock(GtnUIFrameworkBaseComponent.class);
          when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
          doReturn(1).when(object).getIntegerFromField();
-         doReturn("Period").when(object).getStringFromField();
+         doReturn("Peri").when(object).getStringFromField();
          
     	instance.getModifiedRequest(fcRequest, parameters);
     }

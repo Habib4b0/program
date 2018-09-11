@@ -18,9 +18,13 @@ import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
 @RestController
 public class GtnWsReportDSGenerateButtonController {
 
+	public GtnWsReportDSGenerateButtonController() {
+		super();
+	}
+
 	@Autowired
 	@Qualifier("reportDataSelectionSql")
-	GtnWsReportDataSelectionGenerate generateButtonService;
+	private GtnWsReportDataSelectionGenerate generateButtonService;
 
 	@RequestMapping(value = GtnWsReportConstants.GTN_WS_DATA_SELECTION_GENERATE_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse generateCCPForReport(
@@ -46,6 +50,7 @@ public class GtnWsReportDSGenerateButtonController {
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		GtnUIFrameworkWebserviceResponse repopulateCCPResponse = new GtnUIFrameWorkReportResponseBuilder().build();
 		generateButtonService.dataSelectionRegenerateLogic(gtnWsRequest);
+		repopulateCCPResponse.setResponseStatus("Success");
 		return repopulateCCPResponse;
 	}
 

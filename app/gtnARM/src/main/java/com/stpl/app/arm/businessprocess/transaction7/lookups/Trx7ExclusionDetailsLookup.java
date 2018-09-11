@@ -49,7 +49,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  * Nameâ€™ drop down to search by all the fields in the actual Customer
  * Gross Trades Sales data set.
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
 
@@ -207,13 +207,13 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
             }
         }
     };
-    private final CustomNotification notifier = new CustomNotification();
+    private final Tr7ExclCustomNotification tr7Exclnotifier = new Tr7ExclCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class Tr7ExclCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String tr7ExclButtonName;
 
-        public CustomNotification() {
+        public Tr7ExclCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -226,9 +226,9 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", tr7ExclButtonName);
+            if (null != tr7ExclButtonName) {
+                switch (tr7ExclButtonName) {
                     case "reset":
                         getIntialLoad();
                         setFieldValues();
@@ -262,7 +262,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.tr7ExclButtonName = buttonName;
         }
 
     }
@@ -360,8 +360,8 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     @UiHandler("resetBtn")
     public void resetButtonClick(Button.ClickEvent event) {
         try {
-            notifier.setButtonName("reset");
-            notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_exclusion());
+            tr7Exclnotifier.setButtonName("reset");
+            tr7Exclnotifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_exclusion());
         } catch (Exception e) {
             LOGGER.error("Error in resetButtonClick :", e);
         }
@@ -370,8 +370,8 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     @UiHandler("deleteViewBtn")
     public void deleteButtonClick(Button.ClickEvent event) {
         try {
-            notifier.setButtonName("delete");
-            notifier.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getDeleteMessage_exclusion());
+            tr7Exclnotifier.setButtonName("delete");
+            tr7Exclnotifier.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getDeleteMessage_exclusion());
         } catch (Exception e) {
             LOGGER.error("Error in deleteButtonClick :", e);
         }

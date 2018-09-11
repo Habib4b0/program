@@ -84,16 +84,16 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
                 dto.setLevelName(String.valueOf(obj[NumericConstants.FOUR]));
                 switch (dto.getLevelName()) {
                     case VariableConstants.DEDUCTION_UPPERCASE:
-                        dto.setDeductionSID((Integer) (obj[NumericConstants.THREE]));
+                        dto.setDeductionSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                         break;
 
                     case VariableConstants.CUSTOMER_UPPERCASE:
                         if (ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                            dto.setCustomerSID((Integer) (obj[NumericConstants.THREE]));
+                            dto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                             dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            dto.setCustomerSID((Integer) (obj[NumericConstants.THREE]));
+                            dto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         }
 
@@ -101,17 +101,17 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
 
                     case VariableConstants.CONTRACT_UPPERCASE:
                         if (ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                            dto.setContractSID((Integer) (obj[NumericConstants.THREE]));
+                            dto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            dto.setContractSID((Integer) (obj[NumericConstants.THREE]));
+                            dto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                             dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         }
                         break;
 
                     case VariableConstants.BRAND_UPPERCASE:
-                        dto.setBrandSID((Integer) (obj[NumericConstants.THREE]));
+                        dto.setBrandSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                         dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                         dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                         dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
@@ -380,6 +380,16 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
             QueryUtils.itemUpdate(input, "pipeline_common_query", "Txn3_rates_override_query");
         } catch (Exception e) {
             LOGGER.error("Error in updateOverride :", e);
+            return false;
+        }
+        return true;
+    }
+      @Override
+    public boolean updateOverrideLevelFilter(List input) {
+        try {
+            QueryUtils.itemUpdate(input, "pipeline_common_query_Level_Filter", "Txn3_rates_override_query_Level_Filter");
+        } catch (Exception e) {
+            LOGGER.error("Error in updateOverride :" ,e);
             return false;
         }
         return true;

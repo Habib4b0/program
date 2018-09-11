@@ -4,7 +4,6 @@
  */
 package com.stpl.app.cff.util;
 
-import com.ctc.wstx.util.StringUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import java.util.Arrays;
 import java.util.Collection;
@@ -104,8 +103,8 @@ public class PVQueryUtils {
         return selectClause;
     }
 
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString, toAddQuote, false);
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToString(collectionOfString, toAddQuote, false);
     }
 
     /**
@@ -116,7 +115,7 @@ public class PVQueryUtils {
      * @param toRemoveSpace
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
@@ -137,7 +136,7 @@ public class PVQueryUtils {
         try {
             String customSql = SQlUtil.getQuery("getProjectionLists");
             if (projId != null && !projId.isEmpty()) {
-                customSql += (" PM.PROJECTION_MASTER_SID IN (" + CollectionToString(projId, false) + ")");
+                customSql += (" PM.PROJECTION_MASTER_SID IN (" + PVQueryUtils.collectionToString(projId, false) + ")");
             } else {
                 customSql += (" PM.PROJECTION_MASTER_SID IN ('')");
             }

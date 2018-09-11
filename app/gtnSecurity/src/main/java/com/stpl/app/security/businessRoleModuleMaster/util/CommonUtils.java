@@ -6,7 +6,6 @@ import java.util.List;
 import com.stpl.app.security.businessRoleModuleMaster.dto.HelperDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.ListType;
 import com.liferay.portal.kernel.service.ListTypeServiceUtil;
 import com.vaadin.v7.ui.NativeSelect;
@@ -181,7 +180,7 @@ public class CommonUtils {
 			 boolean xflag = true;
 			 try{
 			 while(count<memList.size()){
-	         			Object o = (Object) memList.get(count);
+	         			Object o =  memList.get(count);
 	         			memberIdArraytemp[a]=(String)o;
 
 	         			if(a==NumericConstants.NINE_NINTY_NINE){
@@ -213,7 +212,7 @@ public class CommonUtils {
 	        	      if(memList.size()<NumericConstants.NINE_NINTY_NINE){
 	 					count=0;
 						while(count<memList.size()){
-		            			Object o = (Object) memList.get(count);
+		            			Object o =  memList.get(count);
 		            			memberIdArraytemp[a]=(String)o;
 		            			count= count + 1;
 						}
@@ -255,7 +254,7 @@ public class CommonUtils {
 				 boolean xflag = true;
 				 try{
 				 while(count<memList.size()){
-		         			Object o = (Object) memList.get(count);
+		         			Object o =  memList.get(count);
 		         			memberIdArraytemp[a]=(String)o;
 
 		         			if(a==NumericConstants.NINE_NINTY_NINE){
@@ -285,7 +284,7 @@ public class CommonUtils {
 		        	      if(memList.size()<NumericConstants.NINE_NINTY_NINE){
 							count=0;
 							while(count<memList.size()){
-			            			Object o = (Object) memList.get(count);
+			            			Object o =  memList.get(count);
 			            			memberIdArraytemp[a]=(String)o;
 			            			count= count + 1;
 							}

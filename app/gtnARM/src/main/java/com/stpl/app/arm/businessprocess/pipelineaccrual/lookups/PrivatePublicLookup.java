@@ -38,7 +38,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class PrivatePublicLookup extends Window {
 
@@ -167,7 +167,7 @@ public class PrivatePublicLookup extends Window {
                 availableResultsContainer.removeAllItems();
                 dtoValue.setViewTypeFlag("privateView".equalsIgnoreCase(viewType));
                 dtoValue.setCreatedBy(String.valueOf(userId));
-                dtoValue.setViewName(String.valueOf(viewNameEpl));
+                dtoValue.setViewName(String.valueOf(viewNameEpl.getValue()));
                 dtoValue.setViewType(viewType);
                 dtoValue.setDetailsValue(detailsName);
                 tableLogic.configureSearchData(dtoValue, true, viewCategory);
@@ -222,9 +222,9 @@ public class PrivatePublicLookup extends Window {
             LOGGER.error("Error in closeButtonClick :", e);
         }
     }
-    private final CustomNotification notifier = new CustomNotification();
+    private final PublicPrivateCustomNotification notifier = new PublicPrivateCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class PublicPrivateCustomNotification extends AbstractNotificationUtils {
 
         @Override
         public void noMethod() {

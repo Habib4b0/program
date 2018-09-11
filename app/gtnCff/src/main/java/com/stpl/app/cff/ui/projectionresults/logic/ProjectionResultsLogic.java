@@ -937,7 +937,7 @@ public class ProjectionResultsLogic {
         String column;
         loadMap();
         for (int i = 0; i < list.size(); i++) {
-            final Object[] obj = (Object[]) list.get(i);
+            final Object[] obj =  list.get(i);
             newDiscountName = String.valueOf(obj[NumericConstants.THREE]);
             if (oldDiscountName.equals(newDiscountName)) {
                 column = getCommonColumn(projSelDTO, obj);
@@ -1778,7 +1778,7 @@ public class ProjectionResultsLogic {
                 discountTypeColumnName = " J.RS_NAME as DISCOUNTS \n";
                 groupBy += ", J.RS_NAME";
             }
-            whereClause += " and B.RS_MODEL_SID in (" + CollectionToString(projSelDTO.getDiscountNoList(), false) + ") \n";
+            whereClause += " and B.RS_MODEL_SID in (" + ProjectionResultsLogic.collectionToString(projSelDTO.getDiscountNoList(), false) + ") \n";
         }
         selectClause += discountTypeColumnName + ", ";
 
@@ -2987,7 +2987,7 @@ public class ProjectionResultsLogic {
                 discountTypeColumnName = " J.RS_NAME as DISCOUNTS \n";
                 groupBy += ", J.RS_NAME";
             }
-            whereClause += " and B.RS_MODEL_SID in (" + CollectionToString(projSelDTO.getDiscountNoList(), false) + ") \n";
+            whereClause += " and B.RS_MODEL_SID in (" + ProjectionResultsLogic.collectionToString(projSelDTO.getDiscountNoList(), false) + ") \n";
         }
         selectClause += discountTypeColumnName + ", ";
 
@@ -3699,8 +3699,8 @@ public class ProjectionResultsLogic {
      * @param toAddQuote
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString, toAddQuote, false);
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToString(collectionOfString, toAddQuote, false);
     }
 
     /**
@@ -3711,7 +3711,7 @@ public class ProjectionResultsLogic {
      * @param toRemoveSpace
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {

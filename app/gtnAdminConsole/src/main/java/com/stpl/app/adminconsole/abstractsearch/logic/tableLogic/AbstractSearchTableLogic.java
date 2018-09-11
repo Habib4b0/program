@@ -9,7 +9,6 @@ import com.stpl.app.adminconsole.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.adminconsole.abstractsearch.logic.AbstractSearchLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.text.ParseException;
@@ -47,13 +46,9 @@ public class AbstractSearchTableLogic extends PageTableLogic {
             }
             isResultsEmpty = count == 0;            
             count = isReset ? 0 : count;
-        } catch (SystemException ex) {
+        } catch (ParseException |PortalException ex) {
            LOGGER.error(ex.getMessage());
-        } catch (ParseException ex) {
-           LOGGER.error(ex.getMessage());
-        } catch (PortalException ex) {
-           LOGGER.error(ex.getMessage());
-        }
+        } 
         return count;
     }
 

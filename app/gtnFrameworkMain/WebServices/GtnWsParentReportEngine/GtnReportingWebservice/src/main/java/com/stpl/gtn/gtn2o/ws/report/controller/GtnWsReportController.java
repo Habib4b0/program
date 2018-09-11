@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.report.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -40,10 +39,10 @@ import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
 public class GtnWsReportController {
 
 	public GtnWsReportController() {
-
+		super();
 	}
 
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportController.class);
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportController.class);
 
 	@Autowired
 	private GtnWsReportWebsevice gtnWsReportWebsevice;
@@ -52,9 +51,6 @@ public class GtnWsReportController {
 
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
-
-	// @Autowired
-	// private GtnWsTreeService gtnWsTreeService;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -98,23 +94,21 @@ public class GtnWsReportController {
 		return response;
 	}
 
-	
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_COUNT_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getPrivateViewResultsCount(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-			throws GtnFrameworkGeneralException, IOException {
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
-		List<Object[]> resultList = gtnWsReportWebsevice.getLoadViewResultsCount(gtnUIFrameworkWebserviceRequest, true, 0);
+		List<Object[]> resultList = gtnWsReportWebsevice.getLoadViewResultsCount(gtnUIFrameworkWebserviceRequest, true,
+				0);
 		gtnSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 		response.setGtnSerachResponse(gtnSearchResponse);
 		return response;
 	}
-	
+
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadViewResults(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-			throws GtnFrameworkGeneralException, IOException {
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		List<Object[]> resultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest, true, 0);
@@ -124,27 +118,22 @@ public class GtnWsReportController {
 		response.setGtnSerachResponse(gtnSearchResponse);
 		return response;
 	}
-	
-	
 
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_COUNT_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getPublicViewResultsCount(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-			throws GtnFrameworkGeneralException, IOException {
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
-		List<Object[]> publicViewResultList = gtnWsReportWebsevice.getLoadViewResultsCount(gtnUIFrameworkWebserviceRequest,
-				false, 0);
+		List<Object[]> publicViewResultList = gtnWsReportWebsevice
+				.getLoadViewResultsCount(gtnUIFrameworkWebserviceRequest, false, 0);
 		gtnSearchResponse.setCount(Integer.parseInt(String.valueOf(publicViewResultList.get(0))));
 		response.setGtnSerachResponse(gtnSearchResponse);
 		return response;
 	}
-	
-	
+
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadPublicViewResults(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-			throws GtnFrameworkGeneralException, IOException {
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		List<Object[]> publicViewResultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest,
@@ -158,21 +147,19 @@ public class GtnWsReportController {
 
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE_COUNT, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getReportProfileResultsCount(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-			throws GtnFrameworkGeneralException, IOException {
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
-		List<Object[]> resultList = gtnWsReportWebsevice.getLoadViewResultsCount(gtnUIFrameworkWebserviceRequest, true, 1);
+		List<Object[]> resultList = gtnWsReportWebsevice.getLoadViewResultsCount(gtnUIFrameworkWebserviceRequest, true,
+				1);
 		gtnSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 		response.setGtnSerachResponse(gtnSearchResponse);
 		return response;
 	}
-	
-	
+
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadReportProfileResults(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-			throws GtnFrameworkGeneralException, IOException {
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		List<Object[]> resultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest, true, 1);
@@ -197,13 +184,13 @@ public class GtnWsReportController {
 
 	@RequestMapping(value = "/hierarchyDefinition", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getHierarchySidAndLevelDefId(
-			@RequestBody GtnUIFrameworkWebserviceRequest request) throws GtnFrameworkGeneralException {
+			@RequestBody GtnUIFrameworkWebserviceRequest request) {
 
 		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
 		GtnReportHierarchyLookupBean lookupBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		String query = GtnWsQueryConstants.HIERARCHY_SID_AND_LEVEL_DEFINITION_SID;
-		query.replace("@HIERARCHY_DEFINITION_SID", String.valueOf(lookupBean.getHierarchyDefSid()))
+		query=query.replace("@HIERARCHY_DEFINITION_SID", String.valueOf(lookupBean.getHierarchyDefSid()))
 				.replace("@VERSION_NO", String.valueOf(lookupBean.getVersionNo()));
 		List<Object[]> results = executeQuery(query);
 		GtnWsReportResponse gtnWsReportResponse = new GtnWsReportResponse();
@@ -276,24 +263,26 @@ public class GtnWsReportController {
 		String filter = gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList() == null
 				|| gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList().isEmpty() ? ""
 						: gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
-		String company=String.valueOf(gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCompanyReport());
-		String businessunit=String.valueOf(gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getBusinessUnitReport());
+		String company = String.valueOf(gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCompanyReport());
+		String businessunit = String
+				.valueOf(gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getBusinessUnitReport());
 
-			resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY
-					.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter).replace(GtnWsQueryConstants.FILTER_COMPANY,company).replace(GtnWsQueryConstants.FILTER_BUSINESSUNIT, businessunit));
-			wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
+		resultList = executeQuery(
+				GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter)
+						.replace(GtnWsQueryConstants.FILTER_COMPANY, company)
+						.replace(GtnWsQueryConstants.FILTER_BUSINESSUNIT, businessunit));
+		wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 
-			String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
+		String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
 
-			finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter);
-			finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_COMPANY, company);
-			finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_BUSINESSUNIT, businessunit);
-			resultList = executeQuery(finalQuery);
-			resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
-			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
-			gtnUIFrameworkDataTable.addData(resultList);
-			wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
-
+		finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter);
+		finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_COMPANY, company);
+		finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_BUSINESSUNIT, businessunit);
+		resultList = executeQuery(finalQuery);
+		resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
+		GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
+		gtnUIFrameworkDataTable.addData(resultList);
+		wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
 
 		wsResponse.setGtnSerachResponse(wsSearchResponse);
 
@@ -309,18 +298,14 @@ public class GtnWsReportController {
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
 		String finalQuery = null;
-		if(gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getReportDataSource() == 3) {
+		if (gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getReportDataSource() == 3) {
 			finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_NO_SOURCE_MULTIPLE_TABS_RESULTS;
 		} else {
 			finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
-		}		
-		
+		}
+
 		finalQuery = finalQuery.replace("@projectionMasterSid",
 				String.valueOf(gtnWsRequest.getGtnWsReportRequest().getProjectionMasterSid()));
-		// String filter =
-		// gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
-
-		// finalQuery = finalQuery.replace("@filter", filter);
 		resultList = executeQuery(finalQuery);
 		resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
 		GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
@@ -373,7 +358,7 @@ public class GtnWsReportController {
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
 		int userId = Integer.parseInt(generalRequest.getUserId());
-		int recordCount = gtnWsReportWebsevice.checkUpdateViewRecordCount(dataSelectionBean, userId);
+		int recordCount = gtnWsReportWebsevice.checkUpdateViewRecordCount(dataSelectionBean);
 		if (recordCount == 0) {
 			gtnWsReportWebsevice.saveReportingMaster(dataSelectionBean, userId);
 			generalResponse.setSucess(false);
@@ -425,7 +410,7 @@ public class GtnWsReportController {
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
 		int userId = Integer.parseInt(generalRequest.getUserId());
 		int recordCount = gtnWsReportWebsevice
-				.checkUpdateViewRecordCountForReportProfile(reportingDashboardSaveProfileLookupBean, userId);
+				.checkUpdateViewRecordCountForReportProfile(reportingDashboardSaveProfileLookupBean);
 		if (recordCount == 0) {
 			gtnWsReportWebsevice.saveReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
 			generalResponse.setSucess(false);
@@ -450,8 +435,8 @@ public class GtnWsReportController {
 		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
 		return gtnWsReportWebsevice.deleteView(dataSelectionBean, userId);
 	}
-        
-        @RequestMapping(value = "/reportDeleteValidation", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/reportDeleteValidation", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse deleteValidation(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
@@ -461,14 +446,14 @@ public class GtnWsReportController {
 		return gtnWsReportWebsevice.deleteValidation(dataSelectionBean, userId);
 	}
 
-
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_COUNTSERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getComparisonAvailableTableCount(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
 			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse searchResponse = new GtnSerachResponse();
-		List<Object[]> resultList = gtnWsReportWebsevice.getComparisonAvailableTableCount(gtnUIFrameworkWebserviceRequest);
+		List<Object[]> resultList = gtnWsReportWebsevice
+				.getComparisonAvailableTableCount(gtnUIFrameworkWebserviceRequest);
 		searchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 		response.setGtnSerachResponse(searchResponse);
 		return response;
@@ -498,8 +483,8 @@ public class GtnWsReportController {
 			resultList = gtnWsReportWebsevice.getUOMDDLBValues(
 					gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getReportBean().getDataSelectionBean());
 			Optional.ofNullable(resultList).ifPresent(e -> {
-				List<String> itemCodeList = new ArrayList<>();
-				List<String> itemValueList = new ArrayList<>();
+				List<String> itemCodeList = new ArrayList<>(e.size() + 1);
+				List<String> itemValueList = new ArrayList<>(e.size() + 1);
 				itemCodeList.add(GtnWsQueryConstants.UOM_DEFAULT);
 				itemValueList.add(GtnWsQueryConstants.UOM_DEFAULT);
 				for (Object[] object : e) {

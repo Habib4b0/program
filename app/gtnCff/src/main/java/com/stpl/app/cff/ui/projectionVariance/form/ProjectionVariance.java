@@ -338,7 +338,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         if (editFlag) {
             editFlag = false;
             try {
-                List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(comparisonProjId), null, null);
+                List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(comparisonProjId));
                 selectedList = pvLogic.getCustomizedPVComparisonList(list);
             } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
@@ -542,7 +542,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 }
             }
             if ("Variable".equals(pivotView.getValue().toString())) {
-                try {
                     if (!discountLevel.getValue().equals(StringConstantsUtil.TOTAL_DISCOUNT)) {
                         resultsTable.getRightFreezeAsTable().setColumnCollapsingAllowed(true);
                         for (String object : pvSelectionDTO.getHeaderMap().keySet()) {
@@ -565,9 +564,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                             }
                         });
                     }
-                } catch (IllegalStateException e) {
-                    LOGGER.error(e.getMessage());
-                }
             }
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage());
@@ -1141,7 +1137,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     @Override
     protected void excelBtnLogic() {
         try {
-            ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
+            ConsolidatedFinancialForecastUI.setExcelClose(true);
             excelTable.setRefresh(BooleanConstant.getFalseFlag());
             levelFilterDdlbChangeOption(true);
             excelForCFFProjectionVariance();
@@ -1412,6 +1408,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             String productEditMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
             ChangeMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productEditMenuItemValue);
+           
             value = map.get(Constants.DEDUCTION_LEVEL_DDLB);
             deductionlevelDdlb.setValue(CommonUtils.nullCheck(value) || CommonUtils.stringNullCheck(value) ? value : DataTypeConverter.convertObjectToInt(value));
             value = map.get(Constants.DEDUCTION_LEVEL_VALUE);
@@ -1420,6 +1417,15 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             String deductionEditMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
             ChangeMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionEditMenuItemValue);
+                    
+            String deductionMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
+            ChangeMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+            pvSelectionDTO.setDeductionLevelFilter((List) CommonLogic.getFilterValues(deductionFilterValues).get(SID));
+            pvSelectionDTO.setDeductionLevelCaptions((List) CommonLogic.getFilterValues(deductionFilterValues).get("CAPTION"));
+            pvSelectionDTO.setIsdeductionFirst(pvSelectionDTO.getDeductionLevelFilter().isEmpty());
+            loadCustomerLevelFilter(ANULL.equals(String.valueOf(customerlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(customerlevelDdlb.getValue()));
+            loadProductLevelFilter(ANULL.equals(String.valueOf(productlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(productlevelDdlb.getValue()));
+
             value = map.get(Constants.SALES_INCLUSION_DDLB);
             if (!CommonUtils.nullCheck(value)) {
                 CommonUtils.setCustomMenuBarValuesInEdit(value, salesInclusionValues);
@@ -1447,7 +1453,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         sessionDTO.setProjectionId(projectionId);
         levelFilter.removeValueChangeListener(levelFilterChangeOption);
         loadLevelAndFilterValue();
-        pvSelectionDTO.setIslevelFiler(false);
+         pvSelectionDTO.setIslevelFiler(false);
         loadResultTable(0, "");
         levelFilter.addValueChangeListener(levelFilterChangeOption);
     }
@@ -1841,7 +1847,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                         if (!pvSelectionDTO.isIsCustomHierarchy()) {
                             parentKey = newKey.substring(0, newKey.lastIndexOf('.'));
                         } else {
-                            parentKey = getParentKeyforCustom(itemId, newKey, parentKey);
+                            parentKey = getParentKeyforCustom(itemId, newKey);
                         }
                         if (parentKey.lastIndexOf('.') >= 0) {
                             parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
@@ -2104,7 +2110,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         pvSelectionDTO.setPivotStartDate(startDate);
     }
 
-    private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey) {
+    private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key) {
         String parentKeyCustom;
         if (itemId.getParentHierarchyNo() == null) {
             parentKeyCustom = key;

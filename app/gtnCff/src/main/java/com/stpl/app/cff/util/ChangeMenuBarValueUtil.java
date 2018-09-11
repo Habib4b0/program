@@ -10,12 +10,20 @@ import java.util.Iterator;
 import java.util.List;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.custommenubar.MenuItemDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author vinodhini.palanisamy
  */
 public class ChangeMenuBarValueUtil {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChangeMenuBarValueUtil.class);
+
+    private ChangeMenuBarValueUtil() {
+        LOGGER.debug("Entering ChangeMenuBarValueUtil ");
+    }
+
 
     public static String getMenuItemToDisplay(CustomMenuBar.CustomMenuItem customerFilterValues) {
         String defaultValue = "-Select Level-";

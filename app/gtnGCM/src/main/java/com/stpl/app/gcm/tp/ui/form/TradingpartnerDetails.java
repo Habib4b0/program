@@ -286,9 +286,9 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
     public void createWorkSheet(String moduleName, ExtFilterTable resultTable)  {
         try {
             long recordCount = 0;
-            CommmonLogic logic = new CommmonLogic();
+            CommmonLogic logicWorkSheet = new CommmonLogic();
             if (resultTable.size() != 0) {
-                List list = logic.getContractResults(CommmonLogic.getSubmittedRecords(session, StringUtils.EMPTY, false));
+                List list = logicWorkSheet.getContractResults(CommmonLogic.getSubmittedRecords(session, StringUtils.EMPTY, false));
                 recordCount = list.size();
             }
             String[] headers =  Arrays.stream(resultTable.getColumnHeaders()).filter(e -> !e.isEmpty()).toArray(String[]::new);
@@ -301,9 +301,9 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
         LOGGER.debug("Entering createWorkSheetContent with start {}  end  {} " , start , end);
         try {
-            CommmonLogic logic = new CommmonLogic();
+            CommmonLogic logicContent = new CommmonLogic();
             if (tradingPartnerDetailsContainer.size() > 0) {
-                List<ContractResultDTO> checkedContractList = logic.getContractResults(CommmonLogic.getSubmittedRecords(session, StringUtils.EMPTY, false));
+                List<ContractResultDTO> checkedContractList = logicContent.getContractResults(CommmonLogic.getSubmittedRecords(session, StringUtils.EMPTY, false));
                 Object[] columns = tradingPartnerDetailsTable.getVisibleColumns();
                 columns = ArrayUtils.removeElement(columns, Constants.CHECK_RECORD);
                 ExcelExportforBB.createFileContent(columns, checkedContractList, printWriter);

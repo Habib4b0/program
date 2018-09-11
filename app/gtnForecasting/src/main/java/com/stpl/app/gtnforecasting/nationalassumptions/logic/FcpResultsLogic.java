@@ -417,7 +417,7 @@ public class FcpResultsLogic {
                 if (list != null && !list.isEmpty()) {
                     for (int i = 0; i < list.size(); i++) {
 
-                        final Object[] obj = (Object[]) list.get(i);
+                        final Object[] obj = list.get(i);
 
                         int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE]));
                         int period = 0;

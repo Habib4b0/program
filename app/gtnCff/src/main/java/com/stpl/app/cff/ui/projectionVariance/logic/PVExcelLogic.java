@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -270,7 +269,7 @@ public class PVExcelLogic {
         String frequency = checkFrequency(selection.getFrequency());
         projectionIdList.add(selection.getCurrentProjId());
         projectionIdList.addAll(selection.getProjIdList());
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionId = CommonUtils.collectionToString(projectionIdList, false);
         String viewName=selection.getView().equalsIgnoreCase(CUSTOM_CONSTANT)?String.valueOf(D_INDICATOR):selection.getView();
         Object[] orderedArg = {projectionId,selection.getSessionDTO().getLevelHierarchyNo(), frequency,null,null,
            selection.getSessionDTO().getUserId() ,selection.getSessionDTO().getSessionId() ,viewName, 
@@ -310,7 +309,7 @@ public class PVExcelLogic {
             projectionIdList.add(projId);
         }
         
-        String projectionIds = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionIds = CommonUtils.collectionToString(projectionIdList, false);
         String viewName = selection.getView().equalsIgnoreCase(CUSTOM_CONSTANT) ? String.valueOf(D_INDICATOR) : selection.getView();
         Object[] orderedArg = {projectionIds, selection.getSessionDTO().getLevelHierarchyNo(), frequency, null, null,
             selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(), viewName,
@@ -338,7 +337,7 @@ public class PVExcelLogic {
         projectionIdList.add(selection.getCurrentProjId());
         projectionIdList.addAll(selection.getProjIdList());
         String frequency = selection.getFrequency();
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionId = CommonUtils.collectionToString(projectionIdList, false);
         String levelNo= selection.getView().equalsIgnoreCase(CUSTOMER_VARIABLE)? selection.getSessionDTO().getProductLevelNumber():selection.getSessionDTO().getCustomerLevelNumber();
         levelNo = selection.getView().equalsIgnoreCase(CUSTOM_CONSTANT) ? "1" : levelNo;
         List<Object[]> rawList;
@@ -371,7 +370,7 @@ public class PVExcelLogic {
         projectionIdList.add(selection.getCurrentProjId());
         projectionIdList.addAll(selection.getProjIdList());
         String frequency = selection.getFrequency();
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionId = CommonUtils.collectionToString(projectionIdList, false);
       
         String levelNo= selection.getView().equalsIgnoreCase(CUSTOMER_VARIABLE)? selection.getSessionDTO().getProductLevelNumber():selection.getSessionDTO().getCustomerLevelNumber();
         levelNo = selection.getView().equalsIgnoreCase(CUSTOM_CONSTANT) ? "1" : levelNo;
@@ -1366,7 +1365,7 @@ public class PVExcelLogic {
         for (Integer projId : projSelDTO.getProjIdList()) {
             projectionIdList.add(String.valueOf(projId));
         }
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionId = CommonUtils.collectionToString(projectionIdList, false);
         String discountLevelName = !projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDeductionLevelValues() : projSelDTO.getDiscountLevel();
         discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM_CATEGORY) ? PROGRAM_TYPESMALL : discountLevelName;
         discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM) ? SCHEDULE_ID : discountLevelName;
@@ -3264,10 +3263,10 @@ public class PVExcelLogic {
 
 
     private void setBaseValue(ProjectionVarianceDTO discountDto, Object[] obj) {
-        addList_detail_discount_Pivot(discountDto,obj);
+        addListDetailDiscountPivot(discountDto,obj);
     }
     
-       private void addList_detail_discount_Pivot(ProjectionVarianceDTO discountDto, Object[] obj) {
+       private void addListDetailDiscountPivot(ProjectionVarianceDTO discountDto, Object[] obj) {
         String discountName = String.valueOf(obj[NumericConstants.FOURTEEN]).replace(" ", StringUtils.EMPTY);
         String head = discountName + String.valueOf(discountNameMap.get(discountName));
         if (selection.isVarDisAmount()) {
@@ -3410,7 +3409,7 @@ public class PVExcelLogic {
 					hierarchyAndTPkeys(obj, key, pvList);
                 }
             } else if (obj[obj.length - 1] != null && !isTotal) {
-                Object[] temp = rawList.get(i - 1) == null ? new Object[0] : (Object[]) rawList.get(i - 1);
+                Object[] temp = rawList.get(i - 1) == null ? new Object[0] : rawList.get(i - 1);
                 String currValue = obj[1].toString();
                 String tempValue = temp[1] == null ? "oldtempValue"
                         : temp[1].toString();
@@ -3455,8 +3454,8 @@ public class PVExcelLogic {
 
     public String getFormattedExcelColumns(ProjectionVarianceDTO detail, PVSelectionDTO selection, Object[] obj) {
         Map<String,List> listData=!selection.isIsCustomHierarchy()? selection.getSessionDTO().getHierarchyLevelDetails():selection.getSessionDTO().getCustomDescription();
-        List<String> groupName = CommonUtils.getFormattedDisplayName(obj[1].toString(), selection.getHierarchyIndicator(),
-                listData, selection.getSessionDTO(), selection.getDisplayFormat());
+        List<String> groupName = CommonUtils.getFormattedDisplayName(obj[1].toString(),
+                listData, selection.getDisplayFormat());
         detail.setGroup(groupName.toString());
 
         if (selection.getDisplayFormat().length == 1 && selection.getDisplayFormat().length > 0) {

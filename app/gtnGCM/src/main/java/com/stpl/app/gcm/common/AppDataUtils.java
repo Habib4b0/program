@@ -23,6 +23,11 @@ public class AppDataUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(AppDataUtils.class);
     private static final CommonDao ITEMDAO = CommonImpl.getInstance();
 
+    
+    private AppDataUtils()
+    {
+        LOGGER.debug("AppDataUtils");
+    }
     public static List getGroupList() {
         return new ArrayList();
     }
