@@ -20,24 +20,6 @@ import java.util.Map;
  */
 public interface SalesProjectionDAO {
 
-       /**
-     * Gets the pmpy trading partner list.
-     *
-     * @param tpName the tp name
-     * @return the pmpy trading partner list
-     * @throws Exception the exception
-     */
-    List<String> getPMPYTradingPartnerList(String tpName) throws  PortalException;
-
-    /**
-     * Gets the pmpy contract holder.
-     *
-     * @return the pmpy contract holder
-     * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
-     */
-    List<String> getPMPYContractHolder(DynamicQuery dynamicQuery) throws  PortalException;
 /**
  * 
  * @param query

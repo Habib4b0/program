@@ -26,7 +26,6 @@ import com.stpl.app.gtnforecasting.projectionvariance.form.MProjectionVariance;
 import com.stpl.app.gtnforecasting.projectionvariance.form.NMProjectionVariance;
 import com.stpl.app.gtnforecasting.salesprojection.form.MSalesProjection;
 import com.stpl.app.gtnforecasting.salesprojection.form.NMSalesProjection;
-import com.stpl.app.gtnforecasting.salesprojection.form.ReturnsProjection;
 import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
 import com.stpl.app.gtnforecasting.salesprojectionresults.form.MSalesProjectionResults;
 import com.stpl.app.gtnforecasting.salesprojectionresults.form.NMSalesProjectionResults;
@@ -196,7 +195,6 @@ public class ForecastForm extends AbstractForm {
 	 * Object for Additional Information Tab.
 	 */
 	private ManagedDiscountProjectionResult mmdiscountProjectionResultsForMandated;
-	private ReturnsProjection returnsProjection;
 	private DataAssumptions dataAssumptions;
 	/**
 	 * Tabsheet containing all the screens.
@@ -771,192 +769,6 @@ public class ForecastForm extends AbstractForm {
     private boolean isListViewWithDiscountFlag() {
         return discountProjection.isListviewGenerated() && discountFlag;
     }
-
-	private void onTabChangeForReturns() {
-		try {
-
-			if ((lastPosition == data.getTabNumber()) && (data.isUpdateOnTabChange() && dsFlag)) {
-				dsFlag = false;
-				tempTabPosition = tabPosition;
-				tabSheet.setSelectedTab(0);
-				new AbstractNotificationUtils() {
-					@Override
-					public void yesMethod() {
-						try {
-							if (data.isReturnsDataSelectionValid()) {
-
-								data.updateDataSelection();
-								data.updateDataSelectionSelectedProducts();
-								data.updateProjectionProdHierarchy();
-								dsLogic.updateReturnDetails(session);
-								session.setReturnsDetailsMap(dsLogic.getReturnDetails(session, true));
-								dsLogic.callInsertProcedure(session.getProjectionId(), session.getUserId(),
-										session.getSessionId(), SalesUtils.RETURNS_SALES_INSERT_PRO_NAME);
-								if (session.isFromDateChanged()) {
-									DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
-									session.setFromDateChanged(false);
-								}
-								tabSheet.setSelectedTab(tempTabPosition);
-								tabPosition = tempTabPosition;
-								dsFlag = true;
-
-								returnsProjection.getCustomContainer().removeAllItems();
-								returnsProjection.init();
-
-							} else {
-
-									Tab tabToReset = tabSheet.getTab(1);
-									tabSheet.removeTab(tabToReset);
-									tabSheet.addTab(returnsProjection, Constant.RETURNS_PROJECTION, null, 1);
-									tabSheet.setSelectedTab(0);
-									data.configureOnLoading(session.getProjectionId(), dataSelectionDTO);
-									tabPosition = 0;
-									dsFlag = true;
-								AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
-										Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
-							}
-						} catch (PortalException | SystemException | IOException | ClassNotFoundException ex) {
-							LOGGER.error(ex.getMessage());
-						}
-					}
-
-					@Override
-					public void noMethod() {
-						try {
-							Tab tabToReset = tabSheet.getTab(1);
-							tabSheet.removeTab(tabToReset);
-							tabSheet.addTab(returnsProjection, Constant.RETURNS_PROJECTION, null, 1);
-							tabSheet.setSelectedTab(0);
-							data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
-							tabPosition = 0;
-
-						} catch (Exception ex) {
-							LOGGER.error(ex.getMessage());
-						}
-						dsFlag = true;
-					}
-				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
-						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
-				data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
-				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
-			}
-			if ((tabPosition == data.getTabNumber()) && (data.isReloadAfterUpdate())) {
-					data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
-			}
-			lastPosition = tabPosition;
-		} catch (Exception ex) {
-			LOGGER.error(ex.getMessage());
-		}
-	}
-
-	private void onTabChangeForMandated() {
-
-		try {
-
-			if ((lastPosition == data.getTabNumber()) && ((data.isUpdateOnTabChange() || data.isCustomChange()) && dsFlag)) {
-				dsFlag = false;
-				tempTabPosition = tabPosition;
-				tabSheet.setSelectedTab(0);
-				new AbstractNotificationUtils() {
-					@Override
-					public void yesMethod() {
-							if (data.isDataSelectionValid()) {
-                                                            try {
-                                                                data.updateDataSelection();
-                                                                nmSalesInsertProcedure();
-                                                                if (session.isFromDateChanged()) {
-                                                                    
-                                                                    DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
-                                                                    session.setFromDateChanged(false);
-                                                                }
-                                                                tabSheet.setSelectedTab(tempTabPosition);
-                                                                tabPosition = tempTabPosition;
-                                                                dsFlag = true;
-                                                                salesProjectionForMandated.init();
-                                                                salesProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
-                                                                discountProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
-                                                                projectionVarianceForMandated.getBeanContainerResult().removeAllItems();
-                                                                mmdiscountProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
-                                                            } catch (PortalException | ClassNotFoundException | IOException ex) {
-                                                                LOGGER.error(ex.getMessage());
-                                                            }
-							} else {
-
-									Tab tabToReset = tabSheet.getTab(1);
-									tabSheet.removeTab(tabToReset);
-									tabSheet.addTab(salesProjectionForMandated, Constant.SALES_PROJECTION, null, 1);
-									tabSheet.setSelectedTab(0);
-									data.configureOnLoading(session.getProjectionId(), dataSelectionDTO);
-									tabPosition = 0;
-									dsFlag = true;
-								AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
-										Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
-							}
-					}
-
-					@Override
-					public void noMethod() {
-							Tab tabToReset = tabSheet.getTab(1);
-							tabSheet.removeTab(tabToReset);
-							tabSheet.addTab(salesProjectionForMandated, Constant.SALES_PROJECTION, null, 1);
-							tabSheet.setSelectedTab(0);
-							data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
-							tabPosition = 0;
-						dsFlag = true;
-					}
-				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
-						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
-				data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
-				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
-			}
-			switch (tabPosition) {
-
-			case Constant.ZERO:
-				if (data.isReloadAfterUpdate()) {
-						data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
-				}
-				break;
-			case Constant.TWO:
-				salesProjectionResultsForMandated.configureScreen();
-				session.setSprRefreshReqd(true);
-				break;
-			case Constant.THREE:
-				if (validationFlag && Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
-					validationFlag = false;
-				}
-				break;
-			case Constant.FOUR:
-				discountProjectionResultsForMandated.configureScreen();
-				if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())
-						&& !this.salesProjectionForMandated.isSalesCalculated()) {
-					Object[] orderedArgs = { session.getProjectionId(), session.getUserId(), "SPAP",
-							session.getSessionId() };
-					CommonLogic.callProcedureforUpdate(Constant.PRC_M_DISCOUNT_INSERT, orderedArgs);
-				}
-				session.setDprRefreshReqd(true);
-				break;
-			case Constant.FIVE:
-
-				mandatedprojectionResults.configureScreen();
-				session.setPrRefreshReqd(true);
-				break;
-			case Constant.SIX:
-				projectionVarianceForMandated.configureScreen();
-				projectionVarianceForMandated.getContractTypeList().clear();
-				break;
-			case Constant.SEVEN:
-				break;
-			default:
-				break;
-
-			}
-			lastPosition = tabPosition;
-
-		} catch (Exception ex) {
-			LOGGER.error(ex.getMessage());
-		}
-
-	}
 
 	/**
 	 * To implement tabsheet lazy loading.

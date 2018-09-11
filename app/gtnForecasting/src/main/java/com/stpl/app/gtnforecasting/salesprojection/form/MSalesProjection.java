@@ -453,11 +453,6 @@ public class MSalesProjection extends ForecastSalesProjection {
             newBtn.setVisible(BooleanConstant.getFalseFlag());
             editBtn.setVisible(BooleanConstant.getFalseFlag());
         }
-        if (functionPsHM.get(CommonUtils.PMPY) != null && ((AppPermission) functionPsHM.get(CommonUtils.PMPY)).isFunctionFlag()) {
-            pmpy.setVisible(true);
-        } else {
-            pmpy.setVisible(false);
-        }
         if (functionPsHM.get(CommonUtils.ALT_HISTORY_BTN) != null && ((AppPermission) functionPsHM.get(CommonUtils.ALT_HISTORY_BTN)).isFunctionFlag()) {
             altHistoryBtn.setVisible(true);
         } else {
