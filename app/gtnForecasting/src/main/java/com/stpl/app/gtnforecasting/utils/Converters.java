@@ -255,12 +255,6 @@ public class Converters {
         return dataSelectionDTOs;
     }
     
-    private static Integer getDiscountSid(Object[] objects) {
-    	String twentyOne =  objects[NumericConstants.TWENTY_ONE].toString();
-    	String finalString = objects[NumericConstants.TWENTY_ONE] == null ? DASH : twentyOne;
-    	return Integer.valueOf(finalString);
-    }
-    
     private static Integer getDeductionRelationShipVersionNo(Object[] objects) {
     	String thirtyTwo = objects[NumericConstants.THIRTY_TWO].toString();
     	String tobeparsedString = objects[NumericConstants.THIRTY_TWO] == null ? DASH : thirtyTwo;
@@ -275,16 +269,6 @@ public class Converters {
     private static Integer getCustomDeductionRelationShipSid(Object[] objects) {
     	String thirtyFourNullChecked = objects[NumericConstants.THIRTY_FOUR] == null ? DASH : objects[NumericConstants.THIRTY_FOUR].toString();
     	return Integer.valueOf(thirtyFourNullChecked);
-    }
-    
-    private static String getDeductionLevel(Object[] objects) {
-    	String deductionLevel = String.valueOf(objects[NumericConstants.THIRTY_FIVE]);
-    	return convertNullToEmpty(deductionLevel);
-    }
-    
-    private static String getDeductionValue(Object[] objects) {
-    	String deductionValue = String.valueOf(objects[NumericConstants.THIRTY_SIX]);
-    	return convertNullToEmpty(deductionValue);
     }
 
     public static DataSelectionDTO getProjection(List resultList) throws ParseException {

@@ -76,7 +76,6 @@ public class HeaderUtils {
         String projections = projSelDTO.getActualsOrProjections();
         String pivotView = projSelDTO.getPivotView();
         String frequency = projSelDTO.getFrequency();
-         List<String> colList = new ArrayList<>();
         CommonUtils.getHistoryAndProjectionDetails(projSelDTO);
 
         int historyNum = projSelDTO.getHistoryNum();

@@ -201,7 +201,6 @@ public abstract class ForecastPVComparisonLookup extends Window{
      * Comparison custom text field
      */
     protected CustomTextField comparison;
-    private final HeaderUtils headerUtils = new HeaderUtils();
     /**
      * 
      * @param screenName 

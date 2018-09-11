@@ -3653,27 +3653,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         }
     }
 
-    private Integer[] getPeriod(Object key, int frequencyDivision) {
-        Integer[] periods = new Integer[NumericConstants.TWO];
-        switch (frequencyDivision) {
-            case 1:
-                periods[0] = Integer.valueOf(key.toString().substring(0, NumericConstants.FOUR));
-                break;
-            case NumericConstants.TWO | NumericConstants.FOUR :
-                periods[0] = (int) key.toString().charAt(1) - NumericConstants.FORTY_EIGHT;
-                periods[1] = Integer.valueOf(key.toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
-                break;
-            case NumericConstants.TWELVE:
-                periods[0] = CommonUtils.getIntegerForMonth(StringUtils.capitalize(key.toString().substring(0, NumericConstants.THREE)));
-                periods[1] = Integer.valueOf(key.toString().substring(NumericConstants.FOUR, NumericConstants.EIGHT));
-                break;
-            default:
-                LOGGER.warn("frequencyDivision is not valid= {} " , frequencyDivision);
-                break;
-        }
-        return periods;
-    }
-
     public boolean validateForAlternateHistory() {
         if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
 

@@ -333,46 +333,6 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
         }
     }
 
-    /**
-     * Common for all three modules
-     *
-     * @param levelList
-     * @param count
-     * @param treeLevel
-     * @param expandLevelNo
-     * @param flag
-     * @throws Exception
-     */
-    private void customizeResult(List<Leveldto> levelList, int count, String treeLevel, int expandLevelNo, boolean flag,String hierarchyIndicator, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo) {
-        int size = levelList != null ? levelList.size() : 0;
-        int index = count - size+1;
-        for (int j = 0; j < size; j++) {
-            Leveldto levelDto = levelList.get(j);
-            String customTreeLevel = treeLevel + (index+j) + ".";
-            ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
-            dto.setLevelNo(flag ? levelDto.getLevelNo() : projSelDTO.getLevelNo());
-            dto.setTreeLevelNo(flag ? levelDto.getTreeLevelNo() : projSelDTO.getTreeLevelNo());
-            dto.setParentNode(flag ? levelDto.getParentNode() : projSelDTO.getParentNode());
-            dto.setLevelValue(flag ? levelDto.getRelationshipLevelValue() : projSelDTO.getLevelValue());
-            dto.setHierarchyIndicator(flag ? levelDto.getHierarchyIndicator() : hierarchyIndicator);
-            dto.setHierarchyNo(flag ? levelDto.getHierarchyNo() : hierarchyNo);
-            if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                dto.setCustomerHierarchyNo(dto.getHierarchyNo());
-                dto.setProductHierarchyNo(productHierarchyNo);
-            } else if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                dto.setProductHierarchyNo(dto.getHierarchyNo());
-                dto.setCustomerHierarchyNo(customerHierarchyNo);
-            } else {
-                dto.setProductHierarchyNo(productHierarchyNo);
-                dto.setCustomerHierarchyNo(customerHierarchyNo);
-            }
-                dto.setGroup(flag ? projSelDTO.getSessionDTO().getLevelValueDiscription(levelDto.getHierarchyNo(), levelDto.getHierarchyIndicator()) : projSelDTO.getGroupFilter());
-            dto.setParent(1);
-            addExpandedTreeList(customTreeLevel, dto);
-            recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
-        }
-        LOGGER.debug("Ending customizeResult");
-    }
 
     public String getScreenName() {
         return screenName;

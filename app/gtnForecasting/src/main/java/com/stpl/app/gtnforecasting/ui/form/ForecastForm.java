@@ -186,11 +186,6 @@ public class ForecastForm extends AbstractForm {
 	 */
 	private TabSheet tabSheet;
 	/**
-	 * The projection id.
-	 */
-
-	private boolean validationFlag = true;
-	/**
 	 * Map for lazy loading.
 	 */
 	private final Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
@@ -1096,11 +1091,6 @@ public class ForecastForm extends AbstractForm {
 	}
 
 
-
-    private boolean isNonMandated(String screenName1) {
-        return CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName1) && nmSalesProjection.getSubmitFlag() == true && discountProjection.getSubmitFlag() == true;
-    }
-
 	/**
 	 * Saves the projection.
 	 */
@@ -1945,84 +1935,6 @@ public class ForecastForm extends AbstractForm {
         }
     }
         
-	private void governmentConfiguration() {
-		switch (session.getAction().toLowerCase(Locale.ENGLISH)) {
-		case Constant.ADD_FULL_SMALL:
-
-			session.addFutureMap(Constant.FILE_INSERT, new Future[] { service.submit(
-					commUtil.createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCall())) });
-			session.addFutureMap(Constant.PROJ_HIERARCHY_INSERT,
-					new Future[] {
-							// PROJECTION_CUST_HIERARCHY INSERT CALL
-							service.submit(commUtil.createRunnable(Constant.CUST_HIERARCHY_INSERT,
-									dataSelectionDTO.getProjectionId(),
-									dataSelectionDTO.getSelectedCustomerRelationSid(), Boolean.FALSE)),
-							// PROJECTION_PROD_HIERARCHY INSERT CALL
-							service.submit(commUtil.createRunnable(Constant.PROD_HIERARCHY_INSERT,
-									dataSelectionDTO.getProjectionId(),
-									dataSelectionDTO.getSelectedProductRelationSid(), Boolean.FALSE)) });
-			// To load the data selection tab once the PROJECTION_CUST AND
-			// PROJECTION_PROD GET EXCUTE
-			session.addFutureMap(Constant.DATA_SELECTION_TAB_LOAD,
-					new Future[] {
-							service.submit(commUtil.createRunnable(Constant.DATA_SELECTION_TAB_LOAD,
-									data, session.getFutureValue(Constant.PROJ_HIERARCHY_INSERT))) });
-			// To insert the Projection details table
-			session.addFutureMap(Constant.PROJECTION_DETAILS_INSERT, new Future[] {
-					service.submit(commUtil.createRunnable(Constant.PROJECTION_DETAILS_INSERT,
-							dataSelectionDTO.getProjectionId(), session.getCurrentTableNames(), Boolean.FALSE)) });
-			// Call sales Insert Procedure
-			nmSalesInsertProcedure();
-			commUtil
-					.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
-			// Call supplement Insert Procedure
-			supplementDiscountProcedure();
-
-			commUtil
-					.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SUPPLEMENTAL_INSERT_PRC));
-			// Call supplement Insert Procedure
-			mDiscountProcedure();
-			break;
-		case Constant.EDIT_SMALL:
-			// Main to temp insert
-			session.addFutureMap(Constant.FILE_INSERT, new Future[] { service.submit(
-					commUtil.createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCall())) });
-			logic.mainToTempTableInsertForMandated(session, service);
-
-			session.addFutureMap(Constant.DATA_SELECTION_TAB_LOAD, new Future[] {
-					service.submit(commUtil.createRunnable(Constant.DATA_SELECTION_TAB_LOAD, data)) });
-
-			// Call sales Insert Procedure
-			nmSalesInsertProcedure();
-			// supplement discount insert threads need to be completed before
-			// calling supplement discound procedure thread
-			commUtil.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SUPPLEMENTAL));
-			// Call supplement Insert Procedure
-			supplementDiscountProcedure();
-
-			// Call supplement Insert Procedure
-			mDiscountProcedure();
-			break;
-
-		case Constant.VIEW:
-
-			session.addFutureMap(Constant.FILE_INSERT, new Future[] { service.submit(
-					commUtil.createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCall())) });
-			// Main to temp insert
-			logic.mainToTempTableInsertForMandated(session, service);
-
-			session.addFutureMap(Constant.DATA_SELECTION_TAB_LOAD, new Future[] {
-					service.submit(commUtil.createRunnable(Constant.DATA_SELECTION_TAB_LOAD, data)) });
-
-			// Call supplement Insert Procedure
-			mDiscountProcedure();
-			break;
-		default:
-			break;
-
-		}
-	}
-
 	/**
 	 * This method is to check whether any thread is running or not If it its
 	 * running we will make it wait untill the thread get executed
