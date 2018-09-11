@@ -46,8 +46,8 @@ public class GtnProductLevelAvailableTableLoadAction
 					.getCustomData();
 			int relationshipBuilderSID = Integer.parseInt(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(actionParamList.get(2).toString(), componentId).getCaptionFromV8ComboBox());
-			int hierarchyBuilderSid = Integer
-					.valueOf(String.valueOf(recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1)));
+			int hierarchyBuilderSid = Integer.parseInt(
+					String.valueOf(recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1)));
 			int hierarchyVersionNo = Integer.parseInt(
 					GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(3).toString(), componentId)
 							.getStringCaptionFromV8ComboBox());
@@ -172,7 +172,7 @@ public class GtnProductLevelAvailableTableLoadAction
 	}
 
 	public String loadAvailableProductlevel(GtnReportHierarchyLevelBean selectedHierarchyLevelDto, int relationshipSid,
-			boolean isNdc, int relationVersionNo, int businessUnitValue) throws CloneNotSupportedException {
+			boolean isNdc, int relationVersionNo, int businessUnitValue) {
 
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setRelationShipBuilderSid(relationshipSid);

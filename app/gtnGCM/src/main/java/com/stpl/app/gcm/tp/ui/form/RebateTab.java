@@ -74,7 +74,7 @@ public class RebateTab extends VerticalLayout {
     @UiField("history")
     public ComboBox history;
     private CustomTableHeaderDTO tableHeader = new CustomTableHeaderDTO();
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     /**
      * The Constant LOGGER.
      */
@@ -416,7 +416,7 @@ public class RebateTab extends VerticalLayout {
      * @return the list
      */
     protected final List<String> loadHistory(String frequency, String period) {
-        List<String> history = new ArrayList<>();
+        List<String> historyLoad = new ArrayList<>();
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.equals(frequency)) {
@@ -439,13 +439,13 @@ public class RebateTab extends VerticalLayout {
         for (int i = 1; i <= endValue; i++) {
             if ((i == 1) && (QUARTERS.getConstant().equals(freq) || MONTHS.getConstant().equals(freq) || YEARS.getConstant().equals(freq))) {
                 period = freq.replace("s", StringUtils.EMPTY);
-                history.add(String.valueOf(i) + SPACE + period);
+                historyLoad.add(String.valueOf(i) + SPACE + period);
             } else {
-                history.add(String.valueOf(i) + SPACE + freq);
+                historyLoad.add(String.valueOf(i) + SPACE + freq);
             }
         }
 
-        return history;
+        return historyLoad;
     }
 
 	public boolean isLoad() {

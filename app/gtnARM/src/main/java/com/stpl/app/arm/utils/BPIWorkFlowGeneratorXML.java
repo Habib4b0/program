@@ -78,11 +78,11 @@ public class BPIWorkFlowGeneratorXML {
         HashMap hm = new HashMap();
 
         try {
-            File file = com.stpl.ifs.util.CommonUtil.getFilePath(fileWithPath);
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(file);
+            File files = com.stpl.ifs.util.CommonUtil.getFilePath(fileWithPath);
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            DocumentBuilder db = builderFactory.newDocumentBuilder();
+            Document doc = db.parse(files);
             doc.getDocumentElement().normalize();
 
             String updateDate = "NA";

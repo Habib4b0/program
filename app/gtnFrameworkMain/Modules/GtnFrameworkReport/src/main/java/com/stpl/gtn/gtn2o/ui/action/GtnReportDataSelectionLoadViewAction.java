@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -52,13 +51,8 @@ public class GtnReportDataSelectionLoadViewAction
 			String viewData = (String) recordBean.getPropertyValueByIndex(5);
 			String nameSpace = actionParamList.get(2).toString();
 			gtnLogger.info("nameSpace" + nameSpace);
-			GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
-			try {
-				dataSelectionBean = (GtnWsReportDataSelectionBean) convertJsonToObject(
-						GtnWsReportDataSelectionBean.class, viewData.replaceAll("\\\\", "'"));
-			} catch (IOException e) {
-				gtnLogger.error("Error in converting Bean", e);
-			}
+			GtnWsReportDataSelectionBean dataSelectionBean = convertJsonToObject(GtnWsReportDataSelectionBean.class,
+					viewData.replaceAll("\\\\", "'"));
 			GtnWsRecordBean customerHierarchyRecordBean = dataSelectionBean.getCustomerHierarchyRecordBean();
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
@@ -107,8 +101,7 @@ public class GtnReportDataSelectionLoadViewAction
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
 					nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel", componentId)
-					.loadV8ComboBoxComponentValue(
-							Integer.valueOf(dataSelectionBean.getCustomerHierarchyForecastLevel()));
+					.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomerHierarchyForecastLevel());
 
 			String dsCustomerTableId = nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox";
 			GtnUIFrameworkBaseComponent abstractComponent = GtnUIFrameworkGlobalUI
@@ -158,8 +151,7 @@ public class GtnReportDataSelectionLoadViewAction
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
 							nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "level", componentId)
-					.loadV8ComboBoxComponentValue(
-							Integer.valueOf(dataSelectionBean.getProductHierarchyForecastLevel()));
+					.loadV8ComboBoxComponentValue(dataSelectionBean.getProductHierarchyForecastLevel());
 
 			String productTableComponentId = nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 					+ "productdualListBoxComp";
@@ -179,14 +171,13 @@ public class GtnReportDataSelectionLoadViewAction
 			gtnUIFrameworkProductHierarchyTreeBuilder.loadRightTreeTable(dsProductRightTable, 1);
 			dsProductRightTable.getDataProvider().refreshAll();
 			dsProductRightTable.markAsDirty();
-                        
-                        if(dataSelectionBean.getCustomView()!=null){
-                            GtnUIFrameworkGlobalUI
-                                            .getVaadinBaseComponentFromParent(
-                                                            nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView",
-                                                            componentId)
-                                            .loadV8ComboBoxComponentValue(String.valueOf(dataSelectionBean.getCustomView()));
-                        }
+
+			if (dataSelectionBean.getCustomView() != null) {
+				GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponentFromParent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ "displaySelectionTabCustomView", componentId)
+						.loadV8ComboBoxComponentValue(String.valueOf(dataSelectionBean.getCustomView()));
+			}
 			int frequency = dataSelectionBean.getFrequency();
 			if (frequency != 0) {
 				GtnUIFrameworkGlobalUI
@@ -225,10 +216,10 @@ public class GtnReportDataSelectionLoadViewAction
 			}
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_reportOptionsTabVariableBreakdown")
-					.getComponentData().setCustomData(
-							Optional.ofNullable(dataSelectionBean.getVariableBreakdownSaveList()).isPresent() == true
-									? dataSelectionBean.getVariableBreakdownSaveList()
-									: new ArrayList<>());
+					.getComponentData()
+					.setCustomData(Optional.ofNullable(dataSelectionBean.getVariableBreakdownSaveList()).isPresent()
+							? dataSelectionBean.getVariableBreakdownSaveList()
+							: new ArrayList<>());
 		} catch (Exception ex) {
 			gtnLogger.error("Error message", ex);
 		}
@@ -243,7 +234,7 @@ public class GtnReportDataSelectionLoadViewAction
 	}
 
 	private GtnWsReportDataSelectionBean convertJsonToObject(Class<GtnWsReportDataSelectionBean> dataSelectionBean,
-			String viewData) throws JsonMappingException, IOException {
+			String viewData) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.readValue(viewData, dataSelectionBean);
 	}

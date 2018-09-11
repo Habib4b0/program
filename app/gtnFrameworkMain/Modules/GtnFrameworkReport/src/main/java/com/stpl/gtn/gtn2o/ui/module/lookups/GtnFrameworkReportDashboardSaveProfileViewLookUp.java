@@ -20,18 +20,19 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 
 public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
+
 	private GtnFrameworkReportLayoutsConfig layoutConfig = new GtnFrameworkReportLayoutsConfig();
 
 	public GtnUIFrameworkViewConfig getSaveViewLookUpView(String namespace) {
 
 		GtnUIFrameworkViewConfig reportDashboardSaveProfileView = new GtnUIFrameworkViewConfig();
 		reportDashboardSaveProfileView.setViewName("Save View Popup");
-		reportDashboardSaveProfileView.setViewId(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
+		reportDashboardSaveProfileView
+				.setViewId(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
 		reportDashboardSaveProfileView.setDefaultView(false);
 		addReportDashboardSaveProfileComponentList(reportDashboardSaveProfileView, namespace);
 		return reportDashboardSaveProfileView;
 	}
-
 
 	private void addReportDashboardSaveProfileComponentList(GtnUIFrameworkViewConfig view, String namespace) {
 		List<GtnUIFrameworkComponentConfig> reportDashboardSaveProfileComponentList = new ArrayList<>();
@@ -52,12 +53,13 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 				reportDashboardSaveProfileHorizontalLayoutButton.getComponentId(), namespace);
 	}
 
-
-	private void addReportDashboardSaveProfileRootLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
+	private void addReportDashboardSaveProfileRootLayout(List<GtnUIFrameworkComponentConfig> componentList,
+			String namespace) {
 
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileRootLayout = new GtnUIFrameworkComponentConfig();
 		reportDashboardSaveProfileRootLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		reportDashboardSaveProfileRootLayout.setComponentId(GtnFrameworkCommonConstants.SAVE_VIEW_LOOK_UP_ROOT_VERTICAL_LAYOUT);
+		reportDashboardSaveProfileRootLayout
+				.setComponentId(GtnFrameworkCommonConstants.SAVE_VIEW_LOOK_UP_ROOT_VERTICAL_LAYOUT);
 		reportDashboardSaveProfileRootLayout.setAddToParent(false);
 		reportDashboardSaveProfileRootLayout.setSpacing(true);
 		reportDashboardSaveProfileRootLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -65,7 +67,7 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		reportDashboardSaveProfileRootConfig.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		reportDashboardSaveProfileRootLayout.setGtnLayoutConfig(reportDashboardSaveProfileRootConfig);
 		componentList.add(reportDashboardSaveProfileRootLayout);
-		
+
 		addReportDashboardSaveProfilePanel(componentList, namespace);
 	}
 
@@ -88,7 +90,7 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 
 		GtnUIFrameworkComponentConfig horizontalLayout = layoutConfig.getVerticalLayoutConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "verticalLayout", panelId);
-		
+
 		componentList.add(horizontalLayout);
 
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileHorizontalLayoutType = layoutConfig
@@ -99,7 +101,8 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		reportDashboardSaveProfileHorizontalLayoutType.addComponentStyle("stpl-margin-top-10");
 		componentList.add(reportDashboardSaveProfileHorizontalLayoutType);
 
-		addreportDashboardSaveProfileTypeOptionGroup(componentList, reportDashboardSaveProfileHorizontalLayoutType.getComponentId(), namespace);
+		addreportDashboardSaveProfileTypeOptionGroup(componentList,
+				reportDashboardSaveProfileHorizontalLayoutType.getComponentId(), namespace);
 
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileHorizontalLayoutName = layoutConfig
 				.getHorizontalLayoutConfig("saveView-ViewName", horizontalLayout.getComponentId());
@@ -107,28 +110,33 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		reportDashboardSaveProfileHorizontalLayoutName.addComponentStyle("stpl-margin-left-84");
 		componentList.add(reportDashboardSaveProfileHorizontalLayoutName);
 
-		addReportDashboardSaveProfileNameTextField(componentList, reportDashboardSaveProfileHorizontalLayoutName.getComponentId(), namespace);
+		addReportDashboardSaveProfileNameTextField(componentList,
+				reportDashboardSaveProfileHorizontalLayoutName.getComponentId(), namespace);
 	}
 
-
-	private void addreportDashboardSaveProfileTypeOptionGroup(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+	private void addreportDashboardSaveProfileTypeOptionGroup(List<GtnUIFrameworkComponentConfig> componentList,
+			String parentId, String namespace) {
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileTypeOptionGroup = new GtnUIFrameworkComponentConfig();
 		reportDashboardSaveProfileTypeOptionGroup.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
-		reportDashboardSaveProfileTypeOptionGroup.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
+		reportDashboardSaveProfileTypeOptionGroup.setComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
 		reportDashboardSaveProfileTypeOptionGroup.setAddToParent(true);
 		reportDashboardSaveProfileTypeOptionGroup.setParentComponentId(parentId);
 		GtnUIFrameworkOptionGroupConfig comboConfig = new GtnUIFrameworkOptionGroupConfig();
 		comboConfig.setItemValues(Arrays.asList(GtnFrameworkCommonConstants.A_PRIVATE, "Public"));
 		comboConfig.setValuesFromService(false);
-		reportDashboardSaveProfileTypeOptionGroup.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE));
+		reportDashboardSaveProfileTypeOptionGroup
+				.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE));
 		reportDashboardSaveProfileTypeOptionGroup.setGtnUIFrameworkOptionGroupConfig(comboConfig);
 		componentList.add(reportDashboardSaveProfileTypeOptionGroup);
 	}
 
-	private void addReportDashboardSaveProfileNameTextField(List<GtnUIFrameworkComponentConfig> componentList, String parentId,String namespace) {
+	private void addReportDashboardSaveProfileNameTextField(List<GtnUIFrameworkComponentConfig> componentList,
+			String parentId, String namespace) {
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileNameTextField = new GtnUIFrameworkComponentConfig();
 		reportDashboardSaveProfileNameTextField.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
-		reportDashboardSaveProfileNameTextField.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"ReportDashboardSaveProfileNameTextField");
+		reportDashboardSaveProfileNameTextField.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_NAME_TEXT_FIELD);
 		reportDashboardSaveProfileNameTextField.setComponentName("View Name:");
 		reportDashboardSaveProfileNameTextField.setAddToParent(true);
 		reportDashboardSaveProfileNameTextField.setParentComponentId(parentId);
@@ -138,53 +146,69 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		componentList.add(reportDashboardSaveProfileNameTextField);
 	}
 
-	private void addReportDashboardControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
-			String namespace) {
+	private void addReportDashboardControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
+			String parentId, String namespace) {
 
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileSaveViewAdd = new GtnUIFrameworkComponentConfig();
 		reportDashboardSaveProfileSaveViewAdd.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		reportDashboardSaveProfileSaveViewAdd.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDashboardSaveProfileSaveViewAdd");
+		reportDashboardSaveProfileSaveViewAdd.setComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDashboardSaveProfileSaveViewAdd");
 		reportDashboardSaveProfileSaveViewAdd.setComponentName("ADD");
 		reportDashboardSaveProfileSaveViewAdd.setParentComponentId(parentId);
 		reportDashboardSaveProfileSaveViewAdd.setAddToParent(true);
-		
+
 		GtnUIFrameWorkActionConfig reportDashboardSaveProfileAddActionConfig = new GtnUIFrameWorkActionConfig();
 		reportDashboardSaveProfileAddActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reportDashboardSaveProfileAddActionConfig.addActionParameter(GtnReportingDashboardSaveProfileAddAction.class.getName());
-		reportDashboardSaveProfileAddActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
-		reportDashboardSaveProfileAddActionConfig.addActionParameter(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"ReportDashboardSaveProfileNameTextField");
-		reportDashboardSaveProfileAddActionConfig.addActionParameter(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
+		reportDashboardSaveProfileAddActionConfig
+				.addActionParameter(GtnReportingDashboardSaveProfileAddAction.class.getName());
+		reportDashboardSaveProfileAddActionConfig
+				.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
+		reportDashboardSaveProfileAddActionConfig
+				.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_NAME_TEXT_FIELD);
+		reportDashboardSaveProfileAddActionConfig.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
 		reportDashboardSaveProfileSaveViewAdd.addGtnUIFrameWorkActionConfig(reportDashboardSaveProfileAddActionConfig);
-		
+
 		componentList.add(reportDashboardSaveProfileSaveViewAdd);
 
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileSaveViewUpdate = new GtnUIFrameworkComponentConfig();
 		reportDashboardSaveProfileSaveViewUpdate.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		reportDashboardSaveProfileSaveViewUpdate.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDashboardSaveProfileSaveViewUpdate");
+		reportDashboardSaveProfileSaveViewUpdate.setComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDashboardSaveProfileSaveViewUpdate");
 		reportDashboardSaveProfileSaveViewUpdate.setComponentName("UPDATE");
 		reportDashboardSaveProfileSaveViewUpdate.setParentComponentId(parentId);
 		reportDashboardSaveProfileSaveViewUpdate.setAddToParent(true);
-		
+
 		GtnUIFrameWorkActionConfig reportDashboardUpdateProfileConfirmedUpdateActionConfig = new GtnUIFrameWorkActionConfig();
 		reportDashboardUpdateProfileConfirmedUpdateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reportDashboardUpdateProfileConfirmedUpdateActionConfig.addActionParameter(GtnFrameworkReportingDashboardConfirmUpdateProfileAction.class.getName());
-		reportDashboardUpdateProfileConfirmedUpdateActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
-		reportDashboardUpdateProfileConfirmedUpdateActionConfig.addActionParameter(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"ReportDashboardSaveProfileNameTextField");
-		reportDashboardUpdateProfileConfirmedUpdateActionConfig.addActionParameter(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
-		reportDashboardSaveProfileSaveViewUpdate.addGtnUIFrameWorkActionConfig(reportDashboardUpdateProfileConfirmedUpdateActionConfig);
+		reportDashboardUpdateProfileConfirmedUpdateActionConfig
+				.addActionParameter(GtnFrameworkReportingDashboardConfirmUpdateProfileAction.class.getName());
+		reportDashboardUpdateProfileConfirmedUpdateActionConfig
+				.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
+		reportDashboardUpdateProfileConfirmedUpdateActionConfig
+				.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_NAME_TEXT_FIELD);
+		reportDashboardUpdateProfileConfirmedUpdateActionConfig.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
+		reportDashboardSaveProfileSaveViewUpdate
+				.addGtnUIFrameWorkActionConfig(reportDashboardUpdateProfileConfirmedUpdateActionConfig);
 		componentList.add(reportDashboardSaveProfileSaveViewUpdate);
 
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileSaveViewCancel = new GtnUIFrameworkComponentConfig();
 		reportDashboardSaveProfileSaveViewCancel.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		reportDashboardSaveProfileSaveViewCancel.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDashboardSaveProfileSaveViewCancel");
+		reportDashboardSaveProfileSaveViewCancel.setComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDashboardSaveProfileSaveViewCancel");
 		reportDashboardSaveProfileSaveViewCancel.setComponentName("CLOSE");
 		reportDashboardSaveProfileSaveViewCancel.setParentComponentId(parentId);
 		reportDashboardSaveProfileSaveViewCancel.setAddToParent(true);
-		
-		GtnUIFrameWorkActionConfig reportDashboardCloseActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		reportDashboardCloseActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
+
+		GtnUIFrameWorkActionConfig reportDashboardCloseActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		reportDashboardCloseActionConfig
+				.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
 		reportDashboardSaveProfileSaveViewCancel.addGtnUIFrameWorkActionConfig(reportDashboardCloseActionConfig);
-		
+
 		componentList.add(reportDashboardSaveProfileSaveViewCancel);
 
 	}
