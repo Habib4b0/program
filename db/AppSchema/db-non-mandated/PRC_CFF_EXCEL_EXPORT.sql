@@ -361,12 +361,12 @@ INDICATOR BIT
 	into #trail
 	from #HIERARCHY_NO h cross join #period p cross join #CFF_PROJECTION_MASTER cpm
 	group by CFF_MASTER_SID,HIERARCHY_NO,period,year,row_id 
-declare @END_SALES_SID int = (
-		SELECT top 1 PERIOD
-		FROM #period
-		WHERE PERIOD_DATE = DATEADD(MM, - 3, DATEADD(QQ, DATEDIFF(QQ, 0, GETDATE()), 0))
-		order by period_sid asc
-		)
+--declare @END_SALES_SID int = (
+--		SELECT top 1 PERIOD
+--		FROM #period
+--		WHERE PERIOD_DATE = DATEADD(MM, - 3, DATEADD(QQ, DATEDIFF(QQ, 0, GETDATE()), 0))
+--		order by period_sid asc
+--		)
 --IF @INDICATOR IN ('C','P')
 BEGIN
 ----11,080,802

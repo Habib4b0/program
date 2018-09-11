@@ -27,7 +27,7 @@ public class Trx6AdjustmentSummarySearchResults extends AbstractPipelineSummaryR
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getSummaryLogic();
+        return getSummaryLogic();
     }
 
     @Override

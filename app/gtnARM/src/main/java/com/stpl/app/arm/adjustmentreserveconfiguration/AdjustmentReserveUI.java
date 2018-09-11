@@ -131,12 +131,12 @@ public class AdjustmentReserveUI extends UI {
 
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream adjResOut) throws IOException {
+        adjResOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream adjResOut) throws IOException, ClassNotFoundException {
+        adjResOut.defaultReadObject();
     }
 
 }

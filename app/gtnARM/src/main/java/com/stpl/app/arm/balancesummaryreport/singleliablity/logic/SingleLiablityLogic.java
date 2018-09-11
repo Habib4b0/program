@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -40,6 +42,8 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
 
     private String[] columns = {"Fees Accrual", "Inflation Adjustment", "Credit Card Fees", "Other Fixed Dollar Fees",
         "Inventory Valuation", "Payment True-up", VariableConstants.PAYMENTS, "Period Balance"};
+    
+    public final Logger singleLiablityLogger = LoggerFactory.getLogger(SingleLiablityLogic.class);
 
     public SingleLiablityLogic() {
         super();
@@ -57,27 +61,32 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
 
     @Override
     protected String getCommonQueryName() {
+        singleLiablityLogger.debug("Inside Single Liablity getCommonQueryName");
         return "BSummaryCommonQuery-SingleLiablity";
 
     }
 
     @Override
     protected String getLoadDataQueryName() {
+        singleLiablityLogger.debug("Inside Single Liablity getLoadDataQueryName");
         return "BSummaryLoadData-SingleLiablity";
     }
 
     @Override
     protected String getCountQueryName() {
+        singleLiablityLogger.debug("Inside Single Liablity getCountQueryName");
         return "BSummaryCount-SingleLiablity";
     }
 
     @Override
     protected String getTotalQueryName() {
+        singleLiablityLogger.debug("Inside Single Liablity getTotalQueryName");
         return "BSummaryLoadTotalData-SingleLiablity";
     }
 
     @Override
     protected String getExcelQueryName() {
+        singleLiablityLogger.debug("Inside Single Liablity getExcelQueryName");
         return "getBSummaryExcelQuery-SingleLiablity";
     }
 
@@ -236,11 +245,13 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
 
     @Override
     public List getQueryTableinputparameter(SessionDTO sessionDTO) {
+        singleLiablityLogger.debug("Inside Single Liablity getQueryTableinputparameter");
         return Collections.emptyList();
     }
 
     @Override
     protected String getExcelTotalQueryName() {
+        singleLiablityLogger.debug("Inside Single Liablity getExcelTotalQueryName");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

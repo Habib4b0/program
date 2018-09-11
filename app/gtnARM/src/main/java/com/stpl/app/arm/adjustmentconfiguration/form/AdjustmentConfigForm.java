@@ -624,12 +624,12 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
         selectedDTo = null;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream adjConfout) throws IOException {
+        adjConfout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream adjConfout) throws IOException, ClassNotFoundException {
+        adjConfout.defaultReadObject();
     }
 
     private void securityForButton(Map<String, AppPermission> functionHM) {

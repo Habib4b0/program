@@ -111,7 +111,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
         LOGGER.debug("inside inventoryDetailsDdlbValueChange Method");
     }
 
-    private final InflcationInventoryCustomNotification notifier = new InflcationInventoryCustomNotification();
+    private final InflcationInventoryCustomNotification tr6InventoryNotifier = new InflcationInventoryCustomNotification();
 
     private void configureDblbLoading() {
         List<Object> defaultValues = logic.getMonthYear();
@@ -167,7 +167,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
 
     class InflcationInventoryCustomNotification extends AbstractNotificationUtils {
 
-        private String inventoryButtonName;
+        private String inventoryTr6ButtonName;
 
         public InflcationInventoryCustomNotification() {
             /*
@@ -182,9 +182,9 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", inventoryButtonName);
-            if (null != inventoryButtonName) {
-                switch (inventoryButtonName) {
+            LOGGER.debug("buttonName :{}", inventoryTr6ButtonName);
+            if (null != inventoryTr6ButtonName) {
+                switch (inventoryTr6ButtonName) {
                     case CommonConstant.RESET:
                         setDefaultValue();
                         CommonUtils.unCheckMenuBarItem(customMenuItem);
@@ -197,7 +197,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
         }
 
         public void setButtonName(String buttonName) {
-            this.inventoryButtonName = buttonName;
+            this.inventoryTr6ButtonName = buttonName;
         }
 
     }
@@ -207,8 +207,8 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 try {
-                    notifier.setButtonName(CommonConstant.RESET);
-                    notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
+                    tr6InventoryNotifier.setButtonName(CommonConstant.RESET);
+                    tr6InventoryNotifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
                 } catch (Exception e) {
                     LOGGER.error("Error in reset :", e);
                 }

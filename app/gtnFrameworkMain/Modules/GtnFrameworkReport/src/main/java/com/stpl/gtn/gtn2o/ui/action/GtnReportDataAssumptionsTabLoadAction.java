@@ -38,7 +38,6 @@ public class GtnReportDataAssumptionsTabLoadAction
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportDataAssumptionsTabLoadAction.class);
 
 	private GtnWsReportDataSelectionBean gtnWsReportDataSelectionBean = null;
-	
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -55,10 +54,8 @@ public class GtnReportDataAssumptionsTabLoadAction
 
 			gtnWsReportDataSelectionBean = (GtnWsReportDataSelectionBean) actionParameterList.get(4);
 			Integer reportDataSourceValue = gtnWsReportDataSelectionBean.getReportDataSource();
-			addTab(gtnWsReportDataSelectionBean.getComparisonProjectionBeanList(), reportDataSourceValue, componentId
-					);
+			addTab(gtnWsReportDataSelectionBean.getComparisonProjectionBeanList(), reportDataSourceValue, componentId);
 
-			
 		} catch (Exception exception) {
 			logger.error("Error message", exception);
 		}
@@ -90,23 +87,25 @@ public class GtnReportDataAssumptionsTabLoadAction
 		for (int i = 0; i < projectionMasterSidList.size(); i++) {
 
 			Grid<GtnWsRecordBean> dataAssumptionsCurrentTabComponent = getDataAssumptionsGridComponent(
-					GtnFrameworkReportStringConstants.getReportDataAssumptionsTabId().get(i), sourceComponentId );
+					GtnFrameworkReportStringConstants.getReportDataAssumptionsTabId().get(i), sourceComponentId);
 
 			List<GtnWsRecordBean> dsLoadResults = getDataAssumptionGridLoadValues(projectionMasterSidList.get(i),
-					reportDataSourceValue, "/gtnWsReportLoadDataAssumptionsMultipleTabs", sourceComponentId );
+					reportDataSourceValue, "/gtnWsReportLoadDataAssumptionsMultipleTabs", sourceComponentId);
 
 			dataAssumptionsCurrentTabComponent.setItems(dsLoadResults);
 		}
 		// Current Tab must load by default
 		Grid<GtnWsRecordBean> dataAssumptionsCurrentTabComponent1 = getDataAssumptionsGridComponent(
-				"dataAssumptionsPagedTableComponentcurrentTabdataAssumptionsTab", sourceComponentId );
+				"dataAssumptionsPagedTableComponentcurrentTabdataAssumptionsTab", sourceComponentId);
 		List<GtnWsRecordBean> dsLoadResults1 = getDataAssumptionGridLoadValues(0, reportDataSourceValue,
-				"/gtnWsReportLoadDataAssumptions", sourceComponentId );
+				"/gtnWsReportLoadDataAssumptions", sourceComponentId);
 		dataAssumptionsCurrentTabComponent1.setItems(dsLoadResults1);
 	}
 
 	private void setTabSheetVisible(List<Integer> projectionMasterSidList, String sourceComponentId,
 			List<GtnReportComparisonProjectionBean> gtnReportComparisonProjectionBeanList, int projectionNameCount) {
+
+		int projNameCount = projectionNameCount;
 		for (int i = 1; i < 6; i++) {
 			if (i > projectionMasterSidList.size()) {
 				GtnUIFrameworkGlobalUI
@@ -117,8 +116,8 @@ public class GtnReportDataAssumptionsTabLoadAction
 				final TabSheet tabSheet = (TabSheet) getAbstractComponent(
 						GtnFrameworkReportStringConstants.TAB_SHEET + "dataAssump", sourceComponentId);
 				tabSheet.getTab(i)
-						.setCaption(gtnReportComparisonProjectionBeanList.get(projectionNameCount).getProjectionName());
-				projectionNameCount++;
+						.setCaption(gtnReportComparisonProjectionBeanList.get(projNameCount).getProjectionName());
+				projNameCount++;
 				tabSheet.getTab(i).setVisible(true);
 			}
 		}
@@ -156,8 +155,8 @@ public class GtnReportDataAssumptionsTabLoadAction
 		for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
 			GtnWsRecordBean dto = new GtnWsRecordBean();
 			dto.setProperties(record.getColList());
-			dto.setRecordHeader(Arrays.asList(new Object[] { "file", "company", "businessUnit", "type", "version",
-					"activeFrom", "toPeriod", "activeFile" }));
+			dto.setRecordHeader(Arrays.asList("file", "company", "businessUnit", "type", "version", "activeFrom",
+					"toPeriod", "activeFile"));
 			records.add(dto);
 		}
 		return records;

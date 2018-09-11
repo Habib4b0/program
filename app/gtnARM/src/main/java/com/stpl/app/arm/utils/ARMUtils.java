@@ -1231,40 +1231,40 @@ public class ARMUtils {
     public static Map<Integer, String> getLevelAndLevelFilterMultiPeriod(String value) {
 
         if (LEVEL_FILTER_NAME_MULTI_PERIOD.isEmpty()) {
-            Map<Integer, String> summaryLevelBrand = new HashMap();
-            Map<Integer, String> summaryLevelCustomerded = new HashMap();
-            Map<Integer, String> summaryLevelDedutionCustomer = new HashMap();
-            Map<Integer, String> summaryLevelDedutionContract = new HashMap();
+            Map<Integer, String> demandSummaryLevelBrand = new HashMap();
+            Map<Integer, String> demandSummaryLevelCustomerded = new HashMap();
+            Map<Integer, String> demandSummaryLevelDedutionCustomer = new HashMap();
+            Map<Integer, String> demandSummaryLevelDedutionContract = new HashMap();
             Map<Integer, String> trx6Levels = new HashMap();
 
-            summaryLevelBrand.put(1, levelVariablesVarables.DEDUCTION.toString());
-            summaryLevelBrand.put(NumericConstants.TWO, levelVariablesVarables.BRAND.toString());
-            summaryLevelBrand.put(NumericConstants.THREE, levelVariablesVarables.ITEM.toString());
+            demandSummaryLevelBrand.put(1, levelVariablesVarables.DEDUCTION.toString());
+            demandSummaryLevelBrand.put(NumericConstants.TWO, levelVariablesVarables.BRAND.toString());
+            demandSummaryLevelBrand.put(NumericConstants.THREE, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelCustomerded.put(1, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelCustomerded.put(NumericConstants.TWO, levelVariablesVarables.DEDUCTION.toString());
-            summaryLevelCustomerded.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
-            summaryLevelCustomerded.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
+            demandSummaryLevelCustomerded.put(1, levelVariablesVarables.CUSTOMER.toString());
+            demandSummaryLevelCustomerded.put(NumericConstants.TWO, levelVariablesVarables.DEDUCTION.toString());
+            demandSummaryLevelCustomerded.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
+            demandSummaryLevelCustomerded.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelDedutionCustomer.put(1, levelVariablesVarables.DEDUCTION.toString());
-            summaryLevelDedutionCustomer.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelDedutionCustomer.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
-            summaryLevelDedutionCustomer.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
+            demandSummaryLevelDedutionCustomer.put(1, levelVariablesVarables.DEDUCTION.toString());
+            demandSummaryLevelDedutionCustomer.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
+            demandSummaryLevelDedutionCustomer.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
+            demandSummaryLevelDedutionCustomer.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelDedutionContract.put(1, levelVariablesVarables.DEDUCTION.toString());
-            summaryLevelDedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelDedutionContract.put(NumericConstants.THREE, levelVariablesVarables.CONTRACT.toString());
-            summaryLevelDedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
-            summaryLevelDedutionContract.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
+            demandSummaryLevelDedutionContract.put(1, levelVariablesVarables.DEDUCTION.toString());
+            demandSummaryLevelDedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
+            demandSummaryLevelDedutionContract.put(NumericConstants.THREE, levelVariablesVarables.CONTRACT.toString());
+            demandSummaryLevelDedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
+            demandSummaryLevelDedutionContract.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
 
             trx6Levels.put(1, levelVariablesVarables.CUSTOMER.toString());
             trx6Levels.put(NumericConstants.TWO, levelVariablesVarables.BRAND.toString());
             trx6Levels.put(NumericConstants.THREE, levelVariablesVarables.ITEM.toString());
 
-            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getDeductionProduct(), summaryLevelBrand);
-            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getCustomerDedection(), summaryLevelCustomerded);
-            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getDeductionCustomer(), summaryLevelDedutionCustomer);
-            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getDeductionCustomerContract(), summaryLevelDedutionContract);
+            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getDeductionProduct(), demandSummaryLevelBrand);
+            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getCustomerDedection(), demandSummaryLevelCustomerded);
+            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getDeductionCustomer(), demandSummaryLevelDedutionCustomer);
+            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getDeductionCustomerContract(), demandSummaryLevelDedutionContract);
             LEVEL_FILTER_NAME_MULTI_PERIOD.put("Trx6_Inventory", trx6Levels);
         }
         return LEVEL_FILTER_NAME_MULTI_PERIOD.get(value);
@@ -1308,68 +1308,68 @@ public class ARMUtils {
     public static Map<Integer, String> getLevelAndLevelFilter(String value) {
 
         if (LEVEL_FILTER_NAME.isEmpty()) {
-            Map<Integer, String> summaryLevelBrand = new HashMap();
-            Map<Integer, String> summaryLevelCustomerded = new HashMap();
-            Map<Integer, String> summaryLevelDedutionCustomer = new HashMap();
-            Map<Integer, String> summaryLevelDedutionContract = new HashMap();
-            Map<Integer, String> summaryLeveldedutionContract = new HashMap();
-            Map<Integer, String> summaryLevelnondedutionContract = new HashMap();
-            Map<Integer, String> summaryLevelDedutionContractCustomer = new HashMap();
-            Map<Integer, String> summaryLevelnondedutionContractCustomer = new HashMap();
-            Map<Integer, String> summaryLevelRatesDedutionCustomer = new HashMap();
+            Map<Integer, String> salesSummaryLevelBrand = new HashMap();
+            Map<Integer, String> salesSummaryLevelCustomerded = new HashMap();
+            Map<Integer, String> salesSummaryLevelDedutionCustomer = new HashMap();
+            Map<Integer, String> salesSummaryLevelDedutionContract = new HashMap();
+            Map<Integer, String> salesSummaryLeveldedutionContract = new HashMap();
+            Map<Integer, String> salesSummaryLevelnondedutionContract = new HashMap();
+            Map<Integer, String> salesSummaryLevelDedutionContractCustomer = new HashMap();
+            Map<Integer, String> salesSummaryLevelnondedutionContractCustomer = new HashMap();
+            Map<Integer, String> salesSummaryLevelRatesDedutionCustomer = new HashMap();
 
-            summaryLevelBrand.put(1, levelVariablesVarables.BRAND.toString());
-            summaryLevelBrand.put(NumericConstants.TWO, levelVariablesVarables.ITEM.toString());
+            salesSummaryLevelBrand.put(1, levelVariablesVarables.BRAND.toString());
+            salesSummaryLevelBrand.put(NumericConstants.TWO, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelCustomerded.put(1, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelCustomerded.put(NumericConstants.TWO, levelVariablesVarables.DEDUCTION.toString());
-            summaryLevelCustomerded.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
-            summaryLevelCustomerded.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
+            salesSummaryLevelCustomerded.put(1, levelVariablesVarables.CUSTOMER.toString());
+            salesSummaryLevelCustomerded.put(NumericConstants.TWO, levelVariablesVarables.DEDUCTION.toString());
+            salesSummaryLevelCustomerded.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
+            salesSummaryLevelCustomerded.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelDedutionCustomer.put(1, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelDedutionCustomer.put(NumericConstants.TWO, levelVariablesVarables.BRAND.toString());
-            summaryLevelDedutionCustomer.put(NumericConstants.THREE, levelVariablesVarables.ITEM.toString());
+            salesSummaryLevelDedutionCustomer.put(1, levelVariablesVarables.CUSTOMER.toString());
+            salesSummaryLevelDedutionCustomer.put(NumericConstants.TWO, levelVariablesVarables.BRAND.toString());
+            salesSummaryLevelDedutionCustomer.put(NumericConstants.THREE, levelVariablesVarables.ITEM.toString());
 
-            summaryLeveldedutionContract.put(1, levelVariablesVarables.CONTRACT.toString());
-            summaryLeveldedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
-            summaryLeveldedutionContract.put(NumericConstants.THREE, levelVariablesVarables.ITEM.toString());
+            salesSummaryLeveldedutionContract.put(1, levelVariablesVarables.CONTRACT.toString());
+            salesSummaryLeveldedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
+            salesSummaryLeveldedutionContract.put(NumericConstants.THREE, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelDedutionContract.put(1, levelVariablesVarables.DEDUCTION.toString());
-            summaryLevelDedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelDedutionContract.put(NumericConstants.THREE, levelVariablesVarables.CONTRACT.toString());
-            summaryLevelDedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
-            summaryLevelDedutionContract.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
+            salesSummaryLevelDedutionContract.put(1, levelVariablesVarables.DEDUCTION.toString());
+            salesSummaryLevelDedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
+            salesSummaryLevelDedutionContract.put(NumericConstants.THREE, levelVariablesVarables.CONTRACT.toString());
+            salesSummaryLevelDedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
+            salesSummaryLevelDedutionContract.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelDedutionContractCustomer.put(1, levelVariablesVarables.DEDUCTION.toString());
-            summaryLevelDedutionContractCustomer.put(NumericConstants.TWO, levelVariablesVarables.CONTRACT.toString());
-            summaryLevelDedutionContractCustomer.put(NumericConstants.THREE, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelDedutionContractCustomer.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
-            summaryLevelDedutionContractCustomer.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
+            salesSummaryLevelDedutionContractCustomer.put(1, levelVariablesVarables.DEDUCTION.toString());
+            salesSummaryLevelDedutionContractCustomer.put(NumericConstants.TWO, levelVariablesVarables.CONTRACT.toString());
+            salesSummaryLevelDedutionContractCustomer.put(NumericConstants.THREE, levelVariablesVarables.CUSTOMER.toString());
+            salesSummaryLevelDedutionContractCustomer.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
+            salesSummaryLevelDedutionContractCustomer.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelnondedutionContractCustomer.put(1, levelVariablesVarables.CONTRACT.toString());
-            summaryLevelnondedutionContractCustomer.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelnondedutionContractCustomer.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
-            summaryLevelnondedutionContractCustomer.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
+            salesSummaryLevelnondedutionContractCustomer.put(1, levelVariablesVarables.CONTRACT.toString());
+            salesSummaryLevelnondedutionContractCustomer.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
+            salesSummaryLevelnondedutionContractCustomer.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
+            salesSummaryLevelnondedutionContractCustomer.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelnondedutionContract.put(1, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelnondedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CONTRACT.toString());
-            summaryLevelnondedutionContract.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
-            summaryLevelnondedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
+            salesSummaryLevelnondedutionContract.put(1, levelVariablesVarables.CUSTOMER.toString());
+            salesSummaryLevelnondedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CONTRACT.toString());
+            salesSummaryLevelnondedutionContract.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
+            salesSummaryLevelnondedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelRatesDedutionCustomer.put(NumericConstants.ONE, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelRatesDedutionCustomer.put(NumericConstants.TWO, levelVariablesVarables.CONTRACT.toString());
-            summaryLevelRatesDedutionCustomer.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
-            summaryLevelRatesDedutionCustomer.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
+            salesSummaryLevelRatesDedutionCustomer.put(NumericConstants.ONE, levelVariablesVarables.CUSTOMER.toString());
+            salesSummaryLevelRatesDedutionCustomer.put(NumericConstants.TWO, levelVariablesVarables.CONTRACT.toString());
+            salesSummaryLevelRatesDedutionCustomer.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
+            salesSummaryLevelRatesDedutionCustomer.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
 
-            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionProduct(), summaryLevelBrand);
-            LEVEL_FILTER_NAME.put(ARMConstants.getCustomerDedection(), summaryLevelCustomerded);
-            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer(), summaryLevelDedutionCustomer);
-            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomerContract(), summaryLevelDedutionContract);
-            LEVEL_FILTER_NAME.put(CommonConstant.DEDUCTION_CONTRACT, summaryLeveldedutionContract);
-            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionContractCustomer(), summaryLevelDedutionContractCustomer);
-            LEVEL_FILTER_NAME.put("non" + ARMConstants.getDeductionContractCustomer(), summaryLevelnondedutionContractCustomer);
-            LEVEL_FILTER_NAME.put("non" + ARMConstants.getDeductionCustomerContract(), summaryLevelnondedutionContract);
-            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer() + "RATES", summaryLevelDedutionCustomer);
+            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionProduct(), salesSummaryLevelBrand);
+            LEVEL_FILTER_NAME.put(ARMConstants.getCustomerDedection(), salesSummaryLevelCustomerded);
+            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer(), salesSummaryLevelDedutionCustomer);
+            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomerContract(), salesSummaryLevelDedutionContract);
+            LEVEL_FILTER_NAME.put(CommonConstant.DEDUCTION_CONTRACT, salesSummaryLeveldedutionContract);
+            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionContractCustomer(), salesSummaryLevelDedutionContractCustomer);
+            LEVEL_FILTER_NAME.put("non" + ARMConstants.getDeductionContractCustomer(), salesSummaryLevelnondedutionContractCustomer);
+            LEVEL_FILTER_NAME.put("non" + ARMConstants.getDeductionCustomerContract(), salesSummaryLevelnondedutionContract);
+            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer() + "RATES", salesSummaryLevelDedutionCustomer);
 
         }
         return LEVEL_FILTER_NAME.get(value);
@@ -1378,48 +1378,48 @@ public class ARMUtils {
     public static Map<Integer, String> getPipeLineLevelAndLevelFilter(String value) {
 
         if (PIPELINE_LEVEL_FILTER_NAME.isEmpty()) {
-            Map<Integer, String> summaryLevelBrand = new HashMap();
-            Map<Integer, String> summaryLevelCustomerded = new HashMap();
-            Map<Integer, String> summaryLevelDedutionCustomer = new HashMap();
-            Map<Integer, String> summaryLevelDedutionContract = new HashMap();
-            Map<Integer, String> summaryLevelDedutionContractCustomer = new HashMap();
+            Map<Integer, String> pipelineSummaryLevelBrand = new HashMap();
+            Map<Integer, String> pipelineSummaryLevelCustomerded = new HashMap();
+            Map<Integer, String> pipelineSummaryLevelDedutionCustomer = new HashMap();
+            Map<Integer, String> pipelineSummaryLevelDedutionContract = new HashMap();
+            Map<Integer, String> pipelineSummaryLevelDedutionContractCustomer = new HashMap();
 
-            Map<Integer, String> summaryLevelnondedutionContract = new HashMap();
-            summaryLevelBrand.put(1, levelVariablesVarables.BRAND.toString());
-            summaryLevelBrand.put(NumericConstants.TWO, levelVariablesVarables.ITEM.toString());
+            Map<Integer, String> pipelineSummaryLevelnondedutionContract = new HashMap();
+            pipelineSummaryLevelBrand.put(1, levelVariablesVarables.BRAND.toString());
+            pipelineSummaryLevelBrand.put(NumericConstants.TWO, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelCustomerded.put(1, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelCustomerded.put(NumericConstants.TWO, levelVariablesVarables.DEDUCTION.toString());
-            summaryLevelCustomerded.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
-            summaryLevelCustomerded.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
+            pipelineSummaryLevelCustomerded.put(1, levelVariablesVarables.CUSTOMER.toString());
+            pipelineSummaryLevelCustomerded.put(NumericConstants.TWO, levelVariablesVarables.DEDUCTION.toString());
+            pipelineSummaryLevelCustomerded.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
+            pipelineSummaryLevelCustomerded.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelDedutionCustomer.put(1, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelDedutionCustomer.put(NumericConstants.TWO, levelVariablesVarables.BRAND.toString());
-            summaryLevelDedutionCustomer.put(NumericConstants.THREE, levelVariablesVarables.ITEM.toString());
+            pipelineSummaryLevelDedutionCustomer.put(1, levelVariablesVarables.CUSTOMER.toString());
+            pipelineSummaryLevelDedutionCustomer.put(NumericConstants.TWO, levelVariablesVarables.BRAND.toString());
+            pipelineSummaryLevelDedutionCustomer.put(NumericConstants.THREE, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelDedutionContract.put(1, levelVariablesVarables.DEDUCTION.toString());
-            summaryLevelDedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelDedutionContract.put(NumericConstants.THREE, levelVariablesVarables.CONTRACT.toString());
-            summaryLevelDedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
-            summaryLevelDedutionContract.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
+            pipelineSummaryLevelDedutionContract.put(1, levelVariablesVarables.DEDUCTION.toString());
+            pipelineSummaryLevelDedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CUSTOMER.toString());
+            pipelineSummaryLevelDedutionContract.put(NumericConstants.THREE, levelVariablesVarables.CONTRACT.toString());
+            pipelineSummaryLevelDedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
+            pipelineSummaryLevelDedutionContract.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelDedutionContractCustomer.put(1, levelVariablesVarables.DEDUCTION.toString());
-            summaryLevelDedutionContractCustomer.put(NumericConstants.TWO, levelVariablesVarables.CONTRACT.toString());
-            summaryLevelDedutionContractCustomer.put(NumericConstants.THREE, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelDedutionContractCustomer.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
-            summaryLevelDedutionContractCustomer.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
+            pipelineSummaryLevelDedutionContractCustomer.put(1, levelVariablesVarables.DEDUCTION.toString());
+            pipelineSummaryLevelDedutionContractCustomer.put(NumericConstants.TWO, levelVariablesVarables.CONTRACT.toString());
+            pipelineSummaryLevelDedutionContractCustomer.put(NumericConstants.THREE, levelVariablesVarables.CUSTOMER.toString());
+            pipelineSummaryLevelDedutionContractCustomer.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
+            pipelineSummaryLevelDedutionContractCustomer.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
 
-            summaryLevelnondedutionContract.put(1, levelVariablesVarables.CUSTOMER.toString());
-            summaryLevelnondedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CONTRACT.toString());
-            summaryLevelnondedutionContract.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
-            summaryLevelnondedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
+            pipelineSummaryLevelnondedutionContract.put(1, levelVariablesVarables.CUSTOMER.toString());
+            pipelineSummaryLevelnondedutionContract.put(NumericConstants.TWO, levelVariablesVarables.CONTRACT.toString());
+            pipelineSummaryLevelnondedutionContract.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
+            pipelineSummaryLevelnondedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
 
-            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionProduct(), summaryLevelBrand);
-            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getCustomerDedection(), summaryLevelCustomerded);
-            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer(), summaryLevelDedutionCustomer);
-            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomerContract(), summaryLevelDedutionContract);
-            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionContractCustomer(), summaryLevelDedutionContractCustomer);
-            PIPELINE_LEVEL_FILTER_NAME.put("non" + ARMConstants.getDeductionCustomerContract(), summaryLevelnondedutionContract);
+            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionProduct(), pipelineSummaryLevelBrand);
+            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getCustomerDedection(), pipelineSummaryLevelCustomerded);
+            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer(), pipelineSummaryLevelDedutionCustomer);
+            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomerContract(), pipelineSummaryLevelDedutionContract);
+            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionContractCustomer(), pipelineSummaryLevelDedutionContractCustomer);
+            PIPELINE_LEVEL_FILTER_NAME.put("non" + ARMConstants.getDeductionCustomerContract(), pipelineSummaryLevelnondedutionContract);
         }
         return PIPELINE_LEVEL_FILTER_NAME.get(value);
     }
