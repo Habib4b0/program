@@ -71,11 +71,10 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.beanutils.BeanUtils;
-import org.asi.ui.extfilteringtable.paged.logic.HierarchyString;
 
 /**
  *
- * @author 
+ * @author
  */
 public class DataSelection extends AbstractDataSelection {
 
@@ -360,7 +359,7 @@ public class DataSelection extends AbstractDataSelection {
                         productVersionMap.get(prodRelationshipSid), tempDto.getLevelNo(),
                         productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc, rsContractSids);
                 GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue()),
-                        selectedCustomerContractList, custhierarchyId, customerHierarchyLookup.getHierarchyDto().getVersionNo());
+                        selectedCustomerContractList, custhierarchyId, customerHierarchyLookup != null ? customerHierarchyLookup.getHierarchyDto().getVersionNo() : 0);
                 innerLevelValues = loadAvailableDsLogic.loadProductInnerLevel(inputBean, productDescriptionMap);
                 availableProductContainer.addAll(innerLevelValues);
                 availableProduct.setContainerDataSource(availableProductContainer);
@@ -2232,7 +2231,7 @@ public class DataSelection extends AbstractDataSelection {
             LOGGER.debug("Empty Constructor");
         }
 
-        private String buttonName;
+        private String dsButtonName;
 
         @Override
         public void noMethod() {
@@ -2241,9 +2240,9 @@ public class DataSelection extends AbstractDataSelection {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", dsButtonName);
+            if (null != dsButtonName) {
+                switch (dsButtonName) {
                     case "deleteView":
                         if ((dataSelectionDTO.getProjectionId() != 0) && (logic.deleteViewLogic(dataSelectionDTO.getProjectionId()))) {
                             UI.getCurrent().getNavigator().navigateTo(DataSelectionView.NAME);
@@ -2257,7 +2256,7 @@ public class DataSelection extends AbstractDataSelection {
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.dsButtonName = buttonName;
         }
 
     }
@@ -2380,7 +2379,7 @@ public class DataSelection extends AbstractDataSelection {
                 selectedDeductionContainer.removeAllItems();
                 selectedDeduction.removeAllItems();
                 Map<String, DeductionLevelDTO> levelKeys = logic.getDeductionTree(selectedLevelIds, rsContractSids, hierarchyKeys);
-                setDeductionTree(levelKeys);
+                setDeductionTree(levelKeys,hierarchyKeys);
                 customerHierarchy.setValue(dto.getCustomerHierarchyName());
 
                 customerVersionMap = logic.loadCustomerRelation(customerRelation, dto.getCustomerHierarchySid());
@@ -2428,7 +2427,7 @@ public class DataSelection extends AbstractDataSelection {
                 hierarchyKeys.clear();
                 Map<String, DeductionLevelDTO> levelKeys = logic.getDeductionTree(selectedLevelIds, rsContractSids, hierarchyKeys);
                 selectedDeductionContainer.removeAllItems();
-                setDeductionTree(levelKeys);
+                setDeductionTree(levelKeys, hierarchyKeys);
                 customerLevel.select(null);
                 productLevel.select(null);
 
@@ -2440,27 +2439,6 @@ public class DataSelection extends AbstractDataSelection {
             LOGGER.error("Error in moveLeftToRightDeductions :", ex);
         }
 
-    }
-
-    private void setDeductionTree(Map<String, DeductionLevelDTO> levelKeys) {
-        List<HierarchyString> strkeys = HierarchyString.getHierarchyStringList(hierarchyKeys, true);
-        for (HierarchyString hKey : strkeys) {
-            String key = hKey.getString();
-            DeductionLevelDTO value = levelKeys.get(key);
-            String parentKey = key.substring(0, key.lastIndexOf('.'));
-            if (parentKey.lastIndexOf('.') >= 0) {
-                parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
-            }
-            selectedDeductionContainer.addItem(value);
-            DeductionLevelDTO parent = levelKeys.get(parentKey);
-
-            if (parent != null) {
-                selectedDeductionContainer.setParent(value, parent);
-            }
-            if (StringUtils.countMatches(key, ".") == NumericConstants.NINE) {
-                selectedDeductionContainer.setChildrenAllowed(value, false);
-            }
-        }
     }
 
     public void setLevels(LevelDTO parentList, List<DeductionLevelDTO> list, int levelNo) {
@@ -2494,7 +2472,7 @@ public class DataSelection extends AbstractDataSelection {
         hierarchyKeys.clear();
         Map<String, DeductionLevelDTO> levelKeys = logic.getDeductionTree(selectedLevelIds, rsContractSids, hierarchyKeys);
         selectedDeductionContainer.removeAllItems();
-        setDeductionTree(levelKeys);
+        setDeductionTree(levelKeys, hierarchyKeys);
         selectedLevelIds.clear();
         customerLevel.select(null);
         productLevel.select(null);
@@ -2559,7 +2537,6 @@ public class DataSelection extends AbstractDataSelection {
                 sessionDTO.setCurrentTableNames(QueryUtils.createTempTables("ARM_CCP_HIERARCHY", sessionDTO.getProjectionId(), sessionDTO.getUserId().toString(), sessionDTO.getSessionId().toString()));
                 getCustTopLevelName();
                 logic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), dataSelectionDTO);
-                (new QueryUtils()).ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), dataSelectionDTO, selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), topLevelName, Boolean.FALSE);
                 logic.saveCcp(sessionDTO.getCurrentTableNames().get("ST_CCP_HIERARCHY"), String.valueOf(projectionIdValue));
                 logic.saveAdjustmentMaster(dataSelectionDTO);
                 return true;
@@ -2604,7 +2581,7 @@ public class DataSelection extends AbstractDataSelection {
                 hierarchyKeys.clear();
                 Map<String, DeductionLevelDTO> levelKeys = logic.getDeductionTree(selectedLevelIds, rsContractSids, hierarchyKeys);
                 selectedDeductionContainer.removeAllItems();
-                setDeductionTree(levelKeys);
+                setDeductionTree(levelKeys, hierarchyKeys);
             } else {
                 selectedDeductionContainer.removeAllItems();
                 selectedDeduction.removeAllItems();

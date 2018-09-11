@@ -29,6 +29,11 @@ public class CommonQueryUtils {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonQueryUtils.class);
     private static CommonDAO dao = new CommonDAOImpl();
+    
+    private CommonQueryUtils()
+    {
+       LOGGER.debug("Inside CommonQueryUtils");
+    }
  
     public static Object executeSelectQuery(List input, String queryName) {
         List<Object[]> returnList = new ArrayList<>();

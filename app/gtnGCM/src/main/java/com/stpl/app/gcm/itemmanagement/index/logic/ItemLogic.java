@@ -49,7 +49,7 @@ public class ItemLogic {
     private String userid = "";
     public final SimpleDateFormat formatter = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
-    public void LazyLoadDdlb(final ComboBox comboBox, String countFlag, String findFlag, boolean isFilter) {
+    public void lazyLoadDdlb(final ComboBox comboBox, String countFlag, String findFlag, boolean isFilter) {
         final List inputList = new ArrayList();
         inputList.add(countFlag);
         inputList.add(findFlag);
@@ -106,8 +106,8 @@ public class ItemLogic {
                         userid = entry.getKey().toString();
                     }
                 }
-        if (binderDto.getIdentifierType_DTO() != null) {
-            input.add(binderDto.getIdentifierType_DTO().getId());
+        if (binderDto.getIdentifierTypeDto() != null) {
+            input.add(binderDto.getIdentifierTypeDto().getId());
         } else {
             input.add("%");
         }
@@ -131,8 +131,8 @@ public class ItemLogic {
         } else {
             input.add("%");
         }
-        if (binderDto.getForm_DTO() != null) {
-            input.add(binderDto.getForm_DTO().getId());
+        if (binderDto.getFormDto() != null) {
+            input.add(binderDto.getFormDto().getId());
         } else {
             input.add("%");
         }
@@ -146,13 +146,13 @@ public class ItemLogic {
         } else {
             input.add("%");
         }
-        if (binderDto.getBrand_DTO() != null) {
-            input.add(binderDto.getBrand_DTO().getId());
+        if (binderDto.getBrandDto() != null) {
+            input.add(binderDto.getBrandDto().getId());
         } else {
             input.add("%");
         }
-        if (binderDto.getStrength_DTO() != null) {
-            input.add(binderDto.getStrength_DTO().getId());
+        if (binderDto.getStrengthDto() != null) {
+            input.add(binderDto.getStrengthDto().getId());
         } else {
             input.add("%");
         }
@@ -174,8 +174,8 @@ public class ItemLogic {
         if ("No".equals(binderDto.getPlaceHolderValue())) {
             input.add(StringConstantsUtil.LIKE_PER);
         } else {
-            if (binderDto.getPlaceHolder_DTO() != null && binderDto.getPlaceHolder_DTO().getId() != NumericConstants.ELEVEN) {
-                 String placehold = String.valueOf(binderDto.getPlaceHolder_DTO().getId());
+            if (binderDto.getPlaceHolderDto() != null && binderDto.getPlaceHolderDto().getId() != NumericConstants.ELEVEN) {
+                 String placehold = String.valueOf(binderDto.getPlaceHolderDto().getId());
                 if(placehold.contains("0"))
                 {
                     input.add("! = '"+userid+"'");
@@ -189,8 +189,8 @@ public class ItemLogic {
             }
         }
 
-        if (binderDto.getCompany_DTO() != null) {
-            input.add(binderDto.getCompany_DTO().getId());
+        if (binderDto.getCompanyDto() != null) {
+            input.add(binderDto.getCompanyDto().getId());
         } else {
             input.add("%");
         }
@@ -510,13 +510,13 @@ public class ItemLogic {
         } else {
             input.add("%");
         }
-        if (binderDto.getComponentStatus_DTO() != null) {
-            input.add(binderDto.getComponentStatus_DTO().getId());
+        if (binderDto.getComponentStatusDto() != null) {
+            input.add(binderDto.getComponentStatusDto().getId());
         } else {
             input.add("%");
         }
-        if (binderDto.getComponentType_DTO() != null) {
-            input.add(binderDto.getComponentType_DTO().getId());
+        if (binderDto.getComponentTypeDto() != null) {
+            input.add(binderDto.getComponentTypeDto().getId());
         } else {
             input.add("%");
         }
@@ -614,8 +614,8 @@ public class ItemLogic {
         } else {
             input.add("%");
         }
-        if (binderDto.getComponentStatus_DTO() != null) {
-            input.add(binderDto.getComponentStatus_DTO().getId());
+        if (binderDto.getComponentStatusDto() != null) {
+            input.add(binderDto.getComponentStatusDto().getId());
         } else {
             input.add("%");
         }

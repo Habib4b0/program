@@ -271,7 +271,6 @@ public class NewDiscountTab extends CustomComponent {
      * The collapse listener.
      */
     private final StplCollapseListener collapseListener = new StplCollapseListener();
-    private static final BeanItem<?> NULL_OBJECT = null;
     /**
      * The contract member.
      */
@@ -912,12 +911,13 @@ public class NewDiscountTab extends CustomComponent {
     private int configureLevel(Object item) {
         levelValue = 1;
         parentList.clear();
-        while (!dashboardTreeTable.getContainerDataSource().isRoot(item)) {
-            parentList.add(item);
-            item = dashboardTreeTable.getContainerDataSource().getParent(item);
+        Object itemNew = item;
+        while (!dashboardTreeTable.getContainerDataSource().isRoot(itemNew)) {
+            parentList.add(itemNew);
+            itemNew = dashboardTreeTable.getContainerDataSource().getParent(itemNew);
             levelValue++;
         }
-        parentList.add(item);
+        parentList.add(itemNew);
         Collections.reverse(parentList);
         return levelValue;
     }
@@ -1788,7 +1788,7 @@ public class NewDiscountTab extends CustomComponent {
     private void loadPsFromCD(final ContractsDetailsDto parent, int internalId, String userid, String sessionid) {
         levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         if (internalId == 0) {
-            levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForPS_RS(userid, sessionid, parent.getAttachedList()));
+            levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForPsRs(userid, sessionid, parent.getAttachedList()));
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromPsCD(parent));
         }
@@ -1801,7 +1801,7 @@ public class NewDiscountTab extends CustomComponent {
     private void loadRsFromCD(final ContractsDetailsDto parent, int internalId, String userid, String sessionid) {
         levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         if (internalId == 0) {
-            levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForPS_RS(userid, sessionid, parent.getAttachedList()));
+            levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForPsRs(userid, sessionid, parent.getAttachedList()));
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromRsCD(parent));
         }

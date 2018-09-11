@@ -170,7 +170,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PSLookUp.class);
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("componentStatus".equals(propertyId)) {
                     ComboBox rsProgramType = new ComboBox();
-                    logic.LazyLoadDdlb(rsProgramType, "psStatus count", "psStatus", BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(rsProgramType, "psStatus count", "psStatus", BooleanConstant.getTrueFlag());
                     return rsProgramType;
                 }
                 return null;
@@ -258,7 +258,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PSLookUp.class);
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatusDto, "psStatus count", "psStatus", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(componentStatusDto, "psStatus count", "psStatus", BooleanConstant.getFalseFlag());
     }
 
   

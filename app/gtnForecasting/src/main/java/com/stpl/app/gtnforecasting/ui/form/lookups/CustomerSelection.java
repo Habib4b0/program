@@ -224,8 +224,8 @@ public class CustomerSelection extends CustomComponent implements View {
     @UiHandler("addBtn")
     public void addBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Entered inside addBtn method");
-        if(logic.count_available_customerSelection(session)){
-            logic.add_customerSelection(session);
+        if(logic.countAvailableCustomerSelection(session)){
+            logic.addCustomerSelection(session);
             availablecustomerTableLoic.setFireData(altHistoryDTO, session);
         selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
         availableCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
@@ -245,8 +245,8 @@ public class CustomerSelection extends CustomComponent implements View {
     @UiHandler("addAllBtn")
     public void addAllBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Entering inside Addall Button");
-         if(logic.count_available_customerSelection(session)){
-        logic.add_customerSelection(session);
+         if(logic.countAvailableCustomerSelection(session)){
+        logic.addCustomerSelection(session);
         selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
         availablecustomerTableLoic.setFireData(altHistoryDTO, session);
         availableCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
@@ -264,8 +264,8 @@ public class CustomerSelection extends CustomComponent implements View {
     @UiHandler("remove")
     public void removeBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Entered inside remove btn method");
-        if (logic.count_selected_customerSelection(session)) {
-                logic.remove_customerSelection(session);
+        if (logic.countSelectedCustomerSelection(session)) {
+                logic.removecustomerSelection(session);
         selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
        availablecustomerTableLoic.setFireData(altHistoryDTO, session);
       selectedCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
@@ -285,8 +285,8 @@ public class CustomerSelection extends CustomComponent implements View {
     public void removeAllBtnBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Entered inside removeAllBtn btn method");
 
-        if (logic.count_selected_customerSelection(session)) {
-            logic.remove_customerSelection(session);
+        if (logic.countSelectedCustomerSelection(session)) {
+            logic.removecustomerSelection(session);
             selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
             availablecustomerTableLoic.setFireData(altHistoryDTO, session);
             selectedCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
@@ -380,7 +380,7 @@ public class CustomerSelection extends CustomComponent implements View {
         availableCustomerTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
             @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
-                logic.checkAll_available_customerSelection(session, altHistoryDTO, availablecustomerTableLoic.getFilters(), event.isChecked());
+                logic.checkAllAvailableCstomerSelection(session, altHistoryDTO, availablecustomerTableLoic.getFilters(), event.isChecked());
                 availablecustomerTableLoic.setFireData(altHistoryDTO, session);
             }
         });
@@ -398,9 +398,9 @@ public class CustomerSelection extends CustomComponent implements View {
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             AlternateHistoryDTO alternateHistoryDTO = (AlternateHistoryDTO) itemId;
                             if (check.getValue()) {
-                                logic.check_available_customerSelection(session, alternateHistoryDTO);
+                                logic.checkAvailableCustomerSelection(session, alternateHistoryDTO);
                             } else {
-                                logic.uncheck_available_customerSelection(session, alternateHistoryDTO);
+                                logic.uncheckAvailableCustomerSelection(session, alternateHistoryDTO);
                             }
                         }
                     });
@@ -434,7 +434,7 @@ public class CustomerSelection extends CustomComponent implements View {
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 try{
                
-                logic.checkAll_selected_customerSelection(session,event.isChecked());
+                logic.checkAllSelectedCustomerSelection(session,event.isChecked());
                 selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
                 }catch(Exception e){
                     LOGGER.error(e.getMessage());
@@ -460,7 +460,7 @@ public class CustomerSelection extends CustomComponent implements View {
                         @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             AlternateHistoryDTO alternateHistoryDTO = (AlternateHistoryDTO) itemId;
-                            logic.check_uncheck_selected_customerSelection(session, alternateHistoryDTO, (boolean) check.getValue());
+                            logic.checkUncheckSelectedCustomerSelection(session, alternateHistoryDTO, (boolean) check.getValue());
                         }
                     });
                     return check;

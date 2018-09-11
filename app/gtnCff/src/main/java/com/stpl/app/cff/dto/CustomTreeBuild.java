@@ -7,8 +7,6 @@ package com.stpl.app.cff.dto;
 
 import com.stpl.app.cff.abstractCff.AbstractCustomTreeView;
 import com.stpl.app.cff.logic.CommonLogic;
-import static com.stpl.app.cff.logic.CommonLogic.isValidViewName;
-import com.stpl.app.cff.logic.CustomViewLogic;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;

@@ -236,13 +236,9 @@ public class FileManagementIndex extends CustomComponent implements View {
 		LOGGER.debug("FileManagementIndex Constructor Entered ");
 		try {
 			init();
-		} catch (PortalException ex) {
+		} catch (PortalException | SystemException ex) {
 			LOGGER.error(ex.getMessage());
-		} catch (SystemException ex) {
-			LOGGER.error(ex.getMessage());
-		} catch (Exception ex) {
-			LOGGER.error(ex.getMessage());
-		}
+		} 
 
 	}
 
@@ -377,13 +373,9 @@ public class FileManagementIndex extends CustomComponent implements View {
 						}
 					}
 					LOGGER.debug("In configureFields saveOnClick Ended");
-				} catch (SystemException ex) {
+				} catch (SystemException |PortalException ex) {
 					LOGGER.error(ex.getMessage());
-				} catch (PortalException ex) {
-					LOGGER.error(ex.getMessage());
-				} catch (Exception ex) {
-					LOGGER.error(ex.getMessage());
-				}
+				} 
 			}
 		});
 
@@ -498,9 +490,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 
 				} catch (SystemException ex) {
 					LOGGER.error(ex.getMessage());
-				} catch (Exception ex) {
-					LOGGER.error(ex.getMessage());
-				}
+				} 
 
 			}
 		});

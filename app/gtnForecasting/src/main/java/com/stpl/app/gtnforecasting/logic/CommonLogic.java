@@ -3122,7 +3122,7 @@ public class CommonLogic {
         return query;
     }
 
-    public static String getTemp_CCPD_RetrunsQuery() {
+    public static String getTempCCPDRetrunsQuery() {
 
         String query = "   IF Object_id('TEMPDB..#TEMP_CCPD') IS NOT NULL\n"
                 + "  DROP TABLE #TEMP_CCPD\n"

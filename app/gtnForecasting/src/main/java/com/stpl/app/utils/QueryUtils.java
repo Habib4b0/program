@@ -528,7 +528,7 @@ public class QueryUtils {
      * @param list
      * @return
      */
-    public  boolean insertOrUpdate_customerSelection(SessionDTO session, Map<String, Object> parameters,boolean values) {
+    public  boolean insertOrUpdateCustomerSelection(SessionDTO session, Map<String, Object> parameters,boolean values) {
          String  query = SQlUtil.getQuery("CUSTOMER_SELECTION_ADD_ALL_QUERY");
             query = query.replace("[$AVAILABLE_CHECKBOX]", values ? "1" : "0");
             query = query.replace("[$SELECTED_RECORDS]", "0");

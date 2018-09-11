@@ -64,10 +64,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 			if (systemId != null && systemId > 0) {
 				chRequest.getGtnWsContractMasterBean().setContractMasterSid(systemId);
 			}
-			GtnUIFrameworkWebserviceResponse reponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-					GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SERVICE
-							+ GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SAVE_SERVICE,
-					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebserviceResponse reponse = callContractHeaderSaveService(request);
 			Integer contractMasterSid = reponse.getGtnWsContractHeaderResponse().getGtnWsContractMasterBean()
 					.getContractMasterSid();
 			GtnUIFrameworkGlobalUI.addSessionProperty("contractMasterSid", contractMasterSid);
@@ -98,7 +95,15 @@ public class GtnUIFrameworkContractHeaderSaveAction
 
 	}
 
-	private void setProperties(GtnWsContractHeaderRequest chReques, List<String> fieldList, List<String> beanFieldList)
+    public GtnUIFrameworkWebserviceResponse callContractHeaderSaveService(GtnUIFrameworkWebserviceRequest request) {
+        return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SERVICE
+                        + GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SAVE_SERVICE,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        
+    }
+
+	public void setProperties(GtnWsContractHeaderRequest chReques, List<String> fieldList, List<String> beanFieldList)
 			throws GtnFrameworkGeneralException {
 		GtnWsContractMasterBean contractMasterBean = new GtnWsContractMasterBean();
 		chReques.setGtnWsContractMasterBean(contractMasterBean);

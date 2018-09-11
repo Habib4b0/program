@@ -138,7 +138,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	private List<GtnWsReportCustomCCPListDetails> customizeCustomCCP(List<Object[]> resultList,
 			Map<Integer, Integer> customViewDetails) {
-		List<GtnWsReportCustomCCPListDetails> ccpList = new ArrayList<>();
+		List<GtnWsReportCustomCCPListDetails> ccpList = new ArrayList<>(resultList.size());
 		for (Object[] result : resultList) {
 			GtnWsReportCustomCCPListDetails data = applicationContext.getBean(GtnWsReportCustomCCPListDetails.class);
 			data.setLevelNo(Integer.parseInt(result[3].toString()));
@@ -603,7 +603,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private void currencyTypeNoConversionDataConverters(GtnWsRecordBean gtnWsRecordBean, String mapKey,
 			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition) {
 		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
-				|| mapKey.contains("PER") || mapKey.contains("RATE")) {
+				|| mapKey.contains("PER") || mapKey.contains("RATE") || mapKey.contains("WEIGHTED")) {
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
 					+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 		} else if (("V".equals(variableIndicator) && levelName.contains("Unit")) || mapKey.contains("UNIT")

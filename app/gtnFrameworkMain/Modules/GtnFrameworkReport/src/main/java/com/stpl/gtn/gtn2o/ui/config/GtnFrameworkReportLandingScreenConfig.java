@@ -331,8 +331,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		modeSelectionlayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
 		GtnUIFrameworkComponentConfig modeLayoutConfig = new GtnUIFrameworkComponentConfig();
 		modeLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		modeLayoutConfig
-				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
+		modeLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.MODE_SELECTION_LAYOUT);
 		modeLayoutConfig.setAddToParent(true);
 		modeLayoutConfig.setGtnLayoutConfig(modeSelectionlayout);
 		modeLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -343,8 +343,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		modeSelectionCsslayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
 		GtnUIFrameworkComponentConfig modeSelectionCsslayout = new GtnUIFrameworkComponentConfig();
 		modeSelectionCsslayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		modeSelectionCsslayout
-				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionCssLayout");
+		modeSelectionCsslayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.MODE_SELECTION_CSS_LAYOUT);
 		modeSelectionCsslayout.setAddToParent(true);
 		modeSelectionCsslayout.setGtnLayoutConfig(modeSelectionCsslayoutConfig);
 		modeSelectionCsslayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -361,9 +361,9 @@ public class GtnFrameworkReportLandingScreenConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewLayout");
 		privateViewLayoutConfig.setAddToParent(true);
 		privateViewLayoutConfig.setSpacing(true);
-		privateViewLayoutConfig
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
-		privateViewLayoutConfig.addComponentStyle("stpl-margin-top-10");
+		privateViewLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.MODE_SELECTION_LAYOUT);
+		privateViewLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
 		privateViewLayoutConfig.setGtnLayoutConfig(privateViewLayout);
 		componentList.add(privateViewLayoutConfig);
 
@@ -398,8 +398,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		companyLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "companyLayout");
 		companyLayoutConfig.setAddToParent(true);
 		companyLayoutConfig.setSpacing(true);
-		companyLayoutConfig
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
+		companyLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.MODE_SELECTION_LAYOUT);
 		companyLayoutConfig.addComponentStyle("v-reportLandingScreen-companyLayout");
 		companyLayoutConfig.setGtnLayoutConfig(companyLayout);
 		componentList.add(companyLayoutConfig);
@@ -434,8 +434,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSourceLayout");
 		reportDataSourceLayoutConfig.setAddToParent(true);
 		reportDataSourceLayoutConfig.addComponentStyle("v-reportLandingScreen-dataSourceLayout");
-		reportDataSourceLayoutConfig
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
+		reportDataSourceLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.MODE_SELECTION_LAYOUT);
 		reportDataSourceLayoutConfig.setGtnLayoutConfig(reportDataSourceLayout);
 		componentList.add(reportDataSourceLayoutConfig);
 
@@ -472,8 +472,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLayout");
 		publicViewLayoutConfig.setAddToParent(true);
 		publicViewLayoutConfig.setSpacing(true);
-		publicViewLayoutConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionCssLayout");
+		publicViewLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.MODE_SELECTION_CSS_LAYOUT);
 		publicViewLayoutConfig.setGtnLayoutConfig(publicViewLayout);
 		componentList.add(publicViewLayoutConfig);
 
@@ -515,8 +515,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		businessUnitLayoutConfig.setAddToParent(true);
 		businessUnitLayoutConfig.setSpacing(true);
 		businessUnitLayoutConfig.addComponentStyle("v-BU-layout");
-		businessUnitLayoutConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionCssLayout");
+		businessUnitLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.MODE_SELECTION_CSS_LAYOUT);
 		businessUnitLayoutConfig.setGtnLayoutConfig(businessUnitLayout);
 		componentList.add(businessUnitLayoutConfig);
 
@@ -550,7 +550,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		panel.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		panel.setAddToParent(true);
 		panel.setComponentHight("100px");
-		panel.addComponentStyle("stpl-margin-top-10");
+		panel.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
 		panel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_MAIN_LAYOUT);
 		componentList.add(panel);
@@ -589,7 +589,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD);
 		fromPeriod.setComponentName("From: ");
 		fromPeriod.setAddToParent(true);
-		// fromPeriod.addComboComponentStyle("v-reportLandingScreen-fromPeriod");
 		fromPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriodLayout");
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
 
@@ -614,7 +613,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
 		toPeriodLayoutConfig.setAddToParent(true);
 		toPeriodLayoutConfig.setGtnLayoutConfig(toPeriodLayout);
-		toPeriodLayoutConfig.addComponentStyle("stpl-margin-top-10");
+		toPeriodLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
 		toPeriodLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(toPeriodLayoutConfig);
@@ -626,7 +625,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		toPeriod.setComponentName("To: ");
 		toPeriod.setAddToParent(true);
 		toPeriod.setEnable(false);
-		// toPeriod.addComboComponentStyle("v-reportLandingScreen-toPeriodComboBox");
 		toPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
 
 		GtnUIFrameworkComboBoxConfig toPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
@@ -756,23 +754,31 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameWorkActionConfig resetAction = new GtnUIFrameWorkActionConfig();
 		resetAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		resetAction.setActionParameterList(Arrays.asList(GtnReportDataSelectionResetAction.class.getName(),
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "company",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.COMPANY,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.BUSINESS_UNIT,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.REPORT_DATA_SOURCE,
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriod",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.FROM_PERIOD,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "STATUS",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.CUSTOMER_SELECTION_RELATIONSHIP,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.CUSTOMER_SELECTION_LEVEL,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionForecastEligibilityDate",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.CUSTOMER_DUAL_LIST_BOX,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.RELATIONSHIP,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.LEVEL_LOWERCASE,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productRelationshipVersion",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.PRODUCTDUAL_LIST_BOX_COMP,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariable",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -794,18 +800,26 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig saveViewDataSelectionValidationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
-		saveViewDataSelectionValidationActionConfig
-				.setFieldValues(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "company",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkReportStringConstants.REPORT_DATA_SOURCE,
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriod",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp"));
+		saveViewDataSelectionValidationActionConfig.setFieldValues(Arrays.asList(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.COMPANY,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.BUSINESS_UNIT,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_DATA_SOURCE,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.FROM_PERIOD,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.CUSTOMER_SELECTION_RELATIONSHIP,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.CUSTOMER_SELECTION_LEVEL,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.CUSTOMER_DUAL_LIST_BOX,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.RELATIONSHIP,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.LEVEL_LOWERCASE,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.PRODUCTDUAL_LIST_BOX_COMP));
 
 		GtnUIFrameWorkActionConfig saveViewDataSelectionAlertActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
@@ -821,23 +835,31 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameWorkActionConfig saveViewAction = new GtnUIFrameWorkActionConfig();
 		saveViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		saveViewAction.setActionParameterList(Arrays.asList(GtnUIFrameworkSaveViewAction.class.getName(),
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "company",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.COMPANY,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.BUSINESS_UNIT,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.REPORT_DATA_SOURCE,
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriod",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.FROM_PERIOD,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "STATUS",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.CUSTOMER_SELECTION_RELATIONSHIP,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.CUSTOMER_SELECTION_LEVEL,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionForecastEligibilityDate",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.CUSTOMER_DUAL_LIST_BOX,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.RELATIONSHIP,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.LEVEL_LOWERCASE,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productRelationshipVersion",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.PRODUCTDUAL_LIST_BOX_COMP,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariable",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
