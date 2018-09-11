@@ -132,21 +132,23 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 	}
 
 	private void addHierarchyTypeOptionGroup(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
-		
+
 		GtnUIFrameworkComponentConfig addDsReportProductHierarchyTypeOptionGroupLayout = new GtnUIFrameworkComponentConfig();
 		addDsReportProductHierarchyTypeOptionGroupLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		addDsReportProductHierarchyTypeOptionGroupLayout
-		.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ "reportDsProductHierarchyTypeOptionGroupVerticalLayout");
+				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ "reportDsProductHierarchyTypeOptionGroupVerticalLayout");
 		addDsReportProductHierarchyTypeOptionGroupLayout.addComponentStyle("stpl-margin-left-25");
 		addDsReportProductHierarchyTypeOptionGroupLayout.setAddToParent(true);
-		addDsReportProductHierarchyTypeOptionGroupLayout.setParentComponentId(namespace
-				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
-		
+		addDsReportProductHierarchyTypeOptionGroupLayout
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
+
 		GtnUIFrameworkLayoutConfig reportProductHierarchyTypeOptionGroupainLayout = new GtnUIFrameworkLayoutConfig();
 		reportProductHierarchyTypeOptionGroupainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
-		addDsReportProductHierarchyTypeOptionGroupLayout.setGtnLayoutConfig(reportProductHierarchyTypeOptionGroupainLayout);
-		
+		addDsReportProductHierarchyTypeOptionGroupLayout
+				.setGtnLayoutConfig(reportProductHierarchyTypeOptionGroupainLayout);
+
 		GtnUIFrameworkComponentConfig productHierarchyTypeOptionGroup = new GtnUIFrameworkComponentConfig();
 		productHierarchyTypeOptionGroup.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
 		productHierarchyTypeOptionGroup.setComponentId(
@@ -165,20 +167,20 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 	}
 
 	private void addHierarchyNameTextBox(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
-		
+
 		GtnUIFrameworkComponentConfig addDsReportProductHierarchyNameTextBoxLayout = new GtnUIFrameworkComponentConfig();
 		addDsReportProductHierarchyNameTextBoxLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		addDsReportProductHierarchyNameTextBoxLayout
-		.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ "reportDsProductHierarchyNameTextBoxVerticalLayout");
+		addDsReportProductHierarchyNameTextBoxLayout.setComponentId(namespace
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + "reportDsProductHierarchyNameTextBoxVerticalLayout");
 		addDsReportProductHierarchyNameTextBoxLayout.setAddToParent(true);
-		addDsReportProductHierarchyNameTextBoxLayout.setParentComponentId(namespace
-				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
-		
+		addDsReportProductHierarchyNameTextBoxLayout
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
+
 		GtnUIFrameworkLayoutConfig reportProductHierarchyNameMainLayout = new GtnUIFrameworkLayoutConfig();
 		reportProductHierarchyNameMainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		addDsReportProductHierarchyNameTextBoxLayout.setGtnLayoutConfig(reportProductHierarchyNameMainLayout);
-		
+
 		GtnUIFrameworkComponentConfig productHierarchyName = new GtnUIFrameworkComponentConfig();
 		productHierarchyName.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		productHierarchyName.setComponentId(
@@ -193,7 +195,7 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		productHierarchyName.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		productHierarchyName.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ "reportDsProductHierarchyNameTextBoxVerticalLayout");
-		
+
 		GtnUIFrameworkValidationConfig hierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
 		hierarchyNameValidationConfig
 				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
@@ -229,9 +231,11 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		dsProductHierarchySearchButton.setComponentName("SEARCH");
 		dsProductHierarchySearchButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.SEARCH_AND_RESET_BUTTON_LAYOUT);
-		dsProductHierarchySearchButton.addComponentStyle(GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);	
-		dsProductHierarchySearchButton.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
-		
+		dsProductHierarchySearchButton.addComponentStyle(
+				GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
+		dsProductHierarchySearchButton
+				.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
+
 		dsProductHierarchySearchButton.setAddToParent(true);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
@@ -258,12 +262,10 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 				Arrays.asList(dsProductValidationType, Arrays.asList(dsProductAlertActionConfig)));
 		actionConfigList.add(dsProductValidationActionConfig);
 
-		productTableLoadConfig
-				.setFieldValues(Arrays.asList(new String[] {
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkCommonConstants.HIERARCHY_TYPE,
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkCommonConstants.HIERARCHY_NAME }));
+		productTableLoadConfig.setFieldValues(Arrays.asList(new String[] {
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_TYPE,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkCommonConstants.HIERARCHY_NAME }));
 
 		List<Object> actionParams = new ArrayList<>();
 		actionParams.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -308,7 +310,8 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 			String namespace) {
 		GtnUIFrameworkComponentConfig searchResultsPanel = new GtnUIFrameworkComponentConfig();
 		searchResultsPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		searchResultsPanel.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "resultsPanel");
+		searchResultsPanel.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.RESULTS_PANEL);
 		searchResultsPanel.setComponentName("RESULTS");
 		searchResultsPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
@@ -316,12 +319,12 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		searchResultsPanel.setAddToParent(true);
 		searchResultsPanel.addComponentStyle("stpl-margin-left-10");
 		searchResultsPanel.addComponentStyle("stpl-margin-top-11");
-		
+
 		componentList.add(searchResultsPanel);
 		addProductHierarchyPagedTableComponent(componentList, namespace);
 	}
 
-	private void resultLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
+	public void resultLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkLayoutConfig searchResultLayout = new GtnUIFrameworkLayoutConfig();
 		searchResultLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 
@@ -329,8 +332,8 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		resultsInnerLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		resultsInnerLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "resultLayout");
 
-		resultsInnerLayout
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "resultsPanel");
+		resultsInnerLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.RESULTS_PANEL);
 		resultsInnerLayout.setAddToParent(true);
 		resultsInnerLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		resultsInnerLayout.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -348,8 +351,8 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		searchResultsTableConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
 		searchResultsTableConfig.setComponentName("Results");
-		searchResultsTableConfig
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "resultsPanel");
+		searchResultsTableConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.RESULTS_PANEL);
 		searchResultsTableConfig.setAddToParent(true);
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add("filterbar");
@@ -377,7 +380,7 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		alertAction.addActionParameter("No Results Found");
 		alertAction.addActionParameter("There are no Hierarchies that match the search criteria.");
 		productSearchResults.setRecordTypeManageActionConfig(alertAction);
-		
+
 		productSearchResults.setColumnHeaders(Arrays.asList("HierarchyName", "Highest Level", "Lowest Level",
 				GtnFrameworkCommonConstants.CREATED_DATE_HEADER, GtnFrameworkCommonConstants.MODIFIED_DATE_HEADER));
 		productSearchResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING,
@@ -397,8 +400,8 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		selectButtonEnableActionConfig
 				.addActionParameter(GtnFrameworkSelectButtonEnableActionInHierarchyLookup.class.getName());
-		selectButtonEnableActionConfig.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE +GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SELECT_BUTTON);
+		selectButtonEnableActionConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SELECT_BUTTON);
 		selectButtonEnableActionConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
 		itemClickActionConfigList.add(selectButtonEnableActionConfig);
@@ -414,7 +417,7 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.DATEFIELDVAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8 };
 		String[] productComboboxIds = new String[1];
-		String[] productComboBoxType =  new String[1];
+		String[] productComboBoxType = new String[1];
 		int startIndex = 0;
 		for (int i = 0; i < columnPropertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig prodHierarchyFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
@@ -439,7 +442,6 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		return productHierarchyustomFilterConfigMap;
 	}
 
-
 	private void addreportProductHierarchyControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig actionButtonLayout = new GtnUIFrameworkComponentConfig();
@@ -463,9 +465,10 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		productSelectBtn.setAddToParent(true);
 		productSelectBtn.addDependentComponent("dataSelectionTab_relationship");
 		productSelectBtn.setEnable(false);
-		productSelectBtn.addComponentStyle(GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
+		productSelectBtn.addComponentStyle(
+				GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
 		productSelectBtn.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
-		
+
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig productSelectAction = new GtnUIFrameWorkActionConfig();
 		productSelectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
@@ -494,7 +497,8 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		productCancelBtn.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		productCancelBtn.setAddToParent(true);
-		productCancelBtn.addComponentStyle(GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
+		productCancelBtn.addComponentStyle(
+				GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
 		productCancelBtn.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
 		productCancelBtn.addGtnUIFrameWorkActionConfig(reportDsProductHierarchyClosepopup);
 		componentList.add(productCancelBtn);

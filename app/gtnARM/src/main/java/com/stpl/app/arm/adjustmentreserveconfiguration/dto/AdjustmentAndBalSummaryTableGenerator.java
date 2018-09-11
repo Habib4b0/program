@@ -87,12 +87,12 @@ public class AdjustmentAndBalSummaryTableGenerator implements ExtFilterGenerator
         return null;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream tabgenout) throws IOException {
+        tabgenout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream tabgenout) throws IOException, ClassNotFoundException {
+        tabgenout.defaultReadObject();
     }
 
 }

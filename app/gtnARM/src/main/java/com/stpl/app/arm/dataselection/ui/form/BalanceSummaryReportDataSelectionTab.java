@@ -628,9 +628,9 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
         }
     };
 
-    private final CustomNotification notifier = new CustomNotification();
+    private final BSRReportDataSelectionCustomNotification notifier = new BSRReportDataSelectionCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class BSRReportDataSelectionCustomNotification extends AbstractNotificationUtils {
 
         @Override
         public void noMethod() {
