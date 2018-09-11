@@ -9,11 +9,11 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.TabSheet;
 
-public class GtnFrameworkReportTabChangeAction implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass{
+public class GtnFrameworkReportTabChangeAction
+		implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkReportTabChangeAction.class);
 
-	
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -23,10 +23,11 @@ public class GtnFrameworkReportTabChangeAction implements GtnUIFrameworkActionSh
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		String sourceViewId =GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+		String sourceViewId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
 		TabSheet tabsheet = (TabSheet) GtnUIFrameworkGlobalUI
 				.getVaadinComponent((String) gtnUIFrameWorkActionConfig.getActionParameterList().get(1), sourceViewId);
-		tabsheet.setSelectedTab(Integer.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString()));		
+		tabsheet.setSelectedTab(
+				Integer.parseInt(gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString()));
 	}
 
 	@Override

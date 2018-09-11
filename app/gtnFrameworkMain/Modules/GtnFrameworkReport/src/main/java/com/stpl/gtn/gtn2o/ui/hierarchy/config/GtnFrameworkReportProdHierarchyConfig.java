@@ -31,8 +31,13 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportProdHierarchyConfig {
+
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 	private String currentScreenNameSpace;
+
+	public GtnFrameworkReportProdHierarchyConfig() {
+		super();
+	}
 
 	public List<GtnUIFrameworkComponentConfig> getProductSelectionLayoutComponents(String namespace,
 			String currentScreenNameSpace) {
@@ -124,8 +129,8 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		layoutConf.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
 		GtnUIFrameworkComponentConfig hierarchyRelationshipConfig = new GtnUIFrameworkComponentConfig();
 		hierarchyRelationshipConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		hierarchyRelationshipConfig.setComponentId("hierarchyRelationshipConfig");
-		hierarchyRelationshipConfig.setComponentName("hierarchyRelationshipConfig");
+		hierarchyRelationshipConfig.setComponentId(GtnFrameworkReportStringConstants.HIERARCHY_RELATIONSHIP_CONFIG);
+		hierarchyRelationshipConfig.setComponentName(GtnFrameworkReportStringConstants.HIERARCHY_RELATIONSHIP_CONFIG);
 		hierarchyRelationshipConfig.setAddToParent(true);
 		hierarchyRelationshipConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		hierarchyRelationshipConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -139,8 +144,9 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				true, hierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig hierarchy = configProvider.getUIFrameworkComponentConfig(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy", true,
-				hierarchyLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.PRODUCTHIERARCHY,
+				true, hierarchyLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		hierarchyLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_18_PX);
 		hierarchy.setComponentName("Hierarchy: ");
 
@@ -194,8 +200,8 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		loadForecastLavelAction.addActionParameter(GtnReportForecastLevelLoadAction.class.getName());
 		loadForecastLavelAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP_VERSION);
-		loadForecastLavelAction
-				.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy");
+		loadForecastLavelAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.PRODUCTHIERARCHY);
 		loadForecastLavelAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PRODUCT_LEVEL);
 		actionConfigList.add(loadForecastLavelAction);
@@ -270,7 +276,8 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		loadAvailabletableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadAvailabletableActionConfig
 				.setActionParameterList(Arrays.asList(GtnProductLevelAvailableTableLoadAction.class.getName(),
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy",
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkReportStringConstants.PRODUCTHIERARCHY,
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 								+ GtnFrameworkReportStringConstants.PRODUCT_HIERARCHYRELATIONSHIP,
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -357,7 +364,8 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameworkComponentConfig reportCssGtnLayout = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
-				true, "hierarchyRelationshipConfig", GtnUIFrameworkComponentType.LAYOUT);
+				true, GtnFrameworkReportStringConstants.HIERARCHY_RELATIONSHIP_CONFIG,
+				GtnUIFrameworkComponentType.LAYOUT);
 		reportCssGtnLayout.setGtnLayoutConfig(reportCssLayout);
 		componentList.add(reportCssGtnLayout);
 		addCustomViewButtonComponent(componentList, nameSpace);

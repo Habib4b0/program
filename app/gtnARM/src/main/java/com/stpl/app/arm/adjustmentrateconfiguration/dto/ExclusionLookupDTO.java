@@ -218,12 +218,12 @@ public class ExclusionLookupDTO implements Serializable, Comparable<ExclusionLoo
         this.sessionUserID = sessionUserID;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream exclDtoout) throws IOException {
+        exclDtoout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream exclDtoout) throws IOException, ClassNotFoundException {
+        exclDtoout.defaultReadObject();
     }
 
 }

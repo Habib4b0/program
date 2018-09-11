@@ -103,11 +103,7 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
                 }
 
             }
-            if (CommonConstant.PRODUCT_LEVEL.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-                level = "ITEM";
-            } else if (CommonConstant.BRAND_LEVEL_FILTER.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-                level = CommonConstant.BRAND_LEVEL;
-            }
+            level = getLevel(selection, level);
 
             if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
                 sql = SQlUtil.getQuery("trx7_getSalesBrandCount");
@@ -176,18 +172,9 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
             }
 
         }
-        if (CommonConstant.PRODUCT_LEVEL.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-            level = "ITEM";
-        } else if (CommonConstant.BRAND_LEVEL_FILTER.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-            level = CommonConstant.BRAND_LEVEL;
-        }
+        level = getLevel(selection, level);
 
-        if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
-            sql = SQlUtil.getQuery("trx7_getSalesBrand");
-
-        } else {
-            sql = SQlUtil.getQuery("trx7_getSalesBrandEdit");
-        }
+        sql = getSql(selection);
         sql = sql.replace("[$VIEW]", level);
         sql = sql.replace("[PROJECTION_MASTER_SID]", String.valueOf(selection.getProjectionMasterSid()));
         sql = sql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
@@ -226,6 +213,27 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
         DataResult<T> resultList = customizier(ARMUtils.getTrx7SalesVariables(), result);
         LOGGERTRX7.debug("Exit getSalesData--{}", result.size());
         return resultList;
+    }
+
+    private String getLevel(SelectionDTO selection, String level) {
+        String retLevel = level;
+        if (CommonConstant.PRODUCT_LEVEL.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
+            retLevel = "ITEM";
+        } else if (CommonConstant.BRAND_LEVEL_FILTER.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
+            retLevel = CommonConstant.BRAND_LEVEL;
+        }
+        return retLevel;
+    }
+
+    private String getSql(SelectionDTO selection) {
+        String sql;
+        if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
+            sql = SQlUtil.getQuery("trx7_getSalesBrand");
+
+        } else {
+            sql = SQlUtil.getQuery("trx7_getSalesBrandEdit");
+        }
+        return sql;
     }
 
     public boolean updatePriceOverride(List input) {
