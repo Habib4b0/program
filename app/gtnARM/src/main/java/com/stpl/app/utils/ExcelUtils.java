@@ -161,7 +161,8 @@ public class ExcelUtils {
         return mapList;
     }
 
-    private static int setExcelAndgetIndex(String column, Object value, AdjustmentDTO excelAdjustmentDto, int index) throws IllegalAccessException, InvocationTargetException {
+    private static int setExcelAndgetIndex(String column, Object value, AdjustmentDTO excelAdjustmentDto, int newIndex) throws IllegalAccessException, InvocationTargetException {
+        int index = newIndex;
         if (column.matches(CommonConstant.ALPHA)) {
             if (value instanceof BigInteger) {
                 excelAdjustmentDto.addProperties(column, value);
