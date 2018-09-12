@@ -40,6 +40,7 @@ public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelecti
     public AdjustmentSummaryDemandAccrual(DASelectionDTO selection) throws InvocationTargetException {
         super(selection, new DASummaryLogic());
         this.demandSummarySelectionDTO = selection;
+        super.init();
         configureWorkFlow();
     }
 

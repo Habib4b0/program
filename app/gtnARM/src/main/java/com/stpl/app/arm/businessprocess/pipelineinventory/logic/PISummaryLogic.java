@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSummaryLogic<T> {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger PI_LOGGER = LoggerFactory.getLogger(PISummaryLogic.class);
 
     @Override
     protected int getSummaryCount(List<Object> inputs, Criteria criteria) {
@@ -171,7 +171,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FIVE), flag[NumericConstants.FIVE] ? decimalformat.format(totalColumnValue[NumericConstants.FIVE]) : StringUtils.EMPTY);
             }
             lastBrand = brand;
-            logger.debug("index-------{}", index);
+            PI_LOGGER.debug("index-------{}", index);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(resultList);

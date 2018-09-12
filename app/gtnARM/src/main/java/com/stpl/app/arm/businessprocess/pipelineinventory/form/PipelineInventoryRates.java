@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PipelineInventoryRates extends AbstractPipelineRates {
     
-    private final Logger ratesDetailsLogger = LoggerFactory.getLogger(PipelineInventoryRates.class);
+    private static final Logger RATES_DETAILS_LOGGER = LoggerFactory.getLogger(PipelineInventoryRates.class);
 
     public PipelineInventoryRates(AbstractSelectionDTO selection) {
         super(selection);
@@ -53,25 +53,25 @@ public class PipelineInventoryRates extends AbstractPipelineRates {
 
     @Override
     public AbstractBPLogic getRatelogicObject() {
-        ratesDetailsLogger.debug("Inside getRatelogicObject");
+        RATES_DETAILS_LOGGER.debug("Inside getRatelogicObject");
         return new PipelineInventoryRatelogic();
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        ratesDetailsLogger.debug("Inside getExcelLogic");
+        RATES_DETAILS_LOGGER.debug("Inside getExcelLogic");
         return getRatelogicObject();
     }
 
     @Override
     public Focusable getDefaultFocusComponent() {
-        ratesDetailsLogger.debug("Inside getDefaultFocusComponent");
+        RATES_DETAILS_LOGGER.debug("Inside getDefaultFocusComponent");
         return deductionLevelDdlb;
     }
 
     @Override
     public boolean checkLeave() {
-        ratesDetailsLogger.debug("Inside checkLeave");
+        RATES_DETAILS_LOGGER.debug("Inside checkLeave");
         return true;
     }
 

@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
-    private final Logger paDetailsLogger = LoggerFactory.getLogger(PADetailsLogic.class);
+    private static final Logger PA_DETAILS_LOGGER = LoggerFactory.getLogger(PADetailsLogic.class);
 
     @Override
     public List<List> getReserveAccountDetails(AbstractSelectionDTO accrualSelection, Boolean isReserve) {
@@ -86,25 +86,25 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
-        paDetailsLogger.debug("Inside getExcelResultList");
+        PA_DETAILS_LOGGER.debug("Inside getExcelResultList");
         return Collections.emptyList();
     }
 
     @Override
     protected String getTableNameForView() {
-        paDetailsLogger.debug("Inside getTableNameForView");
+        PA_DETAILS_LOGGER.debug("Inside getTableNameForView");
         return "ARM_PIPELINE_RATE";
     }
 
     @Override
     protected String getTableNameForEdit() {
-        paDetailsLogger.debug("Inside getTableNameForEdit");
+        PA_DETAILS_LOGGER.debug("Inside getTableNameForEdit");
         return "ST_ARM_PIPELINE_RATE";
     }
 
     @Override
     protected CharSequence getRateColumn() {
-        paDetailsLogger.debug("Inside getRateColumn");
+        PA_DETAILS_LOGGER.debug("Inside getRateColumn");
         return "B.RATE";
     }
 
