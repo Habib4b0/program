@@ -28,11 +28,14 @@ import org.slf4j.LoggerFactory;
  * @author
  */
 public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(ReturnReserveAdjustmentDetail.class);
-
+    
+    public static final Logger RR_ADJ_LOGGER = LoggerFactory.getLogger(ReturnReserveAdjustmentDetail.class);
+    
+    private AbstractSelectionDTO rrSelectionDto;
+    
     public ReturnReserveAdjustmentDetail(AbstractSelectionDTO selectionDto) {
         super(new RRDetailsLogic(), selectionDto);
+        this.rrSelectionDto = selectionDto;
         init();
     }
 
@@ -40,43 +43,44 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
      * To set the values to the DTO This method will be called before generate
      */
     public void setSelection() {
-        selection.setDetailLevel(level.getValue().toString());
-        selection.setDetailvariables(Arrays.asList(variableValue));
+        rrSelectionDto.setDetailLevel(level.getValue().toString());
+        rrSelectionDto.setDetailvariables(Arrays.asList(variableValue));
         List<List> account = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
-        selection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
+        rrSelectionDto.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
         List<String> amtFilter = CommonUtils.getSelectedVariables(amountFilterItem);
-        selection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
+        rrSelectionDto.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
-        selection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
+        rrSelectionDto.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
     }
-
+    
     @Override
     protected void generateBtn() {
         try {
             setSelection();
-            if (logic.generateButtonCheck(selection)) {
+            if (logic.generateButtonCheck(rrSelectionDto)) {
                 super.generateBtn();
                 tableLogic.loadSetData(Boolean.TRUE);
             } else if (isGenerateFlag()) {
                 AbstractNotificationUtils.getErrorNotification(WorkflowMessages.getCW_SubmitMandoryValidationHeader(), ARMMessages.getGenerateMessageMsgId_004());
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in generateBtn :", ex);
+            RR_ADJ_LOGGER.error("Error in generateBtn :", ex);
         }
     }
-
+    
     @Override
     protected void loadReserveAccount() {
-        List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
+        List<List> list = logic.getReserveAccountDetails(rrSelectionDto, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
         if (list != null && !list.isEmpty()) {
             CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
                     Arrays.copyOf(list.get(1).toArray(), list.get(1).size(), String[].class));
             CommonUtils.checkAllMenuBarItem(reserveMenuItem);
         }
     }
-
+    
     @Override
     protected void loadVariable() {
+        RR_ADJ_LOGGER.debug("Inside loadVariable");
         variableHeader = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? ARMUtils.getAdjustmentDemandPipelineReserveVariableCombobox() : ARMUtils.getAdjustmentDemandPipelineGtnVariableCombobox();
         variableValue = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? VariableConstants.getAdjustmentDemandPipelineReserveVariable() : VariableConstants.getAdjustmentDemandPipelineGtnVariable();
     }
@@ -86,21 +90,22 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
      */
     @Override
     protected void variableDefaultSelection() {
-        List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
+        List returnReserveList = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
                 ? VariableConstants.getAdjustmentDemandPipelineReserveVariableDefaultSelection()
                 : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-            if (list.contains(object.getMenuItem().getWindow())) {
+            if (returnReserveList.contains(object.getMenuItem().getWindow())) {
                 object.setChecked(Boolean.TRUE);
             }
         }
     }
-
+    
     @Override
     public Focusable getDefaultFocusComponent() {
+        RR_ADJ_LOGGER.debug("Inside getDefaultFocusComponent");
         return level;
     }
-
+    
     @Override
     protected void columnAlignmentChanges() {
         for (Object obj : resultsTable.getVisibleColumns()) {
@@ -109,10 +114,10 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
             }
         }
     }
-
+    
     public void configurePermission(String userId, StplSecurity stplSecurity) {
-        LOGGER.debug("inside configurePermission Method{}", userId + stplSecurity);
-
+        RR_ADJ_LOGGER.debug("inside configurePermission Method{}", userId + stplSecurity);
+        
     }
-
+    
 }

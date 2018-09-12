@@ -21,7 +21,7 @@ public class BSummaryPipelineSummary extends AbstractBSummaryReportSummary {
      */
     private BSummaryPipelineResults results;
     
-    public final Logger pipelineSummary = LoggerFactory.getLogger(BSummaryPipelineSummary.class);
+    public static final Logger PIPELINE_SUMMARY = LoggerFactory.getLogger(BSummaryPipelineSummary.class);
 
     private String[] defaultVariablesHeader = {"Starting Balance", "Pipeline Accrual", "Demand Accrual", "Pipeline Inventory True-Up",
         "Demand Reforecast", "Total Period Adjustment", "Ending Balance", "Total"};
@@ -40,31 +40,31 @@ public class BSummaryPipelineSummary extends AbstractBSummaryReportSummary {
 
     @Override
     public BSummaryPipelineResults getResultsObject() {
-        pipelineSummary.debug("inside getResultsObject");
+        PIPELINE_SUMMARY.debug("inside getResultsObject");
         return results;
     }
 
     @Override
     public String[] getDefaultColumnsHeader() {
-        pipelineSummary.debug("inside getDefaultColumnsHeader");
+        PIPELINE_SUMMARY.debug("inside getDefaultColumnsHeader");
         return defaultColumnsHeader.clone();
     }
 
     @Override
     public String[] getDefaultColumns() {
-        pipelineSummary.debug("inside getDefaultColumns");
+        PIPELINE_SUMMARY.debug("inside getDefaultColumns");
         return defaultColumns.clone();
     }
 
     @Override
     public String getProcedureName() {
-        pipelineSummary.debug("inside getProcedureName");
+        PIPELINE_SUMMARY.debug("inside getProcedureName");
         return "PRC_ARM_BSR_PIPELINE";
     }
 
     @Override
     public String getTempTablesPropertyName() {
-        pipelineSummary.debug("inside getTempTablesPropertyName");
+        PIPELINE_SUMMARY.debug("inside getTempTablesPropertyName");
         return "ARM_BSR_PIPELINE";
     }
 
@@ -80,13 +80,13 @@ public class BSummaryPipelineSummary extends AbstractBSummaryReportSummary {
 
     @Override
     public String[] getAdjustmentTypeHeader() {
-        pipelineSummary.debug("inside getAdjustmentTypeHeader");
+        PIPELINE_SUMMARY.debug("inside getAdjustmentTypeHeader");
         return defaultVariablesHeader.clone();
     }
 
     @Override
     public String[] getAdjustmentTypeColumn() {
-        pipelineSummary.debug("inside getAdjustmentTypeColumn");
+        PIPELINE_SUMMARY.debug("inside getAdjustmentTypeColumn");
         return defaultVariablesColumns.clone();
     }
 }

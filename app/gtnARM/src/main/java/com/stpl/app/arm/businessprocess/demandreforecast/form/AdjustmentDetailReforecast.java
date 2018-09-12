@@ -38,7 +38,7 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
 
     private boolean creditFlag;
     
-    private AbstractSelectionDTO reforecastSelection;
+    private final AbstractSelectionDTO reforecastSelection;
 
     public AdjustmentDetailReforecast(AbstractSelectionDTO selectionDto) {
         super(new DRDetailsLogic(), selectionDto);

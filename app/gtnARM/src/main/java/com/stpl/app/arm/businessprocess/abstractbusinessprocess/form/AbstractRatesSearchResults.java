@@ -38,7 +38,6 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
 
     private Object[] visibleColumns;
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected ExtTreeContainer<AdjustmentDTO> resultBeanContainerVal = new ExtTreeContainer<>(
             AdjustmentDTO.class, ExtContainer.DataStructureMode.LIST);
