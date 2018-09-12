@@ -84,16 +84,16 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
                 inventoryDto.setLevelName(String.valueOf(obj[NumericConstants.FOUR]));
                 switch (inventoryDto.getLevelName()) {
                     case VariableConstants.DEDUCTION_UPPERCASE:
-                        inventoryDto.setDeductionSID((Integer) (obj[NumericConstants.THREE]));
+                        inventoryDto.setDeductionSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                         break;
 
                     case VariableConstants.CUSTOMER_UPPERCASE:
                         if (ARMConstants.getDeductionContractCustomer().equals(inventorySelection.getRateDeductionView())) {
-                            inventoryDto.setCustomerSID((Integer) (obj[NumericConstants.THREE]));
+                            inventoryDto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                             inventoryDto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                             inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            inventoryDto.setCustomerSID((Integer) (obj[NumericConstants.THREE]));
+                            inventoryDto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                             inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         }
 
@@ -101,17 +101,17 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
 
                     case VariableConstants.CONTRACT_UPPERCASE:
                         if (ARMConstants.getDeductionContractCustomer().equals(inventorySelection.getRateDeductionView())) {
-                            inventoryDto.setContractSID((Integer) (obj[NumericConstants.THREE]));
+                            inventoryDto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                             inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            inventoryDto.setContractSID((Integer) (obj[NumericConstants.THREE]));
+                            inventoryDto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                             inventoryDto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                             inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         }
                         break;
 
                     case VariableConstants.BRAND_UPPERCASE:
-                        inventoryDto.setBrandSID((Integer) (obj[NumericConstants.THREE]));
+                        inventoryDto.setBrandSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                         inventoryDto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                         inventoryDto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                         inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
