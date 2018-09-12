@@ -52,12 +52,16 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String RESET_CONFIRMATION = "Reset Confirmation";
 	
 	public static final String VIEW_LAYOUT="privateViewLookupRootLayout";
+        
+        public static final String VIEW_LAYOUT_PUBLIC="publicViewLookupRootLayout";
 	
 	public static final String  CRITERIA_PANEL="privateViewSearchLookupSearchCriteriaPanel";
+        
+        public static final String  CRITERIA_PANEL_PUBLIC="publicViewSearchLookupSearchCriteriaPanel";
 	
 	public static final String  CRITERIA_LAYOUT="privateViewSearchLookupSearchCriteriaLayout";
 	
-	
+	public static final String  CRITERIA_LAYOUT_PUBLIC="publicViewSearchLookupSearchCriteriaLayout";
 	
 	public static final String REPORT = "report";
 
@@ -80,6 +84,8 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String RELATIONSHIP_VERSION = "RelationshipVersion";
 
 	public static final String PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT = "privateViewSearchLookupSearchAndResetLayout";
+        
+        public static final String PUBLIC_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT = "publicViewSearchLookupSearchAndResetLayout";
 
 	public static final String FORECAST_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT = "forecastProductHierarchyLookUpSearchCriteriaLayout";
 
