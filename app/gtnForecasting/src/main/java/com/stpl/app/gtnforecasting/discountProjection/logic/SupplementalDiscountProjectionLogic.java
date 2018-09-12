@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.FormulaDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
-import com.stpl.app.gtnforecasting.discountProjection.form.MSupplementalDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.SupplementalTableLogic;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -32,7 +31,6 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -803,47 +801,6 @@ public class SupplementalDiscountProjectionLogic {
             LOGGER.error(ex.getMessage());
         }
         return value;
-    }
-
-    public String[] getYearAndPeriod(Object propertyId) {
-        String[] periodArr = new String[3];
-        String tempStr = StringUtils.EMPTY;
-        String columnName = StringUtils.EMPTY;
-        String propertyIdValue = propertyId.toString();
-        if (propertyIdValue.contains(METHODOLOGY.getConstant())) {
-            tempStr = METHODOLOGY.getConstant();
-            columnName = tempStr;
-        } else if (propertyIdValue.contains(ACCESS.getConstant())) {
-            tempStr = ACCESS.getConstant();
-            columnName = tempStr;
-        } else if (propertyIdValue.contains(Constant.DISCOUNT_ONE)) {
-            tempStr = Constant.DISCOUNT_ONE;
-            columnName = tempStr.replace(tempStr, DISCOUNT1.getConstant());
-        } else if (propertyIdValue.contains(Constant.DISCOUNT_TWO)) {
-            tempStr = Constant.DISCOUNT_TWO;
-            columnName = tempStr.replace(tempStr, DISCOUNT2.getConstant());
-        } else if (propertyIdValue.contains(Constant.DISCOUNT_SMALL)) {
-            tempStr = Constant.DISCOUNT_SMALL;
-            columnName = tempStr.replace(tempStr, DISCOUNT_PARITY.getConstant());
-        } else if (propertyIdValue.contains(Constant.CONTRACT_PRICE_PROPERTY)) {
-            tempStr = Constant.CONTRACT_PRICE_PROPERTY;
-            columnName = tempStr.replace(tempStr, CONTRACT_PRICE.getConstant());
-        } else if (propertyIdValue.contains("ParityReference")) {
-            tempStr = "ParityReference";
-            columnName = tempStr.replace(tempStr, PARITY_REFERENCE.getConstant());
-        } else if (propertyIdValue.contains(PARITY.getConstant())) {
-            tempStr = PARITY.getConstant();
-            columnName = tempStr;
-        }
-        Calendar now = Calendar.getInstance();   // Gets the current date and time
-        int curryear = now.get(Calendar.YEAR);
-        String splitPeriodYear = propertyIdValue.replace(tempStr, StringUtils.EMPTY).replace(Constant.Q_SMALL, StringUtils.EMPTY);
-        final String year = splitPeriodYear.substring(splitPeriodYear.length() - String.valueOf(curryear).length());
-        final String period = splitPeriodYear.substring(0, splitPeriodYear.length() - String.valueOf(curryear).length());
-        periodArr[0] = period;
-        periodArr[1] = year;
-        periodArr[NumericConstants.TWO] = MSupplementalDiscountProjection.getColumnName(columnName);
-        return periodArr;
     }
 
     public void saveProjectionValues(DiscountProjectionDTO saveDto, Object propertyId, SessionDTO session, SupplementalTableLogic tableLogic) {

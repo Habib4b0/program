@@ -38,7 +38,7 @@ public class Transaction7 extends AbstractTransaction {
 
     private Trx7AdjustmentSummary distributionSummary;
     private Trx7AdjustmentDetail distributionDetails;
-    public static final Logger LOGGER = LoggerFactory.getLogger(Transaction7.class);
+    public static final Logger TXN7_LOGGER=  LoggerFactory.getLogger(Transaction7.class);
 
     public Transaction7(TabSheet tabSheet, CustomFieldGroup binder, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException {
         super(tabSheet, binder, NumericConstants.SEVEN, name, dataselectionDTO, sessionDTO);
@@ -69,7 +69,7 @@ public class Transaction7 extends AbstractTransaction {
             Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
-            LOGGER.error("Error in initializeTabs", e);
+            TXN7_LOGGER.error("Error in initializeTabs", e);
         }
     }
 
@@ -101,13 +101,13 @@ public class Transaction7 extends AbstractTransaction {
 
     @Override
     public String getGtnQuery() {
-        LOGGER.debug("Transaction 7 Gtn Outbound Insert Query");
+        TXN7_LOGGER.debug("Transaction 7 Gtn Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
-        LOGGER.debug("Transaction 7 Reserve Outbound Insert Query");
+        TXN7_LOGGER.debug("Transaction 7 Reserve Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 

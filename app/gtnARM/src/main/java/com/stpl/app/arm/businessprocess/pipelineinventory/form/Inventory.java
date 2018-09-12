@@ -242,7 +242,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         }
     }
 
-    private final CustomNotification notifier = new CustomNotification();
+    private final InventoryCustomNotification notifier = new InventoryCustomNotification();
 
     private void configureDblbLoading() {
         List<String> inventoryDetailsList = getPeriodsByFrequencyForMonth();
@@ -309,13 +309,13 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         }
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class InventoryCustomNotification extends AbstractNotificationUtils {
 
-        public CustomNotification() {
+        public InventoryCustomNotification() {
             LOGGER.debug("Empty Constructor");
         }
 
-        private String buttonName;
+        private String inventoryButtonName;
 
         @Override
         public void noMethod() {
@@ -324,9 +324,9 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", inventoryButtonName);
+            if (null != inventoryButtonName) {
+                switch (inventoryButtonName) {
                     case CommonConstant.RESET:
                         inventoryLevel.select(VariableConstants.CUSTOMER_GROUP);
                         setDefaultValue();
@@ -352,7 +352,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.inventoryButtonName = buttonName;
         }
 
     }

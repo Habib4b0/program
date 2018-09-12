@@ -63,8 +63,6 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
             List<ProjectionVarianceDTO> list = null;
             if (!StringUtils.EMPTY.equals(getScreenName()) && getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 list = nmProjectionVarianceLogic.getConfiguredProjectionVariance(getLastParent(), projSelDTO, baseVariables, start, offset);
-            } else if (!StringUtils.EMPTY.equals(getScreenName()) && getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                list = mProjectionVarianceLogic.getConfiguredProjectionVariance(getLastParent(), projSelDTO, start, offset);
             }
             int i = start;
             if (list != null) {
@@ -93,8 +91,6 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
             if (!StringUtils.EMPTY.equals(getScreenName()) && getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 projSelDTO.setTabName("Variance");
                 count = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(getLastParent(), projSelDTO, baseVariables, true);
-            } else if (!StringUtils.EMPTY.equals(getScreenName()) && getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                count = mProjectionVarianceLogic.getConfiguredProjectionVarianceCount(getLastParent(), projSelDTO, true);
             }
         }
         return count;
@@ -331,71 +327,12 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                         }
                     }
                 }
-            } else if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(getScreenName())) {
-                count = new MProjectionVarianceLogic().getConfiguredProjectionVarianceCount(parentId, projSelDTO, true);
-                LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
-                addlevelMap(treeLevel, levelMap);
-                String productHierarchyNo = projSelDTO.getProductHierarchyNo();
-                String customerHierarchyNo = projSelDTO.getCustomerHierarchyNo();
-                String hierarchyNo = projSelDTO.getHierarchyNo();
-                String indicator = projSelDTO.getHierarchyIndicator();
-                int levelNoMandated = projSelDTO.getTreeLevelNo();
-                if (expandLevelNo >= levelNoMandated) {
-                    levelList = MProjectionVarianceLogic.getConditionalLevelList(projSelDTO.getSession().getProjectionId(), 0, projSelDTO.getLevelCount(), indicator, levelNoMandated, hierarchyNo, productHierarchyNo, customerHierarchyNo, false, false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO);
-                    customizeResult(levelList, count, treeLevel, expandLevelNo, true, indicator, hierarchyNo, productHierarchyNo, customerHierarchyNo);
-                }
             }
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
 
-    /**
-     * Common for all three modules
-     *
-     * @param levelList
-     * @param count
-     * @param treeLevel
-     * @param expandLevelNo
-     * @param flag
-     * @throws Exception
-     */
-    private void customizeResult(List<Leveldto> levelList, int count, String treeLevel, int expandLevelNo, boolean flag,String hierarchyIndicator, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo) {
-        int size = levelList != null ? levelList.size() : 0;
-        int index = count - size+1;
-        for (int j = 0; j < size; j++) {
-            Leveldto levelDto = levelList.get(j);
-            String customTreeLevel = treeLevel + (index+j) + ".";
-            ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
-            dto.setLevelNo(flag ? levelDto.getLevelNo() : projSelDTO.getLevelNo());
-            dto.setTreeLevelNo(flag ? levelDto.getTreeLevelNo() : projSelDTO.getTreeLevelNo());
-            dto.setParentNode(flag ? levelDto.getParentNode() : projSelDTO.getParentNode());
-            dto.setLevelValue(flag ? levelDto.getRelationshipLevelValue() : projSelDTO.getLevelValue());
-            dto.setHierarchyIndicator(flag ? levelDto.getHierarchyIndicator() : hierarchyIndicator);
-            dto.setHierarchyNo(flag ? levelDto.getHierarchyNo() : hierarchyNo);
-            if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                dto.setCustomerHierarchyNo(dto.getHierarchyNo());
-                dto.setProductHierarchyNo(productHierarchyNo);
-            } else if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                dto.setProductHierarchyNo(dto.getHierarchyNo());
-                dto.setCustomerHierarchyNo(customerHierarchyNo);
-            } else {
-                dto.setProductHierarchyNo(productHierarchyNo);
-                dto.setCustomerHierarchyNo(customerHierarchyNo);
-            }
-            if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(getScreenName())) {
-                dto.setOnExpandTotalRow(1);
-                dto.setRelationshipLevelName(levelDto.getRelationshipLevelName());
-                dto.setGroup(levelDto.getRelationshipLevelName());
-            } else {
-                dto.setGroup(flag ? projSelDTO.getSessionDTO().getLevelValueDiscription(levelDto.getHierarchyNo(), levelDto.getHierarchyIndicator()) : projSelDTO.getGroupFilter());
-            }
-            dto.setParent(1);
-            addExpandedTreeList(customTreeLevel, dto);
-            recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
-        }
-        LOGGER.debug("Ending customizeResult");
-    }
 
     public String getScreenName() {
         return screenName;

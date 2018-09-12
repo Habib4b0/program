@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCVSaveValidationAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkComparisonLookupTextFieldEnableAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkConfirmSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCustomTreeConfirmedSaveAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkDataAssumptionFilterAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadFromInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadToInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkPublicViewDeleteValidation;
@@ -324,6 +325,8 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new ComparisonProjectionResultFilterAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonProjectionBeforeCloseAction.class.getName(),
 				new GtnReportComparisonProjectionBeforeCloseAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkDataAssumptionFilterAction.class.getName(),
+				new GtnFrameworkDataAssumptionFilterAction());
 
 	}
 
