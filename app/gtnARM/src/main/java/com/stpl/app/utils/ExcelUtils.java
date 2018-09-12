@@ -121,33 +121,13 @@ public class ExcelUtils {
                 if (columnCheck) {
                     if ("0.".equals(key)) {
                         if (column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
-                            if (column.matches(CommonConstant.ALPHA)) {
-                                if (value instanceof BigInteger) {
-                                    excelAdjustmentDto.addProperties(column, value);
-                                } else {
-                                    excelAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
-                                }
-                                index++;
-                            } else {
-                                BeanUtils.setProperty(excelAdjustmentDto, column, value);
-                                index++;
-                            }
+                            index = setExcelAndgetIndex(column, value, excelAdjustmentDto, index);
                             setTotalDTOValue(excelAdjustmentDto, value, column);
                             setTotalValue(newC, value, excelAdjustmentDto, isTrx3);
                             excelAdjustmentDto.setVisibleColumnIndex(0);
                         }
                     } else if ((Boolean) list.get(0) && column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
-                        if (column.matches(CommonConstant.ALPHA)) {
-                            if (value instanceof BigInteger) {
-                                excelAdjustmentDto.addProperties(column, value);
-                            } else {
-                                excelAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
-                            }
-                            index++;
-                        } else {
-                            BeanUtils.setProperty(excelAdjustmentDto, column, value);
-                            index++;
-                        }
+                        index = setExcelAndgetIndex(column, value, excelAdjustmentDto, index);
                         setTotalDTOValue(excelAdjustmentDto, value, column);
                         if (!"0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
                             excelAdjustmentDto.setTotalColumnValue(excelAdjustmentDto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
@@ -179,6 +159,22 @@ public class ExcelUtils {
             excelAdjustmentDto.setMonth(obj[(keyParam * NumericConstants.TWO) - 1].toString());
         }
         return mapList;
+    }
+
+    private static int setExcelAndgetIndex(String column, Object value, AdjustmentDTO excelAdjustmentDto, int newIndex) throws IllegalAccessException, InvocationTargetException {
+        int index = newIndex;
+        if (column.matches(CommonConstant.ALPHA)) {
+            if (value instanceof BigInteger) {
+                excelAdjustmentDto.addProperties(column, value);
+            } else {
+                excelAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+            }
+            index++;
+        } else {
+            BeanUtils.setProperty(excelAdjustmentDto, column, value);
+            index++;
+        }
+        return index;
     }
 
     public static List<Map<String, AdjustmentDTO>> returnReserveCustomizer(final List resultList, final Object[] object, final List<String> visibleColumns, final int interval, final int discountColumnNeeded, List<Object> list) throws IllegalAccessException, InvocationTargetException {
@@ -247,18 +243,7 @@ public class ExcelUtils {
                     index++;
                 } else if ("0.".equals(key)) {
                     if (column.startsWith(excelobj[excelDoubleHeaderIndex].toString().replace(" ", ""))) {
-                        if (column.matches(CommonConstant.ALPHA)) {
-
-                            if (value instanceof BigInteger) {
-                                retResExcelAdjustmentDto.addProperties(column, value);
-                            } else {
-                                retResExcelAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
-                            }
-                            index++;
-                        } else {
-                            BeanUtils.setProperty(retResExcelAdjustmentDto, column, value);
-                            index++;
-                        }
+                        index = setExcelAndgetIndex(column, value, retResExcelAdjustmentDto, index);
                         setTotalDTOValue(retResExcelAdjustmentDto, value, column);
                         if ("0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN() && String.valueOf(value).matches("^[\\d.]+$")) {
                             retResExcelAdjustmentDto.setTotalColumnValue(retResExcelAdjustmentDto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
@@ -267,17 +252,7 @@ public class ExcelUtils {
                     }
                 } else if ((Boolean) list.get(0) && column.startsWith(excelobj[excelDoubleHeaderIndex].toString().replace(" ", ""))) {
 
-                    if (column.matches(CommonConstant.ALPHA)) {
-                        if (value instanceof BigInteger) {
-                            retResExcelAdjustmentDto.addProperties(column, value);
-                        } else {
-                            retResExcelAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
-                        }
-                        index++;
-                    } else {
-                        BeanUtils.setProperty(retResExcelAdjustmentDto, column, value);
-                        index++;
-                    }
+                    index = setExcelAndgetIndex(column, value, retResExcelAdjustmentDto, index);
                     setTotalDTOValue(retResExcelAdjustmentDto, value, column);
                     if (!"0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
                         retResExcelAdjustmentDto.setTotalColumnValue(retResExcelAdjustmentDto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
