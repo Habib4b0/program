@@ -16,7 +16,6 @@ import com.stpl.app.arm.dataselection.dto.HierarchyLookupDTO;
 import com.stpl.app.arm.dataselection.dto.LevelDTO;
 import com.stpl.app.arm.dataselection.dto.ViewDTO;
 import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
-import static com.stpl.app.arm.dataselection.ui.form.DataSelection.getBeanFromId;
 import com.stpl.app.arm.dataselection.ui.lookups.HierarchyLookup;
 import com.stpl.app.arm.dataselection.ui.lookups.SaveViewLookUp;
 import com.stpl.app.arm.dataselection.ui.lookups.ViewSearchLookUp;
@@ -2628,37 +2627,6 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         for (LevelDTO ddo : selectedCustomerContainer.getItemIds()) {
             selectedCustomer.setCollapsed(ddo, false);
         }
-    }
-    
-    private void createHierarchyBasedOnHierarchyNo(ExtTreeContainer<LevelDTO> treeContainer, List<LevelDTO> reslistOne, int customerOrProductLevel) {
-        treeContainer.removeAllItems();
-        reslistOne.forEach(levelDto -> {
-            addToContainer(levelDto, treeContainer, customerOrProductLevel);
-        });
-    }
-
-    private void addToContainer(LevelDTO levelDto, ExtTreeContainer<LevelDTO> treeContainer, int customerOrProductLevel) {
-        if (levelDto.getLevelNo() == 1) {
-            treeContainer.addItem(levelDto);
-            treeContainer.setChildrenAllowed(levelDto, !(customerOrProductLevel == levelDto.getLevelNo()));
-        } else {
-            LevelDTO parentLevelDTO = getParentNode(levelDto, treeContainer);
-            treeContainer.addBean(levelDto);
-            treeContainer.setParent(levelDto, parentLevelDTO);
-            treeContainer.setChildrenAllowed(levelDto, !(customerOrProductLevel == levelDto.getLevelNo()));
-        }
-    }
-
-    private LevelDTO getParentNode(LevelDTO childLevelDto, ExtTreeContainer<LevelDTO> treeContainer) {
-        String childHierarchyNo = childLevelDto.getHierarchyNo();
-        String tempString = childHierarchyNo.substring(0, childHierarchyNo.lastIndexOf("."));
-        String parentHierarchyNo = childHierarchyNo.substring(0, tempString.lastIndexOf(".") + 1);
-
-        return treeContainer.getItemIds()
-                .stream()
-                .filter(levelDto -> getBeanFromId(levelDto).getHierarchyNo().equals(parentHierarchyNo))
-                .findFirst()
-                .orElse(childLevelDto);
     }
 
     /**

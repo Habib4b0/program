@@ -34,6 +34,7 @@ import com.stpl.app.arm.dataselection.ui.lookups.PrivatePublicLookUp;
 import com.stpl.app.arm.dataselection.ui.lookups.ViewSearchLookUp;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.DataSelectionUtils;
+import static com.stpl.app.arm.utils.DataSelectionUtils.getBeanFromId;
 import com.stpl.gtn.gtn2o.ws.arm.dataselection.bean.GtnARMHierarchyInputBean;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.GlobalConstants;
@@ -838,5 +839,36 @@ public abstract class AbstractDataSelection extends CustomComponent {
                 selectedDeductionContainer.setChildrenAllowed(value, false);
             }
         }
+    }
+    
+    protected void createHierarchyBasedOnHierarchyNo(ExtTreeContainer<LevelDTO> treeContainer, List<LevelDTO> reslistOne, int customerOrProductLevel) {
+        treeContainer.removeAllItems();
+        reslistOne.forEach(levelDto -> {
+            addToContainer(levelDto, treeContainer, customerOrProductLevel);
+        });
+    }
+
+    private void addToContainer(LevelDTO levelDto, ExtTreeContainer<LevelDTO> treeContainer, int customerOrProductLevel) {
+        if (levelDto.getLevelNo() == 1) {
+            treeContainer.addItem(levelDto);
+            treeContainer.setChildrenAllowed(levelDto, customerOrProductLevel != levelDto.getLevelNo());
+        } else {
+            LevelDTO parentLevelDTO = getParentNode(levelDto, treeContainer);
+            treeContainer.addBean(levelDto);
+            treeContainer.setParent(levelDto, parentLevelDTO);
+            treeContainer.setChildrenAllowed(levelDto, customerOrProductLevel != levelDto.getLevelNo());
+        }
+    }
+
+    private LevelDTO getParentNode(LevelDTO childLevelDto, ExtTreeContainer<LevelDTO> treeContainer) {
+        String childHierarchyNo = childLevelDto.getHierarchyNo();
+        String tempString = childHierarchyNo.substring(0, childHierarchyNo.lastIndexOf('.'));
+        String parentHierarchyNo = childHierarchyNo.substring(0, tempString.lastIndexOf('.') + 1);
+
+        return treeContainer.getItemIds()
+                .stream()
+                .filter(levelDto -> getBeanFromId(levelDto).getHierarchyNo().equals(parentHierarchyNo))
+                .findFirst()
+                .orElse(childLevelDto);
     }
 }

@@ -388,31 +388,7 @@ public class DataSelectionTab extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = CustHierarchyLogic.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
-        for (LevelDTO selectionCustHierarchy : reslistOne) {
-            if (selectionCustHierarchy.getLevelNo() == 1) {
-                selectedCustomerContainer.removeAllItems();
-                selectedCustomerContainer.addItem(selectionCustHierarchy);
-                selectedCustomerContainer.setChildrenAllowed(selectionCustHierarchy, true);
-            } else {
-                for (Object tempselection : selectedCustomerContainer.getItemIds()) {
-                    if (selectionCustHierarchy.getParentNode().contains("~")) {
-                        String[] parentarr = selectionCustHierarchy.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempselection).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedCustomerContainer.addBean(selectionCustHierarchy);
-                            selectedCustomerContainer.setChildrenAllowed(selectionCustHierarchy, true);
-                            selectedCustomerContainer.setParent(selectionCustHierarchy, tempselection);
-                            break;
-                        }
-                    } else {
-                        selectedCustomerContainer.addBean(selectionCustHierarchy);
-                        selectedCustomerContainer.setChildrenAllowed(selectionCustHierarchy, true);
-                        selectedCustomerContainer.setParent(selectionCustHierarchy, tempselection);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedCustomerContainer,reslistOne,customerLevel);
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
         
         selectedCustomer.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
@@ -435,39 +411,7 @@ public class DataSelectionTab extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = initProdHierarchyDsLogic.getRelationShipValues(projectionId, "product", productLevel, productDescriptionMap);
-        for (LevelDTO selected : reslistOne) {
-            if (selected.getLevelNo() == 1) {
-                selectedProductContainer.removeAllItems();
-                selectedProductContainer.addItem(selected);
-                selectedProductContainer.setChildrenAllowed(selected, true);
-            } else {
-                for (Object tempselection : selectedProductContainer.getItemIds()) {
-                    if (selected.getParentNode().contains("~")) {
-                        String[] parentarr = selected.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempselection).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedProductContainer.addBean(selected);
-                            if (productLevel != selected.getLevelNo()) {
-                                selectedProductContainer.setChildrenAllowed(selected, true);
-                            } else {
-                                selectedProductContainer.setChildrenAllowed(selected, false);
-                            }
-                            selectedProductContainer.setParent(selected, tempselection);
-                            break;
-                        }
-                    } else {
-                        selectedProductContainer.addBean(selected);
-                        if (productLevel != selected.getLevelNo()) {
-                            selectedProductContainer.setChildrenAllowed(selected, true);
-                        } else {
-                            selectedProductContainer.setChildrenAllowed(selected, false);
-                        }
-                        selectedProductContainer.setParent(selected, tempselection);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedProductContainer,reslistOne,productLevel);
         selectedProduct.setContainerDataSource(selectedProductContainer);
         
         selectedProduct.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});

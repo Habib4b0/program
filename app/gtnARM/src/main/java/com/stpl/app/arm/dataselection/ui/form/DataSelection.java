@@ -2636,36 +2636,7 @@ public class DataSelection extends AbstractDataSelection {
         }
     }
 
-    private void createHierarchyBasedOnHierarchyNo(ExtTreeContainer<LevelDTO> treeContainer, List<LevelDTO> reslistOne, int customerOrProductLevel) {
-        treeContainer.removeAllItems();
-        reslistOne.forEach(levelDto -> {
-            addToContainer(levelDto, treeContainer, customerOrProductLevel);
-        });
-    }
-
-    private void addToContainer(LevelDTO levelDto, ExtTreeContainer<LevelDTO> treeContainer, int customerOrProductLevel) {
-        if (levelDto.getLevelNo() == 1) {
-            treeContainer.addItem(levelDto);
-            treeContainer.setChildrenAllowed(levelDto, !(customerOrProductLevel == levelDto.getLevelNo()));
-        } else {
-            LevelDTO parentLevelDTO = getParentNode(levelDto, treeContainer);
-            treeContainer.addBean(levelDto);
-            treeContainer.setParent(levelDto, parentLevelDTO);
-            treeContainer.setChildrenAllowed(levelDto, !(customerOrProductLevel == levelDto.getLevelNo()));
-        }
-    }
-
-    private LevelDTO getParentNode(LevelDTO childLevelDto, ExtTreeContainer<LevelDTO> treeContainer) {
-        String childHierarchyNo = childLevelDto.getHierarchyNo();
-        String tempString = childHierarchyNo.substring(0, childHierarchyNo.lastIndexOf("."));
-        String parentHierarchyNo = childHierarchyNo.substring(0, tempString.lastIndexOf(".") + 1);
-
-        return treeContainer.getItemIds()
-                .stream()
-                .filter(levelDto -> getBeanFromId(levelDto).getHierarchyNo().equals(parentHierarchyNo))
-                .findFirst()
-                .orElse(childLevelDto);
-    }
+    
 
     /**
      * Load customer hierarchy.
