@@ -7,7 +7,7 @@ package com.stpl.app.gtnforecasting.projectionvariance.utils;
 
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.projectionvariance.logic.MProjectionVarianceLogic;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.ANNUALLY;
@@ -382,7 +382,7 @@ public class HeaderUtils {
         } else {
             if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
                 if (projSelDTO.getProgramCodeNameList() == null || projSelDTO.getProgramCodeNameList().isEmpty()) {
-                    programCodeName = MProjectionVarianceLogic.getProgramCodeName(projSelDTO.getProjectionId());
+                    programCodeName = getProgramCodeName(projSelDTO.getProjectionId());
                 } else {
                     programCodeName = projSelDTO.getProgramCodeNameList();
                 }
@@ -1200,5 +1200,17 @@ public class HeaderUtils {
 
     static int getPeriod(int monthNo, int division) {
         return ((monthNo - 1) / division) + 1;
+    }
+    
+    public static List<String> getProgramCodeName(int projectionId) {
+        List<String> strList = new ArrayList<>();
+        String customSQL = "SELECT DISTINCT CM.CONTRACT_NAME FROM dbo.CONTRACT_MASTER CM \n"
+                + "JOIN dbo.CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID\n"
+                + "JOIN dbo.PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID  = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " + projectionId;
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(customSQL);
+        if (list != null && !list.isEmpty()) {
+            strList = CommonUtils.objectListToStringList(list);
+        }
+        return strList;
     }
 }
