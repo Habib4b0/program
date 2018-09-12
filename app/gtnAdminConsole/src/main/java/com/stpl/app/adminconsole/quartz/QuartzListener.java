@@ -106,7 +106,7 @@ public class QuartzListener implements ServletContextListener {
 		try {
 			JobKey jobKeyToUpdate = getJobForJobKey(profile);
 			if (jobKeyToUpdate != null) {
-				LOGGER.debug("Deleting job {}" + generateJobName(profile));
+				LOGGER.debug("Deleting job {}" , generateJobName(profile));
 				scheduler.deleteJob(jobKeyToUpdate);
 			}
 			createJob(profile);
@@ -136,7 +136,7 @@ public class QuartzListener implements ServletContextListener {
 			generateCronStringInterval(profile, cronStringList);
 
 			if (cronStringList.isEmpty()) {
-				LOGGER.debug("No triggers set for job {}" + profile.getProcessDisplayName());
+				LOGGER.debug("No triggers set for job {}" , profile.getProcessDisplayName());
 			}
 
 			int i = 0;
@@ -161,7 +161,7 @@ public class QuartzListener implements ServletContextListener {
 			}
 
 			if (i == 0) {
-				LOGGER.debug("No triggers set for job{} " + profile.getProcessDisplayName());
+				LOGGER.debug("No triggers set for job{} " , profile.getProcessDisplayName());
 			}
 
 		} catch (Exception e) {
