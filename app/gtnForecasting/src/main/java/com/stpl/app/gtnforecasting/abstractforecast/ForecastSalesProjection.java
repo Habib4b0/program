@@ -75,7 +75,6 @@ import com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.MSalesProjectionTableLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.NMSalesProjectionTableLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.ui.form.lookups.AlternateHistory;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.ChangeCustomMenuBarValueUtil;
@@ -83,7 +82,6 @@ import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.NotificationUtils;
-import com.stpl.app.gtnforecasting.utils.TabNameUtil;
 import com.stpl.app.gtnforecasting.utils.TotalLivesChart;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.CustomViewMaster;
@@ -968,41 +966,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 variableChangeLogic();
-            }
-        });
-
-        altHistoryBtn.addClickListener(new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-
-                try {
-
-                    if (validateForAlternateHistory()) {
-                        AlternateHistory alternateContractLookup;
-                        session.setForecastName(Constant.SALES_PROJECTION_LABEL);
-                        session.setFrequency(projectionDTO.getFrequency());
-                        alternateContractLookup = new AlternateHistory(session, projectionDTO.getVariableList());
-
-                        alternateContractLookup.addCloseListener(new Window.CloseListener() {
-
-                            @Override
-                            public void windowClose(Window.CloseEvent e) {
-
-                                logic.removeTempTable(session);
-                                if (session.getForecastName().equals(TabNameUtil.DISCOUNT_PROJECTION)) {
-                                    logic.executeDelete(session, false);
-                                } else {
-                                    logic.executeDelete(session, true);
-                                }
-                            }
-                        });
-                        getUI().addWindow(alternateContractLookup);
-                    }
-
-                } catch (IllegalArgumentException | NullPointerException ex) {
-                    LOGGER.error(ex.getMessage());
-                }
             }
         });
         if (!CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
