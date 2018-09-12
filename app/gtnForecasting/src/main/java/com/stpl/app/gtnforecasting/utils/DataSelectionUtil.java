@@ -958,25 +958,6 @@ public class DataSelectionUtil {
 		return customers;
 	}
 
-	public static List<String> getCompanySidFromHierarchy(List<Leveldto> innerProdLevels, String screenName) {
-		List<String> companies = new ArrayList<>();
-		if (innerProdLevels != null) {
-			for (Leveldto leveldto : innerProdLevels) {
-				if (((screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS)) && (checkGLComp(leveldto))) 
-                                        || ((leveldto.isFromCompany()) && (StringUtils.isNotEmpty(leveldto.getRelationshipLevelValue())))) {
-					companies.add(leveldto.getRelationshipLevelValue());
-				}
-			}
-		}
-		return companies;
-	}
-
-    private static boolean checkGLComp(Leveldto leveldto) {
-        return leveldto.isFromCompany() || (Constant.COMPANY_SMALL.equalsIgnoreCase(leveldto.getLevel())
-                || "GL Comp".contains(leveldto.getLevel())
-                || "GL Company".contains(leveldto.getLevel()));
-    }
-
 	public static void mapUserIds() {
 		userIdMap.clear();
 		userIdMap = CommonUtils.getAllUserIds();

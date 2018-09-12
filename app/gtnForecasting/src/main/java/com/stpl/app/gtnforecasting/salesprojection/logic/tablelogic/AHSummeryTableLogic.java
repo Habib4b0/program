@@ -10,7 +10,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -180,7 +179,7 @@ public class AHSummeryTableLogic extends PageTreeTableLogic {
             if (expandLevelNo >= levelNo) {
 
                 List<SalesRowDto> levelList = null;
-                    levelList = CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(projSelDTO.getScreenName()) ? salesLogic.getReturnsSalesResults(projSelDTO, 0, projSelDTO.getLevelCount()) : salesLogic.getSalesResults(projSelDTO, 0, projSelDTO.getLevelCount());
+                    levelList =  salesLogic.getSalesResults(projSelDTO, 0, projSelDTO.getLevelCount());
                 if (levelList != null) {
                     int size = levelList.size();
                     int index = count - size + 1;
