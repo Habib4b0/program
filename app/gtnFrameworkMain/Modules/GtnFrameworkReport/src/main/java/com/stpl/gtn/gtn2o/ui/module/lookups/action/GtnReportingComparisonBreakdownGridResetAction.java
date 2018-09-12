@@ -43,7 +43,7 @@ public class GtnReportingComparisonBreakdownGridResetAction
 		List<Object[]> gtnReportComparisonBreakdownLookupBeanList = null;
 		try {
 			gtnReportComparisonBreakdownLookupBeanList = (List<Object[]>) gridComponentData.getCustomData();
-		} catch(ClassCastException ex) {
+		} catch (ClassCastException ex) {
 			logger.info("Exception occured during paged grid reset: " + ex.getMessage());
 			return;
 		}
@@ -59,7 +59,7 @@ public class GtnReportingComparisonBreakdownGridResetAction
 			for (int j = 1; j < rowCount; j++) {
 				Label projectionNames = (Label) grid.getHeaderRow(j).getCell("projectionNames").getComponent();
 				if (gtnReportComparisonBreakdownLookupBeanList.get(i)[4].toString()
-						.equals(projectionNames.getValue().toString())) {
+						.equals(projectionNames.getValue())) {
 					ComboBox comparisonBreakdownResetCombo = (ComboBox) grid.getHeaderRow(j)
 							.getCell(gtnReportComparisonBreakdownLookupBeanList.get(i)[3].toString()).getComponent();
 					comparisonBreakdownResetCombo.setSelectedItem("0");
