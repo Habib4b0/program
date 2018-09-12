@@ -135,15 +135,13 @@ public class ContractBrandLookup extends Window {
 
     private final String lookupType;
 
-    private final SessionDTO sessionDTO;
-
     private String hierarchyNo = StringUtils.EMPTY;
     
     private SessionDTO session;
     private final String screenName;    
     private final CommonUtils commonUtils = new CommonUtils();
     
-    public ContractBrandLookup(final SessionDTO sessionDTO, final String type, final String hierarchyNo, String screenName) {
+    public ContractBrandLookup(final SessionDTO session, final String type, final String hierarchyNo, String screenName) {
         super(StringUtils.EMPTY);
         LOGGER.debug("ContractBrandLookup Constructor initiated ");
         addStyleName(Constant.BOOTSTRAP_UI);
@@ -154,7 +152,7 @@ public class ContractBrandLookup extends Window {
         setModal(true);
         setWidth(NumericConstants.FLOAT_SEVENTY_FIVE, Sizeable.Unit.PERCENTAGE);
         this.lookupType = type;
-        this.sessionDTO = sessionDTO;
+        this.session = session;
         this.hierarchyNo = hierarchyNo;
         this.screenName = screenName;
         setContent(Clara.create(getClass().getResourceAsStream("/mandated/ContractBrandLookup.xml"), this));
@@ -177,7 +175,7 @@ public class ContractBrandLookup extends Window {
         searchBinder.setBuffered(true);
         searchBinder.bindMemberFields(this);
         searchBinder.setErrorDisplay(errorMsg);
-        LOGGER.debug("Ends getBinder");
+        LOGGER.debug("Ends getBinder{}", hierarchyNo);
         return searchBinder;
     }
 

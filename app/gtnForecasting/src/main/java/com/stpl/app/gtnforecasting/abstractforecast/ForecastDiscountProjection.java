@@ -647,35 +647,6 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         resetBtnForTable.setVisible(true);
             }
 
-    private void mandatedScreenLoad() {
-
-            panelNM.setVisible(false);
-            altHistoryBtn.setVisible(false);
-            refreshBtn.setVisible(false);
-            resetBtnForTable.setVisible(false);
-            viewHlayout.setVisible(false);
-        tabSheet.setVisible(false);
-        value.setVisible(false);
-
-        panelM.setVisible(true);
-            valueDdlb.setVisible(true);
-        massUpdatePanel.setVisible(true);
-
-
-            massUpdatePanel.setContent(massUpdateVlayout);
-
-            variablesForMandated.addStyleName(Constant.HORIZONTAL);
-            variablesForMandated.addStyleName(Constant.OPTION_GROUP_WIDTH);
-            variablesForMandated.addItem(METHODOLOGY.getConstant());
-            variablesForMandated.addItem(CONTRACT_PRICE.getConstant());
-            variablesForMandated.addItem(DISCOUNT1.getConstant());
-            variablesForMandated.addItem(DISCOUNT2.getConstant());
-            variablesForMandated.addItem(ACCESS.getConstant());
-            variablesForMandated.addItem(PARITY_SETTINGS.getConstant());
-            massCheck.setData(MASS_CHECK);
-            massCheck.addValueChangeListener(propertyVlaueChangeListener);
-        }
-
     private void loadFrequency(String frequency) {
         CommonUtils.frequenceValueChange(frequency, historyDdlb, session);
     }

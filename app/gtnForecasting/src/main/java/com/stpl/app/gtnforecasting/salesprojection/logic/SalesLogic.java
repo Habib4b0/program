@@ -3349,58 +3349,6 @@ public class SalesLogic {
     }
 
     /**
-     * Contains the method to run the Government Discount Insert Procedure in a
-     * separate thread.
-     *
-     * @param projectionSelectionDTO
-     * @return
-     */
-    private Runnable createDiscountProcedureRunnable(final ProjectionSelectionDTO projectionSelectionDTO) {
-        Runnable discountProcedureRunnable = new Runnable() {
-
-            @Override
-            public void run() {
-                Object[] orderedArgs = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), "SPAP", projectionSelectionDTO.getSessionId(), 0};
-                CommonLogic.callProcedureforUpdate("PRC_M_DISCOUNT_INSERT", orderedArgs);
-            }
-        };
-        return discountProcedureRunnable;
-    }
-
-    /**
-     * Used to return the Sales Return Count
-     *
-     * @param projectionSelectionDTO
-     * @return
-     */
-    private int getReturnsCount(final ProjectionSelectionDTO projectionSelectionDTO) {
-        int count = 0;
-        String query = SQlUtil.getQuery("RETURNS_SALES_QUERY").replace("@PROJECTION_SID", String.valueOf(projectionSelectionDTO.getProjectionId()))
-                .replace(Constant.LEVEL_NO1, String.valueOf(projectionSelectionDTO.getLevelNo()));
-        if (StringUtils.isNotBlank(projectionSelectionDTO.getHierarchyNo()) && StringUtils.isBlank(projectionSelectionDTO.getLevelFilterValue())) {
-            query += " AND RLD.HIERARCHY_NO LIKE '" + projectionSelectionDTO.getHierarchyNo() + "%'";
-        }
-        try {
-            List list = (List) salesAllocationDAO.executeSelectQuery(query);
-
-            if (list != null && !list.isEmpty()) {
-                String[] hierarchyArr = new String[list.size()];
-                for (int i = 0; i < list.size(); i++) {
-                    Object[] ob = (Object[]) list.get(i);
-                    hierarchyArr[i] = ob[0].toString();
-                    projectionSelectionDTO.setLevelName(ob[NumericConstants.TWO].toString());
-                }
-                count = list.size();
-                projectionSelectionDTO.setReHierarchyNo(Arrays.toString(hierarchyArr).replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY));
-            }
-        } catch (PortalException | SystemException ex) {
-            LOGGER.debug("Query Error-->= {} " , query);
-            LOGGER.error(ex.getMessage());
-        }
-        return count;
-    }
-
-    /**
      * Used to return the Sales Results(load Data)
      *
      * @param projSelDTO
