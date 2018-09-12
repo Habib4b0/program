@@ -16,6 +16,7 @@ import com.stpl.app.arm.dataselection.dto.HierarchyLookupDTO;
 import com.stpl.app.arm.dataselection.dto.LevelDTO;
 import com.stpl.app.arm.dataselection.dto.ViewDTO;
 import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
+import static com.stpl.app.arm.dataselection.ui.form.DataSelection.getBeanFromId;
 import com.stpl.app.arm.dataselection.ui.lookups.HierarchyLookup;
 import com.stpl.app.arm.dataselection.ui.lookups.SaveViewLookUp;
 import com.stpl.app.arm.dataselection.ui.lookups.ViewSearchLookUp;
@@ -2618,39 +2619,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = logicCust.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
-        for (LevelDTO customerLevelDto : reslistOne) {
-            if (customerLevelDto.getLevelNo() == 1) {
-                selectedCustomerContainer.removeAllItems();
-                selectedCustomerContainer.addItem(customerLevelDto);
-                selectedCustomerContainer.setChildrenAllowed(customerLevelDto, true);
-            } else {
-                for (Object tempdto : selectedCustomerContainer.getItemIds()) {
-                    if (customerLevelDto.getParentNode().contains("~")) {
-                        String[] parentarr = customerLevelDto.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempdto).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedCustomerContainer.addBean(customerLevelDto);
-                            if (customerLevel != customerLevelDto.getLevelNo()) {
-                                selectedCustomerContainer.setChildrenAllowed(customerLevelDto, true);
-                            } else {
-                                selectedCustomerContainer.setChildrenAllowed(customerLevelDto, false);
-                            }
-                            selectedCustomerContainer.setParent(customerLevelDto, tempdto);
-                            break;
-                        }
-                    } else {
-                        selectedCustomerContainer.addBean(customerLevelDto);
-                        if (customerLevel != customerLevelDto.getLevelNo()) {
-                            selectedCustomerContainer.setChildrenAllowed(customerLevelDto, true);
-                        } else {
-                            selectedCustomerContainer.setChildrenAllowed(customerLevelDto, false);
-                        }
-                        selectedCustomerContainer.setParent(customerLevelDto, tempdto);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedCustomerContainer,reslistOne,customerLevel);
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
         Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
         selectedCustomer.setVisibleColumns(obj);
@@ -2659,6 +2628,37 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         for (LevelDTO ddo : selectedCustomerContainer.getItemIds()) {
             selectedCustomer.setCollapsed(ddo, false);
         }
+    }
+    
+    private void createHierarchyBasedOnHierarchyNo(ExtTreeContainer<LevelDTO> treeContainer, List<LevelDTO> reslistOne, int customerOrProductLevel) {
+        treeContainer.removeAllItems();
+        reslistOne.forEach(levelDto -> {
+            addToContainer(levelDto, treeContainer, customerOrProductLevel);
+        });
+    }
+
+    private void addToContainer(LevelDTO levelDto, ExtTreeContainer<LevelDTO> treeContainer, int customerOrProductLevel) {
+        if (levelDto.getLevelNo() == 1) {
+            treeContainer.addItem(levelDto);
+            treeContainer.setChildrenAllowed(levelDto, !(customerOrProductLevel == levelDto.getLevelNo()));
+        } else {
+            LevelDTO parentLevelDTO = getParentNode(levelDto, treeContainer);
+            treeContainer.addBean(levelDto);
+            treeContainer.setParent(levelDto, parentLevelDTO);
+            treeContainer.setChildrenAllowed(levelDto, !(customerOrProductLevel == levelDto.getLevelNo()));
+        }
+    }
+
+    private LevelDTO getParentNode(LevelDTO childLevelDto, ExtTreeContainer<LevelDTO> treeContainer) {
+        String childHierarchyNo = childLevelDto.getHierarchyNo();
+        String tempString = childHierarchyNo.substring(0, childHierarchyNo.lastIndexOf("."));
+        String parentHierarchyNo = childHierarchyNo.substring(0, tempString.lastIndexOf(".") + 1);
+
+        return treeContainer.getItemIds()
+                .stream()
+                .filter(levelDto -> getBeanFromId(levelDto).getHierarchyNo().equals(parentHierarchyNo))
+                .findFirst()
+                .orElse(childLevelDto);
     }
 
     /**
@@ -2672,39 +2672,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = logicVal.getRelationShipValues(projectionId, "product", productLevel, productDescriptionMap);
-        for (LevelDTO productLevelDto : reslistOne) {
-            if (productLevelDto.getLevelNo() == 1) {
-                selectedProductContainer.removeAllItems();
-                selectedProductContainer.addItem(productLevelDto);
-                selectedProductContainer.setChildrenAllowed(productLevelDto, true);
-            } else {
-                for (Object tempdto : selectedProductContainer.getItemIds()) {
-                    if (productLevelDto.getParentNode().contains("~")) {
-                        String[] parentarr = productLevelDto.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempdto).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedProductContainer.addBean(productLevelDto);
-                            if (productLevel != productLevelDto.getLevelNo()) {
-                                selectedProductContainer.setChildrenAllowed(productLevelDto, true);
-                            } else {
-                                selectedProductContainer.setChildrenAllowed(productLevelDto, false);
-                            }
-                            selectedProductContainer.setParent(productLevelDto, tempdto);
-                            break;
-                        }
-                    } else {
-                        selectedProductContainer.addBean(productLevelDto);
-                        if (productLevel != productLevelDto.getLevelNo()) {
-                            selectedProductContainer.setChildrenAllowed(productLevelDto, true);
-                        } else {
-                            selectedProductContainer.setChildrenAllowed(productLevelDto, false);
-                        }
-                        selectedProductContainer.setParent(productLevelDto, tempdto);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedProductContainer,reslistOne,productLevel);
         selectedProduct.setContainerDataSource(selectedProductContainer);
         Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
         selectedProduct.setVisibleColumns(obj);

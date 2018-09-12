@@ -2379,7 +2379,7 @@ public class DataSelection extends AbstractDataSelection {
                 selectedDeductionContainer.removeAllItems();
                 selectedDeduction.removeAllItems();
                 Map<String, DeductionLevelDTO> levelKeys = logic.getDeductionTree(selectedLevelIds, rsContractSids, hierarchyKeys);
-                setDeductionTree(levelKeys,hierarchyKeys);
+                setDeductionTree(levelKeys, hierarchyKeys);
                 customerHierarchy.setValue(dto.getCustomerHierarchyName());
 
                 customerVersionMap = logic.loadCustomerRelation(customerRelation, dto.getCustomerHierarchySid());
@@ -2627,45 +2627,44 @@ public class DataSelection extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = initCustDataSelection.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
-        for (LevelDTO dto : reslistOne) {
-            if (dto.getLevelNo() == 1) {
-                selectedCustomerContainer.removeAllItems();
-                selectedCustomerContainer.addItem(dto);
-                selectedCustomerContainer.setChildrenAllowed(dto, true);
-            } else {
-                for (Object tempdto : selectedCustomerContainer.getItemIds()) {
-                    if (dto.getParentNode().contains("~")) {
-                        String[] parentarr = dto.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempdto).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedCustomerContainer.addBean(dto);
-                            if (customerLevel != dto.getLevelNo()) {
-                                selectedCustomerContainer.setChildrenAllowed(dto, true);
-                            } else {
-                                selectedCustomerContainer.setChildrenAllowed(dto, false);
-                            }
-                            selectedCustomerContainer.setParent(dto, tempdto);
-                            break;
-                        }
-                    } else {
-                        selectedCustomerContainer.addBean(dto);
-                        if (customerLevel != dto.getLevelNo()) {
-                            selectedCustomerContainer.setChildrenAllowed(dto, true);
-                        } else {
-                            selectedCustomerContainer.setChildrenAllowed(dto, false);
-                        }
-                        selectedCustomerContainer.setParent(dto, tempdto);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedCustomerContainer, reslistOne, customerLevel);
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
         selectedCustomer.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
         selectedCustomer.setColumnHeaders(new String[]{"Customer Hierarchy Group Builder"});
         for (LevelDTO ddo : selectedCustomerContainer.getItemIds()) {
             selectedCustomer.setCollapsed(ddo, false);
         }
+    }
+
+    private void createHierarchyBasedOnHierarchyNo(ExtTreeContainer<LevelDTO> treeContainer, List<LevelDTO> reslistOne, int customerOrProductLevel) {
+        treeContainer.removeAllItems();
+        reslistOne.forEach(levelDto -> {
+            addToContainer(levelDto, treeContainer, customerOrProductLevel);
+        });
+    }
+
+    private void addToContainer(LevelDTO levelDto, ExtTreeContainer<LevelDTO> treeContainer, int customerOrProductLevel) {
+        if (levelDto.getLevelNo() == 1) {
+            treeContainer.addItem(levelDto);
+            treeContainer.setChildrenAllowed(levelDto, !(customerOrProductLevel == levelDto.getLevelNo()));
+        } else {
+            LevelDTO parentLevelDTO = getParentNode(levelDto, treeContainer);
+            treeContainer.addBean(levelDto);
+            treeContainer.setParent(levelDto, parentLevelDTO);
+            treeContainer.setChildrenAllowed(levelDto, !(customerOrProductLevel == levelDto.getLevelNo()));
+        }
+    }
+
+    private LevelDTO getParentNode(LevelDTO childLevelDto, ExtTreeContainer<LevelDTO> treeContainer) {
+        String childHierarchyNo = childLevelDto.getHierarchyNo();
+        String tempString = childHierarchyNo.substring(0, childHierarchyNo.lastIndexOf("."));
+        String parentHierarchyNo = childHierarchyNo.substring(0, tempString.lastIndexOf(".") + 1);
+
+        return treeContainer.getItemIds()
+                .stream()
+                .filter(levelDto -> getBeanFromId(levelDto).getHierarchyNo().equals(parentHierarchyNo))
+                .findFirst()
+                .orElse(childLevelDto);
     }
 
     /**
@@ -2679,39 +2678,7 @@ public class DataSelection extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = dataSelectionDsLogic.getRelationShipValues(projectionId, "product", productLevel, productDescriptionMap);
-        for (LevelDTO dto : reslistOne) {
-            if (dto.getLevelNo() == 1) {
-                selectedProductContainer.removeAllItems();
-                selectedProductContainer.addItem(dto);
-                selectedProductContainer.setChildrenAllowed(dto, true);
-            } else {
-                for (Object tempdto : selectedProductContainer.getItemIds()) {
-                    if (dto.getParentNode().contains("~")) {
-                        String[] parentarr = dto.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempdto).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedProductContainer.addBean(dto);
-                            if (productLevel != dto.getLevelNo()) {
-                                selectedProductContainer.setChildrenAllowed(dto, true);
-                            } else {
-                                selectedProductContainer.setChildrenAllowed(dto, false);
-                            }
-                            selectedProductContainer.setParent(dto, tempdto);
-                            break;
-                        }
-                    } else {
-                        selectedProductContainer.addBean(dto);
-                        if (productLevel != dto.getLevelNo()) {
-                            selectedProductContainer.setChildrenAllowed(dto, true);
-                        } else {
-                            selectedProductContainer.setChildrenAllowed(dto, false);
-                        }
-                        selectedProductContainer.setParent(dto, tempdto);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedProductContainer,reslistOne, productLevel);
         selectedProduct.setContainerDataSource(selectedProductContainer);
         selectedProduct.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
         selectedProduct.setColumnHeaders(new String[]{"Product Hierarchy Group Builder"});
