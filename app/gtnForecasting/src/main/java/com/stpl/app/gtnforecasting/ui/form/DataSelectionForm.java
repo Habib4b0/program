@@ -3748,7 +3748,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						dto.getProductRelationShipVersionNo());
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
 						|| CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(scrName)
-						|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+						) {
 					// To create the temp tables with userId and session id
 					QueryUtils.createTempTables(tempSession);
 					nmLogic.loadPFDFromMainToTemp(tempSession);
@@ -3765,7 +3765,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					productHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
 							Integer.parseInt(dto.getProdHierSid()), dto.getProductHierVersionNo());
 					if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
-							|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+							) {
 
 						relationLogic.ccpHierarchyInsert(tempSession.getCurrentTableNames(), customerItemIds,
 								productItemIds, dto);
@@ -3803,23 +3803,24 @@ public class DataSelectionForm extends ForecastDataSelection {
                                 }, ButtonId.OK);
                             }
                                 tempSession.setForecastEligibleDate(dto.getForecastEligibleDate());
-				if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
-					String marketType = dataLogic.getHelperValue(StringUtils.EMPTY + projectionIdValue);
-					tempSession.setMarketTypeValue(marketType);
-				}
+//				if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+//					String marketType = dataLogic.getHelperValue(StringUtils.EMPTY + projectionIdValue);
+//					tempSession.setMarketTypeValue(marketType);
+//				}
 				tempSession.setDiscount(dto.getDiscount());
 				tempSession.setDiscountTypeId(dto.getDiscountSid());
 				tempSession.setProductLevelNumber(dto.getProductHierarchyLevel());
 				tempSession.setDescription(dto.getDescription());
-				if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(scrName)) {
-					// To create the temp tables with userId and session id
-					QueryUtils.createTempTables(tempSession);
-					tempSession.setProductDescription(tempProductDescriptionMap); // Fix
-					// for
-					// GAL-8786
-					tempSession.setReturnsDetailsMap(dsLogic.getReturnDetails(tempSession, false));
-				} else if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
-						|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+//				if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(scrName)) {
+//					// To create the temp tables with userId and session id
+//					QueryUtils.createTempTables(tempSession);
+//					tempSession.setProductDescription(tempProductDescriptionMap); // Fix
+//					// for
+//					// GAL-8786
+//					tempSession.setReturnsDetailsMap(dsLogic.getReturnDetails(tempSession, false));
+//				} 
+                             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
+						) {
 					tempSession.setCustomerLevelDetails(
 							dsLogic.getLevelValueDetails(tempSession, dto.getCustRelationshipBuilderSid(), true));
 			                tempSession.setProductLevelDetails(
@@ -3837,7 +3838,7 @@ public class DataSelectionForm extends ForecastDataSelection {
                                 tempSession.setProductDescription(tempProductDescriptionMap);
                             }
                             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
-                                    || CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+                                    ) {
                                 tempSession.setCustRelationshipBuilderSid(dto.getCustRelationshipBuilderSid());
                                 tempSession.setProdRelationshipBuilderSid(dto.getProdRelationshipBuilderSid());
                                 if (CommonUtil.isValueEligibleForLoading()) {
@@ -5248,11 +5249,13 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}
 				UI.getCurrent().setFocusedComponent(UI.getCurrent());
 
-			} else if (scrName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-				generateBtn();
-			} else if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(scrName)) {
-				generateLogicForReturns();
-			} else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
+			} 
+//                         else if (scrName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
+//				generateBtn();
+//			} else if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(scrName)) {
+//				generateLogicForReturns();
+//			} 
+                        else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 				generateLogicForARP();
 			}
 //		} else if (businessUnit.getValue() == null) {
