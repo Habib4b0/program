@@ -5249,13 +5249,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}
 				UI.getCurrent().setFocusedComponent(UI.getCurrent());
 
-			} 
-//                         else if (scrName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-//				generateBtn();
-//			} else if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(scrName)) {
-//				generateLogicForReturns();
-//			} 
-                        else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
+			}else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 				generateLogicForARP();
 			}
 //		} else if (businessUnit.getValue() == null) {

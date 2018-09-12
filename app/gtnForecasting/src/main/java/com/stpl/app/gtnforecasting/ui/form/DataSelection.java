@@ -655,7 +655,7 @@ public class DataSelection extends ForecastDataSelection {
 		initializeFromDto();
 		setFirstTimeLoad(false);
 		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName) || CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
-			session.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
+			session.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()!=null ? "0" : dataSelectionDTO.getCustomerHierSid()));
 			initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
 		}
 	}
