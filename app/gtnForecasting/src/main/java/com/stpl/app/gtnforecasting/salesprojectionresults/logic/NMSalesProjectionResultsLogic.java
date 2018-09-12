@@ -1021,24 +1021,6 @@ public class NMSalesProjectionResultsLogic {
 			}
 			projSelDTO.getSessionDTO().setSprRefreshReqd(false);
 			LOGGER.debug("Ending getProjectionTotal NonMandated");
-		} else if (projSelDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-			LOGGER.debug("Entering getProjectionTotal Mandated");
-			List<Object[]> gtsList;
-			if (!projSelDTO.getSessionDTO().isSprRefreshReqd()
-					&& CommonLogic.checkProcedureInputIsSame(orderedArgs, mandatedorderedArgs)) {
-				gtsList = mandatedGtsList;
-			} else {
-				gtsList = CommonLogic.callProcedure(Constant.PRC_M_PROJECTION_RESULTS, orderedArgs);
-				mandatedorderedArgs = new Object[orderedArgs.length];
-				System.arraycopy(orderedArgs, 0, mandatedorderedArgs, 0, orderedArgs.length);
-				mandatedGtsList.clear();
-				mandatedGtsList.addAll(gtsList);
-			}
-			if (gtsList != null) {
-				setProjectionTotalList(getCustomizedProjectionTotalMandated(gtsList, projSelDTO));
-			}
-			projSelDTO.getSessionDTO().setSprRefreshReqd(false);
-			LOGGER.debug("Ending getProjectionTotal Mandated");
 		}
 	}
 
@@ -1166,14 +1148,6 @@ public class NMSalesProjectionResultsLogic {
 					QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
 			projDTOList = getCustomizedSalesProjectionResultsSales(list, projSelDTO);
 			LOGGER.debug("Ending getContractSalesAndUnits NonMandated");
-		} else if (projSelDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-			LOGGER.debug("Entering getContractSalesAndUnitsMandated");
-			projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
-			List<Object> list = (List<Object>) SPRCommonLogic.executeSelectQuery(
-					QueryUtil.replaceTableNames(getSalesProjectionResultsSalesQueryMandated(projSelDTO),
-							projSelDTO.getSessionDTO().getCurrentTableNames()));
-			projDTOList = getCustomizedSalesProjectionResultsSalesMandated(list, projSelDTO);
-			LOGGER.debug("Ends getContractSalesAndUnitsMandated");
 		}
 		return projDTOList;
 	}
@@ -1549,22 +1523,6 @@ public class NMSalesProjectionResultsLogic {
 				getCustomizedProjectionPivotTotal(gtsList, projSelDTO);
 				projSelDTO.getSessionDTO().setSprRefreshReqd(false);
 				LOGGER.debug("Ending getProjectionPivotTotal NonMandated");
-			} else if (projSelDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-				LOGGER.debug("Entering getProjectionPivotTotal Mandated");
-				if (!projSelDTO.getSessionDTO().isSprRefreshReqd()
-						&& CommonLogic.checkProcedureInputIsSame(orderedArgs, mandatedorderedArgs)) {
-					gtsList = mandatedGtsList;
-				} else {
-					gtsList = CommonLogic.callProcedure(Constant.PRC_M_PROJECTION_RESULTS, orderedArgs);
-					mandatedorderedArgs = new Object[orderedArgs.length];
-					System.arraycopy(orderedArgs, 0, mandatedorderedArgs, 0, orderedArgs.length);
-					mandatedGtsList.clear();
-					mandatedGtsList.addAll(gtsList);
-				}
-				projSelDTO.getSessionDTO().setSprRefreshReqd(false);
-				getProjectionTotalList().clear();
-				setProjectionTotalList(getCustomizedProjectionPivotTotalMandated(gtsList, projSelDTO));
-				LOGGER.debug("Ending getProjectionPivotTotal Mandated");
 			}
 		}
 		LOGGER.debug("Ending getProjectionPivotTotal");
@@ -1717,16 +1675,6 @@ public class NMSalesProjectionResultsLogic {
 							+ getSalesProjectionResultsSalesQuery(projSelDTO));
 			projDTOList = getCustomizedProjectionPivot(gtsList, projSelDTO);
 			LOGGER.debug("Ending getProjection Pivot NonMandated");
-		} else if (projSelDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-			LOGGER.debug("Entering getProjectionPivot Mandated");
-			List<Object[]> gtsList = (List<Object[]>) SPRCommonLogic.executeSelectQuery(
-					QueryUtil.replaceTableNames(getSalesProjectionResultsSalesQueryMandated(projSelDTO),
-							projSelDTO.getSessionDTO().getCurrentTableNames()));
-			projDTOList = getCustomizedProjectionPivotMandated(gtsList, projSelDTO);
-			if (projSelDTO.getProjectionOrder().equalsIgnoreCase(Constant.DESCENDING)) {
-				Collections.reverse(projDTOList);
-			}
-			LOGGER.debug("Ends getProjectionPivot Mandated");
 		}
 		return projDTOList;
 	}

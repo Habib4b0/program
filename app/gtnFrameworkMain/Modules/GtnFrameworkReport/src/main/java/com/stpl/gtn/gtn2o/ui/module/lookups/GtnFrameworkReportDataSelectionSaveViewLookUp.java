@@ -20,13 +20,14 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 
 public class GtnFrameworkReportDataSelectionSaveViewLookUp {
+
 	private GtnFrameworkReportLayoutsConfig layoutConfig = new GtnFrameworkReportLayoutsConfig();
 
 	public GtnUIFrameworkViewConfig getSaveViewLookUpView(String namespace) {
 
 		GtnUIFrameworkViewConfig view = new GtnUIFrameworkViewConfig();
 		view.setViewName("Save View");
-		view.setViewId("dsSaveViewLookUp");
+		view.setViewId(GtnFrameworkReportStringConstants.DS_SAVE_VIEW_LOOK_UP);
 		view.setDefaultView(false);
 		addComponentList(view, namespace);
 		return view;
@@ -47,9 +48,9 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		vLayout.setSpacing(true);
 		vLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		GtnUIFrameworkLayoutConfig conf = new GtnUIFrameworkLayoutConfig();
-		conf.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);                
+		conf.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		vLayout.setGtnLayoutConfig(conf);
-                vLayout.addComponentStyle("v-vertical-layout-report-save-lookup");
+		vLayout.addComponentStyle("v-vertical-layout-report-save-lookup");
 		componentList.add(vLayout);
 
 		String rootId = "saveViewLookUp-RootVerticalLayout";
@@ -65,7 +66,7 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		GtnUIFrameworkComponentConfig horizontalLayoutName = layoutConfig.getHorizontalLayoutConfig("saveView-ViewName",
 				"saveViewLookUp-RootVerticalLayout");
 		horizontalLayoutName.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
-                horizontalLayoutName.addComponentStyle("v-h-layout-report-save-lookup");
+		horizontalLayoutName.addComponentStyle("v-h-layout-report-save-lookup");
 		componentList.add(horizontalLayoutName);
 
 		addNameTextField(componentList, horizontalLayoutName.getComponentId(), namespace);
@@ -100,7 +101,7 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		saveViewNameTextField.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_NAME);
 		saveViewNameTextField.setComponentName("View Name:");
-                saveViewNameTextField.addComponentStyle("v-report-save-lookup");
+		saveViewNameTextField.addComponentStyle("v-report-save-lookup");
 		saveViewNameTextField.setAddToParent(true);
 		saveViewNameTextField.setParentComponentId(parentId);
 
@@ -114,57 +115,62 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		saveViewAdd.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		saveViewAdd.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "saveViewAdd");
 		saveViewAdd.setComponentName("ADD");
-                saveViewAdd.addComponentStyle("buttonCustomStyleForLessSpaceBetweenButtons");
-		saveViewAdd.setCustomReference("doNotAddButtonCustomStyle");
+		saveViewAdd.addComponentStyle(
+				GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
+		saveViewAdd.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
 		saveViewAdd.setParentComponentId(parentId);
 		saveViewAdd.setAddToParent(true);
-		
+
 		GtnUIFrameWorkActionConfig addViewAction = new GtnUIFrameWorkActionConfig();
 		addViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		addViewAction.addActionParameter(GtnReportDataSelectionViewAddAction.class.getName());
-		addViewAction.addActionParameter("dsSaveViewLookUp");
-		addViewAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_NAME);
-		addViewAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
+		addViewAction.addActionParameter(GtnFrameworkReportStringConstants.DS_SAVE_VIEW_LOOK_UP);
+		addViewAction.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_NAME);
+		addViewAction.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
 		saveViewAdd.addGtnUIFrameWorkActionConfig(addViewAction);
-		
+
 		GtnUIFrameworkComponentConfig saveViewUpdate = new GtnUIFrameworkComponentConfig();
 		saveViewUpdate.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		saveViewUpdate.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "saveViewUpdate");
 		saveViewUpdate.setComponentName("UPDATE");
-                saveViewUpdate.addComponentStyle("buttonCustomStyleForLessSpaceBetweenButtons");
-		saveViewUpdate.setCustomReference("doNotAddButtonCustomStyle");
+		saveViewUpdate.addComponentStyle(
+				GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
+		saveViewUpdate.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
 		saveViewUpdate.setParentComponentId(parentId);
 		saveViewUpdate.setAddToParent(true);
 		saveViewUpdate.setEnable(false);
-		
-		
+
 		GtnUIFrameWorkActionConfig updateViewAction = new GtnUIFrameWorkActionConfig();
 		updateViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		updateViewAction.addActionParameter(GtnReportDataSelectionViewUpdateAction.class.getName());
-		updateViewAction.addActionParameter("dsSaveViewLookUp");
-		updateViewAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_NAME);
-		updateViewAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
+		updateViewAction.addActionParameter(GtnFrameworkReportStringConstants.DS_SAVE_VIEW_LOOK_UP);
+		updateViewAction.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_NAME);
+		updateViewAction.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
 		saveViewUpdate.addGtnUIFrameWorkActionConfig(updateViewAction);
-		
+
 		GtnUIFrameworkComponentConfig saveViewCancel = new GtnUIFrameworkComponentConfig();
 		saveViewCancel.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		saveViewCancel.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "saveViewCancel");
 		saveViewCancel.setComponentName("CANCEL");
-                saveViewCancel.addComponentStyle("buttonCustomStyleForLessSpaceBetweenButtons");
-		saveViewCancel.setCustomReference("doNotAddButtonCustomStyle");
+		saveViewCancel.addComponentStyle(
+				GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
+		saveViewCancel.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
 		saveViewCancel.setParentComponentId(parentId);
 		saveViewCancel.setAddToParent(true);
-		
+
 		GtnUIFrameWorkActionConfig closePopupAction = new GtnUIFrameWorkActionConfig();
 		closePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		closePopupAction.addActionParameter("dsSaveViewLookUp");
+		closePopupAction.addActionParameter(GtnFrameworkReportStringConstants.DS_SAVE_VIEW_LOOK_UP);
 		saveViewCancel.addGtnUIFrameWorkActionConfig(closePopupAction);
 
 		componentList.add(saveViewCancel);
 		componentList.add(saveViewAdd);
 		componentList.add(saveViewUpdate);
 
-
 	}
-	
+
 }

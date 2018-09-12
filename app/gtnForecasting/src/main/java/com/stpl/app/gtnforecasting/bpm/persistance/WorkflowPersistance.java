@@ -2,10 +2,8 @@ package com.stpl.app.gtnforecasting.bpm.persistance;
 
 import com.stpl.app.gtnforecasting.bpm.persistance.provider.BasePersistanceProvider;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.ifs.util.QueryUtil;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,17 +43,11 @@ public class WorkflowPersistance extends BasePersistanceProvider {
     public static  List<Object[]> getProjectionRecords(int projectionId,String userId,String sessionId,String screenName,SessionDTO sessionDto) {
         List<Object[]> obj = null;
         try {
-            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
-                String customSql = SQlUtil.getQuery(WorkflowPersistance.class,"getProjectionRecordsForReturns");
-                customSql = customSql.replace(Constant.QUESTION_PROJECTION_ID, String.valueOf(projectionId));
-                obj = executeSelectQuery(QueryUtil.replaceTableNames(customSql,sessionDto.getCurrentTableNames()));
-            } else {
                 String customSql =SQlUtil.getQuery(WorkflowPersistance.class,"getProjectionRecords");
                 customSql=customSql.replace(Constant.QUESTION_PROJECTION_ID, String.valueOf(projectionId));
                 customSql=customSql.replace("?USER_ID", String.valueOf(userId));
                 customSql=customSql.replace("?SESSION_ID", String.valueOf(sessionId));
                 obj = executeSelectQuery(customSql);
-            }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }

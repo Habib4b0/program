@@ -53,7 +53,6 @@ under the License.
  --> 
   <!--<localRepository>/path/to/local/repo</localRepository> -->
 	<localRepository>E:\Vinodhini\Checkout\Repository</localRepository> 
-
   <!-- interactiveMode
    | This will determine whether maven prompts you when it needs input. If set to false,
    | maven will use a sensible default value, perhaps based on some other setting, for

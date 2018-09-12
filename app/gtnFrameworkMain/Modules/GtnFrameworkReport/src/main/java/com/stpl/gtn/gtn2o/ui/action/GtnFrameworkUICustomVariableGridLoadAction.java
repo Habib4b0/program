@@ -151,10 +151,8 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 	}
 
 	private void addToLeftGrid(Grid<GtnWsRecordBean> leftGrid, GtnWsRecordBean removedBean) {
-		if (Optional.ofNullable(leftGrid).isPresent()) {
-			((ListDataProvider<GtnWsRecordBean>) leftGrid.getDataProvider()).getItems().add(removedBean);
-			leftGrid.getDataProvider().refreshAll();
-		}
+		((ListDataProvider<GtnWsRecordBean>) leftGrid.getDataProvider()).getItems().add(removedBean);
+		leftGrid.getDataProvider().refreshAll();
 	}
 
 	private void getAllTreeNodes(TreeData<GtnWsRecordBean> treeData, List<GtnWsRecordBean> parentItems,
@@ -179,7 +177,9 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 				default:
 					break;
 				}
-				addToLeftGrid(leftGrid, gtnWsRecordBean);
+				if (leftGrid != null) {
+					addToLeftGrid(leftGrid, gtnWsRecordBean);
+				}
 				getAllTreeNodes(treeData, treeData.getChildren(gtnWsRecordBean), parameterList, componentId);
 			}
 		}
