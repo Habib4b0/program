@@ -49,7 +49,7 @@ public class InventoryRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public Object[] getExcelHierarchy() {
-        INV_RATES_LOGGER.debug("Inside getExcelLogic");
+        INV_RATES_LOGGER.debug("Inside getExcelHierarchy");
         Object[] value = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
             value = new Object[]{"D", "T", "C", "B", "I"};
@@ -64,43 +64,43 @@ public class InventoryRatesSearchResults extends AbstractRatesSearchResults {
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
             value = new Object[]{"B", "I"};
         }
-        INV_RATES_LOGGER.debug("Inside getExcelLogic");
+        INV_RATES_LOGGER.debug("End Of getExcelHierarchy");
         return value;
     }
 
     @Override
     public List getExcelExportVisibleColumn() {
-        INV_RATES_LOGGER.debug("Inside getExcelLogic");
+        INV_RATES_LOGGER.debug("Inside getExcelExportVisibleColumn");
         return selection.getRateColumnList().get(0);
     }
 
     @Override
     public String getExcelFileName() {
-        INV_RATES_LOGGER.debug("Inside getExcelLogic");
+        INV_RATES_LOGGER.debug("Inside getExcelFileName");
         return "Rates";
     }
 
     @Override
     public boolean getisFixedColumns() {
-        INV_RATES_LOGGER.debug("Inside getExcelLogic");
+        INV_RATES_LOGGER.debug("Inside getisFixedColumns");
         return Boolean.TRUE;
     }
 
     @Override
     public int getInterval() {
-        INV_RATES_LOGGER.debug("Inside getExcelLogic");
+        INV_RATES_LOGGER.debug("Inside getInterval");
         return 1;
     }
 
     @Override
     public int discountColumnNeeded() {
-        INV_RATES_LOGGER.debug("Inside getExcelLogic");
+        INV_RATES_LOGGER.debug("Inside discountColumnNeeded");
         return 1;
     }
 
     @Override
     public boolean getisDeductionCustomer() {
-        INV_RATES_LOGGER.debug("Inside getExcelLogic");
+        INV_RATES_LOGGER.debug("Inside getisDeductionCustomer");
         return Boolean.FALSE;
     }
 
