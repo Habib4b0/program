@@ -191,7 +191,7 @@ public class GtnFrameworkUICustomTreeAddAction
 		return bean != null && GtnWsHierarchyType.VARIABLES.toString().equals(bean.getStringPropertyByIndex(3));
 	}
 
-	private static boolean isDiscount(GtnWsRecordBean bean) {
+	public static boolean isDiscount(GtnWsRecordBean bean) {
 		return bean != null && GtnWsHierarchyType.DEDUCTION.toString().equals(bean.getStringPropertyByIndex(3));
 	}
 

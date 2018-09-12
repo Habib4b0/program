@@ -57,7 +57,7 @@ public class GtnReportingComparisonBreakdownSubmitAction
 
 			List<Object[]> gtnReportComparisonBreakdownLookupBeanList = new ArrayList<>(inputSet);
 
-			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownLookupBeanSaveList = new ArrayList<>();
+			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownLookupBeanSaveList = new ArrayList<>(1);
 			for (int i = 0; i < gtnReportComparisonBreakdownLookupBeanList.size(); i++) {
 
 				periodAndYearMap = getPeriodAndYear(gtnReportComparisonBreakdownLookupBeanList.get(i)[1].toString());
@@ -105,7 +105,7 @@ public class GtnReportingComparisonBreakdownSubmitAction
 			periodAndYearMap.put("year", Integer.valueOf(s));
 		} else if (s.startsWith("Q") || s.startsWith("S") && !s.startsWith("Sep")) {
 			periodAndYearMap.put(GtnFrameworkReportStringConstants.PERIOD,
-					Integer.parseInt(String.valueOf(s.charAt(1))));
+					Integer.valueOf(String.valueOf(s.charAt(1))));
 			periodAndYearMap.put("year", Integer.valueOf(s.substring(3)));
 		} else {
 			Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(s.substring(0, 3));

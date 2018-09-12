@@ -155,6 +155,11 @@ public class GtnReportingDashboardReportProfileLoadAction
 								? Integer.parseInt(reportProfileSaveLookupBean.getReportOptionsHeaderSequencing())
 								: 0);
 
+		loadDataToComponentExtended(reportProfileSaveLookupBean, actionParamList, viewId);
+	}
+
+	private void loadDataToComponentExtended(GtnReportingDashboardSaveProfileLookupBean reportProfileSaveLookupBean,
+			List<Object> actionParamList, String viewId) throws GtnFrameworkValidationFailedException {
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(20).toString(), viewId)
 				.loadV8ComboBoxComponentValue(
 						Optional.ofNullable(reportProfileSaveLookupBean.getReportOptionsViewOptions()).isPresent()
@@ -193,7 +198,6 @@ public class GtnReportingDashboardReportProfileLoadAction
 						Optional.ofNullable(reportProfileSaveLookupBean.getComparisonBreakdownLookupBeanSaveList())
 								.isPresent() ? reportProfileSaveLookupBean.getComparisonBreakdownLookupBeanSaveList()
 										: new ArrayList<>());
-
 	}
 
 	private boolean validateReportProfile(GtnReportingDashboardSaveProfileLookupBean currentViewData,
