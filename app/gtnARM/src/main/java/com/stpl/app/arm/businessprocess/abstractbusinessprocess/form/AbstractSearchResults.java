@@ -120,7 +120,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected boolean valueDdlbChangeAllowed = false;
     private boolean levelFilterEnable = false;
     private boolean levelFilterValueDdlbEnable = false;
-    private final Logger logger = LoggerFactory.getLogger(AbstractSearchResults.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchResults.class);
 
     public AbstractSearchResults(LogicAble logic, T selection) {
         this.logic = logic;
@@ -267,7 +267,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                     calculateLogic();
                     refreshTableData(getAllExpandedHierarchyNo());
                 } catch (Exception e) {
-                    logger.error("Error in calculateBtn :", e);
+                    LOGGER.error("Error in calculateBtn :", e);
                 }
             }
         });
@@ -285,7 +285,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 }
             }
         } catch (Exception e) {
-            logger.error("Error in expandButtonClick :", e);
+            LOGGER.error("Error in expandButtonClick :", e);
         }
         AbstractNotificationUtils.getErrorNotification(ARMMessages.getExpandMessageName(), ARMMessages.getExpandMessageMsgId_001());
     }
@@ -302,7 +302,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 }
             }
         } catch (Exception e) {
-            logger.error("Error in collapseButtonClick :", e);
+            LOGGER.error("Error in collapseButtonClick :", e);
         }
         AbstractNotificationUtils.getErrorNotification(ARMMessages.getExpandMessageName(), ARMMessages.getExpandMessageMsgId_001());
     }
@@ -344,7 +344,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 valueDdlbValueChange(val);
             } else {
                 String message = String.valueOf(value) + " is not an integer ";
-                logger.error(message);
+                LOGGER.error(message);
             }
         }
 
@@ -391,7 +391,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 loadLevelFilterValueDdlb(value, levelNo);
                 setLevelFilterValueDdlbEnable(true);
             } catch (Exception e) {
-                logger.error("Error in levelFilterValueChangeLogic ", e);
+                LOGGER.error("Error in levelFilterValueChangeLogic ", e);
             }
         }
     }
@@ -559,7 +559,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         try {
             excelExportLogic();
         } catch (Exception ex) {
-            logger.error("Error in exportButtonLogic :", ex);
+            LOGGER.error("Error in exportButtonLogic :", ex);
         }
     }
 
@@ -642,7 +642,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @return
      */
     protected boolean isPercentageColumn2Decimal(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
@@ -664,17 +664,17 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @return
      */
     protected boolean isCurrencyZeroDecimalFormat(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
     protected boolean isNumericTwoDecimalFormat(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
     protected boolean isPercentageColumnzeroDecimal(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 

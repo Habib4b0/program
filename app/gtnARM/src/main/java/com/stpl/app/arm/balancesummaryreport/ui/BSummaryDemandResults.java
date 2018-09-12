@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 public class BSummaryDemandResults extends AbstractBalanceSummaryResutls {
 
-    protected final Logger demandResultsLogger = LoggerFactory.getLogger(getClass());
+    public static final Logger DEMAND_RESULTS_LOGGER = LoggerFactory.getLogger(BSummaryDemandResults.class);
 
     public BSummaryDemandResults(BSummaryDemandLogic logic, SummarySelection selection) {
         super(logic, selection);
@@ -57,37 +57,37 @@ public class BSummaryDemandResults extends AbstractBalanceSummaryResutls {
             getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.FIVE));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
-            demandResultsLogger.error("Error in setExcelVisibleColumn :", ex);
+            DEMAND_RESULTS_LOGGER.error("Error in setExcelVisibleColumn :", ex);
         }
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        demandResultsLogger.debug("inside getExcelLogic");
+        DEMAND_RESULTS_LOGGER.debug("inside getExcelLogic");
         return getSummaryLogic();
     }
 
     @Override
     public Map<Integer, String> getHierarchy() {
-        demandResultsLogger.debug("inside getHierarchy");
+        DEMAND_RESULTS_LOGGER.debug("inside getHierarchy");
         return getSelection().getSummeryhierarchy();
     }
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        demandResultsLogger.debug("inside viewType");
+        DEMAND_RESULTS_LOGGER.debug("inside viewType");
         getSummarySelection().setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override
     public String getExcelFileName() {
-        demandResultsLogger.debug("inside getExcelFileName");
+        DEMAND_RESULTS_LOGGER.debug("inside getExcelFileName");
         return "Balance Summary Report - Demand";
     }
 
     @Override
     protected boolean isPercentageColumn2Decimal(String column) {
-        demandResultsLogger.debug("inside isPercentageColumn2Decimal");
+        DEMAND_RESULTS_LOGGER.debug("inside isPercentageColumn2Decimal");
         return column.contains("PaymentRatio");
     }
 }

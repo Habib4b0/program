@@ -39,11 +39,12 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentSummaryDemandPayment.class);
 
-    private DPSelectionDTO paymentsSelectionDTO;
+    private final DPSelectionDTO paymentsSelectionDTO;
 
     public AdjustmentSummaryDemandPayment(DPSelectionDTO selection) throws InvocationTargetException {
         super(selection, new DPSummaryLogic());
         this.paymentsSelectionDTO = selection;
+        super.init();
         configureWorkFlow();
     }
 

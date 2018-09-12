@@ -8,7 +8,6 @@ package com.stpl.app.gtnforecasting.projectionvariance.logic.tablelogic;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
-import com.stpl.app.gtnforecasting.projectionvariance.logic.MProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
@@ -37,19 +36,16 @@ public class ComparisonTableLogic extends PageTableLogic {
     protected ComparisonLookupDTO lookUpDTO;
     protected SessionDTO sessionDTO;
     protected String screenName = StringUtils.EMPTY;
-    protected MProjectionVarianceLogic projectionVarianceLogic = new MProjectionVarianceLogic();
 
     @Override
     public int getCount() {
         int count = 0;
         if (loadData) {
             try {
-                if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                    count = projectionVarianceLogic.getProjectionCount(lookUpDTO, notNeededProjectionIds, getFilters());
-                } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                    if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                     count = new NMProjectionVarianceLogic().getComparisonCount(comparisonLookup, getFilters(), screenName);
                 }
-            } catch (PortalException | SystemException ex) {
+            } catch (SystemException ex) {
                 LOGGER.error(StringUtils.EMPTY, ex);
             }
         }
@@ -60,9 +56,7 @@ public class ComparisonTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         List<ComparisonLookupDTO> resultList = new ArrayList<>();
         try {
-            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                resultList = projectionVarianceLogic.getProjection(lookUpDTO, notNeededProjectionIds, start, offset, getSortByColumns(), getFilters());
-            } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 resultList = new NMProjectionVarianceLogic().getComparisonResults(comparisonLookup, start, offset, getFilters(), getSortByColumns(), screenName);
             }
         } catch (PortalException | SystemException ex) {
