@@ -4,6 +4,7 @@ import com.stpl.gtn.gtn2o.registry.action.GtnCallForecastingAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnForecastingDataSelectionLoadViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnForecastingProductAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDateValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
@@ -79,6 +80,9 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 				new GtnSelectButtonEnableAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnModeOptionValueChangeAction.class.getName(),
 				new GtnModeOptionValueChangeAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnForecastingDataSelectionLoadViewAction.class.getName(),
+				new GtnForecastingDataSelectionLoadViewAction());
+		
 	}
 
 }

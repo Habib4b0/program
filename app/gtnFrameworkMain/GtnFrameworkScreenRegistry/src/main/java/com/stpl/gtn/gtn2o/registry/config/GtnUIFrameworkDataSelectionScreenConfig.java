@@ -171,6 +171,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		
 		addPrivateViewLookup(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addCompany(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
+		addFrequency(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addProjectionName(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addPublicViewLookup(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addBusinessUnit(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
@@ -273,6 +274,27 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(company);
 	}
 
+	
+	private void addFrequency(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
+		GtnUIFrameworkComponentConfig frequencyLayoutConfig = configProvider.getHorizontalLayoutConfig(
+				nameSpace + "_" + "frequencyLayout", true, parentComponentId);
+		componentList.add(frequencyLayoutConfig);
+
+		GtnUIFrameworkComponentConfig frequency = new GtnUIFrameworkComponentConfig();
+		frequency.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		frequency.setComponentId(nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_FREQUENCY_COMBOX_ID);
+		frequency.setComponentName( GtnFrameworkScreenRegisteryConstants.ADD_FREQUENCY_COMBOX_ID);
+		frequency.setAddToParent(Boolean.TRUE);
+		frequency.setParentComponentId(nameSpace + "_" + "frequencyLayout");
+		frequency.setCustomReference("integerId");
+
+		GtnUIFrameworkComboBoxConfig frequencyConfig = new GtnUIFrameworkComboBoxConfig();
+		frequencyConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		frequencyConfig.setComboBoxType("CompanyMasterGLcomp");
+		frequency.setGtnComboboxConfig(frequencyConfig);
+		componentList.add(frequency);
+	}
 	private void addProjectionName(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
 		GtnUIFrameworkComponentConfig projectionNameLayoutConfig = configProvider.getHorizontalLayoutConfig(
 				nameSpace + "_" + "projectionNameLayout", true, parentComponentId);

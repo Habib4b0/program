@@ -436,9 +436,9 @@ public class ProjectionOptionsPrivateViewLookup
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
-		actionParameter.add(GtnFrameworkForecastingStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
-		actionParameter.add(Arrays.asList("viewNameFilter"));
-		actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP));
+		actionParameter.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		actionParameter.add(Arrays.asList("viewName"));
+		actionParameter.add(Arrays.asList("Commercial Forecasting_privateViewLookup"));
 		privateViewSelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(privateViewSelectAction);
 
@@ -447,18 +447,18 @@ public class ProjectionOptionsPrivateViewLookup
 		privateViewClosepopup.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
 		actionConfigList.add(privateViewClosepopup);
 
-//		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
-//		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//		loadViewAction.addActionParameter( GtnForecastingDataSelectionLoadViewAction.class.getName());
-//		loadViewAction.addActionParameter(GtnFrameworkForecastingStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
-//		loadViewAction.addActionParameter("reportLandingScreen");
-//		actionConfigList.add(loadViewAction);
-//
-//		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
-//		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-//		enableAction.addActionParameter("reportLandingScreen_dsDeleteView");
-//		actionConfigList.add(enableAction);
-//		privateViewSearchLookupSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
+		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		loadViewAction.addActionParameter( GtnForecastingDataSelectionLoadViewAction.class.getName());
+		loadViewAction.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		loadViewAction.addActionParameter("Commercial Forecasting");
+		actionConfigList.add(loadViewAction);
+
+		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
+		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+		enableAction.addActionParameter("reportLandingScreen_dsDeleteView");
+		actionConfigList.add(enableAction);
+		privateViewSearchLookupSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig privateViewSearchLookupCloseButton = new GtnUIFrameworkComponentConfig();
 		privateViewSearchLookupCloseButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);

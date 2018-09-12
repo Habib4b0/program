@@ -91,6 +91,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             keyMap.put("privatePublic", new PrivatePublic());
             keyMap.put("businessUnits", new ComboBoxSearch());
             keyMap.put("companies", new ComboBoxSearch());
+            keyMap.put("frequency", new ComboBoxSearch());
             keyMap.put("dataSelectionDeduction", new ComboBoxSearch());
         }
         SearchInterface searchInterface = keyMap.get(key);

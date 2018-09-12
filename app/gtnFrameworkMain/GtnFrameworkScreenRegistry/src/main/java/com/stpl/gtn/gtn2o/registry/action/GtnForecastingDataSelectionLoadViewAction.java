@@ -50,10 +50,58 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(actionParamList.get(1).toString(), componentId).getComponentData()
 					.getCustomData();
-			String viewData = (String) recordBean.getPropertyValueByIndex(5);
+			//String viewData = (String) recordBean.getPropertyValueByIndex(5);
 			String nameSpace = actionParamList.get(2).toString();
+			
+			GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponentFromParent(
+					nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "company", componentId)
+			.loadV8ComboBoxComponentValue((int)recordBean.getPropertyValueByIndex(22));
+			
+			GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponentFromParent(
+					nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "businessUnit", componentId)
+			.loadV8ComboBoxComponentValue((int)recordBean.getPropertyValueByIndex(27));
+			GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponentFromParent(
+					nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "projectionName", componentId)
+			.loadV8FieldValue((String)recordBean.getPropertyValueByIndex(32));
+			
+			GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponentFromParent(
+					nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "projectionDescription", componentId)
+			.loadV8FieldValue((String)recordBean.getPropertyValueByIndex(1));
+    
+			
+
 			gtnLogger.info("nameSpace" + nameSpace);
-			GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
+			
+//			GtnWsRecordBean rb=new GtnWsRecordBean();
+//			
+//			List<Object> list=new ArrayList<>();
+//			list.add(rb.getPropertyValueByIndex(4));
+//			list.add(rb.getPropertyValueByIndex());
+//			list.add(rb.getPropertyValueByIndex());
+//			list.add(rb.getPropertyValueByIndex(11));
+//			list.add(rb.getPropertyValueByIndex(12));
+//			list.add(rb.getPropertyValueByIndex(5));
+//			list.add(rb.getPropertyValueByIndex(28));
+//			list.add(rb.getPropertyValueByIndex(17));
+//			
+//			rb.addPropertiesAsList(list);
+//			GtnUIFrameworkComponentData customerHierarchyData = GtnUIFrameworkGlobalUI
+//					.getVaadinBaseComponentFromParent(
+//							nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "customerHierarchy", componentId)
+//					.getComponentData();
+//			customerHierarchyData.setCustomData(rb);
+			
+//			GtnUIFrameworkComponentData customerHierarchyData = GtnUIFrameworkGlobalUI
+//					.getVaadinBaseComponentFromParent(
+//							nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "customerHierarchy", componentId)
+//					.getComponentData();
+//			customerHierarchyData.setCustomData(rb);
+			
+			/*GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
 			try {
 				dataSelectionBean = (GtnWsReportDataSelectionBean) convertJsonToObject(
 						GtnWsReportDataSelectionBean.class, viewData.replaceAll("\\\\", "'"));
@@ -230,7 +278,7 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 					.getComponentData().setCustomData(
 							Optional.ofNullable(dataSelectionBean.getVariableBreakdownSaveList()).isPresent() == true
 									? dataSelectionBean.getVariableBreakdownSaveList()
-									: new ArrayList<>());
+									: new ArrayList<>());*/
 		} catch (Exception ex) {
 			gtnLogger.error("Error message", ex);
 		}
