@@ -403,7 +403,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig frequencyConfig = configProvider.getUIFrameworkComponentConfig(
-				GtnFrameworkReportStringConstants.REPORTING_DASHBOARD
+				GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_LOWERCASE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_FREQUENCY,
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_FREQUENCY_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
@@ -434,7 +434,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig periodRangeFromConfig = configProvider.getUIFrameworkComponentConfig(
-				GtnFrameworkReportStringConstants.REPORTING_DASHBOARD
+				GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_LOWERCASE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_PERIOD_RANGE_FROM,
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_PERIOD_RANGE_FROM_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
@@ -464,7 +464,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig comparisonBasisConfig = configProvider.getUIFrameworkComponentConfig(
-				GtnFrameworkReportStringConstants.REPORTING_DASHBOARD
+				GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_LOWERCASE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_COMPARISON_BASIS,
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_COMPARISON_BASIS_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
@@ -537,7 +537,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig periodRangeToConfig = configProvider.getUIFrameworkComponentConfig(
-				GtnFrameworkReportStringConstants.REPORTING_DASHBOARD
+				GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_LOWERCASE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO,
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
@@ -1310,7 +1310,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_CURRENCY_DISPLAY);
 		tableLoadAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW);
-		tableLoadAction.addActionParameter(GtnFrameworkReportStringConstants.REPORTING_DASHBOARD
+		tableLoadAction.addActionParameter(GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_LOWERCASE
 				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_FREQUENCY);
 		tableLoadAction.addActionParameter(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportingDashboardComparisonConfig");

@@ -15,14 +15,10 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.LivesDTO;
-import com.stpl.app.gtnforecasting.dto.PMPYRowDto;
-import com.stpl.app.gtnforecasting.dto.PeriodDTO;
 import com.stpl.app.gtnforecasting.dto.SalesProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
-import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
 import com.stpl.app.gtnforecasting.service.finderImpl.MasterDataAttributeFinderImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.STRING_EMPTY;
 import com.stpl.app.service.CcpDetailsLocalServiceUtil;
@@ -35,7 +31,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -551,139 +546,6 @@ public class SalesProjectionLogic {
         return true;
     }
 
-    private List callPMPYProcedure(Object inputs[]) throws SQLException {
-
-        List list = null;
-
-        final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        try (Connection connection = dataSourceConnection.getConnection();
-                CallableStatement statement = connection.prepareCall("{call Nm_sales_pmpy (?,?,?,?)}")
-                 )
-        {
-                LOGGER.debug("Starting callSalesInsertProcedure return  staus ::::");
-                statement.setInt(1, Integer.parseInt((String) inputs[0]));  //PROJECTION_MASTER_SID
-                statement.setString(NumericConstants.TWO, String.valueOf(inputs[1]));   //@PROJECTION_DETAILS_SID
-                statement.setInt(NumericConstants.THREE, Integer.parseInt((String) inputs[NumericConstants.TWO])); //CONTRACT_HOLDER_SID
-                statement.setInt(NumericConstants.FOUR, Integer.parseInt((String) inputs[NumericConstants.THREE]));   //TRADING_PARTNER_SID
-                list = calculateResultSet(statement);
-            LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::");
-        } catch (NumberFormatException | SQLException | NamingException ex) {
-                 LOGGER.error("Error from callPMPYProcedure: {}", ex.getMessage());
-
-        } 
-        return list;
-    }
-
-    private List calculateResultSet(final CallableStatement statement) throws SQLException {
-        Object[] temp;
-         List list = new ArrayList();
-        try (ResultSet resList = statement.executeQuery())
-        {
-        while (resList.next()) {
-            temp = new Object[NumericConstants.FIVE];
-            temp[0] = resList.getString(1);
-            temp[1] = resList.getString(NumericConstants.TWO);
-            temp[NumericConstants.TWO] = resList.getString(NumericConstants.THREE);
-            temp[NumericConstants.THREE] = resList.getString(NumericConstants.FOUR);
-            temp[NumericConstants.FOUR] = resList.getString(NumericConstants.FIVE);
-            list.add(temp);
-        }
-        } catch (SQLException ex)
-        {
-            LOGGER.debug(ex.getMessage());
-        }
-        return list;
-    }
-
-    public List<PMPYRowDto> getPMPYResultList(Object[] inputs) {
-
-        List<PMPYRowDto> resultList = new ArrayList<>();
-
-        List list = null;
-        try {
-            list = callPMPYProcedure(inputs);
-        }  catch (SQLException ex) {
-
-            LoggerFactory.getLogger(SalesProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
-        } 
-
-        List<Object> propertyList = (List<Object>) inputs[NumericConstants.FOUR];
-
-        if (list != null) {
-            List<PeriodDTO> tempList = new ArrayList<>();
-            PeriodDTO periodDTO = null;
-            for (int i = 0; i < list.size(); i++) {
-                Object obj[] = (Object[]) list.get(i);
-                periodDTO = new PeriodDTO();
-                if (obj[0] != null) {
-                    periodDTO.setQuator(String.valueOf(obj[0]));
-
-                  
-                }
-                if (obj[1] != null) {
-                    periodDTO.setYear(String.valueOf(obj[1]));
-
-                  
-                }
-                if (obj[NumericConstants.TWO] != null) {
-                    periodDTO.setActualSales(String.valueOf(CommonUtils.MONEY.format(Double.valueOf(obj[NumericConstants.TWO].toString()))));
-
-                    
-                }
-
-                if (obj[NumericConstants.THREE] != null) {
-                   
-                    periodDTO.setActualUnits(String.valueOf(CommonUtils.UNITVOLUME.format(Double.valueOf(obj[NumericConstants.THREE].toString()))));
-                    
-                }
-                if (obj[NumericConstants.FOUR] != null) {
-                    
-                    periodDTO.setLives(Double.valueOf(CommonUtils.UNITVOLUME.format(Double.valueOf(obj[NumericConstants.FOUR].toString()))));
-                   
-                }
-
-                tempList.add(periodDTO);
-
-            }
-
-            PMPYRowDto pmpyRowDto1 = new PMPYRowDto();
-            PMPYRowDto pmpyRowDto2 = new PMPYRowDto();
-            PMPYRowDto pmpyRowDto3 = new PMPYRowDto();
-
-            Map<String, String> properties1 = new HashMap<>();
-            Map<String, String> properties2 = new HashMap<>();
-            Map<String, String> properties3 = new HashMap<>();
-            for (Object obj : propertyList) {
-
-                properties1.put(String.valueOf(obj), "0.0");
-                properties2.put(String.valueOf(obj), "0.0");
-                properties3.put(String.valueOf(obj), "0.0");
-
-            }
-
-            for (PeriodDTO pDto : tempList) {
-                properties1.put(Constant.Q_SMALL + pDto.getQuator() + "-" + pDto.getYear(), StringUtils.EMPTY + pDto.getActualSales() + StringUtils.EMPTY);
-                properties2.put(Constant.Q_SMALL + pDto.getQuator() + "-" + pDto.getYear(), StringUtils.EMPTY + pDto.getActualUnits() + StringUtils.EMPTY);
-                properties3.put(Constant.Q_SMALL + pDto.getQuator() + "-" + pDto.getYear(), StringUtils.EMPTY + pDto.getLives() + StringUtils.EMPTY);
-               
-            }
-
-            pmpyRowDto1.setProperties(properties1);
-            pmpyRowDto1.setType(Constant.SALES_SMALL);
-            pmpyRowDto2.setProperties(properties2);
-            pmpyRowDto2.setType(Constant.UNITS_SMALL);
-            pmpyRowDto3.setProperties(properties3);
-            pmpyRowDto3.setType(Constant.LIVES);
-
-            resultList.add(pmpyRowDto1);
-            resultList.add(pmpyRowDto2);
-            resultList.add(pmpyRowDto3);
-
-        }
-
-        return resultList;
-    }
-
     public int getTotalHistoryPeriods(int fromYear, int toYear, int fromQuator, int toQuator) {
 
         int numberofQuators = 0;
@@ -862,50 +724,6 @@ public class SalesProjectionLogic {
         resultList.add(contractHolder);
 
         return resultList;
-    }
-
-
-    public void importPMPY(Object inputs[], SessionDTO session) {
-
-        try {
-
-            List input = new ArrayList();
-            input.add(inputs[NumericConstants.THREE]);
-            input.add(inputs[NumericConstants.TWO]);
-            input.add(session.getSessionId());
-            input.add(session.getUserId());
-            input.add(inputs[1]);
-            input.add(CommonUtils.getListToString((List) inputs[0]));
-
-            String changeProperty;
-            if (inputs[NumericConstants.FOUR].equals(Constant.SALES_CAPS)) {
-                PPAQuerys.PPAUpdate(input, "PMPY-UPDATE-SALES");
-                changeProperty = Constant.SALES_CAPS;
-            } else {
-                PPAQuerys.PPAUpdate(input, "PMPY-UPDATE-UNITS");
-                changeProperty = Constant.UNITS_SMALL;
-            }
-            callManualEntry(session, changeProperty);
-
-        } catch (Exception ex) {
-            LoggerFactory.getLogger(SalesProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
-        }
-    }
-
-    public int getPMPYProtDetID(Object input[]) {
-        List list = new ArrayList();
-        int id = 0;
-        SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-        try {
-            list = salesProjectionDAO.getSalesProjection(input);
-        } catch (PortalException | SystemException ex) {
-            LoggerFactory.getLogger(SalesProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
-        }
-        if (!list.isEmpty()) {
-            id = list.size();
-           
-        }
-        return id;
     }
 
     public List getProjectionDetailsSid(Object input[]) {

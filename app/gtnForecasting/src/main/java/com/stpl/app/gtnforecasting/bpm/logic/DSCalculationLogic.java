@@ -4,7 +4,6 @@ import com.stpl.app.bpm.dto.ForecastingRulesDTO;
 import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
@@ -76,14 +75,6 @@ public class DSCalculationLogic {
             List<Object[]> returnList = WorkflowPersistance.getProjectionRecords(projectionId, userId, sessionId, screenName, sessionDto);
             for (int i = 0; i < returnList.size(); i++) {
                 Object[] obj = returnList.get(i);
-                if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
-                    ForecastingRulesDTO retRate = new ForecastingRulesDTO("Projected_Return_Percent");
-                    retRate.setAmountLowest(Double.parseDouble(String.valueOf(obj[0])));
-                    retRate.setAmountGreatest(Double.parseDouble(String.valueOf(obj[1])));
-                    retRate.setPercentLowest(Double.parseDouble(String.valueOf(obj[NumericConstants.TWO])));
-                    retRate.setPercentGreatest(Double.parseDouble(String.valueOf(obj[NumericConstants.THREE])));
-                    list.add(retRate);
-                } else {
                     ForecastingRulesDTO sales = new ForecastingRulesDTO("Projected_Contract_Sales_Dollars");
                     sales.setAmountLowest(Double.parseDouble(String.valueOf(obj[0])));
                     sales.setAmountGreatest(Double.parseDouble(String.valueOf(obj[1])));
@@ -126,7 +117,6 @@ public class DSCalculationLogic {
                     list.add(rate);
                     list.add(netSales);
                     list.add(netProfit);
-                }
             }
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
