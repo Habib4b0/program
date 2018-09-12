@@ -14,8 +14,6 @@ import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.GroupFilter;
 import com.stpl.app.gtnforecasting.logic.Utility;
-import com.stpl.app.gtnforecasting.lookups.NMPmpyCalculator;
-import com.stpl.app.gtnforecasting.lookups.logic.PmpyLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.NMSalesExcelLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.NMSalesProjectionTableLogic;
 import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
@@ -28,7 +26,6 @@ import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.gtnforecasting.utils.SalesExcelNM;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.security.StplSecurity;
@@ -52,7 +49,6 @@ import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.HorizontalLayout;
@@ -477,79 +473,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
         loadSalesInclusion();
     }
 
-    @Override
-    protected void pmpyLogic() {
-        PmpyLogic pmpyLogic = new PmpyLogic();
-
-        boolean tpSelected = false;
-        boolean hasActuals = false;
-        int i = 0;
-        String hierarchyNo = StringUtils.EMPTY;
-
-        for (SalesRowDto dto : getCustomContainer().getBeans()) {
-            if ((Boolean) dto.getPropertyValue(Constant.CHECK) && (Constant.TRADINGPARTNER.equals(dto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(dto.getHierarchyLevel()))) {
-                tpSelected = true;
-                i++;
-                hierarchyNo = dto.getHierarchyNo();
-
-            }
-            for (Object key : dto.getProperties().keySet()) {
-                if (((Boolean) dto.getPropertyValue(Constant.CHECK) && (Constant.TRADINGPARTNER.equals(dto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(dto.getHierarchyLevel()))) && (String.valueOf(key).contains("Actual"))) {
-                    String value = String.valueOf(dto.getProperties().get(key));
-                    if (!value.equals("-") && !value.equals("0.00") && !value.equals("$0") && !value.equals(DASH) && !value.equals("0.000000")) {
-                        hasActuals = true;
-                    }
-
-                }
-
-            }
-
-        }
-
-        if (tpSelected && i == 1) {
-
-            if (!hasActuals) {
-                String historyPeriods = String.valueOf(historyDdlb.getValue());
-
-                hierarchyNo = " WHERE RLD1.HIERARCHY_NO like '" + hierarchyNo + "' ";
-                Object[] inputParameters = new Object[NumericConstants.TEN];
-                inputParameters[0] = session.getProjectionId();
-                inputParameters[1] = hierarchyNo;
-                List<Object> projectionDetailsIdForPMPY = pmpyLogic.getNmProjectionDetId(inputParameters);
-                int projectionDetailsId = Integer.parseInt(projectionDetailsIdForPMPY.get(0).toString());
-                List list = pmpyLogic.getTradingPartnerInfo(projectionDetailsId);
-
-                String tradeName = String.valueOf(list.get(0) != null ? list.get(0) : " ");
-                String tradeNo = String.valueOf(list.get(1) != null ? list.get(1) : " ");
-                String contractHolder = String.valueOf(list.get(NumericConstants.TWO) != null ? list.get(NumericConstants.TWO) : " ");
-
-                final NMPmpyCalculator pmpyCalc = new NMPmpyCalculator(historyPeriods, projectionDetailsIdForPMPY, rightHeader, tradeName, tradeNo, contractHolder, session, projectionDTO);
-                pmpyCalc.addCloseListener(new Window.CloseListener() {
-                    @Override
-                    public void windowClose(Window.CloseEvent e) {
-                        if (pmpyCalc.isImportEvent()) {
-                            refreshTableData(getCheckedRecordsHierarchyNo());
-                        }
-
-                    }
-                });
-                getUI().addWindow(pmpyCalc);
-            } else {
-                AbstractNotificationUtils.getErrorNotification("PMPY calculation cannot be performed",
-                        "PMPY calculation cannot be performed for trading partner which already have history values.");
-            }
-        } else if (tpSelected && i > 1) {
-            AbstractNotificationUtils.getErrorNotification("More than one Trading Partner Selected",
-                    "There are More than one trading partners selected.\n Please select only one trading partner and try again");
-
-        } else {
-
-            AbstractNotificationUtils.getErrorNotification("No Trading Partner Selected.", "Please select a Trading Partner. ");
-
-        }
-
-    }
-
     protected void channelsViewChange() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -876,11 +799,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 collapse.setVisible(BooleanConstant.getFalseFlag());
                 newBtn.setVisible(BooleanConstant.getFalseFlag());
                 editBtn.setVisible(BooleanConstant.getFalseFlag());
-            }
-            if (functionPsHM.get(CommonUtils.PMPY) != null && ((AppPermission) functionPsHM.get(CommonUtils.PMPY)).isFunctionFlag()) {
-                pmpy.setVisible(true);
-            } else {
-                pmpy.setVisible(false);
             }
             if (functionPsHM.get(CommonUtils.ALT_HISTORY_BTN) != null && ((AppPermission) functionPsHM.get(CommonUtils.ALT_HISTORY_BTN)).isFunctionFlag()) {
                 altHistoryBtn.setVisible(true);

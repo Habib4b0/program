@@ -330,10 +330,8 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         discountOpg.setImmediate(true);
         discountOpg.addStyleName(Constant.HORIZONTAL);
         discountOpg.addStyleName(Constant.OPTION_GROUP_WIDTH);
-        discountOpg.addItem(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED);
         discountOpg.addItem(Constant.SUPPLEMENTAL);
         discountOpg.addItem(Constant.BOTH);
-        discountOpg.setValue(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED);
         periodOrderOpg.setImmediate(true);
         periodOrderOpg.addStyleName(Constant.HORIZONTAL);
         periodOrderOpg.addStyleName(Constant.OPTION_GROUP_WIDTH);
