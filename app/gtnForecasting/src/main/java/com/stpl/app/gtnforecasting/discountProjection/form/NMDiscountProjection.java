@@ -21,7 +21,6 @@ import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
-import com.stpl.app.gtnforecasting.ui.form.lookups.AlternateHistory;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
 import com.stpl.app.gtnforecasting.ui.form.lookups.DiscountSelection;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
@@ -34,7 +33,6 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.CustomExcelNM;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.gtnforecasting.utils.NotificationUtils;
-import com.stpl.app.gtnforecasting.utils.TabNameUtil;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.CustomViewMaster;
@@ -694,38 +692,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             configureLeftTable();
             loadEmptyTable();
         }
-        altHistoryBtn.addClickListener(new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                if (PROGRAM.getConstant().equals(level.getValue())) {
-                    try {
-
-                        if (validateForAlternateHistory()) {
-
-                            session.setFrequency(projectionSelection.getFrequency());
-
-                            String selectedRsName = resultsTable.getRightFreezeAsTable()
-                                    .getTripleHeaderColumnHeader(checkedDiscountsPropertyIds.get(0));
-                            selectedRsName = selectedRsName.replace(" ", StringUtils.EMPTY);
-                            session.setForecastName(TabNameUtil.DISCOUNT_PROJECTION);
-                            AlternateHistory alternateContractLookup = new AlternateHistory(session,
-                                    projectionSelection, tableLogic, actualCCPs, rsModelSid, selectedRsName);
-                            getUI().addWindow(alternateContractLookup);
-                        }
-                    } catch (IllegalArgumentException | NullPointerException ex) {
-                        LOGGER.error(ex.getMessage());
-                    }
-                } else {
-
-                    NotificationUtils.getAlertNotification("Invalid Levl Selection",
-                            "Please Select Level as Program and Generate to proceed Alternate History.");
-
-                }
-            }
-
-        });
-
         LOGGER.debug("Exiting configureFields ");
 
     }

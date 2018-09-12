@@ -39,7 +39,7 @@ public class ComparisonProjectionResultFilterAction implements GtnUIFrameWorkAct
                 dataprovider.clearFilters();
                 return;
             }
-            filterDate(dataprovider, componentId, filterValue);
+            filterDate(dataprovider, filterValue.get(1).toString(), filterValue);
         } catch (Exception exception) {
             logger.error("EXCEPTION", exception);
         }

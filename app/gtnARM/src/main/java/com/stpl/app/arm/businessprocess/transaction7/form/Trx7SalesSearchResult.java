@@ -30,7 +30,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
     private Object[] doubleheadercolumns = {"ratePeriod"};
     private Object[] columns = {"month"};
     private Object[] leftColumns = {"group"};
-    public static final Logger LOGGER = LoggerFactory.getLogger(Trx7SalesSearchResult.class);
+    public static final Logger TR7_LOGGER = LoggerFactory.getLogger(Trx7SalesSearchResult.class);
 
     public Trx7SalesSearchResult(Trx7SalesLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
@@ -92,23 +92,23 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
     public void setExcelVisibleColumn() {
         Map properties = new HashMap();
         List<Object> header = getSummaryLogic().generateHeader((Trx7SelectionDTO) selection);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
-        List rightSingleVisibleHeader = (ArrayList) header.get(1);
-        for (Object variableColumn : rightSingleVisibleColumn) {
+        List tx7RightSingleVisibleColumn = (ArrayList) header.get(0);
+        List tx7RightSingleVisibleHeader = (ArrayList) header.get(1);
+        for (Object variableColumn : tx7RightSingleVisibleColumn) {
             properties.put(variableColumn, String.class);
         }
         getExcelContainer().setColumnProperties(properties);
-        getExcelContainer().setRecordHeader(rightSingleVisibleColumn);
-        List rightSingleVisibleColumn1 = new ArrayList(rightSingleVisibleColumn);
+        getExcelContainer().setRecordHeader(tx7RightSingleVisibleColumn);
+        List rightSingleVisibleColumn1 = new ArrayList(tx7RightSingleVisibleColumn);
         rightSingleVisibleColumn1.add(0, "group");
-        rightSingleVisibleHeader.add(0, "Product");
+        tx7RightSingleVisibleHeader.add(0, "Product");
         getExcelTable().setVisibleColumns(rightSingleVisibleColumn1.toArray());
-        getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
+        getExcelTable().setColumnHeaders(Arrays.copyOf((tx7RightSingleVisibleHeader).toArray(), (tx7RightSingleVisibleHeader).size(), String[].class));
         setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
     }
 
     public void generateButtonLogic(Trx7SelectionDTO selection, boolean isEditButtonClick) {
-        LOGGER.debug("Inside generate ButtonClick Btn{}", selection.getSalesVariables().size());
+        TR7_LOGGER.debug("Inside generate ButtonClick Btn{}", selection.getSalesVariables().size());
         List<Object> header = getSummaryLogic().generateHeader(selection);
         List rightSingleVisibleColumn = (ArrayList) header.get(0);
         Map properties = new HashMap();
@@ -139,24 +139,24 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
 
     @Override
     protected void configureRightTable() {
-        LOGGER.debug("inside configureRightTable Method");
+        TR7_LOGGER.debug("inside configureRightTable Method");
     }
 
     @Override
     protected boolean calculateLogic() {
-        LOGGER.debug("Inside calculate ButtonClick Btn");
+        TR7_LOGGER.debug("Inside calculate ButtonClick Btn");
         try {
             Object[] orderedArgs = {selection.getProjectionMasterSid(), selection.getDateType(), selection.getPrice(), "1", selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId()};
             getSummaryLogic().getSalesResults(orderedArgs);
         } catch (Exception e) {
-            LOGGER.error("Error in calculateLogic :", e);
+            TR7_LOGGER.error("Error in calculateLogic :", e);
         }
         return false;
     }
 
     @Override
     protected void customerProductValueChange() {
-        LOGGER.debug("inside customerProductValueChange Method");
+        TR7_LOGGER.debug("inside customerProductValueChange Method");
 
     }
 
@@ -233,13 +233,13 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
 
     @Override
     protected void valueDdlbValueChange(int masterSids) {
-        LOGGER.debug("inside valueDdlbValueChange Method");
+        TR7_LOGGER.debug("inside valueDdlbValueChange Method");
 
     }
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-        LOGGER.debug("inside loadLevelFilterValueDdlb Method");
+        TR7_LOGGER.debug("inside loadLevelFilterValueDdlb Method");
     }
 
     @Override
@@ -248,8 +248,8 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object tr7Obj) {
+        return super.equals(tr7Obj);
     }
 
     @Override
@@ -257,11 +257,11 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream tr7Obj) throws IOException {
+        tr7Obj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream tr7Obj) throws IOException, ClassNotFoundException {
+        tr7Obj.defaultReadObject();
     }
 }

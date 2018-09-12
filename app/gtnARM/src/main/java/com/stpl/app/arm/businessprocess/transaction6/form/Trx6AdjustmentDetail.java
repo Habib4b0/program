@@ -32,6 +32,7 @@ public class Trx6AdjustmentDetail extends AbstractAdjustmentDetails {
 
     private boolean creditFlag;
     private boolean tr6GenerateFlag;
+    private AbstractSelectionDTO tr6SelectionDto;
 
     public Trx6AdjustmentDetail(AbstractSelectionDTO selectionDto) {
         super(new Trx6DetailsLogic(), selectionDto);
@@ -42,21 +43,21 @@ public class Trx6AdjustmentDetail extends AbstractAdjustmentDetails {
      * To set the values to the DTO This method will be called before generate
      */
     public void setSelection() {
-        selection.setDetailLevel(level.getValue().toString());
-        selection.setDetailvariables(Arrays.asList(variableValue));
+        tr6SelectionDto.setDetailLevel(level.getValue().toString());
+        tr6SelectionDto.setDetailvariables(Arrays.asList(variableValue));
         List<List> account = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
-        selection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
+        tr6SelectionDto.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
         List<String> amtFilter = CommonUtils.getSelectedVariables(amountFilterItem);
-        selection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
+        tr6SelectionDto.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
 
-        selection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
-        if (account.get(2).isEmpty() || amtFilter.isEmpty() || selection.getSavedetailvariables().isEmpty()) {
+        tr6SelectionDto.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
+        if (account.get(2).isEmpty() || amtFilter.isEmpty() || tr6SelectionDto.getSavedetailvariables().isEmpty()) {
             tr6GenerateFlag = true;
         } else {
             tr6GenerateFlag = false;
         }
-        creditFlag = logic.cerditDebitEqualCheck(selection);
+        creditFlag = logic.cerditDebitEqualCheck(tr6SelectionDto);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class Trx6AdjustmentDetail extends AbstractAdjustmentDetails {
         setSelection();
         if (tr6GenerateFlag) {
             AbstractNotificationUtils.getErrorNotification(WorkflowMessages.getCW_SubmitMandoryValidationHeader(), ARMMessages.getGenerateMessageMsgId_004());
-        } else if (logic.generateButtonCheck(selection) && !creditFlag) {
+        } else if (logic.generateButtonCheck(tr6SelectionDto) && !creditFlag) {
             super.generateBtn();
             tableLogic.loadSetData(Boolean.TRUE);
         } else if (creditFlag && isGenerateFlag()) {
@@ -74,9 +75,9 @@ public class Trx6AdjustmentDetail extends AbstractAdjustmentDetails {
 
     @Override
     protected void loadReserveAccount() {
-        List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
-        CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
-                Arrays.copyOf(list.get(1).toArray(), list.get(1).size(), String[].class));
+        List<List> tr6ReserveList = logic.getReserveAccountDetails(tr6SelectionDto, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
+        CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(tr6ReserveList.get(0).toArray(), tr6ReserveList.get(0).size(), String[].class),
+                Arrays.copyOf(tr6ReserveList.get(1).toArray(), tr6ReserveList.get(1).size(), String[].class));
         CommonUtils.checkAllMenuBarItem(reserveMenuItem);
     }
 
@@ -91,11 +92,11 @@ public class Trx6AdjustmentDetail extends AbstractAdjustmentDetails {
      */
     @Override
     protected void variableDefaultSelection() {
-        List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
+        List tr6DefaultList = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
                 ? VariableConstants.getAdjustmentDemandPipelineReserveVariableDefaultSelection()
                 : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-            if (list.contains(object.getMenuItem().getWindow())) {
+            if (tr6DefaultList.contains(object.getMenuItem().getWindow())) {
                 object.setChecked(Boolean.TRUE);
             }
         }

@@ -53,11 +53,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     private boolean isValueChange;
     private String leftHeader = CommonConstant.CUSTOMER;
     private AbstractBSummaryLogic abstractBSummaryLogic;
-    public final Logger absBalSumLogger = LoggerFactory.getLogger(AbstractBalanceSummaryResutls.class);
-    /**
-     * The Constant LOGGER.
-     */
-    protected final Logger loggerBal = LoggerFactory.getLogger(getClass());
+    public static final Logger ABS_BAL_SUM_LOGGER = LoggerFactory.getLogger(AbstractBalanceSummaryResutls.class);
 
     public AbstractBalanceSummaryResutls(AbstractBSummaryLogic logic, SummarySelection selection) {
         super(logic, selection);
@@ -148,31 +144,31 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
     @Override
     public List getExcelExportVisibleColumn() {
-        absBalSumLogger.debug("inside getExcelExport");
+        ABS_BAL_SUM_LOGGER.debug("inside getExcelExport");
         return getSelection().getExcelVisibleColumn();
     }
 
     @Override
     public boolean getisFixedColumns() {
-        absBalSumLogger.debug("inside getisFixedColumns");
+        ABS_BAL_SUM_LOGGER.debug("inside getisFixedColumns");
         return Boolean.TRUE;
     }
 
     @Override
     public int getInterval() {
-        absBalSumLogger.debug("inside getInterval");
+        ABS_BAL_SUM_LOGGER.debug("inside getInterval");
         return 1;
     }
 
     @Override
     public int discountColumnNeeded() {
-        absBalSumLogger.debug("inside discountColumnNeeded");
+        ABS_BAL_SUM_LOGGER.debug("inside discountColumnNeeded");
         return 2;
     }
 
     @Override
     public boolean getisDeductionCustomer() {
-        absBalSumLogger.debug("inside getisDeductionCustomer");
+        ABS_BAL_SUM_LOGGER.debug("inside getisDeductionCustomer");
         return Boolean.FALSE;
     }
 
@@ -188,12 +184,12 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
         @Override
         public void noMethod() {
-            loggerBal.debug("Inside the CustomNotification Listener NO Method");
+            ABS_BAL_SUM_LOGGER.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
         public void yesMethod() {
-            loggerBal.debug("buttonName :{}", bsrResultsbuttonName);
+            ABS_BAL_SUM_LOGGER.debug("buttonName :{}", bsrResultsbuttonName);
             if (null != bsrResultsbuttonName) {
                 switch (bsrResultsbuttonName) {
                     case "reset":
@@ -287,7 +283,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
      */
     @UiHandler("valueDdlb")
     public void valueDdlb(Property.ValueChangeEvent event) {
-        loggerBal.debug("valueDdlb value change listener starts");
+        ABS_BAL_SUM_LOGGER.debug("valueDdlb value change listener starts");
     }
 
     @Override

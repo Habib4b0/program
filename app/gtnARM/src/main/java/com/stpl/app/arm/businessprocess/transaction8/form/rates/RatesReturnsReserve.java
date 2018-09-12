@@ -40,7 +40,7 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
 
     private final RatesReturnsReserve.ReturnReserveCustomNotification notifier = new RatesReturnsReserve.ReturnReserveCustomNotification();
 
-    private final Logger loggerRates = LoggerFactory.getLogger(getClass());
+    private static final Logger RATES_RR_LOGGER = LoggerFactory.getLogger(RatesReturnsReserve.class);
 
     public RatesReturnsReserve(AbstractSelectionDTO selection) {
         super(selection);
@@ -57,7 +57,7 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
             rateBasisDdlb.select(HelperListUtil.getInstance().getIdByDesc("ARM_RATE_BASIS", "Calculated"));
             rateBasisDdlb.setReadOnly(true);
         } catch (Exception e) {
-            loggerRates.error("Error in setDefaultValue :", e);
+            RATES_RR_LOGGER.error("Error in setDefaultValue :", e);
         }
     }
 
@@ -185,7 +185,7 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
                 }
             }
         } catch (InvocationTargetException | IllegalAccessException ex) {
-            loggerRates.error(ex.getMessage());
+            RATES_RR_LOGGER.error(ex.getMessage());
         }
 
     }

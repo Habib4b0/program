@@ -7,7 +7,9 @@
 
 	<mvc:annotation-driven />
 	<context:component-scan
-		base-package="com.stpl.gtn.gtn2o.ws.module.automaticrelationship,com.stpl.gtn.gtn2o.ws.module.relationshipbuilder,com.stpl.gtn.gtn2o.hierarchyroutebuilder,com.stpl.gtn.gtn2o.ws.module.forecastdataseletion,com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService,com.stpl.gtn.gtn2o.ws.module.companymaster.service,com.stpl.gtn.gtn2o.ws.module.itemaster.service,com.stpl.gtn.gtn2o.ws.module.contractdashboard,com.stpl.gtn.gtn2o.ws.module.contractheader" />
+
+		base-package="com.stpl.gtn.gtn2o.ws.module.automaticrelationship,com.stpl.gtn.gtn2o.ws.module.relationshipbuilder,com.stpl.gtn.gtn2o.hierarchyroutebuilder,com.stpl.gtn.gtn2o.ws.module.forecastdataseletion,com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService,com.stpl.gtn.gtn2o.ws.module.companymaster.service,com.stpl.gtn.gtn2o.ws.module.itemaster.service,com.stpl.gtn.gtn2o.ws.module.contractdashboard,com.stpl.gtn.gtn2o.ws.module.contractheader,com.stpl.gtn.gtn2o.ws.module.forecastconfiguration" />
+
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">

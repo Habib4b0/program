@@ -23,6 +23,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
+import java.util.logging.Level;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,8 +98,6 @@ public class SearchButtonLayout extends HorizontalLayout {
 				try {
 					binder.getFields();
 					binder.commit();
-					
-					try {
 					    if(businessRoleName.getValue()!=select || subModuleName.getValue()!=select || moduleName.getValue() !=select){	
 					    if(subModuleName.getValue()!=select || moduleName.getValue() !=select){	
 					    if( moduleName.getValue() !=select){	
@@ -134,18 +133,10 @@ public class SearchButtonLayout extends HorizontalLayout {
                                   table.removeAllItems();
                                   MessageBox.showPlain(Icon.ERROR, "Search Criteria", "Please enter Search Criteria", ButtonId.OK);
         
-        }
-                                            } catch (PortalException e) {
-						LOGGER.error(e.getMessage());
-                                                
-						
-                                            } 
-					
-				} catch (CommitException e) {
-					LOGGER.error(e.getMessage());
-                                       
-                            } 
-                               
+                    }
+                } catch (PortalException | CommitException e) {
+                    LOGGER.error(e.getMessage());
+                }
 			}
 		});
 		this.addComponent(btnSearch);
