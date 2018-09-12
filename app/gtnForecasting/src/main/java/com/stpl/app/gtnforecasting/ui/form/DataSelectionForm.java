@@ -223,7 +223,6 @@ public class DataSelectionForm extends ForecastDataSelection {
                 this.dataSelectionDTO = dataSelectionDto;
                 this.inputBean = inputBean;
 		LOGGER.info("DataSelectionIndex Initializing... ");
-                generateButtonLogicNewArch(sessionDto,inputBean);
 		LOGGER.info("DataSelectionIndex Ends");
 	}
         
@@ -1116,9 +1115,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 //						}
 //					} else {
 						dataSelectionDTO.setFromPeriod(
-								DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod())));
+								DataSelectionUtil.getDateFromQuarter(String.valueOf("Q1 - 2017")));
 						dataSelectionDTO.setFromDate(format
-								.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod()))));
+								.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf("Q1 - 2017"))));
 //					}
 //				}
 //
@@ -1134,9 +1133,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 //						}
 //					} else {
 						dataSelectionDTO.setToPeriod(
-								DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod())));
+								DataSelectionUtil.getLastDateFromQuarter(String.valueOf("Q4 - 2020")));
 						dataSelectionDTO.setToDate(format
-								.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod()))));
+								.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf("Q4 - 2020"))));
 //					}
 //				}
 //
@@ -1206,7 +1205,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 //                        dataSelectionDTO.setCustomRelationShipSid(inputBean.getCustomerRelationSid());
 //                        dataSelectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlbDeduction.getValue())):0 );
 
-		} catch (ParseException ex) {
+		} catch (Exception ex) {
 
 			LOGGER.error(" in binding for save, can't parse dates= {}", ex);
 		}
@@ -3726,6 +3725,210 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 		}
 	}
+        
+	public void editButtonLogicNewArch(GtnFrameworkForecastInputBean inputBean) {
+                long startTime = System.currentTimeMillis();
+//		if (resultTable.getValue() == null) {
+//			AbstractNotificationUtils.getErrorNotification(Constant.SELECT_RECORD1,
+//					NO_RECORD_WAS_SELECTED_PLEASE_TRY_AGAIN);
+//		} else {
+			try {
+				Map<String, String> tempCustomerDescriptionMap;
+				Map<String, String> tempProductDescriptionMap;
+                                
+				final DataSelectionDTO dto = bindDataselectionDtoToSaveNewArch(inputBean);
+                                dto.setProjectionId(inputBean.getProjectionMasterSid());
+				int projectionIdValue = dto.getProjectionId();
+                                Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(projectionIdValue, TAB_DISCOUNT_PROJECTION.getConstant());
+                                Object mapValue = map.get(Constant.DEDUCTION_LEVEL_DDLB);
+				VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
+				relationLogic.waitForAutomaticRelation();
+				boolean isRelationShipIsUpdated = relationLogic.isRelationUPdated(projectionIdValue);
+				 if (isRelationShipIsUpdated) {
+					AbstractNotificationUtils.getInfoNotification("Info",
+							"Relationship used in this projection is updated");
+				}
+				final SessionDTO tempSession = SessionUtil.createSession();
+                                tempSession.setUserId(tempSession.getUserId());
+                                tempSession.setSessionId(tempSession.getSessionId());
+				tempSession.setScreenName(scrName);
+                                tempSession.setFunctionMode("E");
+                                tempSession.setDsFrequency(String.valueOf(map.get(Constant.FREQUENCY)));
+				tempSession.setProjectionId(projectionIdValue);
+				tempSession.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
+				tempSession.setProductHierarchyVersion(dto.getProductHierVersionNo());
+				tempSession.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
+				tempSession.setProductRelationVersion(dto.getProductRelationShipVersionNo());
+				tempSession.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
+                                tempSession.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? 1 : DataTypeConverter.convertObjectToInt(mapValue)));
+                                dto.setDataSelectionDeductionLevelSid(Integer.parseInt(tempSession.getDataSelectionDeductionLevel()));
+                                tempSession.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(Integer.valueOf(tempSession.getDataSelectionDeductionLevel())));
+                                tempSession.setDeductionLevel(String.valueOf(tempSession.getDataSelectionDeductionLevel()));
+				tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
+						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
+						dto.getCustomerRelationShipVersionNo());
+				tempProductDescriptionMap = relationLogic.getLevelValueMap(dto.getProdRelationshipBuilderSid(),
+						Integer.parseInt(dto.getProdHierSid()), dto.getProductHierVersionNo(),
+						dto.getProductRelationShipVersionNo());
+				if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
+						|| CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(scrName)
+						|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+					// To create the temp tables with userId and session id
+					QueryUtils.createTempTables(tempSession);
+					nmLogic.loadPFDFromMainToTemp(tempSession);
+
+					int customerSelectedLevel = Integer.parseInt(dto.getCustomerHierarchyInnerLevel());
+					int productSelectedLeve = Integer.parseInt(dto.getProductHierarchyInnerLevel());
+					List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
+							BooleanConstant.getTrueFlag(), customerSelectedLevel, tempCustomerDescriptionMap);
+					List<Leveldto> productItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
+							BooleanConstant.getFalseFlag(), productSelectedLeve, tempProductDescriptionMap);
+					topLevelName = dsLogic.getTopLevelInHierarchy(dto.getCustomerHierSid());
+					customerHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
+							Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo());
+					productHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
+							Integer.parseInt(dto.getProdHierSid()), dto.getProductHierVersionNo());
+					if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
+							|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+
+						relationLogic.ccpHierarchyInsert(tempSession.getCurrentTableNames(), customerItemIds,
+								productItemIds, dto);
+
+					} else {
+						HelperListUtil helperUtil = HelperListUtil.getInstance();
+						String dedLevel = getDedutionLevel(dto.getDeductionLevel());
+						String dedValue = String
+								.valueOf(helperUtil.getIdByDescription(dto.getDeductionValue(), dedLevel));
+						relationLogic.ccpHierarchyInsertARP(tempSession.getCurrentTableNames(), customerItemIds,
+								productItemIds, dto, dedLevel, dedValue);
+					}
+				}
+				tempSession.setProjectionId(projectionIdValue);
+				tempSession.setAction(Constant.EDIT_SMALL);
+
+				tempSession.setCustomerRelationId(Integer.parseInt(dto.getCustRelationshipBuilderSid()));
+				tempSession.setProductRelationId(Integer.parseInt(dto.getProdRelationshipBuilderSid()));
+				tempSession.setProdRelationshipBuilderSid(dto.getProdRelationshipBuilderSid());
+				tempSession.setCustomerHierarchyId(Integer.parseInt(dto.getCustomerHierSid()));
+				tempSession.setProductHierarchyId(Integer.parseInt(dto.getProdHierSid()));
+				tempSession.setCustomRelationShipSid(dto.getCustomRelationShipSid());
+				tempSession.setCustomDeductionRelationShipSid(dto.getCustomDeductionRelationShipSid());
+                                tempSession.setBusineesUnit(businessUnitlist);
+				tempSession.setProjectionName(dto.getProjectionName());
+                                String contractIds=dsLogic.getremovedcontractbasedonEligibleDate(tempSession);
+                                if (contractIds != null && !contractIds.isEmpty()) {
+                                MessageBox.showPlain(Icon.QUESTION, "Info", contractIds + " is removed from the projection as it is not eligible to be brought into the projection" + "\"",
+                                        new MessageBoxListener() {
+                                    @SuppressWarnings("PMD")
+                                    @Override
+                                    public void buttonClicked(final ButtonId buttonId) {
+                                        return;
+                                    }
+                                }, ButtonId.OK);
+                            }
+                                tempSession.setForecastEligibleDate(dto.getForecastEligibleDate());
+				if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+					String marketType = dataLogic.getHelperValue(StringUtils.EMPTY + projectionIdValue);
+					tempSession.setMarketTypeValue(marketType);
+				}
+				tempSession.setDiscount(dto.getDiscount());
+				tempSession.setDiscountTypeId(dto.getDiscountSid());
+				tempSession.setProductLevelNumber(dto.getProductHierarchyLevel());
+				tempSession.setDescription(dto.getDescription());
+				if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(scrName)) {
+					// To create the temp tables with userId and session id
+					QueryUtils.createTempTables(tempSession);
+					tempSession.setProductDescription(tempProductDescriptionMap); // Fix
+					// for
+					// GAL-8786
+					tempSession.setReturnsDetailsMap(dsLogic.getReturnDetails(tempSession, false));
+				} else if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
+						|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+					tempSession.setCustomerLevelDetails(
+							dsLogic.getLevelValueDetails(tempSession, dto.getCustRelationshipBuilderSid(), true));
+			                tempSession.setProductLevelDetails(
+                                        dsLogic.getLevelValueDetails(tempSession, dto.getProdRelationshipBuilderSid(), false));
+                                       
+                                        tempSession.setSalesHierarchyLevelDetails(
+                                        dsLogic.getRelationshipDetailsCustom(tempSession, String.valueOf(tempSession.getCustomRelationShipSid())));
+                                        tempSession.setDiscountCustomerProductLevelDetails(
+                                        dsLogic.getRelationshipDetailsCustom(tempSession, String.valueOf(tempSession.getCustomDeductionRelationShipSid())));
+                                  
+                                tempSession.setCustomerDescription(tempCustomerDescriptionMap);
+                                tempSession.setProductDescription(tempProductDescriptionMap);
+                            } else {
+                                tempSession.setCustomerDescription(tempCustomerDescriptionMap);
+                                tempSession.setProductDescription(tempProductDescriptionMap);
+                            }
+                            if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
+                                    || CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+                                tempSession.setCustRelationshipBuilderSid(dto.getCustRelationshipBuilderSid());
+                                tempSession.setProdRelationshipBuilderSid(dto.getProdRelationshipBuilderSid());
+                                if (CommonUtil.isValueEligibleForLoading()) {
+                                    Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
+                                    tempSession.setDedRelationshipBuilderSid(obj[0].toString());
+                                    }
+                                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)) {
+                                    if (dataLogic.isFileChanged(tempSession) == 0) {
+                                        MessageBox.showPlain(Icon.QUESTION, "New File is Activated in the File Management module",
+                                                "There is a new file " + "[ " + tempSession.getFileName() + " ]\n"
+                                                + " that has been activated. \n"
+                                                + "Please re-calculate Sales and Discount projections to utilize the new values.",
+                                                new MessageBoxListener() {
+                                            @SuppressWarnings("PMD")
+                                            @Override
+                                            public void buttonClicked(final ButtonId buttonId) {
+                                                return;
+                                            }
+                                        }, ButtonId.OK);
+                                    }
+                                }
+                                ForecastWindow forecastWindow = new ForecastWindow(dto.getProjectionName(), tempSession,
+							resultTable, scrName, this, dto);
+					UI.getCurrent().addWindow(forecastWindow);
+                                        long endTime = System.currentTimeMillis();
+                                        LOGGER.info("DataSelection  ---- :{}" , (endTime - startTime)/1000);
+                                        
+				} else if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(scrName)) {
+					ForecastEditWindow editWindow = new ForecastEditWindow(dto.getProjectionName(), tempSession,
+							resultTable, scrName, this);
+					UI.getCurrent().addWindow(editWindow);
+				} else if (!editnotif) {
+					editnotif = true;
+					tempSession.setDeductionLevel(dto.getDeductionLevel());
+					tempSession.setDeductionValue(dto.getDeductionValue());
+					tempSession.setIsFileNotChanged(DSLogic.getFileStatus(projectionIdValue));
+					if (!tempSession.isFileNotChanged()) {
+							MessageBox.showPlain(Icon.QUESTION, "Alert",
+									"A new Customer Gross Trade Sales file has been activated since this workflow was last saved. Would you like this workflow to be updated based on the new active file?",
+									new MessageBoxListener() {
+
+										@SuppressWarnings("PMD")
+                                                                                @Override
+										public void buttonClicked(final ButtonId buttonId) {
+											if (buttonId.name().equals(Constant.YES)) {
+												tempSession.setIsNewFileCalculationNeeded(true);
+												callARPView(dto, tempSession);
+												editnotif = false;
+											} else {
+												tempSession.setIsNewFileCalculationNeeded(false);
+												callARPView(dto, tempSession);
+												editnotif = false;
+											}
+										}
+									}, ButtonId.YES, ButtonId.NO);
+					} else {
+						tempSession.setIsNewFileCalculationNeeded(false);
+						callARPView(dto, tempSession);
+					}
+				}
+			} catch (Exception ex) {
+				
+				LOGGER.error(" - in editBtn= {}",ex);
+			}
+//		}
+	}
+
 
 	public void callARPView(DataSelectionDTO dto, SessionDTO session) {
 		DSLogic dSLogic = new DSLogic();
