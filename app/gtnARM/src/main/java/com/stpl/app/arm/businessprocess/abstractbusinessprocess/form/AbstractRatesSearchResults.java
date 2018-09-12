@@ -28,8 +28,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,7 +36,6 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
 
     private Object[] visibleColumns;
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected ExtTreeContainer<AdjustmentDTO> resultBeanContainerVal = new ExtTreeContainer<>(
             AdjustmentDTO.class, ExtContainer.DataStructureMode.LIST);
@@ -49,20 +46,22 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
 
     @Override
     public void setVisibleColumnsAndHeaders() {
+        boolean immediate = true;
+        boolean sortEnabled = false;
         configureOnRatesSearchResults();
         leftTable = table.getLeftFreezeAsTable();
         rightTable = table.getRightFreezeAsTable();
-        rightTable.setImmediate(true);
-        leftTable.setImmediate(true);
-        leftTable.setSortEnabled(false);
-        rightTable.setSortEnabled(false);
+        rightTable.setImmediate(immediate);
+        leftTable.setImmediate(immediate);
+        leftTable.setSortEnabled(sortEnabled);
+        rightTable.setSortEnabled(sortEnabled);
         loadTableHeader(null);
-        for (Object propertyId : rightTable.getVisibleColumns()) {
-            rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
+        for (Object prop : rightTable.getVisibleColumns()) {
+            rightTable.setColumnAlignment(prop, ExtCustomTable.Align.RIGHT);
 
         }
-        for (Object propertyId : leftTable.getVisibleColumns()) {
-            leftTable.setColumnAlignment(propertyId, ExtCustomTable.Align.LEFT);
+        for (Object prop : leftTable.getVisibleColumns()) {
+            leftTable.setColumnAlignment(prop, ExtCustomTable.Align.LEFT);
         }
         abstractSearchContent.setWidth("100%");
     }
@@ -71,17 +70,18 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
     public ExtTreeContainer<AdjustmentDTO> getResultBeanContainerVal() {
         return resultBeanContainerVal;
     }
-    private static final Object[] searchResult = {ARMConstants.getDeductionProduct(),
+    private static final Object[] ratesSearchResult = {ARMConstants.getDeductionProduct(),
         ARMConstants.getDeductionCustomer(), ARMConstants.getDeductionCustomerContract()};
 
     protected void configureOnRatesSearchResults() {
-        calculateBtn.setVisible(false);
-        cancelOverride.setVisible(false);
+        boolean visiblity = false;
+        calculateBtn.setVisible(visiblity);
+        cancelOverride.setVisible(visiblity);
         panelCaption.setCaption("Rate Results");
-        valueDdlb.setVisible(false);
+        valueDdlb.setVisible(visiblity);
         bbExport.setPrimaryStyleName("link");
         bbExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
-        customerProductView.addItems(searchResult);
+        customerProductView.addItems(ratesSearchResult);
         customerProductView.setValue(ARMConstants.getDeductionProduct());
     }
 
@@ -262,8 +262,8 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object ratesObj) {
+        return super.equals(ratesObj);
     }
 
     @Override
@@ -271,11 +271,11 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream ratesObj) throws IOException {
+        ratesObj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream ratesObj) throws IOException, ClassNotFoundException {
+        ratesObj.defaultReadObject();
     }
 }

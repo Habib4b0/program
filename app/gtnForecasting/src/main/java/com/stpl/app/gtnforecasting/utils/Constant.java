@@ -1328,7 +1328,6 @@ public class Constant {
     public static final String SELECT_VALUE = "selectValue";
     public static final String LEFT_JOIN_VALUE = "leftJoinValue";
     public static final String LAZY_LOAD_RESULTS = "lazyLoadResults";
-    public static final String PMPY_CALCULATOR = "PMPY Calculator";
     public static final String FORECAST_NONFAMP = "FORECAST NON-FAMP";
     public static final String BASIC_URA = "BASIC URA";
     public static final String TOTAL_URA_LABEL = "Total URA";

@@ -367,7 +367,6 @@ public class UdcHelperForm extends CustomComponent implements View {
                     brandBinder.getFields();
                     brandBinder.commit();
                     String success = "";
-                    try {
                         if (StringUtils.EMPTY.equals(description.getValue().trim()) && StringUtils.EMPTY.equals(brandId.getValue().trim()) && StringUtils.EMPTY.equals(brandName.getValue().trim())
                                 && StringUtils.EMPTY.equals(displayBrand.getValue().trim())) {
                             NotificationUtils.getErrorNotification("Error", "Space should not be allowed");
@@ -427,15 +426,11 @@ public class UdcHelperForm extends CustomComponent implements View {
                     brandName.setValue(StringUtils.EMPTY);
                     displayBrand.setValue(StringUtils.EMPTY);
                         
-                    } catch (Exception e) {
+                    } catch (Property.ReadOnlyException | CommitException e) {
                         LOGGER.error(e.getMessage());
 
                     }
 
-                } catch (CommitException e) {
-                    LOGGER.error(e.getMessage());
-
-                }
             }
         });
 

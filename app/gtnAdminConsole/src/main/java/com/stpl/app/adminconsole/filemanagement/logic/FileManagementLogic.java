@@ -705,7 +705,6 @@ public class FileManagementLogic {
 
 						DemandForecastLocalServiceUtil.addDemandForecast(forecast);
 					} else if (fileType.getDescription().equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-						try {
 							adjustedforecast = AdjustedDemandForecastLocalServiceUtil.createAdjustedDemandForecast(0);
 							flag = true;
 							adjustedforecast.setForecastType(beanItem.getForecastType());
@@ -769,9 +768,6 @@ public class FileManagementLogic {
 							adjustedforecast.setModifiedDate(date);
 
 							AdjustedDemandForecastLocalServiceUtil.addAdjustedDemandForecast(adjustedforecast);
-						} catch (Exception e) {
-							LOGGER.error(e.getMessage());
-						}
 					} else if (fileType.getDescription().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
 						inventoryWdProjMas = InventoryWdProjMasLocalServiceUtil.createInventoryWdProjMas(0);
 						flag = true;
@@ -841,7 +837,6 @@ public class FileManagementLogic {
 						flag = true;
 
 					} else if (fileType.getDescription().equals(ConstantsUtils.CUSTOMERGTS)) {
-						try {
 							custForecast = CustomerGtsForecastLocalServiceUtil.createCustomerGtsForecast(0);
 							flag = true;
 							custForecast.setForecastYear(beanItem.getForcastYear());
@@ -881,9 +876,6 @@ public class FileManagementLogic {
 							custForecast.setRecordLockStatus(true);
 
 							CustomerGtsForecastLocalServiceUtil.addCustomerGtsForecast(custForecast);
-						} catch (Exception e) {
-							LOGGER.error(e.getMessage());
-						}
 					}
 				}
 

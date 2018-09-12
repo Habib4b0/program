@@ -72,7 +72,7 @@ public class ReturnsReserveData extends VerticalLayout {
 
     private RRDataLogic logic = new RRDataLogic();
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger RR_DATA_LOGGER = LoggerFactory.getLogger(ReturnsReserveData.class);
 
     private final ReturnsReserveData.ReturnReserveDataCustomNotification notifier = new ReturnsReserveData.ReturnReserveDataCustomNotification();
 
@@ -145,7 +145,7 @@ public class ReturnsReserveData extends VerticalLayout {
 
     @UiHandler("generate")
     public void generateBtnLogic(Button.ClickEvent event) {
-        logger.debug("Inside generate ButtonClick Btn");
+        RR_DATA_LOGGER.debug("Inside generate ButtonClick Btn");
         try {
             setSelection();
             if (selection.isReturnsReserveDataGenerated()) {
@@ -156,7 +156,7 @@ public class ReturnsReserveData extends VerticalLayout {
                 ReturnReserveDataCustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
             }
         } catch (Exception e) {
-            logger.error("error in generate :", e);
+            RR_DATA_LOGGER.error("error in generate :", e);
         }
     }
 
@@ -215,7 +215,7 @@ public class ReturnsReserveData extends VerticalLayout {
             }
         } catch (InvocationTargetException | IllegalAccessException ex) {
 
-            logger.error(ex.getMessage());
+            RR_DATA_LOGGER.error(ex.getMessage());
         }
     }
 
@@ -229,7 +229,7 @@ public class ReturnsReserveData extends VerticalLayout {
                 generateBtnLogic(null);
                 configureFieldsOnViewMode();
             } catch (ParseException ex) {
-                logger.error(ex.getMessage());
+                RR_DATA_LOGGER.error(ex.getMessage());
             }
         }
     }

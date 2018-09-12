@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSummaryLogic<T> {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger RR_SUMMARY_LOGGER = LoggerFactory.getLogger(RRSummaryLogic.class);
 
     @Override
     protected String[] getTotalColumn() {
@@ -189,7 +189,7 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null || rrAdjustmentDto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))));
                 rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))));
             }
-            logger.debug("index-------{}", index);
+            RR_SUMMARY_LOGGER.debug("index-------{}", index);
             lastBrand = brand;
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();

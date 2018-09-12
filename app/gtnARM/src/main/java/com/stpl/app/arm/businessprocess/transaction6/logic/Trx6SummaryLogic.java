@@ -40,25 +40,25 @@ import org.slf4j.LoggerFactory;
  */
 public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSummaryLogic<T> {
 
-    public static final Logger LOGGERFORSUMMARYLOGIC = LoggerFactory.getLogger(Trx6SummaryLogic.class);
+    public static final Logger LOGGERFORTX6SUMMARYLOGIC = LoggerFactory.getLogger(Trx6SummaryLogic.class);
 
     @Override
     public List<Object> generateHeader(AbstractSelectionDTO selection, String[] columns) {
-        LOGGERFORSUMMARYLOGIC.debug("inside generateHeader");
+        LOGGERFORTX6SUMMARYLOGIC.debug("inside generateHeader");
         List<Object> finalList = new ArrayList<>();
         try {
-            List<String> doubleSingleColumn;
-            List<String> excelDoubleSingleColumn;
-            List<String> singleVisibleColumn = new ArrayList<>();
-            List<String> excelVisibleColumn = new ArrayList<>();
-            List<String> excelVisibleHeader = new ArrayList<>();
-            List<String> doubleVisibleColumn = new ArrayList<>();
-            Map<Object, Object[]> doubleSingleVisibleColumn = new HashMap<>();
-            Map<Object, Object[]> excelDoubleSingleVisibleColumn = new HashMap<>();
-            excelDoubleSingleVisibleColumn.put("month", new Object[]{"month"});
-            List<String> singleVisibleHeader = new ArrayList<>();
-            List<String> doubleVisibleHeader = new ArrayList<>();
-            List<String> excelSingleColumn = new ArrayList<>();
+            List<String> tx6DoubleSingleColumn;
+            List<String> tx6ExcelDoubleSingleColumn;
+            List<String> tx6SingleVisibleColumn = new ArrayList<>();
+            List<String> tx6ExcelVisibleColumn = new ArrayList<>();
+            List<String> tx6ExcelVisibleHeader = new ArrayList<>();
+            List<String> tx6DoubleVisibleColumn = new ArrayList<>();
+            Map<Object, Object[]> tx6DoubleSingleVisibleColumn = new HashMap<>();
+            Map<Object, Object[]> tx6ExcelDoubleSingleVisibleColumn = new HashMap<>();
+            tx6ExcelDoubleSingleVisibleColumn.put("month", new Object[]{"month"});
+            List<String> tx6SingleVisibleHeader = new ArrayList<>();
+            List<String> tx6DoubleVisibleHeader = new ArrayList<>();
+            List<String> tx6ExcelSingleColumn = new ArrayList<>();
 
             List<String> singleColumn = new ArrayList<>();
             int index = 0;
@@ -69,49 +69,49 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
             doubleHeaderVariables = doublecolumnList;
 
             for (String[] detection : doubleHeaderVariables) {
-                doubleSingleColumn = new ArrayList<>();
-                excelDoubleSingleColumn = new ArrayList<>();
+                tx6DoubleSingleColumn = new ArrayList<>();
+                tx6ExcelDoubleSingleColumn = new ArrayList<>();
                 for (int i = 0; i < columns.length; i++, index++) {
                     String column = columns[i];
                     singleColumn.add(column + "." + index);
-                    excelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", org.apache.commons.lang.StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
+                    tx6ExcelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", org.apache.commons.lang.StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
                     if (columnList.contains(column)) {
                         int listIndex = columnList.indexOf(column);
                         String visibleColumn = selection.getSummaryvariables().get(listIndex)[0] + "." + index;
                         String header = selection.getSummaryvariables().get(listIndex)[1];
-                        singleVisibleColumn.add(visibleColumn);
-                        singleVisibleHeader.add(header);
-                        doubleSingleColumn.add(visibleColumn);
-                        excelVisibleColumn.add(detection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
-                        excelVisibleHeader.add(header);
-                        excelDoubleSingleColumn.add(detection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
+                        tx6SingleVisibleColumn.add(visibleColumn);
+                        tx6SingleVisibleHeader.add(header);
+                        tx6DoubleSingleColumn.add(visibleColumn);
+                        tx6ExcelVisibleColumn.add(detection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
+                        tx6ExcelVisibleHeader.add(header);
+                        tx6ExcelDoubleSingleColumn.add(detection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
                     }
                 }
 
-                doubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY));
-                doubleVisibleHeader.add(detection[1]);
-                doubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), doubleSingleColumn.toArray());
-                excelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
+                tx6DoubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY));
+                tx6DoubleVisibleHeader.add(detection[1]);
+                tx6DoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), tx6DoubleSingleColumn.toArray());
+                tx6ExcelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), tx6ExcelDoubleSingleColumn.toArray());
             }
             selection.setSummarycolumnList(singleColumn);
-            finalList.add(singleVisibleColumn);
-            finalList.add(doubleVisibleColumn);
-            finalList.add(singleVisibleHeader);
-            finalList.add(doubleVisibleHeader);
-            finalList.add(doubleSingleVisibleColumn);
-            finalList.add(excelVisibleColumn);
-            finalList.add(excelVisibleHeader);
-            finalList.add(excelDoubleSingleVisibleColumn);
-            finalList.add(excelSingleColumn);
+            finalList.add(tx6SingleVisibleColumn);
+            finalList.add(tx6DoubleVisibleColumn);
+            finalList.add(tx6SingleVisibleHeader);
+            finalList.add(tx6DoubleVisibleHeader);
+            finalList.add(tx6DoubleSingleVisibleColumn);
+            finalList.add(tx6ExcelVisibleColumn);
+            finalList.add(tx6ExcelVisibleHeader);
+            finalList.add(tx6ExcelDoubleSingleVisibleColumn);
+            finalList.add(tx6ExcelSingleColumn);
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in generateHeader :", e);
+            LOGGERFORTX6SUMMARYLOGIC.error("Error in generateHeader :", e);
         }
         return finalList;
     }
 
     @Override
     protected int getSummaryCount(List<Object> inputs, Criteria criteria) {
-        LOGGERFORSUMMARYLOGIC.debug("inside getSummaryCount");
+        LOGGERFORTX6SUMMARYLOGIC.debug("inside getSummaryCount");
         List resultList;
         int count = 0;
         try {
@@ -123,14 +123,14 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                 count = count + 1;
             }
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in getSummaryCount :", e);
+            LOGGERFORTX6SUMMARYLOGIC.error("Error in getSummaryCount :", e);
         }
         return count;
     }
 
     @Override
     protected DataResult<T> getSummaryData(List<Object> inputs, Criteria criteria, TreeMap<String, Integer> masterSids) {
-        LOGGERFORSUMMARYLOGIC.debug("inside getSummaryData");
+        LOGGERFORTX6SUMMARYLOGIC.debug("inside getSummaryData");
         DataResult<T> result = null;
         try {
             boolean isView = criteria.getSelectionDto().getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
@@ -161,24 +161,24 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                 l.addAll((cutomize(totaldata, criteria.getSelectionDto(), masterSids)).getDataResults());
                 result.setDataResults(l);
             }
-            LOGGERFORSUMMARYLOGIC.debug("Exit getSummaryData");
+            LOGGERFORTX6SUMMARYLOGIC.debug("Exit getSummaryData");
 
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in getSummaryData :", e);
+            LOGGERFORTX6SUMMARYLOGIC.error("Error in getSummaryData :", e);
         }
         return result;
     }
 
-    private DataResult<T> cutomize(List<Object[]> data, SelectionDTO selection, TreeMap<String, Integer> masterSids) {
+    private DataResult<T> cutomize(List<Object[]> data, SelectionDTO tx6Selection, TreeMap<String, Integer> masterSids) {
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         try {
-            List<String> columnList = getColumns(selection.getSummaryvariables());
+            List<String> columnList = getColumns(tx6Selection.getSummaryvariables());
             boolean hasOverride = columnList.contains("override");
             List resultList = new ArrayList();
-            List<String> variables = selection.getSummarycolumnList();
+            List<String> variables = tx6Selection.getSummarycolumnList();
             Map<String, Integer> indexMap = new HashMap();
             int indexAdd = 0;
-            for (String[] summary_deductionVariable : selection.getSummarydeductionVariables()) {
+            for (String[] summary_deductionVariable : tx6Selection.getSummarydeductionVariables()) {
                 indexMap.put(summary_deductionVariable[0], indexAdd);
                 indexAdd++;
             }
@@ -201,7 +201,7 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                     }
                     dto.setLevelNo((int) get[NumericConstants.EIGHT]);
                     isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                    dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
+                    dto.setChildrenAllowed((tx6Selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
                     dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                     if (masterSids != null) {
                         dto.setMasterIds(masterSids);
@@ -223,12 +223,12 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                     dto.addStringProperties("total", !isTotal && get[NumericConstants.EIGHT] != null ? DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.EIGHT].toString().trim())) : StringUtils.EMPTY);
                 }
                 lastBrand = brand;
-                LOGGERFORSUMMARYLOGIC.debug("index-------{}", index);
+                LOGGERFORTX6SUMMARYLOGIC.debug("index-------{}", index);
             }
 
             dataResult.setDataResults(resultList);
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in cutomize :", e);
+            LOGGERFORTX6SUMMARYLOGIC.error("Error in cutomize :", e);
         }
         return dataResult;
 
@@ -236,6 +236,7 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
 
     @Override
     protected String getUpdateOverrideQueryName() {
+        LOGGERFORTX6SUMMARYLOGIC.debug("inside getUpdateOverrideQueryName");
         return "Update_Summary_Inventory_OverrideFor_Trx6";
 
     }
@@ -243,51 +244,52 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
     @Override
     public Boolean generateButtonCheck(SelectionDTO selection) {
         try {
+            LOGGERFORTX6SUMMARYLOGIC.debug("inside generateButtonCheck");
             if (selection.getSummarydeductionLevel() == 0 || selection.getSummaryvariables().isEmpty() || (selection.getSummarydeductionVariables() != null && selection.getSummarydeductionVariables().isEmpty())) {
                 return Boolean.FALSE;
             }
 
             return Boolean.TRUE;
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in generateButtonCheck :", e);
+            LOGGERFORTX6SUMMARYLOGIC.error("Error in generateButtonCheck :", e);
         }
         return Boolean.FALSE;
 
     }
 
     @Override
-    public List getExcelResultList(AbstractSelectionDTO selection) {
+    public List getExcelResultList(AbstractSelectionDTO tx6Selection) {
         List list = null;
 
         try {
             String query;
-            boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
+            boolean isView = tx6Selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
             if (isView) {
                 query = SQlUtil.getQuery("getAdjustmentSummaryExcelQueryView_For_Tx6");
             } else {
                 query = SQlUtil.getQuery("getAdjustmentSummaryExcelQuery_For_Trx6");
             }
             Object[] value = null;
-            if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
+            if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && tx6Selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
                 value = new Object[]{"D", "T", "C", "B", "I"};
-            } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
+            } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
                 value = new Object[]{"T", "C", "B", "I"};
-            } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
+            } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
                 value = new Object[]{"T", "B", "I"};
-            } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
+            } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
                 value = new Object[]{"B", "I"};
             }
             query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + org.apache.commons.lang.StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
 
-            query = query.replace("@DEDCONDITION", ARMUtils.SINGLE_QUOTES + selection.getSummarydeductionLevelDes() + ARMUtils.SINGLE_QUOTES);
-            query = query.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
-            query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
-            query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
-            query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
-            LOGGERFORSUMMARYLOGIC.debug(query);
-            list = HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
+            query = query.replace("@DEDCONDITION", ARMUtils.SINGLE_QUOTES + tx6Selection.getSummarydeductionLevelDes() + ARMUtils.SINGLE_QUOTES);
+            query = query.replace("@CONDITIONVALUE", tx6Selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
+            query = query.replace("@PROJECTIONMASTERSID", String.valueOf(tx6Selection.getProjectionMasterSid()));
+            query = query.replace("@USERID", String.valueOf(tx6Selection.getSessionDTO().getUserId()));
+            query = query.replace("@SESSIONID", String.valueOf(tx6Selection.getSessionDTO().getSessionId()));
+            LOGGERFORTX6SUMMARYLOGIC.debug(query);
+            list = HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, tx6Selection.getSessionDTO().getCurrentTableNames()));
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in getExcelResultList :", e);
+            LOGGERFORTX6SUMMARYLOGIC.error("Error in getExcelResultList :", e);
         }
         return list;
     }
