@@ -24,77 +24,77 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 @Service
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
-	@Autowired
-	private GtnWsPeriodConfSqlService gtnWsPeriodConfSqlService;
+    @Autowired
+    private GtnWsPeriodConfSqlService gtnWsPeriodConfSqlService;
 
-	private GtnWsPeriodConfigurationService() {
-		super();
-	}
+    private GtnWsPeriodConfigurationService() {
+        super();
+    }
 
-	@PostConstruct
-	private void initializeLogger() {
-		super.logInformation(GtnWsPeriodConfigurationService.class);
-	}
+    @PostConstruct
+    private void initializeLogger() {
+        super.logInformation(GtnWsPeriodConfigurationService.class);
+    }
 
 
-	private GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
+    private GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
-	public void init() {
-		initializeLogger();
-		logger.info("Entering into init method");
-		GtnUIFrameworkWebserviceRequest request = registerWs();
+    public void init() {
+            initializeLogger();
+            logger.info("Entering into init method");
+            GtnUIFrameworkWebserviceRequest request = registerWs();
 
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.postForObject(
 				getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
 				request, GtnUIFrameworkWebserviceResponse.class);
-		logger.info("Webservice Registered");
-		List<Object[]> resultList = loadDate(request.getGtnWsGeneralRequest());
+            logger.info("Webservice Registered");
+            List<Object[]> resultList = loadDate(request.getGtnWsGeneralRequest());
 
-		singletonObjectBean.setPeriodConfigResultList(resultList);
-	}
+            singletonObjectBean.setPeriodConfigResultList(resultList);
+        }
 
-	@Override
-	public GtnUIFrameworkWebserviceRequest registerWs() {
-		logger.info("Building request to register Webservice in Service Registry");
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
+    @Override
+    public GtnUIFrameworkWebserviceRequest registerWs() {
+        logger.info("Building request to register Webservice in Service Registry");
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
 
-		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-		getEndPointUrl(webServiceRegistryBean);
-		logger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
-		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
-		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
-		return request;
-	}
+        GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
+        getEndPointUrl(webServiceRegistryBean);
+        logger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
+        gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
+        request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
+        return request;
+    }
 
-	private void getEndPointUrl(GtnWsServiceRegistryBean webServiceRegistryBean) {
-		webServiceRegistryBean.setWebserviceEndPointUrl(
-				GtnFrameworkPropertyManager.getProperty("gtn.webservices.periodConfiguration.endPointUrl"));
-		webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
+    private void getEndPointUrl(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        webServiceRegistryBean.setWebserviceEndPointUrl(
+                GtnFrameworkPropertyManager.getProperty("gtn.webservices.periodConfiguration.endPointUrl"));
+        webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
 
-	}
+    }
 
-	public List<Object[]> loadDate(GtnWsGeneralRequest gtnWsGeneralRequest) {
+    public List<Object[]> loadDate(GtnWsGeneralRequest gtnWsGeneralRequest) {
 
-		logger.info("Entering into webservice loadDate  WS->SR->QE->SR->WS");
+        logger.info("Entering into webservice loadDate  WS->SR->QE->SR->WS");
 
-		String loadDateQuery = gtnWsPeriodConfSqlService.getQuery("loadDate");
-		logger.debug("LoadDate Query:" + loadDateQuery);
-		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setSqlQuery(loadDateQuery);
-		queryExecutorBean.setQueryType("SELECT");
-		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
-		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-		RestTemplate restTemplate1 = new RestTemplate();
+        String loadDateQuery = gtnWsPeriodConfSqlService.getQuery("loadDate");
+        logger.debug("LoadDate Query:" + loadDateQuery);
+        GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+        queryExecutorBean.setSqlQuery(loadDateQuery);
+        queryExecutorBean.setQueryType("SELECT");
+        GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
+        gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
+        RestTemplate restTemplate1 = new RestTemplate();
 
-		GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
-				getWebServiceEndpointBasedOnModule(
-						"/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-				gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
-		List<Object[]> resultList1 = response1.getQueryResponseBean().getResultList();
-		return resultList1;
+        GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
+                getWebServiceEndpointBasedOnModule(
+                        "/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
+                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+        List<Object[]> resultList1 = response1.getQueryResponseBean().getResultList();
+        return resultList1;
 
-	}
+    }
 
 }
