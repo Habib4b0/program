@@ -70,7 +70,6 @@ import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.GroupFilter;
 import com.stpl.app.gtnforecasting.logic.Utility;
-import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.MSalesProjectionTableLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.NMSalesProjectionTableLogic;
@@ -452,7 +451,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected MSalesProjectionTableLogic mSalesProjectionTableLogic;
     protected ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
     protected ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
-    protected AlternateHistoryLogic logic = new AlternateHistoryLogic();
     protected int uncheckRecordCount;
 
     public static final String SELECT_ALL_LABEL = "Select All";
@@ -3614,54 +3612,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             AbstractNotificationUtils.getErrorNotification("Select complete annual period",
                     "The " + calcMethodology + " methodology requires a complete calendar year of periods to use as a baseline.\n  Please select a complete calendar year of periods and try again.");
         }
-    }
-
-    public boolean validateForAlternateHistory() {
-        if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
-
-            int numoFCustomers = getCheckedCustomercount(logic);
-
-            if (numoFCustomers > 0) {
-
-                boolean flag = logic.checkActuals(session);
-
-                if (flag) {
-                    NotificationUtils.getAlertNotification("Info", "Selected Customer has Actuals");
-                    return false;
-                }
-
-            } else {
-
-                NotificationUtils.getErrorNotification("No Trading Partner Selected.", "Please select a Trading Partner.");
-                return false;
-
-            }
-
-        } else if (PRODUCT.getConstant().equals(String.valueOf(view.getValue()))) {
-            int numOfNDC = getCheckedProductCount(logic);
-            if (numOfNDC > 0) {
-                boolean flag = logic.checkActuals(session);
-
-                if (flag) {
-                    NotificationUtils.getAlertNotification("Info", "Selected NDC has Actuals");
-                    return false;
-                }
-            } else {
-
-                NotificationUtils.getAlertNotification("No NDC Level Selected", "Please select a NDC level for which  Alternate History to be imported.");
-                return false;
-
-            }
-        }
-        return true;
-    }
-
-    public int getCheckedCustomercount(final AlternateHistoryLogic logic) {
-        return logic.getCCPCount(logic.buildCCPCountQuery(true), session);
-    }
-
-    public int getCheckedProductCount(final AlternateHistoryLogic logic) {
-        return logic.getCCPCount(logic.buildCCPCountQuery(false), session);
     }
 
     /**
