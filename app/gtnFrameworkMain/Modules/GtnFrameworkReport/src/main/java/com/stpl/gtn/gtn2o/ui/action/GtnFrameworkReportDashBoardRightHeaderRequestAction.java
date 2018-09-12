@@ -74,7 +74,7 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 
 		if (variableVarianceComponent.getComponent() != null) {
 			int value = (int) variableVarianceComponent.getFieldValue();
-			if (value == 1) {
+			if (value == 0) {
 				reportDashBoardBean.setVariablesVariances(true);
 			}
 			int headerSequence = (int) GtnUIFrameworkGlobalUI
