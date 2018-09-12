@@ -244,13 +244,6 @@ public class Converters {
             dataSelectionDTO.setProductRelationShipVersionNo((Integer) objects[NumericConstants.TWENTY_EIGHT]);
             dataSelectionDTO.setCustomerHierVersionNo((Integer) objects[NumericConstants.TWENTY_NINE]);
             dataSelectionDTO.setProductHierVersionNo((Integer) objects[NumericConstants.THIRTY]);
-
-            if (channelsFlag) {
-                dataSelectionDTO.setDiscountSid(getDiscountSid(objects));
-                dataSelectionDTO.setDiscount(DataSelectionUtil.getDiscountName(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_ONE]))));
-                dataSelectionDTO.setDeductionLevel(getDeductionLevel(objects));
-                dataSelectionDTO.setDeductionValue(getDeductionValue(objects));
-            }
             dataSelectionDTO.setForecastEligibleDate(parsetDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.THIRTY_ONE]))));
             dataSelectionDTO.setDeductionRelationShipVersionNo(getDeductionRelationShipVersionNo(objects));
             dataSelectionDTO.setCustomRelationShipSid(getCustomRelationShipSid(objects));
@@ -260,12 +253,6 @@ public class Converters {
         }
 
         return dataSelectionDTOs;
-    }
-    
-    private static Integer getDiscountSid(Object[] objects) {
-    	String twentyOne =  objects[NumericConstants.TWENTY_ONE].toString();
-    	String finalString = objects[NumericConstants.TWENTY_ONE] == null ? DASH : twentyOne;
-    	return Integer.valueOf(finalString);
     }
     
     private static Integer getDeductionRelationShipVersionNo(Object[] objects) {
@@ -282,16 +269,6 @@ public class Converters {
     private static Integer getCustomDeductionRelationShipSid(Object[] objects) {
     	String thirtyFourNullChecked = objects[NumericConstants.THIRTY_FOUR] == null ? DASH : objects[NumericConstants.THIRTY_FOUR].toString();
     	return Integer.valueOf(thirtyFourNullChecked);
-    }
-    
-    private static String getDeductionLevel(Object[] objects) {
-    	String deductionLevel = String.valueOf(objects[NumericConstants.THIRTY_FIVE]);
-    	return convertNullToEmpty(deductionLevel);
-    }
-    
-    private static String getDeductionValue(Object[] objects) {
-    	String deductionValue = String.valueOf(objects[NumericConstants.THIRTY_SIX]);
-    	return convertNullToEmpty(deductionValue);
     }
 
     public static DataSelectionDTO getProjection(List resultList) throws ParseException {

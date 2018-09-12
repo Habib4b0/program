@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.extfilteringtable.paged.logic.HierarchyString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -49,7 +48,7 @@ public class DataSelectionTab extends AbstractDataSelection {
     protected Label descriptionLabel;
     private DataSelectionDTO selection;
     private DataSelectionLogic logic = new DataSelectionLogic();
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionTab.class);
+    private static final Logger DS_LOGGER = LoggerFactory.getLogger(DataSelectionTab.class);
     private Set<Integer> rsContractSidList = new HashSet<>();
     private final List<String> hierarchyKeys = new ArrayList<>();
     private SessionDTO sessionDTO;
@@ -76,127 +75,127 @@ public class DataSelectionTab extends AbstractDataSelection {
 
     @Override
     public void loadCustRelationAndLevel(int hierSid, CustomTextField.ClickEvent event) {
-        LOGGER.debug("Inside loadCustRelationAndLevel Method");
+        DS_LOGGER.debug("Inside loadCustRelationAndLevel Method");
 
     }
 
     @Override
     public void loadProdRelationAndLevel(int hierSid, int glComp, CustomTextField.ClickEvent event) {
-        LOGGER.debug("Inside loadProdRelationAndLevel Method");
+        DS_LOGGER.debug("Inside loadProdRelationAndLevel Method");
     }
 
     public void loadAvailableCustProd(int hierSid, int relSid, Property.ValueChangeEvent event) {
-        LOGGER.debug("Inside loadAvailableCustProd Method {}", (hierSid + StringUtils.EMPTY + relSid + event));
+        DS_LOGGER.debug("Inside loadAvailableCustProd Method {}", (hierSid + StringUtils.EMPTY + relSid + event));
     }
 
     @Override
     public void loadAvailableCustomers() {
-        LOGGER.debug("Inside loadAvailableCustomers Method");
+        DS_LOGGER.debug("Inside loadAvailableCustomers Method");
     }
 
     @Override
     public void loadAvailableProducts() {
-        LOGGER.debug("Inside loadAvailableProducts Method");
+        DS_LOGGER.debug("Inside loadAvailableProducts Method");
     }
 
     @Override
     public void customerHierarchyCloseListener() {
-        LOGGER.debug("Inside customerHierarchyCloseListener Method");
+        DS_LOGGER.debug("Inside customerHierarchyCloseListener Method");
     }
 
     @Override
     public void productHierarchyCloseListener() {
-        LOGGER.debug("Inside productHierarchyCloseListener Method");
+        DS_LOGGER.debug("Inside productHierarchyCloseListener Method");
     }
 
     @Override
     public void moveLeftCustomersButtonLogic() {
-        LOGGER.debug("Inside moveLeftCustomersButtonLogic Method");
+        DS_LOGGER.debug("Inside moveLeftCustomersButtonLogic Method");
     }
 
     @Override
     public void moveRightCustomersButtonLogic() {
-        LOGGER.debug("Inside moveRightCustomersButtonLogic Method");
+        DS_LOGGER.debug("Inside moveRightCustomersButtonLogic Method");
     }
 
     @Override
     public void customerRelationValueChange(Object value) {
-        LOGGER.debug("Inside customerRelationValueChange Method");
+        DS_LOGGER.debug("Inside customerRelationValueChange Method");
     }
 
     @Override
     public void productRelationValueChange(Object value) {
-        LOGGER.debug("Inside productRelationValueChange Method");
+        DS_LOGGER.debug("Inside productRelationValueChange Method");
     }
 
     @Override
     public void moveLeftProductsButtonLogic() {
-        LOGGER.debug("Inside moveLeftProductsButtonLogic Method");
+        DS_LOGGER.debug("Inside moveLeftProductsButtonLogic Method");
     }
 
     @Override
     public void moveRightProductsButtonLogic() {
-        LOGGER.debug("Inside moveRightProductsButtonLogic Method");
+        DS_LOGGER.debug("Inside moveRightProductsButtonLogic Method");
     }
 
     @Override
     public void moveAllProductsButtonLogic() {
-        LOGGER.debug("Inside moveAllProductsButtonLogic Method");
+        DS_LOGGER.debug("Inside moveAllProductsButtonLogic Method");
     }
 
     @Override
     public void moveAllCustomersButtonLogic() {
-        LOGGER.debug("Inside moveAllCustomersButtonLogic Method");
+        DS_LOGGER.debug("Inside moveAllCustomersButtonLogic Method");
     }
 
     @Override
     public void generateButtonLogicForScreens() {
-        LOGGER.debug("Inside generateButtonLogicForScreens Method");
+        DS_LOGGER.debug("Inside generateButtonLogicForScreens Method");
     }
 
     @Override
     public void loadPrivateViewLook() {
-        LOGGER.debug("Inside loadPrivateViewLook Method");
+        DS_LOGGER.debug("Inside loadPrivateViewLook Method");
     }
 
     @Override
     public void loadPublicViewLook() {
-        LOGGER.debug("Inside loadPublicViewLook Method");
+        DS_LOGGER.debug("Inside loadPublicViewLook Method");
     }
 
     @Override
     public void loadAvailableDeductions() {
-        LOGGER.debug("Inside loadAvailableDeductions Method");
+        DS_LOGGER.debug("Inside loadAvailableDeductions Method");
     }
 
     @Override
     public void moveLeftToRightDeductions() {
-        LOGGER.debug("Inside moveLeftToRightDeductions Method");
+        DS_LOGGER.debug("Inside moveLeftToRightDeductions Method");
     }
 
     @Override
     public void privateLookupCloseListener() {
-        LOGGER.debug("Inside privateLookupCloseListener Method");
+        DS_LOGGER.debug("Inside privateLookupCloseListener Method");
     }
 
     @Override
     public void publicLookupCloseListener() {
-        LOGGER.debug("Inside publicLookupCloseListener Method");
+        DS_LOGGER.debug("Inside publicLookupCloseListener Method");
     }
 
     @Override
     public void moveAllDeductions() {
-        LOGGER.debug("Inside moveAllDeductions Method");
+        DS_LOGGER.debug("Inside moveAllDeductions Method");
     }
 
     @Override
     public void moveRightToLeftDeductions() {
-        LOGGER.debug("Inside moveRightToLeftDeductions Method");
+        DS_LOGGER.debug("Inside moveRightToLeftDeductions Method");
     }
 
     @Override
     public void saveViewLogic() {
-        LOGGER.debug("Inside saveViewLogic Method");
+        DS_LOGGER.debug("Inside saveViewLogic Method");
     }
 
     public void configureDataSelection() {
@@ -259,39 +258,41 @@ public class DataSelectionTab extends AbstractDataSelection {
     }
 
     public void setReadOnlyMode() {
-        privateView.setEnabled(false);
-        publicView.setEnabled(false);
-        company.setReadOnly(true);
-        businessUnit.setReadOnly(true);
-        customerHierarchy.setEnabled(false);
-        customerRelation.setReadOnly(true);
-        customerLevel.setReadOnly(true);
-        productLevel.setReadOnly(true);
-        availableCustomer.setReadOnly(true);
-        selectedCustomer.setReadOnly(true);
-        deductionLevel.setReadOnly(true);
-        availableDeduction.setReadOnly(true);
-        selectedDeduction.setReadOnly(true);
-        productHierarchy.setEnabled(false);
-        productRelation.setReadOnly(true);
-        availableProduct.setReadOnly(true);
-        fromPeriod.setReadOnly(true);
-        toPeriod.setReadOnly(true);
-        adjustmentType.setReadOnly(true);
-        description.setReadOnly(true);
-        customerMoveAllBtn.setEnabled(false);
-        customerMoveLeftBtn.setEnabled(false);
-        customerMoveRightBtn.setEnabled(false);
-        productMoveAllBtn.setEnabled(false);
-        productMoveLeftProduct.setEnabled(false);
-        productMoveRightProduct.setEnabled(false);
-        deductionMoveAllBtn.setEnabled(false);
-        deductionMoveLeftBtn.setEnabled(false);
-        deductionMoveRightBtn.setEnabled(false);
-        generateBtn.setVisible(false);
-        resetBtn.setVisible(false);
-        saveViewBtn.setVisible(false);
-        deleteViewBtn.setVisible(false);
+        boolean isReadOnly = true;
+        boolean isEnabled = false;
+        privateView.setEnabled(isEnabled);
+        publicView.setEnabled(isEnabled);
+        company.setReadOnly(isReadOnly);
+        businessUnit.setReadOnly(isReadOnly);
+        customerHierarchy.setEnabled(isEnabled);
+        customerRelation.setReadOnly(isReadOnly);
+        customerLevel.setReadOnly(isReadOnly);
+        productLevel.setReadOnly(isReadOnly);
+        availableCustomer.setReadOnly(isReadOnly);
+        selectedCustomer.setReadOnly(isReadOnly);
+        deductionLevel.setReadOnly(isReadOnly);
+        availableDeduction.setReadOnly(isReadOnly);
+        selectedDeduction.setReadOnly(isReadOnly);
+        productHierarchy.setEnabled(isEnabled);
+        productRelation.setReadOnly(isReadOnly);
+        availableProduct.setReadOnly(isReadOnly);
+        fromPeriod.setReadOnly(isReadOnly);
+        toPeriod.setReadOnly(isReadOnly);
+        adjustmentType.setReadOnly(isReadOnly);
+        description.setReadOnly(isReadOnly);
+        customerMoveAllBtn.setEnabled(isEnabled);
+        customerMoveLeftBtn.setEnabled(isEnabled);
+        customerMoveRightBtn.setEnabled(isEnabled);
+        productMoveAllBtn.setEnabled(isEnabled);
+        productMoveLeftProduct.setEnabled(isEnabled);
+        productMoveRightProduct.setEnabled(isEnabled);
+        deductionMoveAllBtn.setEnabled(isEnabled);
+        deductionMoveLeftBtn.setEnabled(isEnabled);
+        deductionMoveRightBtn.setEnabled(isEnabled);
+        generateBtn.setVisible(isEnabled);
+        resetBtn.setVisible(isEnabled);
+        saveViewBtn.setVisible(isEnabled);
+        deleteViewBtn.setVisible(isEnabled);
     }
 
     private void setViewDetails() {
@@ -310,7 +311,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             hierarchyKeys.clear();
             Map<String, DeductionLevelDTO> levelKeys = logic.getDeductionTree(selectedLevelIds, rsContractSidList, hierarchyKeys);
             selectedDeductionContainer.removeAllItems();
-            setDeductionTree(levelKeys);
+            setDeductionTree(levelKeys,hierarchyKeys);
             customerHierarchy.setValue(selection.getCustomerHierarchyName());
             productHierarchy.setValue(selection.getProductHierarchyName());
             logic.loadCustomerRelation(customerRelation, selection.getCustomerHierarchySid());
@@ -355,7 +356,7 @@ public class DataSelectionTab extends AbstractDataSelection {
                 toPeriod.select(0);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in setViewDetails :", e);
+            DS_LOGGER.error("Error in setViewDetails :", e);
         }
     }
 
@@ -363,7 +364,7 @@ public class DataSelectionTab extends AbstractDataSelection {
         try {
             innerCustLevels = logic.loadCustomerForecastLevel(selection.getCustomerHierarchySid(), selection.getCustomerHierarchyName());
         } catch (Exception ex) {
-            LOGGER.error(" in loadCustomerLevel", ex);
+            DS_LOGGER.error(" in loadCustomerLevel", ex);
         }
 
     }
@@ -372,7 +373,7 @@ public class DataSelectionTab extends AbstractDataSelection {
         try {
             innerProdLevels = logic.loadCustomerForecastLevel(selection.getProductHierarchySid(), selection.getProductHierarchyName());
         } catch (Exception ex) {
-            LOGGER.error(" loadProductLevel", ex);
+            DS_LOGGER.error(" loadProductLevel", ex);
         }
     }
 
@@ -413,8 +414,11 @@ public class DataSelectionTab extends AbstractDataSelection {
             }
         }
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
+        
         selectedCustomer.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
+        
         selectedCustomer.setColumnHeaders(new String[]{"Customer Hierarchy Group Builder"});
+        
         for (LevelDTO ddo : selectedCustomerContainer.getItemIds()) {
             selectedCustomer.setCollapsed(ddo, false);
         }
@@ -465,31 +469,13 @@ public class DataSelectionTab extends AbstractDataSelection {
             }
         }
         selectedProduct.setContainerDataSource(selectedProductContainer);
+        
         selectedProduct.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
+        
         selectedProduct.setColumnHeaders(new String[]{"Product Hierarchy Group Builder"});
+        
         for (LevelDTO ddo : selectedProductContainer.getItemIds()) {
             selectedProduct.setCollapsed(ddo, false);
-        }
-    }
-
-    private void setDeductionTree(Map<String, DeductionLevelDTO> levelKeys) {
-        List<HierarchyString> strkeys = HierarchyString.getHierarchyStringList(hierarchyKeys, true);
-        for (HierarchyString hKey : strkeys) {
-            String key = hKey.getString();
-            DeductionLevelDTO value = levelKeys.get(key);
-            String parentKey = key.substring(0, key.lastIndexOf('.'));
-            if (parentKey.lastIndexOf('.') >= 0) {
-                parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
-            }
-            selectedDeductionContainer.addItem(value);
-            DeductionLevelDTO parent = levelKeys.get(parentKey);
-
-            if (parent != null) {
-                selectedDeductionContainer.setParent(value, parent);
-            }
-            if (StringUtils.countMatches(key, ".") == NumericConstants.NINE) {
-                selectedDeductionContainer.setChildrenAllowed(value, false);
-            }
         }
     }
 

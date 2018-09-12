@@ -46,8 +46,8 @@ public class GtnReportForecastLevelLoadAction
 			gtnLogger.info("Properties size ----->" + recordBean.getProperties().size());
 			gtnLogger.info("hierarchyDefSid------->"
 					+ recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1));
-			int hierarchyDefSid = Integer
-					.valueOf(String.valueOf(recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1)));
+			int hierarchyDefSid = Integer.parseInt(
+					String.valueOf(recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1)));
 
 			GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(actionParamsList.get(3).toString(), componentId).getComponentConfig()

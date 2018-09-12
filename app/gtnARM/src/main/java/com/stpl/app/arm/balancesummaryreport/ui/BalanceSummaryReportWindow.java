@@ -127,17 +127,17 @@ public class BalanceSummaryReportWindow extends Window {
                             previousBtn.setVisible(true);
                         }
                     } catch (Exception ex) {
-                        LOGGER.error("Error in tabSheet Listner :" , ex);
+                        LOGGER.error("Error in tabSheet Listner :", ex);
                     }
                 }
             });
         } catch (Exception ex) {
-            LOGGER.error("Error in tabSheet Listner :" , ex);
+            LOGGER.error("Error in tabSheet Listner :", ex);
         }
 
     }
 
-    private final CustomNotification notifier = new CustomNotification();
+    private final BSRWindowCustomNotification bsrWindowNotifier = new BSRWindowCustomNotification();
 
     private AbstractBSummaryReportSummary getSummaryObject(String summaryTypes) {
 
@@ -162,11 +162,11 @@ public class BalanceSummaryReportWindow extends Window {
         QueryUtils.itemUpdate(input, "insertBalanceSummaryCCP");
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class BSRWindowCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String bsrWindowButtonName;
 
-        public CustomNotification() {
+        public BSRWindowCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -179,9 +179,9 @@ public class BalanceSummaryReportWindow extends Window {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", bsrWindowButtonName);
+            if (null != bsrWindowButtonName) {
+                switch (bsrWindowButtonName) {
                     case "close":
                         close();
                         UI.getCurrent().getNavigator().navigateTo(DataSelectionView.NAME); // For GAL-6087
@@ -195,7 +195,7 @@ public class BalanceSummaryReportWindow extends Window {
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.bsrWindowButtonName = buttonName;
         }
 
     }
@@ -203,7 +203,7 @@ public class BalanceSummaryReportWindow extends Window {
     @UiHandler("closeBtn")
     public void closeButtonClick(Button.ClickEvent event) {
         try {
-            notifier.setButtonName("close");
+            bsrWindowNotifier.setButtonName("close");
             String closeMsg;
             if (ARMConstants.getDemand().equals(dataSelectionDTO.getAdjustmentCaption())) {
                 closeMsg = ARMMessages.getCloseMessageID014();
@@ -214,7 +214,7 @@ public class BalanceSummaryReportWindow extends Window {
             } else {
                 closeMsg = ARMMessages.getCloseMessageID013();
             }
-            notifier.getConfirmationMessage(ARMMessages.getCloseMessageName_001(), closeMsg);
+            bsrWindowNotifier.getConfirmationMessage(ARMMessages.getCloseMessageName_001(), closeMsg);
         } catch (Exception e) {
             LOGGER.error("Error in closeButtonClick  :", e);
         }
@@ -267,8 +267,8 @@ public class BalanceSummaryReportWindow extends Window {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object bsrWindowobj) {
+        return super.equals(bsrWindowobj);
     }
 
     @Override
@@ -276,11 +276,11 @@ public class BalanceSummaryReportWindow extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream bsrWindowobj) throws IOException {
+        bsrWindowobj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream bsrWindowobj) throws IOException, ClassNotFoundException {
+        bsrWindowobj.defaultReadObject();
     }
 }

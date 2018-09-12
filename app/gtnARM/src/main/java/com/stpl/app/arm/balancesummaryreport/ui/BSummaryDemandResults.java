@@ -15,12 +15,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Srithar.Raju
  */
 public class BSummaryDemandResults extends AbstractBalanceSummaryResutls {
+
+    protected final Logger demandResultsLogger = LoggerFactory.getLogger(getClass());
 
     public BSummaryDemandResults(BSummaryDemandLogic logic, SummarySelection selection) {
         super(logic, selection);
@@ -53,32 +57,37 @@ public class BSummaryDemandResults extends AbstractBalanceSummaryResutls {
             getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.FIVE));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
-            LOGGER.error("Error in setExcelVisibleColumn :" , ex);
+            demandResultsLogger.error("Error in setExcelVisibleColumn :", ex);
         }
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
+        demandResultsLogger.debug("inside getExcelLogic");
         return getSummaryLogic();
     }
 
     @Override
     public Map<Integer, String> getHierarchy() {
+        demandResultsLogger.debug("inside getHierarchy");
         return getSelection().getSummeryhierarchy();
     }
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
+        demandResultsLogger.debug("inside viewType");
         getSummarySelection().setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override
     public String getExcelFileName() {
+        demandResultsLogger.debug("inside getExcelFileName");
         return "Balance Summary Report - Demand";
     }
 
     @Override
     protected boolean isPercentageColumn2Decimal(String column) {
+        demandResultsLogger.debug("inside isPercentageColumn2Decimal");
         return column.contains("PaymentRatio");
     }
 }

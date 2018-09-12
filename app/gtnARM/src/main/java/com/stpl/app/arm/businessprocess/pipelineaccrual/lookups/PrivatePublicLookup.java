@@ -222,9 +222,9 @@ public class PrivatePublicLookup extends Window {
             LOGGER.error("Error in closeButtonClick :", e);
         }
     }
-    private final CustomNotification notifier = new CustomNotification();
+    private final PublicPrivateCustomNotification notifier = new PublicPrivateCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class PublicPrivateCustomNotification extends AbstractNotificationUtils {
 
         @Override
         public void noMethod() {
