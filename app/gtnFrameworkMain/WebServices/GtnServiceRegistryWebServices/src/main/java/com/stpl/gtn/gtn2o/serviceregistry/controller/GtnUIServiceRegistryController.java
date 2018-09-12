@@ -47,7 +47,7 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 	public final void initializeLogger() {
 		super.logInformation(GtnUIServiceRegistryController.class);
 	}
-
+        
 	@RequestMapping(value = "/registerWebservices", method = RequestMethod.POST)
 	public void registerWebServices(@RequestBody GtnUIFrameworkWebserviceRequest request) {
          

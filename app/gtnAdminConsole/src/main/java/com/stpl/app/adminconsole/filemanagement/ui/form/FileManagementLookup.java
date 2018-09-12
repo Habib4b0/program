@@ -2316,7 +2316,6 @@ public class FileManagementLookup extends Window {
 												saveflag = true;
 												Notification.show("Records saved Successfully");
 												addlineList.clear();
-												try {
 													resultDTO.setFileType(String.valueOf(fileType.getValue()));
 													resultDTO.setCountry(String.valueOf(country.getValue()));
 													resultDTO.setFileName(String.valueOf(fileName.getValue()));
@@ -2327,10 +2326,6 @@ public class FileManagementLookup extends Window {
 													resultDTO.setBusinessUnit(fmbusinessUnit);
 													resultDTO.setVersion(String.valueOf(version.getValue().trim()));
 													loadResultsTable();
-
-												} catch (Exception ex) {
-													LOGGER.error(ex.getMessage());
-												}
 											}
 										} catch (Exception ex) {
 											LOGGER.error(ex.getMessage());

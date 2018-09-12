@@ -386,7 +386,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;Encrypted_File_Name&#x7d;</filename>
+    <filename>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;Encrypted_File_Name&#x7d;_DECRYPT.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -1263,6 +1263,200 @@
     </step>
 
   <step>
+    <name>IVLD_PSTG TABLE</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>connection</connection>
+    <schema>dbo</schema>
+    <table>IVLD_PSTG_CUSTOMER_GTS_ACTUAL</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>SALES_KEY</column_name>
+          <stream_name>SALES_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>GL_ACCOUNT</column_name>
+          <stream_name>GL_ACCOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>GL_ACCOUNT_DESC</column_name>
+          <stream_name>GL_ACCOUNT_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>TRAN_TYPE</column_name>
+          <stream_name>TRAN_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>TRAN_TYPE_DESC</column_name>
+          <stream_name>TRAN_TYPE_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>EARNED_DATE</column_name>
+          <stream_name>EARNED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>REF_DOC_NUMBER</column_name>
+          <stream_name>REF_DOC_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>REF_DOCUMENT_NUMBER</column_name>
+          <stream_name>REF_DOCUMENT_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>NDC11</column_name>
+          <stream_name>NDC11</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_UNIT</column_name>
+          <stream_name>SALES_UNIT</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_NUMBER</column_name>
+          <stream_name>INVOICE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_DATE</column_name>
+          <stream_name>INVOICE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_TYPE</column_name>
+          <stream_name>SALES_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_TYPE_DESC</column_name>
+          <stream_name>SALES_TYPE_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_QUANTITY</column_name>
+          <stream_name>INVOICE_QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_AMOUNT</column_name>
+          <stream_name>INVOICE_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_PKG</column_name>
+          <stream_name>NET_PRICE_PKG</stream_name>
+        </field>
+        <field>
+          <column_name>NET_INVOICE_AMOUNT</column_name>
+          <stream_name>NET_INVOICE_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_TYPE_CDE</column_name>
+          <stream_name>ACCOUNT_TYPE_CDE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_TYPE</column_name>
+          <stream_name>ACCOUNT_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_NO</column_name>
+          <stream_name>ACCOUNT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_NAME</column_name>
+          <stream_name>ACCOUNT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>WHOLESALE_OWNER_ID</column_name>
+          <stream_name>WHOLESALE_OWNER_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CUSTOMER_NUMBER</column_name>
+          <stream_name>CUSTOMER_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>CUSTOMER_SOURCE_ID</column_name>
+          <stream_name>CUSTOMER_SOURCE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PRODUCT</column_name>
+          <stream_name>PRODUCT</stream_name>
+        </field>
+        <field>
+          <column_name>PRODUCT_DESC</column_name>
+          <stream_name>PRODUCT_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_NUM</column_name>
+          <stream_name>PROD_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_ID</column_name>
+          <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_TYPE</column_name>
+          <stream_name>INVOICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_TYPE_DESC</column_name>
+          <stream_name>INVOICE_TYPE_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>PSTG_CUSTOMER_GTS_ACTUAL_SID</column_name>
+          <stream_name>PSTG_CUSTOMER_GTS_ACTUAL_SID</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_FIELD</column_name>
+          <stream_name>Error_Field</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE </column_name>
+          <stream_name>ERROR_CODE </stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>REASON_FOR_FAILURE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1334</xloc>
+      <yloc>502</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Modified Java Script Value</name>
     <type>ScriptValueMod</type>
     <description/>
@@ -1583,8 +1777,8 @@
     </step>
 
   <step>
-    <name>IVLD_PSTG TABLE</name>
-    <type>TableOutput</type>
+    <name>Unique rows &#x28;HashSet&#x29;</name>
+    <type>UniqueRowsByHashSet</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1593,185 +1787,14 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>connection</connection>
-    <schema>dbo</schema>
-    <table>IVLD_PSTG_CUSTOMER_GTS_ACTUAL</table>
-    <commit>1000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>SALES_KEY</column_name>
-          <stream_name>SALES_KEY</stream_name>
-        </field>
-        <field>
-          <column_name>GL_ACCOUNT</column_name>
-          <stream_name>GL_ACCOUNT</stream_name>
-        </field>
-        <field>
-          <column_name>GL_ACCOUNT_DESC</column_name>
-          <stream_name>GL_ACCOUNT_DESC</stream_name>
-        </field>
-        <field>
-          <column_name>TRAN_TYPE</column_name>
-          <stream_name>TRAN_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>TRAN_TYPE_DESC</column_name>
-          <stream_name>TRAN_TYPE_DESC</stream_name>
-        </field>
-        <field>
-          <column_name>EARNED_DATE</column_name>
-          <stream_name>EARNED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>REF_DOC_NUMBER</column_name>
-          <stream_name>REF_DOC_NUMBER</stream_name>
-        </field>
-        <field>
-          <column_name>REF_DOCUMENT_NUMBER</column_name>
-          <stream_name>REF_DOCUMENT_NUMBER</stream_name>
-        </field>
-        <field>
-          <column_name>NDC11</column_name>
-          <stream_name>NDC11</stream_name>
-        </field>
-        <field>
-          <column_name>SALES_UNIT</column_name>
-          <stream_name>SALES_UNIT</stream_name>
-        </field>
-        <field>
-          <column_name>INVOICE_NUMBER</column_name>
-          <stream_name>INVOICE_NUMBER</stream_name>
-        </field>
-        <field>
-          <column_name>INVOICE_DATE</column_name>
-          <stream_name>INVOICE_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>SALES_TYPE</column_name>
-          <stream_name>SALES_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>SALES_TYPE_DESC</column_name>
-          <stream_name>SALES_TYPE_DESC</stream_name>
-        </field>
-        <field>
-          <column_name>INVOICE_QUANTITY</column_name>
-          <stream_name>INVOICE_QUANTITY</stream_name>
-        </field>
-        <field>
-          <column_name>INVOICE_AMOUNT</column_name>
-          <stream_name>INVOICE_AMOUNT</stream_name>
-        </field>
-        <field>
-          <column_name>NET_PRICE_PKG</column_name>
-          <stream_name>NET_PRICE_PKG</stream_name>
-        </field>
-        <field>
-          <column_name>NET_INVOICE_AMOUNT</column_name>
-          <stream_name>NET_INVOICE_AMOUNT</stream_name>
-        </field>
-        <field>
-          <column_name>ACCOUNT_TYPE_CDE</column_name>
-          <stream_name>ACCOUNT_TYPE_CDE</stream_name>
-        </field>
-        <field>
-          <column_name>ACCOUNT_TYPE</column_name>
-          <stream_name>ACCOUNT_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>ACCOUNT_NO</column_name>
-          <stream_name>ACCOUNT_NO</stream_name>
-        </field>
-        <field>
-          <column_name>ACCOUNT_NAME</column_name>
-          <stream_name>ACCOUNT_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>WHOLESALE_OWNER_ID</column_name>
-          <stream_name>WHOLESALE_OWNER_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CUSTOMER_NUMBER</column_name>
-          <stream_name>CUSTOMER_NUMBER</stream_name>
-        </field>
-        <field>
-          <column_name>CUSTOMER_SOURCE_ID</column_name>
-          <stream_name>CUSTOMER_SOURCE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>PRODUCT</column_name>
-          <stream_name>PRODUCT</stream_name>
-        </field>
-        <field>
-          <column_name>PRODUCT_DESC</column_name>
-          <stream_name>PRODUCT_DESC</stream_name>
-        </field>
-        <field>
-          <column_name>PROD_NUM</column_name>
-          <stream_name>PROD_NUM</stream_name>
-        </field>
-        <field>
-          <column_name>BRAND_ID</column_name>
-          <stream_name>BRAND_ID</stream_name>
-        </field>
-        <field>
-          <column_name>BRAND_NAME</column_name>
-          <stream_name>BRAND_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>INVOICE_TYPE</column_name>
-          <stream_name>INVOICE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>INVOICE_TYPE_DESC</column_name>
-          <stream_name>INVOICE_TYPE_DESC</stream_name>
-        </field>
-        <field>
-          <column_name>PSTG_CUSTOMER_GTS_ACTUAL_SID</column_name>
-          <stream_name>PSTG_CUSTOMER_GTS_ACTUAL_SID</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>CREATED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>ERROR_FIELD</column_name>
-          <stream_name>Error_Field</stream_name>
-        </field>
-        <field>
-          <column_name>ERROR_CODE </column_name>
-          <stream_name>ERROR_CODE </stream_name>
-        </field>
-        <field>
-          <column_name>REASON_FOR_FAILURE</column_name>
-          <stream_name>REASON_FOR_FAILURE</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
+      <store_values>N</store_values>
+      <reject_duplicate_row>N</reject_duplicate_row>
+      <error_description/>
+    <fields>      <field>        <name>CUSTOMER_GTS_ACTUAL_INTF_ID</name>
+        </field>      </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1334</xloc>
-      <yloc>502</yloc>
+      <xloc>983</xloc>
+      <yloc>265</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1906,29 +1929,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>647</xloc>
       <yloc>528</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Unique rows &#x28;HashSet&#x29;</name>
-    <type>UniqueRowsByHashSet</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <store_values>N</store_values>
-      <reject_duplicate_row>N</reject_duplicate_row>
-      <error_description/>
-    <fields>      <field>        <name>CUSTOMER_GTS_ACTUAL_INTF_ID</name>
-        </field>      </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>983</xloc>
-      <yloc>265</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

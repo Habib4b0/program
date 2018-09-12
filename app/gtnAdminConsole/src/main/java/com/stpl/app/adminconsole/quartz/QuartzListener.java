@@ -54,7 +54,7 @@ public class QuartzListener implements ServletContextListener {
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent servletContext) {
-		System.out.println("Context Initialized");
+		LOGGER.debug("Context Initialized");
 
 		createQuartzScheduler();
 
@@ -106,7 +106,7 @@ public class QuartzListener implements ServletContextListener {
 		try {
 			JobKey jobKeyToUpdate = getJobForJobKey(profile);
 			if (jobKeyToUpdate != null) {
-				System.out.println("Deleting job " + generateJobName(profile));
+				LOGGER.debug("Deleting job {}" , generateJobName(profile));
 				scheduler.deleteJob(jobKeyToUpdate);
 			}
 			createJob(profile);
@@ -136,40 +136,32 @@ public class QuartzListener implements ServletContextListener {
 			generateCronStringInterval(profile, cronStringList);
 
 			if (cronStringList.isEmpty()) {
-				System.out.println("No triggers set for job " + profile.getProcessDisplayName());
+				LOGGER.debug("No triggers set for job {}" , profile.getProcessDisplayName());
 			}
 
 			int i = 0;
 			for (String cronString : cronStringList) {
 
 				if (i == 0) {
-					try {
 						Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
 								.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
 						System.out
 								.println("- " + profile.getProcessDisplayName() + " Scheduling trigger " + cronString);
 						scheduler.scheduleJob(job, trigger);
 						i++;
-					} catch (Exception e) {
-						System.out.println(e);
-					}
 				} else {
-					try {
 						Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
 								.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
 						System.out
 								.println("- " + profile.getProcessDisplayName() + " Scheduling trigger " + cronString);
 						scheduler.scheduleJob(trigger);
-					} catch (Exception e) {
-						System.out.println(e);
-					}
 					i++;
 				}
 
 			}
 
 			if (i == 0) {
-				System.out.println("No triggers set for job " + profile.getProcessDisplayName());
+				LOGGER.debug("No triggers set for job{} " , profile.getProcessDisplayName());
 			}
 
 		} catch (Exception e) {
@@ -328,7 +320,7 @@ public class QuartzListener implements ServletContextListener {
 			LOGGER.error(e.getMessage());
 		}
 		printStr.append("--End printing Jobs--\n");
-		System.out.println(printStr.toString());
+		LOGGER.debug(printStr.toString());
 	}
 
 	public static synchronized void printJobsForJobKey(JobKey jobKeyToSearch) throws SchedulerException {
