@@ -74,7 +74,7 @@ public class ReturnsReserveData extends VerticalLayout {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final ReturnsReserveData.CustomNotification notifier = new ReturnsReserveData.CustomNotification();
+    private final ReturnsReserveData.ReturnReserveDataCustomNotification notifier = new ReturnsReserveData.ReturnReserveDataCustomNotification();
 
     public ReturnsReserveData(RRSelectionDTO selection) {
         this.selection = selection;
@@ -110,11 +110,11 @@ public class ReturnsReserveData extends VerticalLayout {
         return variables;
     }
 
-    public class CustomNotification extends AbstractNotificationUtils {
+    public class ReturnReserveDataCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String rrButtonName;
 
-        public CustomNotification() {
+        public ReturnReserveDataCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -127,8 +127,8 @@ public class ReturnsReserveData extends VerticalLayout {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName && "reset".equals(buttonName)) {
+            LOGGER.debug("buttonName :{}", rrButtonName);
+            if (null != rrButtonName && "reset".equals(rrButtonName)) {
                 originalSaleLimiter.setValue(null);
                 removeClosedBatches.setValue(true);
                 excudeBasedOnLoeDate.setValue(false);
@@ -138,7 +138,7 @@ public class ReturnsReserveData extends VerticalLayout {
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.rrButtonName = buttonName;
         }
 
     }
@@ -153,7 +153,7 @@ public class ReturnsReserveData extends VerticalLayout {
                 searchResults.generateLogic(selection);
                 searchResults.setValueChangeAllowed(true);
             } else {
-                CustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
+                ReturnReserveDataCustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
             }
         } catch (Exception e) {
             logger.error("error in generate :", e);

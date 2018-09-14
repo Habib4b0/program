@@ -211,12 +211,12 @@ public class ExclusionAndInventoryRateLookUp extends Window {
         ExclusionAndInventoryRateLookUp.flag = flag;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream exclInvDtoout) throws IOException {
+        exclInvDtoout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream exclInvDtoout) throws IOException, ClassNotFoundException {
+        exclInvDtoout.defaultReadObject();
     }
 
     public static boolean getFlag() {

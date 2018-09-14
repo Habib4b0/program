@@ -908,9 +908,7 @@ public class MMDPRLogic {
         } else if (projectionSelectionDTO.isFilterDdlb() && projectionSelectionDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
             count += projectionSelectionDTO.getPeriodList().size();
         } else {
-            if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
-                count += NumericConstants.THREE;
-            } else if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
+                if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
                 count += NumericConstants.THREE;
             } else if (Constant.BOTH.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
                 count += NumericConstants.FOUR;

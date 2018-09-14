@@ -552,10 +552,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
                 loadDataSearchTableActionConfig.setActionParameterList(
                 Arrays.asList(new Object[]{nameSpace+"_"+"projectionResultsTable"}));
                 loadDataSearchTableActionConfig.setFieldValues(
-                        Arrays.asList(new String[]{nameSpace + "_" + "to",nameSpace + "_" + "from",
-                            nameSpace+"_"+"projectionName",
-                            nameSpace+"_"+"projectionDescription",
-                            }));
+                        Arrays.asList(new String[]{nameSpace+"_"+"projectionName",
+                            nameSpace+"_"+"projectionDescription"}));
                 actionConfigListSearch.add(loadDataSearchTableActionConfig);
                 searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
 		searchBtn.setEnable(false);

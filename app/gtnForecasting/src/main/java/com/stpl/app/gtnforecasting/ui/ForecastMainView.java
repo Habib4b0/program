@@ -65,10 +65,6 @@ public class ForecastMainView extends VerticalLayout implements View {
         if (screenName.equals(getCommercialConstant())) {
             HelperListUtil.getInstance().loadValuesWithListName(getCommercialConstant());
             screenName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED;
-        } else if (screenName.equals(getGovernmentConstant())) {
-            screenName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED;
-        } else if (screenName.equals("Returns")) {
-            screenName = CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS;
         } else if (screenName.equals("AccrualRateProjection")) {
             screenName = CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION;
         }

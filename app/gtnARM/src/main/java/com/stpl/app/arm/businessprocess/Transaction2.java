@@ -31,7 +31,7 @@ public class Transaction2 extends AbstractTransaction {
     private DASelectionDTO daSelectionDto;
     private AdjustmentSummaryDemandAccrual demandSummary;
     private AdjustmentDetailDemand demandDetails;
-    public static final Logger LOGGER = LoggerFactory.getLogger(Transaction2.class);
+    public static final Logger TXN2_LOGGER = LoggerFactory.getLogger(Transaction2.class);
 
     public Transaction2(TabSheet tabSheet, CustomFieldGroup binder, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException {
         super(tabSheet, binder, NumericConstants.TWO, name, dataselectionDTO, sessionDTO);
@@ -54,7 +54,7 @@ public class Transaction2 extends AbstractTransaction {
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
 
         } catch (Exception e) {
-            LOGGER.error("Error in initializeTabs", e);
+            TXN2_LOGGER.error("Error in initializeTabs", e);
         }
     }
 
@@ -86,13 +86,13 @@ public class Transaction2 extends AbstractTransaction {
 
     @Override
     public String getGtnQuery() {
-        LOGGER.debug("Transaction 2 Gtn Outbound Insert Query");
+        TXN2_LOGGER.debug("Transaction 2 Gtn Outbound Insert Query");
         return "Demand_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
-        LOGGER.debug("Transaction 2 Reserve Outbound Insert Query");
+        TXN2_LOGGER.debug("Transaction 2 Reserve Outbound Insert Query");
         return "Demand_Adjustment_details_Insert_Reserve";
     }
 

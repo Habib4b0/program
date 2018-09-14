@@ -33,7 +33,7 @@ public class AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getSummaryLogic();
+        return getSummaryLogic();
     }
 
     @Override
