@@ -27,5 +27,7 @@ public class GtnFrameworkScreenRegisteryConstants {
         public static final String HIERARCHY_NAME="hierachyName";
         public static final String HIGHEST_LEVEL="highestLevel";
         public static final String GTN_NEWARCHITECTURE_CONFIRMATION_MSG_RESET_HEADER = "Confirmation";
-    	public static final String GTN_VALIDATION_MSG_RESET = "Are you sure you want to reset the page to default/previous values?";        
+    	public static final String GTN_VALIDATION_MSG_RESET = "Are you sure you want to reset the page to default/previous values?";
+    	 public static final String DEDUCTION_LEVEL_ID="deduction_level";
+    	 public static final String DEDUCTION_LEVEL_NAME="Deduction Level";
 }
