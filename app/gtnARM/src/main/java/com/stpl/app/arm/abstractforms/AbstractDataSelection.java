@@ -851,7 +851,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
     private void addToContainer(LevelDTO levelDto, ExtTreeContainer<LevelDTO> treeContainer, int customerOrProductLevel) {
         if (levelDto.getLevelNo() == 1) {
             treeContainer.addItem(levelDto);
-            treeContainer.setChildrenAllowed(levelDto, customerOrProductLevel != levelDto.getLevelNo());
+            treeContainer.setChildrenAllowed(levelDto, true);
         } else {
             LevelDTO parentLevelDTO = getParentNode(levelDto, treeContainer);
             treeContainer.addBean(levelDto);

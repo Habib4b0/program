@@ -12,7 +12,6 @@ import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
 import com.stpl.app.arm.dataselection.dto.DeductionLevelDTO;
 import com.stpl.app.arm.dataselection.dto.LevelDTO;
 import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
-import static com.stpl.app.arm.dataselection.ui.form.DataSelection.getBeanFromId;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.DataSelectionQueryUtils;
@@ -311,7 +310,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             hierarchyKeys.clear();
             Map<String, DeductionLevelDTO> levelKeys = logic.getDeductionTree(selectedLevelIds, rsContractSidList, hierarchyKeys);
             selectedDeductionContainer.removeAllItems();
-            setDeductionTree(levelKeys,hierarchyKeys);
+            setDeductionTree(levelKeys, hierarchyKeys);
             customerHierarchy.setValue(selection.getCustomerHierarchyName());
             productHierarchy.setValue(selection.getProductHierarchyName());
             logic.loadCustomerRelation(customerRelation, selection.getCustomerHierarchySid());
@@ -388,13 +387,13 @@ public class DataSelectionTab extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = CustHierarchyLogic.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
-        createHierarchyBasedOnHierarchyNo(selectedCustomerContainer,reslistOne,customerLevel);
+        createHierarchyBasedOnHierarchyNo(selectedCustomerContainer, reslistOne, customerLevel);
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
-        
+
         selectedCustomer.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
-        
+
         selectedCustomer.setColumnHeaders(new String[]{"Customer Hierarchy Group Builder"});
-        
+
         for (LevelDTO ddo : selectedCustomerContainer.getItemIds()) {
             selectedCustomer.setCollapsed(ddo, false);
         }
@@ -411,13 +410,13 @@ public class DataSelectionTab extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = initProdHierarchyDsLogic.getRelationShipValues(projectionId, "product", productLevel, productDescriptionMap);
-        createHierarchyBasedOnHierarchyNo(selectedProductContainer,reslistOne,productLevel);
+        createHierarchyBasedOnHierarchyNo(selectedProductContainer, reslistOne, productLevel);
         selectedProduct.setContainerDataSource(selectedProductContainer);
-        
+
         selectedProduct.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
-        
+
         selectedProduct.setColumnHeaders(new String[]{"Product Hierarchy Group Builder"});
-        
+
         for (LevelDTO ddo : selectedProductContainer.getItemIds()) {
             selectedProduct.setCollapsed(ddo, false);
         }
