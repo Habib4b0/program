@@ -10,7 +10,6 @@ import com.stpl.app.gtnforecasting.projectionvariance.logic.tablelogic.Compariso
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
-import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import static com.stpl.app.utils.Constants.WindowMessagesName.CONFIRMATION;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.BooleanConstant;

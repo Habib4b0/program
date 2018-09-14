@@ -137,7 +137,7 @@ public class PrivatePublicLookUp extends Window {
         try {
             if (resultsTable.getValue() != null) {
                 viewDTO = (ViewDTO) resultsTable.getValue();
-                setSelected(Boolean.TRUE);
+                setSelected(true);
                 close();
             }
         } catch (Exception ex) {
@@ -148,7 +148,7 @@ public class PrivatePublicLookUp extends Window {
 
     @UiHandler("closeBtn")
     public void closeButtonLogic(Button.ClickEvent event) {
-        setSelected(Boolean.FALSE);
+        setSelected(false);
         close();
     }
 

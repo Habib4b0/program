@@ -26,9 +26,11 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Grid;
 
-public class GtnReportReportProfileDeleteAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+public class GtnReportReportProfileDeleteAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnReportReportProfileDeleteAction.class);
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnReportReportProfileDeleteAction.class);
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -39,13 +41,13 @@ public class GtnReportReportProfileDeleteAction implements GtnUIFrameWorkAction,
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		
+
 		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromView(actionParamList.get(1).toString(), componentId).getComponent();
 		GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
 		PagedGrid pagedGridInReportProfile = gridComponent.getPagedGrid();
 		Grid<GtnWsRecordBean> grid = pagedGridInReportProfile.getGrid();
-		Set<GtnWsRecordBean> recordBean= grid.getSelectedItems();
+		Set<GtnWsRecordBean> recordBean = grid.getSelectedItems();
 		List<GtnWsRecordBean> recordBeanList = new ArrayList<>(recordBean);
 		GtnWsRecordBean reportWsbean = recordBeanList.get(0);
 		Integer viewId = (Integer) reportWsbean.getPropertyValueByIndex(4);

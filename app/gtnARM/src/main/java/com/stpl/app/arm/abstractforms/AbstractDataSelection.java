@@ -788,8 +788,8 @@ public abstract class AbstractDataSelection extends CustomComponent {
         inputBean.setHierarchyVersionNo(selectedHierarchyLevelDto.getVersionNo());
         inputBean.setLevelNo(levelNo);
         inputBean.setIsNdc(isNdc);
-        inputBean.setBusinessUnit(businessUnit.getValue() != null ? Integer.valueOf(String.valueOf(businessUnit.getValue())) : NumericConstants.ZERO);
-        inputBean.setGlCompany(company.getValue() != null ? Integer.valueOf(String.valueOf(company.getValue())) : NumericConstants.ZERO);
+        inputBean.setBusinessUnit(businessUnit.getValue() != null ? ARMUtils.getIntegerValue(String.valueOf(businessUnit.getValue())) : NumericConstants.ZERO);
+        inputBean.setGlCompany(company.getValue() != null ? ARMUtils.getIntegerValue(String.valueOf(company.getValue())) : NumericConstants.ZERO);
         return inputBean;
     }
 
