@@ -75,11 +75,7 @@ public class Trx7AdjustmentSummarySearchResultsPipelineAccrual extends AbstractP
 
     @Override
     public boolean getisDeductionCustomer() {
-        if (ARMConstants.getDeductionCustomerContract().equals(getSelection().getSummaryviewType())) {
-            return true;
-        } else {
-            return false;
-        }
+        return (ARMConstants.getDeductionCustomerContract().equals(getSelection().getSummaryviewType()));
     }
 
     @Override
