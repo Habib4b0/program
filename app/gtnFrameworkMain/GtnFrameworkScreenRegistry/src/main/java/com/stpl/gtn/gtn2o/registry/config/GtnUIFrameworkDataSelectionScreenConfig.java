@@ -175,9 +175,11 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		addProjectionName(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addPublicViewLookup(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addBusinessUnit(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
+		addDeductionLevel(componentList,projectionSelectionLayoutConfig.getComponentId(),nameSpace);
 		addProjectionDescription(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 	}
 
+	
 	private void addMode(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		String componentId = nameSpace + "_" + "modeGroup";
 		GtnUIFrameworkComponentConfig modeLayoutConfig = configProvider.getHorizontalLayoutConfig(componentId, true,
@@ -274,6 +276,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(company);
 	}
 
+	
 	private void addProjectionName(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
 		GtnUIFrameworkComponentConfig projectionNameLayoutConfig = configProvider.getHorizontalLayoutConfig(
 				nameSpace + "_" + "projectionNameLayout", true, parentComponentId);
@@ -350,6 +353,27 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionDescription.setAddToParent(Boolean.TRUE);
 		projectionDescription.setParentComponentId(nameSpace + "_" + "projectionDescriptionLayout");
 		componentList.add(projectionDescription);
+	}
+	private void addDeductionLevel(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,String nameSpace) {
+		GtnUIFrameworkComponentConfig deductionLevelConfig = configProvider.getHorizontalLayoutConfig(nameSpace + "_" +"deductionLayout"
+	, true, parentComponentId);
+		componentList.add(deductionLevelConfig);
+		
+		GtnUIFrameworkComponentConfig deductionComponent = new GtnUIFrameworkComponentConfig();
+		deductionComponent.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		deductionComponent.setComponentId(nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.DEDUCTION_LEVEL_ID);
+		deductionComponent.setComponentName( GtnFrameworkScreenRegisteryConstants.DEDUCTION_LEVEL_NAME);
+		deductionComponent.setAddToParent(Boolean.TRUE);
+		deductionComponent.setParentComponentId(nameSpace + "_" +"deductionLayout");
+		 deductionComponent.setCustomReference("integerId");
+		 
+		 GtnUIFrameworkComboBoxConfig deductionConfig = new GtnUIFrameworkComboBoxConfig();
+			deductionConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_DEDUCTION_LEVEL_COMBOBOX_SERVICE
+					+ GtnWebServiceUrlConstants.GTN_DEDUCTION_LEVEL_COMBOBOX_LOAD);
+			deductionConfig.setComboBoxType("dataSelectionDeduction");
+			deductionComponent.setGtnComboboxConfig(deductionConfig);
+			componentList.add(deductionComponent);
+	
 	}
 
 	private void addTimePeriod(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -611,7 +635,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				"Commercial Forecasting" + "_" + "prodforecastLevel",
 				"Commercial Forecasting" + "_" + "productDualListBox",
 				"Commercial Forecasting" + "_" + "productGroup",
-				"Commercial Forecasting" + "_" + "profileMode"
+				"Commercial Forecasting" + "_" + "profileMode",
+				"Commercial_Forecasting_customerSelectionLevel"
 				
 				);
 	}
