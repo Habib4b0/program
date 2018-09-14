@@ -47,6 +47,7 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 	}
 
 	public void init() {
+            try {
 		initializeLogger();
 		GtnUIFrameworkWebserviceRequest request = registerWs();
 
@@ -58,6 +59,9 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		List<Object[]> resultList = loadHierarchyRelationshipResults();
 		Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = resultCustomization(resultList);
 		hierarchyRelationship.setHierarchyMap(hierarchyMap);
+            }catch (Exception e) {
+            logger.error("Exception in HierarchyAndRelationship web service call", e);
+        }
 	}
 
 	@Override

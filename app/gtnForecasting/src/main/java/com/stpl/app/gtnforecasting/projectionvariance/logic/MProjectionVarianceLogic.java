@@ -1295,28 +1295,22 @@ public class MProjectionVarianceLogic {
                             pVSelectionDTO.setVarIndicator(group.substring(group.lastIndexOf(' ') + 1));
 
                             if (discountDataList != null) {
-                                tobeAddedList.add(getManSuppDiscountAmount(pivotTotalList, discountDataList, pVSelectionDTO, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED, NumericConstants.TEN, NumericConstants.SEVEN, parentDto));
                                 tobeAddedList.add(getManSuppDiscountAmount(pivotTotalList, discountDataList, pVSelectionDTO, Constant.SUPPLEMENTAL, NumericConstants.ELEVEN, NumericConstants.NINE, parentDto));
                             } else {
-                                tobeAddedList.add(getManSuppDiscountAmount(pivotTotalList, dataList, pVSelectionDTO, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED, NumericConstants.TEN, NumericConstants.SEVEN, parentDto));
                                 tobeAddedList.add(getManSuppDiscountAmount(pivotTotalList, dataList, pVSelectionDTO, Constant.SUPPLEMENTAL, NumericConstants.ELEVEN, NumericConstants.NINE, parentDto));
                             }
                         } else if (group.startsWith(CommonUtils.VAR_DIS_RATE)) {
                             pVSelectionDTO.setVarIndicator(group.substring(group.lastIndexOf(' ') + 1));
                             if (discountDataList != null) {
-                                tobeAddedList.add(getManSuppDiscountPer(pivotTotalList, discountDataList, pVSelectionDTO, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED, NumericConstants.TWELVE, NumericConstants.EIGHT, parentDto));
                                 tobeAddedList.add(getManSuppDiscountPer(pivotTotalList, discountDataList, pVSelectionDTO, Constant.SUPPLEMENTAL, NumericConstants.THIRTEEN, NumericConstants.TEN, parentDto));
                             } else {
-                                tobeAddedList.add(getManSuppDiscountPer(pivotTotalList, dataList, pVSelectionDTO, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED, NumericConstants.TWELVE, NumericConstants.EIGHT, parentDto));
                                 tobeAddedList.add(getManSuppDiscountPer(pivotTotalList, dataList, pVSelectionDTO, Constant.SUPPLEMENTAL, NumericConstants.THIRTEEN, NumericConstants.TEN, parentDto));
                             }
                         } else if (group.startsWith("RPU")) {
                             pVSelectionDTO.setVarIndicator(group.substring(group.lastIndexOf(' ') + 1));
                             if (discountDataList != null) {
-                                tobeAddedList.add(getManSuppRPU(pivotTotalList, discountDataList, pVSelectionDTO, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED, NumericConstants.SEVENTEEN, NumericConstants.TWELVE, parentDto));
                                 tobeAddedList.add(getManSuppRPU(pivotTotalList, discountDataList, pVSelectionDTO, Constant.SUPPLEMENTAL, NumericConstants.EIGHTEEN, NumericConstants.THIRTEEN, parentDto));
                             } else {
-                                tobeAddedList.add(getManSuppRPU(pivotTotalList, dataList, pVSelectionDTO, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED, NumericConstants.SEVENTEEN, NumericConstants.TWELVE, parentDto));
                                 tobeAddedList.add(getManSuppRPU(pivotTotalList, dataList, pVSelectionDTO, Constant.SUPPLEMENTAL, NumericConstants.EIGHTEEN, NumericConstants.THIRTEEN, parentDto));
                             }
                         }
