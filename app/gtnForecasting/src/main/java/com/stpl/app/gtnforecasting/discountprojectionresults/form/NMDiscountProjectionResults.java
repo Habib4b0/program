@@ -272,19 +272,6 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     }
 
     @Override
-    protected void graphExportLogics() {
-        LOGGER.debug("graphExportLogic method starts");
-        List<DiscountProjectionResultsDTO> chartList = new ArrayList<>();
-        for (DiscountProjectionResultsDTO dto : getResultBeanContainer().getBeans()) {
-            chartList.add(dto);
-        }
-        if (projectionDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-            projectionDTO.setActualsOrProjections("Actuals and Projections");
-        }
-        LOGGER.debug("graphExportLogic method ends");
-    }
-
-    @Override
     protected void expandButtonLogic() {
         expandCollapseLevelOption(true, levelDdlb.getValue());
     }
