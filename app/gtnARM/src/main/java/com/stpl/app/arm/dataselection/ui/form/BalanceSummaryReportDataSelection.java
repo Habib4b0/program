@@ -2335,22 +2335,26 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 bsrCustomerVersionMap = logic.loadCustomerRelation(customerRelation, dto.getCustomerHierarchySid());
                 customerRelation.select(dto.getCustRelationshipBuilderSid());
                 loadCustomerLevel();
-                logic.loadCustoProdLevels(customerLevel, dto.getCustomerHierarchySid());
+                bsrCustomerHierarchyLevelDefnList=logic.loadCustoProdLevels(customerLevel, dto.getCustomerHierarchySid());
 
                 customerDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getCustRelationshipBuilderSid(), bsrCustomerVersionMap.get(dto.getCustRelationshipBuilderSid()), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 customerLevel.select(dto.getCustomerHierarchyLevel());
                 initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getCustomerHierarchyLevel()));
-
+                availableCustomerContainer.removeAllItems();
+                availableCustomer.removeAllItems();
+                
                 productHierarchy.setValue(dto.getProductHierarchyName());
                 bsrProductVersionMap = logic.loadProductRelation(productRelation, dto.getProductHierarchySid(), dto.getCompanyMasterSid());
                 productRelation.select(dto.getProdRelationshipBuilderSid());
                 loadProductLevel();
-                logic.loadCustoProdLevels(productLevel, dto.getProductHierarchySid());
+                bsrProductHierarchyLevelDefnList=logic.loadCustoProdLevels(productLevel, dto.getProductHierarchySid());
                 productLevel.select(dto.getProductHierarchyLevel());
                 productDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getProdRelationshipBuilderSid(),
                         bsrProductVersionMap.get(dto.getProdRelationshipBuilderSid()), productHierarchyLookup.getHierarchyDto().getHierarchyId(),
                         productHierarchyLookup.getHierarchyDto().getVersionNo());
                 initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getProductHierarchyLevel()));
+                availableProductContainer.removeAllItems();
+                availableProduct.removeAllItems();
             } catch (Property.ReadOnlyException | NumberFormatException e) {
                 LOGGER.error("Error in setViewDetails :", e);
             }
