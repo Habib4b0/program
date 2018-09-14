@@ -23,8 +23,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.FrequencyConstants.*;
 import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.*;
 import static com.stpl.app.gtnforecasting.utils.Constant.ResourceConstants.*;
 import static com.stpl.app.gtnforecasting.utils.Constant.SessionConstants.*;
-import com.stpl.app.gtnforecasting.utils.NmSPRGraphWindow;
-import com.stpl.app.gtnforecasting.utils.PRChart;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
@@ -710,10 +708,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         if (projectionSelectionDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
             projectionSelectionDTO.setActualsOrProjections("Actuals and Projections");
         }
-        final PRChart chart = new PRChart(chartiLst, projectionSelectionDTO, fullHeader);
-        final NmSPRGraphWindow prGraphWindow = new NmSPRGraphWindow(chart.getChart(), TAB_PROJECTION_RESULTS.getConstant());
-        UI.getCurrent().addWindow(prGraphWindow);
-        prGraphWindow.focus();
         LOGGER.debug("graphExportLogic method ends");
     }
 
