@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.stpl.gtn.gtn2o.registry.config;
 
 import java.util.ArrayList;
@@ -24,6 +23,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroup
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
@@ -32,6 +32,9 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GtnUIFrameworkDataSelectionScreenConfig {
 
@@ -554,7 +557,14 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
                 Arrays.asList(new Object[]{nameSpace+"_"+"projectionResultsTable"}));
                 loadDataSearchTableActionConfig.setFieldValues(
                         Arrays.asList(new String[]{nameSpace+"_"+"projectionName",
-                            nameSpace+"_"+"projectionDescription"}));
+                            nameSpace+"_"+"projectionDescription",
+                        nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
+                        nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID
+                        }));
+//                List<String> list=Arrays.asList(nameSpace + "_" + "to",nameSpace + "_" + "from");
+////                list.add(nameSpace + "_" + "to");
+////                list.add(nameSpace + "_" + "from");
+//                loadDataSearchTableActionConfig.setFieldDescription(list);
                 actionConfigListSearch.add(loadDataSearchTableActionConfig);
                 searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
 		searchBtn.setEnable(false);
@@ -666,7 +676,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionResultsTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		projectionResultsTable.setParentComponentId(nameSpace + "_" + "projectionResultsLayout");
                 projectionResultsTable.setModuleName("serviceRegistry");
-
+                
 		GtnUIFrameworkPagedTableConfig projectionResultsTableConfig = new GtnUIFrameworkPagedTableConfig();
 		projectionResultsTableConfig.setEditable(false);
 		projectionResultsTableConfig.setFilterBar(true);
@@ -693,6 +703,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
                 projectionResultsTableConfig.setRegisteredWebContext("/GtnSearchWebService");
                 projectionResultsTableConfig.setModuleName("generalSearch");
 		projectionResultsTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
+//                List<String> additionalSearchCriteria = new ArrayList<>();
+//                additionalSearchCriteria.add(nameSpace + "_" + "from");
+//                additionalSearchCriteria.add();
 		
 		projectionResultsTable.setGtnPagedTableConfig(projectionResultsTableConfig);
 		componentList.add(projectionResultsTable);

@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
     GtnSearchwebServiceSqlService gtnSearchSqlService;
 
     private Map<String, SearchInterface> keyMap = null;
-    Map<Integer, String> queryMap = null;
+    Map<String, String> queryMap = null;
 
     public void init() {
         initializeLogger();
@@ -108,41 +109,38 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
         if (queryMap == null) {
             queryMap = new HashMap();
-            queryMap.put(0, " AND PM.projection_Name like ? ");
-            queryMap.put(1, " AND PM.projection_description like ? ");
+            queryMap.put("Commercial Forecasting_projectionName", " AND PM.projection_Name like ? ");
+            queryMap.put("Commercial Forecasting_projectionDescription", " AND PM.projection_description like ? ");
+            queryMap.put("Commercial Forecasting_company"," AND PM.COMPANY_MASTER_SID like ? ");
+            queryMap.put("Commercial Forecasting_businessUnit"," AND PM.BUSINESS_UNIT like ? ");
         }
+        int count = 0;
         String query = gtnSearchSqlService.getQuery("projectionSearch");
         List<GtnWebServiceSearchCriteria> webSearchCriteriaList = gtnUiFrameworkWebservicerequest
                 .getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList();
-        String fromDate = webSearchCriteriaList.get(0).getFilterValue1();
-        String toDate = webSearchCriteriaList.get(1).getFilterValue1();
-        LocalDate from = convertStringDateToLocalDate(fromDate);
-        LocalDate to = convertStringDateToLocalDate(toDate);
-        query=query+" AND PM.CREATED_DATE BETWEEN "+from+" AND " + to;
         StringBuilder stringQuery = new StringBuilder();
         stringQuery.append(query);
-        String projectionName = webSearchCriteriaList.get(2).getFilterValue1();
-        String projectionDescription = webSearchCriteriaList.get(3).getFilterValue1();
-        Object[] params = new Object[webSearchCriteriaList.size()];
-//        GtnFrameworkDataType[] dataType = new GtnFrameworkDataType[webSearchCriteriaList.size()];
-//        for (int i = 0; i < webSearchCriteriaList.size(); i++) {
-//            if (webSearchCriteriaList.get(i).getFilterValue1() != null) {
-////                params[i] = webSearchCriteriaList.get(i).getFilterValue1().replaceAll("\\*", "%");
-//                dataType[i] = GtnFrameworkDataType.STRING;
-//                
-//            }
-//        }
-        stringQuery.append(queryMap.get(0));
-        stringQuery.append(queryMap.get(2));
-        params[0] = projectionName.replaceAll("\\*", "%");
-        params[1] = projectionDescription.replaceAll("\\*", "%");
-        GtnFrameworkDataType[] dataType = {GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING};
+        List<Object> params = new ArrayList();
+          List<GtnFrameworkDataType> data=new ArrayList();
+        for (int i = 0; i < webSearchCriteriaList.size(); i++) {
+            if (webSearchCriteriaList.get(i).getFilterValue1() != null
+                    && !webSearchCriteriaList.get(i).getFilterValue1().equals("0")) {
+                params.add(webSearchCriteriaList.get(i).getFilterValue1().replaceAll("\\*", "%"));
+                data.add(GtnFrameworkDataType.STRING);
+                stringQuery.append(queryMap.get(webSearchCriteriaList.get(i).getFieldId()));
+                count++;
+            }
+        }
+        GtnFrameworkDataType[] dataType=new GtnFrameworkDataType[count];
+        Object[] param = new Object[count];
+        param = params.toArray(param);
+        dataType=data.toArray(dataType);
         String finalQuery = stringQuery.toString();
 
         GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
         queryExecutorBean.setSqlQuery(finalQuery);
         queryExecutorBean.setQueryType("SELECTWITHPARAMS");
-        queryExecutorBean.setParams(params);
+        queryExecutorBean.setParams(param);
         queryExecutorBean.setDataType(dataType);
         GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);

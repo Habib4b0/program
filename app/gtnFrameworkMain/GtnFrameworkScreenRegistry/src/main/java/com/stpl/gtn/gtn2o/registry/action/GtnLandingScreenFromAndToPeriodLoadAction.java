@@ -67,11 +67,11 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
         List<String> fromPeriodItemCodeList = new ArrayList<>(
                 response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
 
-        List<String> toPeriodItemValueList = new ArrayList<>();
-        toPeriodItemValueList.add(fromPeriodItemValueList.get(fromPeriodItemValueList.size() - 1));
+        List<String> toPeriodItemValueList = new ArrayList<>(fromPeriodItemValueList);
+        
 
-        List<String> toPeriodItemCodeList = new ArrayList<>();
-        toPeriodItemCodeList.add(fromPeriodItemCodeList.get(fromPeriodItemCodeList.size() - 1));
+        List<String> toPeriodItemCodeList = new ArrayList<>(fromPeriodItemCodeList);
+        
 
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
                 .addAllItemsToComboBox(fromPeriodItemValueList, fromPeriodItemCodeList);
@@ -81,7 +81,7 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
                 .loadV8ComboBoxComponentValue(fromPeriodItemCodeList.get(0));
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
-                .loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(0));
+                .loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(fromPeriodItemCodeList.size() - 1));
 
     }
 
