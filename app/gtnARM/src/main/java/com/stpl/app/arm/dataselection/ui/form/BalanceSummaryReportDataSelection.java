@@ -2279,7 +2279,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     customerHierarchyLookup = new HierarchyLookup();
                     productHierarchyLookup = new HierarchyLookup();
                     bsrDataSelectionDTO.setViewType(searchLookUp.getCaption());
-                    bsrDataSelectionDTO.setViewFlag(Boolean.TRUE);
+                    bsrDataSelectionDTO.setViewFlag(true);
                     view.setValue(searchLookUp.getViewDTO().getViewName());
                     bsrDataSelectionDTO.setViewName(searchLookUp.getViewDTO().getViewName());
                     HierarchyLookupDTO customerHierarchyDto = new HierarchyLookupDTO();

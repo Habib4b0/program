@@ -216,7 +216,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
     protected void setSelection() {
         selection.setRateDeductionLevel((Integer) deductionLevelDdlb.getValue());
         selection.setRateDeductionLevelName(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue()));
-        selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, true));
+        selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, Boolean.TRUE));
         StringBuilder deductionValues = new StringBuilder();
         if (!selection.getRateColumnList().isEmpty()) {
             List<String> listSize = new ArrayList(selection.getRateColumnList().get(0));
@@ -368,7 +368,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
             if (!StringUtils.isBlank(selection.getRateFrequency())) {
                 selection.setRateFrequencyName(helperId.getDescriptionByID(Integer.valueOf(selection.getRateFrequency())));
             }
-            selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, true));
+            selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, Boolean.TRUE));
             List<String> listSize = getListSize();
             StringBuilder deductionValues = new StringBuilder();
             if (!listSize.isEmpty()) {

@@ -148,7 +148,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             salesResults.setValueChangeAllowed(false);
             loadDetails();
             salesSelection.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
-            salesResults.generateButtonLogic(salesSelection, Boolean.TRUE);
+            salesResults.generateButtonLogic(salesSelection, true);
             if (ARMUtils.VIEW_SMALL.equals(salesSelection.getSessionDTO().getAction())) {
                 configureFieldsOnViewMode();
             }
@@ -224,7 +224,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
                         salesSelection.setDateType(description);
                         salesSelection.setProjectionMasterSid(dataselection.getProjectionId());
 
-                        salesResults.generateButtonLogic(salesSelection, Boolean.FALSE);
+                        salesResults.generateButtonLogic(salesSelection, false);
                         salesResults.setValueChangeAllowed(true);
                     }
                 } catch (Exception e) {

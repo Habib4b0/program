@@ -134,7 +134,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
         selection.setUserId(selection.getSessionDTO().getUserId());
         selection.setSessionId(selection.getSessionDTO().getSessionId());
         setConverter(rightTable, rightTable.getVisibleColumns());
-        getTableLogic().loadSetData(Boolean.FALSE);
+        getTableLogic().loadSetData(false);
     }
 
     @Override
@@ -203,7 +203,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -228,7 +228,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -244,7 +244,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override

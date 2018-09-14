@@ -121,7 +121,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 dto.setLevelNo((int) get[NumericConstants.EIGHT]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
                 Boolean total = isTotal ? false : (boolean) get[NumericConstants.NINE];
-                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() == 0) ? total : false);
+                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() == 0) ? total : Boolean.FALSE);
                 dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                 if (masterSids != null) {
                     dto.setMasterIds(masterSids);

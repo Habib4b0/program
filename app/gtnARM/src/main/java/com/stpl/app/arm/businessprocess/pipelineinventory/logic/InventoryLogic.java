@@ -303,7 +303,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
                 dto.setCustomerGroupName(String.valueOf(obj[1]));
                 dto.setIndicator(obj[NumericConstants.TWO] == null ? null : (Boolean) obj[NumericConstants.TWO]);
                 dto.setInclude(obj[NumericConstants.THREE] == null ? false : (boolean) obj[NumericConstants.THREE]);
-                dto.setSelectedFlag(true);
+                dto.setSelectedFlag(Boolean.TRUE);
                 customerGroupList.add(dto.getCustomerGroupName() + "~" + dto.getCustomerGroupSid());
                 custGroupList.add(dto);
 

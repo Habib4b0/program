@@ -46,8 +46,8 @@ public class AdjustmentDetail extends AbstractAdjustmentDetails {
          * For adjustment summary they didn't insist about this change So making
          * Amount filter field visible false
          */
-        amountFilter.setVisible(Boolean.FALSE);
-        amountFilterLabel.setVisible(Boolean.FALSE);
+        amountFilter.setVisible(false);
+        amountFilterLabel.setVisible(false);
     }
 
     /**
@@ -99,9 +99,9 @@ public class AdjustmentDetail extends AbstractAdjustmentDetails {
                 ? VariableConstants.getAdjustmentDemandSummaryReserveVariableDefaultSelection()
                 : VariableConstants.getAdjustmentDemandSummaryGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-            object.setChecked(Boolean.FALSE);
+            object.setChecked(false);
             if (list.contains(object.getMenuItem().getWindow())) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }

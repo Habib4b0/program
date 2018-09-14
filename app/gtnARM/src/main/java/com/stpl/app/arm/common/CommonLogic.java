@@ -277,7 +277,7 @@ public class CommonLogic {
         String comboboxName = queryName;
         comboBox.setValidationVisible(true);
         comboBox.setImmediate(true);
-        comboBox.setNullSelectionAllowed(Boolean.FALSE);
+        comboBox.setNullSelectionAllowed(false);
         comboBox.addItem(0);
         comboBox.setItemCaption(0, GlobalConstants.getSelectOne());
         if (helperListUtil.get(comboboxName) == null) {
@@ -384,7 +384,7 @@ public class CommonLogic {
             Object obj = list.get(0);
             return (obj == null ? null : (Integer) obj == 1);
         }
-        return false;
+        return Boolean.FALSE;
 
     }
 
@@ -393,7 +393,7 @@ public class CommonLogic {
             Object obj = list.get(0);
             return (obj == null ? null : ((Integer) obj) > 0);
         }
-        return false;
+        return Boolean.FALSE;
 
     }
 
@@ -402,7 +402,7 @@ public class CommonLogic {
             Object obj = list.get(0);
             return (obj == null ? null : (Integer) obj > 0);
         }
-        return false;
+        return Boolean.FALSE;
 
     }
 
@@ -652,7 +652,7 @@ public class CommonLogic {
         }
         deleteQuery = deleteQuery.replace("@PROJECTION_IDS", param);
         CommonImpl.getInstance().executeUpdate(deleteQuery);
-        return true;
+        return Boolean.TRUE;
     }
 
     public static void saveUploadedFile(int projectionId, List<NotesDTO> fileNames, String uploadedBy, int fileSize, String moduleName) {

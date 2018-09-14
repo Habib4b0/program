@@ -664,7 +664,7 @@ public class QueryUtils {
                 Integer count = (Integer) DAO.executeUpdate(sql.toString());
                 if (count > 0) {
                     LOGGER.debug("End of Item Update - Updated");
-                    val = Boolean.TRUE;
+                    val = true;
                 }
             } catch (Exception ex) {
                 LOGGER.error(CommonConstant.ERROR_QUERY, (ex.getMessage() + CommonConstant.BECOZ_OF_THE_QUERY + sql.toString()));

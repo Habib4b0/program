@@ -2320,7 +2320,7 @@ public class DataSelection extends AbstractDataSelection {
                     customerHierarchyLookup = new HierarchyLookup();
                     productHierarchyLookup = new HierarchyLookup();
                     dataSelectionDTO.setViewType(lookUP.getCaption());
-                    dataSelectionDTO.setViewFlag(Boolean.TRUE);
+                    dataSelectionDTO.setViewFlag(true);
                     if (lookUP.getCaption().equalsIgnoreCase(ARMUtils.PRIVATE_VIEW)) {
                         privateView.setValue(lookUP.getViewDTO().getViewName());
                         dataSelectionDTO.setViewName(lookUP.getViewDTO().getViewName());

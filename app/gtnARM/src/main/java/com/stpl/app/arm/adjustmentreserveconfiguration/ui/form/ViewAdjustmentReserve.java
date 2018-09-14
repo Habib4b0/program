@@ -61,15 +61,15 @@ public class ViewAdjustmentReserve extends AbstractReserve {
         deductionCategoryDdlbRes.setValue(selectedDto.getDeductionCategoryDdlbRes());
         deductionTypeDdlbRes.setValue(selectedDto.getDeductionTypeDdlbRes());
         deductionProgramDdlbRes.setValue(selectedDto.getDeductionProgramDdlbRes());
-        companyDdlbRes.setEnabled(Boolean.FALSE);
-        businessDdlbRes.setEnabled(Boolean.FALSE);
-        deductionCategoryDdlbRes.setEnabled(Boolean.FALSE);
-        deductionTypeDdlbRes.setEnabled(Boolean.FALSE);
-        deductionProgramDdlbRes.setEnabled(Boolean.FALSE);
+        companyDdlbRes.setEnabled(false);
+        businessDdlbRes.setEnabled(false);
+        deductionCategoryDdlbRes.setEnabled(false);
+        deductionTypeDdlbRes.setEnabled(false);
+        deductionProgramDdlbRes.setEnabled(false);
         selection.setCompanyNo(getCompanyNo(Integer.valueOf(companyDdlbRes.getValue().toString())));
         selection.setDivision(getCompanyNo(Integer.valueOf(businessDdlbRes.getValue().toString())));
         selection.setBusUnit(businessDdlbRes.getItemCaption(Integer.valueOf(businessDdlbRes.getValue().toString())));
-        resetLineBtnRes.setEnabled(Boolean.FALSE);
+        resetLineBtnRes.setEnabled(false);
         try {
             binder.commit();
         } catch (FieldGroup.CommitException ex) {
@@ -82,16 +82,16 @@ public class ViewAdjustmentReserve extends AbstractReserve {
     protected void loadSelection() {
         selection.setSession(sessionDTO);
         selection.setSearchBinderDTO(selectedDto);
-        resetBtnRes.setEnabled(Boolean.FALSE);
-        massValueRes.setEnabled(Boolean.FALSE);
-        massfieldDdlbRes.setEnabled(Boolean.FALSE);
-        populateBtn.setEnabled(Boolean.FALSE);
-        resetLineBtnRes.setEnabled(Boolean.FALSE);
-        addLineBtnRes.setEnabled(Boolean.FALSE);
-        removeLineBtnRes.setEnabled(Boolean.FALSE);
-        copyLineBtnRes.setEnabled(Boolean.FALSE);
-        saveBtnRes.setEnabled(Boolean.FALSE);
-        selection.setIsViewMode(Boolean.TRUE);
+        resetBtnRes.setEnabled(false);
+        massValueRes.setEnabled(false);
+        massfieldDdlbRes.setEnabled(false);
+        populateBtn.setEnabled(false);
+        resetLineBtnRes.setEnabled(false);
+        addLineBtnRes.setEnabled(false);
+        removeLineBtnRes.setEnabled(false);
+        copyLineBtnRes.setEnabled(false);
+        saveBtnRes.setEnabled(false);
+        selection.setIsViewMode(true);
 
         getMasterSids();
         try {
@@ -135,7 +135,7 @@ public class ViewAdjustmentReserve extends AbstractReserve {
 
     @Override
     protected boolean saveToMaster() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -147,7 +147,7 @@ public class ViewAdjustmentReserve extends AbstractReserve {
 
     @Override
     protected void loadTablefirstTime() {
-        detailsTableLogic.loadsetData(Boolean.TRUE, selection);
+        detailsTableLogic.loadsetData(true, selection);
     }
 
     @Override

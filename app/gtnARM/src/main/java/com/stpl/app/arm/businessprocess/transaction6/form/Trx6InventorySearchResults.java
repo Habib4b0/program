@@ -180,7 +180,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
             selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId()};
         getSummaryLogic().getInventoryResults(orderedArgs);
         setConverter(rightTable, rightTable.getVisibleColumns());
-        getTableLogic().loadSetData(Boolean.FALSE);
+        getTableLogic().loadSetData(false);
 
     }
 
@@ -224,7 +224,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     @Override
     public boolean getisFixedColumns() {
         TR6_INVENTORY_LOGGER.debug("Inside getisFixedColumns");
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -254,7 +254,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     @Override
     public boolean getisDeductionCustomer() {
         TR6_INVENTORY_LOGGER.debug("Inside getisDeductionCustomer");
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -262,8 +262,8 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
         try {
             tableLayout.addComponent(getExcelTable());
             getExcelTable().setContainerDataSource(getExcelContainer());
-            getExcelTable().setRefresh(Boolean.FALSE);
-            getExcelTable().setVisible(Boolean.FALSE);
+            getExcelTable().setRefresh(false);
+            getExcelTable().setVisible(false);
             setExcelVisibleColumn();
             List list = getExcelLogic().getExcelResultList(getSelection());
             List<Object> listData = new ArrayList<>();
@@ -272,9 +272,9 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
             listData.add(getIsDemandSreen());
             listData.add(getInterval());
             ExcelUtils.setExcelData(list, getExcelHierarchy(), getExcelExportVisibleColumn(), getExcelContainer(), discountColumnNeeded(), ARMConstants.getPipelineInventoryTrueUp(), listData);
-            ((CommonUI) getUI()).setExcelFlag(Boolean.TRUE);
+            ((CommonUI) getUI()).setExcelFlag(true);
             ExcelExport export = new ExcelExport(new ExtCustomTableHolder(getExcelTable()), getExcelFileName(), getExcelFileName(), getExcelFileName() + ".xls", false);
-            export.setUseTableFormatPropertyValue(Boolean.TRUE);
+            export.setUseTableFormatPropertyValue(true);
             export.export();
             getExcelContainer().removeAllItems();
             tableLayout.removeComponent(getExcelTable());
@@ -301,7 +301,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override

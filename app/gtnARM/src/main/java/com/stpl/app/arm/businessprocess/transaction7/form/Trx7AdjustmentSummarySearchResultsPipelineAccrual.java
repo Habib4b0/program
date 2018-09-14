@@ -60,7 +60,7 @@ public class Trx7AdjustmentSummarySearchResultsPipelineAccrual extends AbstractP
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -76,9 +76,9 @@ public class Trx7AdjustmentSummarySearchResultsPipelineAccrual extends AbstractP
     @Override
     public boolean getisDeductionCustomer() {
         if (ARMConstants.getDeductionCustomerContract().equals(getSelection().getSummaryviewType())) {
-            return Boolean.TRUE;
+            return true;
         } else {
-            return Boolean.FALSE;
+            return false;
         }
     }
 
@@ -113,7 +113,7 @@ public class Trx7AdjustmentSummarySearchResultsPipelineAccrual extends AbstractP
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override

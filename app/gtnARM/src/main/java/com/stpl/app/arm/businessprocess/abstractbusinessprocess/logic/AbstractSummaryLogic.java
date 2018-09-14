@@ -157,7 +157,7 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
         String selectedView = viewMap.get(viewType);
         boolean isContractView = false;
         if (viewType.equals(ARMConstants.getDeductionCustomerContract())) {
-            isContractView = Boolean.TRUE;
+            isContractView = true;
         }
         if (isContractView && deduction.equals(ARMConstants.getDeduction())) {
             selectedView = "Deduction";

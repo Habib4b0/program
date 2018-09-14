@@ -119,10 +119,10 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
         String month = Trx6InventoryLogic.getMonthName(vvalue);
         String str = month + " " + defaultValues.get(NumericConstants.TWO);
         priceddlb = CommonUtils.getPeriodsByFrequency("M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), str);
-        adjustedPrice.setNullSelectionAllowed(Boolean.FALSE);
-        inventoryDetailsDdlb.setNullSelectionAllowed(Boolean.FALSE);
-        baseLinePrice.setNullSelectionAllowed(Boolean.FALSE);
-        adjustedPrice.setNullSelectionAllowed(Boolean.FALSE);
+        adjustedPrice.setNullSelectionAllowed(false);
+        inventoryDetailsDdlb.setNullSelectionAllowed(false);
+        baseLinePrice.setNullSelectionAllowed(false);
+        adjustedPrice.setNullSelectionAllowed(false);
         adjustedPrice.addItems(priceddlb);
         List<String> reserveDatelist = getPeriodsByFrequency();
         inventoryDetailsDdlb.addItems(reserveDatelist);
@@ -335,10 +335,10 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
     }
 
     private void configureFieldsOnViewMode() {
-        inventoryDetailsDdlb.setEnabled(Boolean.FALSE);
-        adjustedPrice.setEnabled(Boolean.FALSE);
-        baseLinePrice.setEnabled(Boolean.FALSE);
-        reset.setEnabled(Boolean.FALSE);
+        inventoryDetailsDdlb.setEnabled(false);
+        adjustedPrice.setEnabled(false);
+        baseLinePrice.setEnabled(false);
+        reset.setEnabled(false);
     }
 
     @Override

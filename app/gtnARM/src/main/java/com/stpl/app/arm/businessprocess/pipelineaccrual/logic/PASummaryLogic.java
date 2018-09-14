@@ -212,8 +212,8 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionId()));
-        query = query.replace("@SELECTED_COLUMNS", getSelectVariable(selection.getSummaryvariables(), Boolean.FALSE));
-        query = query.replace("@TOTAL_COLUMN", getSelectVariable(selection.getSummaryvariables(), Boolean.TRUE));
+        query = query.replace("@SELECTED_COLUMNS", getSelectVariable(selection.getSummaryvariables(), false));
+        query = query.replace("@TOTAL_COLUMN", getSelectVariable(selection.getSummaryvariables(), true));
         return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
     }
 

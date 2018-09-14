@@ -274,9 +274,9 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
 
     private boolean isHeaderIsAvail(Date frmDate, Date toDate, List<String> selectedAdjustmentType) {
         if (!selectedAdjustmentType.isEmpty() && (toDate.equals(frmDate) || toDate.after(frmDate))) {
-            return Boolean.TRUE;
+            return true;
         }
-        return Boolean.FALSE;
+        return false;
     }
 
     private List<String> removeTotalAndCumulative(List<String> selectedVariables) {
@@ -444,7 +444,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
 
     @Override
     public Boolean generateButtonCheck(SelectionDTO selection) {
-        return true;
+        return Boolean.TRUE;
 
     }
 

@@ -734,7 +734,7 @@ public class CommonUtils {
         if (customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
             for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
                 if (object.isChecked()) {
-                    object.setChecked(Boolean.FALSE);
+                    object.setChecked(false);
                 }
             }
         }
@@ -748,7 +748,7 @@ public class CommonUtils {
     public static void checkAllMenuBarItem(CustomMenuBar.CustomMenuItem customMenuItem) {
         if (customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
             for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }

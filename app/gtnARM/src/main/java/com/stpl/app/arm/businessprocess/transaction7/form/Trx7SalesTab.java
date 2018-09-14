@@ -148,7 +148,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
             salesResults.setValueChangeAllowed(false);
             loadDetails();
             distributionSelection.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
-            salesResults.generateButtonLogic(distributionSelection, Boolean.TRUE);
+            salesResults.generateButtonLogic(distributionSelection, true);
             if (ARMUtils.VIEW_SMALL.equals(distributionSelection.getSessionDTO().getAction())) {
                 configureFieldsOnViewMode();
             }
@@ -226,7 +226,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
                         distributionSelection.setDateType(description);
                         distributionSelection.setProjectionMasterSid(dataselection.getProjectionId());
 
-                        salesResults.generateButtonLogic(distributionSelection, Boolean.FALSE);
+                        salesResults.generateButtonLogic(distributionSelection, false);
                         salesResults.setValueChangeAllowed(true);
                     }
                 } catch (Exception e) {
