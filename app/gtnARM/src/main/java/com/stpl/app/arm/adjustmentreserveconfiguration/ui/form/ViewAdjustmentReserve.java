@@ -10,6 +10,7 @@ import com.stpl.app.arm.adjustmentreserveconfiguration.saveaction.SaveMainToTemp
 import com.stpl.app.arm.adjustmentreserveconfiguration.ui.abstractreserveform.AbstractReserve;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.excecutors.ActionExecutor;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.ReserveSelection;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
@@ -50,8 +51,8 @@ public class ViewAdjustmentReserve extends AbstractReserve {
         deductionProgramDdlbRes.addItem(0);
         deductionProgramDdlbRes.setItemCaption(0, selectedDto.getDeductionProgram());
         deductionProgramDdlbRes.select(0);
-        selection.setCompanyNo(getCompanyNo(Integer.valueOf(companyDdlbRes.getValue().toString())));
-        selection.setDivision(getCompanyNo(Integer.valueOf(businessDdlbRes.getValue().toString())));
+        selection.setCompanyNo(getCompanyNo(ARMUtils.getIntegerValue(companyDdlbRes.getValue().toString())));
+        selection.setDivision(getCompanyNo(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
     }
 
     @Override
@@ -66,9 +67,9 @@ public class ViewAdjustmentReserve extends AbstractReserve {
         deductionCategoryDdlbRes.setEnabled(false);
         deductionTypeDdlbRes.setEnabled(false);
         deductionProgramDdlbRes.setEnabled(false);
-        selection.setCompanyNo(getCompanyNo(Integer.valueOf(companyDdlbRes.getValue().toString())));
-        selection.setDivision(getCompanyNo(Integer.valueOf(businessDdlbRes.getValue().toString())));
-        selection.setBusUnit(businessDdlbRes.getItemCaption(Integer.valueOf(businessDdlbRes.getValue().toString())));
+        selection.setCompanyNo(getCompanyNo(ARMUtils.getIntegerValue(companyDdlbRes.getValue().toString())));
+        selection.setDivision(getCompanyNo(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
+        selection.setBusUnit(businessDdlbRes.getItemCaption(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
         resetLineBtnRes.setEnabled(false);
         try {
             binder.commit();

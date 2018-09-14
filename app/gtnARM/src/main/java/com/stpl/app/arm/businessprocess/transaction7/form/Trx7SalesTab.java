@@ -133,7 +133,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
         variableVisibleColumns = VariableConstants.getVariableSalesVisibleColumn();
         CommonUtils.loadCustomMenu(customMenuItem, variableValues, variableVisibleColumns);
         List<Object> defaultValue = logic.getMonthYear();
-        Integer vvalue = Integer.valueOf(String.valueOf(defaultValue.get(1)));
+        Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValue.get(1)));
         String month = Trx7SalesLogic.getMonthName(vvalue);
         String str = month + " " + defaultValue.get(NumericConstants.TWO);
         priceddlb = CommonUtils.getPeriodsByFrequency("M", distributionSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
@@ -290,7 +290,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
             CommonUtils.loadComboBoxWithInteger(dateType, CommonConstant.ARM_DATE_TYPE, false);
             dateType.setValue(HelperListUtil.getInstance().getIdByDesc(CommonConstant.ARM_DATE_TYPE, distributionSelection.getDateType()));
             List<Object> defaultValueList = logic.getMonthYear();
-            Integer vvalue = Integer.valueOf(String.valueOf(defaultValueList.get(1)));
+            Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValueList.get(1)));
             String month = Trx7SalesLogic.getMonthName(vvalue);
             String str = month + " " + defaultValueList.get(NumericConstants.TWO);
             List<String> priceddlbList = CommonUtils.getPeriodsByFrequency("M", distributionSelection.getDataSelectionDTO().getFromPeriodMonth(), str);

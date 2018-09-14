@@ -224,7 +224,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
     }
 
     private boolean checkMandatoryFields() {
-        if (Integer.valueOf(frequencyDdlb.getValue().toString()) == 0 || Integer.valueOf(deductionlevelDdlb.getValue().toString()) == 0
+        if (ARMUtils.getIntegerValue(frequencyDdlb.getValue().toString()) == 0 || ARMUtils.getIntegerValue(deductionlevelDdlb.getValue().toString()) == 0
                 || selection.getSelectedAdjustmentTypeValues().isEmpty() || selection.getDeductionVariableIds().isEmpty()
                 || CommonConstant.SELECT_ONE.equals(selection.getStatus())) {
             return true;

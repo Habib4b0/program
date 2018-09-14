@@ -134,7 +134,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
         variableVisibleColumns = VariableConstants.getVariableSalesVisibleColumn();
         CommonUtils.loadCustomMenu(customMenuItem, variableValues, variableVisibleColumns);
         List<Object> defaultValue = salesLogic.getMonthYear();
-        Integer vvalue = Integer.valueOf(String.valueOf(defaultValue.get(1)));
+        Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValue.get(1)));
         String month = SalesLogic.getMonthName(vvalue);
         String str = month + " " + defaultValue.get(NumericConstants.TWO);
         priceddlb = CommonUtils.getPeriodsByFrequency("M", salesSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
@@ -286,7 +286,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             CommonUtils.loadComboBoxWithInteger(salesDateType, CommonConstant.ARM_DATE_TYPE, false);
             salesDateType.setValue(HelperListUtil.getInstance().getIdByDesc(CommonConstant.ARM_DATE_TYPE, salesSelection.getDateType()));
             List<Object> defaultValue = salesLogic.getMonthYear();
-            Integer vvalue = Integer.valueOf(String.valueOf(defaultValue.get(1)));
+            Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValue.get(1)));
             String month = SalesLogic.getMonthName(vvalue);
             String str = month + " " + defaultValue.get(NumericConstants.TWO);
             priceddlb = CommonUtils.getPeriodsByFrequency("M", salesSelection.getDataSelectionDTO().getFromPeriodMonth(), str);

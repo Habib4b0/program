@@ -80,25 +80,25 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             startMonth = 1 + (3 * (startMonth - 1));
             endMonth = selection.getToDate().charAt(1) - 48;
             endMonth = 1 + (3 * (endMonth - 1));
-            starttYear = Integer.valueOf(selection.getFromDate().substring(3, 7));
-            endtYear = Integer.valueOf(selection.getToDate().substring(3, 7));
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate().substring(3, 7));
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate().substring(3, 7));
         } else if (ARMUtils.frequencyVarables.SEMI_ANNUALLY.toString().equals(selection.getFrequency())) {
             startMonth = selection.getFromDate().charAt(1) - 48;
             startMonth = 1 + (6 * (startMonth - 1));
             endMonth = selection.getToDate().charAt(1) - 48;
             endMonth = 1 + (6 * (endMonth - 1));
-            starttYear = Integer.valueOf(selection.getFromDate().substring(3, 7));
-            endtYear = Integer.valueOf(selection.getToDate().substring(3, 7));
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate().substring(3, 7));
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate().substring(3, 7));
         } else if (ARMUtils.frequencyVarables.MONTHLY.toString().equals(selection.getFrequency())) {
             startMonth = ArrayUtils.indexOf(months, selection.getFromDate().substring(0, 3)) + 1;
             endMonth = ArrayUtils.indexOf(months, selection.getToDate().substring(0, 3)) + 1;
-            starttYear = Integer.valueOf(selection.getFromDate().substring(4, 8));
-            endtYear = Integer.valueOf(selection.getToDate().substring(4, 8));
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate().substring(4, 8));
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate().substring(4, 8));
         } else if (ARMUtils.frequencyVarables.ANNUALLY.toString().equals(selection.getFrequency())) {
             startMonth = 1;
             endMonth = 12;
-            starttYear = Integer.valueOf(selection.getFromDate());
-            endtYear = Integer.valueOf(selection.getToDate());
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate());
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate());
         }
         frmDate.setDate(1);
         toDate.setDate(28);
@@ -338,7 +338,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             AdjustmentDTO val = (AdjustmentDTO) bsrDto;
             int levelNo = val.getLevelNo();
             masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
-            masterSids.put(bsrSelection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
+            masterSids.put(bsrSelection.getSummaryLevel().get(levelNo), ARMUtils.getIntegerValue(val.getBranditemmasterSid()));
             bsrSelection.setMasterSids(masterSids);
             if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(bsrSelection.getSummaryLevel().get(++levelNo))) {
                 nextLevel = bsrSelection.getSummarydeductionLevelDes();
@@ -398,7 +398,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
                 && (criteria.getCurrentPage() == criteria.getLastPage()) && criteria.getSelectionDto().getSummarylevelFilterNo() == 0 && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) {
             totalFlag = true;
             int start = Integer.parseInt(inputs.get(inputs.size() - 2).toString());
-            int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString()) - 1;
+            int offset = ARMUtils.getIntegerValue(inputs.get(inputs.size() - 1).toString()) - 1;
             inputs.set(inputs.size() - 1, offset);
             dataFlag = offset >= start;
         }

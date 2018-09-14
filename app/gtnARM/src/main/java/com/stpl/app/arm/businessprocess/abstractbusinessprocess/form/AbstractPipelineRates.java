@@ -189,7 +189,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
 
     @UiHandler("rateFrequencyDdlb")
     public void rateFrequencyValueChange(Property.ValueChangeEvent event) {
-        if (rateFrequencyDdlb.getValue() != null && Integer.valueOf(rateFrequencyDdlb.getValue().toString()) != 0) {
+        if (rateFrequencyDdlb.getValue() != null && ARMUtils.getIntegerValue(rateFrequencyDdlb.getValue().toString()) != 0) {
             ratePeriodDdlb.removeAllItems();
             Calendar cal = Calendar.getInstance();
             String[] startArr = selection.getDataSelectionDTO().getFromPeriodMonth().split(" ");

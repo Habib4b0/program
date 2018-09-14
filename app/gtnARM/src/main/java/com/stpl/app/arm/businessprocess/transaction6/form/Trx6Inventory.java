@@ -115,7 +115,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
 
     private void configureDblbLoading() {
         List<Object> defaultValues = logic.getMonthYear();
-        Integer vvalue = Integer.valueOf(String.valueOf(defaultValues.get(1)));
+        Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValues.get(1)));
         String month = Trx6InventoryLogic.getMonthName(vvalue);
         String str = month + " " + defaultValues.get(NumericConstants.TWO);
         priceddlb = CommonUtils.getPeriodsByFrequency("M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), str);

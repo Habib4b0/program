@@ -532,8 +532,8 @@ public class QueryUtils {
                 Object[] object = (Object[]) results.get(j);
                 dto = new LevelDTO();
                 dto.setHierarchyNo(object[0].toString());
-                dto.setRelationshipLevelSid(Integer.valueOf(object[1].toString()));
-                dto.setLevelNo(Integer.valueOf(object[NumericConstants.TWO].toString()));
+                dto.setRelationshipLevelSid(ARMUtils.getIntegerValue(object[1].toString()));
+                dto.setLevelNo(ARMUtils.getIntegerValue(object[NumericConstants.TWO].toString()));
                 resultList.add(dto);
             }
             LOGGER.debug("resultList -- {}", resultList.size());
