@@ -39,7 +39,7 @@ public class CustomerGroupDTO implements Comparable<CustomerGroupDTO> {
     private List<SortByColumn> sortedColumns;
     private Set<Container.Filter> filters = new HashSet<>();
 
-    private Boolean selectedFlag = false;
+    private Boolean selectedFlag = Boolean.FALSE;
     private int projectionId = 0;
 
     private boolean editFlag = false;

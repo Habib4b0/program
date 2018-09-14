@@ -152,10 +152,10 @@ public class ReserveFieldFactory implements TableFieldFactory {
             map.put(ARMUtils.ITEM_ID, itemId);
             text.setData(map);
             if (selection.isIsViewMode() || !selection.isIsCurrent()) {
-                text.setEnabled(Boolean.FALSE);
+                text.setEnabled(false);
             } else {
                 text.addFocusListener(focus);
-                text.setEnabled(Boolean.TRUE);
+                text.setEnabled(true);
             }
             text.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
             return text;
@@ -169,14 +169,14 @@ public class ReserveFieldFactory implements TableFieldFactory {
 
     private void getCheckRecord(final ExtCustomCheckBox check, final Object propertyId, final Object itemId) {
         if (selection.isIsViewMode() || !selection.isIsCurrent()) {
-            check.setEnabled(Boolean.FALSE);
+            check.setEnabled(false);
         } else {
             check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                 @Override
                 public void click(ExtCustomCheckBox.ClickEvent event) {
                     Object value = check.getValue();
                     if (!check.getValue()) {
-                        resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), Boolean.TRUE, check.getValue());
+                        resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, check.getValue());
                     }
                     logic.updateTableValues(value, propertyId, itemId, selection);
                     List list = logic.headerCheckAll(selection);
@@ -188,11 +188,11 @@ public class ReserveFieldFactory implements TableFieldFactory {
 
     private ComboBox loadComboForAdjReserve(ComboBox combo, final Object propertyId, final Object itemId, Container container) {
         if (selection.isIsGTNDetails() && propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.toString())) {
-            CommonUtils.loadComboBoxWithIntegerForComboBox(combo, "ARM_GTN_ADJUSTMENT_LEVEL", Boolean.FALSE);
+            CommonUtils.loadComboBoxWithIntegerForComboBox(combo, "ARM_GTN_ADJUSTMENT_LEVEL", false);
         } else if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.toString())) {
-            CommonUtils.loadComboBoxWithIntegerForComboBox(combo, "ARM_RES_ADJUSTMENT_LEVEL", Boolean.FALSE);
+            CommonUtils.loadComboBoxWithIntegerForComboBox(combo, "ARM_RES_ADJUSTMENT_LEVEL", false);
         } else {
-            CommonUtils.loadComboBoxWithIntegerForComboBox(combo, ARMUtils.getDropDownMap().get(propertyId.toString()), Boolean.FALSE);
+            CommonUtils.loadComboBoxWithIntegerForComboBox(combo, ARMUtils.getDropDownMap().get(propertyId.toString()), false);
         }
 
         Map map = new HashMap<>();
@@ -202,10 +202,10 @@ public class ReserveFieldFactory implements TableFieldFactory {
         combo.setData(map);
 
         if (selection.isIsViewMode() || !selection.isIsCurrent()) {
-            combo.setEnabled(Boolean.FALSE);
+            combo.setEnabled(false);
         } else {
             combo.addFocusListener(focus);
-            combo.setEnabled(Boolean.TRUE);
+            combo.setEnabled(true);
         }
         combo.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
         return combo;

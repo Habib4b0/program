@@ -45,7 +45,7 @@ public class Trx7DemandSummaryFieldFactory extends Trx7SummaryFieldFactory {
             if (val != null && !"0".equals(val.toString().replace("$", StringUtils.EMPTY))) {
                 value = Double.valueOf(val.toString().trim().replaceAll("[^\\-\\d.]", StringUtils.EMPTY));
             }
-            dto.setCalculateFlag(true);
+            dto.setCalculateFlag(Boolean.TRUE);
         } catch (NumberFormatException e) {
             LOGGER.debug("User is supposed to give Double value {}", e.getMessage());
             return;

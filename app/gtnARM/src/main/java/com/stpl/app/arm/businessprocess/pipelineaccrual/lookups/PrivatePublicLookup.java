@@ -199,7 +199,7 @@ public class PrivatePublicLookup extends Window {
         try {
             if (resultsTablePrivate.size() != 0 && resultsTablePrivate.getValue() != null) {
                 ViewLookupDTO viewDTO = (ViewLookupDTO) resultsTablePrivate.getValue();
-                viewDTO.setCheckFlag(true);
+                viewDTO.setCheckFlag(Boolean.TRUE);
                 setSelectFlag(true);
                 setDtoValue(viewDTO);
                 this.close();

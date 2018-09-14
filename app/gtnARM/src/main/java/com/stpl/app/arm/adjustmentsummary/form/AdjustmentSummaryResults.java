@@ -137,7 +137,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
             summaryRightDoubleVisibleHeader.add(0, "");
             getExcelTable().setVisibleColumns(rightSingleVisibleColumn1.toArray());
             getExcelTable().setColumnHeaders(Arrays.copyOf((summaryRightSingleVisibleHeader).toArray(), (summaryRightSingleVisibleHeader).size(), String[].class));
-            getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
+            getExcelTable().setDoubleHeaderVisible(true);
             getExcelTable().setDoubleHeaderVisibleColumns(summaryRightDoubleVisibleColumn.toArray());
             getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(summaryRightDoubleVisibleHeader.toArray(), summaryRightDoubleVisibleHeader.size(), String[].class));
             getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.FIVE));
@@ -161,7 +161,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
             setRespectiveHierarchy(summaryviewType);
             configureLevelAndLevelFilter();
             loadSummarySelection();
-            getTableLogic().loadSetData(Boolean.FALSE);
+            getTableLogic().loadSetData(false);
         }
     }
 
@@ -220,7 +220,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -243,8 +243,8 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
     public void generateBtnLogic() {
         loadTableHeaderForGenerateSummary();
         loadSummarySelection();
-        isValueChange = Boolean.TRUE;
-        tableLogic.loadSetData(Boolean.FALSE);
+        isValueChange = true;
+        tableLogic.loadSetData(false);
 
     }
 
@@ -271,7 +271,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
         }
         rightTable = table.getRightFreezeAsTable();
         rightTable.setImmediate(true);
-        rightTable.setDoubleHeaderVisible(Boolean.TRUE);
+        rightTable.setDoubleHeaderVisible(true);
         rightTable.setContainerDataSource(resultBeanContainer);
         resultBeanContainer.setColumnProperties(properties);
         rightTable.setVisibleColumns(((List) rightTableList.get(0)).toArray());
@@ -312,7 +312,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
         LOGGERSUMMARYRESULT.debug("ADJ levelFilterValue masterSid {}", masterSid);
         if (isLevelFilterValueDdlbEnable()) {
             getSelection().setSummaryvalueSid(masterSid);
-            tableLogic.loadSetData(Boolean.FALSE);
+            tableLogic.loadSetData(false);
         }
     }
 
@@ -339,12 +339,12 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override

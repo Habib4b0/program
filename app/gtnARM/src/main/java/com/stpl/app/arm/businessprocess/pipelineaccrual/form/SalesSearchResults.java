@@ -132,7 +132,7 @@ public class SalesSearchResults extends AbstractSearchResults {
         rightTable.setTableFieldFactory(salesFieldFactory);
         selection.setUserId(selection.getSessionDTO().getUserId());
         selection.setSessionId(selection.getSessionDTO().getSessionId());
-        getTableLogic().loadSetData(Boolean.FALSE);
+        getTableLogic().loadSetData(false);
     }
 
     @Override
@@ -208,7 +208,7 @@ public class SalesSearchResults extends AbstractSearchResults {
     @Override
     public boolean getisFixedColumns() {
         LOGGER.debug("inside Sales getisFixedColumns");
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -238,7 +238,7 @@ public class SalesSearchResults extends AbstractSearchResults {
     @Override
     public boolean getisDeductionCustomer() {
         LOGGER.debug("inside Sales getisDeductionCustomer");
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -256,7 +256,7 @@ public class SalesSearchResults extends AbstractSearchResults {
     @Override
     protected boolean getIsDemandSreen() {
         LOGGER.debug("inside Sales getIsDemandSreen");
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override

@@ -147,7 +147,7 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -157,7 +157,7 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -227,19 +227,19 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
         for (Object visibleColumn : rrVisibleColumns) {
             if (!"group".equals(String.valueOf(visibleColumn)) && !"month".equals(String.valueOf(visibleColumn)) && !String.valueOf(visibleColumn).contains("methodology")) {
                 if (isPercentageColumnzeroDecimal(visibleColumn.toString())) {
-                    rrExcelTable.setConverter(visibleColumn, rrPerzeroDec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, rrPerzeroDec, false);
                 } else if (isPercentageColumn2Decimal(visibleColumn.toString())) {
-                    rrExcelTable.setConverter(visibleColumn, rate2Dec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, rate2Dec, false);
                 } else if (isNumericTwoDecimalFormat(visibleColumn.toString())) {
-                    rrExcelTable.setConverter(visibleColumn, rrNum2Dec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, rrNum2Dec, false);
                 } else if (isPercentageColumn3Decimal(visibleColumn.toString())) {
-                    rrExcelTable.setConverter(visibleColumn, rrRate3Dec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, rrRate3Dec, false);
                 } else if (isUnitColumn(visibleColumn.toString())) {
-                    rrExcelTable.setConverter(visibleColumn, zeroDec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, zeroDec, false);
                 } else if (isCurrencyZeroDecimalFormat(visibleColumn.toString())) {
-                    rrExcelTable.setConverter(visibleColumn, currencyzeroDec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, currencyzeroDec, false);
                 } else {
-                    rrExcelTable.setConverter(visibleColumn, rrCurrency2Dec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, rrCurrency2Dec, false);
                 }
             }
         }
