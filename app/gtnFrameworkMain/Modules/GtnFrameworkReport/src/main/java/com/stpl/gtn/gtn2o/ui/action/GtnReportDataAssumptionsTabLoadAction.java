@@ -87,7 +87,7 @@ public class GtnReportDataAssumptionsTabLoadAction
 		for (int i = 0; i < projectionMasterSidList.size(); i++) {
 
 			Grid<GtnWsRecordBean> dataAssumptionsCurrentTabComponent = getDataAssumptionsGridComponent(
-					GtnFrameworkReportStringConstants.getReportDataAssumptionsTabId().get(i), sourceComponentId);
+					GtnFrameworkReportStringConstants.getReportDataAssumptionsTabId(i), sourceComponentId);
 
 			List<GtnWsRecordBean> dsLoadResults = getDataAssumptionGridLoadValues(projectionMasterSidList.get(i),
 					reportDataSourceValue, "/gtnWsReportLoadDataAssumptionsMultipleTabs", sourceComponentId);
