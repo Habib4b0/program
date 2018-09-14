@@ -44,7 +44,7 @@ public class GtnReportDashboardFrequencyLoadAction
 				&& annualTotal.getComponent() != null) {
 			String selectedFrequency = vaadinFrequencyInReportingDashboardBaseComponent
 					.getStringCaptionFromV8ComboBox();
-			if (selectedFrequency.equals("Annual")) {
+			if (selectedFrequency.equals(GtnFrameworkReportStringConstants.ANNUAL)) {
 				annualTotal.setComponentEnable(false);
 				annualTotal.loadV8ComboBoxComponentValue("No");
 			} else {
@@ -57,7 +57,6 @@ public class GtnReportDashboardFrequencyLoadAction
 		}
 
 	}
-
 
 	private void loadFromTo(String selectedFrequency, String componentId) {
 
@@ -83,7 +82,7 @@ public class GtnReportDashboardFrequencyLoadAction
 			Set<String> dateString = new LinkedHashSet<>();
 			Set<Integer> periodSid = new LinkedHashSet<>();
 
-			for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusMonths(1)) {
+			for (LocalDate date = startDate; date != null && date.isBefore(endDate); date = date.plusMonths(1)) {
 				getFormat(periodSid, startSid, dateString, selectedFrequency, date);
 				startSid++;
 			}
@@ -120,21 +119,22 @@ public class GtnReportDashboardFrequencyLoadAction
 
 		switch (selectedFreq) {
 
-		case "Quarter":
+		case GtnFrameworkReportStringConstants.QUARTER:
 			previousQuaterLastMonth = (Character.getNumericValue(yearData[0].charAt(1)) - 1) * 3;
 			startMonth = Month.of(previousQuaterLastMonth + 1);
-			startDate = LocalDate.of(Integer.valueOf(yearData[1]), startMonth, 1);
+			startDate = LocalDate.of(Integer.parseInt(yearData[1]), startMonth, 1);
 			break;
-		case "Semi-Annual":
+		case GtnFrameworkReportStringConstants.SEMI_ANNUAL:
 			previousQuaterLastMonth = (Character.getNumericValue(yearData[0].charAt(1))) > 1 ? 6 : 1;
 			startMonth = Month.of(previousQuaterLastMonth);
-			startDate = LocalDate.of(Integer.valueOf(yearData[1]), startMonth, 1);
+			startDate = LocalDate.of(Integer.parseInt(yearData[1]), startMonth, 1);
 			break;
-		case "Annual":
-			startDate = LocalDate.of(Integer.valueOf(yearData[0]), 1, 1);
+		case GtnFrameworkReportStringConstants.ANNUAL:
+			startDate = LocalDate.of(Integer.parseInt(yearData[0]), 1, 1);
 			break;
-		case "Month":
-			startDate = LocalDate.of(Integer.valueOf(yearData[1]), getMonthIntegerFromYear(yearData[0]), 1);
+		case GtnFrameworkReportStringConstants.MONTH:
+			startDate = LocalDate.of(Integer.parseInt(yearData[1]),
+					Integer.parseInt(GtnFrameworkReportStringConstants.getMonthIntegerFromYear(yearData[0])), 1);
 			break;
 		default:
 			break;
@@ -142,82 +142,37 @@ public class GtnReportDashboardFrequencyLoadAction
 		return startDate;
 	}
 
-	private int getMonthIntegerFromYear(String month) {
-		int monthCount = 0;
-		switch (month.toUpperCase()) {
-		case "JAN":
-			monthCount = 1;
-			break;
-		case "FEB":
-			monthCount = 2;
-			break;
-		case "MAR":
-			monthCount = 3;
-			break;
-		case "APR":
-			monthCount = 4;
-			break;
-		case "MAY":
-			monthCount = 5;
-			break;
-		case "JUN":
-			monthCount = 6;
-			break;
-		case "JUL":
-			monthCount = 7;
-			break;
-		case "AUG":
-			monthCount = 8;
-			break;
-		case "SEP":
-			monthCount = 9;
-			break;
-		case "OCT":
-			monthCount = 10;
-			break;
-		case "NOV":
-			monthCount = 11;
-			break;
-		case "DEC":
-			monthCount = 12;
-			break;
-
-		}
-		return monthCount;
-	}
-
 	private String getFrequency(String startString) {
 		Pattern semiAnnualPattern = Pattern.compile("^([S])([1-2])*");
 		if (Pattern.matches("[A-Z&&[Q]]{1}..\\d*", startString)) {
-			return "Quarter";
+			return GtnFrameworkReportStringConstants.QUARTER;
 		} else if (semiAnnualPattern.matcher(startString).find()) {
-			return "Semi-Annual";
+			return GtnFrameworkReportStringConstants.SEMI_ANNUAL;
 		} else if (Pattern.matches("[0-9]{4}", startString)) {
-			return "Annual";
+			return GtnFrameworkReportStringConstants.ANNUAL;
 		}
-		return "Month";
+		return GtnFrameworkReportStringConstants.MONTH;
 	}
 
-	private Month getStartMonth(String[] start) {
+	public Month getStartMonth(String[] start) {
 		int previousQuaterLastMonth = (Character.getNumericValue(start[0].charAt(1)) - 1) * 3;
-		Month startMonth = Month.of(previousQuaterLastMonth + 1);
-		return startMonth;
+		return Month.of(previousQuaterLastMonth + 1);
 	}
 
 	private static void getFormat(Set<Integer> periodSid, int startSid, Set<String> dateString2,
 			String selectedFrequency, LocalDate date) {
 		String theDate = "";
 		switch (selectedFrequency) {
-		case "Quarter":
+		case GtnFrameworkReportStringConstants.QUARTER:
 			theDate = getQuaterly(date);
 			break;
-		case "Semi-Annual":
+		case GtnFrameworkReportStringConstants.SEMI_ANNUAL:
 			theDate = getSemiAnnual(date);
 			break;
-		case "Annual":
+		case GtnFrameworkReportStringConstants.ANNUAL:
 			theDate = getAnnual(date);
 			break;
-		case "Month":
+		case GtnFrameworkReportStringConstants.MONTH:
 			theDate = getMOnthly(date);
 			break;
 		default:

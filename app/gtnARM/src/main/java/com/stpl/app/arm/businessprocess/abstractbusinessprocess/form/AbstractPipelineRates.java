@@ -103,7 +103,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
     protected AbstractRatesSearchResults ratesResults;
     private final PipelienRatesCustomNotification notifier = new PipelienRatesCustomNotification();
     protected HelperListUtil helperId = HelperListUtil.getInstance();
-    private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
+    private static final org.slf4j.Logger RATES_LOGGER = org.slf4j.LoggerFactory.getLogger(AbstractPipelineRates.class);
     /**
      * priceddlb holds the list of periods
      */
@@ -152,7 +152,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
             }
 
         } catch (Exception e) {
-            logger.error("Error in setDefaultValue :", e);
+            RATES_LOGGER.error("Error in setDefaultValue :", e);
         }
     }
 
@@ -164,7 +164,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
                     notifier.setButtonName("reset");
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
                 } catch (Exception e) {
-                    logger.error("Error in reset :", e);
+                    RATES_LOGGER.error("Error in reset :", e);
                 }
             }
         });
@@ -172,7 +172,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
 
     @UiHandler("generate")
     public void generateButtonClick(Button.ClickEvent event) {
-        logger.debug("Inside generate ButtonClick Btn");
+        RATES_LOGGER.debug("Inside generate ButtonClick Btn");
         try {
             setSelection();
             if (selection.isRateGenerateAllowed()) {
@@ -183,7 +183,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
                 PipelienRatesCustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
             }
         } catch (Exception e) {
-            logger.error("Error in generate :", e);
+            RATES_LOGGER.error("Error in generate :", e);
         }
     }
 

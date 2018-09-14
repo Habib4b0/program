@@ -22,6 +22,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomCCPListDetails;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.service.transform.GtnWsReportRightTableResultTransformer;
 import com.stpl.gtn.gtn2o.ws.report.service.transform.GtnWsReportVaribleRowResultTransformer;
+import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 @Service
@@ -37,6 +38,9 @@ public class GtnWsReportRightTableLoadDataService {
 
 	@Autowired
 	private GtnWsReportVaribleRowResultTransformer rowTransformer;
+	
+	@Autowired
+	private GtnWsReportDataSelectionSqlGenerateServiceImpl generateButtonService;
 
 	public GtnWsReportRightTableLoadDataService() {
 		super();
@@ -101,6 +105,8 @@ public class GtnWsReportRightTableLoadDataService {
 		procedure = procedure.replaceAll(":comparisonBasis:", comparisonBasis);
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
 
+		generateButtonService.regenerateChangedCustomViewTreeAndData(gtnWsRequest);
+		
 		@SuppressWarnings("unchecked")
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(procedure,
 				new Object[] { frequency, annualTotals, currencyConversion,

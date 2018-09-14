@@ -51,7 +51,7 @@ public class GtnFrameworkGridToBarChartAction
 				: dataGrid.getColumnPageNumber() * dataGrid.getColumnsPerPage();
 		int end = start + dataGrid.getColumnsPerPage();
 		List<Map.Entry<String, String[]>> availableColumns = headerToIdMap.entrySet().stream().skip(start)
-				.limit(end - 1).collect(Collectors.toList());
+				.limit(end - 1L).collect(Collectors.toList());
 		LOGGER.info(availableColumns.toString());
 		TreeData<GtnWsRecordBean> treeData = dataGrid.getGrid().getTreeData();
 		List<GtnWsRecordBean> dataInGrid = new ArrayList<>();
@@ -63,7 +63,7 @@ public class GtnFrameworkGridToBarChartAction
 			List<GtnWsRecordBean> dataInGrid) {
 		Pattern p = Pattern.compile(".*[0-9].*");
 		BarChartConfig barConfig = new BarChartConfig();
-		List<String[]> header = availableColumns.stream().map(entry -> entry.getValue()).collect(Collectors.toList());
+		List<String[]> header = availableColumns.stream().map(Entry::getValue).collect(Collectors.toList());
 		barConfig.data().labelsAsStringArray(header);
 		barConfig.options().maintainAspectRatio(true).responsive(true);
 
@@ -132,6 +132,5 @@ public class GtnFrameworkGridToBarChartAction
 
 		return headerToIdMap;
 	}
-
 
 }

@@ -55,17 +55,17 @@ public class Trx7ExclusionDetailsLogic {
         LOGGER.debug("--Inside getCompanySid--{}", viewSid);
         List<ExclusionLookupDTO> finalList = Collections.emptyList();
         try {
-            String query = SQlUtil.getQuery("getExclusionViewDetails");
-            query = query.replace(CommonConstant.ARM_VIEW_MASTER_SID, viewSid);
-            List<Object[]> rawList = QueryUtils.executeSelect(query);
-            if (!rawList.isEmpty()) {
+            String tr7ExclQuery = SQlUtil.getQuery("getExclusionViewDetails");
+            tr7ExclQuery = tr7ExclQuery.replace(CommonConstant.ARM_VIEW_MASTER_SID, viewSid);
+            List<Object[]> tr7ExclRawList = QueryUtils.executeSelect(tr7ExclQuery);
+            if (!tr7ExclRawList.isEmpty()) {
                 finalList = new ArrayList();
-                for (int i = 0; i < rawList.size(); i++) {
-                    Object[] obj = rawList.get(i);
-                    ExclusionLookupDTO dto = new ExclusionLookupDTO();
-                    dto.setExcludedField(String.valueOf(obj[0]));
-                    dto.setValues(String.valueOf(obj[1]));
-                    finalList.add(dto);
+                for (int i = 0; i < tr7ExclRawList.size(); i++) {
+                    Object[] obj = tr7ExclRawList.get(i);
+                    ExclusionLookupDTO tr7Excldto = new ExclusionLookupDTO();
+                    tr7Excldto.setExcludedField(String.valueOf(obj[0]));
+                    tr7Excldto.setValues(String.valueOf(obj[1]));
+                    finalList.add(tr7Excldto);
                 }
             }
             LOGGER.debug("--Inside getCompanySid--{}", viewSid);
@@ -131,22 +131,22 @@ public class Trx7ExclusionDetailsLogic {
         LOGGER.debug("--Inside getIntialLoadValue--{}", rateDetailsSid);
         List<ExclusionLookupDTO> finalList = new ArrayList<>();
         try {
-            String query = SQlUtil.getQuery("getIntialLoadQuery");
-            query = query.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(rateDetailsSid));
-            List<Object[]> rawList = QueryUtils.executeSelect(query);
-            if (rawList == null || rawList.isEmpty()) {
+            String tr7ExclQuery = SQlUtil.getQuery("getIntialLoadQuery");
+            tr7ExclQuery = tr7ExclQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(rateDetailsSid));
+            List<Object[]> tr7ExclRawList = QueryUtils.executeSelect(tr7ExclQuery);
+            if (tr7ExclRawList == null || tr7ExclRawList.isEmpty()) {
                 return Collections.emptyList();
             }
-            if (!rawList.isEmpty()) {
-                for (int i = 0; i < rawList.size(); i++) {
-                    Object[] obj = rawList.get(i);
-                    ExclusionLookupDTO dtoValue = new ExclusionLookupDTO();
-                    dtoValue.setValues(String.valueOf(obj[0]));
-                    dtoValue.setExcludedField(String.valueOf(obj[1]));
-                    finalList.add(dtoValue);
+            if (!tr7ExclRawList.isEmpty()) {
+                for (int i = 0; i < tr7ExclRawList.size(); i++) {
+                    Object[] obj = tr7ExclRawList.get(i);
+                    ExclusionLookupDTO tr7ExclDtoValue = new ExclusionLookupDTO();
+                    tr7ExclDtoValue.setValues(String.valueOf(obj[0]));
+                    tr7ExclDtoValue.setExcludedField(String.valueOf(obj[1]));
+                    finalList.add(tr7ExclDtoValue);
                 }
             }
-            LOGGER.debug("--Exit getIntialLoadValue--{}", query);
+            LOGGER.debug("--Exit getIntialLoadValue--{}", tr7ExclQuery);
             return finalList;
         } catch (Exception e) {
             LOGGER.error("Error in getIntialLoadValue :", e);
@@ -212,27 +212,27 @@ public class Trx7ExclusionDetailsLogic {
         }
     }
 
-    public boolean isAddORUpdateView(ExclusionLookupDTO saveViewDTO) {
-        LOGGER.debug("--Inside isAdd_OR_UpdateView--{}", saveViewDTO.getViewMasterSid());
+    public boolean isAddORUpdateView(ExclusionLookupDTO tr7ExclSaveViewDTO) {
+        LOGGER.debug("--Inside isAdd_OR_UpdateView--{}", tr7ExclSaveViewDTO.getViewMasterSid());
         StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
         try {
             String viewSid;
-            if (saveViewDTO.isViewStatus()) {
+            if (tr7ExclSaveViewDTO.isViewStatus()) {
                 String updateQuery = SQlUtil.getQuery("updateMasterViewQuery");
-                updateQuery = updateQuery.replace(CommonConstant.ARM_VIEW_MASTER_SID, saveViewDTO.getViewMasterSid());
-                updateQuery = updateQuery.replace("@MODIFIED_BY", "" + saveViewDTO.getUserID());
+                updateQuery = updateQuery.replace(CommonConstant.ARM_VIEW_MASTER_SID, tr7ExclSaveViewDTO.getViewMasterSid());
+                updateQuery = updateQuery.replace("@MODIFIED_BY", "" + tr7ExclSaveViewDTO.getUserID());
                 updateQuery = updateQuery.replace("@MODIFIED_DATE", dateFormat.format(new Date()));
 
                 sbQuery.append(updateQuery);
-                viewSid = saveViewDTO.getViewMasterSid();
+                viewSid = tr7ExclSaveViewDTO.getViewMasterSid();
             } else {
-                viewSid = isSaveView(saveViewDTO);
+                viewSid = isSaveView(tr7ExclSaveViewDTO);
             }
             sbQuery.append(SQlUtil.getQuery("insertViewDetailsQuery"));
-            if (saveViewDTO.isScreenFlag()) {
+            if (tr7ExclSaveViewDTO.isScreenFlag()) {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
-                    for (CustomerGroupDTO dtoValue : saveViewDTO.getCustGrpList()) {
+                    for (CustomerGroupDTO dtoValue : tr7ExclSaveViewDTO.getCustGrpList()) {
                         sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid() + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA_CHAR).append(dtoValue.isInclude() == true ? 1 : 0).append(ARMUtils.COMMA_CHAR);
                         if (dtoValue.getIndicator() != null) {
                             if (dtoValue.getIndicator() == true) {
@@ -247,7 +247,7 @@ public class Trx7ExclusionDetailsLogic {
                     }
                 }
             } else if (!StringUtils.EMPTY.equals(viewSid)) {
-                for (ExclusionLookupDTO idValue : saveViewDTO.getFieldList()) {
+                for (ExclusionLookupDTO idValue : tr7ExclSaveViewDTO.getFieldList()) {
                     sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
                 }
             }
@@ -368,26 +368,26 @@ public class Trx7ExclusionDetailsLogic {
                         filterQuery.append(filterString).append(ARMUtils.SINGLE_QUOTES);
 
                     } else if (filter instanceof Between) {
-                        Between betweenFilter = (Between) filter;
+                        Between tr7ExclbetweenFilter = (Between) filter;
                         StringBuilder dateStartstr = new StringBuilder("AND ( * >='?')");
                         StringBuilder dateEndstr = new StringBuilder("AND ( * <='?')");
-                        if (!detailsColumn.get(betweenFilter.getPropertyId().toString()).isEmpty()) {
-                            Date startValue = (Date) betweenFilter.getStartValue();
-                            Date endValue = (Date) betweenFilter.getEndValue();
+                        if (!detailsColumn.get(tr7ExclbetweenFilter.getPropertyId().toString()).isEmpty()) {
+                            Date startValue = (Date) tr7ExclbetweenFilter.getStartValue();
+                            Date endValue = (Date) tr7ExclbetweenFilter.getEndValue();
                             StringBuilder initialStart = new StringBuilder("where ( ( * >= '?' )");
                             StringBuilder initialEnd = new StringBuilder("where ( ( * <= '?' )");
-                            if (!betweenFilter.getStartValue().toString().isEmpty()) {
+                            if (!tr7ExclbetweenFilter.getStartValue().toString().isEmpty()) {
                                 StringBuilder tempStart;
                                 if (query.length() == 0) {
                                     tempStart = new StringBuilder(initialStart);
                                 } else {
                                     tempStart = new StringBuilder(dateStartstr);
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(tr7ExclbetweenFilter.getPropertyId().toString()));
                                 tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
                                 query.append(tempStart);
                             }
-                            if (!betweenFilter.getEndValue().toString().isEmpty()) {
+                            if (!tr7ExclbetweenFilter.getEndValue().toString().isEmpty()) {
                                 StringBuilder tempEnd;
                                 if (query.length() == 0) {
                                     tempEnd = new StringBuilder(initialEnd);
@@ -395,7 +395,7 @@ public class Trx7ExclusionDetailsLogic {
                                     tempEnd = new StringBuilder(dateEndstr);
                                 }
 
-                                tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
+                                tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(tr7ExclbetweenFilter.getPropertyId().toString()));
                                 tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
                                 query.append(tempEnd);
                             }
@@ -404,17 +404,17 @@ public class Trx7ExclusionDetailsLogic {
                 }
             }
             StringBuilder finalQuery;
-            String order = StringUtils.EMPTY;
+            String tr7ExclOrder = StringUtils.EMPTY;
             if (!isCount) {
                 boolean sortOrder = false;
-                String columnName = null;
-                String orderByColumn = null;
+                String tr7ExclColumnName = null;
+                String tr7ExclOrderByColumn = null;
                 if (sortByColumns != null) {
                     for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
                         final SortByColumn sortByColumn = iterator.next();
 
-                        columnName = sortByColumn.getName();
-                        orderByColumn = detailsColumn.get(columnName);
+                        tr7ExclColumnName = sortByColumn.getName();
+                        tr7ExclOrderByColumn = detailsColumn.get(tr7ExclColumnName);
 
                         if (sortByColumn.getType() == SortByColumn.Type.ASC) {
                             sortOrder = false;
@@ -423,22 +423,22 @@ public class Trx7ExclusionDetailsLogic {
                         }
                     }
                 }
-                if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
-                    order = order + " ORDER BY AVM.VIEW_NAME ";
+                if (tr7ExclOrderByColumn == null || StringUtils.EMPTY.equals(tr7ExclOrderByColumn)) {
+                    tr7ExclOrder = tr7ExclOrder + " ORDER BY AVM.VIEW_NAME ";
                 } else {
-                    order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
+                    tr7ExclOrder = tr7ExclOrder + " ORDER BY " + tr7ExclOrderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
                 }
-                order = order + " " + "OFFSET ";
-                order = order + startIndex;
-                order = order + " ROWS FETCH NEXT " + endIndex;
-                order = order + " ROWS ONLY;";
+                tr7ExclOrder = tr7ExclOrder + " " + "OFFSET ";
+                tr7ExclOrder = tr7ExclOrder + startIndex;
+                tr7ExclOrder = tr7ExclOrder + " ROWS FETCH NEXT " + endIndex;
+                tr7ExclOrder = tr7ExclOrder + " ROWS ONLY;";
             }
             if (isCount) {
                 finalQuery = new StringBuilder();
                 finalQuery.append(query.toString()).append(filterQuery.toString());
             } else {
                 finalQuery = new StringBuilder();
-                finalQuery.append(query.toString()).append(filterQuery.toString()).append(order);
+                finalQuery.append(query.toString()).append(filterQuery.toString()).append(tr7ExclOrder);
             }
             LOGGER.debug("-- finalQuery--{}", finalQuery);
             if (isCount) {

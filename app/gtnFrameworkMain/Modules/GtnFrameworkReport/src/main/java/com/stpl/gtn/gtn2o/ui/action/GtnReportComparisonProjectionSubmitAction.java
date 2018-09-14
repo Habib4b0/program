@@ -111,9 +111,8 @@ public class GtnReportComparisonProjectionSubmitAction
 			inputForComparisonBasisList.add("Actuals");
 			inputForComparisonBasisList.add("Accruals");
 			inputForComparisonBasisList.add("Current Projection");
-			comparisonProjectionBeanList.stream().forEach((comparisonProjectionBeans) -> {
-				inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
-			});
+			comparisonProjectionBeanList.stream().forEach(comparisonProjectionBeans -> inputForComparisonBasisList
+					.add(comparisonProjectionBeans.getProjectionName()));
 			List idList = IntStream.range(1, initialCapacity).boxed().collect(Collectors.toList());
 			GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent("reportingDashboard_displaySelectionTabComparisonBasis",

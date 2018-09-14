@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.service.finderImpl.NmSalesProjectionImpl;
 import com.stpl.app.gtnforecasting.service.finderImpl.StChSalesProjectionImpl;
 import com.stpl.app.model.HelperTable;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,28 +26,6 @@ import java.util.Map;
  * @author lokeshwari
  */
 public class SalesProjectionDAOImpl implements SalesProjectionDAO {
-
-    /**
-     * Gets the pmpy contract holder list.
-     *
-     * @param tpName the tp name
-     * @return the pmpy contract holder list
-     * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
-     */
-    @Override
-    public List<String> getPMPYTradingPartnerList(String tpName) throws PortalException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /* (non-Javadoc)
-     * @see com.stpl.app.gtnforecasting.dao.SalesProjectionDAO#getPMPYContractHolder()
-     */
-    @Override
-    public List<String> getPMPYContractHolder(DynamicQuery dynamicQuery) throws PortalException {
-        return CompanyMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
-    }
 
     /**
      * Gets the sales projection.

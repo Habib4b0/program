@@ -51,7 +51,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     private String[] tableColumns;
     private Set previousValue = new HashSet<>();
     protected boolean isGenarate = Boolean.FALSE;
-    private final Logger loggerAbstractDemandSummaryResults = LoggerFactory.getLogger(getClass());
+    private static final Logger LOGGER_ABS_DEM_SUMM_RES = LoggerFactory.getLogger(AbstractDemandSummaryResults.class);
 
     public AbstractDemandSummaryResults(AbstractDemandSummaryLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
@@ -156,7 +156,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     @Override
     protected boolean calculateLogic() {
-        loggerAbstractDemandSummaryResults.debug("CalculateBtn value change listener starts");
+        LOGGER_ABS_DEM_SUMM_RES.debug("CalculateBtn value change listener starts");
         boolean calculateFlag = super.calculateLogic();
         if (!calculateFlag) {
             AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getGenerateMessage_Demand());
@@ -275,7 +275,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     @Override
     protected void customerProductValueChange() {
         setLevelFilterEnable(false);
-        loggerAbstractDemandSummaryResults.debug("customerProductView value change listener starts");
+        LOGGER_ABS_DEM_SUMM_RES.debug("customerProductView value change listener starts");
         String viewType = String.valueOf(customerProductView.getValue());
         if (!"null".equals(viewType) && getSelection().getSummarydeductionLevelDes() != null) {
             getSelection().setSummaryviewType(viewType);
@@ -340,30 +340,30 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     @Override
     public List getExcelExportVisibleColumn() {
-        loggerAbstractDemandSummaryResults.debug("inside getExcelExportVisibleColumn");
+        LOGGER_ABS_DEM_SUMM_RES.debug("inside getExcelExportVisibleColumn");
         return getSelection().getExcelVisibleColumn();
     }
 
     @Override
     public String getExcelFileName() {
-        loggerAbstractDemandSummaryResults.debug("inside getExcelFileName");
+        LOGGER_ABS_DEM_SUMM_RES.debug("inside getExcelFileName");
         return "Adjustment_Summary";
     }
 
     @Override
     public boolean getisFixedColumns() {
-        loggerAbstractDemandSummaryResults.debug("inside getisFixedColumns");
+        LOGGER_ABS_DEM_SUMM_RES.debug("inside getisFixedColumns");
         return Boolean.TRUE;
     }
 
     @Override
     public int discountColumnNeeded() {
-        loggerAbstractDemandSummaryResults.debug("inside discountColumnNeeded");
+        LOGGER_ABS_DEM_SUMM_RES.debug("inside discountColumnNeeded");
         return 1;
     }
 
     @Override
-    public Object[] getExcelHierarchy() {        
+    public Object[] getExcelHierarchy() {
         Map<Integer, String> hierarchy = getHierarchy();
         Object[] value = new Object[hierarchy.size()];
         for (int i = 0; i < hierarchy.size(); i++) {
@@ -379,13 +379,13 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     @Override
     public boolean getisDeductionCustomer() {
-        loggerAbstractDemandSummaryResults.debug("inside getisDeductionCustomer");
+        LOGGER_ABS_DEM_SUMM_RES.debug("inside getisDeductionCustomer");
         return Boolean.FALSE;
     }
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-        loggerAbstractDemandSummaryResults.debug(" loadLevelFilterValueDdlb levelValue {}", levelValue);
+        LOGGER_ABS_DEM_SUMM_RES.debug(" loadLevelFilterValueDdlb levelValue {}", levelValue);
         getLevelFilterValueDdlb().removeAllItems();
         getLevelFilterValueDdlb().addItem(0);
         getLevelFilterValueDdlb().setItemCaption(0, GlobalConstants.getSelectOne());
@@ -402,7 +402,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     @Override
     protected void valueDdlbValueChange(int masterSid) {
-        loggerAbstractDemandSummaryResults.debug("valueDdlbValueChange masterSid {}", masterSid);
+        LOGGER_ABS_DEM_SUMM_RES.debug("valueDdlbValueChange masterSid {}", masterSid);
         if (isLevelFilterValueDdlbEnable()) {
             getSelection().setSummaryvalueSid(masterSid);
             tableLogic.loadSetData(Boolean.FALSE);

@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ReturnReserveLogic extends AbstractBSummaryLogic {
 
-    public final Logger returnReserveLogger = LoggerFactory.getLogger(BSummaryDemandLogic.class);
+    public static final Logger RETURN_RESERVE_LOGGER = LoggerFactory.getLogger(BSummaryDemandLogic.class);
 
     public ReturnReserveLogic() {
         super();
@@ -44,43 +44,43 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
 
     @Override
     protected List getQueryTableinput(SessionDTO sessionDTO) {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getQueryTableinput");
         return Collections.emptyList();
     }
 
     @Override
     public List getTableInput(SessionDTO sessionDTO) {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getTableInput");
         return Collections.emptyList();
     }
 
     @Override
     protected String getCommonQueryName() {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getCommonQueryName");
         return "BSummaryCommonQuery-ReturnReserve";
     }
 
     @Override
     protected String getLoadDataQueryName() {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getLoadDataQueryName");
         return "BSummaryLoadData-ReturnReserve";
     }
 
     @Override
     protected String getCountQueryName() {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getCountQueryName");
         return "BSummaryCount-ReturnReserve";
     }
 
     @Override
     protected String getTotalQueryName() {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getTotalQueryName");
         return "BSummaryLoadTotalData-ReturnReserve";
     }
 
     @Override
     protected String getExcelQueryName() {
-        returnReserveLogger.debug("Inside ReturnReserve getQueryTableinput");
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getExcelQueryName");
         return "getBSummaryExcelQuery-ReturnReserve";
     }
 
