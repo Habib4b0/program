@@ -49,43 +49,39 @@
                         AND PM.forecasting_Type =?
 		]]>
     </entry>
-    <entry key="businessUnits">
+    <entry key="BusinessUnitGLcomp">
        
     		<![CDATA[
-                    SELECT
-                            CM.COMPANY_MASTER_SID,
-                            CM.COMPANY_ID,
-                            CM.COMPANY_NO,
-                            CM.COMPANY_NAME
-                    FROM
-                            COMPANY_MASTER CM
-                    JOIN HELPER_TABLE HT ON
-                            HT.HELPER_TABLE_SID = CM.COMPANY_TYPE
-                    WHERE
-                            HT.LIST_NAME LIKE 'COMPANY_TYPE'
-                            AND HT.DESCRIPTION LIKE 'BUSINESS UNIT'
-                            AND CM.INBOUND_STATUS <> 'D'
-                    ORDER BY COMPANY_NO;
+			    select
+					cm.company_master_sid,
+					cm.company_no + ' - ' + cm.company_name as company_name
+				from
+					company_master cm join helper_table ht on
+					ht.helper_table_sid = cm.company_type
+				where
+					ht.list_name like 'COMPANY_TYPE'
+					and ht.description like 'BUSINESS UNIT'
+					and cm.inbound_status <> 'D'
+				order by
+					company_no
 		]]>
       
     </entry>
-    <entry key="companies">
+    <entry key="CompanyMasterGLcomp">
       
             <![CDATA[
-                SELECT
-                        CM.COMPANY_MASTER_SID,
-                        CM.COMPANY_ID,
-                        CM.COMPANY_NO,
-                        CM.COMPANY_NAME
-                FROM
-                        COMPANY_MASTER CM
-                JOIN HELPER_TABLE HT ON
-                        HT.HELPER_TABLE_SID = CM.COMPANY_TYPE
-                WHERE
-                        HT.LIST_NAME LIKE 'COMPANY_TYPE'
-                        AND HT.DESCRIPTION LIKE 'GLCOMP'
-                        AND CM.INBOUND_STATUS <> 'D'
-                ORDER BY COMPANY_NO;
+				select
+					cm.company_master_sid,
+					cm.company_no + ' - ' + cm.company_name as company_name
+				from
+					company_master cm join helper_table ht on
+					ht.helper_table_sid = cm.company_type
+				where
+					ht.list_name like 'COMPANY_TYPE'
+					and ht.description like 'GLCOMP'
+					and cm.inbound_status <> 'D'
+				order by
+					company_no
             ]]>
     
     </entry>
@@ -106,29 +102,90 @@
     <entry key="projectionSearch">
 
             <![CDATA[            
-                    SELECT  PM.PROJECTION_NAME projectionName, PM.PROJECTION_DESCRIPTION description , 
-                    HDC.HIERARCHY_NAME customerHierarchy, PM.CUSTOMER_HIERARCHY_LEVEL customerHierarchyLevel,  
-                    HDP.HIERARCHY_NAME productHierarchy, PM.PRODUCT_HIERARCHY_LEVEL productHierarchyLevel, PM.CREATED_BY createdBy,FORMAT(CONVERT(date,PM.CREATED_DATE),'dd/MM/yyyy') createdDate, FORMAT(CONVERT(date,PM.MODIFIED_DATE),'dd/MM/yyyy') modifiedBy,
-                    CM.COMPANY_NAME company,CM1.COMPANY_NAME AS  BUSINESSUNITNAME,
-                    PM.CUSTOM_VIEW_MASTER_SID viewSid , PM.PROJECTION_MASTER_SID projectionId,HDC.HIERARCHY_DEFINITION_SID customerHierSid,HDP.HIERARCHY_DEFINITION_SID prodHierSid,
-                    PM.COMPANY_MASTER_SID companySid, 
-                    PM.COMPANY_GROUP_SID customerGrpSid,  CG.COMPANY_GROUP_NAME customerGroup, PM.ITEM_GROUP_SID prodGrpSid, IG.ITEM_GROUP_NAME productGroup, PM.CUSTOMER_HIERARCHY_INNER_LEVEL customerHierarchyInnerLevel,
-                    PM.PRODUCT_HIERARCHY_INNER_LEVEL productHierarchyInnerLevel, PM.CUST_RELATIONSHIP_BUILDER_SID custRelationshipBuilderSid, PM.PROD_RELATIONSHIP_BUILDER_SID prodRelationshipBuilderSid,PM.DISCOUNT_TYPE discountType,
-                    PM.BUSINESS_UNIT AS BUSINESSUNIT,PM.from_Date FromDate,PM.TO_DATE ToPeriod,PROJECTION_CUST_VERSION,PROJECTION_PROD_VERSION,	PM.CUSTOMER_HIER_VERSION_NO,PM.PRODUCT_HIER_VERSION_NO,PM.FORECAST_ELIGIBLE_DATE,PROJECTION_DED_VERSION
-                    FROM PROJECTION_MASTER PM
-                    JOIN HIERARCHY_DEFINITION HDC
-                    ON HDC.HIERARCHY_DEFINITION_SID = PM.CUSTOMER_HIERARCHY_SID 
-                    JOIN HIERARCHY_DEFINITION HDP
-                    ON HDP.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID 
-                    JOIN COMPANY_MASTER CM 
-                    on PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID   
-                    JOIN COMPANY_MASTER CM1
-                    on PM.BUSINESS_UNIT = CM1.COMPANY_MASTER_SID 
-                    LEFT JOIN COMPANY_GROUP CG
-                    ON CG.COMPANY_GROUP_SID  = PM.COMPANY_GROUP_SID 
-                    LEFT JOIN ITEM_GROUP IG 
-                    ON IG.ITEM_GROUP_SID = PM.ITEM_GROUP_SID
-                    where PM.projection_Name like ? and PM.projection_description like ?
+                   SELECT
+	PM.PROJECTION_NAME projectionName,
+	PM.PROJECTION_DESCRIPTION description,
+	HDC.HIERARCHY_NAME customerHierarchy,
+	PM.CUSTOMER_HIERARCHY_LEVEL customerHierarchyLevel,
+	HDP.HIERARCHY_NAME productHierarchy,
+	PM.PRODUCT_HIERARCHY_LEVEL productHierarchyLevel,
+	PM.CREATED_BY createdBy,
+	FORMAT(
+		CONVERT(
+			date,
+			PM.CREATED_DATE
+		),
+		'dd/MM/yyyy'
+	) createdDate,
+	FORMAT(
+		CONVERT(
+			date,
+			PM.MODIFIED_DATE
+		),
+		'dd/MM/yyyy'
+	) modifiedDate,
+	CM.COMPANY_NAME company,
+	CM1.COMPANY_NAME AS BUSINESSUNITNAME,
+	PM.CUSTOM_VIEW_MASTER_SID viewSid,
+	PM.PROJECTION_MASTER_SID projectionId,
+	HDC.HIERARCHY_DEFINITION_SID customerHierSid,
+	HDP.HIERARCHY_DEFINITION_SID prodHierSid,
+	PM.COMPANY_MASTER_SID companySid,
+	PM.COMPANY_GROUP_SID customerGrpSid,
+	CG.COMPANY_GROUP_NAME customerGroup,
+	PM.ITEM_GROUP_SID prodGrpSid,
+	IG.ITEM_GROUP_NAME productGroup,
+	PM.CUSTOMER_HIERARCHY_INNER_LEVEL customerHierarchyInnerLevel,
+	PM.PRODUCT_HIERARCHY_INNER_LEVEL productHierarchyInnerLevel,
+	PM.CUST_RELATIONSHIP_BUILDER_SID custRelationshipBuilderSid,
+	PM.PROD_RELATIONSHIP_BUILDER_SID prodRelationshipBuilderSid,
+	PM.DISCOUNT_TYPE discountType,
+	PM.BUSINESS_UNIT AS BUSINESSUNIT,
+	FORMAT(
+		CONVERT(
+			date,
+			PM.from_Date
+		),
+		'dd/MM/yyyy'
+	)
+	 FromDate,
+	 FORMAT(
+		CONVERT(
+			date,
+			PM.TO_DATE
+		),
+		'dd/MM/yyyy'
+	)
+	 ToPeriod,
+	PROJECTION_CUST_VERSION,
+	PROJECTION_PROD_VERSION,
+	PM.CUSTOMER_HIER_VERSION_NO,
+	PM.PRODUCT_HIER_VERSION_NO,
+	FORMAT(
+		CONVERT(
+			date,
+			PM.FORECAST_ELIGIBLE_DATE
+		),
+		'dd/MM/yyyy'
+	)FORECAST_ELIGIBLE_DATE1,
+	PROJECTION_DED_VERSION
+FROM
+	PROJECTION_MASTER PM
+JOIN HIERARCHY_DEFINITION HDC ON
+	HDC.HIERARCHY_DEFINITION_SID = PM.CUSTOMER_HIERARCHY_SID
+JOIN HIERARCHY_DEFINITION HDP ON
+	HDP.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID
+JOIN COMPANY_MASTER CM on
+	PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+JOIN COMPANY_MASTER CM1 on
+	PM.BUSINESS_UNIT = CM1.COMPANY_MASTER_SID
+LEFT JOIN COMPANY_GROUP CG ON
+	CG.COMPANY_GROUP_SID = PM.COMPANY_GROUP_SID
+LEFT JOIN ITEM_GROUP IG ON
+	IG.ITEM_GROUP_SID = PM.ITEM_GROUP_SID
+where
+	PM.projection_Name like ?
+	and PM.projection_description like ?
             ]]>
 
     </entry>

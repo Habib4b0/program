@@ -413,8 +413,18 @@ public class ForecastUI extends UI {
         sessionDto.setUserId(inputBean.getUserId());
         sessionDto.setSessionId(inputBean.getSessionId());
         DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
+        inputBean.setUserId(userId);
         DataSelectionForm form = new DataSelectionForm(sessionDto, dataSelectionDto, inputBean);
         form.editButtonLogicNewArch(inputBean);
+    }
+    
+    public void getForecastingToView(GtnFrameworkForecastInputBean inputBean, String userId, String sessionId){
+        sessionDto.setUserId(inputBean.getUserId());
+        sessionDto.setSessionId(inputBean.getSessionId());
+        DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
+        inputBean.setUserId(userId);
+        DataSelectionForm form = new DataSelectionForm(sessionDto, dataSelectionDto, inputBean);
+        form.viewButtonLogicNewArch(inputBean);
     }
 
 }

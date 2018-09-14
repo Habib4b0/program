@@ -87,10 +87,10 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         String key=gtnUiFrameworkWebservicerequest.getGtnWsSearchRequest().getSearchQueryName();
         String query = gtnSearchSqlService.getQuery(key);
         if (keyMap == null) {
-            keyMap = new HashMap();
+            keyMap = new HashMap<>();
             keyMap.put("privatePublic", new PrivatePublic());
-            keyMap.put("businessUnits", new ComboBoxSearch());
-            keyMap.put("companies", new ComboBoxSearch());
+            keyMap.put("BusinessUnitGLcomp", new ComboBoxSearch());
+            keyMap.put("CompanyMasterGLcomp", new ComboBoxSearch());
             keyMap.put("dataSelectionDeduction", new ComboBoxSearch());
         }
         SearchInterface searchInterface = keyMap.get(key);

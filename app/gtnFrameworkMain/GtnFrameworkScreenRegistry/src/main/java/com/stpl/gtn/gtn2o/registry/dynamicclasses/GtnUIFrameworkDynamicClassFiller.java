@@ -1,11 +1,11 @@
 package com.stpl.gtn.gtn2o.registry.dynamicclasses;
 
-import com.stpl.gtn.gtn2o.registry.action.GtnCallForecastingAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnForecastingProductAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDateValueChangeAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastEditAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
@@ -19,8 +19,6 @@ import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPagedTree
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPagedTreeTableGetCountAction;
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkReturnCheckAllAction;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastEligibleDateLoadAction;
-import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastLevelLoadAction;
-import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnRelationshipVersionLoadAction;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 
@@ -50,10 +48,6 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReturnCheckAllAction.class.getName(),
 				new GtnFrameworkReturnCheckAllAction());
 
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnRelationshipVersionLoadAction.class.getName(),
-				new GtnRelationshipVersionLoadAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnForecastLevelLoadAction.class.getName(),
-				new GtnForecastLevelLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnForecastEligibleDateLoadAction.class.getName(),
 				new GtnForecastEligibleDateLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnLandingScreenFromAndToPeriodLoadAction.class.getName(),
@@ -70,12 +64,12 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 				new GtnForecastingProductAvailableTableLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastDateValueChangeAction.class.getName(),
 				new GtnForecastEligibleDateLoadAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnCallForecastingAction.class.getName(),
-				new GtnCallForecastingAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName(),
 				new GtnFrameworkNewToOldArchitectureGenerateAction());
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnModeOptionValueChangeAction.class.getName(),
-                                new GtnModeOptionValueChangeAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnModeOptionValueChangeAction.class.getName(),
+				new GtnModeOptionValueChangeAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastEditAction.class.getName(),
+				new GtnFrameworkForecastEditAction());
 	}
 
 }

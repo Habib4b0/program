@@ -39,6 +39,21 @@ public class GtnFrameworkForecastInputBean {
 	private String userId;
 	private String sessionId;
 	private String uniqueId;
+	private String createdBy;
+	private Date createdDate;
+	private Date modifiedDate;
+	private String modifiedBy;
+	private int customViewMasterSid;
+	private int projectionMasterSid;
+	private int customerGroupSid;
+	private int productGroupSid;
+	private int discountType;
+	private Date fromDate;
+	private Date toDate;
+	private int deductionRelationVersion;
+	private String companyName;
+	private String businessUnitName;
+	private String deductionLevel;
 
 	public String getProjectionName() {
 		return projectionName;
@@ -244,21 +259,21 @@ public class GtnFrameworkForecastInputBean {
 		return selectedCustomerList;
 	}
 
-    public String getFromPeriod() {
-        return fromPeriod;
-    }
+	public String getFromPeriod() {
+		return fromPeriod;
+	}
 
-    public void setFromPeriod(String fromPeriod) {
-        this.fromPeriod = fromPeriod;
-    }
+	public void setFromPeriod(String fromPeriod) {
+		this.fromPeriod = fromPeriod;
+	}
 
-    public String getToPeriod() {
-        return toPeriod;
-    }
+	public String getToPeriod() {
+		return toPeriod;
+	}
 
-    public void setToPeriod(String toPeriod) {
-        this.toPeriod = toPeriod;
-    }
+	public void setToPeriod(String toPeriod) {
+		this.toPeriod = toPeriod;
+	}
 
 	public void setSelectedCustomerList(List<GtnWsRecordBean> selectedCustomerList) {
 		this.selectedCustomerList = selectedCustomerList;
@@ -294,6 +309,126 @@ public class GtnFrameworkForecastInputBean {
 
 	public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public int getCustomViewMasterSid() {
+		return customViewMasterSid;
+	}
+
+	public void setCustomViewMasterSid(int customViewMasterSid) {
+		this.customViewMasterSid = customViewMasterSid;
+	}
+
+	public int getProjectionMasterSid() {
+		return projectionMasterSid;
+	}
+
+	public void setProjectionMasterSid(int projectionMasterSid) {
+		this.projectionMasterSid = projectionMasterSid;
+	}
+
+	public int getCustomerGroupSid() {
+		return customerGroupSid;
+	}
+
+	public void setCustomerGroupSid(int customerGroupSid) {
+		this.customerGroupSid = customerGroupSid;
+	}
+
+	public int getProductGroupSid() {
+		return productGroupSid;
+	}
+
+	public void setProductGroupSid(int productGroupSid) {
+		this.productGroupSid = productGroupSid;
+	}
+
+	public int getDiscountType() {
+		return discountType;
+	}
+
+	public void setDiscountType(int discountType) {
+		this.discountType = discountType;
+	}
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}
+
+	public int getDeductionRelationVersion() {
+		return deductionRelationVersion;
+	}
+
+	public void setDeductionRelationVersion(int deductionRelationVersion) {
+		this.deductionRelationVersion = deductionRelationVersion;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getBusinessUnitName() {
+		return businessUnitName;
+	}
+
+	public void setBusinessUnitName(String businessUnitName) {
+		this.businessUnitName = businessUnitName;
+	}
+
+	public String getDeductionLevel() {
+		return deductionLevel;
+	}
+
+	public void setDeductionLevel(String deductionLevel) {
+		this.deductionLevel = deductionLevel;
 	}
 
 }

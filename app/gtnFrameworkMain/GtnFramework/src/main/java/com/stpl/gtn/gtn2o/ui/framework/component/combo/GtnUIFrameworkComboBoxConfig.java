@@ -35,6 +35,7 @@ public class GtnUIFrameworkComboBoxConfig {
 	private boolean isFocus = false;
 	private String actualWsUrl;
 	private String actualWsContext;
+	private String actualWsModuleName;
 
 	public boolean isFocus() {
 		return isFocus;
@@ -248,6 +249,14 @@ public class GtnUIFrameworkComboBoxConfig {
 
 	public void setActualWsContext(String actualWsContext) {
 		this.actualWsContext = actualWsContext;
+	}
+
+	public String getActualWsModuleName() {
+		return actualWsModuleName;
+	}
+
+	public void setActualWsModuleName(String actualWsModuleName) {
+		this.actualWsModuleName = actualWsModuleName;
 	}
 
 }

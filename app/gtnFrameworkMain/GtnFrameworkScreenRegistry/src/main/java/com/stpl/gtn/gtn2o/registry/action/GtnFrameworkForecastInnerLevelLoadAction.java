@@ -18,6 +18,7 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastInnerLevelLoadAction.class);
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -29,7 +30,7 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getComponentData().getCustomData();
 
 		List<String> hierarchyCaptionList = new ArrayList<>();
-		List hierarchyIdList = new ArrayList<>();
+		List<Integer> hierarchyIdList = new ArrayList<>();
 
 		Map<Integer, String> hierarchyLevelMap = (Map<Integer, String>) hierarchyBean
 				.getPropertyValueByIndex(hierarchyBean.getProperties().size() - 2);
@@ -40,12 +41,12 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 		}
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
-				.addAllItemsToComboBox(hierarchyCaptionList, hierarchyIdList);
+				.loadItemsToCombobox(hierarchyCaptionList, hierarchyIdList);
 
 	}
 
 	private void formHierarchyInnerLevelValues(int i, String levelValue, List<String> hierarchyCaptionList,
-			List hierarchyIdList) {
+			List<Integer> hierarchyIdList) {
 		int levelNo = i+1;
 		String levelName = "Level " + levelNo + " - " + levelValue;
 		hierarchyCaptionList.add(levelName);

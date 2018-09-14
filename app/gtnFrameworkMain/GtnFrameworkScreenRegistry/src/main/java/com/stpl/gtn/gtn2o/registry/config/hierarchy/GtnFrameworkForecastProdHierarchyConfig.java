@@ -18,7 +18,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
-import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkForecastProdHierarchyConfig {
 
@@ -93,6 +92,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		relationship.setComponentName("Relationship");
 		relationship.setAddToParent(Boolean.TRUE);
 		relationship.setParentComponentId(nameSpace + "_" + "prodrelationshipLayout");
+		relationship.setVaadinComponentPlaceHolder("-Select One-");
 
 		GtnUIFrameworkComboBoxConfig relationshipConfig = new GtnUIFrameworkComboBoxConfig();
 		relationship.setGtnComboboxConfig(relationshipConfig);
@@ -141,6 +141,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		forecastLevel.setComponentName("Forecast Level");
 		forecastLevel.setAddToParent(Boolean.TRUE);
 		forecastLevel.setParentComponentId(nameSpace + "_" + "prodforecastLevelLayout");
+		forecastLevel.setVaadinComponentPlaceHolder("-Select One-");
 
 		GtnUIFrameworkComboBoxConfig forecastLevelConfig = new GtnUIFrameworkComboBoxConfig();
 		forecastLevel.setGtnComboboxConfig(forecastLevelConfig);
@@ -200,6 +201,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		level.setComponentName("Level");
 		level.setAddToParent(Boolean.TRUE);
 		level.setParentComponentId(nameSpace + "_" + "productlevelLayout");
+		level.setVaadinComponentPlaceHolder("-Select One-");
 
 		GtnUIFrameworkComboBoxConfig levelConfig = new GtnUIFrameworkComboBoxConfig();
 		level.setGtnComboboxConfig(levelConfig);

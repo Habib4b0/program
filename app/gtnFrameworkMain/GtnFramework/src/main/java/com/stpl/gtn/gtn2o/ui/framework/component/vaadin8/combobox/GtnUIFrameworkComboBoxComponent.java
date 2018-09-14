@@ -40,6 +40,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkComboBoxComponent.class);
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
 		ComboBox vaadinComboBox = new ComboBox(componentConfig.getComponentName());
@@ -48,6 +49,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		return vaadinComboBox;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private ComboBox generateComboBox(GtnUIFrameworkComponentConfig componentConfig, ComboBox vaadinComboBox) {
 		try {
 
@@ -102,6 +104,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void setComponentProperties(GtnUIFrameworkComponentConfig componentConfig, ComboBox vaadinComboBox,
 			final GtnUIFrameworkComboBoxConfig comboboxConfig) {
 		vaadinComboBox.setEnabled(componentConfig.isEnable());
@@ -535,6 +538,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 			GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
 			serviceRegistryBean.setUrl(comboboxConfig.getActualWsUrl());
 			serviceRegistryBean.setRegisteredWebContext(comboboxConfig.getActualWsContext());
+			serviceRegistryBean.setModuleName(comboboxConfig.getActualWsModuleName());
 			serviceRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
 			GtnWsSearchRequest searchRequest = new GtnWsSearchRequest();
 			searchRequest.setSearchQueryName(comboboxConfig.getComboBoxType());
