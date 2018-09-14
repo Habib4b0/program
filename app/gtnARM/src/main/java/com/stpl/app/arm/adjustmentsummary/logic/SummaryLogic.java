@@ -221,10 +221,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     private boolean isHeaderIsAvail(Date frmDate, Date toDate, int totalMonth, List<String> selectedAdjustmentType) {
         LOGGER.debug("selectedAdjustmentType.size()-->>{}", selectedAdjustmentType.size());
         LOGGER.debug("totalMonth-->{}", totalMonth);
-        if (!selectedAdjustmentType.isEmpty() && (toDate.equals(frmDate) || toDate.after(frmDate))) {
-            return true;
-        }
-        return false;
+        return (!selectedAdjustmentType.isEmpty() && (toDate.equals(frmDate) || toDate.after(frmDate)));
     }
 
     @Override

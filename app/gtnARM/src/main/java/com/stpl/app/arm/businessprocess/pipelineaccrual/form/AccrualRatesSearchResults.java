@@ -74,12 +74,8 @@ public class AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public boolean getisDeductionCustomer() {
-        if (ARMConstants.getDeductionCustomerContract().equals(getSelection().getSummaryviewType())
-                || ARMConstants.getDeductionContractCustomer().equals(getSelection().getSummaryviewType())) {
-            return true;
-        } else {
-            return false;
-        }
+        return (ARMConstants.getDeductionCustomerContract().equals(getSelection().getSummaryviewType())
+                || ARMConstants.getDeductionContractCustomer().equals(getSelection().getSummaryviewType()));
     }
 
     @Override
