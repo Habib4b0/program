@@ -102,7 +102,7 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
 			variableBreakDownHistoryLoadConfig.addActionParameter(
 					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
 			variableBreakDownHistoryLoadConfig.addActionParameter("reportOptionsTab_variableBreakdownHistoryConfig");
-			if (frequencyCaption != null && dataSelectionBean != null && dataSelectionBean.getCustomDataList() != null
+			if (frequencyCaption != null && dataSelectionBean.getCustomDataList() != null
 					&& frequencyCaption.equals(String.valueOf(dataSelectionBean.getCustomDataList().get(0)))) {
 				variableBreakDownHistoryLoadConfig
 						.addActionParameter(String.valueOf(dataSelectionBean.getCustomDataList().get(1)));

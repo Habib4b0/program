@@ -205,7 +205,7 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 
 				reportingDashboardSaveProfileLookupBean.setRecordBean(recordBean);
 				reportingDashboardSaveProfileLookupBean
-						.setReportProfileViewId((int) recordBean.getPropertyValueByIndex(4));
+						.setReportProfileViewId(Integer.valueOf(String.valueOf(recordBean.getPropertyValueByIndex(4))));
 				GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent("reportDashboardSaveProfile_ReportDashboardSaveProfileNameTextField")
 						.loadV8FieldValue(recordBean.getPropertyValueByIndex(0));

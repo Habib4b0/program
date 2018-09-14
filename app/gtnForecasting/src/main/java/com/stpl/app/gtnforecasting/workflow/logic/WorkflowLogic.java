@@ -103,12 +103,8 @@ public class WorkflowLogic {
         String moduleName = StringUtils.EMPTY;
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             moduleName = Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY;
-        } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-            moduleName = "G";
         } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION)) {
             moduleName = "AR";
-        } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
-            moduleName = "RE";
         }
         String workflowId = new BPIWorkFlowGeneratorXML().generateId( filePath2, moduleName);
         String docDetailsSid = saveDocDetails(getUploadedData);

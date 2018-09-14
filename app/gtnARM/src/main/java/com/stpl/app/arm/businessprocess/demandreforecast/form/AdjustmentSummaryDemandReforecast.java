@@ -38,6 +38,7 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
 
     public AdjustmentSummaryDemandReforecast(DRSelectionDTO selection) throws InvocationTargetException {
         super(selection, new DRSummaryLogic());
+        super.init();
         configureWorkFlow();
     }
 

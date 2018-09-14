@@ -1109,6 +1109,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 loadDisplayFormatDdlb();
                 if (ConstantsUtils.LOWERCASE_EDIT.equalsIgnoreCase(sessionDTO.getAction()) || ConstantsUtils.VIEW.equalsIgnoreCase(sessionDTO.getAction())) {
                     setProjectionSelection();
+                }else{
+                    projIdList = new ArrayList<>();
                 }
             }
         }.getConfirmationMessage("Confirmation",
@@ -1309,6 +1311,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 getComparison().setReadOnly(false);
                 loadComparisonOnEdit(String.valueOf(value));
                 getComparison().setReadOnly(true);
+            }else{
+                projIdList = new ArrayList<>();
             }
 
             value = map.get("Level");

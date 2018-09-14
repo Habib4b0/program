@@ -18,12 +18,16 @@ import com.stpl.ifs.util.constants.ARMConstants;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Porchelvi.Gunasekara
  */
 public class InventoryRatesSearchResults extends AbstractRatesSearchResults {
+
+    private static final Logger INV_RATES_LOGGER = LoggerFactory.getLogger(InventoryRatesSearchResults.class);
 
     public InventoryRatesSearchResults(LogicAble logic, AbstractSelectionDTO selection) {
         super(logic, selection);
@@ -39,11 +43,13 @@ public class InventoryRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public ExcelInterface getExcelLogic() {
+        INV_RATES_LOGGER.debug("Inside getExcelLogic");
         return getSummaryLogic();
     }
 
     @Override
     public Object[] getExcelHierarchy() {
+        INV_RATES_LOGGER.debug("Inside getExcelHierarchy");
         Object[] value = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
             value = new Object[]{"D", "T", "C", "B", "I"};
@@ -58,48 +64,55 @@ public class InventoryRatesSearchResults extends AbstractRatesSearchResults {
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
             value = new Object[]{"B", "I"};
         }
+        INV_RATES_LOGGER.debug("End Of getExcelHierarchy");
         return value;
     }
 
     @Override
     public List getExcelExportVisibleColumn() {
+        INV_RATES_LOGGER.debug("Inside getExcelExportVisibleColumn");
         return selection.getRateColumnList().get(0);
     }
 
     @Override
     public String getExcelFileName() {
+        INV_RATES_LOGGER.debug("Inside getExcelFileName");
         return "Rates";
     }
 
     @Override
     public boolean getisFixedColumns() {
+        INV_RATES_LOGGER.debug("Inside getisFixedColumns");
         return Boolean.TRUE;
     }
 
     @Override
     public int getInterval() {
+        INV_RATES_LOGGER.debug("Inside getInterval");
         return 1;
     }
 
     @Override
     public int discountColumnNeeded() {
+        INV_RATES_LOGGER.debug("Inside discountColumnNeeded");
         return 1;
     }
 
     @Override
     public boolean getisDeductionCustomer() {
+        INV_RATES_LOGGER.debug("Inside getisDeductionCustomer");
         return Boolean.FALSE;
     }
 
     @Override
-    protected void valueDdlbValueChange(int masterSids) {
-        logger.debug("inside valueDdlbValueChange Method");
+    protected void valueDdlbValueChange(int masterSids){
+        INV_RATES_LOGGER.debug("inside valueDdlbValueChange Method");
 
     }
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-        logger.debug("inside loadLevelFilterValueDdlb Method");
+        INV_RATES_LOGGER.debug("inside loadLevelFilterValueDdlb Method");
     }
 
     @Override

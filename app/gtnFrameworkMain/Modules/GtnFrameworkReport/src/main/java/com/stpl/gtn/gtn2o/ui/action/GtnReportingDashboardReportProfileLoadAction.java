@@ -69,6 +69,8 @@ public class GtnReportingDashboardReportProfileLoadAction
 	private void loadDataToComponent(GtnReportingDashboardSaveProfileLookupBean reportProfileSaveLookupBean,
 			List<Object> actionParamList, String viewId) throws GtnFrameworkValidationFailedException {
 
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(2).toString(), viewId)
+				.loadV8MultiSelectValue();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(2).toString(), viewId).updateSelection(
 				Optional.ofNullable(reportProfileSaveLookupBean.getDisplaySelectionTabVariable()).isPresent()
 						? reportProfileSaveLookupBean.getDisplaySelectionTabVariable()
@@ -90,6 +92,7 @@ public class GtnReportingDashboardReportProfileLoadAction
 				Optional.ofNullable(reportProfileSaveLookupBean.getDisplaySelectionTabVariableCategory()).isPresent()
 						? reportProfileSaveLookupBean.getDisplaySelectionTabVariableCategory()
 						: new ArrayList<>());
+
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(9).toString(), viewId)
 				.loadV8ComboBoxComponentValue(
 						Optional.ofNullable(reportProfileSaveLookupBean.getDisplaySelectionTabAnnualTotals())
@@ -98,6 +101,8 @@ public class GtnReportingDashboardReportProfileLoadAction
 
 		setPeriodRangeFromAndTo(reportProfileSaveLookupBean, actionParamList, viewId);
 
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(11).toString(), viewId)
+				.loadV8MultiSelectValue();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(10).toString(), viewId)
 				.loadV8ComboBoxComponentValue(
 						Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabCustomerLevel()).isPresent()
@@ -115,6 +120,8 @@ public class GtnReportingDashboardReportProfileLoadAction
 								? reportProfileSaveLookupBean.getFilterOptionsTabProductLevel()
 								: "0");
 
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(13).toString(), viewId)
+				.loadV8MultiSelectValue();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(13).toString(), viewId).updateSelection(
 				Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabProductFilter()).isPresent()
 						? reportProfileSaveLookupBean.getFilterOptionsTabProductFilter()
@@ -127,15 +134,21 @@ public class GtnReportingDashboardReportProfileLoadAction
 								: "0");
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString(), viewId)
+				.loadV8MultiSelectValue();
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString(), viewId)
 				.updateSelection(Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabDeductionFilter())
 						.isPresent() ? reportProfileSaveLookupBean.getFilterOptionsTabDeductionFilter()
 								: new ArrayList<>());
 
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(16).toString(), viewId)
+				.loadV8MultiSelectValue();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(16).toString(), viewId).updateSelection(
 				Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabSalesInclusion()).isPresent()
 						? reportProfileSaveLookupBean.getFilterOptionsTabSalesInclusion()
 						: new ArrayList<>());
 
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(17).toString(), viewId)
+				.loadV8MultiSelectValue();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(17).toString(), viewId).updateSelection(
 				Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabDeductionInclusion()).isPresent()
 						? reportProfileSaveLookupBean.getFilterOptionsTabDeductionInclusion()
@@ -155,6 +168,11 @@ public class GtnReportingDashboardReportProfileLoadAction
 								? Integer.parseInt(reportProfileSaveLookupBean.getReportOptionsHeaderSequencing())
 								: 0);
 
+		loadDataToComponentExtended(reportProfileSaveLookupBean, actionParamList, viewId);
+	}
+
+	private void loadDataToComponentExtended(GtnReportingDashboardSaveProfileLookupBean reportProfileSaveLookupBean,
+			List<Object> actionParamList, String viewId) throws GtnFrameworkValidationFailedException {
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(20).toString(), viewId)
 				.loadV8ComboBoxComponentValue(
 						Optional.ofNullable(reportProfileSaveLookupBean.getReportOptionsViewOptions()).isPresent()
@@ -193,7 +211,6 @@ public class GtnReportingDashboardReportProfileLoadAction
 						Optional.ofNullable(reportProfileSaveLookupBean.getComparisonBreakdownLookupBeanSaveList())
 								.isPresent() ? reportProfileSaveLookupBean.getComparisonBreakdownLookupBeanSaveList()
 										: new ArrayList<>());
-
 	}
 
 	private boolean validateReportProfile(GtnReportingDashboardSaveProfileLookupBean currentViewData,

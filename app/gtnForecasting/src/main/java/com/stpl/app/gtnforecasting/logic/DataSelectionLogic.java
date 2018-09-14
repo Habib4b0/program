@@ -9,7 +9,6 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Lab
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.utils.Constants.LabelConstants.DATA_SELECTION_LANDING_SCREEN;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
-import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -1145,8 +1144,6 @@ public class DataSelectionLogic {
 		DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 			businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, getCommercialConstant());
-		} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-			businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, getGovernmentConstant());
 		} else {
 			businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, screenName);
 		}

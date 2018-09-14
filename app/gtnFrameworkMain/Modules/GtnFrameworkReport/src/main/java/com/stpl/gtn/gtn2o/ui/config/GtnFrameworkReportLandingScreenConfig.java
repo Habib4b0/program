@@ -784,7 +784,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG));
+						+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG,
+						"reportLandingScreen_reportingDashboardComparisonConfig"));
 		onSuccessActionConfigList.add(resetAction);
 		resetActionList.add(confirmResetAction);
 		resetButton.setGtnUIFrameWorkActionConfigList(resetActionList);

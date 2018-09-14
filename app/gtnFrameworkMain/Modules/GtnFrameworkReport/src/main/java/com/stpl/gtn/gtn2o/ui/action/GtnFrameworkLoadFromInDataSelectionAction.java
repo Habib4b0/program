@@ -38,44 +38,44 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
-			GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
-			String frequency = dataSelectionBean.getFrequencyName();
-			dataSelectionBean.setFromOrToForDataSelection("FROM");
-			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-			GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-			reportRequest.setDataSelectionBean(dataSelectionBean);
-			request.setGtnWsReportRequest(reportRequest);
+			String fromSourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+			GtnWsReportDataSelectionBean fromDataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(fromSourceComponentId).getComponentData().getSharedPopupData();
+			String frequency = fromDataSelectionBean.getFrequencyName();
+			fromDataSelectionBean.setFromOrToForDataSelection("FROM");
+			GtnUIFrameworkWebserviceRequest fromServiceRequest = new GtnUIFrameworkWebserviceRequest();
+			GtnWsReportRequest reportFromServiceRequest = new GtnWsReportRequest();
+			reportFromServiceRequest.setDataSelectionBean(fromDataSelectionBean);
+			fromServiceRequest.setGtnWsReportRequest(reportFromServiceRequest);
 			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 					GtnWsReportConstants.GTN_REPORT_SERVICE
 							+ GtnWsReportConstants.GTN_WS_REPORT_DASHBOARD_LOAD_FROM_AND_TO_IN_DATA_SELECTION,
-					"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			String periodAndYearInLandingScreen = gtnUIFrameWorkActionConfig.getActionParameterList().size() > 1
+					"report", fromServiceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			String fromPeriodAndYearInLandingScreen = gtnUIFrameWorkActionConfig.getActionParameterList().size() > 1
 					&& !"null".equals(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)))
 							? gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString()
 							: GtnUIFrameworkGlobalUI
 									.getVaadinBaseComponentFromParent("reportLandingScreen_fromPeriod", componentId)
 									.getStringCaptionFromV8ComboBox();
 
-			periodAndYearInLandingScreen = periodAndYearInLandingScreen.replaceAll(" ", "");
+			fromPeriodAndYearInLandingScreen = fromPeriodAndYearInLandingScreen.replaceAll(" ", "");
 
-			periodAndYearInLandingScreen = periodAndYearInLandingScreen.replaceAll("-", "");
+			fromPeriodAndYearInLandingScreen = fromPeriodAndYearInLandingScreen.replaceAll("-", "");
 
-			List<String> itemValueList1 = response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList();
-			List<String> itemCodeList1 = response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList();
+			List<String> fromItemValueList1 = response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList();
+			List<String> fromItemCodeList1 = response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList();
 
-			List<String> itemValueList = new ArrayList<>(itemValueList1);
-			List<String> itemCodeList = new ArrayList<>(itemCodeList1);
+			List<String> itemValueList = new ArrayList<>(fromItemValueList1);
+			List<String> itemCodeList = new ArrayList<>(fromItemCodeList1);
 
-			String stringToBeCompared;
+			String fromStringToBeCompared;
 
-			stringToBeCompared = getTheStringToBeCompared(frequency, periodAndYearInLandingScreen);
+			fromStringToBeCompared = getTheStringToBeCompared(frequency, fromPeriodAndYearInLandingScreen);
 
-			int range = getRangeToBeRemoved(itemValueList, stringToBeCompared);
-			if (range > 0 && range < itemValueList.size()) {
-				itemValueList.subList(0, range).clear();
-				itemCodeList.subList(0, range).clear();
+			int fromRange = getRangeToBeRemoved(itemValueList, fromStringToBeCompared);
+			if (fromRange > 0 && fromRange < itemValueList.size()) {
+				itemValueList.subList(0, fromRange).clear();
+				itemCodeList.subList(0, fromRange).clear();
 			}
 
 			GtnUIFrameworkGlobalUI
@@ -177,12 +177,13 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 
 	private static String getTheStringToBeCompared(String periodAndYearInLandingScreen, String stringToBeCompared,
 			int semiAnnualIdForMonth) {
+		String finalString = stringToBeCompared;
 		if (semiAnnualIdForMonth == 1) {
-			stringToBeCompared = "Jan " + periodAndYearInLandingScreen.substring(2);
+			finalString = "Jan " + periodAndYearInLandingScreen.substring(2);
 		} else if (semiAnnualIdForMonth == 2) {
-			stringToBeCompared = "Jul " + periodAndYearInLandingScreen.substring(2);
+			finalString = "Jul " + periodAndYearInLandingScreen.substring(2);
 		}
-		return stringToBeCompared;
+		return finalString;
 	}
 
 	public static String convertFromQuarterToSelectedFrequency(String frequency, String periodAndYearInLandingScreen,
@@ -206,23 +207,24 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 
 	private static String getTheStringToBeComparedBasedOnQuarter(String periodAndYearInLandingScreen,
 			String stringToBeCompared, int quarterIdForMonth) {
+		String finalString = stringToBeCompared;
 		switch (quarterIdForMonth) {
 		case 1:
-			stringToBeCompared = "Jan " + periodAndYearInLandingScreen.substring(2);
+			finalString = "Jan " + periodAndYearInLandingScreen.substring(2);
 			break;
 		case 2:
-			stringToBeCompared = "Apr " + periodAndYearInLandingScreen.substring(2);
+			finalString = "Apr " + periodAndYearInLandingScreen.substring(2);
 			break;
 		case 3:
-			stringToBeCompared = "Jul " + periodAndYearInLandingScreen.substring(2);
+			finalString = "Jul " + periodAndYearInLandingScreen.substring(2);
 			break;
 		case 4:
-			stringToBeCompared = "Oct " + periodAndYearInLandingScreen.substring(2);
+			finalString = "Oct " + periodAndYearInLandingScreen.substring(2);
 			break;
 		default:
 			break;
 		}
-		return stringToBeCompared;
+		return finalString;
 	}
 
 	public static String convertFromYearToSelectedFrequency(String frequency, String periodAndYearInLandingScreen) {

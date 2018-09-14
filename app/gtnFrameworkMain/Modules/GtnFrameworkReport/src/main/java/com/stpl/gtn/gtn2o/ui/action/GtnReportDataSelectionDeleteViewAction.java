@@ -91,7 +91,8 @@ public class GtnReportDataSelectionDeleteViewAction
 					actionParamList.get(3).toString() + GtnFrameworkReportStringConstants.UNDERSCORE
 							+ GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG,
 					actionParamList.get(3).toString() + GtnFrameworkReportStringConstants.UNDERSCORE
-							+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG));
+							+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG,
+							"reportLandingScreen_reportingDashboardComparisonConfig"));
 
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetAction);
 
