@@ -106,7 +106,7 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnU
 		try {
 			new GtnUIFrameworkComboBoxComponent().reloadComponentFromParent(id, componentId, Arrays.asList(""));
 			GtnUIFrameworkComponentData data = (GtnUIFrameworkComponentData) Optional
-					.ofNullable(customView.getComponent().getData()).orElse(new GtnUIFrameworkComponentData());
+					.ofNullable(customView.getComponent().getData()).orElseGet(GtnUIFrameworkComponentData::new);
 			data.setCustomData(customViewSid);
 			GtnUIFrameworkGlobalUI.addSessionProperty("customSid", customViewSid);
 			customView.loadV8ComboBoxComponentValue(String.valueOf(customViewSid));

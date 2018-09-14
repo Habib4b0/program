@@ -29,8 +29,7 @@ public class GtnFrameworkReportCustomViewConfirmDeleteAction
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		// TODO Auto-generated method stub
-
+		// do nothing
 	}
 
 	@Override
