@@ -2335,22 +2335,26 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 bsrCustomerVersionMap = logic.loadCustomerRelation(customerRelation, dto.getCustomerHierarchySid());
                 customerRelation.select(dto.getCustRelationshipBuilderSid());
                 loadCustomerLevel();
-                logic.loadCustoProdLevels(customerLevel, dto.getCustomerHierarchySid());
+                bsrCustomerHierarchyLevelDefnList = logic.loadCustoProdLevels(customerLevel, dto.getCustomerHierarchySid());
 
                 customerDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getCustRelationshipBuilderSid(), bsrCustomerVersionMap.get(dto.getCustRelationshipBuilderSid()), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 customerLevel.select(dto.getCustomerHierarchyLevel());
                 initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getCustomerHierarchyLevel()));
+                availableCustomerContainer.removeAllItems();
+                availableCustomer.removeAllItems();
 
                 productHierarchy.setValue(dto.getProductHierarchyName());
                 bsrProductVersionMap = logic.loadProductRelation(productRelation, dto.getProductHierarchySid(), dto.getCompanyMasterSid());
                 productRelation.select(dto.getProdRelationshipBuilderSid());
                 loadProductLevel();
-                logic.loadCustoProdLevels(productLevel, dto.getProductHierarchySid());
+                bsrProductHierarchyLevelDefnList = logic.loadCustoProdLevels(productLevel, dto.getProductHierarchySid());
                 productLevel.select(dto.getProductHierarchyLevel());
                 productDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getProdRelationshipBuilderSid(),
                         bsrProductVersionMap.get(dto.getProdRelationshipBuilderSid()), productHierarchyLookup.getHierarchyDto().getHierarchyId(),
                         productHierarchyLookup.getHierarchyDto().getVersionNo());
                 initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getProductHierarchyLevel()));
+                availableProductContainer.removeAllItems();
+                availableProduct.removeAllItems();
             } catch (Property.ReadOnlyException | NumberFormatException e) {
                 LOGGER.error("Error in setViewDetails :", e);
             }
@@ -2618,39 +2622,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = logicCust.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
-        for (LevelDTO customerLevelDto : reslistOne) {
-            if (customerLevelDto.getLevelNo() == 1) {
-                selectedCustomerContainer.removeAllItems();
-                selectedCustomerContainer.addItem(customerLevelDto);
-                selectedCustomerContainer.setChildrenAllowed(customerLevelDto, true);
-            } else {
-                for (Object tempdto : selectedCustomerContainer.getItemIds()) {
-                    if (customerLevelDto.getParentNode().contains("~")) {
-                        String[] parentarr = customerLevelDto.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempdto).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedCustomerContainer.addBean(customerLevelDto);
-                            if (customerLevel != customerLevelDto.getLevelNo()) {
-                                selectedCustomerContainer.setChildrenAllowed(customerLevelDto, true);
-                            } else {
-                                selectedCustomerContainer.setChildrenAllowed(customerLevelDto, false);
-                            }
-                            selectedCustomerContainer.setParent(customerLevelDto, tempdto);
-                            break;
-                        }
-                    } else {
-                        selectedCustomerContainer.addBean(customerLevelDto);
-                        if (customerLevel != customerLevelDto.getLevelNo()) {
-                            selectedCustomerContainer.setChildrenAllowed(customerLevelDto, true);
-                        } else {
-                            selectedCustomerContainer.setChildrenAllowed(customerLevelDto, false);
-                        }
-                        selectedCustomerContainer.setParent(customerLevelDto, tempdto);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedCustomerContainer, reslistOne, customerLevel);
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
         Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
         selectedCustomer.setVisibleColumns(obj);
@@ -2672,39 +2644,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = logicVal.getRelationShipValues(projectionId, "product", productLevel, productDescriptionMap);
-        for (LevelDTO productLevelDto : reslistOne) {
-            if (productLevelDto.getLevelNo() == 1) {
-                selectedProductContainer.removeAllItems();
-                selectedProductContainer.addItem(productLevelDto);
-                selectedProductContainer.setChildrenAllowed(productLevelDto, true);
-            } else {
-                for (Object tempdto : selectedProductContainer.getItemIds()) {
-                    if (productLevelDto.getParentNode().contains("~")) {
-                        String[] parentarr = productLevelDto.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempdto).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedProductContainer.addBean(productLevelDto);
-                            if (productLevel != productLevelDto.getLevelNo()) {
-                                selectedProductContainer.setChildrenAllowed(productLevelDto, true);
-                            } else {
-                                selectedProductContainer.setChildrenAllowed(productLevelDto, false);
-                            }
-                            selectedProductContainer.setParent(productLevelDto, tempdto);
-                            break;
-                        }
-                    } else {
-                        selectedProductContainer.addBean(productLevelDto);
-                        if (productLevel != productLevelDto.getLevelNo()) {
-                            selectedProductContainer.setChildrenAllowed(productLevelDto, true);
-                        } else {
-                            selectedProductContainer.setChildrenAllowed(productLevelDto, false);
-                        }
-                        selectedProductContainer.setParent(productLevelDto, tempdto);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedProductContainer, reslistOne, productLevel);
         selectedProduct.setContainerDataSource(selectedProductContainer);
         Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
         selectedProduct.setVisibleColumns(obj);
