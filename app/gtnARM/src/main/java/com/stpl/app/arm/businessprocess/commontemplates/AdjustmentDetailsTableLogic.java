@@ -73,9 +73,9 @@ public class AdjustmentDetailsTableLogic<T extends AdjustmentDTO> extends PageTa
     public boolean loadSetData(Boolean isGenerate) {
         this.isGenerate = isGenerate;
         this.clearAll();
-        setRequiredCount(Boolean.TRUE);
+        setRequiredCount(true);
         setCurrentPage(1);
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override

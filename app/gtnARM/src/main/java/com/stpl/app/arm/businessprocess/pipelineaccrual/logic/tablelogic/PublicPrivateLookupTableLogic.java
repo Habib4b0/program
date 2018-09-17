@@ -7,6 +7,7 @@ package com.stpl.app.arm.businessprocess.pipelineaccrual.logic.tablelogic;
 
 import com.stpl.app.arm.adjustmentrateconfiguration.dto.ViewLookupDTO;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.logic.ExclusionDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 
@@ -32,7 +33,7 @@ public class PublicPrivateLookupTableLogic extends PageTableLogic {
         try {
             if (isGenerate) {
                 List<Object> count = logic.getSavedViewList(exRateDTO, true, 0, 0, null, this.getFilters());
-                return Integer.valueOf(count.get(0).toString());
+                return ARMUtils.getIntegerValue(count.get(0).toString());
             }
             return 0;
         } catch (Exception ex) {

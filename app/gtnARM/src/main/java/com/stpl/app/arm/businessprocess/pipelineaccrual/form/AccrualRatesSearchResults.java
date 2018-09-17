@@ -59,7 +59,7 @@ public class AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -74,12 +74,8 @@ public class AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public boolean getisDeductionCustomer() {
-        if (ARMConstants.getDeductionCustomerContract().equals(getSelection().getSummaryviewType())
-                || ARMConstants.getDeductionContractCustomer().equals(getSelection().getSummaryviewType())) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
-        }
+        return (ARMConstants.getDeductionCustomerContract().equals(getSelection().getSummaryviewType())
+                || ARMConstants.getDeductionContractCustomer().equals(getSelection().getSummaryviewType()));
     }
 
     @Override

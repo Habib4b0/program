@@ -50,7 +50,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     private String demandSummaryLeftHeader = VariableConstants.PRODUCT;
     private String[] tableColumns;
     private Set previousValue = new HashSet<>();
-    protected boolean isGenarate = Boolean.FALSE;
+    protected boolean isGenarate = false;
     private static final Logger LOGGER_ABS_DEM_SUMM_RES = LoggerFactory.getLogger(AbstractDemandSummaryResults.class);
 
     public AbstractDemandSummaryResults(AbstractDemandSummaryLogic logic, AbstractSelectionDTO selection) {
@@ -133,7 +133,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         rightDoubleVisibleHeader.add(0, "");
         getExcelTable().setVisibleColumns(rightSingleVisibleColumn1.toArray());
         getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
-        getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
+        getExcelTable().setDoubleHeaderVisible(true);
         getExcelTable().setDoubleHeaderVisibleColumns(rightDoubleVisibleColumn.toArray());
         getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(rightDoubleVisibleHeader.toArray(), rightDoubleVisibleHeader.size(), String[].class));
         getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.SEVEN));
@@ -174,7 +174,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     public void configureLevelDDLBs() {
         setLevelFilterEnable(false);
-        isGenarate = Boolean.FALSE;
+        isGenarate = false;
         if (ARMConstants.getMultiplePeriod().equals(getSelection().getSummarydemandview())) {
             customerProductView.removeAllItems();
             customerProductView.addItems(itemsForMultiple);
@@ -188,7 +188,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     }
 
     public void generateButtonLogic(String[] columns) {
-        isGenarate = Boolean.TRUE;
+        isGenarate = false;
         tableColumns = CommonLogic.getInstance().getStringArrayCloned(columns);
         Map properties = new HashMap();
         String view = String.valueOf(customerProductView.getValue());
@@ -248,7 +248,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         }
         configureRightTable();
         setConverter(rightTable, rightTable.getVisibleColumns());
-        getTableLogic().loadSetData(Boolean.FALSE);
+        getTableLogic().loadSetData(false);
 
     }
 
@@ -297,7 +297,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
             if (isGenarate) {
                 configureRightTable();
                 getSelection().setSummarydemandLevel(ARMUtils.getADJSummaryLevel(viewType));
-                getTableLogic().loadSetData(Boolean.FALSE);
+                getTableLogic().loadSetData(false);
                 demandSummaryLeftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? VariableConstants.PRODUCT : VariableConstants.CUSTOMER;
                 leftTable.setColumnHeaders(demandSummaryLeftHeader);
             }
@@ -327,13 +327,13 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     public void setRespectiveHierarchy(String viewType) {
         if (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())) {
             selection.setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
-            selection.setIsMultiple(Boolean.TRUE);
+            selection.setIsMultiple(true);
         } else {
             selection.setSummeryhierarchy(ARMUtils.getLevelAndLevelFilter(viewType));
             if (ARMConstants.getDeductionCustomerContract().equals(getSelection().getSummaryviewType())) {
-                selection.setIsMultiple(Boolean.TRUE);
+                selection.setIsMultiple(true);
             } else {
-                selection.setIsMultiple(Boolean.FALSE);
+                selection.setIsMultiple(false);
             }
         }
     }
@@ -353,7 +353,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     @Override
     public boolean getisFixedColumns() {
         LOGGER_ABS_DEM_SUMM_RES.debug("inside getisFixedColumns");
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -380,7 +380,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     @Override
     public boolean getisDeductionCustomer() {
         LOGGER_ABS_DEM_SUMM_RES.debug("inside getisDeductionCustomer");
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -405,13 +405,13 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         LOGGER_ABS_DEM_SUMM_RES.debug("valueDdlbValueChange masterSid {}", masterSid);
         if (isLevelFilterValueDdlbEnable()) {
             getSelection().setSummaryvalueSid(masterSid);
-            tableLogic.loadSetData(Boolean.FALSE);
+            tableLogic.loadSetData(false);
         }
     }
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.TRUE;
+        return true;
     }
 
     protected abstract String getTableNameForEdit();
