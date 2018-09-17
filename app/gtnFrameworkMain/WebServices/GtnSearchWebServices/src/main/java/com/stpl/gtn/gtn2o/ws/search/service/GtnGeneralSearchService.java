@@ -5,14 +5,9 @@
  */
 package com.stpl.gtn.gtn2o.ws.search.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -188,17 +183,6 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
                 gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
         return response1.getQueryResponseBean().getResultInteger();
-    }
-
-    public static LocalDate convertStringDateToLocalDate(String dateInput) {
-        Pattern patternOne = Pattern.compile("\\bQ..[0-9]{4}\\b");
-        LocalDate localDate = null;
-
-        if (patternOne.matcher(dateInput).find()) {
-            int[] arr = {0, 1, 4, 7, 10};
-            localDate = LocalDate.parse("01/" + arr[Character.getNumericValue(dateInput.charAt(1))] + "/" + dateInput.substring(3), DateTimeFormatter.ofPattern("dd/M/yyyy"));
-        }
-        return localDate;
     }
 
 }
