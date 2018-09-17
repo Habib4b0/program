@@ -89,50 +89,50 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
     }
 
     public int getSalesCount(Object invnentoryParentId, SelectionDTO inventorySelection) {
-        String sql = "";
-        String level = "BRAND";
+        String invSql = "";
+        String invLevel = "BRAND";
         String brandMasterSid = "0";
         if (invnentoryParentId instanceof AdjustmentDTO) {
-            level = "ITEM";
+            invLevel = "ITEM";
             brandMasterSid = ((AdjustmentDTO) invnentoryParentId).getBranditemmasterSid();
         }
 
         if (VariableConstants.PRODUCT.equals(String.valueOf(inventorySelection.getSaleslevelFilterValue()))) {
-            level = "ITEM";
+            invLevel = "ITEM";
         }
         if (inventorySelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
-            sql = SQlUtil.getQuery("getInventoryCount");
+            invSql = SQlUtil.getQuery("getInventoryCount");
         } else {
-            sql = SQlUtil.getQuery("getInventoryCountEdit");
-            sql = sql.replace("[TABLE]", inventorySelection.getSessionDTO().getCurrentTableNames().get("ST_ARM_INVENTORY"));
+            invSql = SQlUtil.getQuery("getInventoryCountEdit");
+            invSql = invSql.replace("[TABLE]", inventorySelection.getSessionDTO().getCurrentTableNames().get("ST_ARM_INVENTORY"));
         }
-        sql = sql.replace("[$VIEW]", level);
+        invSql = invSql.replace("[$VIEW]", invLevel);
 //        String.valueOf(selection.getProjectionMasterSid())
-        sql = sql.replace("[PROJECTION_MASTER_SID]", String.valueOf(inventorySelection.getDataSelectionDTO().getProjectionId()));
-        sql = sql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
+        invSql = invSql.replace("[PROJECTION_MASTER_SID]", String.valueOf(inventorySelection.getDataSelectionDTO().getProjectionId()));
+        invSql = invSql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
         List<String[]> custList = inventorySelection.getSalesVariables();
         String ids = getSelectedCustomerOrCustomerGrp(custList);
         if (ids.isEmpty()) {
-            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, "");
-            sql = sql.replace(CommonConstant.AICOMP_CUST_MASTER_SID, "");
-            sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, ",''");
+            invSql = invSql.replace(CommonConstant.COMP_CUST_MASTER_SID, "");
+            invSql = invSql.replace(CommonConstant.AICOMP_CUST_MASTER_SID, "");
+            invSql = invSql.replace(CommonConstant.AIREF_CUST_MASTER_SID, ",''");
 
         } else {
-            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ARMUtils.CLOSE_BRACES);
-            sql = sql.replace(CommonConstant.AICOMP_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
-            sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
+            invSql = invSql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ARMUtils.CLOSE_BRACES);
+            invSql = invSql.replace(CommonConstant.AICOMP_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
+            invSql = invSql.replace(CommonConstant.AIREF_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
         }
-        if ("ITEM".equals(level)) {
+        if ("ITEM".equals(invLevel)) {
 
             if (VariableConstants.PRODUCT.equals(String.valueOf(inventorySelection.getSaleslevelFilterValue()))) {
-                sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
+                invSql = invSql.replace(CommonConstant.BRAND_MASTER_SID, "");
             } else {
-                sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "AND IM.BRAND_MASTER_SID  = " + brandMasterSid + "");
+                invSql = invSql.replace(CommonConstant.BRAND_MASTER_SID, "AND IM.BRAND_MASTER_SID  = " + brandMasterSid + "");
             }
         } else {
-            sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
+            invSql = invSql.replace(CommonConstant.BRAND_MASTER_SID, "");
         }
-        List<Integer> result = QueryUtils.executeSelect(sql);
+        List<Integer> result = QueryUtils.executeSelect(invSql);
         return result.get(0);
     }
 

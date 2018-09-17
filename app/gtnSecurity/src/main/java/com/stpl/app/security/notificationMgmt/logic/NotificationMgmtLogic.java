@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.model.MailNotificationMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MailNotificationMasterLocalServiceUtil;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -190,7 +191,7 @@ if (notificationMgmtIndexDTO.getBusinessProcess()!= null) {
    }
    public List<NotificationMgmtIndexDTO> getNotificationMgmtIndexDTO(List<MailNotificationMaster> resultList){
        List<NotificationMgmtIndexDTO> resultBean=new ArrayList<>();
-        HashMap<Integer, String> hmForCategory=CommonUtils.getCategoryNameFromId();
+        Map<Integer, String> hmForCategory=CommonUtils.getCategoryNameFromId();
        for (MailNotificationMaster result : resultList) {
            NotificationMgmtIndexDTO notificationMgmtIndexDTO=new NotificationMgmtIndexDTO();
            notificationMgmtIndexDTO.setBusinessProcess(result.getNotificationModule());

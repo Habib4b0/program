@@ -13,13 +13,14 @@ import java.util.HashMap;
 import java.util.List;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import java.util.Map;
 
 /**
  *
  * @author Santanukumar
  */
 public class CommonUtils {
-    public static HashMap<String, Long> getUserInfo() {
+    public static Map<String, Long> getUserInfo() {
 
         List<User> users = new ArrayList<>();
         DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
@@ -31,7 +32,7 @@ public class CommonUtils {
         }
         return userMap;
     }
-    public static HashMap<Integer, String> getCategoryNameFromId() {
+    public static Map<Integer, String> getCategoryNameFromId() {
 
         List<HelperTable> category = new ArrayList<>();
         DynamicQuery categoryDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
