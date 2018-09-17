@@ -1363,7 +1363,7 @@ public class NMDPRLogic {
                 + "         ON pd.PROJECTION_DETAILS_SID = b.PROJECTION_DETAILS_SID\n"
                 + "       JOIN @CCP CCP\n"
                 + "         ON pd.ccp_details_sid = ccp.CCP_DETAILS_SID\n"
-                + "WHERE  B.RS_CONTRACT_SID IN ( " + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + " )";
+                + "WHERE  B.RS_CONTRACT_SID IN ( " + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + " )";
 
     }
 

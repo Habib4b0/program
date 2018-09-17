@@ -270,7 +270,7 @@ public class NmDiscountImpl {
                         discountTypeColumnName = " B.PRICE_GROUP_TYPE ";
                         orderBy = " H.RELATIONSHIP_LEVEL_VALUES, B.PRICE_GROUP_TYPE " + orderBy;
                     }
-                    selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                    selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                     whereClause += " and " + discountTypeColumnName + " in (" + selectedDiscounts + ")";
                     groupBy += ", " + discountTypeColumnName;
                 }
@@ -474,7 +474,7 @@ public class NmDiscountImpl {
             } else {
                 String discountTypeQuery = "";
                 if (discountList != null && !discountList.isEmpty()) {
-                    String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                    String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                     discountTypeQuery = Constant.JOIN + masterTableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                     if (!viewFlag) {
                         discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
@@ -581,7 +581,7 @@ public class NmDiscountImpl {
 
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 discountTypeQuery = Constant.SPACE_JOIN_SPACE + tableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                 if (!mode) {
                     discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
@@ -640,7 +640,7 @@ public class NmDiscountImpl {
                 customSql += " OFFSET " + startIndex + " ROWS FETCH NEXT " + endIndex + " ROWS ONLY ";
             }
 
-            List<String> returnList = new ArrayList<String>();
+            List<String> returnList = new ArrayList<>();
             returnList.add(customSql);
             return returnList;
         } catch (Exception e) {
@@ -666,7 +666,7 @@ public class NmDiscountImpl {
 
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 discountTypeQuery = Constant.SPACE_JOIN_SPACE + tableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                 if (!mode) {
                     discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
@@ -708,7 +708,7 @@ public class NmDiscountImpl {
                 customSql += " OFFSET " + startIndex + " ROWS FETCH NEXT " + endIndex + " ROWS ONLY ";
             }
 
-            List<String> returnList = new ArrayList<String>();
+            List<String> returnList = new ArrayList<>();
             returnList.add(customSql);
             return returnList;
         } catch (Exception e) {
@@ -755,7 +755,7 @@ public class NmDiscountImpl {
         try {
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 if (isProgram) {
                     discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
@@ -865,7 +865,7 @@ public class NmDiscountImpl {
             String discountTypeQuery = "";
             String discountTable = "";
             if (discountList != null && !discountList.isEmpty()) {
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 if (isProgram) {
                     discountTable = " RS_MODEL RS,";
                     discountTypeQuery += " AND M.RS_MODEL_SID = RS.RS_MODEL_SID  AND RS.RS_NAME  in (" + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
@@ -1093,7 +1093,7 @@ public class NmDiscountImpl {
                     endMonth = endFreq;
                 }
 
-                String selectedDiscounts = CommonUtils.CollectionToString(checkedDiscounts, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(checkedDiscounts, true);
                 String discountType = "M.PRICE_GROUP_TYPE";
                 if (isProgram) {
                     discountType = "RS.RS_NAME";
@@ -1202,8 +1202,8 @@ public class NmDiscountImpl {
                 baselinePeriodsList = discountName.getValue().get(baselineIndicator);
                 selectedPeriodsList = discountName.getValue().get("P");
 
-                baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
-                selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
+                baselinePeriods = CommonUtils.collectionToStringMethod(baselinePeriodsList, false, true);
+                selectedPeriods = CommonUtils.collectionToStringMethod(selectedPeriodsList, false, true);
 
                 baselinePeriods = baselinePeriods.replace(", ", ",");
                 selectedPeriods = selectedPeriods.replace(", ", ",");
@@ -1256,7 +1256,7 @@ public class NmDiscountImpl {
             }
 
             for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
-                String selectedPeriodsToUpdate = CommonUtils.CollectionToString(discountName.getValue().get("P"), false);
+                String selectedPeriodsToUpdate = CommonUtils.collectionToStringMethod(discountName.getValue().get("P"), false);
                 selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
                 selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace("Q", "").replace("S", "").replace(" ", "");
 
@@ -1310,7 +1310,7 @@ public class NmDiscountImpl {
             if (discountList != null && !discountList.isEmpty()) {
                 String discountType = discountList.get(0);
                 discountList.remove(0);
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 if (discountType.equals(Constants.PROGRAM)) {
                     discountWhereClause += " AND J.RS_NAME in (" + selectedDiscounts + ") ";
                     discountJoinClause += "JOIN RS_MODEL J ON M.RS_MODEL_SID = J.RS_MODEL_SID ";
@@ -1343,7 +1343,7 @@ public class NmDiscountImpl {
         try {
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 discountTypeQuery = " JOIN   ST_NM_DISCOUNT_PROJ_MASTER DP ON PD.PROJECTION_DETAILS_SID=DP.PROJECTION_DETAILS_SID  \n"
                         + Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
                 if (isProgram) {

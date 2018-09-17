@@ -72,7 +72,7 @@ public class CommonQueryUtils {
     public List getPriceGroupType(List<String> discountName,SessionDTO session) {
         try {
             String selectedDiscounts;
-            selectedDiscounts = CommonUtils.CollectionToString(discountName, true);
+            selectedDiscounts = CommonUtils.collectionToStringMethod(discountName, true);
             String customSql = "select Distinct DM.RS_CONTRACT_SID,DM.PRICE_GROUP_TYPE from ST_NM_DISCOUNT_PROJ_MASTER DM, RS_CONTRACT RS,PROJECTION_DETAILS D where  DM.PRICE_GROUP_TYPE IS NOT NULL "
                     + "and D.PROJECTION_MASTER_SID = " + session.getProjectionId()
                     + "and DM.RS_CONTRACT_SID=RS.RS_CONTRACT_SID "
