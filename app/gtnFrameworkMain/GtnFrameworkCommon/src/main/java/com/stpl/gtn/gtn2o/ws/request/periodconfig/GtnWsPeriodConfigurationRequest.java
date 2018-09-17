@@ -29,7 +29,8 @@ public class GtnWsPeriodConfigurationRequest implements GtnWSRequestData {
 	private String defaultPeriodFromTextBox;
 	private String dateFrom;
 	private String defaultDateFrom;
-
+	private String businessProcessType;
+	
 	private int modeTo;
 	private int defaultModeTo;
 	private int frequencyTo;
@@ -325,6 +326,14 @@ public class GtnWsPeriodConfigurationRequest implements GtnWSRequestData {
 
 	public void setModule(int module) {
 		this.module = module;
+	}
+
+	public String getBusinessProcessType() {
+		return businessProcessType;
+	}
+
+	public void setBusinessProcessType(String businessProcessType) {
+		this.businessProcessType = businessProcessType;
 	}
 
 }

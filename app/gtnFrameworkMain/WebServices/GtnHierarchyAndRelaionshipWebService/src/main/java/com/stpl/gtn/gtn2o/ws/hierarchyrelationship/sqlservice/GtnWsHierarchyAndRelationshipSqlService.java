@@ -18,13 +18,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 public class GtnWsHierarchyAndRelationshipSqlService extends GtnCommonWebServiceImplClass {
 
 	private GtnWsHierarchyAndRelationshipSqlService() {
-		super();
-		initializeLogger();
-	}
-
-	@PostConstruct
-	public void initializeLogger() {
-		super.logInformation(GtnWsHierarchyAndRelationshipSqlService.class);
+		super(GtnWsHierarchyAndRelationshipSqlService.class);
 	}
 
 	@Autowired

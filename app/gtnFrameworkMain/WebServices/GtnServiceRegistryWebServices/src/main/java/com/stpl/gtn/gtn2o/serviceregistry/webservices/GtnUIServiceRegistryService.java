@@ -12,15 +12,11 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 public class GtnUIServiceRegistryService extends GtnServiceRegistryImplClass {
 
 	private GtnUIServiceRegistryService() {
-		super();
-		initializeLogger();
+		super(GtnUIServiceRegistryService.class);
+		
 	}
 
-	@PostConstruct
-	public final void initializeLogger() {
-		super.logInformation(GtnUIServiceRegistryService.class);
-	}
-
+	
 	public GtnUIFrameworkWebserviceResponse serviceRegistryUIServiceCallingWs(GtnUIFrameworkWebserviceRequest request) {
 		logger.info("Entering into Calling Webservice");
 		GtnWsServiceRegistryBean serviceRegistryBean = request.getGtnServiceRegistryWsRequest()
