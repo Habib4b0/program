@@ -8,7 +8,6 @@ package com.stpl.app.gtnforecasting.projectionvariance.logic.tablelogic;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.projectionvariance.logic.MProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -41,7 +40,6 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
     public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionVarianceTableLogic.class);
     private String screenName = StringUtils.EMPTY;
     protected NMProjectionVarianceLogic nmProjectionVarianceLogic = new NMProjectionVarianceLogic();
-    protected MProjectionVarianceLogic mProjectionVarianceLogic = new MProjectionVarianceLogic();
 
     /**
      * Load date method for loading container based on different modules

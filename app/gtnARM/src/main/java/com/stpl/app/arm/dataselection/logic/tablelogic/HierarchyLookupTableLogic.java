@@ -7,6 +7,7 @@ package com.stpl.app.arm.dataselection.logic.tablelogic;
 
 import com.stpl.app.arm.dataselection.dto.HierarchyLookupDTO;
 import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.Collections;
@@ -41,8 +42,8 @@ public class HierarchyLookupTableLogic extends PageTableLogic {
     public int getCount() {
         try {
             List<Object> count = logic.searchLogicForHierarchy(hierarchyLookupDTO, true, 0, 0, null, this.getFilters());
-            isResultsEmpty = Integer.valueOf(count.get(0).toString()) == 0;
-            return Integer.valueOf(count.get(0).toString());
+            isResultsEmpty = ARMUtils.getIntegerValue(count.get(0).toString()) == 0;
+            return ARMUtils.getIntegerValue(count.get(0).toString());
         } catch (Exception ex) {
             LOGGER.error("Error in GetCount :" , ex);
             return 0;

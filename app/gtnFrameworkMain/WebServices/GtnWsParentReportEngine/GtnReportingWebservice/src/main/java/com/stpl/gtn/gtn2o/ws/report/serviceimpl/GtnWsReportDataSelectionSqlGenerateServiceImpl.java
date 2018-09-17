@@ -286,7 +286,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			return gtnWsReportCustomCCPListDetails.stream().filter(row -> row.getLevelNo() == levelNo
 					&& matchedFilteredHierarchyNo(filteredHierarchy, row.getHierarchyNo(), row.getData()[5].toString())
 					&& filterCustomViewVariable(customviewData, reportDashboardBean.getSelectedVariableType(), row)
-					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start).limit(limit)
+					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start)
+					.limit(limit)
 					.map(row -> aggregate(
 							convertToRecordbean(gtnWsRequest, row,
 									gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
@@ -375,7 +376,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		Optional<List> optionalRecordHeader = Optional.of(recordHeader);
 		List<Object> recordHeaderList = optionalRecordHeader.orElseGet(ArrayList::new);
 		recordBean.setRecordHeader(recordHeaderList);
-		recordBean.addAdditionalProperty(bean.getChildCount());// for Child Count
+		recordBean.addAdditionalProperty(bean.getChildCount());// for Child
+																// Count
 		recordBean.addAdditionalProperty(bean.getLevelNo());// level No
 		recordBean.addAdditionalProperty(bean.getHierarchyNo());
 		recordBean.addAdditionalProperty(index + 1);
@@ -521,10 +523,27 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	@Override
 	public void regenerateTreeAndData(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+
+		GTNLOGGER.info(" Regenerating Custom view tables and Data ");
+		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
+				.getDataSelectionBean();
+
+		resetToNewDatasetInReportDashboard(dataSelectionBean);
+		GTNLOGGER.info(" Ending regeneration of Custom view tables and Data ");
+	}
+
+	public void regenerateChangedCustomViewTreeAndData(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+
+		GTNLOGGER.info(" Regenerating Custom view tables and Data after dataset is chabged in custom view");
+		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
+				.getDataSelectionBean();
+
+		resetToNewDatasetInReportDashboard(dataSelectionBean);
+		GTNLOGGER.info(" Ending regeneration of Custom view tables and Data after dataset is chabged in custom view");
+	}
+
+	private void resetToNewDatasetInReportDashboard(GtnWsReportDataSelectionBean dataSelectionBean) {
 		try {
-			GTNLOGGER.info(" Regenerating Custom view tables and Data ");
-			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
-					.getDataSelectionBean();
 			if (dataSelectionBean.getCustomViewMasterSid() != 0) {
 				truncateTables(Arrays
 						.asList(dataSelectionBean.getSessionTable(GtnWsQueryConstants.CUSTOM_VARIABLE_HIERARCHY)));
@@ -536,7 +555,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		} catch (GtnFrameworkGeneralException | IOException ex) {
 			GTNLOGGER.error(ex.getMessage(), ex);
 		}
-		GTNLOGGER.info("Ending regeneration of Custom view tables and Data ");
+
 	}
 
 	private void truncateTables(List<String> tableNameList) {
@@ -610,11 +629,12 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	}
 
-	// Method to format values to non-decimal if user has selected Currency Display
+	// Method to format values to non-decimal if user has selected Currency
+	// Display
 	// = No Conversion
 	private void currencyTypeNoConversionDataConverters(GtnWsRecordBean gtnWsRecordBean, String mapKey,
 			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition) {
-		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
+		if (("V".equals(variableIndicator) || levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
 				|| mapKey.contains("PER") || mapKey.contains("RATE") || mapKey.contains("WEIGHTED")) {
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
 					+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
@@ -630,8 +650,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	public static Double extractDouble(Object value) {
 		return Optional.ofNullable(value).isPresent()
-				? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", ""))
-				: 0.0;
+				? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", "")) : 0.0;
 	}
 
 	private boolean matchedFilteredHierarchyNo(Set<String> filteredHierarchyNo, String hierarchyNoFromFile,

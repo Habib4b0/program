@@ -272,26 +272,26 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		closeButtonConfig.setAddToParent(true);
 		closeButtonConfig.setParentComponentId(parentId);
 
-		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		List<GtnUIFrameWorkActionConfig> confirmActionConfigList = new ArrayList<>();
                GtnUIFrameWorkActionConfig confirmationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-		List<Object> alertParamsList = new ArrayList<>();
-		alertParamsList.add(GtnFrameworkReportStringConstants.CONFIRMATION);
-		alertParamsList.add("Are you sure you want to close this Report?");
+		List<Object> confirmAlertParamsList = new ArrayList<>();
+		confirmAlertParamsList.add(GtnFrameworkReportStringConstants.CONFIRMATION);
+		confirmAlertParamsList.add("Are you sure you want to close this Report?");
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = new ArrayList<>();
-		alertParamsList.add(onSucessActionConfigList);
+		confirmAlertParamsList.add(onSucessActionConfigList);
 		GtnUIFrameWorkActionConfig closeActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		closeActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
 		onSucessActionConfigList.add(closeActionConfig);
-		confirmationActionConfig.setActionParameterList(alertParamsList);
+		confirmationActionConfig.setActionParameterList(confirmAlertParamsList);
 
-		actionConfigList.add(confirmationActionConfig);
+		confirmActionConfigList.add(confirmationActionConfig);
 		GtnUIFrameWorkActionConfig resetLandingScreenAction = new GtnUIFrameWorkActionConfig();
 		resetLandingScreenAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		resetLandingScreenAction.setActionParameterList(getResetParameters());
 		onSucessActionConfigList.add(resetLandingScreenAction);
-		closeButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		closeButtonConfig.setGtnUIFrameWorkActionConfigList(confirmActionConfigList);
 		
 		componentList.add(previousButtonConfig);
 		componentList.add(nextButtonConfig);

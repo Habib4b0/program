@@ -61,8 +61,8 @@ public class GtnFrameworkCustomTreeConfirmedSaveAction
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookupcustomViewSave").getComponentData()
-		.setCustomData(true);
-		
+				.setCustomData(Boolean.TRUE);
+
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
 		String id = sourceComponentId + "_" + "reportingDashboardTab_displaySelectionTabCustomView";
 		GtnUIFrameworkBaseComponent baseComboBoxComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(id);

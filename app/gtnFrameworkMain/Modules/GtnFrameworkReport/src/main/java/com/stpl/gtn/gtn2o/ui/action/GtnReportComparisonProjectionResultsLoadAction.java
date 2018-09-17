@@ -61,6 +61,13 @@ public class GtnReportComparisonProjectionResultsLoadAction
 						.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 			}
 			comparisonProjectionsList = dataSelectionBean.getComparisonProjectionBeanList();
+			if (comparisonProjectionsList == null) {
+				String lookupId = componentId.replace(sourceComponentId + "_", "");
+				List<GtnReportComparisonProjectionBean> comparisonList = (List<GtnReportComparisonProjectionBean>) GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(lookupId, componentId).getComponentData().getCustomData();
+				comparisonProjectionsList = Optional.ofNullable(comparisonList).isPresent() ? comparisonList
+						: comparisonProjectionsList;
+			}
 		}
 
 		GtnUIFrameworkBaseComponent selectedGrid = GtnUIFrameworkGlobalUI
@@ -78,7 +85,7 @@ public class GtnReportComparisonProjectionResultsLoadAction
 				recordBean.addProperties(comparisonBean.getMarketType());
 				recordBean.addProperties(comparisonBean.getContractHolder());
 				recordBean.addProperties(comparisonBean.getContract());
-				recordBean.addProperties(comparisonBean.getBrand());			
+				recordBean.addProperties(comparisonBean.getBrand());
 				recordBean.addProperties(new SimpleDateFormat("MM/dd/yyyy").format(comparisonBean.getCreatedDate()));
 				recordBean.addProperties(comparisonBean.getUserId());
 				recordBean.addProperties(comparisonBean.getCreatedBy());

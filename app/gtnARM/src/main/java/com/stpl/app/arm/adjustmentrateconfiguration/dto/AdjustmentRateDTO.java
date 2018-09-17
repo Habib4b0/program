@@ -34,7 +34,7 @@ public class AdjustmentRateDTO implements Serializable {
     private Integer ratePeriod = 0;
     private String month = StringUtils.EMPTY;
     private int dateType;
-    private Boolean checkRecord = false;
+    private Boolean checkRecord = Boolean.FALSE;
     private int inventoryDetails = 0;
     private int viewMasterSid;
     private final Map<String, Object> components = new HashMap<>();
