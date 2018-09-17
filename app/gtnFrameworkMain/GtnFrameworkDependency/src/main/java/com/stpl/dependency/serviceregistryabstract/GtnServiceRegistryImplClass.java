@@ -6,11 +6,14 @@ public abstract class GtnServiceRegistryImplClass {
 
 	public GtnFrameworkDependencyLogger logger;
 	
+	public GtnServiceRegistryImplClass(Class<?> className)
+	{
+		logger = GtnFrameworkDependencyLogger.getGTNLogger(className);
+	}
+	
 	public String readPropertyFile(String propertyFile){
 		return "readPropertyFile:"+propertyFile;
 	}
 	
-	public void logInformation(Class<?> className){
-		logger = GtnFrameworkDependencyLogger.getGTNLogger(className);
-	}
+	
 }

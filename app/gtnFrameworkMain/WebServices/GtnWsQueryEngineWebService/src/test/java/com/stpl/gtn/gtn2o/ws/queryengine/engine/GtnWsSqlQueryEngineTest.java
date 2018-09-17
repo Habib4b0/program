@@ -31,6 +31,9 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 @ContextConfiguration(locations = { "file:src/main/resources/GtnWsSqlQueryEngine-test.xml" })
 public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 
+	public GtnWsSqlQueryEngineTest() {
+		super(GtnWsSqlQueryEngineTest.class);
+		}
 	private GtnFrameworkDependencyLogger gtnLogger = GtnFrameworkDependencyLogger
 			.getGTNLogger(GtnWsSqlQueryEngineTest.class);
 	
