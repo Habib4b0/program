@@ -96,7 +96,7 @@ public class PPAQuerys {
         return list;
     }
     
-    public static Boolean PPAUpdate(List input, String queryName) {
+    public static Boolean ppaUpdate(List input, String queryName) {
         LOGGER.debug("Inside PPA Update");
         StringBuilder sql = new StringBuilder();
         try {

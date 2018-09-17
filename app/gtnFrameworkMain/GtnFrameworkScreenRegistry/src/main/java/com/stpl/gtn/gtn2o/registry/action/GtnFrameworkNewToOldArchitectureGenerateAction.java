@@ -57,6 +57,10 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
 
             String businessUnit = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_businessUnit").getCaptionFromV8ComboBox();
 
+            String customerForecastLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_customerSelectionForecastLevel").getCaptionFromV8ComboBox();
+
+            String customerLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_customerSelectionLevel").getCaptionFromV8ComboBox();
+
             List<Object> parametersForDataSelection = new ArrayList<>();
             parametersForDataSelection.add(fromPeriod);
             parametersForDataSelection.add(toPeriod);
@@ -67,6 +71,8 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
             parametersForDataSelection.add(productRelationVersionNo);
             parametersForDataSelection.add(productHierarchyVersionNo);
             parametersForDataSelection.add(businessUnit);
+            parametersForDataSelection.add(customerForecastLevel);
+            parametersForDataSelection.add(customerLevel);
 
             List<GtnWsRecordBean> selectedCustomerList = null;
             List<GtnWsRecordBean> selectedProductList = null;
