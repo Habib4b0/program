@@ -11,8 +11,6 @@ import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastProjectionSubmitReque
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsForecastProjectionSubmitBean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 public class DSCalculationLogic {
 
     /**
