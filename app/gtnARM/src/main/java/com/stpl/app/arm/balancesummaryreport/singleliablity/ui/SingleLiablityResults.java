@@ -51,7 +51,7 @@ public class SingleLiablityResults extends AbstractBalanceSummaryResutls {
             slRightDoubleVisibleHeader.add(0, "");
             getExcelTable().setVisibleColumns(rightsingleVisibleColumn1.toArray());
             getExcelTable().setColumnHeaders(Arrays.copyOf((slRightSingleVisibleHeader).toArray(), (slRightSingleVisibleHeader).size(), String[].class));
-            getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
+            getExcelTable().setDoubleHeaderVisible(true);
             getExcelTable().setDoubleHeaderVisibleColumns(slRightDoubleVisibleColumn.toArray());
             getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(slRightDoubleVisibleHeader.toArray(), slRightDoubleVisibleHeader.size(), String[].class));
             getExcelTable().setDoubleHeaderMap((Map) header.get(5));

@@ -89,7 +89,7 @@ public class ReturnsDataTableLogic<T extends AdjustmentDTO> extends PageTableLog
         this.logic = logic;
         this.isGenerated = isGenerated;
         this.clearAll();
-        setRequiredCount(Boolean.TRUE);
+        setRequiredCount(true);
         this.setCurrentPage(1);
     }
 

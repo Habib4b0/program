@@ -259,7 +259,7 @@ public class CommonUtils {
                     if (!str[1].equals(String.valueOf(GlobalConstants.getSelectOne()))) {
                         String description;
                         HelperDTO dto = new HelperDTO();
-                        dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                        dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
                         description = str[1] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[1]);
                         dto.setDescription(description);
                         resultList.add(dto);
@@ -431,7 +431,7 @@ public class CommonUtils {
                             }
                             header = header.replace("~", "-");
                             MenuItemDTO dto = new MenuItemDTO(column, header);
-                            dto.setId(Integer.valueOf(list.get(i)[0].toString()));
+                            dto.setId(ARMUtils.getIntegerValue(list.get(i)[0].toString()));
                             customItem[i] = customMenuItemDed.addItem(dto, null);
                             customItem[i].setCheckable(true);
                             customItem[i].setItemClickable(true);
@@ -734,7 +734,7 @@ public class CommonUtils {
         if (customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
             for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
                 if (object.isChecked()) {
-                    object.setChecked(Boolean.FALSE);
+                    object.setChecked(false);
                 }
             }
         }
@@ -748,7 +748,7 @@ public class CommonUtils {
     public static void checkAllMenuBarItem(CustomMenuBar.CustomMenuItem customMenuItem) {
         if (customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
             for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }
@@ -993,8 +993,8 @@ public class CommonUtils {
 
                 //End date - Form file
                 Calendar endPeriod = Calendar.getInstance();
-                endPeriod.set(Calendar.MONTH, Integer.valueOf(String.valueOf(object[1])) - 1);
-                endPeriod.set(Calendar.YEAR, Integer.valueOf(String.valueOf(object[NumericConstants.TWO])));
+                endPeriod.set(Calendar.MONTH, ARMUtils.getIntegerValue(String.valueOf(object[1])) - 1);
+                endPeriod.set(Calendar.YEAR, ARMUtils.getIntegerValue(String.valueOf(object[NumericConstants.TWO])));
 
                 while (startPeriod.before(endPeriod) || startPeriod.get(Calendar.MONTH) == endPeriod.get(Calendar.MONTH)) {
                     priceList.add("CURRENT" + getCurrentString(count));
@@ -1199,7 +1199,7 @@ public class CommonUtils {
                             }
                             dedcutionHeader = dedcutionHeader.replace("~", "-");
                             MenuItemDTO dto = new MenuItemDTO(column, dedcutionHeader);
-                            dto.setId(Integer.valueOf(resultList.get(i)[0].toString()));
+                            dto.setId(ARMUtils.getIntegerValue(resultList.get(i)[0].toString()));
                             dedcutionCustomItem[i] = customMenuItemDed.addItem(dto, null);
                             dedcutionCustomItem[i].setCheckable(true);
                             dedcutionCustomItem[i].setItemClickable(true);
