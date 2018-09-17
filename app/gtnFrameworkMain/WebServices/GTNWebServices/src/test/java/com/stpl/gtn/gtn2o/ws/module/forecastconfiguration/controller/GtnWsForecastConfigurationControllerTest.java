@@ -151,7 +151,7 @@ public class GtnWsForecastConfigurationControllerTest {
 		ins.saveForecastConfiguration(request);
 		
 		//case 6
-		reqConfig.setMode("Interval---");
+		reqConfig.setMode("Interal");
 		reqConfig.setToDate(new Date());
 		
 		fconig.setProcessType(false);
@@ -391,7 +391,7 @@ public class GtnWsForecastConfigurationControllerTest {
 		fcRequest.setFromDate(new Date());
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
 		
-	
+
 	}
 	
 	
