@@ -67,7 +67,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     }
 
     protected void loadSelection() {
-        calculateBtn.setVisible(Boolean.FALSE);
+        calculateBtn.setVisible(false);
         summarySelection.setStatus("Pending");
         summarySelection.setSummaryDeductionView(String.valueOf(customerProductView.getValue()));
         summarySelection.setSummaryLevel(ARMUtils.getADJSummaryLevel(String.valueOf(customerProductView.getValue())));
@@ -110,7 +110,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
             setRespectiveHierarchy(viewType);
             configureLevelAndLevelFilter();
             loadSelection();
-            getTableLogic().loadSetData(Boolean.FALSE);
+            getTableLogic().loadSetData(false);
         }
     }
 
@@ -151,7 +151,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     @Override
     public boolean getisFixedColumns() {
         ABS_BAL_SUM_LOGGER.debug("inside getisFixedColumns");
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -169,7 +169,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     @Override
     public boolean getisDeductionCustomer() {
         ABS_BAL_SUM_LOGGER.debug("inside getisDeductionCustomer");
-        return Boolean.FALSE;
+        return false;
     }
 
     class BsrResultsCustomNotification extends AbstractNotificationUtils {
@@ -227,8 +227,8 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
         loadTableHeaderForGenerate();
         loadSelection();
-        isValueChange = Boolean.TRUE;
-        tableLogic.loadSetData(Boolean.FALSE);
+        isValueChange = true;
+        tableLogic.loadSetData(false);
 
     }
 
@@ -256,7 +256,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
         }
         rightTable = table.getRightFreezeAsTable();
         rightTable.setImmediate(true);
-        rightTable.setDoubleHeaderVisible(Boolean.TRUE);
+        rightTable.setDoubleHeaderVisible(true);
         rightTable.setContainerDataSource(resultBeanContainer);
         resultBeanContainer.setColumnProperties(properties);
         rightTable.setVisibleColumns(((List) rightList.get(0)).toArray());
@@ -300,7 +300,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     protected void valueDdlbValueChange(int masterSid) {
         if (isLevelFilterValueDdlbEnable()) {
             getSelection().setSummaryvalueSid(masterSid);
-            tableLogic.loadSetData(Boolean.FALSE);
+            tableLogic.loadSetData(false);
         }
     }
 
@@ -327,7 +327,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     protected Map<Object, Object[]> configureRightDoubleHeaderMap() {

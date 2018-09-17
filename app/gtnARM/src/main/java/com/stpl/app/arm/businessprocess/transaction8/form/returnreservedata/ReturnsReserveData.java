@@ -97,7 +97,7 @@ public class ReturnsReserveData extends VerticalLayout {
         CommonUtils.loadCustomMenu(customMenuItem, ARMUtils.getReturnReserveDataHeaders(), ARMUtils.getReturnReserveDataColumns());
         removeClosedBatches.setCaption("Remove Closed Batches");
         excudeBasedOnLoeDate.setCaption("Excude Based On LOE Date");
-        removeClosedBatches.setValue(true);
+        removeClosedBatches.setValue(Boolean.TRUE);
     }
 
     @UiHandler("reset")
@@ -130,8 +130,8 @@ public class ReturnsReserveData extends VerticalLayout {
             LOGGER.debug("buttonName :{}", rrButtonName);
             if (null != rrButtonName && "reset".equals(rrButtonName)) {
                 originalSaleLimiter.setValue(null);
-                removeClosedBatches.setValue(true);
-                excudeBasedOnLoeDate.setValue(false);
+                removeClosedBatches.setValue(Boolean.TRUE);
+                excudeBasedOnLoeDate.setValue(Boolean.FALSE);
                 CommonUtils.unCheckMenuBarItem(customMenuItem);
             }
 
@@ -161,7 +161,7 @@ public class ReturnsReserveData extends VerticalLayout {
     }
 
     private void setSelection() {
-        selection.setReturnReserveDataVariables(CommonUtils.getSelectedVariables(customMenuItem, true));
+        selection.setReturnReserveDataVariables(CommonUtils.getSelectedVariables(customMenuItem, Boolean.TRUE));
         selection.setOriginalSaleLimiter(originalSaleLimiter.getValue());
         selection.setOriginalSaleLimiterVal(selection.getOriginalSaleLimiter() != null ? ARMUtils.getInstance().getDbDate().format(selection.getOriginalSaleLimiter()) : StringUtils.EMPTY);
         selection.setRemoveClosedBatches(removeClosedBatches.getValue() ? NumericConstants.ONE : NumericConstants.ZERO);

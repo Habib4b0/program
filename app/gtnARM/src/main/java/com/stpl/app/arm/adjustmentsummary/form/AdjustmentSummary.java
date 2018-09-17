@@ -222,13 +222,9 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
     }
 
     private boolean checkMandatoryFields() {
-        if (Integer.valueOf(frequencyDdlb.getValue().toString()) == 0 || Integer.valueOf(deductionlevelDdlb.getValue().toString()) == 0
+        return (ARMUtils.getIntegerValue(frequencyDdlb.getValue().toString()) == 0 || ARMUtils.getIntegerValue(deductionlevelDdlb.getValue().toString()) == 0
                 || summarySelection.getSelectedAdjustmentTypeValues().isEmpty() || summarySelection.getDeductionVariableIds().isEmpty()
-                || VariableConstants.SELECT_ONE.equals(summarySelection.getStatus())) {
-            return Boolean.TRUE;
-        }
-
-        return Boolean.FALSE;
+                || VariableConstants.SELECT_ONE.equals(summarySelection.getStatus()));
     }
 
     @Override

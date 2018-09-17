@@ -38,7 +38,7 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -105,7 +105,7 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
     public void generateButtonLogic(String[] columns) {
         customerProductView.setValue(ARMConstants.getDeductionProduct());
         setValueChangeAllowed(false);
-        isGenarate = Boolean.TRUE;
+        isGenarate = true;
         Map properties = new HashMap();
         String view = String.valueOf(customerProductView.getValue());
         if (ARMConstants.getDeductionProduct().equalsIgnoreCase(view)) {
@@ -172,7 +172,7 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
         }
         setRespectiveHierarchy(view);
         configureLevelAndLevelFilter();
-        tableLogic.loadSetData(Boolean.FALSE);
+        tableLogic.loadSetData(false);
         setValueChangeAllowed(true);
 
     }
@@ -202,7 +202,7 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
         configureLevelAndLevelFilter();
         configureRightTable();
         if (isGenarate) {
-            getTableLogic().loadSetData(Boolean.FALSE);
+            getTableLogic().loadSetData(false);
         }
         List<String> headerList = Arrays.asList(rightTable.getColumnHeaders());
         if ((selection.getSessionDTO().isWorkFlow()

@@ -111,7 +111,7 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
         boolean totalFlag = false;
         if (((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getCurrentPage() == criteria.getLastPage())) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
             totalFlag = true;
-            int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString()) - 1;
+            int offset = ARMUtils.getIntegerValue(inputs.get(inputs.size() - 1).toString()) - 1;
             inputs.set(inputs.size() - 1, offset);
         }
         List<Object[]> data;

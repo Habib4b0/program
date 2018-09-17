@@ -70,7 +70,7 @@ public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
