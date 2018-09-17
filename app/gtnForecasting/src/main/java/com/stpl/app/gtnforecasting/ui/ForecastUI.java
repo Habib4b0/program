@@ -430,5 +430,13 @@ public class ForecastUI extends UI {
         DataSelectionForm form = new DataSelectionForm(sessionDto, dataSelectionDto, inputBean);
         form.viewButtonLogicNewArch(inputBean);
     }
+    
+    public void getForecastingToDelete(GtnFrameworkForecastInputBean inputBean){
+        sessionDto.setUserId(inputBean.getUserId());
+        sessionDto.setSessionId(inputBean.getSessionId());
+        DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
+        DataSelectionForm form = new DataSelectionForm(sessionDto, dataSelectionDto, inputBean);
+        form.deleteButtonLogicNewArch(inputBean);
+    }
 
 }
