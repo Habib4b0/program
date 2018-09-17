@@ -86,7 +86,7 @@ public class Trx7SalesFieldFactory implements TableFieldFactory {
                 tr7Input.add(selection.getSessionDTO().getCurrentTableNames().get("ST_ARM_DISTRIBUTION_FEES_SALES"));
                 tr7Input.add(value.toString());
                 tr7Input.add(dto.getCompSids().isEmpty() || dto.getCompSids().equals("0") ? '%' : dto.getCompSids());
-                tr7Input.add(Integer.valueOf(dto.getBranditemmasterSid()));
+                tr7Input.add(ARMUtils.getIntegerValue(dto.getBranditemmasterSid()));
                 tr7Input.add(projectionId);
                 service.submit(new Tr7UpdateOverride(tr7Input));
 

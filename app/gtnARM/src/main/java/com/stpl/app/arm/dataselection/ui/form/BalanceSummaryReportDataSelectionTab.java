@@ -55,7 +55,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
     private DataSelectionLogic logic = new DataSelectionLogic();
     private static final Logger LOGGER = LoggerFactory.getLogger(BalanceSummaryReportDataSelectionTab.class);
     private String periodView = StringUtils.EMPTY;
-    private Boolean fromFlag = false;
+    private Boolean fromFlag = Boolean.FALSE;
     private TabSheet tabSheet;
 
     public Boolean getFromFlag() {
@@ -590,9 +590,9 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
                 dataSelectionDTO.setToPeriod(String.valueOf(toPeriod.getValue()));
                 dataSelectionDTO.setToDate(CommonLogic.parseDate(String.valueOf(toPeriod.getValue())));
                 logic.updateProjectionMaster(dataSelectionDTO.getFromDate(), dataSelectionDTO.getToDate(), dataSelectionDTO.getProjectionId());
-                setFromFlag(true);
+                setFromFlag(Boolean.TRUE);
                 tabSheet.setSelectedTab(1);
-                setFromFlag(false);
+                setFromFlag(Boolean.FALSE);
             } catch (ParseException ex) {
                 LOGGER.error(ex.getMessage());
             }

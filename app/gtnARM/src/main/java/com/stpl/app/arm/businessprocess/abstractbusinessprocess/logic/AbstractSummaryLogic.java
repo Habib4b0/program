@@ -157,7 +157,7 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
         String selectedView = viewMap.get(viewType);
         boolean isContractView = false;
         if (viewType.equals(ARMConstants.getDeductionCustomerContract())) {
-            isContractView = Boolean.TRUE;
+            isContractView = true;
         }
         if (isContractView && deduction.equals(ARMConstants.getDeduction())) {
             selectedView = "Deduction";
@@ -217,7 +217,7 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
         String query = SQlUtil.getQuery("getPeriodSidValue");
         query = query.replace("$PERIOD", period);
         List list = QueryUtils.executeSelect(query);
-        return list == null ? 0 : Integer.valueOf(String.valueOf(list.get(0)));
+        return list == null ? 0 : ARMUtils.getIntegerValue(String.valueOf(list.get(0)));
     }
 
     public AdjustmentDTO clearVariables(List<String> variables, AdjustmentDTO dto) {

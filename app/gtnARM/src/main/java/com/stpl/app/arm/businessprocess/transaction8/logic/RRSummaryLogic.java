@@ -125,7 +125,7 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
     protected DataResult<T> getSummaryData(List<Object> inputs, Criteria criteria, TreeMap<String, Integer> masterSids) {
         boolean isView = criteria.getSelectionDto().getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getCurrentPage() == criteria.getLastPage())) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
-            int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString());
+            int offset = ARMUtils.getIntegerValue(inputs.get(inputs.size() - 1).toString());
             inputs.set(inputs.size() - 1, offset);
         }
         List<Object[]> data;

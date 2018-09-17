@@ -297,7 +297,7 @@ public class DataSelectionLogic {
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
         for (Object[] obj : list) {
             HierarchyLookupDTO hdto = new HierarchyLookupDTO();
-            hdto.setHierarchyId(Integer.valueOf(obj[0].toString()));
+            hdto.setHierarchyId(ARMUtils.getIntegerValue(obj[0].toString()));
             hdto.setHierarchyName(String.valueOf(obj[1].toString()));
             hdto.setHighestLevel(String.valueOf(obj[NumericConstants.THREE].toString()));
             hdto.setLowestLevel(String.valueOf(obj[NumericConstants.FOUR].toString()));
@@ -1276,7 +1276,7 @@ public class DataSelectionLogic {
         rsContractInput.add(projectionId);
         List<Object> rawList = QueryUtils.getItemData(rsContractInput, "LoadRsContractSid", null);
         for (int i = 0; i < rawList.size(); i++) {
-            listRSContractsids.add(Integer.valueOf(rawList.get(i).toString()));
+            listRSContractsids.add(ARMUtils.getIntegerValue(rawList.get(i).toString()));
         }
         LOGGER.debug("--Exit getRsContractSids --{}", listRSContractsids.size());
         return listRSContractsids;
@@ -1594,7 +1594,7 @@ public class DataSelectionLogic {
             levelDto.setFieldName(objects[3] == null ? StringUtils.EMPTY : objects[3].toString());
             levelDto.setLevel(objects[4] == null ? StringUtils.EMPTY : objects[4].toString());
             levelDto.setHierarchyLevelDefnId(objects[5] == null ? "0" : objects[5].toString());
-            levelDto.setHierarchyId(Integer.valueOf(objects[6] == null ? "0" : objects[6].toString()));
+            levelDto.setHierarchyId(ARMUtils.getIntegerValue(objects[6] == null ? "0" : objects[6].toString()));
             levelDto.setHierarchyType(objects[7] == null ? StringUtils.EMPTY : objects[7].toString());
             levelDto.setHierarchyVersionNo(hierarchyVersionNo);
             resultDtoList.add(levelDto);
@@ -1607,7 +1607,7 @@ public class DataSelectionLogic {
     }
 
     private Integer getIntegerValue(Object[] objects, int index) {
-        return Integer.valueOf(objects[index] == null ? "0" : objects[index].toString());
+        return ARMUtils.getIntegerValue(objects[index] == null ? "0" : objects[index].toString());
     }
 
     public void ccpHierarchyInsert(Map<String, String> tempTableNames, List<LevelDTO> selectedCustomerContractList,

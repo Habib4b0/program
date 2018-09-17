@@ -112,9 +112,9 @@ public class ReturnsData extends CustomComponent {
     private void loadFirstTimeVariables() {
         List list = Arrays.asList(ARMUtils.getDefaultCheckedCols());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-            object.setChecked(Boolean.FALSE);
+            object.setChecked(false);
             if (list.contains(object.getMenuItem().getWindow())) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }
@@ -178,7 +178,7 @@ public class ReturnsData extends CustomComponent {
         resultsTable.setVisibleColumns(visibleColumns);
         resultsTable.setColumnHeaders(visibleHeaders);
         resultsTable.setSizeFull();
-        resultsTable.setSelectable(Boolean.FALSE);
+        resultsTable.setSelectable(false);
         resultsTable.setFilterBarVisible(true);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         tableLogic.setPageLength(NumericConstants.TEN);

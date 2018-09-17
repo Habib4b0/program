@@ -137,7 +137,7 @@ public class ViewSearchLookUp extends Window {
         try {
             if (resultsTableLevel.getValue() != null) {
                 viewDTO = (ViewDTO) resultsTableLevel.getValue();
-                setSelected(Boolean.TRUE);
+                setSelected(true);
                 close();
             }
         } catch (Exception ex) {
@@ -148,7 +148,7 @@ public class ViewSearchLookUp extends Window {
 
     @UiHandler("closeBtn")
     public void closeButtonLogic(Button.ClickEvent event) {
-        setSelected(Boolean.FALSE);
+        setSelected(false);
         close();
     }
 

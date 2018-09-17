@@ -442,8 +442,8 @@ public class DataSelectionTab extends AbstractDataSelection {
             if (!ARMConstants.getAdjustmentSummary().equals(selection.getAdjustmentType())) {
                 buscinessProcess = ((HelperDTO) adjustmentType.getValue()).getId();
             }
-            int glCompId = Integer.valueOf(company.getValue().toString());
-            int bUnitCompSid = Integer.valueOf(businessUnit.getValue().toString());
+            int glCompId = ARMUtils.getIntegerValue(company.getValue().toString());
+            int bUnitCompSid = ARMUtils.getIntegerValue(businessUnit.getValue().toString());
             fromPeriod.removeAllItems();
             toPeriod.removeAllItems();
             configurePeriodDropDown(fromPeriod);

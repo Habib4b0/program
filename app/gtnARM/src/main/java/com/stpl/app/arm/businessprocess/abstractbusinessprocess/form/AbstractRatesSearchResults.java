@@ -106,7 +106,7 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
         excelTable.setColumnHeaders(columnHeader.toArray(new String[0]));
         for (Object visibleColumnsValue : excelTable.getVisibleColumns()) {
             if (!"group".equals(visibleColumnsValue.toString())) {
-                excelTable.setConverter(visibleColumnsValue, new DataFormatConverter("#,##0.000", "%"), Boolean.FALSE);
+                excelTable.setConverter(visibleColumnsValue, new DataFormatConverter("#,##0.000", "%"), false);
             }
         }
     }
@@ -128,7 +128,7 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
         configureLevelAndLevelFilter();
         selectionDTO.setLevelNo(1);
         loadTableHeader(selectionDTO.getRateColumnList());
-        tableLogic.loadSetData(Boolean.FALSE);
+        tableLogic.loadSetData(false);
     }
 
     /**
@@ -192,7 +192,7 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
             setRespectiveHierarchy(selection.getRateDeductionView());
             configureLevelAndLevelFilter();
             configureRightTable();
-            tableLogic.loadSetData(Boolean.FALSE);
+            tableLogic.loadSetData(false);
         }
     }
 
@@ -258,7 +258,7 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
