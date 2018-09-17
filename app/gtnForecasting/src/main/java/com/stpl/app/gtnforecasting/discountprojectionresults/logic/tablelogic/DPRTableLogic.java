@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;

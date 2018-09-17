@@ -5,6 +5,7 @@
  */
 package com.stpl.ifs.ui.forecastds.dto;
 
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -221,6 +222,25 @@ public class DataSelectionDTO implements Serializable {
         private int dataSelectionDeductionLevelSid;
         private int customViewMasterSid;
 
+        private GtnWsRecordBean dsCustomerHierarchyBean;
+
+    public GtnWsRecordBean getDsCustomerHierarchyBean() {
+        return dsCustomerHierarchyBean;
+    }
+
+    public void setDsCustomerHierarchyBean(GtnWsRecordBean dsCustomerHierarchyBean) {
+        this.dsCustomerHierarchyBean = dsCustomerHierarchyBean;
+    }
+
+    public GtnWsRecordBean getDsProductHierarchyBean() {
+        return dsProductHierarchyBean;
+    }
+
+    public void setDsProductHierarchyBean(GtnWsRecordBean dsProductHierarchyBean) {
+        this.dsProductHierarchyBean = dsProductHierarchyBean;
+    }
+        private GtnWsRecordBean dsProductHierarchyBean;
+        
 	public Integer getFileEndMonth() {
 		return fileEndMonth;
 	}

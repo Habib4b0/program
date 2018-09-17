@@ -63,7 +63,7 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
         sql = sql.replace(CONFIGTYPETEMPTABLE, criteria.getSelectionDto().getSessionDTO().getCurrentTableNames().get(tableName));
         sql = sql.replace(PAGINATION, StringUtils.EMPTY);
         List count = QueryUtils.executeSelect(sql);
-        return count == null || count.isEmpty() ? 0 : Integer.valueOf(String.valueOf(count.get(0)));
+        return count == null || count.isEmpty() ? 0 : ARMUtils.getIntegerValue(String.valueOf(count.get(0)));
     }
     private static final String PAGINATION = "@PAGINATION";
     private static final String CONFIGTYPETEMPTABLE = "@CONFIGTYPETEMPTABLE";

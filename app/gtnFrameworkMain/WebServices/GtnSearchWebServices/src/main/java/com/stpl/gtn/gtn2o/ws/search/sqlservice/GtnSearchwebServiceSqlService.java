@@ -22,17 +22,10 @@ import org.springframework.stereotype.Service;
 public class GtnSearchwebServiceSqlService extends GtnServiceRegistryImplClass {
 
     private GtnSearchwebServiceSqlService() {
-        /* constructor*/
-        super();
-        initializeLogger();
+        super(GtnSearchwebServiceSqlService.class);
     }
     @Autowired
     private PropertiesFactoryBean sqlPropertyBean;
-
-    @PostConstruct
-    public final void initializeLogger() {
-        super.logInformation(GtnSearchwebServiceSqlService.class);
-    }
 
     public String getQuery(String queryId) {
         try {

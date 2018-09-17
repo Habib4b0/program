@@ -19,7 +19,6 @@ import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import static com.stpl.app.gtnforecasting.ui.form.lookups.AltHistorySelection.getMonthMap;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.getDateTime;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.getEndMonth;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.getPeriod;
@@ -1052,8 +1051,8 @@ public class CommonUtils {
      * @param toAddQuote
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString, toAddQuote, false);
+    public static String collectionToStringMethod(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToStringMethod(collectionOfString, toAddQuote, false);
     }
 
     /**
@@ -1064,7 +1063,7 @@ public class CommonUtils {
      * @param toRemoveSpace
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToStringMethod(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = StringUtils.EMPTY;
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
@@ -1951,5 +1950,18 @@ public class CommonUtils {
     public static int compareDoubleValues(String value) {
         return Double.compare(Double.parseDouble(value), 0.0);
     }
-    
+
+    public Map<String, Integer> getMonthMap() {
+        Map<String, Integer> monthMap = new HashMap<>();
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] months = dfs.getShortMonths();
+        List<String> temp = Arrays.asList(months);
+        int i = 0;
+        for (String m : temp) {
+            monthMap.put(m, i);
+            i++;
+        }
+        return monthMap;
+    }
+
 }

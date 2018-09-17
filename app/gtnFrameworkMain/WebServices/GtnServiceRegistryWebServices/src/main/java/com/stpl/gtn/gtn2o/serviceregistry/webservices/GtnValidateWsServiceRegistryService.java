@@ -18,13 +18,8 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImplClass {
 
 	private GtnValidateWsServiceRegistryService() {
-		super();
-		initializeLogger();
-	}
+		super(GtnValidateWsServiceRegistryService.class);
 
-	@PostConstruct
-	public final void initializeLogger() {
-		super.logInformation(GtnValidateWsServiceRegistryService.class);
 	}
 
 	public boolean serviceRegistryServiceToValidateWsIsRegistered(GtnWsServiceRegistryBean serviceRegistryBean) {

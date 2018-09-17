@@ -110,8 +110,8 @@ public class DiscountQueryBuilder {
                 baselinePeriodsList = discountName.getValue().get(baselineIndicator);
                 selectedPeriodsList = discountName.getValue().get("P");
 
-                baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
-                selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
+                baselinePeriods = CommonUtils.collectionToStringMethod(baselinePeriodsList, false, true);
+                selectedPeriods = CommonUtils.collectionToStringMethod(selectedPeriodsList, false, true);
 
                 baselinePeriods = baselinePeriods.replace(", ", ",");
                 selectedPeriods = selectedPeriods.replace(", ", ",");
@@ -151,7 +151,7 @@ public class DiscountQueryBuilder {
 
             String rsQuery = levelType.equals(Constants.PROGRAM) ? " RS.RS_NAME " : " DPM.PRICE_GROUP_TYPE ";
             for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
-                String selectedPeriodsToUpdate = CommonUtils.CollectionToString(discountName.getValue().get("P"), false);
+                String selectedPeriodsToUpdate = CommonUtils.collectionToStringMethod(discountName.getValue().get("P"), false);
                 selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
                 selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace("Q", "").replace("S", "").replace(" ", "");
 

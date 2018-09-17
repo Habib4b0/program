@@ -94,7 +94,7 @@ public class GtnFrameworkUICustomTreeRemoveAction
 
 		GTNLOGGER.info(
 				"selectedBean.getStringPropertyByIndex(3): " + selectedBean.getStringPropertyByIndex(3).toLowerCase());
-		GTNLOGGER.info("type.toString(): " + type.toString());
+		GTNLOGGER.info("type.toString(): " + type);
 
 		if (!type.toString().startsWith(selectedBean.getStringPropertyByIndex(3).toLowerCase())) {
 			GtnUIFrameWorkActionConfig invalidButtonNotificationConfig = new GtnUIFrameWorkActionConfig(

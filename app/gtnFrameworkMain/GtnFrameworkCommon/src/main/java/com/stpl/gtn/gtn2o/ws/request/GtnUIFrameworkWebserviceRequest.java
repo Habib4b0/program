@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.request.emailconfig.GtnWsMailConfigurationRequest;
 import com.stpl.gtn.gtn2o.ws.request.filemanagement.GtnWsFileManagementRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastProjectionSubmitRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
+import com.stpl.gtn.gtn2o.ws.request.forecast.newarch.GtnWsForecastNewArchRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecastconfiguration.GtnWsForecastConfigurationRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecastingsearch.GtnGeneralSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
@@ -67,6 +68,8 @@ public class GtnUIFrameworkWebserviceRequest {
     private GtnWsIfpRequest gtnWsIfpRequest;
 
     private GtnWsForecastRequest gtnWsForecastRequest;
+    
+    private GtnWsForecastNewArchRequest gtnWsForecastNewArchRequest;
 
     private GtnWsArmRequest gtnWsArmRequest;
 
@@ -239,6 +242,15 @@ public class GtnUIFrameworkWebserviceRequest {
     public void setGtnWsForecastRequest(GtnWsForecastRequest gtnWsForecastRequest) {
         this.gtnWsForecastRequest = gtnWsForecastRequest;
     }
+    
+    public GtnWsForecastNewArchRequest getGtnWsForecastNewArchRequest() {
+        return gtnWsForecastNewArchRequest;
+    }
+
+    public void setGtnWsForecastNewArchRequest(GtnWsForecastNewArchRequest gtnWsForecastNewArchRequest) {
+        this.gtnWsForecastNewArchRequest = gtnWsForecastNewArchRequest;
+    }
+
 
     public GtnWsCheckAllUpdateRequest getGtnWsCheckAllUpdateRequest() {
         return gtnWsCheckAllUpdateRequest;

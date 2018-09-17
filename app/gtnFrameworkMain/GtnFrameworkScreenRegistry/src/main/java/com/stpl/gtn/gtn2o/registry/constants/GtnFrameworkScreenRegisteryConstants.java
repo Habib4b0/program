@@ -13,6 +13,7 @@ public class GtnFrameworkScreenRegisteryConstants {
 	public static final String FORECAST_TAB_PARENT_ID="_" + "forecastLayout";	
 	public static final String COMMON_BUTTON_LAYOUT_PARENT_ID = "_" + "commonButtonLayout";  
         public static final String ADD_COMPANY_COMBOX_ID="company";
+        public static final String ADD_FREQUENCY_COMBOX_ID="frequency";
         public static final String ADD_BUSINESS_UNIT_COMPONENT_ID="businessUnit";
         public static final String ADD_DISCOUNT_PROJECTION_RESULT_TABLE="filterComboBox";
         public static final String CUSTOMER_HIERARCHY_ADD_CUST_SEL_LAYOUT="customerSelectionLayout";
@@ -27,5 +28,7 @@ public class GtnFrameworkScreenRegisteryConstants {
         public static final String HIERARCHY_NAME="hierachyName";
         public static final String HIGHEST_LEVEL="highestLevel";
         public static final String GTN_NEWARCHITECTURE_CONFIRMATION_MSG_RESET_HEADER = "Confirmation";
-    	public static final String GTN_VALIDATION_MSG_RESET = "Are you sure you want to reset the page to default/previous values?";        
+    	public static final String GTN_VALIDATION_MSG_RESET = "Are you sure you want to reset the page to default/previous values?";
+    	 public static final String DEDUCTION_LEVEL_ID="deduction_level";
+    	 public static final String DEDUCTION_LEVEL_NAME="Deduction Level";
 }

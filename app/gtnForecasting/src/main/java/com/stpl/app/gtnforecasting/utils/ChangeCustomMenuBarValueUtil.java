@@ -20,22 +20,22 @@ public class ChangeCustomMenuBarValueUtil {
         // ChangeCustomMenuBarValueUtil
     }
 
-    public static String getMenuItemToDisplay(CustomMenuBar.CustomMenuItem customerFilterValues) {
-        String defaultValue = "-Select Level-";
-        List<Object> captionList = new ArrayList<>();
-        if (customerFilterValues != null && customerFilterValues.getSize() > 0) {
-            List<CustomMenuBar.CustomMenuItem> items = customerFilterValues.getChildren();
+    public static String getMenuItemToDisplay(CustomMenuBar.CustomMenuItem customerFilterValue) {
+        String defaultValueMenuDisplay = "-Select Level-";
+        List<Object> captionListDisplay = new ArrayList<>();
+        if (customerFilterValue != null && customerFilterValue.getSize() > 0) {
+            List<CustomMenuBar.CustomMenuItem> menuItems = customerFilterValue.getChildren();
 
-            for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
+            for (Iterator<CustomMenuBar.CustomMenuItem> itvalues = menuItems.iterator(); itvalues.hasNext();) {
 
-                CustomMenuBar.CustomMenuItem customItem1 = it.next();
-                if (customItem1.isChecked() && !customItem1.getMenuItem().getCaption().equals("Select All")) {
-                    captionList.add(customItem1.getMenuItem().getCaption());
+                CustomMenuBar.CustomMenuItem customItem = itvalues.next();
+                if (customItem.isChecked() && !customItem.getMenuItem().getCaption().equals("Select All")) {
+                    captionListDisplay.add(customItem.getMenuItem().getCaption());
                 }
             }
-            defaultValue = getCheckedRecordResult(defaultValue, captionList);
+            defaultValueMenuDisplay = getCheckedRecordResult(defaultValueMenuDisplay, captionListDisplay);
         }
-        return defaultValue;
+        return defaultValueMenuDisplay;
     }
 
     private static String getCheckedRecordResult(String defaultValue, List<Object> recordList) {
@@ -48,21 +48,21 @@ public class ChangeCustomMenuBarValueUtil {
         return checkDefaultValue;
     }
 
-    public static String getInclusionMenuItemToDisplay(CustomMenuBar.CustomMenuItem salesInclusionValues) {
-        String inclusionValue = "-Select Values-";
-        List<Object> captionList = new ArrayList<>();
-        if (salesInclusionValues != null && salesInclusionValues.getSize() > 0) {
-            List<CustomMenuBar.CustomMenuItem> items = salesInclusionValues.getChildren();
+    public static String getInclusionMenuItemToDisplay(CustomMenuBar.CustomMenuItem salesInclusionValue) {
+        String inclusionValueDisplay = "-Select Values-";
+        List<Object> captionListInclusionDisplay = new ArrayList<>();
+        if (salesInclusionValue != null && salesInclusionValue.getSize() > 0) {
+            List<CustomMenuBar.CustomMenuItem> itemsInclusionDisplay = salesInclusionValue.getChildren();
 
-            for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
-                CustomMenuBar.CustomMenuItem customMenuItem = it.next();
-                if (customMenuItem.isChecked()) {
-                    captionList.add(customMenuItem.getMenuItem().getCaption());
+            for (Iterator<CustomMenuBar.CustomMenuItem> itInclusionValues = itemsInclusionDisplay.iterator(); itInclusionValues.hasNext();) {
+                CustomMenuBar.CustomMenuItem customMenuItemInclusion = itInclusionValues.next();
+                if (customMenuItemInclusion.isChecked()) {
+                    captionListInclusionDisplay.add(customMenuItemInclusion.getMenuItem().getCaption());
                 }
             }
-            inclusionValue = getInclusionCheckedResult(inclusionValue, captionList);
+            inclusionValueDisplay = getInclusionCheckedResult(inclusionValueDisplay, captionListInclusionDisplay);
         }
-        return inclusionValue;
+        return inclusionValueDisplay;
     }
 
     private static String getInclusionCheckedResult(String inclusionValue, List<Object> captionList) {

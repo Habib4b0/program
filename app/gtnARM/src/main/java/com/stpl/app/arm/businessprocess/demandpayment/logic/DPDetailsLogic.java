@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
-    private final Logger dpDetailsLogger = LoggerFactory.getLogger(DPDetailsLogic.class);
+    private static final Logger DP_DETAILS_LOGGER = LoggerFactory.getLogger(DPDetailsLogic.class);
 
     @Override
     public List<List> getReserveAccountDetails(AbstractSelectionDTO paymentsSelection, Boolean isReserve) {
@@ -85,25 +85,25 @@ public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
-        dpDetailsLogger.debug("Inside getExcelResultList");
+        DP_DETAILS_LOGGER.debug("Inside getExcelResultList");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected String getTableNameForView() {
-        dpDetailsLogger.debug("Inside getTableNameForView");
+        DP_DETAILS_LOGGER.debug("Inside getTableNameForView");
         return "ARM_DEMAND_RECON_SUMMARY";
     }
 
     @Override
     protected String getTableNameForEdit() {
-        dpDetailsLogger.debug("Inside getTableNameForEdit");
+        DP_DETAILS_LOGGER.debug("Inside getTableNameForEdit");
         return "ST_ARM_DEMAND_RECON_SUMMARY";
     }
 
     @Override
     protected CharSequence getRateColumn() {
-        dpDetailsLogger.debug("Inside getRateColumn");
+        DP_DETAILS_LOGGER.debug("Inside getRateColumn");
         return "B.PROJECTED_RATE";
     }
 

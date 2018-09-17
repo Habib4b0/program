@@ -55,7 +55,7 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
 }

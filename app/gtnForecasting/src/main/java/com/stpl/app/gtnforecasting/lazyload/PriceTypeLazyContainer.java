@@ -7,8 +7,8 @@ package com.stpl.app.gtnforecasting.lazyload;
 
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.logic.PPAProjectionLogic;
-import com.stpl.app.serviceUtils.ErrorCodeUtil;
-import com.stpl.app.serviceUtils.ErrorCodes;
+import com.stpl.app.gtnforecasting.utils.ErrorCodeUtil;
+import com.stpl.app.gtnforecasting.utils.ErrorCodes;
 import com.stpl.ifs.util.HelperDTO;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;

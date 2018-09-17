@@ -686,7 +686,7 @@ public class NMSalesProjectionResultsLogic {
 		int neededRecord = offset;
 		int mayBeAdded = 0;
 		List<SalesProjectionResultsDTO> projDTOList = new ArrayList<>();
-		String discList = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
+		String discList = CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false);
 		String freq = StringUtils.EMPTY;
 		if (projSelDTO.getFrequencyDivision() == 1 || Constant.ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
 			freq = Constant.ANNUAL_CAPS;
@@ -752,7 +752,7 @@ public class NMSalesProjectionResultsLogic {
 		int neededRecord = offset;
 		int started = start;
 		int mayBeAdded = 0;
-		String discList = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
+		String discList = CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false);
 		String freq = StringUtils.EMPTY;
 		if (projSelDTO.getFrequencyDivision() == 1 || Constant.ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
 			freq = Constant.ANNUAL_CAPS;
@@ -2105,7 +2105,6 @@ public class NMSalesProjectionResultsLogic {
 					projSelDTO.setLevelNo(0);
 					projSelDTO.setTreeLevelNo(0);
 					projSelDTO.setCustomLevelNo(0);
-					;
 				} else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
 					projSelDTO.setLevelNo(projSelDTO.getCustomerLevelNo() - 1);
 					projSelDTO.setTreeLevelNo(projSelDTO.getCustomerLevelNo() - 1);

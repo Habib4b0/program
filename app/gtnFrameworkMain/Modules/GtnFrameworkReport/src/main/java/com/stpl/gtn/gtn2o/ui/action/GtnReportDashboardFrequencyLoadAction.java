@@ -133,57 +133,13 @@ public class GtnReportDashboardFrequencyLoadAction
 			startDate = LocalDate.of(Integer.parseInt(yearData[0]), 1, 1);
 			break;
 		case GtnFrameworkReportStringConstants.MONTH:
-			startDate = LocalDate.of(Integer.parseInt(yearData[1]), getMonthIntegerFromYear(yearData[0]), 1);
+			startDate = LocalDate.of(Integer.parseInt(yearData[1]),
+					Integer.parseInt(GtnFrameworkReportStringConstants.getMonthIntegerFromYear(yearData[0])), 1);
 			break;
 		default:
 			break;
 		}
 		return startDate;
-	}
-
-	private int getMonthIntegerFromYear(String month) {
-		int monthCount = 0;
-		switch (month.toUpperCase()) {
-		case "JAN":
-			monthCount = 1;
-			break;
-		case "FEB":
-			monthCount = 2;
-			break;
-		case "MAR":
-			monthCount = 3;
-			break;
-		case "APR":
-			monthCount = 4;
-			break;
-		case "MAY":
-			monthCount = 5;
-			break;
-		case "JUN":
-			monthCount = 6;
-			break;
-		case "JUL":
-			monthCount = 7;
-			break;
-		case "AUG":
-			monthCount = 8;
-			break;
-		case "SEP":
-			monthCount = 9;
-			break;
-		case "OCT":
-			monthCount = 10;
-			break;
-		case "NOV":
-			monthCount = 11;
-			break;
-		case "DEC":
-			monthCount = 12;
-			break;
-		default:
-			break;
-		}
-		return monthCount;
 	}
 
 	private String getFrequency(String startString) {
