@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSummaryLogic<T> {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger PI_LOGGER = LoggerFactory.getLogger(PISummaryLogic.class);
 
     @Override
     protected int getSummaryCount(List<Object> inputs, Criteria criteria) {
@@ -64,7 +64,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         boolean totalFlag = false;
         if (((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getCurrentPage() == criteria.getLastPage()) && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
             totalFlag = true;
-            int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString()) - 1;
+            int offset = ARMUtils.getIntegerValue(inputs.get(inputs.size() - 1).toString()) - 1;
             inputs.set(inputs.size() - 1, offset);
         }
         List<Object[]> data;
@@ -121,7 +121,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 dto.setLevelNo((int) get[NumericConstants.EIGHT]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
                 Boolean total = isTotal ? false : (boolean) get[NumericConstants.NINE];
-                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() == 0) ? total : false);
+                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() == 0) ? total : Boolean.FALSE);
                 dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                 if (masterSids != null) {
                     dto.setMasterIds(masterSids);
@@ -171,7 +171,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FIVE), flag[NumericConstants.FIVE] ? decimalformat.format(totalColumnValue[NumericConstants.FIVE]) : StringUtils.EMPTY);
             }
             lastBrand = brand;
-            logger.debug("index-------{}", index);
+            PI_LOGGER.debug("index-------{}", index);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(resultList);

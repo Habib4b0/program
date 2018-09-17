@@ -45,17 +45,7 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
         replaceList.add(distributionSelection.getDataSelectionDTO().getProjectionId());
         replaceList.add(distributionSelection.getDataSelectionDTO().getCompanyMasterSid());
         replaceList.add(distributionSelection.getDataSelectionDTO().getBucompanyMasterSid());
-        StringBuilder query;
-        if (distributionSelection.getSessionDTO().isWorkFlow()) {
-            query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(distributionSelection.getDataSelectionDTO().getProjectionId()));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
-        } else {
-            query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
-            for (Object temp : replaceList) {
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
-            }
-        }
+        StringBuilder query = getQueryForReserve(distributionSelection, isReserve, replaceList);
         LOGGERFORDETAILLOGIC.debug("--query --{}", query);
         List list = QueryUtils.executeSelect(query.toString());
         if (list != null) {
@@ -85,6 +75,21 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
         }
         LOGGERFORDETAILLOGIC.debug("--Exit getReserveAccountDetails --{}", finalList.size());
         return finalList;
+    }
+
+    private StringBuilder getQueryForReserve(AbstractSelectionDTO distributionSelection, Boolean isReserve, List replaceList) {
+        StringBuilder query;
+        if (distributionSelection.getSessionDTO().isWorkFlow()) {
+            query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
+            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(distributionSelection.getDataSelectionDTO().getProjectionId()));
+            query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
+        } else {
+            query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
+            for (Object temp : replaceList) {
+                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
+            }
+        }
+        return query;
     }
 
     @Override

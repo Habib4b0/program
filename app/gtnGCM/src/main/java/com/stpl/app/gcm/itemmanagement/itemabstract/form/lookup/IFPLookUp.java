@@ -170,7 +170,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("componentStatus".equals(propertyId)) {
                     ComboBox rsProgramType = new ComboBox();
-                    logic.LazyLoadDdlb(rsProgramType, "ifpStatus count", "ifpStatus", BooleanConstant.getTrueFlag());
+                    logic.lazyLoadDdlb(rsProgramType, "ifpStatus count", "ifpStatus", BooleanConstant.getTrueFlag());
                     return rsProgramType;
                 }
                 return null;
@@ -259,7 +259,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatusDto, "ifpStatus count", "ifpStatus", BooleanConstant.getFalseFlag());
+        logic.lazyLoadDdlb(componentStatusDto, "ifpStatus count", "ifpStatus", BooleanConstant.getFalseFlag());
     }
 
   

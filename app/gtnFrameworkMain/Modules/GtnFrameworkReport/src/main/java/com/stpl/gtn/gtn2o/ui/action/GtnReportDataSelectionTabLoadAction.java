@@ -132,8 +132,7 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(
 							GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL, componentId)
-					.loadV8ComboBoxComponentValue(
-							Integer.valueOf(reportDataSelectionBean.getCustomerHierarchyForecastLevel()));
+					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getCustomerHierarchyForecastLevel());
 
 			String dsCustomerTableId = "dataSelectionTab_customerDualListBox";
 			AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dsCustomerTableId,
@@ -202,8 +201,7 @@ public class GtnReportDataSelectionTabLoadAction
 
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_LEVEL, componentId)
-					.loadV8ComboBoxComponentValue(
-							Integer.valueOf(reportDataSelectionBean.getProductHierarchyForecastLevel()));
+					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getProductHierarchyForecastLevel());
 
 			String dsProductTableId = "dataSelectionTab_productdualListBoxComp";
 			AbstractComponent dsProductAbstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dsProductTableId,

@@ -24,7 +24,6 @@ import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.TableResultCustom;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -175,9 +174,7 @@ public class TrackingProgress extends Window {
             summaryTable.setImmediate(true);
         } catch (PortalException ex) {
            LOGGER.error(ex.getMessage());
-        } catch (SystemException ex) {
-           LOGGER.error(ex.getMessage());
-        }
+        } 
     }
 
     /**
@@ -215,9 +212,7 @@ public class TrackingProgress extends Window {
 
         } catch (PortalException ex) {
            LOGGER.error(ex.getMessage());
-        } catch (SystemException ex) {
-           LOGGER.error(ex.getMessage());
-        }
+        } 
     }
 
     /**

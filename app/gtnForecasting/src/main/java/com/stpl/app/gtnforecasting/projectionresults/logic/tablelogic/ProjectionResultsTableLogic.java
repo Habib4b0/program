@@ -265,12 +265,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
     }
 
     public void loadExpandData(int levelNo) throws PortalException {
-        if(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projSelDTO.getScreenName())){
-        recursivelyLoadExpandData(new Object(), StringUtils.EMPTY, levelNo);
-        }else{
           recursivelyLoadExpandDataForNM(new Object(), StringUtils.EMPTY, levelNo);   
-        }
-       
         setRecordCount(getCalculatedTotalRecordCount());
         setCurrentPage(getTotalAmountOfPages());
     }
@@ -314,10 +309,6 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
             case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
                 count = getNmProjectionResultsLogic().getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
                 break;
-            case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
-                count = getmProjectionResultsLogic().getConfiguredProjectionResultsCount(parentId, projSelDTO, true, projSelDTO);
-                break;
-           
             default:
                 LOGGER.warn("BUSINESS_PROCESS_TYPE is Empty.Commercial is loaded by default.");
                 count = getNmProjectionResultsLogic().getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
@@ -335,10 +326,6 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
                 LOGGER.debug("Projection results load data method with start = {}, and offset= {}",start,offset);
                 list = getNmProjectionResultsLogic().getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
                 break;
-            case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
-                list = getmProjectionResultsLogic().getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
-                break;
-           
             default:
                 LOGGER.warn("BUSINESS_PROCESS_TYPE is Empty.Commercial is loaded by default.");
                 list = getNmProjectionResultsLogic().getConfiguredProjectionResults(parentId, start, offset, projSelDTO);

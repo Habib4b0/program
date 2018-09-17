@@ -78,7 +78,7 @@ public class ProjectionResultsLogic {
         } else {
             query += getProjectionResultsDiscountsPerQuery(projSelDTO);
         }
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
         List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, false);
         projDTOList.addAll(projDTOList1);
 
@@ -94,7 +94,7 @@ public class ProjectionResultsLogic {
         } else {
             query += getProjectionResultsDiscountsQuery(projSelDTO, " order by DISCOUNTS");
         }
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
         List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, false);
         projDTOList.addAll(projDTOList1);
 
@@ -105,7 +105,7 @@ public class ProjectionResultsLogic {
         projSelDTO.setSales(Constant.RATE);
         ProjectionResultsDTO ppaDto = new ProjectionResultsDTO();
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPAPerQuery(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
         List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, true);
         if (projDTOList1 != null && !projDTOList1.isEmpty()) {
             ppaDto = projDTOList1.get(0);
@@ -119,7 +119,7 @@ public class ProjectionResultsLogic {
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         ProjectionResultsDTO ppaDto = new ProjectionResultsDTO();
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPAQuery(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
         List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, true);
         if (projDTOList1 != null && !projDTOList1.isEmpty()) {
             ppaDto = projDTOList1.get(0);
@@ -319,7 +319,7 @@ public class ProjectionResultsLogic {
     public List<ProjectionResultsDTO> getContractSalesAndUnits(ProjectionSelectionDTO projSelDTO) {
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsSalesQuery(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
         List<ProjectionResultsDTO> projDTOList = getCustomizedProjectionResultsSales(list, projSelDTO);
         return projDTOList;
     }
@@ -327,9 +327,9 @@ public class ProjectionResultsLogic {
     public List<ProjectionResultsDTO> getProjectionPivot(ProjectionSelectionDTO projSelDTO) {
         List<ProjectionResultsDTO> projDTOList;
         String gtsListQuery = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPivotQuery(projSelDTO);
-        List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(gtsListQuery, null, null);
+        List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(gtsListQuery);
         String discountListQuery = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsDiscountsPivotQuery(projSelDTO);
-        List<Object> discountprojectionList = (List<Object>) CommonLogic.executeSelectQuery(discountListQuery, null, null);
+        List<Object> discountprojectionList = (List<Object>) CommonLogic.executeSelectQuery(discountListQuery);
         projDTOList = getCustomizedProjectionPivot(gtsList, discountprojectionList, projSelDTO);
         return projDTOList;
     }
@@ -1036,7 +1036,7 @@ public class ProjectionResultsLogic {
             List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
             columnList.remove(Constant.GROUP);
             for (int i = 0; i < list.size(); i++) {
-                final Object[] obj = (Object[]) list.get(i);
+                final Object[] obj = list.get(i);
                 String column;
                 int year = Integer.parseInt(String.valueOf(obj[col - 1]));
                 int period = Integer.parseInt(String.valueOf(obj[1]));
@@ -1117,7 +1117,7 @@ public class ProjectionResultsLogic {
         ProjectionResultsDTO netSalesDto = new ProjectionResultsDTO();
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsNetSalesQuery(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
         List<ProjectionResultsDTO> projDTOList = getCustomizedProjectionResultsDiscount(list, projSelDTO, false);
         if (projDTOList != null && !projDTOList.isEmpty()) {
             netSalesDto = projDTOList.get(0);
@@ -1132,7 +1132,7 @@ public class ProjectionResultsLogic {
         int neededRecord = offset;
         int mayBeAdded = 0;
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
-        String discList = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
+        String discList = CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false);
         String freq = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == 1) {
             freq = "ANNUAL";
@@ -1698,7 +1698,7 @@ public class ProjectionResultsLogic {
                 discountTypeColumnName = " J.RS_NAME as DISCOUNTS \n";
                 groupBy += ", J.RS_NAME";
             }
-            whereClause += " and B.RS_CONTRACT_SID in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ") \n";
+            whereClause += " and B.RS_CONTRACT_SID in (" + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + ") \n";
         }
         selectClause += discountTypeColumnName + ", ";
 

@@ -111,7 +111,7 @@ public class DPRLogic {
                     projSelDTO.setHierarchyIndicator(indicator);
                     projSelDTO.setLevelNo(0);
                     projSelDTO.setTreeLevelNo(0);
-                    projSelDTO.setCustomLevelNo(0);;
+                    projSelDTO.setCustomLevelNo(0);
                 } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
                     projSelDTO.setLevelNo(projSelDTO.getCustomerLevelNo() - 1);
                     projSelDTO.setTreeLevelNo(projSelDTO.getCustomerLevelNo() - 1);
@@ -168,7 +168,7 @@ public class DPRLogic {
                     }
 
                 }
-                if (discount.equals(Constant.BOTH) || discount.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
+                if (discount.equals(Constant.BOTH)) {
                     boolean toadd = false;
                     if (projSelDTO.isIsProjectionTotal() && start < NumericConstants.FOUR) {
                         toadd = true;
@@ -299,14 +299,14 @@ public class DPRLogic {
         freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
         String frequency = freq.get(projSelDTO.getFrequencyDivision());
         String freqChar = frequencyDPR(frequency);
-        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar), null, null);
+        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar));
         List<DiscountProjectionResultsDTO> projDTOList = getCustomizedPC(list, projSelDTO);
         return projDTOList;
     }
 
     public List<Object> getProgramCodeName(ProjectionSelectionDTO projSelDTO) {
         List<Object> list;
-        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeNameQuery(projSelDTO.getProjectionId()), null, null);
+        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeNameQuery(projSelDTO.getProjectionId()));
         return list;
     }
 
@@ -680,7 +680,7 @@ public class DPRLogic {
                     count = count + list.size();
                 }
                 mdFlag = true;
-            } else if ((CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED).equalsIgnoreCase(salesOrUnit) || (Constant.SUPPLEMENTAL).equalsIgnoreCase(salesOrUnit)) {
+            } else if ((Constant.SUPPLEMENTAL).equalsIgnoreCase(salesOrUnit)) {
                 count += 1;
             } else {
                 count += NumericConstants.TWO;
@@ -1336,7 +1336,7 @@ public class DPRLogic {
         String columnName = StringUtils.EMPTY;
         List list;
         String hierSQL = "SELECT FIELD_NAME FROM dbo.HIERARCHY_LEVEL_DEFINITION WHERE HIERARCHY_DEFINITION_SID=" + projSelDTO.getCustomerHierarchySID() + " and LEVEL_NAME='Contract'";
-        list = (List<Object>) CommonLogic.executeSelectQuery(hierSQL, null, null);
+        list = (List<Object>) CommonLogic.executeSelectQuery(hierSQL);
 
         if (list != null && !list.isEmpty()) {
             final Object obj = list.get(0);
@@ -1486,7 +1486,7 @@ public class DPRLogic {
         String freqChar;
         freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
         String query = getHierarchyLevelQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
         double annualMandamt = 0.0;
         double annualMandrate = 0.0;
         double annualMandrpu = 0.0;
@@ -1957,7 +1957,7 @@ public class DPRLogic {
         String frequencyPivot = freq.get(projSelDTO.getFrequencyDivision());
         String freqCharPivot = frequencyDPR(frequencyPivot);
         String query = getHierarchyLevelQuery(projSelDTO.getHierarchyNo(), frequencyPivot, projSelDTO, freqCharPivot);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
         if (projSelDTO.getProjectionOrder().equalsIgnoreCase(Constant.DESCENDING)) {
             Collections.reverse(list);
         }
@@ -2160,7 +2160,7 @@ public class DPRLogic {
         freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
         String frequencyDiscounts = freq.get(projSelDTO.getFrequencyDivision());
         String freqCharDiscounts = frequencyDPR(frequencyDiscounts);
-        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getHierarchyNo(), frequencyDiscounts, projSelDTO, freqCharDiscounts), null, null);
+        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getHierarchyNo(), frequencyDiscounts, projSelDTO, freqCharDiscounts));
         return list;
     }
 
@@ -2245,9 +2245,7 @@ public class DPRLogic {
 
             if (!resultList.isEmpty()) {
                 totalDTO.add(resultList.get(0));
-                if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(projSelDTO.getMandatedOrSupp())) {
-                    totalDTO.add(resultList.get(1));
-                } else if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getMandatedOrSupp())) {
+                    if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getMandatedOrSupp())) {
                     totalDTO.add(resultList.get(NumericConstants.TWO));
                 } else {
                     totalDTO.add(resultList.get(1));
@@ -2274,7 +2272,7 @@ public class DPRLogic {
                 + "JOIN dbo.CCP_MAP ccpm on ccpm.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID\n"
                 + "JOIN dbo.RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.RELATIONSHIP_LEVEL_SID = ccpm.RELATIONSHIP_LEVEL_SID AND RLD.HIERARCHY_NO like '" + hierarchyNo + "%'\n"
                 + "AND PD.PROJECTION_MASTER_SID = " + projectionId;
-        list = (List<Object>) CommonLogic.executeSelectQuery(customSQL, null, null);
+        list = (List<Object>) CommonLogic.executeSelectQuery(customSQL);
         return list;
     }
 
@@ -2299,7 +2297,7 @@ public class DPRLogic {
             list = MProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj = list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -2384,11 +2382,11 @@ public class DPRLogic {
         
     private String frequencyDPR(String frequency) {
         String freqCharDPR = frequency;
-        if (Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency)) {
+        if (Constant.SEMI_ANNUAL.equalsIgnoreCase(freqCharDPR)) {
             freqCharDPR = Constant.S;
-        } else if (Constant.QUARTER.equalsIgnoreCase(frequency)) {
+        } else if (Constant.QUARTER.equalsIgnoreCase(freqCharDPR)) {
             freqCharDPR = Constant.Q;
-        } else if (Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
+        } else if (Constant.YEAR_SPACE.equalsIgnoreCase(freqCharDPR)) {
             freqCharDPR = StringUtils.EMPTY;
         } else {
             freqCharDPR = CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED;

@@ -26,7 +26,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.util.converter.StringToDateConverter;
@@ -183,7 +183,7 @@ public class Trx7PrivatePublicLookup extends Window {
     @UiHandler("resetBtn")
     public void resetButtonClick(Button.ClickEvent event) {
         try {
-            notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_views());
+            tr7PulblicNotifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_views());
         } catch (Exception e) {
             LOGGER.error("Error in resetButtonClick :", e);
         }
@@ -194,7 +194,7 @@ public class Trx7PrivatePublicLookup extends Window {
         try {
             if (resultsTable.size() != 0 && resultsTable.getValue() != null) {
                 ViewLookupDTO viewDTO = (ViewLookupDTO) resultsTable.getValue();
-                viewDTO.setCheckFlag(true);
+                viewDTO.setCheckFlag(Boolean.TRUE);
                 setSelectFlag(true);
                 setDtoValue(viewDTO);
                 this.close();
@@ -217,9 +217,9 @@ public class Trx7PrivatePublicLookup extends Window {
             LOGGER.error("Error in closeButtonClick :", e);
         }
     }
-    private final CustomNotification notifier = new CustomNotification();
+    private final PrivatePublicCustomNotification tr7PulblicNotifier = new PrivatePublicCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class PrivatePublicCustomNotification extends AbstractNotificationUtils {
 
         @Override
         public void noMethod() {

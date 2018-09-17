@@ -15,12 +15,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Srithar.Raju
  */
 public class BSummaryDemandResults extends AbstractBalanceSummaryResutls {
+
+    public static final Logger DEMAND_RESULTS_LOGGER = LoggerFactory.getLogger(BSummaryDemandResults.class);
 
     public BSummaryDemandResults(BSummaryDemandLogic logic, SummarySelection selection) {
         super(logic, selection);
@@ -47,38 +51,43 @@ public class BSummaryDemandResults extends AbstractBalanceSummaryResutls {
             rightDoubleVisibleHeader.add(0, "");
             getExcelTable().setVisibleColumns(rightSingleVisibleColumn1.toArray());
             getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
-            getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
+            getExcelTable().setDoubleHeaderVisible(true);
             getExcelTable().setDoubleHeaderVisibleColumns(rightDoubleVisibleColumn.toArray());
             getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(rightDoubleVisibleHeader.toArray(), rightDoubleVisibleHeader.size(), String[].class));
             getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.FIVE));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
-            LOGGER.error("Error in setExcelVisibleColumn :" , ex);
+            DEMAND_RESULTS_LOGGER.error("Error in setExcelVisibleColumn :", ex);
         }
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
+        DEMAND_RESULTS_LOGGER.debug("inside getExcelLogic");
         return getSummaryLogic();
     }
 
     @Override
     public Map<Integer, String> getHierarchy() {
+        DEMAND_RESULTS_LOGGER.debug("inside getHierarchy");
         return getSelection().getSummeryhierarchy();
     }
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
+        DEMAND_RESULTS_LOGGER.debug("inside viewType");
         getSummarySelection().setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override
     public String getExcelFileName() {
+        DEMAND_RESULTS_LOGGER.debug("inside getExcelFileName");
         return "Balance Summary Report - Demand";
     }
 
     @Override
     protected boolean isPercentageColumn2Decimal(String column) {
+        DEMAND_RESULTS_LOGGER.debug("inside isPercentageColumn2Decimal");
         return column.contains("PaymentRatio");
     }
 }

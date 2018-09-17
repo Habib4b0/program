@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.FormulaDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
-import com.stpl.app.gtnforecasting.discountProjection.form.MSupplementalDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.SupplementalTableLogic;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -32,7 +31,6 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -339,7 +337,7 @@ public class SupplementalDiscountProjectionLogic {
             } else {
                 finalQuery = selectQuery + concat + tableName + werCondition + customerFilter + groupBy + orderBy;
             }
-            objList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(finalQuery, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            objList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(finalQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
 
             LOGGER.debug("objList  size= {} " , objList.size());
         } else {
@@ -434,7 +432,7 @@ public class SupplementalDiscountProjectionLogic {
 
         String query = "select LEVEL_NAME,\"TABLE_NAME\",FIELD_NAME from HIERARCHY_LEVEL_DEFINITION "
                 + "where HIERARCHY_DEFINITION_SID in (" + customerHierId + "," + prodHierId + ")";
-        return (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        return (List<Object>) CommonLogic.executeSelectQuery(query);
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
@@ -539,7 +537,7 @@ public class SupplementalDiscountProjectionLogic {
                 ccpDetailsId = StringUtils.EMPTY + checkedDto.getCcpDetailsSID();
 
             } else if (checkedDto.getCcpDetailIds().size() > 0 && !(Constant.PRODUCT_LABEL.equalsIgnoreCase(checkedDto.getLevelName()))) {
-                ccpDetailsId = CommonUtils.CollectionToString(checkedDto.getCcpDetailIds(), false);
+                ccpDetailsId = CommonUtils.collectionToStringMethod(checkedDto.getCcpDetailIds(), false);
             }
             if (!StringUtils.EMPTY.equals(ccpDetailsId) && !Constant.NULL.equals(ccpDetailsId)) {
                 queryToUpdateCheckRecord(checkValue, projSelDto.getSessionDTO(), ccpDetailsId);
@@ -589,7 +587,7 @@ public class SupplementalDiscountProjectionLogic {
         if (checkedDto.getSupplementalLevelNo() == 5) {
             ccpDetailsId = checkedDto.getCcpDetailsSID().toString();
         } else {
-            ccpDetailsId = CommonUtils.CollectionToString(checkedDto.getCcpDetailIds(), false);
+            ccpDetailsId = CommonUtils.collectionToStringMethod(checkedDto.getCcpDetailIds(), false);
         }
         if (fieldSelection.equals(METHODOLOGY.getConstant().toUpperCase(Locale.ENGLISH))) {
             populateMethodologyWithFormulaDetails(checkedDto, value, session);
@@ -633,11 +631,11 @@ public class SupplementalDiscountProjectionLogic {
         if (projSelDTO.getSupplementalLevelNo() == 4) {
             queryBuilder1.append(" WHERE SUPPROJ.CCP_DETAILS_SID = " ).append( dto.getCcpDetailsSID()).append( " AND PRD.PERIOD_SID=SUPPROJ.PERIOD_SID \n");
         } else {
-            ccpDetailsId = CommonUtils.CollectionToString(dto.getCcpDetailIds(), false);
+            ccpDetailsId = CommonUtils.collectionToStringMethod(dto.getCcpDetailIds(), false);
             queryBuilder1.append(" WHERE SUPPROJ.CCP_DETAILS_SID in (" ).append( ccpDetailsId ).append( ") AND PRD.PERIOD_SID=SUPPROJ.PERIOD_SID \n");
         }
         queryBuilder1.append(" group by PRD.QUARTER " ).append( groupByQuery ).append( " ,PRD.\"YEAR\" order by PRD.\"YEAR\" \n");
-        return (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder1.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        return (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder1.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()));
     }
 
     public ComboBox getNativeSelect(final ComboBox select) {
@@ -648,7 +646,7 @@ public class SupplementalDiscountProjectionLogic {
             queryBuild.append("select distinct FORMULA_NAME from FORECASTING_FORMULA FF , HELPER_TABLE HT where FF.FORMULA_TYPE = HT.HELPER_TABLE_SID  \n"
                     + "AND HT.LIST_NAME = 'FORMULA_TYPE' AND HT.DESCRIPTION = 'Supplemental' AND FF.IS_ACTIVE = 1 ORDER BY FORMULA_NAME ");
 
-            List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
+            List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString());
 
             if (obList != null && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
@@ -697,7 +695,7 @@ public class SupplementalDiscountProjectionLogic {
         } else if (StringUtils.isNotBlank(lookUpDTO.getItemDesc())) {
             queryBuilder1.append("AND IM.ITEM_DESC like '").append(lookUpDTO.getItemDesc()).append("' ");
         }
-        return (List<Object>) CommonLogic.executeSelectQuery(queryBuilder1.toString(), null, null);
+        return (List<Object>) CommonLogic.executeSelectQuery(queryBuilder1.toString());
     }
 
     public String getRelationshipValue(int projId) {
@@ -705,7 +703,7 @@ public class SupplementalDiscountProjectionLogic {
         String query = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID in\n"
                 + "(Select CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID=" + projId + ")\n"
                 + "and LEVEL_NAME='Market Type'";
-        list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        list = (List<Object>) CommonLogic.executeSelectQuery(query);
 
 
         return String.valueOf(list.get(0));
@@ -718,7 +716,7 @@ public class SupplementalDiscountProjectionLogic {
                 + "in(select RELATIONSHIP_LEVEL_VALUES from  RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_LEVEL_SID in (select RELATIONSHIP_LEVEL_SID\n" +
                 " from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID=" + hierId + " and Level_NAME='Market Type'))";
 
-        list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        list = (List<Object>) CommonLogic.executeSelectQuery(query);
         if (!list.isEmpty()) {
             str = String.valueOf(list.get(0));
         }
@@ -749,7 +747,7 @@ public class SupplementalDiscountProjectionLogic {
         String[] periodArr = new String[3];
         queryBuilder1.append("select PERIOD_SID from \"PERIOD\" where \"YEAR\" = ").append(year);
         queryBuilder1.append(" and QUARTER =").append(period);
-        List<Object> objList = (List<Object>) CommonLogic.executeSelectQuery(queryBuilder1.toString(), null, null);
+        List<Object> objList = (List<Object>) CommonLogic.executeSelectQuery(queryBuilder1.toString());
 
         if (objList != null && !objList.isEmpty()) {
             int i = 0;
@@ -805,53 +803,12 @@ public class SupplementalDiscountProjectionLogic {
         return value;
     }
 
-    public String[] getYearAndPeriod(Object propertyId) {
-        String[] periodArr = new String[3];
-        String tempStr = StringUtils.EMPTY;
-        String columnName = StringUtils.EMPTY;
-        String propertyIdValue = propertyId.toString();
-        if (propertyIdValue.contains(METHODOLOGY.getConstant())) {
-            tempStr = METHODOLOGY.getConstant();
-            columnName = tempStr;
-        } else if (propertyIdValue.contains(ACCESS.getConstant())) {
-            tempStr = ACCESS.getConstant();
-            columnName = tempStr;
-        } else if (propertyIdValue.contains(Constant.DISCOUNT_ONE)) {
-            tempStr = Constant.DISCOUNT_ONE;
-            columnName = tempStr.replace(tempStr, DISCOUNT1.getConstant());
-        } else if (propertyIdValue.contains(Constant.DISCOUNT_TWO)) {
-            tempStr = Constant.DISCOUNT_TWO;
-            columnName = tempStr.replace(tempStr, DISCOUNT2.getConstant());
-        } else if (propertyIdValue.contains(Constant.DISCOUNT_SMALL)) {
-            tempStr = Constant.DISCOUNT_SMALL;
-            columnName = tempStr.replace(tempStr, DISCOUNT_PARITY.getConstant());
-        } else if (propertyIdValue.contains(Constant.CONTRACT_PRICE_PROPERTY)) {
-            tempStr = Constant.CONTRACT_PRICE_PROPERTY;
-            columnName = tempStr.replace(tempStr, CONTRACT_PRICE.getConstant());
-        } else if (propertyIdValue.contains("ParityReference")) {
-            tempStr = "ParityReference";
-            columnName = tempStr.replace(tempStr, PARITY_REFERENCE.getConstant());
-        } else if (propertyIdValue.contains(PARITY.getConstant())) {
-            tempStr = PARITY.getConstant();
-            columnName = tempStr;
-        }
-        Calendar now = Calendar.getInstance();   // Gets the current date and time
-        int curryear = now.get(Calendar.YEAR);
-        String splitPeriodYear = propertyIdValue.replace(tempStr, StringUtils.EMPTY).replace(Constant.Q_SMALL, StringUtils.EMPTY);
-        final String year = splitPeriodYear.substring(splitPeriodYear.length() - String.valueOf(curryear).length());
-        final String period = splitPeriodYear.substring(0, splitPeriodYear.length() - String.valueOf(curryear).length());
-        periodArr[0] = period;
-        periodArr[1] = year;
-        periodArr[NumericConstants.TWO] = MSupplementalDiscountProjection.getColumnName(columnName);
-        return periodArr;
-    }
-
     public void saveProjectionValues(DiscountProjectionDTO saveDto, Object propertyId, SessionDTO session, SupplementalTableLogic tableLogic) {
         if (saveDto.getSupplementalLevelNo() == 1 || saveDto.getSupplementalLevelNo() == NumericConstants.FOUR) {
             projectionSelectionDTO.setSupplementalLevelName(saveDto.getLevelName());
             projectionSelectionDTO.setCustHierarchySid(session.getCustHierarchySid());
             projectionSelectionDTO.setProdHierarchySid(session.getProdHierarchySid());
-            manualSave(saveDto, CommonUtils.CollectionToString(saveDto.getCcpDetailIds(), false), propertyId, session, tableLogic);
+            manualSave(saveDto, CommonUtils.collectionToStringMethod(saveDto.getCcpDetailIds(), false), propertyId, session, tableLogic);
         } else {
             manualSave(saveDto, saveDto.getCcpDetailsSID().toString(), propertyId, session, tableLogic);
         }
@@ -984,7 +941,7 @@ public class SupplementalDiscountProjectionLogic {
         boolean procedureFlag = false;
         StringBuilder query = new StringBuilder();
         query.append("IF EXISTS (select 1 from ST_M_SUPPLEMENTAL_DISC_PROJ where USER_ID = " ).append( session.getUserId() ).append( " and SESSION_ID = " ).append( session.getSessionId()).append(" ) SELECT 1 ELSE SELECT 0");
-        List<Object> objList = (List<Object>) CommonLogic.executeSelectQuery(query.toString(), null, null);
+        List<Object> objList = (List<Object>) CommonLogic.executeSelectQuery(query.toString());
         if (objList != null && !objList.isEmpty() && Integer.parseInt(String.valueOf(objList.get(0)))==1)   {
             procedureFlag = true;
         }
@@ -1143,7 +1100,7 @@ public class SupplementalDiscountProjectionLogic {
                     ).append( "and BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID\n"
                     ).append( "and PD.PROJECTION_MASTER_SID = " ).append( projSel.getProjectionId() ).append( '\n');
 
-            returnList.addAll((List<String>) CommonLogic.executeSelectQuery(queryBuilder.toString(), null, null));
+            returnList.addAll((List<String>) CommonLogic.executeSelectQuery(queryBuilder.toString()));
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -1169,7 +1126,7 @@ public class SupplementalDiscountProjectionLogic {
                     ).append( "CCP.CCP_DETAILS_SID = SUPMAS.CCP_DETAILS_SID\n"
                     ).append( "AND CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n"
                     ).append( "AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID\n");
-            getNDCList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(strQuery.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+            getNDCList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(strQuery.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()));
         }
 
         boolean isValid = false;
@@ -1374,7 +1331,7 @@ public class SupplementalDiscountProjectionLogic {
         query = "select CCP_DETAILS_SID from ST_M_SUPPLEMENTAL_DISC_MASTER \n"
                 + " CCP_DETAILS_SID in(\n"
                 + "select CCP_DETAILS_SID from CCP_DETAILS where ITEM_MASTER_SID in (select ITEM_MASTER_SID from ITEM_MASTER where  ITEM_NO in('" + levelno + "') ))";
-        list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDto.getCurrentTableNames()), null, null);
+        list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDto.getCurrentTableNames()));
 
         for (int i = 0; i < list.size(); i++) {
 
@@ -1410,7 +1367,7 @@ public class SupplementalDiscountProjectionLogic {
                 ).append( tempwerCondition);
 
         query.append(tempGroupBy);
-        return (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        return (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()));
     }
 
     private DiscountProjectionDTO getCcpDetailsId(DiscountProjectionDTO dto, ProjectionSelectionDTO projSelDTO) {
@@ -1425,7 +1382,7 @@ public class SupplementalDiscountProjectionLogic {
             query.append(" AND CCP.COMPANY_MASTER_SID = " ).append( dto.getCompanyID() ).append( " \n");
             query.append(" AND CCP.CONTRACT_MASTER_SID = " ).append( dto.getContractID());
         }
-        List<String> value = (List<String>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
+        List<String> value = (List<String>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()));
         dto.setCcpDetailIds(value);
 
         return dto;
@@ -1437,12 +1394,12 @@ public class SupplementalDiscountProjectionLogic {
             StringBuilder queryBuilder = new StringBuilder();
             String projectionDetailsId = StringUtils.EMPTY;
             if (!projectionDetailsList.isEmpty()) {
-                projectionDetailsId = CommonUtils.CollectionToString(projectionDetailsList, false);
+                projectionDetailsId = CommonUtils.collectionToStringMethod(projectionDetailsList, false);
             }
             if (!StringUtils.EMPTY.equals(projectionDetailsId) && !Constant.NULL.equals(projectionDetailsId)) {
                 queryBuilder.append("Select Distinct CHECK_RECORD,CCP_DETAILS_SID from ST_M_SUPPLEMENTAL_DISC_MASTER where CCP_DETAILS_SID in(" 
                         ).append( projectionDetailsId ).append( ") and CHECK_RECORD=1 and USER_ID= " ).append( userId ).append( " and SESSION_ID= " ).append( sessionId ).append( StringUtils.EMPTY);
-                queryList = (List<Object>) CommonLogic.executeSelectQuery(queryBuilder.toString(), null, null);
+                queryList = (List<Object>) CommonLogic.executeSelectQuery(queryBuilder.toString());
             }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -1630,7 +1587,7 @@ public class SupplementalDiscountProjectionLogic {
         List<Object> methodologyCount = new ArrayList<>();
         try {
             StringBuilder queryToCheckNdc = new StringBuilder();
-            queryToCheckNdc.append("select DISTINCT " ).append( columnName ).append( " from ST_M_SUPPLEMENTAL_DISC_PROJ WHERE  CCP_DETAILS_SID IN ( " ).append( CommonUtils.CollectionToString(saveDto.getParentCcpDetailIdList(), false) ).append( " )\n"
+            queryToCheckNdc.append("select DISTINCT " ).append( columnName ).append( " from ST_M_SUPPLEMENTAL_DISC_PROJ WHERE  CCP_DETAILS_SID IN ( " ).append( CommonUtils.collectionToStringMethod(saveDto.getParentCcpDetailIdList(), false) ).append( " )\n"
                     ).append( " AND PERIOD_SID IN  (SELECT PERIOD_SID\n"
                     ).append( " FROM   \"PERIOD\"\n"
                     ).append( " WHERE  \"YEAR\" = " ).append( saveDto.getYear() ).append( " \n"
@@ -1819,7 +1776,7 @@ public class SupplementalDiscountProjectionLogic {
             queryBuild.append("select distinct FORMULA_NAME from FORECASTING_FORMULA FF , HELPER_TABLE HT where FF.FORMULA_TYPE = HT.HELPER_TABLE_SID \n"
                     + "AND HT.LIST_NAME = 'FORMULA_TYPE' AND HT.DESCRIPTION = 'Supplemental' AND FF.IS_ACTIVE = 1 ORDER BY FORMULA_NAME");
 
-            List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
+            List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString());
 
             if (obList != null && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
@@ -1850,7 +1807,7 @@ public class SupplementalDiscountProjectionLogic {
             queryBuild.append("select distinct FORMULA_NAME from FORECASTING_FORMULA FF , HELPER_TABLE HT where FF.FORMULA_TYPE = HT.HELPER_TABLE_SID \n"
                     + "AND HT.LIST_NAME = 'FORMULA_TYPE' AND HT.DESCRIPTION = 'Supplemental' AND FF.IS_ACTIVE = 1 ORDER BY FORMULA_NAME");
 
-            List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
+            List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString());
 
             if (obList != null && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {

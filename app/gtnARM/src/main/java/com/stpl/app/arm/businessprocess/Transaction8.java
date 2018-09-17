@@ -12,7 +12,6 @@ import com.stpl.app.arm.businessprocess.transaction8.form.adjustmentdetail.Retur
 import com.stpl.app.arm.businessprocess.transaction8.form.rates.RatesReturnsReserve;
 import com.stpl.app.arm.businessprocess.transaction8.form.returnsdata.ReturnsData;
 import com.stpl.app.arm.businessprocess.transaction8.form.returnreservedata.ReturnsReserveData;
-import com.stpl.app.arm.businessprocess.transaction8.logic.RRSummaryLogic;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
@@ -34,11 +33,10 @@ public class Transaction8 extends AbstractTransaction {
 
     private ReturnsReserveData returnReserveData;
     private RatesReturnsReserve rates;
-    private RRSummaryLogic logic;
     private RRSelectionDTO selection;
     private SummaryReturnReserve summary;
     private ReturnReserveAdjustmentDetail details;
-    public static final Logger LOGGER = LoggerFactory.getLogger(Transaction8.class);
+    public static final Logger TXN8_LOGGER = LoggerFactory.getLogger(Transaction8.class);
 
     public Transaction8(TabSheet tabSheet, CustomFieldGroup binder, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException {
         super(tabSheet, binder, NumericConstants.EIGHT, name, dataselectionDTO, sessionDTO);
@@ -56,7 +54,7 @@ public class Transaction8 extends AbstractTransaction {
 
     @Override
     public void configurePermission() {
-        LOGGER.debug("Inside the Configurepermission Method");
+        TXN8_LOGGER.debug("Inside the Configurepermission Method");
     }
 
     @Override
@@ -109,13 +107,13 @@ public class Transaction8 extends AbstractTransaction {
 
     @Override
     public String getGtnQuery() {
-        LOGGER.debug("Transaction 8 Gtn Outbound Insert Query");
+        TXN8_LOGGER.debug("Transaction 8 Gtn Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
-        LOGGER.debug("Transaction 8 Reserve Outbound Insert Query");
+        TXN8_LOGGER.debug("Transaction 8 Reserve Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 

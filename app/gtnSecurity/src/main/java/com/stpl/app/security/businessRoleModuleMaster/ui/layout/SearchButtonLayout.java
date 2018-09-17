@@ -10,7 +10,6 @@ import com.stpl.app.security.businessRoleModuleMaster.util.UIUtils;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.HelperUtils;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -24,6 +23,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
+import java.util.logging.Level;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,8 +98,6 @@ public class SearchButtonLayout extends HorizontalLayout {
 				try {
 					binder.getFields();
 					binder.commit();
-					
-					try {
 					    if(businessRoleName.getValue()!=select || subModuleName.getValue()!=select || moduleName.getValue() !=select){	
 					    if(subModuleName.getValue()!=select || moduleName.getValue() !=select){	
 					    if( moduleName.getValue() !=select){	
@@ -135,21 +133,10 @@ public class SearchButtonLayout extends HorizontalLayout {
                                   table.removeAllItems();
                                   MessageBox.showPlain(Icon.ERROR, "Search Criteria", "Please enter Search Criteria", ButtonId.OK);
         
-        }
-                                            } catch (SystemException | PortalException e) {
-						LOGGER.error(e.getMessage());
-                                                
-						
-					}
-					
-				} catch (CommitException e) {
-					LOGGER.error(e.getMessage());
-                                       
-				}
-                                catch (Exception e) {
-					LOGGER.error(e.getMessage());
-                                 
-				}
+                    }
+                } catch (PortalException | CommitException e) {
+                    LOGGER.error(e.getMessage());
+                }
 			}
 		});
 		this.addComponent(btnSearch);

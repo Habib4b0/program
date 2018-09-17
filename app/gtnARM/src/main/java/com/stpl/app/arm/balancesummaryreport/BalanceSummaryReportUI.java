@@ -11,6 +11,7 @@ import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.view.BalanceSummaryReportDataSelectionView;
 import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.supercode.CommonUI;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.utils.ConstantsUtils;
 import com.vaadin.annotations.Theme;
@@ -57,8 +58,8 @@ public class BalanceSummaryReportUI extends CommonUI {
         final String sessionId = new SimpleDateFormat("hhmmssms").format(new Date());
         VaadinSession.getCurrent().setAttribute(ConstantsUtils.SESSION_ID, sessionId);
         sessionDTO = new SessionDTO();
-        sessionDTO.setUserId(Integer.valueOf(userId));
-        sessionDTO.setSessionId(Integer.valueOf(sessionId));
+        sessionDTO.setUserId(ARMUtils.getIntegerValue(userId));
+        sessionDTO.setSessionId(ARMUtils.getIntegerValue(sessionId));
         try {
             StplSecurity.getUserName();
         } catch (SystemException ex) {

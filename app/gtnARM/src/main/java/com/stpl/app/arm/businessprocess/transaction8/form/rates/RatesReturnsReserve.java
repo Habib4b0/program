@@ -38,9 +38,9 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RatesReturnsReserve extends AbstractPipelineRates {
 
-    private final RatesReturnsReserve.CustomNotification notifier = new RatesReturnsReserve.CustomNotification();
+    private final RatesReturnsReserve.ReturnReserveCustomNotification notifier = new RatesReturnsReserve.ReturnReserveCustomNotification();
 
-    private final Logger loggerRates = LoggerFactory.getLogger(getClass());
+    private static final Logger RATES_RR_LOGGER = LoggerFactory.getLogger(RatesReturnsReserve.class);
 
     public RatesReturnsReserve(AbstractSelectionDTO selection) {
         super(selection);
@@ -57,7 +57,7 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
             rateBasisDdlb.select(HelperListUtil.getInstance().getIdByDesc("ARM_RATE_BASIS", "Calculated"));
             rateBasisDdlb.setReadOnly(true);
         } catch (Exception e) {
-            loggerRates.error("Error in setDefaultValue :", e);
+            RATES_RR_LOGGER.error("Error in setDefaultValue :", e);
         }
     }
 
@@ -96,11 +96,11 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
         return getRatelogicObject();
     }
 
-    public class CustomNotification extends AbstractNotificationUtils {
+    public class ReturnReserveCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String ratesButtonName;
 
-        public CustomNotification() {
+        public ReturnReserveCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -113,8 +113,8 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName && "reset".equals(buttonName)) {
+            LOGGER.debug("buttonName :{}", ratesButtonName);
+            if (null != ratesButtonName && "reset".equals(ratesButtonName)) {
                 deductionLevelDdlb.select(0);
                 CommonUtils.unCheckMenuBarItem(customMenuItem);
 
@@ -122,7 +122,7 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.ratesButtonName = buttonName;
         }
 
     }
@@ -131,7 +131,7 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
     public void setSelection() {
         selection.setRateDeductionLevel((Integer) deductionLevelDdlb.getValue());
         selection.setRateDeductionLevelName(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue()));
-        selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, true));
+        selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, Boolean.TRUE));
         StringBuilder deductionValues = new StringBuilder(StringUtils.EMPTY);
         if (!selection.getRateColumnList().isEmpty()) {
             List<String> listSize = new ArrayList(selection.getRateColumnList().get(0));
@@ -185,7 +185,7 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
                 }
             }
         } catch (InvocationTargetException | IllegalAccessException ex) {
-            loggerRates.error(ex.getMessage());
+            RATES_RR_LOGGER.error(ex.getMessage());
         }
 
     }

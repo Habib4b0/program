@@ -19,7 +19,6 @@ import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import static com.stpl.app.gtnforecasting.ui.form.lookups.AltHistorySelection.getMonthMap;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.getDateTime;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.getEndMonth;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.getPeriod;
@@ -118,7 +117,7 @@ public class CommonUtils {
     /**
      * The Constant historyBean.
      */
-    final public static BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
+    public static final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     public static final String YEARS1 = "Years";
     /**
      * The Constant CHAR_PERCENT.
@@ -206,7 +205,6 @@ public class CommonUtils {
     public static final String REFRESH = "refreshBtn";
     public static final String ADJUST = "adjust";
     public static final String ADJUST_BTN = "adjustBtn";
-    public static final String PMPY = "pmpy";
     public static final String PROGRAM_SELECTION = "programSelectionLookup";
     public static final String ALT_HISTORY_BTN = "altHistoryBtn";
     public static final String TOTAL_LIVES_LAYOUT = "totalLivesLayout";
@@ -305,9 +303,6 @@ public class CommonUtils {
     public final String[] historyLookupBrandHeaders = new String[]{"Brand Name"};
 
     public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
-    public static final String BUSINESS_PROCESS_TYPE_MANDATED = "Mandated";
-    public static final String BUSINESS_PROCESS_TYPE_CHANNELS = "Channel";
-    public static final String BUSINESS_PROCESS_TYPE_RETURNS = "Returns";
     public static final String BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION = "AccrualRateProjection";
     public static final String BUSINESS_PROCESS_INDICATOR_NON_MANDATED = "NM";
     public static final String BUSINESS_PROCESS_INDICATOR_MANDATED = "M";
@@ -328,7 +323,6 @@ public class CommonUtils {
     private static final ResourceBundle returnsProperties = ResourceBundle.getBundle("custom-sql.ReturnsProjectionQueries");
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String BUSINESS_PROCESS_TYPE_COMMERCIAL = "Commercial";
-    public static final String BUSINESS_PROCESS_TYPE_GOVERNMENT = "Government";
     
     private static final String[] ARRAY_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
    
@@ -1057,8 +1051,8 @@ public class CommonUtils {
      * @param toAddQuote
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString, toAddQuote, false);
+    public static String collectionToStringMethod(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToStringMethod(collectionOfString, toAddQuote, false);
     }
 
     /**
@@ -1069,7 +1063,7 @@ public class CommonUtils {
      * @param toRemoveSpace
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToStringMethod(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = StringUtils.EMPTY;
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
@@ -1956,5 +1950,18 @@ public class CommonUtils {
     public static int compareDoubleValues(String value) {
         return Double.compare(Double.parseDouble(value), 0.0);
     }
-    
+
+    public Map<String, Integer> getMonthMap() {
+        Map<String, Integer> monthMap = new HashMap<>();
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] months = dfs.getShortMonths();
+        List<String> temp = Arrays.asList(months);
+        int i = 0;
+        for (String m : temp) {
+            monthMap.put(m, i);
+            i++;
+        }
+        return monthMap;
+    }
+
 }

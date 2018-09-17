@@ -13,6 +13,7 @@ import com.stpl.app.arm.supercode.ExcelInterface;
 import com.stpl.app.arm.supercode.LogicAble;
 import com.stpl.app.arm.supercode.OriginalDataResult;
 import com.stpl.app.arm.supercode.SelectionDTO;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.xmlparser.SQlUtil;
@@ -123,16 +124,16 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                                 } else if (objects[j] != null) {
                                     if (objects[j].toString().matches("^(-?0[.]\\d+)$|^(-?[1-9]+\\d*([.]\\d+)?)$|^0$")) { // Allows only Numbers in it
                                         String value;
-                                        if (varibales.get(j).contains(ARMConstants.getAmount())
+                                       if (varibales.get(j).contains("salesVariancePer") || varibales.get(j).contains(ARMConstants.getRate())
+                                                || varibales.get(j).contains("deductionRate")) {
+                                            value = getFormattedValue(PER_THREE, String.valueOf(objects[j]));
+                                        }else  if (varibales.get(j).contains(ARMConstants.getAmount())
                                                 || varibales.get(j).contains("deductionAmount") || varibales.get(j).contains("price")
                                                 || varibales.get(j).contains("priceOverride") || varibales.get(j).contains("totalSales")
                                                 || varibales.get(j).contains("excludedSales") || varibales.get(j).contains("netSales")
                                                 || varibales.get(j).contains("netCalculatedSales") || varibales.get(j).contains("salesVariance")) {
                                             value = getFormattedValue(CUR_TWO, String.valueOf(objects[j]));
-                                        } else if (varibales.get(j).contains("salesVariancePer") || varibales.get(j).contains(ARMConstants.getRate())
-                                                || varibales.get(j).contains("deductionRate")) {
-                                            value = getFormattedValue(PER_THREE, String.valueOf(objects[j]));
-                                        } else if (varibales.get(j).contains("totalUnits") || varibales.get(j).contains("excludedUnits") || varibales.get(j).contains("netUnits")) {
+                                        }  else if (varibales.get(j).contains("totalUnits") || varibales.get(j).contains("excludedUnits") || varibales.get(j).contains("netUnits")) {
                                             value = getFormattedValue(NUM_ZERO, String.valueOf(objects[j]));
                                         } else if (varibales.get(j).contains("debit") || varibales.get(j).contains("credit")) {
                                             value = getFormattedValue(CUR_SIX, String.valueOf(objects[j]));
@@ -167,7 +168,7 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
 
     private void setHelperSidColumn(ExtListDTO obj, Object objects, String variables) {
         String desc;
-        int value = objects == null || StringUtils.isBlank(String.valueOf(objects)) ? 0 : Integer.valueOf(String.valueOf(objects));
+        int value = objects == null || StringUtils.isBlank(String.valueOf(objects)) ? 0 : ARMUtils.getIntegerValue(String.valueOf(objects));
         if (value > 0) {
             desc = idDescMap.get(value) == null ? StringUtils.EMPTY : idDescMap.get(value);
             obj.addStringProperties(variables, desc);

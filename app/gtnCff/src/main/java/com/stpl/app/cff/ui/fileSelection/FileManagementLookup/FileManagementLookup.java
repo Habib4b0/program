@@ -333,7 +333,6 @@ public class FileManagementLookup extends Window {
 	private FileMananagementResultDTO detailsResultDTO = new FileMananagementResultDTO();
 	private ExtFilterTable excelTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
-	private BeanItemContainer<FileMananagementResultDTO> excelDetailsBean;
 	private FileManagementLogic vFileMgmtLogic = new FileManagementLogic();
 	private String helperFileType;
 	private BeanItemContainer searchContainer;
@@ -1216,7 +1215,7 @@ public class FileManagementLookup extends Window {
 				LOGGER.debug("In configureFields excelExportResult.addClickListener started");
 
 				try {
-					ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
+					ConsolidatedFinancialForecastUI.setExcelClose(true);
 					configureExcelResultTable();
 					loadExcelTable(resultDTO);
 					ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(excelTable), "File Management Results",
@@ -1729,7 +1728,6 @@ public class FileManagementLookup extends Window {
 											saveflag = true;
 											Notification.show("Records saved Successfully");
 											addlineList.clear();
-											try {
 												resultDTO.setFileType(String.valueOf(vFileType.getValue()));
 												resultDTO.setCountry(String.valueOf(country.getValue()));
 												resultDTO.setFileName(String.valueOf(fileName.getValue()));
@@ -1740,9 +1738,7 @@ public class FileManagementLookup extends Window {
 												resultDTO.setVersion(String.valueOf(version.getValue().trim()));
 												loadResultsTable();
 
-											} catch (Exception ex) {
-												LOGGER.error(ex.getMessage());
-											}
+											
 										}
 									} catch (SystemException ex) {
 										LOGGER.error(ex.getMessage());

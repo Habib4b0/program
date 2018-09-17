@@ -8,11 +8,16 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import java.lang.reflect.Field;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.Proxy.Type;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 public class GtnUIFrameworkWebServiceClient {
@@ -23,7 +28,7 @@ public class GtnUIFrameworkWebServiceClient {
 			GtnWsSecurityToken securityToken) {
 		logger.info("Entering callGtnWebServiceUrl method with url: " + url);
 		try {
-			RestTemplate restTemplate = new RestTemplate();
+			RestTemplate restTemplate = getRestTemplate();
 			updateRequestWithSecurityToken(request, securityToken);
 			GtnUIFrameworkWebserviceResponse response = restTemplate.postForObject(getWebServiceEndpoint(url), request,
 					GtnUIFrameworkWebserviceResponse.class);
@@ -31,9 +36,16 @@ public class GtnUIFrameworkWebServiceClient {
 			return response;
 
 		} catch (Exception e) {
-			logger.error("Exception in web service call",e);
+			logger.error("Exception in web service call", e);
 			return null;
 		}
+	}
+
+	private RestTemplate getRestTemplate() {
+		// SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+		// Proxy proxy = new Proxy(Type.HTTP, new InetSocketAddress("localhost", 9999));
+		// requestFactory.setProxy(proxy);
+		return new RestTemplate();
 	}
 
 	public GtnUIFrameworkWebserviceResponse callGtnWebServiceUrl(String url, String moduleName,
@@ -54,7 +66,7 @@ public class GtnUIFrameworkWebServiceClient {
 				return callGtnWebServiceUrl(url, request, securityToken);
 			}
 
-			RestTemplate restTemplate = new RestTemplate();
+			RestTemplate restTemplate = getRestTemplate();
 			GtnUIFrameworkWebserviceResponse response = restTemplate.postForObject(
 					getWebServiceEndpointBasedOnModule(url, moduleName), request,
 					GtnUIFrameworkWebserviceResponse.class);

@@ -9,7 +9,6 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Lab
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.utils.Constants.LabelConstants.DATA_SELECTION_LANDING_SCREEN;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
-import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -1145,8 +1144,6 @@ public class DataSelectionLogic {
 		DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 			businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, getCommercialConstant());
-		} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-			businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, getGovernmentConstant());
 		} else {
 			businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, screenName);
 		}
@@ -1365,7 +1362,7 @@ public class DataSelectionLogic {
 			if (resultss != null) {
 				resultList = new ArrayList<>();
 				for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
-					Object objects[] = (Object[]) resultss.get(loop);
+					Object objects[] = resultss.get(loop);
 					dto = new Leveldto();
 					dto.setLevelNo(DataTypeConverter.convertObjectToInt(objects[0]));
 					dto.setRelationshipLevelValue(String.valueOf(objects[1]));
@@ -1437,7 +1434,7 @@ public class DataSelectionLogic {
 		try {
 			String query = SQlUtil.getQuery(getClass(), "getFileEndDate");
 			query = query.replace("[?BUSINESS_UNIT]", StringUtils.EMPTY + dto.getBusinessUnitSystemId());
-			List list = (List) salesProjectionDAO.executeSelectQuery(query, null, null);
+			List list = (List) salesProjectionDAO.executeSelectQuery(query);
 			if (list != null && !list.isEmpty()) {
 				Object[] tempDate = (Object[]) list.get(0);
 				dto.setFileEndYear(DataTypeConverter.convertObjectToInt(tempDate[0]));
@@ -1471,7 +1468,7 @@ public class DataSelectionLogic {
 		parameters.put("relationshipLevelValue", relationshipLevelValue);
 		parameters.put(Constant.FIELD_NAME, fieldName);
 		try {
-			list = (List) dataSelectionDao.executeQuery(parameters);
+			list = dataSelectionDao.executeQuery(parameters);
 			return list;
 		} catch (SystemException e) {
 			LOGGER.error(e.getMessage());
@@ -1593,7 +1590,7 @@ public class DataSelectionLogic {
 							+ "RELATIONSHIP_BUILDER_SID='")
 					.append(rbID).append("'\n").append("and  LEVEL_NAME='Market Type'");
 			CommonDAO spDAO = new CommonDAOImpl();
-			list = (List) spDAO.executeSelectQuery(queryString.toString(), null, null);
+			list = (List) spDAO.executeSelectQuery(queryString.toString());
 			return list;
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
@@ -1620,7 +1617,7 @@ public class DataSelectionLogic {
 			CommonDAO commonDAO = new CommonDAOImpl();
 			str = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID="
 					+ definedValue + " and LEVEL_NAME='Market Type'";
-			return (List<Object>) commonDAO.executeSelectQuery(str, null, null);
+			return (List<Object>) commonDAO.executeSelectQuery(str);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
@@ -1649,7 +1646,7 @@ public class DataSelectionLogic {
 					+ "  ON PC.RELATIONSHIP_LEVEL_SID = RL.RELATIONSHIP_LEVEL_SID\n"
 					+ "  AND PC.PROJECTION_MASTER_SID = P.PROJECTION_MASTER_SID\n"
 					+ "WHERE RL.LEVEL_NAME = 'MARKET TYPE'\n" + "AND LIST_NAME = 'CONTRACT_TYPE'";
-			return (List<Object>) salesProjDAO.executeSelectQuery(str, null, null);
+			return (List<Object>) salesProjDAO.executeSelectQuery(str);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
@@ -1790,7 +1787,7 @@ public class DataSelectionLogic {
 				queryString.append(StringUtils.EMPTY).append(projectionId);
 				queryString.append(" ) and LEVEL_NAME='Market TYPE'");
 			}
-			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString(), null, null);
+			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString());
 			return list;
 
 		} catch (Exception ex) {
@@ -1890,7 +1887,7 @@ public class DataSelectionLogic {
 
 	public void insertToReturnDetails(int projectionIdValue) {
 		salesProjectionDAO.executeBulkUpdateQuery(SQlUtil.getQuery("RETURN_DETAILS_INSERT")
-				.replace(Constant.PROJECTION_ID_AT, String.valueOf(projectionIdValue)), null, null);
+				.replace(Constant.PROJECTION_ID_AT, String.valueOf(projectionIdValue)));
 	}
 
 	/**
@@ -1904,13 +1901,13 @@ public class DataSelectionLogic {
 			// Used to Insert the record in RETURNS_MAP TABLE
 			String query1 = SQlUtil.getQuery("RETURNS_MAP_INSERT").replace("@PROJECTION_SID",
 					String.valueOf(session.getProjectionId()));
-			salesProjectionDAO.executeBulkUpdateQuery(query1, null, null);
+			salesProjectionDAO.executeBulkUpdateQuery(query1);
 		}
 
 		Map<String, String> returnDetilsMap = new HashMap<>();
 		String query = SQlUtil.getQuery("RETURN_DETAILS_RESULTS").replace(Constant.PROJECTION_ID_AT,
 				String.valueOf(session.getProjectionId()));
-		List resultsList = (List) salesProjectionDAO.executeSelectQuery(query, null, null);
+		List resultsList = (List) salesProjectionDAO.executeSelectQuery(query);
 		for (int i = 0; i < resultsList.size(); i++) {
 			Object[] ob = (Object[]) resultsList.get(i);
 			returnDetilsMap.put(ob[0].toString(), ob[1].toString());
@@ -1944,7 +1941,7 @@ public class DataSelectionLogic {
 			CommonDAO resultDAO = new CommonDAOImpl();
 			str = "select FIELD_NAME from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID=" + definedValue
 					+ " and  LEVEL_NAME in('Customer','Trading Partner')";
-			return (List<Object>) resultDAO.executeSelectQuery(str, null, null);
+			return (List<Object>) resultDAO.executeSelectQuery(str);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
@@ -2075,8 +2072,7 @@ public class DataSelectionLogic {
 	public void updateReturnDetails(SessionDTO session) {
 		String query1 = SQlUtil.getQuery("UPDATE_RETURN_DETAILS").replace(Constant.PROJECTION_ID_AT,
 				String.valueOf(session.getProjectionId()));
-		salesProjectionDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query1, session.getCurrentTableNames()),
-				null, null);
+		salesProjectionDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(query1, session.getCurrentTableNames()));
 	}
 
 	/**
@@ -2088,7 +2084,7 @@ public class DataSelectionLogic {
 		LOGGER.debug("Entering dataSelectionInsert= {}", relationshipBuilderSids);
 		String query = SQlUtil.getQuery(getClass(), "nm.saveCustomerCcp");
 		query = query.replace("?RBS", relationshipBuilderSids);
-		salesProjectionDAO.executeBulkUpdateQuery(query, null, null);
+		salesProjectionDAO.executeBulkUpdateQuery(query);
 
 	}
 
@@ -2557,7 +2553,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 
     }
     
-    public void callViewInsertProcedureForNm(SessionDTO session,String mode,String screenName,String view,String startPeriod,String endPeriod) {
+    public void callViewInsertProcedureForNm(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod) {
         int masterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
         String frequency = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
         String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
@@ -2865,13 +2861,13 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 	public void deleteFromTempCCPTable(final SessionDTO session) {
 		String finalQuery = QueryUtil.replaceTableNames(
 				QueryUtils.getQuery(Collections.emptyList(), "deleteTempCCPTable"), session.getCurrentTableNames());
-		salesProjectionDAO.executeBulkUpdateQuery(finalQuery, null, null);
+		salesProjectionDAO.executeBulkUpdateQuery(finalQuery);
 
 	}
 
 	public Date getDefaultEligibleDateFromForecastConfiguration() {
 		String query = "SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Commercial')";
-		List forecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(query, null, null);
+		List forecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(query);
 		return forecastEligibleDate != null && !forecastEligibleDate.isEmpty() ? (Date) forecastEligibleDate.get(0)
 				: null;
 	}
@@ -2885,7 +2881,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
         
     public Date getWorkflowEligibleDateFromProjMaster(final DataSelectionDTO dataSelectionDTO) {
         String datequery = "SELECT FORECAST_ELIGIBLE_DATE FROM PROJECTION_MASTER where PROJECTION_MASTER_SID=" + dataSelectionDTO.getProjectionId() + "";
-        List workflowforecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(datequery, null, null);
+        List workflowforecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(datequery);
         return workflowforecastEligibleDate != null ? (Date) workflowforecastEligibleDate.get(0) : null;
     }
 

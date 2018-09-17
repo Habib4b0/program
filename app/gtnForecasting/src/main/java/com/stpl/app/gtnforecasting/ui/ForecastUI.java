@@ -2,7 +2,6 @@ package com.stpl.app.gtnforecasting.ui;
 
 import static com.stpl.ifs.util.constants.GlobalConstants.getAccrualConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
-import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getReturnsConstant;
 
 import java.util.Collection;
@@ -157,10 +156,7 @@ public class ForecastUI extends UI {
                 userType = hm.get("userType");
                 noOfApprovals = hm.get("noOfApprovals");
                 approvalLevels = hm.get("approvalLevel");
-                if (getGovernmentConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
-                    screenName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED;
-                    CommonLogic.setScreenName(screenName);
-                } else if (getCommercialConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
+                    if (getCommercialConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                     screenName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED;
                     customerHierSid = hm.get("customerHierSid");
                     customerHierarchyLevel = hm.get("customerHierarchyLevel");
@@ -266,7 +262,9 @@ public class ForecastUI extends UI {
                             
                             sessionDto.setCustomRelationShipSid(dataList!=null && !dataList.isEmpty()&&  dataList.get(0)[0]!=null? Integer.parseInt(String.valueOf(dataList.get(0)[0])) : 0);
                             sessionDto.setCustomDeductionRelationShipSid(dataList!=null && !dataList.isEmpty() &&dataList.get(0)[1]!=null ? Integer.parseInt(String.valueOf(dataList.get(0)[1])) : 0);
-                            }
+                            sessionDto.setSalesHierarchyLevelDetails(dsLogic.getRelationshipDetailsCustom(sessionDto, String.valueOf(sessionDto.getCustomRelationShipSid())));
+                            sessionDto.setDiscountCustomerProductLevelDetails(dsLogic.getRelationshipDetailsCustom(sessionDto, String.valueOf(sessionDto.getCustomDeductionRelationShipSid()))); 
+                        }
                         editWindow = new ForecastEditWindow(projectionName, sessionDto, null, screenName, null);
                     } else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
                         DSLogic dSLogic = new DSLogic();
@@ -352,8 +350,8 @@ public class ForecastUI extends UI {
      *
      */
     public static void makeSessionInValidate() {
-        if (isEXCEL_CLOSE()) { // Fix to avoid blank page issue while excel export
-            setEXCEL_CLOSE(false);
+        if (isEXCELCLOSE()) { // Fix to avoid blank page issue while excel export
+            setEXCELCLOSE(false);
         } else {
             UI.getCurrent().close();
         }
@@ -373,11 +371,11 @@ public class ForecastUI extends UI {
         });
     }
 
-	public static boolean isEXCEL_CLOSE() {
+	public static boolean isEXCELCLOSE() {
 		return EXCEL_CLOSE;
 	}
 
-	public static void setEXCEL_CLOSE(boolean excelClose) {
+	public static void setEXCELCLOSE(boolean excelClose) {
 		EXCEL_CLOSE = excelClose;
 	}
 

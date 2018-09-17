@@ -15,12 +15,16 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Jayaram.LeelaRam
  */
 public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
+
+    private static final Logger DR_DETAILS_LOGGER = LoggerFactory.getLogger(DRDetailsLogic.class);
 
     @Override
     public List<List> getReserveAccountDetails(AbstractSelectionDTO reforecastSelection, Boolean isReserve) {
@@ -81,21 +85,25 @@ public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
+        DR_DETAILS_LOGGER.debug("inside getExcelResultList");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected String getTableNameForView() {
+        DR_DETAILS_LOGGER.debug("inside getTableNameForView");
         return "ARM_DEMAND_RF_TRUE_UP_SUMMARY";
     }
 
     @Override
     protected String getTableNameForEdit() {
+        DR_DETAILS_LOGGER.debug("inside getTableNameForEdit");
         return "ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY";
     }
 
     @Override
     protected CharSequence getRateColumn() {
+        DR_DETAILS_LOGGER.debug("inside getRateColumn");
         return "B.PROJECTED_RATE";
     }
 

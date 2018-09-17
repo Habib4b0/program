@@ -201,7 +201,7 @@ public class DiscountProjectionLogic {
         if (levelNo != 0) {
             if (CommonUtil.isValueEligibleForLoading() && !isCustom) {
                 discountProjectionList = queryBuilderAndExecutor.getDiscountProjectionLastLevel(frequency, discountList, session, hierarchyNo,
-                        hierarchyIndicator, levelNo, isCustom, customViewDetails, treeLevelNo, start, offset, userGroup, projectionSelection);
+                        hierarchyIndicator, levelNo,  customViewDetails, treeLevelNo, start, offset, userGroup, projectionSelection);
             } else {
                 discountProjectionList = queryBuilderAndExecutor.getDiscountProjectionCustom(isProgram, frequency, discountList, session, hierarchyNo,
                         hierarchyIndicator, levelNo, isCustom, customViewDetails, treeLevelNo, start, offset, userGroup);
@@ -245,9 +245,9 @@ public class DiscountProjectionLogic {
                             }
                             String levelName;
                             if(isCustom){
-                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getDiscountHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getDiscountHierarchyLevelDetails(), projectionSelection.getDisplayFormat());
                             }else{
-                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getHierarchyLevelDetails(), projectionSelection.getDisplayFormat());
                                                         }
                             discountDto.setLevelName(levelName);
                             if (levelName.contains("-")) {
@@ -525,8 +525,8 @@ public class DiscountProjectionLogic {
             baselinePeriodsList = discountName.getValue().get(baselineIndicator);
             selectedPeriodsList = discountName.getValue().get("P");
 
-            baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
-            selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
+            baselinePeriods = CommonUtils.collectionToStringMethod(baselinePeriodsList, false, true);
+            selectedPeriods = CommonUtils.collectionToStringMethod(selectedPeriodsList, false, true);
 
             baselinePeriods = baselinePeriods.replace(", ", ",");
             selectedPeriods = selectedPeriods.replace(", ", ",");
@@ -574,8 +574,8 @@ public class DiscountProjectionLogic {
      * @param massUpdateData
      */
     public void massUpdate(SessionDTO session, ProjectionSelectionDTO projectionSelection, List<Integer> startAndEndPeriods, String selectedField, String fieldValue,
-            List<String> selectedDiscounts, boolean isProgram, List<String[]> massUpdateData, List<String> selectedPeriods, boolean isCustomHierarchy) {
-        queryBuilderAndExecutor.massUpdate(session, projectionSelection, startAndEndPeriods, selectedField, fieldValue, selectedDiscounts, isProgram, massUpdateData, selectedPeriods, isCustomHierarchy);
+            List<String> selectedDiscounts, boolean isProgram, List<String[]> massUpdateData, boolean isCustomHierarchy) {
+        queryBuilderAndExecutor.massUpdate(session, projectionSelection, startAndEndPeriods, selectedField, fieldValue, selectedDiscounts, isProgram, massUpdateData, isCustomHierarchy);
     }
 
     /**
@@ -649,7 +649,7 @@ public class DiscountProjectionLogic {
                 customViewDetails.add(deductionLevelNo);
                 try {
                     if (isCustomHierarchy && CommonUtil.isValueEligibleForLoading()) {
-                        discountName = CommonUtils.CollectionToString(session.getSelectedRsForCustom(), false);
+                        discountName = CommonUtils.collectionToStringMethod(session.getSelectedRsForCustom(), false);
                     } else {
                         discountName = isProgram ? dto.getDiscountName().contains("~") ? dto.getDiscountName().split("~")[1] : dto.getDiscountName() : dto.getDiscountName().contains("~") ? dto.getDiscountName().split("~")[0] : dto.getDiscountName();
                     }
@@ -766,7 +766,7 @@ public class DiscountProjectionLogic {
         queryBuilderAndExecutor.checkClearAll(session, userGroup, checkClear);
     }
 
-    public boolean isAnyRecordChecked(SessionDTO session, List<String> discountProgramsList, boolean isCustomHierarchy) {
+    public boolean isAnyRecordChecked(SessionDTO session, boolean isCustomHierarchy) {
         int count = queryBuilderAndExecutor.getCheckedRecordCount(session);
         if (count != 0) {
             if (count == -1) {
@@ -793,7 +793,7 @@ public class DiscountProjectionLogic {
             query = "UPDATE ST_NM_DISCOUNT_PROJ_MASTER \n"
                     + "SET CHECK_RECORD = " + (isCheck ? Constant.STRING_ONE : DASH) + '\n';
             if (session.getCustomId() != 0) {
-                String discountId = CommonUtils.CollectionToString(session.getSelectedRsForCustom(), false);
+                String discountId = CommonUtils.collectionToStringMethod(session.getSelectedRsForCustom(), false);
                 if (isCheckList) {
                     query += " WHERE RS_CONTRACT_SID IN (SELECT RS_CONTRACT_SID FROM RS_CONTRACT WHERE RS_CONTRACT_SID NOT IN (" + discountId + "))";
                 } else {
@@ -886,7 +886,7 @@ public class DiscountProjectionLogic {
     }
 
     public String getPeriodSid(String period, String fre, String order) {
-        List periodSid = (List) dao.executeSelectQuery(utils.periodQuery(period, fre, order), null, null);
+        List periodSid = (List) dao.executeSelectQuery(utils.periodQuery(period, fre, order));
         return periodSid.get(0).toString();
     }
 
@@ -985,7 +985,7 @@ public class DiscountProjectionLogic {
                         discountNamePivot = StringUtils.EMPTY;
                         levelIdPivot = String.valueOf(obj[NumericConstants.THREE]);
                         discountDto.setHierarchyNo(String.valueOf(obj[NumericConstants.TWO]));
-                        discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
+                        discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), session.getHierarchyLevelDetails(), projectionSelection.getDisplayFormat()));
                         discountDto.setAlternatePivotList(discountProjectionList);
                         if (isCustom) {
                             discountDto.setTreeLevelNo(treeLevelNo);
@@ -1162,7 +1162,7 @@ public class DiscountProjectionLogic {
             boolean isProgram, final List<String> discountList, final String userGroup, final ProjectionSelectionDTO projselection) {
         String query;
         if (CommonUtil.isValueEligibleForLoading()) {
-            query = queryBuilderAndExecutor.getDiscountCountQueryForAllLevel(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, discountList, userGroup, projselection);
+            query = queryBuilderAndExecutor.getDiscountCountQueryForAllLevel(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, discountList, userGroup);
         } else {
             query = queryBuilderAndExecutor.getDiscountCountQuery(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, isProgram, discountList, userGroup);
         }

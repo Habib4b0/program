@@ -482,7 +482,7 @@ public class Sales extends CustomComponent {
         final ExtContainer<AccrualRateProjectionDTO> excelBeanContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
         configureAndLoadDataForExcel(excelTable, excelBeanContainer);
         if (excelTable.size() > 0) {
-            ForecastUI.setEXCEL_CLOSE(true);
+            ForecastUI.setEXCELCLOSE(true);
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), AccrualRateUtils.SALES, AccrualRateUtils.SALES, "Sales.xls", false);
             exp.export();
         }

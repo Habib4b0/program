@@ -15,6 +15,7 @@ import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -423,7 +424,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (NumberFormatException | ParseException e) {
             LOGGER.error("In searchDsProjection ->{}", e.getMessage());
             LOGGER.error(queryString.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -456,7 +457,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (Exception e) {
             LOGGER.error("In getRelationshipHierarchy= {} " , e.getMessage());
             LOGGER.error(customSql.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
     
@@ -475,7 +476,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (Exception e) {
             LOGGER.error("In getCcpDetails= {}  " , e.getMessage());
             LOGGER.error(String.valueOf(parameters.get("ccpQuery")));
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -555,13 +556,13 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     }
                 }
             } else {
-                return null;
+                return Collections.emptyList();
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
         } catch (Exception e) {
             LOGGER.error("In getCustomerProductGroup= {}  " , e.getMessage());
             LOGGER.error(queryString.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
     
@@ -578,7 +579,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (Exception e) {
             LOGGER.error("In getProjection ->= {}" , e.getMessage());
             LOGGER.error(queryString.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -612,7 +613,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (Exception e) {
             LOGGER.error("getRelationShipValues  -->= {}" , e.getMessage());
             LOGGER.error(queryString.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -644,7 +645,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     if (fkTbName[i] != null && !StringUtils.EMPTY.equals(fkTbName[i]) && !ConstantsUtils.NULL.equals(fkTbName[i])) {
                         sqlBuilder.append(fkTbName[i]);
                     }
-                    String projectionDetailsSid = CommonUtils.CollectionToString(idList, false);
+                    String projectionDetailsSid = CommonUtils.collectionToStringCommon(idList, false);
 
                     sqlBuilder.append(" where PROJECTION_DETAILS_SID IN (" ).append( projectionDetailsSid ).append( ");");
 
@@ -707,7 +708,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (Exception ex) {
             LOGGER.error("In getParentLevels ->= {}" , ex.getMessage());
             LOGGER.error(queryBuilder.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -833,7 +834,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         try {
             if (parameters.get(Constant.INDICATOR) != null
                     && (Constant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))) {
-                List<Integer> list = new ArrayList<Integer>();
+                List<Integer> list = new ArrayList<>();
                 int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
                 list.add(returnValue);
                 return list;
@@ -843,7 +844,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (Exception ex) {
             LOGGER.error("In executeQuery  ->= {}" , ex.getMessage());
             LOGGER.error(queryString.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -870,7 +871,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (Exception ex) {
             LOGGER.error("in getItemsFromBrand= {}", ex.getMessage() );
             LOGGER.error(queryBuilder.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1003,7 +1004,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (Exception ex) {
             LOGGER.error("in getInnerLevel()= {}", ex.getMessage());
             LOGGER.error(queryBuilder.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1037,14 +1038,14 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
 
             if (parameters.get(Constant.INDICATOR) != null && Constant.SAVE_CCP.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
                 HelperTableLocalServiceUtil.executeUpdateQuery(customSql.toString());
-                return null;
+                return Collections.emptyList();
             } else {
                 return HelperTableLocalServiceUtil.executeSelectQuery(customSql.toString());
             }
         } catch (Exception e) {
             LOGGER.error("in getCcpMap= {}", e.getMessage());
             LOGGER.error(customSql.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1349,7 +1350,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (Exception e) {
             LOGGER.error("In tempOperation ->= {}" , e.getMessage());
             LOGGER.error(customSql);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1376,7 +1377,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (Exception ex) {
             LOGGER.error("In getChildLevels ->= {}" , ex.getMessage());
             LOGGER.error(queryBuilder.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1662,7 +1663,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         try {
             if (parameters.get(Constant.INDICATOR) != null
                     && ((Constant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))))) {
-                List<Integer> list = new ArrayList<Integer>();
+                List<Integer> list = new ArrayList<>();
                 int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString()) ;
                 list.add(returnValue);
                 return list;
@@ -1672,7 +1673,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } catch (Exception ex) {
             LOGGER.error("in execute query channel= {}", ex.getMessage());
             LOGGER.error(queryString.toString());
-            return null;
+            return Collections.emptyList();
         } 
     }
     

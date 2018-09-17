@@ -55,10 +55,7 @@ public class GtnUIFrameworkContractHeaderCommonValidationAction
 
 		gtnRequest.setGtnWsContractHeaderRequest(imRequest);
 
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SERVICE
-						+ GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_ID_NO_VALIDATION_SERVICE,
-				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = callContractHeaderValidationService(gtnRequest);
 		GtnWsContractHeaderResponse reponseBean = response.getGtnWsContractHeaderResponse();
 		if (reponseBean.isContractIdDuplicate()) {
 			throw new GtnFrameworkValidationFailedException(
@@ -72,6 +69,13 @@ public class GtnUIFrameworkContractHeaderCommonValidationAction
 		}
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
 	}
+
+    public GtnUIFrameworkWebserviceResponse callContractHeaderValidationService(GtnUIFrameworkWebserviceRequest gtnRequest) {
+        return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_SERVICE
+                        + GtnWsContractHeaderContants.GTN_WS_CONTRACT_HEADER_ID_NO_VALIDATION_SERVICE,
+                gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());  
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

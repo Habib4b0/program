@@ -34,13 +34,13 @@ import org.apache.commons.lang.StringUtils;
 public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO> extends RateLogic<T, E> {
 
     @Override
-    public int getCount(Criteria criteria) {
-        return (int) getRateQuery(criteria, true, 0, 0);
+    public int getCount(Criteria accrualCriteria) {
+        return (int) getRateQuery(accrualCriteria, true, 0, 0);
     }
 
     @Override
-    public DataResult<T> getData(Criteria criteria) {
-        List result = (List) getRateQuery(criteria, false, criteria.getStart(), criteria.getOffset());
+    public DataResult<T> getData(Criteria accrualCriteria) {
+        List result = (List) getRateQuery(accrualCriteria, false, accrualCriteria.getStart(), accrualCriteria.getOffset());
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(result);
         return dataResult;
@@ -49,63 +49,63 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
     /**
      *
      * @param result
-     * @param selection
+     * @param accrualSelection
      * @param lastParent
      * @return
      */
     @Override
-    protected List<AdjustmentDTO> customizeResultSet(List result, AbstractSelectionDTO selection, AdjustmentDTO lastParent) {
+    protected List<AdjustmentDTO> customizeResultSet(List result, AbstractSelectionDTO accrualSelection, AdjustmentDTO lastParent) {
 
         List<AdjustmentDTO> resultList = new ArrayList<>();
-        List columnList = ARMConstants.getDeduction().equalsIgnoreCase(selection.getRateDeductionLevelName())
-                ? selection.getRateColumnList().get(NumericConstants.THREE) : selection.getRateColumnList().get(1);
+        List columnList = ARMConstants.getDeduction().equalsIgnoreCase(accrualSelection.getRateDeductionLevelName())
+                ? accrualSelection.getRateColumnList().get(NumericConstants.THREE) : accrualSelection.getRateColumnList().get(1);
         String lastValue = null;
-        AdjustmentDTO dto = new AdjustmentDTO();
+        AdjustmentDTO accrualDto = new AdjustmentDTO();
         DecimalFormat decimalformat = new DecimalFormat("#,##0.000");
         for (int i = 0; i < result.size(); i++) {
             Object[] obj = (Object[]) result.get(i);
             if (lastValue == null || !lastValue.equalsIgnoreCase(String.valueOf(obj[1]))) {
-                dto = new AdjustmentDTO();
-                resultList.add(dto);
-                dto.setGroup(String.valueOf(obj[1]));
-                dto.setLevelName(String.valueOf(obj[NumericConstants.FOUR]));
-                switch (dto.getLevelName()) {
+                accrualDto = new AdjustmentDTO();
+                resultList.add(accrualDto);
+                accrualDto.setGroup(String.valueOf(obj[1]));
+                accrualDto.setLevelName(String.valueOf(obj[NumericConstants.FOUR]));
+                switch (accrualDto.getLevelName()) {
                     case VariableConstants.DEDUCTION_UPPERCASE:
-                        dto.setDeductionSID((Integer) (obj[NumericConstants.THREE]));
+                        accrualDto.setDeductionSID((Integer) (obj[NumericConstants.THREE]));
                         break;
 
                     case VariableConstants.CUSTOMER_UPPERCASE:
-                        dto.setCustomerSID((Integer) (obj[NumericConstants.THREE]));
-                        dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
-                        dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
+                        accrualDto.setCustomerSID((Integer) (obj[NumericConstants.THREE]));
+                        accrualDto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
+                        accrualDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         break;
 
                     case VariableConstants.CONTRACT_UPPERCASE:
-                        dto.setContractSID((Integer) (obj[NumericConstants.THREE]));
-                        dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
-                        dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
+                        accrualDto.setContractSID((Integer) (obj[NumericConstants.THREE]));
+                        accrualDto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
+                        accrualDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         break;
 
                     case VariableConstants.BRAND_UPPERCASE:
-                        dto.setBrandSID((Integer) (obj[NumericConstants.THREE]));
-                        dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
-                        dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
-                        dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
+                        accrualDto.setBrandSID((Integer) (obj[NumericConstants.THREE]));
+                        accrualDto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
+                        accrualDto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
+                        accrualDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         break;
                     case VariableConstants.PRODUCT_UPPER:
-                        dto.setBranditemmasterSid(String.valueOf(obj[NumericConstants.THREE]));
-                        dto.setBrandSID(lastParent != null && lastParent.getBrandSID() != null ? lastParent.getBrandSID() : 0);
-                        dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
-                        dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
-                        dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
+                        accrualDto.setBranditemmasterSid(String.valueOf(obj[NumericConstants.THREE]));
+                        accrualDto.setBrandSID(lastParent != null && lastParent.getBrandSID() != null ? lastParent.getBrandSID() : 0);
+                        accrualDto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
+                        accrualDto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
+                        accrualDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         break;
                     default:
                 }
-                dto.setChildrenAllowed((!VariableConstants.PRODUCT_UPPER.equalsIgnoreCase(dto.getLevelName())) && (selection.getRateslevelFilterNo() == 0));
-                dto.setLevelNo(selection.getLevelNo());
+                accrualDto.setChildrenAllowed((!VariableConstants.PRODUCT_UPPER.equalsIgnoreCase(accrualDto.getLevelName())) && (accrualSelection.getRateslevelFilterNo() == 0));
+                accrualDto.setLevelNo(accrualSelection.getLevelNo());
             }
 
-            dto.addStringProperties(String.valueOf(obj[0]) + "." + columnList.indexOf(String.valueOf(obj[0])), decimalformat.format(Double.valueOf(String.valueOf(obj[NumericConstants.TWO]))) + "%");
+            accrualDto.addStringProperties(String.valueOf(obj[0]) + "." + columnList.indexOf(String.valueOf(obj[0])), decimalformat.format(Double.valueOf(String.valueOf(obj[NumericConstants.TWO]))) + "%");
             lastValue = String.valueOf(obj[1]);
         }
 
@@ -123,12 +123,12 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
         Object lastParent = criteria.getParent();
         int startindex = start + 1;
         int endindex = start + offset;
-        List input = new ArrayList<>();
-        input.add(selection.getDataSelectionDTO().getProjectionId());
+        List accrualInput = new ArrayList<>();
+        accrualInput.add(selection.getDataSelectionDTO().getProjectionId());
         boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (!isView) {
-            input.add(selection.getSessionDTO().getUserId());
-            input.add(selection.getSessionDTO().getSessionId());
+            accrualInput.add(selection.getSessionDTO().getUserId());
+            accrualInput.add(selection.getSessionDTO().getSessionId());
         }
 
         String queryNameContract = isView ? CommonConstant.CUSTOMERCONTRACTVIEW : CommonConstant.CUSTOMERCONTRACTEDIT;
@@ -140,13 +140,13 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
             List count = null;
             if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
-                count = QueryUtils.getItemData(getQueryInput(parentDTO, selection, input, queryName), queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
+                count = QueryUtils.getItemData(getQueryInput(parentDTO, selection, accrualInput, queryName), queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
             } else if (!ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) && !ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(), selection.getTableName(), "%", "%", selection.getRateDeductionValue())));
-                count = QueryUtils.getItemData(input, queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
+                accrualInput.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(), selection.getTableName(), "%", "%", selection.getRateDeductionValue())));
+                count = QueryUtils.getItemData(accrualInput, queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
             } else {
-                input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(), selection.getTableName(), "%", "%", "%", "%", selection.getRateDeductionValue())));
-                count = QueryUtils.getItemData(input, queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
+                accrualInput.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(), selection.getTableName(), "%", "%", "%", "%", selection.getRateDeductionValue())));
+                count = QueryUtils.getItemData(accrualInput, queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
             }
             return count != null && !count.isEmpty() && count.get(0) != null ? count.get(0) : 0;
         } else {
@@ -154,19 +154,19 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
             List<AdjustmentDTO> resultDTO;
             if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
-                getQueryInput(parentDTO, selection, input, queryName);
-                input.addAll(new ArrayList<>(Arrays.asList(startindex, endindex)));
-                result = QueryUtils.getItemData(input, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
+                getQueryInput(parentDTO, selection, accrualInput, queryName);
+                accrualInput.addAll(new ArrayList<>(Arrays.asList(startindex, endindex)));
+                result = QueryUtils.getItemData(accrualInput, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
                 resultDTO = customizeResultSet(result, selection, parentDTO);
             } else {
                 if (!ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) && !ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                    input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
+                    accrualInput.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
                             selection.getTableName(), "%", "%", selection.getRateDeductionValue(), startindex, endindex)));
-                    result = QueryUtils.getItemData(input, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
+                    result = QueryUtils.getItemData(accrualInput, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
                 } else {
-                    input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
+                    accrualInput.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
                             selection.getTableName(), "%", "%", "%", "%", selection.getRateDeductionValue(), startindex, endindex)));
-                    result = QueryUtils.getItemData(input, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
+                    result = QueryUtils.getItemData(accrualInput, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
                 }
 
                 resultDTO = customizeResultSet(result, selection, null);
@@ -257,55 +257,65 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
     }
 
     @Override
-    public List getExcelResultList(AbstractSelectionDTO selection) {
+    public List getExcelResultList(AbstractSelectionDTO accrualSelection) {
         String query;
-        boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
+        boolean isView = accrualSelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (isView) {
             query = SQlUtil.getQuery("getExcelRatePipelineAccrualView");
         } else {
             query = SQlUtil.getQuery("getExcelRatePipelineAccrual");
         }
         Object[] value = null;
-        if (selection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract()) && selection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
+        if (accrualSelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract()) && accrualSelection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
             value = new Object[]{"D", "T", "C", "B", "I"};
-        } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer()) && selection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
+        } else if (accrualSelection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer()) && accrualSelection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
             value = new Object[]{"D", "C", "T", "B", "I"};
-        } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer())) {
+        } else if (accrualSelection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer())) {
             value = new Object[]{"C", "T", "B", "I"};
-        } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract())) {
+        } else if (accrualSelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract())) {
             value = new Object[]{"T", "C", "B", "I"};
-        } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionCustomer())) {
+        } else if (accrualSelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomer())) {
             value = new Object[]{"T", "B", "I"};
-        } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionProduct())) {
+        } else if (accrualSelection.getRateDeductionView().equals(ARMConstants.getDeductionProduct())) {
             value = new Object[]{"B", "I"};
         }
         query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
-        query = query.replace("@DEDCONDITION", selection.getRateDeductionLevelName());
-        query = query.replace("@CONDITIONVALUE", selection.getRateDeductionValue().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
-        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
-        query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
-        query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
-        query = query.replace("@RATEBASIC", String.valueOf(selection.getRateBasisName()));
-        query = query.replace("@FLAG_BIT", String.valueOf(selection.getRatesOverrideFlag()));
-        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
+        query = query.replace("@DEDCONDITION", accrualSelection.getRateDeductionLevelName());
+        query = query.replace("@CONDITIONVALUE", accrualSelection.getRateDeductionValue().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
+        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(accrualSelection.getProjectionMasterSid()));
+        query = query.replace("@USERID", String.valueOf(accrualSelection.getSessionDTO().getUserId()));
+        query = query.replace("@SESSIONID", String.valueOf(accrualSelection.getSessionDTO().getSessionId()));
+        query = query.replace("@RATEBASIC", String.valueOf(accrualSelection.getRateBasisName()));
+        query = query.replace("@FLAG_BIT", String.valueOf(accrualSelection.getRatesOverrideFlag()));
+        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, accrualSelection.getSessionDTO().getCurrentTableNames()));
     }
 
     @Override
     public List getTableInput(SessionDTO sessionDTO) {
-        List list = new ArrayList<>();
-        list.add("RATE");
-        list.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_RATE));
-        list.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_RATE));
-        list.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_SALES));
-        list.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_RATE));
-        list.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_ADJUSTMENTS));
-        return list;
+        List accrualTableInput = new ArrayList<>();
+        accrualTableInput.add("RATE");
+        accrualTableInput.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_RATE));
+        accrualTableInput.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_RATE));
+        accrualTableInput.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_SALES));
+        accrualTableInput.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_RATE));
+        accrualTableInput.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_ADJUSTMENTS));
+        return accrualTableInput;
     }
 
     @Override
-    public boolean updateOverride(List input) {
+    public boolean updateOverride(List accrualInput) {
         try {
-            QueryUtils.itemUpdate(input, "pipeline_common_query", "Txn1_rates_override_query");
+            QueryUtils.itemUpdate(accrualInput, "pipeline_common_query", "Txn1_rates_override_query");
+        } catch (Exception e) {
+            LOGGER.error("Error in updateOverride :", e);
+            return false;
+        }
+        return true;
+    }
+      @Override
+    public boolean updateOverrideLevelFilter(List accrualInput) {
+        try {
+            QueryUtils.itemUpdate(accrualInput, "pipeline_common_query_Level_Filter", "Txn1_rates_override_query_Level_Filter");
         } catch (Exception e) {
             LOGGER.error("Error in updateOverride :", e);
             return false;

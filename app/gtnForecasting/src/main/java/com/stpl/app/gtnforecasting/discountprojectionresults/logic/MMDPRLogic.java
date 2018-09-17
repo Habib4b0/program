@@ -591,7 +591,7 @@ public class MMDPRLogic {
                             if (checkYear.isEmpty() || !checkYear.equalsIgnoreCase(commonColumn)) {
 
                                 if (dto != null) {
-                                    customizeNonMandat_Brand(list, dto, projSelDTO, checkYear);
+                                    customizeNonMandatBrand(list, dto, projSelDTO, checkYear);
                                     if (!dto.getGroup().isEmpty() && !Constant.NULL.equals(dto.getGroup())) {
                                         dto.setDiscountLevel(Constant.NON_MANDATED_SUPPLEMENTAL);
                                         resultList.add(dto);
@@ -603,7 +603,7 @@ public class MMDPRLogic {
                             }
 
                             if (i == list.size() - 1) {
-                                customizeNonMandat_Brand(list, dto, projSelDTO, checkYear);
+                                customizeNonMandatBrand(list, dto, projSelDTO, checkYear);
                                 if (!dto.getGroup().isEmpty() && !Constant.NULL.equals(dto.getGroup())) {
                                     dto.setDiscountLevel(Constant.NON_MANDATED_SUPPLEMENTAL);
                                     resultList.add(dto);
@@ -670,7 +670,7 @@ public class MMDPRLogic {
                 projSelDTO.setOffset(offset);
 
                 List list = dqLogic.getNonMandatedBrand(projSelDTO.getProjectionId(), projSelDTO.getFrequency(), projSelDTO);
-                discountDTO = getCustomize_Brand(list, frequencyDivision, projSelDTO);
+                discountDTO = getCustomizeBrand(list, frequencyDivision, projSelDTO);
                 resultList.addAll(discountDTO);
             }
 
@@ -908,9 +908,7 @@ public class MMDPRLogic {
         } else if (projectionSelectionDTO.isFilterDdlb() && projectionSelectionDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
             count += projectionSelectionDTO.getPeriodList().size();
         } else {
-            if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
-                count += NumericConstants.THREE;
-            } else if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
+                if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
                 count += NumericConstants.THREE;
             } else if (Constant.BOTH.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
                 count += NumericConstants.FOUR;
@@ -1839,7 +1837,7 @@ public class MMDPRLogic {
             DiscountProjectionResultsDTO dto = null;
             for (int i = 0; i < list.size(); i++) {
 
-                final Object[] obj = (Object[]) list.get(i);
+                final Object[] obj = list.get(i);
 
                 int period;
                 int year;
@@ -2070,7 +2068,7 @@ public class MMDPRLogic {
         }
     }
 
-    private void customizeNonMandat_Brand(List list, DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, String checkYear) {
+    private void customizeNonMandatBrand(List list, DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, String checkYear) {
         if (!checkYear.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
@@ -2148,7 +2146,7 @@ public class MMDPRLogic {
         return discountDTO;
     }
 
-    public List<DiscountProjectionResultsDTO> getCustomize_Brand(List list, int frequencyDivision, ProjectionSelectionDTO projSelDTO) {
+    public List<DiscountProjectionResultsDTO> getCustomizeBrand(List list, int frequencyDivision, ProjectionSelectionDTO projSelDTO) {
         List<DiscountProjectionResultsDTO> discountDTO = new ArrayList<>();
         int loopCount = 0;
         for (int i = 0; i < list.size(); i++) {

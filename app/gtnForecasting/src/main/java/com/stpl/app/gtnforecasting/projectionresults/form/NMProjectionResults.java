@@ -443,7 +443,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                 exportLogic();
             }
             exceltable.setRefresh(BooleanConstant.getTrueFlag());
-            ForecastUI.setEXCEL_CLOSE(true);
+            ForecastUI.setEXCELCLOSE(true);
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.PROJECTION_RESULTS, Constant.PROJECTION_RESULTS, "Projection_Results.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);

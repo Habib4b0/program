@@ -36,28 +36,28 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
     public static final Logger LOGGERTRX7 = LoggerFactory.getLogger(Trx7SalesLogic.class);
 
     @Override
-    public int getCount(Criteria criteria) {
+    public int getCount(Criteria tr7SalesCriteria) {
 
-        return getSalesCount(criteria.getParent(), criteria.getSelectionDto());
+        return getSalesCount(tr7SalesCriteria.getParent(), tr7SalesCriteria.getSelectionDto());
     }
 
     @Override
-    public DataResult<T> getData(Criteria criteria) {
-        return getSalesData(criteria.getParent(), criteria.getSelectionDto(), criteria.getStart(), criteria.getOffset());
+    public DataResult<T> getData(Criteria tr7SalesCriteria) {
+        return getSalesData(tr7SalesCriteria.getParent(), tr7SalesCriteria.getSelectionDto(), tr7SalesCriteria.getStart(), tr7SalesCriteria.getOffset());
     }
 
     @Override
     public List<Object> getMonthYear() {
-        String sql = SQlUtil.getQuery("getMonthYear");
-        List result = HelperTableLocalServiceUtil.executeSelectQuery(sql);
-        List<Object> defaultValues = new ArrayList<>();
-        if (!result.isEmpty()) {
-            Object[] value = (Object[]) result.get(0);
+        String sqlQuery = SQlUtil.getQuery("getMonthYear");
+        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
+        List<Object> defaultValue = new ArrayList<>();
+        if (!resultList.isEmpty()) {
+            Object[] value = (Object[]) resultList.get(0);
             for (Object value1 : value) {
-                defaultValues.add(String.valueOf(value1));
+                defaultValue.add(String.valueOf(value1));
             }
         }
-        return defaultValues;
+        return defaultValue;
     }
 
     /**
@@ -67,83 +67,79 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
      * @return Jan-1........Dec-12
      */
     public static String getMonthName(int monthNo) {
-        String monthName = StringUtils.EMPTY;
+        String month = StringUtils.EMPTY;
         try {
-            DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
-            String[] months = dateFormatSymbols.getShortMonths();
-            monthName = months[monthNo - 1];
+            DateFormatSymbols symbols = new DateFormatSymbols();
+            String[] months = symbols.getShortMonths();
+            month = months[monthNo - 1];
         } catch (Exception e) {
             LOGGERTRX7.error("Error in getMonthName :", e);
         }
-        return monthName;
+        return month;
     }
 
-    public int getSalesCount(Object parentId, SelectionDTO selection) {
+    public int getSalesCount(Object salesParentId, SelectionDTO tr7Sselection) {
         int countRes = NumericConstants.ZERO;
         try {
-            LOGGERTRX7.debug("Inside getSalesCount--{}", selection.getProjectionMasterSid());
+            LOGGERTRX7.debug("Inside getSalesCount--{}", tr7Sselection.getProjectionMasterSid());
             String level = CommonConstant.CUSTOMER_LEVEL;
             String parentLevel = "";
             String brandMasterSid = "";
             String companyMasterSid = "";
 
-            String sql = "";
-            if (parentId instanceof AdjustmentDTO) {
-                parentLevel = ((AdjustmentDTO) parentId).getLevelNames();
-                companyMasterSid = ((AdjustmentDTO) parentId).getCompSids();
-                brandMasterSid = ((AdjustmentDTO) parentId).getBranditemmasterSid();
+            String tr7SalesSql = "";
+            if (salesParentId instanceof AdjustmentDTO) {
+                parentLevel = ((AdjustmentDTO) salesParentId).getLevelNames();
+                companyMasterSid = ((AdjustmentDTO) salesParentId).getCompSids();
+                brandMasterSid = ((AdjustmentDTO) salesParentId).getBranditemmasterSid();
 
                 if (parentLevel.equals(CommonConstant.CUSTOMER_LEVEL)) {
-                    companyMasterSid = ((AdjustmentDTO) parentId).getCompSids();
+                    companyMasterSid = ((AdjustmentDTO) salesParentId).getCompSids();
                     level = CommonConstant.BRAND_LEVEL;
                 } else if (parentLevel.equals(CommonConstant.BRAND_LEVEL)) {
-                    companyMasterSid = ((AdjustmentDTO) parentId).getCompSids();
-                    brandMasterSid = ((AdjustmentDTO) parentId).getBranditemmasterSid();
+                    companyMasterSid = ((AdjustmentDTO) salesParentId).getCompSids();
+                    brandMasterSid = ((AdjustmentDTO) salesParentId).getBranditemmasterSid();
                     level = "ITEM";
                 }
 
             }
-            if (CommonConstant.PRODUCT_LEVEL.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-                level = "ITEM";
-            } else if (CommonConstant.BRAND_LEVEL_FILTER.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-                level = CommonConstant.BRAND_LEVEL;
-            }
+            level = getLevel(tr7Sselection, level);
 
-            if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
-                sql = SQlUtil.getQuery("trx7_getSalesBrandCount");
+            if (tr7Sselection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
+                tr7SalesSql = SQlUtil.getQuery("trx7_getSalesBrandCount");
             } else {
-                sql = SQlUtil.getQuery("trx7_getSalesBrandCountEdit");
+                tr7SalesSql = SQlUtil.getQuery("trx7_getSalesBrandCountEdit");
             }
-            sql = sql.replace("[$VIEW]", level);
+            tr7SalesSql = tr7SalesSql.replace("[$VIEW]", level);
 
-            sql = sql.replace("[PROJECTION_MASTER_SID]", String.valueOf(selection.getProjectionMasterSid()));
+            tr7SalesSql = tr7SalesSql.replace("[PROJECTION_MASTER_SID]", String.valueOf(tr7Sselection.getProjectionMasterSid()));
             LOGGERTRX7.debug("brandMasterSid----{}", brandMasterSid);
-            sql = sql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
+            tr7SalesSql = tr7SalesSql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
             if ("ITEM".equals(level)) {
-                if (CommonConstant.PRODUCT_LEVEL.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-                    sql = sql.replace(CommonConstant.COMPANY_MASTER_SID, "");
-                    sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
+                if (CommonConstant.PRODUCT_LEVEL.equalsIgnoreCase(String.valueOf(tr7Sselection.getSaleslevelFilterValue()))) {
+                    tr7SalesSql = tr7SalesSql.replace(CommonConstant.COMPANY_MASTER_SID, "");
+                    tr7SalesSql = tr7SalesSql.replace(CommonConstant.BRAND_MASTER_SID, "");
                 } else {
-                    sql = sql.replace(CommonConstant.COMPANY_MASTER_SID, CommonConstant.AND_APSCOMPANY_MASTER_SID + companyMasterSid + "");
-                    sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "AND BM.BRAND_MASTER_SID  = " + brandMasterSid + "");
+                    tr7SalesSql = tr7SalesSql.replace(CommonConstant.COMPANY_MASTER_SID, CommonConstant.AND_APSCOMPANY_MASTER_SID + companyMasterSid + "");
+                    tr7SalesSql = tr7SalesSql.replace(CommonConstant.BRAND_MASTER_SID, "AND BM.BRAND_MASTER_SID  = " + brandMasterSid + "");
                 }
             }
             if (CommonConstant.BRAND_LEVEL.equals(level)) {
-                if (CommonConstant.BRAND_LEVEL_FILTER.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-                    sql = sql.replace(CommonConstant.COMPANY_MASTER_SID, "");
-                    sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
+                if (CommonConstant.BRAND_LEVEL_FILTER.equalsIgnoreCase(String.valueOf(tr7Sselection.getSaleslevelFilterValue()))) {
+                    tr7SalesSql = tr7SalesSql.replace(CommonConstant.COMPANY_MASTER_SID, "");
+                    tr7SalesSql = tr7SalesSql.replace(CommonConstant.BRAND_MASTER_SID, "");
                 } else {
-                    sql = sql.replace(CommonConstant.COMPANY_MASTER_SID, CommonConstant.AND_APSCOMPANY_MASTER_SID + companyMasterSid + "");
-                    sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
+                    tr7SalesSql = tr7SalesSql.replace(CommonConstant.COMPANY_MASTER_SID, CommonConstant.AND_APSCOMPANY_MASTER_SID + companyMasterSid + "");
+                    tr7SalesSql = tr7SalesSql.replace(CommonConstant.BRAND_MASTER_SID, "");
                 }
 
             } else {
-                sql = sql.replace(CommonConstant.COMPANY_MASTER_SID, "");
-                sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
+                tr7SalesSql = tr7SalesSql.replace(CommonConstant.COMPANY_MASTER_SID, "");
+                tr7SalesSql = tr7SalesSql.replace(CommonConstant.BRAND_MASTER_SID, "");
             }
-            sql = CommonLogic.replaceTableNames(sql, selection.getSessionDTO().getCurrentTableNames());
-            LOGGERTRX7.debug("sql----{}", sql);
-            List<Integer> result = QueryUtils.executeSelect(sql);
+            tr7SalesSql = CommonLogic.replaceTableNames(tr7SalesSql, tr7Sselection.getSessionDTO().getCurrentTableNames());
+            LOGGERTRX7.debug("sql----{}", tr7SalesSql);
+            List<Integer> result = QueryUtils.executeSelect(tr7SalesSql);
             countRes = (result != null && !result.isEmpty()) ? result.get(0) : 0;
             LOGGERTRX7.debug("Exit getSalesCount--{}", countRes);
         } catch (Exception ex) {
@@ -152,80 +148,92 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
         return countRes;
     }
 
-    public DataResult<T> getSalesData(Object parentId, SelectionDTO selection, int start, int offset) {
-        LOGGERTRX7.debug("Inside getSalesData--{}", selection.getProjectionMasterSid());
-        String sql = "";
+    public DataResult<T> getSalesData(Object salesParentId, SelectionDTO tr7Selection ,int start, int offset) {
+        LOGGERTRX7.debug("Inside getSalesData--{}", tr7Selection.getProjectionMasterSid());
+        String tr7SalesSql = "";
         String level = CommonConstant.CUSTOMER_LEVEL;
         String parentLevel = "";
         String brandMasterSid = "0";
         String companyMasterSid = "0";
 
-        if (parentId instanceof AdjustmentDTO) {
+        if (salesParentId instanceof AdjustmentDTO) {
 
-            parentLevel = ((AdjustmentDTO) parentId).getLevelNames();
-            companyMasterSid = ((AdjustmentDTO) parentId).getCompSids();
-            brandMasterSid = ((AdjustmentDTO) parentId).getBranditemmasterSid();
+            parentLevel = ((AdjustmentDTO) salesParentId).getLevelNames();
+            companyMasterSid = ((AdjustmentDTO) salesParentId).getCompSids();
+            brandMasterSid = ((AdjustmentDTO) salesParentId).getBranditemmasterSid();
 
             if (parentLevel.equals(CommonConstant.CUSTOMER_LEVEL)) {
-                companyMasterSid = ((AdjustmentDTO) parentId).getCompSids();
+                companyMasterSid = ((AdjustmentDTO) salesParentId).getCompSids();
                 level = CommonConstant.BRAND_LEVEL;
             } else if (parentLevel.equals(CommonConstant.BRAND_LEVEL)) {
-                companyMasterSid = ((AdjustmentDTO) parentId).getCompSids();
-                brandMasterSid = ((AdjustmentDTO) parentId).getBranditemmasterSid();
+                companyMasterSid = ((AdjustmentDTO) salesParentId).getCompSids();
+                brandMasterSid = ((AdjustmentDTO) salesParentId).getBranditemmasterSid();
                 level = "ITEM";
             }
 
         }
-        if (CommonConstant.PRODUCT_LEVEL.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-            level = "ITEM";
-        } else if (CommonConstant.BRAND_LEVEL_FILTER.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-            level = CommonConstant.BRAND_LEVEL;
-        }
+        level = getLevel(tr7Selection, level);
 
-        if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
-            sql = SQlUtil.getQuery("trx7_getSalesBrand");
+        tr7SalesSql = getSql(tr7Selection);
+        tr7SalesSql = tr7SalesSql.replace("[$VIEW]", level);
+        tr7SalesSql = tr7SalesSql.replace("[PROJECTION_MASTER_SID]", String.valueOf(tr7Selection.getProjectionMasterSid()));
+        tr7SalesSql = tr7SalesSql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
 
-        } else {
-            sql = SQlUtil.getQuery("trx7_getSalesBrandEdit");
-        }
-        sql = sql.replace("[$VIEW]", level);
-        sql = sql.replace("[PROJECTION_MASTER_SID]", String.valueOf(selection.getProjectionMasterSid()));
-        sql = sql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
-
-        sql = sql.replace("[LEVEL_FILTER]", String.valueOf(selection.getSaleslevelFilterValue()));
-        sql = sql.replace("[COM_MASTER_SID]", companyMasterSid);
-        sql = sql.replace("[BRA_MASTER_SID]", brandMasterSid);
+        tr7SalesSql = tr7SalesSql.replace("[LEVEL_FILTER]", String.valueOf(tr7Selection.getSaleslevelFilterValue()));
+        tr7SalesSql = tr7SalesSql.replace("[COM_MASTER_SID]", companyMasterSid);
+        tr7SalesSql = tr7SalesSql.replace("[BRA_MASTER_SID]", brandMasterSid);
 
         if ("ITEM".equals(level)) {
-            if (CommonConstant.PRODUCT_LEVEL.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-                sql = sql.replace(CommonConstant.COMPANY_MASTER_SID, "");
-                sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
+            if (CommonConstant.PRODUCT_LEVEL.equalsIgnoreCase(String.valueOf(tr7Selection.getSaleslevelFilterValue()))) {
+                tr7SalesSql = tr7SalesSql.replace(CommonConstant.COMPANY_MASTER_SID, "");
+                tr7SalesSql = tr7SalesSql.replace(CommonConstant.BRAND_MASTER_SID, "");
             } else {
-                sql = sql.replace(CommonConstant.COMPANY_MASTER_SID, CommonConstant.AND_APSCOMPANY_MASTER_SID + companyMasterSid + "");
-                sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "AND BM.BRAND_MASTER_SID  = " + brandMasterSid + "");
+                tr7SalesSql = tr7SalesSql.replace(CommonConstant.COMPANY_MASTER_SID, CommonConstant.AND_APSCOMPANY_MASTER_SID + companyMasterSid + "");
+                tr7SalesSql = tr7SalesSql.replace(CommonConstant.BRAND_MASTER_SID, "AND BM.BRAND_MASTER_SID  = " + brandMasterSid + "");
             }
         }
         if (CommonConstant.BRAND_LEVEL.equals(level)) {
-            if (CommonConstant.BRAND_LEVEL_FILTER.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-                sql = sql.replace(CommonConstant.COMPANY_MASTER_SID, "");
-                sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
+            if (CommonConstant.BRAND_LEVEL_FILTER.equalsIgnoreCase(String.valueOf(tr7Selection.getSaleslevelFilterValue()))) {
+                tr7SalesSql = tr7SalesSql.replace(CommonConstant.COMPANY_MASTER_SID, "");
+                tr7SalesSql = tr7SalesSql.replace(CommonConstant.BRAND_MASTER_SID, "");
             } else {
-                sql = sql.replace(CommonConstant.COMPANY_MASTER_SID, CommonConstant.AND_APSCOMPANY_MASTER_SID + companyMasterSid + "");
-                sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
+                tr7SalesSql = tr7SalesSql.replace(CommonConstant.COMPANY_MASTER_SID, CommonConstant.AND_APSCOMPANY_MASTER_SID + companyMasterSid + "");
+                tr7SalesSql = tr7SalesSql.replace(CommonConstant.BRAND_MASTER_SID, "");
             }
 
         } else {
-            sql = sql.replace(CommonConstant.COMPANY_MASTER_SID, "");
-            sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
+            tr7SalesSql = tr7SalesSql.replace(CommonConstant.COMPANY_MASTER_SID, "");
+            tr7SalesSql = tr7SalesSql.replace(CommonConstant.BRAND_MASTER_SID, "");
         }
 
-        sql += " ORDER BY PRODUCT_ID OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
-        sql = CommonLogic.replaceTableNames(sql, selection.getSessionDTO().getCurrentTableNames());
-        List<Object[]> result = QueryUtils.executeSelect(sql);
-        LOGGERTRX7.debug("sql=============={}", sql);
+        tr7SalesSql += " ORDER BY PRODUCT_ID OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
+        tr7SalesSql = CommonLogic.replaceTableNames(tr7SalesSql, tr7Selection.getSessionDTO().getCurrentTableNames());
+        List<Object[]> result = QueryUtils.executeSelect(tr7SalesSql);
+        LOGGERTRX7.debug("sql=============={}", tr7SalesSql);
         DataResult<T> resultList = customizier(ARMUtils.getTrx7SalesVariables(), result);
         LOGGERTRX7.debug("Exit getSalesData--{}", result.size());
         return resultList;
+    }
+
+    private String getLevel(SelectionDTO tr7Selection, String level) {
+        String retLevel = level;
+        if (CommonConstant.PRODUCT_LEVEL.equalsIgnoreCase(String.valueOf(tr7Selection.getSaleslevelFilterValue()))) {
+            retLevel = "ITEM";
+        } else if (CommonConstant.BRAND_LEVEL_FILTER.equalsIgnoreCase(String.valueOf(tr7Selection.getSaleslevelFilterValue()))) {
+            retLevel = CommonConstant.BRAND_LEVEL;
+        }
+        return retLevel;
+    }
+
+    private String getSql(SelectionDTO selection) {
+        String salesSql;
+        if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
+            salesSql = SQlUtil.getQuery("trx7_getSalesBrand");
+
+        } else {
+            salesSql = SQlUtil.getQuery("trx7_getSalesBrandEdit");
+        }
+        return salesSql;
     }
 
     public boolean updatePriceOverride(List input) {
@@ -245,20 +253,20 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
     }
 
     @Override
-    public List getExcelResultList(AbstractSelectionDTO selection) {
+    public List getExcelResultList(AbstractSelectionDTO tr7Selection) {
         LOGGERTRX7.debug("Inside of getExcelResultList --");
         String query;
-        boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
+        boolean isView = tr7Selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (isView) {
             query = SQlUtil.getQuery("trx7_getPASalesExcelQueryView");
         } else {
             query = SQlUtil.getQuery("trx7_getPASalesExcelQuery");
         }
-        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
-        query = query.replace("@USERID", String.valueOf(selection.getUserId()));
-        query = query.replace("@SESSIONID", String.valueOf(selection.getSessionId()));
+        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(tr7Selection.getProjectionMasterSid()));
+        query = query.replace("@USERID", String.valueOf(tr7Selection.getUserId()));
+        query = query.replace("@SESSIONID", String.valueOf(tr7Selection.getSessionId()));
         LOGGERTRX7.debug("query --{}", query);
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, tr7Selection.getSessionDTO().getCurrentTableNames()));
         LOGGERTRX7.debug("Exit of getExcelResultList --{}", list.size());
         return list;
     }

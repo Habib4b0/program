@@ -310,7 +310,7 @@ public class ItemManagementIndex extends CustomComponent {
 
                 if ("company".equals(propertyId)) {
                     ComboBox companyDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(companyDdlb, "LoadCompanyCount", "LoadCompany", BooleanConstant.getTrueFlag());
+                    abstractLogic.lazyLoadDdlb(companyDdlb, "LoadCompanyCount", "LoadCompany", BooleanConstant.getTrueFlag());
                     return companyDdlb;
                 }
                 if ("therapeuticClass".equals(propertyId)) {
@@ -324,17 +324,17 @@ public class ItemManagementIndex extends CustomComponent {
                 }
                 if ("brand".equals(propertyId)) {
                     ComboBox brandDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(brandDdlb, "LoadBrandCount", "LoadBrand", BooleanConstant.getTrueFlag());
+                    abstractLogic.lazyLoadDdlb(brandDdlb, "LoadBrandCount", "LoadBrand", BooleanConstant.getTrueFlag());
                     return brandDdlb;
                 }
                 if ("form".equals(propertyId)) {
                     ComboBox type = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(type, "LoadFormCount", "LoadForm", BooleanConstant.getTrueFlag());
+                    abstractLogic.lazyLoadDdlb(type, "LoadFormCount", "LoadForm", BooleanConstant.getTrueFlag());
                     return type;
                 }
                 if ("strength".equals(propertyId)) {
                     ComboBox strengthDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(strengthDdlb, "LoadStrengthCount", "LoadStrength", BooleanConstant.getTrueFlag());
+                    abstractLogic.lazyLoadDdlb(strengthDdlb, "LoadStrengthCount", "LoadStrength", BooleanConstant.getTrueFlag());
                     return strengthDdlb;
                 }
                 if ("placeHolder".equals(propertyId)) {
@@ -388,15 +388,15 @@ public class ItemManagementIndex extends CustomComponent {
             if ((binderDto.getItemId() == null || binderDto.getItemId().isEmpty())
                     && (binderDto.getItemName() == null || binderDto.getItemName().isEmpty())
                     && (binderDto.getTherapeuticClass() == null || Constants.SELECT_ONE.equals(binderDto.getTherapeuticClass()))
-                    && (binderDto.getForm_DTO() == null)
-                    && binderDto.getIdentifierType_DTO() == null
+                    && (binderDto.getFormDto() == null)
+                    && binderDto.getIdentifierTypeDto() == null
                     && (binderDto.getItemNo() == null || binderDto.getItemNo().isEmpty())
                     && (binderDto.getItemDesc() == null || binderDto.getItemDesc().isEmpty())
-                    && (binderDto.getBrand_DTO() == null)
-                    && (binderDto.getStrength_DTO() == null)
+                    && (binderDto.getBrandDto() == null)
+                    && (binderDto.getStrengthDto() == null)
                     && (binderDto.getIdentifier() == null || binderDto.getIdentifier().isEmpty())
-                    && (binderDto.getCompany_DTO() == null)
-                    && (binderDto.getPlaceHolder_DTO() == null || binderDto.getPlaceHolder_DTO().getId() == NumericConstants.ELEVEN)
+                    && (binderDto.getCompanyDto() == null)
+                    && (binderDto.getPlaceHolderDto() == null || binderDto.getPlaceHolderDto().getId() == NumericConstants.ELEVEN)
                     && (binderDto.getNdc9() == null || binderDto.getNdc9().isEmpty())
                     && (binderDto.getItemCategory() == null || Constants.SELECT_ONE.equals(binderDto.getItemCategory()) || StringUtils.EMPTY.equals(binderDto.getItemCategory().trim()))
                     && (binderDto.getItemType() == null || Constants.SELECT_ONE.equals(binderDto.getItemType()) || StringUtils.EMPTY.equals(binderDto.getItemType().trim()))) {
@@ -610,15 +610,15 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadForm() {
-        abstractLogic.LazyLoadDdlb(formDTO, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
+        abstractLogic.lazyLoadDdlb(formDTO, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
     }
 
     private void loadBrand() {
-        abstractLogic.LazyLoadDdlb(brandDTO, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
+        abstractLogic.lazyLoadDdlb(brandDTO, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
     }
 
     private void loadStrength() {
-        abstractLogic.LazyLoadDdlb(strengthDTO, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
+        abstractLogic.lazyLoadDdlb(strengthDTO, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
     }
 
     private void loadItemType() {
@@ -635,7 +635,7 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadCompany() {
-        abstractLogic.LazyLoadDdlb(companyDTO, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
+        abstractLogic.lazyLoadDdlb(companyDTO, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
     }
 
     private void loadPlaceHolder(ComboBox placeHolderDto, boolean isFilter) {
@@ -704,7 +704,7 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadIdentifierType() {
-        abstractLogic.LazyLoadDdlb(identifierTypeDTO, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
+        abstractLogic.lazyLoadDdlb(identifierTypeDTO, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
     }
 
     private boolean checkOneContract() {

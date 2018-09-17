@@ -45,8 +45,8 @@ public class GtnWsReportDashboardFilterOptionController {
 		} else {
 			resultList = reportFilterOptionService.getCustAndProdLevelValues(gtnUIFrameworkWebserviceRequest);
 		}
-		List<String> itemCodeList = new ArrayList<>();
-		List<String> itemValueList = new ArrayList<>();
+		List<String> itemCodeList = new ArrayList<>(resultList.size());
+		List<String> itemValueList = new ArrayList<>(resultList.size());
 		for (Object[] object : resultList) {
 			itemCodeList.add(String.valueOf(object[0]));
 			itemValueList.add(String.valueOf(object[1]));

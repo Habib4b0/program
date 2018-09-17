@@ -192,13 +192,9 @@ public class PrivatePublicView extends AbstractViewLookup {
                 String moduleName = null;
                 if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                     moduleName = "Non Mandated";
-                } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                    moduleName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED;
                 } else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
                     moduleName = CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION;
-                } else {
-                    moduleName = "Returns";
-                }
+                } 
                 List<ViewDTO> list = null;
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
                     list = NonMandatedLogic.searhViewARP(viewName.getValue(), moduleName, VIEW_TYPE.getViewType(indicator));

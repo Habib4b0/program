@@ -632,7 +632,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
                     if ((GROWTH.getConstant()).equalsIgnoreCase(fmValue)) {
                         if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
-                            frequencyDdlb.select(ANNUAL.getConstant());;
+                            frequencyDdlb.select(ANNUAL.getConstant());
                             frequencyDdlb.setEnabled(false);
                             forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                         } else {
@@ -1383,7 +1383,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         fssMap.clear();
         newNdcDto.setIndicator(StringUtils.EMPTY);
 
-        final List<Object[]> result = logic.NewNDCSetupCook(projectionId);
+        final List<Object[]> result = logic.newNDCSetupCook(projectionId);
         if (result != null && !result.isEmpty()) {
             for (Object[] obj : result) {
                 String tabName = String.valueOf(obj[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : obj[NumericConstants.SEVEN]);
