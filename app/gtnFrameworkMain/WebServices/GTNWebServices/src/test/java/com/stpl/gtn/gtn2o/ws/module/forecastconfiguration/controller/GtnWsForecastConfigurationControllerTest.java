@@ -147,7 +147,7 @@ public class GtnWsForecastConfigurationControllerTest {
 		reqConfig.setMode("Interval");
 		reqConfig.setToDate(new Date());
 		
-		reqConfig.setProcessType("Defined---");
+		reqConfig.setProcessType("Defin");
 		ins.saveForecastConfiguration(request);
 		
 		//case 6
@@ -390,6 +390,7 @@ public class GtnWsForecastConfigurationControllerTest {
 		fcRequest.setToDate(new Date());
 		fcRequest.setFromDate(new Date());
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
+		
 		
 
 	}
