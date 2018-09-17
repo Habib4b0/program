@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.registry.config.lookups;
 
+import com.stpl.gtn.gtn2o.registry.action.GtnForecastingDataSelectionLoadViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnSelectButtonEnableAction;
 import com.stpl.gtn.gtn2o.registry.config.GtnUIFrameworkDataSelectionScreenConfig;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
@@ -410,7 +411,7 @@ public class ProjectionOptionsPublicViewLookup {
 		GtnUIFrameworkComponentConfig privateViewSearchLookupSelectButton = new GtnUIFrameworkComponentConfig();
 		privateViewSearchLookupSelectButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		privateViewSearchLookupSelectButton.setComponentId(
-				namespace +GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupSelectButton");
+				namespace +GtnFrameworkForecastingStringConstants.UNDERSCORE + "publicViewSearchLookupSelectButton");
 		privateViewSearchLookupSelectButton.setComponentName("SELECT");
 		privateViewSearchLookupSelectButton.setEnable(false);
 		privateViewSearchLookupSelectButton
@@ -427,29 +428,29 @@ public class ProjectionOptionsPublicViewLookup {
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
-		actionParameter.add(GtnFrameworkForecastingStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
+		actionParameter.add(GtnFrameworkForecastingStringConstants.PUBLIC_VIEW_SEARCH_LOOKUP);
 		actionParameter.add(Arrays.asList("viewNameFilter"));
-		actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP));
+		actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.PUBLIC_VIEW_SEARCH_LOOKUP));
 		reportCustomerHierarchySelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(reportCustomerHierarchySelectAction);
 
 		GtnUIFrameWorkActionConfig reportCustomHierarchyClosepopup = new GtnUIFrameWorkActionConfig();
 		reportCustomHierarchyClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		reportCustomHierarchyClosepopup.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		reportCustomHierarchyClosepopup.addActionParameter(GtnFrameworkCommonConstants.PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
 		actionConfigList.add(reportCustomHierarchyClosepopup);
 
-//		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
-//		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//		loadViewAction.addActionParameter(GtnReportDataSelectionLoadViewAction.class.getName());
-//		loadViewAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
-//		loadViewAction.addActionParameter("reportLandingScreen");
-//		actionConfigList.add(loadViewAction);
-//
-//		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
-//		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-//		enableAction.addActionParameter("reportLandingScreen_dsDeleteView");
-//		actionConfigList.add(enableAction);
-//		privateViewSearchLookupSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
+		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		loadViewAction.addActionParameter( GtnForecastingDataSelectionLoadViewAction.class.getName());
+		loadViewAction.addActionParameter(GtnFrameworkCommonConstants.PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
+		loadViewAction.addActionParameter("Commercial Forecasting");
+		actionConfigList.add(loadViewAction);
+
+		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
+		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+		enableAction.addActionParameter("reportLandingScreen_dsDeleteView");
+		actionConfigList.add(enableAction);
+		privateViewSearchLookupSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig privateViewSearchLookupCloseButton = new GtnUIFrameworkComponentConfig();
 		privateViewSearchLookupCloseButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);

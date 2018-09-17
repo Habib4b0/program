@@ -6,9 +6,12 @@ import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadA
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnForecastingDataSelectionLoadViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnForecastingProductAvailableTableLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDataSelectionViewAddAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDataSelectionViewUpdateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDateValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnSelectButtonEnableAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnModeOptionValueChangeAction;
@@ -82,6 +85,13 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 				new GtnModeOptionValueChangeAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnForecastingDataSelectionLoadViewAction.class.getName(),
 				new GtnForecastingDataSelectionLoadViewAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkSaveViewAction.class.getName(),
+				new GtnFrameworkSaveViewAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastDataSelectionViewAddAction.class.getName(),
+				new GtnFrameworkForecastDataSelectionViewAddAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastDataSelectionViewUpdateAction.class.getName(),
+				new GtnFrameworkForecastDataSelectionViewUpdateAction());
+		
 		
 	}
 

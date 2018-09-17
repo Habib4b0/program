@@ -47,7 +47,11 @@ public final class GtnFrameworkForecastingStringConstants {
 
 	public static final String PRODUCT_HIERARCHY_GROUP_BUILDER = "Product Hierarchy Group Builder";
 	
+	public static final String DO_NOT_ADD_BUTTON_CUSTOM_STYLE = "doNotAddButtonCustomStyle";
+	
 	public static final String VIEW_INVALID_SEARCH_MESSAGE_BODY = "There are no Views that match the search criteria.  Please try again.";
+	
+	public static final String BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS = "buttonCustomStyleForLessSpaceBetweenButtons";
 
 	public static final String RESET_CONFIRMATION = "Reset Confirmation";
 	
@@ -62,6 +66,10 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String  CRITERIA_LAYOUT="privateViewSearchLookupSearchCriteriaLayout";
 	                        
 	public static final String  PRIVATE_VIEW_SEARCH_LOOKUP = "PrivateViewSearchLookUp";
+	
+	public static final String  PUBLIC_VIEW_SEARCH_LOOKUP = "PublicViewSearchLookUp";
+	
+	
 	
 	public static final String REPORT_PRIVATEVIEW_SEARCHLOOKUP = "reportLandingScreen_privateViews";
 	
@@ -160,6 +168,8 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String TAB_SHEET = "tabSheet";
 
 	public static final String SEARCH_QUERY = "searchQuery";
+	
+	public static final String CUSTOMER_SELECTION_LEVEL="customerSelectionLevel";
 
 	public static final String FORECAST_LANDING_SCREEN = "forecastLandingScreen";
 
@@ -322,6 +332,12 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String FILTER_OPTIONS_TAB_DEDUCTION_FILTER = "filterOptionsTabDeductionFilter";
 
 	public static final String FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION = "filterOptionsTabDeductionInclusion";
+	
+	public static final String  FORECAST_PROJECTION_NAME="projectionName";
+	
+	public static final String FROM_PERIOD = "fromPeriod";
+	
+	public static final String TO_PERIOD = "toPeriod";
 
 	public static final String FORECAST_OPTIONS_TAB = "forecastOptionsTab";
 
@@ -362,8 +378,26 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String FORECASTING_DASHBOARD_SAVE_PROFILE = "forecastDashboardSaveProfile";
 
 	public static final String COMPANY_MASTER_GLCOMP = "CompanyMasterGLcomp";
+	
+	public static final String COMPANY = "company";
+	
+	public static final String CUSTOMER_SELECTION_RELATIONSHIP = "customerSelectionRelationship";
+	
+	public static final String CUSTOMER_SELECTION_FORECAST_LEVEL = "customerSelectionForecastLevel";
+	
+	public static final String RELATIONSHIP = "relationship";
+	
+	public static final String LEVEL_LOWERCASE = "level";
+	
+	public static final String FORECAST_DS_SAVE_VIEW_LOOK_UP = "forecastDsSaveViewLookUp";
+	
+	public static final String FORECAST_PROJECTION_DESCRIPTION="projectionDescription";
 
 	public static final String BUSINESS_UNIT_GLCOMP = "BusinessUnitGLcomp";
+	
+	public static final String PRODUCTDUAL_LIST_BOX_COMP = "productdualListBoxComp";
+	
+	public static final String BUSINESS_UNIT = "businessUnit";
 
 	public static final String TIME_PERIOD_FROM_DATE = "TimePeriodFromDate";
 

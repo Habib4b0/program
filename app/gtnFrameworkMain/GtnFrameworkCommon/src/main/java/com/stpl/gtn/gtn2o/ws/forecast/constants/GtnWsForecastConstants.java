@@ -16,10 +16,13 @@ public class GtnWsForecastConstants {
 	}
 	
 	public static final String GTN_FORECAST_SERVICE = "/GtnForecast";
+	public static final String GTN_FORECAST_SERVICE_REGISTRY = "/gtnServiceRegistry";
+	public static final String GTN_FORECAST_REDIRECT_QUERY_ENGINE="/serviceRegistryWebservicesForRedirectToQueryEngine";
 	public static final String GTN_FORECAST_CUSTOMERHIERARCHY_SEARCHSERVICE = "/GtnWsForecastCustomerHierarchySearchService";
 	public static final String GTN_FORECAST_PRODUCTHIERARCHY_SEARCHSERVICE = "/GtnWsForecastProductHierarchySearchService";
 	
 	public static final String GTN_WS_FORECAST_WORKFLOW_SERVICE = "/GtnWsForecastWorkflowService";
+	public static final String GTN_FORECAST_SAVEVIEW_SERVICE = "/forecastSaveViewService";
     public static final String GTN_WS_FORECAST_START_TASK = "/GtnWsForecastStartTask";
     public static final String GTN_WS_FORECAST_COMPLETE_TASK = "/GtnWsForecastCompleteTask";
     public static final String GTN_WS_FORECAST_GET_VARIABLE = "/GetProcessVariable";
