@@ -58,19 +58,12 @@ public class SearchButtonLayout extends HorizontalLayout {
 				try {
 					binder.getFields();
 					binder.commit();
-					
-					try {
-						
 						List<SearchBusinessRoleModuleForm> searchResults=businessRoleModuleLogic.searchmoduleAccessDetails(binder);
 						searchResultbeans.removeAllItems();
 						searchResultbeans.addAll(searchResults);
 						table.setVisibleColumns(UIUtils.getInstance().businessRoleModuleMasterCol);
-					} catch (SystemException | PortalException e) {
-						LOGGER.error(e.getMessage());
-						
-					}
 					
-				} catch (CommitException e) {
+				} catch (SystemException | PortalException | CommitException e) {
 					LOGGER.error(e.getMessage());
 				}
 			}

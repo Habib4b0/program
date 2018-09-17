@@ -2,7 +2,6 @@ package com.stpl.app.gtnforecasting.ui;
 
 import static com.stpl.ifs.util.constants.GlobalConstants.getAccrualConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
-import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getReturnsConstant;
 
 import java.util.Collection;
@@ -159,10 +158,7 @@ public class ForecastUI extends UI {
                 userType = hm.get("userType");
                 noOfApprovals = hm.get("noOfApprovals");
                 approvalLevels = hm.get("approvalLevel");
-                if (getGovernmentConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
-                    screenName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED;
-                    CommonLogic.setScreenName(screenName);
-                } else if (getCommercialConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
+                    if (getCommercialConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                     screenName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED;
                     customerHierSid = hm.get("customerHierSid");
                     customerHierarchyLevel = hm.get("customerHierarchyLevel");
@@ -396,28 +392,6 @@ public class ForecastUI extends UI {
     
     public void getContentForecasting(String userId,String sessionId,List<Object> actionParamList, GtnFrameworkForecastInputBean inputBean) {
         LOGGER.info("getContentForecasting------------------------------------------");
-//        Navigator navigator = new Navigator(this, this);
-//        VaadinRequest vaadinRequest = VaadinService.getCurrentRequest();
-////        getCurrent().getUI().
-////		GtnUIFrameworkRootConfig rootConfig = new GtnFrameworkCommercialForecastingConfig().getForecastingRootConfig();
-//		GtnUIFrameworkRootConfig rootConfig = new GtnFrameworkCommercialForecastingConfig().getForecastingRootConfig();
-//		GtnUIForecastingFrameworkEngine frameworkEngine = new GtnUIForecastingFrameworkEngine();
-////                GtnUIFrameworkView currentVaddinView = new GtnUIFrameworkView(rootConfig.getGtnViewConfigList().get(0));
-//		frameworkEngine.buildVaadinScreen(rootConfig, navigator, vaadinRequest, this, "Commercial Forecasting DS",
-//				new GtnUIFrameworkDynamicClassFiller());
-//                LOGGER.info("component------------>" +frameworkEngine.getLayout());
-//                LOGGER.info("component-----***------->" +navigator.getUI());
-////                navigator.getDisplay().showView(view);
-////               GtnUIFrameworkView view =  (GtnUIFrameworkView)navigator.getUI().getContent();
-////               List<GtnUIFrameworkComponentConfig> configList = view.getGtnComponentList();
-////               LOGGER.info("getContentForecasting---------------%%%%%%%%%%%%%%%%--------end-------------------"+configList.get(0).getComponentName());      
-////               VerticalLayout layout =  (VerticalLayout)navigator.getCurrentView().getViewComponent();
-////              VerticalLayout layout =  (VerticalLayout) view.getRootLayout();
-//        LOGGER.info("getContentForecasting-----------------------end-------------------"); 
-        //        sessionDto.setLayout(frameworkEngine.getLayout());
-////        LOGGER.info("USER_ID= {} " , userId);
-////        LOGGER.info("SESSION_ID= {} " , sessionId);
-        
         sessionDto.setUserId(inputBean.getUserId());
         sessionDto.setSessionId(inputBean.getSessionId());
         
@@ -436,6 +410,15 @@ public class ForecastUI extends UI {
         dataSelectionDto.setCustomerHierarchyLevel((String)actionParamList.get(9));
         dataSelectionDto.setCustomerHierarchyInnerLevel((String)actionParamList.get(10));
         DataSelectionForm form = new DataSelectionForm(sessionDto,dataSelectionDto, inputBean);
+        form.generateButtonLogicNewArch(sessionDto,inputBean);
+    }
+    
+    public void getForecastingToEdit(GtnFrameworkForecastInputBean inputBean, String userId, String sessionId){
+        sessionDto.setUserId(inputBean.getUserId());
+        sessionDto.setSessionId(inputBean.getSessionId());
+        DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
+        DataSelectionForm form = new DataSelectionForm(sessionDto, dataSelectionDto, inputBean);
+        form.editButtonLogicNewArch(inputBean);
     }
 
 }

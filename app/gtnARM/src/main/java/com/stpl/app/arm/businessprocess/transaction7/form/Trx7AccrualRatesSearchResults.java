@@ -6,6 +6,7 @@
 package com.stpl.app.arm.businessprocess.transaction7.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractPipelineRates;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractRatesSearchResults;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractBPLogic;
 import com.stpl.app.arm.businessprocess.transaction7.logic.Trx7PipelineAccrualRateLogic;
@@ -22,19 +23,21 @@ import java.util.Map;
  */
 public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
+    private static final org.slf4j.Logger TR7_RATES_LOGGER = org.slf4j.LoggerFactory.getLogger(AbstractPipelineRates.class);
+
     public Trx7AccrualRatesSearchResults(AbstractBPLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
     }
 
     @Override
     protected void getTotalHeader(List<List> columnList) {
-        logger.debug("inside getTotalHeader Method");
+        TR7_RATES_LOGGER.debug("inside getTotalHeader Method");
 
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getSummaryLogic();
+        return getSummaryLogic();
     }
 
     @Override
@@ -67,7 +70,7 @@ public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -82,18 +85,18 @@ public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
     protected void valueDdlbValueChange(int masterSids) {
-        logger.debug("inside valueDdlbValueChange Method");
+        TR7_RATES_LOGGER.debug("inside valueDdlbValueChange Method");
 
     }
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-        logger.debug("inside loadLevelFilterValueDdlb Method");
+        TR7_RATES_LOGGER.debug("inside loadLevelFilterValueDdlb Method");
     }
 
     @Override
@@ -135,7 +138,7 @@ public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override

@@ -46,7 +46,7 @@ public class BSummaryPipelineResults extends AbstractBalanceSummaryResutls {
             rightDoubleVisibleHeader.add(0, "");
             getExcelTable().setVisibleColumns(rightsingleVisibleColumn1.toArray());
             getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
-            getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
+            getExcelTable().setDoubleHeaderVisible(true);
             getExcelTable().setDoubleHeaderVisibleColumns(rightDoubleVisibleColumn.toArray());
             getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(rightDoubleVisibleHeader.toArray(), rightDoubleVisibleHeader.size(), String[].class));
             getExcelTable().setDoubleHeaderMap((Map) header.get(5));

@@ -23,6 +23,7 @@ import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.v7.data.Property;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
+import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.PopupDateField;
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,15 +90,14 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
     private Date glDateField;
     protected Date defaultWorkFlowDate;
     protected Date resetWorkFlowDate;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger ABS_DEM_SUMM_LOGGER = LoggerFactory.getLogger(AbstractDemandSummarySelection.class);
 
     public AbstractDemandSummarySelection(AbstractSelectionDTO selectionDTO, AbstractDemandSummaryLogic logic) {
         this.selectionDTO = selectionDTO;
         this.logic = logic;
-        init();
     }
 
-    private void init() {
+    protected void init() {
         selectionDTO.setProjectionMasterSid(selectionDTO.getDataSelectionDTO().getProjectionId());
         selectionDTO.setCompanyMasterSid(selectionDTO.getDataSelectionDTO().getCompanyMasterSid());
         adjustmentResults = getResults(logic, selectionDTO);
@@ -111,13 +112,13 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
     }
 
     protected abstract AbstractDemandSummaryResults getResults(AbstractSummaryLogic logic, AbstractSelectionDTO selectionDTO);
-    private final CustomNotification notifier = new CustomNotification();
+    private final DemandSummaryCustomNotification deamandSummaryNotifier = new DemandSummaryCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class DemandSummaryCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String demandSummaryButtonName;
 
-        public CustomNotification() {
+        public DemandSummaryCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -130,9 +131,9 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", demandSummaryButtonName);
+            if (null != demandSummaryButtonName) {
+                switch (demandSummaryButtonName) {
 
                     case "reset":
 
@@ -144,11 +145,11 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             toDate.select(GlobalConstants.getSelectOne());
                             fromDate.select(GlobalConstants.getSelectOne());
                             if (selectionDTO.getSessionDTO().isWorkFlow()) {
-                                glImpactDate.removeValueChangeListener(glWorkflowListener);
+                                glImpactDate.removeValueChangeListener(gldemandWorkflowListener);
                                 glImpactDate.setValue(resetWorkFlowDate);
                                 selectionDTO.setSummaryglDate(dateFormat.format(resetWorkFlowDate));
                                 defaultWorkFlowDate = resetWorkFlowDate;
-                                glImpactDate.addValueChangeListener(glWorkflowListener);
+                                glImpactDate.addValueChangeListener(gldemandWorkflowListener);
                             } else {
                                 glImpactDate.removeValueChangeListener(glListener);
                                 glImpactDate.setValue(glDateField);
@@ -169,7 +170,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.demandSummaryButtonName = buttonName;
         }
 
     }
@@ -179,10 +180,10 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 try {
-                    notifier.setButtonName("reset");
-                    notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID002());
+                    deamandSummaryNotifier.setButtonName("reset");
+                    deamandSummaryNotifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID002());
                 } catch (Exception e) {
-                    logger.error("Error in reset", e);
+                    ABS_DEM_SUMM_LOGGER.error("Error in reset", e);
                 }
             }
         });
@@ -192,11 +193,11 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
         generate.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                logger.debug("Inside generate ButtonClick Btn in abstractdemandsummaryselection");
+                ABS_DEM_SUMM_LOGGER.debug("Inside generate ButtonClick Btn in abstractdemandsummaryselection");
                 try {
                     generateButtonLogic();
                 } catch (Exception e) {
-                    logger.error("Error in generate", e);
+                    ABS_DEM_SUMM_LOGGER.error("Error in generate", e);
                 }
             }
         });
@@ -313,7 +314,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             }
                         }
                     } catch (Exception ex) {
-                        logger.error("Error in view", ex);
+                        ABS_DEM_SUMM_LOGGER.error("Error in view", ex);
                     }
                 }
             });
@@ -353,7 +354,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             selectionDTO.setSummaryfrequencyList(listTolistOfStringArray(frequency));
                         }
                     } catch (Exception ex) {
-                        logger.error("Error in todate", ex);
+                        ABS_DEM_SUMM_LOGGER.error("Error in todate", ex);
                     }
                 }
 
@@ -364,7 +365,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
             }
             deductionLevelDdlb.select(HelperListUtil.getInstance().getIdByDesc(VariableConstants.DEDUCTION_LEVELS, VariableConstants.DEDUCTION_PROGRAM));
         } catch (Exception e) {
-            logger.error("Error in glimpactdate", e);
+            ABS_DEM_SUMM_LOGGER.error("Error in glimpactdate", e);
         }
 
     }
@@ -466,12 +467,12 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                 } else {
                     selectionDTO.setSummaryglDate(dateFormat.format(glDate));
                 }
-            } catch (Exception ex) {
-                logger.error("Error in glListener", ex);
+            } catch (Property.ReadOnlyException | Converter.ConversionException | ParseException ex) {
+                ABS_DEM_SUMM_LOGGER.error("Error in glListener", ex);
             }
         }
     };
-    protected Property.ValueChangeListener glWorkflowListener = new Property.ValueChangeListener() {
+    protected Property.ValueChangeListener gldemandWorkflowListener = new Property.ValueChangeListener() {
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
             try {
@@ -499,7 +500,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     selectionDTO.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                logger.error("Error in glWorkflowListener :", ex);
+                ABS_DEM_SUMM_LOGGER.error("Error in glWorkflowListener :", ex);
             }
         }
     };

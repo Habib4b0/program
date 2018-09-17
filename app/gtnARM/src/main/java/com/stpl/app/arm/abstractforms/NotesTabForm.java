@@ -442,11 +442,11 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         return newNote;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream notesOut) throws IOException {
+        notesOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream notesOut) throws IOException, ClassNotFoundException {
+        notesOut.defaultReadObject();
     }
 }

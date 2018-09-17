@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.stpl.gtn.gtn2o.registry.config;
 
 import java.util.ArrayList;
@@ -8,13 +9,14 @@ import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnModeOptionValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastEligibleDateLoadAction;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -26,6 +28,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -170,6 +173,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		
 		addPrivateViewLookup(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addCompany(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
+		addFrequency(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addProjectionName(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addPublicViewLookup(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addBusinessUnit(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
@@ -241,10 +245,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		actionConfigList.add(popupActionConfig);
 		popupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> popupActionParam = new ArrayList<>();
-		popupActionParam.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		popupActionParam.add("Private_lookup");
 		popupActionParam.add("Private View");
-		popupActionParam.add("70%");
-		popupActionParam.add("70%");
+		popupActionParam.add("90%");
+		popupActionParam.add("100%");
 
 		popupActionConfig.setActionParameterList(popupActionParam);
 		privateViewLookup.addGtnUIFrameWorkActionConfig(popupActionConfig);
@@ -272,6 +276,30 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(company);
 	}
 
+	
+	private void addFrequency(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
+		GtnUIFrameworkComponentConfig frequencyLayoutConfig = configProvider.getHorizontalLayoutConfig(
+				nameSpace + "_" + "frequencyLayout", true, parentComponentId);
+		componentList.add(frequencyLayoutConfig);
+
+		GtnUIFrameworkComponentConfig frequency = new GtnUIFrameworkComponentConfig();
+		frequency.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		frequency.setComponentId(nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_FREQUENCY_COMBOX_ID);
+		frequency.setComponentName( GtnFrameworkScreenRegisteryConstants.ADD_FREQUENCY_COMBOX_ID);
+		frequency.setAddToParent(Boolean.TRUE);
+		frequency.setParentComponentId(nameSpace + "_" + "frequencyLayout");
+		frequency.setCustomReference("integerId");
+		
+		GtnUIFrameworkComboBoxConfig frequencyConfig = new GtnUIFrameworkComboBoxConfig();
+		frequencyConfig.setLoadingUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
+		frequencyConfig.setComboBoxType("frequency");
+		frequencyConfig.setActualWsUrl("/gtnSearch");
+		frequencyConfig.setActualWsContext("/GtnSearchWebService");
+		frequencyConfig.setModuleName("serviceRegistry");
+		frequencyConfig.setActualWsModuleName("generalSearch");
+		frequency.setGtnComboboxConfig(frequencyConfig);
+		componentList.add(frequency);
+	}
 	private void addProjectionName(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
 		GtnUIFrameworkComponentConfig projectionNameLayoutConfig = configProvider.getHorizontalLayoutConfig(
 				nameSpace + "_" + "projectionNameLayout", true, parentComponentId);
@@ -304,10 +332,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		actionConfigList.add(popupActionConfig);
 		popupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> popupActionParam = new ArrayList<>();
-		popupActionParam.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		popupActionParam.add("Public_lookup");
 		popupActionParam.add("Public View");
-		popupActionParam.add("70%");
-		popupActionParam.add("70%");
+		popupActionParam.add("90%");
+		popupActionParam.add("100%");
 
 		popupActionConfig.setActionParameterList(popupActionParam);
 		publicViewLookup.addGtnUIFrameWorkActionConfig(popupActionConfig);
@@ -544,9 +572,19 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		searchBtn.setComponentId(nameSpace + "_" + "searchBtn");
 		searchBtn.setComponentName("SEARCH");
 		searchBtn.setParentComponentId(parentComponentId);
+		searchBtn.setAuthorizationIncluded(true);
 		searchBtn.setAddToParent(true);
+                List<GtnUIFrameWorkActionConfig> actionConfigListSearch = new ArrayList<>();
+                GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
+                loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
+                loadDataSearchTableActionConfig.setActionParameterList(
+                Arrays.asList(new Object[]{nameSpace+"_"+"projectionResultsTable"}));
+                loadDataSearchTableActionConfig.setFieldValues(
+                        Arrays.asList(new String[]{nameSpace+"_"+"projectionName",
+                            nameSpace+"_"+"projectionDescription"}));
+                actionConfigListSearch.add(loadDataSearchTableActionConfig);
+                searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
 		searchBtn.setEnable(false);
-
 		componentList.add(searchBtn);
 
 	}
@@ -603,6 +641,87 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		saveViewBtn.setComponentName("SAVE VIEW");
 		saveViewBtn.setParentComponentId(parentComponentId);
 		saveViewBtn.setAddToParent(true);
+		
+		
+		List<GtnUIFrameWorkActionConfig> saveViewActionConfigList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig saveViewDataSelectionValidationActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
+		saveViewDataSelectionValidationActionConfig.setFieldValues(Arrays.asList(
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.COMPANY,
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+GtnFrameworkForecastingStringConstants.BUSINESS_UNIT,
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+ GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_NAME,
+			    nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+ GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION,
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+"from",
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+"to",
+						"forecastLandingScreen_customerHierarchy",
+						"Commercial_Forecasting_customerSelectionRelationship",
+						"Commercial_Forecasting_customerSelectionForecastLevel",
+						
+				"Commercial_Forecasting_customerSelectionLevel",
+				"Commercial_Forecasting_customerRelationshipVersion",
+				"Commercial_Forecasting_customerSelectionForecastEligibilityDate",
+				"Commercial Forecasting_customerDualListBox",
+		        "Commercial Forecasting_prodhierarchyName",
+				"Commercial Forecasting_prodrelationship",
+
+			    "Commercial_Forecasting_productRelationshipVersion",
+				"Commercial Forecasting_prodforecastLevel",
+				
+				"Commercial Forecasting_productLevel",
+				"Commercial Forecasting_productDualListBox",
+				"Commercial Forecasting_frequency"));
+
+		GtnUIFrameWorkActionConfig saveViewDataSelectionAlertActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+		List<Object> alertParams = new ArrayList<>();
+		alertParams.add("No Search Criteria ");
+		alertParams.add("No search criteria were found. Please enter search criteria and try again.");
+		saveViewDataSelectionAlertActionConfig.setActionParameterList(alertParams);
+
+		saveViewDataSelectionValidationActionConfig.setActionParameterList(
+				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(saveViewDataSelectionAlertActionConfig)));
+//		saveViewActionConfigList.add(saveViewDataSelectionValidationActionConfig);
+
+		GtnUIFrameWorkActionConfig saveViewAction = new GtnUIFrameWorkActionConfig();
+		saveViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		saveViewAction.setActionParameterList(Arrays.asList(GtnFrameworkSaveViewAction.class.getName(),
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.COMPANY,
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+GtnFrameworkForecastingStringConstants.BUSINESS_UNIT,
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+ GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_NAME,
+			    nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+ GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION,
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+"from",
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+"to",
+						"forecastLandingScreen_customerHierarchy",
+						"Commercial_Forecasting_customerSelectionRelationship",
+						"Commercial_Forecasting_customerSelectionForecastLevel",
+						
+				"Commercial_Forecasting_customerSelectionLevel",
+				"Commercial_Forecasting_customerRelationshipVersion",
+				"Commercial_Forecasting_customerSelectionForecastEligibilityDate",
+				"Commercial Forecasting_customerDualListBox",
+		        "Commercial Forecasting_prodhierarchyName",
+				"Commercial Forecasting_prodrelationship",
+
+			    "Commercial_Forecasting_productRelationshipVersion",
+				"Commercial Forecasting_prodforecastLevel",
+				
+				"Commercial Forecasting_productLevel",
+				"Commercial Forecasting_productDualListBox",
+				"Commercial Forecasting_frequency"
+			));
+		saveViewActionConfigList.add(saveViewAction);
+		saveViewBtn.setGtnUIFrameWorkActionConfigList(saveViewActionConfigList);
 		componentList.add(saveViewBtn);
 	}
 
@@ -654,6 +773,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionResultsTable.setAddToParent(true);
 		projectionResultsTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		projectionResultsTable.setParentComponentId(nameSpace + "_" + "projectionResultsLayout");
+                projectionResultsTable.setModuleName("serviceRegistry");
 
 		GtnUIFrameworkPagedTableConfig projectionResultsTableConfig = new GtnUIFrameworkPagedTableConfig();
 		projectionResultsTableConfig.setEditable(false);
@@ -675,8 +795,11 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				"customerHierarchy", "customerLevel", "productHierarchy", "productLevel", "createdBy", "createdDate",
 				"modifiedDate", GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID, 
                                                                          GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID });
-		
-
+                projectionResultsTableConfig.setCountUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
+                projectionResultsTableConfig.setResultSetUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
+		projectionResultsTableConfig.setPagedTableWsUrl("/forecastingPagedTableSearch");
+                projectionResultsTableConfig.setRegisteredWebContext("/GtnSearchWebService");
+                projectionResultsTableConfig.setModuleName("generalSearch");
 		projectionResultsTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		
 		projectionResultsTable.setGtnPagedTableConfig(projectionResultsTableConfig);
@@ -691,7 +814,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				"modifiedDate", GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,  
                                 GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID};
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8
-				,GtnUIFrameworkComponentType.CALENDAR_FIELD,GtnUIFrameworkComponentType.CALENDAR_FIELD,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
+				,GtnUIFrameworkComponentType.DATEFIELDVAADIN8,GtnUIFrameworkComponentType.DATEFIELDVAADIN8,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
 		
 		for (int i = 0; i < propertyIds.length; i++) {
 			
@@ -724,6 +847,18 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		resetCtrlBtn.setComponentName("RESET");
 		resetCtrlBtn.setParentComponentId(parentComponentId);
 		resetCtrlBtn.setAddToParent(true);
+                List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
+		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+
+		List<Object> params = new ArrayList<>();
+		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION);
+		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION_TABLE_MESSAGE);
+		params.add(Arrays.asList(nameSpace + "_" + "projectionResultsTable"));
+		params.add(Arrays.asList(new Object[] { "" }));
+		resetActionConfig.setActionParameterList(params);
+		resetActionConfigList.add(resetActionConfig);
+                resetCtrlBtn.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
 		resetCtrlBtn.setEnable(false);
 		componentList.add(resetCtrlBtn);
 	}

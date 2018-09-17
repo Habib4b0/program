@@ -24,7 +24,7 @@ public class GtnUIFrameworkTransactionComponentListForInvalidBean {
 	private List<GtnUIFrameworkComponentConfig> excelButtonComponentList;
 
 	public List<GtnUIFrameworkComponentConfig> getSearchComponentList() {
-		return Collections.unmodifiableList(searchComponentList);
+		return searchComponentList!=null ? Collections.unmodifiableList(searchComponentList) : searchComponentList;
 	}
 
 	public void setSearchComponentList(List<GtnUIFrameworkComponentConfig> searchComponentList) {
@@ -32,7 +32,7 @@ public class GtnUIFrameworkTransactionComponentListForInvalidBean {
 	}
 
 	public List<GtnUIFrameworkComponentConfig> getListViewComponentList() {
-		return Collections.unmodifiableList(listViewComponentList);
+		return listViewComponentList!=null? Collections.unmodifiableList(listViewComponentList): listViewComponentList;
 	}
 
 	public void setListViewComponentList(List<GtnUIFrameworkComponentConfig> listViewComponentList) {
@@ -40,7 +40,7 @@ public class GtnUIFrameworkTransactionComponentListForInvalidBean {
 	}
 
 	public List<GtnUIFrameworkComponentConfig> getDefaultListViewComponentList() {
-		return Collections.unmodifiableList(defaultListViewComponentList);
+		return defaultListViewComponentList!=null ?Collections.unmodifiableList(defaultListViewComponentList):defaultListViewComponentList;
 	}
 
 	public void setDefaultListViewComponentList(List<GtnUIFrameworkComponentConfig> defaultListViewComponentList) {
@@ -48,7 +48,7 @@ public class GtnUIFrameworkTransactionComponentListForInvalidBean {
 	}
 
 	public List<GtnUIFrameworkComponentConfig> getViewComponentList() {
-		return Collections.unmodifiableList(viewComponentList);
+		return viewComponentList!=null ? Collections.unmodifiableList(viewComponentList):viewComponentList;
 	}
 
 	public void setViewComponentList(List<GtnUIFrameworkComponentConfig> viewComponentList) {
@@ -56,7 +56,7 @@ public class GtnUIFrameworkTransactionComponentListForInvalidBean {
 	}
 
 	public List<GtnUIFrameworkComponentConfig> getStaticComponent1List() {
-		return Collections.unmodifiableList(staticComponent1List);
+		return staticComponent1List!=null ? Collections.unmodifiableList(staticComponent1List):staticComponent1List;
 	}
 
 	public void setStaticComponent1List(List<GtnUIFrameworkComponentConfig> staticComponent1List) {
@@ -64,7 +64,7 @@ public class GtnUIFrameworkTransactionComponentListForInvalidBean {
 	}
 
 	public List<GtnUIFrameworkComponentConfig> getStaticComponent2List() {
-		return Collections.unmodifiableList(staticComponent2List);
+		return staticComponent2List!=null ? Collections.unmodifiableList(staticComponent2List):staticComponent2List;
 	}
 
 	public void setStaticComponent2List(List<GtnUIFrameworkComponentConfig> staticComponent2List) {
@@ -72,7 +72,7 @@ public class GtnUIFrameworkTransactionComponentListForInvalidBean {
 	}
 
 	public List<GtnUIFrameworkComponentConfig> getSearchAndResetComponentList() {
-		return Collections.unmodifiableList(searchAndResetComponentList);
+		return searchAndResetComponentList!=null ? Collections.unmodifiableList(searchAndResetComponentList):searchAndResetComponentList;
 	}
 
 	public void setSearchAndResetComponentList(List<GtnUIFrameworkComponentConfig> searchAndResetComponentList) {
@@ -80,7 +80,7 @@ public class GtnUIFrameworkTransactionComponentListForInvalidBean {
 	}
 
 	public List<GtnUIFrameworkComponentConfig> getReprocessAndRemoveComponentList() {
-		return Collections.unmodifiableList(reprocessAndRemoveComponentList);
+		return reprocessAndRemoveComponentList!=null ? Collections.unmodifiableList(reprocessAndRemoveComponentList):reprocessAndRemoveComponentList;
 	}
 
 	public void setReprocessAndRemoveComponentList(
@@ -89,7 +89,7 @@ public class GtnUIFrameworkTransactionComponentListForInvalidBean {
 	}
 
 	public List<GtnUIFrameworkComponentConfig> getExcelButtonComponentList() {
-		return Collections.unmodifiableList(excelButtonComponentList);
+		return excelButtonComponentList!=null ? Collections.unmodifiableList(excelButtonComponentList):excelButtonComponentList;
 	}
 
 	public void setExcelButtonComponentList(List<GtnUIFrameworkComponentConfig> excelButtonComponentList) {

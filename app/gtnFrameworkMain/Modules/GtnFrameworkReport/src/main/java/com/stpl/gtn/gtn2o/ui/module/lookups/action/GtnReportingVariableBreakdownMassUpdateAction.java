@@ -40,6 +40,7 @@ import com.vaadin.ui.components.grid.HeaderRow;
 public class GtnReportingVariableBreakdownMassUpdateAction
 		implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
+	private static final String SELECT_ONE = "-Select one-";
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportingVariableBreakdownMassUpdateAction.class);
 
 	@Override
@@ -63,29 +64,28 @@ public class GtnReportingVariableBreakdownMassUpdateAction
 		String variableBreakdownEndPeriod = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParameterList.get(4).toString()).getCaptionFromV8ComboBox();
 
-		String startPeriod = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParameterList.get(3).toString()).getStringCaptionFromV8ComboBox();
-		String endPeriod = GtnUIFrameworkGlobalUI
-		.getVaadinBaseComponent(actionParameterList.get(4).toString()).getStringCaptionFromV8ComboBox();
-		
-		if(startPeriod.equals("-Select one-")||endPeriod.equals("-Select one-")) {
+		String startPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(3).toString())
+				.getStringCaptionFromV8ComboBox();
+		String endPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(4).toString())
+				.getStringCaptionFromV8ComboBox();
+
+		if (startPeriod.equals(SELECT_ONE) || endPeriod.equals(SELECT_ONE)) {
 			massUpdateMissingFieldAlertAction(componentId);
 			return;
 		}
-		
-		LocalDate localDate1  = convert(startPeriod);
-		LocalDate localDate2= convert(endPeriod);
-		
+
+		LocalDate localDate1 = convert(startPeriod);
+		LocalDate localDate2 = convert(endPeriod);
+
 		if (!massUpdateCheck(componentId, variableBreakdownValues, variableBreakdownFileorProjections,
 				variableBreakdownStartPeriod, variableBreakdownEndPeriod))
-				return;
-		if(!massUpdateDateConflictCheck(componentId, localDate1, localDate2))
-				return;
-		
-		if(!massUpdateFuturePeriodUpdateCheck(componentId, localDate1, localDate2))
 			return;
-		
-	
+		if (!massUpdateDateConflictCheck(componentId, localDate1, localDate2))
+			return;
+
+		if (!massUpdateFuturePeriodUpdateCheck(componentId, localDate1, localDate2))
+			return;
+
 		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI
 				.getVaadinComponent(actionParameterList.get(5).toString(), componentId);
 		GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
@@ -110,29 +110,15 @@ public class GtnReportingVariableBreakdownMassUpdateAction
 		ArrayList<String> gridColumnIdSubList = new ArrayList<>(
 				startAndEndPeriodItemIdList.subList(startDate, endDate + 1));
 
-		String frequency = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportOptionsTab_variableBreakdownFrequencyConfig")
-				.getStringCaptionFromV8ComboBox();
-
-		String localDate = String.valueOf(LocalDate.now());
-
-		String[] localDateSplit = localDate.split("-");
-		String currentYear = localDateSplit[0];
-		String currentmonth = localDateSplit[1];
-
-		GtnReportingVariableBreakdownGridLoadAction variableBreakdownGridLoadAction = new GtnReportingVariableBreakdownGridLoadAction();
-		String currentDateToDisableField = variableBreakdownGridLoadAction.getCurrentDateToDisableField(frequency,
-				currentYear, currentmonth);
-
 		setMassUpdateForVariableBreakdown(variableBreakdownValues, variableBreakdownFileorProjections, grid,
-				gridColumnIdSubList, currentDateToDisableField);
+				gridColumnIdSubList);
 	}
 
 	private boolean massUpdateCheck(String componentId, String variableBreakdownValues,
 			String variableBreakdownFileorProjections, String variableBreakdownStartPeriod,
 			String variableBreakdownEndPeriod) throws GtnFrameworkGeneralException {
 		Pattern p = Pattern.compile("\\b0\\b");
-		Pattern p2 = Pattern.compile("-Select one-");
+		Pattern p2 = Pattern.compile(SELECT_ONE);
 		String input = "(" + variableBreakdownValues + ")" + "(" + variableBreakdownFileorProjections + ")" + "("
 				+ variableBreakdownStartPeriod + ")" + "(" + variableBreakdownEndPeriod + ")";
 		Matcher m = p.matcher(input);
@@ -181,34 +167,31 @@ public class GtnReportingVariableBreakdownMassUpdateAction
 
 	private void setMassUpdateForVariableBreakdown(String variableBreakdownValues,
 			String variableBreakdownFileorProjections, Grid<GtnWsRecordBean> grid,
-			ArrayList<String> gridColumnIdSubList, String currentDateToDisableField) {
+			ArrayList<String> gridColumnIdSubList) {
 		HeaderRow gridHeaderRow = grid.getHeaderRow(0);
 		getGridHeaderRow(variableBreakdownValues, variableBreakdownFileorProjections, grid, gridColumnIdSubList,
-				currentDateToDisableField, gridHeaderRow);
+				gridHeaderRow);
 	}
 
 	private void getGridHeaderRow(String variableBreakdownValues, String variableBreakdownFileorProjections,
-			Grid<GtnWsRecordBean> grid, ArrayList<String> gridColumnIdSubList, String currentDateToDisableField,
-			HeaderRow gridHeaderRow) {
+			Grid<GtnWsRecordBean> grid, ArrayList<String> gridColumnIdSubList, HeaderRow gridHeaderRow) {
 		for (int i = 1; i < grid.getHeaderRowCount(); i++) {
 			Label projectionNames = (Label) grid.getHeaderRow(i).getCell("projectionNames").getComponent();
 			setGridHeaderRowMassUpdateWithCheckBox(variableBreakdownValues, variableBreakdownFileorProjections, grid,
-					gridColumnIdSubList, currentDateToDisableField, gridHeaderRow, i, projectionNames);
+					gridColumnIdSubList, gridHeaderRow, i, projectionNames);
 		}
 	}
 
 	private void setGridHeaderRowMassUpdateWithCheckBox(String variableBreakdownValues,
 			String variableBreakdownFileorProjections, Grid<GtnWsRecordBean> grid,
-			ArrayList<String> gridColumnIdSubList, String currentDateToDisableField, HeaderRow gridHeaderRow, int i,
-			Label projectionNames) {
+			ArrayList<String> gridColumnIdSubList, HeaderRow gridHeaderRow, int i, Label projectionNames) {
 		if (projectionNames.getValue().equalsIgnoreCase(variableBreakdownFileorProjections)) {
-			setSelectedCheckboxGroup(variableBreakdownValues, grid, gridColumnIdSubList, currentDateToDisableField,
-					gridHeaderRow, i);
+			setSelectedCheckboxGroup(variableBreakdownValues, grid, gridColumnIdSubList, gridHeaderRow, i);
 		}
 	}
 
 	private void setSelectedCheckboxGroup(String variableBreakdownValues, Grid<GtnWsRecordBean> grid,
-			ArrayList<String> gridColumnIdSubList, String currentDateToDisableField, HeaderRow gridHeaderRow, int i) {
+			ArrayList<String> gridColumnIdSubList, HeaderRow gridHeaderRow, int i) {
 		for (int k = 0; k < gridColumnIdSubList.size(); k++) {
 			CheckBoxGroup headerCheckboxGroup = (CheckBoxGroup) gridHeaderRow.getCell(gridColumnIdSubList.get(k))
 					.getComponent();
@@ -220,34 +203,33 @@ public class GtnReportingVariableBreakdownMassUpdateAction
 						.getCell(gridColumnIdSubList.get(k)).getComponent();
 				variableBreakdownGridCombo.setSelectedItem(Integer.valueOf(variableBreakdownValues));
 			}
-
 		}
 	}
-	
+
 	public static LocalDate convert(String input) {
 		Pattern p = Pattern.compile("\\bQ..[0-9]{4}\\b");
 		Pattern p2 = Pattern.compile("\\bS..[0-9]{4}\\b");
 		Pattern p3 = Pattern.compile("[0-9]{4}");
 		LocalDate localDate;
-		 
-		if(p.matcher(input).find()) {
-			int[] arr = {0,1,4,7,10};			
-			localDate = LocalDate.parse("01/"+arr[Character.getNumericValue(input.charAt(1))]+"/"+input.substring(3),DateTimeFormatter.ofPattern("dd/M/yyyy"));
-		}
-		else if(p2.matcher(input).find()) {
-			int[] arr= {0,1,7};
-			localDate = LocalDate.parse("01/"+arr[Character.getNumericValue(input.charAt(1))]+"/"+input.substring(3),DateTimeFormatter.ofPattern("dd/M/yyyy"));
-		}
-		else if(p3.matcher(input).matches()) {
-			localDate = LocalDate.parse("01/01/"+input,DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		}
-		else {
-			localDate = LocalDate.parse("01/"+input.substring(0,3)+"/"+input.substring(4),DateTimeFormatter.ofPattern("dd/MMM/yyyy"));
+
+		if (p.matcher(input).find()) {
+			int[] arr = { 0, 1, 4, 7, 10 };
+			localDate = LocalDate.parse(
+					"01/" + arr[Character.getNumericValue(input.charAt(1))] + "/" + input.substring(3),
+					DateTimeFormatter.ofPattern("dd/M/yyyy"));
+		} else if (p2.matcher(input).find()) {
+			int[] arr = { 0, 1, 7 };
+			localDate = LocalDate.parse(
+					"01/" + arr[Character.getNumericValue(input.charAt(1))] + "/" + input.substring(3),
+					DateTimeFormatter.ofPattern("dd/M/yyyy"));
+		} else if (p3.matcher(input).matches()) {
+			localDate = LocalDate.parse("01/01/" + input, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		} else {
+			localDate = LocalDate.parse("01/" + input.substring(0, 3) + "/" + input.substring(4),
+					DateTimeFormatter.ofPattern("dd/MMM/yyyy"));
 		}
 		return localDate;
 	}
-	
-	
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

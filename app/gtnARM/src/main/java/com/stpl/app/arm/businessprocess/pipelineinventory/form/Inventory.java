@@ -242,12 +242,12 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         }
     }
 
-    private final CustomNotification notifier = new CustomNotification();
+    private final InventoryCustomNotification notifier = new InventoryCustomNotification();
 
     private void configureDblbLoading() {
         List<String> inventoryDetailsList = getPeriodsByFrequencyForMonth();
         List<Object> defaultValues = logic.getMonthYear();
-        Integer vvalue = Integer.valueOf(String.valueOf(defaultValues.get(1)));
+        Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValues.get(1)));
         String month = InventoryLogic.getMonthName(vvalue);
         String str = month + " " + defaultValues.get(NumericConstants.TWO);
         priceddlb = CommonUtils.getPeriodsByFrequency("M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), str);
@@ -309,13 +309,13 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         }
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class InventoryCustomNotification extends AbstractNotificationUtils {
 
-        public CustomNotification() {
+        public InventoryCustomNotification() {
             LOGGER.debug("Empty Constructor");
         }
 
-        private String buttonName;
+        private String inventoryButtonName;
 
         @Override
         public void noMethod() {
@@ -324,9 +324,9 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", inventoryButtonName);
+            if (null != inventoryButtonName) {
+                switch (inventoryButtonName) {
                     case CommonConstant.RESET:
                         inventoryLevel.select(VariableConstants.CUSTOMER_GROUP);
                         setDefaultValue();
@@ -352,7 +352,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.inventoryButtonName = buttonName;
         }
 
     }
@@ -428,7 +428,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                 }
 
                 if (!isCust && !"0".equals(defaultValues.get(NumericConstants.NINE))) {
-                    cgViewSid = Integer.valueOf(defaultValues.get(NumericConstants.NINE));
+                    cgViewSid = ARMUtils.getIntegerValue(defaultValues.get(NumericConstants.NINE));
                     List<CustomerGroupDTO> cgDtoList = new ArrayList<>();
                     List<String> cgList = logic.getCustomerGroupView(String.valueOf(defaultValues.get(NumericConstants.NINE)), cgDtoList);
                     selectionDto.setCustomerGroupList(cgList);
@@ -439,7 +439,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                     }
                 }
                 if (isCust && !"0".equals(defaultValues.get(NumericConstants.NINE))) {
-                    custViewSid = Integer.valueOf(defaultValues.get(NumericConstants.NINE));
+                    custViewSid = ARMUtils.getIntegerValue(defaultValues.get(NumericConstants.NINE));
                     List<CustomerGroupDTO> cgDtoList = new ArrayList<>();
                     List<String> customerList = logic.getCustomerView(String.valueOf(defaultValues.get(NumericConstants.NINE)), cgDtoList);
                     selectionDto.setCustomerList(customerList);
@@ -566,7 +566,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         CommonUtils.loadRatePeriodComboBox(price, 1, CommonConstant.ARM_PERIOD_BASIS);
         CommonUtils.loadRatePeriodComboBox(reserveDate, 1, CommonConstant.ARM_PERIOD_BASIS);
         List<Object> defaultValues = logic.getMonthYear();
-        Integer vvalue = Integer.valueOf(String.valueOf(defaultValues.get(1)));
+        Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValues.get(1)));
         String month = InventoryLogic.getMonthName(vvalue);
         String str = month + " " + defaultValues.get(NumericConstants.TWO);
         List<String> priceddlbList = CommonUtils.getPeriodsByFrequency("M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), str);

@@ -11,6 +11,7 @@ import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.ws.generalsearch.GtnGeneralSearchBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import java.util.List;
@@ -55,7 +56,9 @@ public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements Sear
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
                 gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
         List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
-        response.setGtnGeneralSearchWsList(resultList);
+        GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
+        comboBoxResponse.setComboBoxList(resultList);
+        response.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
         }
         catch(Exception e)
         {

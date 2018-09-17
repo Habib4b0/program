@@ -38,6 +38,7 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
 
     public AdjustmentSummaryDemandReforecast(DRSelectionDTO selection) throws InvocationTargetException {
         super(selection, new DRSummaryLogic());
+        super.init();
         configureWorkFlow();
     }
 
@@ -139,7 +140,7 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
             defaultWorkFlowDate = dateFormat.parse(selectionDTO.getSummaryglDate());
             resetWorkFlowDate = defaultWorkFlowDate;
             glImpactDate.setValue(resetWorkFlowDate);
-            glImpactDate.addValueChangeListener(glWorkflowListener);
+            glImpactDate.addValueChangeListener(gldemandWorkflowListener);
         } catch (Exception ex) {
             LOGGER.error("Error in loadSelection :", ex);
         }

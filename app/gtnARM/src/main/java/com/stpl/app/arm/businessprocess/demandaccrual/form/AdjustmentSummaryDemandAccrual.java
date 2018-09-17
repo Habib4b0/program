@@ -35,9 +35,12 @@ import org.slf4j.LoggerFactory;
 public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelection {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentSummaryDemandAccrual.class);
+    private final DASelectionDTO demandSummarySelectionDTO;
 
     public AdjustmentSummaryDemandAccrual(DASelectionDTO selection) throws InvocationTargetException {
         super(selection, new DASummaryLogic());
+        this.demandSummarySelectionDTO = selection;
+        super.init();
         configureWorkFlow();
     }
 
@@ -80,22 +83,22 @@ public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelecti
     }
 
     public void configureWorkFlow() throws InvocationTargetException {
-        if (selectionDTO.getSessionDTO().isWorkFlow()) {
-            loadDetails();
-            loadSelection();
-            if (ARMUtils.VIEW_SMALL.equals(selectionDTO.getSessionDTO().getAction())) {
+        if (demandSummarySelectionDTO.getSessionDTO().isWorkFlow()) {
+            loadSummaryDemandDetails();
+            loadsumaryDemandSelection();
+            if (ARMUtils.VIEW_SMALL.equals(demandSummarySelectionDTO.getSessionDTO().getAction())) {
                 configureFieldsOnViewMode();
             }
             generateButtonLogic();
         }
     }
 
-    public void loadDetails() throws InvocationTargetException {
-        List<Object[]> list = CommonLogic.loadPipelineAccrual(selectionDTO.getProjectionMasterSid());
+    public void loadSummaryDemandDetails() throws InvocationTargetException {
+        List<Object[]> list = CommonLogic.loadPipelineAccrual(demandSummarySelectionDTO.getProjectionMasterSid());
         for (int i = 0; i < list.size(); i++) {
             Object[] obj = list.get(i);
             if (VariableConstants.SUMMARY_DEDUCTION_VALUE.equals(String.valueOf(obj[0]))) {
-                deductionLevelDdlb.setValue(selectionDTO.getSummarydeductionLevel());
+                deductionLevelDdlb.setValue(demandSummarySelectionDTO.getSummarydeductionLevel());
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
                 String str3 = null;
@@ -113,7 +116,7 @@ public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelecti
                 }
             } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
                 try {
-                    BeanUtils.setProperty(selectionDTO, String.valueOf(obj[0]), obj[1]);
+                    BeanUtils.setProperty(demandSummarySelectionDTO, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
                     LOGGER.error("Error in loadDetails :", ex);
                 }
@@ -123,25 +126,26 @@ public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelecti
     }
 
     public void configureFieldsOnViewMode() {
-        frequencyDdlb.setEnabled(false);
-        glImpactDate.setEnabled(false);
-        reset.setEnabled(false);
-        view.setEnabled(false);
+        boolean readonlymode = false;
+        frequencyDdlb.setEnabled(readonlymode);
+        glImpactDate.setEnabled(readonlymode);
+        reset.setEnabled(readonlymode);
+        view.setEnabled(readonlymode);
     }
 
-    private void loadSelection() {
+    private void loadsumaryDemandSelection() {
         try {
-            view.setValue(selectionDTO.getSummarydemandview());
-            frequencyDdlb.select(Integer.valueOf(selectionDTO.getSummarydemandfrequency()));
-            selectionDTO.setSummarydemandfrequency((descriptionMap.get((int) frequencyDdlb.getValue())).getDescription());
-            fromDate.setValue(selectionDTO.getSummarydemandfromDate());
-            toDate.setValue(selectionDTO.getSummarydemandtoDate());
-            LOGGER.debug("selectionDTO.getSummary_glDate(){}", selectionDTO.getSummaryglDate());
+            view.setValue(demandSummarySelectionDTO.getSummarydemandview());
+            frequencyDdlb.select(Integer.valueOf(demandSummarySelectionDTO.getSummarydemandfrequency()));
+            demandSummarySelectionDTO.setSummarydemandfrequency((descriptionMap.get((int) frequencyDdlb.getValue())).getDescription());
+            fromDate.setValue(demandSummarySelectionDTO.getSummarydemandfromDate());
+            toDate.setValue(demandSummarySelectionDTO.getSummarydemandtoDate());
+            LOGGER.debug("selectionDTO.getSummary_glDate(){}", demandSummarySelectionDTO.getSummaryglDate());
             glImpactDate.removeValueChangeListener(glListener);
-            defaultWorkFlowDate = dateFormat.parse(selectionDTO.getSummaryglDate());
+            defaultWorkFlowDate = dateFormat.parse(demandSummarySelectionDTO.getSummaryglDate());
             resetWorkFlowDate = defaultWorkFlowDate;
             glImpactDate.setValue(resetWorkFlowDate);
-            glImpactDate.addValueChangeListener(glWorkflowListener);
+            glImpactDate.addValueChangeListener(gldemandWorkflowListener);
         } catch (Exception ex) {
             LOGGER.error("Error in loadSelection :", ex);
         }

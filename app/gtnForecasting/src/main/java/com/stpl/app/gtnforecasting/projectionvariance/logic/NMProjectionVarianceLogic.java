@@ -64,6 +64,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
@@ -1375,6 +1376,9 @@ public class NMProjectionVarianceLogic {
 			frequency = Constant.ANNUAL_CAPS;
 		}
 		projectionIdList.add(String.valueOf(selectionDTO.getCurrentProjId()));
+                for (Integer projId : new TreeSet<>(pvsdto.getProjectionMap().keySet())) {
+                projectionIdList.add(String.valueOf(projId));
+                }
 		String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
 		String ccps = null;
 		if (pvsdto.getLevel().equals(Constant.DETAIL)) {

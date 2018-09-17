@@ -18,7 +18,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
-import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkForecastProdHierarchyConfig {
 
@@ -161,19 +160,21 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		componentList.add(productGroupLayout);
 
 		GtnUIFrameworkComponentConfig productGroup = new GtnUIFrameworkComponentConfig();
-		productGroup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+		productGroup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		productGroup.setComponentId(nameSpace + "_" + "productGroup");
 		productGroup.setComponentName("Product Group");
 		productGroup.setAddToParent(Boolean.TRUE);
 		productGroup.setParentComponentId(nameSpace + "_" + "productGroupLayout");
 		componentList.add(productGroup);
-		
-		GtnUIFrameWorkActionConfig productGroupActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.POPUP_ACTION);
+
+		GtnUIFrameWorkActionConfig productGroupActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.POPUP_ACTION);
 		productGroupActionConfig.addActionParameter("ProductGroupLookupView");
 		productGroupActionConfig.addActionParameter("Product Group Lookup");
 		productGroupActionConfig.addActionParameter("720");
 		productGroupActionConfig.addActionParameter("875");
 		productGroup.addGtnUIFrameWorkActionConfig(productGroupActionConfig);
+	
 	}
 
 	private void addCustomerSelectionInnerPanel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
