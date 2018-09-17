@@ -20,106 +20,106 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ProjectionCustHierarchyImpl {
 
-    public List getComparisonSearch(String workflowStatus, String marketType, String brand,
-            String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
-            String from, String to) {
-        char quotes = '\'';
-        String marketTypeVal;
-        String brandVal;
-        String projNameVal;
-        String contHldrVal;
-        String ndcNoVal;
-        String ndcNameVal;
-        String descVal;
-        String contractVal;
-        boolean isProjectionStatus = false;
-        StringBuilder customSql = new StringBuilder();
+    public List getComparisonSearch(String workflowStatusCs, String marketTypeCs, String brand,
+            String projNameCs, String contHldrCs, String ndcNoCs, String ndcNameCs, String descCs, String contractCs,
+            String fromCs, String toCs) {
+        char quotesCustHiearchy = '\'';
+        String marketTypeValCustHiearchy;
+        String brandValCustHiearchy;
+        String projNameValCustHiearchy;
+        String contHldrValCustHiearchy;
+        String ndcNoValCustHiearchy;
+        String ndcNameValCustHiearchy;
+        String descValCustHiearchy;
+        String contractValCustHiearchy;
+        boolean isProjectionStatusCustHiearchy = false;
+        StringBuilder customSqlCustHiearchy = new StringBuilder();
         try {
 
-            if (workflowStatus.equals("Saved")) {
-                isProjectionStatus = true;
+            if (workflowStatusCs.equals("Saved")) {
+                isProjectionStatusCustHiearchy = true;
             }
-            if (isProjectionStatus) {
-                customSql = new StringBuilder(SQlUtil.getQuery(getClass(),"getProjectionLists"));
+            if (isProjectionStatusCustHiearchy) {
+                customSqlCustHiearchy = new StringBuilder(SQlUtil.getQuery(getClass(),"getProjectionLists"));
             } else {
-                customSql = new StringBuilder(SQlUtil.getQuery(getClass(),"getWorkFlowLists"));
+                customSqlCustHiearchy = new StringBuilder(SQlUtil.getQuery(getClass(),"getWorkFlowLists"));
             }
 
-            if (marketType == null || marketType.equals(StringUtils.EMPTY)) {
-                marketTypeVal = "'%'";
+            if (marketTypeCs == null || marketTypeCs.equals(StringUtils.EMPTY)) {
+                marketTypeValCustHiearchy = "'%'";
             } else {
-                marketTypeVal = marketType.replace('*', '%');
-                marketTypeVal = quotes + marketTypeVal + quotes;
+                marketTypeValCustHiearchy = marketTypeCs.replace('*', '%');
+                marketTypeValCustHiearchy = quotesCustHiearchy + marketTypeValCustHiearchy + quotesCustHiearchy;
             }
-            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE " ).append( marketTypeVal ).append( ')');
+            customSqlCustHiearchy.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE " ).append( marketTypeValCustHiearchy ).append( ')');
             if (brand == null || brand.equals(StringUtils.EMPTY)) {
-                brandVal = "'%'";
+                brandValCustHiearchy = "'%'";
             } else {
-                brandVal = brand.replace('*', '%');
-                brandVal = quotes + brandVal + quotes;
+                brandValCustHiearchy = brand.replace('*', '%');
+                brandValCustHiearchy = quotesCustHiearchy + brandValCustHiearchy + quotesCustHiearchy;
             }
-            customSql.append("  AND (BM.BRAND_NAME LIKE " ).append( brandVal ).append( " or BM.BRAND_NAME is null)");
-            if (projName == null || projName.equals(StringUtils.EMPTY)) {
-                projNameVal = "'%'";
+            customSqlCustHiearchy.append("  AND (BM.BRAND_NAME LIKE " ).append( brandValCustHiearchy ).append( " or BM.BRAND_NAME is null)");
+            if (projNameCs == null || projNameCs.equals(StringUtils.EMPTY)) {
+                projNameValCustHiearchy = "'%'";
             } else {
-                projNameVal = projName.replace('*', '%');
-                projNameVal = quotes + projNameVal + quotes;
+                projNameValCustHiearchy = projNameCs.replace('*', '%');
+                projNameValCustHiearchy = quotesCustHiearchy + projNameValCustHiearchy + quotesCustHiearchy;
             }
-            customSql.append("AND (PM.PROJECTION_NAME LIKE " ).append( projNameVal ).append( " or PM.PROJECTION_NAME is null)");
-            if (contHldr == null || contHldr.equals(StringUtils.EMPTY)) {
-                contHldrVal = "'%'";
+            customSqlCustHiearchy.append("AND (PM.PROJECTION_NAME LIKE " ).append( projNameValCustHiearchy ).append( " or PM.PROJECTION_NAME is null)");
+            if (contHldrCs == null || contHldrCs.equals(StringUtils.EMPTY)) {
+                contHldrValCustHiearchy = "'%'";
             } else {
-                contHldrVal = contHldr.replace('*', '%');
-                contHldrVal = quotes + contHldrVal + quotes;
+                contHldrValCustHiearchy = contHldrCs.replace('*', '%');
+                contHldrValCustHiearchy = quotesCustHiearchy + contHldrValCustHiearchy + quotesCustHiearchy;
             }
-            customSql.append("AND (C.CONTRACT_NO LIKE " ).append( contHldrVal ).append( " or C.CONTRACT_NO is null)");
-            if (ndcName == null || ndcName.equals(StringUtils.EMPTY)) {
-                ndcNameVal = "'%'";
+            customSqlCustHiearchy.append("AND (C.CONTRACT_NO LIKE " ).append( contHldrValCustHiearchy ).append( " or C.CONTRACT_NO is null)");
+            if (ndcNameCs == null || ndcNameCs.equals(StringUtils.EMPTY)) {
+                ndcNameValCustHiearchy = "'%'";
             } else {
-                ndcNameVal = ndcName.replace('*', '%');
-                ndcNameVal = quotes + ndcNameVal + quotes;
+                ndcNameValCustHiearchy = ndcNameCs.replace('*', '%');
+                ndcNameValCustHiearchy = quotesCustHiearchy + ndcNameValCustHiearchy + quotesCustHiearchy;
             }
-            customSql.append("AND (IM.ITEM_NAME LIKE " ).append( ndcNameVal ).append( " or IM.ITEM_NAME is null)");
-            if (ndcNo == null || ndcNo.equals(StringUtils.EMPTY)) {
-                ndcNoVal = "'%'";
+            customSqlCustHiearchy.append("AND (IM.ITEM_NAME LIKE " ).append( ndcNameValCustHiearchy ).append( " or IM.ITEM_NAME is null)");
+            if (ndcNoCs == null || ndcNoCs.equals(StringUtils.EMPTY)) {
+                ndcNoValCustHiearchy = "'%'";
             } else {
-                ndcNoVal = ndcNo.replace('*', '%');
-                ndcNoVal = quotes + ndcNoVal + quotes;
+                ndcNoValCustHiearchy = ndcNoCs.replace('*', '%');
+                ndcNoValCustHiearchy = quotesCustHiearchy + ndcNoValCustHiearchy + quotesCustHiearchy;
             }
-            customSql.append("AND (IM.ITEM_NO LIKE " ).append( ndcNoVal ).append( "or IM.ITEM_NO is null)");
-            if (contract == null || contract.equals(StringUtils.EMPTY)) {
-                contractVal = "'%'";
+            customSqlCustHiearchy.append("AND (IM.ITEM_NO LIKE " ).append( ndcNoValCustHiearchy ).append( "or IM.ITEM_NO is null)");
+            if (contractCs == null || contractCs.equals(StringUtils.EMPTY)) {
+                contractValCustHiearchy = "'%'";
             } else {
-                contractVal = contract.replace('*', '%');
-                contractVal = quotes + contractVal + quotes;
+                contractValCustHiearchy = contractCs.replace('*', '%');
+                contractValCustHiearchy = quotesCustHiearchy + contractValCustHiearchy + quotesCustHiearchy;
             }
-            customSql.append("AND (CM.COMPANY_NO LIKE " ).append( contractVal ).append( "or CM.COMPANY_NO is null)");
-            if (desc == null || desc.equals(StringUtils.EMPTY)) {
-                descVal = "'%'";
+            customSqlCustHiearchy.append("AND (CM.COMPANY_NO LIKE " ).append( contractValCustHiearchy ).append( "or CM.COMPANY_NO is null)");
+            if (descCs == null || descCs.equals(StringUtils.EMPTY)) {
+                descValCustHiearchy = "'%'";
             } else {
-                descVal = desc.replace('*', '%');
-                descVal = quotes + descVal + quotes;
+                descValCustHiearchy = descCs.replace('*', '%');
+                descValCustHiearchy = quotesCustHiearchy + descValCustHiearchy + quotesCustHiearchy;
             }
-            customSql.append("AND (PM.PROJECTION_NAME LIKE " ).append( descVal ).append( "or PM.PROJECTION_NAME is null)");
-            if (isProjectionStatus) {
-                customSql.append("and pm.is_approved not in ('Y','C','A','R')");
+            customSqlCustHiearchy.append("AND (PM.PROJECTION_NAME LIKE " ).append( descValCustHiearchy ).append( "or PM.PROJECTION_NAME is null)");
+            if (isProjectionStatusCustHiearchy) {
+                customSqlCustHiearchy.append("and pm.is_approved not in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " ).append( quotes ).append( workflowStatus ).append( quotes);
+                customSqlCustHiearchy.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " ).append( quotesCustHiearchy ).append( workflowStatusCs ).append( quotesCustHiearchy);
             }
-            if (from != null && to != null && !StringUtils.isEmpty(to) && !StringUtils.isEmpty(from) && !"null".equals(from) 
-                     && !"null".equals(to) ) {
+            if (fromCs != null && toCs != null && !StringUtils.isEmpty(toCs) && !StringUtils.isEmpty(fromCs) && !"null".equals(fromCs) 
+                     && !"null".equals(toCs) ) {
                 SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
-                customSql.append(" AND PM.CREATED_DATE BETWEEN '");
-                customSql.append(format2.format(format2.parse(from)));
-                customSql.append("' AND '");
-                customSql.append(format2.format(format2.parse(to)));
-                customSql.append("' ");
+                customSqlCustHiearchy.append(" AND PM.CREATED_DATE BETWEEN '");
+                customSqlCustHiearchy.append(format2.format(format2.parse(fromCs)));
+                customSqlCustHiearchy.append("' AND '");
+                customSqlCustHiearchy.append(format2.format(format2.parse(toCs)));
+                customSqlCustHiearchy.append("' ");
             }
 
-            return HelperTableLocalServiceUtil.executeSelectQuery(customSql.toString());
+            return HelperTableLocalServiceUtil.executeSelectQuery(customSqlCustHiearchy.toString());
         } catch (ParseException e) {
             LOGGER.error(e.getMessage());
-            LOGGER.error(customSql.toString());
+            LOGGER.error(customSqlCustHiearchy.toString());
             return Collections.emptyList();
         }
     }

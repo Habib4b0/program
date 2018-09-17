@@ -2059,21 +2059,6 @@ public class ForecastForm extends AbstractForm {
                 Constant.CUSTOM_VIEW_DISCOUNT_POPULATION_CALL,session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));  
         }
     }
-        
-        private void nmSalesInsertProcedure() {
-		session.addFutureMap(Constant.SALES_PROCEDURE_CALL,
-				new Future[] {
-						service.submit(commUtil.createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.SALES1)),
-						service.submit(commUtil.createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_ACTUAL_INSERT, dataSelectionDTO.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.SALES1)),
-						service.submit(commUtil.createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.SALES1)) });
-	}
-
 	private void nmPPAInitProcedure() {
 		Future ppaInit = service.submit(
 				commUtil.createRunnableForPPAInitProcedure(SalesUtils.PRC_NM_PPA_PROJ_INIT, session));
@@ -2097,30 +2082,6 @@ public class ForecastForm extends AbstractForm {
 	}
 		};
 		session.addFutureMap(Constant.CALL_PRC_CONTRACT_DETAILS_REBATE, new Future[] { service.submit(runnable) });
-	}
-
-	/**
-	 * To call the PPA insert procedure and calculation procedure calculation
-	 * procedure will be triggered once the insert procedure is done
-	 * 
-	 */
-	private void supplementDiscountProcedure() {
-		Future supplementDiscountInsert = service.submit(commUtil.createRunnable(
-				Constant.PROCEDURE_CALL, Constant.SUPPLEMENTAL_INSERT_PRC, session.getProjectionId(),
-				session.getMarketTypeValue(), session.getUserId(), session.getSessionId()));
-		session.addFutureMap(Constant.SUPPLEMENT_PROCEDURE_CALL, new Future[] { supplementDiscountInsert });
-	}
-
-	/**
-	 * To call the PPA insert procedure and calculation procedure calculation
-	 * procedure will be triggered once the insert procedure is done
-	 * 
-	 */
-	private void mDiscountProcedure() {
-		Future mDiscountInsert = service
-				.submit(commUtil.createRunnable(Constant.PROCEDURE_CALL, Constant.PRC_M_DISCOUNT_INSERT,
-						session.getProjectionId(), session.getUserId(), "SPAP", session.getSessionId()));
-		session.addFutureMap(Constant.M_DISCOUNT_PROCEDURE_CALL, new Future[] { mDiscountInsert });
 	}
 
 	private void checkCloseFlag(boolean flag) {
