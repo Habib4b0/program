@@ -197,7 +197,7 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL,
 						componentId)
-				.loadV8ComboBoxComponentValue(Integer.valueOf(dataSelectionBean.getCustomerHierarchyForecastLevel()));
+				.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomerHierarchyForecastLevel());
 
 		String dsCustomerTableId = "dataSelectionTab_customerDualListBox";
 		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dsCustomerTableId, componentId);
@@ -260,7 +260,7 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_LEVEL, componentId)
-				.loadV8ComboBoxComponentValue(Integer.valueOf(dataSelectionBean.getProductHierarchyForecastLevel()));
+				.loadV8ComboBoxComponentValue(dataSelectionBean.getProductHierarchyForecastLevel());
 
 		String dsProductTableId = "dataSelectionTab_productdualListBoxComp";
 		AbstractComponent dsProductAbstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dsProductTableId,
@@ -335,48 +335,57 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 				selectedCustomerHierarchyList.size());
 		for (GtnWsRecordBean recordBean : selectedCustomerHierarchyList) {
 
-			GtnFrameworkRelationshipLevelDefintionBean forecast = new GtnFrameworkRelationshipLevelDefintionBean();
-			forecast.setLevelName(recordBean.getStringProperty("levelName"));
-			forecast.setLevelNo(recordBean.getIntegerProperty("levelNo"));
-			forecast.setRelationshipLevelSid(recordBean.getIntegerProperty("relationshipLevelSid"));
-			forecast.setRelationShipLevelValue(recordBean.getIntegerProperty("relationshipLevelValues"));
-			forecast.setTableName(recordBean.getStringProperty("tableName"));
-			forecast.setFieldName(recordBean.getStringProperty("fieldName"));
-			forecast.setHierarchyNo(recordBean.getStringProperty("hierarchyNo"));
-			forecast.setHierarchyDefinitionSid(recordBean.getIntegerProperty("hierarchyDefSid"));
-			forecast.setHierarchyLevelDefinitionSid(recordBean.getIntegerProperty("hierarchyLevelDefSid"));
-			forecast.setLevelValueReference(recordBean.getStringProperty("levelValuReference"));
-			forecast.setRelationshipBuilderSid(recordBean.getIntegerProperty("relationshipBuilderSid"));
-			forecast.setRelationshipVersionNo(!isProduct ? dataSelectionBean.getCustomerRelationshipVersionNo()
-					: dataSelectionBean.getProductRelationshipVersionNo());
-			forecast.setHierarchyVersionNo(!isProduct ? dataSelectionBean.getCustomerHierarchyVersionNo()
-					: dataSelectionBean.getProductHierarchyVersionNo());
-			forecast.setHierarchyCategory(recordBean.getStringProperty("hierarchyCategory"));
-			relationBeanList.add(forecast);
+			GtnFrameworkRelationshipLevelDefintionBean forecastRelationshipLevelDefintionBean = new GtnFrameworkRelationshipLevelDefintionBean();
+			forecastRelationshipLevelDefintionBean.setLevelName(recordBean.getStringProperty("levelName"));
+			forecastRelationshipLevelDefintionBean.setLevelNo(recordBean.getIntegerProperty("levelNo"));
+			forecastRelationshipLevelDefintionBean
+					.setRelationshipLevelSid(recordBean.getIntegerProperty("relationshipLevelSid"));
+			forecastRelationshipLevelDefintionBean
+					.setRelationShipLevelValue(recordBean.getIntegerProperty("relationshipLevelValues"));
+			forecastRelationshipLevelDefintionBean.setTableName(recordBean.getStringProperty("tableName"));
+			forecastRelationshipLevelDefintionBean.setFieldName(recordBean.getStringProperty("fieldName"));
+			forecastRelationshipLevelDefintionBean.setHierarchyNo(recordBean.getStringProperty("hierarchyNo"));
+			forecastRelationshipLevelDefintionBean
+					.setHierarchyDefinitionSid(recordBean.getIntegerProperty("hierarchyDefSid"));
+			forecastRelationshipLevelDefintionBean
+					.setHierarchyLevelDefinitionSid(recordBean.getIntegerProperty("hierarchyLevelDefSid"));
+			forecastRelationshipLevelDefintionBean
+					.setLevelValueReference(recordBean.getStringProperty("levelValuReference"));
+			forecastRelationshipLevelDefintionBean
+					.setRelationshipBuilderSid(recordBean.getIntegerProperty("relationshipBuilderSid"));
+			forecastRelationshipLevelDefintionBean
+					.setRelationshipVersionNo(!isProduct ? dataSelectionBean.getCustomerRelationshipVersionNo()
+							: dataSelectionBean.getProductRelationshipVersionNo());
+			forecastRelationshipLevelDefintionBean
+					.setHierarchyVersionNo(!isProduct ? dataSelectionBean.getCustomerHierarchyVersionNo()
+							: dataSelectionBean.getProductHierarchyVersionNo());
+			forecastRelationshipLevelDefintionBean
+					.setHierarchyCategory(recordBean.getStringProperty("hierarchyCategory"));
+			relationBeanList.add(forecastRelationshipLevelDefintionBean);
 
 		}
 		return relationBeanList;
 	}
 
 	private void insertToCCp(GtnForecastHierarchyInputBean inputBean, GtnWsReportDataSelectionBean dataSelectionBean) {
-		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
-		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-		GtnWsReportBean reportBeanRequest = new GtnWsReportBean();
-		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
-		reportRequest.setReportBean(reportBeanRequest);
-		reportBeanRequest.setDataSelectionBean(dataSelectionBean);
-		forecastRequest.setInputBean(inputBean);
-		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnWsForecastRequest(forecastRequest);
-		request.setGtnWsReportRequest(reportRequest);
-		request.setGtnWsGeneralRequest(generalRequest);
-		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-				GtnWsReportConstants.GTN_WS_DATA_SELECTION_REGENERATE_SERVICE, "report", request,
+		GtnWsForecastRequest forecastRegenerateRequest = new GtnWsForecastRequest();
+		GtnWsReportRequest reportRegenerateRequest = new GtnWsReportRequest();
+		GtnWsGeneralRequest generalRegenerateRequest = new GtnWsGeneralRequest();
+		GtnWsReportBean reportBeanRegenerateRequest = new GtnWsReportBean();
+		generalRegenerateRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+		generalRegenerateRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
+		reportRegenerateRequest.setReportBean(reportBeanRegenerateRequest);
+		reportBeanRegenerateRequest.setDataSelectionBean(dataSelectionBean);
+		forecastRegenerateRequest.setInputBean(inputBean);
+		GtnUIFrameworkWebServiceClient regenerateClient = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest regenerateRequest = new GtnUIFrameworkWebserviceRequest();
+		regenerateRequest.setGtnWsForecastRequest(forecastRegenerateRequest);
+		regenerateRequest.setGtnWsReportRequest(reportRegenerateRequest);
+		regenerateRequest.setGtnWsGeneralRequest(generalRegenerateRequest);
+		GtnUIFrameworkWebserviceResponse responseRegenerate = regenerateClient.callGtnWebServiceUrl(
+				GtnWsReportConstants.GTN_WS_DATA_SELECTION_REGENERATE_SERVICE, "report", regenerateRequest,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		gtnLogger.info(response.getResponseStatus());
+		gtnLogger.info(responseRegenerate.getResponseStatus());
 	}
 
 	private void updateCustomer(boolean isCustomerChanged, GtnWsReportDataSelectionBean dataSelectionBean,
@@ -390,7 +399,7 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 					.getComponentData().getCustomData();
 			dataSelectionBean.setCustomerHierarchySid(Integer.valueOf(String.valueOf(
 					customerHierarchyBean.getPropertyValueByIndex(customerHierarchyBean.getProperties().size() - 1))));
-			dataSelectionBean.setCustomerRelationshipBuilderSid(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+			dataSelectionBean.setCustomerRelationshipBuilderSid(Integer.valueOf(String.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_customerSelectionRelationship", componentId)
 					.getCaptionFromV8ComboBox())));
 			dataSelectionBean.setCustomerHierarchyVersionNo(Integer.valueOf(GtnUIFrameworkGlobalUI
@@ -587,9 +596,8 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 		inputForComparisonBasisList.add("Actuals");
 		inputForComparisonBasisList.add("Accruals");
 		inputForComparisonBasisList.add("Current Projection");
-		comparisonProjectionsList.stream().forEach((comparisonProjectionBeans) -> {
-			inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
-		});
+		comparisonProjectionsList.stream().forEach(comparisonProjectionBeans -> inputForComparisonBasisList
+				.add(comparisonProjectionBeans.getProjectionName()));
 		List idList = IntStream.range(1, initialCapacity).boxed().collect(Collectors.toList());
 		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId)

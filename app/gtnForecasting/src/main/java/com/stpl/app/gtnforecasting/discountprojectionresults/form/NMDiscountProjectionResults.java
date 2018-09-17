@@ -31,8 +31,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.TAB_DISC
 import static com.stpl.app.gtnforecasting.utils.Constant.MONTHLY;
 import static com.stpl.app.gtnforecasting.utils.Constant.QUARTERLY;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
-import com.stpl.app.gtnforecasting.utils.DPRChart;
-import com.stpl.app.gtnforecasting.utils.NmSPRGraphWindow;
 import com.stpl.app.gtnforecasting.utils.TabNameUtil;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.model.CustomViewMaster;
@@ -271,23 +269,6 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         }
         levelFilterDdlb.setEnabled(false);
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends ");
-    }
-
-    @Override
-    protected void graphExportLogics() {
-        LOGGER.debug("graphExportLogic method starts");
-        List<DiscountProjectionResultsDTO> chartList = new ArrayList<>();
-        for (DiscountProjectionResultsDTO dto : getResultBeanContainer().getBeans()) {
-            chartList.add(dto);
-        }
-        if (projectionDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-            projectionDTO.setActualsOrProjections("Actuals and Projections");
-        }
-        final DPRChart chart = new DPRChart(chartList, projectionDTO, getFullHeader());
-        final NmSPRGraphWindow prGraphWindow = new NmSPRGraphWindow(chart.getChart(), Constant.DISCOUNT_PROJECTION_RESULTS);
-        UI.getCurrent().addWindow(prGraphWindow);
-        prGraphWindow.focus();
-        LOGGER.debug("graphExportLogic method ends");
     }
 
     @Override

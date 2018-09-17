@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,8 +36,9 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
     protected Object[] pipelineSummaryRightcolumns = {VariableConstants.MONTH};
     private Map<Object, Object[]> pipelineSummaryLeftDoubleSingleVisibleColumn = new HashMap<>();
     protected String pipelineSummaryLeftHeader = CommonConstant.PRODUCT;
-    protected boolean isGenarate = Boolean.FALSE;
+    protected boolean isGenarate = false;
     private AbstractSelectionDTO pipelineSummarySelection;
+    public static final Logger SUMMARY_RESULTS_LOGGER = LoggerFactory.getLogger(AbstractPipelineSummaryResults.class);
 
     public AbstractPipelineSummaryResults(AbstractPipelineSummaryLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
@@ -116,7 +119,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
         getExcelTable().setVisibleColumns(rightingleVisibleColumn1.toArray());
         getExcelTable().setColumnHeaders(
                 Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
-        getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
+        getExcelTable().setDoubleHeaderVisible(true);
         getExcelTable().setDoubleHeaderVisibleColumns(rightDoubleVisibleColumn.toArray());
         getExcelTable().setDoubleHeaderColumnHeaders(
                 Arrays.copyOf(rightoubleVisibleHeader.toArray(), rightoubleVisibleHeader.size(), String[].class));
@@ -127,25 +130,25 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
     public void generateButtonLogic(String[] columns) {
         customerProductView.setValue(ARMConstants.getDeductionProduct());
         setValueChangeAllowed(false);
-        isGenarate = Boolean.TRUE;
-        Map properties = new HashMap();
-        String view = String.valueOf(customerProductView.getValue());
-        if (ARMConstants.getDeductionProduct().equalsIgnoreCase(view)) {
+        isGenarate = true;
+        Map pipelineProperties = new HashMap();
+        String pipelineView = String.valueOf(customerProductView.getValue());
+        if (ARMConstants.getDeductionProduct().equalsIgnoreCase(pipelineView)) {
             pipelineSummaryLeftHeader = CommonConstant.PRODUCT;
         } else {
             pipelineSummaryLeftHeader = "Customer";
         }
 
-        pipelineSummarySelection.setSummaryviewType(view);
-        List<Object> header = getSummaryLogic().generateHeader(getSelection(), columns);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
-        List<String> rightDoubleVisibleColumn = (ArrayList) header.get(1);
-        Map<Object, Object[]> rightDoubleSingleVisibleColumn = (HashMap) header.get(NumericConstants.FOUR);
-        for (int i = 0; i < rightSingleVisibleColumn.size(); i++) {
-            properties.put(rightSingleVisibleColumn.get(i), String.class);
+        pipelineSummarySelection.setSummaryviewType(pipelineView);
+        List<Object> pipelineHeader = getSummaryLogic().generateHeader(getSelection(), columns);
+        List pipelineRightSingleVisibleColumn = (ArrayList) pipelineHeader.get(0);
+        List<String> pipelineRightDoubleVisibleColumn = (ArrayList) pipelineHeader.get(1);
+        Map<Object, Object[]> pipelineRightDoubleSingleVisibleColumn = (HashMap) pipelineHeader.get(NumericConstants.FOUR);
+        for (int i = 0; i < pipelineRightSingleVisibleColumn.size(); i++) {
+            pipelineProperties.put(pipelineRightSingleVisibleColumn.get(i), String.class);
         }
         for (int i = 0; i < pipelineSummaryRightcolumns.length; i++) {
-            properties.put(pipelineSummaryRightcolumns[i], String.class);
+            pipelineProperties.put(pipelineSummaryRightcolumns[i], String.class);
         }
         table.constructRightFreeze(true);
         leftTable = table.getLeftFreezeAsTable();
@@ -153,50 +156,52 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
         rightTable = table.getRightFreezeAsTable();
         rightTable.setDoubleHeaderVisible(true);
         rightTable.setContainerDataSource(tableLogic.getContainerDataSource());
-        resultBeanContainer.setRecordHeader(rightSingleVisibleColumn);
-        resultBeanContainer.setColumnProperties(properties);
+        resultBeanContainer.setRecordHeader(pipelineRightSingleVisibleColumn);
+        resultBeanContainer.setColumnProperties(pipelineProperties);
         resultBeanContainer.setIndexable(true);
         rightTable.setContainerDataSource(tableLogic.getContainerDataSource());
-        rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
-        rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(NumericConstants.TWO)).toArray(),
-                ((List) header.get(NumericConstants.TWO)).size(), String[].class));
-        rightTable.setDoubleHeaderVisibleColumns(rightDoubleVisibleColumn.toArray());
-        rightTable.setDoubleHeaderColumnHeaders(Arrays.copyOf(((List) header.get(NumericConstants.THREE)).toArray(),
-                ((List) header.get(NumericConstants.THREE)).size(), String[].class));
-        rightTable.setDoubleHeaderMap(rightDoubleSingleVisibleColumn);
+        rightTable.setVisibleColumns(pipelineRightSingleVisibleColumn.toArray());
+        rightTable.setColumnHeaders(Arrays.copyOf(((List) pipelineHeader.get(NumericConstants.TWO)).toArray(),
+                ((List) pipelineHeader.get(NumericConstants.TWO)).size(), String[].class));
+        rightTable.setDoubleHeaderVisibleColumns(pipelineRightDoubleVisibleColumn.toArray());
+        rightTable.setDoubleHeaderColumnHeaders(Arrays.copyOf(((List) pipelineHeader.get(NumericConstants.THREE)).toArray(),
+                ((List) pipelineHeader.get(NumericConstants.THREE)).size(), String[].class));
+        rightTable.setDoubleHeaderMap(pipelineRightDoubleSingleVisibleColumn);
         for (Object propertyId : rightTable.getDoubleHeaderVisibleColumns()) {
             rightTable.setDoubleHeaderColumnAlignment(propertyId, ExtCustomTable.Align.CENTER);
 
         }
-        for (int i = 0; i < rightSingleVisibleColumn.toArray().length; i++) {
-            rightTable.setColumnAlignment(rightSingleVisibleColumn.get(i), ExtCustomTable.Align.RIGHT);
+        for (int i = 0; i < pipelineRightSingleVisibleColumn.toArray().length; i++) {
+            rightTable.setColumnAlignment(pipelineRightSingleVisibleColumn.get(i), ExtCustomTable.Align.RIGHT);
         }
         List<String> headerList = Arrays.asList(rightTable.getColumnHeaders());
         // Added here for GAL-5809
-        if (ARMConstants.getDeductionCustomerContract().equals(view)
+        boolean pipelineFlag = true;
+        if (ARMConstants.getDeductionCustomerContract().equals(pipelineView)
                 && pipelineSummarySelection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())
                 && headerList.contains(CommonConstant.OVERRIDE)) { // Added for
             // GAL-7545
-            calculateBtn.setVisible(true);
-            calculateBtn.setEnabled(true);
-            cancelOverride.setVisible(true);
-            cancelOverride.setEnabled(true);
+
+            calculateBtn.setVisible(pipelineFlag);
+            calculateBtn.setEnabled(pipelineFlag);
+            cancelOverride.setVisible(pipelineFlag);
+            cancelOverride.setEnabled(pipelineFlag);
             configureRightTable();
         } else {
-            getSelection().setSummaryviewType(view);
-            calculateBtn.setVisible(true);
-            calculateBtn.setEnabled(false);
-            cancelOverride.setVisible(true);
-            cancelOverride.setEnabled(false);
+            getSelection().setSummaryviewType(pipelineView);
+            calculateBtn.setVisible(pipelineFlag);
+            calculateBtn.setEnabled(!pipelineFlag);
+            cancelOverride.setVisible(pipelineFlag);
+            cancelOverride.setEnabled(!pipelineFlag);
         }
 
         if (ARMUtils.VIEW_SMALL.equals(pipelineSummarySelection.getSessionDTO().getAction())) {
-            calculateBtn.setEnabled(false);
-            cancelOverride.setEnabled(false);
+            calculateBtn.setEnabled(!pipelineFlag);
+            cancelOverride.setEnabled(!pipelineFlag);
         }
         setConverter(rightTable, rightTable.getVisibleColumns());
-        tableLogic.loadSetData(Boolean.FALSE);
-        setValueChangeAllowed(true);
+        tableLogic.loadSetData(false);
+        setValueChangeAllowed(pipelineFlag);
     }
 
     /**
@@ -229,21 +234,21 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
     @Override
     protected void customerProductValueChange() {
         LOGGER.debug("customerProductView value change listener starts");
-        String viewType = String.valueOf(customerProductView.getValue());
-        LOGGER.debug("selectedView----{}", viewType);
-        leftTable.setColumnHeaders(ARMConstants.getDeductionProduct().equalsIgnoreCase(viewType) ? ARMUtils.PRODUCT
+        String pipelineViewType = String.valueOf(customerProductView.getValue());
+        LOGGER.debug("selectedView----{}", pipelineViewType);
+        leftTable.setColumnHeaders(ARMConstants.getDeductionProduct().equalsIgnoreCase(pipelineViewType) ? ARMUtils.PRODUCT
                 : ARMUtils.CUSTOMER_SMALL);
-        getSelection().setSummaryviewType(viewType);
-        setRespectiveHierarchy(viewType);
+        getSelection().setSummaryviewType(pipelineViewType);
+        setRespectiveHierarchy(pipelineViewType);
         configureLevelAndLevelFilter();
         configureRightTable();
         if (isGenarate) {
-            getTableLogic().loadSetData(Boolean.FALSE);
+            getTableLogic().loadSetData(false);
         }
         List<String> headerList = Arrays.asList(rightTable.getColumnHeaders());
         if ((pipelineSummarySelection.getSessionDTO().isWorkFlow()
                 && ARMUtils.EDIT.equalsIgnoreCase(pipelineSummarySelection.getSessionDTO().getAction()) || (!pipelineSummarySelection.getSessionDTO().isWorkFlow()))
-                && ARMConstants.getDeductionCustomerContract().equals(viewType)
+                && ARMConstants.getDeductionCustomerContract().equals(pipelineViewType)
                 && pipelineSummarySelection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())
                 && headerList.contains(CommonConstant.OVERRIDE)) {
             calculateBtn.setEnabled(true);
@@ -297,7 +302,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -325,8 +330,8 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object pipoeSummary) {
+        return super.equals(pipoeSummary);
     }
 
     @Override
@@ -334,11 +339,11 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream pipoeSummary) throws IOException {
+        pipoeSummary.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream pipoeSummary) throws IOException, ClassNotFoundException {
+        pipoeSummary.defaultReadObject();
     }
 }

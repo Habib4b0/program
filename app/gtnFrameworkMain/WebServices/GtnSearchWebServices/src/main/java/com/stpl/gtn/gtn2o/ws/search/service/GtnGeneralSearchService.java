@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.implementation.ComboBoxSearch;
 import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
+import com.stpl.gtn.gtn2o.ws.search.implementation.SaveViewExecution;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
@@ -95,7 +96,9 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             keyMap.put("privatePublic", new PrivatePublic());
             keyMap.put("businessUnits", new ComboBoxSearch());
             keyMap.put("companies", new ComboBoxSearch());
+            keyMap.put("frequency", new ComboBoxSearch());
             keyMap.put("dataSelectionDeduction", new ComboBoxSearch());
+            keyMap.put("saveview", new SaveViewExecution());
         }
         SearchInterface searchInterface = keyMap.get(key);
         GtnUIFrameworkWebserviceResponse response;

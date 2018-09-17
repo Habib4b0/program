@@ -535,6 +535,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 			GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
 			serviceRegistryBean.setUrl(comboboxConfig.getActualWsUrl());
 			serviceRegistryBean.setRegisteredWebContext(comboboxConfig.getActualWsContext());
+			serviceRegistryBean.setModuleName(comboboxConfig.getActualWsModuleName());
 			serviceRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
 			GtnWsSearchRequest searchRequest = new GtnWsSearchRequest();
 			searchRequest.setSearchQueryName(comboboxConfig.getComboBoxType());

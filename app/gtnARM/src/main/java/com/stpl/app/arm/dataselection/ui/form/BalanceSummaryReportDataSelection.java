@@ -2099,11 +2099,11 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
             } else if ((summaryTypeDdlb.getValue() == null || businessUnit.getValue() == null || company.getValue() == null
                     || CommonLogic.checkInt(customerHierarchyLookup.getHierarchyDto().getHierarchyId())
                     || CommonLogic.checkInt(productHierarchyLookup.getHierarchyDto().getHierarchyId())
-                    || CommonLogic.checkInt(Integer.valueOf(company.getValue().toString()))
-                    || CommonLogic.checkInt(Integer.valueOf(businessUnit.getValue().toString()))
+                    || CommonLogic.checkInt(ARMUtils.getIntegerValue(company.getValue().toString()))
+                    || CommonLogic.checkInt(ARMUtils.getIntegerValue(businessUnit.getValue().toString()))
                     || CommonLogic.checkInt(((HelperDTO) deductionLevel.getValue()).getId())
-                    || CommonLogic.checkInt(Integer.valueOf(customerRelation.getValue().toString()))
-                    || CommonLogic.checkInt(Integer.valueOf(productRelation.getValue().toString()))
+                    || CommonLogic.checkInt(ARMUtils.getIntegerValue(customerRelation.getValue().toString()))
+                    || CommonLogic.checkInt(ARMUtils.getIntegerValue(productRelation.getValue().toString()))
                     || bsrRsContractSids.isEmpty() || selectedCustomerContainer.size() == 0 || selectedProductContainer.size() == 0
                     || selectedDeductionContainer.size() == 0)) {
                 AbstractNotificationUtils.getErrorNotification(bsrGenerateMsgHeader, bsrGenerateMsg);
@@ -2144,17 +2144,17 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 bsrDataSelectionDTO.setProductHierarchyLevel(String.valueOf(productLevelVal));
                 bsrDataSelectionDTO.setCustomerHierarchyVersionNo(customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 bsrDataSelectionDTO.setProductHierarchyVersionNo(productHierarchyLookup.getHierarchyDto().getVersionNo());
-                bsrDataSelectionDTO.setCompanyMasterSid(Integer.valueOf(company.getValue().toString()));
+                bsrDataSelectionDTO.setCompanyMasterSid(ARMUtils.getIntegerValue(company.getValue().toString()));
                 bsrDataSelectionDTO.setFromPeriod(String.valueOf(fromPeriod.getValue()));   //Obtain from Admin Console
                 bsrDataSelectionDTO.setFromPeriodMonth(fromPeriod.getItemCaption(fromPeriod.getValue()));
                 bsrDataSelectionDTO.setFromDate(CommonLogic.parseDate(String.valueOf(fromPeriod.getValue())));
                 bsrDataSelectionDTO.setToPeriod(String.valueOf(toPeriod.getValue()));
                 bsrDataSelectionDTO.setToDate(CommonLogic.parseDate(String.valueOf(toPeriod.getValue())));
                 bsrDataSelectionDTO.setSaveFlag(false);
-                bsrDataSelectionDTO.setCustRelationshipBuilderSid(Integer.valueOf(customerRelation.getValue().toString()));
-                bsrDataSelectionDTO.setProdRelationshipBuilderSid(Integer.valueOf(productRelation.getValue().toString()));
-                bsrDataSelectionDTO.setCustomerRelationshipVersionNo(bsrCustomerVersionMap.get(Integer.valueOf(customerRelation.getValue().toString())));
-                bsrDataSelectionDTO.setProductRelationshipVersionNo(bsrProductVersionMap.get(Integer.valueOf(productRelation.getValue().toString())));
+                bsrDataSelectionDTO.setCustRelationshipBuilderSid(ARMUtils.getIntegerValue(customerRelation.getValue().toString()));
+                bsrDataSelectionDTO.setProdRelationshipBuilderSid(ARMUtils.getIntegerValue(productRelation.getValue().toString()));
+                bsrDataSelectionDTO.setCustomerRelationshipVersionNo(bsrCustomerVersionMap.get(ARMUtils.getIntegerValue(customerRelation.getValue().toString())));
+                bsrDataSelectionDTO.setProductRelationshipVersionNo(bsrProductVersionMap.get(ARMUtils.getIntegerValue(productRelation.getValue().toString())));
                 bsrDataSelectionDTO.setForecastingType("Balance Summary Report");
                 bsrDataSelectionDTO.setAdjustmentType(screenName);
                 bsrDataSelectionDTO.setAdjustmentCaption(summaryTypeDdlb.getItemCaption(summaryTypeDdlb.getValue()));
@@ -2279,7 +2279,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     customerHierarchyLookup = new HierarchyLookup();
                     productHierarchyLookup = new HierarchyLookup();
                     bsrDataSelectionDTO.setViewType(searchLookUp.getCaption());
-                    bsrDataSelectionDTO.setViewFlag(Boolean.TRUE);
+                    bsrDataSelectionDTO.setViewFlag(true);
                     view.setValue(searchLookUp.getViewDTO().getViewName());
                     bsrDataSelectionDTO.setViewName(searchLookUp.getViewDTO().getViewName());
                     HierarchyLookupDTO customerHierarchyDto = new HierarchyLookupDTO();
@@ -2977,10 +2977,10 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
             String msg = "No data selection criteria were found. Please enter data selection criteria and try again. ";
 
             boolean value = false;
-            if ((StringUtils.isEmpty(company.getValue() == null ? "" : company.getValue().toString()) || CommonLogic.checkInt(Integer.valueOf(company.getValue().toString())))
+            if ((StringUtils.isEmpty(company.getValue() == null ? "" : company.getValue().toString()) || CommonLogic.checkInt(ARMUtils.getIntegerValue(company.getValue().toString())))
                     && (customerHierarchyLookup == null || CommonLogic.checkInt(customerHierarchyLookup.getHierarchyDto().getHierarchyId()))
                     && (productHierarchyLookup == null || CommonLogic.checkInt(productHierarchyLookup.getHierarchyDto().getHierarchyId()))
-                    && (businessUnit.getValue() == null || CommonLogic.checkInt(Integer.valueOf(businessUnit.getValue().toString())))
+                    && (businessUnit.getValue() == null || CommonLogic.checkInt(ARMUtils.getIntegerValue(businessUnit.getValue().toString())))
                     && (deductionLevel.getValue() == null || CommonLogic.checkInt(((HelperDTO) deductionLevel.getValue()).getId()))
                     && (adjustmentType.getValue() == null || CommonLogic.checkInt(((HelperDTO) adjustmentType.getValue()).getId()))
                     && (summaryTypeDdlb.getValue() == null)) {
@@ -3011,15 +3011,15 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
             bsrDataSelectionDTO.setProductHierarchyLevel(String.valueOf(bsrProductLevelVal));
             bsrDataSelectionDTO.setCustomerHierarchyVersionNo(customerHierarchyLookup == null ? NumericConstants.ZERO : customerHierarchyLookup.getHierarchyDto().getVersionNo());
             bsrDataSelectionDTO.setProductHierarchyVersionNo(productHierarchyLookup == null ? NumericConstants.ZERO : productHierarchyLookup.getHierarchyDto().getVersionNo());
-            bsrDataSelectionDTO.setCompanyMasterSid(company.getValue() != null ? Integer.valueOf(String.valueOf(company.getValue())) : NumericConstants.ZERO);
+            bsrDataSelectionDTO.setCompanyMasterSid(company.getValue() != null ? ARMUtils.getIntegerValue(String.valueOf(company.getValue())) : NumericConstants.ZERO);
             bsrDataSelectionDTO.setFromPeriod(fromPeriod.getValue() == null || "0".equals(String.valueOf(fromPeriod.getValue())) ? StringUtils.EMPTY : String.valueOf(fromPeriod.getValue()));   //Obtain from Admin Console
             bsrDataSelectionDTO.setFromPeriodMonth(fromPeriod.getValue() != null || "0".equals(String.valueOf(fromPeriod.getValue())) ? fromPeriod.getItemCaption(fromPeriod.getValue()) : StringUtils.EMPTY);
             bsrDataSelectionDTO.setFromDate("0".equals(String.valueOf(fromPeriod.getValue())) ? null : CommonLogic.parseDate(String.valueOf(fromPeriod.getValue())));
             bsrDataSelectionDTO.setToPeriod(String.valueOf(toPeriod.getValue()));
             bsrDataSelectionDTO.setToDate("0".equals(String.valueOf(toPeriod.getValue())) ? null : CommonLogic.parseDate(String.valueOf(toPeriod.getValue())));
             bsrDataSelectionDTO.setSaveFlag(false);
-            bsrDataSelectionDTO.setCustRelationshipBuilderSid(customerRelation.getValue() != null ? Integer.valueOf(String.valueOf(customerRelation.getValue())) : NumericConstants.ZERO);
-            bsrDataSelectionDTO.setProdRelationshipBuilderSid(productRelation.getValue() != null ? Integer.valueOf(String.valueOf(productRelation.getValue())) : NumericConstants.ZERO);
+            bsrDataSelectionDTO.setCustRelationshipBuilderSid(customerRelation.getValue() != null ? ARMUtils.getIntegerValue(String.valueOf(customerRelation.getValue())) : NumericConstants.ZERO);
+            bsrDataSelectionDTO.setProdRelationshipBuilderSid(productRelation.getValue() != null ? ARMUtils.getIntegerValue(String.valueOf(productRelation.getValue())) : NumericConstants.ZERO);
             bsrDataSelectionDTO.setForecastingType(VariableConstants.ARM);
             bsrDataSelectionDTO.setForecastingType("Balance Summary Report");
             bsrDataSelectionDTO.setAdjustmentType(screenName);

@@ -50,8 +50,8 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     private String demandSummaryLeftHeader = VariableConstants.PRODUCT;
     private String[] tableColumns;
     private Set previousValue = new HashSet<>();
-    protected boolean isGenarate = Boolean.FALSE;
-    private final Logger loggerAbstractDemandSummaryResults = LoggerFactory.getLogger(getClass());
+    protected boolean isGenarate = false;
+    private static final Logger LOGGER_ABS_DEM_SUMM_RES = LoggerFactory.getLogger(AbstractDemandSummaryResults.class);
 
     public AbstractDemandSummaryResults(AbstractDemandSummaryLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
@@ -133,7 +133,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         rightDoubleVisibleHeader.add(0, "");
         getExcelTable().setVisibleColumns(rightSingleVisibleColumn1.toArray());
         getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
-        getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
+        getExcelTable().setDoubleHeaderVisible(true);
         getExcelTable().setDoubleHeaderVisibleColumns(rightDoubleVisibleColumn.toArray());
         getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(rightDoubleVisibleHeader.toArray(), rightDoubleVisibleHeader.size(), String[].class));
         getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.SEVEN));
@@ -156,7 +156,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     @Override
     protected boolean calculateLogic() {
-        loggerAbstractDemandSummaryResults.debug("CalculateBtn value change listener starts");
+        LOGGER_ABS_DEM_SUMM_RES.debug("CalculateBtn value change listener starts");
         boolean calculateFlag = super.calculateLogic();
         if (!calculateFlag) {
             AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getGenerateMessage_Demand());
@@ -174,7 +174,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     public void configureLevelDDLBs() {
         setLevelFilterEnable(false);
-        isGenarate = Boolean.FALSE;
+        isGenarate = false;
         if (ARMConstants.getMultiplePeriod().equals(getSelection().getSummarydemandview())) {
             customerProductView.removeAllItems();
             customerProductView.addItems(itemsForMultiple);
@@ -188,7 +188,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     }
 
     public void generateButtonLogic(String[] columns) {
-        isGenarate = Boolean.TRUE;
+        isGenarate = false;
         tableColumns = CommonLogic.getInstance().getStringArrayCloned(columns);
         Map properties = new HashMap();
         String view = String.valueOf(customerProductView.getValue());
@@ -248,7 +248,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         }
         configureRightTable();
         setConverter(rightTable, rightTable.getVisibleColumns());
-        getTableLogic().loadSetData(Boolean.FALSE);
+        getTableLogic().loadSetData(false);
 
     }
 
@@ -275,7 +275,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     @Override
     protected void customerProductValueChange() {
         setLevelFilterEnable(false);
-        loggerAbstractDemandSummaryResults.debug("customerProductView value change listener starts");
+        LOGGER_ABS_DEM_SUMM_RES.debug("customerProductView value change listener starts");
         String viewType = String.valueOf(customerProductView.getValue());
         if (!"null".equals(viewType) && getSelection().getSummarydeductionLevelDes() != null) {
             getSelection().setSummaryviewType(viewType);
@@ -297,7 +297,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
             if (isGenarate) {
                 configureRightTable();
                 getSelection().setSummarydemandLevel(ARMUtils.getADJSummaryLevel(viewType));
-                getTableLogic().loadSetData(Boolean.FALSE);
+                getTableLogic().loadSetData(false);
                 demandSummaryLeftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? VariableConstants.PRODUCT : VariableConstants.CUSTOMER;
                 leftTable.setColumnHeaders(demandSummaryLeftHeader);
             }
@@ -327,43 +327,43 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     public void setRespectiveHierarchy(String viewType) {
         if (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())) {
             selection.setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
-            selection.setIsMultiple(Boolean.TRUE);
+            selection.setIsMultiple(true);
         } else {
             selection.setSummeryhierarchy(ARMUtils.getLevelAndLevelFilter(viewType));
             if (ARMConstants.getDeductionCustomerContract().equals(getSelection().getSummaryviewType())) {
-                selection.setIsMultiple(Boolean.TRUE);
+                selection.setIsMultiple(true);
             } else {
-                selection.setIsMultiple(Boolean.FALSE);
+                selection.setIsMultiple(false);
             }
         }
     }
 
     @Override
     public List getExcelExportVisibleColumn() {
-        loggerAbstractDemandSummaryResults.debug("inside getExcelExportVisibleColumn");
+        LOGGER_ABS_DEM_SUMM_RES.debug("inside getExcelExportVisibleColumn");
         return getSelection().getExcelVisibleColumn();
     }
 
     @Override
     public String getExcelFileName() {
-        loggerAbstractDemandSummaryResults.debug("inside getExcelFileName");
+        LOGGER_ABS_DEM_SUMM_RES.debug("inside getExcelFileName");
         return "Adjustment_Summary";
     }
 
     @Override
     public boolean getisFixedColumns() {
-        loggerAbstractDemandSummaryResults.debug("inside getisFixedColumns");
-        return Boolean.TRUE;
+        LOGGER_ABS_DEM_SUMM_RES.debug("inside getisFixedColumns");
+        return true;
     }
 
     @Override
     public int discountColumnNeeded() {
-        loggerAbstractDemandSummaryResults.debug("inside discountColumnNeeded");
+        LOGGER_ABS_DEM_SUMM_RES.debug("inside discountColumnNeeded");
         return 1;
     }
 
     @Override
-    public Object[] getExcelHierarchy() {        
+    public Object[] getExcelHierarchy() {
         Map<Integer, String> hierarchy = getHierarchy();
         Object[] value = new Object[hierarchy.size()];
         for (int i = 0; i < hierarchy.size(); i++) {
@@ -379,13 +379,13 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     @Override
     public boolean getisDeductionCustomer() {
-        loggerAbstractDemandSummaryResults.debug("inside getisDeductionCustomer");
-        return Boolean.FALSE;
+        LOGGER_ABS_DEM_SUMM_RES.debug("inside getisDeductionCustomer");
+        return false;
     }
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-        loggerAbstractDemandSummaryResults.debug(" loadLevelFilterValueDdlb levelValue {}", levelValue);
+        LOGGER_ABS_DEM_SUMM_RES.debug(" loadLevelFilterValueDdlb levelValue {}", levelValue);
         getLevelFilterValueDdlb().removeAllItems();
         getLevelFilterValueDdlb().addItem(0);
         getLevelFilterValueDdlb().setItemCaption(0, GlobalConstants.getSelectOne());
@@ -402,16 +402,16 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     @Override
     protected void valueDdlbValueChange(int masterSid) {
-        loggerAbstractDemandSummaryResults.debug("valueDdlbValueChange masterSid {}", masterSid);
+        LOGGER_ABS_DEM_SUMM_RES.debug("valueDdlbValueChange masterSid {}", masterSid);
         if (isLevelFilterValueDdlbEnable()) {
             getSelection().setSummaryvalueSid(masterSid);
-            tableLogic.loadSetData(Boolean.FALSE);
+            tableLogic.loadSetData(false);
         }
     }
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.TRUE;
+        return true;
     }
 
     protected abstract String getTableNameForEdit();

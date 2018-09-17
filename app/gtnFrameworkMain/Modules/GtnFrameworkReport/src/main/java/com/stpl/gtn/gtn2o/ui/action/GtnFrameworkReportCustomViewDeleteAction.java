@@ -153,7 +153,7 @@ public class GtnFrameworkReportCustomViewDeleteAction implements GtnUIFrameWorkA
 		GtnUIFrameWorkActionConfig confirmActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		confirmActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.CONFIRMATION);
-		confirmActionConfig.addActionParameter("Delete record " + inputList.get(1).toString() + " ?");
+		confirmActionConfig.addActionParameter("Delete record " + inputList.get(1) + " ?");
 		List<GtnUIFrameWorkActionConfig> successActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig saveActionConfig = new GtnUIFrameWorkActionConfig();
 		saveActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);

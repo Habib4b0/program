@@ -120,7 +120,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected boolean valueDdlbChangeAllowed = false;
     private boolean levelFilterEnable = false;
     private boolean levelFilterValueDdlbEnable = false;
-    private final Logger logger = LoggerFactory.getLogger(AbstractSearchResults.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchResults.class);
 
     public AbstractSearchResults(LogicAble logic, T selection) {
         this.logic = logic;
@@ -267,7 +267,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                     calculateLogic();
                     refreshTableData(getAllExpandedHierarchyNo());
                 } catch (Exception e) {
-                    logger.error("Error in calculateBtn :", e);
+                    LOGGER.error("Error in calculateBtn :", e);
                 }
             }
         });
@@ -285,7 +285,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 }
             }
         } catch (Exception e) {
-            logger.error("Error in expandButtonClick :", e);
+            LOGGER.error("Error in expandButtonClick :", e);
         }
         AbstractNotificationUtils.getErrorNotification(ARMMessages.getExpandMessageName(), ARMMessages.getExpandMessageMsgId_001());
     }
@@ -302,7 +302,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 }
             }
         } catch (Exception e) {
-            logger.error("Error in collapseButtonClick :", e);
+            LOGGER.error("Error in collapseButtonClick :", e);
         }
         AbstractNotificationUtils.getErrorNotification(ARMMessages.getExpandMessageName(), ARMMessages.getExpandMessageMsgId_001());
     }
@@ -344,7 +344,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 valueDdlbValueChange(val);
             } else {
                 String message = String.valueOf(value) + " is not an integer ";
-                logger.error(message);
+                LOGGER.error(message);
             }
         }
 
@@ -385,13 +385,13 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         if (isLevelFilterEnable()) {
             try {
                 if (setRespectiveLevelFileterValue(value, levelNo)) {
-                    getTableLogic().loadSetData(Boolean.FALSE);
+                    getTableLogic().loadSetData(false);
                 }
                 setLevelFilterValueDdlbEnable(false);
                 loadLevelFilterValueDdlb(value, levelNo);
                 setLevelFilterValueDdlbEnable(true);
             } catch (Exception e) {
-                logger.error("Error in levelFilterValueChangeLogic ", e);
+                LOGGER.error("Error in levelFilterValueChangeLogic ", e);
             }
         }
     }
@@ -412,17 +412,17 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected void excelExportLogic() throws IllegalAccessException, InvocationTargetException {
         tableLayout.addComponent(getExcelTable());
         getExcelTable().setContainerDataSource(getExcelContainer());
-        getExcelTable().setRefresh(Boolean.FALSE);
-        getExcelTable().setVisible(Boolean.FALSE);
+        getExcelTable().setRefresh(false);
+        getExcelTable().setVisible(false);
         setExcelVisibleColumn();
         Object[] excelHierarchy = getExcelHierarchy();
         List resultList = getExcelLogic().getExcelResultList(getSelection());
         callExcelCustomization(resultList, excelHierarchy);
-        ((CommonUI) getUI()).setExcelFlag(Boolean.TRUE);
-        getExcelTable().setRefresh(Boolean.TRUE);
+        ((CommonUI) getUI()).setExcelFlag(true);
+        getExcelTable().setRefresh(true);
         ExtCustomTableHolder extCustomTableHolder = new ExtCustomTableHolder(getExcelTable());
         ExcelExport export = new ExcelExport(extCustomTableHolder, getExcelFileName(), getExcelFileName(), getExcelFileName() + ".xls", false);
-        export.setUseTableFormatPropertyValue(Boolean.TRUE);
+        export.setUseTableFormatPropertyValue(true);
         export.export();
         getExcelContainer().removeAllItems();
         tableLayout.removeComponent(getExcelTable());
@@ -559,7 +559,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         try {
             excelExportLogic();
         } catch (Exception ex) {
-            logger.error("Error in exportButtonLogic :", ex);
+            LOGGER.error("Error in exportButtonLogic :", ex);
         }
     }
 
@@ -605,19 +605,19 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         for (Object visibleColumn : searchResVisibleColumns) {
             if (!"group".equals(String.valueOf(visibleColumn)) && !"month".equals(String.valueOf(visibleColumn))) {
                 if (isPercentageColumnzeroDecimal(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, perzeroDec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, perzeroDec, false);
                 } else if (isPercentageColumn2Decimal(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, rate2Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, rate2Dec, false);
                 } else if (isNumericTwoDecimalFormat(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, num2Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, num2Dec, false);
                 } else if (isPercentageColumn3Decimal(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, rate3Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, rate3Dec, false);
                 } else if (isUnitColumn(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, zeroDec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, zeroDec, false);
                 } else if (isCurrencyZeroDecimalFormat(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, currencyzeroDec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, currencyzeroDec, false);
                 } else {
-                    searchResExcelTable.setConverter(visibleColumn, currency2Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, currency2Dec, false);
                 }
             }
         }
@@ -642,7 +642,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @return
      */
     protected boolean isPercentageColumn2Decimal(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
@@ -664,17 +664,17 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @return
      */
     protected boolean isCurrencyZeroDecimalFormat(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
     protected boolean isNumericTwoDecimalFormat(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
     protected boolean isPercentageColumnzeroDecimal(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 

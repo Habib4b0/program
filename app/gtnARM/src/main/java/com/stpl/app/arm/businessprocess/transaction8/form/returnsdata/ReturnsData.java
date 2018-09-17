@@ -65,7 +65,7 @@ public class ReturnsData extends CustomComponent {
     private final ExtPagedTable resultsTable;
     private ReturnsDataTableLogic tableLogic;
     private final ReturnsData.ReturnsDataCustomNotification notifier = new ReturnsData.ReturnsDataCustomNotification();
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger RD_LOGGER = LoggerFactory.getLogger(ReturnsData.class);
     private Object[] visibleColumns;
     private String[] visibleHeaders;
     private ReturnsDataLogic logic = new ReturnsDataLogic();
@@ -112,9 +112,9 @@ public class ReturnsData extends CustomComponent {
     private void loadFirstTimeVariables() {
         List list = Arrays.asList(ARMUtils.getDefaultCheckedCols());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-            object.setChecked(Boolean.FALSE);
+            object.setChecked(false);
             if (list.contains(object.getMenuItem().getWindow())) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }
@@ -165,7 +165,7 @@ public class ReturnsData extends CustomComponent {
     }
 
     public void setTableHeader() {
-        logger.debug(" Inside setTableHeader ");
+        RD_LOGGER.debug(" Inside setTableHeader ");
         Map properties = new HashMap();
         List<List> columns = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
         visibleColumns = (columns.get(NumericConstants.THREE)).toArray();
@@ -178,7 +178,7 @@ public class ReturnsData extends CustomComponent {
         resultsTable.setVisibleColumns(visibleColumns);
         resultsTable.setColumnHeaders(visibleHeaders);
         resultsTable.setSizeFull();
-        resultsTable.setSelectable(Boolean.FALSE);
+        resultsTable.setSelectable(false);
         resultsTable.setFilterBarVisible(true);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         tableLogic.setPageLength(NumericConstants.TEN);
@@ -199,7 +199,7 @@ public class ReturnsData extends CustomComponent {
                 resultsTable.setColumnAlignment(column, ExtCustomTable.Align.RIGHT);
             }
         }
-        logger.debug(" Ending setTableHeader ");
+        RD_LOGGER.debug(" Ending setTableHeader ");
     }
 
     @UiHandler("export")
@@ -218,7 +218,7 @@ public class ReturnsData extends CustomComponent {
         try {
             ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase(Locale.ENGLISH));
         } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            logger.error(ex.getMessage());
+            RD_LOGGER.error(ex.getMessage());
         }
     }
 
@@ -235,7 +235,7 @@ public class ReturnsData extends CustomComponent {
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            logger.error("Error in createWorkSheetContent :", e);
+            RD_LOGGER.error("Error in createWorkSheetContent :", e);
         }
     }
 
