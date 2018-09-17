@@ -67,7 +67,12 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		if (wsViewName.contains("InventoryWdActualProjMas")) {
 			List<String> viewColumnList = (List<String>) actionParamList.get(1);
 			List<Object> columnList = (List<Object>) actionParamList.get(4);
-			List<String> defaultViewColumnList = (List<String>) actionParamList.get(5);
+                     if(columnList.contains("")){
+                           columnList.remove("");
+                      }
+                        columnList.remove("invalidDateFrom");
+                        columnList.remove("invalidDateTo");
+                        List<String> defaultViewColumnList = (List<String>) actionParamList.get(5);
 			defaultViewColumnList.remove("transactionViewLayoutcheckRecord");
 			GtnUIFrameworkGlobalUI.setVisibleFlagForComponent(false, defaultViewColumnList, componentId);
 			componentList.addAll(columnList);
@@ -143,8 +148,8 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Error in doAction", e);
 		}
-	}
-
+                }
+                
 	private void loadDataFromService(List<Object> componentList, String tableName, List<String> helpercomponentList,
 			int systemId, String demandTypeColumnName, String demandTypeColumnValue,
 			GtnUIFrameworkTransactionComponentTypeListBean gtnUIFrameworkTransactionComponentTypeListBean)

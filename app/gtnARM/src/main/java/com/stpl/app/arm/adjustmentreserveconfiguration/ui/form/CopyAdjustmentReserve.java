@@ -325,7 +325,7 @@ public class CopyAdjustmentReserve extends AbstractReserve {
     protected void resetAdjustmentSummaryLine() {
         adjustmentSummaryConfigLogic.deleteTempTableRecords(selection);
         adjustmentSummaryConfigLogic.insertAdjSummaryToTempTableFromMainTable(selection);
-        adjustmentSummaryTableLogic.loadSetData(Boolean.TRUE, selection);
+        adjustmentSummaryTableLogic.loadSetData(true, selection);
         if (adjustmentSummaryTableLogic.getCount() == 0) {
             methodologyDdlb.setValue(0);
         }

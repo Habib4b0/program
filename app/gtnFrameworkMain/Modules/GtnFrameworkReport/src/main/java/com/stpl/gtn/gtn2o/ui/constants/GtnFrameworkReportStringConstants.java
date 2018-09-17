@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public final class GtnFrameworkReportStringConstants {
 
@@ -699,11 +700,12 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
 			+ "GtnReportingComparisonBreakdownHeaderLoadAction";
-        
-        public static final String REPORT_DATA_ASSUMPTION_FILTER_ACTION = REPORT_ACTION_PACKAGE
+
+	public static final String REPORT_DATA_ASSUMPTION_FILTER_ACTION = REPORT_ACTION_PACKAGE
 			+ "GtnFrameworkDataAssumptionFilterAction";
-	public static List<String> getReportDataAssumptionsTabId() {
-		return REPORT_DATAASSUMPTIONS_TAB_ID;
+
+	public static String getReportDataAssumptionsTabId(int index) {
+		return REPORT_DATAASSUMPTIONS_TAB_ID.get(index);
 	}
 
 	public static final String REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
@@ -761,5 +763,50 @@ public final class GtnFrameworkReportStringConstants {
 	public static List<String> getComparisonBreakdownHeader() {
 		return REPORT_COMPARISON_BREAKDOWN_HEADER == null ? REPORT_COMPARISON_BREAKDOWN_HEADER
 				: Collections.unmodifiableList(REPORT_COMPARISON_BREAKDOWN_HEADER);
+	}
+
+	public static String getMonthIntegerFromYear(String month) {
+		String monthCountInString = "";
+		switch (month.toUpperCase(Locale.ENGLISH)) {
+		case "JAN":
+			monthCountInString = "01";
+			break;
+		case "FEB":
+			monthCountInString = "02";
+			break;
+		case "MAR":
+			monthCountInString = "03";
+			break;
+		case "APR":
+			monthCountInString = "04";
+			break;
+		case "MAY":
+			monthCountInString = "05";
+			break;
+		case "JUN":
+			monthCountInString = "06";
+			break;
+		case "JUL":
+			monthCountInString = "07";
+			break;
+		case "AUG":
+			monthCountInString = "08";
+			break;
+		case "SEP":
+			monthCountInString = "09";
+			break;
+		case "OCT":
+			monthCountInString = "10";
+			break;
+		case "NOV":
+			monthCountInString = "11";
+			break;
+		case "DEC":
+			monthCountInString = "12";
+			break;
+		default:
+			monthCountInString = "0";
+		}
+		return monthCountInString;
 	}
 }

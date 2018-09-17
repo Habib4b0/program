@@ -76,7 +76,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 
 			finalArrayListforGrid = getFinalArrayListForGrid(componentId, idComponentDataFromDisplaySelectionTab);
 
-			List<String> projectionNameListFromCustomData = new ArrayList<>();
+			List<String> projectionNameListFromCustomData = new ArrayList<>(finalArrayListforGrid.size() + 1);
 			projectionNameListFromCustomData.clear();
 			String reportDataSourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId)
 					.getViewId();

@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -42,93 +43,96 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		try{
-		List<Object> actionParams = gtnUIFrameWorkActionConfig.getActionParameterList();
-		String fromPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParams.get(1).toString(), componentId)
-				.getStringCaptionFromV8ComboBox();
-		String frequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParams.get(2).toString(), componentId)
-				.getStringCaptionFromV8ComboBox();
+		try {
+			List<Object> actionParams = gtnUIFrameWorkActionConfig.getActionParameterList();
+			String fromPeriod = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParams.get(1).toString(), componentId)
+					.getStringCaptionFromV8ComboBox();
+			String frequency = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParams.get(2).toString(), componentId)
+					.getStringCaptionFromV8ComboBox();
 
-		String toPeriod = String.valueOf(LocalDate.now());
+			String toPeriod = String.valueOf(LocalDate.now());
 
-		fromPeriod = getVariableBreakdownPeriods(fromPeriod);
-		long diffInMonths = ChronoUnit.MONTHS.between(LocalDate.parse(fromPeriod), LocalDate.parse(toPeriod));
+			fromPeriod = getVariableBreakdownPeriods(fromPeriod);
+			long diffInMonths = ChronoUnit.MONTHS.between(LocalDate.parse(fromPeriod), LocalDate.parse(toPeriod));
 
-		int quotient = 0;
-		int historyPeriod = 0;
-		List<String> historyPeriodCaptionList = new ArrayList<>();
+			int quotient = 0;
+			int historyPeriod = 0;
+			List<String> historyPeriodCaptionList = new ArrayList<>();
 
-		switch (frequency) {
-		case "Quarter":
-			quotient = (int) (diffInMonths / 3);
-			historyPeriod = getRoundOffDates((int) diffInMonths, quotient, 3);
-			historyPeriodCaptionList = getHistoryPeriodCaptionList(historyPeriod, historyPeriodCaptionList, "Quarters");
-			break;
-		case "Semi-Annual":
-			quotient = (int) (diffInMonths / 6);
-			historyPeriod = getRoundOffDates((int) diffInMonths, quotient, 6);
-			historyPeriodCaptionList = getHistoryPeriodCaptionList(historyPeriod, historyPeriodCaptionList,
-					"Semi-Annual Periods");
-
-			break;
-		case "Month":
-			historyPeriod = (int) diffInMonths;
-			historyPeriodCaptionList = getHistoryPeriodCaptionList(historyPeriod, historyPeriodCaptionList, "Months");
-
-			break;
-		case "Annual":
-			historyPeriod = (int) ChronoUnit.YEARS.between(LocalDate.parse(fromPeriod), LocalDate.parse(toPeriod));
-			historyPeriodCaptionList = getHistoryPeriodCaptionList(historyPeriod, historyPeriodCaptionList, "Year");
-			break;
-		default:
-			historyPeriodCaptionList = new ArrayList<>();
-			break;
-		}
-
-		if(historyPeriodCaptionList.isEmpty()) {
-			return;
-		}
-		GtnUIFrameworkComboBoxConfig historyReloadComboboxConfig = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParams.get(3).toString(), componentId).getComponentConfig()
-				.getGtnComboboxConfig();
-		historyReloadComboboxConfig.setItemValues(historyPeriodCaptionList);
-		historyReloadComboboxConfig.setItemCaptionValues(historyPeriodCaptionList);
-
-		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-		combobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION, actionParams.get(3).toString(),
-				componentId, Arrays.asList(""));
-		if (!historyPeriodCaptionList.isEmpty()) {
-			String defaultValue = null;
-			switch(frequency) {
-			case "Quarter" :
-			defaultValue = historyPeriodCaptionList.get(3);
-			break;
-			case "Semi-Annual" :
-				defaultValue = historyPeriodCaptionList.get(1);
+			switch (frequency) {
+			case "Quarter":
+				quotient = (int) (diffInMonths / 3);
+				historyPeriod = getRoundOffDates((int) diffInMonths, quotient, 3);
+				historyPeriodCaptionList = getHistoryPeriodCaptionList(historyPeriod, historyPeriodCaptionList,
+						"Quarters");
 				break;
-			case "Month" :
-				defaultValue = historyPeriodCaptionList.get(11);
+			case "Semi-Annual":
+				quotient = (int) (diffInMonths / 6);
+				historyPeriod = getRoundOffDates((int) diffInMonths, quotient, 6);
+				historyPeriodCaptionList = getHistoryPeriodCaptionList(historyPeriod, historyPeriodCaptionList,
+						"Semi-Annual Periods");
+
 				break;
-			case "Annual" :
-				defaultValue = historyPeriodCaptionList.get(0);
+			case "Month":
+				historyPeriod = (int) diffInMonths;
+				historyPeriodCaptionList = getHistoryPeriodCaptionList(historyPeriod, historyPeriodCaptionList,
+						"Months");
+
+				break;
+			case "Annual":
+				historyPeriod = (int) ChronoUnit.YEARS.between(LocalDate.parse(fromPeriod), LocalDate.parse(toPeriod));
+				historyPeriodCaptionList = getHistoryPeriodCaptionList(historyPeriod, historyPeriodCaptionList, "Year");
 				break;
 			default:
+				historyPeriodCaptionList = new ArrayList<>();
 				break;
 			}
-			if(actionParams.size()>4 && actionParams.get(4)!=null) {
-				defaultValue= String.valueOf(actionParams.get(4));
+
+			if (historyPeriodCaptionList.isEmpty()) {
+				return;
 			}
-			historyReloadComboboxConfig.setDefaultDesc(defaultValue);
-			if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParams.get(3).toString(),
-					componentId) != null) {
-				GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent(actionParams.get(3).toString(), componentId);
-				baseComponent.loadV8ComboBoxComponentValue(defaultValue);
+			GtnUIFrameworkComboBoxConfig historyReloadComboboxConfig = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParams.get(3).toString(), componentId).getComponentConfig()
+					.getGtnComboboxConfig();
+			historyReloadComboboxConfig.setItemValues(historyPeriodCaptionList);
+			historyReloadComboboxConfig.setItemCaptionValues(historyPeriodCaptionList);
+
+			GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
+			combobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION, actionParams.get(3).toString(),
+					componentId, Arrays.asList(""));
+			if (!historyPeriodCaptionList.isEmpty()) {
+				String defaultValue = null;
+				switch (frequency) {
+				case "Quarter":
+					defaultValue = historyPeriodCaptionList.get(3);
+					break;
+				case "Semi-Annual":
+					defaultValue = historyPeriodCaptionList.get(1);
+					break;
+				case "Month":
+					defaultValue = historyPeriodCaptionList.get(11);
+					break;
+				case "Annual":
+					defaultValue = historyPeriodCaptionList.get(0);
+					break;
+				default:
+					break;
+				}
+				if (actionParams.size() > 4 && actionParams.get(4) != null) {
+					defaultValue = String.valueOf(actionParams.get(4));
+				}
+				historyReloadComboboxConfig.setDefaultDesc(defaultValue);
+				if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParams.get(3).toString(),
+						componentId) != null) {
+					GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
+							.getVaadinBaseComponent(actionParams.get(3).toString(), componentId);
+					baseComponent.loadV8ComboBoxComponentValue(defaultValue);
+				}
 			}
-		}
-		}
-		catch(Exception ex){
-			logger.error("Error message",ex);
+		} catch (Exception ex) {
+			logger.error("Error message", ex);
 		}
 	}
 
@@ -148,12 +152,12 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 	public String getVariableBreakdownPeriods(String fromDate) {
 
 		String dateFromPeriodQuery = "";
-		
+
 		String splitParameter = " ";
 
 		String fromPeriod = fromDate;
-		
-		if(fromPeriod.contains("-")){
+
+		if (fromPeriod.contains("-")) {
 			splitParameter = "-";
 		}
 
@@ -177,7 +181,8 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 			List<String> monthToDateForFromPeriod = new ArrayList<>();
 			String[] monthToDateForFromPeriodSplit = fromPeriod.split(splitParameter);
 			monthToDateForFromPeriod.add(monthToDateForFromPeriodSplit[1]);
-			monthToDateForFromPeriod.add(getMonthIntegerFromYear(monthToDateForFromPeriodSplit[0]));
+			monthToDateForFromPeriod
+					.add(GtnFrameworkReportStringConstants.getMonthIntegerFromYear(monthToDateForFromPeriodSplit[0]));
 			monthToDateForFromPeriod.add("01");
 
 			dateFromPeriodQuery = getDateFromFrequency(monthToDateForFromPeriod);
@@ -191,7 +196,8 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 
 		for (int i = 0; i < periodList.size(); i++) {
 			if (i < periodList.size() - 1) {
-				dateStringBuilder.append(periodList.get(i) + "-");
+				dateStringBuilder.append(periodList.get(i));
+				dateStringBuilder.append('_');
 			} else {
 				dateStringBuilder.append(periodList.get(i));
 			}
@@ -256,51 +262,6 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 			quarterMonth = "0";
 		}
 		return quarterMonth;
-	}
-
-	private String getMonthIntegerFromYear(String month) {
-		String monthCountInString = "";
-		switch (month.toUpperCase(Locale.ENGLISH)) {
-		case "JAN":
-			monthCountInString = "01";
-			break;
-		case "FEB":
-			monthCountInString = "02";
-			break;
-		case "MAR":
-			monthCountInString = "03";
-			break;
-		case "APR":
-			monthCountInString = "04";
-			break;
-		case "MAY":
-			monthCountInString = "05";
-			break;
-		case "JUN":
-			monthCountInString = "06";
-			break;
-		case "JUL":
-			monthCountInString = "07";
-			break;
-		case "AUG":
-			monthCountInString = "08";
-			break;
-		case "SEP":
-			monthCountInString = "09";
-			break;
-		case "OCT":
-			monthCountInString = "10";
-			break;
-		case "NOV":
-			monthCountInString = "11";
-			break;
-		case "DEC":
-			monthCountInString = "12";
-			break;
-		default:
-			monthCountInString = "0";
-		}
-		return monthCountInString;
 	}
 
 	@Override

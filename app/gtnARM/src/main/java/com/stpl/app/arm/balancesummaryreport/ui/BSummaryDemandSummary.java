@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class BSummaryDemandSummary extends AbstractBSummaryReportSummary {
 
     private BSummaryDemandResults results;
-    public final Logger demandLogger = LoggerFactory.getLogger(BSummaryDemandSummary.class);
+    public static final Logger DEMAND_LOGGER = LoggerFactory.getLogger(BSummaryDemandSummary.class);
     private String[] defaultColumns = {"Beginning_Balance", "Demand_Accrual", "Demand_Reforecast", "Payment_True_up", "Actual_Payments", "Period_Balance", "Payment_Ratio", "Total"};
     private String[] defaultColumnsHeader = {"Beginning Balance", "Demand Accrual", "Demand Reforecast", "Payment True-up", "Actual Payments", "Period Balance", "Payment Ratio", "Total"};
 
@@ -25,31 +25,31 @@ public class BSummaryDemandSummary extends AbstractBSummaryReportSummary {
 
     @Override
     public AbstractBalanceSummaryResutls getResultsObject() {
-        demandLogger.debug("Inside getResultsObject");
+        DEMAND_LOGGER.debug("Inside getResultsObject");
         return results;
     }
 
     @Override
     public String[] getDefaultColumnsHeader() {
-        demandLogger.debug("Inside getDefaultColumnsHeader");
+        DEMAND_LOGGER.debug("Inside getDefaultColumnsHeader");
         return CommonLogic.getInstance().getStringArrayCloned(defaultColumnsHeader);
     }
 
     @Override
     public String[] getDefaultColumns() {
-        demandLogger.debug("Inside getDefaultColumns");
+        DEMAND_LOGGER.debug("Inside getDefaultColumns");
         return CommonLogic.getInstance().getStringArrayCloned(defaultColumns);
     }
 
     @Override
     public String getProcedureName() {
-        demandLogger.debug("Inside getProcedureName");
+        DEMAND_LOGGER.debug("Inside getProcedureName");
         return "PRC_ARM_BSR_DEMAND";
     }
 
     @Override
     public String getTempTablesPropertyName() {
-        demandLogger.debug("Inside getTempTablesPropertyName");
+        DEMAND_LOGGER.debug("Inside getTempTablesPropertyName");
         return "ARM_BSR_DEMAND";
     }
 
@@ -65,13 +65,13 @@ public class BSummaryDemandSummary extends AbstractBSummaryReportSummary {
 
     @Override
     public String[] getAdjustmentTypeHeader() {
-        demandLogger.debug("Inside getAdjustmentTypeHeader");
+        DEMAND_LOGGER.debug("Inside getAdjustmentTypeHeader");
         return CommonLogic.getInstance().getStringArrayCloned(defaultColumnsHeader);
     }
 
     @Override
     public String[] getAdjustmentTypeColumn() {
-        demandLogger.debug("Inside getAdjustmentTypeColumn");
+        DEMAND_LOGGER.debug("Inside getAdjustmentTypeColumn");
         return CommonLogic.getInstance().getStringArrayCloned(defaultColumns);
     }
 }

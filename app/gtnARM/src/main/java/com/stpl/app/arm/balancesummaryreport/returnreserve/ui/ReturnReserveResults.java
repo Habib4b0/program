@@ -48,7 +48,7 @@ public class ReturnReserveResults extends AbstractBalanceSummaryResutls {
             rrRightDoubleVisibleHeader.add(0, "");
             getExcelTable().setVisibleColumns(rrRightSingleVisibleColumn1.toArray());
             getExcelTable().setColumnHeaders(Arrays.copyOf((rrRightSingleVisibleHeader).toArray(), (rrRightSingleVisibleHeader).size(), String[].class));
-            getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
+            getExcelTable().setDoubleHeaderVisible(true);
             getExcelTable().setDoubleHeaderVisibleColumns(rrRightDoubleVisibleColumn.toArray());
             getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(rrRightDoubleVisibleHeader.toArray(), rrRightDoubleVisibleHeader.size(), String[].class));
             getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.FIVE));

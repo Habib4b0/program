@@ -30,7 +30,7 @@ public class SessionUtil {
     public static SessionDTO createSession() throws ParseException {
         SessionDTO session = new SessionDTO();
         session.setVaadinSessionId(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.SESSION_ID)));
-        session.setUserId(Integer.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString()));
+        session.setUserId(ARMUtils.getIntegerValue(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString()));
         session.setAction(StringUtils.EMPTY);
         session.setEditOperation("N");
         session.setUserName(String.valueOf(VaadinSession.getCurrent().getAttribute("userName")));

@@ -406,8 +406,10 @@ public class GtnWsTransactionService {
 			
 			ProjectionList projectionList = Projections.projectionList();
 			for (String columns : gtnWsTransactionRequest.getProjectionColumns()) {
+                            if(!StringUtils.isBlank(columns)){
 				projectionList.add(Projections.property(columns));
-			}
+                            }
+                        }
 
 			criteria.setProjection(projectionList);
 			criteria.add(Restrictions.eq(classMetadata.getIdentifierPropertyName(),
@@ -418,12 +420,10 @@ public class GtnWsTransactionService {
 			} else if (!gtnWsTransactionRequest.getInventoryLevelColumnName().isEmpty()) {
 				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryTypeColumnName(),
 						gtnWsTransactionRequest.getInventoryTypeColumnValue()));
-				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryLevelColumnName(),
-						gtnWsTransactionRequest.getInventoryLevelColumnValue()));
 			}
 			
 			List<Object> resultList = criteria.list();
-			
+                        
 			ob = getViewRecord(resultList, gtnWsTransactionRequest);
 		} catch (Exception ex) {
 			logger.error("Exception in view query-", ex);
