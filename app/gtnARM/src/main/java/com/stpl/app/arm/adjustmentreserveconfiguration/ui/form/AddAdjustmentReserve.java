@@ -41,6 +41,7 @@ public class AddAdjustmentReserve extends AbstractReserve {
 
     public AddAdjustmentReserve(SessionDTO sessionDTO, ReserveSelection resSelection) {
         super("Adjustment & Reserve Configuration Details", sessionDTO, resSelection);
+        super.init();
         super.configureFields();
         this.selection = resSelection;
     }
