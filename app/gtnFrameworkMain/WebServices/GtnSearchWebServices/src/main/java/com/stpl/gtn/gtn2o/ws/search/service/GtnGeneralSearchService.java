@@ -5,6 +5,19 @@
  */
 package com.stpl.gtn.gtn2o.ws.search.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
@@ -19,21 +32,14 @@ import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.implementation.ComboBoxSearch;
+import com.stpl.gtn.gtn2o.ws.search.implementation.CustomerAndProductGroup;
 import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
+
+//import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
 
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -41,6 +47,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
+
 
 	private GtnGeneralSearchService() {
 		super();
@@ -103,6 +110,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 			keyMap.put("companies", new ComboBoxSearch());
 			keyMap.put("frequency", new ComboBoxSearch());
 			keyMap.put("dataSelectionDeduction", new ComboBoxSearch());
+			keyMap.put("CustomerGroup", new CustomerAndProductGroup());
+			keyMap.put("ProductGroup", new CustomerAndProductGroup());
 		}
 		SearchInterface searchInterface = keyMap.get(key);
 		GtnUIFrameworkWebserviceResponse response;
@@ -258,5 +267,5 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 		}
 		return localDate;
 	}
-
 }
+

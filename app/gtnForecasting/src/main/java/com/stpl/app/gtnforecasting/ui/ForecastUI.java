@@ -352,8 +352,8 @@ public class ForecastUI extends UI {
      *
      */
     public static void makeSessionInValidate() {
-        if (isEXCEL_CLOSE()) { // Fix to avoid blank page issue while excel export
-            setEXCEL_CLOSE(false);
+        if (isEXCELCLOSE()) { // Fix to avoid blank page issue while excel export
+            setEXCELCLOSE(false);
         } else {
             UI.getCurrent().close();
         }
@@ -373,11 +373,11 @@ public class ForecastUI extends UI {
         });
     }
 
-	public static boolean isEXCEL_CLOSE() {
+	public static boolean isEXCELCLOSE() {
 		return EXCEL_CLOSE;
 	}
 
-	public static void setEXCEL_CLOSE(boolean excelClose) {
+	public static void setEXCELCLOSE(boolean excelClose) {
 		EXCEL_CLOSE = excelClose;
 	}
 
@@ -404,7 +404,11 @@ public class ForecastUI extends UI {
         dataSelectionDto.setCustomerHierVersionNo(Integer.parseInt((String)actionParamList.get(5)));
         dataSelectionDto.setProductRelationShipVersionNo(Integer.parseInt((String)actionParamList.get(6)));
         dataSelectionDto.setProductHierVersionNo(Integer.parseInt((String)actionParamList.get(7)));
-        dataSelectionDto.setBusinessUnitSystemId(Integer.parseInt((String)actionParamList.get(7)));
+        dataSelectionDto.setBusinessUnitSystemId(Integer.parseInt((String)actionParamList.get(8)));
+        dataSelectionDto.setDsCustomerHierarchyBean(inputBean.getCustomerHierarchyBean());
+        dataSelectionDto.setDsProductHierarchyBean(inputBean.getProductHierarchyBean());
+        dataSelectionDto.setCustomerHierarchyLevel((String)actionParamList.get(9));
+        dataSelectionDto.setCustomerHierarchyInnerLevel((String)actionParamList.get(10));
         DataSelectionForm form = new DataSelectionForm(sessionDto,dataSelectionDto, inputBean);
         form.generateButtonLogicNewArch(sessionDto,inputBean);
     }

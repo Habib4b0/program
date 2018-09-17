@@ -849,7 +849,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                     if (isCustomHierarchy && CommonUtil.isValueEligibleForLoading()) {
                         saveDto.setDiscountName(
-                                CommonUtils.CollectionToString(session.getSelectedRsForCustom(), false));
+                                CommonUtils.collectionToStringMethod(session.getSelectedRsForCustom(), false));
                     } else {
                         if (CommonUtil.isValueEligibleForLoading()) {
                             saveDto.setDiscountName(rightTable.getTripleHeaderForSingleHeader(String.valueOf(obj[1])));
@@ -2185,7 +2185,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
             endYear = Integer.parseInt(endPeriodValue.substring(endPeriodValue.length() - NumericConstants.FOUR));
 
-            List<Integer> massUpdatePeriods = new ArrayList<Integer>();
+            List<Integer> massUpdatePeriods = new ArrayList<>();
             massUpdatePeriods.add(startFreq);
             massUpdatePeriods.add(startYear);
             massUpdatePeriods.add(endFreq);
@@ -3162,7 +3162,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             formatterMap.put("GrowthSum", "GrowthSum");
             formatterMap.put("ChildCount", "ChildCount");
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
-            ForecastUI.setEXCEL_CLOSE(true);
+            ForecastUI.setEXCELCLOSE(true);
             CustomExcelNM excel = null;
             HeaderUtils.getDiscountProjectionRightTableColumns(projectionSelection);
             if (QUARTERLY.getConstant().equals(String.valueOf(frequencyDdlb.getValue()))
@@ -3216,7 +3216,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     excelTable.setDoubleHeaderMap(mapVisibleCols);
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + listHeader.get(i);
-                    ForecastUI.setEXCEL_CLOSE(true);
+                    ForecastUI.setEXCELCLOSE(true);
                     if (i == 0) {
                             excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap,isRate,isRPU,projectionSelection.isIsCustomHierarchy());
@@ -3980,7 +3980,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 map.put(Constant.SELECTED_DISCOUNTS, getDiscountRSSids(discountProgramsList).get(0));
                 map.put("SelectedDiscountsSids", getDiscountRSSids(discountProgramsList).get(1));
             }
-            map.put("selectedDiscountNo", CommonUtils.CollectionToString(discountNoList, false));
+            map.put("selectedDiscountNo", CommonUtils.collectionToStringMethod(discountNoList, false));
             map.put("Program Selection Ddlb", String.valueOf(programSelection.getValue()));
             map.put(Constant.YEAR_SELECTION_DDLB, projectionSelection.getYear());
             map.put(Constant.VARIABLES, variables.getValue());
@@ -4951,7 +4951,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
 
             Collections.sort(overall, dateCompare);
             if (!overall.isEmpty() && overall.size() == defval) {
-                Set<Integer> year = new HashSet<Integer>();
+                Set<Integer> year = new HashSet<>();
                 String tempYear = StringUtils.EMPTY;
                 for (int i = 0; i < overall.size(); i++) {
                     if (defval == NumericConstants.TWO || defval == NumericConstants.FOUR) {
@@ -5280,7 +5280,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             Object[] procedureInputs = null;
             projectionSelection.setTabName(DISCOUNT_PROJ.getConstant());
             LOGGER.debug("PRC_GROWTH_CALCULATION--------------------------------------- ");
-            String discountId = CommonUtils.CollectionToString(checkedDiscountNames, false);
+            String discountId = CommonUtils.collectionToStringMethod(checkedDiscountNames, false);
             procedureInputs = new Object[]{projectionSelection.getProjectionId(), projectionSelection.getUserId(),
                 projectionSelection.getSessionDTO().getSessionId(), projectionSelection.getTabName(), methodology,
                 projectionSelection.getFrequency(), UiUtils.getDate(), level, projectionSelection.getFromDateDdlb(),
@@ -5701,7 +5701,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             formatter.put(AMOUNT_TWO_DECIMAL, AMOUNT);
             formatter.put(AMOUNT_TWO_DECIMAL, AMOUNT);
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
-            ForecastUI.setEXCEL_CLOSE(true);
+            ForecastUI.setEXCELCLOSE(true);
             CustomExcelNM excel = null;
             HeaderUtils.getDiscountProjectionRightTableColumns(projectionSelection);
             if (QUARTERLY.getConstant().equals(String.valueOf(frequencyDdlb.getValue()))
@@ -5740,7 +5740,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                     excelTable.setDoubleHeaderMap(mapVisibleCols);
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + list.get(i);
-                    ForecastUI.setEXCEL_CLOSE(true);
+                    ForecastUI.setEXCELCLOSE(true);
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter, isRate, isRPU, projectionSelection.isIsCustomHierarchy());

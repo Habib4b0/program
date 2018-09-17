@@ -47,7 +47,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private List<GtnWsRecordBean> selectedCustomerHierarchyList;
 	private List<GtnWsRecordBean> customerDualListBox;
 	private List<GtnWsRecordBean> selectedProductHierarchyList;
-	
+
 	private Date fromPeriod;
 	private Date toPeriodReport;
 	private Integer frequency;
@@ -63,7 +63,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private Map<String, String> sessionTableMap = null;
 
 	private List variableBreakdownHeaderLoadList;
-	
+
 	private List<Object> variablesList;
 	private Integer customView;
 	private boolean dataRefreshDone = false;
@@ -97,14 +97,6 @@ public class GtnFrameworkForecastDataSelectionBean {
 	}
 
 	
-
-	public List getVariableBreakdownHeaderLoadList() {
-		return variableBreakdownHeaderLoadList;
-	}
-
-	public void setVariableBreakdownHeaderLoadList(List variableBreakdownHeaderLoadList) {
-		this.variableBreakdownHeaderLoadList = variableBreakdownHeaderLoadList;
-	}
 
 	private Integer customViewMasterSid;
 
@@ -374,8 +366,6 @@ public class GtnFrameworkForecastDataSelectionBean {
 	public void setViewId(Integer viewId) {
 		this.viewId = viewId;
 	}
-
-	
 
 	public Integer getCustomViewMasterSid() {
 		return customViewMasterSid;

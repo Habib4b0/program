@@ -2058,7 +2058,7 @@ public class NMProjectionResultsLogic {
         int neededRecord = offset;
         int mayBeAdded = 0;
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
-        String discList = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
+        String discList = CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false);
         String freq = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == 1) {
             freq = "ANNUAL";
@@ -2780,7 +2780,7 @@ public class NMProjectionResultsLogic {
                 discountTypeColumnName = " J.RS_NAME as DISCOUNTS \n";
                 groupBy += ", J.RS_NAME";
             }
-            whereClause += " and B.RS_CONTRACT_SID in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ") \n";
+            whereClause += " and B.RS_CONTRACT_SID in (" + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + ") \n";
         }
         selectClause += discountTypeColumnName + ", ";
 
@@ -3097,9 +3097,9 @@ public class NMProjectionResultsLogic {
         String periodFilter;
         if(period){
             periodFilter = " I.PERIOD_SID  BETWEEN @START_PERIOD_SID AND @END_PERIOD_SID "
-                    + " AND B.RS_CONTRACT_SID IN ("+CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false)+")";
+                    + " AND B.RS_CONTRACT_SID IN ("+CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false)+")";
         }else{
-            periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO)+ " AND B.RS_CONTRACT_SID IN ("+CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false)+") ";
+            periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO)+ " AND B.RS_CONTRACT_SID IN ("+CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false)+") ";
         }
 
         String customSql = " \"PERIOD\" I ON I.PERIOD_SID = A.PERIOD_SID \n"
@@ -3516,7 +3516,7 @@ public class NMProjectionResultsLogic {
                                                      " ON A.RS_CONTRACT_SID = R.RS_CONTRACT_SID\n" +
                                                     " AND T.CONTRACT_MASTER_SID=R.CONTRACT_MASTER_SID"
                 + "                                  WHERE   P.PERIOD_SID BETWEEN @START_SID AND @END_SID\n" 
-                + "                                         AND A.RS_CONTRACT_SID IN (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + " )\n"
+                + "                                         AND A.RS_CONTRACT_SID IN (" + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + " )\n"
                 + "                                  GROUP  BY \n" + groupBy
                 + "                                            ) HISTORY\n"
                 + "                 FULL OUTER JOIN (SELECT \n" + selectedPeriod
@@ -3532,7 +3532,7 @@ public class NMProjectionResultsLogic {
                  "                                   ON A.RS_CONTRACT_SID = R.RS_CONTRACT_SID\n" +
                  "                                   AND T.CONTRACT_MASTER_SID=R.CONTRACT_MASTER_SID   "        
                 + "                                  WHERE  P.PERIOD_SID BETWEEN @START_SID AND @END_SID\n" 
-                + "                                         AND A.RS_CONTRACT_SID IN ( " + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + " )\n"
+                + "                                         AND A.RS_CONTRACT_SID IN ( " + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + " )\n"
                 + "                                  GROUP  BY \n" + groupBy
                 + "                                            ) FUTURE ON HISTORY.YEARS = FUTURE.YEARS\n"
                 + "                                                             AND HISTORY.PERIODS = FUTURE.PERIODS\n"
@@ -3928,7 +3928,7 @@ public class NMProjectionResultsLogic {
                 + "                     WHERE A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND " + periodFilter + "\n"
                 + "                     AND exists (SELECT 1 from ST_NM_DISCOUNT_PROJ_MASTER b\n"
                 + "                                  where CCP.CCP_DETAILS_SID=b.ccp_details_sid\n"
-                + "                                  and B.RS_CONTRACT_SID IN (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + "))  ) A\n"
+                + "                                  and B.RS_CONTRACT_SID IN (" + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + "))  ) A\n"
                 + " GROUP BY YEARS\n"
                 + Constant.PERIODS_SPACE_QUERY
                 + "              ) HISTORY \n"
@@ -3955,7 +3955,7 @@ public class NMProjectionResultsLogic {
                 + "                     WHERE  A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND " + periodFilter + "\n"
                 + "                     AND exists (SELECT 1 from ST_NM_DISCOUNT_PROJ_MASTER b\n"
                 + "                                  where CCP.CCP_DETAILS_SID=b.ccp_details_sid\n"
-                + "                                  and B.RS_CONTRACT_SID IN (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")) "
+                + "                                  and B.RS_CONTRACT_SID IN (" + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + ")) "
                 + ") P\n"
                 + "               GROUP BY YEARS \n"
                 + Constant.PERIODS_SPACE_QUERY
@@ -4106,7 +4106,7 @@ public class NMProjectionResultsLogic {
                 + "       WHERE  " + periodFilter + "\n"
                 + " AND exists (select 1 from ST_NM_DISCOUNT_PROJ_MASTER b\n"
                 + "					where CCP.CCP_DETAILS_SID=b.ccp_details_sid\n"
-                + "					and B.RS_CONTRACT_SID IN ("+CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false)+"))"
+                + "					and B.RS_CONTRACT_SID IN ("+CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false)+"))"
                 
                 + "       ) A\n"
                 + "GROUP BY YEARS\n"
@@ -4136,7 +4136,7 @@ public class NMProjectionResultsLogic {
                 + "              ON CCP.CCP_DETAILS_SID = A.CCP_DETAILS_SID\n"
                 + "       WHERE " + periodFilter + " AND exists (select 1 from ST_NM_DISCOUNT_PROJ_MASTER b\n"
                 + "					where CCP.CCP_DETAILS_SID=b.ccp_details_sid\n"
-                + "					and B.RS_CONTRACT_SID IN (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")) )P \n"
+                + "					and B.RS_CONTRACT_SID IN (" + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + ")) )P \n"
                 + "              GROUP BY  YEARS\n"
                 + Constant.PERIODS_SPACE_QUERY
                 + "              ) FUTURE\n"
@@ -4303,7 +4303,7 @@ public class NMProjectionResultsLogic {
                 + " WHERE I.PERIOD_SID BETWEEN @START_PERIOD_SID AND @END_PERIOD_SID";
         
         if (projSelDTO.getDiscountNoList() != null && !projSelDTO.getDiscountNoList().isEmpty()) {
-            customSql += " and B.RS_CONTRACT_SID in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")  \n";
+            customSql += " and B.RS_CONTRACT_SID in (" + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + ")  \n";
         }
         customSql += whereClause + "   group by " + "RS_NAME,"+groupBy+",J.RS_CONTRACT_SID  \n";
 
@@ -5028,7 +5028,7 @@ public class NMProjectionResultsLogic {
      */
     private String getDiscountCountForCurrentHierarchy(ProjectionSelectionDTO projSelDTO) {
         String condition = projSelDTO.getDiscountNoList() != null && !projSelDTO.getDiscountNoList().isEmpty() ?  
-                " B.RS_CONTRACT_SID IN ( " + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + " )" : StringUtils.EMPTY;
+                " B.RS_CONTRACT_SID IN ( " + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + " )" : StringUtils.EMPTY;
         
         return "SELECT Count(DISTINCT RS_CONTRACT_SID)\n"
                 + "FROM  ST_NM_DISCOUNT_PROJ_MASTER B\n"
