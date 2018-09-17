@@ -447,9 +447,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			return data[6] + " - " + data[7];
 		}
 		if (String.valueOf(displayFormat[0]).equals("Name")) {
-			return data[6] == null ? data[1].toString() : data[6].toString();
+			return data[7] == null ? data[1].toString() : data[7].toString();
 		} else {
-			return data[7] == null ? data[1].toString() : data[4].toString();
+			return data[6] == null ? data[1].toString() : data[6].toString();
 		}
 	}
 
