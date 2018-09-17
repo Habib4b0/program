@@ -7,11 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
-import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkDeleteViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastEditAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkSaveViewAction;
-import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkScreenRegistryResetAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnModeOptionValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
@@ -622,15 +620,25 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		searchBtn.setParentComponentId(parentComponentId);
 		searchBtn.setAuthorizationIncluded(true);
 		searchBtn.setAddToParent(true);
-		List<GtnUIFrameWorkActionConfig> actionConfigListSearch = new ArrayList<>();
-		GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
-		loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
-		loadDataSearchTableActionConfig
-				.setActionParameterList(Arrays.asList(new Object[] { nameSpace + "_" + "projectionResultsTable" }));
-		loadDataSearchTableActionConfig.setFieldValues(Arrays.asList(
-				new String[] { nameSpace + "_" + "projectionName", nameSpace + "_" + "projectionDescription" }));
-		actionConfigListSearch.add(loadDataSearchTableActionConfig);
-		searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
+                List<GtnUIFrameWorkActionConfig> actionConfigListSearch = new ArrayList<>();
+                GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
+                loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
+                loadDataSearchTableActionConfig.setActionParameterList(
+                Arrays.asList(new Object[]{nameSpace+"_"+"projectionResultsTable"}));
+                loadDataSearchTableActionConfig.setFieldValues(
+                        Arrays.asList(new String[]{nameSpace+"_"+"projectionName",
+                            nameSpace+"_"+"projectionDescription",
+                        nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
+                        nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
+                        "forecastLandingScreen_customerHierarchy",
+                        nameSpace + "_" + "prodhierarchyName"
+                        }));
+//                List<String> list=Arrays.asList(nameSpace + "_" + "to",nameSpace + "_" + "from");
+////                list.add(nameSpace + "_" + "to");
+////                list.add(nameSpace + "_" + "from");
+//                loadDataSearchTableActionConfig.setFieldDescription(list);
+                actionConfigListSearch.add(loadDataSearchTableActionConfig);
+                searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
 		searchBtn.setEnable(false);
 		componentList.add(searchBtn);
 
@@ -667,7 +675,11 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 	
 	private List<Object> getParameters() {
 
+	 
+
 		return Arrays.asList(
+																																																																	 
+																																				 
 
 				GtnFrameworkScreenRegistryResetAction.class.getName(),
 				"Commercial Forecasting_privateViewLookup",
@@ -688,9 +700,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				"Commercial Forecasting" + "_" + "profileMode"
 
 		);
+											   
+																																								
 
 	}
-
 
 	private void addSaveViewBtn(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
@@ -793,7 +806,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteViewBtn.setParentComponentId(parentComponentId);
 		deleteViewBtn.setAddToParent(true);
 		deleteViewBtn.setEnable(false);
-		componentList.add(deleteViewBtn);
 		
 		GtnUIFrameWorkActionConfig confirmDeleteAction = new GtnUIFrameWorkActionConfig();
 		confirmDeleteAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
@@ -811,6 +823,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		onSuccessDeleteActionConfigList.add(deleteViewAction);
 		
 		deleteViewBtn.addGtnUIFrameWorkActionConfig(confirmDeleteAction);
+	
+		componentList.add(deleteViewBtn);
 	}
 
 	private void addProjectionResultsPanel(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -851,8 +865,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionResultsTable.setAddToParent(true);
 		projectionResultsTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		projectionResultsTable.setParentComponentId(nameSpace + "_" + "projectionResultsLayout");
-		projectionResultsTable.setModuleName("serviceRegistry");
-
+                projectionResultsTable.setModuleName("serviceRegistry");
+                
 		GtnUIFrameworkPagedTableConfig projectionResultsTableConfig = new GtnUIFrameworkPagedTableConfig();
 		projectionResultsTableConfig.setEditable(false);
 		projectionResultsTableConfig.setFilterBar(true);
@@ -879,7 +893,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionResultsTableConfig.setRegisteredWebContext("/GtnSearchWebService");
 		projectionResultsTableConfig.setModuleName("generalSearch");
 		projectionResultsTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
-
 		projectionResultsTable.setGtnPagedTableConfig(projectionResultsTableConfig);
 		componentList.add(projectionResultsTable);
 
@@ -1008,4 +1021,3 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 	}
 
 }
-
