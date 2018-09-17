@@ -39,16 +39,16 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class SaveViewPopup extends Window {
 
     @UiField("viewName")
-    private CustomTextField viewName;
+    private CustomTextField viewNameSavePopup;
     @UiField("viewOption")
-    private OptionGroup viewOption;
+    private OptionGroup viewOptionSavePopup;
     @UiField("cancel")
-    private Button cancel;
+    private Button cancelSavePopup;
     @UiField("add")
-    private Button addBtn;
+    private Button addBtnSavePopup;
     @UiField("update")
-    private Button updateBtn;
-    private ExclusionLookupDTO saveViewDTO;
+    private Button updateBtnSavePopup;
+    private ExclusionLookupDTO saveViewDTOSavePopup;
     private ExclusionDetailsLogic arLogic = new ExclusionDetailsLogic();
     public static final Logger LOGGER = LoggerFactory.getLogger(SaveViewPopup.class);
 
@@ -57,7 +57,7 @@ public class SaveViewPopup extends Window {
         addStyleName("bootstrap-bb");
         setContent(Clara.create(getClass().getResourceAsStream("/adjustment_rate_config/save-view-popup.xml"), this));
         center();
-        this.saveViewDTO = saveViewDTO;
+        this.saveViewDTOSavePopup = saveViewDTO;
         configureFields();
     }
 
@@ -66,34 +66,34 @@ public class SaveViewPopup extends Window {
         center();
         setModal(true);
         setResizable(false);
-        viewName.setImmediate(true);
-        viewOption.addItem(VariableConstants.PUBLIC);
-        viewOption.addItem(VariableConstants.PRIVATE);
-        viewOption.select(VariableConstants.PUBLIC);
-        viewOption.setImmediate(true);
-        viewOption.focus();
-        if ("publicView".equals(saveViewDTO.getViewType())) {
-            viewOption.select(VariableConstants.PUBLIC);
-        } else if ("privateView".equals(saveViewDTO.getViewType())) {
-            viewOption.select(VariableConstants.PRIVATE);
+        viewNameSavePopup.setImmediate(true);
+        viewOptionSavePopup.addItem(VariableConstants.PUBLIC);
+        viewOptionSavePopup.addItem(VariableConstants.PRIVATE);
+        viewOptionSavePopup.select(VariableConstants.PUBLIC);
+        viewOptionSavePopup.setImmediate(true);
+        viewOptionSavePopup.focus();
+        if ("publicView".equals(saveViewDTOSavePopup.getViewType())) {
+            viewOptionSavePopup.select(VariableConstants.PUBLIC);
+        } else if ("privateView".equals(saveViewDTOSavePopup.getViewType())) {
+            viewOptionSavePopup.select(VariableConstants.PRIVATE);
         }
-        if (saveViewDTO.isViewStatus()) {
-            addBtn.setEnabled(false);
-            updateBtn.setEnabled(true);
-            viewName.setValue(saveViewDTO.getViewName());
-            viewName.setImmediate(true);
-            viewOption.select(saveViewDTO.getViewType());
-            viewOption.setEnabled(false);
+        if (saveViewDTOSavePopup.isViewStatus()) {
+            addBtnSavePopup.setEnabled(false);
+            updateBtnSavePopup.setEnabled(true);
+            viewNameSavePopup.setValue(saveViewDTOSavePopup.getViewName());
+            viewNameSavePopup.setImmediate(true);
+            viewOptionSavePopup.select(saveViewDTOSavePopup.getViewType());
+            viewOptionSavePopup.setEnabled(false);
         } else {
-            addBtn.setEnabled(true);
-            updateBtn.setEnabled(false);
-            viewOption.setEnabled(true);
+            addBtnSavePopup.setEnabled(true);
+            updateBtnSavePopup.setEnabled(false);
+            viewOptionSavePopup.setEnabled(true);
         }
-        viewName.addFocusListener(new FocusListener() {
+        viewNameSavePopup.addFocusListener(new FocusListener() {
             @Override
             public void focus(FocusEvent event) {
-                viewName.addValueChangeListener(viewNameListener);
-                viewName.removeFocusListener(this);
+                viewNameSavePopup.addValueChangeListener(viewNameListener);
+                viewNameSavePopup.removeFocusListener(this);
             }
         });
 
@@ -103,21 +103,21 @@ public class SaveViewPopup extends Window {
 
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
-            addBtn.setEnabled(true);
-            updateBtn.setEnabled(false);
-            saveViewDTO.setViewStatus(false);
-            viewOption.setEnabled(true);
+            addBtnSavePopup.setEnabled(true);
+            updateBtnSavePopup.setEnabled(false);
+            saveViewDTOSavePopup.setViewStatus(false);
+            viewOptionSavePopup.setEnabled(true);
         }
     };
 
     @UiHandler("add")
     public void addButtonClick(Button.ClickEvent event) {
         try {
-            if (StringUtils.isBlank(viewName.getValue()) || "null".equals(String.valueOf(viewName.getValue()))) {
+            if (StringUtils.isBlank(viewNameSavePopup.getValue()) || "null".equals(String.valueOf(viewNameSavePopup.getValue()))) {
                 AbstractNotificationUtils.getErrorNotification("Invalid view name", "Enter the view name");
             } else {
-                if (isDuplicateView(String.valueOf(viewName.getValue()))) {
-                    if (VariableConstants.PRIVATE.equals(String.valueOf(viewOption.getValue()))) {
+                if (isDuplicateView(String.valueOf(viewNameSavePopup.getValue()))) {
+                    if (VariableConstants.PRIVATE.equals(String.valueOf(viewOptionSavePopup.getValue()))) {
                         AbstractNotificationUtils.getErrorNotification("Duplicate View Name",
                                 "The Private View name you have attempted to save is a duplicate of an existing view name. "
                                 + "\nPlease enter a different view name");
@@ -128,13 +128,13 @@ public class SaveViewPopup extends Window {
                     }
                 } else {
                     close();
-                    saveViewDTO.setViewName(String.valueOf(viewName.getValue()));
-                    saveViewDTO.setViewType(String.valueOf(viewOption.getValue()));
-                    isSaveView(saveViewDTO);
-                    if (viewOption.getValue().equals(ARMUtils.PRIVATE)) {
-                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added private view (" + saveViewDTO.getViewName() + ARMUtils.CLOSE_BRACES);
+                    saveViewDTOSavePopup.setViewName(String.valueOf(viewNameSavePopup.getValue()));
+                    saveViewDTOSavePopup.setViewType(String.valueOf(viewOptionSavePopup.getValue()));
+                    isSaveView(saveViewDTOSavePopup);
+                    if (viewOptionSavePopup.getValue().equals(ARMUtils.PRIVATE)) {
+                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added private view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_BRACES);
                     } else {
-                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added public view (" + saveViewDTO.getViewName() + ARMUtils.CLOSE_BRACES);
+                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added public view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_BRACES);
                     }
                 }
             }
@@ -156,26 +156,26 @@ public class SaveViewPopup extends Window {
     @UiHandler("update")
     public void updateButtonClick(Button.ClickEvent event) {
         int creatorAlert = 0;
-        if ((!saveViewDTO.getViewType().equals(StringUtils.EMPTY) && ("publicView".equals(saveViewDTO.getViewType()))) && (!String.valueOf(saveViewDTO.getSessionUserID()).equals(saveViewDTO.getCreatedUser()))) {
+        if ((!saveViewDTOSavePopup.getViewType().equals(StringUtils.EMPTY) && ("publicView".equals(saveViewDTOSavePopup.getViewType()))) && (!String.valueOf(saveViewDTOSavePopup.getSessionUserID()).equals(saveViewDTOSavePopup.getCreatedUser()))) {
             creatorAlert = 1;
 
         }
         try {
-            if (StringUtils.isBlank(viewName.getValue()) || "null".equals(String.valueOf(viewName.getValue()))) {
+            if (StringUtils.isBlank(viewNameSavePopup.getValue()) || "null".equals(String.valueOf(viewNameSavePopup.getValue()))) {
                 AbstractNotificationUtils.getErrorNotification("Invalid view name", "Enter the view name");
             } else if (creatorAlert != 0) {
-                AbstractNotificationUtils.getErrorNotification("Cannot update public view", "You cannot update Public View (" + saveViewDTO.getViewName() + ") because it was created by another user.You can choose to save a new profile under a different profile name");
+                AbstractNotificationUtils.getErrorNotification("Cannot update public view", "You cannot update Public View (" + saveViewDTOSavePopup.getViewName() + ") because it was created by another user.You can choose to save a new profile under a different profile name");
 
-            } else if (!viewName.getValue().equals(saveViewDTO.getViewName())) {
+            } else if (!viewNameSavePopup.getValue().equals(saveViewDTOSavePopup.getViewName())) {
                 AbstractNotificationUtils.getErrorNotification("Cannot update view name", "View  name can't be Changed");
             } else {
-                saveViewDTO.setViewStatus(true);
+                saveViewDTOSavePopup.setViewStatus(true);
                 close();
-                isSaveView(saveViewDTO);
-                if (viewOption.getValue().equals(ARMUtils.PRIVATE)) {
-                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated private view (" + saveViewDTO.getViewName() + ARMUtils.CLOSE_BRACES);
+                isSaveView(saveViewDTOSavePopup);
+                if (viewOptionSavePopup.getValue().equals(ARMUtils.PRIVATE)) {
+                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated private view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_BRACES);
                 } else {
-                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated public view (" + saveViewDTO.getViewName() + ARMUtils.CLOSE_BRACES);
+                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated public view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_BRACES);
                 }
 
             }
@@ -193,8 +193,8 @@ public class SaveViewPopup extends Window {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object saveViewobj) {
+        return super.equals(saveViewobj);
     }
 
     @Override
@@ -202,11 +202,11 @@ public class SaveViewPopup extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream saveViewobj) throws IOException {
+        saveViewobj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream saveViewobj) throws IOException, ClassNotFoundException {
+        saveViewobj.defaultReadObject();
     }
 }

@@ -96,8 +96,8 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		reportCustomViewRequest.setProductRelationshipSid(productRelationSid);
 		reportCustomViewRequest.setCustomViewType(customViewType);
 		boolean isSelectButton = (boolean) paramList.get(4);
-		if (String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit")
-				&& !isSelectButton) {
+		if (!isSelectButton
+				&& String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit")) {
 			reportCustomViewRequest.setCvSysId(
 					Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("customSid"))));
 		}

@@ -90,8 +90,8 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig relationship = new GtnUIFrameworkComponentConfig();
 		relationship.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		relationship.setComponentId("Commercial_Forecasting_customerSelectionRelationship");
 		relationship.setComponentName("Relationship");
+		relationship.setComponentId("Commercial_Forecasting_customerSelectionRelationship");
 		relationship.setAddToParent(Boolean.TRUE);
 		relationship.setParentComponentId(nameSpace + "_" + "relationshipLayout");
 
@@ -149,6 +149,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		forecastLevel.setComponentName("Forecast Level");
 		forecastLevel.setAddToParent(Boolean.TRUE);
 		forecastLevel.setParentComponentId(nameSpace + "_" + "forecastLevelLayout");
+		
 
 		GtnUIFrameworkComboBoxConfig forecastLevelConfig = new GtnUIFrameworkComboBoxConfig();
 		forecastLevel.setGtnComboboxConfig(forecastLevelConfig);
@@ -169,7 +170,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		componentList.add(customerGroupLayout);
 
 		GtnUIFrameworkComponentConfig customerGroup = new GtnUIFrameworkComponentConfig();
-		customerGroup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+		customerGroup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		customerGroup.setComponentId(nameSpace + "_" + "customerGroup");
 		customerGroup.setComponentName("Customer Group");
 		customerGroup.setAddToParent(Boolean.TRUE);

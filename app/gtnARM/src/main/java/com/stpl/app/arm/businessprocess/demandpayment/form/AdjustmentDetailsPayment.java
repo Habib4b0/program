@@ -92,7 +92,7 @@ public class AdjustmentDetailsPayment extends AbstractAdjustmentDetails {
                 : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
             if (paymentsList.contains(object.getMenuItem().getWindow())) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }

@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSummaryLogic<T> {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger RR_SUMMARY_LOGGER = LoggerFactory.getLogger(RRSummaryLogic.class);
 
     @Override
     protected String[] getTotalColumn() {
@@ -125,7 +125,7 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
     protected DataResult<T> getSummaryData(List<Object> inputs, Criteria criteria, TreeMap<String, Integer> masterSids) {
         boolean isView = criteria.getSelectionDto().getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getCurrentPage() == criteria.getLastPage())) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
-            int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString());
+            int offset = ARMUtils.getIntegerValue(inputs.get(inputs.size() - 1).toString());
             inputs.set(inputs.size() - 1, offset);
         }
         List<Object[]> data;
@@ -189,7 +189,7 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null || rrAdjustmentDto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))));
                 rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))));
             }
-            logger.debug("index-------{}", index);
+            RR_SUMMARY_LOGGER.debug("index-------{}", index);
             lastBrand = brand;
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();

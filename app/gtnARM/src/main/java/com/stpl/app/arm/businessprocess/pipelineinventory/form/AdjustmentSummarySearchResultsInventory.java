@@ -13,20 +13,24 @@ import com.stpl.app.utils.VariableConstants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMConstants;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Porchelvi.Gunasekara
  */
 public class AdjustmentSummarySearchResultsInventory extends AbstractPipelineSummaryResults {
-
+    
+    public static final Logger SUMMARY_RESULTS_LOGGER = LoggerFactory.getLogger(AdjustmentSummarySearchResultsInventory.class);
+    
     public AdjustmentSummarySearchResultsInventory(PISummaryLogic logic, PipelineInventorySelectionDTO selection) {
         super(logic, selection);
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getSummaryLogic();
+        return getSummaryLogic();
     }
 
     @Override
@@ -36,6 +40,7 @@ public class AdjustmentSummarySearchResultsInventory extends AbstractPipelineSum
 
     @Override
     public Object[] getExcelHierarchy() {
+        SUMMARY_RESULTS_LOGGER.debug("Inside getExcelHierarchy");
         Object[] value = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
             value = new Object[]{"D", "C", "T", "B", "I"};
@@ -46,46 +51,54 @@ public class AdjustmentSummarySearchResultsInventory extends AbstractPipelineSum
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
             value = new Object[]{"B", "I"};
         }
+        SUMMARY_RESULTS_LOGGER.debug("End of getExcelHierarchy");
         return value;
     }
 
     @Override
     public List getExcelExportVisibleColumn() {
+        SUMMARY_RESULTS_LOGGER.debug("Inside getExcelExportVisibleColumn");
         return getSelection().getExcelVisibleColumn();
     }
 
     @Override
     public String getExcelFileName() {
+        SUMMARY_RESULTS_LOGGER.debug("Inside getExcelFileName");
         return "Adjustment Summary";
     }
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        SUMMARY_RESULTS_LOGGER.debug("Inside getisFixedColumns");
+        return true;
     }
 
     @Override
     public int getInterval() {
+        SUMMARY_RESULTS_LOGGER.debug("Inside getInterval");
         return NumericConstants.SIX;
     }
 
     @Override
     public int discountColumnNeeded() {
+        SUMMARY_RESULTS_LOGGER.debug("Inside discountColumnNeeded");
         return 1;
     }
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        SUMMARY_RESULTS_LOGGER.debug("Inside getisDeductionCustomer");
+        return false;
     }
 
     @Override
     protected String[] getExcelVariableVisibleColumns() {
+        SUMMARY_RESULTS_LOGGER.debug("Inside getExcelVariableVisibleColumns");
         return VariableConstants.getVariableVisibleColumnDedutionPi();
     }
 
     protected void valueDdlbValueChange(String levelFilterValue, int masterSids) {
-        LOGGER.debug("Inside valueDdlbValueChange Method{}", levelFilterValue + masterSids);
+        SUMMARY_RESULTS_LOGGER.debug("Inside valueDdlbValueChange Method{}", levelFilterValue + masterSids);
 
     }
 }

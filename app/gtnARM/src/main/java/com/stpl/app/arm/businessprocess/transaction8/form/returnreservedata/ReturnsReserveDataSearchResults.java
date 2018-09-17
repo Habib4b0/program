@@ -130,7 +130,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
             setDeductionView(selection);
             setRespectiveHierarchy(selection.getReturnReserveDataDeductionView());
             configureLevelAndLevelFilter();
-            tableLogic.loadSetData(Boolean.FALSE);
+            tableLogic.loadSetData(false);
         }
     }
 
@@ -177,7 +177,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
         configureLevelAndLevelFilter();
         selectionDTO.setLevelNo(1);
         loadTableHeader(selectionDTO.getReturnReserveDataVariables());
-        tableLogic.loadSetData(Boolean.FALSE);
+        tableLogic.loadSetData(false);
     }
 
     private void procedureCall(AbstractSelectionDTO selectionDTO) {
@@ -272,7 +272,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -282,7 +282,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -292,7 +292,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -329,19 +329,19 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
         for (Object visibleColumn : visibleColumns) {
             if (!VariableConstants.GROUP_RETURNS.equals(String.valueOf(visibleColumn)) && !"month".equals(String.valueOf(visibleColumn)) && !String.valueOf(visibleColumn).contains("brand")) {
                 if (isPercentageColumnzeroDecimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, perzeroDec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, perzeroDec, false);
                 } else if (isPercentageColumn2Decimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, rate2Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, rate2Dec, false);
                 } else if (isNumericTwoDecimalFormat(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, num2Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, num2Dec, false);
                 } else if (isPercentageColumn3Decimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, rate3Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, rate3Dec, false);
                 } else if (isUnitColumn(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, zeroDec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, zeroDec, false);
                 } else if (isCurrencyZeroDecimalFormat(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, currencyzeroDec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, currencyzeroDec, false);
                 } else {
-                    excelTable.setConverter(visibleColumn, currency2Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, currency2Dec, false);
                 }
             }
         }

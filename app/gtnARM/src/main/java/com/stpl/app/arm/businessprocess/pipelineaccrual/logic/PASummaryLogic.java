@@ -46,7 +46,7 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         boolean totalFlag = false;
         if (((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getCurrentPage() == criteria.getLastPage()) && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
             totalFlag = true;
-            int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString()) - 1;
+            int offset = ARMUtils.getIntegerValue(inputs.get(inputs.size() - 1).toString()) - 1;
             inputs.set(inputs.size() - 1, offset);
         }
         List<Object[]> data;
@@ -212,8 +212,8 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionId()));
-        query = query.replace("@SELECTED_COLUMNS", getSelectVariable(selection.getSummaryvariables(), Boolean.FALSE));
-        query = query.replace("@TOTAL_COLUMN", getSelectVariable(selection.getSummaryvariables(), Boolean.TRUE));
+        query = query.replace("@SELECTED_COLUMNS", getSelectVariable(selection.getSummaryvariables(), false));
+        query = query.replace("@TOTAL_COLUMN", getSelectVariable(selection.getSummaryvariables(), true));
         return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
     }
 

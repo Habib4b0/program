@@ -103,6 +103,41 @@
             ]]>
 
     </entry>
+     <entry key="frequency">
+
+            <![CDATA[            
+                 SELECT HELPER_TABLE_SID,DESCRIPTION from HELPER_TABLE where LIST_NAME LIKE 'FORECAST_FREQUENCY' AND DESCRIPTION NOT LIKE '%LY%' ORDER BY HELPER_TABLE_SID
+            ]]>
+
+    </entry>
+    <entry key="saveview">
+
+            <![CDATA[            
+                 INSERT
+			INTO
+				FORECASTING_VIEWS(
+					VIEW_NAME,
+					VIEW_TYPE,
+					CREATED_BY,
+					CREATED_DATE,
+					MODIFIED_BY,
+					MODIFIED_DATE,
+					VIEW_DATA,
+					
+				)
+			VALUES(
+				?,
+				?,
+				?,
+				getDate(),
+				?,
+				getDate(),
+				?
+				
+			);
+            ]]>
+
+    </entry>
     <entry key="projectionSearch">
 
             <![CDATA[            
@@ -128,7 +163,8 @@
                     ON CG.COMPANY_GROUP_SID  = PM.COMPANY_GROUP_SID 
                     LEFT JOIN ITEM_GROUP IG 
                     ON IG.ITEM_GROUP_SID = PM.ITEM_GROUP_SID
-                    where PM.projection_Name like ? and PM.projection_description like ?
+                    WHERE  ISNULL(PM.IS_APPROVED,'') not in ('Y','A','C')  AND PM.SAVE_FLAG = 'true' 
+                    AND PM.FORECASTING_TYPE like 'Non Mandated' 
             ]]>
 
     </entry>

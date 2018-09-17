@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.stpl.gtn.gtn2o.registry.action.GtnForecastingDataSelectionLoadViewAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnSelectButtonEnableAction;
 import com.stpl.gtn.gtn2o.registry.config.GtnUIFrameworkDataSelectionScreenConfig;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -39,8 +41,8 @@ public class ProjectionOptionsPrivateViewLookup
 	public GtnUIFrameworkViewConfig getPrivateViewLookUpView(String namespace) {
 
 		GtnUIFrameworkViewConfig privatePublicViewLookupView = new GtnUIFrameworkViewConfig();
-		privatePublicViewLookupView.setViewName("Private View");
-		privatePublicViewLookupView.setViewId(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		privatePublicViewLookupView.setViewName(namespace+" "+"View");
+		privatePublicViewLookupView.setViewId(namespace+"_"+"lookup");
 		privatePublicViewLookupView.setDefaultView(false);
 		privatePublicViewLookupView.setResetAllowed(true);
 		addPublicPrivateViewLookupComponentList(privatePublicViewLookupView, namespace);
@@ -336,27 +338,28 @@ public class ProjectionOptionsPrivateViewLookup
 						"createdBy","businessUnit"});
 		privateViewPagedTableConfig.setQueryName("privatePublic");
                 List<String> additionalSearchCriteria = new ArrayList<>();
-		additionalSearchCriteria.add("Private");
+		additionalSearchCriteria.add(namespace);
                 additionalSearchCriteria.add("non mandated");
                 privateViewPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
 
 		privateViewPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		
 		privateViewPagedTableConfig.setSelectionListener(true);
+	
 		
-//		List<GtnUIFrameWorkActionConfig> privateViewItemClickActionConfigList = new ArrayList<>();
-//		GtnUIFrameWorkActionConfig privateViewItemClickActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//		privateViewItemClickActionConfig.addActionParameter(GtnFrameworkSelectButtonEnableActionInHierarchyLookup.class.getName());
-//		privateViewItemClickActionConfig.addActionParameter(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupSelectButton");
-//		privateViewItemClickActionConfig.addActionParameter(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-//				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
-//		privateViewItemClickActionConfigList.add(privateViewItemClickActionConfig);
-//		privateViewPagedTableConfig.setItemClickActionConfigList(privateViewItemClickActionConfigList);
-//		
-//		GtnUIFrameWorkActionConfig recordNotFoundAlertActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
-//		recordNotFoundAlertActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.INVALID_SEARCH);
-//		recordNotFoundAlertActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.VIEW_INVALID_SEARCH_MESSAGE_BODY);
-//		privateViewPagedTableConfig.setRecordTypeManageActionConfig(recordNotFoundAlertActionConfig);
+		List<GtnUIFrameWorkActionConfig> privateViewItemClickActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig privateViewItemClickActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		privateViewItemClickActionConfig.addActionParameter(GtnSelectButtonEnableAction.class.getName());
+		privateViewItemClickActionConfig.addActionParameter(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupSelectButton");
+		privateViewItemClickActionConfig.addActionParameter(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
+		privateViewItemClickActionConfigList.add(privateViewItemClickActionConfig);
+		privateViewPagedTableConfig.setItemClickActionConfigList(privateViewItemClickActionConfigList);
+		
+		GtnUIFrameWorkActionConfig recordNotFoundAlertActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+		recordNotFoundAlertActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.INVALID_SEARCH);
+		recordNotFoundAlertActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.VIEW_INVALID_SEARCH_MESSAGE_BODY);
+		privateViewPagedTableConfig.setRecordTypeManageActionConfig(recordNotFoundAlertActionConfig);
 
 		privateViewPagedTableComponent.setGtnPagedTableConfig(privateViewPagedTableConfig);
 
@@ -427,35 +430,35 @@ public class ProjectionOptionsPrivateViewLookup
 		componentList.add(privateViewSearchLookupSelectButton);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-//
-//		GtnUIFrameWorkActionConfig reportCustomerHierarchySelectAction = new GtnUIFrameWorkActionConfig();
-//		reportCustomerHierarchySelectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
-//		List<Object> actionParameter = new ArrayList<>();
-//		actionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-//				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
-//		actionParameter.add(GtnFrameworkReportStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
-//		actionParameter.add(Arrays.asList("viewNameFilter"));
-//		actionParameter.add(Arrays.asList(GtnFrameworkReportStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP));
-//		reportCustomerHierarchySelectAction.setActionParameterList(actionParameter);
-//		actionConfigList.add(reportCustomerHierarchySelectAction);
-//
-		GtnUIFrameWorkActionConfig reportCustomHierarchyClosepopup = new GtnUIFrameWorkActionConfig();
-		reportCustomHierarchyClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		reportCustomHierarchyClosepopup.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
-		actionConfigList.add(reportCustomHierarchyClosepopup);
 
-//		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
-//		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//		loadViewAction.addActionParameter(GtnReportDataSelectionLoadViewAction.class.getName());
-//		loadViewAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
-//		loadViewAction.addActionParameter("reportLandingScreen");
-//		actionConfigList.add(loadViewAction);
-//
-//		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
-//		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-//		enableAction.addActionParameter("reportLandingScreen_dsDeleteView");
-//		actionConfigList.add(enableAction);
-//		privateViewSearchLookupSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		GtnUIFrameWorkActionConfig privateViewSelectAction = new GtnUIFrameWorkActionConfig();
+		privateViewSelectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
+		List<Object> actionParameter = new ArrayList<>();
+		actionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
+		actionParameter.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		actionParameter.add(Arrays.asList("viewName"));
+		actionParameter.add(Arrays.asList("Commercial Forecasting_privateViewLookup"));
+		privateViewSelectAction.setActionParameterList(actionParameter);
+		actionConfigList.add(privateViewSelectAction);
+
+		GtnUIFrameWorkActionConfig privateViewClosepopup = new GtnUIFrameWorkActionConfig();
+		privateViewClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		privateViewClosepopup.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		actionConfigList.add(privateViewClosepopup);
+
+		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
+		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		loadViewAction.addActionParameter( GtnForecastingDataSelectionLoadViewAction.class.getName());
+		loadViewAction.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		loadViewAction.addActionParameter("Commercial Forecasting");
+		actionConfigList.add(loadViewAction);
+
+		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
+		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+		enableAction.addActionParameter("reportLandingScreen_dsDeleteView");
+		actionConfigList.add(enableAction);
+		privateViewSearchLookupSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig privateViewSearchLookupCloseButton = new GtnUIFrameworkComponentConfig();
 		privateViewSearchLookupCloseButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -466,7 +469,7 @@ public class ProjectionOptionsPrivateViewLookup
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		privateViewSearchLookupCloseButton.setAddToParent(true);
 		componentList.add(privateViewSearchLookupCloseButton);
-		privateViewSearchLookupCloseButton.addGtnUIFrameWorkActionConfig(reportCustomHierarchyClosepopup);
+		privateViewSearchLookupCloseButton.addGtnUIFrameWorkActionConfig(privateViewClosepopup);
 
 	}
 	
