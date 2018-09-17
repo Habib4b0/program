@@ -14,7 +14,6 @@ import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.model.CustomViewMaster;
 import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
 import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
@@ -282,8 +281,6 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
     @UiHandler("graphBtn")
     public void graphExport(Button.ClickEvent event) {
         LOGGER.debug("Entering graphExport");
-        graphExportLogics();
-        LOGGER.debug("Ending graphExport");
     }
 
     @UiHandler("expandBtn")
@@ -346,58 +343,12 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
 
     protected abstract void customDdlbChangeOptionLogic();
 
-    protected abstract void graphExportLogics();
-
     protected abstract void expandButtonLogic();
 
     protected abstract void collapseButtonLogic();
 
     private void replaceComponent() {
-        if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(flavourName)) {
-            if (Constant.MM.equalsIgnoreCase(session.getMarketTypeValue()) || Constant.MANAGED_MEDICAID.equalsIgnoreCase(session.getMarketTypeValue())) {
-              dprGridLayoutScreen.replaceComponent(labelVar, labelPivotView);
-              dprGridLayoutScreen.replaceComponent(variableMenu, pivotViewOpg);
-                discountOpgLabel.setVisible(true);
-                discountOpg.setVisible(true);
-                labelTherapeutic.setVisible(false);
-                labelBrand.setVisible(false);
-                therapeuticClass.setVisible(false);
-                brand.setVisible(false);
-                optionalLayout.setVisible(false);
-                graphBtn.setVisible(false);
-                excelBtn.setVisible(true);
-                groupDdlb.setVisible(false);
-                groupDdlbLabel.setVisible(false);
-                levelDdlb.setVisible(false);
-                levelFilterDdlb.setVisible(false);
-                expandBtn.setVisible(false);
-                collapseBtn.setVisible(false);
-                viewOpg.setVisible(false);
-                newBtn.setVisible(false);
-                levelLab.setVisible(false);
-                levelFilterLab.setVisible(false);
-                viewLab.setVisible(false);
-                variableMenu.setVisible(false);
-                labelVar.setVisible(false);
-                
-                
-            } else {
-                discountOpgLabel.setVisible(true);
-                discountOpg.setVisible(true);
-                optionalLayout.setVisible(true);
-                labelTherapeutic.setVisible(false);
-                labelBrand.setVisible(false);
-                therapeuticClass.setVisible(false);
-                brand.setVisible(false);
-                graphBtn.setVisible(true);
-                excelBtn.setVisible(true);
-                groupDdlb.setVisible(false);
-                groupDdlbLabel.setVisible(false);
-                labelVar.setVisible(false);
-                dprGridLayoutScreen.replaceComponent(labelVar, labelPivotView);
-                dprGridLayoutScreen.replaceComponent(variableMenu, pivotViewOpg);
-            }
-        } else if (CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equalsIgnoreCase(flavourName) || CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(flavourName)) {
+            if ( CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(flavourName)) {
             dprGridLayoutScreen.replaceComponent(discountOpgLabel, labelActualsProjections);
             dprGridLayoutScreen.replaceComponent(discountOpg, actualOrProjectionsOpg);
             dprGridLayoutScreen.replaceComponent(discountOpgLabel, labelVar);

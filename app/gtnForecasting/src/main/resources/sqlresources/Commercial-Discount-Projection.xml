@@ -3054,7 +3054,7 @@ LEFT JOIN (SELECT ccp_details_sid,
                          Sum(QUANTITY) QUANTITY
                   FROM   ACTUALS_DETAILS w
                   WHERE  EXISTS (SELECT 1
-                                 FROM   ST_NM_DISCOUNT_PROJ_MASTER_20156_053104711_180905 r
+                                 FROM   ST_NM_DISCOUNT_PROJ_MASTER r
                                  WHERE  r.CCP_DETAILS_SID = w.CCP_DETAILS_SID
                                         AND r.RS_MODEL_SID = w.RS_MODEL_SID)
                          AND QUANTITY_INCLUSION = 'Y'

@@ -38,7 +38,7 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
 
     private boolean creditFlag;
     
-    private AbstractSelectionDTO reforecastSelection;
+    private final AbstractSelectionDTO reforecastSelection;
 
     public AdjustmentDetailReforecast(AbstractSelectionDTO selectionDto) {
         super(new DRDetailsLogic(), selectionDto);
@@ -99,7 +99,7 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
                 : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
             if (list.contains(object.getMenuItem().getWindow())) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }

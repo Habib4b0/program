@@ -57,7 +57,7 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 
 		List<String> itemIdlist = response.getItemCodeList();
 		List<String> itemValueList = response.getItemValueList();
-		List<Object[]> selectedVariables = new ArrayList<>();
+		List<Object[]> selectedVariables = new ArrayList<>(itemIdlist.size());
 		for (int i = 0; i < itemIdlist.size(); i++) {
 			Object[] dataArray = new Object[6];
 			dataArray[0] = itemValueList.get(i);
@@ -69,7 +69,7 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 			if (rowType.equals("Expandable")) {
 				dataArray[4] = itemIdlist.get(i);
 				response = getHelperValues("REPORT_VARIABLES_STATIC");
-				List<Object[]> selectedVariablesValues = new ArrayList<>();
+				List<Object[]> selectedVariablesValues = new ArrayList<>(response.getItemCodeList().size());
 				for (int j = 0; j < response.getItemCodeList().size(); j++) {
 					Object[] subDataArray = new Object[6];
 					subDataArray[0] = response.getItemValueList().get(j);

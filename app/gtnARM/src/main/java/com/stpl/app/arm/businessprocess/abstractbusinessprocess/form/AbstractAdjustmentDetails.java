@@ -179,7 +179,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
         tableLogic.setContainerDataSource(resultsContainer);
         setTableHeader();
         resultsTable.setSizeFull();
-        resultsTable.setSelectable(Boolean.FALSE);
+        resultsTable.setSelectable(false);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -429,7 +429,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                 : VariableConstants.getAmountFilterOptionsGtn());
         for (CustomMenuBar.CustomMenuItem object : amountFilterItem.getChildren()) {
             if (list.contains(object.getMenuItem().getCaption())) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }

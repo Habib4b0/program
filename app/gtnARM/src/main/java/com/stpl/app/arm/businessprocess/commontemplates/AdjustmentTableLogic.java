@@ -32,7 +32,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
 
     private LogicAble<T> logic;
     private AbstractSelectionDTO selection;
-    private boolean isGenerate = Boolean.TRUE;
+    private boolean isGenerate = true;
     public static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentTableLogic.class);
 
     public AdjustmentTableLogic(LogicAble<T> logic, AbstractSelectionDTO selection) {
@@ -100,7 +100,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
         this.clearAll();
         isGenerate = isReset;
         setCurrentPage(1);
-        return Boolean.TRUE;
+        return true;
     }
 
     protected int getSiblingCount() {

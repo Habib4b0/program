@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
-    private final Logger detailsLogger = LoggerFactory.getLogger(DADetailsLogic.class);
+    private static final Logger DETAILS_LOGGER = LoggerFactory.getLogger(DADetailsLogic.class);
 
     @Override
     public List<List> getReserveAccountDetails(AbstractSelectionDTO demandSelection, Boolean isReserve) {
@@ -96,25 +96,25 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
-        detailsLogger.debug("Inside getExcelResultList");
+        DETAILS_LOGGER.debug("Inside getExcelResultList");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected String getTableNameForView() {
-        detailsLogger.debug("Inside getTableNameForView");
+        DETAILS_LOGGER.debug("Inside getTableNameForView");
         return "ARM_DEMAND_ADJ_SUMMARY";
     }
 
     @Override
     protected String getTableNameForEdit() {
-        detailsLogger.debug("Inside getTableNameForEdit");
+        DETAILS_LOGGER.debug("Inside getTableNameForEdit");
         return "ST_ARM_DEMAND_ADJ_SUMMARY";
     }
 
     @Override
     protected CharSequence getRateColumn() {
-        detailsLogger.debug("Inside getRateColumn");
+        DETAILS_LOGGER.debug("Inside getRateColumn");
         return "B.PROJECTED_RATE";
     }
 

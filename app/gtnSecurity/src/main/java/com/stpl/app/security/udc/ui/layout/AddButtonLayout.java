@@ -59,7 +59,6 @@ public class AddButtonLayout extends HorizontalLayout {
 				try {
 					binder.getFields();
 					binder.commit();
-					try {
 					
 						String success = udcLogic.saveHelperTable(binder);
 					                                   if (success.equals("success")) {
@@ -75,11 +74,6 @@ public class AddButtonLayout extends HorizontalLayout {
                                             notif.setStyleName("mystyle");
                                             notif.show(Page.getCurrent());
                                         }
-
-                                    } catch (Exception e) {
-                                        LOGGER.error(e.getMessage());
-
-                                    }
 
 				} catch (CommitException e) {
 					LOGGER.error(e.getMessage());
