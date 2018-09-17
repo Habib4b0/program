@@ -28,8 +28,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.implementation.ComboBoxSearch;
 import com.stpl.gtn.gtn2o.ws.search.implementation.CustomerAndProductGroup;
 import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
-//import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
-import com.stpl.gtn.gtn2o.ws.search.implementation.SaveViewExecution;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
@@ -50,7 +48,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
     GtnSearchwebServiceSqlService gtnSearchSqlService;
 
     private Map<String, SearchInterface> keyMap = null;
-    Map<String, String> queryMap = null;
+    private Map<String, String> queryMap = null;
 
     public void init() {
         logger.info("Entering into init method of searchWebservice");
@@ -96,7 +94,6 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             keyMap.put("dataSelectionDeduction", new ComboBoxSearch());
             keyMap.put("CustomerGroup", new CustomerAndProductGroup());
             keyMap.put("ProductGroup", new CustomerAndProductGroup());
-            keyMap.put("saveview", new SaveViewExecution());
         }
         SearchInterface searchInterface = keyMap.get(key);
         GtnUIFrameworkWebserviceResponse response;
