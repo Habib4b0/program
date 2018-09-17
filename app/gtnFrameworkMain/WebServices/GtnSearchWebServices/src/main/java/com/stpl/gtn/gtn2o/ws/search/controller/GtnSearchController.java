@@ -22,41 +22,48 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class GtnSearchController extends GtnServiceRegistryImplClass {
-    
-    private GtnSearchController()
-    {
-        super();
-        initializeLogger();
-    }
-    
-    @Autowired
-    GtnGeneralSearchService gtnGeneralSearch;
-    
-    @PostConstruct
-    public void initializeLogger()
-    {
-        super.logInformation(GtnSearchController.class);
-    }
-    @GetMapping(value="/searchTest")
-    public boolean test()
-    {
-        return true;
-    }
-    @PostMapping(value="/gtnSearch")
-    public GtnUIFrameworkWebserviceResponse gtnGeneralSearch
-                            (@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest)
-    {
-        logger.info("entering into general search controller");
-        GtnUIFrameworkWebserviceResponse response;
-        response=gtnGeneralSearch.commonMethod(gtnUiFrameworkWebservicerequest);
-        return response;
-    }
-    @PostMapping(value="/forecastingPagedTableSearch")
-        public GtnUIFrameworkWebserviceResponse gtnPagedTableSearch
-                            (@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest)
-                            {
-                                GtnUIFrameworkWebserviceResponse response;
-                                response=gtnGeneralSearch.pagedTableSearch(gtnUiFrameworkWebservicerequest);
-                                return response;
-                            }
+
+	private GtnSearchController() {
+		super();
+		initializeLogger();
+	}
+
+	@Autowired
+	GtnGeneralSearchService gtnGeneralSearch;
+
+	@PostConstruct
+	public void initializeLogger() {
+		super.logInformation(GtnSearchController.class);
+	}
+
+	@GetMapping(value = "/searchTest")
+	public boolean test() {
+		return true;
+	}
+
+	@PostMapping(value = "/gtnSearch")
+	public GtnUIFrameworkWebserviceResponse gtnGeneralSearch(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
+		logger.info("entering into general search controller");
+		GtnUIFrameworkWebserviceResponse response;
+		response = gtnGeneralSearch.commonMethod(gtnUiFrameworkWebservicerequest);
+		return response;
+	}
+
+	@PostMapping(value = "/forecastingPagedTableSearch")
+	public GtnUIFrameworkWebserviceResponse gtnPagedTableSearch(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
+		GtnUIFrameworkWebserviceResponse response;
+		response = gtnGeneralSearch.pagedTableSearch(gtnUiFrameworkWebservicerequest);
+		return response;
+	}
+
+	@PostMapping(value = "/gtnForecastSaveView")
+	public GtnUIFrameworkWebserviceResponse gtnForecastSaveView(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
+		logger.info("entering into general search controller");
+		GtnUIFrameworkWebserviceResponse response;
+		response = gtnGeneralSearch.saveView(gtnUiFrameworkWebservicerequest);
+		return response;
+	}
 }
