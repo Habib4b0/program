@@ -2,8 +2,6 @@ package com.stpl.gtn.gtn2o.ws.search.implementation;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.web.client.RestTemplate;
 
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
@@ -23,6 +21,7 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	    {
 	        super(CustomerAndProductGroup.class);
 	    }
+	   
 
 
 	    @Override
@@ -30,9 +29,11 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        return null;
 	    }
 
-	    @Override
-	    public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,String query) {
-	        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+
+		@Override
+		public GtnUIFrameworkWebserviceResponse getSearch(
+				GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query) {
+			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 	        try
 	        {
 	    	GtnSerachResponse searchResponse = new GtnSerachResponse();
@@ -77,5 +78,7 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	            logger.error("Exception in loading private and public views"+e);
 	        }
 	        return response;
-	    }
+		}
+
+	    
 }
