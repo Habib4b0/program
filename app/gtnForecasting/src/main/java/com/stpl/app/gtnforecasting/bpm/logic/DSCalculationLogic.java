@@ -18,7 +18,6 @@ public class DSCalculationLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DSCalculationLogic.class);
     private DSCalculationLogic() {
         // DSCalculationLogic
     }

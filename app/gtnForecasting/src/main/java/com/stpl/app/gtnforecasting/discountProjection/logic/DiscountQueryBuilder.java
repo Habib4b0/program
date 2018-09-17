@@ -711,8 +711,7 @@ public class DiscountQueryBuilder {
                         .append("WHERE  DM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID  AND RS.RS_NAME IS NOT NULL ")
                         .append(" ) ORDER  BY DISCOUNT_NAME,RS_CONTRACT_SID ");
             }
-            List result = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sb.toString(), session.getCurrentTableNames()));
-            return result;
+            return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sb.toString(), session.getCurrentTableNames()));
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sb.toString());
@@ -891,9 +890,8 @@ public class DiscountQueryBuilder {
         }
         framedInQueryString = framedInQueryStringBuilder.toString();
         framedInQueryString = framedInQueryString.substring(0, framedInQueryString.length() - 1);
-        String framedQuery = "SELECT DISTINCT DEDUCTION_HIERARCHY_NO FROM ST_NM_DISCOUNT_PROJ_MASTER  WHERE RS_CONTRACT_SID in ("+framedInQueryString+")";
+        return "SELECT DISTINCT DEDUCTION_HIERARCHY_NO FROM ST_NM_DISCOUNT_PROJ_MASTER  WHERE RS_CONTRACT_SID in ("+framedInQueryString+")";
         
-        return framedQuery;
     }
      
     public static List getRSHierarchyNo(List<String> discountList,SessionDTO session) {
@@ -958,8 +956,7 @@ public class DiscountQueryBuilder {
         } else {
             currentHierarchyIndicator = hierarchyIndicator;
         }
-        String joinQuery = getHierarchyJoinQuery(isCustom, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, currentHierarchyIndicator, userGroup,sessionDTO);
-        return joinQuery;
+        return getHierarchyJoinQuery(isCustom, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, currentHierarchyIndicator, userGroup,sessionDTO);
     }
 
     public String getHierarchyJoinQuery(boolean isCustomHierarchy, String customerHierarchyNo, String productHierarchyNo, String deductionHierarchyNo, String hierarchyIndicator, final String userGroup,final SessionDTO sessionDTO) {
