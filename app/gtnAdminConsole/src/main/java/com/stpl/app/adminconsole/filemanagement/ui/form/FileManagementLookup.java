@@ -1684,7 +1684,7 @@ public class FileManagementLookup extends Window {
 			@SuppressWarnings("PMD")
 			public void buttonClick(final Button.ClickEvent event) {
 
-				if (selectClose == true && saveflag == false) {
+				if (selectClose  && !saveflag ) {
 					MessageBox
 							.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION,
 									"Are you sure you want to close the File Lookup ?\n"
@@ -1817,7 +1817,7 @@ public class FileManagementLookup extends Window {
 					if (ConstantsUtils.EMPTY.equals(fileNameList.getValue()) || fileNameList.getValue() == null) {
 						AbstractNotificationUtils.getErrorNotification("Select Error", CommonUtils.PLEASE_CLICK_RECORD);
 					} else {
-						if (selectClose == true && saveflag == false) {
+						if (selectClose && !saveflag ) {
 							MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION,
 									"File/version has been updated but has not be saved. "
 											+ ConstantsUtils.QUESTION_MARK,

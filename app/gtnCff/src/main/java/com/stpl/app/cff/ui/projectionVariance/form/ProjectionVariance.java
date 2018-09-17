@@ -119,7 +119,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private List<String> projNameList = new ArrayList<>();
     private List<Integer> projIdList = new ArrayList<>();
     private final ProjectionVarianceLogic pvLogic = new ProjectionVarianceLogic();
-    private ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainerDto = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
     private int tradingPartnerNo = 0;
     /**
      * The graph image.
@@ -127,7 +126,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private final Resource graphImage = new ThemeResource("../../icons/chart.png");
     private boolean isComparisonLookupOpened;
     private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
-    private final List<Integer> comparisonProjId = new ArrayList<>();
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap = new HashMap();
     private final Map<String, Object> excelParentRecords = new HashMap();
@@ -150,7 +148,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     public static final String SELECT_VALUES = "-Select Values-";
     public static final String SELECT_LEVEL = "-Select Level-";
     public static final String TEN_STRING_VALUE = "10";
-    private List<String[]> deductionLevel = new ArrayList<>();
     private List<String> tempdeductionLevel = new ArrayList<>();
     private List<String> tempCustomerLevel = new ArrayList<>();
     private List<String> tempProductLevel = new ArrayList<>();
@@ -335,6 +332,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     @Override
     protected void comparisonLookupLogic() {
         LOGGER.debug("Comparision lookup started");
+        List<Integer> comparisonProjId = new ArrayList<>();
         if (editFlag) {
             editFlag = false;
             try {
@@ -467,7 +465,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             rightHeaderPeriod = (CustomTableHeaderDTO) headerPropertyIds.get(0);
             pvSelectionDTO.setRightHeaderPeriod(rightHeaderPeriod);
             alignRight();
-            resultBeanContainerDto = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
+            ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainerDto = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
             resultBeanContainerDto.setColumnProperties(leftHeader.getProperties());
             resultBeanContainerDto.setColumnProperties(rightHeader.getProperties());
             tableLogic.setScreenName(screenName);
@@ -2195,7 +2193,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void loadDedutionLevel() {
-        deductionLevel = CommonLogic.getDeductionLevel(sessionDTO.getProjectionId());
+        List<String[]> deductionLevel = CommonLogic.getDeductionLevel(sessionDTO.getProjectionId());
         CommonLogic.loadDdlbForDeduction(deductionlevelDdlb, deductionLevel);
         deductionlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override

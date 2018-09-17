@@ -1114,12 +1114,12 @@ public class ExistingDiscountTab extends CustomComponent {
     private ContractsDetailsDto cfp = null;
     private ContractsDetailsDto ifp = null;
     private ContractsDetailsDto priceSchedule = null;
-    private ContractsDetailsDto rebateSchedule = null;
+    
     
     public void saveTree(final Collection list) {
+      ContractsDetailsDto rebateSchedule = null;  
         LOGGER.debug("Entering saveTree method");
         try {
-
             for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
                 final Object idValue = iterator.next();
                 final ContractsDetailsDto temp = getBeanFromID(idValue);

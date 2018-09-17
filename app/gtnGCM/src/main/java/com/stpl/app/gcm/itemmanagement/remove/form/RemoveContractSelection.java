@@ -29,7 +29,7 @@ public class RemoveContractSelection extends CustomComponent {
     private List selectedItemList;
     private AbstractComponentInfo componentDetails;
     private RemoveContractSearch contractSearch;
-    private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
+    
 
     public RemoveContractSelection(SelectionDTO selection, List selectedItemList) {
         try {
@@ -63,6 +63,7 @@ public class RemoveContractSelection extends CustomComponent {
     }
 
     protected void resultsItemClick(final Object obj) {
+        AbstractContractSearchDTO componentInfoDTO;
         if (obj == null) {
             componentInfoDTO = null;
         } else {

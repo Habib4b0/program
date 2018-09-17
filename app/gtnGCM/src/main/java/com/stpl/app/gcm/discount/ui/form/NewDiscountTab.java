@@ -1935,10 +1935,10 @@ public class NewDiscountTab extends CustomComponent {
     private ContractsDetailsDto cfp = null;
     private ContractsDetailsDto ifp = null;
     private ContractsDetailsDto priceSchedule = null;
-    private ContractsDetailsDto rebateSchedule = null;
 
     public void saveTree(final Collection list, int rsModelSysId, String category) {
         LOGGER.debug("Entering saveTree method");
+        ContractsDetailsDto rebateSchedule = null;
         try {
 
             for (final Iterator iterator = list.iterator(); iterator.hasNext();) {

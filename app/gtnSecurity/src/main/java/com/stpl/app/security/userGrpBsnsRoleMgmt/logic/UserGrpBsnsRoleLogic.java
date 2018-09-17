@@ -23,6 +23,7 @@ import com.stpl.app.security.userGrpBsnsRoleMgmt.dto.UserGrpBsnsRoleDTO;
 import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.vaadin.v7.data.util.BeanItemContainer;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,7 +114,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
 			Long selUsrGrpId1 = usrDto.getUserGroupMap().get(usrDto.getSelUserGroupId());
 			int selUsrGrpId = Integer.parseInt(String.valueOf(selUsrGrpId1));
 			List<String> list = usrDto.getSelectedBusinessRole();
-			HashMap<String, Integer> brMap = usrDto.getBusinessRoleMap();
+			Map<String, Integer> brMap = usrDto.getBusinessRoleMap();
 			List idList = new ArrayList<Integer>();
 
 			Iterator<String> iter = list.iterator();
