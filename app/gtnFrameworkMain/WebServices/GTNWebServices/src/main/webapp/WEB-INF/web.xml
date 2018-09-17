@@ -26,8 +26,9 @@
 	</filter-mapping>
 	<servlet>
 		<servlet-name>GTNRestController</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>0</load-on-startup>
+                <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<servlet-class>com.stpl.gtn.gtn2o.ws.module.GtnWsTest</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>GTNRestController</servlet-name>
