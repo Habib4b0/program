@@ -5,7 +5,11 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
+import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
@@ -16,6 +20,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.VerticalLayout;
 import java.util.Arrays;
@@ -105,10 +110,30 @@ public class GtnReportDashboardValuesResetAction
 				Arrays.asList(new Object[] { "0", "0", "", "0", "0", "0", "", "", "", "", "", "" }));
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetAction);
               
-                VerticalLayout treeGridLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD+GtnFrameworkCommonConstants.RESULT_TABLE,componentId).getComponent();
+              	VerticalLayout treeGridLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD+GtnFrameworkCommonConstants.RESULT_TABLE,componentId).getComponent();
                 TreeGrid<GtnWsRecordBean> treeGrid = (TreeGrid<GtnWsRecordBean>) treeGridLayout.getComponent(0);
                 treeGrid.setDataProvider(new TreeDataProvider<>(new TreeData<GtnWsRecordBean>()));
                 treeGrid.removeAllColumns();
+                
+                
+//                AbstractComponent componentData = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD+GtnFrameworkCommonConstants.RESULT_TABLE,componentId).getComponent();
+//        		PagedTreeGrid grid = (PagedTreeGrid) componentData.getData();
+////        		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+//        		grid.resetGridToInitialState();
+//		
+                /*GtnUIFrameworkComponentConfig c = new GtnUIFrameworkComponentConfig();
+        		GtnUIFrameworkPagedTreeTableConfig check = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD+GtnFrameworkCommonConstants.RESULT_TABLE,componentId).getComponentConfig().getGtnPagedTreeTableConfig();
+        		check.setItemPerPage(10);
+        	//	check.remove
+        		c.setGtnPagedTreeTableConfig(check);*/
+        		
+        		
+        		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+        				.getVaadinComponentData(GtnFrameworkReportStringConstants.REPORT_DASHBOARD+GtnFrameworkCommonConstants.RESULT_TABLE,componentId);
+        		PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
+        		grid.resetGridToInitialState();
+        		
+
         }
 
 	private String getComparisonValue(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
