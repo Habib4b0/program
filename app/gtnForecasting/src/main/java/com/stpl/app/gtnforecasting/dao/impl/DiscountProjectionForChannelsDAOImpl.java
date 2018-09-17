@@ -97,7 +97,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                         hierarchyNo = StringUtils.EMPTY;
                     } else {
                         List<String> hierarchyNoList = getHierarchyList(projectionId, hierarchy, hierarchyNo, levelNo, start, offset);
-                        hierarchyNumbers = CommonUtils.CollectionToString(hierarchyNoList, true);
+                        hierarchyNumbers = CommonUtils.collectionToStringMethod(hierarchyNoList, true);
                     }
 
                     if (hierarchyNumbers.isEmpty()) {
@@ -445,8 +445,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             String selectedPeriods;
             String masterTableUpdateQuery;
 
-            baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
-            selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
+            baselinePeriods = CommonUtils.collectionToStringMethod(baselinePeriodsList, false, true);
+            selectedPeriods = CommonUtils.collectionToStringMethod(selectedPeriodsList, false, true);
 
             LOGGER.debug(" Baseline Periods= {} " , baselinePeriods);
             LOGGER.debug(" Selected Periods= {} " , selectedPeriods);
@@ -468,7 +468,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 period = "CAST(PR.\"YEAR\" AS char(4))";
             }
 
-            String selectedPeriodsToUpdate = CommonUtils.CollectionToString(selectedPeriodsList, false);
+            String selectedPeriodsToUpdate = CommonUtils.collectionToStringMethod(selectedPeriodsList, false);
             selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
             selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace(Constant.Q, StringUtils.EMPTY).replace(Constant.S, StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
             String discountProjectionTableUpdateQuery = queryUtils.discountProjectionTableUpdateQuery(adjustmentType, adjustmentBasis, allocationMethodology, adjustmentValue, projectionId, discountName, userId, sessionId, period, selectedPeriodsToUpdate);

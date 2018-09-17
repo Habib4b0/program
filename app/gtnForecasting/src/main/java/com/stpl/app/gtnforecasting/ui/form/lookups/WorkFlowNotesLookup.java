@@ -265,7 +265,7 @@ public class WorkFlowNotesLookup extends Window {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                setSUBMIT_FLAG("Success");
+                setSUBMITFLAG("Success");
                 close();
             }
         });
@@ -459,11 +459,11 @@ public class WorkFlowNotesLookup extends Window {
         }
     }
 
-	public static String getSUBMIT_FLAG() {
+	public static String getSUBMITFLAG() {
 		return SUBMIT_FLAG;
 	}
 
-	public static void setSUBMIT_FLAG(String sumbitFlag) {
+	public static void setSUBMITFLAG(String sumbitFlag) {
 		SUBMIT_FLAG = sumbitFlag;
 	}
 }

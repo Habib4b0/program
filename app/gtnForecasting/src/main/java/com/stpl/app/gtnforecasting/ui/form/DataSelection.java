@@ -1637,13 +1637,13 @@ public class DataSelection extends ForecastDataSelection {
 			projectionDetailsSid.addAll((List<Integer>) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil
 					.getQuery("getProjectionDetailsQuery").replace("@HIERARCHY_TABLE", "PROJECTION_CUST_HIERARCHY")
 					.replace("@PROJECTION_SID", String.valueOf(session.getProjectionId()))
-					.replace("@HIERARCHYNO", CommonUtils.CollectionToString(customerRemovedLevels, true))));
+					.replace("@HIERARCHYNO", CommonUtils.collectionToStringMethod(customerRemovedLevels, true))));
 		}
 		if (!productRemovedLevels.isEmpty()) {
 			projectionDetailsSid.addAll((List<Integer>) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil
 					.getQuery("getProjectionDetailsQuery").replace("@HIERARCHY_TABLE", "PROJECTION_PROD_HIERARCHY")
 					.replace("@PROJECTION_SID", String.valueOf(session.getProjectionId()))
-					.replace("@HIERARCHYNO", CommonUtils.CollectionToString(productRemovedLevels, true))));
+					.replace("@HIERARCHYNO", CommonUtils.collectionToStringMethod(productRemovedLevels, true))));
 		}
 		if (!customerRemovedLevels.isEmpty()) {
 			dsLogicProj.deleteTempOnUpdate("PROJECTION_CUST_HIERARCHY", session.getProjectionId(),
@@ -1674,7 +1674,7 @@ public class DataSelection extends ForecastDataSelection {
 				Constant.CUSTOMER1_SMALL, session.getProjectionId());
 
 		if (!projectionDetailsSid.isEmpty()) {
-			deleteProjectionDetailstable(CommonUtils.CollectionToString(projectionDetailsSid, true), propertyName);
+			deleteProjectionDetailstable(CommonUtils.collectionToStringMethod(projectionDetailsSid, true), propertyName);
 		}
 	}
 

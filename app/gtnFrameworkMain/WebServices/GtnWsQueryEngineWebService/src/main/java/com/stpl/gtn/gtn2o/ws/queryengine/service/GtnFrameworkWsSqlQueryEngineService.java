@@ -22,13 +22,7 @@ public class GtnFrameworkWsSqlQueryEngineService extends GtnServiceRegistryImplC
 	private volatile GtnFrameworkWsSqlQueryEngine gtnSqlQueryEngine;
 
 	public GtnFrameworkWsSqlQueryEngineService() {
-		super();
-		initializeLogger();
-	}
-
-	@PostConstruct
-	public final void initializeLogger() {
-		super.logInformation(GtnFrameworkWsSqlQueryEngineService.class);
+		super(GtnFrameworkWsSqlQueryEngineService.class);
 	}
 
 	public GtnFrameworkWsSqlQueryEngine getGtnSqlQueryEngine() {
@@ -39,7 +33,8 @@ public class GtnFrameworkWsSqlQueryEngineService extends GtnServiceRegistryImplC
 		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
 	}
 
-	public GtnFrameworkQueryResponseBean executeQuery(GtnFrameworkQueryExecutorBean queryExecutorBean) throws GtnFrameworkGeneralException {
+	public GtnFrameworkQueryResponseBean executeQuery(GtnFrameworkQueryExecutorBean queryExecutorBean)
+			throws GtnFrameworkGeneralException {
 		GtnWsQueryType queryType = Enum.valueOf(GtnWsQueryType.class,
 				queryExecutorBean.getQueryType().toUpperCase(Locale.ENGLISH));
 		logger.info("Executing Query Type" + queryType);

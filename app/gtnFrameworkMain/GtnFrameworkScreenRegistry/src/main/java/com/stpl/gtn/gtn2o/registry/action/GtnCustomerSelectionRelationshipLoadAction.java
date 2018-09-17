@@ -36,7 +36,7 @@ public class GtnCustomerSelectionRelationshipLoadAction
 			List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = relationshipMap
 					.get(String.valueOf(recordBean.getPropertyValueByIndex(7)));
 			List<String> relationshipCaptionList = new ArrayList<>();
-			List relationshipIdList = new ArrayList<>();
+			List<Integer> relationshipIdList = new ArrayList<>();
 
 			ObjectMapper mapper = new ObjectMapper();
 
@@ -48,9 +48,11 @@ public class GtnCustomerSelectionRelationshipLoadAction
 				relationshipCaptionList.add(relationshipBuilderBean.getRelationshipName());
 				relationshipIdList.add(relationshipBuilderBean.getRelationshipBuilderSid());
 			}
-			
+
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2))
-					.addAllItemsToComboBox(relationshipCaptionList, relationshipIdList);
+					.loadItemsToCombobox(relationshipCaptionList, relationshipIdList);
+
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(params.get(2).toString()).loadV8ComboBoxComponentValue(0);
 
 		} catch (Exception ex) {
 			logger.error("Error", ex);
