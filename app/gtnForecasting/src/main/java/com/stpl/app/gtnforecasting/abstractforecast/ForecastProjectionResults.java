@@ -23,8 +23,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.FrequencyConstants.*;
 import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.*;
 import static com.stpl.app.gtnforecasting.utils.Constant.ResourceConstants.*;
 import static com.stpl.app.gtnforecasting.utils.Constant.SessionConstants.*;
-import com.stpl.app.gtnforecasting.utils.NmSPRGraphWindow;
-import com.stpl.app.gtnforecasting.utils.PRChart;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
@@ -646,17 +644,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         exceltable.setRefresh(true);
     }
 
-    /**
-     * Button Click Listener for Graph Export.
-     *
-     * @param event
-     */
-    @UiHandler("graphBtn")
-    public void graphExport(Button.ClickEvent event) {
-        LOGGER.debug("graphExport clickEvent method starts");
-        graphExportLogic();
-        LOGGER.debug("graphExport clickEvent method ends");
-    }
 
     /**
      * Expand button logic.
@@ -688,33 +675,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
-    }
-
-    /**
-     * Graph Export logic for all forecast modules.
-     */
-    public void graphExportLogic() {
-        LOGGER.debug("graphExportLogic method starts");
-
-        List<ProjectionResultsDTO> chartiLst = new ArrayList<>();
-        if (resultBeanContainer.size() > 0) {
-            for (Object itemId : resultBeanContainer.getItemIds(0, resultBeanContainer.size())) {
-                ProjectionResultsDTO dto = (ProjectionResultsDTO) itemId;
-                if ((resultBeanContainer.areChildrenAllowed(itemId) && dto.getGroup().contains("Total Discount"))
-                        || (!resultBeanContainer.areChildrenAllowed(itemId) && !dto.getGroup().contains(Constant.PROJECTION_TOTAL))) {
-                    chartiLst.add(dto);
-                }
-
-            }
-        }
-        if (projectionSelectionDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-            projectionSelectionDTO.setActualsOrProjections("Actuals and Projections");
-        }
-        final PRChart chart = new PRChart(chartiLst, projectionSelectionDTO, fullHeader);
-        final NmSPRGraphWindow prGraphWindow = new NmSPRGraphWindow(chart.getChart(), TAB_PROJECTION_RESULTS.getConstant());
-        UI.getCurrent().addWindow(prGraphWindow);
-        prGraphWindow.focus();
-        LOGGER.debug("graphExportLogic method ends");
     }
 
     /**

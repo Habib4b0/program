@@ -111,7 +111,7 @@ public class DPRLogic {
                     projSelDTO.setHierarchyIndicator(indicator);
                     projSelDTO.setLevelNo(0);
                     projSelDTO.setTreeLevelNo(0);
-                    projSelDTO.setCustomLevelNo(0);;
+                    projSelDTO.setCustomLevelNo(0);
                 } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
                     projSelDTO.setLevelNo(projSelDTO.getCustomerLevelNo() - 1);
                     projSelDTO.setTreeLevelNo(projSelDTO.getCustomerLevelNo() - 1);

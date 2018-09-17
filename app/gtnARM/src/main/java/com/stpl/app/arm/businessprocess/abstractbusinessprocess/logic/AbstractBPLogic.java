@@ -13,6 +13,7 @@ import com.stpl.app.arm.supercode.ExcelInterface;
 import com.stpl.app.arm.supercode.LogicAble;
 import com.stpl.app.arm.supercode.OriginalDataResult;
 import com.stpl.app.arm.supercode.SelectionDTO;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.xmlparser.SQlUtil;
@@ -167,7 +168,7 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
 
     private void setHelperSidColumn(ExtListDTO obj, Object objects, String variables) {
         String desc;
-        int value = objects == null || StringUtils.isBlank(String.valueOf(objects)) ? 0 : Integer.valueOf(String.valueOf(objects));
+        int value = objects == null || StringUtils.isBlank(String.valueOf(objects)) ? 0 : ARMUtils.getIntegerValue(String.valueOf(objects));
         if (value > 0) {
             desc = idDescMap.get(value) == null ? StringUtils.EMPTY : idDescMap.get(value);
             obj.addStringProperties(variables, desc);

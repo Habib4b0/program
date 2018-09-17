@@ -574,7 +574,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             hiearchyNoList.add(tempLevelValue);
         }
 
-        String hierarchyNumbers = CommonUtils.CollectionToString(hiearchyNoList, true);
+        String hierarchyNumbers = CommonUtils.collectionToStringMethod(hiearchyNoList, true);
 
         List<String> customViewDetails = new ArrayList<>();
         List customDetailsList = new ArrayList();

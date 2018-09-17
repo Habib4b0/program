@@ -525,8 +525,8 @@ public class DiscountProjectionLogic {
             baselinePeriodsList = discountName.getValue().get(baselineIndicator);
             selectedPeriodsList = discountName.getValue().get("P");
 
-            baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
-            selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
+            baselinePeriods = CommonUtils.collectionToStringMethod(baselinePeriodsList, false, true);
+            selectedPeriods = CommonUtils.collectionToStringMethod(selectedPeriodsList, false, true);
 
             baselinePeriods = baselinePeriods.replace(", ", ",");
             selectedPeriods = selectedPeriods.replace(", ", ",");
@@ -649,7 +649,7 @@ public class DiscountProjectionLogic {
                 customViewDetails.add(deductionLevelNo);
                 try {
                     if (isCustomHierarchy && CommonUtil.isValueEligibleForLoading()) {
-                        discountName = CommonUtils.CollectionToString(session.getSelectedRsForCustom(), false);
+                        discountName = CommonUtils.collectionToStringMethod(session.getSelectedRsForCustom(), false);
                     } else {
                         discountName = isProgram ? dto.getDiscountName().contains("~") ? dto.getDiscountName().split("~")[1] : dto.getDiscountName() : dto.getDiscountName().contains("~") ? dto.getDiscountName().split("~")[0] : dto.getDiscountName();
                     }
@@ -793,7 +793,7 @@ public class DiscountProjectionLogic {
             query = "UPDATE ST_NM_DISCOUNT_PROJ_MASTER \n"
                     + "SET CHECK_RECORD = " + (isCheck ? Constant.STRING_ONE : DASH) + '\n';
             if (session.getCustomId() != 0) {
-                String discountId = CommonUtils.CollectionToString(session.getSelectedRsForCustom(), false);
+                String discountId = CommonUtils.collectionToStringMethod(session.getSelectedRsForCustom(), false);
                 if (isCheckList) {
                     query += " WHERE RS_CONTRACT_SID IN (SELECT RS_CONTRACT_SID FROM RS_CONTRACT WHERE RS_CONTRACT_SID NOT IN (" + discountId + "))";
                 } else {

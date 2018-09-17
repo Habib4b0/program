@@ -17,15 +17,20 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -78,6 +83,28 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 
 		return resultLayout;
 	}
+        
+        private void resetGridFilter(PagedGrid baseComponent)
+        {
+             int count = baseComponent.getGrid().getHeaderRowCount();
+              List<Component> componentList =  new ArrayList<>(baseComponent.getGrid().getHeaderRow(count-1).getComponents());
+              for(Component component : componentList){
+                 HorizontalLayout horizontalComponent = (HorizontalLayout) component;
+                 Component comp = horizontalComponent.getComponent(0);
+                  if(comp instanceof TextField){
+                      ((TextField) comp).clear();
+                      ((TextField) comp).setPlaceholder(GtnFrameworkCssConstants.SHOW_ALL);
+                  }
+                   if(comp instanceof DateField){
+                      ((DateField) comp).clear();
+                      ((DateField) comp).setPlaceholder(GtnFrameworkCssConstants.SHOW_ALL);
+                  }
+                   if(comp instanceof ComboBox){
+                      ((ComboBox) comp).clear();
+                      ((ComboBox) comp).setPlaceholder(GtnFrameworkCssConstants.SHOW_ALL);
+                  }
+              }
+        }
 
 	private void addSelectionListener(GtnUIFrameworkComponentConfig componentConfig, PagedGrid pagedGrid) {
 		if (componentConfig.getGtnPagedTableConfig().getItemClickActionConfigList() != null) {
@@ -108,6 +135,7 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
 		PagedGrid baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentData()
 				.getPagedGrid();
+        resetGridFilter(baseComponent);
 		baseComponent.getGrid().setItems(Collections.emptyList());
 		if (!componentConfig.getGtnPagedTableConfig().isPaginationOff()){
 		HorizontalLayout controlLayout = baseComponent.getControlLayout();

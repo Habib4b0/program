@@ -238,13 +238,13 @@ public class PPAProjectionLogic {
           PPAQuerys.setTableName(session.getCurrentTableNames());
         if (propertyId.equals(Constant.GROUP)) {
             input = getInputForSaveGroup(projectionId, dto.getValue().toString(), dto.getHirarechyNo(), dto.getGroup(), selection);
-            PPAQuerys.PPAUpdate(input, "PPA.massupdate-group");
+            PPAQuerys.ppaUpdate(input, "PPA.massupdate-group");
 
         } else if (propertyId.contains(Constant.PRICECAP)) {
             String freq = String.valueOf(propertyId.charAt(1));
             String year = String.valueOf(propertyId.substring(NumericConstants.TWO, NumericConstants.SIX));
             input = getInputForSavePriceCap(projectionId, dto, dto.getValue().toString(),  freq, year, selection);
-            PPAQuerys.PPAUpdate(input, "PPA.savePriceCap");
+            PPAQuerys.ppaUpdate(input, "PPA.savePriceCap");
         } else if (propertyId.contains(Constant.RESET_SMALL)) {
             String freq = String.valueOf(propertyId.charAt(1));
             String year = String.valueOf(propertyId.substring(NumericConstants.TWO, NumericConstants.SIX));
@@ -253,7 +253,7 @@ public class PPAProjectionLogic {
             } else {
                 input = getInputForSavePriceCap(projectionId, dto, DASH,  freq, year, selection);
             }
-            PPAQuerys.PPAUpdate(input, "PPA.saveReset");
+            PPAQuerys.ppaUpdate(input, "PPA.saveReset");
         } else if (propertyId.contains(Constant.CHECK_RECORD)) {
                   
             if ((dto.getValue() != null) && (Boolean.parseBoolean(dto.getValue().toString()))) {
@@ -261,7 +261,7 @@ public class PPAProjectionLogic {
             } else {
                 input = getInputForSaveCheckRecord(projectionId, dto, DASH, selection);
             }
-            PPAQuerys.PPAUpdate(input, "PPA.saveCheckRecord");
+            PPAQuerys.ppaUpdate(input, "PPA.saveCheckRecord");
         }
         return BooleanConstant.getTrueFlag();
 
@@ -491,7 +491,7 @@ public class PPAProjectionLogic {
             input.add(0);
         }
         input.add(group);
-        PPAQuerys.PPAUpdate(input, "PPA.saveAllCheckRecord");
+        PPAQuerys.ppaUpdate(input, "PPA.saveAllCheckRecord");
 
     }
 

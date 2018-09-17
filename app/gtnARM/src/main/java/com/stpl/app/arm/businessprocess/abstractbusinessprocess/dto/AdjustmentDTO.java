@@ -51,7 +51,7 @@ public class AdjustmentDTO extends ExtListDTO implements InterFaceDTO {
     private String period = StringUtils.EMPTY;
     private int levelNo = 0;
     private String levelValue;
-    private Boolean childrenAllowed = true;
+    private Boolean childrenAllowed = Boolean.TRUE;
     private String levelName = StringUtils.EMPTY;
     private Integer brandSID = 0;
     private Integer[] masterSids = new Integer[NumericConstants.FIVE];
@@ -78,7 +78,7 @@ public class AdjustmentDTO extends ExtListDTO implements InterFaceDTO {
     private Double excelTotalpPipelineAccrual = 0.0;
     private Double excelTotalpipelineRatio = 0.0;
 
-    private Boolean calculateFlag = false;
+    private Boolean calculateFlag = Boolean.FALSE;
     private Integer demandsummaryindexAdd = 0;
 
     private Integer companySid = 0;

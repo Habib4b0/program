@@ -78,7 +78,7 @@ public class InventoryCustomerLookup extends Window {
     private List<String> customerGroupList = new ArrayList<>();
     private AbstractSelectionDTO selectionDto;
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryCustomerLookup.class);
-    private boolean submitted = Boolean.FALSE;
+    private boolean submitted = false;
     private Window instance = null;
 
     public InventoryCustomerLookup(int projectionId, AbstractSelectionDTO selectionDto) {
@@ -192,11 +192,11 @@ public class InventoryCustomerLookup extends Window {
             indicator.setImmediate(true);
             Object nullItem = indicator.addItem();
             indicator.setNullSelectionItemId(nullItem);
-            indicator.addItem(true);
-            indicator.addItem(false);
+            indicator.addItem(Boolean.TRUE);
+            indicator.addItem(Boolean.FALSE);
             indicator.setItemCaption(nullItem, GlobalConstants.getSelectOne());
-            indicator.setItemCaption(true, "+");
-            indicator.setItemCaption(false, "-");
+            indicator.setItemCaption(Boolean.TRUE, "+");
+            indicator.setItemCaption(Boolean.FALSE, "-");
             indicator.select(nullItem);
         } catch (Exception e) {
             LOGGER.error("Error in loadIndicatorDDLB :", e);
@@ -246,7 +246,7 @@ public class InventoryCustomerLookup extends Window {
                 public void yesMethod() {
                     loadCustomerGroupList();
                     pipelineLogic.saveCustomerGroupValue(resultsContainer.getItemIds(), projectionId, selectionDto);
-                    submitted = Boolean.TRUE;
+                    submitted = true;
                     instance.close();
                 }
             }.getConfirmationMessage("Confirm Submit", ARMMessages.getCLookUpSubmitConfirmTransaction3());

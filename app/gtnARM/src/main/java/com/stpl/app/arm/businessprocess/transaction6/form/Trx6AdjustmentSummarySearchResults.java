@@ -14,12 +14,16 @@ import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMConstants;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Srithar
  */
 public class Trx6AdjustmentSummarySearchResults extends AbstractPipelineSummaryResults {
+    
+    public static final Logger LOGGER_TX6_SUMMARY = LoggerFactory.getLogger(Trx6AdjustmentSummarySearchResults.class);
 
     public Trx6AdjustmentSummarySearchResults(Trx6SummaryLogic logic, Trx6SelectionDTO selection) {
         super(logic, selection);
@@ -37,6 +41,7 @@ public class Trx6AdjustmentSummarySearchResults extends AbstractPipelineSummaryR
 
     @Override
     public Object[] getExcelHierarchy() {
+        LOGGER_TX6_SUMMARY.debug("Inside getExcelHierarchy");
         Object[] value = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
             value = new Object[]{"D", "C", "T", "B", "I"};
@@ -47,41 +52,49 @@ public class Trx6AdjustmentSummarySearchResults extends AbstractPipelineSummaryR
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
             value = new Object[]{"B", "I"};
         }
+        LOGGER_TX6_SUMMARY.debug("End of getExcelHierarchy");
         return value;
     }
 
     @Override
     public List getExcelExportVisibleColumn() {
+        LOGGER_TX6_SUMMARY.debug("Inside getExcelHierarchy");
         return getSelection().getExcelVisibleColumn();
     }
 
     @Override
     public String getExcelFileName() {
+        LOGGER_TX6_SUMMARY.debug("Inside getExcelFileName");
         return "Adjustment Summary";
     }
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        LOGGER_TX6_SUMMARY.debug("Inside getisFixedColumns");
+        return true;
     }
 
     @Override
     public int getInterval() {
+        LOGGER_TX6_SUMMARY.debug("Inside getInterval");
         return NumericConstants.SIX;
     }
 
     @Override
     public int discountColumnNeeded() {
+        LOGGER_TX6_SUMMARY.debug("Inside discountColumnNeeded");
         return 1;
     }
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        LOGGER_TX6_SUMMARY.debug("Inside getisDeductionCustomer");
+        return false;
     }
 
     @Override
     protected String[] getExcelVariableVisibleColumns() {
+        LOGGER_TX6_SUMMARY.debug("Inside getExcelVariableVisibleColumns");
         return ARMUtils.getVariableVisibleColumnTrx6Decution();
     }
 

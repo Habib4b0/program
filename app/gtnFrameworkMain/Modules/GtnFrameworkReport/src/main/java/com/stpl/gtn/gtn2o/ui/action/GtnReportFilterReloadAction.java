@@ -23,65 +23,59 @@ public class GtnReportFilterReloadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
 	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		return;
-	}
-
-	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
-		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
-		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-		reportRequest.setDataSelectionBean(dataSelectionBean);
-		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnWsGeneralRequest(generalRequest);
-		request.setGtnWsReportRequest(reportRequest);
-		GtnWsReportDashboardFilterBean filterBean = new GtnWsReportDashboardFilterBean();
-		filterBean.setHierarchyType(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(2)));
-		filterBean
+		String sourceFilterReloadComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+		GtnWsReportDataSelectionBean dataSelectionBeanFilterReload = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(sourceFilterReloadComponentId).getComponentData().getSharedPopupData();
+		GtnWsReportRequest reportFilterReloadRequest = new GtnWsReportRequest();
+		GtnWsGeneralRequest generalFilterReloadRequest = new GtnWsGeneralRequest();
+		reportFilterReloadRequest.setDataSelectionBean(dataSelectionBeanFilterReload);
+		generalFilterReloadRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+		GtnUIFrameworkWebserviceRequest filterReloadRequest = new GtnUIFrameworkWebserviceRequest();
+		filterReloadRequest.setGtnWsGeneralRequest(generalFilterReloadRequest);
+		filterReloadRequest.setGtnWsReportRequest(reportFilterReloadRequest);
+		GtnWsReportDashboardFilterBean filterReloadBean = new GtnWsReportDashboardFilterBean();
+		filterReloadBean.setHierarchyType(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(2)));
+		filterReloadBean
 				.setCustomerLevelNo(GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(
 								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(3)), componentId)
 						.getIntegerFromV8ComboBox());
-		filterBean
+		filterReloadBean
 				.setProductLevelNo(GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(
 								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(4)), componentId)
 						.getIntegerFromV8ComboBox());
-		filterBean
+		filterReloadBean
 				.setDeductionLevelNo(GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(
 								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(5)), componentId)
 						.getIntegerFromV8ComboBox());
-		filterBean
+		filterReloadBean
 				.setSelectedCustomerList(GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(
 								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(6)), componentId)
 						.getSelectedListFromV8MultiSelect());
-		filterBean
+		filterReloadBean
 				.setSelectedProductList(GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(
 								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(7)), componentId)
 						.getSelectedListFromV8MultiSelect());
-		filterBean
+		filterReloadBean
 				.setSelectedDeductionList(GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(
 								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(8)), componentId)
 						.getSelectedListFromV8MultiSelect());
-		reportRequest.setFilterBean(filterBean);
+		reportFilterReloadRequest.setFilterBean(filterReloadBean);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_FILTER_SERVICE + GtnWsReportConstants.GTN_WS_REPORT_FILTER_LOAD_SERVICE,
-				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				"report", filterReloadRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		if (response != null) {
 			GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = response
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
 			if (comboBoxResponse != null) {
-				List<Object> itemsToBeSelected = getItemCodeList(filterBean, comboBoxResponse);
+				List<Object> itemsToBeSelected = getItemCodeList(filterReloadBean, comboBoxResponse);
 				GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(
 								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)), componentId)
@@ -100,36 +94,35 @@ public class GtnReportFilterReloadAction
 			GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse) {
 		List<Object> itemsToBeSelected = new ArrayList<>();
 		if (filterBean.getHierarchyType().equals("C")) {
-			for (int i = 0; i < comboBoxResponse.getItemCodeList().size(); i++) {
-				for (int j = 0; j < filterBean.getSelectedCustomerList().size(); j++) {
-					if (String.valueOf(filterBean.getSelectedCustomerList().get(j))
-							.equals(String.valueOf(comboBoxResponse.getItemCodeList().get(i)))) {
-						itemsToBeSelected.add(Integer.valueOf(comboBoxResponse.getItemCodeList().get(i)));
-					}
-				}
-			}
+			fillItemsToBeSelectedList(comboBoxResponse.getItemCodeList(), filterBean.getSelectedCustomerList(),
+					itemsToBeSelected);
 		}
 		if (filterBean.getHierarchyType().equals("P")) {
-			for (int i = 0; i < comboBoxResponse.getItemCodeList().size(); i++) {
-				for (int j = 0; j < filterBean.getSelectedProductList().size(); j++) {
-					if (String.valueOf(filterBean.getSelectedProductList().get(j))
-							.equals(String.valueOf(comboBoxResponse.getItemCodeList().get(i)))) {
-						itemsToBeSelected.add(Integer.valueOf(comboBoxResponse.getItemCodeList().get(i)));
-					}
-				}
-			}
+			fillItemsToBeSelectedList(comboBoxResponse.getItemCodeList(), filterBean.getSelectedProductList(),
+					itemsToBeSelected);
 		}
 		if (filterBean.getHierarchyType().equals("D")) {
-			for (int i = 0; i < comboBoxResponse.getItemCodeList().size(); i++) {
-				for (int j = 0; j < filterBean.getSelectedDeductionList().size(); j++) {
-					if (String.valueOf(filterBean.getSelectedDeductionList().get(j))
-							.equals(String.valueOf(comboBoxResponse.getItemCodeList().get(i)))) {
-						itemsToBeSelected.add(Integer.valueOf(comboBoxResponse.getItemCodeList().get(i)));
-					}
+			fillItemsToBeSelectedList(comboBoxResponse.getItemCodeList(), filterBean.getSelectedDeductionList(),
+					itemsToBeSelected);
+		}
+		return itemsToBeSelected;
+	}
+
+	private void fillItemsToBeSelectedList(List<String> itemCodeList, List<Object> selectedList,
+			List<Object> itemsToBeSelected) {
+		for (int i = 0; i < itemCodeList.size(); i++) {
+			for (int j = 0; j < selectedList.size(); j++) {
+				if (String.valueOf(selectedList.get(j)).equals(String.valueOf(itemCodeList.get(i)))) {
+					itemsToBeSelected.add(Integer.valueOf(itemCodeList.get(i)));
 				}
 			}
 		}
-		return itemsToBeSelected;
+	}
+
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		return;
 	}
 
 	@Override
