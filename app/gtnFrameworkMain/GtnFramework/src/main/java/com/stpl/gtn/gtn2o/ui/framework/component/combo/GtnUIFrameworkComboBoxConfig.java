@@ -37,7 +37,8 @@ public class GtnUIFrameworkComboBoxConfig {
 	private String actualWsContext;
 	private String actualWsModuleName;
 
-	public boolean isFocus() {
+        
+        public boolean isFocus() {
 		return isFocus;
 	}
 
