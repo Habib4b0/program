@@ -241,7 +241,7 @@ public class DiscountProjectionResultsLogic {
                     int user = Integer.parseInt(userId);
                     int session = Integer.parseInt(sessionId);
                     String freq = String.valueOf(proSelDTO.getFrequency());
-                    String discountString = CommonUtils.CollectionToString(discountList, true);
+                    String discountString = CommonUtils.collectionToStringMethod(discountList, true);
                     if (discountString.equals(StringUtils.EMPTY)) {
                         discountString = ZERO_SYMBOL;
                     }
@@ -307,7 +307,7 @@ public class DiscountProjectionResultsLogic {
                     String sessionId = String.valueOf(projSelDTO.getSessionId());
                     int user = Integer.parseInt(userId);
                     int session = Integer.parseInt(sessionId);
-                    String discountString = CommonUtils.CollectionToString(discountList, true);
+                    String discountString = CommonUtils.collectionToStringMethod(discountList, true);
 
                     if (discountString.equals(StringUtils.EMPTY)) {
                         discountString = ZERO_SYMBOL;
