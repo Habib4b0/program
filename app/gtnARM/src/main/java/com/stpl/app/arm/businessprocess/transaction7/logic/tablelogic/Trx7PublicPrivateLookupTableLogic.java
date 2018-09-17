@@ -7,6 +7,7 @@ package com.stpl.app.arm.businessprocess.transaction7.logic.tablelogic;
 
 import com.stpl.app.arm.adjustmentrateconfiguration.dto.ViewLookupDTO;
 import com.stpl.app.arm.businessprocess.transaction7.logic.Trx7ExclusionDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.Collections;
@@ -31,7 +32,7 @@ public class Trx7PublicPrivateLookupTableLogic extends PageTableLogic {
         try {
             if (isPrivateGenerate) {
                 List<Object> count = tr7logic.getSavedViewList(exRateDTO, true, 0, 0, null, this.getFilters());
-                return Integer.valueOf(count.get(0).toString());
+                return ARMUtils.getIntegerValue(count.get(0).toString());
             }
             return 0;
         } catch (Exception ex) {

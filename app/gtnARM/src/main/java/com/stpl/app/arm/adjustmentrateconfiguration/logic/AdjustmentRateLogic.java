@@ -115,7 +115,7 @@ public class AdjustmentRateLogic {
                 int rateConfigDetailsSid = CommonLogic.getIntegerValue(0, obj);
                 int month = CommonLogic.getIntegerValue(NumericConstants.TWO, obj);
                 int dateType = CommonLogic.getIntegerValue(NumericConstants.THREE, obj);
-                String value = (String.valueOf(obj[NumericConstants.FOUR]).matches("^[-+]?\\d+(\\.\\d+)?$") ? getHelpDescriptionValue(Integer.valueOf(obj[NumericConstants.FOUR].toString())) : String.valueOf(obj[NumericConstants.FOUR]));
+                String value = (String.valueOf(obj[NumericConstants.FOUR]).matches("^[-+]?\\d+(\\.\\d+)?$") ? getHelpDescriptionValue(ARMUtils.getIntegerValue(obj[NumericConstants.FOUR].toString())) : String.valueOf(obj[NumericConstants.FOUR]));
                 String price = obj[NumericConstants.FOUR] == null || StringUtils.isBlank(String.valueOf(obj[NumericConstants.FOUR])) || "0".equals(obj[NumericConstants.FOUR]) ? GlobalConstants.getSelectOne()
                         : value;
                 int rateBasis = CommonLogic.getIntegerValue(NumericConstants.SEVEN, obj);

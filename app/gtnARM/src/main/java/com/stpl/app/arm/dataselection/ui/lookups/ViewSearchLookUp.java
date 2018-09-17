@@ -47,29 +47,29 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class ViewSearchLookUp extends Window {
 
     @UiField("viewNameEpl")
-    private TextField viewNameEpl;
+    private TextField levelViewNameEpl;
 
     @UiField("searchBtn")
-    private Button searchBtn;
+    private Button levelSearchBtn;
 
     @UiField("resetBtn")
-    private Button resetBtn;
+    private Button levleResetBtn;
 
     @UiField("selectBtn")
-    private Button selectBtn;
+    private Button levelselectBtn;
 
     @UiField("resultsTableLayout")
-    private VerticalLayout resultsTableLayout;
+    private VerticalLayout levelResultsTableLayout;
     @UiField("viewLayout")
-    private HorizontalLayout viewLayout;
+    private HorizontalLayout levelViewLayout;
 
-    private OptionGroup viewTypeOptionGroup = new OptionGroup();
+    private OptionGroup viewTypeOptionGroupLevel = new OptionGroup();
 
     private PrivatePublicViewtableLogic tableLogic = new PrivatePublicViewtableLogic();
 
-    private BeanItemContainer<ViewDTO> resultsContainer = new BeanItemContainer<>(ViewDTO.class);
+    private BeanItemContainer<ViewDTO> resultsContainerLevel = new BeanItemContainer<>(ViewDTO.class);
 
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private ExtPagedTable resultsTableLevel = new ExtPagedTable(tableLogic);
     private ViewDTO viewDTO = new ViewDTO();
     public static final Logger LOGGER = LoggerFactory.getLogger(PrivatePublicLookUp.class);
     private boolean selected;
@@ -88,7 +88,7 @@ public class ViewSearchLookUp extends Window {
     }
 
     private void configureLookUp() {
-        viewNameEpl.focus();
+        levelViewNameEpl.focus();
         setDraggable(true);
         setClosable(true);
         center();
@@ -104,10 +104,10 @@ public class ViewSearchLookUp extends Window {
     @UiHandler("searchBtn")
     public void searchButtonLogic(Button.ClickEvent event) {
         loadResultsTable();
-        if (StringUtils.isBlank(String.valueOf(viewNameEpl.getValue())) || resultsTable.size() == 0) {
+        if (StringUtils.isBlank(String.valueOf(levelViewNameEpl.getValue())) || resultsTableLevel.size() == 0) {
             AbstractNotificationUtils.getErrorNotification("Error",
                     "There are no Views that match the search criteria. Please try again");
-            resultsTable.removeAllItems();
+            resultsTableLevel.removeAllItems();
         } else {
             CommonUtils.successNotification("Search Completed");
         }
@@ -135,9 +135,9 @@ public class ViewSearchLookUp extends Window {
     @UiHandler("selectBtn")
     public void selectButtonLogic(Button.ClickEvent event) {
         try {
-            if (resultsTable.getValue() != null) {
-                viewDTO = (ViewDTO) resultsTable.getValue();
-                setSelected(Boolean.TRUE);
+            if (resultsTableLevel.getValue() != null) {
+                viewDTO = (ViewDTO) resultsTableLevel.getValue();
+                setSelected(true);
                 close();
             }
         } catch (Exception ex) {
@@ -148,7 +148,7 @@ public class ViewSearchLookUp extends Window {
 
     @UiHandler("closeBtn")
     public void closeButtonLogic(Button.ClickEvent event) {
-        setSelected(Boolean.FALSE);
+        setSelected(false);
         close();
     }
 
@@ -156,39 +156,39 @@ public class ViewSearchLookUp extends Window {
         tableLogic.setTempPageLength(10);
         tableLogic.setItemsPerPage(10);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        tableLogic.setContainerDataSource(resultsContainer);
-        resultsTable.setVisibleColumns(new Object[]{"viewName", CommonConstant.CREATED_DATE, CommonConstant.MODIFIED_DATE, "createdByString"});
-        resultsTable.setColumnHeaders(new String[]{"View Name", "Created Date", "Modified Date", "Created By"});
-        for (Object propertyId : resultsTable.getVisibleColumns()) {
+        tableLogic.setContainerDataSource(resultsContainerLevel);
+        resultsTableLevel.setVisibleColumns(new Object[]{"viewName", CommonConstant.CREATED_DATE, CommonConstant.MODIFIED_DATE, "createdByString"});
+        resultsTableLevel.setColumnHeaders(new String[]{"View Name", "Created Date", "Modified Date", "Created By"});
+        for (Object propertyId : resultsTableLevel.getVisibleColumns()) {
             if (propertyId.equals(CommonConstant.CREATED_DATE) || propertyId.equals(CommonConstant.MODIFIED_DATE)) {
-                resultsTable.setColumnAlignment(propertyId, ExtCustomTable.Align.CENTER);
+                resultsTableLevel.setColumnAlignment(propertyId, ExtCustomTable.Align.CENTER);
             }
         }
-        resultsTable.setSelectable(true);
-        resultsTable.addStyleName(ARMUtils.FILTER_TABLE);
-        resultsTable.addStyleName("table-header-normal");
-        resultsTable.setFilterBarVisible(true);
-        resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        resultsTable.setFilterGenerator(new ViewFilterGenerator());
-        resultsTable.setImmediate(true);
-        resultsTable.setSizeFull();
-        resultsTable.setConverter(CommonConstant.CREATED_DATE, new DateToStringConverter("MM/dd/yyyy hh:mm:ss"));
-        resultsTable.setConverter(CommonConstant.MODIFIED_DATE, new DateToStringConverter("MM/dd/yyyy hh:mm:ss"));
-        resultsTable.setConverter("fromPeriod", new DateToStringConverter());
-        resultsTable.setConverter("toPeriod", new DateToStringConverter());
-        selectBtn.setEnabled(false);
+        resultsTableLevel.setSelectable(true);
+        resultsTableLevel.addStyleName(ARMUtils.FILTER_TABLE);
+        resultsTableLevel.addStyleName("table-header-normal");
+        resultsTableLevel.setFilterBarVisible(true);
+        resultsTableLevel.setFilterDecorator(new ExtDemoFilterDecorator());
+        resultsTableLevel.setFilterGenerator(new ViewFilterGenerator());
+        resultsTableLevel.setImmediate(true);
+        resultsTableLevel.setSizeFull();
+        resultsTableLevel.setConverter(CommonConstant.CREATED_DATE, new DateToStringConverter("MM/dd/yyyy hh:mm:ss"));
+        resultsTableLevel.setConverter(CommonConstant.MODIFIED_DATE, new DateToStringConverter("MM/dd/yyyy hh:mm:ss"));
+        resultsTableLevel.setConverter("fromPeriod", new DateToStringConverter());
+        resultsTableLevel.setConverter("toPeriod", new DateToStringConverter());
+        levelselectBtn.setEnabled(false);
 
-        resultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+        resultsTableLevel.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
             @Override
             public void itemClick(ItemClickEvent event) {
                 if (event.getItem() != null) {
-                    selectBtn.setEnabled(true);
+                    levelselectBtn.setEnabled(true);
                 }
             }
         });
-        resultsTableLayout.addComponent(resultsTable);
-        resultsTableLayout.addComponent(getResponsiveControls(tableLogic.createControls()));
+        levelResultsTableLayout.addComponent(resultsTableLevel);
+        levelResultsTableLayout.addComponent(getResponsiveControls(tableLogic.createControls()));
         tableLogic.configureSearchData(false, StringUtils.EMPTY, "", screenName);
     }
 
@@ -201,10 +201,10 @@ public class ViewSearchLookUp extends Window {
     }
 
     public void resetFields() {
-        viewNameEpl.setValue(StringUtils.EMPTY);
-        resultsContainer.removeAllItems();
-        resultsTable.removeAllItems();
-        viewTypeOptionGroup.select(ARMUtils.PUBLIC);
+        levelViewNameEpl.setValue(StringUtils.EMPTY);
+        resultsContainerLevel.removeAllItems();
+        resultsTableLevel.removeAllItems();
+        viewTypeOptionGroupLevel.select(ARMUtils.PUBLIC);
     }
 
     public boolean isSelected() {
@@ -217,25 +217,25 @@ public class ViewSearchLookUp extends Window {
 
     void loadResultsTable() {
         LOGGER.debug("Entering Load Results Table");
-        tableLogic.configureSearchData(true, viewNameEpl.getValue(), viewTypeOptionGroup.getValue().toString(), screenName);
-        resultsTable.addStyleName(ARMUtils.FILTER_TABLE);
-        resultsTable.addStyleName("table-header-normal");
-        resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        resultsTable.setFilterGenerator(new ViewFilterGenerator());
-        resultsTable.setImmediate(true);
+        tableLogic.configureSearchData(true, levelViewNameEpl.getValue(), viewTypeOptionGroupLevel.getValue().toString(), screenName);
+        resultsTableLevel.addStyleName(ARMUtils.FILTER_TABLE);
+        resultsTableLevel.addStyleName("table-header-normal");
+        resultsTableLevel.setFilterDecorator(new ExtDemoFilterDecorator());
+        resultsTableLevel.setFilterGenerator(new ViewFilterGenerator());
+        resultsTableLevel.setImmediate(true);
 
-        resultsTable.setSelectable(true);
-        resultsTable.markAsDirtyRecursive();
+        resultsTableLevel.setSelectable(true);
+        resultsTableLevel.markAsDirtyRecursive();
         LOGGER.debug("Ending Load Results Table");
 
     }
 
     private void configuerFields() {
-        viewLayout.addComponent(viewTypeOptionGroup);
-        viewTypeOptionGroup.addItem(ARMUtils.PUBLIC);
-        viewTypeOptionGroup.addItem(ARMUtils.PRIVATE);
-        viewTypeOptionGroup.select(ARMUtils.PUBLIC);
-        viewTypeOptionGroup.addStyleName("horizontal");
+        levelViewLayout.addComponent(viewTypeOptionGroupLevel);
+        viewTypeOptionGroupLevel.addItem(ARMUtils.PUBLIC);
+        viewTypeOptionGroupLevel.addItem(ARMUtils.PRIVATE);
+        viewTypeOptionGroupLevel.select(ARMUtils.PUBLIC);
+        viewTypeOptionGroupLevel.addStyleName("horizontal");
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

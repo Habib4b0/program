@@ -23,8 +23,6 @@ import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
-import com.stpl.app.gtnforecasting.utils.NmSPRGraphWindow;
-import com.stpl.app.gtnforecasting.utils.SPRChart;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.security.StplSecurity;
@@ -932,10 +930,6 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 chartList.add(dto);
             }
         }
-        final SPRChart chart = new SPRChart(chartList, fullHeader, projectionDTO);
-        final NmSPRGraphWindow salesGraphWindow = new NmSPRGraphWindow(chart.getChart(), SALES_RESULTS);
-        UI.getCurrent().addWindow(salesGraphWindow);
-        salesGraphWindow.focus();
         LOGGER.info("graphExportLogic method ends");
     }
 

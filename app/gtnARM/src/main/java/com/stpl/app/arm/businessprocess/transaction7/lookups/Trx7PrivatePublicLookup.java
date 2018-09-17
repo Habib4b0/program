@@ -194,7 +194,7 @@ public class Trx7PrivatePublicLookup extends Window {
         try {
             if (resultsTable.size() != 0 && resultsTable.getValue() != null) {
                 ViewLookupDTO viewDTO = (ViewLookupDTO) resultsTable.getValue();
-                viewDTO.setCheckFlag(true);
+                viewDTO.setCheckFlag(Boolean.TRUE);
                 setSelectFlag(true);
                 setDtoValue(viewDTO);
                 this.close();

@@ -221,10 +221,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     private boolean isHeaderIsAvail(Date frmDate, Date toDate, int totalMonth, List<String> selectedAdjustmentType) {
         LOGGER.debug("selectedAdjustmentType.size()-->>{}", selectedAdjustmentType.size());
         LOGGER.debug("totalMonth-->{}", totalMonth);
-        if (!selectedAdjustmentType.isEmpty() && (toDate.equals(frmDate) || toDate.after(frmDate))) {
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
+        return (!selectedAdjustmentType.isEmpty() && (toDate.equals(frmDate) || toDate.after(frmDate)));
     }
 
     @Override
@@ -319,7 +316,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
         if ((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO)))
                 && (criteria.getCurrentPage() == criteria.getLastPage()) && criteria.getSelectionDto().getSummarylevelFilterNo() == 0 && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) {
             totalFlag = true;
-            int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString()) - 1;
+            int offset = ARMUtils.getIntegerValue(inputs.get(inputs.size() - 1).toString()) - 1;
             inputs.set(inputs.size() - 1, offset);
         }
         List<Object[]> list = QueryUtils.getItemData(inputs, VariableConstants.ADJUSTMENT_SUMMARY, "AdjustmnetSummaryLoadData");
@@ -389,7 +386,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
 
     @Override
     public Boolean generateButtonCheck(SelectionDTO selection) {
-        return true;
+        return Boolean.TRUE;
 
     }
 

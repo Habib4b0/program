@@ -53,7 +53,7 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
                 if (val != null && !"0".equals(val.toString().replace("$", StringUtils.EMPTY))) {
                     value = Double.valueOf(val.toString().trim().replaceAll("[^\\-\\d.]", StringUtils.EMPTY));
                 }
-                dto.setCalculateFlag(true);
+                dto.setCalculateFlag(Boolean.TRUE);
             } catch (NumberFormatException e) {
                 if (!isEmptied) {
                     return;

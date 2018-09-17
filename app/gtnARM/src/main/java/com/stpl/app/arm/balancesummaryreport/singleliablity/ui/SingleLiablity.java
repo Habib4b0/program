@@ -21,7 +21,7 @@ public class SingleLiablity extends AbstractBSummaryReportSummary {
     /**
      * SummaryLogic logic has all depended methods for all summary logic classes
      */
-    public final Logger singleLiablityLogger = LoggerFactory.getLogger(SingleLiablity.class);
+    public static final Logger SINGLE_LIABLITY_LOGGER = LoggerFactory.getLogger(SingleLiablity.class);
     
     private SingleLiablityResults results;
 
@@ -42,31 +42,31 @@ public class SingleLiablity extends AbstractBSummaryReportSummary {
 
     @Override
     public SingleLiablityResults getResultsObject() {
-        singleLiablityLogger.debug("Inside getResultsObject");
+        SINGLE_LIABLITY_LOGGER.debug("Inside getResultsObject");
         return results;
     }
 
     @Override
     public String[] getDefaultColumnsHeader() {
-        singleLiablityLogger.debug("Inside getDefaultColumnsHeader");
+        SINGLE_LIABLITY_LOGGER.debug("Inside getDefaultColumnsHeader");
         return defaultColumnsHeader.clone();
     }
 
     @Override
     public String[] getDefaultColumns() {
-        singleLiablityLogger.debug("Inside getDefaultColumns");
+        SINGLE_LIABLITY_LOGGER.debug("Inside getDefaultColumns");
         return defaultColumns.clone();
     }
 
     @Override
     public String getProcedureName() {
-        singleLiablityLogger.debug("Inside getProcedureName");
+        SINGLE_LIABLITY_LOGGER.debug("Inside getProcedureName");
         return "PRC_ARM_BSR_SINGLE_LIABILITY";
     }
 
     @Override
     public String getTempTablesPropertyName() {
-        singleLiablityLogger.debug("Inside getTempTablesPropertyName");
+        SINGLE_LIABLITY_LOGGER.debug("Inside getTempTablesPropertyName");
         return "ARM_BSR_SINGLE_LIABLITY";
     }
 
@@ -82,13 +82,13 @@ public class SingleLiablity extends AbstractBSummaryReportSummary {
 
     @Override
     public String[] getAdjustmentTypeHeader() {
-        singleLiablityLogger.debug("Inside getAdjustmentTypeHeader");
+        SINGLE_LIABLITY_LOGGER.debug("Inside getAdjustmentTypeHeader");
         return defaultVariablesHeader.clone();
     }
 
     @Override
     public String[] getAdjustmentTypeColumn() {
-        singleLiablityLogger.debug("Inside getAdjustmentTypeColumn");
+        SINGLE_LIABLITY_LOGGER.debug("Inside getAdjustmentTypeColumn");
         return defaultVariablesColumns.clone();
     }
 }
