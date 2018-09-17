@@ -1057,7 +1057,7 @@ public class ForecastForm extends AbstractForm {
 								ppaProjectionResults.getContent();
 								ppaProjectionResults.ppaProcedure();
 							}
-							if (WorkFlowNotesLookup.getSUBMIT_FLAG().equals("Success")) {
+							if (WorkFlowNotesLookup.getSUBMITFLAG().equals("Success")) {
 								submitProjection(popup.getNotes().getValue(), screenName, popup.getUploadedData());
 								if ((Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
 										|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()))
@@ -1071,7 +1071,7 @@ public class ForecastForm extends AbstractForm {
 									closeViewTray(viewWindow);
 									viewWindow.close();
 								}
-								WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
+								WorkFlowNotesLookup.setSUBMITFLAG("Failed");
 								CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
 							}
 						} catch (PortalException ex) {
@@ -1186,7 +1186,7 @@ public class ForecastForm extends AbstractForm {
 
 			VarianceCalculationLogic.submitWorkflow( processId, session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 			String autoApproval = DSCalculationLogic.getProcessVariableLog(processId,"Auto_Approval");
-			String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");;
+			String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");
 			if (!autoApproval.isEmpty() && !noOfUsers.isEmpty()) {
 
 				LOGGER.debug("autoApproval  = {} " , autoApproval);
