@@ -83,7 +83,7 @@ public class InventoryRatesSearchResults extends AbstractRatesSearchResults {
     @Override
     public boolean getisFixedColumns() {
         INV_RATES_LOGGER.debug("Inside getisFixedColumns");
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -101,7 +101,7 @@ public class InventoryRatesSearchResults extends AbstractRatesSearchResults {
     @Override
     public boolean getisDeductionCustomer() {
         INV_RATES_LOGGER.debug("Inside getisDeductionCustomer");
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override

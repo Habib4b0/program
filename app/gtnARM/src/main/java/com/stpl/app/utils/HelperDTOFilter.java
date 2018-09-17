@@ -24,7 +24,7 @@ public class HelperDTOFilter implements Container.Filter {
     private final Object helperPropertyId;
     private String filterDescription = StringUtils.EMPTY;
     private int filterId = 0;
-    private boolean addFilterById = Boolean.TRUE;
+    private boolean addFilterById = true;
 
     /**
      * Method to create Filter for helper DTO objects
@@ -51,7 +51,7 @@ public class HelperDTOFilter implements Container.Filter {
             int filterId) {
         this.helperPropertyId = propertyId;
         this.filterId = filterId;
-        this.addFilterById = Boolean.TRUE;
+        this.addFilterById = true;
     }
 
     /**
@@ -64,7 +64,7 @@ public class HelperDTOFilter implements Container.Filter {
             String filterDescription) {
         this.helperPropertyId = propertyId;
         this.filterDescription = filterDescription;
-        this.addFilterById = Boolean.FALSE;
+        this.addFilterById = false;
     }
 
     @Override

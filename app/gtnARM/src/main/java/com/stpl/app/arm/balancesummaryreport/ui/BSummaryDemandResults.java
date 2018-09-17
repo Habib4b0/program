@@ -51,7 +51,7 @@ public class BSummaryDemandResults extends AbstractBalanceSummaryResutls {
             rightDoubleVisibleHeader.add(0, "");
             getExcelTable().setVisibleColumns(rightSingleVisibleColumn1.toArray());
             getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
-            getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
+            getExcelTable().setDoubleHeaderVisible(true);
             getExcelTable().setDoubleHeaderVisibleColumns(rightDoubleVisibleColumn.toArray());
             getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(rightDoubleVisibleHeader.toArray(), rightDoubleVisibleHeader.size(), String[].class));
             getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.FIVE));
