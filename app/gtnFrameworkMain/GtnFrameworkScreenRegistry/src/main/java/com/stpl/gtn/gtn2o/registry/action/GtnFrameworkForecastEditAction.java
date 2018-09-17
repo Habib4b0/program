@@ -41,7 +41,7 @@ public class GtnFrameworkForecastEditAction
 		String sessionId = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId"));
 
 		try {
-			GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow);
+			GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
 			inputBean.setUserId(userId);
 			inputBean.setSessionId(sessionId);
 			ForecastUI ui = new ForecastUI();
@@ -56,7 +56,7 @@ public class GtnFrameworkForecastEditAction
 
 	}
 
-	private GtnFrameworkForecastInputBean formForecastInputBean(GtnWsRecordBean selectedRow) throws ParseException {
+	private GtnFrameworkForecastInputBean formForecastInputBean(GtnWsRecordBean selectedRow, List<Object> actionParamsList) throws ParseException {
 		GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
 		try {
 			inputBean.setProjectionName((String) selectedRow.getPropertyValueByIndex(0));
@@ -106,6 +106,10 @@ public class GtnFrameworkForecastEditAction
 			Date forecastEligibleDate = dateFormatter.parse((String) selectedRow.getPropertyValueByIndex(32));
 			inputBean.setForecastEligibleDate(forecastEligibleDate);
 			inputBean.setDeductionRelationVersion((int) selectedRow.getPropertyValueByIndex(33));
+                        inputBean.setDeductionLevel(GtnUIFrameworkGlobalUI
+                            .getVaadinBaseComponent(actionParamsList.get(24).toString()).getCaptionFromV8ComboBox());
+                        inputBean.setDeductionValue(GtnUIFrameworkGlobalUI
+                            .getVaadinBaseComponent(actionParamsList.get(24).toString()).getStringCaptionFromV8ComboBox());
 
 		} catch (Exception ex) {
 			logger.info(ex.getMessage());

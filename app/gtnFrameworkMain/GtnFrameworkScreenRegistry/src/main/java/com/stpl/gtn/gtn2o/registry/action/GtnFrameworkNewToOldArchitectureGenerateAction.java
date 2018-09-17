@@ -203,6 +203,10 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
         dto.setProductHierarchyName(String.valueOf(productRecordBean.getPropertyValueByIndex(0)));
         dto.setDeductionLevel(GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(actionParamList.get(24).toString()).getCaptionFromV8ComboBox());
+        dto.setDeductionValue(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(24).toString()).getStringCaptionFromV8ComboBox());
+        dto.setFrequency("");
+                
     }
 
     private int checkDDLBValues(int value) throws GtnFrameworkValidationFailedException {

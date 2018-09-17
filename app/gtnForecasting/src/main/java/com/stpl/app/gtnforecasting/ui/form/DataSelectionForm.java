@@ -931,7 +931,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				dataSelectionDTO.setDeductionLevel(inputBean.getDeductionLevel());
 //			}
 //			if (deductionValue.getValue() != null && !SELECT_ONE.equals(deductionValue.getValue())) {
-				dataSelectionDTO.setDeductionValue(String.valueOf("Schedule Category"));
+				dataSelectionDTO.setDeductionValue(String.valueOf(inputBean.getDeductionValue()));
 //			}
 
 //			if (customerRelationComboBox.getValue() != null
@@ -3738,7 +3738,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				tempSession.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
                                 tempSession.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? 1 : DataTypeConverter.convertObjectToInt(mapValue)));
                                 dto.setDataSelectionDeductionLevelSid(Integer.parseInt(tempSession.getDataSelectionDeductionLevel()));
-                                tempSession.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(Integer.valueOf(tempSession.getDataSelectionDeductionLevel())));
+                                tempSession.setDataSelectionDeductionLevelCaption(inputBean.getDeductionValue());
                                 tempSession.setDeductionLevel(String.valueOf(tempSession.getDataSelectionDeductionLevel()));
 				tempCustomerDescriptionMap = relationLogic.getLevelValueMapOldArch(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
@@ -3904,12 +3904,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 //		}
 	}
         
-        private DataSelectionDTO bindDataselectionDtoToEditNewArch(GtnFrameworkForecastInputBean inputBean){
-            DataSelectionDTO dto = new DataSelectionDTO();
-            return dto;
-        }
-
-
 	public void callARPView(DataSelectionDTO dto, SessionDTO session) {
 		DSLogic dSLogic = new DSLogic();
 
@@ -4044,11 +4038,13 @@ public class DataSelectionForm extends ForecastDataSelection {
 //                else {
 			try {
 				DataSelectionDTO dto = bindDataselectionDtoToSaveNewArch(inputBean);
-				int projectionIdValue = dto.getProjectionId();
+				int projectionIdValue = inputBean.getProjectionMasterSid();
                                 Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(projectionIdValue, TAB_DISCOUNT_PROJECTION.getConstant());
                                 Object mapValue = map.get(Constant.DEDUCTION_LEVEL_DDLB);
 				SessionDTO session = SessionUtil.createSession();
+                                session.setUserId(inputBean.getUserId());
                                 session.setSessionId(session.getSessionId());
+                                dto.setProjectionId(inputBean.getProjectionMasterSid());
 				session.setProjectionId(projectionIdValue);
 				session.setBusineesUnit(businessUnitlist);
 				session.setProjectionName(dto.getProjectionName());
@@ -4065,12 +4061,12 @@ public class DataSelectionForm extends ForecastDataSelection {
                                 session.setCustomDeductionRelationShipSid(dto.getCustomDeductionRelationShipSid());
                                 session.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? 1 : DataTypeConverter.convertObjectToInt(mapValue)));
                                 dto.setDataSelectionDeductionLevelSid(Integer.parseInt(session.getDataSelectionDeductionLevel()));
-                                 session.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(Integer.valueOf(session.getDataSelectionDeductionLevel())));
+                                 session.setDataSelectionDeductionLevelCaption("Schedule Category");
                                 session.setDeductionLevel(String.valueOf(session.getDataSelectionDeductionLevel()));
-				customerDescMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
+				customerDescMap = relationLogic.getLevelValueMapOldArch(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
 						dto.getCustomerRelationShipVersionNo());
-				productDescMap = relationLogic.getLevelValueMap(dto.getProdRelationshipBuilderSid(),
+				productDescMap = relationLogic.getLevelValueMapOldArch(dto.getProdRelationshipBuilderSid(),
 						Integer.parseInt(dto.getProdHierSid()), dto.getProductHierVersionNo(),
 						dto.getProductRelationShipVersionNo());
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)) {
@@ -5271,7 +5267,7 @@ public class DataSelectionForm extends ForecastDataSelection {
                                         VaadinSession.getCurrent().setAttribute(Constant.USER_ID, inputBean.getUserId());
 					int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName,false);
 					VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
-//					projectionId.setValue(String.valueOf(projectionIdValue));
+					projectionId.setValue(String.valueOf(projectionIdValue));
 					dataSelectionDTO.setProjectionId(projectionIdValue);
 					relationshipBuilderSids.clear();
 					setRelationshipBuilderSids(String.valueOf(inputBean.getCustomerRelationSid()));
@@ -5290,10 +5286,10 @@ public class DataSelectionForm extends ForecastDataSelection {
                                                 session.setDataSelectionDeductionLevel("1");
                                                 session.setDataSelectionDeductionLevelCaption("Schedule Category");
 						session.setProjectionId(projectionIdValue);
-//						session.setBusineesUnit(businessUnitlist);
+						session.setBusineesUnit(businessUnitlist);
 						session.setAction(Constant.ADD_FULL_SMALL);
-//						session.setCustomerDescription(customerDescMap);
-//						session.setProductDescription(productDescMap);
+						session.setCustomerDescription(customerDescMap);
+						session.setProductDescription(productDescMap);
 						session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
 						session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
 						session.setCustomRelationShipSid(dataSelectionDTO.getCustomRelationShipSid());

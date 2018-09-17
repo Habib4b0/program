@@ -16,9 +16,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
-import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -30,12 +28,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 
     public PrivatePublic()
     {
-        super();
-        initializeLogger();
-    }
-    @PostConstruct
-    public void initializeLogger() {
-        super.logInformation(PrivatePublic.class);
+         super(PrivatePublic.class);
     }
 
     @Override
