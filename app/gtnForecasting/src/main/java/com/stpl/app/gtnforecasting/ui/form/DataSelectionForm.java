@@ -216,10 +216,21 @@ public class DataSelectionForm extends ForecastDataSelection {
              this.scrName = "Non Mandated";
          }
          
+        private static DataSelectionDTO landingScreenDataSelectionDto; 
+
+    public static DataSelectionDTO getLandingScreenDataSelectionDto() {
+        return landingScreenDataSelectionDto;
+    }
+
+    public static void setLandingScreenDataSelectionDto(DataSelectionDTO landingScreenDataSelectionDto) {
+        DataSelectionForm.landingScreenDataSelectionDto = landingScreenDataSelectionDto;
+    }
+         
         public DataSelectionForm(SessionDTO sessionDto,DataSelectionDTO dataSelectionDto, GtnFrameworkForecastInputBean inputBean) {
 		super();
                 this.scrName = "Non Mandated";
                 this.dataSelectionDTO = dataSelectionDto;
+                setLandingScreenDataSelectionDto(dataSelectionDTO);
                 this.inputBean = inputBean;
 		LOGGER.info("DataSelectionIndex Initializing... ");
 		LOGGER.info("DataSelectionIndex Ends");
@@ -934,6 +945,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 				dataSelectionDTO.setDeductionValue(String.valueOf("Schedule Category"));
 //			}
 
+                                dataSelectionDTO.setDsCustomerHierarchyBean(inputBean.getCustomerHierarchyBean());
+                                dataSelectionDTO.setDsProductHierarchyBean(inputBean.getProductHierarchyBean());
 //			if (customerRelationComboBox.getValue() != null
 //					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
 
@@ -1016,6 +1029,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 //				dataSelectionDTO.setFrequency("0");
 //			}
 
+                                
 			int customerForecastLevel = 0;
 			int productForecastLevel = 0;
 			int customerForecastInnerLevel = 0;
@@ -4484,9 +4498,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 		LOGGER.debug("Logging - loadRelationDdlb hierarchyDefinitionSid= {} " , hierarchyDefinitionSid);
 		try {
                     
-                    
+                    ForecastDataSelection forecastDataSelection = new DataSelectionForm();
 //			DataSelectionLogic logic = new DataSelectionLogic();
 //			List<RelationshipDdlbDto> relationshipSidList = logic.getRelationshipSid(hierarchyDefinitionSid);
+                    DataSelectionDTO dsDto = getLandingScreenDataSelectionDto();
                         Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMapper = new HashMap<>();
                         ObjectMapper mapper = new ObjectMapper();
                         if(getCustomerHierarchyLookupWindow()!=null){
@@ -4510,6 +4525,9 @@ public class DataSelectionForm extends ForecastDataSelection {
                          relationshipMapper = productHierarchyLookupWindow.getHierarchyDto().getRelationshipMap();
                         }
                         }
+                        if(dsDto!=null){
+                            relationshipMapper = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) dsDto.getDsCustomerHierarchyBean().getPropertyValueByIndex(dsDto.getDsCustomerHierarchyBean().getProperties().size()-1);
+                        }
 			Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = mapper.convertValue(
 					relationshipMapper, new TypeReference<Map<Integer, List<GtnWsRelationshipBuilderBean>>>() {});
 			List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList = relationshipMap.get(hierarchyDefinitionSid);
@@ -4531,6 +4549,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 			relationship.setPageLength(7);
 			relationship.setNullSelectionAllowed(true);
 			relationship.setInputPrompt(SELECT_ONE);
+                        
+                        if(dsDto!=null){
+                            relationship.select(Integer.parseInt(dsDto.getCustRelationshipBuilderSid()));
+                        }
 
 		} catch (SystemException | UnsupportedOperationException ex) {
 			LOGGER.error(ex.getMessage());
