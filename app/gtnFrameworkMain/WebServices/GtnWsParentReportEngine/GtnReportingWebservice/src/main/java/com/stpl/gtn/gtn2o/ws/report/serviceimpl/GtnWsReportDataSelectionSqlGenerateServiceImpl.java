@@ -630,7 +630,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		}
 
 	}
-//***
+
 	// Method to format values to non-decimal if user has selected Currency
 	// Display
 	// = No Conversion
