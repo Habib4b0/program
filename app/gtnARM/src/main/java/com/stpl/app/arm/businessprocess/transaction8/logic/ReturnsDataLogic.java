@@ -52,29 +52,29 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
 
     protected static final DecimalFormat DECIMAL = new DecimalFormat("###0.000000");
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger RD_LOGIC_LOGGER = LoggerFactory.getLogger(ReturnsDataLogic.class);
 
     @Override
     public int getCount(Criteria criteria) {
-        logger.debug("--Inside getCount --");
+        RD_LOGIC_LOGGER.debug("--Inside getCount --");
         String query = SQlUtil.getQuery("returnsdata-count");
         String version = criteria.getSelectionDto().getDataSelectionDTO().getFromPeriodMonth().replace(" ", "-");
         query = query.replace("?", version);
         query = query + getFilters(criteria);
-        logger.debug("query--{}", query);
+        RD_LOGIC_LOGGER.debug("query--{}", query);
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return (Integer) list.get(0);
     }
 
     @Override
     public DataResult<T> getData(Criteria criteria) {
-        logger.debug("--Inside getData--");
+        RD_LOGIC_LOGGER.debug("--Inside getData--");
         String query = SQlUtil.getQuery("returnsdata-data");
         String version = criteria.getSelectionDto().getDataSelectionDTO().getFromPeriodMonth().replace(" ", "-");
         query = query.replace("?", version);
         query = query + getFilters(criteria) + getOrder(criteria);
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        logger.debug("--Exit getData--{}", query);
+        RD_LOGIC_LOGGER.debug("--Exit getData--{}", query);
         return customizier(criteria.getSelectionDto().getReturnsdatavariables(), list);
     }
 
@@ -84,7 +84,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
     }
 
     public DataResult<T> customizier(List<String> varibales, List<Object[]> resultList) {
-        logger.debug("--Inside customizier --{}", (varibales.size() + "--resultList--" + resultList.size()));
+        RD_LOGIC_LOGGER.debug("--Inside customizier --{}", (varibales.size() + "--resultList--" + resultList.size()));
         List customizedList = new ArrayList();
         AdjustmentDTO obj;
         int variableSize = varibales.size();
@@ -134,9 +134,9 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
                 }
             }
         } catch (IllegalAccessException | InvocationTargetException ex) {
-            logger.error("Error while setting property for given Inputs :", ex);
+            RD_LOGIC_LOGGER.error("Error while setting property for given Inputs :", ex);
         } catch (IllegalArgumentException ex) {
-            logger.error("Error in customizier :", ex);
+            RD_LOGIC_LOGGER.error("Error in customizier :", ex);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(customizedList);
@@ -144,7 +144,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
     }
 
     public String getFilters(Criteria criteria) {
-        logger.debug("--Inside getFilters --");
+        RD_LOGIC_LOGGER.debug("--Inside getFilters --");
         StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
         if (criteria.getFilters() != null && !criteria.getFilters().isEmpty()) {
             for (Container.Filter filter : criteria.getFilters()) {
@@ -159,13 +159,13 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
 
             }
         }
-        logger.debug("--Exit getFilters --{}", filterQuery);
+        RD_LOGIC_LOGGER.debug("--Exit getFilters --{}", filterQuery);
         return filterQuery.toString();
     }
 
     private String getOrder(Criteria criteria) {
         String order = StringUtils.EMPTY;
-        logger.debug("Inside getOrder  {}", order);
+        RD_LOGIC_LOGGER.debug("Inside getOrder  {}", order);
         boolean sortOrder = false;
         String orderByColumn = null;
         if (criteria.getSortByColumns() != null) {
@@ -185,7 +185,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
         order = order + criteria.getStart();
         order = order + " ROWS FETCH NEXT " + criteria.getOffset();
         order = order + " ROWS ONLY;";
-        logger.debug("Exit getOrder {} ", order);
+        RD_LOGIC_LOGGER.debug("Exit getOrder {} ", order);
         return order;
     }
 

@@ -49,48 +49,48 @@ public class PrivatePublicLookup extends Window {
      * Search by View Name, results table will filter based on viewNameEpl
      */
     @UiField("viewNameEpl")
-    private TextField viewNameEpl;
+    private TextField privateViewNameEpl;
 
     /**
      * To execute the search, will populate views
      */
     @UiField("searchBtn")
-    private Button searchBtn;
+    private Button privateSearchBtn;
     /**
      * To reset the View Search section
      */
     @UiField("resetBtn")
-    private Button resetBtn;
+    private Button privateResetBtn;
     /**
      * Returns the View the user selected back to the main screen that called
      * the lookup. Closes the pop-up
      */
     @UiField("selectBtn")
-    private Button selectBtn;
+    private Button privateSelectBtn;
     /**
      * Closes the pop-up without returning a selction.
      */
     @UiField("closeBtn")
-    private Button closeBtn;
+    private Button privateCloseBtn;
     @UiField("resultsTableLayoutEpl")
-    private VerticalLayout resultsTableLayoutEpl;
+    private VerticalLayout resultsTableLayoutEplPrivate;
     private PublicPrivateLookupTableLogic tableLogic = new PublicPrivateLookupTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private final BeanItemContainer<ViewLookupDTO> availableResultsContainer = new BeanItemContainer<>(ViewLookupDTO.class);
+    private ExtPagedTable resultsTablePrivate = new ExtPagedTable(tableLogic);
+    private final BeanItemContainer<ViewLookupDTO> availableResultsContainerPrivate = new BeanItemContainer<>(ViewLookupDTO.class);
     private ViewLookupDTO dtoValue = new ViewLookupDTO();
-    private int userId;
-    private String detailsName = StringUtils.EMPTY;
-    private String viewType = StringUtils.EMPTY;
-    private String viewCategory = StringUtils.EMPTY;
+    private int userIdPrivate;
+    private String detailsNamePrivate = StringUtils.EMPTY;
+    private String viewTypePrivate = StringUtils.EMPTY;
+    private String viewCategoryPrivate = StringUtils.EMPTY;
     private boolean selectFlag = false;
     public static final Logger LOGGER = LoggerFactory.getLogger(PrivatePublicLookup.class);
 
     public PrivatePublicLookup(String viewValue, int userId, String detailsName, String viewType, String viewCategory) {
         super();
-        this.userId = userId;
-        this.detailsName = detailsName;
-        this.viewType = viewType;
-        this.viewCategory = viewCategory;
+        this.userIdPrivate = userId;
+        this.detailsNamePrivate = detailsName;
+        this.viewTypePrivate = viewType;
+        this.viewCategoryPrivate = viewCategory;
         addStyleName("bootstrap");
         addStyleName("bootstrap-bb");
         setContent(Clara.create(getClass().getResourceAsStream("/adjustment_rate_config/private_public_lookup.xml"), this));
@@ -107,11 +107,11 @@ public class PrivatePublicLookup extends Window {
             setHeight("600px");
             setModal(true);
             setResizable(false);
-            resultsTableLayoutEpl.addComponent(resultsTable);
+            resultsTableLayoutEplPrivate.addComponent(resultsTablePrivate);
             configureTable();
             dtoValue.setViewName(StringUtils.EMPTY);
-            viewNameEpl.setValue(StringUtils.EMPTY);
-            viewNameEpl.focus();
+            privateViewNameEpl.setValue(StringUtils.EMPTY);
+            privateViewNameEpl.focus();
 
         } catch (Exception e) {
             LOGGER.error("Error in configureFields :", e);
@@ -119,36 +119,36 @@ public class PrivatePublicLookup extends Window {
     }
 
     private void configureTable() {
-        resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        resultsTable.setFilterGenerator(new ViewFilterGenerator());
-        tableLogic.setContainerDataSource(availableResultsContainer);
-        resultsTable.setSelectable(true);
-        resultsTable.setWidth("870px");
-        resultsTable.setHeight("290px");
-        resultsTable.setImmediate(true);
-        resultsTable.setSizeFull();
-        resultsTable.setPageLength(NumericConstants.TEN);
+        resultsTablePrivate.setFilterDecorator(new ExtDemoFilterDecorator());
+        resultsTablePrivate.setFilterGenerator(new ViewFilterGenerator());
+        tableLogic.setContainerDataSource(availableResultsContainerPrivate);
+        resultsTablePrivate.setSelectable(true);
+        resultsTablePrivate.setWidth("870px");
+        resultsTablePrivate.setHeight("290px");
+        resultsTablePrivate.setImmediate(true);
+        resultsTablePrivate.setSizeFull();
+        resultsTablePrivate.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setColumnAlignment("createdDate", ExtCustomTable.Align.CENTER);
-        resultsTable.setColumnAlignment("modifiedDate", ExtCustomTable.Align.CENTER);
-        resultsTable.setFilterBarVisible(true);
-        resultsTable.addStyleName("table-header-normal");
-        resultsTable.addStyleName("filterbar");
-        resultsTable.addStyleName("filtertable");
-        if ("Customer".equals(viewCategory) || "Customer Group".equals(viewCategory)) {
-            resultsTable.setVisibleColumns(ARMUtils.getInventoryViewLookupColumns());
-            resultsTable.setColumnHeaders(ARMUtils.getInventoryViewLookupHeaders());
+        resultsTablePrivate.setColumnAlignment("createdDate", ExtCustomTable.Align.CENTER);
+        resultsTablePrivate.setColumnAlignment("modifiedDate", ExtCustomTable.Align.CENTER);
+        resultsTablePrivate.setFilterBarVisible(true);
+        resultsTablePrivate.addStyleName("table-header-normal");
+        resultsTablePrivate.addStyleName("filterbar");
+        resultsTablePrivate.addStyleName("filtertable");
+        if ("Customer".equals(viewCategoryPrivate) || "Customer Group".equals(viewCategoryPrivate)) {
+            resultsTablePrivate.setVisibleColumns(ARMUtils.getInventoryViewLookupColumns());
+            resultsTablePrivate.setColumnHeaders(ARMUtils.getInventoryViewLookupHeaders());
         } else {
-            resultsTable.setVisibleColumns(ARMUtils.getViewLookupColumns());
-            resultsTable.setColumnHeaders(ARMUtils.getViewLookupHeaders());
+            resultsTablePrivate.setVisibleColumns(ARMUtils.getViewLookupColumns());
+            resultsTablePrivate.setColumnHeaders(ARMUtils.getViewLookupHeaders());
         }
-        resultsTable.setConverter("createdDate", new StringToDateConverter() {
+        resultsTablePrivate.setConverter("createdDate", new StringToDateConverter() {
             @Override
             public DateFormat getFormat(Locale locale) {
                 return new SimpleDateFormat("MM/dd/YYYY hh:mm:ss");
             }
         });
-        resultsTable.setConverter("modifiedDate", new StringToDateConverter() {
+        resultsTablePrivate.setConverter("modifiedDate", new StringToDateConverter() {
             @Override
             public DateFormat getFormat(Locale locale) {
                 return new SimpleDateFormat("MM/dd/YYYY hh:mm:ss");
@@ -161,17 +161,17 @@ public class PrivatePublicLookup extends Window {
     public void searchButtonClick(Button.ClickEvent event) {
         LOGGER.debug("Inside searchBtn :");
         try {
-            if (StringUtils.EMPTY.equals(viewNameEpl.getValue())) {
+            if (StringUtils.EMPTY.equals(privateViewNameEpl.getValue())) {
                 AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getSaveMessageID005());
             } else {
-                availableResultsContainer.removeAllItems();
-                dtoValue.setViewTypeFlag("privateView".equalsIgnoreCase(viewType));
-                dtoValue.setCreatedBy(String.valueOf(userId));
-                dtoValue.setViewName(String.valueOf(viewNameEpl));
-                dtoValue.setViewType(viewType);
-                dtoValue.setDetailsValue(detailsName);
-                tableLogic.configureSearchData(dtoValue, true, viewCategory);
-                if (resultsTable.size() == 0) {
+                availableResultsContainerPrivate.removeAllItems();
+                dtoValue.setViewTypeFlag("privateView".equalsIgnoreCase(viewTypePrivate));
+                dtoValue.setCreatedBy(String.valueOf(userIdPrivate));
+                dtoValue.setViewName(String.valueOf(privateViewNameEpl.getValue()));
+                dtoValue.setViewType(viewTypePrivate);
+                dtoValue.setDetailsValue(detailsNamePrivate);
+                tableLogic.configureSearchData(dtoValue, true, viewCategoryPrivate);
+                if (resultsTablePrivate.size() == 0) {
                     AbstractNotificationUtils.getErrorNotification("Invalid Search", "There are no Views that match the search criteria.  Please try again.");
                 }
             }
@@ -184,7 +184,7 @@ public class PrivatePublicLookup extends Window {
     @UiHandler("resetBtn")
     public void resetButtonClick(Button.ClickEvent event) {
         try {
-            if ("Customer Group".equals(viewCategory)) { //GAL-7223
+            if ("Customer Group".equals(viewCategoryPrivate)) { //GAL-7223
                 notifier.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_view_CG());
             } else {
                 notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_views());
@@ -197,9 +197,9 @@ public class PrivatePublicLookup extends Window {
     @UiHandler("selectBtn")
     public void selectButtonClick(Button.ClickEvent event) {
         try {
-            if (resultsTable.size() != 0 && resultsTable.getValue() != null) {
-                ViewLookupDTO viewDTO = (ViewLookupDTO) resultsTable.getValue();
-                viewDTO.setCheckFlag(true);
+            if (resultsTablePrivate.size() != 0 && resultsTablePrivate.getValue() != null) {
+                ViewLookupDTO viewDTO = (ViewLookupDTO) resultsTablePrivate.getValue();
+                viewDTO.setCheckFlag(Boolean.TRUE);
                 setSelectFlag(true);
                 setDtoValue(viewDTO);
                 this.close();
@@ -217,14 +217,14 @@ public class PrivatePublicLookup extends Window {
         try {
             setSelectFlag(false);
             this.close();
-            viewNameEpl.setValue(StringUtils.EMPTY);
+            privateViewNameEpl.setValue(StringUtils.EMPTY);
         } catch (Exception e) {
             LOGGER.error("Error in closeButtonClick :", e);
         }
     }
-    private final CustomNotification notifier = new CustomNotification();
+    private final PublicPrivateCustomNotification notifier = new PublicPrivateCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class PublicPrivateCustomNotification extends AbstractNotificationUtils {
 
         @Override
         public void noMethod() {
@@ -234,7 +234,7 @@ public class PrivatePublicLookup extends Window {
 
         @Override
         public void yesMethod() {
-            viewNameEpl.setValue(StringUtils.EMPTY);
+            privateViewNameEpl.setValue(StringUtils.EMPTY);
         }
 
     }
@@ -248,12 +248,12 @@ public class PrivatePublicLookup extends Window {
     }
 
     public void reloadScreen(String viewValue, int userId, String detailsName, String viewName) {
-        availableResultsContainer.removeAllItems();
-        viewNameEpl.setValue(StringUtils.EMPTY);
-        viewNameEpl.focus(); // GAL-7222
-        this.userId = userId;
-        this.detailsName = detailsName;
-        this.viewType = viewName;
+        availableResultsContainerPrivate.removeAllItems();
+        privateViewNameEpl.setValue(StringUtils.EMPTY);
+        privateViewNameEpl.focus(); // GAL-7222
+        this.userIdPrivate = userId;
+        this.detailsNamePrivate = detailsName;
+        this.viewTypePrivate = viewName;
     }
 
     public boolean isSelectFlag() {
@@ -265,8 +265,8 @@ public class PrivatePublicLookup extends Window {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object privateObj) {
+        return super.equals(privateObj);
     }
 
     @Override
@@ -274,11 +274,11 @@ public class PrivatePublicLookup extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream privateObj) throws IOException {
+        privateObj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream privateObj) throws IOException, ClassNotFoundException {
+        privateObj.defaultReadObject();
     }
 }

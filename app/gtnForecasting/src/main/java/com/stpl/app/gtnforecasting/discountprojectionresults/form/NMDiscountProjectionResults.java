@@ -31,8 +31,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.TAB_DISC
 import static com.stpl.app.gtnforecasting.utils.Constant.MONTHLY;
 import static com.stpl.app.gtnforecasting.utils.Constant.QUARTERLY;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
-import com.stpl.app.gtnforecasting.utils.DPRChart;
-import com.stpl.app.gtnforecasting.utils.NmSPRGraphWindow;
 import com.stpl.app.gtnforecasting.utils.TabNameUtil;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.model.CustomViewMaster;
@@ -61,7 +59,6 @@ import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.UI;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
@@ -209,7 +206,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
         exceltable.setRefresh(BooleanConstant.getTrueFlag());
-        ForecastUI.setEXCEL_CLOSE(true);
+        ForecastUI.setEXCELCLOSE(true);
         ExcelExport exp = null;
         int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
         if (Constant.PERIOD.equals(String.valueOf(pivotViewOpg.getValue())) && (QUARTERLY.equals(String.valueOf(frequencyDdlb.getValue())) || MONTHLY.equals(String.valueOf(frequencyDdlb.getValue())))) {
@@ -225,7 +222,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
 
                 exceltable.setDoubleHeaderMap((Map<Object, Object[]>) projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.FIVE));
                 String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-                ForecastUI.setEXCEL_CLOSE(true);
+                ForecastUI.setEXCELCLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
                 } else {
@@ -274,23 +271,6 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     }
 
     @Override
-    protected void graphExportLogics() {
-        LOGGER.debug("graphExportLogic method starts");
-        List<DiscountProjectionResultsDTO> chartList = new ArrayList<>();
-        for (DiscountProjectionResultsDTO dto : getResultBeanContainer().getBeans()) {
-            chartList.add(dto);
-        }
-        if (projectionDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-            projectionDTO.setActualsOrProjections("Actuals and Projections");
-        }
-        final DPRChart chart = new DPRChart(chartList, projectionDTO, getFullHeader());
-        final NmSPRGraphWindow prGraphWindow = new NmSPRGraphWindow(chart.getChart(), Constant.DISCOUNT_PROJECTION_RESULTS);
-        UI.getCurrent().addWindow(prGraphWindow);
-        prGraphWindow.focus();
-        LOGGER.debug("graphExportLogic method ends");
-    }
-
-    @Override
     protected void expandButtonLogic() {
         expandCollapseLevelOption(true, levelDdlb.getValue());
     }
@@ -330,10 +310,8 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         discountOpg.setImmediate(true);
         discountOpg.addStyleName(Constant.HORIZONTAL);
         discountOpg.addStyleName(Constant.OPTION_GROUP_WIDTH);
-        discountOpg.addItem(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED);
         discountOpg.addItem(Constant.SUPPLEMENTAL);
         discountOpg.addItem(Constant.BOTH);
-        discountOpg.setValue(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED);
         periodOrderOpg.setImmediate(true);
         periodOrderOpg.addStyleName(Constant.HORIZONTAL);
         periodOrderOpg.addStyleName(Constant.OPTION_GROUP_WIDTH);

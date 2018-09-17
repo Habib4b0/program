@@ -215,7 +215,7 @@ public class AccountConfigLogic {
         input.add(selection.getSession().getUserId());
         List dataList1 = QueryUtils.getItemData(input, "ADD_Line_to_Temp_tableFor AccountConfig", null);
         if (!dataList1.isEmpty()) {
-            return Integer.valueOf(String.valueOf(dataList1.get(0)));
+            return ARMUtils.getIntegerValue(String.valueOf(dataList1.get(0)));
         } else {
             return 0;
         }
@@ -381,7 +381,7 @@ public class AccountConfigLogic {
         HelperDTO businessUnitDto;
         for (Object[] str : data) {
             AccountConfigDTO dto = new AccountConfigDTO();
-            dto.setMasterId(str[0] == null ? 0 : Integer.valueOf(String.valueOf(str[0])));
+            dto.setMasterId(str[0] == null ? 0 : ARMUtils.getIntegerValue(String.valueOf(str[0])));
             dto.setCheckRecord(str[NumericConstants.ONE] == null ? Boolean.FALSE : (Boolean) str[NumericConstants.ONE]);
             companyDto = new HelperDTO();
             companyDto.setId(getIntegerValue(NumericConstants.TWO, str));

@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 public abstract class CommonUI extends UI {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CommonUI.class);
-    private boolean excelFlag = Boolean.TRUE;
+    private boolean excelFlag = true;
 
     public boolean isExcelFlag() {
         return excelFlag;

@@ -16,9 +16,9 @@ import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 public class DataSelectionSearchCriteria implements BeanSearchCriteria {
 
  
-	private Set<Filter> filters;
-	private int lastCount;
-	private boolean dirty =true;
+	private Set<Filter> filtersDSCriteria;
+	private int lastCountDSCriteria;
+	private boolean dirtyDSCriteria =true;
 
     public DataSelectionSearchCriteria() {
         super();
@@ -26,32 +26,32 @@ public class DataSelectionSearchCriteria implements BeanSearchCriteria {
 	
 	@Override
 	public Set<Filter> getFilters() {
-		return filters == null ? filters : Collections.unmodifiableSet(filters);
+		return filtersDSCriteria == null ? filtersDSCriteria : Collections.unmodifiableSet(filtersDSCriteria);
 	}
 
 	@Override
 	public int getLastCount() {
-		return lastCount;
+		return lastCountDSCriteria;
 	}
 
 	@Override
 	public boolean isDirty() {
-		return dirty;
+		return dirtyDSCriteria;
 	}
 
 	@Override
-	public void setDirty(boolean dirty) {
-		this.dirty = dirty;
+	public void setDirty(boolean dirtyDs) {
+		this.dirtyDSCriteria = dirtyDs;
 	}
 
 	@Override
-	public void setFilters(Set<Filter> filters) {
-		this.filters = filters == null ? filters : Collections.unmodifiableSet(filters);
+	public void setFilters(Set<Filter> filtersDs) {
+		this.filtersDSCriteria = filtersDs == null ? filtersDs : Collections.unmodifiableSet(filtersDs);
 	}
 
 	@Override
-	public void setLastCount(int lastCount) {
-		this.lastCount = lastCount;
+	public void setLastCount(int lastCountDs) {
+		this.lastCountDSCriteria = lastCountDs;
 	}
 
 }

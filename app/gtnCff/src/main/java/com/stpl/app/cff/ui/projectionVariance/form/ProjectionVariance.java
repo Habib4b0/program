@@ -1107,6 +1107,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 loadDisplayFormatDdlb();
                 if (ConstantsUtils.LOWERCASE_EDIT.equalsIgnoreCase(sessionDTO.getAction()) || ConstantsUtils.VIEW.equalsIgnoreCase(sessionDTO.getAction())) {
                     setProjectionSelection();
+                }else{
+                    projIdList = new ArrayList<>();
                 }
             }
         }.getConfirmationMessage("Confirmation",
@@ -1307,6 +1309,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 getComparison().setReadOnly(false);
                 loadComparisonOnEdit(String.valueOf(value));
                 getComparison().setReadOnly(true);
+            }else{
+                projIdList = new ArrayList<>();
             }
 
             value = map.get("Level");
@@ -1406,6 +1410,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             String productEditMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
             ChangeMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productEditMenuItemValue);
+           
             value = map.get(Constants.DEDUCTION_LEVEL_DDLB);
             deductionlevelDdlb.setValue(CommonUtils.nullCheck(value) || CommonUtils.stringNullCheck(value) ? value : DataTypeConverter.convertObjectToInt(value));
             value = map.get(Constants.DEDUCTION_LEVEL_VALUE);
@@ -1414,6 +1419,15 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             String deductionEditMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
             ChangeMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionEditMenuItemValue);
+                    
+            String deductionMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
+            ChangeMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+            pvSelectionDTO.setDeductionLevelFilter((List) CommonLogic.getFilterValues(deductionFilterValues).get(SID));
+            pvSelectionDTO.setDeductionLevelCaptions((List) CommonLogic.getFilterValues(deductionFilterValues).get("CAPTION"));
+            pvSelectionDTO.setIsdeductionFirst(pvSelectionDTO.getDeductionLevelFilter().isEmpty());
+            loadCustomerLevelFilter(ANULL.equals(String.valueOf(customerlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(customerlevelDdlb.getValue()));
+            loadProductLevelFilter(ANULL.equals(String.valueOf(productlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(productlevelDdlb.getValue()));
+
             value = map.get(Constants.SALES_INCLUSION_DDLB);
             if (!CommonUtils.nullCheck(value)) {
                 CommonUtils.setCustomMenuBarValuesInEdit(value, salesInclusionValues);
@@ -1441,7 +1455,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         sessionDTO.setProjectionId(projectionId);
         levelFilter.removeValueChangeListener(levelFilterChangeOption);
         loadLevelAndFilterValue();
-        pvSelectionDTO.setIslevelFiler(false);
+         pvSelectionDTO.setIslevelFiler(false);
         loadResultTable(0, "");
         levelFilter.addValueChangeListener(levelFilterChangeOption);
     }

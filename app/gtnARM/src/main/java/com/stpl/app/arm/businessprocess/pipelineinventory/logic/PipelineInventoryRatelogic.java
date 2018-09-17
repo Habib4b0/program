@@ -39,20 +39,20 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
     private static final DecimalFormat PER_THREEPIPELINE = new DecimalFormat("#,##0.000%");
 
     @Override
-    public int getCount(Criteria criteria) {
-        int count = (int) getRateQuery(criteria, true,
+    public int getCount(Criteria inventorycriteria) {
+        int count = (int) getRateQuery(inventorycriteria, true,
                 0, 0);
-        if ((count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO)))) && (criteria.getSelectionDto().getRateslevelFilterNo() == 0)) {
+        if ((count > 0 && (inventorycriteria.getParent() == null || (!(inventorycriteria.getParent() instanceof AdjustmentDTO)))) && (inventorycriteria.getSelectionDto().getRateslevelFilterNo() == 0)) {
             count = count + 1;
         }
         return count;
     }
 
     @Override
-    public DataResult<T> getData(Criteria criteria) {
+    public DataResult<T> getData(Criteria inventoryCriteria) {
 
-        List result = (List) getRateQuery(criteria, false,
-                criteria.getStart(), criteria.getOffset());
+        List result = (List) getRateQuery(inventoryCriteria, false,
+                inventoryCriteria.getStart(), inventoryCriteria.getOffset());
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(result);
         return dataResult;
@@ -61,79 +61,79 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
     /**
      *
      * @param result
-     * @param selection
+     * @param inventorySelection
      * @param lastParent
      * @return
      */
     @Override
-    protected List<AdjustmentDTO> customizeResultSet(List result, AbstractSelectionDTO selection, AdjustmentDTO lastParent) {
+    protected List<AdjustmentDTO> customizeResultSet(List result, AbstractSelectionDTO inventorySelection, AdjustmentDTO lastParent) {
 
         List<AdjustmentDTO> resultList = new ArrayList<>();
-        List columnList = ARMConstants.getDeduction().equalsIgnoreCase(selection.getRateDeductionLevelName())
-                ? selection.getRateColumnList().get(NumericConstants.THREE) : selection.getRateColumnList().get(1);
+        List columnList = ARMConstants.getDeduction().equalsIgnoreCase(inventorySelection.getRateDeductionLevelName())
+                ? inventorySelection.getRateColumnList().get(NumericConstants.THREE) : inventorySelection.getRateColumnList().get(1);
         String lastValue = null;
-        AdjustmentDTO dto = new AdjustmentDTO();
+        AdjustmentDTO inventoryDto = new AdjustmentDTO();
         double totalvalue = 0;
         for (int i = 0; i < result.size(); i++) {
             Object[] obj = (Object[]) result.get(i);
             if (lastValue == null || !lastValue.equalsIgnoreCase(String.valueOf(obj[1]))) {
                 totalvalue = 0;
-                dto = new AdjustmentDTO();
-                resultList.add(dto);
-                dto.setGroup(String.valueOf(obj[1]));
-                dto.setLevelName(String.valueOf(obj[NumericConstants.FOUR]));
-                switch (dto.getLevelName()) {
+                inventoryDto = new AdjustmentDTO();
+                resultList.add(inventoryDto);
+                inventoryDto.setGroup(String.valueOf(obj[1]));
+                inventoryDto.setLevelName(String.valueOf(obj[NumericConstants.FOUR]));
+                switch (inventoryDto.getLevelName()) {
                     case VariableConstants.DEDUCTION_UPPERCASE:
-                        dto.setDeductionSID((Integer) (obj[NumericConstants.THREE]));
+                        inventoryDto.setDeductionSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
                         break;
 
                     case VariableConstants.CUSTOMER_UPPERCASE:
-                        if (ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                            dto.setCustomerSID((Integer) (obj[NumericConstants.THREE]));
-                            dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
-                            dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
+                        if (ARMConstants.getDeductionContractCustomer().equals(inventorySelection.getRateDeductionView())) {
+                            inventoryDto.setCustomerSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
+                            inventoryDto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
+                            inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            dto.setCustomerSID((Integer) (obj[NumericConstants.THREE]));
-                            dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
+                            inventoryDto.setCustomerSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
+                            inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         }
 
                         break;
 
                     case VariableConstants.CONTRACT_UPPERCASE:
-                        if (ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                            dto.setContractSID((Integer) (obj[NumericConstants.THREE]));
-                            dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
+                        if (ARMConstants.getDeductionContractCustomer().equals(inventorySelection.getRateDeductionView())) {
+                            inventoryDto.setContractSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
+                            inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            dto.setContractSID((Integer) (obj[NumericConstants.THREE]));
-                            dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
-                            dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
+                            inventoryDto.setContractSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
+                            inventoryDto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
+                            inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         }
                         break;
 
                     case VariableConstants.BRAND_UPPERCASE:
-                        dto.setBrandSID((Integer) (obj[NumericConstants.THREE]));
-                        dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
-                        dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
-                        dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
+                        inventoryDto.setBrandSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
+                        inventoryDto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
+                        inventoryDto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
+                        inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         break;
                     case VariableConstants.PRODUCT_UPPER:
-                        dto.setBranditemmasterSid(String.valueOf(obj[NumericConstants.THREE]));
-                        dto.setBrandSID(lastParent != null && lastParent.getBrandSID() != null ? lastParent.getBrandSID() : 0);
-                        dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
-                        dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
-                        dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
+                        inventoryDto.setBranditemmasterSid(String.valueOf(obj[NumericConstants.THREE]));
+                        inventoryDto.setBrandSID(lastParent != null && lastParent.getBrandSID() != null ? lastParent.getBrandSID() : 0);
+                        inventoryDto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
+                        inventoryDto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
+                        inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         break;
                     default:
                 }
-                LOGGER.debug("----dto.getLevelName()----{}", dto.getLevelName());
-                dto.setChildrenAllowed(!VariableConstants.PRODUCT_UPPER.equalsIgnoreCase(dto.getLevelName()) && !"TOTAL".equalsIgnoreCase(dto.getGroup()) && (selection.getRateslevelFilterNo() == 0));
-                dto.setLevelNo(selection.getLevelNo());
+                LOGGER.debug("----dto.getLevelName()----{}", inventoryDto.getLevelName());
+                inventoryDto.setChildrenAllowed(!VariableConstants.PRODUCT_UPPER.equalsIgnoreCase(inventoryDto.getLevelName()) && !"TOTAL".equalsIgnoreCase(inventoryDto.getGroup()) && (inventorySelection.getRateslevelFilterNo() == 0));
+                inventoryDto.setLevelNo(inventorySelection.getLevelNo());
             }
             totalvalue += Double.valueOf(String.valueOf(obj[NumericConstants.TWO]));
             String totVal = getFormattedValue(PER_THREEPIPELINE, String.valueOf(totalvalue));
-            dto.setTotalColumn(totVal);
+            inventoryDto.setTotalColumn(totVal);
             String value = getFormattedValue(PER_THREEPIPELINE, String.valueOf(obj[NumericConstants.TWO]));
-            dto.addStringProperties(String.valueOf(obj[0]) + "." + columnList.indexOf(String.valueOf(obj[0])), value);
+            inventoryDto.addStringProperties(String.valueOf(obj[0]) + "." + columnList.indexOf(String.valueOf(obj[0])), value);
             lastValue = String.valueOf(obj[1]);
         }
 
@@ -150,11 +150,11 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
     protected Object getRateQuery(Criteria criteria, boolean isCount, int start, int offset) {
         AbstractSelectionDTO selection = (AbstractSelectionDTO) criteria.getSelectionDto();
         Object lastParent = criteria.getParent();
-        List input = new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId()));
+        List ratesInput = new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId()));
         boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (!isView) {
-            input.add(selection.getSessionDTO().getUserId());
-            input.add(selection.getSessionDTO().getSessionId());
+            ratesInput.add(selection.getSessionDTO().getUserId());
+            ratesInput.add(selection.getSessionDTO().getSessionId());
         }
         String queryNameCustomer = isView ? CommonConstant.CUSTOMERCONTRACTVIEW : CommonConstant.CUSTOMERCONTRACTEDIT;
         String queryNameProduct = isView ? "customerproductview" : "customerproductedit";
@@ -165,15 +165,15 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
             List count = null;
             if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
-                count = QueryUtils.getItemData(getQueryInput(parentDTO, selection, input, queryName), queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
+                count = QueryUtils.getItemData(getQueryInput(parentDTO, selection, ratesInput, queryName), queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
 
             } else {
                 if (!ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) && !ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                    input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(), selection.getTableName(), "%", "%", selection.getRateDeductionValue())));
-                    count = QueryUtils.getItemData(input, queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
+                    ratesInput.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(), selection.getTableName(), "%", "%", selection.getRateDeductionValue())));
+                    count = QueryUtils.getItemData(ratesInput, queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
                 } else {
-                    input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(), selection.getTableName(), "%", "%", "%", "%", selection.getRateDeductionValue())));
-                    count = QueryUtils.getItemData(input, queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
+                    ratesInput.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(), selection.getTableName(), "%", "%", "%", "%", selection.getRateDeductionValue())));
+                    count = QueryUtils.getItemData(ratesInput, queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
                 }
 
             }
@@ -193,19 +193,19 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
             if (offset != 0) {
                 if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
                     AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
-                    getQueryInput(parentDTO, selection, input, queryName);
-                    input.addAll(new ArrayList<>(Arrays.asList(startindex, endindex)));
-                    result = QueryUtils.getItemData(input, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
+                    getQueryInput(parentDTO, selection, ratesInput, queryName);
+                    ratesInput.addAll(new ArrayList<>(Arrays.asList(startindex, endindex)));
+                    result = QueryUtils.getItemData(ratesInput, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
                     resultDTO = customizeResultSet(result, selection, parentDTO);
                 } else {
                     if (!ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) && !ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                        input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
+                        ratesInput.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
                                 selection.getTableName(), "%", "%", selection.getRateDeductionValue(), startindex, endindex)));
-                        result = QueryUtils.getItemData(input, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
+                        result = QueryUtils.getItemData(ratesInput, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
                     } else {
-                        input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
+                        ratesInput.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
                                 selection.getTableName(), "%", "%", "%", "%", selection.getRateDeductionValue(), startindex, endindex)));
-                        result = QueryUtils.getItemData(input, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
+                        result = QueryUtils.getItemData(ratesInput, queryName, CommonConstant.CUSTOMERPRODUCTDATA);
                     }
 
                     resultDTO = customizeResultSet(result, selection, null);
@@ -213,31 +213,31 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
             }
 
             if (totalFlag) {
-                input.clear();
+                ratesInput.clear();
                 if (!isView) {
                     if (ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) || ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                        input.addAll(new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId(),
+                        ratesInput.addAll(new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId(),
                                 selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),
                                 selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
                                 selection.getTableName(), "%", "%", "%", "%", selection.getRateDeductionValue())));
                     } else {
-                        input.addAll(new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId(),
+                        ratesInput.addAll(new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId(),
                                 selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),
                                 selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
                                 selection.getTableName(), "%", "%", selection.getRateDeductionValue())));
                     }
                 } else {
                     if (ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) || ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                        input.addAll(new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId(), selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
+                        ratesInput.addAll(new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId(), selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
                                 selection.getTableName(), "%", "%", "%", "%", selection.getRateDeductionValue())));
                     } else {
-                        input.addAll(new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId(), selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
+                        ratesInput.addAll(new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId(), selection.getRateDeductionLevelName(), selection.getRateLevelName(), selection.getRateBasisName(), selection.getRatesOverrideFlag(),
                                 selection.getTableName(), "%", "%", selection.getRateDeductionValue())));
                     }
                 }
                 String resultCustomer = isView ? CommonConstant.CUSTOMERCONTRACTVIEW : CommonConstant.CUSTOMERCONTRACTEDIT;
                 String resultProduct = isView ? "customerproductview" : "customerproductedit";
-                result = QueryUtils.getItemData(input, ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) || ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView()) ? resultCustomer
+                result = QueryUtils.getItemData(ratesInput, ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) || ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView()) ? resultCustomer
                         : resultProduct, "totalrate");
                 resultDTO.addAll(customizeResultSet(result, selection, null));
             }
@@ -321,52 +321,52 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
     }
 
     @Override
-    public List getExcelResultList(AbstractSelectionDTO selection) {
+    public List getExcelResultList(AbstractSelectionDTO inventorySelection) {
 
-        LOGGER.debug("selection.getRate_DeductionValue()========{}", selection.getRateDeductionValue());
+        LOGGER.debug("selection.getRate_DeductionValue()========{}", inventorySelection.getRateDeductionValue());
         String query;
-        String deductionValue = selection.getRateDeductionValue().startsWith(String.valueOf(ARMUtils.SINGLE_QUOTES)) ? selection.getRateDeductionValue() : ARMUtils.SINGLE_QUOTES + selection.getRateDeductionValue() + ARMUtils.SINGLE_QUOTES;
-        boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
+        String deductionValue = inventorySelection.getRateDeductionValue().startsWith(String.valueOf(ARMUtils.SINGLE_QUOTES)) ? inventorySelection.getRateDeductionValue() : ARMUtils.SINGLE_QUOTES + inventorySelection.getRateDeductionValue() + ARMUtils.SINGLE_QUOTES;
+        boolean isView = inventorySelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (isView) {
             query = SQlUtil.getQuery("getExcelRatePipelineInventoryView");
         } else {
             query = SQlUtil.getQuery("getExcelRatePipelineInventory");
         }
         Object[] value = null;
-        if (selection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract()) && selection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
+        if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract()) && inventorySelection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
             value = new Object[]{"D", "T", "C", "B", "I"};
-        } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer()) && selection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
+        } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer()) && inventorySelection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
             value = new Object[]{"D", "C", "T", "B", "I"};
-        } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer())) {
+        } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer())) {
             value = new Object[]{"C", "T", "B", "I"};
-        } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract())) {
+        } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract())) {
             value = new Object[]{"T", "C", "B", "I"};
-        } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionCustomer())) {
+        } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomer())) {
             value = new Object[]{"T", "B", "I"};
-        } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionProduct())) {
+        } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionProduct())) {
             value = new Object[]{"B", "I"};
         }
         query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
-        query = query.replace("@DEDCONDITION", selection.getRateDeductionLevelName());
+        query = query.replace("@DEDCONDITION", inventorySelection.getRateDeductionLevelName());
         query = query.replace("@CONDITIONVALUE", deductionValue.replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
-        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
-        query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
-        query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
-        query = query.replace("@RATEBASIS", selection.getRateBasisName());
-        query = query.replace("@FLAG_BIT", String.valueOf(selection.getRatesOverrideFlag()));
-        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
+        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(inventorySelection.getProjectionMasterSid()));
+        query = query.replace("@USERID", String.valueOf(inventorySelection.getSessionDTO().getUserId()));
+        query = query.replace("@SESSIONID", String.valueOf(inventorySelection.getSessionDTO().getSessionId()));
+        query = query.replace("@RATEBASIS", inventorySelection.getRateBasisName());
+        query = query.replace("@FLAG_BIT", String.valueOf(inventorySelection.getRatesOverrideFlag()));
+        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, inventorySelection.getSessionDTO().getCurrentTableNames()));
     }
 
     @Override
-    public List getTableInput(SessionDTO sessionDTO) {
-        List list = new ArrayList<>();
-        list.add("RATE");
-        list.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_INVENTORY_RATE));
-        list.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_INVENTORY_RATE));
-        list.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_INVENTORY));
-        list.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_INVENTORY_RATE));
-        list.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_ADJUSTMENTS));
-        return list;
+    public List getTableInput(SessionDTO ratesSessionDTO) {
+        List ratesTableInput = new ArrayList<>();
+        ratesTableInput.add("RATE");
+        ratesTableInput.add(ratesSessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_INVENTORY_RATE));
+        ratesTableInput.add(ratesSessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_INVENTORY_RATE));
+        ratesTableInput.add(ratesSessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_INVENTORY));
+        ratesTableInput.add(ratesSessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_INVENTORY_RATE));
+        ratesTableInput.add(ratesSessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_ADJUSTMENTS));
+        return ratesTableInput;
     }
 
     @Override
@@ -375,21 +375,22 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
     }
 
     @Override
-    public boolean updateOverride(List input) {
+    public boolean updateOverride(List ratesInput) {
         try {
-            QueryUtils.itemUpdate(input, "pipeline_common_query", "Txn3_rates_override_query");
+            QueryUtils.itemUpdate(ratesInput, "pipeline_common_query", "Txn3_rates_override_query");
         } catch (Exception e) {
             LOGGER.error("Error in updateOverride :", e);
             return false;
         }
         return true;
     }
-      @Override
-    public boolean updateOverrideLevelFilter(List input) {
+
+    @Override
+    public boolean updateOverrideLevelFilter(List ratesInput) {
         try {
-            QueryUtils.itemUpdate(input, "pipeline_common_query_Level_Filter", "Txn3_rates_override_query_Level_Filter");
+            QueryUtils.itemUpdate(ratesInput, "pipeline_common_query_Level_Filter", "Txn3_rates_override_query_Level_Filter");
         } catch (Exception e) {
-            LOGGER.error("Error in updateOverride :" ,e);
+            LOGGER.error("Error in updateOverride :", e);
             return false;
         }
         return true;

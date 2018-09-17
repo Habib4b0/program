@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -145,7 +143,7 @@ public class GtnReportCCPTableLoadAction
 
 	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList,
 			List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList, String componentId)
-			throws Exception {
+			throws GtnFrameworkValidationFailedException {
 
 		GtnWsReportDataSelectionBean dto = new GtnWsReportDataSelectionBean();
 		Date forecastEligibleDate = null;
@@ -156,9 +154,6 @@ public class GtnReportCCPTableLoadAction
 				.getVaadinBaseComponent(hierarchyComponentId).getComponentData().getCustomData();
 		GtnWsRecordBean productRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(8).toString()).getComponentData().getCustomData();
-
-		List<GtnReportComparisonProjectionBean> comparisonOptionLookupBean = (List<GtnReportComparisonProjectionBean>) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(16).toString()).getComponentData().getCustomData();
 
 		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(7).toString())
 				.getFieldValue();
@@ -229,13 +224,9 @@ public class GtnReportCCPTableLoadAction
 
 	public void ccpHierarchyInsert(List<GtnWsRecordBean> selectedCustomerContractList,
 			List<GtnWsRecordBean> selectedProductList, GtnWsReportDataSelectionBean dataSelectionDto) {
-		try {
-			GtnForecastHierarchyInputBean inputBean = createInputBeanForCCPInsert(selectedCustomerContractList,
-					selectedProductList, dataSelectionDto);
-			insertToCCp(inputBean, dataSelectionDto);
-		} catch (GtnFrameworkValidationFailedException ex) {
-			Logger.getLogger(GtnReportCCPTableLoadAction.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		GtnForecastHierarchyInputBean inputBean = createInputBeanForCCPInsert(selectedCustomerContractList,
+				selectedProductList, dataSelectionDto);
+		insertToCCp(inputBean, dataSelectionDto);
 	}
 
 	private GtnForecastHierarchyInputBean createInputBeanForCCPInsert(
@@ -257,8 +248,7 @@ public class GtnReportCCPTableLoadAction
 		return inputBean;
 	}
 
-	private void insertToCCp(GtnForecastHierarchyInputBean inputBean, GtnWsReportDataSelectionBean dataSelectionBean)
-			throws GtnFrameworkValidationFailedException {
+	private void insertToCCp(GtnForecastHierarchyInputBean inputBean, GtnWsReportDataSelectionBean dataSelectionBean) {
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
@@ -313,7 +303,7 @@ public class GtnReportCCPTableLoadAction
 
 	private void generateButtonMandatoryCheck(GtnWsReportDataSelectionBean dto, List<Object> actionParamList,
 			GtnWsRecordBean customerRecordBean, GtnWsRecordBean productRecordBean, String relationshipComponentId)
-			throws NumberFormatException, GtnFrameworkValidationFailedException {
+			throws GtnFrameworkValidationFailedException {
 		dto.setCompanyReport(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox())));
 		dto.setBusinessUnitReport(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
@@ -324,7 +314,7 @@ public class GtnReportCCPTableLoadAction
 				.getVaadinBaseComponent(actionParamList.get(15).toString()).getIntegerFromV8ComboBox()));
 		dto.setToPeriod(checkDDLBValues(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(20).toString()).getIntegerFromV8ComboBox()));
-		dto.setCustomerHierarchySid(checkDDLBValues(Integer.valueOf(String
+		dto.setCustomerHierarchySid(checkDDLBValuesWrapper(Integer.valueOf(String
 				.valueOf(customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1)))));
 		dto.setCustomerHierarchyVersionNo(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(5).toString()).getStringCaptionFromV8ComboBox())));
@@ -334,7 +324,7 @@ public class GtnReportCCPTableLoadAction
 				.getVaadinBaseComponent(actionParamList.get(5).toString()).getCaptionFromV8ComboBox()))));
 		dto.setCustomerHierarchyForecastLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(6).toString()).getCaptionFromV8ComboBox()))));
-		dto.setProductHierarchySid(checkDDLBValues(Integer.valueOf(String
+		dto.setProductHierarchySid(checkDDLBValuesWrapper(Integer.valueOf(String
 				.valueOf(productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1)))));
 		dto.setProductHierarchyVersionNo(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(11).toString()).getStringCaptionFromV8ComboBox())));
@@ -347,6 +337,13 @@ public class GtnReportCCPTableLoadAction
 	}
 
 	private int checkDDLBValues(int value) throws GtnFrameworkValidationFailedException {
+		if (value == 0) {
+			throw new GtnFrameworkValidationFailedException("Generate Validation Exception");
+		}
+		return value;
+	}
+
+	private Integer checkDDLBValuesWrapper(Integer value) throws GtnFrameworkValidationFailedException {
 		if (value == 0) {
 			throw new GtnFrameworkValidationFailedException("Generate Validation Exception");
 		}

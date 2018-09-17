@@ -14,9 +14,9 @@ import org.asi.ui.addons.lazycontainer.SearchCriteria;
  */
 public class RelationshipDdlbCriteria  implements SearchCriteria {
 
-    private int lastCount;
-    private boolean dirty = true;
-    private String filter = StringUtils.EMPTY;
+    private int lastCountRelationShip;
+    private boolean dirtyRelationShip = true;
+    private String filterRelationShip = StringUtils.EMPTY;
 
     public RelationshipDdlbCriteria() {
         super();
@@ -24,32 +24,32 @@ public class RelationshipDdlbCriteria  implements SearchCriteria {
     
     @Override
     public int getLastCount() {
-        return lastCount;
+        return lastCountRelationShip;
     }
 
     @Override
-    public void setLastCount(int lastCount) {
-       this.lastCount = lastCount;
+    public void setLastCount(int lastCountRs) {
+       this.lastCountRelationShip = lastCountRs;
     }
 
     @Override
     public boolean isDirty() {
-        return dirty;
+        return dirtyRelationShip;
     }
 
     @Override
-    public void setDirty(boolean dirty) {
-       this.dirty = dirty;
+    public void setDirty(boolean dirtyRs) {
+       this.dirtyRelationShip = dirtyRs;
     }
 
     @Override
     public String getFilter() {
-        return filter;
+        return filterRelationShip;
     }
 
     @Override
-    public void setFilter(String filter) {
-        this.filter = filter;
+    public void setFilter(String filterRs) {
+        this.filterRelationShip = filterRs;
     }
     
 }

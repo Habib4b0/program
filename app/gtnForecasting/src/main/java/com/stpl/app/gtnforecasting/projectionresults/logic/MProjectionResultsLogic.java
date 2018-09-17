@@ -3671,7 +3671,7 @@ public class MProjectionResultsLogic {
 
     public String getNetSalesQuery(ProjectionSelectionDTO projSelDTO) {
          CommonLogic commonLogic = new CommonLogic();
-        String customerProductQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);;
+        String customerProductQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
 
         StringBuilder netSalesQuery = new StringBuilder();
         List<String> list = getCommonSelectPeriodNetSalesClause(Constant.TODIS_LABEL, "SALE", projSelDTO.getFrequencyDivision());

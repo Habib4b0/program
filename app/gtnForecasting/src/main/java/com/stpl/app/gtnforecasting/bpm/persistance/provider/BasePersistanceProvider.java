@@ -8,7 +8,7 @@ import java.util.List;
  * @author arulmurugan
  */
 public class BasePersistanceProvider {
-
+    
     @SuppressWarnings("unchecked")
     protected static List<Object[]> executeSelectQuery(String customQuery) {
 

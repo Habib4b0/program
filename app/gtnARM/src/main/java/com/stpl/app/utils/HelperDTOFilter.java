@@ -21,10 +21,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public class HelperDTOFilter implements Container.Filter {
 
-    private final Object propertyId;
+    private final Object helperPropertyId;
     private String filterDescription = StringUtils.EMPTY;
     private int filterId = 0;
-    private boolean addFilterById = Boolean.TRUE;
+    private boolean addFilterById = true;
 
     /**
      * Method to create Filter for helper DTO objects
@@ -35,7 +35,7 @@ public class HelperDTOFilter implements Container.Filter {
      */
     public HelperDTOFilter(Object propertyId,
             HelperDTO filterHelperDTO, boolean addFilterById) {
-        this.propertyId = propertyId;
+        this.helperPropertyId = propertyId;
         filterDescription = filterHelperDTO.getDescription();
         filterId = filterHelperDTO.getId();
         this.addFilterById = addFilterById;
@@ -49,9 +49,9 @@ public class HelperDTOFilter implements Container.Filter {
      */
     public HelperDTOFilter(Object propertyId,
             int filterId) {
-        this.propertyId = propertyId;
+        this.helperPropertyId = propertyId;
         this.filterId = filterId;
-        this.addFilterById = Boolean.TRUE;
+        this.addFilterById = true;
     }
 
     /**
@@ -62,14 +62,14 @@ public class HelperDTOFilter implements Container.Filter {
      */
     public HelperDTOFilter(Object propertyId,
             String filterDescription) {
-        this.propertyId = propertyId;
+        this.helperPropertyId = propertyId;
         this.filterDescription = filterDescription;
-        this.addFilterById = Boolean.FALSE;
+        this.addFilterById = false;
     }
 
     @Override
     public boolean passesFilter(Object itemId, Item item) {
-        final Property<?> p = item.getItemProperty(propertyId);
+        final Property<?> p = item.getItemProperty(helperPropertyId);
         if (p == null) {
             return false;
         }
@@ -96,25 +96,25 @@ public class HelperDTOFilter implements Container.Filter {
     }
 
     @Override
-    public boolean appliesToProperty(Object propertyId) {
-        return this.propertyId.equals(propertyId);
+    public boolean appliesToProperty(Object helperPropertyId) {
+        return this.helperPropertyId.equals(helperPropertyId);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object helperObj) {
+        if (helperObj == null) {
             return false;
         }
 
         // Only ones of the objects of the same class can be equal
-        if (obj.getClass() != getClass()) {
+        if (helperObj.getClass() != getClass()) {
             return false;
         }
-        final HelperDTOFilter o = (HelperDTOFilter) obj;
+        final HelperDTOFilter o = (HelperDTOFilter) helperObj;
 
         // Checks the properties one by one
-        if (propertyId != o.propertyId && o.propertyId != null
-                && !o.propertyId.equals(propertyId)) {
+        if (helperPropertyId != o.helperPropertyId && o.helperPropertyId != null
+                && !o.helperPropertyId.equals(helperPropertyId)) {
             return false;
         }
         if (filterId != o.filterId) {
@@ -127,7 +127,7 @@ public class HelperDTOFilter implements Container.Filter {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.propertyId);
+        hash = 89 * hash + Objects.hashCode(this.helperPropertyId);
         hash = 89 * hash + Objects.hashCode(this.filterDescription);
         hash = 89 * hash + this.filterId;
         return hash;
@@ -139,7 +139,7 @@ public class HelperDTOFilter implements Container.Filter {
      * @return property id
      */
     public Object getPropertyId() {
-        return propertyId;
+        return helperPropertyId;
     }
 
     /**

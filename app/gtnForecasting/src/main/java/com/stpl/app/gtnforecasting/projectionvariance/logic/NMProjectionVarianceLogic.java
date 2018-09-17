@@ -64,6 +64,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
@@ -830,7 +831,7 @@ public class NMProjectionVarianceLogic {
 				String valueOfProjId = String.valueOf(projId);
 				projectionIdList.add(valueOfProjId);
 			}
-			String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+			String projectionId = CommonUtils.collectionToStringMethod(projectionIdList, false);
 			String ccps = null;
 			String projSelDTOLevel = projSelDTO.getLevel();
 			
@@ -1375,7 +1376,10 @@ public class NMProjectionVarianceLogic {
 			frequency = Constant.ANNUAL_CAPS;
 		}
 		projectionIdList.add(String.valueOf(selectionDTO.getCurrentProjId()));
-		String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+                for (Integer projId : new TreeSet<>(pvsdto.getProjectionMap().keySet())) {
+                projectionIdList.add(String.valueOf(projId));
+                }
+		String projectionId = CommonUtils.collectionToStringMethod(projectionIdList, false);
 		String ccps = null;
 		if (pvsdto.getLevel().equals(Constant.DETAIL)) {
 			ccps = getCCPIds(pvsdto);
@@ -2949,7 +2953,7 @@ public class NMProjectionVarianceLogic {
 				+ Constant.ON_BCCP_DETAILS_SID_CCP_DET + "AND B.DEDUCTION_HIERARCHY_NO=CCP.HIERARCHY_NO\n";
 		if (projSelDTO.getDiscountNoList() != null && !projSelDTO.getDiscountNoList().isEmpty()) {
 			query += Constant.WHERE_BRS_CONTRACT_SID_IN + (isDeductionTenthLevel ? projSelDTO.getHierarchyNo()
-					: CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false)) + " );";
+					: CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false)) + " );";
 		}
 		query += "   END\n" + "   ELSE\n" + "   BEGIN\n" + "         SELECT COUNT(DISTINCT RS_CONTRACT_SID)\n"
 				+ " FROM  " + tableName + Constant.NM_DISCOUNT_PROJ_MASTER_B + Constant.JOIN_SELECTED_HIERARCHY_NO_CCP
@@ -2961,7 +2965,7 @@ public class NMProjectionVarianceLogic {
 				+ " AND rld.RELATIONSHIP_LEVEL_VALUES = b.RS_CONTRACT_SID ";
 		if (projSelDTO.getDiscountNoList() != null && !projSelDTO.getDiscountNoList().isEmpty()) {
 			query += Constant.WHERE_BRS_CONTRACT_SID_IN + (isDeductionTenthLevel ? projSelDTO.getHierarchyNo()
-					: CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false)) + " );";
+					: CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false)) + " );";
 		}
 		query += "   END ";
 		return query;
@@ -2995,7 +2999,7 @@ public class NMProjectionVarianceLogic {
 		discountNoList = D.equals(projSelDTO.getHierarchyIndicator()) && projSelDTO.getLevelNo() == NumericConstants.TEN
 				? projSelDTO.getHierarchyNo()
 				: discountNoList + Constant.SPACE
-						+ CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
+						+ CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false);
 		if (PROGRAM.getConstant().equalsIgnoreCase(projSelDTO.getDiscountLevel())) {
 			if (projSelDTO.getDiscountNoList() != null && !projSelDTO.getDiscountNoList().isEmpty()) {
 				indicatorValue = "R";

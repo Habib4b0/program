@@ -632,7 +632,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
                     if ((GROWTH.getConstant()).equalsIgnoreCase(fmValue)) {
                         if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
-                            frequencyDdlb.select(ANNUAL.getConstant());;
+                            frequencyDdlb.select(ANNUAL.getConstant());
                             frequencyDdlb.setEnabled(false);
                             forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                         } else {

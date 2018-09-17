@@ -46,35 +46,28 @@ public class GtnWsSecurityAuthFilter implements Filter {
 		if (!"".equals(requestBody)) {
 
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = null;
+			gtnUIFrameworkWebserviceRequest = objectMapper.readValue(requestBody,
+					GtnUIFrameworkWebserviceRequest.class);
+			GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
+			GtnWsGeneralRequest gtnWsGeneralRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 
-			try {
+			boolean result;
 
-				gtnUIFrameworkWebserviceRequest = objectMapper.readValue(requestBody,
-						GtnUIFrameworkWebserviceRequest.class);
-				GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
-				GtnWsGeneralRequest gtnWsGeneralRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+			String resultString;
+			if (gtnWsGeneralRequest == null) {
+				result = false;
+				resultString = "Token verification failed";
+			} else {
+				result = gtnWsSecurityManager.verifyToken(gtnWsGeneralRequest.getUserId(),
+						gtnWsGeneralRequest.getSessionId(), gtnWsGeneralRequest.getToken());
+				resultString = result ? "Token Verifed Sucessfully"
+						: "  Token verification failed  : " + gtnWsGeneralRequest.getUserId();
+			}
 
-				boolean result;
-
-				String resultString;
-				if (gtnWsGeneralRequest == null) {
-					result = false;
-					resultString = "Token verification failed";
-				} else {
-					result = gtnWsSecurityManager.verifyToken(gtnWsGeneralRequest.getUserId(),
-							gtnWsGeneralRequest.getSessionId(), gtnWsGeneralRequest.getToken());
-					resultString = result ? "Token Verifed Sucessfully"
-							: "  Token verification failed  : " + gtnWsGeneralRequest.getUserId();
-				}
-
-				logger.info(resultString);
-				if (result) {
-					filterChain.doFilter(wrapper, servletResponse);
-					return;
-				}
-
-			} catch (Exception e) {
-				logger.error(e.getMessage());
+			logger.info(resultString);
+			if (result) {
+				filterChain.doFilter(wrapper, servletResponse);
+				return;
 			}
 		}
 

@@ -30,6 +30,10 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 
 	private String screenName;
 
+	public GtnFrameworkReportCustomViewEditAction() {
+		super();
+	}
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -109,6 +113,8 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 		case 'V':
 			removeLeftVariables(currentTempData);
 			break;
+		default:
+			break;
 		}
 
 	}
@@ -155,8 +161,7 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 		return this;
 	}
 
-	private void loadFields(String customSid, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
+	private void loadFields(String customSid, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) {
 		final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		final GtnUIFrameworkWebserviceRequest generalRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();

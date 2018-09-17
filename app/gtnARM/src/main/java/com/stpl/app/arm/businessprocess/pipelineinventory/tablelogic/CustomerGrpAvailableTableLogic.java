@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public class CustomerGrpAvailableTableLogic extends PageTableLogic {
 
     private boolean generate = false;
-    private CustomerGroupDTO binderDto;
+    private CustomerGroupDTO customerGroupBinderDto;
     private PipelineInventoryLookupLogic commonLogic = new PipelineInventoryLookupLogic();
     private BeanItemContainer<CustomerGroupDTO> resultsinventoryContainer = new BeanItemContainer<>(CustomerGroupDTO.class);
     private boolean firstCount = true;
@@ -44,32 +44,32 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
     public int getCount() {
         if (generate) {
             try {
-                binderDto.clearFilters();
+                customerGroupBinderDto.clearFilters();
 
                 if (firstCount) {
                     resultsinventoryContainer.removeAllContainerFilters();
                     resultsinventoryContainer.removeAllItems();
-                    commonLogic.getInventCustomerProductGroupCount(binderDto, resultsinventoryContainer, binderDto.isViewFlag(), selectionDto);
+                    commonLogic.getInventCustomerProductGroupCount(customerGroupBinderDto, resultsinventoryContainer, customerGroupBinderDto.isViewFlag(), selectionDto);
 
                 }
                 for (Container.Filter fil : getFilters()) {
-                    binderDto.addFilter(fil);
+                    customerGroupBinderDto.addFilter(fil);
                 }
                 ExtStringFilter filter = null;
                 ExtStringFilter filter1 = null;
-                if (!binderDto.getCustomerGroupName().isEmpty()) {
-                    filter = new ExtStringFilter("customerGroupName", binderDto.getCustomerGroupName(), true, true, true);
-                    binderDto.addFilter(filter);
+                if (!customerGroupBinderDto.getCustomerGroupName().isEmpty()) {
+                    filter = new ExtStringFilter("customerGroupName", customerGroupBinderDto.getCustomerGroupName(), true, true, true);
+                    customerGroupBinderDto.addFilter(filter);
                 }
-                if (!binderDto.getCustomerGroupNo().isEmpty()) {
-                    filter1 = new ExtStringFilter("customerGroupNo", binderDto.getCustomerGroupNo(), true, true, true);
-                    binderDto.addFilter(filter1);
+                if (!customerGroupBinderDto.getCustomerGroupNo().isEmpty()) {
+                    filter1 = new ExtStringFilter("customerGroupNo", customerGroupBinderDto.getCustomerGroupNo(), true, true, true);
+                    customerGroupBinderDto.addFilter(filter1);
                 }
                 Container.Filter filter2 = new Compare.Equal("selectedFlag", Boolean.FALSE);
-                Set<Container.Filter> filterSet = binderDto.getFilters();
+                Set<Container.Filter> filterSet = customerGroupBinderDto.getFilters();
                 filterSet.add(filter2);
-                binderDto.setFilters(filterSet);
-                AbstractFilter.getInstance().filterQueryForContainer(binderDto.getFilters(), resultsinventoryContainer);
+                customerGroupBinderDto.setFilters(filterSet);
+                AbstractFilter.getInstance().filterQueryForContainer(customerGroupBinderDto.getFilters(), resultsinventoryContainer);
                 return resultsinventoryContainer.size();
 
             } catch (Exception ex) {
@@ -84,27 +84,27 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
         List<CustomerGroupDTO> resultList = new ArrayList<>();
 
         try {
-            binderDto.clearFilters();
+            customerGroupBinderDto.clearFilters();
             for (Container.Filter fil : getFilters()) {
-                binderDto.addFilter(fil);
+                customerGroupBinderDto.addFilter(fil);
             }
             ExtStringFilter filter = null;
             ExtStringFilter filter1 = null;
-            if (!binderDto.getCustomerGroupName().isEmpty()) {
-                filter = new ExtStringFilter("customerGroupName", binderDto.getCustomerGroupName(), true, true, true);
-                binderDto.addFilter(filter);
+            if (!customerGroupBinderDto.getCustomerGroupName().isEmpty()) {
+                filter = new ExtStringFilter("customerGroupName", customerGroupBinderDto.getCustomerGroupName(), true, true, true);
+                customerGroupBinderDto.addFilter(filter);
             }
-            if (!binderDto.getCustomerGroupNo().isEmpty()) {
-                filter1 = new ExtStringFilter("customerGroupNo", binderDto.getCustomerGroupNo(), true, true, true);
-                binderDto.addFilter(filter1);
+            if (!customerGroupBinderDto.getCustomerGroupNo().isEmpty()) {
+                filter1 = new ExtStringFilter("customerGroupNo", customerGroupBinderDto.getCustomerGroupNo(), true, true, true);
+                customerGroupBinderDto.addFilter(filter1);
             }
             Container.Filter filter2 = new Compare.Equal("selectedFlag", Boolean.FALSE);
-            Set<Container.Filter> filterSet = binderDto.getFilters();
+            Set<Container.Filter> filterSet = customerGroupBinderDto.getFilters();
             filterSet.add(filter2);
-            binderDto.setFilters(filterSet);
-            binderDto.setSortedColumns(getSortByColumns());
-            AbstractFilter.getInstance().filterQueryForContainer(binderDto.getFilters(), resultsinventoryContainer);
-            AbstractFilter.getInstance().orderByQueryForContainer(binderDto.getSortedColumns(), resultsinventoryContainer);
+            customerGroupBinderDto.setFilters(filterSet);
+            customerGroupBinderDto.setSortedColumns(getSortByColumns());
+            AbstractFilter.getInstance().filterQueryForContainer(customerGroupBinderDto.getFilters(), resultsinventoryContainer);
+            AbstractFilter.getInstance().orderByQueryForContainer(customerGroupBinderDto.getSortedColumns(), resultsinventoryContainer);
             resultList = resultsinventoryContainer.getItemIds(start, offset);
         } catch (Exception ex) {
             LOGGER.error("Error in loadData :", ex);
@@ -127,7 +127,7 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
      * @return 
      */
     public boolean loadSetData(CustomerGroupDTO binderDto, boolean reset, AbstractSelectionDTO selectionDto) {
-        this.binderDto = binderDto;
+        this.customerGroupBinderDto = binderDto;
         this.selectionDto = selectionDto;
         clearAll();
         getFilters().clear();

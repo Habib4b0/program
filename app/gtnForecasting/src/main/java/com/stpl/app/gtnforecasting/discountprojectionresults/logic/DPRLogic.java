@@ -111,7 +111,7 @@ public class DPRLogic {
                     projSelDTO.setHierarchyIndicator(indicator);
                     projSelDTO.setLevelNo(0);
                     projSelDTO.setTreeLevelNo(0);
-                    projSelDTO.setCustomLevelNo(0);;
+                    projSelDTO.setCustomLevelNo(0);
                 } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
                     projSelDTO.setLevelNo(projSelDTO.getCustomerLevelNo() - 1);
                     projSelDTO.setTreeLevelNo(projSelDTO.getCustomerLevelNo() - 1);
@@ -168,7 +168,7 @@ public class DPRLogic {
                     }
 
                 }
-                if (discount.equals(Constant.BOTH) || discount.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
+                if (discount.equals(Constant.BOTH)) {
                     boolean toadd = false;
                     if (projSelDTO.isIsProjectionTotal() && start < NumericConstants.FOUR) {
                         toadd = true;
@@ -680,7 +680,7 @@ public class DPRLogic {
                     count = count + list.size();
                 }
                 mdFlag = true;
-            } else if ((CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED).equalsIgnoreCase(salesOrUnit) || (Constant.SUPPLEMENTAL).equalsIgnoreCase(salesOrUnit)) {
+            } else if ((Constant.SUPPLEMENTAL).equalsIgnoreCase(salesOrUnit)) {
                 count += 1;
             } else {
                 count += NumericConstants.TWO;
@@ -2245,9 +2245,7 @@ public class DPRLogic {
 
             if (!resultList.isEmpty()) {
                 totalDTO.add(resultList.get(0));
-                if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(projSelDTO.getMandatedOrSupp())) {
-                    totalDTO.add(resultList.get(1));
-                } else if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getMandatedOrSupp())) {
+                    if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getMandatedOrSupp())) {
                     totalDTO.add(resultList.get(NumericConstants.TWO));
                 } else {
                     totalDTO.add(resultList.get(1));

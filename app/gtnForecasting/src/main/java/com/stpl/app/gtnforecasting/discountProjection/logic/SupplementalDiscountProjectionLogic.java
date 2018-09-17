@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.FormulaDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
-import com.stpl.app.gtnforecasting.discountProjection.form.MSupplementalDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.SupplementalTableLogic;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -32,7 +31,6 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -539,7 +537,7 @@ public class SupplementalDiscountProjectionLogic {
                 ccpDetailsId = StringUtils.EMPTY + checkedDto.getCcpDetailsSID();
 
             } else if (checkedDto.getCcpDetailIds().size() > 0 && !(Constant.PRODUCT_LABEL.equalsIgnoreCase(checkedDto.getLevelName()))) {
-                ccpDetailsId = CommonUtils.CollectionToString(checkedDto.getCcpDetailIds(), false);
+                ccpDetailsId = CommonUtils.collectionToStringMethod(checkedDto.getCcpDetailIds(), false);
             }
             if (!StringUtils.EMPTY.equals(ccpDetailsId) && !Constant.NULL.equals(ccpDetailsId)) {
                 queryToUpdateCheckRecord(checkValue, projSelDto.getSessionDTO(), ccpDetailsId);
@@ -589,7 +587,7 @@ public class SupplementalDiscountProjectionLogic {
         if (checkedDto.getSupplementalLevelNo() == 5) {
             ccpDetailsId = checkedDto.getCcpDetailsSID().toString();
         } else {
-            ccpDetailsId = CommonUtils.CollectionToString(checkedDto.getCcpDetailIds(), false);
+            ccpDetailsId = CommonUtils.collectionToStringMethod(checkedDto.getCcpDetailIds(), false);
         }
         if (fieldSelection.equals(METHODOLOGY.getConstant().toUpperCase(Locale.ENGLISH))) {
             populateMethodologyWithFormulaDetails(checkedDto, value, session);
@@ -633,7 +631,7 @@ public class SupplementalDiscountProjectionLogic {
         if (projSelDTO.getSupplementalLevelNo() == 4) {
             queryBuilder1.append(" WHERE SUPPROJ.CCP_DETAILS_SID = " ).append( dto.getCcpDetailsSID()).append( " AND PRD.PERIOD_SID=SUPPROJ.PERIOD_SID \n");
         } else {
-            ccpDetailsId = CommonUtils.CollectionToString(dto.getCcpDetailIds(), false);
+            ccpDetailsId = CommonUtils.collectionToStringMethod(dto.getCcpDetailIds(), false);
             queryBuilder1.append(" WHERE SUPPROJ.CCP_DETAILS_SID in (" ).append( ccpDetailsId ).append( ") AND PRD.PERIOD_SID=SUPPROJ.PERIOD_SID \n");
         }
         queryBuilder1.append(" group by PRD.QUARTER " ).append( groupByQuery ).append( " ,PRD.\"YEAR\" order by PRD.\"YEAR\" \n");
@@ -805,53 +803,12 @@ public class SupplementalDiscountProjectionLogic {
         return value;
     }
 
-    public String[] getYearAndPeriod(Object propertyId) {
-        String[] periodArr = new String[3];
-        String tempStr = StringUtils.EMPTY;
-        String columnName = StringUtils.EMPTY;
-        String propertyIdValue = propertyId.toString();
-        if (propertyIdValue.contains(METHODOLOGY.getConstant())) {
-            tempStr = METHODOLOGY.getConstant();
-            columnName = tempStr;
-        } else if (propertyIdValue.contains(ACCESS.getConstant())) {
-            tempStr = ACCESS.getConstant();
-            columnName = tempStr;
-        } else if (propertyIdValue.contains(Constant.DISCOUNT_ONE)) {
-            tempStr = Constant.DISCOUNT_ONE;
-            columnName = tempStr.replace(tempStr, DISCOUNT1.getConstant());
-        } else if (propertyIdValue.contains(Constant.DISCOUNT_TWO)) {
-            tempStr = Constant.DISCOUNT_TWO;
-            columnName = tempStr.replace(tempStr, DISCOUNT2.getConstant());
-        } else if (propertyIdValue.contains(Constant.DISCOUNT_SMALL)) {
-            tempStr = Constant.DISCOUNT_SMALL;
-            columnName = tempStr.replace(tempStr, DISCOUNT_PARITY.getConstant());
-        } else if (propertyIdValue.contains(Constant.CONTRACT_PRICE_PROPERTY)) {
-            tempStr = Constant.CONTRACT_PRICE_PROPERTY;
-            columnName = tempStr.replace(tempStr, CONTRACT_PRICE.getConstant());
-        } else if (propertyIdValue.contains("ParityReference")) {
-            tempStr = "ParityReference";
-            columnName = tempStr.replace(tempStr, PARITY_REFERENCE.getConstant());
-        } else if (propertyIdValue.contains(PARITY.getConstant())) {
-            tempStr = PARITY.getConstant();
-            columnName = tempStr;
-        }
-        Calendar now = Calendar.getInstance();   // Gets the current date and time
-        int curryear = now.get(Calendar.YEAR);
-        String splitPeriodYear = propertyIdValue.replace(tempStr, StringUtils.EMPTY).replace(Constant.Q_SMALL, StringUtils.EMPTY);
-        final String year = splitPeriodYear.substring(splitPeriodYear.length() - String.valueOf(curryear).length());
-        final String period = splitPeriodYear.substring(0, splitPeriodYear.length() - String.valueOf(curryear).length());
-        periodArr[0] = period;
-        periodArr[1] = year;
-        periodArr[NumericConstants.TWO] = MSupplementalDiscountProjection.getColumnName(columnName);
-        return periodArr;
-    }
-
     public void saveProjectionValues(DiscountProjectionDTO saveDto, Object propertyId, SessionDTO session, SupplementalTableLogic tableLogic) {
         if (saveDto.getSupplementalLevelNo() == 1 || saveDto.getSupplementalLevelNo() == NumericConstants.FOUR) {
             projectionSelectionDTO.setSupplementalLevelName(saveDto.getLevelName());
             projectionSelectionDTO.setCustHierarchySid(session.getCustHierarchySid());
             projectionSelectionDTO.setProdHierarchySid(session.getProdHierarchySid());
-            manualSave(saveDto, CommonUtils.CollectionToString(saveDto.getCcpDetailIds(), false), propertyId, session, tableLogic);
+            manualSave(saveDto, CommonUtils.collectionToStringMethod(saveDto.getCcpDetailIds(), false), propertyId, session, tableLogic);
         } else {
             manualSave(saveDto, saveDto.getCcpDetailsSID().toString(), propertyId, session, tableLogic);
         }
@@ -1437,7 +1394,7 @@ public class SupplementalDiscountProjectionLogic {
             StringBuilder queryBuilder = new StringBuilder();
             String projectionDetailsId = StringUtils.EMPTY;
             if (!projectionDetailsList.isEmpty()) {
-                projectionDetailsId = CommonUtils.CollectionToString(projectionDetailsList, false);
+                projectionDetailsId = CommonUtils.collectionToStringMethod(projectionDetailsList, false);
             }
             if (!StringUtils.EMPTY.equals(projectionDetailsId) && !Constant.NULL.equals(projectionDetailsId)) {
                 queryBuilder.append("Select Distinct CHECK_RECORD,CCP_DETAILS_SID from ST_M_SUPPLEMENTAL_DISC_MASTER where CCP_DETAILS_SID in(" 
@@ -1630,7 +1587,7 @@ public class SupplementalDiscountProjectionLogic {
         List<Object> methodologyCount = new ArrayList<>();
         try {
             StringBuilder queryToCheckNdc = new StringBuilder();
-            queryToCheckNdc.append("select DISTINCT " ).append( columnName ).append( " from ST_M_SUPPLEMENTAL_DISC_PROJ WHERE  CCP_DETAILS_SID IN ( " ).append( CommonUtils.CollectionToString(saveDto.getParentCcpDetailIdList(), false) ).append( " )\n"
+            queryToCheckNdc.append("select DISTINCT " ).append( columnName ).append( " from ST_M_SUPPLEMENTAL_DISC_PROJ WHERE  CCP_DETAILS_SID IN ( " ).append( CommonUtils.collectionToStringMethod(saveDto.getParentCcpDetailIdList(), false) ).append( " )\n"
                     ).append( " AND PERIOD_SID IN  (SELECT PERIOD_SID\n"
                     ).append( " FROM   \"PERIOD\"\n"
                     ).append( " WHERE  \"YEAR\" = " ).append( saveDto.getYear() ).append( " \n"

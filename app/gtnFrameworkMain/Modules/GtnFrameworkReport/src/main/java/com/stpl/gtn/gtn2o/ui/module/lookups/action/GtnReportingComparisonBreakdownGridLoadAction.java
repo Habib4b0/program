@@ -49,6 +49,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportingComparisonBreakdownGridLoadAction.class);
 
 	private List<Object[]> comparisonBreakdownSaveActionList = new ArrayList<>();
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -60,8 +61,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-			
-		
+
 			logger.info("------------GtnReportingComparisionBreakdownGridLoadAction----------------");
 			int i = 0;
 			List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
@@ -70,15 +70,13 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 
 			List<GtnReportComparisonProjectionBean> finalArrayListforGrid;
 
-			List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromDisplaySelectionTab = new ArrayList<>();
 			GtnUIFrameworkComponentData idComponentDataFromDisplaySelectionTab = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboardTab_reportingDashboardComparisonConfig", componentId)
 					.getComponentData();
 
-			finalArrayListforGrid = getFinalArrayListForGrid(componentId,
-					comparisonLookupBeanListFromDisplaySelectionTab, idComponentDataFromDisplaySelectionTab);
+			finalArrayListforGrid = getFinalArrayListForGrid(componentId, idComponentDataFromDisplaySelectionTab);
 
-			List<String> projectionNameListFromCustomData = new ArrayList<>();
+			List<String> projectionNameListFromCustomData = new ArrayList<>(finalArrayListforGrid.size() + 1);
 			projectionNameListFromCustomData.clear();
 			String reportDataSourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId)
 					.getViewId();
@@ -118,7 +116,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 					.getVaadinBaseComponentFromView(comparisonBreakdownTableId, componentId).getComponent();
 			GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
 			PagedGrid pagedGrid = gridComponent.getPagedGrid();
-			Grid<GtnWsRecordBean> grid = (Grid<GtnWsRecordBean>) pagedGrid.getGrid();
+			Grid<GtnWsRecordBean> grid = pagedGrid.getGrid();
 			clearGrid(grid);
 			GtnUIFrameworkPagedTableConfig tableConfig = setHeaderFromWs(pagedGrid, componentId, grid);
 			configureCheckboxHeaderComponents(tableConfig.getTableColumnMappingId(), tableConfig.getColumnHeaders(),
@@ -160,8 +158,9 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 	}
 
 	private List<GtnReportComparisonProjectionBean> getFinalArrayListForGrid(String componentId,
-			List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromDisplaySelectionTab,
 			GtnUIFrameworkComponentData idComponentDataFromDisplaySelectionTab) {
+
+		List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromDisplaySelectionTab = new ArrayList<>();
 		List<GtnReportComparisonProjectionBean> finalArrayListforGrid;
 		if (idComponentDataFromDisplaySelectionTab.getCustomData() != null) {
 			comparisonLookupBeanListFromDisplaySelectionTab = (List<GtnReportComparisonProjectionBean>) idComponentDataFromDisplaySelectionTab
@@ -350,7 +349,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 			vaadinCombobox.addStyleName("stpl-comboBox-Inside-Grid-CustomStyle");
 			vaadinCombobox.setId(comparisonLookUpBean.getProperty() + String.valueOf(comparisonLookUpBean.getRowId()));
 			vaadinCombobox.setSelectedItem("0");
-			
+
 			vaadinCombobox.addValueChangeListener(new HasValue.ValueChangeListener() {
 				@Override
 				public void valueChange(HasValue.ValueChangeEvent event) {
@@ -367,8 +366,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 					obj[5] = comparisonLookUpBean.getRowCount();
 					obj[6] = vaadinCombobox.getId();
 					comparisonBreakdownSaveActionList.add(obj);
-					comparisonBreakdownGridComponent
-							.setCustomData(comparisonBreakdownSaveActionList);
+					comparisonBreakdownGridComponent.setCustomData(comparisonBreakdownSaveActionList);
 				}
 			});
 

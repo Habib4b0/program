@@ -179,7 +179,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
         tableLogic.setContainerDataSource(resultsContainer);
         setTableHeader();
         resultsTable.setSizeFull();
-        resultsTable.setSelectable(Boolean.FALSE);
+        resultsTable.setSelectable(false);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -189,13 +189,13 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
         export.setPrimaryStyleName("link");
         export.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
     }
-    private final CustomNotification notifier = new CustomNotification();
+    private final AbstractAdjustmentDetailsCustomNotification adjDetailsnotifier = new AbstractAdjustmentDetailsCustomNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class AbstractAdjustmentDetailsCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String adjDetailsButtonName;
 
-        public CustomNotification() {
+        public AbstractAdjustmentDetailsCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -208,14 +208,14 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName && "reset".equals(buttonName)) {
+            LOGGER.debug("buttonName :{}", adjDetailsButtonName);
+            if (null != adjDetailsButtonName && "reset".equals(adjDetailsButtonName)) {
                 resetBtn();
             }
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.adjDetailsButtonName = buttonName;
         }
 
     }
@@ -226,8 +226,8 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
             public void buttonClick(Button.ClickEvent event) {
                 LOGGER.debug(" Inside Reset Button ");
                 try {
-                    notifier.setButtonName("reset");
-                    notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
+                    adjDetailsnotifier.setButtonName("reset");
+                    adjDetailsnotifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
                 } catch (Exception e) {
                     LOGGER.error("Error in reset", e);
                 }
@@ -429,7 +429,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                 : VariableConstants.getAmountFilterOptionsGtn());
         for (CustomMenuBar.CustomMenuItem object : amountFilterItem.getChildren()) {
             if (list.contains(object.getMenuItem().getCaption())) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }
@@ -458,8 +458,8 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object absAdjDetobj) {
+        return super.equals(absAdjDetobj);
     }
 
     @Override
@@ -467,11 +467,11 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream absAdjDetobj) throws IOException {
+        absAdjDetobj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream absAdjDetobj) throws IOException, ClassNotFoundException {
+        absAdjDetobj.defaultReadObject();
     }
 }

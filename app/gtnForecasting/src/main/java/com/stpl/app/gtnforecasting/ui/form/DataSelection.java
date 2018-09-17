@@ -600,7 +600,7 @@ public class DataSelection extends ForecastDataSelection {
 		setFirstTimeLoad(true);
 		initializeFromDto();
 		setFirstTimeLoad(false);
-		if (!CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
+		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName) || CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 			session.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
 			initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
 		}
@@ -613,7 +613,7 @@ public class DataSelection extends ForecastDataSelection {
 			setFirstTimeLoad(true);
 			initializeFromDto();
 			setFirstTimeLoad(false);
-			if (!CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
+			if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName) || CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 				initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
 			}
 			initializeProductHierarchy(projectionId, String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
@@ -672,9 +672,6 @@ public class DataSelection extends ForecastDataSelection {
 							.getSelectedRelationshipLevelSids(selectedProductContainer.getItemIds());
 				}
 
-				if (CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName)) {
-					discountDTO = (CompanyDdlbDto) discount.getValue();
-				}
 
 				if (companyLevel != null) {
 
@@ -1160,7 +1157,7 @@ public class DataSelection extends ForecastDataSelection {
 
 	public boolean isDataSelectionValid() {
 
-		if (!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
+		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName) || CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 
 			if (getSelectedCustomers() != null && !getSelectedCustomers().isEmpty() && getSelectedProducts() != null
 					&& !getSelectedProducts().isEmpty()
@@ -1268,8 +1265,7 @@ public class DataSelection extends ForecastDataSelection {
 		selectionDTO.setProjectionId(session.getProjectionId());
 		selectionDTO.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 		selectionDTO.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
-		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)
-				|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
+		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
 			updateDataSelectionChanges();
 		}
 		LOGGER.debug("updateDataSelection ends");
@@ -1536,13 +1532,13 @@ public class DataSelection extends ForecastDataSelection {
 			projectionDetailsSid.addAll((List<Integer>) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil
 					.getQuery("getProjectionDetailsQuery").replace("@HIERARCHY_TABLE", "PROJECTION_CUST_HIERARCHY")
 					.replace("@PROJECTION_SID", String.valueOf(session.getProjectionId()))
-					.replace("@HIERARCHYNO", CommonUtils.CollectionToString(customerRemovedLevels, true))));
+					.replace("@HIERARCHYNO", CommonUtils.collectionToStringMethod(customerRemovedLevels, true))));
 		}
 		if (!productRemovedLevels.isEmpty()) {
 			projectionDetailsSid.addAll((List<Integer>) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil
 					.getQuery("getProjectionDetailsQuery").replace("@HIERARCHY_TABLE", "PROJECTION_PROD_HIERARCHY")
 					.replace("@PROJECTION_SID", String.valueOf(session.getProjectionId()))
-					.replace("@HIERARCHYNO", CommonUtils.CollectionToString(productRemovedLevels, true))));
+					.replace("@HIERARCHYNO", CommonUtils.collectionToStringMethod(productRemovedLevels, true))));
 		}
 		if (!customerRemovedLevels.isEmpty()) {
 			dsLogicProj.deleteTempOnUpdate("PROJECTION_CUST_HIERARCHY", session.getProjectionId(),
@@ -1573,7 +1569,7 @@ public class DataSelection extends ForecastDataSelection {
 				Constant.CUSTOMER1_SMALL, session.getProjectionId());
 
 		if (!projectionDetailsSid.isEmpty()) {
-			deleteProjectionDetailstable(CommonUtils.CollectionToString(projectionDetailsSid, true), propertyName);
+			deleteProjectionDetailstable(CommonUtils.collectionToStringMethod(projectionDetailsSid, true), propertyName);
 		}
 	}
 
@@ -1618,9 +1614,6 @@ public class DataSelection extends ForecastDataSelection {
 						ndcLevel = dto;
 						break;
 					}
-				}
-				if (CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName)) {
-					discountDTO = (CompanyDdlbDto) discount.getValue();
 				}
 				if (ndcLevel != null) {
 
@@ -2189,9 +2182,6 @@ public class DataSelection extends ForecastDataSelection {
 					}
 				}
 				if (customerLevelDto != null) {
-					if (CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName)) {
-						discountDTO = (CompanyDdlbDto) discount.getValue();
-					}
 					innerLevelValues = logic.loadInnerLevel(customerLevelDto.getLevel(),
 							customerHierarchyDto == null ? 0 : customerHierarchyDto.getHierarchyId(),
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedCustomerContainer.getItemIds()),
@@ -2245,9 +2235,6 @@ public class DataSelection extends ForecastDataSelection {
 						isNdc = true;
 					} else {
 						isNdc = false;
-					}
-					if (CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName)) {
-						discountDTO = (CompanyDdlbDto) discount.getValue();
 					}
 					custVlues = logic.loadInnerLevel(tempDto.getLevel(), hierarchyId,
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedCustomerContainer.getItemIds()),

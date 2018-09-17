@@ -105,15 +105,15 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
 
     @Override
     public abstract void enter(ViewChangeListener.ViewChangeEvent event);
-    private final CustomNotification notifier = new CustomNotification();
+    private final PipelineSummaryCustomNotification notifier = new PipelineSummaryCustomNotification();
 
     protected abstract AbstractPipelineSummaryResults getResultsObject(AbstractSummaryLogic logic, AbstractSelectionDTO selectionDto);
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class PipelineSummaryCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String summaryButtonName;
 
-        public CustomNotification() {
+        public PipelineSummaryCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -126,8 +126,8 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName && "reset".equals(buttonName)) {
+            LOGGER.debug("buttonName :{}", summaryButtonName);
+            if (null != summaryButtonName && "reset".equals(summaryButtonName)) {
                 try {
                     defaultFocus();
                     CommonUtils.unCheckMenuBarItem(customMenuItem);
@@ -151,7 +151,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.summaryButtonName = buttonName;
         }
 
     }

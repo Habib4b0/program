@@ -75,7 +75,7 @@ public class ReturnsDataTableLogic<T extends AdjustmentDTO> extends PageTableLog
         criteria.setParent(null);
         criteria.setStart(start);
         criteria.setOffset(offset);
-        return (List<AdjustmentDTO>) getData(criteria).getDataResults();
+        return getData(criteria).getDataResults();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class ReturnsDataTableLogic<T extends AdjustmentDTO> extends PageTableLog
         this.logic = logic;
         this.isGenerated = isGenerated;
         this.clearAll();
-        setRequiredCount(Boolean.TRUE);
+        setRequiredCount(true);
         this.setCurrentPage(1);
     }
 

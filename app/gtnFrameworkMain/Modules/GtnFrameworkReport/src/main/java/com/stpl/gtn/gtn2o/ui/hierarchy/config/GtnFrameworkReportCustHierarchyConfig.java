@@ -34,6 +34,10 @@ public class GtnFrameworkReportCustHierarchyConfig {
 
 	private String currentScreenNameSpace;
 
+	public GtnFrameworkReportCustHierarchyConfig() {
+		super();
+	}
+
 	public List<GtnUIFrameworkComponentConfig> getCustomerSelectionLayoutComponents(String namespace,
 			String currentScreenNameSpace) {
 		this.currentScreenNameSpace = currentScreenNameSpace;
@@ -161,7 +165,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionHierarchypopupAction
 				.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY));
 		customerSelectionHierarchy.addGtnUIFrameWorkActionConfig(customerSelectionHierarchypopupAction);
-                
+
 		GtnUIFrameworkComponentConfig customerSelectionRelationshipLayout = configProvider.getHorizontalLayoutConfig(
 				"customerSelectionRelationshipLayout", true,
 				customerSelectionHierarchyRelationshipConfig.getComponentId());
@@ -309,16 +313,16 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionForecastEligibilityDate.setComponentName("Forecast Eligibility Date: ");
 		customerSelectionForecastEligibilityDate.addComponentStyle("datefieldcentered");
 		customerSelectionForecastEligibilityDate.setComponentHight("20px");
-                
-                GtnUIFrameWorkActionConfig actionConfig=new GtnUIFrameWorkActionConfig();
-                actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-                actionConfig.addActionParameter(ForecastEligibilityDateValueChangeAction.class.getName());
-                actionConfig.addActionParameter(levelactionConfigList);
-                
-                GtnUIFrameworkDateFieldConfig dateFieldConfig=new GtnUIFrameworkDateFieldConfig();
-                dateFieldConfig.addValueChangeActionConfig(actionConfig);
-                customerSelectionForecastEligibilityDate.setGtnDateFieldConfig(dateFieldConfig);               
-                componentList.add(customerSelectionHierarchyLayout);
+
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(ForecastEligibilityDateValueChangeAction.class.getName());
+		actionConfig.addActionParameter(levelactionConfigList);
+
+		GtnUIFrameworkDateFieldConfig dateFieldConfig = new GtnUIFrameworkDateFieldConfig();
+		dateFieldConfig.addValueChangeActionConfig(actionConfig);
+		customerSelectionForecastEligibilityDate.setGtnDateFieldConfig(dateFieldConfig);
+		componentList.add(customerSelectionHierarchyLayout);
 		componentList.add(customerSelectionHierarchy);
 		componentList.add(customerSelectionRelationshipLayout);
 		componentList.add(customerSelectionRelationship);

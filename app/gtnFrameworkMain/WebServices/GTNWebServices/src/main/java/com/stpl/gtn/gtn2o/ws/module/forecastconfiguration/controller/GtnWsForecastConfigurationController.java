@@ -306,8 +306,7 @@ public class GtnWsForecastConfigurationController {
 		LOGGER.info("Enter futureIntervalValueChangeLogic");
 
 		try (Session session = gtnSqlQueryEngine.getSessionFactory().openSession()) {
-			if (request.getFutureInterval() != null
-					&& !request.getFutureInterval().trim().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
+			if (request.getFutureInterval() != null && !request.getFutureInterval().trim().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
 				int freq = request.getFutureFrequency();
 				if (freq != 0) {
 					HelperTable table = session.load(HelperTable.class, freq);
@@ -317,17 +316,13 @@ public class GtnWsForecastConfigurationController {
 					response.setForecastPeriod(leastYear);
 					String interval = request.getFutureInterval().trim();
 					LOGGER.info("interval===============>" + interval);
-					if (!"".equals(interval)) {
 						Integer intervalValue = Integer.valueOf(request.getFutureInterval().trim());
 						Calendar futureDate = GtnWsForecastConfigurationUtil.convertPeriod(1, table.getDescription(),
 								intervalValue);
-						if (futureDate.getTime()
-								.after(getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES)
-										.getTime())) {
+						if (futureDate.getTime().after(getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES).getTime())) {
 							response.setErrorMessage(true);
 							response.setMessage(GtnWsForecastConfigurationConstants.ENTERED_FUTUREPERIOD);
 						}
-					}
 				}
 			}
 		} catch (Exception ex) {
@@ -616,13 +611,15 @@ public class GtnWsForecastConfigurationController {
 				fcResponse.setMessage("Please Select Future Interval Frequency");
 				return;
 			}
-			int futureInterval = Integer.parseInt(fcRequest.getFutureInterval());
+			
 			if (fcRequest.getFutureInterval() == null || StringUtils.isEmpty(fcRequest.getFutureInterval())) {
 				fcResponse.setSuccess(false);
 				fcResponse.setMessageType(GtnFrameworkCommonStringConstants.VALIDATION);
 				fcResponse.setMessage("Please Enter Future Interval");
 				return;
 			}
+			
+			int futureInterval = Integer.parseInt(fcRequest.getFutureInterval());
 			if (futureInterval == 0) {
 				fcResponse.setSuccess(false);
 				fcResponse.setMessageType(GtnFrameworkCommonStringConstants.ERROR);
@@ -663,7 +660,7 @@ public class GtnWsForecastConfigurationController {
 		return false;
 	}
 
-	private void validatePeriod(GtnWsForecastConfigurationRequest fcRequest,
+	private void validatePeriod (GtnWsForecastConfigurationRequest fcRequest,
 			GtnWsForecastConfigurationResponse fcResponse) {
 		Date fromDate = fcRequest.getFromDate();
 		Date toDate = fcRequest.getToDate();
@@ -674,8 +671,7 @@ public class GtnWsForecastConfigurationController {
 			return;
 		}
 		Calendar calHisCalendar = Calendar.getInstance();
-		if (fcRequest.getProcessType().equals(GtnWsForecastConfigurationConstants.PROCESS_TYPE_VALUE_AUTO_UPDATE)
-				&& calHisCalendar.getTime().before(fromDate)) {
+		if (fcRequest.getProcessType().equals(GtnWsForecastConfigurationConstants.PROCESS_TYPE_VALUE_AUTO_UPDATE) && calHisCalendar.getTime().before(fromDate)) {
 			fcResponse.setSuccess(false);
 			fcResponse.setMessageType(GtnFrameworkCommonStringConstants.ERROR);
 			fcResponse.setMessage("From date should be atleast one month before current Date");
@@ -738,8 +734,7 @@ public class GtnWsForecastConfigurationController {
 				forecastConfig.setVersionNo(config.getVersionNo() + 1);
 			}
 			forecastConfig.setBusinessProcessType(fcRequest.getBusinessProcess());
-			forecastConfig.setProcessType(!fcRequest.getProcessType()
-					.equalsIgnoreCase(GtnWsForecastConfigurationConstants.PROCESS_TYPE_VALUE_DEFINED));
+			forecastConfig.setProcessType(!fcRequest.getProcessType().equalsIgnoreCase(GtnWsForecastConfigurationConstants.PROCESS_TYPE_VALUE_DEFINED));
 			forecastConfig.setActiveStartDate(new Date());
 			if (forecastConfig.isProcessType() || fcRequest.getToDate() == null) {
 				final Date gtsDate = getCurrentGTSToDate(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
@@ -772,11 +767,9 @@ public class GtnWsForecastConfigurationController {
 			if (fcRequest.getMode().equalsIgnoreCase(GtnWsForecastConfigurationConstants.MODE_VALUE_INTERVAL)) {
 				forecastConfig.setProcessMode(true);
 				forecastConfig.setHistFreq(fcRequest.getHistoryFrequency());
-				forecastConfig.setHistValue(Integer.valueOf(
-						StringUtils.isNotBlank(fcRequest.getHistoryInterval()) ? fcRequest.getHistoryInterval() : "0"));
+				forecastConfig.setHistValue(Integer.valueOf(StringUtils.isNotBlank(fcRequest.getHistoryInterval()) ? fcRequest.getHistoryInterval() : "0"));
 				forecastConfig.setProjFreq(fcRequest.getFutureFrequency());
-				forecastConfig.setProjValue(Integer.valueOf(
-						StringUtils.isNotBlank(fcRequest.getFutureInterval()) ? fcRequest.getFutureInterval() : "0"));
+				forecastConfig.setProjValue(Integer.valueOf(StringUtils.isNotBlank(fcRequest.getFutureInterval()) ? fcRequest.getFutureInterval() : "0"));
 				forecastConfig.setFromDate(fcRequest.getFromDate());
 				forecastConfig.setProjHistFreq(0);
 				forecastConfig.setProjHistValue(0);

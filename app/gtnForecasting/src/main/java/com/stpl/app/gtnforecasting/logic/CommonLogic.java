@@ -915,7 +915,7 @@ public class CommonLogic {
         List<String> discountNamelist = new ArrayList();
 
         if (discounts != null && !discounts.isEmpty()) {
-            String selectedDiscounts = CommonUtils.CollectionToString(discounts, true);
+            String selectedDiscounts = CommonUtils.collectionToStringMethod(discounts, true);
 
             StringBuilder query = new StringBuilder(SQlUtil.getQuery(isProgram ? "get-discount-name-with-program" : "get-discount-name-with-program-category"));
             selectedDiscounts = selectedDiscounts.substring(1, selectedDiscounts.length()-1);
@@ -1010,7 +1010,7 @@ public class CommonLogic {
             } else if (Constant.DISCOUNT_PROJECTION_RESULTS.equals(tabName)) {
                 masterTableQuery = viewflag ? " JOIN NM_DISCOUNT_PROJ_MASTER D_MASTER ON D_MASTER.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID " : " JOIN ST_NM_DISCOUNT_PROJ_MASTER D_MASTER ON D_MASTER.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID ";
                 if (discountList != null && !discountList.isEmpty()) {
-                    masterTableQuery += " and D_MASTER.RS_CONTRACT_SID IN ( " + CommonUtils.CollectionToString(discountList, true) + " )";
+                    masterTableQuery += " and D_MASTER.RS_CONTRACT_SID IN ( " + CommonUtils.collectionToStringMethod(discountList, true) + " )";
                 }
             }
         }
@@ -1697,7 +1697,7 @@ public class CommonLogic {
         }
         String query = "JOIN " + tableIndicator + "NM_DISCOUNT_PROJ_MASTER D ON D.CCP_DETAILS_SID=C.CCP_DETAILS_SID ";
         if (discountList != null && !discountList.isEmpty()) {
-            query += " and D.RS_CONTRACT_SID IN ( " + CommonUtils.CollectionToString(discountList, true) + " )";
+            query += " and D.RS_CONTRACT_SID IN ( " + CommonUtils.collectionToStringMethod(discountList, true) + " )";
         }
         return query;
     }
@@ -1717,9 +1717,6 @@ public class CommonLogic {
             tableIndicator = "ST_";
         }
         String query = "   JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
-        if (!isPrior && (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED).equals(screenName)) {
-            query += (Constant.VIEW_FLAG ? "" : getUserSessionQueryCondition(userId, sessionId, Constant.S));
-        }
         return query;
     }
 
@@ -4256,7 +4253,7 @@ public class CommonLogic {
         }
         String query = " JOIN " + tableIndicator + "NM_DISCOUNT_PROJ_MASTER D ON D.CCP_DETAILS_SID=CH.CCP_DETAILS_SID ";
         if (discountList != null && !discountList.isEmpty()) {
-            query += " and D.RS_CONTRACT_SID IN ( " + CommonUtils.CollectionToString(discountList, true) + " )";
+            query += " and D.RS_CONTRACT_SID IN ( " + CommonUtils.collectionToStringMethod(discountList, true) + " )";
         }
         return query;
     }
@@ -4276,9 +4273,6 @@ public class CommonLogic {
             tableIndicator = "ST_";
         }
         String query = "  JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.CCP_DETAILS_SID=CH.CCP_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
-        if (!isPrior && (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED).equals(screenName)) {
-            query += (Constant.VIEW_FLAG ? "" : getUserSessionQueryCondition(userId, sessionId, Constant.S));
-        }
         return query;
     }
 
@@ -5441,10 +5435,6 @@ public class CommonLogic {
         String name;
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
             name = "NM_PROJECTION_SELECTION";
-        } else if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
-            name = Constant.M_PROJECTION_SELECTION;
-        } else if (CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName)) {
-            name = "CH_PROJECTION_SELECTION";
         } else {
             name = StringUtils.EMPTY;
         }
