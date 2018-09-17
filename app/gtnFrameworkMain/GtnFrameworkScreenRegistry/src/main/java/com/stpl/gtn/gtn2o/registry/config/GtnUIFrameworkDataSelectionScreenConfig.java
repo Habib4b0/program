@@ -774,6 +774,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				nameSpace + "_" + "publicView"	);
 		deleteViewAction.addActionParameter(nameSpace);
 		onSuccessDeleteActionConfigList.add(deleteViewAction);
+		
+		deleteViewBtn.addGtnUIFrameWorkActionConfig(confirmDeleteAction);
 	}
 
 	private void addProjectionResultsPanel(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
