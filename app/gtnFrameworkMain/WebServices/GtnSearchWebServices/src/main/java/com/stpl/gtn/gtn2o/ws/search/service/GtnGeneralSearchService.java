@@ -113,6 +113,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             queryMap.put("Commercial Forecasting_projectionDescription", " AND PM.projection_description like ? ");
             queryMap.put("Commercial Forecasting_company"," AND PM.COMPANY_MASTER_SID like ? ");
             queryMap.put("Commercial Forecasting_businessUnit"," AND PM.BUSINESS_UNIT like ? ");
+            queryMap.put("forecastLandingScreen_customerHierarchy", " AND HDC.HIERARCHY_NAME like ? ");
+            queryMap.put("Commercial Forecasting_prodhierarchyName", " AND HDP.HIERARCHY_NAME like ? ");
         }
         int count = 0;
         String query = gtnSearchSqlService.getQuery("projectionSearch");
