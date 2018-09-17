@@ -13,7 +13,6 @@ import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
-import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
