@@ -344,7 +344,6 @@ public abstract class AbstractReserve extends CustomWindow {
         super(caption);
         this.sessionDTO = sessionDTO;
         this.selection = selection;
-        init();
     }
 
     /**
@@ -395,7 +394,7 @@ public abstract class AbstractReserve extends CustomWindow {
      * Initialization Of the UI Components and Reading XML files and adding
      * corresponding styles to it
      */
-    private void init() {
+    protected void init() {
         center();
         setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         setPositionX(0);

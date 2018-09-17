@@ -29,24 +29,24 @@ public class PipelineInventoryLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(PipelineInventoryLogic.class.getName());
 
     public int getCustomerProductGroupCount(CustomerGroupDTO groupDTO, Set<Container.Filter> filters) {
-        List input = new ArrayList();
+        List invInput = new ArrayList();
         Object obj = null;
         LOGGER.debug("Inside getCustomerProductGroupCount Method");
         String query;
         if (StringUtils.isNotBlank(groupDTO.getCustomerGroupNo())) {
-            input.add(astToPerConverter(groupDTO.getCustomerGroupNo()));
+            invInput.add(astToPerConverter(groupDTO.getCustomerGroupNo()));
         } else {
-            input.add("%");
+            invInput.add("%");
         }
         if (StringUtils.isNotBlank(groupDTO.getCustomerGroupName())) {
-            input.add(astToPerConverter(groupDTO.getCustomerGroupName()));
+            invInput.add(astToPerConverter(groupDTO.getCustomerGroupName()));
         } else {
-            input.add("%");
+            invInput.add("%");
         }
-        input.add(AbstractFilter.getInstance().getFilterCustomerLookUp(filters).toString());
+        invInput.add(AbstractFilter.getInstance().getFilterCustomerLookUp(filters).toString());
         query = "customerGroupSearchCount";
 
-        List resultList = QueryUtils.getItemData(input, query, null);
+        List resultList = QueryUtils.getItemData(invInput, query, null);
 
         if (!resultList.isEmpty()) {
             obj = resultList.get(0);
