@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -50,13 +48,9 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 
 
 	private GtnGeneralSearchService() {
-		super();
+		super(GtnGeneralSearchService.class);
 	}
 
-	@PostConstruct
-	public void initializeLogger() {
-		super.logInformation(GtnGeneralSearchService.class);
-	}
 
 	@Autowired
 	GtnSearchwebServiceSqlService gtnSearchSqlService;
@@ -68,7 +62,6 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 	Map<Integer, String> queryMap = null;
 
 	public void init() {
-		initializeLogger();
 		logger.info("Entering into init method of searchWebservice");
 		GtnUIFrameworkWebserviceRequest request = registerWs();
 		RestTemplate restTemplate = new RestTemplate();
@@ -104,10 +97,10 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 		String key = gtnUiFrameworkWebservicerequest.getGtnWsSearchRequest().getSearchQueryName();
 		String query = gtnSearchSqlService.getQuery(key);
 		if (keyMap == null) {
-			keyMap = new HashMap();
+			keyMap = new HashMap<>();
 			keyMap.put("privatePublic", new PrivatePublic());
-			keyMap.put("businessUnits", new ComboBoxSearch());
-			keyMap.put("companies", new ComboBoxSearch());
+			keyMap.put("BusinessUnitGLcomp", new ComboBoxSearch());
+			keyMap.put("CompanyMasterGLcomp", new ComboBoxSearch());
 			keyMap.put("frequency", new ComboBoxSearch());
 			keyMap.put("dataSelectionDeduction", new ComboBoxSearch());
 			keyMap.put("CustomerGroup", new CustomerAndProductGroup());

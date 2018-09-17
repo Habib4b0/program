@@ -13,12 +13,13 @@ public abstract class GtnCommonWebServiceImplClass {
 
 	public GtnFrameworkDependencyLogger logger;
 	
+	public GtnCommonWebServiceImplClass(Class<?> className)
+	{
+		logger = GtnFrameworkDependencyLogger.getGTNLogger(className);
+	}
+	
 	public String readPropertyFile(String propertyFile) {
 		return "readPropertyFile:" + propertyFile;
-	}
-
-	public void logInformation(Class<?> className){
-		logger = GtnFrameworkDependencyLogger.getGTNLogger(className);
 	}
 
 	public abstract GtnUIFrameworkWebserviceRequest registerWs();
@@ -26,7 +27,6 @@ public abstract class GtnCommonWebServiceImplClass {
 	public GtnQueryEngineWebServiceResponse callQueryEngine(String url, GtnQueryEngineWebServiceRequest request,
 			GtnWsSecurityToken securityToken) {
 		try {
-
 			RestTemplate restTemplate = new RestTemplate();
 			GtnQueryEngineWebServiceResponse webServiceResponse = restTemplate.postForObject(
 					getWebServiceEndpointBasedOnModule(url, "queryEngine"), request,

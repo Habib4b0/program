@@ -9,13 +9,11 @@ import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
-import com.stpl.gtn.gtn2o.ws.generalsearch.GtnGeneralSearchBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -25,13 +23,7 @@ import org.springframework.web.client.RestTemplate;
 public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements SearchInterface {
 
     public ComboBoxSearch() {
-        super();
-        initializeLogger();
-    }
-
-    @PostConstruct
-    public void initializeLogger() {
-        super.logInformation(ComboBoxSearch.class);
+        super(ComboBoxSearch.class);
     }
 
     @Override
@@ -56,9 +48,9 @@ public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements Sear
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
                 gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
         List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
-        GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
-        comboBoxResponse.setComboBoxList(resultList);
-        response.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
+        GtnUIFrameworkWebserviceComboBoxResponse comboxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
+        comboxResponse.setComboBoxList(resultList);
+        response.setGtnUIFrameworkWebserviceComboBoxResponse(comboxResponse);
         }
         catch(Exception e)
         {

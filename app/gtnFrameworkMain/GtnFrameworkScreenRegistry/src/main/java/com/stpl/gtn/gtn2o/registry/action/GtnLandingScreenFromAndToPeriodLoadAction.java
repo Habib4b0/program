@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.registry.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -53,20 +54,26 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
 				"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-                
+		if (response == null) {
+			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+			alertAction.throwAlertUtil("", actionParamList.get(2).toString());
+		}
+
 		List<String> fromPeriodItemValueList = new ArrayList<>(
 				response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
-		List<String> fromPeriodItemCodeList = new ArrayList<>(
-				response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
+		List<Integer> fromPeriodItemCodeList = new ArrayList<>();
+		for (String integer : response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList()) {
+			fromPeriodItemCodeList.add(Integer.valueOf(integer));
+		}
 
-		List<String> toPeriodItemValueList = new ArrayList<>(fromPeriodItemValueList);
-	
+		List<String> toPeriodItemValueList = new ArrayList<>();
+		toPeriodItemValueList.add(fromPeriodItemValueList.get(fromPeriodItemValueList.size() - 1));
 
-		List<String> toPeriodItemCodeList = new ArrayList<>(fromPeriodItemCodeList);
-		
+		List<Integer> toPeriodItemCodeList = new ArrayList<>();
+		toPeriodItemCodeList.add(fromPeriodItemCodeList.get(fromPeriodItemCodeList.size() - 1));
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
-				.addAllItemsToComboBox(fromPeriodItemValueList, fromPeriodItemCodeList);
+				.loadItemsToCombobox(fromPeriodItemValueList, fromPeriodItemCodeList);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
 				.addAllItemsToComboBox(toPeriodItemValueList, toPeriodItemCodeList);
 
@@ -81,5 +88,4 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 	public GtnUIFrameWorkAction createInstance() {
 		return this;
 	}
-
 }
