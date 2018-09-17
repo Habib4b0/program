@@ -38,6 +38,7 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 		GtnFrameworkForecastDataSelectionBean gtnFrameworkForecastDataSelectionBean = new GtnFrameworkForecastDataSelectionBean();
 		gtnFrameworkForecastDataSelectionBean.setViewId(viewId);
 		logger.info("View id" + viewId +"user id " + recordBean);
+	
 		
 		GtnWsForecastNewArchRequest gtnWsForecastNewArchRequest = new GtnWsForecastNewArchRequest();
 		gtnWsForecastNewArchRequest.setDataSelectionBean(gtnFrameworkForecastDataSelectionBean);
@@ -50,12 +51,10 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 		request.setGtnWsGeneralRequest(generalRequest);
 		
 		GtnUIFrameworkWebserviceResponse response =  new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl
-				(
-						"/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine","deleteView",
-						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken()
-						);
+			("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine","deleteView",
+						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
-
+		logger.info("" + response);
 	}
 
 	
