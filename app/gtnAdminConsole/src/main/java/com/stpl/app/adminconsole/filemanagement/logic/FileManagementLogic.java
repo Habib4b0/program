@@ -1052,8 +1052,8 @@ public class FileManagementLogic {
 
 		projectionDynamicQuery = FileManagementLocalServiceUtil.dynamicQuery();
 		Criterion criteria = RestrictionsFactoryUtil.eq(StringConstantUtils.FILE_TYPE, fileType.getId());
-		if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())
-				&& ConstantsUtils.COUNTRY_US.equals(country)) {
+		if ((ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())
+				&& ConstantsUtils.COUNTRY_US.equals(country))|| ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())) {
 			final Criterion criterion1 = RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FORE_SIGHT);
 			criterion = RestrictionsFactoryUtil.and(RestrictionsFactoryUtil.or(criterion1,
 					RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.LE_FORESIGHT)), criteria);
@@ -1061,10 +1061,6 @@ public class FileManagementLogic {
 				&& ConstantsUtils.COUNTRY_PR.equals(country)) {
 			criterion = RestrictionsFactoryUtil
 					.and(RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FF_SALES), criteria);
-		} else if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())) {
-			final Criterion criterion1 = RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FORE_SIGHT);
-			criterion = RestrictionsFactoryUtil.and(RestrictionsFactoryUtil.or(criterion1,
-					RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.LE_FORESIGHT)), criteria);
 		} else if (ConstantsUtils.DEMAND.equals(fileType.getDescription())
 				|| ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY.equals(fileType.getDescription())
 				|| ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(fileType.getDescription())
