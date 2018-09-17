@@ -505,7 +505,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setViewId(this.viewId);
 		DataSelectionCopyBean.setFromOrToForDataSelection(this.fromOrToForDataSelection);
 		DataSelectionCopyBean.setSessionTableMap(this.sessionTableMap);
-		DataSelectionCopyBean.setVariableBreakdownHeaderLoadList(this.variableBreakdownHeaderLoadList);
+	
 		DataSelectionCopyBean.setVariablesList(this.variablesList);
 		DataSelectionCopyBean.setCustomView(this.customView);
 		DataSelectionCopyBean.setDataRefreshDone(this.dataRefreshDone);
