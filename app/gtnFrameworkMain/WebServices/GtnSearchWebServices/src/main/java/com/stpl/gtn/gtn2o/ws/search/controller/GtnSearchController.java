@@ -9,7 +9,6 @@ import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.service.GtnGeneralSearchService;
-import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GtnSearchController extends GtnServiceRegistryImplClass {
 
-	private GtnSearchController() {
-		super(GtnSearchController.class);
-	}
+	 private GtnSearchController() {
+	        super(GtnSearchController.class);
+	    }
+
 
 	@Autowired
 	GtnGeneralSearchService gtnGeneralSearch;
@@ -49,6 +49,15 @@ public class GtnSearchController extends GtnServiceRegistryImplClass {
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
 		GtnUIFrameworkWebserviceResponse response;
 		response = gtnGeneralSearch.pagedTableSearch(gtnUiFrameworkWebservicerequest);
+		return response;
+	}
+
+	@PostMapping(value = "/gtnForecastSaveView")
+	public GtnUIFrameworkWebserviceResponse gtnForecastSaveView(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
+		logger.info("entering into general search controller");
+		GtnUIFrameworkWebserviceResponse response;
+		response = gtnGeneralSearch.saveView(gtnUiFrameworkWebservicerequest);
 		return response;
 	}
 }

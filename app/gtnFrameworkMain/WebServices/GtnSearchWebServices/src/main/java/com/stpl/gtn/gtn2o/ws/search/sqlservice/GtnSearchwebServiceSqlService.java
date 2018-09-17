@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class GtnSearchwebServiceSqlService extends GtnServiceRegistryImplClass {
 
+<<<<<<< HEAD
 	private GtnSearchwebServiceSqlService() {
 		/* constructor */
 		super(GtnSearchwebServiceSqlService.class);
@@ -40,5 +41,24 @@ public class GtnSearchwebServiceSqlService extends GtnServiceRegistryImplClass {
 
 		return StringUtils.EMPTY;
 	}
+=======
+    private GtnSearchwebServiceSqlService() {
+        super(GtnSearchwebServiceSqlService.class);
+    }
+    @Autowired
+    private PropertiesFactoryBean sqlPropertyBean;
+
+    public String getQuery(String queryId) {
+        try {
+            return Optional.ofNullable(sqlPropertyBean.getObject()).orElseThrow(IllegalArgumentException::new)
+                    .getProperty(queryId);
+
+        } catch (IOException e) {
+            logger.error("Error in loading query" + e);
+        }
+
+        return StringUtils.EMPTY;
+    }
+>>>>>>> b9a31b7a57710d7da343acfc3fd779b9af663118
 
 }

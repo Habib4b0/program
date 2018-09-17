@@ -233,12 +233,12 @@ public class AccrualRateProjectionForm extends AbstractForm {
                         @Override
                         public void windowClose(Window.CloseEvent e) {
                             try {
-                                if (WorkFlowNotesLookup.getSUBMIT_FLAG().equals("Success")) {
+                                if (WorkFlowNotesLookup.getSUBMITFLAG().equals("Success")) {
                                     boolean isSubmitted = submitProjection(popup.getNotes().getValue(), screenName, popup.getUploadedData());
                                     if (isSubmitted) {
                                         UI.getCurrent().getNavigator().navigateTo(ForecastMainView.NAME);
                                     }
-                                    WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
+                                    WorkFlowNotesLookup.setSUBMITFLAG("Failed");
                                     CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
                                 }
                             } catch (PortalException ex) {

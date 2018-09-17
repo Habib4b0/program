@@ -94,6 +94,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		relationship.setComponentId("Commercial_Forecasting_customerSelectionRelationship");
 		relationship.setAddToParent(Boolean.TRUE);
 		relationship.setParentComponentId(nameSpace + "_" + "relationshipLayout");
+		relationship.setVaadinComponentPlaceHolder("-Select One-");
 
 		GtnUIFrameworkComboBoxConfig relationshipConfig = new GtnUIFrameworkComboBoxConfig();
 		relationship.setGtnComboboxConfig(relationshipConfig);
@@ -149,6 +150,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		forecastLevel.setComponentName("Forecast Level");
 		forecastLevel.setAddToParent(Boolean.TRUE);
 		forecastLevel.setParentComponentId(nameSpace + "_" + "forecastLevelLayout");
+		forecastLevel.setVaadinComponentPlaceHolder("-Select One-");
 		
 
 		GtnUIFrameworkComboBoxConfig forecastLevelConfig = new GtnUIFrameworkComboBoxConfig();
@@ -176,6 +178,14 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		customerGroup.setAddToParent(Boolean.TRUE);
 		customerGroup.setParentComponentId(nameSpace + "_" + "customerGroupLayout");
 		componentList.add(customerGroup);
+		
+		GtnUIFrameWorkActionConfig customerGroupActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.POPUP_ACTION);
+		customerGroupActionConfig.addActionParameter("CustomerGroupLookupView");
+		customerGroupActionConfig.addActionParameter("Customer Group Lookup");
+		customerGroupActionConfig.addActionParameter("720");
+		customerGroupActionConfig.addActionParameter("875");
+		
+		customerGroup.addGtnUIFrameWorkActionConfig(customerGroupActionConfig);
 	}
 
 	private void addForecastEligibleDate(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -189,6 +199,8 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		forecastEligibleDate.setComponentName("Forecast Eligible Date");
 		forecastEligibleDate.setAddToParent(Boolean.TRUE);
 		forecastEligibleDate.setParentComponentId(nameSpace + "_" + "forecastEligibleDateLayout");
+		forecastEligibleDate.addComponentStyle("datefieldcentered");
+		forecastEligibleDate.setComponentHight("20px");
 		componentList.add(forecastEligibleDate);
 
 		List<GtnUIFrameWorkActionConfig> levelactionConfigList = availableLoadActionList();
@@ -235,6 +247,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		level.setComponentName("Level");
 		level.setAddToParent(Boolean.TRUE);
 		level.setParentComponentId(nameSpace + "_" + "levelLayout");
+                level.setVaadinComponentPlaceHolder("-Select One-");
 
 		GtnUIFrameworkComboBoxConfig levelConfig = new GtnUIFrameworkComboBoxConfig();
 		level.setGtnComboboxConfig(levelConfig);

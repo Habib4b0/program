@@ -47,6 +47,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private List<GtnWsRecordBean> selectedCustomerHierarchyList;
 	private List<GtnWsRecordBean> customerDualListBox;
 	private List<GtnWsRecordBean> selectedProductHierarchyList;
+
 	private Date fromPeriod;
 	private Date toPeriodReport;
 	private Integer frequency;
@@ -95,13 +96,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 		this.fromOrToForDataSelection = fromOrToForDataSelection;
 	}
 
-	public List getVariableBreakdownHeaderLoadList() {
-		return variableBreakdownHeaderLoadList;
-	}
-
-	public void setVariableBreakdownHeaderLoadList(List variableBreakdownHeaderLoadList) {
-		this.variableBreakdownHeaderLoadList = variableBreakdownHeaderLoadList;
-	}
+	
 
 	private Integer customViewMasterSid;
 
@@ -499,6 +494,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setProductHierarchyRecordBean(this.productHierarchyRecordBean);
 		DataSelectionCopyBean.setSelectedCustomerHierarchyList(this.selectedCustomerHierarchyList);
 		DataSelectionCopyBean.setSelectedProductHierarchyList(this.selectedProductHierarchyList);
+
 		DataSelectionCopyBean.setFromPeriod(this.fromPeriod);
 		DataSelectionCopyBean.setToPeriodReport(this.toPeriodReport);
 		DataSelectionCopyBean.setFrequency(this.frequency);
@@ -509,7 +505,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setViewId(this.viewId);
 		DataSelectionCopyBean.setFromOrToForDataSelection(this.fromOrToForDataSelection);
 		DataSelectionCopyBean.setSessionTableMap(this.sessionTableMap);
-		DataSelectionCopyBean.setVariableBreakdownHeaderLoadList(this.variableBreakdownHeaderLoadList);
+	
 		DataSelectionCopyBean.setVariablesList(this.variablesList);
 		DataSelectionCopyBean.setCustomView(this.customView);
 		DataSelectionCopyBean.setDataRefreshDone(this.dataRefreshDone);
