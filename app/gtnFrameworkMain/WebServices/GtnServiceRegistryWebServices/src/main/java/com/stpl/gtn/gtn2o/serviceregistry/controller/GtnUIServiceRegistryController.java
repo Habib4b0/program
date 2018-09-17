@@ -32,7 +32,7 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 		super();
 		initializeLogger();
 	}
-
+        
 	@Autowired
 	private GtnValidateWsServiceRegistryController gtnValidateWsServiceRegistryController;
 

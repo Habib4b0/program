@@ -21,47 +21,47 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 @RequestMapping(value = "/gtnPeriodConfigurationController")
 public class GtnWsPeriodConfigurationController extends GtnServiceRegistryImplClass {
 
-	private GtnWsPeriodConfigurationController() {
-		super();
-		initializeLogger();
-	}
+    private GtnWsPeriodConfigurationController() {
+        super();
+        initializeLogger();
+    }
 
-	@Autowired
-	private GtnWsPeriodConfigurationService periodConfigurationService;
+    @Autowired
+    private GtnWsPeriodConfigurationService periodConfigurationService;
 
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public boolean test() {
-		return true;
-	}
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public boolean test() {
+        return true;
+    }
 
-	@PostConstruct
-	private void initializeLogger() {
-		super.logInformation(GtnWsPeriodConfigurationController.class);
-	}
+    @PostConstruct
+    private void initializeLogger() {
+        super.logInformation(GtnWsPeriodConfigurationController.class);
+    }
 
-	private GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
+    private GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
-	@RequestMapping(value = "/loadDate", method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse loadDate(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		logger.info("Entering into PeriodConfiguration Controller to load From To Period");
-		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
-		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
-		comboBoxResponse.setComboBoxList(singletonObjectBean.getPeriodConfigResultList());
-		logger.info("Returning Resultlist from SingletonList from "
-				+ singletonObjectBean.getPeriodConfigResultList().get(0)[1] + "to"
-				+ singletonObjectBean.getPeriodConfigResultList()
-						.get(singletonObjectBean.getPeriodConfigResultList().size() - 1)[1]);
-		gtnUIFrameworkWebserviceResponse.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
+    @RequestMapping(value = "/loadDate", method = RequestMethod.POST)
+    public GtnUIFrameworkWebserviceResponse loadDate(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+        logger.info("Entering into PeriodConfiguration Controller to load From To Period");
+        GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+        GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
+        comboBoxResponse.setComboBoxList(singletonObjectBean.getPeriodConfigResultList());
+        logger.info("Returning Resultlist from SingletonList from "
+                + singletonObjectBean.getPeriodConfigResultList().get(0)[1] + "to"
+                + singletonObjectBean.getPeriodConfigResultList()
+                        .get(singletonObjectBean.getPeriodConfigResultList().size() - 1)[1]);
+        gtnUIFrameworkWebserviceResponse.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
 
-		return gtnUIFrameworkWebserviceResponse;
-	}
+        return gtnUIFrameworkWebserviceResponse;
+    }
 
-	@RequestMapping(value = "/loadRefreshDate", method = RequestMethod.POST)
-	public void loadRefreshDate(@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		logger.info("Reloading From To Results after Forecast Configuration Change");
-		List<Object[]> resultList = periodConfigurationService
-				.loadDate(gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest());
-		singletonObjectBean.setPeriodConfigResultList(resultList);
-	}
+    @RequestMapping(value = "/loadRefreshDate", method = RequestMethod.POST)
+    public void loadRefreshDate(@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+        logger.info("Reloading From To Results after Forecast Configuration Change");
+        List<Object[]> resultList = periodConfigurationService
+                .loadDate(gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest());
+        singletonObjectBean.setPeriodConfigResultList(resultList);
+    }
 }

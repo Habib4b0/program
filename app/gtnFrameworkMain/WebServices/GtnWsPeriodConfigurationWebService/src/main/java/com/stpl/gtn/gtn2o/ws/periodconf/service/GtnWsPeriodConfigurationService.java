@@ -13,6 +13,7 @@ import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.singleton.bean.GtnFrameworkSingletonObjectBean;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -20,14 +21,20 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @Service
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
     @Autowired
     private GtnWsPeriodConfSqlService gtnWsPeriodConfSqlService;
+    
+    long staticTime = System.currentTimeMillis();
+    ExecutorService service = Executors.newCachedThreadPool();
 
-    private GtnWsPeriodConfigurationService() {
+    public GtnWsPeriodConfigurationService() {
         super();
     }
 
@@ -36,23 +43,43 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
         super.logInformation(GtnWsPeriodConfigurationService.class);
     }
 
-
     private GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
     public void init() {
+        try {
             initializeLogger();
             logger.info("Entering into init method");
             GtnUIFrameworkWebserviceRequest request = registerWs();
 
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.postForObject(
-				getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
-				request, GtnUIFrameworkWebserviceResponse.class);
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.postForObject(
+                    getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
+                    request, GtnUIFrameworkWebserviceResponse.class);
             logger.info("Webservice Registered");
             List<Object[]> resultList = loadDate(request.getGtnWsGeneralRequest());
 
             singletonObjectBean.setPeriodConfigResultList(resultList);
+        } catch (Exception e) {
+            logger.error("Exception in Period Webservice Registry");
+            logger.info("Failed Url---------------------"+e.getMessage());
+            GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure = new GtnUIFrameworkWebServiceClientCallOnFailure(this);
+            service.submit(createRunnable(gtnWebServiceClientCallOnFailure));
+
         }
+    }
+    
+    
+    public Runnable createRunnable(final Object... inputs) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+            GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure1 = (GtnUIFrameworkWebServiceClientCallOnFailure) inputs[0];
+            gtnWebServiceClientCallOnFailure1.setStaticTime(staticTime);
+            gtnWebServiceClientCallOnFailure1.callGtnWebServiceUrlOnFailure();
+            }
+        };
+        return runnable;
+    }
 
     @Override
     public GtnUIFrameworkWebserviceRequest registerWs() {
