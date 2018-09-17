@@ -3,8 +3,8 @@ package com.stpl.app.security.userGrpBsnsRoleMgmt.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
@@ -19,19 +19,19 @@ public class UserGrpBsnsRoleDTO implements Serializable {
 		super();
 	}
 	
-    public HashMap<String, Long> getUserGroupMap() {
+    public Map<String, Long> getUserGroupMap() {
         return userGroupMap;
     }
 
-    public void setUserGroupMap(HashMap<String, Long> userGroupMap) {
+    public void setUserGroupMap(Map<String, Long> userGroupMap) {
         this.userGroupMap = userGroupMap;
     }
 
-    public HashMap<String, Integer> getBusinessRoleMap() {
+    public Map<String, Integer> getBusinessRoleMap() {
         return businessRoleMap;
     }
 
-    public void setBusinessRoleMap(HashMap<String, Integer> businessRoleMap) {
+    public void setBusinessRoleMap(Map<String, Integer> businessRoleMap) {
         this.businessRoleMap = businessRoleMap;
     }
 
@@ -74,8 +74,8 @@ public class UserGrpBsnsRoleDTO implements Serializable {
     public void setSelUserGroupId(String selUserGroupId) {
         this.selUserGroupId = selUserGroupId;
     }
-	private HashMap<String,Long> userGroupMap;
-	private HashMap<String,Integer> businessRoleMap;
+	private Map<String,Long> userGroupMap;
+	private Map<String,Integer> businessRoleMap;
 	private List<String> userGroup;
 	private List<String> businessRole;
 	private List<String> selectedBusinessRole;
