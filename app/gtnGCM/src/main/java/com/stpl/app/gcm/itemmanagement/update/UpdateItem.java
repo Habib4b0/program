@@ -76,9 +76,7 @@ public class UpdateItem extends CustomComponent {
 
     protected void resultsItemClick(final Object obj) {
         AbstractContractSearchDTO componentInfoDTO;
-        if (obj == null) {
-            componentInfoDTO = null;
-        } else {
+        if (obj != null) {
             componentInfoDTO = (AbstractContractSearchDTO) obj;
             selection.setContractSid(componentInfoDTO.getContractSid());
             selection.setCompanySid(componentInfoDTO.getCompanySid());
