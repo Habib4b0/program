@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkDeleteViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkSaveViewAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkScreenRegistryResetAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnModeOptionValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
@@ -615,6 +617,45 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		resetActionConfigList.add(confirmResetAction);
 		resetBtn.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
 	}
+	
+		 private List<Object> getParameters() {
+
+               return Arrays.asList(
+	
+                               GtnFrameworkScreenRegistryResetAction.class.getName(),
+	
+                               "Commercial Forecasting_privateViewLookup",
+
+                               "Commercial Forecasting" + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
+
+                               "Commercial Forecasting" + "_" + "projectionName",
+	
+                               "Commercial Forecasting" + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
+
+                               "Commercial Forecasting" + "_" + "projectionDescription",
+
+                               "Commercial Forecasting" + "_" + "publicView",
+
+                               "forecastLandingScreen_customerHierarchy",
+	
+                               "Commercial_Forecasting_customerSelectionRelationship",
+	
+                               "Commercial_Forecasting_customerSelectionForecastLevel",
+
+                               "Commercial Forecasting" + "_" + "customerGroup",
+	
+                               "Commercial Forecasting" + "_" + "customerDualListBox",
+
+                               "Commercial Forecasting" + "_" + "prodhierarchyName",
+                               "Commercial Forecasting" + "_" + "prodrelationship",
+                               "Commercial Forecasting" + "_" + "prodforecastLevel",
+                               "Commercial Forecasting" + "_" + "productDualListBox",
+                               "Commercial Forecasting" + "_" + "productGroup",
+                               "Commercial Forecasting" + "_" + "profileMode"
+
+                               );
+
+       }
 
 	private void addSaveViewBtn(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
 		GtnUIFrameworkComponentConfig saveViewBtn = new GtnUIFrameworkComponentConfig();
@@ -905,4 +946,3 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 	}
 
 }
-
