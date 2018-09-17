@@ -19,6 +19,8 @@ import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.implementation.ComboBoxSearch;
+import com.stpl.gtn.gtn2o.ws.search.implementation.CustomerAndProductGroup;
+import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
 //import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
@@ -85,7 +87,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 
     public GtnUIFrameworkWebserviceResponse commonMethod(
             GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
-        String key = gtnUiFrameworkWebservicerequest.getGtnGeneralSearchRequest().getGtnGeneralSearchBean().getKey();
+        String key = gtnUiFrameworkWebservicerequest.getGtnWsSearchRequest().getSearchQueryName();
         String query = gtnSearchSqlService.getQuery(key);
         if (keyMap == null) {
             keyMap = new HashMap();
@@ -93,6 +95,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             keyMap.put("businessUnits", new ComboBoxSearch());
             keyMap.put("companies", new ComboBoxSearch());
             keyMap.put("dataSelectionDeduction", new ComboBoxSearch());
+            keyMap.put("CustomerGroup", new CustomerAndProductGroup());
+            keyMap.put("ProductGroup", new CustomerAndProductGroup());
         }
         SearchInterface searchInterface = keyMap.get(key);
         GtnUIFrameworkWebserviceResponse response;

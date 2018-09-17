@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.registry.config.lookups.ForecastGenerateLookup;
+import com.stpl.gtn.gtn2o.registry.config.lookups.GtnFrameworkCustomerAndProductGroupLookup;
 import com.stpl.gtn.gtn2o.registry.config.lookups.GtnFrameworkForecastCustomertHierarchyLookUp;
 import com.stpl.gtn.gtn2o.registry.config.lookups.GtnFrameworkForecastProductHierarchyLookUp;
 import com.stpl.gtn.gtn2o.registry.config.lookups.PrivatePublicViewLookup;
@@ -25,7 +26,10 @@ public class GtnFrameworkCommercialForecastingConfig {
                         .getCustHierarchyLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING));
 		viewList.add(new PrivatePublicViewLookup()
                 . getPrivateViewLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING));
-		
+		viewList.add(new GtnFrameworkCustomerAndProductGroupLookup()
+                . getCustProdGroupLookUpView(GtnUIFrameworkCommercialForecastingConstants.CUSTOMER_GROUP));
+		viewList.add(new GtnFrameworkCustomerAndProductGroupLookup()
+                . getCustProdGroupLookUpView(GtnUIFrameworkCommercialForecastingConstants.PRODUCT_GROUP));
 		rootConfig.setGtnViewConfigList(viewList);
 		return rootConfig;
 	}
