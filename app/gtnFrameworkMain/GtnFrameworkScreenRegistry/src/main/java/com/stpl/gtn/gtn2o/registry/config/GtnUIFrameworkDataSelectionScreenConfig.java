@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.stpl.gtn.gtn2o.registry.config;
 
 import java.util.ArrayList;
@@ -244,7 +245,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		actionConfigList.add(popupActionConfig);
 		popupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> popupActionParam = new ArrayList<>();
-		popupActionParam.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		popupActionParam.add("Private_lookup");
 		popupActionParam.add("Private View");
 		popupActionParam.add("90%");
 		popupActionParam.add("100%");
@@ -331,7 +332,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		actionConfigList.add(popupActionConfig);
 		popupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> popupActionParam = new ArrayList<>();
-		popupActionParam.add(GtnFrameworkCommonConstants.PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
+		popupActionParam.add("Public_lookup");
 		popupActionParam.add("Public View");
 		popupActionParam.add("90%");
 		popupActionParam.add("100%");

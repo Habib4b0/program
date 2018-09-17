@@ -163,7 +163,8 @@
                     ON CG.COMPANY_GROUP_SID  = PM.COMPANY_GROUP_SID 
                     LEFT JOIN ITEM_GROUP IG 
                     ON IG.ITEM_GROUP_SID = PM.ITEM_GROUP_SID
-                    where PM.projection_Name like ? and PM.projection_description like ?
+                    WHERE  ISNULL(PM.IS_APPROVED,'') not in ('Y','A','C')  AND PM.SAVE_FLAG = 'true' 
+                    AND PM.FORECASTING_TYPE like 'Non Mandated' 
             ]]>
 
     </entry>

@@ -161,7 +161,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		componentList.add(productGroupLayout);
 
 		GtnUIFrameworkComponentConfig customerGroup = new GtnUIFrameworkComponentConfig();
-		customerGroup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+		customerGroup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		customerGroup.setComponentId(nameSpace + "_" + "productGroup");
 		customerGroup.setComponentName("Product Group");
 		customerGroup.setAddToParent(Boolean.TRUE);
