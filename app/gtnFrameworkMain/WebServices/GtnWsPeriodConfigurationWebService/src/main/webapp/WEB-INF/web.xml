@@ -5,6 +5,16 @@
 	version="3.0">
 	
   <display-name>GtnWsPeriodConfigurationWebservice</display-name>
+  <filter>
+		<filter-name>AuthenticationFilter</filter-name>
+		<filter-class>com.stpl.gtn.gtn2o.ws.interceptor.GtnWsSecurityAuthFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>AuthenticationFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
   <servlet>
 		<servlet-name>GTNWsPeriodConfRestController</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
