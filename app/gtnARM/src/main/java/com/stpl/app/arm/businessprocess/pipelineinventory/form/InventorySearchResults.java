@@ -188,7 +188,7 @@ public class InventorySearchResults extends AbstractSearchResults {
             getSummaryLogic().getInventoryResults(orderedArgs);
         }
         setConverter(rightTable, rightTable.getVisibleColumns());
-        getTableLogic().loadSetData(Boolean.FALSE);
+        getTableLogic().loadSetData(false);
     }
 
     @Override
@@ -225,7 +225,7 @@ public class InventorySearchResults extends AbstractSearchResults {
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -251,7 +251,7 @@ public class InventorySearchResults extends AbstractSearchResults {
     @Override
     public boolean getisDeductionCustomer() {
         INVENTORYLOGGER.debug("Inside getisDeductionCustomer Method");
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -260,8 +260,8 @@ public class InventorySearchResults extends AbstractSearchResults {
         try {
             tableLayout.addComponent(getExcelTable());
             getExcelTable().setContainerDataSource(getExcelContainer());
-            getExcelTable().setRefresh(Boolean.FALSE);
-            getExcelTable().setVisible(Boolean.FALSE);
+            getExcelTable().setRefresh(false);
+            getExcelTable().setVisible(false);
             setExcelVisibleColumn();
             List list = getExcelLogic().getExcelResultList(getSelection());
             List<Object> listData = new ArrayList<>();
@@ -271,10 +271,10 @@ public class InventorySearchResults extends AbstractSearchResults {
             listData.add(getInterval());
 
             ExcelUtils.setExcelData(list, getExcelHierarchy(), getExcelExportVisibleColumn(), getExcelContainer(), discountColumnNeeded(), ARMConstants.getPipelineInventoryTrueUp(), listData);
-            ((CommonUI) getUI()).setExcelFlag(Boolean.TRUE);
+            ((CommonUI) getUI()).setExcelFlag(true);
             ExtCustomTableHolder customTableHolder = new ExtCustomTableHolder(getExcelTable());
             ExcelExport export = new ExcelExport(customTableHolder, getExcelFileName(), getExcelFileName(), getExcelFileName() + ".xls", false);
-            export.setUseTableFormatPropertyValue(Boolean.TRUE);
+            export.setUseTableFormatPropertyValue(true);
             export.export();
             getExcelContainer().removeAllItems();
             tableLayout.removeComponent(getExcelTable());
@@ -297,7 +297,7 @@ public class InventorySearchResults extends AbstractSearchResults {
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     /**

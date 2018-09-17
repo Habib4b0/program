@@ -48,15 +48,15 @@ public class GtnUIFrameworkSaveViewAction
 		String company = Optional.ofNullable(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getCaptionFromV8ComboBox())
 				.orElseGet(String::new);
-		dataSelectionBean.setCompanyReport(company == "0" ? 0 : Integer.parseInt(company));
+		dataSelectionBean.setCompanyReport(checkForStringZero(company));
 		String businessUnit = Optional.ofNullable(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getCaptionFromV8ComboBox())
 				.orElseGet(String::new);
-		dataSelectionBean.setBusinessUnitReport(businessUnit == "0" ? 0 : Integer.parseInt(businessUnit));
+		dataSelectionBean.setBusinessUnitReport(checkForStringZero(businessUnit));
 		String reportDataSource = Optional.ofNullable(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(3).toString()).getCaptionFromV8ComboBox())
 				.orElseGet(String::new);
-		dataSelectionBean.setReportDataSource(reportDataSource == "0" ? 0 : Integer.parseInt(reportDataSource));
+		dataSelectionBean.setReportDataSource(checkForStringZero(reportDataSource));
 		dataSelectionBean.setFromPeriodReport(checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(4).toString()).getCaptionFromV8ComboBox())));
 		dataSelectionBean.setToPeriod(checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
@@ -116,16 +116,8 @@ public class GtnUIFrameworkSaveViewAction
 				.getVaadinBaseComponent(actionParamsList.get(20).toString()).getCaptionFromV8ComboBox()))));
 		dataSelectionBean.setComparisonProjectionBeanList(comparisonProjectionBeanList);
 		dataSelectionBean.setVariablesList(selectedVariableList);
-		String privateViewName = Optional
-				.ofNullable(String.valueOf(GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent("reportLandingScreen_privateViews").getV8PopupFieldValue()))
-				.orElseGet(String::new);
-		dataSelectionBean.setPrivateViewName(StringUtils.isBlank(privateViewName) ? null : privateViewName);
-		String publicViewName = Optional
-				.ofNullable(String.valueOf(GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent("reportLandingScreen_publicViews").getV8PopupFieldValue()))
-				.orElseGet(String::new);
-		dataSelectionBean.setPublicViewName(StringUtils.isBlank(publicViewName) ? null : publicViewName);
+		dataSelectionBean.setPrivateViewName(getViewName("reportLandingScreen_privateViews"));
+		dataSelectionBean.setPublicViewName(getViewName("reportLandingScreen_publicViews"));
 
 		String viewId = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId).getViewId();
 		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI
@@ -152,12 +144,14 @@ public class GtnUIFrameworkSaveViewAction
 		params.add(dataSelectionBean);
 		popupAction.setActionParameterList(params);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, popupAction);
-		gtnLogger.info("privateViewName--------->" + privateViewName);
-		gtnLogger.info("publicViewName----------->" + publicViewName);
-		if (!"".equals(privateViewName) || !"".equals(publicViewName)) {
-			String viewName = !"".equals(privateViewName) ? privateViewName : "";
-			viewName = !"".equals(viewName) ? viewName : publicViewName;
-			dataSelectionBean.setViewId(getViewId(privateViewName));
+		gtnLogger.info("privateViewName--------->" + dataSelectionBean.getPrivateViewName());
+		gtnLogger.info("publicViewName----------->" + dataSelectionBean.getPublicViewName());
+		if (!"".equals(dataSelectionBean.getPrivateViewName()) || !"".equals(dataSelectionBean.getPublicViewName())) {
+			String viewName = !"".equals(dataSelectionBean.getPrivateViewName())
+					? dataSelectionBean.getPrivateViewName()
+					: "";
+			viewName = !"".equals(viewName) ? viewName : dataSelectionBean.getPublicViewName();
+			dataSelectionBean.setViewId(getViewId(dataSelectionBean.getPrivateViewName()));
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportSaveViewLookUp_saveViewName", componentId)
 					.loadV8FieldValue(viewName);
 			GtnUIFrameWorkActionConfig updateEnableAction = new GtnUIFrameWorkActionConfig();
@@ -174,6 +168,19 @@ public class GtnUIFrameworkSaveViewAction
 
 	private Integer checkIfNotNull(Optional input) {
 		return input.isPresent() && !"".equals(input.get().toString()) ? Integer.valueOf(input.get().toString()) : null;
+	}
+
+	private Integer checkForStringZero(String value) {
+		return value == "0" ? 0 : Integer.parseInt(value);
+	}
+
+	private String getViewName(String viewComponentId) {
+		String viewName = Optional
+				.ofNullable(String
+						.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewComponentId).getV8PopupFieldValue()))
+				.orElseGet(String::new);
+
+		return StringUtils.isBlank(viewName) ? null : viewName;
 	}
 
 	private int getViewId(String privateViewName) {

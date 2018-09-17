@@ -70,7 +70,7 @@ public class AdjustmentSummarySearchResultsInventory extends AbstractPipelineSum
     @Override
     public boolean getisFixedColumns() {
         SUMMARY_RESULTS_LOGGER.debug("Inside getisFixedColumns");
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class AdjustmentSummarySearchResultsInventory extends AbstractPipelineSum
     @Override
     public boolean getisDeductionCustomer() {
         SUMMARY_RESULTS_LOGGER.debug("Inside getisDeductionCustomer");
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override

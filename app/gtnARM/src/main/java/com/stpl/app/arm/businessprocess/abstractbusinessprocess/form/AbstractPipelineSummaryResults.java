@@ -36,7 +36,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
     protected Object[] pipelineSummaryRightcolumns = {VariableConstants.MONTH};
     private Map<Object, Object[]> pipelineSummaryLeftDoubleSingleVisibleColumn = new HashMap<>();
     protected String pipelineSummaryLeftHeader = CommonConstant.PRODUCT;
-    protected boolean isGenarate = Boolean.FALSE;
+    protected boolean isGenarate = false;
     private AbstractSelectionDTO pipelineSummarySelection;
     public static final Logger SUMMARY_RESULTS_LOGGER = LoggerFactory.getLogger(AbstractPipelineSummaryResults.class);
 
@@ -119,7 +119,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
         getExcelTable().setVisibleColumns(rightingleVisibleColumn1.toArray());
         getExcelTable().setColumnHeaders(
                 Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
-        getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
+        getExcelTable().setDoubleHeaderVisible(true);
         getExcelTable().setDoubleHeaderVisibleColumns(rightDoubleVisibleColumn.toArray());
         getExcelTable().setDoubleHeaderColumnHeaders(
                 Arrays.copyOf(rightoubleVisibleHeader.toArray(), rightoubleVisibleHeader.size(), String[].class));
@@ -130,7 +130,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
     public void generateButtonLogic(String[] columns) {
         customerProductView.setValue(ARMConstants.getDeductionProduct());
         setValueChangeAllowed(false);
-        isGenarate = Boolean.TRUE;
+        isGenarate = true;
         Map pipelineProperties = new HashMap();
         String pipelineView = String.valueOf(customerProductView.getValue());
         if (ARMConstants.getDeductionProduct().equalsIgnoreCase(pipelineView)) {
@@ -200,7 +200,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
             cancelOverride.setEnabled(!pipelineFlag);
         }
         setConverter(rightTable, rightTable.getVisibleColumns());
-        tableLogic.loadSetData(Boolean.FALSE);
+        tableLogic.loadSetData(false);
         setValueChangeAllowed(pipelineFlag);
     }
 
@@ -243,7 +243,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
         configureLevelAndLevelFilter();
         configureRightTable();
         if (isGenarate) {
-            getTableLogic().loadSetData(Boolean.FALSE);
+            getTableLogic().loadSetData(false);
         }
         List<String> headerList = Arrays.asList(rightTable.getColumnHeaders());
         if ((pipelineSummarySelection.getSessionDTO().isWorkFlow()
@@ -302,7 +302,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override

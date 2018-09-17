@@ -593,7 +593,7 @@ public abstract class AbstractReserve extends CustomWindow {
     public void loadReportTypeDdlbValue(Property.ValueChangeEvent event) {
         selection.setReportType((Integer) (reportTypeDdlb.getValue()));
         balSummaryConfigurationTableLogic.getFilters().clear();
-        if ((reportTypeDdlb.getValue() != null) && Integer.valueOf(String.valueOf(reportTypeDdlb.getValue())) != 0) {
+        if ((reportTypeDdlb.getValue() != null) && ARMUtils.getIntegerValue(String.valueOf(reportTypeDdlb.getValue())) != 0) {
             LOGGER.debug(event.toString());
             try {
                 Map<String, List<Object>> tableHeaderMap;
@@ -659,7 +659,7 @@ public abstract class AbstractReserve extends CustomWindow {
         LOGGER.debug(event.toString());
         selection.setMethodology((Integer) (methodologyDdlb.getValue()));
         adjustmentSummaryTableLogic.getFilters().clear();
-        if ((methodologyDdlb.getValue() != null) && Integer.valueOf(String.valueOf(methodologyDdlb.getValue())) != 0) {
+        if ((methodologyDdlb.getValue() != null) && ARMUtils.getIntegerValue(String.valueOf(methodologyDdlb.getValue())) != 0) {
             String transaction = methodologyDdlb.getItemCaption(methodologyDdlb.getValue());
             selection.setMethodologyDescription(transaction);
             if (transaction.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.TRANSACTION_1.toString())) {
