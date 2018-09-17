@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +31,7 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
 	private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
-	
+
 	public List<Object[]> getPeriodResults(String businessProcessType) {
 		return loadDateBusinessType(businessProcessType);
 	}
@@ -55,8 +56,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		this.loadDate();
 	}
 
-	public GtnQueryEngineWebServiceRequest createQuery(String loadDateQuery)
-	{
+	public GtnQueryEngineWebServiceRequest createQuery(String loadDateQuery) {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		queryExecutorBean.setSqlQuery(loadDateQuery);
 		queryExecutorBean.setQueryType("SELECT");
@@ -64,14 +64,15 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 		return gtnQueryEngineWebServiceRequest;
 	}
-	public String readProperty(String lookUpValue)
-	{
+
+	public String readProperty(String lookUpValue) {
 		String loadDateQuery = gtnWsPeriodConfSqlService.getQuery(lookUpValue);
 		logger.debug("LoadDate Query:" + loadDateQuery);
 		return loadDateQuery;
 	}
-	public GtnQueryEngineWebServiceResponse callQueryEngine( GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest)
-	{
+
+	public GtnQueryEngineWebServiceResponse callQueryEngine(
+			GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest) {
 		RestTemplate restTemplate = new RestTemplate();
 		return restTemplate.postForObject(
 				getWebServiceEndpointBasedOnModule(
@@ -79,10 +80,9 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 						GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
 				gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
 	}
-	
-	public void populateallBusinessProcessTypeResultObject (List <Object[]> resultDataSet)
-	{
-		for (Object[] resultList : resultDataSet ) {
+
+	public void populateallBusinessProcessTypeResultObject(List<Object[]> resultDataSet) {
+		for (Object[] resultList : resultDataSet) {
 			PeriodConfData periodconfdata = new PeriodConfData();
 			periodconfdata.setFromDate(new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT)
 					.format(new Date((long) resultList[0])));
@@ -99,11 +99,10 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 			allBusinessProcessTypeResultObject.add(periodconfdata);
 		}
 	}
-	
+
 	public void loadDate() {
 		logger.debug("Entering into webservice loadDate  WS->SR->QE->SR->WS");
-		String lookUpValue = "loadDate";
-		GtnQueryEngineWebServiceResponse response = callQueryEngine(createQuery(readProperty(lookUpValue)));
+		GtnQueryEngineWebServiceResponse response = callQueryEngine(createQuery(readProperty("loadDate")));
 		populateallBusinessProcessTypeResultObject(response.getQueryResponseBean().getResultList());
 	}
 
@@ -143,22 +142,27 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 	private List<Object[]> getQuarter(String startDate, String endDate) {
 		List<Object[]> quarters = new ArrayList<>();
 		DateFormat df = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT);
+		DateFormat dfpsid = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_SID_DATE_FORMAT);
 		DateFormat dfYY = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_YEAR_FORMAT);
 
 		try {
-			Integer i = 1;
+			String periodCounterStartDate = readProperty("periodCounterStartDate");
 
 			Calendar scal = Calendar.getInstance();
 			scal.setTime(df.parse(startDate));
 			Calendar ecal = Calendar.getInstance();
 			ecal.setTime(df.parse(endDate));
+			Calendar pcal = Calendar.getInstance();
+			pcal.setTime(dfpsid.parse(periodCounterStartDate.trim()));
 
 			while (ecal.getTime().after(scal.getTime()) || ecal.getTime().equals(scal.getTime())) {
+				int periodSid = (scal.get(Calendar.YEAR) - pcal.get(Calendar.YEAR)) * 12
+						+ (scal.get(Calendar.MONTH) - pcal.get(Calendar.MONTH)) + 1;
 				int month = scal.get(Calendar.MONTH) + 1;
 
 				int quarter = month % 3 == 0 ? (month / 3) : (month / 3) + 1;
-				String[] s = { i.toString(), "Q" + quarter + "-" + dfYY.format(scal.getTime()) };
-				i++;
+				String[] s = { String.valueOf(periodSid), "Q" + quarter + "-" + dfYY.format(scal.getTime()) };
+				logger.debug("Period Value" + Arrays.toString(s));
 				quarters.add(s);
 				scal.add(Calendar.MONTH, 3);
 			}

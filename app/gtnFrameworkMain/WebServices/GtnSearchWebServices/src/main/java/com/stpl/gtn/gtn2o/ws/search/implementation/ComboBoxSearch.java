@@ -24,47 +24,39 @@ import org.springframework.web.client.RestTemplate;
  */
 public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements SearchInterface {
 
-    public ComboBoxSearch() {
-        super();
-        initializeLogger();
-    }
+	public ComboBoxSearch() {
+		super(ComboBoxSearch.class);
+	}
 
-    @PostConstruct
-    public void initializeLogger() {
-        super.logInformation(ComboBoxSearch.class);
-    }
+	@Override
+	public GtnUIFrameworkWebserviceRequest registerWs() {
+		return null;
+	}
 
-    @Override
-    public GtnUIFrameworkWebserviceRequest registerWs() {
-        return null;
-    }
-
-    @Override
-    public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,String query) {
-        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-        try
-        {
-        logger.debug("Businnes unit query:" + query);
-        GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-        queryExecutorBean.setSqlQuery(query);
-        queryExecutorBean.setQueryType("SELECT");
-        GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
-        gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-        RestTemplate restTemplate1 = new RestTemplate();
-        logger.info("calling query engine via service registry");
-        GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
-                getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
-        List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
-        GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
-        comboBoxResponse.setComboBoxList(resultList);
-        response.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
-        }
-        catch(Exception e)
-        {
-            logger.error("Exception in loading business units"+e);
-        }
-        return response;
-    }
+	@Override
+	public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,
+			String query) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		try {
+			logger.debug("Businnes unit query:" + query);
+			GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+			queryExecutorBean.setSqlQuery(query);
+			queryExecutorBean.setQueryType("SELECT");
+			GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
+			gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
+			RestTemplate restTemplate1 = new RestTemplate();
+			logger.info("calling query engine via service registry");
+			GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(getWebServiceEndpointBasedOnModule(
+					"/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
+					gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+			List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
+			GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
+			comboBoxResponse.setComboBoxList(resultList);
+			response.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
+		} catch (Exception e) {
+			logger.error("Exception in loading business units" + e);
+		}
+		return response;
+	}
 
 }

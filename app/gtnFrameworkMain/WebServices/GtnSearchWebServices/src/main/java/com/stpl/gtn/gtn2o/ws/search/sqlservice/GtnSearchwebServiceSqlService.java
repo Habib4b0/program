@@ -21,29 +21,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class GtnSearchwebServiceSqlService extends GtnServiceRegistryImplClass {
 
-    private GtnSearchwebServiceSqlService() {
-        /* constructor*/
-        super();
-        initializeLogger();
-    }
-    @Autowired
-    private PropertiesFactoryBean sqlPropertyBean;
+	private GtnSearchwebServiceSqlService() {
+		/* constructor */
+		super(GtnSearchwebServiceSqlService.class);
+	}
 
-    @PostConstruct
-    public final void initializeLogger() {
-        super.logInformation(GtnSearchwebServiceSqlService.class);
-    }
+	@Autowired
+	private PropertiesFactoryBean sqlPropertyBean;
 
-    public String getQuery(String queryId) {
-        try {
-            return Optional.ofNullable(sqlPropertyBean.getObject()).orElseThrow(IllegalArgumentException::new)
-                    .getProperty(queryId);
+	public String getQuery(String queryId) {
+		try {
+			return Optional.ofNullable(sqlPropertyBean.getObject()).orElseThrow(IllegalArgumentException::new)
+					.getProperty(queryId);
 
-        } catch (IOException e) {
-            logger.error("Error in loading query" + e);
-        }
+		} catch (IOException e) {
+			logger.error("Error in loading query" + e);
+		}
 
-        return StringUtils.EMPTY;
-    }
+		return StringUtils.EMPTY;
+	}
 
 }

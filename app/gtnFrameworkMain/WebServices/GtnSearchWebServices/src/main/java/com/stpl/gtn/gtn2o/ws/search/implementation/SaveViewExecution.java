@@ -27,15 +27,9 @@ public class SaveViewExecution  extends GtnCommonWebServiceImplClass implements 
 private GtnForecastJsonService gtnForecastJsonService;
     public SaveViewExecution()
     {
-        super();
-        initializeLogger();
-    }
-    @PostConstruct
-    public void initializeLogger() 
-    {
-        super.logInformation(SaveViewExecution.class);
-    }
-
+        super(SaveViewExecution.class);
+     }
+    
     @Override
     public GtnUIFrameworkWebserviceRequest registerWs() {
         return null;
