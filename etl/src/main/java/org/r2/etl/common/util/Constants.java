@@ -405,7 +405,9 @@ public final class Constants {
         
         public static final String DTX_COMPANY_MASTER_INTERFACE = "DTX_COMPANY_MASTER_INTERFACE";
         
-        public static final String DTX_COMPANY_TRADE_CLASS_INTERFACE = "DTX_COMPANY_MASTER_INTERFACE";
+        public static final String DTX_COMPANY_TRADE_CLASS_INTERFACE = "DTX_COMPANY_TRADE_CLASS_INTERFACE";
+        
+        public static final String DTX_COMPANY_IDENTIFIER_INTERFACE = "DTX_COMPANY_IDENTIFIER_INTERFACE";
 
 	private Constants() {
 	}
