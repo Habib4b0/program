@@ -18,17 +18,12 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 public class GtnValidateWsServiceRegistryController extends GtnServiceRegistryImplClass {
 
 	public GtnValidateWsServiceRegistryController() {
-		super();
-		initializeLogger();
+		super(GtnValidateWsServiceRegistryController.class);
+		
 	}
 
 	@Autowired
 	private GtnServiceRegistryAuthorizationService gtnServiceRegistryAuthorizationService;
-
-	@PostConstruct
-	public final void initializeLogger() {
-		super.logInformation(GtnValidateWsServiceRegistryController.class);
-	}
 
 	@Autowired
 	private GtnValidateWsServiceRegistryService gtnValidateWsServiceRegistryService;

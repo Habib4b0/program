@@ -21,13 +21,9 @@ import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implements SearchInterface{
 	 public CustomerAndProductGroup()
 	    {
-	        super();
-	        initializeLogger();
+	        super(CustomerAndProductGroup.class);
 	    }
-	    @PostConstruct
-	    public void initializeLogger() {
-	        super.logInformation(PrivatePublic.class);
-	    }
+
 
 	    @Override
 	    public GtnUIFrameworkWebserviceRequest registerWs() {

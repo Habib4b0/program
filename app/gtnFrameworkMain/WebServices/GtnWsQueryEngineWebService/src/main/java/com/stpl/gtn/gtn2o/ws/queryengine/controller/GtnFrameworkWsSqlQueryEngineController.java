@@ -26,15 +26,10 @@ public class GtnFrameworkWsSqlQueryEngineController extends GtnServiceRegistryIm
 	private GtnFrameworkQueryExecutorBean gtnFrameworkQueryExecutorBean;
 
 	public GtnFrameworkWsSqlQueryEngineController() {
-		super();
-	  initializeLogger();
-	}
+		super(GtnFrameworkWsSqlQueryEngineController.class);
+	  }
 
-	@PostConstruct
-	public final void initializeLogger() {
-		super.logInformation(GtnFrameworkWsSqlQueryEngineController.class);
-	}
-
+	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public int test(int a) {
 		return a;
