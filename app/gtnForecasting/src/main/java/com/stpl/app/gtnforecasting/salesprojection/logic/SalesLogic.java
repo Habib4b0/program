@@ -490,14 +490,14 @@ public class SalesLogic {
                 projSelDTO.setProductHierarchyNo(StringUtils.EMPTY);
                 projSelDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
             }
-            resultList = offset > 0 ? (getSalesResults(projSelDTO, start, offset)) : new ArrayList<SalesRowDto>();
+            resultList = offset > 0 ? (getSalesResults(projSelDTO, start, offset)) : new ArrayList<>();
         } else {
             projSelDTO.setIsProjectionTotal(false);
             projSelDTO.setIsTotal(true);
             projSelDTO.setLevelNo(projSelDTO.getFilterLevelNo());
             projSelDTO.setTreeLevelNo(projSelDTO.getFilterLevelNo());
             projSelDTO.setHierarchyNo(Constant.PERCENT);
-            resultList = offset > 0 ? (getSalesResults(projSelDTO, start, offset)) : new ArrayList<SalesRowDto>();
+            resultList = offset > 0 ? (getSalesResults(projSelDTO, start, offset)) : new ArrayList<>();
         }
         return resultList;
     }

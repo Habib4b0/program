@@ -5,8 +5,6 @@
  */
 package com.stpl.app.arm.dataselection.ui.form;
 
-import static com.stpl.app.arm.dataselection.ui.form.DataSelection.getBeanFromId;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -326,31 +324,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
 
         List<LevelDTO> reslistOne;
         reslistOne = dataSelectionLogic.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
-        for (LevelDTO selection : reslistOne) {
-            if (selection.getLevelNo() == 1) {
-                selectedCustomerContainer.removeAllItems();
-                selectedCustomerContainer.addItem(selection);
-                selectedCustomerContainer.setChildrenAllowed(selection, true);
-            } else {
-                for (Object tempselection : selectedCustomerContainer.getItemIds()) {
-                    if (selection.getParentNode().contains("~")) {
-                        String[] parentarr = selection.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempselection).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedCustomerContainer.addBean(selection);
-                            selectedCustomerContainer.setChildrenAllowed(selection, true);
-                            selectedCustomerContainer.setParent(selection, tempselection);
-                            break;
-                        }
-                    } else {
-                        selectedCustomerContainer.addBean(selection);
-                        selectedCustomerContainer.setChildrenAllowed(selection, true);
-                        selectedCustomerContainer.setParent(selection, tempselection);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedCustomerContainer, reslistOne, customerLevel);
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
         Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
         selectedCustomer.setVisibleColumns(obj);
@@ -372,39 +346,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
 
         List<LevelDTO> reslistOne;
         reslistOne = selectionLogic.getRelationShipValues(projectionId, "product", productLevel, productDescriptionMap);
-        for (LevelDTO selection : reslistOne) {
-            if (selection.getLevelNo() == 1) {
-                selectedProductContainer.removeAllItems();
-                selectedProductContainer.addItem(selection);
-                selectedProductContainer.setChildrenAllowed(selection, true);
-            } else {
-                for (Object tempselection : selectedProductContainer.getItemIds()) {
-                    if (selection.getParentNode().contains("~")) {
-                        String[] parentarr = selection.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempselection).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedProductContainer.addBean(selection);
-                            if (productLevel != selection.getLevelNo()) {
-                                selectedProductContainer.setChildrenAllowed(selection, true);
-                            } else {
-                                selectedProductContainer.setChildrenAllowed(selection, false);
-                            }
-                            selectedProductContainer.setParent(selection, tempselection);
-                            break;
-                        }
-                    } else {
-                        selectedProductContainer.addBean(selection);
-                        if (productLevel != selection.getLevelNo()) {
-                            selectedProductContainer.setChildrenAllowed(selection, true);
-                        } else {
-                            selectedProductContainer.setChildrenAllowed(selection, false);
-                        }
-                        selectedProductContainer.setParent(selection, tempselection);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedProductContainer, reslistOne, productLevel);
         selectedProduct.setContainerDataSource(selectedProductContainer);
         Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
         selectedProduct.setVisibleColumns(obj);

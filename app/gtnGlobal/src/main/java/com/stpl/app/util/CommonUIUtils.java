@@ -270,7 +270,7 @@ public class CommonUIUtils {
                 } else if (ConstantsUtils.VIEW.equals(mode)) {
                     appPermission = ((AppPermission) fieldHM.get(fieldStr)).isViewFlag();
                 }
-                if (appPermission == false) {
+                if (!appPermission) {
                     if (labelStr != null) {
                         for (java.lang.reflect.Field field : this.getClass().getDeclaredFields()) {
                             if (labelStr.equals(String.valueOf(field)) && field.get(labelStr) instanceof Label) {

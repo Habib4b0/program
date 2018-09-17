@@ -1099,6 +1099,7 @@ public class DataSelectionLogic {
                 dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
                 dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
                 dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.SEVEN])));
+                dto.setHierarchyNo(String.valueOf(objects[NumericConstants.SEVEN]));
                 dto.setLevelValueReference(String.valueOf(objects[NumericConstants.EIGHT]));
                 dto.setRelationShipVersionNo((Integer) (objects[NumericConstants.NINE]));
                 dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.TEN]));

@@ -340,7 +340,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 
 	private GroupDTO setGroupDetails(final String indicator) {
 		GroupDTO dto = new GroupDTO();
-		String sids = CommonUtils.CollectionToString(itemsOrCompanySids, false);
+		String sids = CommonUtils.collectionToStringMethod(itemsOrCompanySids, false);
 		if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(indicator)) {
 			dto.setCustomerGroupName(groupName.getValue());
 			dto.setCustomerGroupNo(groupNo.getValue());

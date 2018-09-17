@@ -479,7 +479,7 @@ public class QueryUtils {
         return columnNames.get(visibleColumnName);
     }
 
-    public static HashMap<String, String> loadColumnNames() {
+    public static Map<String, String> loadColumnNames() {
         columnNames.put(" contractHolder", "CM.COMPANY_NAME");
         columnNames.put(" contractNo", "CN.CONTRACT_NO");
         columnNames.put(" contractName", "CN.CONTRACT_NAME");
