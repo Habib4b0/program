@@ -64,8 +64,7 @@ public class GtnReportDashboardValuesResetAction
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView", componentId)
 				.loadV8ComboBoxComponentValue(String.valueOf(dataSelectionBean.getCustomViewMasterSid()));
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
-				"reportingDashboard_displaySelectionTabFrequency", componentId)
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId)
 				.loadV8ComboBoxComponentValue(dataSelectionBean.getFrequency());
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -83,58 +82,45 @@ public class GtnReportDashboardValuesResetAction
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabCurrencyDisplay",
 				componentId).loadV8ComboBoxComponentValue(0);
 
-		 GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis",
-				componentId).loadV8ComboBoxComponentValue(0);
-		 
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
+				.loadV8ComboBoxComponentValue(0);
+
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals", componentId)
 				.loadV8ComboBoxComponentValue("Yes");
-		
+
 		GtnUIFrameWorkActionConfig resetAction = new GtnUIFrameWorkActionConfig();
 		resetAction.setActionType(GtnUIFrameworkActionType.V8_CONFIRMED_RESET_ACTION);
-		resetAction.addActionParameter(Arrays
-				.asList("reportingDashboard_displaySelectionTabPeriodRangeFrom",
-						"reportingDashboard_displaySelectionTabPeriodRangeTo",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ "displaySelectionTabVariableCategory",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterTabCustomerLevel",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabProductLevel",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabDeductionLevel",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabCustomerFilter",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabProductFilter",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabDeductionFilter",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabSalesInclusion",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabDeductionInclusion",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabDisplayFormat"));
+		resetAction.addActionParameter(Arrays.asList("reportingDashboard_displaySelectionTabPeriodRangeFrom",
+				"reportingDashboard_displaySelectionTabPeriodRangeTo",
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariableCategory",
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterTabCustomerLevel",
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabProductLevel",
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabDeductionLevel",
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabCustomerFilter",
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabProductFilter",
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabDeductionFilter",
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabSalesInclusion",
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabDeductionInclusion",
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabDisplayFormat"));
 		resetAction.addActionParameter(
 				Arrays.asList(new Object[] { "0", "0", "", "0", "0", "0", "", "", "", "", "", "" }));
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetAction);
-              
-              	VerticalLayout treeGridLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD+GtnFrameworkCommonConstants.RESULT_TABLE,componentId).getComponent();
-                TreeGrid<GtnWsRecordBean> treeGrid = (TreeGrid<GtnWsRecordBean>) treeGridLayout.getComponent(0);
-                treeGrid.setDataProvider(new TreeDataProvider<>(new TreeData<GtnWsRecordBean>()));
-                treeGrid.removeAllColumns();
-                
-                
-//                AbstractComponent componentData = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD+GtnFrameworkCommonConstants.RESULT_TABLE,componentId).getComponent();
-//        		PagedTreeGrid grid = (PagedTreeGrid) componentData.getData();
-////        		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
-//        		grid.resetGridToInitialState();
-//		
-                /*GtnUIFrameworkComponentConfig c = new GtnUIFrameworkComponentConfig();
-        		GtnUIFrameworkPagedTreeTableConfig check = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD+GtnFrameworkCommonConstants.RESULT_TABLE,componentId).getComponentConfig().getGtnPagedTreeTableConfig();
-        		check.setItemPerPage(10);
-        	//	check.remove
-        		c.setGtnPagedTreeTableConfig(check);*/
-        		
-        		
-        		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
-        				.getVaadinComponentData(GtnFrameworkReportStringConstants.REPORT_DASHBOARD+GtnFrameworkCommonConstants.RESULT_TABLE,componentId);
-        		PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
-        		grid.resetGridToInitialState();
-        		
 
-        }
+		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(
+				GtnFrameworkReportStringConstants.REPORT_DASHBOARD + GtnFrameworkCommonConstants.RESULT_TABLE,
+				componentId);
+		PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
+		grid.resetGrid(componentId);
+
+		VerticalLayout treeGridLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+				GtnFrameworkReportStringConstants.REPORT_DASHBOARD + GtnFrameworkCommonConstants.RESULT_TABLE,
+				componentId).getComponent();
+		TreeGrid<GtnWsRecordBean> treeGrid = (TreeGrid<GtnWsRecordBean>) treeGridLayout.getComponent(0);
+		treeGrid.setDataProvider(new TreeDataProvider<>(new TreeData<GtnWsRecordBean>()));
+		treeGrid.removeAllColumns();
+	}
 
 	private String getComparisonValue(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
 		if (comparisonProjectionBeanList.size() > 1) {
