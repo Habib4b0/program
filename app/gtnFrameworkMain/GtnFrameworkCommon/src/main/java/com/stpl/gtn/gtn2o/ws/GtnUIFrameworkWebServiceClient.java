@@ -20,11 +20,9 @@ import org.springframework.web.client.RestTemplate;
 public class GtnUIFrameworkWebServiceClient {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameworkWebServiceClient.class);
-<<<<<<< .mine
+
 	long staticTime = System.currentTimeMillis();
-=======
-        long staticTime = System.currentTimeMillis();
->>>>>>> .theirs
+
 
 	public GtnUIFrameworkWebserviceResponse callGtnWebServiceUrl(String url, GtnUIFrameworkWebserviceRequest request,
 			GtnWsSecurityToken securityToken) {
