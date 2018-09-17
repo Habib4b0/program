@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkDeleteViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkScreenRegistryResetAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
@@ -16,8 +17,8 @@ import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastProdHier
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastEligibleDateLoadAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkDeleteAction;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
@@ -175,8 +176,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		addProjectionName(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addPublicViewLookup(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addBusinessUnit(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
-		addDeductionLevel(componentList,projectionSelectionLayoutConfig.getComponentId(),nameSpace);
 		addProjectionDescription(componentList,projectionSelectionLayoutConfig.getComponentId(), nameSpace);
+		addDeductionLevel(componentList,projectionSelectionLayoutConfig.getComponentId(),nameSpace);
 	}
 
 	
@@ -366,14 +367,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deductionComponent.setAddToParent(Boolean.TRUE);
 		deductionComponent.setParentComponentId(nameSpace + "_" +"deductionLayout");
 		 deductionComponent.setCustomReference("integerId");
-		 
-		 GtnUIFrameworkComboBoxConfig deductionConfig = new GtnUIFrameworkComboBoxConfig();
-			deductionConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_DEDUCTION_LEVEL_COMBOBOX_SERVICE
-					+ GtnWebServiceUrlConstants.GTN_DEDUCTION_LEVEL_COMBOBOX_LOAD);
-			deductionConfig.setComboBoxType("dataSelectionDeduction");
-			deductionComponent.setGtnComboboxConfig(deductionConfig);
-			componentList.add(deductionComponent);
-	
 	}
 
 	private void addTimePeriod(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -635,8 +628,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				"Commercial Forecasting" + "_" + "prodforecastLevel",
 				"Commercial Forecasting" + "_" + "productDualListBox",
 				"Commercial Forecasting" + "_" + "productGroup",
-				"Commercial Forecasting" + "_" + "profileMode",
-				"Commercial_Forecasting_customerSelectionLevel"
+				"Commercial Forecasting" + "_" + "profileMode"
+//				"Commercial_Forecasting_customerSelectionLevel"
 				
 				);
 	}
@@ -660,6 +653,24 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteViewBtn.setAddToParent(true);
 		deleteViewBtn.setEnable(false);
 		componentList.add(deleteViewBtn);
+		
+		GtnUIFrameWorkActionConfig confirmDeleteAction = new GtnUIFrameWorkActionConfig();
+		confirmDeleteAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		confirmDeleteAction.addActionParameter("Confirmation");
+		confirmDeleteAction.addActionParameter("Are you sure you want to delete the view?");
+		List<GtnUIFrameWorkActionConfig> onSuccessDeleteActionConfigList = new ArrayList<>();
+		confirmDeleteAction.addActionParameter(onSuccessDeleteActionConfigList);
+		
+		GtnUIFrameWorkActionConfig deleteViewAction = new GtnUIFrameWorkActionConfig();
+		deleteViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteViewAction.addActionParameter(GtnFrameworkDeleteViewAction.class.getName());
+		deleteViewAction.addActionParameter(
+				nameSpace + "_" + "privateViewLookup");
+		deleteViewAction.addActionParameter(
+				nameSpace + "_" + "publicView"	);
+		deleteViewAction.addActionParameter(nameSpace);
+		onSuccessDeleteActionConfigList.add(deleteViewAction);
+		
 	}
 
 	private void addProjectionResultsPanel(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
@@ -820,6 +831,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteBtn.setAddToParent(true);
 		deleteBtn.setEnable(false);
 		componentList.add(deleteBtn);
+		
+		
 	}
 	
 	// Load Forecast eligible date
