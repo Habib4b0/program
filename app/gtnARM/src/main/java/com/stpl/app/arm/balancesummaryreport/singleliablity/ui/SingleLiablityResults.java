@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SingleLiablityResults extends AbstractBalanceSummaryResutls {
 
-    public final Logger singleLiablityLogger = LoggerFactory.getLogger(SingleLiablityResults.class);
+    public static final Logger SINGLE_LIABLITY_LOGGER = LoggerFactory.getLogger(SingleLiablityResults.class);
 
     public SingleLiablityResults(AbstractBSummaryLogic logic, SummarySelection selection) {
         super(logic, selection);
@@ -51,37 +51,37 @@ public class SingleLiablityResults extends AbstractBalanceSummaryResutls {
             slRightDoubleVisibleHeader.add(0, "");
             getExcelTable().setVisibleColumns(rightsingleVisibleColumn1.toArray());
             getExcelTable().setColumnHeaders(Arrays.copyOf((slRightSingleVisibleHeader).toArray(), (slRightSingleVisibleHeader).size(), String[].class));
-            getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
+            getExcelTable().setDoubleHeaderVisible(true);
             getExcelTable().setDoubleHeaderVisibleColumns(slRightDoubleVisibleColumn.toArray());
             getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(slRightDoubleVisibleHeader.toArray(), slRightDoubleVisibleHeader.size(), String[].class));
             getExcelTable().setDoubleHeaderMap((Map) header.get(5));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
-            singleLiablityLogger.error("Error in setExcelVisibleColumn :", ex);
+            SINGLE_LIABLITY_LOGGER.error("Error in setExcelVisibleColumn :", ex);
         }
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        singleLiablityLogger.debug("inside getExcelLogic");
+        SINGLE_LIABLITY_LOGGER.debug("inside getExcelLogic");
         return getSummaryLogic();
     }
 
     @Override
     public Map<Integer, String> getHierarchy() {
-        singleLiablityLogger.debug("inside getHierarchy ");
+        SINGLE_LIABLITY_LOGGER.debug("inside getHierarchy ");
         return getSelection().getSummeryhierarchy();
     }
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        singleLiablityLogger.debug("inside setRespectiveHierarchy");
+        SINGLE_LIABLITY_LOGGER.debug("inside setRespectiveHierarchy");
         getSummarySelection().setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override
     public String getExcelFileName() {
-        singleLiablityLogger.debug("inside getExcelFileName");
+        SINGLE_LIABLITY_LOGGER.debug("inside getExcelFileName");
         return "Balance Summary Report - Single Liablity";
     }
 }

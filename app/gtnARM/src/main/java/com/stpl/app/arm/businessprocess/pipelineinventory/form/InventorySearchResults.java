@@ -39,16 +39,16 @@ import org.slf4j.LoggerFactory;
  */
 public class InventorySearchResults extends AbstractSearchResults {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(InventorySearchResults.class);
+    public static final Logger INVENTORYLOGGER = LoggerFactory.getLogger(InventorySearchResults.class);
     private ExtTreeContainer<AdjustmentDTO> resultBeanContainerInv = new ExtTreeContainer<>(
             AdjustmentDTO.class, ExtContainer.DataStructureMode.LIST);
-    private String[] righttablesingleheaders = {"Total Inventory", "Weeks on Hand", "Units Per Retail"};
-    private Object[] doubleheadercolumns = {"rate"};
-    private Object[] columns = {"month"};
-    private Object[] leftColumns = {"branditemno"};
-    private Object[] singleheader = {"dateType", "price", "exclusionDetails"};
+    private String[] inventoryRighttablesingleheaders = {"Total Inventory", "Weeks on Hand", "Units Per Retail"};
+    private Object[] inventoryDoubleheadercolumns = {"rate"};
+    private Object[] inventoryColumns = {"month"};
+    private Object[] inventoryLeftColumns = {"branditemno"};
+    private Object[] inventorySingleheader = {"dateType", "price", "exclusionDetails"};
 
-    private String[] doubleheader = {"Managed Care Base"};
+    private String[] inventoryDoubleheader = {"Managed Care Base"};
 
     public InventorySearchResults(InventoryLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
@@ -65,17 +65,17 @@ public class InventorySearchResults extends AbstractSearchResults {
         leftTable.setImmediate(true);
 
         table.setDoubleHeaderVisible(false);
-        leftTable.setDoubleHeaderVisibleColumns(columns);
+        leftTable.setDoubleHeaderVisibleColumns(inventoryColumns);
 
         leftTable.setDoubleHeaderColumnHeaders("");
 
-        leftTable.setVisibleColumns(leftColumns);
+        leftTable.setVisibleColumns(inventoryLeftColumns);
 
         leftTable.setColumnHeaders("Product");
 
-        rightTable.setVisibleColumns(singleheader);
+        rightTable.setVisibleColumns(inventorySingleheader);
 
-        rightTable.setColumnHeaders(righttablesingleheaders);
+        rightTable.setColumnHeaders(inventoryRighttablesingleheaders);
 
         for (Object propertyId : rightTable.getVisibleColumns()) {
             rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.CENTER);
@@ -88,8 +88,8 @@ public class InventorySearchResults extends AbstractSearchResults {
         for (Object propertyId : leftTable.getVisibleColumns()) {
             leftTable.setColumnAlignment(propertyId, ExtCustomTable.Align.LEFT);
         }
-        rightTable.setDoubleHeaderVisibleColumns(doubleheadercolumns);
-        rightTable.setDoubleHeaderColumnHeaders(doubleheader);
+        rightTable.setDoubleHeaderVisibleColumns(inventoryDoubleheadercolumns);
+        rightTable.setDoubleHeaderColumnHeaders(inventoryDoubleheader);
         rightTable.setDoubleHeaderColumnWidth("rate", NumericConstants.FIVE_HUNDRED);
 
         leftTable.setColumnCheckBox("checkRecord", true, false);
@@ -109,44 +109,44 @@ public class InventorySearchResults extends AbstractSearchResults {
 
     @Override
     public void setExcelVisibleColumn() {
-        Map properties = new HashMap();
-        List<Object> header = getSummaryLogic().generateInventoryHeader(selection);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
-        List rightSingleVisibleHeader = (ArrayList) header.get(1);
-        for (Object variableColumn : rightSingleVisibleColumn) {
-            properties.put(variableColumn, String.class);
+        Map inventoryProperties = new HashMap();
+        List<Object> inventoryHeader = getSummaryLogic().generateInventoryHeader(selection);
+        List invRightSingleVisibleColumn = (ArrayList) inventoryHeader.get(0);
+        List invRightSingleVisibleHeader = (ArrayList) inventoryHeader.get(1);
+        for (Object variableColumn : invRightSingleVisibleColumn) {
+            inventoryProperties.put(variableColumn, String.class);
         }
-        getExcelContainer().setColumnProperties(properties);
-        getExcelContainer().setRecordHeader(rightSingleVisibleColumn);
-        List rightSingleVisibleColumn1 = new ArrayList(rightSingleVisibleColumn);
+        getExcelContainer().setColumnProperties(inventoryProperties);
+        getExcelContainer().setRecordHeader(invRightSingleVisibleColumn);
+        List rightSingleVisibleColumn1 = new ArrayList(invRightSingleVisibleColumn);
         rightSingleVisibleColumn1.add(0, "month");
-        rightSingleVisibleHeader.add(0, "Product");
+        invRightSingleVisibleHeader.add(0, "Product");
         getExcelTable().setVisibleColumns(rightSingleVisibleColumn1.toArray());
-        getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
+        getExcelTable().setColumnHeaders(Arrays.copyOf((invRightSingleVisibleHeader).toArray(), (invRightSingleVisibleHeader).size(), String[].class));
         setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
     }
 
     @Override
     protected void configureRightTable() {
-        LOGGER.debug("inside configureRightTable Method");
+        INVENTORYLOGGER.debug("inside configureRightTable Method");
     }
 
     @Override
     protected boolean calculateLogic() {
-        LOGGER.debug("Inside calculate ButtonClick Btn");
+        INVENTORYLOGGER.debug("Inside calculate ButtonClick Btn");
         try {
             Object[] orderedArgs = {getSelection().getProjectionMasterSid(), getSelection().getInventoryDetails(), getSelection().getInventoryOptionGroup(),
                 getSelection().getInventoryreserveDate(), getSelection().getPrice(), "1", getSelection().getSessionDTO().getUserId(), getSelection().getSessionDTO().getSessionId()};
             getSummaryLogic().getInventoryResults(orderedArgs);
         } catch (Exception e) {
-            LOGGER.error("Error in calculateLogic :", e);
+            INVENTORYLOGGER.error("Error in calculateLogic :", e);
         }
         return false;
     }
 
     @Override
     protected void customerProductValueChange() {
-        LOGGER.debug("inside customerProductValueChange Method");
+        INVENTORYLOGGER.debug("inside customerProductValueChange Method");
 
     }
 
@@ -188,7 +188,7 @@ public class InventorySearchResults extends AbstractSearchResults {
             getSummaryLogic().getInventoryResults(orderedArgs);
         }
         setConverter(rightTable, rightTable.getVisibleColumns());
-        getTableLogic().loadSetData(Boolean.FALSE);
+        getTableLogic().loadSetData(false);
     }
 
     @Override
@@ -225,7 +225,7 @@ public class InventorySearchResults extends AbstractSearchResults {
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -250,16 +250,18 @@ public class InventorySearchResults extends AbstractSearchResults {
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        INVENTORYLOGGER.debug("Inside getisDeductionCustomer Method");
+        return false;
     }
 
     @Override
     protected void excelExportLogic() {
+        INVENTORYLOGGER.debug("Inside excelExportLogic Method");
         try {
             tableLayout.addComponent(getExcelTable());
             getExcelTable().setContainerDataSource(getExcelContainer());
-            getExcelTable().setRefresh(Boolean.FALSE);
-            getExcelTable().setVisible(Boolean.FALSE);
+            getExcelTable().setRefresh(false);
+            getExcelTable().setVisible(false);
             setExcelVisibleColumn();
             List list = getExcelLogic().getExcelResultList(getSelection());
             List<Object> listData = new ArrayList<>();
@@ -269,33 +271,33 @@ public class InventorySearchResults extends AbstractSearchResults {
             listData.add(getInterval());
 
             ExcelUtils.setExcelData(list, getExcelHierarchy(), getExcelExportVisibleColumn(), getExcelContainer(), discountColumnNeeded(), ARMConstants.getPipelineInventoryTrueUp(), listData);
-            ((CommonUI) getUI()).setExcelFlag(Boolean.TRUE);
+            ((CommonUI) getUI()).setExcelFlag(true);
             ExtCustomTableHolder customTableHolder = new ExtCustomTableHolder(getExcelTable());
             ExcelExport export = new ExcelExport(customTableHolder, getExcelFileName(), getExcelFileName(), getExcelFileName() + ".xls", false);
-            export.setUseTableFormatPropertyValue(Boolean.TRUE);
+            export.setUseTableFormatPropertyValue(true);
             export.export();
             getExcelContainer().removeAllItems();
             tableLayout.removeComponent(getExcelTable());
         } catch (Exception ex) {
-            LOGGER.error("Error in excelExportLogic :", ex);
+            INVENTORYLOGGER.error("Error in excelExportLogic :", ex);
         }
     }
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-        LOGGER.debug("Inside loadLevelFilterValueDdlb Method");
+        INVENTORYLOGGER.debug("Inside loadLevelFilterValueDdlb Method");
 
     }
 
     @Override
     protected void valueDdlbValueChange(int masterSids) {
-        LOGGER.debug("Inside valueDdlbValueChange Method");
+        INVENTORYLOGGER.debug("Inside valueDdlbValueChange Method");
 
     }
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     /**
@@ -311,8 +313,8 @@ public class InventorySearchResults extends AbstractSearchResults {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object invObj) {
+        return super.equals(invObj);
     }
 
     @Override
@@ -320,11 +322,11 @@ public class InventorySearchResults extends AbstractSearchResults {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream invObj) throws IOException {
+        invObj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream invObj) throws IOException, ClassNotFoundException {
+        invObj.defaultReadObject();
     }
 }

@@ -54,19 +54,19 @@ public class SalesFieldFactory implements TableFieldFactory {
     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
         AdjustmentDTO dto = (AdjustmentDTO) itemId;
         if (!dto.getChildrenAllowed() && VariableConstants.PRICE_OVERRIDE.equals(propertyId.toString()) && !ARMUtils.levelVariablesVarables.BRAND.toString().equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
-            final TextField priceoverride = new TextField();
-            priceoverride.setData(itemId);
-            priceoverride.setImmediate(true);
-            priceoverride.addStyleName("txtRightAlign");
-            priceoverride.setConverter(curthree);
-            priceoverride.addFocusListener(new FocusListener() {
+            final TextField salesPriceoverride = new TextField();
+            salesPriceoverride.setData(itemId);
+            salesPriceoverride.setImmediate(true);
+            salesPriceoverride.addStyleName("txtRightAlign");
+            salesPriceoverride.setConverter(curthree);
+            salesPriceoverride.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(FocusEvent event) {
-                    priceoverride.addValueChangeListener(priceOverrideListener);
-                    priceoverride.removeFocusListener(this);
+                    salesPriceoverride.addValueChangeListener(priceOverrideListener);
+                    salesPriceoverride.removeFocusListener(this);
                 }
             });
-            return priceoverride;
+            return salesPriceoverride;
         }
         if (dto.getChildrenAllowed()) {
             dto.addStringProperties("priceOverride.7", StringUtils.EMPTY);
@@ -79,50 +79,50 @@ public class SalesFieldFactory implements TableFieldFactory {
         public void valueChange(Property.ValueChangeEvent event) {
             try {
                 AdjustmentDTO dto = (AdjustmentDTO) ((TextField) event.getProperty()).getData();
-                Object val = event.getProperty().getValue();
+                Object salesVal = event.getProperty().getValue();
                 boolean isEmptied = false;
-                if (StringUtils.EMPTY.equals(val)) {
+                if (StringUtils.EMPTY.equals(salesVal)) {
                     isEmptied = true;
                 }
-                Double value = Double.valueOf(val == null ? "0" : val.toString().trim().replaceAll("[^\\d.]", ""));
-                List input = new ArrayList();
-                input.add(selection.getSessionDTO().getCurrentTableNames().get(ST_ARM_PIPELINE_SALES.toString()));
-                input.add(isEmptied ? "NULL" : value.toString());
-                input.add(Integer.valueOf(dto.getBranditemmasterSid()));
-                input.add(projectionId);
-                service.submit(new UpdateOverride(input));
+                Double value = Double.valueOf(salesVal == null ? "0" : salesVal.toString().trim().replaceAll("[^\\d.]", ""));
+                List salesInput = new ArrayList();
+                salesInput.add(selection.getSessionDTO().getCurrentTableNames().get(ST_ARM_PIPELINE_SALES.toString()));
+                salesInput.add(isEmptied ? "NULL" : value.toString());
+                salesInput.add(Integer.valueOf(dto.getBranditemmasterSid()));
+                salesInput.add(projectionId);
+                service.submit(new SalesUpdateOverride(salesInput));
             } catch (Exception e) {
                 LOGGER.error("Error in priceOverrideListener :", e);
             }
         }
     };
 
-    class UpdateOverride implements Runnable {
+    class SalesUpdateOverride implements Runnable {
 
-        private List input;
-        private boolean updateSuccess;
+        private List salesInput;
+        private boolean salesUpdateSuccess;
 
-        public UpdateOverride(List input) {
-            this.input = CommonLogic.getInstance().getArrayListCloned(input);
+        public SalesUpdateOverride(List input) {
+            this.salesInput = CommonLogic.getInstance().getArrayListCloned(input);
 
         }
 
         @Override
         public void run() {
-            updateSuccess = logic.updatePriceOverride(input);
+            salesUpdateSuccess = logic.updatePriceOverride(salesInput);
         }
 
         public boolean isUpdateSuccess() {
-            return updateSuccess;
+            return salesUpdateSuccess;
         }
 
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream salesout) throws IOException {
+        salesout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream salesin) throws IOException, ClassNotFoundException {
+        salesin.defaultReadObject();
     }
 }

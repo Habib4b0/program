@@ -36,7 +36,7 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
  */
 public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults {
 
-    private final Logger loggerRates = LoggerFactory.getLogger(getClass());
+    private static final Logger RATES_RR_LOGGER = LoggerFactory.getLogger(RatesReturnReserveSearchResults.class);
 
     public RatesReturnReserveSearchResults(AbstractBPLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
@@ -84,7 +84,7 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
 
     @Override
     protected void getTotalHeader(List<List> columnList) {
-        loggerRates.debug("inside getTotalHeader Method");
+        RATES_RR_LOGGER.debug("inside getTotalHeader Method");
 
     }
 
@@ -111,12 +111,12 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-        loggerRates.debug("inside loadLevelFilterValueDdlb Method");
+        RATES_RR_LOGGER.debug("inside loadLevelFilterValueDdlb Method");
     }
 
     @Override
     protected void valueDdlbValueChange(int masterSids) {
-        loggerRates.debug("inside valueDdlbValueChange Method");
+        RATES_RR_LOGGER.debug("inside valueDdlbValueChange Method");
 
     }
 
@@ -147,7 +147,7 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -157,7 +157,7 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -195,51 +195,51 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
 
     @Override
     public void setExcelVisibleColumn() {
-        Map properties = new HashMap();
+        Map rrProperties = new HashMap();
         excelTable.setContainerDataSource(excelBeanContainer);
         excelBeanContainer.setRecordHeader(resultBeanContainerVal.getRecordHeader());
-        for (Object prop : resultBeanContainerVal.getRecordHeader().toArray()) {
-            properties.put(prop, String.class);
+        for (Object rrProp : resultBeanContainerVal.getRecordHeader().toArray()) {
+            rrProperties.put(rrProp, String.class);
         }
-        excelBeanContainer.setColumnProperties(properties);
-        List<Object> visibleColumn = new ArrayList<>();
-        List<String> columnHeader = new ArrayList<>();
-        visibleColumn.addAll(Arrays.asList(table.getLeftFreezeAsTable().getVisibleColumns()));
-        visibleColumn.addAll(Arrays.asList(table.getRightFreezeAsTable().getVisibleColumns()));
-        List<String> headerList = Arrays.asList(table.getLeftFreezeAsTable().getColumnHeaders());
-        List<String> headerList2 = Arrays.asList(table.getRightFreezeAsTable().getColumnHeaders());
-        columnHeader.addAll(headerList);
-        columnHeader.addAll(headerList2);
-        excelTable.setVisibleColumns(visibleColumn.toArray());
-        excelTable.setColumnHeaders(columnHeader.toArray(new String[0]));
+        excelBeanContainer.setColumnProperties(rrProperties);
+        List<Object> rrVisibleColumn = new ArrayList<>();
+        List<String> rrColumnHeader = new ArrayList<>();
+        rrVisibleColumn.addAll(Arrays.asList(table.getLeftFreezeAsTable().getVisibleColumns()));
+        rrVisibleColumn.addAll(Arrays.asList(table.getRightFreezeAsTable().getVisibleColumns()));
+        List<String> rrHeaderList = Arrays.asList(table.getLeftFreezeAsTable().getColumnHeaders());
+        List<String> rrHeaderList2 = Arrays.asList(table.getRightFreezeAsTable().getColumnHeaders());
+        rrColumnHeader.addAll(rrHeaderList);
+        rrColumnHeader.addAll(rrHeaderList2);
+        excelTable.setVisibleColumns(rrVisibleColumn.toArray());
+        excelTable.setColumnHeaders(rrColumnHeader.toArray(new String[0]));
         setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
     }
 
     @Override
-    protected void setConverter(ExtCustomTable excelTable, Object[] visibleColumns) {
-        DataFormatConverter currency2Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_DOLLAR);
+    protected void setConverter(ExtCustomTable rrExcelTable, Object[] rrVisibleColumns) {
+        DataFormatConverter rrCurrency2Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_DOLLAR);
         DataFormatConverter rate2Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
-        DataFormatConverter rate3Dec = new DataFormatConverter(ARMConstants.getThreeDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
+        DataFormatConverter rrRate3Dec = new DataFormatConverter(ARMConstants.getThreeDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
         DataFormatConverter zeroDec = new DataFormatConverter(ARMConstants.getNoDecFormat());
-        DataFormatConverter perzeroDec = new DataFormatConverter(ARMConstants.getNoDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
+        DataFormatConverter rrPerzeroDec = new DataFormatConverter(ARMConstants.getNoDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
         DataFormatConverter currencyzeroDec = new DataFormatConverter(ARMConstants.getCurrNoDecFormat());
-        DataFormatConverter num2Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat());
-        for (Object visibleColumn : visibleColumns) {
+        DataFormatConverter rrNum2Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat());
+        for (Object visibleColumn : rrVisibleColumns) {
             if (!"group".equals(String.valueOf(visibleColumn)) && !"month".equals(String.valueOf(visibleColumn)) && !String.valueOf(visibleColumn).contains("methodology")) {
                 if (isPercentageColumnzeroDecimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, perzeroDec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, rrPerzeroDec, false);
                 } else if (isPercentageColumn2Decimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, rate2Dec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, rate2Dec, false);
                 } else if (isNumericTwoDecimalFormat(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, num2Dec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, rrNum2Dec, false);
                 } else if (isPercentageColumn3Decimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, rate3Dec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, rrRate3Dec, false);
                 } else if (isUnitColumn(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, zeroDec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, zeroDec, false);
                 } else if (isCurrencyZeroDecimalFormat(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, currencyzeroDec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, currencyzeroDec, false);
                 } else {
-                    excelTable.setConverter(visibleColumn, currency2Dec, Boolean.FALSE);
+                    rrExcelTable.setConverter(visibleColumn, rrCurrency2Dec, false);
                 }
             }
         }

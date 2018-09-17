@@ -66,7 +66,11 @@ public class GtnReportDataSelectionReGenerateAction
 			isComparisonProjectionChangedInReportingDashboard = areComparisonListsEqual(
 					comparisonProjectionsListInReportingDashboard, dataSelectionBean.getComparisonProjectionBeanList());
 		}
-
+		
+		if (comparisonProjectionsListInReportingDashboard != null &&dataSelectionBean.getComparisonProjectionBeanList() == null) {
+			isComparisonProjectionChangedInReportingDashboard = true;
+		}
+		
 		List<Object> variableList = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabVariable", componentId)
 				.getSelectedListFromV8MultiSelect();

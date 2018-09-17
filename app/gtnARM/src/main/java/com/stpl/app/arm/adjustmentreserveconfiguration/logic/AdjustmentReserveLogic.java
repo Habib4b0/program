@@ -198,7 +198,7 @@ public class AdjustmentReserveLogic {
         List input1 = getInputForAddLine(selection);
         List dataList1 = QueryUtils.getItemData(input1, "ADD_Line_to_Temp_table", null);
         if (!dataList1.isEmpty()) {
-            return Integer.valueOf(String.valueOf(dataList1.get(0)));
+            return ARMUtils.getIntegerValue(String.valueOf(dataList1.get(0)));
         } else {
             return 0;
         }
@@ -255,7 +255,7 @@ public class AdjustmentReserveLogic {
         if (dataList.isEmpty()) {
             return 0;
         }
-        return Integer.valueOf(String.valueOf(dataList.get(0)));
+        return ARMUtils.getIntegerValue(String.valueOf(dataList.get(0)));
     }
 
     private List getInputForLoadData(ReserveSelection selection, Set<Container.Filter> filter) {
@@ -612,7 +612,7 @@ public class AdjustmentReserveLogic {
     }
 
     private void customizeReserveSearch1(Object[] str, AdjustmentReserveDTO dto) {
-        dto.setSearchMasterSid(str[0] == null ? 0 : Integer.valueOf(String.valueOf(str[0])));
+        dto.setSearchMasterSid(str[0] == null ? 0 : ARMUtils.getIntegerValue(String.valueOf(str[0])));
         dto.setCompanyNo(str[NumericConstants.ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ONE]));
         dto.setCompanyName(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
         dto.setBusinessUnitNo(str[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THREE]));
