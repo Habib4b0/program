@@ -187,7 +187,7 @@ public class DiscountLogic {
         return columnNames.get(visibleColumnName);
     }
 
-    public static HashMap<String, String> loadColumnName() {
+    public static Map<String, String> loadColumnName() {
 
         columnNames.put(CommonUtil.DISCOUNT_NAME, CommonUtil.DEDUCTION_GROUP_NAME);
         columnNames.put(CommonUtil.DISCOUNT_NO, CommonUtil.DEDUCTION_GROUP_NO);

@@ -40,7 +40,7 @@ public class UpdateItem extends CustomComponent {
    private SelectionDTO selection;
    private List selectedItemList;
    private AbstractComponentInfo componentDetails;
-   private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
+  
 
     public UpdateItem(SelectionDTO selection, List selectedItemList) {
         try {
@@ -75,6 +75,7 @@ public class UpdateItem extends CustomComponent {
     }
 
     protected void resultsItemClick(final Object obj) {
+        AbstractContractSearchDTO componentInfoDTO;
         if (obj == null) {
             componentInfoDTO = null;
         } else {

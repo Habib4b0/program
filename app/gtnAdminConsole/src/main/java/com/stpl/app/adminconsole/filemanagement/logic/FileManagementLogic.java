@@ -1220,7 +1220,7 @@ public class FileManagementLogic {
 		return columnNames.get(visibleColumnName);
 	}
 
-	public HashMap<String, String> loadFMColumnName() {
+	public Map<String, String> loadFMColumnName() {
 		columnNames.put("file", CommonUtils.FORECAST_NAME);
 		columnNames.put("type", "forecastSource");
 		columnNames.put(CommonUtils.VERSION, CommonUtils.VERSION);
