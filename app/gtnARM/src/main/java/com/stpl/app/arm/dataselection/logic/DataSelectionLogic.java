@@ -160,42 +160,42 @@ public class DataSelectionLogic {
                         }
                     }
                 } else if (filter instanceof Compare) {
-                    Compare stringFilter = (Compare) filter;
-                    if (!detailsColumn.get(stringFilter.getPropertyId().toString()).isEmpty()) {
-                        Compare.Operation operation = stringFilter.getOperation();
-                        if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
-                            StringBuilder startStr = new StringBuilder("AND ( * ='?')");
-                            StringBuilder intStartstr = new StringBuilder("AND ( * = '?' )");
-                            StringBuilder tempStart;
-                            String value;
-                            if (((Integer) stringFilter.getValue()) == 0) {
-                                value = String.valueOf(stringFilter.getValue());
+                    Compare dsStringFilter = (Compare) filter;
+                    if (!detailsColumn.get(dsStringFilter.getPropertyId().toString()).isEmpty()) {
+                        Compare.Operation dsCompareOperation = dsStringFilter.getOperation();
+                        if (Compare.Operation.EQUAL.toString().equals(dsCompareOperation.name())) {
+                            StringBuilder dsstartStr = new StringBuilder("AND ( * ='?')");
+                            StringBuilder dsIntStartstr = new StringBuilder("AND ( * = '?' )");
+                            StringBuilder dsTempStart;
+                            String dsValue;
+                            if (((Integer) dsStringFilter.getValue()) == 0) {
+                                dsValue = String.valueOf(dsStringFilter.getValue());
                             } else {
-                                int val = (Integer) stringFilter.getValue();
-                                value = String.valueOf(val);
+                                int val = (Integer) dsStringFilter.getValue();
+                                dsValue = String.valueOf(val);
                             }
-                            if (!value.isEmpty()) {
+                            if (!dsValue.isEmpty()) {
                                 if (filterQuery.length() == 0) {
-                                    tempStart = new StringBuilder(intStartstr);
+                                    dsTempStart = new StringBuilder(dsIntStartstr);
                                 } else {
-                                    tempStart = new StringBuilder(startStr);
+                                    dsTempStart = new StringBuilder(dsstartStr);
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
-                                filterQuery.append(tempStart);
+                                dsTempStart.replace(dsTempStart.indexOf("*"), dsTempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                                dsTempStart.replace(dsTempStart.indexOf("?"), dsTempStart.indexOf("?") + 1, dsValue);
+                                filterQuery.append(dsTempStart);
                             }
                         }
-                        if (Compare.Operation.GREATER.toString().equals(operation.name())) {
+                        if (Compare.Operation.GREATER.toString().equals(dsCompareOperation.name())) {
                             StringBuilder greaterTempStart;
                             String value = StringUtils.EMPTY;
-                            int val = (Integer) stringFilter.getValue();
+                            int val = (Integer) dsStringFilter.getValue();
                             if (val < 0) {
                                 if (filterQuery.length() == 0) {
                                     greaterTempStart = new StringBuilder("AND ( * >'?' or * = '0')");
                                 } else {
                                     greaterTempStart = new StringBuilder("AND ( * > '?' or * = '0')");
                                 }
-                                greaterTempStart.replace(greaterTempStart.indexOf("*"), greaterTempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
+                                greaterTempStart.replace(greaterTempStart.indexOf("*"), greaterTempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
                                 greaterTempStart.replace(greaterTempStart.indexOf("?"), greaterTempStart.indexOf("?") + 1, value);
                                 filterQuery.append(greaterTempStart);
                             } else {
@@ -204,13 +204,13 @@ public class DataSelectionLogic {
                                 } else {
                                     greaterTempStart = new StringBuilder("AND ( * > '?')");
                                 }
-                                greaterTempStart.replace(greaterTempStart.indexOf("*"), greaterTempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
+                                greaterTempStart.replace(greaterTempStart.indexOf("*"), greaterTempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
                                 greaterTempStart.replace(greaterTempStart.indexOf("?"), greaterTempStart.indexOf("?") + 1, value);
                                 filterQuery.append(greaterTempStart);
                             }
                         }
-                        if (operation.LESS.toString().equals(operation.name())) {
-                            int val = (Integer) stringFilter.getValue();
+                        if (dsCompareOperation.LESS.toString().equals(dsCompareOperation.name())) {
+                            int val = (Integer) dsStringFilter.getValue();
                             StringBuilder tempStart;
                             String value = StringUtils.EMPTY;
                             if (val > 0) {
@@ -219,7 +219,7 @@ public class DataSelectionLogic {
                                 } else {
                                     tempStart = new StringBuilder("AND ( * < '?' or * = '0')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
                                 tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
                                 filterQuery.append(tempStart);
                             } else {
@@ -228,15 +228,15 @@ public class DataSelectionLogic {
                                 } else {
                                     tempStart = new StringBuilder("AND ( * < '?')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
                                 tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
                                 filterQuery.append(tempStart);
                             }
                         }
-                        if (stringFilter.getValue() instanceof Date) {
-                            Date value = (Date) stringFilter.getValue();
+                        if (dsStringFilter.getValue() instanceof Date) {
+                            Date value = (Date) dsStringFilter.getValue();
                             StringBuilder tempStart;
-                            if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                            if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(dsCompareOperation.name())) {
                                 if (filterQuery.length() == 0) {
                                     tempStart = new StringBuilder("AND ( * >= '?')");
                                 } else {
@@ -249,7 +249,7 @@ public class DataSelectionLogic {
                                     tempStart = new StringBuilder("AND ( * <='?' )");
                                 }
                             }
-                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
+                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
                             tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(value));
                             filterQuery.append(tempStart);
                         }
