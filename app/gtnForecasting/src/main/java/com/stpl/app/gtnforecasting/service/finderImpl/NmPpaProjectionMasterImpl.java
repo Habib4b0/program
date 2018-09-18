@@ -26,7 +26,7 @@ public class NmPpaProjectionMasterImpl {
         StringBuilder sql = new StringBuilder();
        
         
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             if (isCount) {
                 sql.append("select count(*) ");
@@ -181,7 +181,7 @@ public class NmPpaProjectionMasterImpl {
             startFrequency = Integer.valueOf(input.get(0));
         }
         
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
            
             sql.append("(SELECT ");
@@ -473,7 +473,7 @@ public class NmPpaProjectionMasterImpl {
      
         StringBuilder sql = new StringBuilder();
         
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
           
             sql.append("SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.LEVEL_NO,RLD.HIERARCHY_LEVEL_DEFINITION_SID, \n"
@@ -503,7 +503,7 @@ public class NmPpaProjectionMasterImpl {
       public List getProductHierarchyLevel(int projectionId, int levelNo, String parent) {
         StringBuilder sql = new StringBuilder();
         
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             sql.append(" SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.LEVEL_NO,RLD.HIERARCHY_LEVEL_DEFINITION_SID, \n"
                     ).append( " RLD.PARENT_NODE,RLD.HIERARCHY_NO,RLD.RELATIONSHIP_BUILDER_SID \n"

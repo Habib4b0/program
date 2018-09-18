@@ -58,7 +58,7 @@ public class GtnFrameworkForecastDataSelectionViewAddAction
 		        GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
 
 		        serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
-		        serviceRegistryBean.setUrl("/gtnSearch");
+		        serviceRegistryBean.setUrl("/gtnForecastSaveView");
 		        serviceRegistryBean.setModuleName("generalSearch");
 		        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
 		        generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());

@@ -22,10 +22,8 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
-import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastProjectionBean;
-import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastVariableBreakdownLookupBean;
+
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnFrameworkSaveViewAction

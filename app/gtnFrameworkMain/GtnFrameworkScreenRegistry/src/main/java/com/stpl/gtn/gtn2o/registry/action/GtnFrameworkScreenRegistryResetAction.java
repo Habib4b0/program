@@ -156,13 +156,6 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(17).toString(), componentId)
 		.loadV8FieldValue("Add");
 		
-	
-
-		
-
-//		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(18).toString(), componentId)
-//		.loadV8ComboBoxComponentValue("0");
-		
 		
 	}
 

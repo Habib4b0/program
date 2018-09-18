@@ -43,33 +43,31 @@ public class GtnWsSecurityAuthFilter implements Filter {
 		String requestBody = wrapper.getBody();
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		if ("".equals(requestBody) == false) {
+		if (!"".equals(requestBody)) {
 
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = null;
+			gtnUIFrameworkWebserviceRequest = objectMapper.readValue(requestBody,
+					GtnUIFrameworkWebserviceRequest.class);
+			GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
+			GtnWsGeneralRequest gtnWsGeneralRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 
-			try {
+			boolean result;
 
-				gtnUIFrameworkWebserviceRequest = objectMapper.readValue(requestBody,
-						GtnUIFrameworkWebserviceRequest.class);
-				GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
-				GtnWsGeneralRequest gtnWsGeneralRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+			String resultString;
+			if (gtnWsGeneralRequest == null) {
+				result = false;
+				resultString = "Token verification failed";
+			} else {
+				result = gtnWsSecurityManager.verifyToken(gtnWsGeneralRequest.getUserId(),
+						gtnWsGeneralRequest.getSessionId(), gtnWsGeneralRequest.getToken());
+				resultString = result ? "Token Verifed Sucessfully"
+						: "  Token verification failed  : " + gtnWsGeneralRequest.getUserId();
+			}
 
-				boolean result = gtnWsGeneralRequest == null ? false
-						: gtnWsSecurityManager.verifyToken(gtnWsGeneralRequest.getUserId(),
-								gtnWsGeneralRequest.getSessionId(), gtnWsGeneralRequest.getToken());
-
-				String resultString = result ? "Token Verifed Successfully"
-						: gtnWsGeneralRequest == null ? "  Token verification failed"
-								: "  Token verification failed for User " + gtnWsGeneralRequest.getUserId();
-
-				logger.info(resultString);
-				if (result) {
-					filterChain.doFilter(wrapper, servletResponse);
-					return;
-				}
-
-			} catch (Exception e) {
-				logger.error(e.getMessage());
+			logger.info(resultString);
+			if (result) {
+				filterChain.doFilter(wrapper, servletResponse);
+				return;
 			}
 		}
 

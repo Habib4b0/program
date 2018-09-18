@@ -47,7 +47,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private List<GtnWsRecordBean> selectedCustomerHierarchyList;
 	private List<GtnWsRecordBean> customerDualListBox;
 	private List<GtnWsRecordBean> selectedProductHierarchyList;
-	private List<GtnFrameworkForecastProjectionBean> comparisonProjectionBeanList;
+
 	private Date fromPeriod;
 	private Date toPeriodReport;
 	private Integer frequency;
@@ -63,9 +63,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private Map<String, String> sessionTableMap = null;
 
 	private List variableBreakdownHeaderLoadList;
-	private List<GtnFrameworkForecastVariableBreakdownLookupBean> variableBreakdownSaveList;
 
-	private List<GtnFrameworkForecastComparisonBreakdownLookupBean> comparisonBreakdownSaveList;
 	private List<Object> variablesList;
 	private Integer customView;
 	private boolean dataRefreshDone = false;
@@ -98,30 +96,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 		this.fromOrToForDataSelection = fromOrToForDataSelection;
 	}
 
-	public void setComparisonBreakdownSaveList(
-			List<GtnFrameworkForecastComparisonBreakdownLookupBean> comparisonBreakdownSaveList) {
-		this.comparisonBreakdownSaveList = comparisonBreakdownSaveList;
-	}
-
-	public List<GtnFrameworkForecastComparisonBreakdownLookupBean> getComparisonBreakdownSaveList() {
-		return comparisonBreakdownSaveList;
-	}
-
-	public List<GtnFrameworkForecastVariableBreakdownLookupBean> getVariableBreakdownSaveList() {
-		return variableBreakdownSaveList;
-	}
-
-	public void setVariableBreakdownSaveList(List<GtnFrameworkForecastVariableBreakdownLookupBean> variableBreakdownSaveList) {
-		this.variableBreakdownSaveList = variableBreakdownSaveList;
-	}
-
-	public List getVariableBreakdownHeaderLoadList() {
-		return variableBreakdownHeaderLoadList;
-	}
-
-	public void setVariableBreakdownHeaderLoadList(List variableBreakdownHeaderLoadList) {
-		this.variableBreakdownHeaderLoadList = variableBreakdownHeaderLoadList;
-	}
+	
 
 	private Integer customViewMasterSid;
 
@@ -392,14 +367,6 @@ public class GtnFrameworkForecastDataSelectionBean {
 		this.viewId = viewId;
 	}
 
-	public List<GtnFrameworkForecastProjectionBean> getComparisonProjectionBeanList() {
-		return comparisonProjectionBeanList;
-	}
-
-	public void setComparisonProjectionBeanList(List<GtnFrameworkForecastProjectionBean> comparisonProjectionBeanList) {
-		this.comparisonProjectionBeanList = comparisonProjectionBeanList;
-	}
-
 	public Integer getCustomViewMasterSid() {
 		return customViewMasterSid;
 	}
@@ -527,7 +494,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setProductHierarchyRecordBean(this.productHierarchyRecordBean);
 		DataSelectionCopyBean.setSelectedCustomerHierarchyList(this.selectedCustomerHierarchyList);
 		DataSelectionCopyBean.setSelectedProductHierarchyList(this.selectedProductHierarchyList);
-		DataSelectionCopyBean.setComparisonProjectionBeanList(this.comparisonProjectionBeanList);
+
 		DataSelectionCopyBean.setFromPeriod(this.fromPeriod);
 		DataSelectionCopyBean.setToPeriodReport(this.toPeriodReport);
 		DataSelectionCopyBean.setFrequency(this.frequency);
@@ -538,9 +505,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setViewId(this.viewId);
 		DataSelectionCopyBean.setFromOrToForDataSelection(this.fromOrToForDataSelection);
 		DataSelectionCopyBean.setSessionTableMap(this.sessionTableMap);
-		DataSelectionCopyBean.setVariableBreakdownHeaderLoadList(this.variableBreakdownHeaderLoadList);
-		DataSelectionCopyBean.setVariableBreakdownSaveList(this.variableBreakdownSaveList);
-		DataSelectionCopyBean.setComparisonBreakdownSaveList(this.comparisonBreakdownSaveList);
+	
 		DataSelectionCopyBean.setVariablesList(this.variablesList);
 		DataSelectionCopyBean.setCustomView(this.customView);
 		DataSelectionCopyBean.setDataRefreshDone(this.dataRefreshDone);

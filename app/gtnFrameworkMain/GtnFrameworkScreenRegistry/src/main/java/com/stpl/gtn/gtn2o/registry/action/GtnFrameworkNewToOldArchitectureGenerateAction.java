@@ -205,7 +205,7 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
                 .getVaadinBaseComponent(actionParamList.get(9).toString()).getCaptionFromV8ComboBox()))));
         dto.setProductRelationVersionNo(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(actionParamList.get(11).toString()).getCaptionFromV8ComboBox()))));
-        dto.setCustomerHierarchyLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+        dto.setProductHierarchyLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(actionParamList.get(10).toString()).getCaptionFromV8ComboBox()))));
         dto.setCustomerRelationLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(actionParamList.get(21).toString()).getCaptionFromV8ComboBox()))));
@@ -217,6 +217,12 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
                 .getVaadinBaseComponent(actionParamList.get(19).toString()).getV8StringFromField()));
         dto.setCustomerHierarchyName(String.valueOf(customerRecordBean.getPropertyValueByIndex(0)));
         dto.setProductHierarchyName(String.valueOf(productRecordBean.getPropertyValueByIndex(0)));
+        dto.setDeductionLevel(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(24).toString()).getCaptionFromV8ComboBox());
+        dto.setDeductionValue(GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParamList.get(24).toString()).getStringCaptionFromV8ComboBox());
+        dto.setFrequency("");
+                
     }
 
     private int checkDDLBValues(int value) throws GtnFrameworkValidationFailedException {
