@@ -20,7 +20,7 @@ public class GtnWsContractHeaderConfig implements GtnWsSearchQueryConfigLoader {
 	private Map<String, GtnWsSearchQueryConfig> contractHeaderConfigMap = null;
 
 	@Override
-	public Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {
+	public synchronized Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {
 		if (contractHeaderConfigMap == null) {
 			contractHeaderConfigMap = new HashMap<>();
 			loadSearchQueryConfig();
@@ -28,7 +28,7 @@ public class GtnWsContractHeaderConfig implements GtnWsSearchQueryConfigLoader {
 		return contractHeaderConfigMap;
 	}
 
-	public void setSearchQueryConfigMap(Map<String, GtnWsSearchQueryConfig> searchQueryConfigMap) {
+	public synchronized void setSearchQueryConfigMap(Map<String, GtnWsSearchQueryConfig> searchQueryConfigMap) {
 		this.contractHeaderConfigMap = searchQueryConfigMap;
 	}
 

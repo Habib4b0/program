@@ -215,7 +215,6 @@ public class FileManagementLookup extends Window {
 	private ExtPagedTable resultsFilterTable = new ExtPagedTable(tableLogic);
 	private FileDetailsTableLogic detailstableLogic = new FileDetailsTableLogic();
 	private HorizontalLayout controlLayout = new HorizontalLayout();
-	private HorizontalLayout detailsControlLayout = new HorizontalLayout();
 	/**
 	 * The details table.
 	 */
@@ -1163,7 +1162,7 @@ public class FileManagementLookup extends Window {
                         @Override
 			public void buttonClick(final Button.ClickEvent event) {
 
-				if (selectClose == true && saveflag == false) {
+				if (selectClose && !saveflag ) {
 					MessageBox
 							.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION,
 									"Are you sure you want to close the File Lookup ?\n"
@@ -1251,7 +1250,7 @@ public class FileManagementLookup extends Window {
 								"Please click on a record within the results list view");
 					} else {
 						final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-						if (selectClose == true && saveflag == false) {
+						if (selectClose && !saveflag) {
 							MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION,
 									"File/version has been updated but has not be saved. "
 											+ ConstantsUtils.QUESTION_MARK,
@@ -2004,7 +2003,7 @@ public class FileManagementLookup extends Window {
 	private void configureDetailsTable() {
 		try {
 			detailsTable.addComponent(detailsFilterTable);
-			detailsControlLayout = detailstableLogic.createControls();
+			HorizontalLayout detailsControlLayout = detailstableLogic.createControls();
 			controlLayout = CommonLogic.getResponsiveControls(detailsControlLayout);
 			detailsTable.addComponent(controlLayout);
 			detailstableLogic.setContainerDataSource(detailsBean);

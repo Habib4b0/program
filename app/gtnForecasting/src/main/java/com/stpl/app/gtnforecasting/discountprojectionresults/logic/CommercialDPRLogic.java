@@ -885,11 +885,10 @@ public class CommercialDPRLogic {
                 query = query.replace(Constant.RS_CONTRACT_SID_QUESTION, getSelectedRSIDForQuery(projSelDTO));
             }
             query = query.replace(Constant.FREQUENCY_QUESTION, projSelDTO.getFrequency().substring(0, 1));
-            List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-            return resultList;
+            return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
+             
         } else {
-            List resultList = projSelDTO.isIsCustomHierarchy() ? commonLogic.getHiearchyNoForCustomViewForExcel(projSelDTO, start) : commonLogic.getHiearchyNoAsListForExcel(projSelDTO, start, offset,hierarchy);
-            return resultList;
+            return projSelDTO.isIsCustomHierarchy() ? commonLogic.getHiearchyNoForCustomViewForExcel(projSelDTO, start) : commonLogic.getHiearchyNoAsListForExcel(projSelDTO, start, offset,hierarchy);
         }
     }
     

@@ -176,7 +176,6 @@ public class DeductionDetails extends CustomComponent {
     /**
      * The table control Layout.
      */
-    private  HorizontalLayout controlLayout;
     private final ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class, ExtContainer.DataStructureMode.MAP);
 
     private final DecimalFormat decFormatDD = new DecimalFormat("###0.00");
@@ -615,7 +614,7 @@ public class DeductionDetails extends CustomComponent {
      */
     private void addResultTable() {
         tableVerticalLayout.addComponent(resultsTable);
-        controlLayout = tableLogic.createControls();
+        HorizontalLayout controlLayout = tableLogic.createControls();
         controlLayout.setSizeUndefined();
         controlLayout.addStyleName("responsivePagedTable");
         tableLogic.sinkItemPerPageWithPageLength(false);

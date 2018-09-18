@@ -334,7 +334,7 @@ public StplSecurityDAO getDto() {
          Set editPermission;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
-        if(column==true){
+        if(column){
           tabPermissionList = getBuisnessColumn(businessRoleIds, moduleName);
           addPermission = getModePermission(businessRoleIds, moduleName,true,false,false,true);
           viewPermission = getModePermission(businessRoleIds, moduleName,false,true,false,true);
@@ -435,7 +435,7 @@ public StplSecurityDAO getDto() {
                 + "        MODULE_PROPERTIES as spm where \n"
                 + "        ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and \n"
                 + "        (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') \n";
-         if(column==true){
+         if(column){
              query+= "  and spm.CATEGORY_NAME IN ('List view Header')";
          }else{
                 query+= " and spm.CATEGORY_NAME NOT IN ('Button','Tab') ";
@@ -452,13 +452,13 @@ public StplSecurityDAO getDto() {
             query += " AND spm.TAB_NAME like ('" + str[1] + "') ";
         }
       
-        if(add==true){
+        if(add){
              query+="AND bmm.ADD_FLAG = '1' ";
         }
-        else if(view==true){
+        else if(view){
              query+="AND bmm.VIEW_FLAG = '1' ";
         }
-        else if(edit==true){
+        else if(edit){
              query+="AND bmm.EDIT_FLAG = '1' ";
         }
         columnList = HelperTableLocalServiceUtil.executeSelectQuery(query);

@@ -42,9 +42,6 @@ public class GtnWsReportWebsevice {
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportWebsevice.class);
 
 	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
-
-	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
 
 	@Autowired
@@ -204,7 +201,7 @@ public class GtnWsReportWebsevice {
 
 	private List<Object[]> executeLoadViewResultsQuery(String viewQuery,
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = sysSessionFactory.openSession()) {
 			String viewQueryStr = viewQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT,
 					setFilterForHierarchy(gtnUIFrameworkWebserviceRequest));
 			SQLQuery query = session.createSQLQuery(viewQueryStr).addScalar("VIEW_NAME", new StringType())
@@ -220,7 +217,7 @@ public class GtnWsReportWebsevice {
 
 	private List<Object[]> executeGetLoadViewResultsQueryCount(String viewQuery,
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = sysSessionFactory.openSession()) {
 			String viewQueryStr = viewQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT,
 					setFilterForHierarchy(gtnUIFrameworkWebserviceRequest));
 			SQLQuery query = session.createSQLQuery(viewQueryStr);

@@ -94,21 +94,25 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
+        LOGGERFORDETAILLOGIC.debug("Inside getExcelResultList");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected String getTableNameForView() {
+        LOGGERFORDETAILLOGIC.debug("Inside getTableNameForView");
         return "ARM_DISTRIBUTION_FEES_RATE";
     }
 
     @Override
     protected String getTableNameForEdit() {
+        LOGGERFORDETAILLOGIC.debug("Inside getTableNameForEdit");
         return "ST_ARM_DISTRIBUTION_FEES_RATE";
     }
 
     @Override
     protected CharSequence getRateColumn() {
+        LOGGERFORDETAILLOGIC.debug("Inside getRateColumn");
         return "B.RATE";
     }
 
