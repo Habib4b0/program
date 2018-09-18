@@ -33,6 +33,7 @@ public class EditAdjustmentReserve extends AbstractReserve {
 
     public EditAdjustmentReserve(SessionDTO session, AdjustmentReserveDTO dto, ReserveSelection resSelection) {
         super("Adjustment & Reserve Configuration Details", session, resSelection);
+        super.init();
         selectedDto = dto;
         configureFields();
     }

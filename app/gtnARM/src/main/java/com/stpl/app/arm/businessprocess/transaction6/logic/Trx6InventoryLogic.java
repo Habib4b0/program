@@ -250,11 +250,11 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
         String[] variableVisibleColumn = selection.getVariableVisibleColumns();
         HashMap<String, String> map = new HashMap<>();
         for (String inflationColumn : variableVisibleColumn) {
-            singleColumn.add(inflationColumn + "." + index++);
+            singleColumn.add(inflationColumn + ARMUtils.DOT + index++);
 
             if (columnList.contains(inflationColumn)) {
                 int listIndex = columnList.indexOf(inflationColumn);
-                String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + "." + index;
+                String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + ARMUtils.DOT + index;
                 String header = selection.getSalesVariables().get(listIndex)[1];
                 singleVisibleColumn.add(visibleColumn);
                 singleVisibleHeader.add(header);
@@ -262,11 +262,11 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
 
             if (inflationColumn.contains("~") && columnList.contains(inflationColumn)) {
                 int listIndex = columnList.indexOf(inflationColumn);
-                String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + "." + index;
+                String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + ARMUtils.DOT + index;
                 defaultVisibleColumn.add(visibleColumn);
             } else if (!inflationColumn.contains("~")) {
                 String column1 = ARMUtils.getVariableInventoryVisibleColumn()[defaultindex++];
-                String visibleColumn = column1 + "." + index;
+                String visibleColumn = column1 + ARMUtils.DOT + index;
                 defaultVisibleColumn.add(visibleColumn);
                 map.put(column1, visibleColumn);
             }

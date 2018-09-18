@@ -638,7 +638,7 @@ public class DataSelectionUtil {
 		String dd = "01";
 		String mMonth = "01";
 		String date;
-		String split[] = quarter.split(" - ");
+		String [] split= quarter.split(" - ");
 		String splitQuarter = split[0];
 		int quarterValue = UiUtils.parseStringToInteger(splitQuarter);
 		String yyyy = split[1];
@@ -833,7 +833,7 @@ public class DataSelectionUtil {
 		String dd = "30";
 		String mm = "01";
 		String date;
-		String split[] = quarter.split(" - ");
+		String [] split= quarter.split(" - ");
 		String splitQuarter = split[0];
 		int quarterValue = UiUtils.parseStringToInteger(splitQuarter);
 		String yyyy = split[1];
