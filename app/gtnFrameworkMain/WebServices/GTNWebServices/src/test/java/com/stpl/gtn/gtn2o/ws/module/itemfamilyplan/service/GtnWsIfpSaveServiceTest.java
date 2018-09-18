@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.entity.itemfamilyplan.IfpModel;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanBean;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanInformationBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import org.junit.Ignore;
 
 /**
  * The class <code>GtnWsIfpSaveServiceTest</code> contains tests for the class <code>{@link GtnWsIfpSaveService}</code>.
