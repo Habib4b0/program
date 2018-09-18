@@ -578,6 +578,9 @@ public class GtnFrameworkCommonConstants {
 	public static final String PROJECTION_DESCRIPTION = "projectionDescription";
 	public static final String DATA_SELECTION_MAIN_LAYOUT = "dataSelectionMainLayout";
 	public static final String PROJECTION_SELECTIONLAYOUT1 = "projectionSelectionlayout1";
+	public static final String REPORT_DATASELECTION_COMPARISON_TOP_LAYOUT="reportDataSelectionComparisonTopLayout";
+	public static final String REPORT_DATASELECTION_COMPARISON_MIDDLE_LAYOUT= "reportDataSelectionComparisonMiddleLayout";
+	public static final String REPORT_DATASELECTION_COMPARISON_BOTTOM_LAYOUT="reportDataSelectionComparisonBottomLayout";
 	public static final String PRODUCT_HIERARCHY = "productHierarchy";
 	public static final String RETURNS_FORECAST_TAB_SHEET_DS_TAB_FROM_PERIOD = "returnsForecastTabSheet_dsTabFromPeriod";
 	public static final String RETURNS_FORECAST_TAB_SHEET_DS_TAB_PROJECTION_DE = "returnsForecastTabSheet_dsTabProjectionDescription";
@@ -1303,5 +1306,4 @@ public class GtnFrameworkCommonConstants {
 	public static final String SCREEN_REGISTRY_DISPLAY_SELECTION_INNER_MAIN_LAYOUT = "displaySelectionInnerMainLayout";
 	public static final String SCREEN_REGISTRY_GENERATE_RESET_BUTTON_COMPONENTS_LAYOUT = "generateResetButtonComponentsLayout";
 	public static final String SCREEN_REGISTRY_PPV_COMPONETS_LAYOUT = "ppvComponetsLayout";
-
 }
