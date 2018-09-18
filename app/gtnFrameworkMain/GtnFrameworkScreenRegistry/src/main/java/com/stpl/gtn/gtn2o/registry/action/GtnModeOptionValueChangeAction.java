@@ -28,7 +28,7 @@ public class GtnModeOptionValueChangeAction implements GtnUIFrameWorkAction, Gtn
         boolean add = "Add".equals(modeValue);
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(2))).setEnable(add);
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(3))).setEnable(!add);
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4))).setEnable(add);
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4))).setEnable(!add);
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(5))).setEnable(add);
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(6))).setEnable(!add);
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(7))).setEnable(!add);
