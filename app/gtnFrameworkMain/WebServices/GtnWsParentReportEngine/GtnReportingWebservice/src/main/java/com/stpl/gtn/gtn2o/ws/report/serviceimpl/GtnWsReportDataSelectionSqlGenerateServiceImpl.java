@@ -66,14 +66,14 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	@Autowired
 	private GtnReportVariableDescriptionIndicatorService variableDescriptionIndicatorService;
-
+	
 	private static final GtnWSLogger GTNLOGGER = GtnWSLogger
 			.getGTNLogger(GtnWsReportDataSelectionSqlGenerateServiceImpl.class);
 
 	public GtnWsReportDataSelectionSqlGenerateServiceImpl() {
 		super();
 	}
-
+	
 	@Override
 	public void dataSelectionGenerateLogic(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
@@ -252,7 +252,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	public List<GtnWsRecordBean> getDashboardLeftData(GtnWsReportDashboardBean reportDashboardBean,
 			GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-
+		
 		try {
 			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
 					.getDataSelectionBean();
@@ -266,6 +266,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					.getGtnWsReportCustomCCPListDetails();
 			Set<String> filteredHierarchy = Optional.ofNullable(reportDashboardBean.getFilteredHierarchy())
 					.orElseGet(HashSet::new);
+			
 			List<Object[]> customviewData = getCustomViewType(
 					gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean().getCustomViewMasterSid());
 			if (values == null) {
@@ -279,6 +280,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 								customviewData))
 						.collect(Collectors.toList());
 			}
+			
 			int start = gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart();
 			int limit = gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset();
 			int levelNo = Integer.parseInt(values.get(0).toString());
@@ -344,7 +346,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private GtnWsRecordBean convertToRecordbean(GtnUIFrameworkWebserviceRequest gtnWsRequest,
 			GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader, int index, Object[] displayFormat,
 			List<Object[]> customviewData) {
-
+		
 		String customViewTypeInBackend;
 		String[] customViewTypeDataArray;
 		Map<String, Double> dataForHierarchy = null;
@@ -447,9 +449,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			return data[6] + " - " + data[7];
 		}
 		if (String.valueOf(displayFormat[0]).equals("Name")) {
-			return data[6] == null ? data[1].toString() : data[6].toString();
+			return data[7] == null ? data[1].toString() : data[7].toString();
 		} else {
-			return data[7] == null ? data[1].toString() : data[4].toString();
+			return data[6] == null ? data[1].toString() : data[6].toString();
 		}
 	}
 
@@ -489,7 +491,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					obj[0] = variableBreakdown.get(i).getMasterSid();
 					obj[1] = variableBreakdown.get(i).getPeriod();
 					obj[2] = variableBreakdown.get(i).getYear();
-					obj[3] = new Byte((byte) ((Integer) variableBreakdown.get(i).getSelectedVariable()).intValue());
+					obj[3] = Byte.valueOf((byte) ((Integer) variableBreakdown.get(i).getSelectedVariable()).intValue());
 					gtnSqlQueryEngine.executeInsertOrUpdateQuery(
 
 							replaceTableNames(GtnWsQueryConstants.VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY, tableMap), obj,
@@ -636,13 +638,17 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition) {
 		if (("V".equals(variableIndicator) || levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
 				|| mapKey.contains("PER") || mapKey.contains("RATE") || mapKey.contains("WEIGHTED")) {
+			
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
 					+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 		} else if (("V".equals(variableIndicator) && levelName.contains("Unit")) || mapKey.contains("UNIT")
 				|| isTotalSpecialCondition) {
-			gtnWsRecordBean.addProperties(mapKey,
-					GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
-		} else {
+			
+				gtnWsRecordBean.addProperties(mapKey,
+						GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
+
+		}
+		else {
 			gtnWsRecordBean.addProperties(mapKey,
 					GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));
 		}

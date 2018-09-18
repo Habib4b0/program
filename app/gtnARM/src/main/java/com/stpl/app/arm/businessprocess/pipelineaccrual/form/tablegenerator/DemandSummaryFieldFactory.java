@@ -62,7 +62,7 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
             }
             String period = getPeriod(doubleVisibleHeader);
             List input = getParameterList(dto, isEmptied, value, period);
-            service.submit(new UpdateOverride(input));
+            service.submit(new SummaryUpdateOverride(input));
         }
     }
 

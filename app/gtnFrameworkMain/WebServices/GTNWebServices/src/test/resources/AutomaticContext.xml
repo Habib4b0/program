@@ -6,9 +6,8 @@
         http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<mvc:annotation-driven />
-	<context:component-scan
+	<context:component-scan base-package="com.stpl.gtn.gtn2o.ws.module.automaticrelationship,com.stpl.gtn.gtn2o.ws.module.relationshipbuilder,com.stpl.gtn.gtn2o.hierarchyroutebuilder,com.stpl.gtn.gtn2o.ws.module.forecastdataseletion,com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService,com.stpl.gtn.gtn2o.ws.module.companymaster.service,com.stpl.gtn.gtn2o.ws.module.itemaster.service,com.stpl.gtn.gtn2o.ws.module.contractdashboard,com.stpl.gtn.gtn2o.ws.module.contractheader,com.stpl.gtn.gtn2o.ws.module.forecastconfiguration,com.stpl.gtn.gtn2o.ws.module.itemfamilyplan" />
 
-		base-package="com.stpl.gtn.gtn2o.ws.module.automaticrelationship,com.stpl.gtn.gtn2o.ws.module.relationshipbuilder,com.stpl.gtn.gtn2o.hierarchyroutebuilder,com.stpl.gtn.gtn2o.ws.module.forecastdataseletion,com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService,com.stpl.gtn.gtn2o.ws.module.companymaster.service,com.stpl.gtn.gtn2o.ws.module.itemaster.service,com.stpl.gtn.gtn2o.ws.module.contractdashboard,com.stpl.gtn.gtn2o.ws.module.contractheader,com.stpl.gtn.gtn2o.ws.module.forecastconfiguration" />
 
 
 	<bean id="sessionFactory"

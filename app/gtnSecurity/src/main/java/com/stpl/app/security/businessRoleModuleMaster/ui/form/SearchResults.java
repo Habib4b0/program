@@ -223,7 +223,7 @@ public class SearchResults extends CustomComponent {
                     public void valueChange(Property.ValueChangeEvent vce) {
 					boolean value = view.getValue();
 				
-				if(value==true){
+				if(value){
 					int size=searchFieldResult.size();
 					
 					if(size!=0){
@@ -245,7 +245,7 @@ public class SearchResults extends CustomComponent {
                     public void valueChange(Property.ValueChangeEvent vce) {
 				boolean value = edit.getValue();
 				
-				if(value==true){
+				if(value){
 					int size=searchFieldResult.size();
 					
 					if(size!=0){

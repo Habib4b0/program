@@ -78,7 +78,7 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
         return month;
     }
 
-    public int getSalesCount(Object salesParentId, SelectionDTO tr7Sselection) {
+    public int getSalesCount(Object tr7SalesParentId, SelectionDTO tr7Sselection) {
         int countRes = NumericConstants.ZERO;
         try {
             LOGGERTRX7.debug("Inside getSalesCount--{}", tr7Sselection.getProjectionMasterSid());
@@ -88,17 +88,17 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
             String companyMasterSid = "";
 
             String tr7SalesSql = "";
-            if (salesParentId instanceof AdjustmentDTO) {
-                parentLevel = ((AdjustmentDTO) salesParentId).getLevelNames();
-                companyMasterSid = ((AdjustmentDTO) salesParentId).getCompSids();
-                brandMasterSid = ((AdjustmentDTO) salesParentId).getBranditemmasterSid();
+            if (tr7SalesParentId instanceof AdjustmentDTO) {
+                parentLevel = ((AdjustmentDTO) tr7SalesParentId).getLevelNames();
+                companyMasterSid = ((AdjustmentDTO) tr7SalesParentId).getCompSids();
+                brandMasterSid = ((AdjustmentDTO) tr7SalesParentId).getBranditemmasterSid();
 
                 if (parentLevel.equals(CommonConstant.CUSTOMER_LEVEL)) {
-                    companyMasterSid = ((AdjustmentDTO) salesParentId).getCompSids();
+                    companyMasterSid = ((AdjustmentDTO) tr7SalesParentId).getCompSids();
                     level = CommonConstant.BRAND_LEVEL;
                 } else if (parentLevel.equals(CommonConstant.BRAND_LEVEL)) {
-                    companyMasterSid = ((AdjustmentDTO) salesParentId).getCompSids();
-                    brandMasterSid = ((AdjustmentDTO) salesParentId).getBranditemmasterSid();
+                    companyMasterSid = ((AdjustmentDTO) tr7SalesParentId).getCompSids();
+                    brandMasterSid = ((AdjustmentDTO) tr7SalesParentId).getBranditemmasterSid();
                     level = "ITEM";
                 }
 

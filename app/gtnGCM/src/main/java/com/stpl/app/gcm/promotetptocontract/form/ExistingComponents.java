@@ -228,10 +228,8 @@ public class ExistingComponents extends CustomComponent implements View {
     private ComponentInfoDTO newDiscountTabDto = new ComponentInfoDTO();
     private ExtPagedFilterTable componentDetailsSelectedItem = new ExtPagedFilterTable();
     
-    private ExtTreeContainer<ComponentInfoDTO> excelResultBean2 = new ExtTreeContainer<>(ComponentInfoDTO.class);
     
     private ExtCustomTable exportPeriodViewTable = new ExtCustomTable();
-    private ExtCustomTable exportPeriodViewTable2 = new ExtCustomTable();
     private String excelName1 = "Component Results";
     private String excelName2 = "Component Details";
     private PromoteTPLogic logic = new PromoteTPLogic();
@@ -532,8 +530,8 @@ public class ExistingComponents extends CustomComponent implements View {
     }
 
     private void configureExcelSelItemResultTable() {
-        excelResultBean2 = new ExtTreeContainer<>(ComponentInfoDTO.class);
-        exportPeriodViewTable2 = new ExtCustomTable();
+        ExtTreeContainer<ComponentInfoDTO> excelResultBean2 = new ExtTreeContainer<>(ComponentInfoDTO.class);
+        ExtCustomTable exportPeriodViewTable2 = new ExtCustomTable();
         transferCompPanelTableLayout.addComponent(exportPeriodViewTable2);
         exportPeriodViewTable2.setRefresh(BooleanConstant.getFalseFlag());
         exportPeriodViewTable2.setVisible(false);

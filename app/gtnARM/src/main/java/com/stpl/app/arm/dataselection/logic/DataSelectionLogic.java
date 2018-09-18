@@ -127,36 +127,36 @@ public class DataSelectionLogic {
                     filterQuery.append(filterQuery).append(CommonConstant.AND).append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
                     filterQuery.append(" like '").append(filterString).append(ARMUtils.SINGLE_QUOTES);
                 } else if (filter instanceof Between) {
-                    Between betweenFilter = (Between) filter;
-                    StringBuilder dateStartstr = new StringBuilder("AND ( * >='?')");
-                    StringBuilder dateEndstr = new StringBuilder("AND ( * <='?')");
-                    if (!detailsColumn.get(betweenFilter.getPropertyId().toString()).isEmpty()) {
-                        Date startValue = (Date) betweenFilter.getStartValue();
-                        Date endValue = (Date) betweenFilter.getEndValue();
+                    Between dsBetweenFilter = (Between) filter;
+                    StringBuilder dsDateStartstr = new StringBuilder("AND ( * >='?')");
+                    StringBuilder dsDateEndstr = new StringBuilder("AND ( * <='?')");
+                    if (!detailsColumn.get(dsBetweenFilter.getPropertyId().toString()).isEmpty()) {
+                        Date startValue = (Date) dsBetweenFilter.getStartValue();
+                        Date endValue = (Date) dsBetweenFilter.getEndValue();
                         StringBuilder initialStart = new StringBuilder("AND  ( * >= '?' )");
                         StringBuilder initialEnd = new StringBuilder("AND  ( * <= '?' )");
-                        if (!betweenFilter.getStartValue().toString().isEmpty()) {
-                            StringBuilder tempStart;
+                        if (!dsBetweenFilter.getStartValue().toString().isEmpty()) {
+                            StringBuilder dsTempStart;
                             if (filterQuery.length() == 0) {
-                                tempStart = new StringBuilder(initialStart);
+                                dsTempStart = new StringBuilder(initialStart);
                             } else {
-                                tempStart = new StringBuilder(dateStartstr);
+                                dsTempStart = new StringBuilder(dsDateStartstr);
                             }
-                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
-                            filterQuery.append(tempStart);
+                            dsTempStart.replace(dsTempStart.indexOf("*"), dsTempStart.indexOf("*") + 1, detailsColumn.get(dsBetweenFilter.getPropertyId().toString()));
+                            dsTempStart.replace(dsTempStart.indexOf("?"), dsTempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
+                            filterQuery.append(dsTempStart);
                         }
-                        if (!betweenFilter.getEndValue().toString().isEmpty()) {
-                            StringBuilder tempEnd;
+                        if (!dsBetweenFilter.getEndValue().toString().isEmpty()) {
+                            StringBuilder dsTempEnd;
                             if (filterQuery.length() == 0) {
-                                tempEnd = new StringBuilder(initialEnd);
+                                dsTempEnd = new StringBuilder(initialEnd);
                             } else {
-                                tempEnd = new StringBuilder(dateEndstr);
+                                dsTempEnd = new StringBuilder(dsDateEndstr);
                             }
 
-                            tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
-                            filterQuery.append(tempEnd);
+                            dsTempEnd.replace(dsTempEnd.indexOf("*"), dsTempEnd.indexOf("*") + 1, detailsColumn.get(dsBetweenFilter.getPropertyId().toString()));
+                            dsTempEnd.replace(dsTempEnd.indexOf("?"), dsTempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
+                            filterQuery.append(dsTempEnd);
                         }
                     }
                 } else if (filter instanceof Compare) {
@@ -186,27 +186,27 @@ public class DataSelectionLogic {
                             }
                         }
                         if (Compare.Operation.GREATER.toString().equals(operation.name())) {
-                            StringBuilder tempStart;
+                            StringBuilder greaterTempStart;
                             String value = StringUtils.EMPTY;
                             int val = (Integer) stringFilter.getValue();
                             if (val < 0) {
                                 if (filterQuery.length() == 0) {
-                                    tempStart = new StringBuilder("AND ( * >'?' or * = '0')");
+                                    greaterTempStart = new StringBuilder("AND ( * >'?' or * = '0')");
                                 } else {
-                                    tempStart = new StringBuilder("AND ( * > '?' or * = '0')");
+                                    greaterTempStart = new StringBuilder("AND ( * > '?' or * = '0')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
-                                filterQuery.append(tempStart);
+                                greaterTempStart.replace(greaterTempStart.indexOf("*"), greaterTempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
+                                greaterTempStart.replace(greaterTempStart.indexOf("?"), greaterTempStart.indexOf("?") + 1, value);
+                                filterQuery.append(greaterTempStart);
                             } else {
                                 if (filterQuery.length() == 0) {
-                                    tempStart = new StringBuilder("AND ( * >'?')");
+                                    greaterTempStart = new StringBuilder("AND ( * >'?')");
                                 } else {
-                                    tempStart = new StringBuilder("AND ( * > '?')");
+                                    greaterTempStart = new StringBuilder("AND ( * > '?')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
-                                filterQuery.append(tempStart);
+                                greaterTempStart.replace(greaterTempStart.indexOf("*"), greaterTempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
+                                greaterTempStart.replace(greaterTempStart.indexOf("?"), greaterTempStart.indexOf("?") + 1, value);
+                                filterQuery.append(greaterTempStart);
                             }
                         }
                         if (operation.LESS.toString().equals(operation.name())) {
@@ -1099,6 +1099,7 @@ public class DataSelectionLogic {
                 dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
                 dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
                 dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.SEVEN])));
+                dto.setHierarchyNo(String.valueOf(objects[NumericConstants.SEVEN]));
                 dto.setLevelValueReference(String.valueOf(objects[NumericConstants.EIGHT]));
                 dto.setRelationShipVersionNo((Integer) (objects[NumericConstants.NINE]));
                 dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.TEN]));

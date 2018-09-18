@@ -1935,10 +1935,10 @@ public class NewDiscountTab extends CustomComponent {
     private ContractsDetailsDto cfp = null;
     private ContractsDetailsDto ifp = null;
     private ContractsDetailsDto priceSchedule = null;
-    private ContractsDetailsDto rebateSchedule = null;
 
     public void saveTree(final Collection list, int rsModelSysId, String category) {
         LOGGER.debug("Entering saveTree method");
+        ContractsDetailsDto rebateSchedule = null;
         try {
 
             for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
@@ -1950,14 +1950,12 @@ public class NewDiscountTab extends CustomComponent {
                     cfp = new ContractsDetailsDto();
                     ifp = new ContractsDetailsDto();
                     priceSchedule = new ContractsDetailsDto();
-                    rebateSchedule = new ContractsDetailsDto();
                 }
                 if (Constants.IndicatorConstants.CFP.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
 
                     cfp = tempBeanId;
                     ifp = new ContractsDetailsDto();
                     priceSchedule = new ContractsDetailsDto();
-                    rebateSchedule = new ContractsDetailsDto();
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.CFP.getConstant())) {
                         cfp.setModelSysId(rsModelSysId);
                         cfp.setCfpId(rsModelSysId);
@@ -1967,7 +1965,6 @@ public class NewDiscountTab extends CustomComponent {
                 if (Constants.IndicatorConstants.IFP.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
                     ifp = tempBeanId;
                     priceSchedule = new ContractsDetailsDto();
-                    rebateSchedule = new ContractsDetailsDto();
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.IFP.getConstant())) {
                         ifp.setModelSysId(rsModelSysId);
                         ifp.setIfpId(rsModelSysId);
@@ -1976,7 +1973,6 @@ public class NewDiscountTab extends CustomComponent {
                 }
                 if (Constants.IndicatorConstants.PS_VALUE.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
                     priceSchedule = tempBeanId;
-                    rebateSchedule = new ContractsDetailsDto();
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
                         priceSchedule.setModelSysId(rsModelSysId);
                         priceSchedule.setPsSid(String.valueOf(rsModelSysId));

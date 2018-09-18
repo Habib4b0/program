@@ -127,6 +127,7 @@ public final class GtnFrameworkCssConstants {
 	public static final String REPORT_CUSTOMER_FILTER_MARGIN_LEFT = "v-report-filter-option-customer-filter";
 	public static final String STPL_MARGIN_LEFT_30 = "stpl-margin-left-30";
 	public static final String STPL_MARGIN_LEFT_25 = "stpl-margin-left-25";
+    public static final String SHOW_ALL = "Show all";
 
 	public static final String STPL_PADDING_TOP_16 = "stpl-padding-top-16";
 
