@@ -78,7 +78,7 @@ public class ItemManagementLookup extends CustomWindow {
     private final List<Integer> addedTabList = new ArrayList<>();
     private boolean addSummaryFlag = false;
     private final SessionDTO session = new SessionDTO();
-    private SelectionDTO transferSelection = new SelectionDTO();
+    
 
     public ItemManagementLookup(List<ItemIndexDto> itemList, SelectionDTO selection) {
         super(selection.getWindowName());
@@ -99,6 +99,7 @@ public class ItemManagementLookup extends CustomWindow {
     private void configureFields() {
         mainTab = new TabSheet();
         VerticalLayout baseLayout = new VerticalLayout();
+        SelectionDTO transferSelection ;
         baseLayout.setSpacing(true);
         baseLayout.setMargin(true);
         mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
