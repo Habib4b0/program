@@ -390,20 +390,66 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 		String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
 				.getCurrencyConversion();
-
-		if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
-			dataForHierarchy.entrySet().stream()
-					.forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(data -> dataConvertors(recordBean,
-							entry.getKey(), data, bean.getData()[5].toString(), levelName, false)));
+		
+		if (Optional.ofNullable(customviewData).isPresent()) {
+			
+			String indicator = bean.getData()[5].toString();
+			boolean isTotalSpecialCondition = false;
+			
+			customViewTypeInBackend = String.valueOf(customviewData.get(0));
+			customViewTypeDataArray = customViewTypeInBackend.split("~");
+			
+			GTNLOGGER.info("indicator: " + indicator);
+			GTNLOGGER.info("customViewTypeDataArray[2]: " + customViewTypeDataArray[2]);
+			isTotalSpecialCondition = !"V".equals(indicator) && !customViewTypeDataArray[2].equals("Columns");
+			GTNLOGGER.info("isTotalSpecialCondition: " + isTotalSpecialCondition);
+			
+			if(isTotalSpecialCondition)
+			{
+				GTNLOGGER.info("if");
+				if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
+					dataForHierarchy.entrySet().stream()
+							.forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(data -> dataConvertors(recordBean,
+									entry.getKey(), data, indicator, levelName, true)));
+				}
+				if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
+					dataForHierarchy.entrySet().stream()
+							.forEach(entry -> Optional.ofNullable(entry.getValue())
+									.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
+											indicator, levelName, true)));
+				}
+			}
+			else
+			{
+				GTNLOGGER.info("else");
+				if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
+					dataForHierarchy.entrySet().stream()
+							.forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(data -> dataConvertors(recordBean,
+									entry.getKey(), data, indicator, levelName, false)));
+				}
+				if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
+					dataForHierarchy.entrySet().stream()
+							.forEach(entry -> Optional.ofNullable(entry.getValue())
+									.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
+											indicator, levelName, false)));
+				}
+			}
 		}
+		
+
+//		if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
+//			dataForHierarchy.entrySet().stream()
+//					.forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(data -> dataConvertors(recordBean,
+//							entry.getKey(), data, indicator, levelName, false)));
+//		}
 
 		// When currency display is set to no conversion in report options
-		if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
-			dataForHierarchy.entrySet().stream()
-					.forEach(entry -> Optional.ofNullable(entry.getValue())
-							.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
-									bean.getData()[5].toString(), levelName, false)));
-		}
+//		if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
+//			dataForHierarchy.entrySet().stream()
+//					.forEach(entry -> Optional.ofNullable(entry.getValue())
+//							.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
+//									indicator, levelName, isTotalSpecialCondition)));
+//		}
 
 		return recordBean;
 	}
@@ -630,13 +676,17 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		}
 
 	}
-
+//To be changed ***	
 	// Method to format values to non-decimal if user has selected Currency
 	// Display
 	// = No Conversion
 	private void currencyTypeNoConversionDataConverters(GtnWsRecordBean gtnWsRecordBean, String mapKey,
 			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition) {
-		if (("V".equals(variableIndicator) || levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
+		
+		GTNLOGGER.info("mapkey: " + mapKey);
+		GTNLOGGER.info("levelName: " + levelName);
+		
+		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
 				|| mapKey.contains("PER") || mapKey.contains("RATE") || mapKey.contains("WEIGHTED")) {
 			
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
@@ -648,6 +698,13 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 						GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
 
 		}
+//		else if (isTotalSpecialCondition  && !mapKey.contains("UNIT") && !(mapKey.contains("PER") 
+//				&& !mapKey.contains("WEIGHTED"))) {
+//			
+//			gtnWsRecordBean.addProperties(mapKey,
+//					GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));
+//			
+//		}
 		else {
 			gtnWsRecordBean.addProperties(mapKey,
 					GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));

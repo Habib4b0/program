@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
@@ -30,6 +31,9 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
  */
 public class GtnUIFrameworkReportLevelDdlbLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+	
+	private GtnWSLogger gtnLogger = GtnWSLogger
+			.getGTNLogger(GtnUIFrameworkReportLevelDdlbLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -42,10 +46,31 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction
 			throws GtnFrameworkGeneralException {
 		final GtnUIFrameworkWebserviceRequest generalRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
+		String parentViewId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
+		String customView= parentViewId.contains("reportLandingScreen")?
+				"dataSelectionTab_displaySelectionTabCustomView":
+					"reportingDashboardTab_displaySelectionTabCustomView";
+		
+//		String customView1 = GtnUIFrameworkGlobalUI
+//				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView").getStringFromV8ComboBox();
+;
+		
+//		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView")
+//		.loadV8ComboBoxComponentValue(customView1);
+		
+		gtnLogger.info("parentViewId: " + parentViewId);
+		gtnLogger.info("customView1: " + customView);
+		
 		String selectedItem = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView", componentId)
+				.getVaadinBaseComponent(customView, componentId)
 				.getV8StringFromField();
+		
+		gtnLogger.info("selectedItem: " + selectedItem);
+		
 		if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
+			
+			gtnLogger.info("1. if");
+			
 			cvRequest.setCvSysId(Integer.parseInt(selectedItem));
 			generalRequest.setGtnWsCustomViewRequest(cvRequest);
 			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
@@ -53,6 +78,9 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction
 					generalRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = response
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
+			
+			gtnLogger.info("2. comboBoxResponse.getItemValueList(): " + comboBoxResponse.getItemValueList());
+			gtnLogger.info("3. comboBoxResponse.getItemCodeList()" + comboBoxResponse.getItemCodeList());
 
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE,
@@ -61,6 +89,8 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction
 							new ArrayList<>(comboBoxResponse.getItemCodeList()));
 			long count = comboBoxResponse.getItemValueList().stream()
 					.filter(str -> str.toLowerCase().contains("variable")).count();
+			
+			gtnLogger.info("4. count: " + count);
 
 			if (count == 0) {
 				GtnUIFrameworkBaseComponent expandButtonBaseComponent = GtnUIFrameworkGlobalUI
