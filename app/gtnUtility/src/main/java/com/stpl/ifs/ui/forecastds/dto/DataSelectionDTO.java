@@ -6,6 +6,7 @@
 package com.stpl.ifs.ui.forecastds.dto;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -224,6 +225,34 @@ public class DataSelectionDTO implements Serializable {
 
         private GtnWsRecordBean dsCustomerHierarchyBean;
 
+        private List<GtnWsRecordBean> dsCustomerSelectedTableBean;
+
+        private String CustomerOrProduct = "";
+
+        private GtnFrameworkForecastInputBean inputBean;
+
+    public GtnFrameworkForecastInputBean getInputBean() {
+        return inputBean;
+    }
+
+    public void setInputBean(GtnFrameworkForecastInputBean inputBean) {
+        this.inputBean = inputBean;
+    }
+    public String getCustomerOrProduct() {
+        return CustomerOrProduct;
+    }
+
+    public void setCustomerOrProduct(String CustomerOrProduct) {
+        this.CustomerOrProduct = CustomerOrProduct;
+    }
+    public List<GtnWsRecordBean> getDsCustomerSelectedTableBean() {
+        return dsCustomerSelectedTableBean;
+    }
+
+    public void setDsCustomerSelectedTableBean(List<GtnWsRecordBean> dsCustomerSelectedTableBean) {
+        this.dsCustomerSelectedTableBean = dsCustomerSelectedTableBean;
+    }
+        
     public GtnWsRecordBean getDsCustomerHierarchyBean() {
         return dsCustomerHierarchyBean;
     }

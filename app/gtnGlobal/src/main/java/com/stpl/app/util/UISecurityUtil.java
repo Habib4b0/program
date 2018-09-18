@@ -273,7 +273,7 @@ public final class UISecurityUtil {
                 if (mode.equals(ConstantsUtils.VIEW)) {
                     appPerm = appPermission.isViewFlag();
                 }
-                if (appPerm == true) {
+                if (appPerm) {
                     objResultList.add(obj[i]);
                     objResultHeaderList.add(header[i]);
                 }

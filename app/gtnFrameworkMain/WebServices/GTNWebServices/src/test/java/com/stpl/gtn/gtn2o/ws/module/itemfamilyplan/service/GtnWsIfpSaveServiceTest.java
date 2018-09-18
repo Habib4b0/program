@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.entity.itemfamilyplan.IfpModel;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanBean;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanInformationBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import org.junit.Ignore;
 
 /**
  * The class <code>GtnWsIfpSaveServiceTest</code> contains tests for the class <code>{@link GtnWsIfpSaveService}</code>.
@@ -33,6 +34,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
  * @author KARTHIK.RAJA
  * @version $Revision: 1.0 $
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/test/resources/AutomaticContext.xml"})
 public class GtnWsIfpSaveServiceTest {
