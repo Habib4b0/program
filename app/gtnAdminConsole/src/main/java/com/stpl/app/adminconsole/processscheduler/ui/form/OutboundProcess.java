@@ -42,7 +42,6 @@ public class OutboundProcess {
     private static final Logger LOGGER = LoggerFactory.getLogger(OutboundProcess.class);
     private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
     private ExtTreeContainer<OutboundTableDTO> excelResultBeanContainer = new ExtTreeContainer<>(OutboundTableDTO.class,ExtContainer.DataStructureMode.MAP);
-    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private OutboundLogic outboundLogic = new OutboundLogic();
     private List<OutboundTableDTO> rbCsvList;
     private FtpProperties ftpProperties = getFtpBundleValue();
@@ -87,7 +86,7 @@ public class OutboundProcess {
     private void configureHierarchyExcel(String checkedIds, boolean isScheduled) {
         exceltable = new ExtCustomTreeTable();
         excelResultBeanContainer = new ExtTreeContainer<>(OutboundTableDTO.class,ExtContainer.DataStructureMode.MAP);
-        fullHeader = new CustomTableHeaderDTO();
+        CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
         int maxLevel = 0;
         List levelCount = outboundLogic.hierarchyQueryResults(checkedIds, "getHierarchyDefinitionOutboundAllMaxLevel", isScheduled);
 

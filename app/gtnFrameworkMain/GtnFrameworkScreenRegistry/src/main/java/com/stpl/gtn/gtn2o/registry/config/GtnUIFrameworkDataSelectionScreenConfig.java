@@ -9,6 +9,7 @@ import java.util.Map;
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkDeleteViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastEditAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureDeleteAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkScreenRegistryResetAction;
@@ -1010,6 +1011,20 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteBtn.setAddToParent(true);
 		deleteBtn.setEnable(false);
 		componentList.add(deleteBtn);
+
+                GtnUIFrameWorkActionConfig confirmDeleteAction = new GtnUIFrameWorkActionConfig();
+		confirmDeleteAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		confirmDeleteAction.addActionParameter("Confirmation");
+		confirmDeleteAction.addActionParameter("Are you sure you want to delete the projection?");
+		List<GtnUIFrameWorkActionConfig> onSuccessDeleteActionConfigList = new ArrayList<>();
+		confirmDeleteAction.addActionParameter(onSuccessDeleteActionConfigList);
+		
+		GtnUIFrameWorkActionConfig deleteAction = new GtnUIFrameWorkActionConfig();
+		deleteAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteAction.addActionParameter(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName());
+		deleteAction.addActionParameter(nameSpace + "_" + "projectionResultsTable");
+		onSuccessDeleteActionConfigList.add(deleteAction);
+                deleteBtn.addGtnUIFrameWorkActionConfig(confirmDeleteAction);
 	}
 
 	private GtnUIFrameWorkActionConfig loadForecastEligibleDate(String nameSpace) {

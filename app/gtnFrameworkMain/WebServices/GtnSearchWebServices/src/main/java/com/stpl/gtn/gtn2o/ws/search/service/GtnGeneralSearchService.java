@@ -190,6 +190,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         return response1.getQueryResponseBean().getResultInteger();
     }
 
+
     public GtnUIFrameworkWebserviceResponse saveView(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		try {

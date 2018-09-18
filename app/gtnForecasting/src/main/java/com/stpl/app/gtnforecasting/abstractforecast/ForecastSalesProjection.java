@@ -71,7 +71,6 @@ import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.GroupFilter;
 import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic;
-import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.MSalesProjectionTableLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.NMSalesProjectionTableLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
@@ -448,7 +447,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected final BeanItemContainer<String> massGroupBean = new BeanItemContainer<>(String.class);
     protected SessionDTO session;
     protected FreezePagedTreeTable resultsTable;
-    protected MSalesProjectionTableLogic mSalesProjectionTableLogic;
     protected ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
     protected ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
     protected int uncheckRecordCount;
@@ -608,8 +606,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             projectionDTO.setTabName(Constant.SALES_PROJECTION_LABEL);
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 projectionDTO.setScreenName(screenName);
-                mSalesProjectionTableLogic = new MSalesProjectionTableLogic();
-                resultsTable = new FreezePagedTreeTable(mSalesProjectionTableLogic);
             }
             projectionDTO.setSessionDTO(session);
             addComponent();
@@ -928,8 +924,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 projectionDTO.setGroupFilter(groupValue);
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                     ((NMSalesProjectionTableLogic) getTableLogic()).setProjectionResultsData(projectionDTO);
-                } else {
-                    mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
                 }
 
                 LOGGER.debug("groupDdlbChangeOption ValueChangeEvent ends ");
@@ -1398,8 +1392,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             projectionDTO.setCustomFlag(false);
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                 ((NMSalesProjectionTableLogic) getTableLogic()).setProjectionResultsData(projectionDTO);
-            } else {
-                mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
             }
         } else {
             projectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
@@ -1423,8 +1415,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             projectionDTO.setCustomFlag(false);
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                 ((NMSalesProjectionTableLogic) getTableLogic()).setProjectionResultsData(projectionDTO);
-            } else {
-                mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
             }
         }
         getTableLogic().setRefresh(true);
@@ -1841,8 +1831,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     isPresentInContainer = false;
                     if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                         ((NMSalesProjectionTableLogic) getTableLogic()).getExpandedTreeValues(hierarchyNo);
-                    } else {
-                        mSalesProjectionTableLogic.getExpandedTreeValues(hierarchyNo);
                     }
                 }
                 if (tempId != null) {
@@ -1901,8 +1889,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             if (tempId == null) {
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                     ((NMSalesProjectionTableLogic) getTableLogic()).getExpandedTreeValues(hierarchyNo);
-                } else {
-                    mSalesProjectionTableLogic.getExpandedTreeValues(hierarchyNo);
                 }
             }
             if (tempId != null) {
@@ -1959,8 +1945,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             if (tempId == null) {
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                     ((NMSalesProjectionTableLogic) getTableLogic()).getExpandedTreeValues(hierarchyNo);
-                } else {
-                    mSalesProjectionTableLogic.getExpandedTreeValues(hierarchyNo);
                 }
             }
             if (tempId != null) {
@@ -1990,8 +1974,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             if (itemId == null) {
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                     ((NMSalesProjectionTableLogic) getTableLogic()).getExpandedTreeValues(tableTreeLevelNo);
-                } else {
-                    mSalesProjectionTableLogic.getExpandedTreeValues(tableTreeLevelNo);
                 }
             }
             if (itemId != null) {
@@ -2206,8 +2188,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         }
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             ((NMSalesProjectionTableLogic) getTableLogic()).forRefresh(finalHirarechyNo);
-        } else {
-            mSalesProjectionTableLogic.forRefresh(finalHirarechyNo);
         }
         getTableLogic().setCurrentPage(getTableLogic().getCurrentPage());
     }
@@ -3166,8 +3146,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                 ((NMSalesProjectionTableLogic) getTableLogic()).loadExpandData(levelNo);
-            } else {
-                mSalesProjectionTableLogic.loadExpandData(levelNo);
             }
         }
     }
@@ -3434,7 +3412,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      * @return
      */
     private int getQuaterAndYear(String str, boolean isTableColumn) {
-        int a[] = new int[NumericConstants.TWO];
+        int [] a = new int[NumericConstants.TWO];
 
         String[] splited = str.split(isTableColumn ? "-" : "\\s+");
         int resultValue = 0;
@@ -3651,7 +3629,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     }
 
     public PageTreeTableLogic getTableLogic() {
-        return mSalesProjectionTableLogic;
+        return null;
     }
 
     protected DataFormatConverter getConverter(String indicator) {

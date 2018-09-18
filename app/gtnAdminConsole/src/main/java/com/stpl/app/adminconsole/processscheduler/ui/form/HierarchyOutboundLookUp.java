@@ -106,7 +106,6 @@ public final class HierarchyOutboundLookUp extends Window {
     private Map<String, HierarchyDefinitionDTO> checkedHierarchy = new HashMap<>();
     private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
     private ExtTreeContainer<OutboundTableDTO> excelResultBeanContainer = new ExtTreeContainer<>(OutboundTableDTO.class,ExtContainer.DataStructureMode.MAP);
-    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private String hierType;
     private OutboundLogic outboundLogic = new OutboundLogic();
     
@@ -350,7 +349,7 @@ public final class HierarchyOutboundLookUp extends Window {
     private void configureExcelResultTable(String checkedIds,boolean isCheckAll) {
         exceltable = new ExtCustomTreeTable();
         excelResultBeanContainer = new ExtTreeContainer<>(OutboundTableDTO.class,ExtContainer.DataStructureMode.MAP);
-        fullHeader = new CustomTableHeaderDTO();
+        CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
         int maxLevel = 0;
         
         List levelCount;

@@ -35,9 +35,11 @@ public class Trx7AdjustmentDetail extends AbstractAdjustmentDetails {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Trx7AdjustmentDetail.class);
     private boolean creditFlag;
+    private AbstractSelectionDTO tr7DetailsSelection;
 
     public Trx7AdjustmentDetail(AbstractSelectionDTO selectionDto) {
         super(new Trx7PADetailsLogic(), selectionDto);
+        this.tr7DetailsSelection = selectionDto;
         init();
 
     }
@@ -46,22 +48,22 @@ public class Trx7AdjustmentDetail extends AbstractAdjustmentDetails {
      * To set the values to the DTO This method will be called before generate
      */
     public void setSelection() {
-        selection.setDetailLevel(level.getValue().toString());
-        selection.setDetailvariables(Arrays.asList(variableValue));
+        tr7DetailsSelection.setDetailLevel(level.getValue().toString());
+        tr7DetailsSelection.setDetailvariables(Arrays.asList(variableValue));
         List<List> account = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
-        selection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
+        tr7DetailsSelection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
         List<String> amtFilter = CommonUtils.getSelectedVariables(amountFilterItem);
-        selection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
+        tr7DetailsSelection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
 
-        selection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
-        creditFlag = logic.cerditDebitEqualCheck(selection);
+        tr7DetailsSelection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
+        creditFlag = logic.cerditDebitEqualCheck(tr7DetailsSelection);
     }
 
     @Override
     protected void generateBtn() {
         setSelection();
-        if (logic.generateButtonCheck(selection) && !creditFlag) {
+        if (logic.generateButtonCheck(tr7DetailsSelection) && !creditFlag) {
             super.generateBtn();
             tableLogic.loadSetData(Boolean.TRUE);
         } else if (creditFlag && isGenerateFlag()) {
@@ -73,9 +75,9 @@ public class Trx7AdjustmentDetail extends AbstractAdjustmentDetails {
 
     @Override
     protected void loadReserveAccount() {
-        List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
-        CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
-                Arrays.copyOf(list.get(1).toArray(), list.get(1).size(), String[].class));
+        List<List> tr7DetailsList = logic.getReserveAccountDetails(tr7DetailsSelection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
+        CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(tr7DetailsList.get(0).toArray(), tr7DetailsList.get(0).size(), String[].class),
+                Arrays.copyOf(tr7DetailsList.get(1).toArray(), tr7DetailsList.get(1).size(), String[].class));
         CommonUtils.checkAllMenuBarItem(reserveMenuItem);
     }
 
@@ -90,11 +92,11 @@ public class Trx7AdjustmentDetail extends AbstractAdjustmentDetails {
      */
     @Override
     protected void variableDefaultSelection() {
-        List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
+        List tr7DetailsList = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
                 ? VariableConstants.getAdjustmentDemandPipelineReserveVariableDefaultSelection()
                 : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-            if (list.contains(object.getMenuItem().getWindow())) {
+            if (tr7DetailsList.contains(object.getMenuItem().getWindow())) {
                 object.setChecked(true);
             }
         }

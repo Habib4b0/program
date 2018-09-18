@@ -41,7 +41,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	}
 
 	public List<String> getInventoryType() {
-		return Collections.unmodifiableList(inventoryType);
+		return inventoryType!=null ? Collections.unmodifiableList(inventoryType): inventoryType;
 	}
 
 	public void setInventoryType(List<String> inventoryType) {
@@ -49,7 +49,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	}
 
 	public List<GtnWSTransactionColumnBean> getListViewComponent() {
-		return Collections.unmodifiableList(listViewComponent);
+		return listViewComponent!=null ? Collections.unmodifiableList(listViewComponent):listViewComponent;
 	}
 
 	public void setListViewComponent(List<GtnWSTransactionColumnBean> listViewComponent) {
@@ -57,7 +57,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	}
 
 	public List<GtnWSTransactionColumnBean> getDefaultListViewComponent() {
-		return Collections.unmodifiableList(defaultListViewComponent);
+		return defaultListViewComponent!=null ? Collections.unmodifiableList(defaultListViewComponent) : defaultListViewComponent;
 	}
 
 	public void setDefaultListViewComponent(List<GtnWSTransactionColumnBean> defaultListViewComponent) {
@@ -65,7 +65,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	}
 
 	public List<GtnWSTransactionColumnBean> getSearchComponent() {
-		return Collections.unmodifiableList(searchComponent);
+		return searchComponent !=null ? Collections.unmodifiableList(searchComponent):searchComponent;
 	}
 
 	public void setSearchComponent(List<GtnWSTransactionColumnBean> searchComponent) {
@@ -73,7 +73,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	}
 
 	public List<GtnWSTransactionColumnBean> getViewModeComponents() {
-		return Collections.unmodifiableList(viewModeComponents);
+                return viewModeComponents !=null ? Collections.unmodifiableList(viewModeComponents):viewModeComponents;
 	}
 
 	public void setViewModeComponents(List<GtnWSTransactionColumnBean> viewModeComponents) {
@@ -81,7 +81,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	}
 
 	public List<GtnWSTransactionColumnBean> getViewDateModeComponents() {
-		return Collections.unmodifiableList(viewDateModeComponents);
+                return viewDateModeComponents !=null ? Collections.unmodifiableList(viewDateModeComponents):viewDateModeComponents;
 	}
 
 	public void setViewDateModeComponents(List<GtnWSTransactionColumnBean> viewDateModeComponents) {
@@ -89,7 +89,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	}
 
 	public List<GtnWSTransactionColumnBean> getViewModeOrderComponents() {
-		return Collections.unmodifiableList(viewModeOrderComponents);
+                return viewModeOrderComponents !=null ? Collections.unmodifiableList(viewModeOrderComponents):viewModeOrderComponents;
 	}
 
 	public void setViewModeOrderComponents(List<GtnWSTransactionColumnBean> viewModeOrderComponents) {
@@ -97,7 +97,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	}
 
 	public List<GtnWSTransactionColumnBean> getStaticComponent() {
-		return Collections.unmodifiableList(staticComponent);
+                return staticComponent !=null ? Collections.unmodifiableList(staticComponent):staticComponent;
 	}
 
 	public void setStaticComponent(List<GtnWSTransactionColumnBean> staticComponent) {

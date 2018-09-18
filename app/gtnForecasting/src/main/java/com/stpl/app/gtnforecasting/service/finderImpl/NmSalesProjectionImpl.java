@@ -1671,7 +1671,7 @@ if(!custom){
                 String projectionId = String.valueOf(inputs[0]);
 
                 String filterValues = (String) inputs[1];
-                String tempFilterValues[]=filterValues.split("-");
+                String [] tempFilterValues=filterValues.split("-");
                 
                 String viewType = (String) inputs[2];
                 String hierarchyNos = (String) inputs[3];
@@ -1757,7 +1757,7 @@ if(!custom){
                 String projectionId = String.valueOf(inputs[0]);
                 int levelNo = Integer.parseInt(String.valueOf(inputs[1]));
                 String filterValues = (String) inputs[1];
-                String tempFilterValues[]=filterValues.split("-");
+                String [] tempFilterValues= filterValues.split("-");
                 String checkUncheck = (String) inputs[7];
 
                 String userid = (String) inputs[4];

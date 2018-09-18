@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author 
+ * @author
  */
 public class Trx7PrivatePublicLookup extends Window {
 
@@ -84,6 +84,11 @@ public class Trx7PrivatePublicLookup extends Window {
     private String viewCategory = StringUtils.EMPTY;
     private boolean selectFlag = false;
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Trx7PrivatePublicLookup.class);
+    private static final String HEIGHT = "600px";
+    private static final String WIDTH = "900px";
+    private static final String VIEW_LOOK_UP = "View Look Up";
+    private static final String BOOTSTRAPBB = "bootstrap-bb";
+    private static final String BOOTSTRAP = "bootstrap";
 
     public Trx7PrivatePublicLookup(String viewValue, int userId, String detailsName, String viewType, String viewCategory) {
         super();
@@ -91,20 +96,20 @@ public class Trx7PrivatePublicLookup extends Window {
         this.detailsName = detailsName;
         this.viewType = viewType;
         this.viewCategory = viewCategory;
-        addStyleName("bootstrap");
-        addStyleName("bootstrap-bb");
+        addStyleName(BOOTSTRAP);
+        addStyleName(BOOTSTRAPBB);
         setContent(Clara.create(getClass().getResourceAsStream("/adjustment_rate_config/private_public_lookup.xml"), this));
         configureFields();
     }
 
     private void configureFields() {
         try {
-            setCaption("View Look Up");
+            setCaption(VIEW_LOOK_UP);
             setDraggable(true);
             setClosable(false);
             center();
-            setWidth("900px");
-            setHeight("600px");
+            setWidth(WIDTH);
+            setHeight(HEIGHT);
             setModal(true);
             setResizable(false);
             resultsTableLayoutEpl.addComponent(resultsTable);
@@ -192,29 +197,31 @@ public class Trx7PrivatePublicLookup extends Window {
     @UiHandler("selectBtn")
     public void selectButtonClick(Button.ClickEvent event) {
         try {
+            boolean selectBtnFlag = false;
             if (resultsTable.size() != 0 && resultsTable.getValue() != null) {
-                ViewLookupDTO viewDTO = (ViewLookupDTO) resultsTable.getValue();
-                viewDTO.setCheckFlag(Boolean.TRUE);
-                setSelectFlag(true);
-                setDtoValue(viewDTO);
+                ViewLookupDTO viewLookUpDTO = (ViewLookupDTO) resultsTable.getValue();
+                viewLookUpDTO.setCheckFlag(Boolean.TRUE);
+                setSelectFlag(!selectBtnFlag);
+                setDtoValue(viewLookUpDTO);
                 this.close();
             } else {
-                setSelectFlag(false);
+                setSelectFlag(selectBtnFlag);
                 AbstractNotificationUtils.getErrorNotification("No View Selected", "There is no view selected. Please select a saved view and try again.");
             }
-        } catch (Exception e) {
-            LOGGER.error("Error in selectButtonClick :", e);
+        } catch (Exception ex) {
+            LOGGER.error("Error in selectButtonClick :", ex);
         }
     }
 
     @UiHandler("closeBtn")
-    public void closeButtonClick(Button.ClickEvent event) {
+    public void closeButtonClickAction(Button.ClickEvent event) {
         try {
-            setSelectFlag(false);
+            boolean selectCloseBtnFlag = false;
+            setSelectFlag(selectCloseBtnFlag);
             this.close();
             viewNameEpl.setValue(StringUtils.EMPTY);
-        } catch (Exception e) {
-            LOGGER.error("Error in closeButtonClick :", e);
+        } catch (Exception ex) {
+            LOGGER.error("Error in closeButtonClick :", ex);
         }
     }
     private final PrivatePublicCustomNotification tr7PulblicNotifier = new PrivatePublicCustomNotification();
@@ -258,8 +265,8 @@ public class Trx7PrivatePublicLookup extends Window {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object publicPrivObj) {
+        return super.equals(publicPrivObj);
     }
 
     @Override
@@ -267,11 +274,11 @@ public class Trx7PrivatePublicLookup extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream publicPrivObj) throws IOException {
+        publicPrivObj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream publicPrivObj) throws IOException, ClassNotFoundException {
+        publicPrivObj.defaultReadObject();
     }
 }

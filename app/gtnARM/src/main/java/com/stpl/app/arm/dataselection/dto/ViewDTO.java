@@ -367,23 +367,23 @@ public class ViewDTO {
         return createdByString;
     }
 
-    public void setCreatedByString(String createdByString) {
-        this.createdByString = createdByString;
+    public void setCreatedByString(String createdBy) {
+        this.createdByString = createdBy;
     }
 
     public String getDeductionLevels() {
         return deductionLevels;
     }
 
-    public void setDeductionLevels(String deductionLevels) {
-        this.deductionLevels = deductionLevels;
+    public void setDeductionLevels(String dedLevels) {
+        this.deductionLevels = dedLevels;
     }
 
     public int getAdjustmentId() {
         return adjustmentId;
     }
 
-    public void setAdjustmentId(int adjustmentId) {
-        this.adjustmentId = adjustmentId;
+    public void setAdjustmentId(int adjId) {
+        this.adjustmentId = adjId;
     }
 }

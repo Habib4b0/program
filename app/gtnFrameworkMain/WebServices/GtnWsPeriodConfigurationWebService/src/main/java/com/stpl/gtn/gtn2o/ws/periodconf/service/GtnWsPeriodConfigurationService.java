@@ -21,6 +21,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,9 @@ import org.springframework.web.client.RestTemplate;
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
 	private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
-	
+    long staticTime = System.currentTimeMillis();
+    ExecutorService service = Executors.newCachedThreadPool();
+
 	public List<Object[]> getPeriodResults(String businessProcessType) {
 		return loadDateBusinessType(businessProcessType);
 	}
@@ -43,6 +47,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 	}
 
 	public void init() {
+        try {
 		logger.info("Entering into init method");
 		GtnUIFrameworkWebserviceRequest request = registerWs();
 		RestTemplate restTemplate = new RestTemplate();
@@ -53,10 +58,17 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 				request, GtnUIFrameworkWebserviceResponse.class);
 		logger.info("Webservice Registered");
 		this.loadDate();
+        } catch (Exception e) {
+            if(e.getMessage().contains("404 Not Found")){
+            logger.error("Exception in Period Webservice Registry");
+            logger.info("Failed Url---------------------" + e.getMessage());
+            GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure = new GtnUIFrameworkWebServiceClientCallOnFailure(this);
+            service.submit(createRunnable(gtnWebServiceClientCallOnFailure));
 	}
+        }
+    }
 
-	public GtnQueryEngineWebServiceRequest createQuery(String loadDateQuery)
-	{
+    public GtnQueryEngineWebServiceRequest createQuery(String loadDateQuery) {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		queryExecutorBean.setSqlQuery(loadDateQuery);
 		queryExecutorBean.setQueryType("SELECT");
@@ -64,14 +76,14 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 		return gtnQueryEngineWebServiceRequest;
 	}
-	public String readProperty(String lookUpValue)
-	{
+
+    public String readProperty(String lookUpValue) {
 		String loadDateQuery = gtnWsPeriodConfSqlService.getQuery(lookUpValue);
 		logger.debug("LoadDate Query:" + loadDateQuery);
 		return loadDateQuery;
 	}
-	public GtnQueryEngineWebServiceResponse callQueryEngine( GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest)
-	{
+
+    public GtnQueryEngineWebServiceResponse callQueryEngine(GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest) {
 		RestTemplate restTemplate = new RestTemplate();
 		addSecurityToken(gtnQueryEngineWebServiceRequest);
 		return restTemplate.postForObject(
@@ -80,10 +92,9 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 						GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
 				gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
 	}
-	
-	public void populateallBusinessProcessTypeResultObject (List <Object[]> resultDataSet)
-	{
-		for (Object[] resultList : resultDataSet ) {
+
+    public void populateallBusinessProcessTypeResultObject(List<Object[]> resultDataSet) {
+        for (Object[] resultList : resultDataSet) {
 			PeriodConfData periodconfdata = new PeriodConfData();
 			periodconfdata.setFromDate(new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT)
 					.format(new Date((long) resultList[0])));
@@ -100,7 +111,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 			allBusinessProcessTypeResultObject.add(periodconfdata);
 		}
 	}
-	
+
 	public void loadDate() {
 		logger.debug("Entering into webservice loadDate  WS->SR->QE->SR->WS");
 		String lookUpValue = "loadDate";
@@ -159,7 +170,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 				int month = scal.get(Calendar.MONTH) + 1;
 
 				int quarter = month % 3 == 0 ? (month / 3) : (month / 3) + 1;
-				String[] s = { i.toString(), "Q" + quarter + "-" + dfYY.format(scal.getTime()) };
+                String[] s = {i.toString(), "Q" + quarter + "-" + dfYY.format(scal.getTime())};
 				i++;
 				quarters.add(s);
 				scal.add(Calendar.MONTH, 3);
@@ -169,5 +180,17 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		}
 		return quarters;
 	}
+
+    public Runnable createRunnable(final Object... inputs) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure1 = (GtnUIFrameworkWebServiceClientCallOnFailure) inputs[0];
+                gtnWebServiceClientCallOnFailure1.setStaticTime(staticTime);
+                gtnWebServiceClientCallOnFailure1.callGtnWebServiceUrlOnFailure();
+            }
+        };
+        return runnable;
+    }
 
 }
