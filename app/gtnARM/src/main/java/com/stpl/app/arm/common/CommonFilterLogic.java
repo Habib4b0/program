@@ -49,15 +49,15 @@ public class CommonFilterLogic {
                         if (sql.length() == 0) {
                             StringBuilder initial = new StringBuilder("where ( ( * LIKE '?' )");
                             StringBuilder temp = new StringBuilder(initial);
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
+                            temp.replace(temp.indexOf(ARMUtils.CHAR_ASTERISK), temp.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                            temp.replace(temp.indexOf(ARMUtils.CHAR_QUS), temp.indexOf(ARMUtils.CHAR_QUS) + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
                             sql.append(temp);
 
                         } else {
                             StringBuilder temp = new StringBuilder(str);
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
+                            temp.replace(temp.indexOf(ARMUtils.CHAR_ASTERISK), temp.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                            temp.replace(temp.indexOf(ARMUtils.CHAR_ASTERISK), temp.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                            temp.replace(temp.indexOf(ARMUtils.CHAR_QUS), temp.indexOf(ARMUtils.CHAR_QUS) + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
                             sql.append(temp);
                         }
                     }
@@ -78,8 +78,8 @@ public class CommonFilterLogic {
                             } else {
                                 tempStart = new StringBuilder(dateStartstr);
                             }
-                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(startValue));
                             sql.append(tempStart);
                         }
                         if (!betweenFilter.getEndValue().toString().isEmpty()) {
@@ -90,8 +90,8 @@ public class CommonFilterLogic {
                                 tempEnd = new StringBuilder(dateEndstr);
                             }
 
-                            tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
+                            tempEnd.replace(tempEnd.indexOf(ARMUtils.CHAR_ASTERISK), tempEnd.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
+                            tempEnd.replace(tempEnd.indexOf(ARMUtils.CHAR_QUS), tempEnd.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(endValue));
                             sql.append(tempEnd);
                         }
                     }
@@ -116,8 +116,8 @@ public class CommonFilterLogic {
                                 } else {
                                     tempStart = new StringBuilder(startStr);
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
                                 sql.append(tempStart);
                             }
                         }
@@ -131,9 +131,9 @@ public class CommonFilterLogic {
                                 } else {
                                     tempStart = new StringBuilder("AND ( * >'?' or * = '0')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
                                 sql.append(tempStart);
                             } else {
                                 if (sql.length() == 0) {
@@ -141,8 +141,8 @@ public class CommonFilterLogic {
                                 } else {
                                     tempStart = new StringBuilder("AND ( * >'?')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
                                 sql.append(tempStart);
                             }
                         }
@@ -156,9 +156,9 @@ public class CommonFilterLogic {
                                 } else {
                                     tempStart = new StringBuilder("AND ( * <'?' or * = '0')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
                                 sql.append(tempStart);
                             } else {
                                 if (sql.length() == 0) {
@@ -166,9 +166,9 @@ public class CommonFilterLogic {
                                 } else {
                                     tempStart = new StringBuilder("AND ( * <'?')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
                                 sql.append(tempStart);
                             }
                         }
@@ -188,8 +188,8 @@ public class CommonFilterLogic {
                                     tempStart = new StringBuilder("AND ( * <='?' )");
                                 }
                             }
-                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(value));
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(value));
                             sql.append(tempStart);
                         }
                     }
@@ -212,8 +212,8 @@ public class CommonFilterLogic {
                             } else {
                                 tempStart = new StringBuilder("AND ( * <'?')");
                             }
-                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(String.valueOf(propertyId)));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, lessValue);
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(String.valueOf(propertyId)));
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, lessValue);
                             sql.append(tempStart);
 
                         }
@@ -229,8 +229,8 @@ public class CommonFilterLogic {
                             } else {
                                 tempStart = new StringBuilder("AND ( * >'?')");
                             }
-                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(String.valueOf(propertyId)));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, greaterValue);
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(String.valueOf(propertyId)));
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, greaterValue);
                             sql.append(tempStart);
                         }
                     }
@@ -240,22 +240,22 @@ public class CommonFilterLogic {
                         if (sql.length() == 0) {
                             StringBuilder initial = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder temp = new StringBuilder(initial);
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(dtoFilter.getPropertyId().toString()));
-                            temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, String.valueOf(dtoFilter.getFilterId()));
+                            temp.replace(temp.indexOf(ARMUtils.CHAR_ASTERISK), temp.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(dtoFilter.getPropertyId().toString()));
+                            temp.replace(temp.indexOf(ARMUtils.CHAR_QUS), temp.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(dtoFilter.getFilterId()));
                             sql.append(temp);
 
                         } else {
                             StringBuilder temp = new StringBuilder(str);
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(dtoFilter.getPropertyId().toString()));
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(dtoFilter.getPropertyId().toString()));
-                            temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, String.valueOf(dtoFilter.getFilterId()));
+                            temp.replace(temp.indexOf(ARMUtils.CHAR_ASTERISK), temp.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(dtoFilter.getPropertyId().toString()));
+                            temp.replace(temp.indexOf(ARMUtils.CHAR_ASTERISK), temp.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(dtoFilter.getPropertyId().toString()));
+                            temp.replace(temp.indexOf(ARMUtils.CHAR_QUS), temp.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(dtoFilter.getFilterId()));
                             sql.append(temp);
                         }
                     }
                 }
             }
             if (sql.length() != 0) {
-                sql.append(ARMUtils.CLOSE_BRACES);
+                sql.append(ARMUtils.CLOSE_PARANTHESIS);
             }
         }
         return sql;
@@ -270,16 +270,16 @@ public class CommonFilterLogic {
                 String columnName = sortByColumn.getName();
                 if (sortByColumn.getType() == SortByColumn.Type.ASC) {
                     asc = false;
-                    tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(columnName));
+                    tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(columnName));
                 } else {
                     asc = true;
-                    tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(columnName));
+                    tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(columnName));
                 }
             }
         } else {
-            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, defaultSort);
+            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, defaultSort);
         }
-        tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, !asc ? "ASC" : "DESC");
+        tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, !asc ? "ASC" : "DESC");
         return tempStart;
     }
 
@@ -334,22 +334,22 @@ public class CommonFilterLogic {
                     if (sql.length() == 0) {
                         StringBuilder initial = new StringBuilder("where ( ( * LIKE '?' )");
                         StringBuilder temp = new StringBuilder(initial);
-                        temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, append);
-                        temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
+                        temp.replace(temp.indexOf(ARMUtils.CHAR_ASTERISK), temp.indexOf(ARMUtils.CHAR_ASTERISK) + 1, append);
+                        temp.replace(temp.indexOf(ARMUtils.CHAR_QUS), temp.indexOf(ARMUtils.CHAR_QUS) + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
                         sql.append(temp);
 
                     } else {
                         StringBuilder temp = new StringBuilder(str);
-                        temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, append);
-                        temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, append);
-                        temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
+                        temp.replace(temp.indexOf(ARMUtils.CHAR_ASTERISK), temp.indexOf(ARMUtils.CHAR_ASTERISK) + 1, append);
+                        temp.replace(temp.indexOf(ARMUtils.CHAR_ASTERISK), temp.indexOf(ARMUtils.CHAR_ASTERISK) + 1, append);
+                        temp.replace(temp.indexOf(ARMUtils.CHAR_QUS), temp.indexOf(ARMUtils.CHAR_QUS) + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
                         sql.append(temp);
                     }
                     count++;
                 }
             }
             if (sql.length() != 0) {
-                sql.append(ARMUtils.CLOSE_BRACES);
+                sql.append(ARMUtils.CLOSE_PARANTHESIS);
             }
         }
         count = 0;

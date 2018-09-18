@@ -94,10 +94,10 @@ public class Trx7RatesTab extends AbstractPipelineRates {
         if (!tr7ListSize.isEmpty()) {
             for (int i = 0; i < tr7ListSize.size(); i++) {
                 String value = tr7ListSize.get(i);
-                if (value.contains(".")) {
+                if (value.contains(ARMUtils.DOT)) {
                     value = value.substring(0, value.lastIndexOf('.'));
                 }
-                tr7ListSize.set(i, value.replace(" ", StringUtils.EMPTY).trim());
+                tr7ListSize.set(i, value.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).trim());
                 if (i != tr7ListSize.size() - 1) {
                     tr7DeductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                 } else {
