@@ -50,8 +50,8 @@ public class GtnFrameworkNewToOldArchitectureDeleteAction implements GtnUIFrameW
             GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
             inputBean.setUserId(userId);
             inputBean.setSessionId(sessionId);
-            ForecastUI ui = new ForecastUI();
-            ui.getForecastingToDelete(inputBean);
+//            ForecastUI ui = new ForecastUI();
+//            ui.getForecastingToDelete(inputBean);
 
         } catch (Exception ex) {
             Logger.getLogger(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName()).log(Level.SEVERE, null, ex);

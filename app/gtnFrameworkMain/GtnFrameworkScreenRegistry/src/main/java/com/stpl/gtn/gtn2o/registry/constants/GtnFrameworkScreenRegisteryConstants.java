@@ -12,7 +12,7 @@ public class GtnFrameworkScreenRegisteryConstants {
 	public static final String COMBOX_DEFAULT_VALUE = "-Select-";
 	public static final String FORECAST_TAB_PARENT_ID="_" + "forecastLayout";	
 	public static final String COMMON_BUTTON_LAYOUT_PARENT_ID = "_" + "commonButtonLayout";  
-        public static final String ADD_COMPANY_COMBOX_ID="company";
+        public static final String ADD_COMPANY_COMBOX_ID="Company";
         public static final String ADD_FREQUENCY_COMBOX_ID="frequency";
         public static final String ADD_BUSINESS_UNIT_COMPONENT_ID="businessUnit";
         public static final String ADD_DISCOUNT_PROJECTION_RESULT_TABLE="filterComboBox";
