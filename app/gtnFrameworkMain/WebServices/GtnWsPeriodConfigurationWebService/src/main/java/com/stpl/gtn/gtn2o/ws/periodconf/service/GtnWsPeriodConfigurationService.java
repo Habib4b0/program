@@ -9,10 +9,6 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
@@ -25,6 +21,10 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
@@ -73,6 +73,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 	public GtnQueryEngineWebServiceResponse callQueryEngine( GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest)
 	{
 		RestTemplate restTemplate = new RestTemplate();
+		addSecurityToken(gtnQueryEngineWebServiceRequest);
 		return restTemplate.postForObject(
 				getWebServiceEndpointBasedOnModule(
 						GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REDIRECTTOQUERYENGINE,
@@ -129,7 +130,8 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		getEndPointUrl(webServiceRegistryBean);
 		logger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
-		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
+		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);		
+		addSecurityToken(request);	
 		return request;
 	}
 
