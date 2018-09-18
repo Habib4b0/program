@@ -425,7 +425,7 @@ public class CommonUtils {
                             if (header.contains("~")) {
                                 column = header.split("~")[0].trim();
                             }
-                            header = header.replace("~", "-");
+                            header = header.replace('~', '-');
                             MenuItemDTO dto = new MenuItemDTO(column, header);
                             dto.setId(ARMUtils.getIntegerValue(list.get(i)[0].toString()));
                             customItem[i] = customMenuItemDed.addItem(dto, null);
@@ -503,7 +503,7 @@ public class CommonUtils {
             int i = 0;
             for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
                 if (object.isChecked()) {
-                    column.add(isPropertyRequired ? object.getMenuItem().getWindow() + "." + i : object.getMenuItem().getWindow());
+                    column.add(isPropertyRequired ? object.getMenuItem().getWindow() + ARMUtils.DOT + i : object.getMenuItem().getWindow());
                     columnWithNoIndex.add(object.getMenuItem().getWindow());
                     header.add(object.getMenuItem().getCaption());
                     ids.add(object.getMenuItem().getId());
@@ -531,7 +531,7 @@ public class CommonUtils {
             int i = 0;
             for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
                 if (object.isChecked()) {
-                    column.add(object.getMenuItem().getCaption().trim() + "." + i);
+                    column.add(object.getMenuItem().getCaption().trim() + ARMUtils.DOT + i);
                     header.add(object.getMenuItem().getCaption());
                     i++;
                 }
@@ -586,7 +586,7 @@ public class CommonUtils {
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
             String[] months = dateFormatSymbols.getShortMonths();
             Calendar calendar = Calendar.getInstance();
-            String[] startDate = startPeriod.split(" ");
+            String[] startDate = startPeriod.split(ARMUtils.SPACE.toString());
             calendar.set(Calendar.MONTH, CommonUtils.getMonthNo(startDate[0]) - 1);
             calendar.set(Calendar.YEAR, Integer.valueOf(startDate[1]));
             calendar.add(Calendar.MONTH, -NumericConstants.TWELVE);
@@ -611,10 +611,10 @@ public class CommonUtils {
                 periodMonth = calendar.get(Calendar.MONTH);
                 periodQuarter = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.THREE + 1);
                 periodSemi = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.SIX + 1);
-                String periodWithS = freq.startsWith("S") ? "S" + periodSemi + " " + periodYear : periodYear;
-                String periodWithQ = freq.startsWith("Q") ? "Q" + periodQuarter + " " + periodYear
+                String periodWithS = freq.startsWith("S") ? "S" + periodSemi + ARMUtils.SPACE + periodYear : periodYear;
+                String periodWithQ = freq.startsWith("Q") ? "Q" + periodQuarter + ARMUtils.SPACE + periodYear
                         : periodWithS;
-                String period = freq.startsWith("M") ? months[periodMonth] + " " + periodYear : periodWithQ;
+                String period = freq.startsWith("M") ? months[periodMonth] + ARMUtils.SPACE + periodYear : periodWithQ;
                 calendar.add(Calendar.MONTH, increment);
                 periodList.add(period);
             }
@@ -637,8 +637,8 @@ public class CommonUtils {
         int freqWithS = frequency.startsWith("S") ? NumericConstants.SIX : 1;
         int freq = frequency.startsWith("Q") ? NumericConstants.THREE : freqWithS;
         int count = 0;
-        String[] startArr = startPeriod.split(" ");
-        String[] endArr = endPeriod.split(" ");
+        String[] startArr = startPeriod.split(ARMUtils.SPACE.toString());
+        String[] endArr = endPeriod.split(ARMUtils.SPACE.toString());
         boolean freqFlag = frequency.startsWith("Q") || frequency.startsWith("S") ? Boolean.TRUE : Boolean.FALSE;
 
         //end variable is to find the starting month based on the Quarter and Semi-Annual
@@ -713,9 +713,9 @@ public class CommonUtils {
             month = fromDateCal.get(Calendar.MONTH);
             quarter = String.valueOf(fromDateCal.get(Calendar.MONTH) / NumericConstants.THREE + 1);
             semi = String.valueOf(fromDateCal.get(Calendar.MONTH) / NumericConstants.SIX + 1);
-            String startWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
-            String startWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year : startWithS;
-            String period = freq.startsWith("M") ? months[month] + " " + year : startWithQ;
+            String startWithS = freq.startsWith("S") ? "S" + semi + ARMUtils.SPACE + year : year;
+            String startWithQ = freq.startsWith("Q") ? "Q" + quarter + ARMUtils.SPACE + year : startWithS;
+            String period = freq.startsWith("M") ? months[month] + ARMUtils.SPACE + year : startWithQ;
             fromDateCal.add(Calendar.MONTH, increment);
             periodList.add(period);
         }
@@ -901,7 +901,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString = framedString.replace(" ", StringUtils.EMPTY);
+                framedString = framedString.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
             } else if (toRemoveSpaceAfterComma) {
                 framedString = framedString.replace(", ", ",");
             }
@@ -1044,7 +1044,7 @@ public class CommonUtils {
         String finalPeriod = null;
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
         String[] months = dateFormatSymbols.getShortMonths();
-        String[] histPeriodArr = period.split(" ");
+        String[] histPeriodArr = period.split(ARMUtils.SPACE.toString());
         //cal variable is used for getting current Calendar instance
         Calendar cal = Calendar.getInstance();
         //history variable is used for setting the date based on user selection
@@ -1149,13 +1149,13 @@ public class CommonUtils {
         String finalPeriod;
         switch (freq) {
             case 'M':
-                finalPeriod = months[month] + " " + year;
+                finalPeriod = months[month] + ARMUtils.SPACE + year;
                 break;
             case 'Q':
-                finalPeriod = "Q" + quarter + " " + year;
+                finalPeriod = "Q" + quarter + ARMUtils.SPACE + year;
                 break;
             case 'S':
-                finalPeriod = "S" + semi + " " + year;
+                finalPeriod = "S" + semi + ARMUtils.SPACE + year;
                 break;
             default:
                 finalPeriod = year;
@@ -1185,7 +1185,7 @@ public class CommonUtils {
                             if (dedcutionHeader.contains("~")) {
                                 column = dedcutionHeader.split("~")[0].trim();
                             }
-                            dedcutionHeader = dedcutionHeader.replace("~", "-");
+                            dedcutionHeader = dedcutionHeader.replace('~', '-');
                             MenuItemDTO dto = new MenuItemDTO(column, dedcutionHeader);
                             dto.setId(ARMUtils.getIntegerValue(resultList.get(i)[0].toString()));
                             dedcutionCustomItem[i] = customMenuItemDed.addItem(dto, null);

@@ -13,6 +13,7 @@ import com.stpl.app.arm.supercode.HasLogic;
 import com.stpl.app.arm.supercode.LogicAble;
 import com.stpl.app.arm.supercode.SelectionCriteria;
 import com.stpl.app.arm.supercode.TableLogicAble;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.List;
@@ -144,7 +145,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
             selection.setLevelNo(levelNo);
             AdjustmentDTO levelDto = levelList.get(j);
             if (levelDto.getChildrenAllowed()) {
-                String customTreeLevel = treeLevel + (index + j) + ".";
+                String customTreeLevel = treeLevel + (index + j) + ARMUtils.DOT;
                 addExpandedTreeList(customTreeLevel, levelDto);
                 recursivelyLoadExpandData(levelDto, customTreeLevel, expandLevelNo);
             }

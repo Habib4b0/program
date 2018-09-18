@@ -142,8 +142,8 @@ public class DataSelectionLogic {
                             } else {
                                 dsTempStart = new StringBuilder(dsDateStartstr);
                             }
-                            dsTempStart.replace(dsTempStart.indexOf("*"), dsTempStart.indexOf("*") + 1, detailsColumn.get(dsBetweenFilter.getPropertyId().toString()));
-                            dsTempStart.replace(dsTempStart.indexOf("?"), dsTempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
+                            dsTempStart.replace(dsTempStart.indexOf(ARMUtils.CHAR_ASTERISK), dsTempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsBetweenFilter.getPropertyId().toString()));
+                            dsTempStart.replace(dsTempStart.indexOf(ARMUtils.CHAR_QUS), dsTempStart.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(startValue));
                             filterQuery.append(dsTempStart);
                         }
                         if (!dsBetweenFilter.getEndValue().toString().isEmpty()) {
@@ -154,8 +154,8 @@ public class DataSelectionLogic {
                                 dsTempEnd = new StringBuilder(dsDateEndstr);
                             }
 
-                            dsTempEnd.replace(dsTempEnd.indexOf("*"), dsTempEnd.indexOf("*") + 1, detailsColumn.get(dsBetweenFilter.getPropertyId().toString()));
-                            dsTempEnd.replace(dsTempEnd.indexOf("?"), dsTempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
+                            dsTempEnd.replace(dsTempEnd.indexOf(ARMUtils.CHAR_ASTERISK), dsTempEnd.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsBetweenFilter.getPropertyId().toString()));
+                            dsTempEnd.replace(dsTempEnd.indexOf(ARMUtils.CHAR_QUS), dsTempEnd.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(endValue));
                             filterQuery.append(dsTempEnd);
                         }
                     }
@@ -180,8 +180,8 @@ public class DataSelectionLogic {
                                 } else {
                                     dsTempStart = new StringBuilder(dsstartStr);
                                 }
-                                dsTempStart.replace(dsTempStart.indexOf("*"), dsTempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
-                                dsTempStart.replace(dsTempStart.indexOf("?"), dsTempStart.indexOf("?") + 1, dsValue);
+                                dsTempStart.replace(dsTempStart.indexOf(ARMUtils.CHAR_ASTERISK), dsTempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                                dsTempStart.replace(dsTempStart.indexOf(ARMUtils.CHAR_QUS), dsTempStart.indexOf(ARMUtils.CHAR_QUS) + 1, dsValue);
                                 filterQuery.append(dsTempStart);
                             }
                         }
@@ -195,8 +195,8 @@ public class DataSelectionLogic {
                                 } else {
                                     greaterTempStart = new StringBuilder("AND ( * > '?' or * = '0')");
                                 }
-                                greaterTempStart.replace(greaterTempStart.indexOf("*"), greaterTempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
-                                greaterTempStart.replace(greaterTempStart.indexOf("?"), greaterTempStart.indexOf("?") + 1, value);
+                                greaterTempStart.replace(greaterTempStart.indexOf(ARMUtils.CHAR_ASTERISK), greaterTempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                                greaterTempStart.replace(greaterTempStart.indexOf(ARMUtils.CHAR_QUS), greaterTempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
                                 filterQuery.append(greaterTempStart);
                             } else {
                                 if (filterQuery.length() == 0) {
@@ -204,8 +204,8 @@ public class DataSelectionLogic {
                                 } else {
                                     greaterTempStart = new StringBuilder("AND ( * > '?')");
                                 }
-                                greaterTempStart.replace(greaterTempStart.indexOf("*"), greaterTempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
-                                greaterTempStart.replace(greaterTempStart.indexOf("?"), greaterTempStart.indexOf("?") + 1, value);
+                                greaterTempStart.replace(greaterTempStart.indexOf(ARMUtils.CHAR_ASTERISK), greaterTempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                                greaterTempStart.replace(greaterTempStart.indexOf(ARMUtils.CHAR_QUS), greaterTempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
                                 filterQuery.append(greaterTempStart);
                             }
                         }
@@ -219,8 +219,8 @@ public class DataSelectionLogic {
                                 } else {
                                     tempStart = new StringBuilder("AND ( * < '?' or * = '0')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
                                 filterQuery.append(tempStart);
                             } else {
                                 if (filterQuery.length() == 0) {
@@ -228,8 +228,8 @@ public class DataSelectionLogic {
                                 } else {
                                     tempStart = new StringBuilder("AND ( * < '?')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
                                 filterQuery.append(tempStart);
                             }
                         }
@@ -249,8 +249,8 @@ public class DataSelectionLogic {
                                     tempStart = new StringBuilder("AND ( * <='?' )");
                                 }
                             }
-                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(value));
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(value));
                             filterQuery.append(tempStart);
                         }
                     }
@@ -280,7 +280,7 @@ public class DataSelectionLogic {
             } else {
                 order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
             }
-            order = order + " " + "OFFSET ";
+            order = order + ARMUtils.SPACE + "OFFSET ";
             order = order + startIndex;
             order = order + " ROWS FETCH NEXT " + endIndex;
             order = order + " ROWS ONLY;";
@@ -336,7 +336,7 @@ public class DataSelectionLogic {
         LOGGER.debug("--Inside loadProductRelation--");
         String sqlQuery = SQlUtil.getQuery("getProdRelation").concat(StringUtils.EMPTY + hierSid);
         if (glComp != 0) {
-            sqlQuery += " " + SQlUtil.getQuery("joinGLComp").concat(StringUtils.EMPTY + glComp);
+            sqlQuery += ARMUtils.SPACE + SQlUtil.getQuery("joinGLComp").concat(StringUtils.EMPTY + glComp);
         }
         LOGGER.debug(CommonConstant.SQL_QUERY, sqlQuery);
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
@@ -362,7 +362,7 @@ public class DataSelectionLogic {
         String customSql = SQlUtil.getQuery("getLevelsFromHierarchy");
         if (StringUtils.isNotEmpty(String.valueOf(hierSid))
                 && StringUtils.isNotBlank(String.valueOf(hierSid))) {
-            customSql = customSql.replace("?", String.valueOf(hierSid).trim());
+            customSql = customSql.replace(ARMUtils.CHAR_QUS, String.valueOf(hierSid).trim());
         }
         LOGGER.debug(CommonConstant.SQL_QUERY, customSql);
         List<Integer> integerList = new ArrayList<>();
@@ -785,9 +785,9 @@ public class DataSelectionLogic {
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
                     if (values.length() == 0) {
-                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
+                        values.append(ARMUtils.OPEN_PARANTHESIS).append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_PARANTHESIS);
                     } else {
-                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
+                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_PARANTHESIS);
                     }
                 }
             }
@@ -836,10 +836,10 @@ public class DataSelectionLogic {
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
                     if (values.length() == 0) {
-                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
+                        values.append(ARMUtils.OPEN_PARANTHESIS).append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_PARANTHESIS);
 
                     } else {
-                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
+                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_PARANTHESIS);
 
                     }
                 }
@@ -858,20 +858,20 @@ public class DataSelectionLogic {
         if (ARMUtils.UPDATE.equals(indicator)) {
             for (String rsId : addLevels) {
                 if (values.length() == 0) {
-                    values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_BRACES);
+                    values.append(ARMUtils.OPEN_PARANTHESIS).append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_PARANTHESIS);
 
                 } else {
-                    values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_BRACES);
+                    values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_PARANTHESIS);
 
                 }
             }
         } else if (ARMUtils.SAVE.equals(indicator)) {
             for (LevelDTO dto : levelList) {
                 if (values.length() == 0) {
-                    values.append("(").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_BRACES);
+                    values.append(ARMUtils.OPEN_PARANTHESIS).append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_PARANTHESIS);
 
                 } else {
-                    values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_BRACES);
+                    values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_PARANTHESIS);
 
                 }
             }
@@ -901,7 +901,7 @@ public class DataSelectionLogic {
             if (!rsModelSidList.isEmpty()) {
                 insertDeductionQuery.append(SQlUtil.getQuery("DEDUCTION_SAVED_PROJECTION"));
                 for (Integer rsModelSid : rsModelSidList) {
-                    insertDeductionQuery.append("(").append(projectionSid).append(ARMUtils.COMMA_CHAR).append(rsModelSid).append("),");
+                    insertDeductionQuery.append(ARMUtils.OPEN_PARANTHESIS).append(projectionSid).append(ARMUtils.COMMA_CHAR).append(rsModelSid).append("),");
                 }
                 insertDeductionQuery.replace(insertDeductionQuery.length() - 1, insertDeductionQuery.length(), StringUtils.EMPTY);
             }
@@ -1241,7 +1241,7 @@ public class DataSelectionLogic {
                     String currentColumnPrevKey = parentLevelKeys.get(mapKey);
                     String currentKey;
                     if (currentColumnPrevKey == null) {
-                        currentKey = parentKey.isEmpty() ? (keyBegins++) + "." : parentKey + (keyBegins++) + ".";
+                        currentKey = parentKey.isEmpty() ? (keyBegins++) + ARMUtils.DOT : parentKey + (keyBegins++) + ARMUtils.DOT;
                         columnIncrementer.put(parentKey, keyBegins);
                     } else {
                         currentKey = currentColumnPrevKey;
@@ -1339,7 +1339,7 @@ public class DataSelectionLogic {
             tempCal.set(Calendar.MINUTE, 0);
             tempCal.set(Calendar.SECOND, 0);
             item = getMonth.format(tempCal.getTime());
-            caption = MONTHS[startmonth] + " " + startYear;
+            caption = MONTHS[startmonth] + ARMUtils.SPACE + startYear;
             period.addItem(item);
             period.setItemCaption(item, caption);
             if (startmonth == endMonth && startYear == endYear) {
@@ -1353,7 +1353,7 @@ public class DataSelectionLogic {
                     tempCal.set(Calendar.MONTH, tempStartmonth);
                     tempCal.set(Calendar.YEAR, startYear);
                     item = getMonth.format(tempCal.getTime());
-                    caption = MONTHS[tempStartmonth] + " " + startYear;
+                    caption = MONTHS[tempStartmonth] + ARMUtils.SPACE + startYear;
                     period.addItem(item);
                     period.setItemCaption(item, caption);
                     if (endMonth == 0 && (startYear == endYear)) {
@@ -1404,7 +1404,7 @@ public class DataSelectionLogic {
             int month = cal.get(Calendar.MONTH);
             int year = cal.get(Calendar.YEAR);
             String item = getMonth.format(cal.getTime());
-            String caption = MONTHS[month] + " " + year;
+            String caption = MONTHS[month] + ARMUtils.SPACE + year;
             fromPeriod.addItem(item);
             fromPeriod.setItemCaption(item, caption);
             toPeriod.addItem(item);
@@ -1554,9 +1554,9 @@ public class DataSelectionLogic {
             LOGGER.debug("Entering getRelationShipValues method");
             queryString.append(SQlUtil.getQuery("getRelationshipValues"));
             if ("customer".equalsIgnoreCase(String.valueOf(parameters.get(INDICATOR)))) {
-                queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, " Projection_Cust_Hierarchy ");
+                queryString.replace(queryString.indexOf(ARMUtils.CHAR_QUS), queryString.indexOf(ARMUtils.CHAR_QUS) + 1, " Projection_Cust_Hierarchy ");
             } else if ("product".equalsIgnoreCase(String.valueOf(parameters.get(INDICATOR)))) {
-                queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, " Projection_Prod_Hierarchy ");
+                queryString.replace(queryString.indexOf(ARMUtils.CHAR_QUS), queryString.indexOf(ARMUtils.CHAR_QUS) + 1, " Projection_Prod_Hierarchy ");
             }
             queryString.append(" WHERE PH.PROJECTION_MASTER_SID='");
             queryString.append(String.valueOf(parameters.get("projectionId")));

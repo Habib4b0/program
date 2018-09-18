@@ -129,7 +129,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 resultList.add(dto);
                 dto = clearVariables(variables, dto);
             }
-            index = indexMap.get(get[0].toString().replace(" ", org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
+            index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
             if (dto != null) {
                 if (index < totalColumnIndex) {
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? org.apache.commons.lang.StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
