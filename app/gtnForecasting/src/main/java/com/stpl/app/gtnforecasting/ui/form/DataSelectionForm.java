@@ -4223,7 +4223,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					public void buttonClicked(ButtonId buttonId) {
 						if (buttonId.name().equals(Constant.YES)) {
 							DataSelectionLogic logic = new DataSelectionLogic();
-							if (resultTable.getValue() != null) {
 								try {
 									String currentUserId = inputBean.getUserId();
 									String flag = logic.deleteProjection(inputBean.getProjectionMasterSid(), currentUserId,
@@ -4241,7 +4240,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 									LOGGER.error(" - in deleteBtn= {}",ex);
 								}
 							}
-						}
 					}
 				}, ButtonId.YES, ButtonId.NO);
 

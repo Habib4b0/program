@@ -29,46 +29,46 @@ import java.util.logging.Logger;
  */
 public class GtnFrameworkNewToOldArchitectureDeleteAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastInnerLevelLoadAction.class);
+    private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastInnerLevelLoadAction.class);
 
-	@Override
-	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-            
-            List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		String gridComponentId = actionParamsList.get(1).toString();
+    @Override
+    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
 
-		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(gridComponentId, componentId);
-		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) abstractComponent.getData();
-		Set<GtnWsRecordBean> rows = componentData.getPagedGrid().getValue();
-		GtnWsRecordBean selectedRow = rows.isEmpty() ? null : rows.iterator().next();
+        List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
+        String gridComponentId = actionParamsList.get(1).toString();
 
-		String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
-		String sessionId = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId"));
+        AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(gridComponentId, componentId);
+        GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) abstractComponent.getData();
+        Set<GtnWsRecordBean> rows = componentData.getPagedGrid().getValue();
+        GtnWsRecordBean selectedRow = rows.isEmpty() ? null : rows.iterator().next();
 
-		try {
-			GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
-			inputBean.setUserId(userId);
-			inputBean.setSessionId(sessionId);
-			ForecastUI ui = new ForecastUI();
-                        ui.getForecastingToDelete(inputBean);
-                        
-		} catch (Exception ex) {
-			Logger.getLogger(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName()).log(Level.SEVERE, null, ex);
-		}
+        String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
+        String sessionId = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId"));
 
-	}
-        
-        private GtnFrameworkForecastInputBean formForecastInputBean(GtnWsRecordBean selectedRow, List<Object> actionParamsList) throws ParseException {
-		GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
-		try {
-			inputBean.setProjectionMasterSid((int) selectedRow.getPropertyValueByIndex(12));
+        try {
+            GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
+            inputBean.setUserId(userId);
+            inputBean.setSessionId(sessionId);
+            ForecastUI ui = new ForecastUI();
+            ui.getForecastingToDelete(inputBean);
 
-		} catch (Exception ex) {
-			gtnLogger.info(ex.getMessage());
-		}
-		return inputBean;
-	}
+        } catch (Exception ex) {
+            Logger.getLogger(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private GtnFrameworkForecastInputBean formForecastInputBean(GtnWsRecordBean selectedRow, List<Object> actionParamsList) throws ParseException {
+        GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
+        try {
+            inputBean.setProjectionMasterSid((int) selectedRow.getPropertyValueByIndex(12));
+
+        } catch (Exception ex) {
+            gtnLogger.info(ex.getMessage());
+        }
+        return inputBean;
+    }
 
     
 }

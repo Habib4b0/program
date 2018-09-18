@@ -182,4 +182,4 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         return response1.getQueryResponseBean().getResultInteger();
     }
 
-}
+		}
