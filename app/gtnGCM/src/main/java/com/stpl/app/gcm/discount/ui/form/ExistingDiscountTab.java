@@ -1114,12 +1114,12 @@ public class ExistingDiscountTab extends CustomComponent {
     private ContractsDetailsDto cfp = null;
     private ContractsDetailsDto ifp = null;
     private ContractsDetailsDto priceSchedule = null;
-    private ContractsDetailsDto rebateSchedule = null;
+    
     
     public void saveTree(final Collection list) {
+      ContractsDetailsDto rebateSchedule ;  
         LOGGER.debug("Entering saveTree method");
         try {
-
             for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
                 final Object idValue = iterator.next();
                 final ContractsDetailsDto temp = getBeanFromID(idValue);
@@ -1129,25 +1129,21 @@ public class ExistingDiscountTab extends CustomComponent {
                     cfp = new ContractsDetailsDto();
                     ifp = new ContractsDetailsDto();
                     priceSchedule = new ContractsDetailsDto();
-                    rebateSchedule = new ContractsDetailsDto();
                 }
                 if (Constants.IndicatorConstants.CFP.toString().equalsIgnoreCase(temp.getCategory())) {
 
                     cfp = temp;
                     ifp = new ContractsDetailsDto();
                     priceSchedule = new ContractsDetailsDto();
-                    rebateSchedule = new ContractsDetailsDto();
                     DiscountLogic.saveCFp(contract.getInternalId(), cfp ,false);
                 }
                 if (Constants.IndicatorConstants.IFP.toString().equalsIgnoreCase(temp.getCategory())) {
                     ifp = temp;
                     priceSchedule = new ContractsDetailsDto();
-                    rebateSchedule = new ContractsDetailsDto();
                     DiscountLogic.saveIFP(contract.getInternalId(), cfp.getCfpContractId(), ifp ,false);
                 }
                 if (Constants.IndicatorConstants.PS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {
                     priceSchedule = temp;
-                    rebateSchedule = new ContractsDetailsDto();
                     DiscountLogic.savePS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule ,false);
                 }
                 if (Constants.IndicatorConstants.RS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {

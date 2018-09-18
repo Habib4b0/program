@@ -56,7 +56,6 @@ public class GlobalChangeIndex extends CustomComponent implements View {
     public ComboBox process;
     @UiField("updateType")
     public ComboBox updateType;
-    private String processName;
     private final SelectionDTO selection = new SelectionDTO();
     private boolean valueChange;
 
@@ -236,7 +235,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
 
     @UiHandler("process")
     public void processDdlbLogic(Property.ValueChangeEvent event) {
-        processName = String.valueOf(process.getValue());
+        String processName = String.valueOf(process.getValue());
         if (CUSTOMER_MANAGEMENT.getConstant().equals(processName)) {
             setUpdateTypeDdlbToDefault();
             updateType.addItem(ADD_TRADING_PARTNER.getConstant());

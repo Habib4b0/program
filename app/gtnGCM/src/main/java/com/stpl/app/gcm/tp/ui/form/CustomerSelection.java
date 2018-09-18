@@ -137,7 +137,6 @@ public class CustomerSelection extends VerticalLayout {
     private SessionDTO session;
 
     private final transient CompanySearchLogic logic = new CompanySearchLogic();
-    private transient List<IdDescriptionDTO> resultList;
     private final transient CompanySearchTableLogic selectedCustomersLogic = new CompanySearchTableLogic();
     private final transient CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     private final transient LinkedCompaniesTableLogic transferCustomerTableLogic = new LinkedCompaniesTableLogic();
@@ -189,7 +188,7 @@ public class CustomerSelection extends VerticalLayout {
             commonUtil.loadComboBox(companyCategoryDdlb, UiUtils.COMPANY_CATEGORY, false);
             commonUtil.loadComboBox(companyTypeDdlb, UiUtils.COMPANY_TYPE, false);
 
-            resultList = logic.loadIdentifierTypeDdlb();
+             List<IdDescriptionDTO> resultList = logic.loadIdentifierTypeDdlb();
             logic.setIdDescription(resultList, compIdentifierType);
             compIdentifierType.setNullSelectionAllowed(true);
             compIdentifierType.select(Constants.SELECT_ONE);
