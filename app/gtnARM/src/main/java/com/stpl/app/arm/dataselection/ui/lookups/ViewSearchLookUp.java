@@ -71,7 +71,7 @@ public class ViewSearchLookUp extends Window {
 
     private ExtPagedTable resultsTableLevel = new ExtPagedTable(tableLogic);
     private ViewDTO viewDTO = new ViewDTO();
-    public static final Logger LOGGER = LoggerFactory.getLogger(PrivatePublicLookUp.class);
+    public static final Logger VIEW_SEARCH_LOGGER = LoggerFactory.getLogger(PrivatePublicLookUp.class);
     private boolean selected;
     private String screenName;
 
@@ -114,7 +114,7 @@ public class ViewSearchLookUp extends Window {
     }
 
     @UiHandler("resetBtn")
-    public void resetButtonLogic(Button.ClickEvent event) {
+    public void resetBtnLogic(Button.ClickEvent event) {
         MessageBox.showPlain(Icon.QUESTION, "Confirmation", "Are you sure you want to reset the search criteria to its default state", new MessageBoxListener() {
             /**
              * Called when a Button has been clicked .
@@ -124,9 +124,9 @@ public class ViewSearchLookUp extends Window {
             @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equalsIgnoreCase("yes")) {
-                    LOGGER.debug("Entering Reset operation");
-                    resetFields();
-                    LOGGER.debug("Ending Reset operation");
+                    VIEW_SEARCH_LOGGER.debug("Entering Reset operation");
+                    resetViewFields();
+                    VIEW_SEARCH_LOGGER.debug("Ending Reset operation");
                 }
             }
         }, ButtonId.YES, ButtonId.NO);
@@ -141,7 +141,7 @@ public class ViewSearchLookUp extends Window {
                 close();
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in selectButtonLogic" , ex);
+            VIEW_SEARCH_LOGGER.error("Error in selectButtonLogic" , ex);
         }
 
     }
@@ -200,7 +200,7 @@ public class ViewSearchLookUp extends Window {
         this.viewDTO = viewDTO;
     }
 
-    public void resetFields() {
+    public void resetViewFields() {
         levelViewNameEpl.setValue(StringUtils.EMPTY);
         resultsContainerLevel.removeAllItems();
         resultsTableLevel.removeAllItems();
@@ -216,7 +216,7 @@ public class ViewSearchLookUp extends Window {
     }
 
     void loadResultsTable() {
-        LOGGER.debug("Entering Load Results Table");
+        VIEW_SEARCH_LOGGER.debug("Entering Load Results Table");
         tableLogic.configureSearchData(true, levelViewNameEpl.getValue(), viewTypeOptionGroupLevel.getValue().toString(), screenName);
         resultsTableLevel.addStyleName(ARMUtils.FILTER_TABLE);
         resultsTableLevel.addStyleName("table-header-normal");
@@ -226,7 +226,7 @@ public class ViewSearchLookUp extends Window {
 
         resultsTableLevel.setSelectable(true);
         resultsTableLevel.markAsDirtyRecursive();
-        LOGGER.debug("Ending Load Results Table");
+        VIEW_SEARCH_LOGGER.debug("Ending Load Results Table");
 
     }
 

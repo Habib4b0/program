@@ -1662,7 +1662,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         }
         try {
             if (parameters.get(Constant.INDICATOR) != null
-                    && ((Constant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))))) {
+                    && (Constant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))) {
                 List<Integer> list = new ArrayList<>();
                 int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString()) ;
                 list.add(returnValue);
