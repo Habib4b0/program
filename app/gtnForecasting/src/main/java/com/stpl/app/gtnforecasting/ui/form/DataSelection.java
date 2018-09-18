@@ -941,6 +941,7 @@ public class DataSelection extends ForecastDataSelection {
                                 loadSelectedCustomer();
 				productRelationship();
 				productLevel();
+                                loadSelectedProduct();
 
 				productGroup();
 				customerGroup();
@@ -968,12 +969,118 @@ public class DataSelection extends ForecastDataSelection {
             List<GtnWsRecordBean> recordBean= selectionDTO.getDsCustomerSelectedTableBean();
             DataSelectionLogic dsLogic = new DataSelectionLogic();
             List<Leveldto> dtoList = dsLogic.customizeLevelDtoFromRecordBean(recordBean, selectionDTO.getCustomerRelationShipVersionNo());
-            for(Leveldto dto:dtoList){
-            selectedCustomerContainer.addBean(dto);
-            }
-            selectedCustomer.setContainerDataSource(selectedCustomerContainer);
+            
+		int forecastLevel = 0;
+		forecastLevel =  Integer.valueOf(customerLevel.getValue().toString());        
+		for (Leveldto dto : dtoList) {
+                    dto.setDisplayValue(customerDescriptionMap.get(dto.getHierarchyNo()));
+			if (dto.getLevelNo() == 1) {
+				selectedCustomerContainer.removeAllItems();
+				selectedCustomerContainer.addItem(dto);
+				selectedCustomerContainer.setChildrenAllowed(dto, true);
+			} else {
+				for (Object tempdto : selectedCustomerContainer.getItemIds()) {
+					if (dto.getParentNode().contains("~")) {
+						String[] parentarr = dto.getParentNode().split("~");
+						String parentName = parentarr[1];
+						int parentLevel = 0;
+						try {
+							parentLevel = Integer.parseInt(parentarr[0]);
+						} catch (NumberFormatException nfe) {
+							LOGGER.error("Error While loading the Customer level is not a valid number.= {}" , parentarr[0]);
+						}
+						Leveldto levelDto = DataSelectionUtil.getBeanFromId(tempdto);
+						if (levelDto.getLevelNo() == parentLevel
+								&& levelDto.getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
+							selectedCustomerContainer.addBean(dto);
+							if (forecastLevel != dto.getLevelNo()) {
+								selectedCustomerContainer.setChildrenAllowed(dto, true);
+							} else {
+								selectedCustomerContainer.setChildrenAllowed(dto, false);
+							}
+							selectedCustomerContainer.setParent(dto, tempdto);
+							break;
+						}
+					} else {
+						selectedCustomerContainer.addBean(dto);
+						if (forecastLevel != dto.getLevelNo()) {
+							selectedCustomerContainer.setChildrenAllowed(dto, true);
+						} else {
+							selectedCustomerContainer.setChildrenAllowed(dto, false);
+						}
+						selectedCustomerContainer.setParent(dto, tempdto);
+						break;
+					}
+				}
+			}
+		}
+		selectedCustomer.setContainerDataSource(selectedCustomerContainer);
+		selectedCustomer.setVisibleColumns(new Object[] { Constant.DISPLAY_VALUE });
+		selectedCustomer.setColumnHeaders(new String[] { "Customer Hierarchy Group Builder" });
+		for (Leveldto ddo : selectedCustomerContainer.getItemIds()) {
+			selectedCustomer.setCollapsed(ddo, false);
+		}
+	
         }
 
+        private void loadSelectedProduct(){
+           List<GtnWsRecordBean> recordBean= selectionDTO.getDsProductSelectedTableBean();
+            DataSelectionLogic dsLogic = new DataSelectionLogic();
+            List<Leveldto> dtoList = dsLogic.customizeLevelDtoFromRecordBean(recordBean, selectionDTO.getProductRelationShipVersionNo());
+            
+		int forecastLevel = Integer.valueOf(productLevel.getValue().toString());    
+		
+
+		for (Leveldto dto : dtoList) {
+                    dto.setDisplayValue(productDescriptionMap.get(dto.getHierarchyNo()));
+			if (dto.getLevelNo() == 1) {
+				selectedProductContainer.removeAllItems();
+				selectedProductContainer.addItem(dto);
+				selectedProductContainer.setChildrenAllowed(dto, true);
+			} else {
+				for (Object tempdto : selectedProductContainer.getItemIds()) {
+					if (dto.getParentNode().contains("~")) {
+						String[] parentarr = dto.getParentNode().split("~");
+						String parentName = parentarr[1];
+						int parentLevel = 0;
+						try {
+							parentLevel = Integer.parseInt(parentarr[0]);
+						} catch (NumberFormatException nfe) {
+							LOGGER.error("Error While loading the Product level is not a valid number.= {}",
+									parentarr[0]);
+						}
+						Leveldto levelDto = DataSelectionUtil.getBeanFromId(tempdto);
+						if (levelDto.getLevelNo() == parentLevel
+								&& levelDto.getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
+							selectedProductContainer.addBean(dto);
+							if (forecastLevel != dto.getLevelNo()) {
+								selectedProductContainer.setChildrenAllowed(dto, true);
+							} else {
+								selectedProductContainer.setChildrenAllowed(dto, false);
+							}
+							selectedProductContainer.setParent(dto, tempdto);
+							break;
+						}
+					} else {
+						selectedProductContainer.addBean(dto);
+						if (forecastLevel != dto.getLevelNo()) {
+							selectedProductContainer.setChildrenAllowed(dto, true);
+						} else {
+							selectedProductContainer.setChildrenAllowed(dto, false);
+						}
+						selectedProductContainer.setParent(dto, tempdto);
+						break;
+					}
+				}
+			}
+		}
+		selectedProduct.setContainerDataSource(selectedProductContainer);
+		selectedProduct.setVisibleColumns(new Object[] { Constant.DISPLAY_VALUE_PROPERTY });
+		selectedProduct.setColumnHeaders(new String[] { "Product Hierarchy Group Builder" });
+		for (Leveldto ddo : selectedProductContainer.getItemIds()) {
+			selectedProduct.setCollapsed(ddo, false);
+		}
+        }
 	private void companySid() {
 		if (selectionDTO.getCompanySid() == null
 				|| Constants.CommonConstants.NULL.getConstant().equalsIgnoreCase(selectionDTO.getSelectedCompanyName())
