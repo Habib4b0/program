@@ -111,7 +111,7 @@ public class DPRLogic {
                     projSelDTO.setHierarchyIndicator(indicator);
                     projSelDTO.setLevelNo(0);
                     projSelDTO.setTreeLevelNo(0);
-                    projSelDTO.setCustomLevelNo(0);;
+                    projSelDTO.setCustomLevelNo(0);
                 } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
                     projSelDTO.setLevelNo(projSelDTO.getCustomerLevelNo() - 1);
                     projSelDTO.setTreeLevelNo(projSelDTO.getCustomerLevelNo() - 1);
@@ -285,8 +285,7 @@ public class DPRLogic {
 
     public List<DiscountProjectionResultsDTO> getMandSuppDiscount(ProjectionSelectionDTO projSelDTO) {
         List<Object> list = null;
-        List<DiscountProjectionResultsDTO> projDTOList = getCustomizedMandSuppDisc(list, projSelDTO);
-        return projDTOList;
+        return getCustomizedMandSuppDisc(list, projSelDTO);
     }
 
     public List<DiscountProjectionResultsDTO> getProgramCodeDiscount(ProjectionSelectionDTO projSelDTO) {
@@ -300,8 +299,7 @@ public class DPRLogic {
         String frequency = freq.get(projSelDTO.getFrequencyDivision());
         String freqChar = frequencyDPR(frequency);
         list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar));
-        List<DiscountProjectionResultsDTO> projDTOList = getCustomizedPC(list, projSelDTO);
-        return projDTOList;
+        return getCustomizedPC(list, projSelDTO);
     }
 
     public List<Object> getProgramCodeName(ProjectionSelectionDTO projSelDTO) {
@@ -1470,10 +1468,9 @@ public class DPRLogic {
     }
 
     private String getProgramCodeNameQuery(int projectionId) {
-        String customSQL = "SELECT DISTINCT CM.CONTRACT_NAME FROM dbo.CONTRACT_MASTER CM \n"
+        return  "SELECT DISTINCT CM.CONTRACT_NAME FROM dbo.CONTRACT_MASTER CM \n"
                 + "JOIN dbo.CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID\n"
                 + "JOIN dbo.PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID  = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " + projectionId;
-        return customSQL;
     }
 
     public DiscountProjectionResultsDTO getChildNodeValues(DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO) {

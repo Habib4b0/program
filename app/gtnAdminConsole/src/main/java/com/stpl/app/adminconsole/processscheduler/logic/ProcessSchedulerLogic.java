@@ -122,7 +122,7 @@ public class ProcessSchedulerLogic {
 		return COLUMN_NAME.get(visibleColumnName);
 	}
 
-	public static HashMap<String, String> loadDbColumnName() {
+	public static Map<String, String> loadDbColumnName() {
 		COLUMN_NAME.put("processDisplayName", "PROCESS_NAME");
 		COLUMN_NAME.put("status", "ACTIVE_FLAG");
 		COLUMN_NAME.put("startDate", "START_DATE");

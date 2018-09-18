@@ -171,7 +171,7 @@ public class PVQueryUtils {
         try {
             String customSql = SQlUtil.getQuery(getClass(),Constant.GET_PROJECTION_LISTS);
             if (projId != null && !projId.isEmpty()) {
-                customSql += (" PM.PROJECTION_MASTER_SID IN (" + CommonUtils.CollectionToString(projId, false) + ")");
+                customSql += (" PM.PROJECTION_MASTER_SID IN (" + CommonUtils.collectionToStringMethod(projId, false) + ")");
             } else {
                 customSql += (" PM.PROJECTION_MASTER_SID IN ('')");
             }
@@ -343,7 +343,7 @@ public class PVQueryUtils {
                 productProjectionList.add(ProjectionFactoryUtil.property(Constant.USER_ID));
                 dynamicQuery.setProjection(productProjectionList);
                 strList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
-                String userID = CommonUtils.CollectionToString(strList, false);
+                String userID = CommonUtils.collectionToStringMethod(strList, false);
                 customSql.append(" AND (PM.CREATED_BY IN (").append(userID).append(") ) ");
             }
             customSql.append(" AND PM.FORECASTING_TYPE='").append(screenName).append("' ");

@@ -13,7 +13,7 @@ import com.vaadin.ui.AbstractOrderedLayout;
  */
 public class UiUtils {
 
-	private static ResourceBundle resourceBundle;
+	
 	public static final String COMPANY_CATEGORY = "COMPANY_CATEGORY";
 	public static final String COMPANY_TYPE = "COMPANY_TYPE";
 	public static final String COMPANY_TRADE_CLASS = "COMPANY_TRADE_CLASS";
@@ -86,7 +86,7 @@ public class UiUtils {
 			"Bundle No", Constants.ATTACHED_DATE_FIELD };
 
 	public static AbstractOrderedLayout getLayout(AbstractOrderedLayout layout) {
-		resourceBundle = ResourceBundle.getBundle("configurations/default");
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("configurations/default");
 		layout.setMargin(Boolean.parseBoolean(resourceBundle.getString("layout_margin")));
 		layout.setSpacing(Boolean.parseBoolean(resourceBundle.getString("layout_spacing")));
 		return layout;

@@ -26,7 +26,7 @@ public class NMSalesProjectionMasterImpl {
 
     public Object executeSelectQuery(String query) {
 
-        List<Object[]> returnList = new ArrayList<Object[]>();
+        List<Object[]> returnList = new ArrayList<>();
         try {
             returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
