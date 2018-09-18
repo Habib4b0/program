@@ -23,6 +23,8 @@ public class GtnFrameworkForecastInputBean {
 	private int productRelationVersionNo;
 	private int customerHierarchyLevel;
 	private int productHierarchyLevel;
+	private int customerHierarchyInnerLevel;
+	private int productHierarchyInnerLevel;
 	private int customerRelationLevel;
 	private int productRelationLevel;
 	private Date forecastEligibleDate;
@@ -294,6 +296,22 @@ public class GtnFrameworkForecastInputBean {
 
 	public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
+	}
+
+	public int getCustomerHierarchyInnerLevel() {
+		return customerHierarchyInnerLevel;
+	}
+
+	public void setCustomerHierarchyInnerLevel(int customerHierarchyInnerLevel) {
+		this.customerHierarchyInnerLevel = customerHierarchyInnerLevel;
+	}
+
+	public int getProductHierarchyInnerLevel() {
+		return productHierarchyInnerLevel;
+	}
+
+	public void setProductHierarchyInnerLevel(int productHierarchyInnerLevel) {
+		this.productHierarchyInnerLevel = productHierarchyInnerLevel;
 	}
 
 }
