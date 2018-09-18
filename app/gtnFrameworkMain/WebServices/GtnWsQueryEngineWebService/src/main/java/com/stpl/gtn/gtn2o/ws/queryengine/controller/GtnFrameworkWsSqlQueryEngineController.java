@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.queryengine.controller;
 
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

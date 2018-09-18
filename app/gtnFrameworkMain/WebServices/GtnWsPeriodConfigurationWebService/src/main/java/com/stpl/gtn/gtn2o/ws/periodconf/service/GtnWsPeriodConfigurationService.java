@@ -32,8 +32,8 @@ import org.springframework.web.client.RestTemplate;
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
 	private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
-    long staticTime = System.currentTimeMillis();
-    ExecutorService service = Executors.newCachedThreadPool();
+    private long staticTime = System.currentTimeMillis();
+    private ExecutorService service = Executors.newCachedThreadPool();
 
 	public List<Object[]> getPeriodResults(String businessProcessType) {
 		return loadDateBusinessType(businessProcessType);
@@ -182,7 +182,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 	}
 
     public Runnable createRunnable(final Object... inputs) {
-        Runnable runnable = new Runnable() {
+        return new Runnable() {
             @Override
             public void run() {
                 GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure1 = (GtnUIFrameworkWebServiceClientCallOnFailure) inputs[0];
@@ -190,7 +190,6 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
                 gtnWebServiceClientCallOnFailure1.callGtnWebServiceUrlOnFailure();
             }
         };
-        return runnable;
     }
 
 }
