@@ -367,7 +367,10 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					char variableIndicator = bean.getHierarchyNo().charAt(charIndexmatch.start());
 					String variable = variableDescriptionIndicatorService.getVariable(variableIndicator);
 					dataForHierarchy = rightDataMap.get(bean.getHierarchyNo() + getVariableMap().get(variable));
-					dataForHierarchy.putAll(rightDataMap.get(bean.getHierarchyNo()));
+                                        Map<String, Double> hierarchyData=rightDataMap.get(bean.getHierarchyNo());
+                                       if (hierarchyData != null && !hierarchyData.isEmpty()) {
+                                        dataForHierarchy.putAll(hierarchyData);
+                                        }
 				} else {
 					dataForHierarchy = rightDataMap.get(bean.getHierarchyNo());
 				}
