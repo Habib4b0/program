@@ -120,7 +120,6 @@ public class Summary extends CustomComponent {
     private final BeanItemContainer<SummaryDTO> contractContainer = new BeanItemContainer<>(SummaryDTO.class);
     private ComponentInfo component;
     private ExtFilterTreeTable leftTable;
-    private ExtFilterTreeTable rightTable;
     private final ContractDashboardDTO dto = new ContractDashboardDTO();
     private final SummaryLogic logic = new SummaryLogic();
     private final AbstractLogic abstractLogic = AbstractLogic.getInstance();
@@ -302,6 +301,7 @@ public class Summary extends CustomComponent {
     }
 
     Component configureDashBoardTable() {
+        ExtFilterTreeTable rightTable;
         leftTable = contractDashBoardtable.getLeftFreezeAsTable();
         rightTable = contractDashBoardtable.getRightFreezeAsTable();
         leftTable.markAsDirty();
