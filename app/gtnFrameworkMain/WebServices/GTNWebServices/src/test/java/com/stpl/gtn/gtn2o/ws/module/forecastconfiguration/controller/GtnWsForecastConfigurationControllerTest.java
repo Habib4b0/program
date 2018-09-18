@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ws.module.forecastconfiguration.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Criteria;
@@ -42,6 +43,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecastconfiguration.GtnWsForecastConfigurationRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceTextBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecastconfiguration.GtnWsForecastConfigurationResponse;
 
 import junit.framework.Assert;
@@ -76,8 +78,6 @@ public class GtnWsForecastConfigurationControllerTest {
 		GtnUIFrameworkWebserviceResponse result= ins.loadForecastPeriod(request);
 		assertFalse(result==null);
 	}
-	
-	
 
 	@Test
 	public void testPeriodModeValue() {
@@ -261,7 +261,7 @@ public class GtnWsForecastConfigurationControllerTest {
 	
 	
 	@Test
-	public void testGetForecastConfigurationTableData() {
+	public void testGetForecastConfigurationTableData_1() {
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
 		gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
@@ -279,55 +279,110 @@ public class GtnWsForecastConfigurationControllerTest {
 		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
 		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
 		gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
-		//gtnWebServiceSearchCriteria.setFilter(true);
 		gtnWsSearchRequest.setCount(false);
 		List<GtnWebServiceOrderByCriteria> gtnWebServiceSearchCriteriaList1=new ArrayList<>();
 		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceSearchCriteriaList1);
 		
-		ins.getForecastConfigurationTableData(gtnWsRequest);
+		GtnUIFrameworkWebserviceResponse res=ins.getForecastConfigurationTableData(gtnWsRequest);
+		assertFalse(res == null);
 	}
+	
+	//case 2 GetForecastConfigurationTableData if block 428
+	@Test
+	public void testGetForecastConfigurationTableData_2() {
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+		gtnWsSearchRequest.setCount(true);
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+		GtnWebServiceSearchCriteria gtnWebServiceSearchCriteria = new GtnWebServiceSearchCriteria();
+
+		List<String> primaryIdList = Arrays.asList("a", "ab", "abc");
+		gtnWebServiceSearchCriteria.setFilterValue3(primaryIdList);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+		gtnWebServiceSearchCriteria.setFilter(true);
+		GtnUIFrameworkWebserviceResponse res=ins.getForecastConfigurationTableData(gtnWsRequest);
+		assertFalse(res == null);
+}
+	
 	
 	@Test
 	public void testValidateSaveForecastConfiguration_1() throws GtnFrameworkGeneralException {
 		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
 		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
-		
-		//c1
 		fcRequest.setBusinessProcess(0);
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c2
+	}
+	
+	@Test
+	public void testValidateSaveForecastConfiguration_2() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Period");
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c3
+	}
+	
+	
+	@Test
+	public void testValidateSaveForecastConfiguration_3() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setMode("Perio");
 		fcRequest.setBusinessProcess(1);
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c4 for private void validateInterval
+	}
+	
+	
+	//c4 for private void validateInterval
+	@Test
+	public void testValidateSaveForecastConfiguration_4() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Perio");
 		fcRequest.setHistoryFrequency(1);
 		fcRequest.setHistoryInterval(null);
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c5 for private void validateInterval
+	}
+	
+	//c5 for private void validateInterval
+	@Test
+	public void testValidateSaveForecastConfiguration_5() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Perio");
 		fcRequest.setHistoryFrequency(1);
 		fcRequest.setHistoryInterval(null);
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c6 for private void validateInterval
+	}
+	
+	//c6 for private void validateInterval
+	@Test
+	public void testValidateSaveForecastConfiguration_6() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Perio");
 		fcRequest.setHistoryFrequency(1);
 		fcRequest.setHistoryInterval("0");
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c7 for private void validateInterval
+	}
+	
+
+	//c7 for private void validateInterval
+	@Test
+	public void testValidateSaveForecastConfiguration_7() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Perio");
 		fcRequest.setHistoryFrequency(1);
@@ -335,9 +390,14 @@ public class GtnWsForecastConfigurationControllerTest {
 		fcRequest.setProcessType(GtnWsForecastConfigurationConstants.PROCESS_TYPE_VALUE_DEFINED);
 		fcRequest.setFutureInterval("4");
 		fcRequest.setFutureFrequency(4554);
-		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c8 for validateIntervalDefined
+		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);	
+	}
+	
+	//c8 for validateIntervalDefined
+	@Test
+	public void testValidateSaveForecastConfiguration_8() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Perio");
 		fcRequest.setHistoryFrequency(1);
@@ -346,8 +406,13 @@ public class GtnWsForecastConfigurationControllerTest {
 		fcRequest.setFutureInterval("4");
 		fcRequest.setFutureFrequency(0);
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c9 for validateIntervalDefined
+	}
+	
+	//c9 for validateIntervalDefined
+	@Test
+	public void testValidateSaveForecastConfiguration_9() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Perio");
 		fcRequest.setHistoryFrequency(1);
@@ -356,8 +421,13 @@ public class GtnWsForecastConfigurationControllerTest {
 		fcRequest.setFutureFrequency(1);
 		fcRequest.setFutureInterval("0");
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c10 for validateIntervalDefined
+	}
+	
+	//c10 for validateIntervalDefined
+	@Test
+	public void testValidateSaveForecastConfiguration_10() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Perio");
 		fcRequest.setHistoryFrequency(1);
@@ -366,8 +436,13 @@ public class GtnWsForecastConfigurationControllerTest {
 		fcRequest.setFutureFrequency(1);
 		fcRequest.setFutureInterval(null);
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c11 for validateIntervalDefined // if block line 612
+	}
+	
+	//c11 for validateIntervalDefined // if block line 612
+	@Test
+	public void testValidateSaveForecastConfiguration_11() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Perio");
 		fcRequest.setHistoryFrequency(1);
@@ -377,20 +452,32 @@ public class GtnWsForecastConfigurationControllerTest {
 		fcRequest.setFutureFrequency(4554);
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
 		
-		//c12  for validatePeriodDefined
+//		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+//		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Period");
 		fcRequest.setFromDate(new Date());
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c13 for validatePeriodDefined
+	}
+	
+	
+	//c13 for validatePeriodDefined
+	@Test
+	public void testValidateSaveForecastConfiguration_13() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Period");
 		fcRequest.setFromDate(null);
 		fcRequest.setProcessType("Defined");
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c14 for validatePeriod
+	}
+	
+	//c14 for validatePeriod
+	@Test
+	public void testValidateSaveForecastConfiguration_14() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Period");
 		LocalDate localDate = LocalDate.now();
@@ -399,31 +486,49 @@ public class GtnWsForecastConfigurationControllerTest {
 		fcRequest.setFromDate(new Date(localDate.toEpochDay() * DateUtils.MILLIS_PER_DAY));
 		fcRequest.setProcessType("Auto Update");
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c15 for validatePeriod 
+	}
+	
+	//c15 for validatePeriod 
+	@Test
+	public void testValidateSaveForecastConfiguration_15() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Period");
 		fcRequest.setProcessType("Defined");
 		fcRequest.setToDate(null);
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c16 for validatePeriod 
+	}
+	
+	//c16 for validatePeriod 
+	@Test
+	public void testValidateSaveForecastConfiguration_16() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Period");
 		fcRequest.setProcessType("Define");
 		fcRequest.setToDate(new Date());
 		fcRequest.setFromDate(new Date());
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c17  for validatePeriodDefined
+	}
+	
+	//c17  for validatePeriodDefined
+	@Test
+	public void testValidateSaveForecastConfiguration_17() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setMode("Period");
 		fcRequest.setToDate(new Date());
-		fcRequest.setFromDate(new Date());
-		fcRequest.setProcessType("Defined");
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
-		//c18 for validatePeriodDefined
+	}
+	
+	//c18 for validatePeriodDefined
+	@Test
+	public void testValidateSaveForecastConfiguration_18() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setFromDate(new Date());
 		fcRequest.setProcessType("val");
@@ -433,9 +538,13 @@ public class GtnWsForecastConfigurationControllerTest {
 		cal.set(2018,2, 31);
 		fcRequest.setToDate(cal.getTime());
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-
-		
-		// c19 for ValidatePeriodDefined
+	}
+	
+	// c19 for ValidatePeriodDefined
+	@Test
+	public void testValidateSaveForecastConfiguration_19() throws GtnFrameworkGeneralException {
+		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
+		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		fcRequest.setBusinessProcess(1);
 		fcRequest.setBusinessProcess(1);
 		Calendar cal1=Calendar.getInstance();
@@ -450,9 +559,7 @@ public class GtnWsForecastConfigurationControllerTest {
 		fcRequest.setToDate(cale.getTime());
 		
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
-		
 	}
-	
 	
 	
 	@SuppressWarnings("deprecation")
@@ -799,4 +906,6 @@ public class GtnWsForecastConfigurationControllerTest {
 		
 		ins.getSysSchemaCatalog();
 	}
+	
+
 }
