@@ -390,66 +390,22 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 		String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
 				.getCurrencyConversion();
-		
-		if (Optional.ofNullable(customviewData).isPresent()) {
 			
-			String indicator = bean.getData()[5].toString();
-			boolean isTotalSpecialCondition = false;
-			
-			customViewTypeInBackend = String.valueOf(customviewData.get(0));
-			customViewTypeDataArray = customViewTypeInBackend.split("~");
-			
-			GTNLOGGER.info("indicator: " + indicator);
-			GTNLOGGER.info("customViewTypeDataArray[2]: " + customViewTypeDataArray[2]);
-			isTotalSpecialCondition = !"V".equals(indicator) && !customViewTypeDataArray[2].equals("Columns");
-			GTNLOGGER.info("isTotalSpecialCondition: " + isTotalSpecialCondition);
-			
-			if(isTotalSpecialCondition)
-			{
-				GTNLOGGER.info("if");
-				if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
-					dataForHierarchy.entrySet().stream()
-							.forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(data -> dataConvertors(recordBean,
-									entry.getKey(), data, indicator, levelName, true)));
-				}
-				if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
-					dataForHierarchy.entrySet().stream()
-							.forEach(entry -> Optional.ofNullable(entry.getValue())
-									.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
-											indicator, levelName, true)));
-				}
-			}
-			else
-			{
-				GTNLOGGER.info("else");
-				if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
-					dataForHierarchy.entrySet().stream()
-							.forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(data -> dataConvertors(recordBean,
-									entry.getKey(), data, indicator, levelName, false)));
-				}
-				if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
-					dataForHierarchy.entrySet().stream()
-							.forEach(entry -> Optional.ofNullable(entry.getValue())
-									.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
-											indicator, levelName, false)));
-				}
-			}
-		}
-		
+	
 
-//		if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
-//			dataForHierarchy.entrySet().stream()
-//					.forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(data -> dataConvertors(recordBean,
-//							entry.getKey(), data, indicator, levelName, false)));
-//		}
+		if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
+			dataForHierarchy.entrySet().stream()
+					.forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(data -> dataConvertors(recordBean,
+							entry.getKey(), data, bean.getData()[5].toString(), levelName, false)));
+		}
 
 		// When currency display is set to no conversion in report options
-//		if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
-//			dataForHierarchy.entrySet().stream()
-//					.forEach(entry -> Optional.ofNullable(entry.getValue())
-//							.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
-//									indicator, levelName, isTotalSpecialCondition)));
-//		}
+		if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
+			dataForHierarchy.entrySet().stream()
+					.forEach(entry -> Optional.ofNullable(entry.getValue())
+							.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
+									bean.getData()[5].toString(), levelName, false)));
+		}
 
 		return recordBean;
 	}
