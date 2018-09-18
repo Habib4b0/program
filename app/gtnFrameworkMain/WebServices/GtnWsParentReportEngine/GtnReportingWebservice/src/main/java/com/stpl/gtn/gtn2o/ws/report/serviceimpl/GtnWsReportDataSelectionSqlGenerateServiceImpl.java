@@ -545,7 +545,12 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		GTNLOGGER.info(" Regenerating Custom view tables and Data after dataset is chabged in custom view");
 		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
 
-		resetToNewDatasetInReportDashboard(dataSelectionBean);
+		GtnWsReportDataSelectionBean reportDataSelectionCopyBean = dataSelectionBean.reportDataSelectionBeanCopy();
+		reportDataSelectionCopyBean.setCustomViewMasterSid(dataSelectionBean.getCustomViewMasterSid());
+		reportDataSelectionCopyBean.setComparisonProjectionBeanList(
+				gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean().getComparisonProjectionBeanList());
+
+		resetToNewDatasetInReportDashboard(reportDataSelectionCopyBean);
 		GTNLOGGER.info(" Ending regeneration of Custom view tables and Data after dataset is chabged in custom view");
 	}
 
