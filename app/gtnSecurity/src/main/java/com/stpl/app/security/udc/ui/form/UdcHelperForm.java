@@ -4,7 +4,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.HelperTable;
-import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
+import com.stpl.app.security.businessrolemodulemaster.util.CommonUtils;
 import com.stpl.app.security.common.SessionDTO;
 import com.stpl.app.security.dao.UdcLogicDAO;
 import com.stpl.app.security.dao.impl.UdcLogicDAOImpl;

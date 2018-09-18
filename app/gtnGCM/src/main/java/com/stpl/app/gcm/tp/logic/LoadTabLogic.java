@@ -299,7 +299,7 @@ public class LoadTabLogic {
                 if (VARIANCE.equals(tabSelectionDTOSales.getParentLevel())) {
                     salesTabDTOSales.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    salesTabDTOSales.setLevelValue(levelNoSales + "-" + String.valueOf(obj[1]));
+                    salesTabDTOSales.setLevelValue(levelNoSales + "-" +(obj[1]));
                 }
 
                 salesTabDTOSales.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExportSales));
@@ -335,7 +335,7 @@ public class LoadTabLogic {
                 if (VARIANCE.equals(tabSelectionDTOSales.getParentLevel())) {
                     salesTabDTOSales.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    salesTabDTOSales.setLevelValue(levelNoSales + "-" + String.valueOf(obj[1]));
+                    salesTabDTOSales.setLevelValue(levelNoSales + "-" +(obj[1]));
                 }
 
                 salesTabDTOSales.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExportSales));
@@ -356,7 +356,7 @@ public class LoadTabLogic {
                 if (VARIANCE.equals(tabSelectionDTOSales.getParentLevel())) {
                     salesTabDTOSales.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    salesTabDTOSales.setLevelValue(levelNoSales + "-" + String.valueOf(obj[1]));
+                    salesTabDTOSales.setLevelValue(levelNoSales + "-" +(obj[1]));
                 }
 
                 salesTabDTOSales.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExportSales));
@@ -558,7 +558,7 @@ public class LoadTabLogic {
                 if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabResultsDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    rebateTabResultsDTO.setLevelValue(levelNoRebateResults + "-" + String.valueOf(obj[1]));
+                    rebateTabResultsDTO.setLevelValue(levelNoRebateResults + "-" +(obj[1]));
                 }
                 if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabResultsDTO.setContractMasterSid((Integer) obj[0]);
@@ -625,7 +625,7 @@ public class LoadTabLogic {
                 if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabResultsDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    rebateTabResultsDTO.setLevelValue(levelNoRebateResults + "-" + String.valueOf(obj[1]));
+                    rebateTabResultsDTO.setLevelValue(levelNoRebateResults + "-" +(obj[1]));
                 }
 
                 rebateTabResultsDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
@@ -635,7 +635,7 @@ public class LoadTabLogic {
                 if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabResultsDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    rebateTabResultsDTO.setLevelValue(levelNoRebateResults + "-" + String.valueOf(obj[1]));
+                    rebateTabResultsDTO.setLevelValue(levelNoRebateResults + "-" +(obj[1]));
                 }
                 if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabResultsDTO.setContractMasterSid((Integer) obj[0]);

@@ -199,22 +199,16 @@ public class MedicaidURA extends CustomComponent implements View {
     private final HelperDTO ndcFilterDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final HelperDTO levelDTO = new HelperDTO(0, SELECT_ONE.getConstant());
 
-    private LazyContainer therapeuticContainer;
-
     private LazyContainer ndcFilterContainer;
 
     private LazyContainer brandContainer;
     public static final String MEDICAID_URA_RESULTS = "Medicaid URA Results";
-    private LazyContainer ndcLevelContainer;
-
     private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
 
     private MedicaidURAResultsTableLogic tableLogic = new MedicaidURAResultsTableLogic();
 
     private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
 
-    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
 
@@ -229,11 +223,6 @@ public class MedicaidURA extends CustomComponent implements View {
      */
     @UiField("panel2")
     private  Panel panel2;
-
-    /**
-     * The table control Layout.
-     */
-    private HorizontalLayout controlLayout;
 
     /**
      * The max split position.
@@ -355,7 +344,7 @@ public class MedicaidURA extends CustomComponent implements View {
         therapeuticDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         therapeuticDdlb.setItemCaptionPropertyId(DESCRIPTION.getConstant());
         therapeuticDdlb.markAsDirty();
-        therapeuticContainer = new LazyContainer(HelperDTO.class, new TherapeuticContainer(), new TherapeuticCriteria());
+        LazyContainer therapeuticContainer = new LazyContainer(HelperDTO.class, new TherapeuticContainer(), new TherapeuticCriteria());
         therapeuticContainer.setMinFilterLength(0);
         therapeuticDdlb.setContainerDataSource(therapeuticContainer);
         therapeuticDdlb.select(therapyDto);
@@ -636,7 +625,7 @@ public class MedicaidURA extends CustomComponent implements View {
      */
     private void addResultTable() {
         tableVerticalLayout.addComponent(periodTableId);
-        controlLayout = tableLogic.createControls();
+        HorizontalLayout controlLayout = tableLogic.createControls();
         controlLayout.setSizeUndefined();
         controlLayout.addStyleName(Constant.RESPONSIVE_PAGED_TABLE);
         tableLogic.sinkItemPerPageWithPageLength(false);
@@ -649,8 +638,8 @@ public class MedicaidURA extends CustomComponent implements View {
     private void configureResultTable() {
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         fullHeader = new CustomTableHeaderDTO();
-        leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, "URA");
+        CustomTableHeaderDTO leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, "URA");
         resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
@@ -1055,7 +1044,7 @@ public class MedicaidURA extends CustomComponent implements View {
         levelDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         levelDdlb.setItemCaptionPropertyId(DESCRIPTION.getConstant());
         levelDdlb.markAsDirty();
-        ndcLevelContainer = new LazyContainer(HelperDTO.class, new NdcFilterContainer(projectionDTO.getBrandSid(), false, projectionDTO.getTherapeuticSid(), false), new NdcFilterCriteria());
+        LazyContainer ndcLevelContainer = new LazyContainer(HelperDTO.class, new NdcFilterContainer(projectionDTO.getBrandSid(), false, projectionDTO.getTherapeuticSid(), false), new NdcFilterCriteria());
         ndcLevelContainer.setMinFilterLength(0);
         levelDdlb.setContainerDataSource(ndcFilterContainer);
         levelDdlb.select(levelDTO);
