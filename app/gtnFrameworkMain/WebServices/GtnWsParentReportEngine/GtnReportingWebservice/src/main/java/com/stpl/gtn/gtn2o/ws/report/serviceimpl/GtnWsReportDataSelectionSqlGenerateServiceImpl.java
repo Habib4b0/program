@@ -66,14 +66,14 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	@Autowired
 	private GtnReportVariableDescriptionIndicatorService variableDescriptionIndicatorService;
-	
+
 	private static final GtnWSLogger GTNLOGGER = GtnWSLogger
 			.getGTNLogger(GtnWsReportDataSelectionSqlGenerateServiceImpl.class);
 
 	public GtnWsReportDataSelectionSqlGenerateServiceImpl() {
 		super();
 	}
-	
+
 	@Override
 	public void dataSelectionGenerateLogic(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
@@ -252,7 +252,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	public List<GtnWsRecordBean> getDashboardLeftData(GtnWsReportDashboardBean reportDashboardBean,
 			GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		
+
 		try {
 			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
 					.getDataSelectionBean();
@@ -266,7 +266,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					.getGtnWsReportCustomCCPListDetails();
 			Set<String> filteredHierarchy = Optional.ofNullable(reportDashboardBean.getFilteredHierarchy())
 					.orElseGet(HashSet::new);
-			
+
 			List<Object[]> customviewData = getCustomViewType(
 					gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean().getCustomViewMasterSid());
 			if (values == null) {
@@ -280,7 +280,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 								customviewData))
 						.collect(Collectors.toList());
 			}
-			
+
 			int start = gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart();
 			int limit = gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset();
 			int levelNo = Integer.parseInt(values.get(0).toString());
@@ -288,8 +288,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			return gtnWsReportCustomCCPListDetails.stream().filter(row -> row.getLevelNo() == levelNo
 					&& matchedFilteredHierarchyNo(filteredHierarchy, row.getHierarchyNo(), row.getData()[5].toString())
 					&& filterCustomViewVariable(customviewData, reportDashboardBean.getSelectedVariableType(), row)
-					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start)
-					.limit(limit)
+					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start).limit(limit)
 					.map(row -> aggregate(
 							convertToRecordbean(gtnWsRequest, row,
 									gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
@@ -307,46 +306,50 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	@SuppressWarnings("unchecked")
 	GtnWsRecordBean aggregate(GtnWsRecordBean bean, GtnWsReportCustomCCPListDetails hierachyBean,
 			List<Object[]> customviewData, GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		bean.getRecordHeader().stream().filter(e -> e != null && e.toString().contains("Total")).forEach(object -> {
+		bean.getRecordHeader().stream().filter(e -> e != null && e.toString().contains(GtnWsQueryConstants.TOTAL))
+				.forEach(object -> {
 
-			Double total;
-			String levelName = "levelValue";
-			String indicator = hierachyBean.getData()[5].toString();
-			if (("V".equals(indicator)
-					&& bean.getStringProperty(levelName).contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
-					|| object.toString().contains("PER") || object.toString().contains("RATE")) {
-				total = bean.getRecordHeader().stream()
-						.filter(e -> e != null && e.toString().contains(object.toString().replace("Total", "")))
-						.mapToDouble(columns -> extractDouble(bean.getPropertyValue(columns.toString()))).average()
-						.getAsDouble();
-			} else {
-				total = bean.getRecordHeader().stream()
-						.filter(e -> e != null && e.toString().contains(object.toString().replace("Total", "")))
-						.mapToDouble(columns -> extractDouble(bean.getPropertyValue(columns.toString()))).sum();
-			}
-			
-			String customViewTypeInBackend = String.valueOf(customviewData.get(0));
-			String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
-			boolean isTotalSpecialCondition = !"V".equals(indicator) && !customViewTypeDataArray[2].equals("Columns");
-			
-			String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
-					.getCurrencyConversion();
-			if (!"0".equals(currencyConversionType)) {
-				dataConvertors(bean, object.toString(), total, indicator, bean.getStringProperty(levelName),
-						isTotalSpecialCondition);
-			} else {
-				currencyTypeNoConversionDataConverters(bean, object.toString(), total, indicator,
-						bean.getStringProperty(levelName), isTotalSpecialCondition);
-			}
+					Double total;
+					String levelName = "levelValue";
+					String indicator = hierachyBean.getData()[5].toString();
+					if (("V".equals(indicator)
+							&& bean.getStringProperty(levelName).contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
+							|| object.toString().contains("PER") || object.toString().contains("RATE")) {
+						total = bean.getRecordHeader().stream()
+								.filter(e -> e != null && e.toString()
+										.contains(object.toString().replace(GtnWsQueryConstants.TOTAL, "")))
+								.mapToDouble(columns -> extractDouble(bean.getPropertyValue(columns.toString())))
+								.average().getAsDouble();
+					} else {
+						total = bean.getRecordHeader().stream()
+								.filter(e -> e != null && e.toString()
+										.contains(object.toString().replace(GtnWsQueryConstants.TOTAL, "")))
+								.mapToDouble(columns -> extractDouble(bean.getPropertyValue(columns.toString()))).sum();
+					}
 
-		});
+					String customViewTypeInBackend = String.valueOf(customviewData.get(0));
+					String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
+					boolean isTotalSpecialCondition = !"V".equals(indicator)
+							&& !customViewTypeDataArray[2].equals("Columns");
+
+					String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
+							.getCurrencyConversion();
+					if (!"0".equals(currencyConversionType)) {
+						dataConvertors(bean, object.toString(), total, indicator, bean.getStringProperty(levelName),
+								isTotalSpecialCondition);
+					} else {
+						currencyTypeNoConversionDataConverters(bean, object.toString(), total, indicator,
+								bean.getStringProperty(levelName), isTotalSpecialCondition);
+					}
+
+				});
 		return bean;
 	}
 
 	private GtnWsRecordBean convertToRecordbean(GtnUIFrameworkWebserviceRequest gtnWsRequest,
 			GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader, int index, Object[] displayFormat,
 			List<Object[]> customviewData) {
-		
+
 		String customViewTypeInBackend;
 		String[] customViewTypeDataArray;
 		Map<String, Double> dataForHierarchy = null;
@@ -394,8 +397,6 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
 				.getCurrencyConversion();
 			
-	
-
 		if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
 			dataForHierarchy.entrySet().stream()
 					.forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(data -> dataConvertors(recordBean,
@@ -542,8 +543,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	public void regenerateChangedCustomViewTreeAndData(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 
 		GTNLOGGER.info(" Regenerating Custom view tables and Data after dataset is chabged in custom view");
-		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
-				.getDataSelectionBean();
+		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
 
 		resetToNewDatasetInReportDashboard(dataSelectionBean);
 		GTNLOGGER.info(" Ending regeneration of Custom view tables and Data after dataset is chabged in custom view");
@@ -647,24 +647,16 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		
 		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
 				|| mapKey.contains("PER") || mapKey.contains("RATE") || mapKey.contains("WEIGHTED")) {
-			
+
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
 					+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 		} else if (("V".equals(variableIndicator) && levelName.contains("Unit")) || mapKey.contains("UNIT")
 				|| isTotalSpecialCondition) {
-			
-				gtnWsRecordBean.addProperties(mapKey,
-						GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
 
-		}
-//		else if (isTotalSpecialCondition  && !mapKey.contains("UNIT") && !(mapKey.contains("PER") 
-//				&& !mapKey.contains("WEIGHTED"))) {
-//			
-//			gtnWsRecordBean.addProperties(mapKey,
-//					GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));
-//			
-//		}
-		else {
+			gtnWsRecordBean.addProperties(mapKey,
+					GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
+
+		} else {
 			gtnWsRecordBean.addProperties(mapKey,
 					GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));
 		}
@@ -672,7 +664,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	public static Double extractDouble(Object value) {
 		return Optional.ofNullable(value).isPresent()
-				? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", "")) : 0.0;
+				? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", ""))
+				: 0.0;
 	}
 
 	private boolean matchedFilteredHierarchyNo(Set<String> filteredHierarchyNo, String hierarchyNoFromFile,
