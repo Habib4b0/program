@@ -1207,7 +1207,7 @@ public class PPAProjectionResultsLogic {
         String frquency = StringUtils.EMPTY;
         try {
             for (int i = NumericConstants.ZERO; i < wacTableList.size(); i++) {
-                Object object[] = wacTableList.get(i);
+                Object[] object= wacTableList.get(i);
                 if ((String.valueOf(object[NumericConstants.ONE]).equals(rsId))) {
                     frquency = String.valueOf(object[NumericConstants.THREE]);
                     break;
@@ -1254,7 +1254,7 @@ public class PPAProjectionResultsLogic {
         String[] wacPrice = new String[]{ConstantsUtils.ZERO, ConstantsUtils.ZERO};
 
         try {
-            String periodIds[] = fetchPeriodSids(year, frequencyValue);
+            String [] periodIds = fetchPeriodSids(year, frequencyValue);
             List<String> periodList = Arrays.asList(periodIds);
 
             int i;
@@ -1263,7 +1263,7 @@ public class PPAProjectionResultsLogic {
 
             // checking if wac price change to be reset ie (returns zero)
             for (i = NumericConstants.ZERO; i < wacTableList.size(); i++) {
-                Object object[] = wacTableList.get(i);
+                Object [] object = wacTableList.get(i);
                 if ((String.valueOf(object[NumericConstants.ONE]).equals(rsId))
                         && periodList.contains(String.valueOf(object[NumericConstants.TWO]))) {
                     return wacPrice;
@@ -1289,7 +1289,7 @@ public class PPAProjectionResultsLogic {
 
             int j = 0;
             for (int i = 0; i < periodTableList.size(); i++) {
-                Object object[] = periodTableList.get(i);
+                Object [] object= periodTableList.get(i);
                 if (String.valueOf(object[NumericConstants.ONE]).equals(year) && (currentfrquencyForWacReset == NumericConstants.TWELVE
                         || String.valueOf(object[cureentWacFrquencyIndex]).equals(frequencyValue))) {
                     periods[j] = String.valueOf(object[NumericConstants.ZERO]);
@@ -1318,7 +1318,7 @@ public class PPAProjectionResultsLogic {
         try {
             int i;
             for (i = NumericConstants.ZERO; i < wacPriceTableList.size(); i++) {
-                Object object[] = wacPriceTableList.get(i);
+                Object[] object = wacPriceTableList.get(i);
                 if (((String.valueOf(object[NumericConstants.ONE]).equals(rsId)) && String.valueOf(object[NumericConstants.TWO]).equals(String.valueOf(periodSId)))) {
                     return String.valueOf(object[NumericConstants.THREE]);
                 }

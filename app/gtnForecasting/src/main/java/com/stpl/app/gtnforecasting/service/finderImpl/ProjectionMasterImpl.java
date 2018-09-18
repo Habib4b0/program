@@ -638,7 +638,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             List<Integer> idList = HelperTableLocalServiceUtil.executeSelectQuery(sql);
 
             if (idList != null && !idList.isEmpty()) {
-                String fkTbName[] = foreignKeyTableName.split(",");
+                String[] fkTbName = foreignKeyTableName.split(",");
                 int pksize = fkTbName.length;
                 for (int i = 0; i < pksize; i++) {
                    sqlBuilder.append("delete from ");
@@ -654,7 +654,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 HelperTableLocalServiceUtil.executeUpdateQuery(sql1);
             }
 
-            String pkTbName[] = primarykeyTableName.split(",");
+            String [] pkTbName = primarykeyTableName.split(",");
 
             if (screenName.equals("Non Mandated") || screenName.equals("Mandated")) {
                 sql2Builder.append("delete from WORKFLOW_PROCESS_INFO where PROJECTION_MASTER_SID=" ).append( projectionID ).append( "; ");
