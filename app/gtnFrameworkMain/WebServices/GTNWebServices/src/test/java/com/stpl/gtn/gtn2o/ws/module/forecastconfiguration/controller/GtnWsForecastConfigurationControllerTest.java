@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.module.forecastconfiguration.controller;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -23,11 +24,14 @@ import static org.mockito.Mockito.doReturn;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnWsNumericConstants;
 import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
@@ -51,6 +55,10 @@ public class GtnWsForecastConfigurationControllerTest {
 	@InjectMocks	
 	@Autowired
 	GtnWsForecastConfigurationController ins;
+	
+
+	@Autowired
+	private org.hibernate.SessionFactory sysSessionFactory;
 	
      @Before
       public void setup() {
@@ -254,17 +262,33 @@ public class GtnWsForecastConfigurationControllerTest {
 	
 	@Test
 	public void testGetForecastConfigurationTableData() {
-		GtnUIFrameworkWebserviceRequest gtnWsRequest=new GtnUIFrameworkWebserviceRequest();
-		GtnWsSearchRequest gtnWsSearchRequest=new GtnWsSearchRequest();
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
 		gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
 		gtnWsSearchRequest.setCount(true);
-		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = null;
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+		GtnWebServiceSearchCriteria gtnWebServiceSearchCriteria = new GtnWebServiceSearchCriteria();
+
+		List<String> primaryIdList = Arrays.asList("a", "ab", "abc");
+		gtnWebServiceSearchCriteria.setFilterValue3(primaryIdList);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
+		gtnWebServiceSearchCriteriaList.add(gtnWebServiceSearchCriteria);
 		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+		//gtnWebServiceSearchCriteria.setFilter(true);
+		gtnWsSearchRequest.setCount(false);
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceSearchCriteriaList1=new ArrayList<>();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceSearchCriteriaList1);
+		
 		ins.getForecastConfigurationTableData(gtnWsRequest);
 	}
 	
 	@Test
-	public void validateSaveForecastConfiguration_1() throws GtnFrameworkGeneralException {
+	public void testValidateSaveForecastConfiguration_1() throws GtnFrameworkGeneralException {
 		GtnWsForecastConfigurationRequest fcRequest=new GtnWsForecastConfigurationRequest();
 		GtnWsForecastConfigurationResponse fcResponse=new GtnWsForecastConfigurationResponse();
 		
@@ -391,8 +415,42 @@ public class GtnWsForecastConfigurationControllerTest {
 		fcRequest.setFromDate(new Date());
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
 		
+		//c17  for validatePeriodDefined
+		fcRequest.setBusinessProcess(1);
+		fcRequest.setMode("Period");
+		fcRequest.setToDate(new Date());
+		fcRequest.setFromDate(new Date());
+		fcRequest.setProcessType("Defined");
+		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
 		
+		//c18 for validatePeriodDefined
+		fcRequest.setBusinessProcess(1);
+		fcRequest.setFromDate(new Date());
+		fcRequest.setProcessType("val");
+		fcRequest.setProcessType("Defined");
+		fcRequest.setMode("Period");
+		Calendar cal = Calendar.getInstance();
+		cal.set(2018,2, 31);
+		fcRequest.setToDate(cal.getTime());
+		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
 
+		
+		// c19 for ValidatePeriodDefined
+		fcRequest.setBusinessProcess(1);
+		fcRequest.setBusinessProcess(1);
+		Calendar cal1=Calendar.getInstance();
+		cal1.set(2017,10,1);
+		fcRequest.setFromDate(cal1.getTime());
+		
+		fcRequest.setProcessType("val");
+		fcRequest.setProcessType("Defined");
+		fcRequest.setMode("Period");
+		Calendar cale = Calendar.getInstance();
+		cale.set(2018, 2, 31);
+		fcRequest.setToDate(cale.getTime());
+		
+		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
+		
 	}
 	
 	
@@ -543,6 +601,7 @@ public class GtnWsForecastConfigurationControllerTest {
 		
 		request.setFutureInterval("1");
 		request.setFutureFrequency(1);
+		
 		table.setDescription("val");
 		
 		GtnWsForecastConfigurationResponse result=ins.futureIntervalDynamicValueChangeLogic(request);
@@ -590,8 +649,154 @@ public class GtnWsForecastConfigurationControllerTest {
 		ins.futureIntervalValueChangeLogic(request,foreCastPeriod,response);
 	}
 	
+	@Test
+	public void testFutureIntervalValueChangeLogic_3() {
+		GtnWsForecastConfigurationRequest request=new GtnWsForecastConfigurationRequest();
+		
+		SessionFactory factory=Mockito.mock(SessionFactory.class);
+		Session session=Mockito.mock(Session.class);
+		
+		doReturn(factory).when(gtnSqlQueryEngine).getSessionFactory();
+		doReturn(session).when(factory).openSession();
+		
+		HelperTable table = new HelperTable();
+		table.setDescription("Month");
+		
+		doReturn(table).when(session).load(HelperTable.class, 1);
+		request.setFutureInterval("1");
+		request.setFutureFrequency(1);
+		
+		table.setDescription("Quarter");
+		
+		GtnWsForecastConfigurationResponse result=ins.futureIntervalDynamicValueChangeLogic(request);
+		assertFalse(result==null);
+	}
+	
+	@Test
+	public void testFutureIntervalValueChangeLogic_4() {
+		GtnWsForecastConfigurationRequest request=new GtnWsForecastConfigurationRequest();
+		
+		SessionFactory factory=Mockito.mock(SessionFactory.class);
+		Session session=Mockito.mock(Session.class);
+		
+		doReturn(factory).when(gtnSqlQueryEngine).getSessionFactory();
+		doReturn(session).when(factory).openSession();
+		
+		HelperTable table = new HelperTable();
+		table.setDescription("Month");
+		
+		doReturn(table).when(session).load(HelperTable.class, 1);
+		request.setFutureInterval("1");
+		request.setFutureFrequency(1);
+		
+		table.setDescription("Semi-Annual");
+		
+		GtnWsForecastConfigurationResponse result=ins.futureIntervalDynamicValueChangeLogic(request);
+		assertFalse(result==null);
+	}
+	
+	@Test
+	public void testFutureIntervalValueChangeLogic_5() {
+		GtnWsForecastConfigurationRequest request=new GtnWsForecastConfigurationRequest();
+		
+		SessionFactory factory=Mockito.mock(SessionFactory.class);
+		Session session=Mockito.mock(Session.class);
+		
+		doReturn(factory).when(gtnSqlQueryEngine).getSessionFactory();
+		doReturn(session).when(factory).openSession();
+		
+		HelperTable table = new HelperTable();
+		table.setDescription("Month");
+		
+		doReturn(table).when(session).load(HelperTable.class, 1);
+		request.setFutureInterval("1");
+		request.setFutureFrequency(1);
+		
+		table.setDescription("Annual");
+		
+		GtnWsForecastConfigurationResponse result=ins.futureIntervalDynamicValueChangeLogic(request);
+		assertFalse(result==null);
+	}
 	
 	
+	
+	@Test
+	public void testGetQuarterForMonth_1() {
+		String actual=ins.getQuarterForMonth(1);
+		String expected="1";
+		assertEquals(expected, actual);
+	}
 
+	@Test
+	public void testGetQuarterForMonth_2() {
+		String actual=ins.getQuarterForMonth(4);
+		String expected="2";
+		assertEquals(expected, actual);
+	}
 	
+	@Test
+	public void testGetQuarterForMonth_3() {
+		String actual=ins.getQuarterForMonth(7);
+		String expected="3";
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testGetQuarterForMonth_4() {
+		String actual=ins.getQuarterForMonth(10);
+		String expected="4";
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testGetQuarterForMonth_5() {
+		String actual=ins.getQuarterForMonth(20);
+		String expected="1";
+		assertEquals(expected, actual);
+	}
+	
+		
+	@Test
+	public void testGetSemmiAnnualForMonth_1() {
+		String actual=ins.getSemmiAnnualForMonth(1);
+		String expected="1";
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testGetSemmiAnnualForMonth_2() {
+		String actual=ins.getSemmiAnnualForMonth(7);
+		String expected="2";
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testGetSemmiAnnualForMonth_3() {
+		String actual=ins.getSemmiAnnualForMonth(13);
+		String expected="1";
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testUpdateActiveEndDate() throws GtnFrameworkGeneralException {
+		Session session = null;
+		int businessProcess=1;
+		ins.updateActiveEndDate(session, businessProcess);
+	}
+
+	@Test
+	public void testGetGtnWsSqlService() {
+		ins.getGtnWsSqlService();
+	}
+	
+	@Test
+	public void testGetSysSchemaCatalog() throws GtnFrameworkGeneralException {
+		ins.getSysSchemaCatalog();
+	}
+	
+	@Test
+	public void testGetSysSchemaCatalog_Fail() throws GtnFrameworkGeneralException {
+		
+		ins.getSysSchemaCatalog();
+	}
 }
