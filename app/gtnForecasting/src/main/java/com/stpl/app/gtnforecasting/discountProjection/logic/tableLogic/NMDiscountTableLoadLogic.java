@@ -441,23 +441,19 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         int index = getItemIndex(count + levelIndex + levelValue);
         int start = getStartIndex(count + levelIndex, index);
         int end = getPageLength();
-        LevelMap levelMap = new LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
-        return levelMap;
+        return new LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
     }
 
     public int getPageForItem(int pos) {
-        int curPage = ((pos - NumericConstants.TWO) / getPageLength()) + 1;
-        return curPage;
+        return ((pos - NumericConstants.TWO) / getPageLength()) + 1;
     }
 
     public int getItemIndex(int pos) {
-        int index = (pos - NumericConstants.TWO) % getPageLength();
-        return index;
+        return (pos - NumericConstants.TWO) % getPageLength();
     }
 
     public int getStartIndex(int count, int index) {
-        int start = count - index;
-        return start;
+        return count - index;
     }
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
@@ -574,7 +570,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             hiearchyNoList.add(tempLevelValue);
         }
 
-        String hierarchyNumbers = CommonUtils.CollectionToString(hiearchyNoList, true);
+        String hierarchyNumbers = CommonUtils.collectionToStringMethod(hiearchyNoList, true);
 
         List<String> customViewDetails = new ArrayList<>();
         List customDetailsList = new ArrayList();

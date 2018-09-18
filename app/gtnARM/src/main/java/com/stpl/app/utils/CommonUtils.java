@@ -82,19 +82,23 @@ public class CommonUtils {
             select.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
             List<HelperDTO> list = HelperListUtil.getInstance().getListNameMap().get(listName);
             Collections.sort(list, sorter);
-            if (list != null && !list.isEmpty()) {
-                for (HelperDTO helperDTO : list) {
-                    select.addItem(helperDTO.getId());
-                    select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
-                }
-            }
-            select.select(0);
-            select.markAsDirty();
-            select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
+            getComboBoxLoaded(list, select);
         } catch (Exception e) {
             LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
         return select;
+    }
+
+    private static void getComboBoxLoaded(List<HelperDTO> list, final ComboBox select) throws UnsupportedOperationException {
+        if (list != null && !list.isEmpty()) {
+            for (HelperDTO helperDTO : list) {
+                select.addItem(helperDTO.getId());
+                select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
+            }
+        }
+        select.select(0);
+        select.markAsDirty();
+        select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
     }
 
     public static ComboBox loadComboBoxWithIntegerForComboBox(final ComboBox select, String listName, boolean isFilter) {
@@ -105,15 +109,7 @@ public class CommonUtils {
             select.addItem(0);
             select.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
             List<HelperDTO> list = HelperListUtil.getInstance().getListNameMap().get(listName);
-            if (list != null && !list.isEmpty()) {
-                for (HelperDTO helperDTO : list) {
-                    select.addItem(helperDTO.getId());
-                    select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
-                }
-            }
-            select.select(0);
-            select.markAsDirty();
-            select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
+            getComboBoxLoaded(list, select);
         } catch (Exception e) {
             LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
@@ -259,7 +255,7 @@ public class CommonUtils {
                     if (!str[1].equals(String.valueOf(GlobalConstants.getSelectOne()))) {
                         String description;
                         HelperDTO dto = new HelperDTO();
-                        dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                        dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
                         description = str[1] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[1]);
                         dto.setDescription(description);
                         resultList.add(dto);
@@ -431,7 +427,7 @@ public class CommonUtils {
                             }
                             header = header.replace("~", "-");
                             MenuItemDTO dto = new MenuItemDTO(column, header);
-                            dto.setId(Integer.valueOf(list.get(i)[0].toString()));
+                            dto.setId(ARMUtils.getIntegerValue(list.get(i)[0].toString()));
                             customItem[i] = customMenuItemDed.addItem(dto, null);
                             customItem[i].setCheckable(true);
                             customItem[i].setItemClickable(true);
@@ -594,10 +590,10 @@ public class CommonUtils {
             calendar.set(Calendar.MONTH, CommonUtils.getMonthNo(startDate[0]) - 1);
             calendar.set(Calendar.YEAR, Integer.valueOf(startDate[1]));
             calendar.add(Calendar.MONTH, -NumericConstants.TWELVE);
-            String year;
-            int month;
-            String quarter;
-            String semi;
+            String periodYear;
+            int periodMonth;
+            String periodQuarter;
+            String periodSemi;
             int count = getPeriodCount(freq, startPeriod, endPeriod) + NumericConstants.TWELVE;
             int countSix = count % NumericConstants.SIX == 0 ? 0 : 1;
             int countTwelve = count % NumericConstants.TWELVE == 0 ? 0 : 1;
@@ -611,14 +607,14 @@ public class CommonUtils {
             int increment = freq.startsWith("M") ? 1
                     : incrementWithQ;
             for (int i = 0; i < iterationCount; i++) {
-                year = String.valueOf(calendar.get(Calendar.YEAR));
-                month = calendar.get(Calendar.MONTH);
-                quarter = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.THREE + 1);
-                semi = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.SIX + 1);
-                String periodWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
-                String periodWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year
+                periodYear = String.valueOf(calendar.get(Calendar.YEAR));
+                periodMonth = calendar.get(Calendar.MONTH);
+                periodQuarter = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.THREE + 1);
+                periodSemi = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.SIX + 1);
+                String periodWithS = freq.startsWith("S") ? "S" + periodSemi + " " + periodYear : periodYear;
+                String periodWithQ = freq.startsWith("Q") ? "Q" + periodQuarter + " " + periodYear
                         : periodWithS;
-                String period = freq.startsWith("M") ? months[month] + " " + year : periodWithQ;
+                String period = freq.startsWith("M") ? months[periodMonth] + " " + periodYear : periodWithQ;
                 calendar.add(Calendar.MONTH, increment);
                 periodList.add(period);
             }
@@ -734,7 +730,7 @@ public class CommonUtils {
         if (customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
             for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
                 if (object.isChecked()) {
-                    object.setChecked(Boolean.FALSE);
+                    object.setChecked(false);
                 }
             }
         }
@@ -748,7 +744,7 @@ public class CommonUtils {
     public static void checkAllMenuBarItem(CustomMenuBar.CustomMenuItem customMenuItem) {
         if (customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
             for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }
@@ -921,15 +917,7 @@ public class CommonUtils {
             demandSummarySelect.addItem(0);
             demandSummarySelect.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
             List<HelperDTO> list = HelperListUtil.getInstance().getListNameMap().get(listName);
-            if (list != null && !list.isEmpty()) {
-                for (HelperDTO helperDTO : list) {
-                    demandSummarySelect.addItem(helperDTO.getId());
-                    demandSummarySelect.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
-                }
-            }
-            demandSummarySelect.select(0);
-            demandSummarySelect.markAsDirty();
-            demandSummarySelect.setDescription((String) (demandSummarySelect.getValue() == DASH ? GlobalConstants.getSelectOne() : demandSummarySelect.getItemCaption(demandSummarySelect.getValue())));
+            getComboBoxLoaded(list, demandSummarySelect);
         } catch (Exception e) {
             LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
@@ -993,8 +981,8 @@ public class CommonUtils {
 
                 //End date - Form file
                 Calendar endPeriod = Calendar.getInstance();
-                endPeriod.set(Calendar.MONTH, Integer.valueOf(String.valueOf(object[1])) - 1);
-                endPeriod.set(Calendar.YEAR, Integer.valueOf(String.valueOf(object[NumericConstants.TWO])));
+                endPeriod.set(Calendar.MONTH, ARMUtils.getIntegerValue(String.valueOf(object[1])) - 1);
+                endPeriod.set(Calendar.YEAR, ARMUtils.getIntegerValue(String.valueOf(object[NumericConstants.TWO])));
 
                 while (startPeriod.before(endPeriod) || startPeriod.get(Calendar.MONTH) == endPeriod.get(Calendar.MONTH)) {
                     priceList.add("CURRENT" + getCurrentString(count));
@@ -1199,7 +1187,7 @@ public class CommonUtils {
                             }
                             dedcutionHeader = dedcutionHeader.replace("~", "-");
                             MenuItemDTO dto = new MenuItemDTO(column, dedcutionHeader);
-                            dto.setId(Integer.valueOf(resultList.get(i)[0].toString()));
+                            dto.setId(ARMUtils.getIntegerValue(resultList.get(i)[0].toString()));
                             dedcutionCustomItem[i] = customMenuItemDed.addItem(dto, null);
                             dedcutionCustomItem[i].setCheckable(true);
                             dedcutionCustomItem[i].setItemClickable(true);

@@ -46,7 +46,7 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         boolean totalFlag = false;
         if (((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getCurrentPage() == criteria.getLastPage()) && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
             totalFlag = true;
-            int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString()) - 1;
+            int offset = ARMUtils.getIntegerValue(inputs.get(inputs.size() - 1).toString()) - 1;
             inputs.set(inputs.size() - 1, offset);
         }
         List<Object[]> data;
@@ -189,32 +189,32 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
-        String query;
+        String paExcelQuery;
         boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (isView) {
-            query = SQlUtil.getQuery("getPAAdjustmentSummaryExcelQueryView");
+            paExcelQuery = SQlUtil.getQuery("getPAAdjustmentSummaryExcelQueryView");
         } else {
-            query = SQlUtil.getQuery("getPAAdjustmentSummaryExcelQuery");
+            paExcelQuery = SQlUtil.getQuery("getPAAdjustmentSummaryExcelQuery");
         }
-        Object[] value = null;
+        Object[] paExcelValue = null;
         if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            paExcelValue = new Object[]{"D", "T", "C", "B", "I"};
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
-            value = new Object[]{"T", "C", "B", "I"};
+            paExcelValue = new Object[]{"T", "C", "B", "I"};
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-            value = new Object[]{"T", "B", "I"};
+            paExcelValue = new Object[]{"T", "B", "I"};
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-            value = new Object[]{"B", "I"};
+            paExcelValue = new Object[]{"B", "I"};
         }
-        query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
-        query = query.replace("@DEDCONDITION", selection.getSummarydeductionLevelDes());
-        query = query.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
-        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
-        query = query.replace("@USERID", String.valueOf(selection.getUserId()));
-        query = query.replace("@SESSIONID", String.valueOf(selection.getSessionId()));
-        query = query.replace("@SELECTED_COLUMNS", getSelectVariable(selection.getSummaryvariables(), Boolean.FALSE));
-        query = query.replace("@TOTAL_COLUMN", getSelectVariable(selection.getSummaryvariables(), Boolean.TRUE));
-        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
+        paExcelQuery = paExcelQuery.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(paExcelValue, ",") + ARMUtils.SINGLE_QUOTES);
+        paExcelQuery = paExcelQuery.replace("@DEDCONDITION", selection.getSummarydeductionLevelDes());
+        paExcelQuery = paExcelQuery.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
+        paExcelQuery = paExcelQuery.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
+        paExcelQuery = paExcelQuery.replace("@USERID", String.valueOf(selection.getUserId()));
+        paExcelQuery = paExcelQuery.replace("@SESSIONID", String.valueOf(selection.getSessionId()));
+        paExcelQuery = paExcelQuery.replace("@SELECTED_COLUMNS", getSelectVariable(selection.getSummaryvariables(), false));
+        paExcelQuery = paExcelQuery.replace("@TOTAL_COLUMN", getSelectVariable(selection.getSummaryvariables(), true));
+        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(paExcelQuery, selection.getSessionDTO().getCurrentTableNames()));
     }
 
     private String getSelectVariable(List<String[]> variables, boolean isTotal) {
@@ -256,18 +256,18 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
     @Override
     public List<Object> generateHeader(AbstractSelectionDTO selection, String[] columns) {
         List<Object> finalList = new ArrayList<>();
-        List<String> doubleSingleColumn;
-        List<String> excelDoubleSingleColumn;
-        List<String> singleVisibleColumn = new ArrayList<>();
-        List<String> excelSingleColumn = new ArrayList<>();
-        List<String> excelVisibleColumn = new ArrayList<>();
-        List<String> excelVisibleHeader = new ArrayList<>();
-        List<String> doubleVisibleColumn = new ArrayList<>();
-        Map<Object, Object[]> doubleSingleVisibleColumn = new HashMap<>();
-        Map<Object, Object[]> excelDoubleSingleVisibleColumn = new HashMap<>();
-        excelDoubleSingleVisibleColumn.put("month", new Object[]{"month"});
-        List<String> singleVisibleHeader = new ArrayList<>();
-        List<String> doubleVisibleHeader = new ArrayList<>();
+        List<String> paDoubleSingleColumn;
+        List<String> paExcelDoubleSingleColumn;
+        List<String> paSingleVisibleColumn = new ArrayList<>();
+        List<String> paExcelSingleColumn = new ArrayList<>();
+        List<String> paExcelVisibleColumn = new ArrayList<>();
+        List<String> paExcelVisibleHeader = new ArrayList<>();
+        List<String> paDoubleVisibleColumn = new ArrayList<>();
+        Map<Object, Object[]> paDoubleSingleVisibleColumn = new HashMap<>();
+        Map<Object, Object[]> paExcelDoubleSingleVisibleColumn = new HashMap<>();
+        paExcelDoubleSingleVisibleColumn.put("month", new Object[]{"month"});
+        List<String> paSingleVisibleHeader = new ArrayList<>();
+        List<String> paDoubleVisibleHeader = new ArrayList<>();
 
         List<String> singleColumn = new ArrayList<>();
         int index = 0;
@@ -282,40 +282,40 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         }
         doubleHeaderVariables = doublecolumnList;
         for (String[] detection : doubleHeaderVariables) {
-            doubleSingleColumn = new ArrayList<>();
-            excelDoubleSingleColumn = new ArrayList<>();
+            paDoubleSingleColumn = new ArrayList<>();
+            paExcelDoubleSingleColumn = new ArrayList<>();
             for (int i = 0; i < columns.length; i++, index++) {
                 String column = columns[i];
                 singleColumn.add(column + "." + index);
-                excelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
+                paExcelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
                 if (columnList.contains(column)) {
                     int listIndex = columnList.indexOf(column);
                     String visibleColumn = selection.getSummaryvariables().get(listIndex)[0] + "." + index;
                     String header = selection.getSummaryvariables().get(listIndex)[1];
-                    singleVisibleColumn.add(visibleColumn);
-                    singleVisibleHeader.add(header);
-                    doubleSingleColumn.add(visibleColumn);
-                    excelVisibleColumn.add(detection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
-                    excelVisibleHeader.add(header);
-                    excelDoubleSingleColumn.add(detection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
+                    paSingleVisibleColumn.add(visibleColumn);
+                    paSingleVisibleHeader.add(header);
+                    paDoubleSingleColumn.add(visibleColumn);
+                    paExcelVisibleColumn.add(detection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
+                    paExcelVisibleHeader.add(header);
+                    paExcelDoubleSingleColumn.add(detection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
                 }
             }
 
-            doubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY));
-            doubleVisibleHeader.add(detection[1]);
-            doubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), doubleSingleColumn.toArray());
-            excelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
+            paDoubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY));
+            paDoubleVisibleHeader.add(detection[1]);
+            paDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), paDoubleSingleColumn.toArray());
+            paExcelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), paExcelDoubleSingleColumn.toArray());
         }
         selection.setSummarycolumnList(singleColumn);
-        finalList.add(singleVisibleColumn);
-        finalList.add(doubleVisibleColumn);
-        finalList.add(singleVisibleHeader);
-        finalList.add(doubleVisibleHeader);
-        finalList.add(doubleSingleVisibleColumn);
-        finalList.add(excelVisibleColumn);
-        finalList.add(excelVisibleHeader);
-        finalList.add(excelDoubleSingleVisibleColumn);
-        finalList.add(excelSingleColumn);
+        finalList.add(paSingleVisibleColumn);
+        finalList.add(paDoubleVisibleColumn);
+        finalList.add(paSingleVisibleHeader);
+        finalList.add(paDoubleVisibleHeader);
+        finalList.add(paDoubleSingleVisibleColumn);
+        finalList.add(paExcelVisibleColumn);
+        finalList.add(paExcelVisibleHeader);
+        finalList.add(paExcelDoubleSingleVisibleColumn);
+        finalList.add(paExcelSingleColumn);
         return finalList;
     }
 

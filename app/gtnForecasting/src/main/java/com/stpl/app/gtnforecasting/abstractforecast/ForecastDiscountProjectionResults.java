@@ -281,8 +281,6 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
     @UiHandler("graphBtn")
     public void graphExport(Button.ClickEvent event) {
         LOGGER.debug("Entering graphExport");
-        graphExportLogics();
-        LOGGER.debug("Ending graphExport");
     }
 
     @UiHandler("expandBtn")
@@ -344,8 +342,6 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
     }
 
     protected abstract void customDdlbChangeOptionLogic();
-
-    protected abstract void graphExportLogics();
 
     protected abstract void expandButtonLogic();
 

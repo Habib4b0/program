@@ -182,7 +182,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		landingScreenComparisonLookupGridLoadAction
 				.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
 		landingScreenComparisonLookupGridLoadAction
-				.addActionParameter("reportLandingScreen_reportingDashboardComparisonConfig");
+				.addActionParameter(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_REPORTING_DASHBOARD_COMPARISON_CONFIG);
 		landingScreenVariableComparisonPopupActionList.add(landingScreenComparisonLookupGridLoadAction);
 
 		landingScreenVariableComparisonConfig
@@ -720,7 +720,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_company");
 		generateAction.addActionParameter("reportLandingScreen_businessUnit");
 		generateAction.addActionParameter("reportLandingScreen_fromPeriod");
-		generateAction.addActionParameter("reportLandingScreen_reportingDashboardComparisonConfig");
+		generateAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_REPORTING_DASHBOARD_COMPARISON_CONFIG);
 		generateAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW);
 		generateAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -784,7 +784,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG));
+						+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG,
+						GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_REPORTING_DASHBOARD_COMPARISON_CONFIG));
 		onSuccessActionConfigList.add(resetAction);
 		resetActionList.add(confirmResetAction);
 		resetButton.setGtnUIFrameWorkActionConfigList(resetActionList);

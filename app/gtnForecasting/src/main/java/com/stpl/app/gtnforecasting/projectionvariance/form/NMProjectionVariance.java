@@ -643,7 +643,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             long end = System.currentTimeMillis();
             LOGGER.info("Time taken to refresh table = {}", (end - start));
             start = end;
-            ForecastUI.setEXCEL_CLOSE(true);
+            ForecastUI.setEXCELCLOSE(true);
             int leftcolumnsize = NumericConstants.TWO;
              Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get(GROUP_PROPERTY);
                 List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
@@ -2304,7 +2304,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     public void getExcelProcedureInput() {
 
-        String splitarr[] = (Constant.ALL_SALES_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter())
+        String [] splitarr= (Constant.ALL_SALES_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter())
                 || Constant.ALL_DISCOUNT_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter())
                 || Constant.ALL_GROUP.equalsIgnoreCase(pvSelectionDTO.getGroupFilter()))
                 ? pvSelectionDTO.getGroupFilter().split(" ") : pvSelectionDTO.getGroupFilter().split("-");

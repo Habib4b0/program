@@ -33,6 +33,7 @@ public class EditAdjustmentReserve extends AbstractReserve {
 
     public EditAdjustmentReserve(SessionDTO session, AdjustmentReserveDTO dto, ReserveSelection resSelection) {
         super("Adjustment & Reserve Configuration Details", session, resSelection);
+        super.init();
         selectedDto = dto;
         configureFields();
     }
@@ -137,9 +138,9 @@ public class EditAdjustmentReserve extends AbstractReserve {
         deductionCategoryDdlbRes.setEnabled(false);
         deductionTypeDdlbRes.setEnabled(false);
         deductionProgramDdlbRes.setEnabled(false);
-        selection.setCompanyNo(getCompanyNo(Integer.valueOf(companyDdlbRes.getValue().toString())));
-        selection.setDivision(getCompanyNo(Integer.valueOf(businessDdlbRes.getValue().toString())));
-        selection.setBusUnit(businessDdlbRes.getItemCaption(Integer.valueOf(businessDdlbRes.getValue().toString())));
+        selection.setCompanyNo(getCompanyNo(ARMUtils.getIntegerValue(companyDdlbRes.getValue().toString())));
+        selection.setDivision(getCompanyNo(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
+        selection.setBusUnit(businessDdlbRes.getItemCaption(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
         resetBtnRes.setEnabled(false);
 
     }

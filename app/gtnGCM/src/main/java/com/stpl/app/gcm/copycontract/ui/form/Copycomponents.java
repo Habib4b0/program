@@ -386,7 +386,7 @@ public class Copycomponents extends CustomComponent {
                         select.addClickListener(new ExtCustomCheckBox.ClickListener() {
                             @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
-                                if(select.getValue() == true){
+                                if(select.getValue()){
                                     resultsItemClick(itemId);
                                 }
                             }

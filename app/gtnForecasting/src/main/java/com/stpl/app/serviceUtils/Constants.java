@@ -1073,7 +1073,7 @@ public final class Constants {
         public String toString() {
             return frequencyValue;
         }
-    };
+    }
     
     /**
      * The Constructor.

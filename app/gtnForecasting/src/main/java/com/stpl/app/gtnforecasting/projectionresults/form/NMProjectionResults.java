@@ -443,7 +443,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                 exportLogic();
             }
             exceltable.setRefresh(BooleanConstant.getTrueFlag());
-            ForecastUI.setEXCEL_CLOSE(true);
+            ForecastUI.setEXCELCLOSE(true);
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.PROJECTION_RESULTS, Constant.PROJECTION_RESULTS, "Projection_Results.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
@@ -489,7 +489,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
             projectionSelectionDTO.setGroupFilter(ALL_SALES_GROUP);
         }
 
-        String splitarr[] = (ALL_SALES_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter())
+        String [] splitarr= (ALL_SALES_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter())
                 || ALL_DISCOUNT_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter())
                 || Constant.ALL_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter()))
                 ? projectionSelectionDTO.getGroupFilter().split(" ") : projectionSelectionDTO.getGroupFilter().split("-");

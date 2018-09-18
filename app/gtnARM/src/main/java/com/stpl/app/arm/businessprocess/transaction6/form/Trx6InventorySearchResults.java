@@ -43,14 +43,16 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
 
     private ExtTreeContainer<AdjustmentDTO> resultBeanContainertRX6 = new ExtTreeContainer<>(
             AdjustmentDTO.class, ExtContainer.DataStructureMode.LIST);
-    private String[] righttablesingleheaders = {"Total Inventory", "Baseline Price", "Baseline Price Override"};
-    private Object[] doubleheadercolumns = {"rate"};
-    private Object[] columns = {"month"};
-    private Object[] leftColumns = {"branditemno"};
-    private Object[] singleheader = {"dateType", "price", "exclusionDetails"};
+    private String[] tr6Righttablesingleheaders = {"Total Inventory", "Baseline Price", "Baseline Price Override"};
+    private Object[] tr6Doubleheadercolumns = {RATE};
+    private Object[] tr6Columns = {"month"};
+    private Object[] tr6LeftColumns = {"branditemno"};
+    private Object[] tr6Singleheader = {"dateType", "price", "exclusionDetails"};
 
-    private String[] doubleheader = {"Managed Care Base"};
-    public static final Logger LOGGER = LoggerFactory.getLogger(Trx6InventorySearchResults.class);
+    private String[] tr6Doubleheader = {"Managed Care Base"};
+    public static final Logger TR6_INVENTORY_LOGGER = LoggerFactory.getLogger(Trx6InventorySearchResults.class);
+    private static final String CHECK_RECORD = "checkRecord";
+    private static final String RATE = "rate";
 
     public Trx6InventorySearchResults(Trx6InventoryLogic logic, Trx6SelectionDTO selection) {
         super(logic, selection);
@@ -58,7 +60,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
 
     @Override
     public void setVisibleColumnsAndHeaders() {
-        configureOnInventorySearchResults();
+        configureOnTr6InventorySearchResults();
 
         getTableLogic().setContainerDataSource(resultBeanContainertRX6);
         leftTable = table.getLeftFreezeAsTable();
@@ -68,17 +70,17 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
         leftTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
 
         table.setDoubleHeaderVisible(false);
-        leftTable.setDoubleHeaderVisibleColumns(columns);
+        leftTable.setDoubleHeaderVisibleColumns(tr6Columns);
 
         leftTable.setDoubleHeaderColumnHeaders("");
 
-        leftTable.setVisibleColumns(leftColumns);
+        leftTable.setVisibleColumns(tr6LeftColumns);
 
         leftTable.setColumnHeaders("Product");
 
-        rightTable.setVisibleColumns(singleheader);
+        rightTable.setVisibleColumns(tr6Singleheader);
 
-        rightTable.setColumnHeaders(righttablesingleheaders);
+        rightTable.setColumnHeaders(tr6Righttablesingleheaders);
 
         for (Object propertyId : rightTable.getVisibleColumns()) {
             rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.CENTER);
@@ -91,20 +93,21 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
         for (Object propertyId : leftTable.getVisibleColumns()) {
             leftTable.setColumnAlignment(propertyId, ExtCustomTable.Align.LEFT);
         }
-        rightTable.setDoubleHeaderVisibleColumns(doubleheadercolumns);
-        rightTable.setDoubleHeaderColumnHeaders(doubleheader);
-        rightTable.setDoubleHeaderColumnWidth("rate", NumericConstants.FIVE_HUNDRED);
+        rightTable.setDoubleHeaderVisibleColumns(tr6Doubleheadercolumns);
+        rightTable.setDoubleHeaderColumnHeaders(tr6Doubleheader);
+        rightTable.setDoubleHeaderColumnWidth(RATE, NumericConstants.FIVE_HUNDRED);
 
-        leftTable.setColumnCheckBox("checkRecord", true, false);
+        leftTable.setColumnCheckBox(CHECK_RECORD, true, false);
         abstractSearchContent.setWidth("100%");
     }
 
-    private void configureOnInventorySearchResults() {
+    private void configureOnTr6InventorySearchResults() {
         panelCaption.setCaption("Inventory Results");
-        customerProductView.setVisible(false);
-        valueDdlb.setVisible(false);
-        cancelOverride.setVisible(false);
-        cpLabel.setVisible(false);
+        boolean visiblity = false;
+        customerProductView.setVisible(visiblity);
+        valueDdlb.setVisible(visiblity);
+        cancelOverride.setVisible(visiblity);
+        cpLabel.setVisible(visiblity);
 
         bbExport.setPrimaryStyleName("link");
         bbExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
@@ -131,12 +134,12 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
 
     @Override
     protected void configureRightTable() {
-        LOGGER.debug("Inside configureRightTable MEthod");
+        TR6_INVENTORY_LOGGER.debug("Inside configureRightTable MEthod");
     }
 
     @Override
     protected boolean calculateLogic() {
-        LOGGER.debug("Inside calculate ButtonClick Btn");
+        TR6_INVENTORY_LOGGER.debug("Inside calculate ButtonClick Btn");
         try {
             List input = new ArrayList();
             input.add(getSelection().getSessionDTO().getCurrentTableNames().get("ST_ARM_INFLATION_INVENTORY"));
@@ -149,7 +152,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
                 getSummaryLogic().updateForCalculte(input, getSelection().getSessionDTO().getCurrentTableNames().get("ST_ARM_INFLATION_INVENTORY_ADJ"));
             }
         } catch (Exception e) {
-            LOGGER.error("Error in calculateLogic :", e);
+            TR6_INVENTORY_LOGGER.error("Error in calculateLogic :", e);
         }
         return false;
     }
@@ -180,78 +183,91 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
             selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId()};
         getSummaryLogic().getInventoryResults(orderedArgs);
         setConverter(rightTable, rightTable.getVisibleColumns());
-        getTableLogic().loadSetData(Boolean.FALSE);
+        getTableLogic().loadSetData(false);
 
     }
 
     @Override
     protected boolean setRespectiveLevelFileterValue(String levelValue, int levelNo) {
+        TR6_INVENTORY_LOGGER.debug("Inside setRespectiveLevelFileterValue");
         getSelection().setSaleslevelFilterValue(levelValue);
         return true;
     }
 
     @Override
     public Trx6InventoryLogic getSummaryLogic() {
+        TR6_INVENTORY_LOGGER.debug("Inside getSummaryLogic");
         return (Trx6InventoryLogic) super.getSummaryLogic();
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
+        TR6_INVENTORY_LOGGER.debug("Inside getExcelLogic");
         return getSummaryLogic();
     }
 
     @Override
     public Object[] getExcelHierarchy() {
+        TR6_INVENTORY_LOGGER.debug("Inside getExcelHierarchy");
         return new Object[]{"T", "B", "I"};
     }
 
     @Override
     public List getExcelExportVisibleColumn() {
+        TR6_INVENTORY_LOGGER.debug("Inside getExcelExportVisibleColumn");
         return getSelection().getInventoryHeaderList();
     }
 
     @Override
     public String getExcelFileName() {
+        TR6_INVENTORY_LOGGER.debug("Inside getExcelFileName");
         return "Inventory";
     }
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.FALSE;
+        TR6_INVENTORY_LOGGER.debug("Inside getisFixedColumns");
+        return false;
     }
 
     @Override
     public int getInterval() {
+        TR6_INVENTORY_LOGGER.debug("Inside getInterval");
         return 0;
     }
 
     @Override
     public int discountColumnNeeded() {
+        TR6_INVENTORY_LOGGER.debug("Inside discountColumnNeeded");
         return 0;
     }
 
     @Override
     public Map<Integer, String> getHierarchy() {
+        TR6_INVENTORY_LOGGER.debug("Inside getHierarchy");
         return getSelection().getSaleshierarchy();
     }
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
+        TR6_INVENTORY_LOGGER.debug("Inside setRespectiveHierarchy");
         getSelection().setSaleshierarchy(ARMUtils.getLevelAndLevelFilter(ARMConstants.getDeductionCustomer()));
     }
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        TR6_INVENTORY_LOGGER.debug("Inside getisDeductionCustomer");
+        return false;
     }
 
     @Override
     protected void excelExportLogic() {
         try {
+            boolean visiblity = false;
             tableLayout.addComponent(getExcelTable());
             getExcelTable().setContainerDataSource(getExcelContainer());
-            getExcelTable().setRefresh(Boolean.FALSE);
-            getExcelTable().setVisible(Boolean.FALSE);
+            getExcelTable().setRefresh(visiblity);
+            getExcelTable().setVisible(visiblity);
             setExcelVisibleColumn();
             List list = getExcelLogic().getExcelResultList(getSelection());
             List<Object> listData = new ArrayList<>();
@@ -259,37 +275,37 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
             listData.add(Boolean.FALSE);
             listData.add(getIsDemandSreen());
             listData.add(getInterval());
-            ExcelUtils.setExcelData(list, getExcelHierarchy(), getExcelExportVisibleColumn(), getExcelContainer(), discountColumnNeeded(), ARMConstants.getPipelineInventoryTrueUp(), listData);
-            ((CommonUI) getUI()).setExcelFlag(Boolean.TRUE);
+            ExcelUtils.setExcelData(list, getExcelHierarchy(), getExcelExportVisibleColumn(),  getExcelContainer(), discountColumnNeeded(), ARMConstants.getPipelineInventoryTrueUp(), listData);
+            ((CommonUI) getUI()).setExcelFlag(!visiblity);
             ExcelExport export = new ExcelExport(new ExtCustomTableHolder(getExcelTable()), getExcelFileName(), getExcelFileName(), getExcelFileName() + ".xls", false);
-            export.setUseTableFormatPropertyValue(Boolean.TRUE);
+            export.setUseTableFormatPropertyValue(!visiblity);
             export.export();
             getExcelContainer().removeAllItems();
             tableLayout.removeComponent(getExcelTable());
         } catch (Exception ex) {
-            LOGGER.error("Error in excelExportLogic :", ex);
+            TR6_INVENTORY_LOGGER.error("Error in excelExportLogic :", ex);
         }
     }
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-        LOGGER.debug("inside loadLevelFilterValueDdlb Method");
+        TR6_INVENTORY_LOGGER.debug("inside loadLevelFilterValueDdlb Method");
     }
 
     @Override
     protected void valueDdlbValueChange(int masterSids) {
-        LOGGER.debug("inside valueDdlbValueChange Method");
+        TR6_INVENTORY_LOGGER.debug("inside valueDdlbValueChange Method");
     }
 
     @Override
     protected void customerProductValueChange() {
-        LOGGER.debug("inside customerProductValueChange Method");
+        TR6_INVENTORY_LOGGER.debug("inside customerProductValueChange Method");
 
     }
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -315,8 +331,8 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object tr6InventoryObj) {
+        return super.equals(tr6InventoryObj);
     }
 
     @Override
@@ -324,11 +340,11 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream tr6InventoryObj) throws IOException {
+        tr6InventoryObj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream tr6InventoryObj) throws IOException, ClassNotFoundException {
+        tr6InventoryObj.defaultReadObject();
     }
 }

@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionBeforeCloseAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionRemoveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionSubmitAction;
@@ -942,6 +943,13 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		componentList.add(closeButton);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig dsBeforeCloseAction = new GtnUIFrameWorkActionConfig();
+		dsBeforeCloseAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		dsBeforeCloseAction.addActionParameter(GtnReportComparisonProjectionBeforeCloseAction.class.getName());
+		dsBeforeCloseAction.addActionParameter(
+				GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_RESULTS_GRID);
+		dsBeforeCloseAction.addActionParameter("dataSelectionTab_comparisonLookup");
+		
 		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
 		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		closeAction.addActionParameter(GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_LOOKUP_VIEW);

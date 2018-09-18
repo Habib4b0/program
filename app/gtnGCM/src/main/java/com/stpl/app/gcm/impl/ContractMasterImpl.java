@@ -99,15 +99,15 @@ public class ContractMasterImpl {
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("companyId")))) {
-                sql += " AND cm.COMPANY_ID LIKE '" + String.valueOf(filterMap.get("companyId")) + "'";
+                sql += " AND cm.COMPANY_ID LIKE '" + filterMap.get("companyId") + "'";
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("companyNo")))) {
-                sql += " AND cm.COMPANY_NO LIKE '" + String.valueOf(filterMap.get("companyNo")) + "'";
+                sql += " AND cm.COMPANY_NO LIKE '" + filterMap.get("companyNo") + "'";
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("companyName")))) {
-                sql += " AND cm.COMPANY_NAME LIKE '" + String.valueOf(filterMap.get("companyName")) + "'";
+                sql += " AND cm.COMPANY_NAME LIKE '" + filterMap.get("companyName") + "'";
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("companyStatus")))) {
@@ -163,7 +163,7 @@ public class ContractMasterImpl {
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("contractId")))) {
-                sql += " AND con.CONTRACT_ID LIKE '" + String.valueOf(filterMap.get("contractId")) + "'";
+                sql += " AND con.CONTRACT_ID LIKE '" + filterMap.get("contractId") + "'";
             }
 
             if (StringUtils.isNotBlank(contractNo)) {
@@ -171,7 +171,7 @@ public class ContractMasterImpl {
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get(StringConstantsUtil.CONTRACT_NO)))) {
-                sql += " AND con.CONTRACT_NO LIKE '" + String.valueOf(filterMap.get(StringConstantsUtil.CONTRACT_NO)) + "'";
+                sql += " AND con.CONTRACT_NO LIKE '" + filterMap.get(StringConstantsUtil.CONTRACT_NO) + "'";
             }
 
             if (StringUtils.isNotBlank(contractName)) {
@@ -179,7 +179,7 @@ public class ContractMasterImpl {
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("contractName")))) {
-                sql += " AND con.CONTRACT_NAME LIKE '" + String.valueOf(filterMap.get("contractName")) + "'";
+                sql += " AND con.CONTRACT_NAME LIKE '" + filterMap.get("contractName") + "'";
             }
 
             if (StringUtils.isNotBlank(tradeClass)) {
@@ -190,7 +190,7 @@ public class ContractMasterImpl {
                 sql += " AND con.CONT_HOLD_COMPANY_MASTER_SID=" + tradingPartner;
             }
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("tradingPartnerName")))) {
-                sql += " AND comptrade.COMPANY_NAME LIKE '" + String.valueOf(filterMap.get("tradingPartnerName")) + "'";
+                sql += " AND comptrade.COMPANY_NAME LIKE '" + filterMap.get("tradingPartnerName") + "'";
             }
 
             if (isCount) {

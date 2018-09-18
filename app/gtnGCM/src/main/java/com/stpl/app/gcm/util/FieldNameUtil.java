@@ -6,6 +6,7 @@
 package com.stpl.app.gcm.util;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +32,7 @@ public class FieldNameUtil {
        
     } 
                     
-   public static HashMap<String, String> loadDbColumnName() {       
+   public static Map<String, String> loadDbColumnName() {       
        companyColumnName.put("companyId", "COMPANY_ID");
        companyColumnName.put("companyNo", "COMPANY_NO");
        companyColumnName.put("companyName", "COMPANY_NAME");

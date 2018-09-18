@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 public class BSummaryDemandLogic extends AbstractBSummaryLogic {
 
     private DecimalFormat percentformat = new DecimalFormat("#,##0.00'%'");
-    public final Logger demandLogger = LoggerFactory.getLogger(BSummaryDemandLogic.class);
+    public static final Logger DEMAND_LOGGER = LoggerFactory.getLogger(BSummaryDemandLogic.class);
 
     private String[] columns = {"Demand Accrual", "Demand Reforecast", "Payment True-up", "Actual Payments", "Period Balance", ARMUtils.PAYMENT_RATIO};
 
@@ -51,55 +51,55 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
 
     @Override
     protected List getQueryTableinput(SessionDTO sessionDTO) {
-        demandLogger.debug("Inside Demand getQueryTableinput");
+        DEMAND_LOGGER.debug("Inside Demand getQueryTableinput");
         return Collections.emptyList();
     }
 
     @Override
     public List getTableInput(SessionDTO sessionDTO) {
-        demandLogger.debug("Inside Demand getTableInput");
+        DEMAND_LOGGER.debug("Inside Demand getTableInput");
         return Collections.emptyList();
     }
 
     @Override
     protected String getCommonQueryName() {
-        demandLogger.debug("Inside Demand getCommonQueryName");
+        DEMAND_LOGGER.debug("Inside Demand getCommonQueryName");
         return "BSummaryCommonQuery-Demand";
     }
 
     @Override
     protected String getLoadDataQueryName() {
-        demandLogger.debug("Inside Demand getLoadDataQueryName");
+        DEMAND_LOGGER.debug("Inside Demand getLoadDataQueryName");
         return "BSummaryLoadData-Demand";
     }
 
     @Override
     protected String getCountQueryName() {
-        demandLogger.debug("Inside Demand getCountQueryName");
+        DEMAND_LOGGER.debug("Inside Demand getCountQueryName");
         return "BSummaryCount-Demand";
     }
 
     @Override
     protected String getTotalQueryName() {
-        demandLogger.debug("Inside Demand getTotalQueryName");
+        DEMAND_LOGGER.debug("Inside Demand getTotalQueryName");
         return "BSummaryLoadTotalData-Demand";
     }
 
     @Override
     protected String getExcelQueryName() {
-        demandLogger.debug("Inside Demand getExcelQueryName");
+        DEMAND_LOGGER.debug("Inside Demand getExcelQueryName");
         return "getBSummaryExcelQuery-Demand";
     }
 
     @Override
     public List getQueryTableinputparameter(SessionDTO sessionDTO) {
-        demandLogger.debug("Inside Demand getQueryTableinputparameter");
+        DEMAND_LOGGER.debug("Inside Demand getQueryTableinputparameter");
         return Collections.emptyList();
     }
 
     @Override
     protected String getExcelTotalQueryName() {
-        demandLogger.debug("Inside Demand getExcelTotalQueryName");
+        DEMAND_LOGGER.debug("Inside Demand getExcelTotalQueryName");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -129,7 +129,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
             returnObj[0] = inputs;
             returnObj[1] = new TreeMap();
         } catch (Exception ex) {
-            demandLogger.error("Error in generateInputs:", ex);
+            DEMAND_LOGGER.error("Error in generateInputs:", ex);
         }
         return returnObj;
     }
