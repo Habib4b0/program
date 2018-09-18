@@ -20,9 +20,9 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	 public CustomerAndProductGroup()
 	    {
 	        super(CustomerAndProductGroup.class);
-	     
 	    }
 	   
+
 
 	    @Override
 	    public GtnUIFrameworkWebserviceRequest registerWs() {

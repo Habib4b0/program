@@ -75,7 +75,8 @@ public class GtnUIFrameworkWebServiceClient {
 
 		} catch (Exception e) {
             logger.error(e.getMessage());
-            logger.info("Failed Url---------------------" + url);
+            if(e.getMessage().contains("404 Not Found")){
+            logger.info("Failed Url-----------GtnUIFrameworkWebServiceClient----------" + url);
             GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure = new GtnUIFrameworkWebServiceClientCallOnFailure();
             gtnWebServiceClientCallOnFailure.setUrl(url);
             gtnWebServiceClientCallOnFailure.setModuleName(moduleName);
@@ -84,6 +85,7 @@ public class GtnUIFrameworkWebServiceClient {
             gtnWebServiceClientCallOnFailure.setWsClient(this);
             gtnWebServiceClientCallOnFailure.setStaticTime(staticTime);
             gtnWebServiceClientCallOnFailure.callGtnWebServiceUrlOnFailure();
+            }
 
 			return null;
 		}

@@ -185,8 +185,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     + " FROM " + ccpDetails + "\n"
                     + " order by CCP.HIERARCHY_NO OFFSET " + startIndex + Constant.ROWS_FETCH_NEXT_SPACE + endIndex + " ROWS ONLY ";
 
-            List<String> list = (List<String>) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-            return list;
+            return (List<String>) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             return Collections.emptyList();

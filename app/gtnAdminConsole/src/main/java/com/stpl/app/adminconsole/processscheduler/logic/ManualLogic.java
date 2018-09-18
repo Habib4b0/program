@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.slf4j.Logger;
@@ -68,7 +69,7 @@ public class ManualLogic {
          return COLUMN_NAME.get(visibleColumnName);         
     } 
                     
-   public static HashMap<String, String> loadDbColumnName() {       
+   public static Map<String, String> loadDbColumnName() {       
        COLUMN_NAME.put("processDisplayName", "PROCESS_NAME");
        COLUMN_NAME.put("manualLastRun", "MANUAL_LAST_RUN");
        

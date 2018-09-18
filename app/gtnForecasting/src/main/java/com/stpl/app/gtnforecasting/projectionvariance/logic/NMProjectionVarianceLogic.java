@@ -495,8 +495,8 @@ public class NMProjectionVarianceLogic {
 						parentQuery = parentQuery.replace(Constant.RELVERSION,
 								String.valueOf(pVSelectionDTO.getSessionDTO().getDeductionRelationVersion()));
 						String ccpQuery = parentQuery
-								+ ((Constant.TOTAL.equals(pVSelectionDTO.getLevel()) ? StringUtils.EMPTY
-										: insertAvailableHierarchyNoScheduleId(pVSelectionDTO)));
+								+ (Constant.TOTAL.equals(pVSelectionDTO.getLevel()) ? StringUtils.EMPTY
+										: insertAvailableHierarchyNoScheduleId(pVSelectionDTO));
 						ccpQuery += pVSelectionDTO.getLevelNo() == NumericConstants.TEN
 								? "  AND A.HIERARCHY_NO = RSC.RS_CONTRACT_SID "
 								: StringUtils.EMPTY;

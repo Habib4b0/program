@@ -1,4 +1,3 @@
-
 package com.stpl.gtn.gtn2o.registry.config;
 
 import java.util.ArrayList;
@@ -8,9 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkDeleteViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastEditAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureDeleteAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkSaveViewAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkScreenRegistryResetAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnModeOptionValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
@@ -31,7 +33,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 
 public class GtnUIFrameworkDataSelectionScreenConfig {
@@ -621,15 +622,25 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		searchBtn.setParentComponentId(parentComponentId);
 		searchBtn.setAuthorizationIncluded(true);
 		searchBtn.setAddToParent(true);
-		List<GtnUIFrameWorkActionConfig> actionConfigListSearch = new ArrayList<>();
-		GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
-		loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
-		loadDataSearchTableActionConfig
-				.setActionParameterList(Arrays.asList(new Object[] { nameSpace + "_" + "projectionResultsTable" }));
-		loadDataSearchTableActionConfig.setFieldValues(Arrays.asList(
-				new String[] { nameSpace + "_" + "projectionName", nameSpace + "_" + "projectionDescription" }));
-		actionConfigListSearch.add(loadDataSearchTableActionConfig);
-		searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
+                List<GtnUIFrameWorkActionConfig> actionConfigListSearch = new ArrayList<>();
+                GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
+                loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
+                loadDataSearchTableActionConfig.setActionParameterList(
+                Arrays.asList(new Object[]{nameSpace+"_"+"projectionResultsTable"}));
+                loadDataSearchTableActionConfig.setFieldValues(
+                        Arrays.asList(new String[]{nameSpace+"_"+"projectionName",
+                            nameSpace+"_"+"projectionDescription",
+                        nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
+                        nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
+                        "forecastLandingScreen_customerHierarchy",
+                        nameSpace + "_" + "prodhierarchyName"
+                        }));
+//                List<String> list=Arrays.asList(nameSpace + "_" + "to",nameSpace + "_" + "from");
+////                list.add(nameSpace + "_" + "to");
+////                list.add(nameSpace + "_" + "from");
+//                loadDataSearchTableActionConfig.setFieldDescription(list);
+                actionConfigListSearch.add(loadDataSearchTableActionConfig);
+                searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
 		searchBtn.setEnable(false);
 		componentList.add(searchBtn);
 
@@ -645,30 +656,54 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		resetBtn.setAddToParent(true);
 		componentList.add(resetBtn);
 
+		GtnUIFrameWorkActionConfig confirmResetAction = new GtnUIFrameWorkActionConfig();
+		confirmResetAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		confirmResetAction.addActionParameter("Confirm Reset");
+		confirmResetAction.addActionParameter("Are you sure you want to reset the page to default values?");
+		List<GtnUIFrameWorkActionConfig> onSuccessActionConfigList = new ArrayList<>();
+		confirmResetAction.addActionParameter(onSuccessActionConfigList);
+
+		
 		List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
-		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
-		List<Object> params = new ArrayList<>();
-		params.add(GtnFrameworkScreenRegisteryConstants.GTN_NEWARCHITECTURE_CONFIRMATION_MSG_RESET_HEADER);
-		params.add(GtnFrameworkScreenRegisteryConstants.GTN_VALIDATION_MSG_RESET);
-		params.add(Arrays.asList(nameSpace + "_" + "profileMode",
-				nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
-				nameSpace + "_" + "projectionName",
-				nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
-				nameSpace + "_" + "projectionDescription", nameSpace + "_" + "privateViewLookup",
-				nameSpace + "_" + "publicView"
-
-		));
-
-		params.add(Arrays.asList("Add", 0, GtnFrameworkCommonStringConstants.STRING_EMPTY, 0,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY
-
-		));
-
-		resetActionConfig.setActionParameterList(params);
-		resetActionConfigList.add(resetActionConfig);
+		resetActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		resetActionConfig.setActionParameterList(getParameters());
+		
+		onSuccessActionConfigList.add(resetActionConfig);
+		
+		resetActionConfigList.add(confirmResetAction);
 		resetBtn.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
+	}
+	
+	private List<Object> getParameters() {
+
+	 
+
+		return Arrays.asList(
+																																																																	 
+																																				 
+
+				GtnFrameworkScreenRegistryResetAction.class.getName(),
+				"Commercial Forecasting_privateViewLookup",
+				"Commercial Forecasting" + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
+				"Commercial Forecasting" + "_" + "projectionName",
+				"Commercial Forecasting" + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
+				"Commercial Forecasting" + "_" + "projectionDescription",
+				"Commercial Forecasting" + "_" + "publicView",
+				"forecastLandingScreen_customerHierarchy",
+				"Commercial_Forecasting_customerSelectionRelationship",
+				"Commercial_Forecasting_customerSelectionForecastLevel",
+				"Commercial Forecasting" + "_" + "customerGroup",
+				"Commercial Forecasting" + "_" + "customerDualListBox",
+				"Commercial Forecasting" + "_" + "prodhierarchyName",
+				"Commercial Forecasting" + "_" + "prodrelationship",
+				"Commercial Forecasting" + "_" + "prodforecastLevel",
+				"Commercial Forecasting" + "_" + "productDualListBox", "Commercial Forecasting" + "_" + "productGroup",
+				"Commercial Forecasting" + "_" + "profileMode"
+
+		);
+											   
+																																								
 
 	}
 
@@ -773,6 +808,24 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteViewBtn.setParentComponentId(parentComponentId);
 		deleteViewBtn.setAddToParent(true);
 		deleteViewBtn.setEnable(false);
+		
+		GtnUIFrameWorkActionConfig confirmDeleteAction = new GtnUIFrameWorkActionConfig();
+		confirmDeleteAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		confirmDeleteAction.addActionParameter("Confirmation");
+		confirmDeleteAction.addActionParameter("Are you sure you want to delete the view?");
+		List<GtnUIFrameWorkActionConfig> onSuccessDeleteActionConfigList = new ArrayList<>();
+		confirmDeleteAction.addActionParameter(onSuccessDeleteActionConfigList);
+		
+		GtnUIFrameWorkActionConfig deleteViewAction = new GtnUIFrameWorkActionConfig();
+		deleteViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteViewAction.addActionParameter(GtnFrameworkDeleteViewAction.class.getName());
+		deleteViewAction.addActionParameter(nameSpace + "_" + "privateViewLookup");
+		deleteViewAction.addActionParameter(nameSpace + "_" + "publicView"	);
+		deleteViewAction.addActionParameter(nameSpace);
+		onSuccessDeleteActionConfigList.add(deleteViewAction);
+		
+		deleteViewBtn.addGtnUIFrameWorkActionConfig(confirmDeleteAction);
+	
 		componentList.add(deleteViewBtn);
 	}
 
@@ -814,8 +867,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionResultsTable.setAddToParent(true);
 		projectionResultsTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		projectionResultsTable.setParentComponentId(nameSpace + "_" + "projectionResultsLayout");
-		projectionResultsTable.setModuleName("serviceRegistry");
-
+                projectionResultsTable.setModuleName("serviceRegistry");
+                
 		GtnUIFrameworkPagedTableConfig projectionResultsTableConfig = new GtnUIFrameworkPagedTableConfig();
 		projectionResultsTableConfig.setEditable(false);
 		projectionResultsTableConfig.setFilterBar(true);
@@ -842,7 +895,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionResultsTableConfig.setRegisteredWebContext("/GtnSearchWebService");
 		projectionResultsTableConfig.setModuleName("generalSearch");
 		projectionResultsTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
-
 		projectionResultsTable.setGtnPagedTableConfig(projectionResultsTableConfig);
 		componentList.add(projectionResultsTable);
 
@@ -959,6 +1011,20 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteBtn.setAddToParent(true);
 		deleteBtn.setEnable(false);
 		componentList.add(deleteBtn);
+
+                GtnUIFrameWorkActionConfig confirmDeleteAction = new GtnUIFrameWorkActionConfig();
+		confirmDeleteAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		confirmDeleteAction.addActionParameter("Confirmation");
+		confirmDeleteAction.addActionParameter("Are you sure you want to delete the projection?");
+		List<GtnUIFrameWorkActionConfig> onSuccessDeleteActionConfigList = new ArrayList<>();
+		confirmDeleteAction.addActionParameter(onSuccessDeleteActionConfigList);
+		
+		GtnUIFrameWorkActionConfig deleteAction = new GtnUIFrameWorkActionConfig();
+		deleteAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteAction.addActionParameter(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName());
+		deleteAction.addActionParameter(nameSpace + "_" + "projectionResultsTable");
+		onSuccessDeleteActionConfigList.add(deleteAction);
+                deleteBtn.addGtnUIFrameWorkActionConfig(confirmDeleteAction);
 	}
 
 	private GtnUIFrameWorkActionConfig loadForecastEligibleDate(String nameSpace) {

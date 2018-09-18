@@ -5,11 +5,13 @@ import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadA
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnForecastingDataSelectionLoadViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnForecastingProductAvailableTableLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkDeleteViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDataSelectionViewAddAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDataSelectionViewUpdateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDateValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastEditAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureDeleteAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkScreenRegistryResetAction;
@@ -85,8 +87,14 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkScreenRegistryResetAction.class.getName(),
 				new GtnFrameworkScreenRegistryResetAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnModeOptionValueChangeAction.class.getName(),
+				new GtnModeOptionValueChangeAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkDeleteViewAction.class.getName(),
+				new GtnFrameworkDeleteViewAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastEditAction.class.getName(),
 				new GtnFrameworkForecastEditAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName(),
+                                new GtnFrameworkNewToOldArchitectureDeleteAction());
 	}
 
 }

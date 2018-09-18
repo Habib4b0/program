@@ -23,6 +23,8 @@ public class GtnFrameworkForecastInputBean {
     private int productRelationVersionNo;
     private int customerHierarchyLevel;
     private int productHierarchyLevel;
+    private int customerHierarchyInnerLevel;
+	private int productHierarchyInnerLevel;
     private int customerRelationLevel;
     private int productRelationLevel;
     private Date forecastEligibleDate;
@@ -57,85 +59,6 @@ public class GtnFrameworkForecastInputBean {
     private String deductionValue;
     private String frequency;
 
-    public String getProjectionName() {
-        return projectionName;
-    }
-
-    public void setProjectionName(String projectionName) {
-        this.projectionName = projectionName;
-    }
-
-    public String getProjectionDescription() {
-        return projectionDescription;
-    }
-
-    public void setProjectionDescription(String projectionDescription) {
-        this.projectionDescription = projectionDescription;
-    }
-
-    public int getCompany() {
-        return company;
-    }
-
-    public void setCompany(int company) {
-        this.company = company;
-    }
-
-    public int getBusinessUnit() {
-        return businessUnit;
-    }
-
-    public void setBusinessUnit(int businessUnit) {
-        this.businessUnit = businessUnit;
-    }
-
-    public String getPrivateViewName() {
-        return privateViewName;
-    }
-
-    public void setPrivateViewName(String privateViewName) {
-        this.privateViewName = privateViewName;
-    }
-
-    public String getPublicViewName() {
-        return publicViewName;
-    }
-
-    public void setPublicViewName(String publicViewName) {
-        this.publicViewName = publicViewName;
-    }
-
-    public String getCustomerHierarchyName() {
-        return customerHierarchyName;
-    }
-
-    public void setCustomerHierarchyName(String customerHierarchyName) {
-        this.customerHierarchyName = customerHierarchyName;
-    }
-
-    public String getProductHierarchyName() {
-        return productHierarchyName;
-    }
-
-    public void setProductHierarchyName(String productHierarchyName) {
-        this.productHierarchyName = productHierarchyName;
-    }
-
-    public String getCustomerGroupName() {
-        return customerGroupName;
-    }
-
-    public void setCustomerGroupName(String customerGroupName) {
-        this.customerGroupName = customerGroupName;
-    }
-
-    public String getProductGroupName() {
-        return productGroupName;
-    }
-
-    public void setProductGroupName(String productGroupName) {
-        this.productGroupName = productGroupName;
-    }
 
     public int getCustomerRelationSid() {
         return customerRelationSid;
@@ -448,5 +371,101 @@ public class GtnFrameworkForecastInputBean {
     public void setFrequency(String frequency) {
         this.frequency = frequency;
     }
+
+	public int getCustomerHierarchyInnerLevel() {
+		return customerHierarchyInnerLevel;
+	}
+
+	public void setCustomerHierarchyInnerLevel(int customerHierarchyInnerLevel) {
+		this.customerHierarchyInnerLevel = customerHierarchyInnerLevel;
+	}
+
+	public int getProductHierarchyInnerLevel() {
+		return productHierarchyInnerLevel;
+	}
+
+	public void setProductHierarchyInnerLevel(int productHierarchyInnerLevel) {
+		this.productHierarchyInnerLevel = productHierarchyInnerLevel;
+	}
+
+	public String getProjectionName() {
+		return projectionName;
+	}
+
+	public void setProjectionName(String projectionName) {
+		this.projectionName = projectionName;
+	}
+
+	public String getProjectionDescription() {
+		return projectionDescription;
+	}
+
+	public void setProjectionDescription(String projectionDescription) {
+		this.projectionDescription = projectionDescription;
+	}
+
+	public int getCompany() {
+		return company;
+	}
+
+	public void setCompany(int company) {
+		this.company = company;
+	}
+
+	public int getBusinessUnit() {
+		return businessUnit;
+	}
+
+	public void setBusinessUnit(int businessUnit) {
+		this.businessUnit = businessUnit;
+	}
+
+	public String getPrivateViewName() {
+		return privateViewName;
+	}
+
+	public void setPrivateViewName(String privateViewName) {
+		this.privateViewName = privateViewName;
+	}
+
+	public String getPublicViewName() {
+		return publicViewName;
+	}
+
+	public void setPublicViewName(String publicViewName) {
+		this.publicViewName = publicViewName;
+	}
+
+	public String getCustomerHierarchyName() {
+		return customerHierarchyName;
+	}
+
+	public void setCustomerHierarchyName(String customerHierarchyName) {
+		this.customerHierarchyName = customerHierarchyName;
+	}
+
+	public String getProductHierarchyName() {
+		return productHierarchyName;
+	}
+
+	public void setProductHierarchyName(String productHierarchyName) {
+		this.productHierarchyName = productHierarchyName;
+	}
+
+	public String getCustomerGroupName() {
+		return customerGroupName;
+	}
+
+	public void setCustomerGroupName(String customerGroupName) {
+		this.customerGroupName = customerGroupName;
+	}
+
+	public String getProductGroupName() {
+		return productGroupName;
+	}
+
+	public void setProductGroupName(String productGroupName) {
+		this.productGroupName = productGroupName;
+	}
 
 }
