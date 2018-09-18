@@ -48,6 +48,11 @@ import com.stpl.gtn.gtn2o.ws.response.forecastconfiguration.GtnWsForecastConfigu
 
 import junit.framework.Assert;
 
+/**
+*
+* @author Praveen.Kumar
+*/
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
 public class GtnWsForecastConfigurationControllerTest {
@@ -58,9 +63,6 @@ public class GtnWsForecastConfigurationControllerTest {
 	@Autowired
 	GtnWsForecastConfigurationController ins;
 	
-
-	@Autowired
-	private org.hibernate.SessionFactory sysSessionFactory;
 	
      @Before
       public void setup() {
@@ -78,6 +80,13 @@ public class GtnWsForecastConfigurationControllerTest {
 		GtnUIFrameworkWebserviceResponse result= ins.loadForecastPeriod(request);
 		assertFalse(result==null);
 	}
+	@Test
+	public void testLoadForecastPeriod_Fail() throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceRequest request=new GtnUIFrameworkWebserviceRequest();
+		GtnWsForecastConfigurationController in=Mockito.spy(ins);
+		doReturn(null).when(in).getCurrentGTSToCalendar(Mockito.anyString());
+		GtnUIFrameworkWebserviceResponse result= in.loadForecastPeriod(request);
+	}
 
 	@Test
 	public void testPeriodModeValue() {
@@ -86,6 +95,13 @@ public class GtnWsForecastConfigurationControllerTest {
 		assertFalse(result==null);
 	}
 	
+	@Test
+	public void testPeriodModeValue_Fail() throws Exception {
+		GtnUIFrameworkWebserviceRequest gtnWsRequest=new GtnUIFrameworkWebserviceRequest();
+		GtnWsForecastConfigurationController in=Mockito.spy(ins);
+		doReturn(null).when(in).getCurrentGTSToCalendar(Mockito.anyString());
+		GtnUIFrameworkWebserviceResponse result=in.periodModeValue(gtnWsRequest);
+	}
 
 	@Test
 	public void testCheckSaveForecastConfiguration() {
@@ -550,14 +566,14 @@ public class GtnWsForecastConfigurationControllerTest {
 		Calendar cal1=Calendar.getInstance();
 		cal1.set(2017,10,1);
 		fcRequest.setFromDate(cal1.getTime());
-		
+		fcRequest.setToDate(null);
 		fcRequest.setProcessType("val");
 		fcRequest.setProcessType("Defined");
 		fcRequest.setMode("Period");
 		Calendar cale = Calendar.getInstance();
 		cale.set(2018, 2, 31);
 		fcRequest.setToDate(cale.getTime());
-		
+		fcRequest.setToDate(null);
 		ins.validateSaveForecastConfiguration(fcRequest, fcResponse);
 	}
 	
@@ -626,6 +642,22 @@ public class GtnWsForecastConfigurationControllerTest {
 	}
 	
 	@Test
+	public void testHistoryIntervalValueChangeFail() {
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnWsForecastConfigurationController in=Mockito.spy(ins);
+		doReturn(null).when(in).historyIntervalValueChangeLogic(Mockito.any());
+		in.historyIntervalValueChange(request);
+	}
+	
+	@Test
+	public void testHistoryIntervalValueChangeLogic_Fail() {
+		GtnWsForecastConfigurationRequest request=new GtnWsForecastConfigurationRequest();
+		SessionFactory factory=Mockito.mock(SessionFactory.class);
+		doReturn(null).when(factory).openSession();
+		ins.historyIntervalValueChangeLogic(request);
+	}
+	
+	@Test
 	public void testFutureFrequencyValueChange() {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		
@@ -650,6 +682,16 @@ public class GtnWsForecastConfigurationControllerTest {
 		GtnUIFrameworkWebserviceResponse result =ins.futureFrequencyValueChange(request);
 		assertFalse(result==null);
 	}
+	
+	@Test
+	public void testFutureFrequencyValueChange_Fail() {
+		GtnUIFrameworkWebserviceRequest gtnWsRequest=new GtnUIFrameworkWebserviceRequest();
+		GtnWsForecastConfigurationController in=Mockito.spy(ins);
+		doReturn(null).when(in).futureIntervalDynamicValueChangeLogic(Mockito.any());
+		GtnUIFrameworkWebserviceResponse result= in.futureFrequencyValueChange(gtnWsRequest);
+		
+	}
+	
 	
 	@Test
 	public void testGetCurrentGTSToCalendar() throws Exception {
@@ -907,5 +949,8 @@ public class GtnWsForecastConfigurationControllerTest {
 		ins.getSysSchemaCatalog();
 	}
 	
-
+	@Test
+	public void testGetForecastYear() throws Exception {
+		ins.getForecastYear("v", "val");
+	}
 }
