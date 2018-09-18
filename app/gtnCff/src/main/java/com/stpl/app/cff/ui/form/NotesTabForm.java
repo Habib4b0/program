@@ -135,7 +135,7 @@ public class NotesTabForm extends AbstractNotesTab {
 					TimeZone central = TimeZone.getTimeZone("CST");
 					format.setTimeZone(central);
 					String addedNotes = internalNotes.getValue() + "<" + format.format(new Date()) + "> " + userName
-							+ ":" + String.valueOf(newNote.getValue()) + "\n";
+							+ ":" + (newNote.getValue()) + "\n";
 					internalNotes.setReadOnly(false);
 					internalNotes.setValue(addedNotes);
 					newNote.setValue(StringUtils.EMPTY);
