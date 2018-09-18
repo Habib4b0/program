@@ -99,7 +99,7 @@ public class GtnWsIfpSaveService {
 		return ifpModel;
 	}
 
-	private HelperTable getHelperTable(Integer systemId, Session session) {
+	public HelperTable getHelperTable(Integer systemId, Session session) {
 		return session.load(HelperTable.class, systemId == null ? Integer.valueOf(0) : systemId);
 	}
 

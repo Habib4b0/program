@@ -52,18 +52,18 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
                     commonLogic.getInventCustomerProductGroupCount(customerGroupBinderDto, resultsinventoryContainer, customerGroupBinderDto.isViewFlag(), selectionDto);
 
                 }
-                for (Container.Filter fil : getFilters()) {
-                    customerGroupBinderDto.addFilter(fil);
+                for (Container.Filter filters : getFilters()) {
+                    customerGroupBinderDto.addFilter(filters);
                 }
-                ExtStringFilter filter = null;
-                ExtStringFilter filter1 = null;
+                ExtStringFilter countFilter = null;
+                ExtStringFilter countFilter1 = null;
                 if (!customerGroupBinderDto.getCustomerGroupName().isEmpty()) {
-                    filter = new ExtStringFilter("customerGroupName", customerGroupBinderDto.getCustomerGroupName(), true, true, true);
-                    customerGroupBinderDto.addFilter(filter);
+                    countFilter = new ExtStringFilter("customerGroupName", customerGroupBinderDto.getCustomerGroupName(), true, true, true);
+                    customerGroupBinderDto.addFilter(countFilter);
                 }
                 if (!customerGroupBinderDto.getCustomerGroupNo().isEmpty()) {
-                    filter1 = new ExtStringFilter("customerGroupNo", customerGroupBinderDto.getCustomerGroupNo(), true, true, true);
-                    customerGroupBinderDto.addFilter(filter1);
+                    countFilter1 = new ExtStringFilter("customerGroupNo", customerGroupBinderDto.getCustomerGroupNo(), true, true, true);
+                    customerGroupBinderDto.addFilter(countFilter1);
                 }
                 Container.Filter filter2 = new Compare.Equal("selectedFlag", Boolean.FALSE);
                 Set<Container.Filter> filterSet = customerGroupBinderDto.getFilters();

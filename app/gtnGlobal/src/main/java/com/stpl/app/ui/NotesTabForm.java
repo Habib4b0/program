@@ -61,7 +61,6 @@ public class NotesTabForm extends AbstractNotesTab {
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabForm.class);
 
 	private String masterTableSid;
-	private boolean destFileUploadCheck;
 	private final String dbModuleName;
 	private final ErrorfulFieldGroup binder;
 	private final String moduleName;
@@ -187,7 +186,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				NotesDTO attachmentDTO = new NotesDTO();
 				String name = file + sb.substring(sb.indexOf("."));
 				File renameFileUpload = GtnFileUtil.getFile(fileUploadPath + name);
-				destFileUploadCheck=destFileUpload.renameTo(renameFileUpload);
+				boolean destFileUploadCheck = destFileUpload.renameTo(renameFileUpload);
 				LOGGER.info("File is renamed successfully : {}",destFileUploadCheck);
 				if (!StringUtils.isBlank(file)) {
 					attachmentDTO.setDocumentName(name);

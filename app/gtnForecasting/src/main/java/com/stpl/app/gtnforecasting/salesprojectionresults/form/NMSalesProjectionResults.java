@@ -828,7 +828,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         levelFilterDdlbChangeOption(true);
         exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         exportPeriodViewTable.setDoubleHeaderVisible(true);
-        ForecastUI.setEXCEL_CLOSE(true);
+        ForecastUI.setEXCELCLOSE(true);
         ExcelExport exp = null;
         int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
         if (Constant.PERIOD.equals(String.valueOf(pivotView.getValue())) && (QUARTERLY.getConstant().equals(String.valueOf(frequency.getValue())) || MONTHLY.getConstant().equals(String.valueOf(frequency.getValue())))) {
@@ -845,7 +845,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 exportPeriodViewTable.setDoubleHeaderMap((Map<Object, Object[]>) projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.FIVE));
                 exportPeriodViewTable.setRefresh(true);
                 String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-                ForecastUI.setEXCEL_CLOSE(true);
+                ForecastUI.setEXCELCLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SALES_PROJECTION_RESULTS, "Sales_Projection_Results.xls", false);
                 } else {

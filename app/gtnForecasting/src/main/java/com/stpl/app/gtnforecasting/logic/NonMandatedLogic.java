@@ -1607,7 +1607,7 @@ public class NonMandatedLogic {
 		if (Constant.EDIT.equalsIgnoreCase(inputDto.getAction())
 				|| Constant.VIEW.equalsIgnoreCase(inputDto.getAction())) {
 			SupplementalDiscountProjectionLogic logic = new SupplementalDiscountProjectionLogic();
-			String pojectionDetailsSids = CommonUtils.CollectionToString(logic.getProjectionDetailsSid(inputDto),
+			String pojectionDetailsSids = CommonUtils.collectionToStringMethod(logic.getProjectionDetailsSid(inputDto),
 					false);
 			logic.masterToTempCopy(inputDto, pojectionDetailsSids);
 		}

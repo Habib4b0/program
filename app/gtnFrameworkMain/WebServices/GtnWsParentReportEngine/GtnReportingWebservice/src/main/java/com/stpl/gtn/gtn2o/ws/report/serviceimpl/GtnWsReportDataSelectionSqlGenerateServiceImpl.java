@@ -393,6 +393,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 		String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
 				.getCurrencyConversion();
+			
+	
 
 		if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
 			dataForHierarchy.entrySet().stream()
@@ -452,9 +454,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			return data[6] + " - " + data[7];
 		}
 		if (String.valueOf(displayFormat[0]).equals("Name")) {
-			return data[6] == null ? data[1].toString() : data[6].toString();
+			return data[7] == null ? data[1].toString() : data[7].toString();
 		} else {
-			return data[7] == null ? data[1].toString() : data[4].toString();
+			return data[6] == null ? data[1].toString() : data[6].toString();
 		}
 	}
 
@@ -494,7 +496,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					obj[0] = variableBreakdown.get(i).getMasterSid();
 					obj[1] = variableBreakdown.get(i).getPeriod();
 					obj[2] = variableBreakdown.get(i).getYear();
-					obj[3] = new Byte((byte) ((Integer) variableBreakdown.get(i).getSelectedVariable()).intValue());
+					obj[3] = Byte.valueOf((byte) ((Integer) variableBreakdown.get(i).getSelectedVariable()).intValue());
 					gtnSqlQueryEngine.executeInsertOrUpdateQuery(
 
 							replaceTableNames(GtnWsQueryConstants.VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY, tableMap), obj,
@@ -633,13 +635,17 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		}
 
 	}
-
+//To be changed ***	
 	// Method to format values to non-decimal if user has selected Currency
 	// Display
 	// = No Conversion
 	private void currencyTypeNoConversionDataConverters(GtnWsRecordBean gtnWsRecordBean, String mapKey,
 			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition) {
-		if (("V".equals(variableIndicator) || levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
+		
+		GTNLOGGER.info("mapkey: " + mapKey);
+		GTNLOGGER.info("levelName: " + levelName);
+		
+		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
 				|| mapKey.contains("PER") || mapKey.contains("RATE") || mapKey.contains("WEIGHTED")) {
 			
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
@@ -651,6 +657,13 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 						GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
 
 		}
+//		else if (isTotalSpecialCondition  && !mapKey.contains("UNIT") && !(mapKey.contains("PER") 
+//				&& !mapKey.contains("WEIGHTED"))) {
+//			
+//			gtnWsRecordBean.addProperties(mapKey,
+//					GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));
+//			
+//		}
 		else {
 			gtnWsRecordBean.addProperties(mapKey,
 					GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));

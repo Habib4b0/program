@@ -94,6 +94,8 @@ public class GtnWsReportRightTableLoadDataService {
 		if (dashboardBean.getCcpDetailsSidList() != null && !dashboardBean.getCcpDetailsSidList().isEmpty()) {
 			ccpFilter = StringUtils.join(dashboardBean.getCcpDetailsSidList(), ",");
 		}
+		
+		
 
 		ccpFilter = !ccpFilter.equals("NULL") ? "'" + ccpFilter + "'" : "NULL";
 		procedure = procedure.replaceAll(":ccpComp:", ccpFilter);

@@ -37,15 +37,15 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
     public static final Logger LOGGERFORRATESTAB = LoggerFactory.getLogger(Trx7PipelineAccrualRateLogic.class);
 
     @Override
-    public int getCount(Criteria criteria) {
-        return (int) getRateQuery((AbstractSelectionDTO) criteria.getSelectionDto(), criteria.getParent(), true, 0, 0, 0, 0);
+    public int getCount(Criteria tr7Criteria) {
+        return (int) getRateQuery((AbstractSelectionDTO) tr7Criteria.getSelectionDto(), tr7Criteria.getParent(), true, 0, 0, 0, 0);
     }
 
     @Override
-    public DataResult<T> getData(Criteria criteria) {
-        List result = (List) getRateQuery((AbstractSelectionDTO) criteria.getSelectionDto(), criteria.getParent(), false, criteria.getStart(), criteria.getOffset(), 0, 0);
+    public DataResult<T> getData(Criteria tr7Criteria) {
+        List tr7Result = (List) getRateQuery((AbstractSelectionDTO) tr7Criteria.getSelectionDto(), tr7Criteria.getParent(), false, tr7Criteria.getStart(), tr7Criteria.getOffset(), 0, 0);
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
-        dataResult.setDataResults(result);
+        dataResult.setDataResults(tr7Result);
         return dataResult;
     }
 
@@ -109,7 +109,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
                 dto.setLevelNo(selection.getLevelNo());
             }
             if (!ARMUtils.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
-                dto.addStringProperties(String.valueOf(obj[0]) + "." + columnList.indexOf(String.valueOf(obj[0])), decimalformat.format(Double.valueOf(obj[NumericConstants.TWO] == null ? "0" : String.valueOf(obj[NumericConstants.TWO]))) + "%");
+                dto.addStringProperties(String.valueOf(obj[0]) + ARMUtils.DOT + columnList.indexOf(String.valueOf(obj[0])), decimalformat.format(Double.valueOf(obj[NumericConstants.TWO] == null ? "0" : String.valueOf(obj[NumericConstants.TWO]))) + ARMUtils.CHAR_PERCENT);
             }
             lastValue = String.valueOf(obj[1]);
         }
