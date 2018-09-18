@@ -50,7 +50,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  * Nameâ€™ drop down to search by all the fields in the actual Customer
  * Gross Trades Sales data set.
  *
- * @author 
+ * @author
  */
 public class ExclusionDetailsLookup extends Window {
 
@@ -511,8 +511,8 @@ public class ExclusionDetailsLookup extends Window {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object exclDetObj) {
+        return super.equals(exclDetObj);
     }
 
     @Override
@@ -520,11 +520,11 @@ public class ExclusionDetailsLookup extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream exclDetObj) throws IOException {
+        exclDetObj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream exclDetObj) throws IOException, ClassNotFoundException {
+        exclDetObj.defaultReadObject();
     }
 }
