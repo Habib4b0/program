@@ -90,11 +90,11 @@ public class CommonUtil {
             column = String.valueOf(year);
         } else {
             if (ConstantsUtils.QUARTERLY.equalsIgnoreCase(detailsDto.getFrequency())) {
-                column = "q" + month + StringUtils.EMPTY + String.valueOf(year);
+                column = "q" + month + StringUtils.EMPTY + (year);
             } else if (ConstantsUtils.SEMI_ANNUAL.equalsIgnoreCase(detailsDto.getFrequency())) {
-                column = "s" + month + StringUtils.EMPTY + String.valueOf(year);
+                column = "s" + month + StringUtils.EMPTY + (year);
             } else if (ConstantsUtils.MONTHLY.equalsIgnoreCase(detailsDto.getFrequency())) {
-                column = StringUtils.EMPTY + CURRENT_MONTH[month - 1] + "~" + String.valueOf(year);
+                column = StringUtils.EMPTY + CURRENT_MONTH[month - 1] + "~" + (year);
             }
         }
         return column;

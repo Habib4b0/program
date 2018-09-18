@@ -4014,7 +4014,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			String selectedLevel = String.valueOf(event.getProperty().getValue());
 			setSelectedCustomerLevel(selectedLevel);
 
-			String val[] = selectedLevel.split(" ");
+			String [] val= selectedLevel.split(" ");
 			int forecastLevel = Integer.parseInt(val[1]);
 			customerInnerLevelContainer.removeAllItems();
 			selectedCustomer.removeAllItems();
