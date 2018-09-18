@@ -227,6 +227,8 @@ public class DataSelectionDTO implements Serializable {
 
         private List<GtnWsRecordBean> dsCustomerSelectedTableBean;
 
+        private List<GtnWsRecordBean> dsProductSelectedTableBean;
+
         private String CustomerOrProduct = "";
 
         private GtnFrameworkForecastInputBean inputBean;
@@ -268,6 +270,16 @@ public class DataSelectionDTO implements Serializable {
     public void setDsProductHierarchyBean(GtnWsRecordBean dsProductHierarchyBean) {
         this.dsProductHierarchyBean = dsProductHierarchyBean;
     }
+    
+    
+    public List<GtnWsRecordBean> getDsProductSelectedTableBean() {
+        return dsProductSelectedTableBean;
+    }
+
+    public void setDsProductSelectedTableBean(List<GtnWsRecordBean> dsProductSelectedTableBean) {
+        this.dsProductSelectedTableBean = dsProductSelectedTableBean;
+    }
+        
         private GtnWsRecordBean dsProductHierarchyBean;
         
 	public Integer getFileEndMonth() {
