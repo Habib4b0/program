@@ -68,6 +68,7 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		logger.info("Webservice to Register: " + webServiceRegistryBean.getRegisteredWebContext());
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
+		addSecurityToken(request);
 		return request;
 	}
 
