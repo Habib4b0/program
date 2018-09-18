@@ -456,7 +456,7 @@ public class ProjectionResults extends ForecastProjectionResults {
 
                 exceltable.setDoubleHeaderMap((Map<Object, Object[]>) projectionSelectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.FIVE));
                 exceltable.setRefresh(true);
-                String sheetName = "Year " + String.valueOf(projectionSelectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
+                String sheetName = "Year " + (projectionSelectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
               if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, StringConstantsUtil.PROJECTION_RESULTS, "ProjectionResults.xls", false);
                 } else {

@@ -2893,7 +2893,7 @@ public class ProjectionVarianceLogic {
                     ccps = String.valueOf(obj[0]);
                     flag = false;
                 } else {
-                    ccps = ccps + "," + String.valueOf(obj[0]);
+                    ccps = ccps + "," + (obj[0]);
             }
         }
     }
