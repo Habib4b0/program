@@ -187,7 +187,7 @@ public class SearchForm extends CustomComponent {
             @Override
             public void valueChange(ValueChangeEvent vce) {
                 boolean value = add.getValue();
-                if (value == true) {
+                if (value) {
                     int size = searchFieldResult.size();
 
                     if (size != 0) {
@@ -209,7 +209,7 @@ public class SearchForm extends CustomComponent {
             public void valueChange(ValueChangeEvent vce) {
                 boolean value = view.getValue();
 
-                if (value == true) {
+                if (value) {
                     int size = searchFieldResult.size();
 
                     if (size != 0) {
@@ -230,7 +230,7 @@ public class SearchForm extends CustomComponent {
             public void valueChange(ValueChangeEvent vce) {
                 boolean value = edit.getValue();
 
-                if (value == true) {
+                if (value) {
                     int size = searchFieldResult.size();
 
                     if (size != 0) {

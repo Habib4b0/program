@@ -10,6 +10,7 @@ import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -109,7 +110,7 @@ public class HeaderUtils {
         return COL_NAMES.get(visibleColumnName);
     }
 
-    public static HashMap<String, String> loadColumnNames() {
+    public static Map<String, String> loadColumnNames() {
         COL_NAMES.put("organisationKey", "ORGANIZATION_KEY");
         COL_NAMES.put("customerId", "COMPANY_ID");
         COL_NAMES.put("customerName", "COMPANY_NAME");

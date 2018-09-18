@@ -717,7 +717,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				this.tabName + "_custom_Variable_OptionGroup" });
 		saveActionConfig.addActionParameter(tabName + "customTreeTable");
 		saveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE);
-		saveActionConfig.addActionParameter(Boolean.TRUE);
+		saveActionConfig.addActionParameter(Boolean.FALSE);
 		saveButton.addGtnUIFrameWorkActionConfig(saveActionConfig);
 
 		GtnUIFrameworkComponentConfig selectButtonConfig = new GtnUIFrameworkComponentConfig();

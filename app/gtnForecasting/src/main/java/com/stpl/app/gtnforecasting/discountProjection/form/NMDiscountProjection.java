@@ -277,8 +277,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private boolean isRPUUpdatedManually = false;
     private boolean isAmountUpdatedManually = false;
     private BeanItemContainer<String> tableGroupDdlbBean = new BeanItemContainer<>(String.class);
-    private String actualCCPs = StringUtils.EMPTY;
-    private int rsModelSid = 0;
     private int totalccpCount = 0;
     private boolean flag = false;
     protected CommonLogic commonLogic = new CommonLogic();
@@ -5122,7 +5120,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 String selectedRsName = resultsTable.getRightFreezeAsTable()
                         .getTripleHeaderColumnHeader(checkedDiscountsPropertyIds.get(0));
 
-                rsModelSid = logic.getRsModelSid(selectedRsName);
+                int rsModelSid = logic.getRsModelSid(selectedRsName);
                 Set<Integer> totalCcp = new HashSet<>();
                 if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
 
@@ -5197,7 +5195,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
 
     public boolean isNotHavingActuals(NMDiscountProjectionLogic logic, String ccpIds, int rsModelSid,
             Set<Integer> totalccp) {
-        actualCCPs = logic.getZeroActualCCPList(logic.buildActualValidateQuery(ccpIds, rsModelSid), totalccp, session);
+        String actualCCPs = logic.getZeroActualCCPList(logic.buildActualValidateQuery(ccpIds, rsModelSid), totalccp, session);
         if (totalccpCount == totalccp.size() && actualCCPs.isEmpty()) {
             for (int ccpId : totalccp) {
                 if (actualCCPs.isEmpty()) {

@@ -98,29 +98,29 @@ public class BSummaryPipelineLogic extends AbstractBSummaryLogic {
         return dataResult;
     }
 
-    private void addPipelineDto(Object[] list1, int period, int year, SummarySelection bsrPipelineSelection, AdjustmentDTO pipelineDto, Map<Object, String> headerValueMap, DecimalFormat decimalformat1) {
+    private void addPipelineDto(Object[] list1, int period, int year, SummarySelection bsrPipelineSelection, AdjustmentDTO pipelineDto, Map<Object, String> pipelineHeaderValueMap, DecimalFormat decimalformat1) {
         if (list1[10] != null) {
             String headerKey = StringUtils.EMPTY + (period == 99999 ? ARMUtils.TOTAL : period) + (year == 99999 ? StringUtils.EMPTY : year);
             if (bsrPipelineSelection.getSelectedAdjustmentTypeValues().contains("Starting Balance")) {
-                pipelineDto.setDTOValues(headerValueMap, headerKey + "Starting Balance", list1[5], decimalformat1);
+                pipelineDto.setDTOValues(pipelineHeaderValueMap, headerKey + "Starting Balance", list1[5], decimalformat1);
             }
             if (bsrPipelineSelection.getSelectedAdjustmentTypeValues().contains("Pipeline Accrual")) {
-                pipelineDto.setDTOValues(headerValueMap, headerKey + "Pipeline Accrual", list1[6], decimalformat1);
+                pipelineDto.setDTOValues(pipelineHeaderValueMap, headerKey + "Pipeline Accrual", list1[6], decimalformat1);
             }
             if (bsrPipelineSelection.getSelectedAdjustmentTypeValues().contains("Demand Accrual")) {
-                pipelineDto.setDTOValues(headerValueMap, headerKey + "Demand Accrual", list1[7], decimalformat1);
+                pipelineDto.setDTOValues(pipelineHeaderValueMap, headerKey + "Demand Accrual", list1[7], decimalformat1);
             }
             if (bsrPipelineSelection.getSelectedAdjustmentTypeValues().contains("Pipeline Inventory True-Up")) {
-                pipelineDto.setDTOValues(headerValueMap, headerKey + "Pipeline Inventory True-Up", list1[8], decimalformat1);
+                pipelineDto.setDTOValues(pipelineHeaderValueMap, headerKey + "Pipeline Inventory True-Up", list1[8], decimalformat1);
             }
             if (bsrPipelineSelection.getSelectedAdjustmentTypeValues().contains("Demand Reforecast")) {
-                pipelineDto.setDTOValues(headerValueMap, headerKey + "Demand Reforecast", list1[9], decimalformat1);
+                pipelineDto.setDTOValues(pipelineHeaderValueMap, headerKey + "Demand Reforecast", list1[9], decimalformat1);
             }
             if (bsrPipelineSelection.getSelectedAdjustmentTypeValues().contains("Total Period Adjustment")) {
-                pipelineDto.setDTOValues(headerValueMap, headerKey + "Total Period Adjustment", list1[10], decimalformat1);
+                pipelineDto.setDTOValues(pipelineHeaderValueMap, headerKey + "Total Period Adjustment", list1[10], decimalformat1);
             }
             if (bsrPipelineSelection.getSelectedAdjustmentTypeValues().contains("Ending Balance")) {
-                pipelineDto.setDTOValues(headerValueMap, headerKey + (headerKey.equals(ARMUtils.TOTAL) ? "Balance" : "Ending Balance"), list1[11], decimalformat1);
+                pipelineDto.setDTOValues(pipelineHeaderValueMap, headerKey + (headerKey.equals(ARMUtils.TOTAL) ? "Balance" : "Ending Balance"), list1[11], decimalformat1);
             }
         }
     }
