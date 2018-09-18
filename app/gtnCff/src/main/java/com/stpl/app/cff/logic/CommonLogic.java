@@ -1105,7 +1105,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
-                    groupList.add("PPA-" + String.valueOf(list1));
+                    groupList.add("PPA-" + (list1));
                 }
             }
         } catch (Exception ex) {

@@ -157,4 +157,6 @@ public class GtnWsQueryConstants {
 	public static final char STRING_COMMA = ',';
 
 	public static final String SINGLE_QUOTES = "' ";
+
+	public static final String TOTAL = "Total";
 }

@@ -897,12 +897,12 @@ public class BussinessProcessForm extends Window {
     public void configureWindowHeader(SessionDTO sessionDTO) {
         if (sessionDTO.isWorkFlow()) {
             String result = getWorkflowId(sessionDTO);
-            winHeaderLabel.setCaption(dataselectionDTO.getSelectedAdjType() + " " + ">" + " "
-                    + result + " " + ">" + " "
-                    + dataselectionDTO.getProjectionDescription() + " " + ">" + " "
+            winHeaderLabel.setCaption(dataselectionDTO.getSelectedAdjType() + ARMUtils.SPACE + ">" + ARMUtils.SPACE
+                    + result + ARMUtils.SPACE + ">" + ARMUtils.SPACE
+                    + dataselectionDTO.getProjectionDescription() + ARMUtils.SPACE + ">" + ARMUtils.SPACE
                     + sessionDTO.getWorkflowStatus());
         } else {
-            winHeaderLabel.setCaption(dataselectionDTO.getAdjustmentCaption() + " " + ">" + " "
+            winHeaderLabel.setCaption(dataselectionDTO.getAdjustmentCaption() + ARMUtils.SPACE + ">" + ARMUtils.SPACE
                     + dataselectionDTO.getProjectionDescription());
         }
     }

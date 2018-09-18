@@ -58,8 +58,8 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
     public int getCount(Criteria criteria) {
         RD_LOGIC_LOGGER.debug("--Inside getCount --");
         String query = SQlUtil.getQuery("returnsdata-count");
-        String version = criteria.getSelectionDto().getDataSelectionDTO().getFromPeriodMonth().replace(" ", "-");
-        query = query.replace("?", version);
+        String version = criteria.getSelectionDto().getDataSelectionDTO().getFromPeriodMonth().replace(ARMUtils.SPACE.toString(), "-");
+        query = query.replace(ARMUtils.CHAR_QUS, version);
         query = query + getFilters(criteria);
         RD_LOGIC_LOGGER.debug("query--{}", query);
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -70,8 +70,8 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
     public DataResult<T> getData(Criteria criteria) {
         RD_LOGIC_LOGGER.debug("--Inside getData--");
         String query = SQlUtil.getQuery("returnsdata-data");
-        String version = criteria.getSelectionDto().getDataSelectionDTO().getFromPeriodMonth().replace(" ", "-");
-        query = query.replace("?", version);
+        String version = criteria.getSelectionDto().getDataSelectionDTO().getFromPeriodMonth().replace(ARMUtils.SPACE.toString(), "-");
+        query = query.replace(ARMUtils.CHAR_QUS, version);
         query = query + getFilters(criteria) + getOrder(criteria);
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         RD_LOGIC_LOGGER.debug("--Exit getData--{}", query);
@@ -181,7 +181,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
         } else {
             order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
         }
-        order = order + " " + "OFFSET ";
+        order = order + ARMUtils.SPACE + "OFFSET ";
         order = order + criteria.getStart();
         order = order + " ROWS FETCH NEXT " + criteria.getOffset();
         order = order + " ROWS ONLY;";

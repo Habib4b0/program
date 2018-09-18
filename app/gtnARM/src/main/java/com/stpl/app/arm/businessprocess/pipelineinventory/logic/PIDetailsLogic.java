@@ -9,6 +9,7 @@ package com.stpl.app.arm.businessprocess.pipelineinventory.logic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.QueryUtils;
 import static com.stpl.app.utils.VariableConstants.DASH;
 import com.stpl.app.utils.xmlparser.SQlUtil;
@@ -43,12 +44,12 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             StringBuilder inventoryQuery;
             if (inventorySelection.getSessionDTO().isWorkFlow()) {
                 inventoryQuery = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-                inventoryQuery.replace(inventoryQuery.indexOf("?"), inventoryQuery.indexOf("?") + 1, String.valueOf(inventorySelection.getDataSelectionDTO().getProjectionId()));
-                inventoryQuery.replace(inventoryQuery.indexOf("?"), inventoryQuery.indexOf("?") + 1, isReserve ? "0" : "1");
+                inventoryQuery.replace(inventoryQuery.indexOf(ARMUtils.CHAR_QUS), inventoryQuery.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(inventorySelection.getDataSelectionDTO().getProjectionId()));
+                inventoryQuery.replace(inventoryQuery.indexOf(ARMUtils.CHAR_QUS), inventoryQuery.indexOf(ARMUtils.CHAR_QUS) + 1, isReserve ? "0" : "1");
             } else {
                 inventoryQuery = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
                 for (Object temp : inventoryReplaceList) {
-                    inventoryQuery.replace(inventoryQuery.indexOf("?"), inventoryQuery.indexOf("?") + 1, String.valueOf(temp));
+                    inventoryQuery.replace(inventoryQuery.indexOf(ARMUtils.CHAR_QUS), inventoryQuery.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
                 }
             }
             LOGGER.debug("query-- {}", inventoryQuery);
@@ -116,7 +117,7 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                     grlStr.append(" OR ");
                 }
             }
-            conditionStr = "(" + grlStr.toString() + " ) AND ";
+            conditionStr = ARMUtils.OPEN_PARANTHESIS + grlStr.toString() + " ) AND ";
         }
         LOGGER.debug("conditionStr--{}", conditionStr);
         return conditionStr;

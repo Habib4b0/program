@@ -165,7 +165,7 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 }
                 resultList.add(dto);
                 if (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())) {
-                    int sIndex = ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) ? 0 : indexMap.get(get[get.length - 1].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT;
+                    int sIndex = ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) ? 0 : indexMap.get(get[get.length - 1].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.EIGHT;
                     startIndex = j == 0 ? sIndex : startIndex;
                     index = 0;
                 } else {
@@ -174,10 +174,10 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
 
             }
             if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
-                index = indexMap.get(get[0].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.NINE;
+                index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.NINE;
             } else if (!ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency())) {
-                index = indexMap.get((get[get.length - 1].toString()).replace(" ", StringUtils.EMPTY)) * NumericConstants.NINE;
-                nextStartIndex = next != null ? indexMap.get(next[next.length - 1].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.NINE : startIndex;
+                index = indexMap.get((get[get.length - 1].toString()).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.NINE;
+                nextStartIndex = next != null ? indexMap.get(next[next.length - 1].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.NINE : startIndex;
             }
             if (dto != null) {
                 if (index < totalColumnIndex) {
