@@ -33,6 +33,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
  * @author KARTHIK.RAJA
  * @version $Revision: 1.0 $
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/test/resources/AutomaticContext.xml"})
 public class GtnWsIfpSaveServiceTest {
