@@ -4208,6 +4208,43 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}, ButtonId.YES, ButtonId.NO);
 
 	}
+	
+        public void deleteButtonLogicNewArch(GtnFrameworkForecastInputBean inputBean) {
+		if (inputBean.getProjectionMasterSid() == 0) {
+			AbstractNotificationUtils.getErrorNotification(Constant.SELECT_RECORD1,
+					NO_RECORD_WAS_SELECTED_PLEASE_TRY_AGAIN);
+			return;
+		}
+
+		MessageBox.showPlain(Icon.QUESTION, "Confirm Deletion",
+				"Are you sure you want to delete record " + inputBean.getProjectionName() + " ?",
+				new MessageBoxListener() {
+
+					@Override
+					public void buttonClicked(ButtonId buttonId) {
+						if (buttonId.name().equals(Constant.YES)) {
+							DataSelectionLogic logic = new DataSelectionLogic();
+								try {
+									String currentUserId = inputBean.getUserId();
+									String flag = logic.deleteProjection(inputBean.getProjectionMasterSid(), currentUserId,
+											scrName);
+									if (!Constant.FAIL.equals(flag)) {
+										if ("accessDenined".equals(flag)) {
+											NotificationUtils.getErrorNotification("Cannot Delete Record",
+													"You do not have permission to delete this projection.  It can only be deleted by the creator.");
+											return;
+										}
+										CommonUIUtils.getMessageNotification(
+												inputBean.getProjectionName() + " has been successfully deleted.");
+									}
+								} catch (Property.ReadOnlyException ex) {
+									LOGGER.error(" - in deleteBtn= {}",ex);
+								}
+							}
+					}
+				}, ButtonId.YES, ButtonId.NO);
+
+	}
 
 	public void loadCustomerLevel(final String hierarchyId, final String innerLevel, final int hierarchyVersion) {
 		LOGGER.debug("Logging - loadCustomerLevel hierarchyId= {}, innerLevel= {} " , hierarchyId, innerLevel);
