@@ -12,12 +12,11 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 public abstract class GtnCommonWebServiceImplClass {
 
 	public GtnFrameworkDependencyLogger logger;
-	
-	public GtnCommonWebServiceImplClass(Class<?> className)
-	{
+
+	public GtnCommonWebServiceImplClass(Class<?> className) {
 		logger = GtnFrameworkDependencyLogger.getGTNLogger(className);
 	}
-	
+
 	public String readPropertyFile(String propertyFile) {
 		return "readPropertyFile:" + propertyFile;
 	}
@@ -56,8 +55,11 @@ public abstract class GtnCommonWebServiceImplClass {
 	}
 
 	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
-		
-				return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
+		logger.info("Accessing - "
+				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
+				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
+				+ url);
+		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
 				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
 				+ url;
 
