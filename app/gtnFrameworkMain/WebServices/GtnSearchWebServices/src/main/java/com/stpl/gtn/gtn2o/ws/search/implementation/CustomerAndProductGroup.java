@@ -75,7 +75,7 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        }
 	        catch(Exception e)
 	        {
-	            logger.error("Exception in loading private and public views"+e);
+	            logger.error("Exception in loading customer and product group"+e);
 	        }
 	        return response;
 		}
