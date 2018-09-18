@@ -28,6 +28,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import org.junit.Ignore;
 
 /**
  * The class <code>GtnWsIfpValidationServiceTest</code> contains tests for the class <code>{@link GtnWsIfpValidationService}</code>.
