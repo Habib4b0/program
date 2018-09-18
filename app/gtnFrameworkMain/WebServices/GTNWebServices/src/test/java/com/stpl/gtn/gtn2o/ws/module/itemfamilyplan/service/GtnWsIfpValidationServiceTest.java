@@ -28,6 +28,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import org.junit.Ignore;
 
 /**
  * The class <code>GtnWsIfpValidationServiceTest</code> contains tests for the class <code>{@link GtnWsIfpValidationService}</code>.
@@ -36,6 +37,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
  * @author KARTHIK.RAJA
  * @version $Revision: 1.0 $
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/test/resources/AutomaticContext.xml"})
 public class GtnWsIfpValidationServiceTest {

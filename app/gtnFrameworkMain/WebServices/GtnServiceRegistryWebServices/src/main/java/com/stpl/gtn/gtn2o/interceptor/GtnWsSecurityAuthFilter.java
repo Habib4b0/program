@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.interceptor;
+package com.stpl.gtn.gtn2o.interceptor;
 
 import java.io.IOException;
 import javax.servlet.Filter;

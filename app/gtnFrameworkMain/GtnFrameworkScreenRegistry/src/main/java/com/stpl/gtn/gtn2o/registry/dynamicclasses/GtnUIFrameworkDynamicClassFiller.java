@@ -5,6 +5,7 @@ import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadA
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnForecastingDataSelectionLoadViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnForecastingProductAvailableTableLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkDeleteViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDataSelectionViewAddAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDataSelectionViewUpdateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDateValueChangeAction;
@@ -86,6 +87,10 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkScreenRegistryResetAction.class.getName(),
 				new GtnFrameworkScreenRegistryResetAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnModeOptionValueChangeAction.class.getName(),
+				new GtnModeOptionValueChangeAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkDeleteViewAction.class.getName(),
+				new GtnFrameworkDeleteViewAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastEditAction.class.getName(),
 				new GtnFrameworkForecastEditAction());
                 GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName(),
