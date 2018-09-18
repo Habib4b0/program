@@ -4832,6 +4832,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 //			setCustomerLevelNullSelection();
 //			customerBeanList.clear();
 //		}
+		
 	}
         
       private String formHierarchyInnerLevelValues(int levelNo, String levelValue) {

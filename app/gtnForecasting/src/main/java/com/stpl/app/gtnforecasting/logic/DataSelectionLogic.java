@@ -1380,7 +1380,7 @@ public class DataSelectionLogic {
 			if (resultss != null) {
 				resultList = new ArrayList<>();
 				for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
-					Object objects[] = resultss.get(loop);
+					Object [] objects = resultss.get(loop);
 					dto = new Leveldto();
 					dto.setLevelNo(DataTypeConverter.convertObjectToInt(objects[0]));
 					dto.setRelationshipLevelValue(String.valueOf(objects[1]));
