@@ -23,8 +23,6 @@ import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
-import com.stpl.app.gtnforecasting.utils.NmSPRGraphWindow;
-import com.stpl.app.gtnforecasting.utils.SPRChart;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.security.StplSecurity;
@@ -830,7 +828,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         levelFilterDdlbChangeOption(true);
         exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         exportPeriodViewTable.setDoubleHeaderVisible(true);
-        ForecastUI.setEXCEL_CLOSE(true);
+        ForecastUI.setEXCELCLOSE(true);
         ExcelExport exp = null;
         int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
         if (Constant.PERIOD.equals(String.valueOf(pivotView.getValue())) && (QUARTERLY.getConstant().equals(String.valueOf(frequency.getValue())) || MONTHLY.getConstant().equals(String.valueOf(frequency.getValue())))) {
@@ -847,7 +845,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 exportPeriodViewTable.setDoubleHeaderMap((Map<Object, Object[]>) projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.FIVE));
                 exportPeriodViewTable.setRefresh(true);
                 String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-                ForecastUI.setEXCEL_CLOSE(true);
+                ForecastUI.setEXCELCLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SALES_PROJECTION_RESULTS, "Sales_Projection_Results.xls", false);
                 } else {
@@ -932,10 +930,6 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 chartList.add(dto);
             }
         }
-        final SPRChart chart = new SPRChart(chartList, fullHeader, projectionDTO);
-        final NmSPRGraphWindow salesGraphWindow = new NmSPRGraphWindow(chart.getChart(), SALES_RESULTS);
-        UI.getCurrent().addWindow(salesGraphWindow);
-        salesGraphWindow.focus();
         LOGGER.info("graphExportLogic method ends");
     }
 

@@ -39,28 +39,32 @@ public class GtnCustomerAvailableTableLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-            List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
+		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		Date forecastEligibleDate = null;
 		String hierarchyComponentId = String.valueOf(actionParamList.get(1));
 		String relationshipComponentId = String.valueOf(actionParamList.get(2));
 		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(hierarchyComponentId, componentId).getComponentData().getCustomData();
 
-		String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(3)),componentId).getCaptionFromV8ComboBox());
+		String relationshipVersionNo = String.valueOf(
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(3)), componentId)
+						.getCaptionFromV8ComboBox());
 		String hierarchyVersionNo = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(3)),componentId).getStringCaptionFromV8ComboBox();
+				.getVaadinBaseComponent(String.valueOf(actionParamList.get(3)), componentId)
+				.getStringCaptionFromV8ComboBox();
 
 		String relationshipBuilderSid = String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(relationshipComponentId, componentId).getCaptionFromV8ComboBox());
 		Integer hierarchyDefSid = (Integer) recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
 
-		Integer selectedLevelNo = Integer.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)),componentId).getCaptionFromV8ComboBox());
+		Integer selectedLevelNo = Integer.valueOf(
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)), componentId)
+						.getCaptionFromV8ComboBox());
 		String selectedLevel = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)),componentId).getStringCaptionFromV8ComboBox();
+				.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)), componentId)
+				.getStringCaptionFromV8ComboBox();
 		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(5)),componentId).getFieldValue();
+				.getVaadinBaseComponent(String.valueOf(actionParamList.get(5)), componentId).getFieldValue();
 		if (date != null) {
 			forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
@@ -85,7 +89,7 @@ public class GtnCustomerAvailableTableLoadAction
 			queryParameters.add(Boolean.FALSE);
 
 			AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
-					.getVaadinComponent(String.valueOf(actionParamList.get(6)),componentId);
+					.getVaadinComponent(String.valueOf(actionParamList.get(6)), componentId);
 			GtnUIFrameworkComponentData dualListBoxComponentData = (GtnUIFrameworkComponentData) dualListBoxComponent
 					.getData();
 			GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxComponentData

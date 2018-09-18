@@ -40,10 +40,10 @@ public class GtnWsReportWebsevice {
 	}
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportWebsevice.class);
-
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
-
+        
+        @Autowired
+        private org.hibernate.SessionFactory sessionFactory;
+	
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
 

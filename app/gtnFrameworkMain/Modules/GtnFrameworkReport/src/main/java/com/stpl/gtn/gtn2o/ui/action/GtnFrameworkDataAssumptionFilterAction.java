@@ -5,6 +5,13 @@
  */
 package com.stpl.gtn.gtn2o.ui.action;
 
+import java.lang.ref.WeakReference;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -19,12 +26,6 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Grid;
-import java.lang.ref.WeakReference;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 public class GtnFrameworkDataAssumptionFilterAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -38,42 +39,44 @@ public class GtnFrameworkDataAssumptionFilterAction
 		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI.getGlobalComponentData();
 		Map<String, WeakReference<AbstractComponent>> componentMap = gtnUIFrameworkComponentData.getFrameworkConfigMap()
 				.getVaadinComponentMap();
+		String currentComponentId = componentId;
 		for (Map.Entry<String, WeakReference<AbstractComponent>> entryKey : componentMap.entrySet()) {
 			if (entryKey.getKey().contains(componentId)) {
-				componentId = entryKey.getKey();
+				currentComponentId = entryKey.getKey();
 				break;
 			}
 		}
 		try {
 			List<Object> filterValues = gtnUIFrameWorkActionConfig.getActionParameterList();
-			GtnUIFrameworkBaseComponent selectedGrids = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
+			GtnUIFrameworkBaseComponent selectedGrids = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(currentComponentId);
 			PagedGrid pagedGrids = (PagedGrid) selectedGrids.getComponentData().getCustomData();
 			Grid<GtnWsRecordBean> gridList = pagedGrids.getGrid();
-			ListDataProvider<GtnWsRecordBean> dataProvider = (ListDataProvider<GtnWsRecordBean>) gridList.getDataProvider();
+			ListDataProvider<GtnWsRecordBean> dataProvider = (ListDataProvider<GtnWsRecordBean>) gridList
+					.getDataProvider();
 			if (filterValues.get(0) == null) {
 				dataProvider.clearFilters();
 				return;
 			}
-			dateFilter(dataProvider,filterValues);
-		} 
-		catch (Exception exception) {
+			dateFilter(dataProvider, filterValues);
+		} catch (Exception exception) {
 			logger.error("Exception in filtering", exception);
 		}
 	}
 
-	private void dateFilter(ListDataProvider<GtnWsRecordBean> dataProvider,List<Object> filterValues) {
+	private void dateFilter(ListDataProvider<GtnWsRecordBean> dataProvider, List<Object> filterValues) {
 		dataProvider.setFilter(s -> {
 			String filterValue = "";
 			String finalValue = "";
-			if ((filterValues.get(1).toString().contains("activeFrom"))||(filterValues.get(1).toString().contains("toPeriod"))) {
+			if ((filterValues.get(1).toString().contains("activeFrom"))
+					|| (filterValues.get(1).toString().contains("toPeriod"))) {
 				DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
 				filterValue = dateTimeFormatter.format((LocalDate) filterValues.get(0));
 				finalValue = String.valueOf(s.getPropertyValue(filterValues.get(1).toString()));
-			}
-			else {
+			} else {
 				filterValue = (String) filterValues.get(0);
 				finalValue = s.getPropertyValue(filterValues.get(1).toString()).toString().toLowerCase(Locale.ENGLISH);
-			}			
+			}
 			return finalValue.contains(filterValue.toLowerCase(Locale.ENGLISH));
 		});
 	}

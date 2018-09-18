@@ -39,7 +39,7 @@ public class SummaryLookUp extends CustomComponent {
     private final TabSheet mainTab = new TabSheet();
     private int tabPosition = 0;
     private Summary sales;
-    private List<ItemIndexDto> itemList;
+    
     private Summary rebate;
     private SalesAndRebates salesAndRebate;
     private AbstractItemDetails itemDetails;
@@ -55,9 +55,9 @@ public class SummaryLookUp extends CustomComponent {
 
     public Component getContent(List<ItemIndexDto> itemListSummary, SelectionDTO selection) {
         LOGGER.debug("getContent method starts");
-
+         List<ItemIndexDto> itemList;
         this.selection = selection;
-        this.itemList = itemListSummary == null ? itemListSummary : new ArrayList<>(itemListSummary);
+        itemList = itemListSummary == null ? itemListSummary : new ArrayList<>(itemListSummary);
         Panel panel = new Panel();
         panel.setCaption(StringUtils.EMPTY);
         panel.setContent(mainTab);

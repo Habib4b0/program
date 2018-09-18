@@ -186,7 +186,7 @@ public class PipelineInventoryLookupLogic {
                 dto.setCustomerGroupName(String.valueOf(obj[1]));
                 dto.setInclude(obj[NumericConstants.TWO] == null ? false : (Boolean) obj[NumericConstants.TWO]);
                 dto.setIndicator(obj[NumericConstants.THREE] == null ? null : (Boolean) obj[NumericConstants.THREE]);
-                dto.setSelectedFlag(true);
+                dto.setSelectedFlag(Boolean.TRUE);
                 custGroupList.addItem(dto);
             }
         } catch (Exception ex) {

@@ -10,6 +10,7 @@ import com.stpl.app.arm.adjustmentreserveconfiguration.saveaction.SaveMainToTemp
 import com.stpl.app.arm.adjustmentreserveconfiguration.ui.abstractreserveform.AbstractReserve;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.excecutors.ActionExecutor;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.ReserveSelection;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
@@ -26,9 +27,12 @@ import java.io.ObjectOutputStream;
 public class ViewAdjustmentReserve extends AbstractReserve {
 
     private AdjustmentReserveDTO selectedDto;
+    private ReserveSelection resSelection;
 
     ViewAdjustmentReserve(SessionDTO session, AdjustmentReserveDTO dto, ReserveSelection resSelection) {
         super("Adjustment & Reserve Configuration Details", session, resSelection);
+        this.resSelection = resSelection;
+        super.init();
         selectedDto = dto;
         configureFields();
     }
@@ -50,8 +54,8 @@ public class ViewAdjustmentReserve extends AbstractReserve {
         deductionProgramDdlbRes.addItem(0);
         deductionProgramDdlbRes.setItemCaption(0, selectedDto.getDeductionProgram());
         deductionProgramDdlbRes.select(0);
-        selection.setCompanyNo(getCompanyNo(Integer.valueOf(companyDdlbRes.getValue().toString())));
-        selection.setDivision(getCompanyNo(Integer.valueOf(businessDdlbRes.getValue().toString())));
+        resSelection.setCompanyNo(getCompanyNo(ARMUtils.getIntegerValue(companyDdlbRes.getValue().toString())));
+        resSelection.setDivision(getCompanyNo(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
     }
 
     @Override
@@ -61,42 +65,42 @@ public class ViewAdjustmentReserve extends AbstractReserve {
         deductionCategoryDdlbRes.setValue(selectedDto.getDeductionCategoryDdlbRes());
         deductionTypeDdlbRes.setValue(selectedDto.getDeductionTypeDdlbRes());
         deductionProgramDdlbRes.setValue(selectedDto.getDeductionProgramDdlbRes());
-        companyDdlbRes.setEnabled(Boolean.FALSE);
-        businessDdlbRes.setEnabled(Boolean.FALSE);
-        deductionCategoryDdlbRes.setEnabled(Boolean.FALSE);
-        deductionTypeDdlbRes.setEnabled(Boolean.FALSE);
-        deductionProgramDdlbRes.setEnabled(Boolean.FALSE);
-        selection.setCompanyNo(getCompanyNo(Integer.valueOf(companyDdlbRes.getValue().toString())));
-        selection.setDivision(getCompanyNo(Integer.valueOf(businessDdlbRes.getValue().toString())));
-        selection.setBusUnit(businessDdlbRes.getItemCaption(Integer.valueOf(businessDdlbRes.getValue().toString())));
-        resetLineBtnRes.setEnabled(Boolean.FALSE);
+        companyDdlbRes.setEnabled(false);
+        businessDdlbRes.setEnabled(false);
+        deductionCategoryDdlbRes.setEnabled(false);
+        deductionTypeDdlbRes.setEnabled(false);
+        deductionProgramDdlbRes.setEnabled(false);
+        resSelection.setCompanyNo(getCompanyNo(ARMUtils.getIntegerValue(companyDdlbRes.getValue().toString())));
+        resSelection.setDivision(getCompanyNo(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
+        resSelection.setBusUnit(businessDdlbRes.getItemCaption(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
+        resetLineBtnRes.setEnabled(false);
         try {
             binder.commit();
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error("Error in getBinder : " , ex);
+            LOGGER.error("Error in getBinder : ", ex);
         }
         return binder;
     }
 
     @Override
     protected void loadSelection() {
-        selection.setSession(sessionDTO);
-        selection.setSearchBinderDTO(selectedDto);
-        resetBtnRes.setEnabled(Boolean.FALSE);
-        massValueRes.setEnabled(Boolean.FALSE);
-        massfieldDdlbRes.setEnabled(Boolean.FALSE);
-        populateBtn.setEnabled(Boolean.FALSE);
-        resetLineBtnRes.setEnabled(Boolean.FALSE);
-        addLineBtnRes.setEnabled(Boolean.FALSE);
-        removeLineBtnRes.setEnabled(Boolean.FALSE);
-        copyLineBtnRes.setEnabled(Boolean.FALSE);
-        saveBtnRes.setEnabled(Boolean.FALSE);
-        selection.setIsViewMode(Boolean.TRUE);
+        resSelection.setSession(sessionDTO);
+        resSelection.setSearchBinderDTO(selectedDto);
+        resetBtnRes.setEnabled(false);
+        massValueRes.setEnabled(false);
+        massfieldDdlbRes.setEnabled(false);
+        populateBtn.setEnabled(false);
+        resetLineBtnRes.setEnabled(false);
+        addLineBtnRes.setEnabled(false);
+        removeLineBtnRes.setEnabled(false);
+        copyLineBtnRes.setEnabled(false);
+        saveBtnRes.setEnabled(false);
+        resSelection.setIsViewMode(true);
 
         getMasterSids();
         try {
             ActionExecutor executor = new ActionExecutor();
-            executor.callingActionExecution(new SaveMainToTempAction(selection));
+            executor.callingActionExecution(new SaveMainToTempAction(resSelection));
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -135,19 +139,19 @@ public class ViewAdjustmentReserve extends AbstractReserve {
 
     @Override
     protected boolean saveToMaster() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
     protected void getMasterSids() {
-        selection.setReserveMasterSid(logic.getMasterSids(selection));
-        selection.setGtnDetailsMasterSid(selectedDto.getSearchMasterSid());
-        selection.setMasterSID(selectedDto.getSearchMasterSid());
+        resSelection.setReserveMasterSid(logic.getMasterSids(resSelection));
+        resSelection.setGtnDetailsMasterSid(selectedDto.getSearchMasterSid());
+        resSelection.setMasterSID(selectedDto.getSearchMasterSid());
     }
 
     @Override
     protected void loadTablefirstTime() {
-        detailsTableLogic.loadsetData(Boolean.TRUE, selection);
+        detailsTableLogic.loadsetData(true, resSelection);
     }
 
     @Override

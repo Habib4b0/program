@@ -450,3 +450,7 @@ mkdir -p $base_path/staging/Inbound/ARM_LOAD_INTERFACE
 mkdir -p $base_path/staging/Inbound/ARM_LOAD_INTERFACE/Error
 mkdir -p $base_path/staging/Inbound/ARM_LOAD_INTERFACE/Processed
 mkdir -p $base_path/staging/Inbound/ARM_LOAD_INTERFACE/Input
+mkdir -p $base_path/staging/Inbound/DTX_COMPANY_IDENTIFIER_INTERFACE
+mkdir -p $base_path/staging/Inbound/DTX_COMPANY_IDENTIFIER_INTERFACE/Error
+mkdir -p $base_path/staging/Inbound/DTX_COMPANY_IDENTIFIER_INTERFACE/Processed
+mkdir -p $base_path/staging/Inbound/DTX_COMPANY_IDENTIFIER_INTERFACE/Input

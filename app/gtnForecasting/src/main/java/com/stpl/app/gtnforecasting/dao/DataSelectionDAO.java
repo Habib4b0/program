@@ -34,26 +34,24 @@ public interface DataSelectionDAO {
      *
      * @param viewName the view name
      * @param forecastType the forecast type
-     * @param userId the user id
+     * @param userID the user id
      * @param viewType the view type
      * @return the list
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
-     * @throws Exception the exception
      */
-    List findViewByName(String viewName, String forecastType, String userId, String viewType)
+    List findViewByName(String viewName, String forecastType, String userID, String viewType)
             throws PortalException;
 
     /**
      * Delete forecasting view master.
      *
-     * @param systemId the system id
+     * @param systemID the system id
      * @return the forecasting view master
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
-     * @throws Exception the exception
      */
-    ForecastingViewMaster deleteForecastingViewMaster(int systemId) throws PortalException;
+    ForecastingViewMaster deleteForecastingViewMaster(int systemID) throws PortalException;
 
     /**
      * Gets the forecast view masterdynamic query count.
@@ -61,7 +59,6 @@ public interface DataSelectionDAO {
      * @param dynamicQuery the dynamic query
      * @return the forecast view masterdynamic query count
      * @throws SystemException the system exception
-     * @throws Exception the exception
      */
     int getForecastViewMasterdynamicQueryCount(DynamicQuery dynamicQuery) throws SystemException;
 

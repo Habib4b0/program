@@ -3394,7 +3394,7 @@ public class HeaderUtils {
         if (projSelDTO.getDeductionLevelFilter().isEmpty()) {
             projSelDTO.setDeductionLevelCaptions(new DiscountProjectionLogic().getRsAllList(projSelDTO));
         }
-        discountNames = new ArrayList<>(projSelDTO.getDeductionLevelCaptions());;
+        discountNames = new ArrayList<>(projSelDTO.getDeductionLevelCaptions());
         CommonUtils.getHistoryAndProjectionDetails(projSelDTO);
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         int historyNum = projSelDTO.getHistoryNum();

@@ -71,7 +71,7 @@ public class Trx6AdjustmentSummarySearchResults extends AbstractPipelineSummaryR
     @Override
     public boolean getisFixedColumns() {
         LOGGER_TX6_SUMMARY.debug("Inside getisFixedColumns");
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Trx6AdjustmentSummarySearchResults extends AbstractPipelineSummaryR
     @Override
     public boolean getisDeductionCustomer() {
         LOGGER_TX6_SUMMARY.debug("Inside getisDeductionCustomer");
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override

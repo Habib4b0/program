@@ -68,7 +68,7 @@ public class InventoryCustomerLookup extends Window {
     private final BeanItemContainer<CustomerGroupDTO> resultsContainer = new BeanItemContainer<>(CustomerGroupDTO.class);
     private Object[] visibleColumns = {"customerName", "include", "indicator"};
     private String[] visibleHeaders = {"Customer", "Include", "+/-Indicator"};
-    private PrivatePublicLookup viewLookUp;
+    private PrivatePublicLookup customerViewLookUp;
     private int projectionId = 0;
     private String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
     private ViewLookupDTO viewDTO = new ViewLookupDTO();
@@ -78,7 +78,7 @@ public class InventoryCustomerLookup extends Window {
     private List<String> customerGroupList = new ArrayList<>();
     private AbstractSelectionDTO selectionDto;
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryCustomerLookup.class);
-    private boolean submitted = Boolean.FALSE;
+    private boolean submitted = false;
     private Window instance = null;
 
     public InventoryCustomerLookup(int projectionId, AbstractSelectionDTO selectionDto) {
@@ -103,32 +103,32 @@ public class InventoryCustomerLookup extends Window {
         setModal(true);
         setResizable(true);
         setClosable(true);
-        privateView.addClickListener(viewListener);
-        publicView.addClickListener(viewListener);
+        privateView.addClickListener(customerViewListener);
+        publicView.addClickListener(customerViewListener);
         configureTable();
         inventoryTableLayout.addComponent(customerTable);
         inventoryTableLayout.setHeight("50%");
         loadResultTable();
     }
 
-    private CustomTextField.ClickListener viewListener = new CustomTextField.ClickListener() {
+    private CustomTextField.ClickListener customerViewListener = new CustomTextField.ClickListener() {
         @Override
         public void click(CustomTextField.ClickEvent event) {
             try {
                 int userIdValue = userId.equals(StringUtils.EMPTY) ? 0 : Integer.parseInt(userId.replaceAll("\\D+", StringUtils.EMPTY));
-                if (viewLookUp == null) {
-                    viewLookUp = new PrivatePublicLookup(event.getComponent().getCaption(), userIdValue, "C", event.getComponent().getId(), "Customer");
+                if (customerViewLookUp == null) {
+                    customerViewLookUp = new PrivatePublicLookup(event.getComponent().getCaption(), userIdValue, "C", event.getComponent().getId(), "Customer");
                 } else {
-                    viewLookUp.reloadScreen(event.getComponent().getCaption(), userIdValue, "C", event.getComponent().getId());
+                    customerViewLookUp.reloadScreen(event.getComponent().getCaption(), userIdValue, "C", event.getComponent().getId());
                 }
-                getUI().addWindow(viewLookUp);
+                getUI().addWindow(customerViewLookUp);
 
-                viewLookUp.addCloseListener(new CloseListener() {
+                customerViewLookUp.addCloseListener(new CloseListener() {
 
                     @Override
                     public void windowClose(CloseEvent e) {
-                        if (viewLookUp.isSelectFlag()) {
-                            lookupLoadLogic(viewLookUp.getDtoValue());
+                        if (customerViewLookUp.isSelectFlag()) {
+                            lookupLoadLogic(customerViewLookUp.getDtoValue());
                         } else {
                             publicView.setValue("");
                             privateView.setValue("");
@@ -167,17 +167,17 @@ public class InventoryCustomerLookup extends Window {
     class InventoryCustomerFeildFactory implements TableFieldFactory {
 
         @Override
-        public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
-            if ("include".equals(propertyId.toString())) {
-                ExtCustomCheckBox checkRecord = new ExtCustomCheckBox();
-                checkRecord.setImmediate(true);
-                return checkRecord;
+        public Field<?> createField(Container container, Object itemId, Object customerPropertyId, Component uiContext) {
+            if ("include".equals(customerPropertyId.toString())) {
+                ExtCustomCheckBox customerCheckRecord = new ExtCustomCheckBox();
+                customerCheckRecord.setImmediate(true);
+                return customerCheckRecord;
 
             }
-            if ("indicator".equals(propertyId.toString())) {
-                CustomComboBox indicator = new CustomComboBox();
-                loadIndicatorDDLB(indicator);
-                return indicator;
+            if ("indicator".equals(customerPropertyId.toString())) {
+                CustomComboBox customerIndicator = new CustomComboBox();
+                loadIndicatorDDLB(customerIndicator);
+                return customerIndicator;
 
             }
             return null;
@@ -185,23 +185,23 @@ public class InventoryCustomerLookup extends Window {
 
     }
 
-    public CustomComboBox loadIndicatorDDLB(CustomComboBox indicator) {
+    public CustomComboBox loadIndicatorDDLB(CustomComboBox customerIndicator) {
 
         try {
-            indicator.removeAllItems();
-            indicator.setImmediate(true);
-            Object nullItem = indicator.addItem();
-            indicator.setNullSelectionItemId(nullItem);
-            indicator.addItem(true);
-            indicator.addItem(false);
-            indicator.setItemCaption(nullItem, GlobalConstants.getSelectOne());
-            indicator.setItemCaption(true, "+");
-            indicator.setItemCaption(false, "-");
-            indicator.select(nullItem);
+            customerIndicator.removeAllItems();
+            customerIndicator.setImmediate(true);
+            Object nullItem = customerIndicator.addItem();
+            customerIndicator.setNullSelectionItemId(nullItem);
+            customerIndicator.addItem(Boolean.TRUE);
+            customerIndicator.addItem(Boolean.FALSE);
+            customerIndicator.setItemCaption(nullItem, GlobalConstants.getSelectOne());
+            customerIndicator.setItemCaption(Boolean.TRUE, "+");
+            customerIndicator.setItemCaption(Boolean.FALSE, "-");
+            customerIndicator.select(nullItem);
         } catch (Exception e) {
             LOGGER.error("Error in loadIndicatorDDLB :", e);
         }
-        return indicator;
+        return customerIndicator;
     }
 
     public boolean checkValidField() {
@@ -246,7 +246,7 @@ public class InventoryCustomerLookup extends Window {
                 public void yesMethod() {
                     loadCustomerGroupList();
                     pipelineLogic.saveCustomerGroupValue(resultsContainer.getItemIds(), projectionId, selectionDto);
-                    submitted = Boolean.TRUE;
+                    submitted = true;
                     instance.close();
                 }
             }.getConfirmationMessage("Confirm Submit", ARMMessages.getCLookUpSubmitConfirmTransaction3());
