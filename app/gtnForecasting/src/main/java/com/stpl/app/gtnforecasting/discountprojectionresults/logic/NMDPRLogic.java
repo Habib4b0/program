@@ -1468,25 +1468,21 @@ public class NMDPRLogic {
             }
         }
 
-        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, proSelDTO.getSessionDTO().getCurrentTableNames()));
-        return resultList;
+        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, proSelDTO.getSessionDTO().getCurrentTableNames()));
     }
 
     private String getFrequencyCondition(String frequency, boolean isPivotHier) {
-        String query = isPivotHier ? " 0 AS YEAR , 0 AS " + frequency + "," : " PR.YEAR,PR." + frequency + ",";
-        return query;
+        return isPivotHier ? " 0 AS YEAR , 0 AS " + frequency + "," : " PR.YEAR,PR." + frequency + ",";
     }
 
     private String getPeriodCondition(boolean isPivotHier, String start, String end) {
-        String query = isPivotHier ? " AND cast(PR.YEAR AS VARCHAR(4)) + RIGHT('0' + CAST(PR.MONTH AS VARCHAR), 2) >= '"+start+"' AND cast(PR.YEAR AS VARCHAR(4)) + RIGHT('0' + CAST(PR.MONTH AS VARCHAR), 2) <= '"+end+"'"
+        return isPivotHier ? " AND cast(PR.YEAR AS VARCHAR(4)) + RIGHT('0' + CAST(PR.MONTH AS VARCHAR), 2) >= '"+start+"' AND cast(PR.YEAR AS VARCHAR(4)) + RIGHT('0' + CAST(PR.MONTH AS VARCHAR), 2) <= '"+end+"'"
                 : StringUtils.EMPTY;
-        return query;
     }
 
     private String getGroupByCondition(String frequency, boolean isPivotHier, boolean rsRequired) {
         String rsCond = rsRequired ? ",NMDPM.RS_NAME " : "";
-        String query = isPivotHier ? " GROUP BY NMDPM.RS_NAME" : " GROUP BY PR.YEAR,PR." + frequency + rsCond;
-        return query;
+        return isPivotHier ? " GROUP BY NMDPM.RS_NAME" : " GROUP BY PR.YEAR,PR." + frequency + rsCond;
     }
 
     /**

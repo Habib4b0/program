@@ -412,8 +412,7 @@ public class CommonLogic {
     public static List<Object[]> getCustomViewDetailsDiscount(int customId) {
         StringBuilder relationShipLevelQry = new StringBuilder();
         relationShipLevelQry.append("select * from dbo.CUST_VIEW_DETAILS where custom_View_Master_Sid =").append(customId).append(" ORDER BY LEVEL_NO ASC");
-        List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(relationShipLevelQry.toString());
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(relationShipLevelQry.toString());
     }
 
     /**
@@ -1261,19 +1260,16 @@ public class CommonLogic {
     }
 
     public static String getUserSessionQueryCondition(int userId, int sessionId, String table) {
-        String user = Constant.AND_SMALL_SPACE + table + ".USER_ID = " + userId + Constant.AND_SMALL_SPACE + table + ".SESSION_ID = " + sessionId + " \n";
-        return user;
+       return  Constant.AND_SMALL_SPACE + table + ".USER_ID = " + userId + Constant.AND_SMALL_SPACE + table + ".SESSION_ID = " + sessionId + " \n";
     }
 
     public static String getUserSessionQueryConditionPR(int userId, int sessionId, String table) {
-        String user = table + ".USER_ID=" + userId + Constant.AND_SMALL_SPACE + table + ".SESSION_ID=" + sessionId + " \n";
-        return user;
+        return table + ".USER_ID=" + userId + Constant.AND_SMALL_SPACE + table + ".SESSION_ID=" + sessionId + " \n";
     }
 
     public static String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String ccp) {
-        String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp + ".RELATIONSHIP_LEVEL_SID \n"
+        return  Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp + ".RELATIONSHIP_LEVEL_SID \n"
                 + Constant.AND_SMALL_SPACE + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID \n";
-        return ccpWhereCond;
     }
 
     public static String getPeriodRestrictionQuery(ProjectionSelectionDTO projSelDTO) {
@@ -1707,8 +1703,7 @@ public class CommonLogic {
         if (!isPrior) {
             tableIndicator = "ST_";
         }
-        String query = "   JOIN " + tableIndicator + "NM_PPA_PROJECTION_MASTER P ON P.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID WHERE  P.USER_GROUP " + userGroup;
-        return query;
+        return "   JOIN " + tableIndicator + "NM_PPA_PROJECTION_MASTER P ON P.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID WHERE  P.USER_GROUP " + userGroup;
     }
 
     public static String getGroupFilterSalesQuery(String userGroup, int userId, int sessionId, boolean isPrior) {
@@ -1716,14 +1711,12 @@ public class CommonLogic {
         if (!isPrior) {
             tableIndicator = "ST_";
         }
-        String query = "   JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
-        return query;
+        return "   JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
     }
 
     public static String getGroupQuery(String table) {
-        String query = "SELECT DISTINCT M.USER_GROUP FROM " + table + " M"
+        return  "SELECT DISTINCT M.USER_GROUP FROM " + table + " M"
                 + " WHERE M.USER_GROUP IS NOT NULL ";
-        return query;
     }
 
     public static List<String> getDiscountGroup(SessionDTO session) {
@@ -2026,12 +2019,13 @@ public class CommonLogic {
     }
 
     public static String getHierarchyTreeQuery(String hierarchyIndicator, final int levelNo, final Object rbID, final int versionNo) {
+        String customSql  = StringUtils.EMPTY;
         String selectClause = "select distinct RLD.LEVEL_NO, "
                 + " RLD.LEVEL_NO as TREE_LEVEL_NO,"
                 + "'" + hierarchyIndicator + Constant.AS_HIERARCHY_INDICATOR_COMMA
                 + " RLD.LEVEL_NAME, RLD.HIERARCHY_LEVEL_DEFINITION_SID";
         String from = FROM_SPACE;
-        String customSql = selectClause + from
+        customSql =  customSql + selectClause + from
                 + " RELATIONSHIP_LEVEL_DEFINITION as RLD "
                 + "where "
                 + "RLD.LEVEL_NO >=" + levelNo + " AND RLD.RELATIONSHIP_BUILDER_SID=" + rbID + " AND RLD.VERSION_NO = "+ versionNo +";";
@@ -2161,7 +2155,8 @@ public class CommonLogic {
         } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             productLevelNo = StringUtils.EMPTY + levelNo;
         }
-        String customViewQuery = "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
+       String customViewQuery  = StringUtils.EMPTY;
+       customViewQuery =  customViewQuery + "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
                 + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD  "
                 + "  JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID"
                 + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDCCP + projectionId
@@ -2309,7 +2304,8 @@ public class CommonLogic {
     }
 
     public static String getCCPTempTableQueryCH() {
-        String tableQuery = "DECLARE @CCP TABLE\n"
+        String tableQuery  = StringUtils.EMPTY;
+        tableQuery =  tableQuery + "DECLARE @CCP TABLE\n"
                 + "     (\n"
                 + "  RELATIONSHIP_LEVEL_SID INT,\n"
                 + "     CCP_DETAILS_SID       INT,\n"
@@ -2333,7 +2329,8 @@ public class CommonLogic {
 
             productLevelNo = StringUtils.EMPTY + projSelDTO.getTreeLevelNo();
         }
-        String ccpQuery = "SELECT distinct HLD" + projSelDTO.getHierarchyIndicator() + ".RELATIONSHIP_LEVEL_SID, CCPMAP" + projSelDTO.getHierarchyIndicator() + ".CCP_DETAILS_SID,HLD" + projSelDTO.getHierarchyIndicator() + ".HIERARCHY_NO FROM \n"
+        String ccpQuery  = StringUtils.EMPTY; 
+        ccpQuery = ccpQuery + "SELECT distinct HLD" + projSelDTO.getHierarchyIndicator() + ".RELATIONSHIP_LEVEL_SID, CCPMAP" + projSelDTO.getHierarchyIndicator() + ".CCP_DETAILS_SID,HLD" + projSelDTO.getHierarchyIndicator() + ".HIERARCHY_NO FROM \n"
                 + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES,  RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
                 + " FROM  RELATIONSHIP_LEVEL_DEFINITION RLD \n"
                 + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID=" + projSelDTO.getCustRelationshipBuilderSid() + "\n"
@@ -2378,7 +2375,8 @@ public class CommonLogic {
         }
         String viewtable = CommonLogic.getViewTableName(projSelDTO.getHierarchyIndicator());
 
-        String ccpQuery = "SELECT HLD.RELATIONSHIP_LEVEL_SID, CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO \n"
+        String ccpQuery  = StringUtils.EMPTY; 
+        ccpQuery = ccpQuery + "SELECT HLD.RELATIONSHIP_LEVEL_SID, CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO \n"
                 + "                  FROM   (SELECT RLD.HIERARCHY_NO,\n"
                 + "        CCP.CCP_DETAILS_SID\n"
                 + " FROM   RELATIONSHIP_LEVEL_DEFINITION RLD\n"
@@ -2471,28 +2469,23 @@ public class CommonLogic {
     }
 
     public static String getGroupFilterDiscountQuery(String userGroup, int userId, int sessionId) {
-        String query = "JOIN ST_M_DISCOUNT_PROJ_MASTER D ON D.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  D.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, "D");
-        return query;
+        return "JOIN ST_M_DISCOUNT_PROJ_MASTER D ON D.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  D.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, "D");
     }
 
     public static String getGroupFilterPPAQuery(String userGroup, int userId, int sessionId) {
-        String query = "JOIN ST_M_PPA_PROJECTION_MASTER P ON P.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  P.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
-        return query;
+        return "JOIN ST_M_PPA_PROJECTION_MASTER P ON P.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  P.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
     }
 
     public static String getGroupFilterSalesQuery(String userGroup, int userId, int sessionId) {
-        String query = "JOIN ST_M_SALES_PROJECTION_MASTER S ON S.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  S.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, Constant.S);
-        return query;
+        return "JOIN ST_M_SALES_PROJECTION_MASTER S ON S.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  S.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, Constant.S);
     }
 
     public static String getUserSessionQueryConditionForPR(int userId, int sessionId, String table) {
-        String user = " " + table + ".USER_ID=" + userId + Constant.AND_SMALL_SPACE + table + ".SESSION_ID=" + sessionId + " \n";
-        return user;
+        return " " + table + ".USER_ID=" + userId + Constant.AND_SMALL_SPACE + table + ".SESSION_ID=" + sessionId + " \n";
     }
 
     public static String getCCPWhereConditionQuery(String projectionDetails, String ccP) {
-        String ccpWhereCond = Constant.AND_SMALL_SPACE + ccP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
-        return ccpWhereCond;
+        return Constant.AND_SMALL_SPACE + ccP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
     }
 
     public static String getCCPQueryForPR(ProjectionSelectionDTO projSelDTO) {
@@ -2506,7 +2499,8 @@ public class CommonLogic {
     }
 
     public static String getCCPTempTableQueryForPR() {
-        String tableQuery = "DECLARE @CCP TABLE \n"
+        String tableQuery = StringUtils.EMPTY;
+        tableQuery = tableQuery + "DECLARE @CCP TABLE \n"
                 + "      (\n"
                 + "     RELATIONSHIP_LEVEL_SID INT,\n"
                 + "     PROJECTION_DETAILS_SID INT,\n"

@@ -27,9 +27,12 @@ import java.io.ObjectOutputStream;
 public class ViewAdjustmentReserve extends AbstractReserve {
 
     private AdjustmentReserveDTO selectedDto;
+    private ReserveSelection resSelection;
 
     ViewAdjustmentReserve(SessionDTO session, AdjustmentReserveDTO dto, ReserveSelection resSelection) {
         super("Adjustment & Reserve Configuration Details", session, resSelection);
+        this.resSelection = resSelection;
+        super.init();
         selectedDto = dto;
         configureFields();
     }
@@ -51,8 +54,8 @@ public class ViewAdjustmentReserve extends AbstractReserve {
         deductionProgramDdlbRes.addItem(0);
         deductionProgramDdlbRes.setItemCaption(0, selectedDto.getDeductionProgram());
         deductionProgramDdlbRes.select(0);
-        selection.setCompanyNo(getCompanyNo(ARMUtils.getIntegerValue(companyDdlbRes.getValue().toString())));
-        selection.setDivision(getCompanyNo(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
+        resSelection.setCompanyNo(getCompanyNo(ARMUtils.getIntegerValue(companyDdlbRes.getValue().toString())));
+        resSelection.setDivision(getCompanyNo(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
     }
 
     @Override
@@ -67,22 +70,22 @@ public class ViewAdjustmentReserve extends AbstractReserve {
         deductionCategoryDdlbRes.setEnabled(false);
         deductionTypeDdlbRes.setEnabled(false);
         deductionProgramDdlbRes.setEnabled(false);
-        selection.setCompanyNo(getCompanyNo(ARMUtils.getIntegerValue(companyDdlbRes.getValue().toString())));
-        selection.setDivision(getCompanyNo(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
-        selection.setBusUnit(businessDdlbRes.getItemCaption(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
+        resSelection.setCompanyNo(getCompanyNo(ARMUtils.getIntegerValue(companyDdlbRes.getValue().toString())));
+        resSelection.setDivision(getCompanyNo(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
+        resSelection.setBusUnit(businessDdlbRes.getItemCaption(ARMUtils.getIntegerValue(businessDdlbRes.getValue().toString())));
         resetLineBtnRes.setEnabled(false);
         try {
             binder.commit();
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error("Error in getBinder : " , ex);
+            LOGGER.error("Error in getBinder : ", ex);
         }
         return binder;
     }
 
     @Override
     protected void loadSelection() {
-        selection.setSession(sessionDTO);
-        selection.setSearchBinderDTO(selectedDto);
+        resSelection.setSession(sessionDTO);
+        resSelection.setSearchBinderDTO(selectedDto);
         resetBtnRes.setEnabled(false);
         massValueRes.setEnabled(false);
         massfieldDdlbRes.setEnabled(false);
@@ -92,12 +95,12 @@ public class ViewAdjustmentReserve extends AbstractReserve {
         removeLineBtnRes.setEnabled(false);
         copyLineBtnRes.setEnabled(false);
         saveBtnRes.setEnabled(false);
-        selection.setIsViewMode(true);
+        resSelection.setIsViewMode(true);
 
         getMasterSids();
         try {
             ActionExecutor executor = new ActionExecutor();
-            executor.callingActionExecution(new SaveMainToTempAction(selection));
+            executor.callingActionExecution(new SaveMainToTempAction(resSelection));
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -141,14 +144,14 @@ public class ViewAdjustmentReserve extends AbstractReserve {
 
     @Override
     protected void getMasterSids() {
-        selection.setReserveMasterSid(logic.getMasterSids(selection));
-        selection.setGtnDetailsMasterSid(selectedDto.getSearchMasterSid());
-        selection.setMasterSID(selectedDto.getSearchMasterSid());
+        resSelection.setReserveMasterSid(logic.getMasterSids(resSelection));
+        resSelection.setGtnDetailsMasterSid(selectedDto.getSearchMasterSid());
+        resSelection.setMasterSID(selectedDto.getSearchMasterSid());
     }
 
     @Override
     protected void loadTablefirstTime() {
-        detailsTableLogic.loadsetData(true, selection);
+        detailsTableLogic.loadsetData(true, resSelection);
     }
 
     @Override

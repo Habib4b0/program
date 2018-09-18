@@ -2017,7 +2017,7 @@ public class PPAProjection extends CustomComponent implements View {
 
     private int expandCollapseCol(Object doubleHeaderColumn, boolean collapsed) {
         int size = selection.getPpaSelectedVariables().size();
-        String arr[] = rightTable.getHeaderMapFromDoubleHeader(doubleHeaderColumn.toString());
+        String [] arr = rightTable.getHeaderMapFromDoubleHeader(doubleHeaderColumn.toString());
         int width = 0;
         if (collapsed) {
             for (int i = 0; i < NumericConstants.THREE && i < size; i++) {

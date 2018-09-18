@@ -285,8 +285,7 @@ public class DPRLogic {
 
     public List<DiscountProjectionResultsDTO> getMandSuppDiscount(ProjectionSelectionDTO projSelDTO) {
         List<Object> list = null;
-        List<DiscountProjectionResultsDTO> projDTOList = getCustomizedMandSuppDisc(list, projSelDTO);
-        return projDTOList;
+        return getCustomizedMandSuppDisc(list, projSelDTO);
     }
 
     public List<DiscountProjectionResultsDTO> getProgramCodeDiscount(ProjectionSelectionDTO projSelDTO) {
@@ -300,8 +299,7 @@ public class DPRLogic {
         String frequency = freq.get(projSelDTO.getFrequencyDivision());
         String freqChar = frequencyDPR(frequency);
         list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar));
-        List<DiscountProjectionResultsDTO> projDTOList = getCustomizedPC(list, projSelDTO);
-        return projDTOList;
+        return getCustomizedPC(list, projSelDTO);
     }
 
     public List<Object> getProgramCodeName(ProjectionSelectionDTO projSelDTO) {
@@ -1470,10 +1468,9 @@ public class DPRLogic {
     }
 
     private String getProgramCodeNameQuery(int projectionId) {
-        String customSQL = "SELECT DISTINCT CM.CONTRACT_NAME FROM dbo.CONTRACT_MASTER CM \n"
+        return  "SELECT DISTINCT CM.CONTRACT_NAME FROM dbo.CONTRACT_MASTER CM \n"
                 + "JOIN dbo.CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID\n"
                 + "JOIN dbo.PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID  = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " + projectionId;
-        return customSQL;
     }
 
     public DiscountProjectionResultsDTO getChildNodeValues(DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO) {
@@ -1484,7 +1481,18 @@ public class DPRLogic {
         freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
         String frequency = freq.get(projSelDTO.getFrequencyDivision());
         String freqChar;
-        freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
+            if (Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency)) {
+                freqChar = Constant.S;
+            } else if (Constant.QUARTER.equalsIgnoreCase(frequency)) {
+                freqChar = Constant.Q;
+            } else {
+                freqChar = CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED;
+            }
+        } else {
+            freqChar = StringUtils.EMPTY;
+        }
+        
         String query = getHierarchyLevelQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
         double annualMandamt = 0.0;
