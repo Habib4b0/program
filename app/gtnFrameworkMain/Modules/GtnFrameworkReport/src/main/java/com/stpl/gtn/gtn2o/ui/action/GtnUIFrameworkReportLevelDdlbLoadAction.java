@@ -47,29 +47,18 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction
 		final GtnUIFrameworkWebserviceRequest generalRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
 		String parentViewId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
-		String customView= parentViewId.contains("reportLandingScreen")?
+		
+		String customView= componentId.contains("dataSelectionTab")?
 				"dataSelectionTab_displaySelectionTabCustomView":
 					"reportingDashboardTab_displaySelectionTabCustomView";
-		
-//		String customView1 = GtnUIFrameworkGlobalUI
-//				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView").getStringFromV8ComboBox();
-;
-		
-//		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView")
-//		.loadV8ComboBoxComponentValue(customView1);
-		
-		gtnLogger.info("parentViewId: " + parentViewId);
-		gtnLogger.info("customView1: " + customView);
 		
 		String selectedItem = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(customView, componentId)
 				.getV8StringFromField();
 		
-		gtnLogger.info("selectedItem: " + selectedItem);
 		
 		if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
 			
-			gtnLogger.info("1. if");
 			
 			cvRequest.setCvSysId(Integer.parseInt(selectedItem));
 			generalRequest.setGtnWsCustomViewRequest(cvRequest);
@@ -79,9 +68,6 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction
 			GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = response
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
 			
-			gtnLogger.info("2. comboBoxResponse.getItemValueList(): " + comboBoxResponse.getItemValueList());
-			gtnLogger.info("3. comboBoxResponse.getItemCodeList()" + comboBoxResponse.getItemCodeList());
-
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE,
 							componentId)
@@ -90,8 +76,6 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction
 			long count = comboBoxResponse.getItemValueList().stream()
 					.filter(str -> str.toLowerCase().contains("variable")).count();
 			
-			gtnLogger.info("4. count: " + count);
-
 			if (count == 0) {
 				GtnUIFrameworkBaseComponent expandButtonBaseComponent = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_EXPAND_BUTTON, componentId);
