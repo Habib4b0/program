@@ -191,7 +191,6 @@ public class ExistingDiscountTab extends CustomComponent {
      * The collapse listener.
      */
     private final StplCollapseListener collapseListener = new StplCollapseListener();
-    private static final BeanItem<?> NULL_OBJECT = null;
     /**
      * The contract member.
      */
@@ -524,12 +523,13 @@ public class ExistingDiscountTab extends CustomComponent {
     private int configureLevel(Object item) {
         levelValue = 1;
         parentList.clear();
-        while (!dashboardTreeTable.getContainerDataSource().isRoot(item)) {
-            parentList.add(item);
-            item = dashboardTreeTable.getContainerDataSource().getParent(item);
+        Object itemNew = item;
+        while (!dashboardTreeTable.getContainerDataSource().isRoot(itemNew)) {
+            parentList.add(itemNew);
+            itemNew = dashboardTreeTable.getContainerDataSource().getParent(itemNew);
             levelValue++;
         }
-        parentList.add(item);
+        parentList.add(itemNew);
         Collections.reverse(parentList);
         return levelValue;
     }
@@ -998,20 +998,18 @@ public class ExistingDiscountTab extends CustomComponent {
             }
 
         } // Drop at the top of a subtree -> make it previous
-        else if (location == VerticalDropLocation.TOP) {
+        else if (location == VerticalDropLocation.TOP || location == VerticalDropLocation.BOTTOM) {
             AbstractNotificationUtils.getWarningNotification("Drop Criteria", "Drop the child node on the parent node");
             return;
         } // Drop below another item -> make it next
-        else if (location == VerticalDropLocation.BOTTOM) {
-            AbstractNotificationUtils.getWarningNotification("Drop Criteria", "Drop the child node on the parent node");
-            return;
-        }
+       
         LOGGER.debug("End of setTreeNode method");
     }
 
     private void loadTableHeaders() {
         String compType = String.valueOf(componentTypeDdlb.getValue());
-        if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
+        if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString()))
+        {
             componentResultsTable.setVisibleColumns(Constants.getInstance().adCfpIfpResultsColumns);
             componentResultsTable.setColumnHeaders(Constants.getInstance().adCfpIfpResultsHeaders);
             componentResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
@@ -1116,12 +1114,12 @@ public class ExistingDiscountTab extends CustomComponent {
     private ContractsDetailsDto cfp = null;
     private ContractsDetailsDto ifp = null;
     private ContractsDetailsDto priceSchedule = null;
-    private ContractsDetailsDto rebateSchedule = null;
+    
     
     public void saveTree(final Collection list) {
+      ContractsDetailsDto rebateSchedule ;  
         LOGGER.debug("Entering saveTree method");
         try {
-
             for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
                 final Object idValue = iterator.next();
                 final ContractsDetailsDto temp = getBeanFromID(idValue);
@@ -1131,25 +1129,21 @@ public class ExistingDiscountTab extends CustomComponent {
                     cfp = new ContractsDetailsDto();
                     ifp = new ContractsDetailsDto();
                     priceSchedule = new ContractsDetailsDto();
-                    rebateSchedule = new ContractsDetailsDto();
                 }
                 if (Constants.IndicatorConstants.CFP.toString().equalsIgnoreCase(temp.getCategory())) {
 
                     cfp = temp;
                     ifp = new ContractsDetailsDto();
                     priceSchedule = new ContractsDetailsDto();
-                    rebateSchedule = new ContractsDetailsDto();
                     DiscountLogic.saveCFp(contract.getInternalId(), cfp ,false);
                 }
                 if (Constants.IndicatorConstants.IFP.toString().equalsIgnoreCase(temp.getCategory())) {
                     ifp = temp;
                     priceSchedule = new ContractsDetailsDto();
-                    rebateSchedule = new ContractsDetailsDto();
                     DiscountLogic.saveIFP(contract.getInternalId(), cfp.getCfpContractId(), ifp ,false);
                 }
                 if (Constants.IndicatorConstants.PS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {
                     priceSchedule = temp;
-                    rebateSchedule = new ContractsDetailsDto();
                     DiscountLogic.savePS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule ,false);
                 }
                 if (Constants.IndicatorConstants.RS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {

@@ -11,6 +11,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSu
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.supercode.LeaveCheckAble;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.ARMCheckUtils;
 import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
@@ -46,8 +47,8 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
     public final ExecutorService service = ThreadPool.getInstance().getService();
     private Boolean isFieldRequire;
     private final DataFormatConverter curZero = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_DOLLAR);
-    private boolean checkLeave = false;
-    private boolean restrictLeave = false;
+    private boolean summaryCheckLeave = false;
+    private boolean summaryRestrictLeave = false;
 
     public SummaryFieldFactory(AbstractSummaryLogic logic, AbstractSelectionDTO selection, Boolean isFieldRequire) {
         this.logic = logic;
@@ -64,21 +65,21 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
             items.add(itemId);
             items.add(propertyId);
             items.add(uiContext);
-            final TextField override = new TextField();
-            override.setData(items);
-            override.addStyleName("align-right");
-            override.setConverter(curZero);
-            override.addFocusListener(new FocusListener() {
+            final TextField summaryOverride = new TextField();
+            summaryOverride.setData(items);
+            summaryOverride.addStyleName("align-right");
+            summaryOverride.setConverter(curZero);
+            summaryOverride.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(FocusEvent event) {
-                    override.addValueChangeListener(overrideListener);
-                    override.removeFocusListener(this);
+                    summaryOverride.addValueChangeListener(overrideListener);
+                    summaryOverride.removeFocusListener(this);
                 }
             });
             if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL) || total.startsWith("~Total")) {
-                override.setEnabled(false);
+                summaryOverride.setEnabled(false);
             }
-            return override;
+            return summaryOverride;
         }
 
         return null;
@@ -88,11 +89,11 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
             try {
-                AdjustmentDTO dto = (AdjustmentDTO) ((List) ((TextField) event.getProperty()).getData()).get(0);
+                AdjustmentDTO summaryAdjDto = (AdjustmentDTO) ((List) ((TextField) event.getProperty()).getData()).get(0);
                 Object val = event.getProperty().getValue();
                 Object propertyId = ((List) ((TextField) event.getProperty()).getData()).get(1);
                 Component uiContext = (Component) ((List) ((TextField) event.getProperty()).getData()).get(NumericConstants.TWO);
-                valueChangeLogic(dto, val, propertyId, uiContext);
+                valueChangeLogic(summaryAdjDto, val, propertyId, uiContext);
             } catch (Exception e) {
                 LOGGER.error("Error in overrideListener :", e);
             }
@@ -102,17 +103,18 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
     protected void valueChangeLogic(AdjustmentDTO dto, Object val, Object propertyId, Component uiContext) {
         ExtCustomTable table = (ExtCustomTable) uiContext;
         int singleVisibleColumn = Integer.valueOf(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
-        if (singleVisibleColumn == (dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()))) {
+        if (ARMCheckUtils.isSingleVisibleColumnPresentInDto(singleVisibleColumn, dto)
+                || (ARMCheckUtils.checkIsSummaryTypeDeductionCustomerContract(selection) && ARMCheckUtils.checkIsProductFilterLevel(selection))) {
             Double value = 0.0;
-            boolean isEmptied = false;
+            boolean isEmptiedSummary = false;
             try {
                 if (StringUtils.EMPTY.equals(val)) {
-                    isEmptied = true;
+                    isEmptiedSummary = true;
                 }
                 value = Double.valueOf(val == null ? "0" : val.toString().trim().replaceAll("[^\\-\\d.]", StringUtils.EMPTY));
             } catch (NumberFormatException e) {
                 LOGGER.debug("User is supposed to give Double value {}", e.getMessage());
-                if (!isEmptied) {
+                if (!isEmptiedSummary) {
                     return;
                 }
             }
@@ -121,52 +123,52 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
             input.add(selection.getProjectionMasterSid());
 
             input.add(Integer.valueOf(dto.getBranditemmasterSid()));
-            input.add(isEmptied ? "NULL" : value.toString());
+            input.add(isEmptiedSummary ? "NULL" : value.toString());
             input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
             input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
             input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.BRAND.toString()));
             input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
             input.addAll(logic.getTableInput(selection.getSessionDTO()));
-            checkLeave = true;
-            service.submit(new UpdateOverride(input));
+            summaryCheckLeave = true;
+            service.submit(new SummaryUpdateOverride(input));
         }
     }
 
     @Override
     public boolean checkLeave() {
-        return !checkLeave;
+        return !summaryCheckLeave;
     }
 
     @Override
     public boolean isRestrict() {
-        return restrictLeave;
+        return summaryRestrictLeave;
     }
 
     public void setRestrictLeave() {
-        this.restrictLeave = restrictLeave;
+        this.summaryRestrictLeave = summaryRestrictLeave;
     }
 
     public void setCheckLeave(boolean checkLeave) {
-        this.checkLeave = checkLeave;
+        this.summaryCheckLeave = checkLeave;
     }
 
-    class UpdateOverride implements Runnable {
+    class SummaryUpdateOverride implements Runnable {
 
-        private List input;
-        private boolean updateSuccess;
+        private List summaryInput;
+        private boolean summaryUpdateSuccess;
 
-        public UpdateOverride(List input) {
-            this.input = CommonLogic.getInstance().getArrayListCloned(input);
+        public SummaryUpdateOverride(List input) {
+            this.summaryInput = CommonLogic.getInstance().getArrayListCloned(input);
 
         }
 
         @Override
         public void run() {
-            updateSuccess = logic.updateOverride(input);
+            summaryUpdateSuccess = logic.updateOverride(summaryInput);
         }
 
         public boolean isUpdateSuccess() {
-            return updateSuccess;
+            return summaryUpdateSuccess;
         }
 
     }

@@ -37,18 +37,13 @@ public class AbstractSearchLogic {
         boolean isvalid = false;
         for (Object object : binder.getFields()) {
             if (object instanceof TextField && ((TextField) object).isVisible()) {
-                if (StringUtils.isNotBlank(((TextField) object).getValue())) {
+                if ((StringUtils.isNotBlank(((TextField) object).getValue())) || 
+                        (object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((ComboBox) object).getValue())) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(((ComboBox) object).getValue()))) ||
+                        (object instanceof PopupDateField && ((PopupDateField) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((PopupDateField) object).getValue())))) {
                     isvalid = true;
                     break;
                 }
-            } else if (object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((ComboBox) object).getValue())) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(((ComboBox) object).getValue()))) {
-                    isvalid = true;
-                    break;
-                }
-            else if (object instanceof PopupDateField && ((PopupDateField) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((PopupDateField) object).getValue()))) {
-                    isvalid = true;
-                    break;
-                }
+            } 
             }
         return isvalid;
     }

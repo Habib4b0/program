@@ -120,7 +120,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected boolean valueDdlbChangeAllowed = false;
     private boolean levelFilterEnable = false;
     private boolean levelFilterValueDdlbEnable = false;
-    private final Logger logger = LoggerFactory.getLogger(AbstractSearchResults.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchResults.class);
 
     public AbstractSearchResults(LogicAble logic, T selection) {
         this.logic = logic;
@@ -191,7 +191,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         armLevelLabel.setCaption("Level:");
     }
 
-    private final CustomNotification notifier = new CustomNotification();
+    private final AbstractSearchCustomNotification notifier = new AbstractSearchCustomNotification();
 
     /**
      * load and set the default selection for level DDLBs
@@ -203,11 +203,11 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         customerProductView.setValue(ARMConstants.getDeductionProduct());
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class AbstractSearchCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String buttonNameSearch;
 
-        public CustomNotification() {
+        public AbstractSearchCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -220,9 +220,9 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", buttonNameSearch);
+            if (null != buttonNameSearch) {
+                switch (buttonNameSearch) {
                     case "reset":
                         break;
                     case "save":
@@ -236,7 +236,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.buttonNameSearch = buttonName;
         }
 
     }
@@ -267,7 +267,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                     calculateLogic();
                     refreshTableData(getAllExpandedHierarchyNo());
                 } catch (Exception e) {
-                    logger.error("Error in calculateBtn :", e);
+                    LOGGER.error("Error in calculateBtn :", e);
                 }
             }
         });
@@ -285,7 +285,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 }
             }
         } catch (Exception e) {
-            logger.error("Error in expandButtonClick :", e);
+            LOGGER.error("Error in expandButtonClick :", e);
         }
         AbstractNotificationUtils.getErrorNotification(ARMMessages.getExpandMessageName(), ARMMessages.getExpandMessageMsgId_001());
     }
@@ -302,7 +302,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 }
             }
         } catch (Exception e) {
-            logger.error("Error in collapseButtonClick :", e);
+            LOGGER.error("Error in collapseButtonClick :", e);
         }
         AbstractNotificationUtils.getErrorNotification(ARMMessages.getExpandMessageName(), ARMMessages.getExpandMessageMsgId_001());
     }
@@ -344,7 +344,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 valueDdlbValueChange(val);
             } else {
                 String message = String.valueOf(value) + " is not an integer ";
-                logger.error(message);
+                LOGGER.error(message);
             }
         }
 
@@ -385,13 +385,13 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         if (isLevelFilterEnable()) {
             try {
                 if (setRespectiveLevelFileterValue(value, levelNo)) {
-                    getTableLogic().loadSetData(Boolean.FALSE);
+                    getTableLogic().loadSetData(false);
                 }
                 setLevelFilterValueDdlbEnable(false);
                 loadLevelFilterValueDdlb(value, levelNo);
                 setLevelFilterValueDdlbEnable(true);
             } catch (Exception e) {
-                logger.error("Error in levelFilterValueChangeLogic ", e);
+                LOGGER.error("Error in levelFilterValueChangeLogic ", e);
             }
         }
     }
@@ -412,17 +412,17 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected void excelExportLogic() throws IllegalAccessException, InvocationTargetException {
         tableLayout.addComponent(getExcelTable());
         getExcelTable().setContainerDataSource(getExcelContainer());
-        getExcelTable().setRefresh(Boolean.FALSE);
-        getExcelTable().setVisible(Boolean.FALSE);
+        getExcelTable().setRefresh(false);
+        getExcelTable().setVisible(false);
         setExcelVisibleColumn();
         Object[] excelHierarchy = getExcelHierarchy();
         List resultList = getExcelLogic().getExcelResultList(getSelection());
         callExcelCustomization(resultList, excelHierarchy);
-        ((CommonUI) getUI()).setExcelFlag(Boolean.TRUE);
-        getExcelTable().setRefresh(Boolean.TRUE);
+        ((CommonUI) getUI()).setExcelFlag(true);
+        getExcelTable().setRefresh(true);
         ExtCustomTableHolder extCustomTableHolder = new ExtCustomTableHolder(getExcelTable());
         ExcelExport export = new ExcelExport(extCustomTableHolder, getExcelFileName(), getExcelFileName(), getExcelFileName() + ".xls", false);
-        export.setUseTableFormatPropertyValue(Boolean.TRUE);
+        export.setUseTableFormatPropertyValue(true);
         export.export();
         getExcelContainer().removeAllItems();
         tableLayout.removeComponent(getExcelTable());
@@ -559,7 +559,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         try {
             excelExportLogic();
         } catch (Exception ex) {
-            logger.error("Error in exportButtonLogic :", ex);
+            LOGGER.error("Error in exportButtonLogic :", ex);
         }
     }
 
@@ -594,7 +594,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         setRespectiveHierarchy(ARMConstants.getDeductionProduct());
     }
 
-    protected void setConverter(ExtCustomTable excelTable, Object[] visibleColumns) {
+    protected void setConverter(ExtCustomTable searchResExcelTable, Object[] searchResVisibleColumns) {
         DataFormatConverter currency2Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_DOLLAR);
         DataFormatConverter rate2Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
         DataFormatConverter rate3Dec = new DataFormatConverter(ARMConstants.getThreeDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
@@ -602,22 +602,22 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         DataFormatConverter perzeroDec = new DataFormatConverter(ARMConstants.getNoDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
         DataFormatConverter currencyzeroDec = new DataFormatConverter(ARMConstants.getCurrNoDecFormat());
         DataFormatConverter num2Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat());
-        for (Object visibleColumn : visibleColumns) {
+        for (Object visibleColumn : searchResVisibleColumns) {
             if (!"group".equals(String.valueOf(visibleColumn)) && !"month".equals(String.valueOf(visibleColumn))) {
                 if (isPercentageColumnzeroDecimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, perzeroDec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, perzeroDec, false);
                 } else if (isPercentageColumn2Decimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, rate2Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, rate2Dec, false);
                 } else if (isNumericTwoDecimalFormat(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, num2Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, num2Dec, false);
                 } else if (isPercentageColumn3Decimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, rate3Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, rate3Dec, false);
                 } else if (isUnitColumn(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, zeroDec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, zeroDec, false);
                 } else if (isCurrencyZeroDecimalFormat(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, currencyzeroDec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, currencyzeroDec, false);
                 } else {
-                    excelTable.setConverter(visibleColumn, currency2Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, currency2Dec, false);
                 }
             }
         }
@@ -642,7 +642,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @return
      */
     protected boolean isPercentageColumn2Decimal(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
@@ -664,17 +664,17 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @return
      */
     protected boolean isCurrencyZeroDecimalFormat(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
     protected boolean isNumericTwoDecimalFormat(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
     protected boolean isPercentageColumnzeroDecimal(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
+        LOGGER.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
@@ -713,8 +713,8 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object searchResobj) {
+        return super.equals(searchResobj);
     }
 
     @Override
@@ -722,11 +722,11 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream searchResobj) throws IOException {
+        searchResobj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream searchResobj) throws IOException, ClassNotFoundException {
+        searchResobj.defaultReadObject();
     }
 }

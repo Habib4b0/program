@@ -225,7 +225,6 @@ public abstract class AbstractContractSearch extends CustomComponent {
     private String transferSalesString = StringUtils.EMPTY;
     private boolean removeProjectionBooleanVal = false;
     private boolean isSubmit = false;
-    private AddItemContractFieldFactory fieldFactory;
     private final Map tempTableMap = new HashMap();
     private final Map startDateEndDateMap = new HashMap();
     private final Map fieldAndPropertyMap = new HashMap();
@@ -259,7 +258,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         return panel;
     }
 
-    public Component ConfigureTable() {
+    public Component configureTable() {
 
         getContractSelectionTableLogic().setContainerDataSource(container);
         setVisibleColumns();
@@ -327,17 +326,17 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 }
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
                     ComboBox marketTypeDdlbTypess = new ComboBox();
-                    getLogic().LazyLoadDdlb(marketTypeDdlbTypess, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
+                    getLogic().lazyLoadDdlb(marketTypeDdlbTypess, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
                     return marketTypeDdlbTypess;
                 }
                 if ("status".equals(propertyId)) {
                     ComboBox statusDdlbCombo = new ComboBox();
-                    getLogic().LazyLoadDdlb(statusDdlbCombo, "Load Item Status Count", "Load Item Status", BooleanConstant.getTrueFlag());
+                    getLogic().lazyLoadDdlb(statusDdlbCombo, "Load Item Status Count", "Load Item Status", BooleanConstant.getTrueFlag());
                     return statusDdlbCombo;
                 }
                 if (Constants.PRICE_TOLERANCE_INTERVAL.equals(propertyId)) {
                     ComboBox pricetolerenceintDdlbProId = new ComboBox();
-                    getLogic().LazyLoadDdlb(pricetolerenceintDdlbProId, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BooleanConstant.getTrueFlag());
+                    getLogic().lazyLoadDdlb(pricetolerenceintDdlbProId, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BooleanConstant.getTrueFlag());
                     return pricetolerenceintDdlbProId;
                 }
                 if (Constants.PRICE_TOLERANCE_TYPE_PROPERTY.equals(propertyId)) {
@@ -351,7 +350,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 }
                 if (Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY.equals(propertyId)) {
                     ComboBox pricetolerencefreqDDlb = new ComboBox();
-                    getLogic().LazyLoadDdlb(pricetolerencefreqDDlb, "Load PS_FREQ Count", "Load PS_FREQ", BooleanConstant.getTrueFlag());
+                    getLogic().lazyLoadDdlb(pricetolerencefreqDDlb, "Load PS_FREQ Count", "Load PS_FREQ", BooleanConstant.getTrueFlag());
                     return pricetolerencefreqDDlb;
                 }
                 
@@ -458,7 +457,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         massUpdateRadio.addItem(ENABLE.getConstant());
         massUpdateRadio.select(DISABLE.getConstant());
         field.addItem(Constants.SELECT_ONE);
-        LoadField();
+        loadField();
         field.setNullSelectionAllowed(true);
         field.setNullSelectionItemId(Constants.SELECT_ONE);
         field.select(Constants.SELECT_ONE);
@@ -472,7 +471,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         populateBtn.setEnabled(false);
         massUpdateRadio.addItems(ENABLE.getConstant(), DISABLE.getConstant());
         visibilityOptions();
-        LoadTempToTableMap();
+        loadTempToTableMap();
         loadFieldAndPropertyMap();
         loadStartEndDateMap();
 
@@ -828,6 +827,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     public void createFieldFactory() {
+        AddItemContractFieldFactory fieldFactory;
         fieldFactory = new AddItemContractFieldFactory(selection, getContractSelectionTable(), fieldAndPropertyMap);
         getContractSelectionTable().setTableFieldFactory(fieldFactory);
     }
@@ -927,19 +927,19 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     private void loadRsType() {
-        getLogic().LazyLoadDdlb(rebateScheduleTypeDTO, "LoadRsTypeCount", "LoadRsType", BooleanConstant.getFalseFlag());
+        getLogic().lazyLoadDdlb(rebateScheduleTypeDTO, "LoadRsTypeCount", "LoadRsType", BooleanConstant.getFalseFlag());
     }
 
     private void loadMarketType() {
-        getLogic().LazyLoadDdlb(marketTypeDTO, "Load Market Type Count", "Load Market Type", BooleanConstant.getFalseFlag());
+        getLogic().lazyLoadDdlb(marketTypeDTO, "Load Market Type Count", "Load Market Type", BooleanConstant.getFalseFlag());
     }
 
     private void loadRsCategory() {
-        getLogic().LazyLoadDdlb(rebateScheduleCategoryDto, "LoadRsCategoryCount", "LoadRsCategory", BooleanConstant.getFalseFlag());
+        getLogic().lazyLoadDdlb(rebateScheduleCategoryDto, "LoadRsCategoryCount", "LoadRsCategory", BooleanConstant.getFalseFlag());
     }
 
     private void loadRptype() {
-        getLogic().LazyLoadDdlb(rebateProgramTypeDTO, "LoadRpTypeCount", "LoadRpType", BooleanConstant.getFalseFlag());
+        getLogic().lazyLoadDdlb(rebateProgramTypeDTO, "LoadRpTypeCount", "LoadRpType", BooleanConstant.getFalseFlag());
     }
 
     /**
@@ -1064,8 +1064,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
         } else {
             input.add("%");
         }
-        if (getBinderDto().getMarketType_DTO() != null) {
-            input.add(getBinderDto().getMarketType_DTO().getId());
+        if (getBinderDto().getMarketTypeDto() != null) {
+            input.add(getBinderDto().getMarketTypeDto().getId());
         } else {
             input.add("%");
         }
@@ -1097,18 +1097,18 @@ public abstract class AbstractContractSearch extends CustomComponent {
         } else {
             input.add("%");
         }
-        if (getBinderDto().getRebateScheduleType_DTO() != null) {
-            input.add(getBinderDto().getRebateScheduleType_DTO().getId());
+        if (getBinderDto().getRebateScheduleTypeDto() != null) {
+            input.add(getBinderDto().getRebateScheduleTypeDto().getId());
         } else {
             input.add("%");
         }
-        if (getBinderDto().getRebateScheduleCategory_DTO() != null) {
-            input.add(getBinderDto().getRebateScheduleCategory_DTO().getId());
+        if (getBinderDto().getRebateScheduleCategoryDto() != null) {
+            input.add(getBinderDto().getRebateScheduleCategoryDto().getId());
         } else {
             input.add("%");
         }
-        if (getBinderDto().getRebateProgramType_DTO() != null) {
-            input.add(getBinderDto().getRebateProgramType_DTO().getId());
+        if (getBinderDto().getRebateProgramTypeDto() != null) {
+            input.add(getBinderDto().getRebateProgramTypeDto().getId());
         } else {
             input.add("%");
         }
@@ -1151,7 +1151,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         return input;
     }
 
-    public void LoadField() {
+    public void loadField() {
         field.addItems(Arrays.asList(ConstantsUtil.MassUpdateConstants.values()));
     }
 
@@ -1350,17 +1350,17 @@ public abstract class AbstractContractSearch extends CustomComponent {
                             baseLineTextValue = baseWacManual.getValue();
                             getContractSelectionTable().getItem(object).getItemProperty(Constants.BASELINE_WAC_MANUAL_LABLE_NAME).setValue(baseLineTextValue);
                             baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
-                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
+                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, selection);
                         } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
                             getContractSelectionTable().getItem(object).getItemProperty(Constants.BASELINE_WAC_DATE_LABLE_NAME).setValue(baseWacDate.getValue());
                             baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
                             baseLineValue = formatter.format(baseWacDate.getValue());
-                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineValue, selection);
                         } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
                             baseLineValue = baseWacPriceType.getValue();
                             getContractSelectionTable().getItem(object).getItemProperty(Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME).setValue(baseLineValue);
                             baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
-                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineValue, selection);
                         }
                         break;
                     case Constants.BASELINE_NET_WAC_LABLE_NAME:
@@ -1664,7 +1664,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
 
-    private void LoadTempToTableMap() {
+    private void loadTempToTableMap() {
         tempTableMap.put(Constants.STATUS_FIELD, StringConstantsUtil.ITEM_STATUS_COLUMN);
         tempTableMap.put(Constants.START_DATE_HEADER, StringConstantsUtil.START_DATE_COLUMN);
         tempTableMap.put(Constants.END_DATE_HEADER, StringConstantsUtil.END_DATE_COLUMN);

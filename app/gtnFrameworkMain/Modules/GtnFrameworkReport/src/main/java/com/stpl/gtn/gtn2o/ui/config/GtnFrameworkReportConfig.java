@@ -31,7 +31,7 @@ public class GtnFrameworkReportConfig {
 
 		GtnUIFrameworkRootConfig rootConfig = new GtnUIFrameworkRootConfig();
 
-		List<GtnUIFrameworkViewConfig> viewList = new ArrayList<>();
+		List<GtnUIFrameworkViewConfig> viewList = new ArrayList<>(25);
 
 		viewList.add(new GtnFrameworkReportLandingScreenConfig()
 				.getLandingScreenView(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN));

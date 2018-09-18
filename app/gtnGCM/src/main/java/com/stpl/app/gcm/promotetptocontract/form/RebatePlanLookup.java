@@ -236,7 +236,7 @@ public class RebatePlanLookup extends Window {
     }
 
     private void loadRebatePlanType() {
-        logic.LazyLoadDdlb(rebatePlanType, "getRebatePlanTypeCount", "getRebatePlanType");
+        logic.lazyLoadDdlb(rebatePlanType, "getRebatePlanTypeCount", "getRebatePlanType");
     }
 
     @UiHandler("selectBtnRPL")

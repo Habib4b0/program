@@ -85,7 +85,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 public class ApprovalTab extends CustomComponent {
 
-    private String projectionIdHidden = "";
     /**
      * Logger implementation for CffApprovalDetailsForm
      */
@@ -184,10 +183,7 @@ public class ApprovalTab extends CustomComponent {
     /**
      * Pagination Layout for Result Tables
      */
-    private HorizontalLayout resultPagination;
-    /**
-     * Result Layout
-     */
+    
     @UiField("resultLayout")
     private VerticalLayout resultLayout;
     /**
@@ -304,11 +300,7 @@ public class ApprovalTab extends CustomComponent {
             updateCycleName.addValidator(new RegexpValidator(ConstantsUtil.ALPHA_NUM_CHARS, "Update Cycle name should be alphanumeric"));
 
             latestEstimate.addItem(ConstantsUtil.SELECT_ONE);
-            try {
                 latestEstimate = commonUtils.getNativeSelect(latestEstimate, CFFLogic.getDropDownList(ConstantsUtil.LOCKED_STATUS), StringUtils.EMPTY);
-            } catch (Exception ex) {
-                LOGGER.error(ex.getMessage());
-            }
             latestEstimate.setImmediate(true);
             latestEstimate.setNullSelectionAllowed(true);
             latestEstimate.select(ConstantsUtil.SELECT_ONE);
@@ -327,11 +319,7 @@ public class ApprovalTab extends CustomComponent {
             });
 
             updateCycle.addItem(ConstantsUtil.SELECT_ONE);
-            try {
                 updateCycle = commonUtils.getNativeSelect(updateCycle, CFFLogic.getDropDownList(ConstantsUtil.LOCKED_STATUS), StringUtils.EMPTY);
-            } catch (Exception ex) {
-                LOGGER.error(ex.getMessage());
-            }
             updateCycle.setImmediate(true);
             updateCycle.setNullSelectionAllowed(true);
             updateCycle.select(ConstantsUtil.SELECT_ONE);
@@ -520,7 +508,7 @@ public class ApprovalTab extends CustomComponent {
                     return link;
                 }
             });
-            resultPagination = ResponsiveUtils.getResponsiveControls(resultTable.createControls());
+           HorizontalLayout resultPagination = ResponsiveUtils.getResponsiveControls(resultTable.createControls());
             resultLayout.addComponent(resultTable);
             resultLayout.addComponent(excelTable);
             resultLayout.addComponent(resultPagination);
@@ -545,7 +533,7 @@ public class ApprovalTab extends CustomComponent {
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     LOGGER.debug("Entering EXCEL Export Button Click");
-                    ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
+                    ConsolidatedFinancialForecastUI.setExcelClose(true);
                     final ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(excelTable), EXCEL_HEADER, EXCEL_HEADER, "ApprovalDetails.xls", false);
                     excel.export();
                     LOGGER.debug(" Ends  EXCEL Export Button Click");
@@ -577,6 +565,7 @@ public class ApprovalTab extends CustomComponent {
         String workflowStatus = null;
         String canApprove = "yes";
         String workflowId = null;
+        String projectionIdHidden = "";
         List<Integer> list;
         if (dto != null) {
 

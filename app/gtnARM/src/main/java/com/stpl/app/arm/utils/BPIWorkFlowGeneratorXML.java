@@ -78,11 +78,11 @@ public class BPIWorkFlowGeneratorXML {
         HashMap hm = new HashMap();
 
         try {
-            File file = com.stpl.ifs.util.CommonUtil.getFilePath(fileWithPath);
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(file);
+            File files = com.stpl.ifs.util.CommonUtil.getFilePath(fileWithPath);
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            DocumentBuilder db = builderFactory.newDocumentBuilder();
+            Document doc = db.parse(files);
             doc.getDocumentElement().normalize();
 
             String updateDate = "NA";
@@ -99,35 +99,35 @@ public class BPIWorkFlowGeneratorXML {
 
                     if (fstNode.getNodeType() == Node.ELEMENT_NODE) {
 
-                        Element fstElmnt = (Element) fstNode;
+                        Element firstElment = (Element) fstNode;
 
-                        NodeList fstAllocationLst = fstElmnt
+                        NodeList firstAllocationLst = firstElment
                                 .getElementsByTagName("moduleName");
-                        Element fstAllocationElmnt = (Element) fstAllocationLst
+                        Element firstAllocationElmnt = (Element) firstAllocationLst
                                 .item(0);
-                        NodeList fstAllocation = fstAllocationElmnt
+                        NodeList firstAllocation = firstAllocationElmnt
                                 .getChildNodes();
 
-                        String moduleName = (fstAllocation.item(0))
+                        String moduleName = (firstAllocation.item(0))
                                 .getNodeValue();
 
                         if (moduleName.equals(modName)) {
-                            NodeList fstNmElmntLst = fstElmnt
+                            NodeList firstNmElmntLst = firstElment
                                     .getElementsByTagName(ARMUtils.COUNTER_VALUE);
-                            Element fstNmElmnt = (Element) fstNmElmntLst
+                            Element firstNmElmnt = (Element) firstNmElmntLst
                                     .item(0);
-                            NodeList fstNm = fstNmElmnt.getChildNodes();
+                            NodeList firstNm = firstNmElmnt.getChildNodes();
 
-                            counterValue = (fstNm.item(0))
+                            counterValue = (firstNm.item(0))
                                     .getNodeValue();
 
-                            NodeList lstNmElmntLst = fstElmnt
+                            NodeList lastNmElmntLst = firstElment
                                     .getElementsByTagName("counterUpdatedDate");
-                            Element lstNmElmnt = (Element) lstNmElmntLst
+                            Element lastNmElmnt = (Element) lastNmElmntLst
                                     .item(0);
-                            NodeList lstNm = lstNmElmnt.getChildNodes();
+                            NodeList lastNm = lastNmElmnt.getChildNodes();
 
-                            updateDate = (lstNm.item(0)).getNodeValue();
+                            updateDate = (lastNm.item(0)).getNodeValue();
                         }
 
                         hm.put(ARMUtils.COUNTER_VALUE, counterValue);

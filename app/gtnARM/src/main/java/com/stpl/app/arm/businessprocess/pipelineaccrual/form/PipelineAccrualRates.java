@@ -49,23 +49,13 @@ public class PipelineAccrualRates extends AbstractPipelineRates {
     }
 
     @Override
-    public AbstractBPLogic getRatelogicObject() {
-        return new PipelineAccrualRateLogic();
-    }
-
-    @Override
-    public ExcelInterface getExcelLogic() {
-        return getRatelogicObject();
+    public boolean checkLeave() {
+        return true;
     }
 
     @Override
     public Focusable getDefaultFocusComponent() {
         return deductionLevelDdlb;
-    }
-
-    @Override
-    public boolean checkLeave() {
-        return true;
     }
 
     public void configurePermission(String userId, StplSecurity stplSecurity) {
@@ -86,6 +76,16 @@ public class PipelineAccrualRates extends AbstractPipelineRates {
         rateBasisDdlb.removeItem(helperId.getIdByDesc(CommonConstant.ARM_RATE_BASIS, "Calculated"));
         CommonUtils.loadComboBoxWithIntegerForComboBox(rateFrequencyDdlb, "PAYMENT_FREQUENCY", false);
         setDefaultValue();
+    }
+
+    @Override
+    public AbstractBPLogic getRatelogicObject() {
+        return new PipelineAccrualRateLogic();
+    }
+
+    @Override
+    public ExcelInterface getExcelLogic() {
+        return getRatelogicObject();
     }
 
 }

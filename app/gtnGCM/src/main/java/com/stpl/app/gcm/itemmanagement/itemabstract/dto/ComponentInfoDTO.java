@@ -462,91 +462,91 @@ public class ComponentInfoDTO {
         this.systemId = systemId;
     }
 
-    public HelperDTO getRsType_DTO() {
+    public HelperDTO getRsTypeDto() {
         return rsTypeDTO;
     }
 
-    public void setRsType_DTO(HelperDTO rsTypeDto) {
+    public void setRsTypeDto(HelperDTO rsTypeDto) {
         this.rsTypeDTO = rsTypeDto;
     }
 
-    public HelperDTO getRsCategory_DTO() {
+    public HelperDTO getRsCategoryDto() {
         return rsCategoryDTO;
     }
 
-    public void setRsCategory_DTO(HelperDTO rsCategoryDto) {
+    public void setRsCategoryDto(HelperDTO rsCategoryDto) {
         this.rsCategoryDTO = rsCategoryDto;
     }
 
-    public HelperDTO getRsProgramType_DTO() {
+    public HelperDTO getRsProgramTypeDto() {
         return rsProgramTypeDTO;
     }
 
-    public void setRsProgramType_DTO(HelperDTO rsProgramTypeDto) {
+    public void setRsProgramTypeDto(HelperDTO rsProgramTypeDto) {
         this.rsProgramTypeDTO = rsProgramTypeDto;
     }
 
-    public HelperDTO getPaymentFrequency_DTO() {
+    public HelperDTO getPaymentFrequencyDto() {
         return paymentFrequencyDTO;
     }
 
-    public void setPaymentFrequency_DTO(HelperDTO paymentFrequencyDto) {
+    public void setPaymentFrequencyDto(HelperDTO paymentFrequencyDto) {
         this.paymentFrequencyDTO = paymentFrequencyDto;
     }
 
-    public HelperDTO getRebatePlanLevel_DTO() {
+    public HelperDTO getRebatePlanLevelDto() {
         return rebatePlanLevelDTO;
     }
 
-    public void setRebatePlanLevel_DTO(HelperDTO rebatePlanLevelDto) {
+    public void setRebatePlanLevelDto(HelperDTO rebatePlanLevelDto) {
         this.rebatePlanLevelDTO = rebatePlanLevelDto;
     }
 
-    public String getRsType_Value() {
+    public String getRsTypeValue() {
         return rsTypeValue;
     }
 
-    public void setRsType_Value(String rsTypeValue) {
+    public void setRsTypeValue(String rsTypeValue) {
         this.rsTypeValue = rsTypeValue;
     }
 
-    public String getRsCategory_Value() {
+    public String getRsCategoryValue() {
         return rsCategoryValue;
     }
 
-    public void setRsCategory_Value(String rsCategoryValue) {
+    public void setRsCategoryValue(String rsCategoryValue) {
         this.rsCategoryValue = rsCategoryValue;
     }
 
-    public String getRsProgramType_Value() {
+    public String getRsProgramTypeValue() {
         return rsProgramTypeValue;
     }
 
-    public void setRsProgramType_Value(String rsProgramTypeValue) {
+    public void setRsProgramTypeValue(String rsProgramTypeValue) {
         this.rsProgramTypeValue = rsProgramTypeValue;
     }
 
-    public String getPaymentFrequency_Value() {
+    public String getPaymentFrequencyValue() {
         return paymentFrequencyValue;
     }
 
-    public void setPaymentFrequency_Value(String paymentFrequencyValue) {
+    public void setPaymentFrequencyValue(String paymentFrequencyValue) {
         this.paymentFrequencyValue = paymentFrequencyValue;
     }
 
-    public String getRebatePlanLevel_Value() {
+    public String getRebatePlanLevelValue() {
         return rebatePlanLevelValue;
     }
 
-    public void setRebatePlanLevel_Value(String rebatePlanLevelValue) {
+    public void setRebatePlanLevelValue(String rebatePlanLevelValue) {
         this.rebatePlanLevelValue = rebatePlanLevelValue;
     }
 
-    public String getRebateFrequency_Value() {
+    public String getRebateFrequencyValue() {
         return rebateFrequencyValue;
     }
 
-    public void setRebateFrequency_Value(String rebateFrequencyValue) {
+    public void setRebateFrequencyValue(String rebateFrequencyValue) {
         this.rebateFrequencyValue = rebateFrequencyValue;
     }
 

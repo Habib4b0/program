@@ -23,7 +23,6 @@ import de.steinwedel.messagebox.MessageBox;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;

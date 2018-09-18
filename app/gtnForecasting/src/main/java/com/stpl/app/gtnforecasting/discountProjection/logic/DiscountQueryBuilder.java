@@ -110,8 +110,8 @@ public class DiscountQueryBuilder {
                 baselinePeriodsList = discountName.getValue().get(baselineIndicator);
                 selectedPeriodsList = discountName.getValue().get("P");
 
-                baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
-                selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
+                baselinePeriods = CommonUtils.collectionToStringMethod(baselinePeriodsList, false, true);
+                selectedPeriods = CommonUtils.collectionToStringMethod(selectedPeriodsList, false, true);
 
                 baselinePeriods = baselinePeriods.replace(", ", ",");
                 selectedPeriods = selectedPeriods.replace(", ", ",");
@@ -151,7 +151,7 @@ public class DiscountQueryBuilder {
 
             String rsQuery = levelType.equals(Constants.PROGRAM) ? " RS.RS_NAME " : " DPM.PRICE_GROUP_TYPE ";
             for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
-                String selectedPeriodsToUpdate = CommonUtils.CollectionToString(discountName.getValue().get("P"), false);
+                String selectedPeriodsToUpdate = CommonUtils.collectionToStringMethod(discountName.getValue().get("P"), false);
                 selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
                 selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace("Q", "").replace("S", "").replace(" ", "");
 
@@ -284,7 +284,7 @@ public class DiscountQueryBuilder {
     }
 
     public void massUpdate(SessionDTO session,ProjectionSelectionDTO projectionSelection, List<Integer> startAndEndPeriods, String selectedField, String fieldValue,
-           List<String> checkedDiscounts, boolean isProgram, List<String[]> massUpdateData, List<String> selectedPeriods,boolean isCustomHierarchy) {
+           List<String> checkedDiscounts, boolean isProgram, List<String[]> massUpdateData, boolean isCustomHierarchy) {
 
         String customSql = "";
         String frequency = projectionSelection.getFrequency();
@@ -711,8 +711,7 @@ public class DiscountQueryBuilder {
                         .append("WHERE  DM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID  AND RS.RS_NAME IS NOT NULL ")
                         .append(" ) ORDER  BY DISCOUNT_NAME,RS_CONTRACT_SID ");
             }
-            List result = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sb.toString(), session.getCurrentTableNames()));
-            return result;
+            return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sb.toString(), session.getCurrentTableNames()));
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sb.toString());
@@ -832,7 +831,7 @@ public class DiscountQueryBuilder {
 	}
     
     public List getDiscountProjectionLastLevel(final String frequency, final List<String> discountList,
-            final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo, final boolean isCustom, final List<String> customViewDetails, final int treeLevelNo,
+            final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo, final List<String> customViewDetails, final int treeLevelNo,
             final int start, final int end, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
         String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
         String dedQuery = NINE_LEVEL_DED;
@@ -891,9 +890,8 @@ public class DiscountQueryBuilder {
         }
         framedInQueryString = framedInQueryStringBuilder.toString();
         framedInQueryString = framedInQueryString.substring(0, framedInQueryString.length() - 1);
-        String framedQuery = "SELECT DISTINCT DEDUCTION_HIERARCHY_NO FROM ST_NM_DISCOUNT_PROJ_MASTER  WHERE RS_CONTRACT_SID in ("+framedInQueryString+")";
+        return "SELECT DISTINCT DEDUCTION_HIERARCHY_NO FROM ST_NM_DISCOUNT_PROJ_MASTER  WHERE RS_CONTRACT_SID in ("+framedInQueryString+")";
         
-        return framedQuery;
     }
      
     public static List getRSHierarchyNo(List<String> discountList,SessionDTO session) {
@@ -958,8 +956,7 @@ public class DiscountQueryBuilder {
         } else {
             currentHierarchyIndicator = hierarchyIndicator;
         }
-        String joinQuery = getHierarchyJoinQuery(isCustom, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, currentHierarchyIndicator, userGroup,sessionDTO);
-        return joinQuery;
+        return getHierarchyJoinQuery(isCustom, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, currentHierarchyIndicator, userGroup,sessionDTO);
     }
 
     public String getHierarchyJoinQuery(boolean isCustomHierarchy, String customerHierarchyNo, String productHierarchyNo, String deductionHierarchyNo, String hierarchyIndicator, final String userGroup,final SessionDTO sessionDTO) {
@@ -1064,7 +1061,7 @@ public class DiscountQueryBuilder {
         }
         return countQuery;
     }
-    public String getDiscountCountQueryForAllLevel(SessionDTO sessionDTO, String hierarchyNo, int levelNo, String hierarchyIndicator, List<String> discountList, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
+    public String getDiscountCountQueryForAllLevel(SessionDTO sessionDTO, String hierarchyNo, int levelNo, String hierarchyIndicator, List<String> discountList, final String userGroup) {
         String countQuery = SQlUtil.getQuery("GET_COUNT_ALL_LEVEL").replace(Constant.HIERARCHY_NO, commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo))
                 .replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(hierarchyIndicator,sessionDTO))
                 .replace(SELECTED_REBATE_AT, getRSDiscountHierarchyNo(discountList,sessionDTO,levelNo)).replace("@CUSTORPROD", "P".equals(hierarchyIndicator)?"PROD_HIERARCHY_NO":"CUST_HIERARCHY_NO");

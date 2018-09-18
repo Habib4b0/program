@@ -116,16 +116,16 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                 switch (dto.getLevelName()) {
                     case VariableConstants.DEDUCTION_UPPERCASE:
                         dto.setDeductionName(String.valueOf(obj[0]));
-                        dto.setDeductionSID((Integer) (obj[NumericConstants.FIVE]));
+                        dto.setDeductionSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.FIVE])));
                         break;
 
                     case VariableConstants.CUSTOMER_UPPERCASE:
                         if (ARMConstants.getDeductionCustomer().equals(selection.getRateDeductionView())) {
-                            dto.setCustomerSID((Integer) (obj[NumericConstants.FIVE]));
+                            dto.setCustomerSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.FIVE])));
                             dto.setDeductionName(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionName() : StringUtils.EMPTY);
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            dto.setCustomerSID((Integer) (obj[NumericConstants.FIVE]));
+                            dto.setCustomerSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.FIVE])));
                             dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                             dto.setDeductionName(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionName() : StringUtils.EMPTY);
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
@@ -134,19 +134,19 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
 
                     case VariableConstants.CONTRACT_UPPERCASE:
                         if (ARMConstants.getDeductionCustomer().equals(selection.getRateDeductionView())) {
-                            dto.setContractSID((Integer) (obj[NumericConstants.FIVE]));
+                            dto.setContractSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.FIVE])));
                             dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                             dto.setDeductionName(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionName() : StringUtils.EMPTY);
                         } else {
-                            dto.setContractSID((Integer) (obj[NumericConstants.FIVE]));
+                            dto.setContractSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.FIVE])));
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                             dto.setDeductionName(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionName() : StringUtils.EMPTY);
                         }
                         break;
 
                     case VariableConstants.BRAND_UPPERCASE:
-                        dto.setBrandSID((Integer) (obj[NumericConstants.FIVE]));
+                        dto.setBrandSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.FIVE])));
                         dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                         dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                         dto.setDeductionName(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionName() : StringUtils.EMPTY);
@@ -248,6 +248,16 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
             QueryUtils.itemUpdate(input, "OVERRIDE_QUERY");
         } catch (Exception e) {
             LOGGER.error("Error in updateOverride :", e);
+            return false;
+        }
+        return true;
+    }
+      @Override
+    public boolean updateOverrideLevelFilter(List input) {
+        try {
+            QueryUtils.itemUpdate(input, "OVERRIDE_QUERY_LEVEL_FILTER");
+        } catch (Exception e) {
+            LOGGER.error("Error in updateOverride :",e);
             return false;
         }
         return true;

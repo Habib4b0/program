@@ -42,118 +42,118 @@ import org.asi.container.ExtTreeContainer;
  */
 public class ExcelUtils {
 
-    public static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0");
-    public static final DecimalFormat MONEY = new DecimalFormat("$#,##0");
-    public static final DecimalFormat PERCENTFORMAT = new DecimalFormat("#,##0.00%");
-    public static final DecimalFormat PERCENTFORMATEXFAC = new DecimalFormat("#,##0.00");
-    public static final DecimalFormat PERCENT_FORMAT = new DecimalFormat("#,##0.000");
-    private static final DecimalFormat DOLLAR_RPU_FORMAT = new DecimalFormat("$#,##0.00");
+    public static final DecimalFormat UNITVOLUME_EXCEL = new DecimalFormat("#,##0");
+    public static final DecimalFormat MONEY_EXCEL = new DecimalFormat("$#,##0");
+    public static final DecimalFormat PERCENTFORMAT_EXCEL = new DecimalFormat("#,##0.00%");
+    public static final DecimalFormat PERCENTFORMATEXFAC_EXCEL = new DecimalFormat("#,##0.00");
+    public static final DecimalFormat PERCENT_FORMAT_EXCEL = new DecimalFormat("#,##0.000");
+    private static final DecimalFormat DOLLAR_RPU_FORMAT_EXCEL = new DecimalFormat("$#,##0.00");
 
-    public static void setExcelData(final List resultList, final List<PPAProjectionResultsDTO> totalList, final ProjectionSelectionDTO selection, ExtTreeContainer<PPAProjectionResultsDTO> excelBeanContainer)  {
-        setTotalDataToExcelContainer(excelBeanContainer, totalList);
-        setDataToExcelContainer(resultList, selection, excelBeanContainer);
+    public static void setExcelData(final List resultListData, final List<PPAProjectionResultsDTO> totalListData, final ProjectionSelectionDTO selectionData, ExtTreeContainer<PPAProjectionResultsDTO> excelBeanContainerData)  {
+        setTotalDataToExcelContainer(excelBeanContainerData, totalListData);
+        setDataToExcelContainer(resultListData, selectionData, excelBeanContainerData);
     }
 
-    private static void setTotalDataToExcelContainer(ExtTreeContainer<PPAProjectionResultsDTO> excelBeanContainer, final List<PPAProjectionResultsDTO> totalList) {
-        PPAProjectionResultsDTO dto = new PPAProjectionResultsDTO();
-        dto.setGroup(Constant.PROJECTION_TOTAL);
-        dto.setLevelNo(0);
-        dto.setIsTotalColumn(Boolean.TRUE);
-        excelBeanContainer.addBean(dto);
-        excelBeanContainer.addAll(totalList);
+    private static void setTotalDataToExcelContainer(ExtTreeContainer<PPAProjectionResultsDTO> excelTotalBeanContainer, final List<PPAProjectionResultsDTO> totalListPPA) {
+        PPAProjectionResultsDTO dtoPPA = new PPAProjectionResultsDTO();
+        dtoPPA.setGroup(Constant.PROJECTION_TOTAL);
+        dtoPPA.setLevelNo(0);
+        dtoPPA.setIsTotalColumn(Boolean.TRUE);
+        excelTotalBeanContainer.addBean(dtoPPA);
+        excelTotalBeanContainer.addAll(totalListPPA);
     }
 
     /**
      *
-     * @param resultList
+     * @param resultListExcel
      * @param selection
      * @param excelBeanContainer
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
-    public static void setDataToExcelContainer(final List resultList, final ProjectionSelectionDTO selection, ExtTreeContainer<PPAProjectionResultsDTO> excelBeanContainer)  {
+    public static void setDataToExcelContainer(final List resultListExcel, final ProjectionSelectionDTO selection, ExtTreeContainer<PPAProjectionResultsDTO> excelBeanContainer)  {
 
-        Map<String, List> hierarchyDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
+        Map<String, List> hierarchyDetailsMapExcel = selection.getSessionDTO().getHierarchyLevelDetails();
 
-        PPAProjectionResultsDTO dto = null;
-        PPAProjectionResultsDTO discDol = null;
-        PPAProjectionResultsDTO discPer = null;
-        PPAProjectionResultsDTO unitVol = null;
-        PPAProjectionResultsDTO totalDisc = null;
+        PPAProjectionResultsDTO dtoExcel = null;
+        PPAProjectionResultsDTO discDolExcel = null;
+        PPAProjectionResultsDTO discPerExcel = null;
+        PPAProjectionResultsDTO unitVolExcel = null;
+        PPAProjectionResultsDTO totalDiscExcel = null;
 
-        Map<String, PPAProjectionResultsDTO> dtoMap = new HashMap<>();
+        Map<String, PPAProjectionResultsDTO> dtoMapExcel = new HashMap<>();
 
-        String lastHierarchyNo = StringUtils.EMPTY;
-        String lastParentHierarchyNo;
+        String lastHierarchyNoExcel = StringUtils.EMPTY;
+        String lastParentHierarchyNoExcel;
 
-        for (int i = 0; i < resultList.size(); i++) {
+        for (int i = 0; i < resultListExcel.size(); i++) {
 
-            Object[] firstRecord = (Object[]) resultList.get(0);
-            Object[] obj = (Object[]) resultList.get(i);
-            if (!lastHierarchyNo.equals(obj[1]) || (obj[NumericConstants.SIXTEEN] != null && obj[NumericConstants.SIXTEEN].toString().endsWith("-G"))) {
-                if (dto != null) {
-                    addItemsToContainer(excelBeanContainer, dto, discDol, discPer, unitVol, totalDisc);
-                    if (dto.getParentHierarchyNo() != null) {
-                        String parentNo = dto.getParentHierarchyNo();
-                        if (parentNo.endsWith("-G")) {
-                            parentNo = parentNo.replace("-G", "");
-                            excelBeanContainer.setParent(dto, dtoMap.get(parentNo));
-                            dtoMap.put(parentNo, dto);
+            Object[] firstRecordExcel = (Object[]) resultListExcel.get(0);
+            Object[] objExcel = (Object[]) resultListExcel.get(i);
+            if (!lastHierarchyNoExcel.equals(objExcel[1]) || (objExcel[NumericConstants.SIXTEEN] != null && objExcel[NumericConstants.SIXTEEN].toString().endsWith("-G"))) {
+                if (dtoExcel != null) {
+                    addItemsToContainer(excelBeanContainer, dtoExcel, discDolExcel, discPerExcel, unitVolExcel, totalDiscExcel);
+                    if (dtoExcel.getParentHierarchyNo() != null) {
+                        String parentNoExcel = dtoExcel.getParentHierarchyNo();
+                        if (parentNoExcel.endsWith("-G")) {
+                            parentNoExcel = parentNoExcel.replace("-G", "");
+                            excelBeanContainer.setParent(dtoExcel, dtoMapExcel.get(parentNoExcel));
+                            dtoMapExcel.put(parentNoExcel, dtoExcel);
                         } else {
-                            excelBeanContainer.setParent(dto, dtoMap.get(parentNo));
+                            excelBeanContainer.setParent(dtoExcel, dtoMapExcel.get(parentNoExcel));
                         }
                     }
 
                 }
-                lastHierarchyNo = obj[1].toString();
-                lastParentHierarchyNo = obj[NumericConstants.SIXTEEN] == null ? null : obj[NumericConstants.SIXTEEN].toString();
-                if (firstRecord[NumericConstants.SIXTEEN] != null && firstRecord[NumericConstants.SIXTEEN].toString().endsWith("-G") && obj[NumericConstants.TWO].toString().equals("Trading Partner")) {
-                    lastParentHierarchyNo = firstRecord[NumericConstants.SIXTEEN].toString().substring(0, firstRecord[NumericConstants.SIXTEEN].toString().length() - NumericConstants.TWO);
+                lastHierarchyNoExcel = objExcel[1].toString();
+                lastParentHierarchyNoExcel = objExcel[NumericConstants.SIXTEEN] == null ? null : objExcel[NumericConstants.SIXTEEN].toString();
+                if (firstRecordExcel[NumericConstants.SIXTEEN] != null && firstRecordExcel[NumericConstants.SIXTEEN].toString().endsWith("-G") && objExcel[NumericConstants.TWO].toString().equals("Trading Partner")) {
+                    lastParentHierarchyNoExcel = firstRecordExcel[NumericConstants.SIXTEEN].toString().substring(0, firstRecordExcel[NumericConstants.SIXTEEN].toString().length() - NumericConstants.TWO);
                 }
 
-                dto = new PPAProjectionResultsDTO();
-                dtoMap.put((lastParentHierarchyNo == null ? StringUtils.EMPTY : lastParentHierarchyNo + "~") + lastHierarchyNo, dto);
-                dto.setHirarechyNo(lastHierarchyNo);
-                dto.setParentHierarchyNo(lastParentHierarchyNo);
-                if (lastParentHierarchyNo != null && lastParentHierarchyNo.endsWith("-G")) {
-                    discDol = null;
-                    discPer = null;
-                    unitVol = null;
-                    totalDisc = null;
-                    dto.setGroup(obj[NumericConstants.TWO].toString());
+                dtoExcel = new PPAProjectionResultsDTO();
+                dtoMapExcel.put((lastParentHierarchyNoExcel == null ? StringUtils.EMPTY : lastParentHierarchyNoExcel + "~") + lastHierarchyNoExcel, dtoExcel);
+                dtoExcel.setHirarechyNo(lastHierarchyNoExcel);
+                dtoExcel.setParentHierarchyNo(lastParentHierarchyNoExcel);
+                if (lastParentHierarchyNoExcel != null && lastParentHierarchyNoExcel.endsWith("-G")) {
+                    discDolExcel = null;
+                    discPerExcel = null;
+                    unitVolExcel = null;
+                    totalDiscExcel = null;
+                    dtoExcel.setGroup(objExcel[NumericConstants.TWO].toString());
                 } else {
-                    dto.setGroup(hierarchyDetailsMap.get(lastHierarchyNo).get(0).toString());
-                    discDol = new PPAProjectionResultsDTO();
-                    discPer = new PPAProjectionResultsDTO();
-                    unitVol = new PPAProjectionResultsDTO();
-                    totalDisc = new PPAProjectionResultsDTO();
-                    discDol.setGroup("Discount $ Per Unit");
-                    discPer.setGroup("Discount %");
-                    unitVol.setGroup("Unit Volume");
-                    totalDisc.setGroup("Total Discount Amount");
+                    dtoExcel.setGroup(hierarchyDetailsMapExcel.get(lastHierarchyNoExcel).get(0).toString());
+                    discDolExcel = new PPAProjectionResultsDTO();
+                    discPerExcel = new PPAProjectionResultsDTO();
+                    unitVolExcel = new PPAProjectionResultsDTO();
+                    totalDiscExcel = new PPAProjectionResultsDTO();
+                    discDolExcel.setGroup("Discount $ Per Unit");
+                    discPerExcel.setGroup("Discount %");
+                    unitVolExcel.setGroup("Unit Volume");
+                    totalDiscExcel.setGroup("Total Discount Amount");
                 }
             }
-            if (discDol != null) {
-                getCustomizedDTO(discDol, obj, selection);
-                getCustomizedDTO(discPer, obj, selection);
-                getCustomizedDTO(unitVol, obj, selection);
-                getCustomizedDTO(totalDisc, obj, selection);
+            if (discDolExcel != null) {
+                getCustomizedDTO(discDolExcel, objExcel, selection);
+                getCustomizedDTO(discPerExcel, objExcel, selection);
+                getCustomizedDTO(unitVolExcel, objExcel, selection);
+                getCustomizedDTO(totalDiscExcel, objExcel, selection);
             }
         }
     }
 
-    private static void addItemsToContainer(ExtTreeContainer<PPAProjectionResultsDTO> excelBeanContainer, PPAProjectionResultsDTO dto, PPAProjectionResultsDTO discDol, PPAProjectionResultsDTO discPer, PPAProjectionResultsDTO unitVol, PPAProjectionResultsDTO totalDisc) {
-        excelBeanContainer.addItem(dto);
-        if (!(dto.getParentHierarchyNo() != null && dto.getParentHierarchyNo().endsWith("-G"))) {
-            excelBeanContainer.addItem(discDol);
-            excelBeanContainer.addItem(discPer);
-            excelBeanContainer.addItem(unitVol);
-            excelBeanContainer.addItem(totalDisc);
+    private static void addItemsToContainer(ExtTreeContainer<PPAProjectionResultsDTO> excelAddBeanContainer, PPAProjectionResultsDTO dtoExcelPPA, PPAProjectionResultsDTO discDol, PPAProjectionResultsDTO discPer, PPAProjectionResultsDTO unitVol, PPAProjectionResultsDTO totalDisc) {
+        excelAddBeanContainer.addItem(dtoExcelPPA);
+        if (!(dtoExcelPPA.getParentHierarchyNo() != null && dtoExcelPPA.getParentHierarchyNo().endsWith("-G"))) {
+            excelAddBeanContainer.addItem(discDol);
+            excelAddBeanContainer.addItem(discPer);
+            excelAddBeanContainer.addItem(unitVol);
+            excelAddBeanContainer.addItem(totalDisc);
 
-            excelBeanContainer.setParent(discDol, dto);
-            excelBeanContainer.setParent(discPer, dto);
-            excelBeanContainer.setParent(unitVol, dto);
-            excelBeanContainer.setParent(totalDisc, dto);
+            excelAddBeanContainer.setParent(discDol, dtoExcelPPA);
+            excelAddBeanContainer.setParent(discPer, dtoExcelPPA);
+            excelAddBeanContainer.setParent(unitVol, dtoExcelPPA);
+            excelAddBeanContainer.setParent(totalDisc, dtoExcelPPA);
         }
     }
 
@@ -165,20 +165,20 @@ public class ExcelUtils {
         int dataProjNo = NumericConstants.EIGHT;
         String per = StringUtils.EMPTY;
         if (dto.getGroup().equalsIgnoreCase("Discount $ Per Unit")) {
-            formatDec = MONEY;
+            formatDec = MONEY_EXCEL;
             dataNo = NumericConstants.TWELVE;
             dataProjNo = NumericConstants.THIRTEEN;
         } else if (dto.getGroup().equalsIgnoreCase(CommonUtils.VAR_DIS_RATE)) {
             per = "%";
-            formatDec = PERCENT_FORMAT;
+            formatDec = PERCENT_FORMAT_EXCEL;
             dataNo = NumericConstants.TEN;
             dataProjNo = NumericConstants.ELEVEN;
         } else if (dto.getGroup().equalsIgnoreCase("Unit Volume")) {
-            formatDec = UNITVOLUME;
+            formatDec = UNITVOLUME_EXCEL;
             dataNo = NumericConstants.FOURTEEN;
             dataProjNo = NumericConstants.FIFTEEN;
         } else if (dto.getGroup().equalsIgnoreCase("Total Discount Amount")) {
-            formatDec = MONEY;
+            formatDec = MONEY_EXCEL;
             dataNo = NumericConstants.EIGHT;
             dataProjNo = NumericConstants.NINE;
         }
@@ -394,23 +394,23 @@ public class ExcelUtils {
     
     private void setActualProjectionValue(DiscountProjectionResultsDTO dto, Object[] obj, String column, final ProjectionSelectionDTO projdto) {
         if (String.valueOf(obj[NumericConstants.NINE]).equals("0")) {
-            dto.addStringProperties(column + ACTUALRATE.getConstant(), PERCENT_FORMAT.format(getvalue(obj[NumericConstants.THREE])) + PERCENT.getConstant());
-            dto.addStringProperties(column + ACTUALAMOUNT.getConstant(), DOLLAR_RPU_FORMAT.format(getvalue(obj[NumericConstants.FOUR])));
-            dto.addStringProperties(column + ACTUALRPU.getConstant(), DOLLAR_RPU_FORMAT.format(getvalue(obj[NumericConstants.FIVE])));
+            dto.addStringProperties(column + ACTUALRATE.getConstant(), PERCENT_FORMAT_EXCEL.format(getvalue(obj[NumericConstants.THREE])) + PERCENT.getConstant());
+            dto.addStringProperties(column + ACTUALAMOUNT.getConstant(), DOLLAR_RPU_FORMAT_EXCEL.format(getvalue(obj[NumericConstants.FOUR])));
+            dto.addStringProperties(column + ACTUALRPU.getConstant(), DOLLAR_RPU_FORMAT_EXCEL.format(getvalue(obj[NumericConstants.FIVE])));
             if (String.valueOf(projdto.getView()).equals("Custom")) {
-                dto.addStringProperties(column + ACTUALEXFACTORY.getConstant(), PERCENTFORMATEXFAC.format(getvalue(obj[NumericConstants.TWELVE])) + PERCENT.getConstant());
+                dto.addStringProperties(column + ACTUALEXFACTORY.getConstant(), PERCENTFORMATEXFAC_EXCEL.format(getvalue(obj[NumericConstants.TWELVE])) + PERCENT.getConstant());
             } else {
-                dto.addStringProperties(column + ACTUALEXFACTORY.getConstant(), PERCENTFORMATEXFAC.format(getvalue(obj[NumericConstants.ELEVEN])) + PERCENT.getConstant());
+                dto.addStringProperties(column + ACTUALEXFACTORY.getConstant(), PERCENTFORMATEXFAC_EXCEL.format(getvalue(obj[NumericConstants.ELEVEN])) + PERCENT.getConstant());
             }
 
         } else {
-            dto.addStringProperties(column + PROJECTEDRATE.getConstant(), PERCENT_FORMAT.format(getvalue(obj[NumericConstants.SIX])) + PERCENT.getConstant());
-            dto.addStringProperties(column + PROJECTEDAMOUNT.getConstant(), DOLLAR_RPU_FORMAT.format(getvalue(obj[NumericConstants.SEVEN])));
-            dto.addStringProperties(column + PROJECTEDRPU.getConstant(), DOLLAR_RPU_FORMAT.format(getvalue(obj[NumericConstants.EIGHT])));
+            dto.addStringProperties(column + PROJECTEDRATE.getConstant(), PERCENT_FORMAT_EXCEL.format(getvalue(obj[NumericConstants.SIX])) + PERCENT.getConstant());
+            dto.addStringProperties(column + PROJECTEDAMOUNT.getConstant(), DOLLAR_RPU_FORMAT_EXCEL.format(getvalue(obj[NumericConstants.SEVEN])));
+            dto.addStringProperties(column + PROJECTEDRPU.getConstant(), DOLLAR_RPU_FORMAT_EXCEL.format(getvalue(obj[NumericConstants.EIGHT])));
             if (String.valueOf(projdto.getView()).equals("Custom")) {
-                dto.addStringProperties(column + PROJECTEDEXFACTORY.getConstant(), PERCENTFORMATEXFAC.format(getvalue(obj[NumericConstants.THIRTEEN])) + PERCENT.getConstant());
+                dto.addStringProperties(column + PROJECTEDEXFACTORY.getConstant(), PERCENTFORMATEXFAC_EXCEL.format(getvalue(obj[NumericConstants.THIRTEEN])) + PERCENT.getConstant());
             } else {
-                dto.addStringProperties(column + PROJECTEDEXFACTORY.getConstant(), PERCENTFORMATEXFAC.format(getvalue(obj[NumericConstants.TWELVE])) + PERCENT.getConstant());
+                dto.addStringProperties(column + PROJECTEDEXFACTORY.getConstant(), PERCENTFORMATEXFAC_EXCEL.format(getvalue(obj[NumericConstants.TWELVE])) + PERCENT.getConstant());
             }
         }
     }

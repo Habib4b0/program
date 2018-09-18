@@ -64,6 +64,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -93,7 +94,7 @@ public class FileManagementLogic {
 	/**
 	 * The dao.
 	 */
-	final private static FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
+	private static final FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
 	/**
 	 * The foecast year count.
 	 */
@@ -1028,7 +1029,7 @@ public class FileManagementLogic {
 		return columnNames.get(visibleColumnName);
 	}
 
-	public HashMap<String, String> loadFMColumnName() {
+	public Map<String, String> loadFMColumnName() {
 		columnNames.put("file", StringConstantsUtil.FORECAST_NAME);
 		columnNames.put("type", "forecastSource");
 		columnNames.put(StringConstantsUtil.VERSION, StringConstantsUtil.VERSION);

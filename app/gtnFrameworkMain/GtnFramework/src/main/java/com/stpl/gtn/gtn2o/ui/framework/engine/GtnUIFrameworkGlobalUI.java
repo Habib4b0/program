@@ -334,7 +334,7 @@ public class GtnUIFrameworkGlobalUI {
 		for (String componentId : componentList) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId, sourceComponentId).setVisible(visible);
 		}
-	}
+            }
 
 	public static void setEnableFlagForComponent(boolean enable, List<String> componentList, String sourceComponentId) {
 		for (String componentId : componentList) {

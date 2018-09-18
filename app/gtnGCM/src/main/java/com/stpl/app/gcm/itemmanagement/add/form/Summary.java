@@ -120,7 +120,6 @@ public class Summary extends CustomComponent {
     private final BeanItemContainer<SummaryDTO> contractContainer = new BeanItemContainer<>(SummaryDTO.class);
     private ComponentInfo component;
     private ExtFilterTreeTable leftTable;
-    private ExtFilterTreeTable rightTable;
     private final ContractDashboardDTO dto = new ContractDashboardDTO();
     private final SummaryLogic logic = new SummaryLogic();
     private final AbstractLogic abstractLogic = AbstractLogic.getInstance();
@@ -140,7 +139,7 @@ public class Summary extends CustomComponent {
         layout.setSpacing(true);
         Panel panel = new Panel();
         panel.setContent(layout);
-        ConfigureTable();
+        configureTable();
         configureComponentDetailsTable();
         configureDashBoardTable();
         loadSelectionCriteria();
@@ -210,7 +209,7 @@ public class Summary extends CustomComponent {
         }
     }
 
-    Component ConfigureTable() {
+    Component configureTable() {
         contractTableLogic.setContainerDataSource(contractContainer);
         addContractTable.setVisibleColumns(VISIBLE_COLUMN);
         addContractTable.setColumnHeaders(COLUMN_HEADER);
@@ -261,7 +260,7 @@ public class Summary extends CustomComponent {
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
                     ComboBox marketTypeDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
+                    abstractLogic.lazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
                     return marketTypeDdlb;
                 }
                 return null;
@@ -302,6 +301,7 @@ public class Summary extends CustomComponent {
     }
 
     Component configureDashBoardTable() {
+        ExtFilterTreeTable rightTable;
         leftTable = contractDashBoardtable.getLeftFreezeAsTable();
         rightTable = contractDashBoardtable.getRightFreezeAsTable();
         leftTable.markAsDirty();

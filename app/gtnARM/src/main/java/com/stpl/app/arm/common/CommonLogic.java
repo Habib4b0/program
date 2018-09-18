@@ -203,7 +203,7 @@ public class CommonLogic {
             for (Object[] str : list) {
                 if (!str[1].equals(String.valueOf(GlobalConstants.getSelectOne()))) {
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
                     dto.setDescription(str[1] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[1]));
                     resultList.add(dto);
                 }
@@ -254,7 +254,7 @@ public class CommonLogic {
             for (Object[] str : list) {
                 if (!str[1].equals(String.valueOf(GlobalConstants.getSelectOne()))) {
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
                     dto.setDescription(str[1] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[1]));
                     resultList.add(dto);
                 }
@@ -277,7 +277,7 @@ public class CommonLogic {
         String comboboxName = queryName;
         comboBox.setValidationVisible(true);
         comboBox.setImmediate(true);
-        comboBox.setNullSelectionAllowed(Boolean.FALSE);
+        comboBox.setNullSelectionAllowed(false);
         comboBox.addItem(0);
         comboBox.setItemCaption(0, GlobalConstants.getSelectOne());
         if (helperListUtil.get(comboboxName) == null) {
@@ -287,7 +287,7 @@ public class CommonLogic {
                 if (!str[1].equals(String.valueOf(GlobalConstants.getSelectOne()))) {
                     StringBuilder description;
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
                     description = new StringBuilder(str[1] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[1]));
                     if (str.length > NumericConstants.TWO) {
                         description.append(" - ");
@@ -330,7 +330,7 @@ public class CommonLogic {
                 if (!str[1].equals(String.valueOf(GlobalConstants.getSelectOne()))) {
                     StringBuilder description;
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
                     description = new StringBuilder();
                     description.append(str[1] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[1]));
                     description.append(str[NumericConstants.TWO] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[NumericConstants.TWO]));
@@ -384,7 +384,7 @@ public class CommonLogic {
             Object obj = list.get(0);
             return (obj == null ? null : (Integer) obj == 1);
         }
-        return false;
+        return Boolean.FALSE;
 
     }
 
@@ -393,7 +393,7 @@ public class CommonLogic {
             Object obj = list.get(0);
             return (obj == null ? null : ((Integer) obj) > 0);
         }
-        return false;
+        return Boolean.FALSE;
 
     }
 
@@ -402,7 +402,7 @@ public class CommonLogic {
             Object obj = list.get(0);
             return (obj == null ? null : (Integer) obj > 0);
         }
-        return false;
+        return Boolean.FALSE;
 
     }
 
@@ -652,7 +652,7 @@ public class CommonLogic {
         }
         deleteQuery = deleteQuery.replace("@PROJECTION_IDS", param);
         CommonImpl.getInstance().executeUpdate(deleteQuery);
-        return true;
+        return Boolean.TRUE;
     }
 
     public static void saveUploadedFile(int projectionId, List<NotesDTO> fileNames, String uploadedBy, int fileSize, String moduleName) {
@@ -1217,7 +1217,7 @@ public class CommonLogic {
         for (int i = 0; i < list.size(); i++) {
             Object[] helper = list.get(i);
             HelperDTO dto = new HelperDTO();
-            dto.setId(Integer.valueOf(helper[0].toString()));
+            dto.setId(ARMUtils.getIntegerValue(helper[0].toString()));
             dto.setDescription((helper[1].toString()));
             comboBox.addItem(dto);
             String desc = ((String.valueOf(helper[NumericConstants.TWO])).replace("Balance Summary", StringUtils.EMPTY)).trim();
@@ -1234,7 +1234,7 @@ public class CommonLogic {
         List helperList = new ArrayList();
         for (Object[] str : list) {
             HelperDTO dto = new HelperDTO();
-            dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+            dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
             dto.setDescription(str[1] == null ? StringUtils.EMPTY : str[1].toString());
             helperList.add(dto);
         }
@@ -1248,7 +1248,7 @@ public class CommonLogic {
         for (int i = 0; i < list.size(); i++) {
             Object[] helper = list.get(i);
             HelperDTO dto = new HelperDTO();
-            dto.setId(Integer.valueOf(helper[0].toString()));
+            dto.setId(ARMUtils.getIntegerValue(helper[0].toString()));
             dto.setDescription(helper[1].toString());
             comboBox.addItem(dto);
             comboBox.setItemCaption(dto, String.valueOf(helper[1]));

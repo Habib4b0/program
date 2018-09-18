@@ -301,14 +301,14 @@ public class QueryUtils {
     }
 
     public String getLatestCCPQuery(List contractSid, List rsSid) {
-        CommonUtils.CollectionToString(contractSid, true);
+        CommonUtils.collectionToString(contractSid, true);
         String query = StringUtils.EMPTY;
          query = query + "select top 1 PROJECTION_MASTER_SID,FORECASTING_TYPE from PROJECTION_MASTER where PROJECTION_MASTER_SID in\n"
                 + " (select distinct PD.PROJECTION_MASTER_SID  from PROJECTION_DETAILS PD\n"
                 + "JOIN CCP_DETAILS CCP ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND\n"
-                + "CCP.CONTRACT_MASTER_SID IN (" + CommonUtils.CollectionToString(contractSid, true) + ") \n"
+                + "CCP.CONTRACT_MASTER_SID IN (" + CommonUtils.collectionToString(contractSid, true) + ") \n"
                 + "JOIN RS_CONTRACT RSC ON RSC.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID\n"
-                + "AND RSC.RS_CONTRACT_SID in (" + CommonUtils.CollectionToString(rsSid, true) + ")\n"
+                + "AND RSC.RS_CONTRACT_SID in (" + CommonUtils.collectionToString(rsSid, true) + ")\n"
                 + "JOIN RS_CONTRACT_DETAILS RSD ON RSC.RS_CONTRACT_SID = RSD.RS_CONTRACT_SID\n"
                 + "AND RSD.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID\n"
                 + "JOIN WORKFLOW_MASTER WM ON PD.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID\n"
@@ -479,7 +479,7 @@ public class QueryUtils {
         return columnNames.get(visibleColumnName);
     }
 
-    public static HashMap<String, String> loadColumnNames() {
+    public static Map<String, String> loadColumnNames() {
         columnNames.put(" contractHolder", "CM.COMPANY_NAME");
         columnNames.put(" contractNo", "CN.CONTRACT_NO");
         columnNames.put(" contractName", "CN.CONTRACT_NAME");
@@ -820,11 +820,12 @@ public class QueryUtils {
     public String getRebates(String field, String value, int contractSid, int rsSid) {
 
         String query = searchQuery(null);
+        String valueNew = value;
         getQueryFields();
-        value = value.replace(CHAR_ASTERISK, CHAR_PERCENT);
+        valueNew = valueNew.replace(CHAR_ASTERISK, CHAR_PERCENT);
         query = query + " AND CN.CONTRACT_MASTER_SID = '" + contractSid + "'";
         query = query + " AND RSC.RS_CONTRACT_SID = '" + rsSid + "'";
-        query = query + " AND RSC." + fieldMap.get(field) + " like '" + value + "'";
+        query = query + " AND RSC." + fieldMap.get(field) + " like '" + valueNew + "'";
         query = query + " GROUP BY CM.COMPANY_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,HT.DESCRIPTION,\n"
                 + " CN.START_DATE,CN.END_DATE,\n"
                 + " CFC.CFP_NAME,IFC.IFP_NAME,PSC.PS_NAME,RSC.RS_NAME,\n"
@@ -2083,7 +2084,7 @@ public class QueryUtils {
         return input == null ? StringUtils.EMPTY : temp.format(input);
     }
 
-    public String LoadmassupdateCompany(String sid) {
+    public String loadmassupdateCompany(String sid) {
         String query = StringUtils.EMPTY;
         query = query + "select distinct cm.COMPANY_MASTER_SID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_STATUS as status ,"
                 + " cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,Status.DESCRIPTION as statusdescription from  COMPANY_MASTER cm "
@@ -2327,7 +2328,8 @@ public class QueryUtils {
      */
     public String getIFPInformation(String searchValue) {
 
-        searchValue = searchValue.replace(CHAR_ASTERISK, CHAR_PERCENT);
+        String searchValueNew = searchValue;
+        searchValueNew = searchValueNew.replace(CHAR_ASTERISK, CHAR_PERCENT);
         String query2 = StringUtils.EMPTY;
         query2 = query2 + "select distinct\n"
                 + "IM.ITEM_MASTER_SID,\n"
@@ -2347,7 +2349,7 @@ public class QueryUtils {
                 + "join HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID=IM.ITEM_STATUS\n"
                 + "join HELPER_TABLE HT2 ON HT2.HELPER_TABLE_SID=IM.FORM\n"
                 + "join HELPER_TABLE HT3 ON HT3.HELPER_TABLE_SID=IM.STRENGTH\n"
-                + "WHERE IM.INBOUND_STATUS <> 'D' AND IM.ITEM_MASTER_SID in(" + searchValue + ") \n"
+                + "WHERE IM.INBOUND_STATUS <> 'D' AND IM.ITEM_MASTER_SID in(" + searchValueNew + ") \n"
                 + "ORDER BY IM.ITEM_NAME ";
 
         return query2;

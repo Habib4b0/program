@@ -9,6 +9,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.ARMCheckUtils;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.vaadin.ui.Component;
 
@@ -40,7 +41,8 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
         ExtCustomTable table = (ExtCustomTable) uiContext;
         int singleVisibleColumn = ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())
                 ? 0 : Integer.valueOf(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
-        if (singleVisibleColumn == (dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) || ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())) {
+        if (ARMCheckUtils.isSingleVisibleColumnPresentInDto(singleVisibleColumn, dto) || ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())
+                || (ARMCheckUtils.checkIsSummaryTypeDeductionCustomerContract(selection) && ARMCheckUtils.checkIsProductFilterLevel(selection))) {
             String doubleVisibleHeader = table.getDoubleHeaderColumnHeader(table.getDoubleHeaderForSingleHeader(propertyId.toString()));
             Double value = 0.0;
             boolean isEmptied = false;
@@ -51,7 +53,7 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
                 if (val != null && !"0".equals(val.toString().replace("$", StringUtils.EMPTY))) {
                     value = Double.valueOf(val.toString().trim().replaceAll("[^\\-\\d.]", StringUtils.EMPTY));
                 }
-                dto.setCalculateFlag(true);
+                dto.setCalculateFlag(Boolean.TRUE);
             } catch (NumberFormatException e) {
                 if (!isEmptied) {
                     return;
@@ -60,7 +62,7 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
             }
             String period = getPeriod(doubleVisibleHeader);
             List input = getParameterList(dto, isEmptied, value, period);
-            service.submit(new UpdateOverride(input));
+            service.submit(new SummaryUpdateOverride(input));
         }
     }
 

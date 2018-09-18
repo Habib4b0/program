@@ -372,7 +372,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         this.screenName = screenName;
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(Clara.create(getClass().getResourceAsStream("/ProjectionVariance.xml"), this));
-        if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+        if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             pvSelectionDTO.setScreenName(screenName);
         }
         Panel panel = new Panel();
@@ -495,12 +495,8 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     @SuppressWarnings("serial")
     protected void addResultTable() {
         tableVerticalLayout.addComponent(resultsTable);
-        if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-            controlLayout = tableLogic.createControls();
-        } else {
             HorizontalLayout controls = tableLogic.createControls();
             controlLayout = CommonLogic.getResponsiveControls(controls);
-        }
         tableVerticalLayout.addComponent(controlLayout);
         tableVerticalLayout.addComponent(excelTable);
     }
@@ -605,7 +601,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 
             LOGGER.debug("------ Inside generate security Projection Variance Tab and generate Button");
        
-            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
+            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 Utility.getTradingPartnerLevelNo(getSessionDTO().getProjectionId(),getSessionDTO());
                 PPAProjectionLogic.waitForPPAProcedure();
             }

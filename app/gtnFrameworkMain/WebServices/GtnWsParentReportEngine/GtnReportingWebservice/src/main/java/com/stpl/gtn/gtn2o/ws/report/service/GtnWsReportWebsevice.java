@@ -42,37 +42,10 @@ public class GtnWsReportWebsevice {
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportWebsevice.class);
 
 	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
-
-	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
-
-	public void setSysSessionFactory(org.hibernate.SessionFactory sysSessionFactory) {
-		this.sysSessionFactory = sysSessionFactory;
-	}
-
-	public org.hibernate.SessionFactory getSysSessionFactory() {
-		return sysSessionFactory;
-	}
-
-	public org.hibernate.SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
-	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-
-	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
-		return gtnSqlQueryEngine;
-	}
-
-	public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
-		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
-	}
 
 	@Autowired
 	private GtnWsReportSqlService sqlService;
@@ -228,7 +201,7 @@ public class GtnWsReportWebsevice {
 
 	private List<Object[]> executeLoadViewResultsQuery(String viewQuery,
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = sysSessionFactory.openSession()) {
 			String viewQueryStr = viewQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT,
 					setFilterForHierarchy(gtnUIFrameworkWebserviceRequest));
 			SQLQuery query = session.createSQLQuery(viewQueryStr).addScalar("VIEW_NAME", new StringType())
@@ -244,7 +217,7 @@ public class GtnWsReportWebsevice {
 
 	private List<Object[]> executeGetLoadViewResultsQueryCount(String viewQuery,
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = sysSessionFactory.openSession()) {
 			String viewQueryStr = viewQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT,
 					setFilterForHierarchy(gtnUIFrameworkWebserviceRequest));
 			SQLQuery query = session.createSQLQuery(viewQueryStr);
@@ -344,8 +317,8 @@ public class GtnWsReportWebsevice {
 			String comparisonNDC = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.COMPARISON_NDC);
 			String contract = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.CONTRACT2);
 			String projectionDescription = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.DESCRIPTION);
-			String fromPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.FROM_PERIOD);
-			String toPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.TO_PERIOD);
+			String fromPeriod = getFromCriteriaMapForDate(criteriaMap, GtnWsQueryConstants.FROM_PERIOD);
+			String toPeriod = getFromCriteriaMapForDate(criteriaMap, GtnWsQueryConstants.TO_PERIOD);
 			String createdDate = criteriaMap.get(GtnWsQueryConstants.CREATED_DATE) == null
 					|| criteriaMap.get(GtnWsQueryConstants.CREATED_DATE).equals("null") ? "%"
 							: criteriaMap.get(GtnWsQueryConstants.CREATED_DATE);
@@ -418,8 +391,8 @@ public class GtnWsReportWebsevice {
 			}
 			String projectionName = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.PROJECTION_NAME);
 			String projectionDescription = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.DESCRIPTION);
-			String fromPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.FROM_PERIOD);
-			String toPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.TO_PERIOD);
+			String fromPeriod = getFromCriteriaMapForDate(criteriaMap, GtnWsQueryConstants.FROM_PERIOD);
+			String toPeriod = getFromCriteriaMapForDate(criteriaMap, GtnWsQueryConstants.TO_PERIOD);
 			String customViewMasterSid = criteriaMap.get(GtnWsQueryConstants.CUSTOM_VIEW_NAME);
 			String contract = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.CONTRACT2);
 			String marketType = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.MARKET_TYPE);
@@ -460,6 +433,10 @@ public class GtnWsReportWebsevice {
 
 	private String getFromCriteriaMap(Map<String, String> criteriaMap, String key) {
 		return criteriaMap.get(key) == null ? "%" : criteriaMap.get(key);
+	}
+
+	private String getFromCriteriaMapForDate(Map<String, String> criteriaMap, String key) {
+		return criteriaMap.get(key) == null ? "" : criteriaMap.get(key);
 	}
 
 	private String getCriteria(GtnWebServiceSearchCriteria searchCriteria) {

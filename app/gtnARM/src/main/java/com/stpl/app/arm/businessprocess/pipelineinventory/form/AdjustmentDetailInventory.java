@@ -72,9 +72,9 @@ public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
 
     @Override
     protected void loadReserveAccount() {
-        List<List> list = logic.getReserveAccountDetails(inventorySelection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
-        CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
-                Arrays.copyOf(list.get(1).toArray(), list.get(1).size(), String[].class));
+        List<List> inventoryList = logic.getReserveAccountDetails(inventorySelection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
+        CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(inventoryList.get(0).toArray(), inventoryList.get(0).size(), String[].class),
+                Arrays.copyOf(inventoryList.get(1).toArray(), inventoryList.get(1).size(), String[].class));
         CommonUtils.checkAllMenuBarItem(reserveMenuItem);
     }
 
@@ -89,12 +89,12 @@ public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
      */
     @Override
     protected void variableDefaultSelection() {
-        List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
+        List inventoryList = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
                 ? VariableConstants.getAdjustmentDemandPipelineReserveVariableDefaultSelection()
                 : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
-        for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-            if (list.contains(object.getMenuItem().getWindow())) {
-                object.setChecked(Boolean.TRUE);
+        for (CustomMenuBar.CustomMenuItem menuItem : customMenuItem.getChildren()) {
+            if (inventoryList.contains(menuItem.getMenuItem().getWindow())) {
+                menuItem.setChecked(true);
             }
         }
     }

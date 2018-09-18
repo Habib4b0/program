@@ -110,7 +110,7 @@ public class InventoryCustomerGroupLookup extends Window {
     private List<CustomerGroupDTO> customerGroupList = new ArrayList<>();
     private List<String> customerListGroup = new ArrayList<>();
     private AbstractSelectionDTO selectionDto;
-    private boolean submitted = Boolean.FALSE;
+    private boolean submitted = false;
     private Window instance = null;
     private String viewCategory;
     private Boolean checkdeletedRecord = Boolean.FALSE;
@@ -329,7 +329,7 @@ public class InventoryCustomerGroupLookup extends Window {
                 public void yesMethod() {
                     loadCustomerList();
                     pipelineLogic.saveCustomerGroupValue(selectedTableLogic.getResultsinventoryContainer().getItemIds(), projectionId, selectionDto);
-                    submitted = Boolean.TRUE;
+                    submitted = true;
                     selectionDto.setReloadFlag(true);
                     selectionDto.setSubmittedFlag(true);
                     instance.close();
@@ -468,14 +468,13 @@ public class InventoryCustomerGroupLookup extends Window {
             }
 
             @Override
-            public void filterRemoved(Object propertyId) {
-                LOGGER.debug("inside filterRemoved Method");
-            }
-
-            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 LOGGER.debug("inside filterAdded Method");
 
+            }
+             @Override
+            public void filterRemoved(Object propertyId) {
+                LOGGER.debug("inside filterRemoved Method");
             }
 
             @Override
@@ -536,11 +535,11 @@ public class InventoryCustomerGroupLookup extends Window {
             indicator.setImmediate(true);
             Object nullItem = indicator.addItem();
             indicator.setNullSelectionItemId(nullItem);
-            indicator.addItem(true);
-            indicator.addItem(false);
+            indicator.addItem(Boolean.TRUE);
+            indicator.addItem(Boolean.FALSE);
             indicator.setItemCaption(nullItem, GlobalConstants.getSelectOne());
-            indicator.setItemCaption(true, "+");
-            indicator.setItemCaption(false, "-");
+            indicator.setItemCaption(Boolean.TRUE, "+");
+            indicator.setItemCaption(Boolean.FALSE, "-");
             indicator.select(nullItem);
         } catch (Exception e) {
             LOGGER.error("Error while loading Drop down with :", e);
@@ -693,7 +692,7 @@ public class InventoryCustomerGroupLookup extends Window {
 
     public void refreshLookup() {
         resetFields();
-        viewLookUp.getDtoValue().setCheckFlag(false);
+        viewLookUp.getDtoValue().setCheckFlag(Boolean.FALSE);
         deleteViewBtn.setEnabled(false);
     }
 

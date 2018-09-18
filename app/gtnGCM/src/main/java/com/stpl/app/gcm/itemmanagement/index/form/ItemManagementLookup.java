@@ -78,7 +78,7 @@ public class ItemManagementLookup extends CustomWindow {
     private final List<Integer> addedTabList = new ArrayList<>();
     private boolean addSummaryFlag = false;
     private final SessionDTO session = new SessionDTO();
-    private SelectionDTO transferSelection = new SelectionDTO();
+    
 
     public ItemManagementLookup(List<ItemIndexDto> itemList, SelectionDTO selection) {
         super(selection.getWindowName());
@@ -99,6 +99,7 @@ public class ItemManagementLookup extends CustomWindow {
     private void configureFields() {
         mainTab = new TabSheet();
         VerticalLayout baseLayout = new VerticalLayout();
+        SelectionDTO transferSelection ;
         baseLayout.setSpacing(true);
         baseLayout.setMargin(true);
         mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
@@ -251,20 +252,7 @@ public class ItemManagementLookup extends CustomWindow {
 
     }
 
-    private void tabLazyLoad(int tabPosition) {
-        LOGGER.debug("tabLazyLoad inside");
-
-        if (tabPosition == 1) {
-            if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
-                mainTab.replaceComponent(itemsummary, itemsummary.getContent(itemList, selection));
-                addSummaryFlag = true;
-            } else {
-                mainTab.replaceComponent(removeSummary, removeSummary);
-            }
-        }
-        LOGGER.debug("tabLazyLoad outside");
-
-    }
+    
 
     public void enableActionButton(int tabPosition) {
         if (tabPosition == 0) {

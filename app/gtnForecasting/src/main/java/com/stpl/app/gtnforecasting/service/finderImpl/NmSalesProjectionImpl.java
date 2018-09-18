@@ -15,6 +15,7 @@ import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.SEMI_ANNUAL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -1142,51 +1143,6 @@ if(!custom){
                 queryBuilder1.append("      ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID        \n");
                 queryBuilder1.append("      AND PCH2.PROJECTION_MASTER_SID='22'        \n");
                 queryBuilder1.append("      WHERE RLD2.LEVEL_NAME = 'Trading Partner' ))  \n");
-
-            } else if (method.equals("pmpyUpdate")) {
-
-                int projectionDetailsId = (Integer) inputs[0];
-                Double calculatedValue = (Double) inputs[1];
-                int annual = (Integer) inputs[2];
-                int startQuator = (Integer) inputs[3];
-                String tempValue = (String) inputs[4];
-
-                queryBuilder1.append("       UPDATE ST_NM_SALES_PROJECTION SET   \n ");
-                if (tempValue.equals(Constants.SALES_CAPS)) {
-                    queryBuilder1.append("  PROJECTION_SALES='" ).append( calculatedValue ).append( "' ,PROJECTION_UNITS='0.0'   \n");
-
-                } else {
-                    queryBuilder1.append("  PROJECTION_SALES='0.0' ,PROJECTION_UNITS='" ).append( calculatedValue ).append( "' \n ");
-
-                }
-                queryBuilder1.append(" where  PERIOD_SID in (SELECT PERIOD_SID FROM \"PERIOD\"  where PERIOD_SID in   \n  ");
-
-                queryBuilder1.append("   (SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" >= '" ).append( annual ).append( "'  \n ");
-                queryBuilder1.append("     And PERIOD_SID not in(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" <=  '" ).append( annual ).append( "' and QUARTER < '" ).append( startQuator ).append( "') \n ");
-                queryBuilder1.append("   )) and PROJECTION_DETAILS_SID='" ).append( projectionDetailsId ).append( Constant.SPACE_NEW_LINE);
-
-            } else if (method.equals("pmpyLoadCH")) {
-                int projectionId = (Integer) inputs[0];
-                String tempValue = (String) inputs[1];
-
-                 queryBuilder1.append(" SELECT distinct CM.COMPANY_MASTER_SID,CM.COMPANY_NAME from  COMPANY_MASTER CM    ");
-   queryBuilder1.append(" JOIN CONTRACT_MASTER CONM on CM.COMPANY_MASTER_SID=CONM.CONT_HOLD_COMPANY_MASTER_SID    ");
-   queryBuilder1.append(" JOIN CCP_DETAILS CCPD on CCPD.CONTRACT_MASTER_SID=CONM.CONTRACT_MASTER_SID    ");
-   queryBuilder1.append(" JOIN CCP_MAP CCPMAP on CCPMAP.CCP_DETAILS_SID=CCPD.CCP_DETAILS_SID    ");
-   queryBuilder1.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on RLD.RELATIONSHIP_LEVEL_SID=CCPMAP.RELATIONSHIP_LEVEL_SID    ");
-   queryBuilder1.append(" JOIN RELATIONSHIP_BUILDER RB on RB.RELATIONSHIP_BUILDER_SID=RLD.RELATIONSHIP_BUILDER_SID    ");
-   queryBuilder1.append(" JOIN PROJECTION_MASTER PM on PM.CUSTOMER_HIERARCHY_SID=RB.HIERARCHY_DEFINITION_SID where PM.PROJECTION_MASTER_SID='" ).append(projectionId).append( "' and CM.COMPANY_NAME!='" ).append(tempValue).append( "'  ");
-
-            } else if (method.equals("pmpyProDetailId")) {
-                int projectionId = (Integer) inputs[0];
-                 queryBuilder1.append("    select distinct CCP.ITEM_MASTER_SID from dbo.PROJECTION_DETAILS PD   \n  ");
-
-                queryBuilder1.append("    Join dbo.CCP_DETAILS CCP on  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID  \n  ");
-
-                queryBuilder1.append("    where PD.PROJECTION_MASTER_SID='" ).append(projectionId).append( "'   \n  ");
-
-                queryBuilder1.append("    Group by CCP.ITEM_MASTER_SID  \n  ");
-                
             }else if (method.equals("getLevelIndex")) {
                 int projectionId = (Integer) inputs[0];
                 String hierarchy = (String) inputs[1];
@@ -2200,7 +2156,7 @@ if(!custom){
 
             if (!method.equals("saveSalesRec")) {
                 if (method.equals("fetchSalesResult") || method.equals("getLevelFilterValues") || method.equals("fetchByHierarchyNo") || method.equals("loadGroupValues") 
-                        || method.equals("pmpyProDetailId") || method.equals("pmpyLoadCH")||method.equals("getLevelIndex")||method.equals("getCount")||method.equals("refreshData")
+                        || method.equals("getLevelIndex")||method.equals("getCount")||method.equals("refreshData")
 
                         ||method.equals("getCheckedRecords")||method.equals("getCheckRecDetail")||method.equals("customRefresh")||method.equals("getProjectionDetId")||method.equals("getZeroAc")) {
                     list = HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder1.toString());
@@ -2493,7 +2449,7 @@ if(!custom){
         } catch (Exception ex) {
             LOGGER.error(StringUtils.EMPTY,ex);
             LOGGER.error(customQuery);
-            return null;
+            return Collections.emptyList();
         } 
     }
 }

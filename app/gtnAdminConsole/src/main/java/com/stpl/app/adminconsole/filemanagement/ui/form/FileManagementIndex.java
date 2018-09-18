@@ -152,7 +152,6 @@ public class FileManagementIndex extends CustomComponent implements View {
 			FileMananagementResultDTO.class);
 
 	private final FileMananagementResultDTO fileMgtDTO = new FileMananagementResultDTO();
-	private ExtFilterTable excelTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
 
 	private CommonUtil commonUtil = new CommonUtil();
@@ -236,13 +235,9 @@ public class FileManagementIndex extends CustomComponent implements View {
 		LOGGER.debug("FileManagementIndex Constructor Entered ");
 		try {
 			init();
-		} catch (PortalException ex) {
+		} catch (PortalException | SystemException ex) {
 			LOGGER.error(ex.getMessage());
-		} catch (SystemException ex) {
-			LOGGER.error(ex.getMessage());
-		} catch (Exception ex) {
-			LOGGER.error(ex.getMessage());
-		}
+		} 
 
 	}
 
@@ -377,13 +372,9 @@ public class FileManagementIndex extends CustomComponent implements View {
 						}
 					}
 					LOGGER.debug("In configureFields saveOnClick Ended");
-				} catch (SystemException ex) {
+				} catch (SystemException |PortalException ex) {
 					LOGGER.error(ex.getMessage());
-				} catch (PortalException ex) {
-					LOGGER.error(ex.getMessage());
-				} catch (Exception ex) {
-					LOGGER.error(ex.getMessage());
-				}
+				} 
 			}
 		});
 
@@ -498,9 +489,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 
 				} catch (SystemException ex) {
 					LOGGER.error(ex.getMessage());
-				} catch (Exception ex) {
-					LOGGER.error(ex.getMessage());
-				}
+				} 
 
 			}
 		});
@@ -882,7 +871,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 
 	private void configureExcelResultTable() {
 		excelTableBean = new BeanItemContainer<>(FileMananagementResultDTO.class);
-		excelTable = new ExtFilterTable();
+		ExtFilterTable excelTable = new ExtFilterTable();
 		tableLayout.addComponent(excelTable);
 		excelTable.setVisible(false);
 		excelTable.setContainerDataSource(excelTableBean);

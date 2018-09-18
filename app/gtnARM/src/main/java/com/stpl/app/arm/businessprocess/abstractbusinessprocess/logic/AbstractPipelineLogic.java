@@ -123,9 +123,8 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
     }
 
     private String getPeriodWithQuarter(String freq, String quarter, String year, String periodWithS) {
-        String periodWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year
+        return freq.startsWith("Q") ? "Q" + quarter + " " + year
                 : periodWithS;
-        return periodWithQ;
     }
 
     private static String getPeriodWithSemi(String freq, String semi, String year) {
@@ -141,13 +140,11 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
     }
 
     private int getMonthNo(String description, int monthNoWithPlus) {
-        int monthNo = description.contains("-") ? Integer.valueOf(description.split("-")[1].trim()) : monthNoWithPlus;
-        return monthNo;
+        return description.contains("-") ? Integer.parseInt(description.split("-")[1].trim()) : monthNoWithPlus;
     }
 
     private int getMonthNoWithPlus(String description) {
-        int monthNoWithPlus = description.contains("+") ? Integer.valueOf(description.split("[+]")[1].trim()) : 0;
-        return monthNoWithPlus;
+        return description.contains("+") ? Integer.parseInt(description.split("[+]")[1].trim()) : 0;
     }
 
     /**
@@ -156,44 +153,44 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
      *
      * This changes is pertaining to GALUAT - 725
      *
-     * @param ratePeriod
-     * @param frequency
-     * @param startPeriod
-     * @param periodList
-     * @param fromDate - Data se
+     * @param dsRatePeriod
+     * @param dsFrequency
+     * @param dsStartPeriod
+     * @param dsPeriodList
+     * @param dsFromDate - Data se
      * @return
      */
-    public String getRatePeriodFromDS(String ratePeriod, String frequency, String startPeriod, List<String> periodList, Date fromDate) {
+    public String getRatePeriodFromDS(String dsRatePeriod, String dsFrequency, String dsStartPeriod, List<String> dsPeriodList, Date dsFromDate) {
         String period = StringUtils.EMPTY;
-        String description = ratePeriod.contains("CURRENT") ? ratePeriod : HelperListUtil.getInstance().getDescriptionByID(Integer.valueOf(ratePeriod)).trim();
-        if (StringUtils.isNotBlank(frequency) && StringUtils.isNotBlank(description)) {
+        String description = dsRatePeriod.contains("CURRENT") ? dsRatePeriod : HelperListUtil.getInstance().getDescriptionByID(Integer.valueOf(dsRatePeriod)).trim();
+        if (StringUtils.isNotBlank(dsFrequency) && StringUtils.isNotBlank(description)) {
             int monthNoWithPlus = getMonthNoWithPlus(description);
             int monthNo = getMonthNo(description, monthNoWithPlus);
-            int currentPlus = getCurrentPlus(description, frequency);
-            int currentMinus = getCurrentMinus(description, frequency, currentPlus);
+            int currentPlus = getCurrentPlus(description, dsFrequency);
+            int currentMinus = getCurrentMinus(description, dsFrequency, currentPlus);
             monthNo = currentMinus * monthNo;
-            String freq = frequency.trim().toUpperCase(Locale.ENGLISH);
+            String freq = dsFrequency.trim().toUpperCase(Locale.ENGLISH);
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
             String[] months = dateFormatSymbols.getShortMonths();
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(fromDate);
-            if (!StringUtils.isBlank(startPeriod)) {
-                String[] startArr = startPeriod.split(" ");
+            calendar.setTime(dsFromDate);
+            if (!StringUtils.isBlank(dsStartPeriod)) {
+                String[] startArr = dsStartPeriod.split(" ");
                 calendar.set(Calendar.MONTH, CommonUtils.getMonthNo(startArr[0]) - 1);
                 calendar.set(Calendar.YEAR, Integer.valueOf(startArr[1]));
             }
             calendar.add(Calendar.MONTH, monthNo);
-            String year;
-            int month;
-            String quarter;
-            String semi;
-            year = String.valueOf(calendar.get(Calendar.YEAR));
-            month = calendar.get(Calendar.MONTH);
-            quarter = String.valueOf(month / NumericConstants.THREE + 1);
-            semi = String.valueOf(month / NumericConstants.SIX + 1);
-            String periodWithS = getPeriodWithSemi(freq, semi, year);
-            String periodWithQ = getPeriodWithQuarter(freq, quarter, year, periodWithS);
-            period = freq.startsWith("M") ? months[month] + " " + year : periodWithQ;
+            String dsYear;
+            int dsMonth;
+            String dsQuarter;
+            String dsSemi;
+            dsYear = String.valueOf(calendar.get(Calendar.YEAR));
+            dsMonth = calendar.get(Calendar.MONTH);
+            dsQuarter = String.valueOf(dsMonth / NumericConstants.THREE + 1);
+            dsSemi = String.valueOf(dsMonth / NumericConstants.SIX + 1);
+            String periodWithS = getPeriodWithSemi(freq, dsSemi, dsYear);
+            String periodWithQ = getPeriodWithQuarter(freq, dsQuarter, dsYear, periodWithS);
+            period = freq.startsWith("M") ? months[dsMonth] + " " + dsYear : periodWithQ;
         }
         /**
          * This block is for returning the default value. This block is added
@@ -212,11 +209,11 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
          *
          * Note: End date may differ based on the current active file.
          */
-        if (periodList != null && !periodList.isEmpty() && !periodList.contains(period)) {
+        if (dsPeriodList != null && !dsPeriodList.isEmpty() && !dsPeriodList.contains(period)) {
             if (description.contains("-")) {
-                return periodList.get(1);
+                return dsPeriodList.get(1);
             } else if (description.contains("+")) {
-                return periodList.get(periodList.size() - 1);
+                return dsPeriodList.get(dsPeriodList.size() - 1);
             }
         }
         return period;
@@ -315,6 +312,15 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
     public boolean updateOverride(List input) {
         try {
             QueryUtils.itemUpdate(input, "OVERRIDE_QUERY");
+        } catch (Exception e) {
+            LOGGER.error("Error in updateOverride :", e);
+            return false;
+        }
+        return true;
+    }
+     public boolean updateOverrideLevelFilter(List input) {
+         try {
+            QueryUtils.itemUpdate(input, "OVERRIDE_QUERY_LEVEL_FILTER");
         } catch (Exception e) {
             LOGGER.error("Error in updateOverride :", e);
             return false;

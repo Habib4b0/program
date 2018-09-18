@@ -467,9 +467,7 @@ public class CommonUtils {
 
         } catch (PortalException ex) {
            LOGGER.error(ex.getMessage());
-        } catch (SystemException ex) {
-           LOGGER.error(ex.getMessage());
-        }
+        } 
         return resultList;
     }
 
@@ -646,7 +644,7 @@ public class CommonUtils {
             LOGGER.error(e.getMessage());
         }
     }
-    public static HashMap<Long, String> setUserInfo() {
+    public static Map<Long, String> setUserInfo() {
 
         List<User> users = new ArrayList<>();
         DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
@@ -672,7 +670,7 @@ public class CommonUtils {
     public static String getUserInfo(Long userId) {
         return userMap.get(userId) != null ? userMap.get(userId) : StringUtils.EMPTY;
     }
-    public static HashMap<Long, String> getUserMap() {
+    public static Map<Long, String> getUserMap() {
         return userMap;
     }
     /**

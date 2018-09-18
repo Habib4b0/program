@@ -122,7 +122,7 @@ public class ProcessSchedulerLogic {
 		return COLUMN_NAME.get(visibleColumnName);
 	}
 
-	public static HashMap<String, String> loadDbColumnName() {
+	public static Map<String, String> loadDbColumnName() {
 		COLUMN_NAME.put("processDisplayName", "PROCESS_NAME");
 		COLUMN_NAME.put("status", "ACTIVE_FLAG");
 		COLUMN_NAME.put("startDate", "START_DATE");
@@ -350,9 +350,7 @@ public class ProcessSchedulerLogic {
 
 			} catch (PortalException ex) {
 				LOGGER.error(ex.getMessage());
-			} catch (SystemException ex) {
-				LOGGER.error(ex.getMessage());
-			}
+			} 
 
 			LOGGER.debug("ends updateLastRun");
 		}

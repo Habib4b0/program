@@ -16,12 +16,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Jayaram.LeelaRam
  */
 public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
+
+    private static final Logger PA_DETAILS_LOGGER = LoggerFactory.getLogger(PADetailsLogic.class);
 
     @Override
     public List<List> getReserveAccountDetails(AbstractSelectionDTO accrualSelection, Boolean isReserve) {
@@ -82,21 +86,25 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
+        PA_DETAILS_LOGGER.debug("Inside getExcelResultList");
         return Collections.emptyList();
     }
 
     @Override
     protected String getTableNameForView() {
+        PA_DETAILS_LOGGER.debug("Inside getTableNameForView");
         return "ARM_PIPELINE_RATE";
     }
 
     @Override
     protected String getTableNameForEdit() {
+        PA_DETAILS_LOGGER.debug("Inside getTableNameForEdit");
         return "ST_ARM_PIPELINE_RATE";
     }
 
     @Override
     protected CharSequence getRateColumn() {
+        PA_DETAILS_LOGGER.debug("Inside getRateColumn");
         return "B.RATE";
     }
 

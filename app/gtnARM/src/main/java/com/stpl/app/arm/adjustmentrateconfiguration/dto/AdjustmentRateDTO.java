@@ -34,7 +34,7 @@ public class AdjustmentRateDTO implements Serializable {
     private Integer ratePeriod = 0;
     private String month = StringUtils.EMPTY;
     private int dateType;
-    private Boolean checkRecord = false;
+    private Boolean checkRecord = Boolean.FALSE;
     private int inventoryDetails = 0;
     private int viewMasterSid;
     private final Map<String, Object> components = new HashMap<>();
@@ -418,11 +418,11 @@ public class AdjustmentRateDTO implements Serializable {
         this.excelviewMasterSid = excelviewMasterSid;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream adjRateDtoout) throws IOException {
+        adjRateDtoout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream adjRateDtoout) throws IOException, ClassNotFoundException {
+        adjRateDtoout.defaultReadObject();
     }
 }

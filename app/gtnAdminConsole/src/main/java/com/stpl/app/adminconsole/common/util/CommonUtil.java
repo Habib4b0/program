@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +37,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.GridLayout;
@@ -519,7 +517,7 @@ public final class CommonUtil {
                         appPermission = false;
                     }
                 }
-                if (appPermission == false && labelStr != null) {
+                if (!appPermission  && labelStr != null) {
                         removeComponents(cssLayout, labelStr, fieldStr);
                 }
             }
@@ -586,7 +584,7 @@ public final class CommonUtil {
                         }
                     }
 
-                    if (appPerm == true) {
+                    if (appPerm) {
                         objResultList.add(obj[i]);
                         objResultHeaderList.add(header[i]);
                     }
@@ -658,7 +656,7 @@ public final class CommonUtil {
 
                 appPermission = ((AppPermission) fieldHM.get(fieldStr)).isSearchFlag();
 
-                if (appPermission == false && labelStr != null) {
+                if (!appPermission && labelStr != null) {
                         removeComponents(cssLayout, labelStr, fieldStr);
                     }
             }

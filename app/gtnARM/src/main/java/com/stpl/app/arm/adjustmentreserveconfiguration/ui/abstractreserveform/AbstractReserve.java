@@ -344,7 +344,6 @@ public abstract class AbstractReserve extends CustomWindow {
         super(caption);
         this.sessionDTO = sessionDTO;
         this.selection = selection;
-        init();
     }
 
     /**
@@ -395,7 +394,7 @@ public abstract class AbstractReserve extends CustomWindow {
      * Initialization Of the UI Components and Reading XML files and adding
      * corresponding styles to it
      */
-    private void init() {
+    protected void init() {
         center();
         setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         setPositionX(0);
@@ -591,9 +590,9 @@ public abstract class AbstractReserve extends CustomWindow {
 
     @UiHandler("reportTypeDdlb")
     public void loadReportTypeDdlbValue(Property.ValueChangeEvent event) {
-        selection.setReportType((Integer)(reportTypeDdlb.getValue()));
+        selection.setReportType((Integer) (reportTypeDdlb.getValue()));
         balSummaryConfigurationTableLogic.getFilters().clear();
-        if ((reportTypeDdlb.getValue() != null) && Integer.valueOf(String.valueOf(reportTypeDdlb.getValue())) != 0) {
+        if ((reportTypeDdlb.getValue() != null) && ARMUtils.getIntegerValue(String.valueOf(reportTypeDdlb.getValue())) != 0) {
             LOGGER.debug(event.toString());
             try {
                 Map<String, List<Object>> tableHeaderMap;
@@ -657,9 +656,9 @@ public abstract class AbstractReserve extends CustomWindow {
     @UiHandler("methodologyDdlb")
     public void loadmethodologyDdlb(Property.ValueChangeEvent event) throws Exception {
         LOGGER.debug(event.toString());
-        selection.setMethodology((Integer)(methodologyDdlb.getValue()));
+        selection.setMethodology((Integer) (methodologyDdlb.getValue()));
         adjustmentSummaryTableLogic.getFilters().clear();
-        if ((methodologyDdlb.getValue() != null) && Integer.valueOf(String.valueOf(methodologyDdlb.getValue())) != 0) {
+        if ((methodologyDdlb.getValue() != null) && ARMUtils.getIntegerValue(String.valueOf(methodologyDdlb.getValue())) != 0) {
             String transaction = methodologyDdlb.getItemCaption(methodologyDdlb.getValue());
             selection.setMethodologyDescription(transaction);
             if (transaction.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.TRANSACTION_1.toString())) {
@@ -895,7 +894,7 @@ public abstract class AbstractReserve extends CustomWindow {
             LOGGER.debug("massValueDdlbRes.getValue() = {}", massfieldDdlbRes.getValue());
             Object value = massValueDdlbRes.isVisible() ? massValueDdlbRes.getValue() : massValueRes.getValue();
             if (value != null) {
-                populateAction();
+                populateAction(value);
             } else {
                 AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage002());
             }
@@ -904,8 +903,8 @@ public abstract class AbstractReserve extends CustomWindow {
         }
     }
 
-    private void populateAction() throws Property.ReadOnlyException {
-        Object value = massValueRes.getValue();
+    private void populateAction(Object massValue) throws Property.ReadOnlyException {
+        Object value = massValue;
         List<AdjustmentReserveDTO> list = detailsTableContainer.getItemIds();
         setTableContainerProperties(list, value);
         if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue()) || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())
@@ -1321,12 +1320,12 @@ public abstract class AbstractReserve extends CustomWindow {
 
     protected abstract void balanceSummaryAddLineLogic();
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream resOut) throws IOException {
+        resOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream resOut) throws IOException, ClassNotFoundException {
+        resOut.defaultReadObject();
     }
 
     public String reportIndicatorMethod(String value) {

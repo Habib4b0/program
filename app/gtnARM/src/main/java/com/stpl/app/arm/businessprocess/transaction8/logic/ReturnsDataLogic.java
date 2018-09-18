@@ -52,29 +52,29 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
 
     protected static final DecimalFormat DECIMAL = new DecimalFormat("###0.000000");
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger RD_LOGIC_LOGGER = LoggerFactory.getLogger(ReturnsDataLogic.class);
 
     @Override
     public int getCount(Criteria criteria) {
-        logger.debug("--Inside getCount --");
+        RD_LOGIC_LOGGER.debug("--Inside getCount --");
         String query = SQlUtil.getQuery("returnsdata-count");
         String version = criteria.getSelectionDto().getDataSelectionDTO().getFromPeriodMonth().replace(" ", "-");
         query = query.replace("?", version);
         query = query + getFilters(criteria);
-        logger.debug("query--{}", query);
+        RD_LOGIC_LOGGER.debug("query--{}", query);
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return (Integer) list.get(0);
     }
 
     @Override
     public DataResult<T> getData(Criteria criteria) {
-        logger.debug("--Inside getData--");
+        RD_LOGIC_LOGGER.debug("--Inside getData--");
         String query = SQlUtil.getQuery("returnsdata-data");
         String version = criteria.getSelectionDto().getDataSelectionDTO().getFromPeriodMonth().replace(" ", "-");
         query = query.replace("?", version);
         query = query + getFilters(criteria) + getOrder(criteria);
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        logger.debug("--Exit getData--{}", query);
+        RD_LOGIC_LOGGER.debug("--Exit getData--{}", query);
         return customizier(criteria.getSelectionDto().getReturnsdatavariables(), list);
     }
 
@@ -83,49 +83,49 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public DataResult<T> customizier(List<String> varibales, List<Object[]> resultList) {
-        logger.debug("--Inside customizier --{}", (varibales.size() + "--resultList--" + resultList.size()));
+    public DataResult<T> customizier(List<String> rdVaribales, List<Object[]> rdResultList) {
+        RD_LOGIC_LOGGER.debug("--Inside customizier --{}", (rdVaribales.size() + "--resultList--" + rdResultList.size()));
         List customizedList = new ArrayList();
         AdjustmentDTO obj;
-        int variableSize = varibales.size();
+        int variableSize = rdVaribales.size();
         try {
-            if (resultList == null) {
+            if (rdResultList == null) {
                 throw new NullPointerException("The given input resultList is null");
             }
-            if (varibales == null) {
+            if (rdVaribales == null) {
                 throw new NullPointerException("The given input varibales List is null");
             }
-            if (!resultList.isEmpty()) {
-                if (varibales.size() != resultList.get(0).length) {
-                    throw new IllegalArgumentException(varibales.size() + "The given parameters and variables size doesn't match : variables = "
-                            + varibales.size() + "and resultList  = " + resultList.get(0).length);
+            if (!rdResultList.isEmpty()) {
+                if (rdVaribales.size() != rdResultList.get(0).length) {
+                    throw new IllegalArgumentException(rdVaribales.size() + "The given parameters and variables size doesn't match : variables = "
+                            + rdVaribales.size() + "and resultList  = " + rdResultList.get(0).length);
                 }
 
-                for (int k = 0; k < resultList.size(); k++) {
-                    Object[] objects = resultList.get(k);
+                for (int k = 0; k < rdResultList.size(); k++) {
+                    Object[] objects = rdResultList.get(k);
                     obj = new AdjustmentDTO();
                     for (int j = 0; j < variableSize; j++) {
                         if (obj instanceof ExtListDTO) {
-                            if (varibales.get(j).matches("[a-zA-Z0-9_]+\\.\\d+$")) {
+                            if (rdVaribales.get(j).matches("[a-zA-Z0-9_]+\\.\\d+$")) {
                                 if (objects[j] != null) {
                                     if (objects[j].toString().matches("^(-?0[.]\\d+)$|^(-?[1-9]+\\d*([.]\\d+)?)$|^0$")) { // Allows only Numbers in it
                                         String value = objects[j] == null ? StringUtils.EMPTY : String.valueOf(objects[j]);
-                                        if (Arrays.asList(ARMUtils.getCurrencyTwoDecColumns()).contains(varibales.get(j))) {
+                                        if (Arrays.asList(ARMUtils.getCurrencyTwoDecColumns()).contains(rdVaribales.get(j))) {
                                             value = getFormattedValue(CUR_TWO, value);
-                                        } else if (Arrays.asList(ARMUtils.getPercentTwoDecColumns()).contains(varibales.get(j))) {
+                                        } else if (Arrays.asList(ARMUtils.getPercentTwoDecColumns()).contains(rdVaribales.get(j))) {
                                             value = getFormattedValue(PERCENT, value);
-                                        } else if (Arrays.asList(ARMUtils.getDecimalSix()).contains(varibales.get(j))) {
+                                        } else if (Arrays.asList(ARMUtils.getDecimalSix()).contains(rdVaribales.get(j))) {
                                             value = getFormattedValue(DECIMAL, value);
                                         }
-                                        (obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : value);
+                                        (obj).addStringProperties(rdVaribales.get(j), objects[j] == null ? StringUtils.EMPTY : value);
                                     } else {
-                                        (obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : String.valueOf(objects[j]));
+                                        (obj).addStringProperties(rdVaribales.get(j), objects[j] == null ? StringUtils.EMPTY : String.valueOf(objects[j]));
                                     }
                                 } else {
-                                    (obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : String.valueOf(objects[j]));
+                                    (obj).addStringProperties(rdVaribales.get(j), objects[j] == null ? StringUtils.EMPTY : String.valueOf(objects[j]));
                                 }
                             } else {
-                                BeanUtils.setProperty(obj, varibales.get(j), objects[j]);
+                                BeanUtils.setProperty(obj, rdVaribales.get(j), objects[j]);
                             }
                         }
 
@@ -134,9 +134,9 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
                 }
             }
         } catch (IllegalAccessException | InvocationTargetException ex) {
-            logger.error("Error while setting property for given Inputs :", ex);
+            RD_LOGIC_LOGGER.error("Error while setting property for given Inputs :", ex);
         } catch (IllegalArgumentException ex) {
-            logger.error("Error in customizier :", ex);
+            RD_LOGIC_LOGGER.error("Error in customizier :", ex);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(customizedList);
@@ -144,7 +144,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
     }
 
     public String getFilters(Criteria criteria) {
-        logger.debug("--Inside getFilters --");
+        RD_LOGIC_LOGGER.debug("--Inside getFilters --");
         StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
         if (criteria.getFilters() != null && !criteria.getFilters().isEmpty()) {
             for (Container.Filter filter : criteria.getFilters()) {
@@ -159,13 +159,13 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
 
             }
         }
-        logger.debug("--Exit getFilters --{}", filterQuery);
+        RD_LOGIC_LOGGER.debug("--Exit getFilters --{}", filterQuery);
         return filterQuery.toString();
     }
 
     private String getOrder(Criteria criteria) {
         String order = StringUtils.EMPTY;
-        logger.debug("Inside getOrder  {}", order);
+        RD_LOGIC_LOGGER.debug("Inside getOrder  {}", order);
         boolean sortOrder = false;
         String orderByColumn = null;
         if (criteria.getSortByColumns() != null) {
@@ -185,21 +185,21 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
         order = order + criteria.getStart();
         order = order + " ROWS FETCH NEXT " + criteria.getOffset();
         order = order + " ROWS ONLY;";
-        logger.debug("Exit getOrder {} ", order);
+        RD_LOGIC_LOGGER.debug("Exit getOrder {} ", order);
         return order;
     }
 
-    public String getFormattedValue(DecimalFormat format, String value) {
+    public String getFormattedValue(DecimalFormat rdFormat, String rdValue) {
         String values;
-        if (value.contains("null")) {
+        if (rdValue.contains("null")) {
             values = "- - -";
         } else {
-            values = value;
+            values = rdValue;
             Double newValue = Double.valueOf(values);
-            if (format.toPattern().contains("%")) {
+            if (rdFormat.toPattern().contains("%")) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            values = format.format(newValue);
+            values = rdFormat.format(newValue);
         }
         return values;
     }

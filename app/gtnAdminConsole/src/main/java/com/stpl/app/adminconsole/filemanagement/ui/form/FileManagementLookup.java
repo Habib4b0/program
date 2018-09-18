@@ -1684,7 +1684,7 @@ public class FileManagementLookup extends Window {
 			@SuppressWarnings("PMD")
 			public void buttonClick(final Button.ClickEvent event) {
 
-				if (selectClose == true && saveflag == false) {
+				if (selectClose  && !saveflag ) {
 					MessageBox
 							.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION,
 									"Are you sure you want to close the File Lookup ?\n"
@@ -1752,39 +1752,39 @@ public class FileManagementLookup extends Window {
 				String dataQuery;
 				switch (detailsResultDTO.getHelperType().getDescription()) {
 				case ConstantsUtils.CUSTOMERGTS:
-					dataQuery = String.valueOf(logic.getCustomerSalesResults_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getCustomerSalesResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-					countQuery = String.valueOf(logic.getCustomerSalesResults_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getCustomerSalesResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, true));
 					break;
 				case ConstantsUtils.ADJUSTED_DEMAND:
-					dataQuery = String.valueOf(logic.getAdjustedDemandDetailsResults_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getAdjustedDemandDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-					countQuery = String.valueOf(logic.getAdjustedDemandDetailsResults_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getAdjustedDemandDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, false, true));
 					break;
 				case ConstantsUtils.DEMAND:
-					dataQuery = String.valueOf(logic.getDemandDetailsResults_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getDemandDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-					countQuery = String.valueOf(logic.getDemandDetailsResults_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getDemandDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, false, true));
 					break;
 				case ConstantsUtils.EX_FACTORY_SALES:
-					dataQuery = String.valueOf(logic.getForecastDetails_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getForecastDetailsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-					countQuery = String.valueOf(logic.getForecastDetails_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getForecastDetailsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, false, true));
 					break;
 				case ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL:
-					dataQuery = String.valueOf(logic.getInventoryDetailsResults_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getInventoryDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-					countQuery = String.valueOf(logic.getInventoryDetailsResults_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getInventoryDetailsResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, true));
 					break;
 				default:
-					dataQuery = String.valueOf(logic.getInventorySummaryResults_Excel(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(logic.getInventorySummaryResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-					countQuery = String.valueOf(logic.getInventorySummaryResults_Excel(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(logic.getInventorySummaryResultsExcel(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, false, true));
 					break;
 				}
@@ -1817,7 +1817,7 @@ public class FileManagementLookup extends Window {
 					if (ConstantsUtils.EMPTY.equals(fileNameList.getValue()) || fileNameList.getValue() == null) {
 						AbstractNotificationUtils.getErrorNotification("Select Error", CommonUtils.PLEASE_CLICK_RECORD);
 					} else {
-						if (selectClose == true && saveflag == false) {
+						if (selectClose && !saveflag ) {
 							MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION,
 									"File/version has been updated but has not be saved. "
 											+ ConstantsUtils.QUESTION_MARK,
@@ -2316,7 +2316,6 @@ public class FileManagementLookup extends Window {
 												saveflag = true;
 												Notification.show("Records saved Successfully");
 												addlineList.clear();
-												try {
 													resultDTO.setFileType(String.valueOf(fileType.getValue()));
 													resultDTO.setCountry(String.valueOf(country.getValue()));
 													resultDTO.setFileName(String.valueOf(fileName.getValue()));
@@ -2327,10 +2326,6 @@ public class FileManagementLookup extends Window {
 													resultDTO.setBusinessUnit(fmbusinessUnit);
 													resultDTO.setVersion(String.valueOf(version.getValue().trim()));
 													loadResultsTable();
-
-												} catch (Exception ex) {
-													LOGGER.error(ex.getMessage());
-												}
 											}
 										} catch (Exception ex) {
 											LOGGER.error(ex.getMessage());

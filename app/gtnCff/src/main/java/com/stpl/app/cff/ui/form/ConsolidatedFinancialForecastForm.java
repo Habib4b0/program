@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -32,8 +31,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.cff.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
 import com.stpl.app.cff.dto.CFFFilterGenerator;
@@ -48,7 +45,6 @@ import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
-import com.stpl.app.cff.ui.dataSelection.form.DataSelection;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
@@ -270,8 +266,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	private String topLevelName = StringUtils.EMPTY;
 	public static final String NO_RECORD_SELECTED = "No Record Selected.";
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
-	private Future customerFuture;
-	private Future productFuture;
 	/**
 	 * ConsolidatedFinancialForecastForm constructor
 	 *
@@ -393,7 +387,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				public void buttonClick(final Button.ClickEvent event) {
 					try {
 						LOGGER.debug("Entering EXCEL Export Button Click");
-						ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
+						ConsolidatedFinancialForecastUI.setExcelClose(true);
 						CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),
 								TableHeaderUtils.getInstance().resultTableVisibleColumnExcel, tableLogic,
 								"Consolidated_Financial_Forecast");
@@ -466,13 +460,11 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			if (dto != null) {
 				final int projectionIdValue = dto.getCffMasterSid();
 				Long processId = 0L;
-//				final List<String> roleList = new ArrayList<>();
 				final List processIdList = WorkflowPersistance.selectWFInstanceInfo(projectionIdValue);
 				if (processIdList != null && !processIdList.isEmpty()) {
 					processId = Long.valueOf(processIdList.get(0).toString());
 				}
 				final String userId = (String) VaadinSession.getCurrent().getAttribute("userId");
-				final User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
 				sessionDto.setAction("edit");
 				sessionDto.setIsGenerated(BooleanConstant.getTrueFlag());
 				sessionDto.setProcessId(processId);
@@ -515,9 +507,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 							? Integer.parseInt(resultList[NumericConstants.THREE].toString()) : 0));
 					sessionDto.setProjectionId(dto.getCffMasterSid());
 					loadDataSelectionDTO(resultList);
-					customerFuture = checkAndDoAutomaticUpdate(dataSelectionDto.getCustomerRelationShipVersionNo(),
+					Future customerFuture = checkAndDoAutomaticUpdate(dataSelectionDto.getCustomerRelationShipVersionNo(),
 							Integer.parseInt(dataSelectionDto.getCustomerHierSid()));
-					productFuture = checkAndDoAutomaticUpdate(dataSelectionDto.getProductRelationShipVersionNo(),
+					Future  productFuture = checkAndDoAutomaticUpdate(dataSelectionDto.getProductRelationShipVersionNo(),
 							Integer.parseInt(dataSelectionDto.getProdHierSid()));
 					boolean isCustRelationUpdate = (boolean) customerFuture.get();
 					boolean isProdRelationUpdate = (boolean) productFuture.get();

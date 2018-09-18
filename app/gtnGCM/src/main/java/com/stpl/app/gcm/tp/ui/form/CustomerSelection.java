@@ -137,7 +137,6 @@ public class CustomerSelection extends VerticalLayout {
     private SessionDTO session;
 
     private final transient CompanySearchLogic logic = new CompanySearchLogic();
-    private transient List<IdDescriptionDTO> resultList;
     private final transient CompanySearchTableLogic selectedCustomersLogic = new CompanySearchTableLogic();
     private final transient CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     private final transient LinkedCompaniesTableLogic transferCustomerTableLogic = new LinkedCompaniesTableLogic();
@@ -189,7 +188,7 @@ public class CustomerSelection extends VerticalLayout {
             commonUtil.loadComboBox(companyCategoryDdlb, UiUtils.COMPANY_CATEGORY, false);
             commonUtil.loadComboBox(companyTypeDdlb, UiUtils.COMPANY_TYPE, false);
 
-            resultList = logic.loadIdentifierTypeDdlb();
+             List<IdDescriptionDTO> resultList = logic.loadIdentifierTypeDdlb();
             logic.setIdDescription(resultList, compIdentifierType);
             compIdentifierType.setNullSelectionAllowed(true);
             compIdentifierType.select(Constants.SELECT_ONE);
@@ -793,10 +792,10 @@ public class CustomerSelection extends VerticalLayout {
     }
 
     private void insertDataIntoTempTable() {
-        ContractSelectionLogic logic = new ContractSelectionLogic();
-        logic.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getCompanyMasterSids(), TAB_CURRENT_CONTRACT.getConstant(), false);
-        logic.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getPhCompanyMasterSids(), TAB_TRANSFER_CONTRACT.getConstant(), false);
-        logic.removeStartDateFromTempTable(session.getUserId(), session.getSessionId(), TAB_TRANSFER_CONTRACT.getConstant()); //To remove start date from temp table for Transfer projection details transfer tab
+        ContractSelectionLogic logicInsertData = new ContractSelectionLogic();
+        logicInsertData.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getCompanyMasterSids(), TAB_CURRENT_CONTRACT.getConstant(), false);
+        logicInsertData.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), session.getPhCompanyMasterSids(), TAB_TRANSFER_CONTRACT.getConstant(), false);
+        logicInsertData.removeStartDateFromTempTable(session.getUserId(), session.getSessionId(), TAB_TRANSFER_CONTRACT.getConstant()); //To remove start date from temp table for Transfer projection details transfer tab
     }
     private void configureSecurityPermissionsForProjectionDetails() {
         try {

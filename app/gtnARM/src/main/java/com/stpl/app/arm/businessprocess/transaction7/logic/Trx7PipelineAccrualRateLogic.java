@@ -37,15 +37,15 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
     public static final Logger LOGGERFORRATESTAB = LoggerFactory.getLogger(Trx7PipelineAccrualRateLogic.class);
 
     @Override
-    public int getCount(Criteria criteria) {
-        return (int) getRateQuery((AbstractSelectionDTO) criteria.getSelectionDto(), criteria.getParent(), true, 0, 0, 0, 0);
+    public int getCount(Criteria tr7Criteria) {
+        return (int) getRateQuery((AbstractSelectionDTO) tr7Criteria.getSelectionDto(), tr7Criteria.getParent(), true, 0, 0, 0, 0);
     }
 
     @Override
-    public DataResult<T> getData(Criteria criteria) {
-        List result = (List) getRateQuery((AbstractSelectionDTO) criteria.getSelectionDto(), criteria.getParent(), false, criteria.getStart(), criteria.getOffset(), 0, 0);
+    public DataResult<T> getData(Criteria tr7Criteria) {
+        List tr7Result = (List) getRateQuery((AbstractSelectionDTO) tr7Criteria.getSelectionDto(), tr7Criteria.getParent(), false, tr7Criteria.getStart(), tr7Criteria.getOffset(), 0, 0);
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
-        dataResult.setDataResults(result);
+        dataResult.setDataResults(tr7Result);
         return dataResult;
     }
 
@@ -350,6 +350,16 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
             QueryUtils.itemUpdate(input, "pipeline_common_query", "Txn7_rates_override_query");
         } catch (Exception e) {
             LOGGER.error("Error in updateOverride :", e);
+            return false;
+        }
+        return true;
+    }
+       @Override
+    public boolean updateOverrideLevelFilter(List input) {
+        try {
+            QueryUtils.itemUpdate(input, "pipeline_common_query_Level_Filter", "Txn7_rates_override_query_Level_Filter");
+        } catch (Exception e) {
+            LOGGER.error("Error in updateOverride :",e);
             return false;
         }
         return true;

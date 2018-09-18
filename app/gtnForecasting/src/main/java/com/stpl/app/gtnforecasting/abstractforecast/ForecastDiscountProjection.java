@@ -20,23 +20,17 @@ import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
-import static com.stpl.app.utils.Constants.LabelConstants.ACCESS;
 import static com.stpl.app.utils.Constants.LabelConstants.ACTUALS;
 import static com.stpl.app.utils.Constants.LabelConstants.AMOUNT;
 import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
 import static com.stpl.app.utils.Constants.LabelConstants.BOTH;
-import static com.stpl.app.utils.Constants.LabelConstants.CONTRACT_PRICE;
 import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM;
 import static com.stpl.app.utils.Constants.LabelConstants.CUSTOMER;
 import static com.stpl.app.utils.Constants.LabelConstants.DESCENDING;
 import static com.stpl.app.utils.Constants.LabelConstants.DISABLE;
-import static com.stpl.app.utils.Constants.LabelConstants.DISCOUNT1;
-import static com.stpl.app.utils.Constants.LabelConstants.DISCOUNT2;
 import static com.stpl.app.utils.Constants.LabelConstants.ENABLE;
 import static com.stpl.app.utils.Constants.LabelConstants.INCREMENTAL;
-import static com.stpl.app.utils.Constants.LabelConstants.METHODOLOGY;
 import static com.stpl.app.utils.Constants.LabelConstants.OVERRIDE;
-import static com.stpl.app.utils.Constants.LabelConstants.PARITY_SETTINGS;
 import static com.stpl.app.utils.Constants.LabelConstants.PERCENTAGE;
 import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
 import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
@@ -628,19 +622,10 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     public static final String MASS_CHECK = "massCheck";
 
     private void screenLoad() {
-        switch (screenName) {
-            case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
-                mandatedScreenLoad();
-                break;
-            case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
-                nonMandatedScreenLoad();
-                break;
-            default:
-                LOGGER.warn("screenName is not valid= {} " , screenName);
-                break;
-                           
-            }
-            }
+        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
+            nonMandatedScreenLoad();
+        }
+    }
 
     private void nonMandatedScreenLoad() {
         projType.setVisible(false);
@@ -655,35 +640,6 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         refreshBtn.setVisible(true);
         resetBtnForTable.setVisible(true);
             }
-
-    private void mandatedScreenLoad() {
-
-            panelNM.setVisible(false);
-            altHistoryBtn.setVisible(false);
-            refreshBtn.setVisible(false);
-            resetBtnForTable.setVisible(false);
-            viewHlayout.setVisible(false);
-        tabSheet.setVisible(false);
-        value.setVisible(false);
-
-        panelM.setVisible(true);
-            valueDdlb.setVisible(true);
-        massUpdatePanel.setVisible(true);
-
-
-            massUpdatePanel.setContent(massUpdateVlayout);
-
-            variablesForMandated.addStyleName(Constant.HORIZONTAL);
-            variablesForMandated.addStyleName(Constant.OPTION_GROUP_WIDTH);
-            variablesForMandated.addItem(METHODOLOGY.getConstant());
-            variablesForMandated.addItem(CONTRACT_PRICE.getConstant());
-            variablesForMandated.addItem(DISCOUNT1.getConstant());
-            variablesForMandated.addItem(DISCOUNT2.getConstant());
-            variablesForMandated.addItem(ACCESS.getConstant());
-            variablesForMandated.addItem(PARITY_SETTINGS.getConstant());
-            massCheck.setData(MASS_CHECK);
-            massCheck.addValueChangeListener(propertyVlaueChangeListener);
-        }
 
     private void loadFrequency(String frequency) {
         CommonUtils.frequenceValueChange(frequency, historyDdlb, session);

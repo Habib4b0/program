@@ -19,7 +19,6 @@ import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import static com.stpl.app.gtnforecasting.ui.form.lookups.AltHistorySelection.getMonthMap;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.getDateTime;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.getEndMonth;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.getPeriod;
@@ -118,7 +117,7 @@ public class CommonUtils {
     /**
      * The Constant historyBean.
      */
-    final public static BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
+    public static final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     public static final String YEARS1 = "Years";
     /**
      * The Constant CHAR_PERCENT.
@@ -206,7 +205,6 @@ public class CommonUtils {
     public static final String REFRESH = "refreshBtn";
     public static final String ADJUST = "adjust";
     public static final String ADJUST_BTN = "adjustBtn";
-    public static final String PMPY = "pmpy";
     public static final String PROGRAM_SELECTION = "programSelectionLookup";
     public static final String ALT_HISTORY_BTN = "altHistoryBtn";
     public static final String TOTAL_LIVES_LAYOUT = "totalLivesLayout";
@@ -305,9 +303,6 @@ public class CommonUtils {
     public final String[] historyLookupBrandHeaders = new String[]{"Brand Name"};
 
     public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
-    public static final String BUSINESS_PROCESS_TYPE_MANDATED = "Mandated";
-    public static final String BUSINESS_PROCESS_TYPE_CHANNELS = "Channel";
-    public static final String BUSINESS_PROCESS_TYPE_RETURNS = "Returns";
     public static final String BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION = "AccrualRateProjection";
     public static final String BUSINESS_PROCESS_INDICATOR_NON_MANDATED = "NM";
     public static final String BUSINESS_PROCESS_INDICATOR_MANDATED = "M";
@@ -328,7 +323,6 @@ public class CommonUtils {
     private static final ResourceBundle returnsProperties = ResourceBundle.getBundle("custom-sql.ReturnsProjectionQueries");
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String BUSINESS_PROCESS_TYPE_COMMERCIAL = "Commercial";
-    public static final String BUSINESS_PROCESS_TYPE_GOVERNMENT = "Government";
     
     private static final String[] ARRAY_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
    
@@ -354,9 +348,8 @@ public class CommonUtils {
      * @return startPeriod
      */
     public static final NativeSelect getStartPeriod() {
-        final NativeSelect startPeriod = new NativeSelect();
+        return new NativeSelect();
 
-        return startPeriod;
     }
 
     /**
@@ -365,9 +358,7 @@ public class CommonUtils {
      * @return endPeriod
      */
     public static final NativeSelect getEndPeriod() {
-        final NativeSelect endPeriod = new NativeSelect();
-
-        return endPeriod;
+        return new NativeSelect();
     }
 
     /**
@@ -662,8 +653,7 @@ public class CommonUtils {
         // passing month-1 because 0-->jan, 1-->feb... 11-->dec
         calendar.set(year, month - 1, 1);
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
-        Date date = calendar.getTime();
-        return date;
+        return calendar.getTime();
     }
 
     static int getPeriodsPerYear(String frequency) {
@@ -783,8 +773,7 @@ public class CommonUtils {
     static int getEndDay(int monthNo, int year) {
         Calendar ob = Calendar.getInstance();
         ob.set(year, monthNo - 1, 1);
-        int daysInMonth = ob.getActualMaximum(Calendar.DAY_OF_MONTH);
-        return daysInMonth;
+        return  ob.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     public static Map<String, Integer> getHistoryEndDetails(SessionDTO session, String frequency) {
@@ -1057,8 +1046,8 @@ public class CommonUtils {
      * @param toAddQuote
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString, toAddQuote, false);
+    public static String collectionToStringMethod(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToStringMethod(collectionOfString, toAddQuote, false);
     }
 
     /**
@@ -1069,7 +1058,7 @@ public class CommonUtils {
      * @param toRemoveSpace
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToStringMethod(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = StringUtils.EMPTY;
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
@@ -1165,8 +1154,7 @@ public class CommonUtils {
     }
 
     public static Locale getLocale() {
-        Locale locale = VaadinPortletService.getCurrentPortletRequest().getLocale();
-        return locale;
+        return VaadinPortletService.getCurrentPortletRequest().getLocale();
     }
 
     public static void setPortalConfig(final PortletConfig portletConfig) {
@@ -1245,8 +1233,7 @@ public class CommonUtils {
     public static int getHistoryProjectionNum(String frequency, SessionDTO session) {
         Map<String, Integer> historyEndDetails = getHistoryEndDetails(session, frequency);
         Date dt = getDate(historyEndDetails.get(HISTORY_END_MONTH.getConstant()), historyEndDetails.get(HISTORY_END_YEAR.getConstant()));
-        int endValue = getProjections(session.getForecastDTO().getProjectionStartDate(), dt, frequency);
-        return endValue;
+        return getProjections(session.getForecastDTO().getProjectionStartDate(), dt, frequency);
     }
 
     public static List<String> loadHistory(String frequency, String period, SessionDTO session) {
@@ -1915,8 +1902,7 @@ public class CommonUtils {
 
     private static String trimMonth(int startMonth) {
         String monthString = new DateFormatSymbols().getMonths()[startMonth - 1];
-        String month = monthString.substring(0, NumericConstants.THREE).toLowerCase(Locale.ENGLISH);
-        return month;
+        return monthString.substring(0, NumericConstants.THREE).toLowerCase(Locale.ENGLISH);
     }
 
     public static String forecastConfigDataHide(String frequency, List<String> forecastConfigList, String column, String dataObject) {
@@ -1956,5 +1942,18 @@ public class CommonUtils {
     public static int compareDoubleValues(String value) {
         return Double.compare(Double.parseDouble(value), 0.0);
     }
-    
+
+    public Map<String, Integer> getMonthMap() {
+        Map<String, Integer> monthMap = new HashMap<>();
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] months = dfs.getShortMonths();
+        List<String> temp = Arrays.asList(months);
+        int i = 0;
+        for (String m : temp) {
+            monthMap.put(m, i);
+            i++;
+        }
+        return monthMap;
+    }
+
 }

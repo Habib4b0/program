@@ -68,15 +68,15 @@ public class TransferContractSearch extends AbstractContractSearch {
     @UiHandler("search")
     public void searchBtnLogic(Button.ClickEvent event) throws FieldGroup.CommitException {
         binder.commit();
-        if ((getBinderDto().getContractHolder() == null || getBinderDto().getContractHolder().isEmpty()) && (getBinderDto().getMarketType_DTO() == null)
+        if ((getBinderDto().getContractHolder() == null || getBinderDto().getContractHolder().isEmpty()) && (getBinderDto().getMarketTypeDto() == null)
                 && (getBinderDto().getCfpNO() == null || getBinderDto().getCfpNO().isEmpty()) && (getBinderDto().getContractNo() == null || getBinderDto().getContractNo().isEmpty())
                 && (getBinderDto().getStartDate() == null) && (getBinderDto().getEndDate() == null)
                 && (getBinderDto().getIfpNo() == null || getBinderDto().getIfpNo().isEmpty())
                 && (getBinderDto().getContractName() == null || getBinderDto().getContractName().isEmpty()) && (getBinderDto().getPsNo() == null || getBinderDto().getPsNo().isEmpty())
                 && (getBinderDto().getRebateScheduleId() == null || getBinderDto().getRebateScheduleId().isEmpty()) && (getBinderDto().getRebateScheduleName() == null || getBinderDto().getRebateScheduleName().isEmpty())
                 && (getBinderDto().getRebateScheduleNo() == null || getBinderDto().getRebateScheduleNo().isEmpty())
-                && (getBinderDto().getRebateProgramType_DTO() == null) && (getBinderDto().getRebateScheduleAlias() == null || getBinderDto().getRebateScheduleAlias().isEmpty())
-                && (getBinderDto().getRebateScheduleCategory_DTO() == null) && (getBinderDto().getRebateScheduleType_DTO() == null)) {
+                && (getBinderDto().getRebateProgramTypeDto() == null) && (getBinderDto().getRebateScheduleAlias() == null || getBinderDto().getRebateScheduleAlias().isEmpty())
+                && (getBinderDto().getRebateScheduleCategoryDto() == null) && (getBinderDto().getRebateScheduleTypeDto() == null)) {
 
             MessageBox.showPlain(Icon.INFO, "Error", "Please enter/select search criteria", ButtonId.OK);
         } else {
@@ -95,7 +95,7 @@ public class TransferContractSearch extends AbstractContractSearch {
     private void configureFields() {
         getContent();
         massUpdatePanelOne.setVisible(BooleanConstant.getTrueFlag());
-        ConfigureTable();
+        configureTable();
         getBinder();
         loadAllDdlb();
         configureAllitemsTransferContract();
@@ -107,7 +107,7 @@ public class TransferContractSearch extends AbstractContractSearch {
      * @param event the event
      */
     @UiHandler("companyFamilyPlanNo")
-    public void CFP(CustomTextField.ClickEvent event) {
+    public void cfp(CustomTextField.ClickEvent event) {
         ComponentSearchLookUp cfp = new ComponentSearchLookUp(Constants.CFP, cfpNO);
         cfp.addCloseListener(new Window.CloseListener() {
             @Override
@@ -128,7 +128,7 @@ public class TransferContractSearch extends AbstractContractSearch {
      * @param event the event
      */
     @UiHandler("itemFamilyPlanNo")
-    public void IFP(CustomTextField.ClickEvent event) {
+    public void ifp(CustomTextField.ClickEvent event) {
         ComponentSearchLookUp ifp = new ComponentSearchLookUp(Constants.IFP, ifpNo);
         ifp.addCloseListener(new Window.CloseListener() {
             @Override
@@ -149,7 +149,7 @@ public class TransferContractSearch extends AbstractContractSearch {
      * @param event the event
      */
     @UiHandler("priceScheduleNo")
-    public void PS(CustomTextField.ClickEvent event) {
+    public void ps(CustomTextField.ClickEvent event) {
         ComponentSearchLookUp ps = new ComponentSearchLookUp(Constants.PS, psNo);
         ps.addCloseListener(new Window.CloseListener() {
             @Override
@@ -198,8 +198,8 @@ public class TransferContractSearch extends AbstractContractSearch {
         } else {
             input.add("%");
         }
-        if (getBinderDto().getMarketType_DTO() != null) {
-            input.add(getBinderDto().getMarketType_DTO().getId());
+        if (getBinderDto().getMarketTypeDto() != null) {
+            input.add(getBinderDto().getMarketTypeDto().getId());
         } else {
             input.add("%");
         }
@@ -231,18 +231,18 @@ public class TransferContractSearch extends AbstractContractSearch {
         } else {
             input.add("%");
         }
-        if (getBinderDto().getRebateScheduleType_DTO() != null) {
-            input.add(getBinderDto().getRebateScheduleType_DTO().getId());
+        if (getBinderDto().getRebateScheduleTypeDto() != null) {
+            input.add(getBinderDto().getRebateScheduleTypeDto().getId());
         } else {
             input.add("%");
         }
-        if (getBinderDto().getRebateScheduleCategory_DTO() != null) {
-            input.add(getBinderDto().getRebateScheduleCategory_DTO().getId());
+        if (getBinderDto().getRebateScheduleCategoryDto() != null) {
+            input.add(getBinderDto().getRebateScheduleCategoryDto().getId());
         } else {
             input.add("%");
         }
-        if (getBinderDto().getRebateProgramType_DTO() != null) {
-            input.add(getBinderDto().getRebateProgramType_DTO().getId());
+        if (getBinderDto().getRebateProgramTypeDto() != null) {
+            input.add(getBinderDto().getRebateProgramTypeDto().getId());
         } else {
             input.add("%");
         }
@@ -466,7 +466,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         if (!nonApprovedSubmitCheck("SavedRejectedSubmitcheckForProjTransfer", input)) {
             if (!nonApprovedSubmitCheck("PendingSubmitcheckForProjTransfer", input)) {
                 if (!allItems.getValue().equals("YES") && selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                    msg = !(ValidationForItemInContract().isEmpty()) ? ValidationForItemInContract() : msg;
+                    msg = !(validationForItemInContract().isEmpty()) ? validationForItemInContract() : msg;
                 }
 
                 new AbstractNotificationUtils() {
@@ -511,7 +511,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         }
     }
 
-    private String ValidationForItemInContract() {
+    private String validationForItemInContract() {
         StringBuilder confirmationMsg = new StringBuilder();
         String contractMsg = StringUtils.EMPTY;
         Integer masterSid = 0;

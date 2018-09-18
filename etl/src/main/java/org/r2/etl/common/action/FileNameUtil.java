@@ -125,6 +125,7 @@ public class FileNameUtil {
                         map.put(Constants.DTX_CUSTOMER_GTS_FORECAST_INTERFACE, Constants.DTX_CUSTOMER_GTS_FORECAST_INTERFACE);
                         map.put(Constants.DTX_COMPANY_MASTER_INTERFACE, Constants.DTX_COMPANY_MASTER_INTERFACE);
                         map.put(Constants.DTX_COMPANY_TRADE_CLASS_INTERFACE, Constants.DTX_COMPANY_TRADE_CLASS_INTERFACE);
+                        map.put(Constants.DTX_COMPANY_IDENTIFIER_INTERFACE, Constants.DTX_COMPANY_IDENTIFIER_INTERFACE);
 
 		}
 		return map;
@@ -294,6 +295,8 @@ public class FileNameUtil {
                     Constants.DTX_COMPANY_MASTER_INTERFACE);
                         interfaceNameMap.put(Constants.DTX_COMPANY_TRADE_CLASS_INTERFACE,
                     Constants.DTX_COMPANY_TRADE_CLASS_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_COMPANY_IDENTIFIER_INTERFACE,
+                    Constants.DTX_COMPANY_IDENTIFIER_INTERFACE);
 		}
 		return interfaceNameMap;
 	}

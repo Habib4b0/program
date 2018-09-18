@@ -45,17 +45,7 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
         replaceList.add(distributionSelection.getDataSelectionDTO().getProjectionId());
         replaceList.add(distributionSelection.getDataSelectionDTO().getCompanyMasterSid());
         replaceList.add(distributionSelection.getDataSelectionDTO().getBucompanyMasterSid());
-        StringBuilder query;
-        if (distributionSelection.getSessionDTO().isWorkFlow()) {
-            query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(distributionSelection.getDataSelectionDTO().getProjectionId()));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
-        } else {
-            query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
-            for (Object temp : replaceList) {
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
-            }
-        }
+        StringBuilder query = getQueryForReserve(distributionSelection, isReserve, replaceList);
         LOGGERFORDETAILLOGIC.debug("--query --{}", query);
         List list = QueryUtils.executeSelect(query.toString());
         if (list != null) {
@@ -87,23 +77,42 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
         return finalList;
     }
 
+    private StringBuilder getQueryForReserve(AbstractSelectionDTO distributionSelection, Boolean isReserve, List replaceList) {
+        StringBuilder query;
+        if (distributionSelection.getSessionDTO().isWorkFlow()) {
+            query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
+            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(distributionSelection.getDataSelectionDTO().getProjectionId()));
+            query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
+        } else {
+            query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
+            for (Object temp : replaceList) {
+                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
+            }
+        }
+        return query;
+    }
+
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
+        LOGGERFORDETAILLOGIC.debug("Inside getExcelResultList");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected String getTableNameForView() {
+        LOGGERFORDETAILLOGIC.debug("Inside getTableNameForView");
         return "ARM_DISTRIBUTION_FEES_RATE";
     }
 
     @Override
     protected String getTableNameForEdit() {
+        LOGGERFORDETAILLOGIC.debug("Inside getTableNameForEdit");
         return "ST_ARM_DISTRIBUTION_FEES_RATE";
     }
 
     @Override
     protected CharSequence getRateColumn() {
+        LOGGERFORDETAILLOGIC.debug("Inside getRateColumn");
         return "B.RATE";
     }
 

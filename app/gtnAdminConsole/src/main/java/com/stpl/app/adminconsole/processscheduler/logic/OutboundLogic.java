@@ -225,9 +225,6 @@ public class OutboundLogic {
         return stringBuilder;
     }
 
-//    public void loadHierarchyTypeMap() {
-//      
-//    }
 
     /**
      * Check search criteria.
@@ -873,7 +870,7 @@ public class OutboundLogic {
         return columnNames.get(visibleColumnName);
     }
 
-    public static HashMap<String, String> loadColumnName() {
+    public static Map<String, String> loadColumnName() {
 
         columnNames.put("relationshipName", "relationshipName");
         columnNames.put("relationshipDesc", RELATIONSHIP_DESCRIPTION);

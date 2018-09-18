@@ -53,10 +53,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     private boolean isValueChange;
     private String leftHeader = CommonConstant.CUSTOMER;
     private AbstractBSummaryLogic abstractBSummaryLogic;
-    /**
-     * The Constant LOGGER.
-     */
-    protected final Logger loggerBal = LoggerFactory.getLogger(getClass());
+    public static final Logger ABS_BAL_SUM_LOGGER = LoggerFactory.getLogger(AbstractBalanceSummaryResutls.class);
 
     public AbstractBalanceSummaryResutls(AbstractBSummaryLogic logic, SummarySelection selection) {
         super(logic, selection);
@@ -70,7 +67,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     }
 
     protected void loadSelection() {
-        calculateBtn.setVisible(Boolean.FALSE);
+        calculateBtn.setVisible(false);
         summarySelection.setStatus("Pending");
         summarySelection.setSummaryDeductionView(String.valueOf(customerProductView.getValue()));
         summarySelection.setSummaryLevel(ARMUtils.getADJSummaryLevel(String.valueOf(customerProductView.getValue())));
@@ -113,7 +110,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
             setRespectiveHierarchy(viewType);
             configureLevelAndLevelFilter();
             loadSelection();
-            getTableLogic().loadSetData(Boolean.FALSE);
+            getTableLogic().loadSetData(false);
         }
     }
 
@@ -132,14 +129,14 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
     @Override
     public Object[] getExcelHierarchy() {
-        Map<Integer, String> hierarchy = getHierarchy();
-        Object[] value = new Object[hierarchy.size()];
-        for (int i = 0; i < hierarchy.size(); i++) {
-            String val = hierarchy.get(i + 1);
-            if (val.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) {
-                val = getSelection().getSummarydeductionLevelDes().toUpperCase(Locale.ENGLISH);
+        Map<Integer, String> summaryHierarchy = getHierarchy();
+        Object[] value = new Object[summaryHierarchy.size()];
+        for (int i = 0; i < summaryHierarchy.size(); i++) {
+            String bsrSummaryVal = summaryHierarchy.get(i + 1);
+            if (bsrSummaryVal.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) {
+                bsrSummaryVal = getSelection().getSummarydeductionLevelDes().toUpperCase(Locale.ENGLISH);
             }
-            value[i] = ARMUtils.getLevelExcelQueryName(val);
+            value[i] = ARMUtils.getLevelExcelQueryName(bsrSummaryVal);
         }
         getSelection().setExcelHierarchy(value);
         return value;
@@ -147,34 +144,39 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
     @Override
     public List getExcelExportVisibleColumn() {
+        ABS_BAL_SUM_LOGGER.debug("inside getExcelExport");
         return getSelection().getExcelVisibleColumn();
     }
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        ABS_BAL_SUM_LOGGER.debug("inside getisFixedColumns");
+        return true;
     }
 
     @Override
     public int getInterval() {
+        ABS_BAL_SUM_LOGGER.debug("inside getInterval");
         return 1;
     }
 
     @Override
     public int discountColumnNeeded() {
+        ABS_BAL_SUM_LOGGER.debug("inside discountColumnNeeded");
         return 2;
     }
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        ABS_BAL_SUM_LOGGER.debug("inside getisDeductionCustomer");
+        return false;
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class BsrResultsCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String bsrResultsbuttonName;
 
-        public CustomNotification() {
+        public BsrResultsCustomNotification() {
             /*
         THE DEFAULT CONSTRUCTOR
              */
@@ -182,14 +184,14 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
         @Override
         public void noMethod() {
-            loggerBal.debug("Inside the CustomNotification Listener NO Method");
+            ABS_BAL_SUM_LOGGER.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
         public void yesMethod() {
-            loggerBal.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            ABS_BAL_SUM_LOGGER.debug("buttonName :{}", bsrResultsbuttonName);
+            if (null != bsrResultsbuttonName) {
+                switch (bsrResultsbuttonName) {
                     case "reset":
                         break;
                     case "save":
@@ -200,7 +202,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.bsrResultsbuttonName = buttonName;
         }
 
     }
@@ -225,8 +227,8 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
         loadTableHeaderForGenerate();
         loadSelection();
-        isValueChange = Boolean.TRUE;
-        tableLogic.loadSetData(Boolean.FALSE);
+        isValueChange = true;
+        tableLogic.loadSetData(false);
 
     }
 
@@ -254,7 +256,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
         }
         rightTable = table.getRightFreezeAsTable();
         rightTable.setImmediate(true);
-        rightTable.setDoubleHeaderVisible(Boolean.TRUE);
+        rightTable.setDoubleHeaderVisible(true);
         rightTable.setContainerDataSource(resultBeanContainer);
         resultBeanContainer.setColumnProperties(properties);
         rightTable.setVisibleColumns(((List) rightList.get(0)).toArray());
@@ -281,7 +283,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
      */
     @UiHandler("valueDdlb")
     public void valueDdlb(Property.ValueChangeEvent event) {
-        loggerBal.debug("valueDdlb value change listener starts");
+        ABS_BAL_SUM_LOGGER.debug("valueDdlb value change listener starts");
     }
 
     @Override
@@ -298,7 +300,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     protected void valueDdlbValueChange(int masterSid) {
         if (isLevelFilterValueDdlbEnable()) {
             getSelection().setSummaryvalueSid(masterSid);
-            tableLogic.loadSetData(Boolean.FALSE);
+            tableLogic.loadSetData(false);
         }
     }
 
@@ -325,7 +327,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     protected Map<Object, Object[]> configureRightDoubleHeaderMap() {

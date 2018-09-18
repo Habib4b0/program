@@ -12,13 +12,15 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsColumnDetailsConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.module.contractheader.constants.GtnWsContractHeaderQueryContants;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GtnWsContractHeaderConfig implements GtnWsSearchQueryConfigLoader {
 
 	private Map<String, GtnWsSearchQueryConfig> contractHeaderConfigMap = null;
 
 	@Override
-	public Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {
+	public synchronized Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {
 		if (contractHeaderConfigMap == null) {
 			contractHeaderConfigMap = new HashMap<>();
 			loadSearchQueryConfig();
@@ -26,7 +28,7 @@ public class GtnWsContractHeaderConfig implements GtnWsSearchQueryConfigLoader {
 		return contractHeaderConfigMap;
 	}
 
-	public void setSearchQueryConfigMap(Map<String, GtnWsSearchQueryConfig> searchQueryConfigMap) {
+	public synchronized void setSearchQueryConfigMap(Map<String, GtnWsSearchQueryConfig> searchQueryConfigMap) {
 		this.contractHeaderConfigMap = searchQueryConfigMap;
 	}
 

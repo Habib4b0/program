@@ -7,8 +7,6 @@ package com.stpl.app.cff.dto;
 
 import com.stpl.app.cff.abstractCff.AbstractCustomTreeView;
 import com.stpl.app.cff.logic.CommonLogic;
-import static com.stpl.app.cff.logic.CommonLogic.isValidViewName;
-import com.stpl.app.cff.logic.CustomViewLogic;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
@@ -33,7 +31,6 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     private SessionDTO session;
     private int customId = 0;
     private boolean isSelect = false;
-    private CffCustomViewMaster customView = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomTreeBuild.class);
 
     /**
@@ -331,7 +328,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     @Override
     protected String getCustomMasterData() {
         String str = "";
-        customView = CommonLogic.getCustomView(customId);
+        CffCustomViewMaster customView = CommonLogic.getCustomView(customId);
         customId = 0;
         if (customView != null) {
             str = customView.getViewName();

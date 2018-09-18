@@ -62,23 +62,23 @@ public class DataSelectionQueryUtils {
 
     private String getLevelMapValueMapQuery(Object relationshipBuilderSID, int relationVersionNo,
             int hierarchyBuilderSid, int hierarchyVersionNo) {
-        GtnARMHierarchyInputBean inputBean = new GtnARMHierarchyInputBean();
-        inputBean.setRelationShipBuilderSid(Integer.parseInt(relationshipBuilderSID.toString()));
-        inputBean.setRelationVersionNo(relationVersionNo);
-        inputBean.setHierarchyDefinitionSid(hierarchyBuilderSid);
-        inputBean.setHierarchyVersionNo(hierarchyVersionNo);
+        GtnARMHierarchyInputBean dataSelecInputBean = new GtnARMHierarchyInputBean();
+        dataSelecInputBean.setRelationShipBuilderSid(Integer.parseInt(relationshipBuilderSID.toString()));
+        dataSelecInputBean.setRelationVersionNo(relationVersionNo);
+        dataSelecInputBean.setHierarchyDefinitionSid(hierarchyBuilderSid);
+        dataSelecInputBean.setHierarchyVersionNo(hierarchyVersionNo);
         GtnWsArmRequest armRequest = new GtnWsArmRequest();
-        armRequest.setInputBean(inputBean);
-        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-        request.setGtnWsArmRequest(armRequest);
-        GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+        armRequest.setInputBean(dataSelecInputBean);
+        GtnUIFrameworkWebServiceClient dataSelClient = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest dataSeleRequest = new GtnUIFrameworkWebserviceRequest();
+        dataSeleRequest.setGtnWsArmRequest(armRequest);
+        GtnUIFrameworkWebserviceResponse relationResponse = dataSelClient.callGtnWebServiceUrl(
                 GtnWebServiceUrlConstants.GTN_DATASELCTION_ARM_EDIT_SERVICE
                 + GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_LEVEL_VALUE_MAP,
-                request, getGsnWsSecurityToken());
+                dataSeleRequest, getGsnWsSecurityToken());
         GtnWsARMResponse armResponse = relationResponse.getGtnWsARMResponse();
-        GtnARMHierarchyInputBean outputBean = armResponse.getInputBean();
-        return outputBean.getFramedQuery();
+        GtnARMHierarchyInputBean dataSelectionOutputBean = armResponse.getInputBean();
+        return dataSelectionOutputBean.getFramedQuery();
     }
 
     public static List getLevelsFromHierarchy(final Map<String, Object> parameters) {
@@ -372,48 +372,48 @@ public class DataSelectionQueryUtils {
     }
 
     public static List loadCalculationViewSearch(List<String> viewNameInputs, String viewName, boolean isCount, Set<Container.Filter> filters, List<SortByColumn> sortByColumns, int start, int offset) {
-        String customSql = StringUtils.EMPTY;
+        String dsCustomSql = StringUtils.EMPTY;
         if (StringUtils.isNotBlank(viewNameInputs.get(1))) {
 
             if (isCount) {
-                customSql = SQlUtil.getQuery("countForCalculationView");
+                dsCustomSql = SQlUtil.getQuery("countForCalculationView");
             } else {
-                customSql = SQlUtil.getQuery("loadDataForCalculationView");
+                dsCustomSql = SQlUtil.getQuery("loadDataForCalculationView");
             }
             try (Connection connection = SysDataSourceConnection.getConnection()) {
-                customSql = customSql.replace("?", connection.getCatalog());
+                dsCustomSql = dsCustomSql.replace("?", connection.getCatalog());
 
-                customSql += "where FVM.view_Type ='" + viewNameInputs.get(1) + "' ";
+                dsCustomSql += "where FVM.view_Type ='" + viewNameInputs.get(1) + "' ";
 
                 if (StringUtils.isNotEmpty(viewName)
                         && StringUtils.isNotBlank(viewName)) {
-                    customSql += " AND FVM.view_Name LIKE '" + viewName + "' ";
+                    dsCustomSql += " AND FVM.view_Name LIKE '" + viewName + "' ";
                 }
                 if (viewNameInputs.get(1).equalsIgnoreCase("private") && StringUtils.isNotEmpty(viewNameInputs.get(3))
                         && StringUtils.isNotBlank(viewNameInputs.get(3))) {
-                    customSql += "AND FVM.created_By = " + viewNameInputs.get(3);
+                    dsCustomSql += "AND FVM.created_By = " + viewNameInputs.get(3);
                 }
 
-                Map<String, String> viewFilterMap = ARMUtils.loadViewFilterMap();
-                viewFilterMap.put(CommonConstant.CREATED_BY_STRING, "FVM.CREATED_BY");
-                String filterQuery = CommonFilterLogic.getInstance().filterQueryGenerator(filters, viewFilterMap).toString().replace("where", " AND");
+                Map<String, String> dsViewFilterMap = ARMUtils.loadViewFilterMap();
+                dsViewFilterMap.put(CommonConstant.CREATED_BY_STRING, "FVM.CREATED_BY");
+                String dsFilterQuery = CommonFilterLogic.getInstance().filterQueryGenerator(filters, dsViewFilterMap).toString().replace("where", " AND");
 
-                customSql += filterQuery;
+                dsCustomSql += dsFilterQuery;
                 if (isCount) {
-                    return HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+                    return HelperTableLocalServiceUtil.executeSelectQuery(dsCustomSql);
                 }
-                viewFilterMap.put(CommonConstant.CREATED_BY_STRING, "usr.firstName");
-                String orderBy = CommonFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, viewFilterMap, "FVM.CREATED_DATE").toString();
-                customSql += orderBy;
+                dsViewFilterMap.put(CommonConstant.CREATED_BY_STRING, "usr.firstName");
+                String orderBy = CommonFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, dsViewFilterMap, "FVM.CREATED_DATE").toString();
+                dsCustomSql += orderBy;
                 if (!isCount) {
-                    customSql += " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
+                    dsCustomSql += " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
                 }
-                LOGGER.debug("Custom SQL --{}", customSql);
-                List<Object[]> sqlList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+                LOGGER.debug("Custom SQL --{}", dsCustomSql);
+                List<Object[]> sqlList = HelperTableLocalServiceUtil.executeSelectQuery(dsCustomSql);
                 LOGGER.debug(CommonConstant.END_OF_FIND_VIEW_BY_NAME_METHOD);
                 return sqlList;
             } catch (Exception e) {
-                LOGGER.error("Error :{}", (e.getMessage() + " While Executing " + customSql));
+                LOGGER.error("Error :{}", (e.getMessage() + " While Executing " + dsCustomSql));
                 return Collections.emptyList();
             }
         }

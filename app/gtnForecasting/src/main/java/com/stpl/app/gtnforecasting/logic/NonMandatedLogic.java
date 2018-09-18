@@ -22,10 +22,7 @@ import com.stpl.app.gtnforecasting.dao.impl.ProjectionVarianceDAOImpl;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.discountProjection.logic.SupplementalDiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
-import com.stpl.app.gtnforecasting.dto.PMPYCalculatorDTO;
-import com.stpl.app.gtnforecasting.dto.PMPYTradingPartnerDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
-import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.AlternateLookupSource;
@@ -66,7 +63,6 @@ import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
-import com.vaadin.v7.ui.ComboBox;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -123,11 +119,6 @@ public class NonMandatedLogic {
 	 * The Constant LOGGER.
 	 */
 	public static final Logger LOGGER = LoggerFactory.getLogger(NonMandatedLogic.class);
-
-	/**
-	 * the SALES_SMALL dao.
-	 */
-	private final SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
 
 	/**
 	 * Searh view.
@@ -437,151 +428,6 @@ public class NonMandatedLogic {
 	}
 
 	/**
-	 * Trading partner look up.
-	 *
-	 * @param searchBinder
-	 *            the search binder
-	 * @return the list
-	 * @throws SystemException
-	 *             the system exception
-	 * @throws Exception
-	 *             the exception
-	 */
-	public List<PMPYTradingPartnerDTO> tradingPartnerLookUp(String tpNo, String tpName, Object contractHolder) {
-		LOGGER.debug("Entering tradingPartnerLookUp  ::::");
-		List input = new ArrayList<>();
-		String queryName;
-		if (contractHolder != null) {
-			input.add(contractHolder);
-			queryName = "PMPY-Load TP with CH";
-
-		} else {
-			queryName = "PMPY-Load TP without CH";
-		}
-		if (!tpName.isEmpty()) {
-			String tradingPartnerName = tpName;
-			tradingPartnerName = tradingPartnerName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-			input.add(tradingPartnerName);
-		} else {
-			input.add(Constant.PERCENT);
-		}
-		if (!tpNo.isEmpty()) {
-			String tradingPartnerNo = tpNo;
-			tradingPartnerNo = tradingPartnerNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-			input.add(tradingPartnerNo);
-		} else {
-			input.add(Constant.PERCENT);
-		}
-		List resultTPList = PPAQuerys.getPPAData(input, queryName, null);
-		List<PMPYTradingPartnerDTO> tradingpartner;
-		tradingpartner = getTPLookedUp(resultTPList);
-		LOGGER.debug("Ending tradingPartnerLookUp    ::::");
-		return tradingpartner;
-	}
-
-	/**
-	 * Gets the TP looked up.
-	 *
-	 * @param list
-	 *            the list
-	 * @return the TP looked up
-	 */
-	public List<PMPYTradingPartnerDTO> getTPLookedUp(final List<Object[]> list) {
-		final List<PMPYTradingPartnerDTO> resultList = new ArrayList<>();
-
-		LOGGER.debug("Entering getTPLookedUp  ::::");
-		final int index = list.size();
-		for (int i = 0; i < index; i++) {
-			Object[] obj = list.get(i);
-			final PMPYTradingPartnerDTO lookedUpTP = new PMPYTradingPartnerDTO();
-			lookedUpTP.setTradingPartnerNo(String.valueOf(obj[0]));
-			lookedUpTP.setTradingPartnerName(String.valueOf(obj[1]));
-			lookedUpTP.setCompanySysId(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])));
-			resultList.add(lookedUpTP);
-		}
-
-		LOGGER.debug("Ending getTPLookedUp return  size ::::= {}" , resultList.size());
-
-		return resultList;
-	}
-
-	/**
-	 * Pmpy generate logic.
-	 *
-	 * @param contract
-	 *            the contract
-	 * @param tpName
-	 *            the tp name
-	 * @return the pmpy calculator dto
-	 * @throws SystemException
-	 *             the system exception
-	 * @throws PortalException
-	 *             ,Exception
-	 * @throws Exception
-	 *             the exception
-	 */
-	public PMPYCalculatorDTO pmpyGenerateLogic(final String tpName) throws PortalException {
-		final PMPYCalculatorDTO bean = new PMPYCalculatorDTO();
-		String tpName1;
-
-		if (tpName == null || CommonUtils.STRING_NULL.equals(tpName)) {
-			tpName1 = StringUtils.EMPTY;
-		} else {
-			tpName1 = tpName;
-		}
-
-		LOGGER.debug("Entering pmpyGenerateLogic  ::::");
-		final List chList = new ArrayList();
-
-		final List<PMPYCalculatorDTO> chListFinal = getChList(chList);
-		bean.setContrachHolderList(chListFinal);
-
-		final List tpList = salesDAO.getPMPYTradingPartnerList(tpName1);
-
-		final List<PMPYCalculatorDTO> tpListFinal = getTpList(tpList);
-
-		bean.setTradingPartnerList(tpListFinal);
-
-		LOGGER.debug("Ending pmpyGenerateLogic    ::::");
-
-		return bean;
-	}
-
-	/**
-	 * Load pmpy contract holders.
-	 *
-	 * @return the list
-	 * @throws SystemException
-	 *             the system exception
-	 * @throws PortalException
-	 *             the portal exception
-	 * @throws Exception
-	 *             the exception
-	 */
-	public ComboBox loadPMPYContractHolders(ComboBox contract) {
-
-		LOGGER.debug("Entering loadPmpyContractHolders  ::::");
-
-		List list = PPAQuerys.getPPAData(new ArrayList(), "PMPY-Load CH", null);
-		if (list != null) {
-			for (int i = 0; i < list.size(); i++) {
-
-				Object[] obj = (Object[]) list.get(i);
-
-				if (obj[0] != null) {
-					contract.addItem(String.valueOf(obj[0]));
-				}
-				if (obj[1] != null) {
-					contract.setItemCaption(String.valueOf(obj[0]), String.valueOf(obj[1]));
-				}
-
-			}
-		}
-		return contract;
-
-	}
-
-	/**
 	 * Manual entrysales calculation.
 	 *
 	 * @param projectionId
@@ -622,496 +468,6 @@ public class NonMandatedLogic {
 			}
 		}
 
-	}
-
-	/**
-	 * Gets the ch list.
-	 *
-	 * @param chList
-	 *            the ch list
-	 * @return the ch list
-	 * @throws Exception
-	 *             the exception
-	 */
-	private List<PMPYCalculatorDTO> getChList(final List chList) {
-		final List lives = new ArrayList();
-		final List sales = new ArrayList();
-		final List units = new ArrayList();
-
-		final List<PMPYCalculatorDTO> resultList = new ArrayList<>();
-
-		LOGGER.debug("Entering getChList  ::::");
-		final int index = chList.size();
-
-		for (int i = 0; i < index; i++) {
-			final Object[] obj = (Object[]) chList.get(i);
-
-			if (String.valueOf(obj[0]) != null && !StringUtils.EMPTY.equals(String.valueOf(obj[0]))
-					&& !CommonUtils.STRING_NULL.equals(String.valueOf(obj[0]))
-					&& Constant.C_LIVES.equalsIgnoreCase(String.valueOf(obj[0]))) { // Filtering
-
-				lives.add(Constant.LIVES);
-				lives.add(emptyChecker(obj[1]));
-				lives.add(emptyChecker(obj[NumericConstants.TWO]));
-				lives.add(emptyChecker(obj[NumericConstants.THREE]));
-				lives.add(emptyChecker(obj[NumericConstants.FOUR]));
-				lives.add(emptyChecker(obj[NumericConstants.FIVE]));
-				lives.add(emptyChecker(obj[NumericConstants.SIX]));
-				lives.add(emptyChecker(obj[NumericConstants.SEVEN]));
-				lives.add(emptyChecker(obj[NumericConstants.EIGHT]));
-				lives.add(emptyChecker(obj[NumericConstants.NINE]));
-				lives.add(emptyChecker(obj[NumericConstants.TEN]));
-				lives.add(emptyChecker(obj[NumericConstants.ELEVEN]));
-				lives.add(emptyChecker(obj[NumericConstants.TWELVE]));
-			}
-
-			if (String.valueOf(obj[0]) != null && !StringUtils.EMPTY.equals(String.valueOf(obj[0]))
-					&& !CommonUtils.STRING_NULL.equals(String.valueOf(obj[0]))
-					&& Constant.A_SALES.equalsIgnoreCase(String.valueOf(obj[0]))) { // Filtering
-
-				sales.add(Constant.ACTUAL_SALES);
-				sales.add(emptyChecker(obj[1]));
-				sales.add(emptyChecker(obj[NumericConstants.TWO]));
-				sales.add(emptyChecker(obj[NumericConstants.THREE]));
-				sales.add(emptyChecker(obj[NumericConstants.FOUR]));
-				sales.add(emptyChecker(obj[NumericConstants.FIVE]));
-				sales.add(emptyChecker(obj[NumericConstants.SIX]));
-				sales.add(emptyChecker(obj[NumericConstants.SEVEN]));
-				sales.add(emptyChecker(obj[NumericConstants.EIGHT]));
-				sales.add(emptyChecker(obj[NumericConstants.NINE]));
-				sales.add(emptyChecker(obj[NumericConstants.TEN]));
-				sales.add(emptyChecker(obj[NumericConstants.ELEVEN]));
-				sales.add(emptyChecker(obj[NumericConstants.TWELVE]));
-			}
-			if (String.valueOf(obj[0]) != null && !StringUtils.EMPTY.equals(String.valueOf(obj[0]))
-					&& !CommonUtils.STRING_NULL.equals(String.valueOf(obj[0]))
-					&& Constant.B_UNITS.equalsIgnoreCase(String.valueOf(obj[0]))) { // Filtering
-
-				units.add(Constant.UNIT_VOLUME);
-				units.add(emptyChecker(obj[1]));
-				units.add(emptyChecker(obj[NumericConstants.TWO]));
-				units.add(emptyChecker(obj[NumericConstants.THREE]));
-				units.add(emptyChecker(obj[NumericConstants.FOUR]));
-				units.add(emptyChecker(obj[NumericConstants.FIVE]));
-				units.add(emptyChecker(obj[NumericConstants.SIX]));
-				units.add(emptyChecker(obj[NumericConstants.SEVEN]));
-				units.add(emptyChecker(obj[NumericConstants.EIGHT]));
-				units.add(emptyChecker(obj[NumericConstants.NINE]));
-				units.add(emptyChecker(obj[NumericConstants.TEN]));
-				units.add(emptyChecker(obj[NumericConstants.ELEVEN]));
-				units.add(emptyChecker(obj[NumericConstants.TWELVE]));
-			}
-		}
-		if (sales != null && !sales.isEmpty()) {
-
-			for (int is = 0; is < 1; is++) { // Setting SALES_SMALL
-				final PMPYCalculatorDTO dto = new PMPYCalculatorDTO();
-
-				dto.setType(String.valueOf(sales.get(0)));
-				dto.setQ1y1Ch(getSales(sales.get(1)));
-				dto.setQ2y1Ch(getSales(sales.get(NumericConstants.TWO)));
-				dto.setQ3y1Ch(getSales(sales.get(NumericConstants.THREE)));
-				dto.setQ4y1Ch(getSales(sales.get(NumericConstants.FOUR)));
-				dto.setQ1y2Ch(getSales(sales.get(NumericConstants.FIVE)));
-				dto.setQ2y2Ch(getSales(sales.get(NumericConstants.SIX)));
-				dto.setQ3y2Ch(getSales(sales.get(NumericConstants.SEVEN)));
-				dto.setQ4y2Ch(getSales(sales.get(NumericConstants.EIGHT)));
-				dto.setQ1y3Ch(getSales(sales.get(NumericConstants.NINE)));
-				dto.setQ2y3Ch(getSales(sales.get(NumericConstants.TEN)));
-				dto.setQ3y3Ch(getSales(sales.get(NumericConstants.ELEVEN)));
-				dto.setQ4y3Ch(getSales(sales.get(NumericConstants.TWELVE)));
-
-				// Yearly
-				final Double yearOne = getSales(sales.get(1)) + getSales(sales.get(NumericConstants.TWO))
-						+ getSales(sales.get(NumericConstants.THREE)) + getSales(sales.get(NumericConstants.FOUR));
-				final Double yearTwo = getSales(sales.get(NumericConstants.FIVE))
-						+ getSales(sales.get(NumericConstants.SIX)) + getSales(sales.get(NumericConstants.SEVEN))
-						+ getSales(sales.get(NumericConstants.EIGHT));
-				final Double yearThree = getSales(sales.get(NumericConstants.NINE))
-						+ getSales(sales.get(NumericConstants.TEN)) + getSales(sales.get(NumericConstants.ELEVEN))
-						+ getSales(sales.get(NumericConstants.TWELVE));
-
-				dto.setY1Ch(yearThree);
-				dto.setY2Ch(yearTwo);
-				dto.setY3Ch(yearOne);
-
-				// semi-annuals
-				final Double s1Y1 = getSales(sales.get(1)) + getSales(sales.get(NumericConstants.TWO));
-				final Double s2Y1 = getSales(sales.get(NumericConstants.THREE))
-						+ getSales(sales.get(NumericConstants.FOUR));
-				final Double s1Y2 = getSales(sales.get(NumericConstants.FIVE))
-						+ getSales(sales.get(NumericConstants.SIX));
-				final Double s2Y2 = getSales(sales.get(NumericConstants.SEVEN))
-						+ getSales(sales.get(NumericConstants.EIGHT));
-				final Double s1y3 = getSales(sales.get(NumericConstants.NINE))
-						+ getSales(sales.get(NumericConstants.TEN));
-				final Double s2y3 = getSales(sales.get(NumericConstants.ELEVEN))
-						+ getSales(sales.get(NumericConstants.TWELVE));
-
-				dto.setS1y1Ch(s1Y1);
-				dto.setS2y1Ch(s2Y1);
-				dto.setS1y2Ch(s1Y2);
-				dto.setS2y2Ch(s2Y2);
-				dto.setS1y3Ch(s1y3);
-				dto.setS2y3Ch(s2y3);
-
-				resultList.add(dto);
-			}
-		}
-		if (units != null && !units.isEmpty()) {
-
-			for (int iu = 0; iu < 1; iu++) { // Setting UNITS_SMALL
-				final PMPYCalculatorDTO dto = new PMPYCalculatorDTO();
-
-				dto.setType(String.valueOf(units.get(0)));
-				dto.setQ1y1Ch(getUnits(units.get(1))); // q1 of current year - 3
-				dto.setQ2y1Ch(getUnits(units.get(NumericConstants.TWO)));
-				dto.setQ3y1Ch(getUnits(units.get(NumericConstants.THREE)));
-				dto.setQ4y1Ch(getUnits(units.get(NumericConstants.FOUR)));
-				dto.setQ1y2Ch(getUnits(units.get(NumericConstants.FIVE))); // q1
-																			// of
-																			// current
-																			// year
-																			// -
-																			// 2
-				dto.setQ2y2Ch(getUnits(units.get(NumericConstants.SIX)));
-				dto.setQ3y2Ch(getUnits(units.get(NumericConstants.SEVEN)));
-				dto.setQ4y2Ch(getUnits(units.get(NumericConstants.EIGHT)));
-				dto.setQ1y3Ch(getUnits(units.get(NumericConstants.NINE))); // q1
-																			// of
-																			// current
-																			// year
-																			// -
-																			// 1
-				dto.setQ2y3Ch(getUnits(units.get(NumericConstants.TEN)));
-				dto.setQ3y3Ch(getUnits(units.get(NumericConstants.ELEVEN)));
-				dto.setQ4y3Ch(getUnits(units.get(NumericConstants.TWELVE)));
-
-				// Yearly
-				final Double yearOne = getUnits(units.get(1)) // current year -
-						// 3
-						+ getUnits(units.get(NumericConstants.TWO)) + getUnits(units.get(NumericConstants.THREE))
-						+ getUnits(units.get(NumericConstants.FOUR));
-				final Double yearTwo = getUnits(units.get(NumericConstants.FIVE)) // current
-																					// year
-																					// -
-						// 2
-						+ getUnits(units.get(NumericConstants.SIX)) + getUnits(units.get(NumericConstants.SEVEN))
-						+ getUnits(units.get(NumericConstants.EIGHT));
-				final Double yearThree = getUnits(units.get(NumericConstants.NINE)) // current
-																					// year
-						// - 1
-						+ getUnits(units.get(NumericConstants.TEN)) + getUnits(units.get(NumericConstants.ELEVEN))
-						+ getUnits(units.get(NumericConstants.TWELVE));
-
-				dto.setY1Ch(yearOne); // current year - 3
-				dto.setY2Ch(yearTwo); // current year - 2
-				dto.setY3Ch(yearThree); // current year - 1
-
-				// semi-annuals
-				final Double s1Y1 = getUnits(units.get(1)) // q1, q2 current
-						// year - 3
-						+ getUnits(units.get(NumericConstants.TWO));
-				final Double s2Y1 = getUnits(units.get(NumericConstants.THREE)) // q3,
-																				// q4
-																				// current
-						// year - 3
-						+ getUnits(units.get(NumericConstants.FOUR));
-				final Double s1Y2 = getUnits(units.get(NumericConstants.FIVE)) // q1,
-																				// q2
-																				// current
-						// year - 2
-						+ getUnits(units.get(NumericConstants.SIX));
-				final Double s2Y2 = getUnits(units.get(NumericConstants.SEVEN)) // q3,
-																				// q4
-																				// current
-						// year - 2
-						+ getUnits(units.get(NumericConstants.EIGHT));
-				final Double s1y3 = getUnits(units.get(NumericConstants.NINE)) // q1,
-																				// q2
-																				// current
-						// year - 1
-						+ getUnits(units.get(NumericConstants.TEN));
-				final Double s2y3 = getUnits(units.get(NumericConstants.ELEVEN)) // q3,
-																					// q4
-																					// current
-						// year - 1
-						+ getUnits(units.get(NumericConstants.TWELVE));
-
-				dto.setS1y1Ch(s1Y1); // s1 current year - 3
-				dto.setS2y1Ch(s2Y1); // s2 current year - 3
-				dto.setS1y2Ch(s1Y2); // s1 current year - 2
-				dto.setS2y2Ch(s2Y2); // s2 current year - 2
-				dto.setS1y3Ch(s1y3); // s1 current year - 1
-				dto.setS2y3Ch(s2y3); // s2 current year - 1
-
-				resultList.add(dto);
-			}
-		}
-		if (sales != null && !sales.isEmpty() || units != null && !units.isEmpty()) { // Lives
-
-			for (int il = 0; il < 1; il++) { // Setting lives
-				final PMPYCalculatorDTO dto = new PMPYCalculatorDTO();
-
-				dto.setType(String.valueOf(lives.get(0)));
-				dto.setQ1y1Ch(Double.valueOf(String.valueOf(lives.get(1))));
-				dto.setQ2y1Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.TWO))));
-				dto.setQ3y1Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.THREE))));
-				dto.setQ4y1Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.FOUR))));
-				dto.setQ1y2Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.FIVE))));
-				dto.setQ2y2Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.SIX))));
-				dto.setQ3y2Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.SEVEN))));
-				dto.setQ4y2Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.EIGHT))));
-				dto.setQ1y3Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.NINE))));
-				dto.setQ2y3Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.TEN))));
-				dto.setQ3y3Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.ELEVEN))));
-				dto.setQ4y3Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.TWELVE))));
-
-				dto.setY1Ch(Double.valueOf(String.valueOf(lives.get(1))));
-				dto.setY2Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.TWO))));
-				dto.setY3Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.THREE))));
-
-				dto.setS1y1Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.FOUR))));
-				dto.setS2y1Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.FIVE))));
-				dto.setS1y2Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.SIX))));
-				dto.setS2y2Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.SEVEN))));
-				dto.setS1y3Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.EIGHT))));
-				dto.setS2y3Ch(Double.valueOf(String.valueOf(lives.get(NumericConstants.NINE))));
-
-				resultList.add(dto);
-			}
-		}
-
-		LOGGER.debug("Ending getChList return  size ::::= {}" , resultList.size());
-		return resultList;
-	}
-
-	/**
-	 * Gets the tp list.
-	 *
-	 * @param tpList
-	 *            the tp list
-	 * @return the tp list
-	 * @throws Exception
-	 *             the exception
-	 */
-	private List<PMPYCalculatorDTO> getTpList(final List tpList) {
-		final List lives = new ArrayList();
-		final List sales = new ArrayList();
-		final List units = new ArrayList();
-
-		final List<PMPYCalculatorDTO> resultList = new ArrayList<>();
-
-		LOGGER.debug("Entering getTpList  ::::");
-		final int index = tpList.size();
-		for (int i = 0; i < index; i++) {
-			final Object[] obj = (Object[]) tpList.get(i);
-			if (String.valueOf(obj[0]) != null && !StringUtils.EMPTY.equals(String.valueOf(obj[0]))
-					&& !CommonUtils.STRING_NULL.equals(String.valueOf(obj[0]))
-					&& Constant.C_LIVES.equalsIgnoreCase(String.valueOf(obj[0]))) { // Filtering
-
-				lives.add(Constant.LIVES);
-				lives.add(emptyChecker(obj[1]));
-				lives.add(emptyChecker(obj[NumericConstants.TWO]));
-				lives.add(emptyChecker(obj[NumericConstants.THREE]));
-				lives.add(emptyChecker(obj[NumericConstants.FOUR]));
-				lives.add(emptyChecker(obj[NumericConstants.FIVE]));
-				lives.add(emptyChecker(obj[NumericConstants.SIX]));
-				lives.add(emptyChecker(obj[NumericConstants.SEVEN]));
-				lives.add(emptyChecker(obj[NumericConstants.EIGHT]));
-				lives.add(emptyChecker(obj[NumericConstants.NINE]));
-				lives.add(emptyChecker(obj[NumericConstants.TEN]));
-				lives.add(emptyChecker(obj[NumericConstants.ELEVEN]));
-				lives.add(emptyChecker(obj[NumericConstants.TWELVE]));
-			}
-
-			if (String.valueOf(obj[0]) != null && !StringUtils.EMPTY.equals(String.valueOf(obj[0]))
-					&& !CommonUtils.STRING_NULL.equals(String.valueOf(obj[0]))
-					&& Constant.A_SALES.equalsIgnoreCase(String.valueOf(obj[0]))) { // Filtering
-
-				sales.add(Constant.ACTUAL_SALES);
-				sales.add(emptyChecker(obj[1]));
-				sales.add(emptyChecker(obj[NumericConstants.TWO]));
-				sales.add(emptyChecker(obj[NumericConstants.THREE]));
-				sales.add(emptyChecker(obj[NumericConstants.FOUR]));
-				sales.add(emptyChecker(obj[NumericConstants.FIVE]));
-				sales.add(emptyChecker(obj[NumericConstants.SIX]));
-				sales.add(emptyChecker(obj[NumericConstants.SEVEN]));
-				sales.add(emptyChecker(obj[NumericConstants.EIGHT]));
-				sales.add(emptyChecker(obj[NumericConstants.NINE]));
-				sales.add(emptyChecker(obj[NumericConstants.TEN]));
-				sales.add(emptyChecker(obj[NumericConstants.ELEVEN]));
-				sales.add(emptyChecker(obj[NumericConstants.TWELVE]));
-			}
-			if (String.valueOf(obj[0]) != null && !StringUtils.EMPTY.equals(String.valueOf(obj[0]))
-					&& !CommonUtils.STRING_NULL.equals(String.valueOf(obj[0]))
-					&& Constant.B_UNITS.equalsIgnoreCase(String.valueOf(obj[0]))) { // Filtering
-
-				units.add(Constant.UNIT_VOLUME);
-				units.add(emptyChecker(obj[1]));
-				units.add(emptyChecker(obj[NumericConstants.TWO]));
-				units.add(emptyChecker(obj[NumericConstants.THREE]));
-				units.add(emptyChecker(obj[NumericConstants.FOUR]));
-				units.add(emptyChecker(obj[NumericConstants.FIVE]));
-				units.add(emptyChecker(obj[NumericConstants.SIX]));
-				units.add(emptyChecker(obj[NumericConstants.SEVEN]));
-				units.add(emptyChecker(obj[NumericConstants.EIGHT]));
-				units.add(emptyChecker(obj[NumericConstants.NINE]));
-				units.add(emptyChecker(obj[NumericConstants.TEN]));
-				units.add(emptyChecker(obj[NumericConstants.ELEVEN]));
-				units.add(emptyChecker(obj[NumericConstants.TWELVE]));
-			}
-		}
-		if (sales != null && !sales.isEmpty()) {
-
-			for (int is = 0; is < 1; is++) { // Setting SALES_SMALL
-				final PMPYCalculatorDTO dto = new PMPYCalculatorDTO();
-
-				dto.setType(String.valueOf(sales.get(0)));
-				dto.setQ1y1Tp(getSales(sales.get(1)));
-				dto.setQ2y1Tp(getSales(sales.get(NumericConstants.TWO)));
-				dto.setQ3y1Tp(getSales(sales.get(NumericConstants.THREE)));
-				dto.setQ4y1Tp(getSales(sales.get(NumericConstants.FOUR)));
-				dto.setQ1y2Tp(getSales(sales.get(NumericConstants.FIVE)));
-				dto.setQ2y2Tp(getSales(sales.get(NumericConstants.SIX)));
-				dto.setQ3y2Tp(getSales(sales.get(NumericConstants.SEVEN)));
-				dto.setQ4y2Tp(getSales(sales.get(NumericConstants.EIGHT)));
-				dto.setQ1y3Tp(getSales(sales.get(NumericConstants.NINE)));
-				dto.setQ2y3Tp(getSales(sales.get(NumericConstants.TEN)));
-				dto.setQ3y3Tp(getSales(sales.get(NumericConstants.ELEVEN)));
-				dto.setQ4y3Tp(getSales(sales.get(NumericConstants.TWELVE)));
-
-				// Yearly
-				final Double yearOne = getSales(sales.get(1)) + getSales(sales.get(NumericConstants.TWO))
-						+ getSales(sales.get(NumericConstants.THREE)) + getSales(sales.get(NumericConstants.FOUR));
-				final Double yearTwo = getSales(sales.get(NumericConstants.FIVE))
-						+ getSales(sales.get(NumericConstants.SIX)) + getSales(sales.get(NumericConstants.SEVEN))
-						+ getSales(sales.get(NumericConstants.EIGHT));
-				final Double yearThree = getSales(sales.get(NumericConstants.NINE))
-						+ getSales(sales.get(NumericConstants.TEN)) + getSales(sales.get(NumericConstants.ELEVEN))
-						+ getSales(sales.get(NumericConstants.TWELVE));
-
-				dto.setY1Tp(yearOne);
-				dto.setY2Tp(yearTwo);
-				dto.setY3Tp(yearThree);
-
-				// semi-annuals
-				final Double s1Y1 = getSales(sales.get(1)) + getSales(sales.get(NumericConstants.TWO));
-				final Double s2Y1 = getSales(sales.get(NumericConstants.THREE))
-						+ getSales(sales.get(NumericConstants.FOUR));
-				final Double s1Y2 = getSales(sales.get(NumericConstants.FIVE))
-						+ getSales(sales.get(NumericConstants.SIX));
-				final Double s2Y2 = getSales(sales.get(NumericConstants.SEVEN))
-						+ getSales(sales.get(NumericConstants.EIGHT));
-				final Double s1y3 = getSales(sales.get(NumericConstants.NINE))
-						+ getSales(sales.get(NumericConstants.TEN));
-				final Double s2y3 = getSales(sales.get(NumericConstants.ELEVEN))
-						+ getSales(sales.get(NumericConstants.TWELVE));
-
-				dto.setS1y1Tp(s1Y1);
-				dto.setS2y1Tp(s2Y1);
-				dto.setS1y2Tp(s1Y2);
-				dto.setS2y2Tp(s2Y2);
-				dto.setS1y3Tp(s1y3);
-				dto.setS2y3Tp(s2y3);
-
-				resultList.add(dto);
-			}
-		}
-		if (units != null && !units.isEmpty()) {
-
-			for (int iu = 0; iu < 1; iu++) { // Setting UNITS_SMALL
-				final PMPYCalculatorDTO dto = new PMPYCalculatorDTO();
-
-				dto.setType(String.valueOf(units.get(0)));
-				dto.setQ1y1Tp(getUnits(units.get(1)));
-				dto.setQ2y1Tp(getUnits(units.get(NumericConstants.TWO)));
-				dto.setQ3y1Tp(getUnits(units.get(NumericConstants.THREE)));
-				dto.setQ4y1Tp(getUnits(units.get(NumericConstants.FOUR)));
-				dto.setQ1y2Tp(getUnits(units.get(NumericConstants.FIVE)));
-				dto.setQ2y2Tp(getUnits(units.get(NumericConstants.SIX)));
-				dto.setQ3y2Tp(getUnits(units.get(NumericConstants.SEVEN)));
-				dto.setQ4y2Tp(getUnits(units.get(NumericConstants.EIGHT)));
-				dto.setQ1y3Tp(getUnits(units.get(NumericConstants.NINE)));
-				dto.setQ2y3Tp(getUnits(units.get(NumericConstants.TEN)));
-				dto.setQ3y3Tp(getUnits(units.get(NumericConstants.ELEVEN)));
-				dto.setQ4y3Tp(getUnits(units.get(NumericConstants.TWELVE)));
-
-				// Yearly
-				final Double yearOne = getUnits(units.get(1)) + getUnits(units.get(NumericConstants.TWO))
-						+ getUnits(units.get(NumericConstants.THREE)) + getUnits(units.get(NumericConstants.FOUR));
-				final Double yearTwo = getUnits(units.get(NumericConstants.FIVE))
-						+ getUnits(units.get(NumericConstants.SIX)) + getUnits(units.get(NumericConstants.SEVEN))
-						+ getUnits(units.get(NumericConstants.EIGHT));
-				final Double yearThree = getUnits(units.get(NumericConstants.NINE))
-						+ getUnits(units.get(NumericConstants.TEN)) + getUnits(units.get(NumericConstants.ELEVEN))
-						+ getUnits(units.get(NumericConstants.TWELVE));
-
-				dto.setY1Tp(yearOne);
-				dto.setY2Tp(yearTwo);
-				dto.setY3Tp(yearThree);
-
-				// semi-annuals
-				final Double s1Y1 = getUnits(units.get(1)) + getUnits(units.get(NumericConstants.TWO));
-				final Double s2Y1 = getUnits(units.get(NumericConstants.THREE))
-						+ getUnits(units.get(NumericConstants.FOUR));
-				final Double s1Y2 = getUnits(units.get(NumericConstants.FIVE))
-						+ getUnits(units.get(NumericConstants.SIX));
-				final Double s2Y2 = getUnits(units.get(NumericConstants.SEVEN))
-						+ getUnits(units.get(NumericConstants.EIGHT));
-				final Double s1y3 = getUnits(units.get(NumericConstants.NINE))
-						+ getUnits(units.get(NumericConstants.TEN));
-				final Double s2y3 = getUnits(units.get(NumericConstants.ELEVEN))
-						+ getUnits(units.get(NumericConstants.TWELVE));
-
-				dto.setS1y1Tp(s1Y1);
-				dto.setS2y1Tp(s2Y1);
-				dto.setS1y2Tp(s1Y2);
-				dto.setS2y2Tp(s2Y2);
-				dto.setS1y3Tp(s1y3);
-				dto.setS2y3Tp(s2y3);
-
-				resultList.add(dto);
-			}
-		}
-		if (sales != null && !sales.isEmpty() || units != null && !units.isEmpty()) { // Lives
-
-			for (int il = 0; il < 1; il++) { // Setting
-				// lives
-				final PMPYCalculatorDTO dto = new PMPYCalculatorDTO();
-
-				dto.setType(String.valueOf(lives.get(0)));
-				dto.setQ1y1Tp(Double.valueOf(String.valueOf(lives.get(1))));
-				dto.setQ2y1Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.TWO))));
-				dto.setQ3y1Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.THREE))));
-				dto.setQ4y1Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.FOUR))));
-				dto.setQ1y2Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.FIVE))));
-				dto.setQ2y2Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.SIX))));
-				dto.setQ3y2Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.SEVEN))));
-				dto.setQ4y2Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.EIGHT))));
-				dto.setQ1y3Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.NINE))));
-				dto.setQ2y3Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.TEN))));
-				dto.setQ3y3Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.ELEVEN))));
-				dto.setQ4y3Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.TWELVE))));
-
-				dto.setY1Tp(Double.valueOf(String.valueOf(lives.get(1))));
-				dto.setY2Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.TWO))));
-				dto.setY3Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.THREE))));
-				dto.setS1y1Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.FOUR))));
-				dto.setS2y1Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.FIVE))));
-				dto.setS1y2Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.SIX))));
-				dto.setS2y2Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.SEVEN))));
-				dto.setS1y3Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.EIGHT))));
-				dto.setS2y3Tp(Double.valueOf(String.valueOf(lives.get(NumericConstants.NINE))));
-
-				resultList.add(dto);
-
-			}
-		}
-
-		LOGGER.debug("Ending getTpList return  size ::::= {}" , resultList.size());
-
-		return resultList;
 	}
 
 	/**
@@ -1600,9 +956,7 @@ public class NonMandatedLogic {
 		}
 
 		resultList = dataSelection.searchDSProjections(parameters);
-		returnList = Converters.searchDsProjection(resultList,
-				CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(dataSelectionDTO.getModulName()),
-				!CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(dataSelectionDTO.getModulName()));
+		returnList = Converters.searchDsProjection(resultList,false,true);
 		return returnList;
 	}
 
@@ -1662,9 +1016,6 @@ public class NonMandatedLogic {
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 			projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE,
 					CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED));
-		} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-			projectionDynamicQuery.add(
-					RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED));
 		} else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 			projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE,
 					CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION));
@@ -1758,7 +1109,7 @@ public class NonMandatedLogic {
 		}
 		for (int loop = 0, limit = returnlist.size(); loop < limit; loop++) {
 			helperDTO = new HelperDTO();
-			Object[] objects = (Object[]) returnlist.get(loop);
+			Object[] objects =  returnlist.get(loop);
 			helperDTO.setId(Integer.parseInt(String.valueOf(objects[0])));
 			helperDTO.setDescription(String.valueOf(objects[1]));
 			companies.add(helperDTO);
@@ -2168,12 +1519,10 @@ public class NonMandatedLogic {
 		}
 
 		resultList = dataSelection.searchDSProjections(parameters);
-		returnList = Converters.searchDsProjection(resultList,
-				!CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(dataSelectionDTO.getModulName())
-						? CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION
-								.equals(dataSelectionDTO.getModulName()) ? true : false
-						: true,
-				!CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(dataSelectionDTO.getModulName()));
+                
+                boolean flagValue = CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(dataSelectionDTO.getModulName()) ? true : false;
+                
+		returnList = Converters.searchDsProjection(resultList, flagValue, true);
 		return returnList;
 	}
 
@@ -2258,7 +1607,7 @@ public class NonMandatedLogic {
 		if (Constant.EDIT.equalsIgnoreCase(inputDto.getAction())
 				|| Constant.VIEW.equalsIgnoreCase(inputDto.getAction())) {
 			SupplementalDiscountProjectionLogic logic = new SupplementalDiscountProjectionLogic();
-			String pojectionDetailsSids = CommonUtils.CollectionToString(logic.getProjectionDetailsSid(inputDto),
+			String pojectionDetailsSids = CommonUtils.collectionToStringMethod(logic.getProjectionDetailsSid(inputDto),
 					false);
 			logic.masterToTempCopy(inputDto, pojectionDetailsSids);
 		}
@@ -2293,8 +1642,8 @@ public class NonMandatedLogic {
 				+ "		dbo.PROJECTION_DETAILS B\n" + "		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID \n"
 				+ "			AND B.PROJECTION_MASTER_SID = " + projectionId + ";";
 
-		SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-		salesProjectionDAO.executeUpdateQuery(insertQuery);
+		SalesProjectionDAO inserSalesProjectionDAO = new SalesProjectionDAOImpl();
+		inserSalesProjectionDAO.executeUpdateQuery(insertQuery);
 
 	}
 
@@ -2486,9 +1835,6 @@ public class NonMandatedLogic {
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 			projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE,
 					CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED));
-		} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-			projectionDynamicQuery.add(
-					RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED));
 		} else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 			projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE,
 					CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION));

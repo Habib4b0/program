@@ -14,6 +14,7 @@ import com.stpl.app.utils.Constants;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -54,7 +55,7 @@ public class NmDiscountImpl {
 
             return HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         } catch (Exception e) {
-            return null;
+            return Collections.emptyList(); 
         }
     }
 
@@ -86,7 +87,7 @@ public class NmDiscountImpl {
      * @return
      */
     public List getDiscountProjection(int projectionId, String userId, String sessionId, String frequency, List<Integer> startAndEndPeriods, String hierarchyNo, boolean isProgram, List<String> discountList,
-            String year, int historyNumber, int levelNo, String hierarchyIndicator, String userGroup, int startIndex, int endIndex, boolean isCount, boolean isCustom,
+            String year, int levelNo, String hierarchyIndicator, String userGroup, int startIndex, int endIndex, boolean isCount, boolean isCustom,
             List<String> customViewDetails, boolean isRefresh, String refreshHierarchyNumbers, String relationshipBuilderSid, boolean isAltHistory, String action) {
         String hierarchyNoDP  = hierarchyNo;
         String customQuery = StringUtils.EMPTY;
@@ -269,7 +270,7 @@ public class NmDiscountImpl {
                         discountTypeColumnName = " B.PRICE_GROUP_TYPE ";
                         orderBy = " H.RELATIONSHIP_LEVEL_VALUES, B.PRICE_GROUP_TYPE " + orderBy;
                     }
-                    selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                    selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                     whereClause += " and " + discountTypeColumnName + " in (" + selectedDiscounts + ")";
                     groupBy += ", " + discountTypeColumnName;
                 }
@@ -473,7 +474,7 @@ public class NmDiscountImpl {
             } else {
                 String discountTypeQuery = "";
                 if (discountList != null && !discountList.isEmpty()) {
-                    String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                    String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                     discountTypeQuery = Constant.JOIN + masterTableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                     if (!viewFlag) {
                         discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
@@ -566,7 +567,7 @@ public class NmDiscountImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customQuery);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -580,7 +581,7 @@ public class NmDiscountImpl {
 
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 discountTypeQuery = Constant.SPACE_JOIN_SPACE + tableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                 if (!mode) {
                     discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
@@ -639,13 +640,13 @@ public class NmDiscountImpl {
                 customSql += " OFFSET " + startIndex + " ROWS FETCH NEXT " + endIndex + " ROWS ONLY ";
             }
 
-            List<String> returnList = new ArrayList<String>();
+            List<String> returnList = new ArrayList<>();
             returnList.add(customSql);
             return returnList;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return null;
+            return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getHierarchyListForCustomView");
         }
@@ -665,7 +666,7 @@ public class NmDiscountImpl {
 
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 discountTypeQuery = Constant.SPACE_JOIN_SPACE + tableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                 if (!mode) {
                     discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
@@ -707,13 +708,13 @@ public class NmDiscountImpl {
                 customSql += " OFFSET " + startIndex + " ROWS FETCH NEXT " + endIndex + " ROWS ONLY ";
             }
 
-            List<String> returnList = new ArrayList<String>();
+            List<String> returnList = new ArrayList<>();
             returnList.add(customSql);
             return returnList;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return null;
+            return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getHierarchyList");
         }
@@ -754,7 +755,7 @@ public class NmDiscountImpl {
         try {
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 if (isProgram) {
                     discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
@@ -820,11 +821,11 @@ public class NmDiscountImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sb.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
-    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkValue, List<String> discountList) {
+    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkValue) {
 
         String query = StringUtils.EMPTY;
         LOGGER.debug(" inside checkClearAll");
@@ -864,7 +865,7 @@ public class NmDiscountImpl {
             String discountTypeQuery = "";
             String discountTable = "";
             if (discountList != null && !discountList.isEmpty()) {
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 if (isProgram) {
                     discountTable = " RS_MODEL RS,";
                     discountTypeQuery += " AND M.RS_MODEL_SID = RS.RS_MODEL_SID  AND RS.RS_NAME  in (" + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
@@ -1092,7 +1093,7 @@ public class NmDiscountImpl {
                     endMonth = endFreq;
                 }
 
-                String selectedDiscounts = CommonUtils.CollectionToString(checkedDiscounts, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(checkedDiscounts, true);
                 String discountType = "M.PRICE_GROUP_TYPE";
                 if (isProgram) {
                     discountType = "RS.RS_NAME";
@@ -1201,8 +1202,8 @@ public class NmDiscountImpl {
                 baselinePeriodsList = discountName.getValue().get(baselineIndicator);
                 selectedPeriodsList = discountName.getValue().get("P");
 
-                baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
-                selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
+                baselinePeriods = CommonUtils.collectionToStringMethod(baselinePeriodsList, false, true);
+                selectedPeriods = CommonUtils.collectionToStringMethod(selectedPeriodsList, false, true);
 
                 baselinePeriods = baselinePeriods.replace(", ", ",");
                 selectedPeriods = selectedPeriods.replace(", ", ",");
@@ -1255,7 +1256,7 @@ public class NmDiscountImpl {
             }
 
             for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
-                String selectedPeriodsToUpdate = CommonUtils.CollectionToString(discountName.getValue().get("P"), false);
+                String selectedPeriodsToUpdate = CommonUtils.collectionToStringMethod(discountName.getValue().get("P"), false);
                 selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
                 selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace("Q", "").replace("S", "").replace(" ", "");
 
@@ -1309,7 +1310,7 @@ public class NmDiscountImpl {
             if (discountList != null && !discountList.isEmpty()) {
                 String discountType = discountList.get(0);
                 discountList.remove(0);
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 if (discountType.equals(Constants.PROGRAM)) {
                     discountWhereClause += " AND J.RS_NAME in (" + selectedDiscounts + ") ";
                     discountJoinClause += "JOIN RS_MODEL J ON M.RS_MODEL_SID = J.RS_MODEL_SID ";
@@ -1330,7 +1331,7 @@ public class NmDiscountImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1342,7 +1343,7 @@ public class NmDiscountImpl {
         try {
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
-                String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
+                String selectedDiscounts = CommonUtils.collectionToStringMethod(discountList, true);
                 discountTypeQuery = " JOIN   ST_NM_DISCOUNT_PROJ_MASTER DP ON PD.PROJECTION_DETAILS_SID=DP.PROJECTION_DETAILS_SID  \n"
                         + Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
                 if (isProgram) {
@@ -1429,7 +1430,7 @@ public class NmDiscountImpl {
     }
 
     public boolean saveDiscountProjectionListView(int projectionId, String userId, String sessionId, String frequency, int period, int year, String hierarchyIndicator,
-            int levelNo, String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
+           String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
 
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" entering saveDiscountProjectionListView");
@@ -1605,7 +1606,7 @@ public class NmDiscountImpl {
     }
     
 
-    public List getDiscountProjectionResults(List<Integer> discountprojectionId, String frequency, String discountString, String actualsOrProjections, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId, boolean viewFlag) {
+    public List getDiscountProjectionResults(List<Integer> discountprojectionId, String frequency, String discountString, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId, boolean viewFlag) {
 
         String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
         String projectionQuery = "";
@@ -1763,7 +1764,7 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(projectionQuery);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getChildDiscount(List<Integer> discountprojectionId, String projection, List<Integer> startAndEndPeriods, String frequency, int userId, int sessionId) {
@@ -1922,7 +1923,7 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getVarianceDiscount(int projectionId, String frequency, List<Integer> startAndEndPeriods, String discountTotal, String parentName, List<String> discountList, String year, int levelNo, String sales) {
@@ -2022,7 +2023,7 @@ public class NmDiscountImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customQuery);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -2148,12 +2149,10 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(projectionQuery);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getSubDiscount(List<Integer> projectionDetailsId, String frequency, String discountList, List<Integer> startAndEndPeriods, int userId, int sessionId) {
-        {
-
             String sql = "";
             String frequencySubDiscount = frequency;
             try {
@@ -2262,13 +2261,10 @@ public class NmDiscountImpl {
                 LOGGER.error(e.getMessage());
                 LOGGER.error(sql);
             }
-        }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getTotalDiscountCount(int projectionMasterId, String frequency, String actualsOrProjections, List<Integer> startAndEndPeriods, int userId, int sessionId) {
-        {
-
             String sql = "";
             String frequencyTotalDiscount = frequency;
             try {
@@ -2413,8 +2409,7 @@ public class NmDiscountImpl {
                 LOGGER.error(e.getMessage());
                 LOGGER.error(sql);
             }
-        }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getCCPDetailsID(int projectionMasterSid, String hierarchyNo, String levelNo) {
@@ -2442,7 +2437,7 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public List getCCPDetailsIDForProductHierarchy(int projectionMasterSid, String hierarchyNo, String levelNo) {
@@ -2471,10 +2466,10 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
         }
-        return null;
+        return Collections.emptyList();
     }
 
-    public List getAllPesriodDiscount(List<Integer> discountprojectionId, String frequency, String discountName, String hist, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId) {
+    public List getAllPesriodDiscount(List<Integer> discountprojectionId, String frequency, String discountName, String order, List<Integer> startAndEndPeriods, int userId, int sessionId) {
 
         String sql = "";
         String frequencyAllPeriodDiscount = frequency;
@@ -2598,6 +2593,6 @@ public class NmDiscountImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
         }
-        return null;
+        return Collections.emptyList();
     }
 }

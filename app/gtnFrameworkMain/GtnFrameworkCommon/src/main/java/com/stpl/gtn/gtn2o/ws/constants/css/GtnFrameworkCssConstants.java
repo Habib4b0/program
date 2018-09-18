@@ -127,6 +127,17 @@ public final class GtnFrameworkCssConstants {
 	public static final String REPORT_CUSTOMER_FILTER_MARGIN_LEFT = "v-report-filter-option-customer-filter";
 	public static final String STPL_MARGIN_LEFT_30 = "stpl-margin-left-30";
 	public static final String STPL_MARGIN_LEFT_25 = "stpl-margin-left-25";
+    public static final String SHOW_ALL = "Show all";
+
+	public static final String STPL_PADDING_TOP_16 = "stpl-padding-top-16";
+
+	public static final String STPL_PADDING_TOP_14 = "stpl-padding-top-14";
+
+	public static final String V_REPORT_COMPARISON_OPTION_WIDTH = "v-report-comparisonOption-width";
+
+	public static final String V_REPORT_COMPARISON_OPTION_COMBOWIDTH = "v-report-comparisonOption-combowidth";
+
+	public static final String STPL_MARGIN_TOP_11 = "stpl-margin-top-11";
 
 	private GtnFrameworkCssConstants() {
 		super();

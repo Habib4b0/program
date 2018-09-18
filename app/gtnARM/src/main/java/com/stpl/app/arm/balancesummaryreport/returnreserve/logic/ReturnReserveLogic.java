@@ -6,6 +6,7 @@
 package com.stpl.app.arm.balancesummaryreport.returnreserve.logic;
 
 import com.stpl.app.arm.balancesummaryreport.logic.AbstractBSummaryLogic;
+import com.stpl.app.arm.balancesummaryreport.logic.BSummaryDemandLogic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
@@ -26,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,42 +36,51 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ReturnReserveLogic extends AbstractBSummaryLogic {
 
+    public static final Logger RETURN_RESERVE_LOGGER = LoggerFactory.getLogger(BSummaryDemandLogic.class);
+
     public ReturnReserveLogic() {
         super();
     }
 
     @Override
     protected List getQueryTableinput(SessionDTO sessionDTO) {
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getQueryTableinput");
         return Collections.emptyList();
     }
 
     @Override
     public List getTableInput(SessionDTO sessionDTO) {
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getTableInput");
         return Collections.emptyList();
     }
 
     @Override
     protected String getCommonQueryName() {
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getCommonQueryName");
         return "BSummaryCommonQuery-ReturnReserve";
     }
 
     @Override
     protected String getLoadDataQueryName() {
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getLoadDataQueryName");
         return "BSummaryLoadData-ReturnReserve";
     }
 
     @Override
     protected String getCountQueryName() {
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getCountQueryName");
         return "BSummaryCount-ReturnReserve";
     }
 
     @Override
     protected String getTotalQueryName() {
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getTotalQueryName");
         return "BSummaryLoadTotalData-ReturnReserve";
     }
 
     @Override
     protected String getExcelQueryName() {
+        RETURN_RESERVE_LOGGER.debug("Inside ReturnReserve getExcelQueryName");
         return "getBSummaryExcelQuery-ReturnReserve";
     }
 
@@ -130,7 +142,7 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
         List<String> visibleColumnsList = new ArrayList<>(visibleColumns);
         int keyParam;
         String column;
-        AdjustmentDTO dto = null;
+        AdjustmentDTO rrExcelDto = null;
         List<Map<String, AdjustmentDTO>> mapList = new ArrayList<>();
         mapList.add(new HashMap<String, AdjustmentDTO>());
         int size;
@@ -153,19 +165,19 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
                 }
                 size = mapList.size();
                 for (int l = 0; l < size; l++) {
-                    dto = mapList.get(l).get(key);
-                    if (dto != null) {
+                    rrExcelDto = mapList.get(l).get(key);
+                    if (rrExcelDto != null) {
                         break;
                     }
                 }
-                if (dto == null) {
-                    dto = new AdjustmentDTO();
+                if (rrExcelDto == null) {
+                    rrExcelDto = new AdjustmentDTO();
                     Map<String, AdjustmentDTO> map = mapList.get(size - 1);
                     if (map.size() >= NumericConstants.THOUSAND) {
                         map = new HashMap<>();
                         mapList.add(map);
                     }
-                    map.put(key, dto);
+                    map.put(key, rrExcelDto);
                 }
                 for (int k = 0; k < visibleColumns.size(); k++) {
                     Object[] totalSet = (Object[]) totalList.get("0.".equals(key) ? 0 : totalListIndex);
@@ -210,11 +222,11 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
                         }
                     }
                     if (column.startsWith(gatheredColumn) && column.matches("[a-zA-Z0-9-~\\s]+\\.\\d+$") && flag) {
-                        dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                        rrExcelDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
                     }
                 }
-                dto.setGroup(group);
-                dto.setMonth(group);
+                rrExcelDto.setGroup(group);
+                rrExcelDto.setMonth(group);
             }
         }
         return mapList;
