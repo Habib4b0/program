@@ -17,7 +17,6 @@ import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.utils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.Collection;

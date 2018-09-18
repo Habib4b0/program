@@ -89,7 +89,7 @@ public class CommonUtils {
         return select;
     }
 
-    private static void getComboBoxLoaded(List<HelperDTO> list, final ComboBox select) throws UnsupportedOperationException {
+    private static void getComboBoxLoaded(List<HelperDTO> list, final ComboBox select) {
         if (list != null && !list.isEmpty()) {
             for (HelperDTO helperDTO : list) {
                 select.addItem(helperDTO.getId());
