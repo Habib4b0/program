@@ -2,8 +2,6 @@ package com.stpl.gtn.gtn2o.ws.search.implementation;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.web.client.RestTemplate;
 
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
@@ -21,22 +19,21 @@ import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implements SearchInterface{
 	 public CustomerAndProductGroup()
 	    {
-	        super();
-	        initializeLogger();
+	        super(CustomerAndProductGroup.class);
 	    }
-	    @PostConstruct
-	    public void initializeLogger() {
-	        super.logInformation(PrivatePublic.class);
-	    }
+	   
+
 
 	    @Override
 	    public GtnUIFrameworkWebserviceRequest registerWs() {
 	        return null;
 	    }
 
-	    @Override
-	    public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,String query) {
-	        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+
+		@Override
+		public GtnUIFrameworkWebserviceResponse getSearch(
+				GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query) {
+			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 	        try
 	        {
 	    	GtnSerachResponse searchResponse = new GtnSerachResponse();
@@ -65,7 +62,8 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        queryExecutorBean.setDataType(dataType);
 	        GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 	        gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-	        RestTemplate restTemplate1 = new RestTemplate();
+			RestTemplate restTemplate1 = new RestTemplate();
+			addSecurityToken(gtnQueryEngineWebServiceRequest);
 	        logger.info("calling query engine via service registry");
 	           GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
 	                getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
@@ -81,5 +79,7 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	            logger.error("Exception in loading private and public views"+e);
 	        }
 	        return response;
-	    }
+		}
+
+	    
 }

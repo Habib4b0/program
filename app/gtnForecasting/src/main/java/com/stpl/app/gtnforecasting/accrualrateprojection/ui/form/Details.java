@@ -447,7 +447,7 @@ public class Details extends CustomComponent {
             final ExtContainer<AccrualRateProjectionDTO> excelContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
             configureAndLoadDataForExcel(excelTable, excelContainer);
             if (excelTable.size() > 0) {
-                ForecastUI.setEXCEL_CLOSE(true);
+                ForecastUI.setEXCELCLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), AccrualRateUtils.DETAILS, AccrualRateUtils.DETAILS, "Details.xls", false);
                 exp.export();
             }

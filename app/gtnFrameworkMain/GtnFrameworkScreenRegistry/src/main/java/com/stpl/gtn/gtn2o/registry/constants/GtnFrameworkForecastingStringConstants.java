@@ -460,7 +460,7 @@ public final class GtnFrameworkForecastingStringConstants {
 	
 
 	private static final Object[] FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_MAPPING_ID = new Object[] {
-			"customerGroupName","customerGroupNo","company","segmentGroup","segment"
+			"productGroupName","productGroupNo","companyProduct","segmentGroupProduct","segmentProduct"
 	};
 	
 	private static final Class<?>[] FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_DATA_TYPE = new Class<?>[] { String.class,String.class,String.class,String.class,String.class};

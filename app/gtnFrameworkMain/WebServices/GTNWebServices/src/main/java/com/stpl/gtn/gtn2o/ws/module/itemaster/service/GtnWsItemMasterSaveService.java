@@ -478,7 +478,7 @@ public class GtnWsItemMasterSaveService {
 
 		} catch (Exception e) {
 			tx.rollback();
-			throw new GtnFrameworkGeneralException("Exception in updateItemMaster ", e);
+			LOGGER.error("Exception in updateItemMaster ", e);
 		} finally {
 			session.close();
 		}

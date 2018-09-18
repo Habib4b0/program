@@ -129,7 +129,7 @@ public class GtnWsItemMasterValidationService {
 
 			List<Long> results = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(ItemQualifier.class,
 					Arrays.asList(new Criterion[] { itemQualifierCriterion }), proj);
-			if (results != null) {
+			if (results != null && !results.isEmpty()) {
 				isQualfierValueExist = (long) results.get(0) > 0;
 			}
 			Criterion itemQualifierNameCriterion = Restrictions.eq("itemQualifierName",
@@ -140,7 +140,7 @@ public class GtnWsItemMasterValidationService {
 
 			List<Long> results2 = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(ItemQualifier.class,
 					Arrays.asList(new Criterion[] { itemQualifierNameCriterion }), proj2);
-			if (results2 != null) {
+			if (results2 != null && !results2.isEmpty()) {
 				isQualfierNameExist = (long) results2.get(0) > 0;
 			}
 			GtnWsItemMasterResponse imResponse = new GtnWsItemMasterResponse();
@@ -174,7 +174,7 @@ public class GtnWsItemMasterValidationService {
 
 			List<Long> results = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(ItemPricingQualifier.class,
 					Arrays.asList(new Criterion[] { pricingQualifierCriterion }), proj);
-			if (results != null) {
+			if (results != null && !results.isEmpty()) {
 				isQualfierValueExist = (long) results.get(0) > 0;
 			}
 
@@ -186,7 +186,7 @@ public class GtnWsItemMasterValidationService {
 
 			List<Long> results2 = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(ItemPricingQualifier.class,
 					Arrays.asList(new Criterion[] { pricingQualifierNameCriterion }), proj2);
-			if (results2 != null) {
+			if (results2 != null && !results2.isEmpty()) {
 				isQualfierNameExist = (long) results2.get(0) > 0;
 			}
 			GtnWsItemMasterResponse imResponse = new GtnWsItemMasterResponse();
@@ -269,7 +269,7 @@ public class GtnWsItemMasterValidationService {
 			itemIdentifierCriteria.setProjection(Projections.rowCount());
 			List<Long> results = (List<Long>) itemIdentifierCriteria.list();
 
-			if (results != null) {
+			if (results != null && !results.isEmpty()) {
 				isQualfierUsed = (long) results.get(0) > 0;
 			}
 
@@ -300,7 +300,7 @@ public class GtnWsItemMasterValidationService {
 			itemIdentifierCriteria.setProjection(Projections.rowCount());
 			List<Long> results = (List<Long>) itemIdentifierCriteria.list();
 
-			if (results != null) {
+			if (results != null && !results.isEmpty()) {
 				isQualfierUsed = (long) results.get(0) > 0;
 			}
 

@@ -82,19 +82,23 @@ public class CommonUtils {
             select.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
             List<HelperDTO> list = HelperListUtil.getInstance().getListNameMap().get(listName);
             Collections.sort(list, sorter);
-            if (list != null && !list.isEmpty()) {
-                for (HelperDTO helperDTO : list) {
-                    select.addItem(helperDTO.getId());
-                    select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
-                }
-            }
-            select.select(0);
-            select.markAsDirty();
-            select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
+            getComboBoxLoaded(list, select);
         } catch (Exception e) {
             LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
         return select;
+    }
+
+    private static void getComboBoxLoaded(List<HelperDTO> list, final ComboBox select) throws UnsupportedOperationException {
+        if (list != null && !list.isEmpty()) {
+            for (HelperDTO helperDTO : list) {
+                select.addItem(helperDTO.getId());
+                select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
+            }
+        }
+        select.select(0);
+        select.markAsDirty();
+        select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
     }
 
     public static ComboBox loadComboBoxWithIntegerForComboBox(final ComboBox select, String listName, boolean isFilter) {
@@ -105,15 +109,7 @@ public class CommonUtils {
             select.addItem(0);
             select.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
             List<HelperDTO> list = HelperListUtil.getInstance().getListNameMap().get(listName);
-            if (list != null && !list.isEmpty()) {
-                for (HelperDTO helperDTO : list) {
-                    select.addItem(helperDTO.getId());
-                    select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
-                }
-            }
-            select.select(0);
-            select.markAsDirty();
-            select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
+            getComboBoxLoaded(list, select);
         } catch (Exception e) {
             LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
@@ -594,10 +590,10 @@ public class CommonUtils {
             calendar.set(Calendar.MONTH, CommonUtils.getMonthNo(startDate[0]) - 1);
             calendar.set(Calendar.YEAR, Integer.valueOf(startDate[1]));
             calendar.add(Calendar.MONTH, -NumericConstants.TWELVE);
-            String year;
-            int month;
-            String quarter;
-            String semi;
+            String periodYear;
+            int periodMonth;
+            String periodQuarter;
+            String periodSemi;
             int count = getPeriodCount(freq, startPeriod, endPeriod) + NumericConstants.TWELVE;
             int countSix = count % NumericConstants.SIX == 0 ? 0 : 1;
             int countTwelve = count % NumericConstants.TWELVE == 0 ? 0 : 1;
@@ -611,14 +607,14 @@ public class CommonUtils {
             int increment = freq.startsWith("M") ? 1
                     : incrementWithQ;
             for (int i = 0; i < iterationCount; i++) {
-                year = String.valueOf(calendar.get(Calendar.YEAR));
-                month = calendar.get(Calendar.MONTH);
-                quarter = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.THREE + 1);
-                semi = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.SIX + 1);
-                String periodWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
-                String periodWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year
+                periodYear = String.valueOf(calendar.get(Calendar.YEAR));
+                periodMonth = calendar.get(Calendar.MONTH);
+                periodQuarter = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.THREE + 1);
+                periodSemi = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.SIX + 1);
+                String periodWithS = freq.startsWith("S") ? "S" + periodSemi + " " + periodYear : periodYear;
+                String periodWithQ = freq.startsWith("Q") ? "Q" + periodQuarter + " " + periodYear
                         : periodWithS;
-                String period = freq.startsWith("M") ? months[month] + " " + year : periodWithQ;
+                String period = freq.startsWith("M") ? months[periodMonth] + " " + periodYear : periodWithQ;
                 calendar.add(Calendar.MONTH, increment);
                 periodList.add(period);
             }
@@ -921,15 +917,7 @@ public class CommonUtils {
             demandSummarySelect.addItem(0);
             demandSummarySelect.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
             List<HelperDTO> list = HelperListUtil.getInstance().getListNameMap().get(listName);
-            if (list != null && !list.isEmpty()) {
-                for (HelperDTO helperDTO : list) {
-                    demandSummarySelect.addItem(helperDTO.getId());
-                    demandSummarySelect.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
-                }
-            }
-            demandSummarySelect.select(0);
-            demandSummarySelect.markAsDirty();
-            demandSummarySelect.setDescription((String) (demandSummarySelect.getValue() == DASH ? GlobalConstants.getSelectOne() : demandSummarySelect.getItemCaption(demandSummarySelect.getValue())));
+            getComboBoxLoaded(list, demandSummarySelect);
         } catch (Exception e) {
             LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }

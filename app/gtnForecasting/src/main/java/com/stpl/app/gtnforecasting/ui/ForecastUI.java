@@ -352,8 +352,8 @@ public class ForecastUI extends UI {
      *
      */
     public static void makeSessionInValidate() {
-        if (isEXCEL_CLOSE()) { // Fix to avoid blank page issue while excel export
-            setEXCEL_CLOSE(false);
+        if (isEXCELCLOSE()) { // Fix to avoid blank page issue while excel export
+            setEXCELCLOSE(false);
         } else {
             UI.getCurrent().close();
         }
@@ -373,11 +373,11 @@ public class ForecastUI extends UI {
         });
     }
 
-	public static boolean isEXCEL_CLOSE() {
+	public static boolean isEXCELCLOSE() {
 		return EXCEL_CLOSE;
 	}
 
-	public static void setEXCEL_CLOSE(boolean excelClose) {
+	public static void setEXCELCLOSE(boolean excelClose) {
 		EXCEL_CLOSE = excelClose;
 	}
 
@@ -409,6 +409,9 @@ public class ForecastUI extends UI {
         dataSelectionDto.setDsProductHierarchyBean(inputBean.getProductHierarchyBean());
         dataSelectionDto.setCustomerHierarchyLevel((String)actionParamList.get(9));
         dataSelectionDto.setCustomerHierarchyInnerLevel((String)actionParamList.get(10));
+         dataSelectionDto.setDsCustomerSelectedTableBean(inputBean.getSelectedCustomerList());
+         dataSelectionDto.setDsProductSelectedTableBean(inputBean.getSelectedProductList());
+         dataSelectionDto.setInputBean(inputBean);
         DataSelectionForm form = new DataSelectionForm(sessionDto,dataSelectionDto, inputBean);
         form.generateButtonLogicNewArch(sessionDto,inputBean);
     }
@@ -417,8 +420,26 @@ public class ForecastUI extends UI {
         sessionDto.setUserId(inputBean.getUserId());
         sessionDto.setSessionId(inputBean.getSessionId());
         DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
+        inputBean.setUserId(userId);
         DataSelectionForm form = new DataSelectionForm(sessionDto, dataSelectionDto, inputBean);
         form.editButtonLogicNewArch(inputBean);
+    }
+    
+    public void getForecastingToView(GtnFrameworkForecastInputBean inputBean, String userId, String sessionId){
+        sessionDto.setUserId(inputBean.getUserId());
+        sessionDto.setSessionId(inputBean.getSessionId());
+        DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
+        inputBean.setUserId(userId);
+        DataSelectionForm form = new DataSelectionForm(sessionDto, dataSelectionDto, inputBean);
+        form.viewButtonLogicNewArch(inputBean);
+    }
+    
+    public void getForecastingToDelete(GtnFrameworkForecastInputBean inputBean){
+        sessionDto.setUserId(inputBean.getUserId());
+        sessionDto.setSessionId(inputBean.getSessionId());
+        DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
+        DataSelectionForm form = new DataSelectionForm(sessionDto, dataSelectionDto, inputBean);
+        form.deleteButtonLogicNewArch(inputBean);
     }
 
 }

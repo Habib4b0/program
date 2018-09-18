@@ -3,7 +3,6 @@ package com.stpl.gtn.gtn2o.serviceregistry.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,19 +19,16 @@ import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryServic
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;	
+import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;
 
 @RestController
 @RequestMapping(value = "/gtnServiceRegistry")
 public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass {
 
-	
-	
 	public GtnUIServiceRegistryController() {
-		super();
-		initializeLogger();
+		super(GtnUIServiceRegistryController.class);
 	}
-
+        
 	@Autowired
 	private GtnValidateWsServiceRegistryController gtnValidateWsServiceRegistryController;
 
@@ -41,21 +37,15 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 
 	@Autowired
 	private GtnServiceRegistryRegisterWs gtnServiceRegistryRegisterWs;
-	
-	
-	@PostConstruct
-	public final void initializeLogger() {
-		super.logInformation(GtnUIServiceRegistryController.class);
-	}
-        
+
 	@RequestMapping(value = "/registerWebservices", method = RequestMethod.POST)
 	public void registerWebServices(@RequestBody GtnUIFrameworkWebserviceRequest request) {
-         
-		
+
 		logger.debug("inside registerWebservices");
 		long startTime = System.currentTimeMillis();
 		Date currentStartTime = new Date(startTime);
-		logger.debug("Strating Time to register WS:" + new SimpleDateFormat(GtnWsServiceRegistryConstants.TIME).format(currentStartTime));
+		logger.debug("Strating Time to register WS:"
+				+ new SimpleDateFormat(GtnWsServiceRegistryConstants.TIME).format(currentStartTime));
 		logger.info("Webservice Url:"
 				+ request.getGtnServiceRegistryWsRequest().getGtnWsServiceRegistryBean().getWebserviceEndPointUrl());
 		logger.info("Webservice Registered Context:"
@@ -64,8 +54,8 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 		gtnServiceRegistryRegisterWs.serviceRegistryRegisterWebServices(request);
 
 		logger.info("webservices registered");
-		logger.debug("End Time for registering WS:"
-				+ new SimpleDateFormat(GtnWsServiceRegistryConstants.TIME).format(new Date(System.currentTimeMillis())));
+		logger.debug("End Time for registering WS:" + new SimpleDateFormat(GtnWsServiceRegistryConstants.TIME)
+				.format(new Date(System.currentTimeMillis())));
 		logger.info(
 				"Total time for executing Registration:" + (double) (System.currentTimeMillis() - startTime) / (1000));
 	}
@@ -102,16 +92,14 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 		return response;
 	}
 
-	@RequestMapping(value="/serviceRegistryWebservicesForRedirectToQueryEngine" , method = RequestMethod.POST )
+	@RequestMapping(value = "/serviceRegistryWebservicesForRedirectToQueryEngine", method = RequestMethod.POST)
 	public GtnQueryEngineWebServiceResponse registerWebservicesForRedirectToQueryEngine(
 			@RequestBody GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest) {
 		GtnCommonWebServiceImplClass webServiceImpl = new GtnUIServiceRegistryController();
-		return  webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
-				gtnQueryEngineWebServiceRequest);
-		
-		
-		
+		return webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery", gtnQueryEngineWebServiceRequest);
+
 	}
+
 	public String getWebServiceEndpoint(String url) {
 		return GtnFrameworkPropertyManager.getProperty("gtn.webservices.endPointUrl")
 				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices.endPointServiceName") + url;

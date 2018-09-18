@@ -8,7 +8,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,17 +37,11 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 	private GtnFrameworkSingletonObjectBean hierarchyRelationship = GtnFrameworkSingletonObjectBean.getInstance();
 
 	private GtnWsHierarchyAndRelationshipService() {
-		super();
-	}
-
-	@PostConstruct
-	public void initializeLogger() {
-		super.logInformation(GtnWsHierarchyAndRelationshipService.class);
+		super(GtnWsHierarchyAndRelationshipService.class);
 	}
 
 	public void init() {
             try {
-		initializeLogger();
 		GtnUIFrameworkWebserviceRequest request = registerWs();
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -75,6 +68,7 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		logger.info("Webservice to Register: " + webServiceRegistryBean.getRegisteredWebContext());
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
+		addSecurityToken(request);
 		return request;
 	}
 

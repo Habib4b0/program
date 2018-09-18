@@ -16,14 +16,8 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 public class GtnServiceRegistryRegisterWs extends GtnCommonWebServiceImplClass {
 
 	private GtnServiceRegistryRegisterWs() {
-		super();
-		initializeLogger();
-	}
-
-	@PostConstruct
-	public final void initializeLogger() {
-		super.logInformation(GtnServiceRegistryRegisterWs.class);
-	}
+		super(GtnServiceRegistryRegisterWs.class);
+		}
 
 	public void serviceRegistryRegisterWebServices(GtnUIFrameworkWebserviceRequest request) {
 		logger.info("Registering Webservices in Service Registry");

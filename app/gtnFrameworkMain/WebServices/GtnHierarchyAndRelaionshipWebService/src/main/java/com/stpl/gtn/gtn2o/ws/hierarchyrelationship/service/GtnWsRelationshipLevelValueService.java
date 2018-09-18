@@ -32,6 +32,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 @Service
 public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplClass {
 
+	
 	@Autowired
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 
@@ -52,18 +53,13 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 	private static final String RELATIONSHIP_LEVEL_DEFN = "RELATIONSHIP_LEVEL_DEFINITION";
 	private static final String RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID = "RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID";
 
-	@PostConstruct
-	private void initializeLogger() {
-		super.logInformation(GtnWsRelationshipLevelValueService.class);
-	}
-
 	@Override
 	public GtnUIFrameworkWebserviceRequest registerWs() {
 		return null;
 	}
 
 	private GtnWsRelationshipLevelValueService() {
-		super();
+		super(GtnWsRelationshipLevelValueService.class);
 	}
 
 	public String getQueryForLevelValueMap(GtnForecastHierarchyInputBean inputBean)
