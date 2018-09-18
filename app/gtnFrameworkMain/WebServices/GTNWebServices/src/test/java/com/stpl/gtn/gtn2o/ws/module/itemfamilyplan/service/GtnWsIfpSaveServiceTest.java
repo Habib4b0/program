@@ -23,7 +23,10 @@ import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
 import com.stpl.gtn.gtn2o.ws.entity.itemfamilyplan.IfpModel;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanBean;
+import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanCommonUpdateBean;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanInformationBean;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 /**
@@ -154,50 +157,72 @@ public class GtnWsIfpSaveServiceTest {
 //
 //	}
 
-//
-//	/**
-//	 * Run the void updateCfpQuery(GtnIFamilyPlanBean) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	 * 
-//	 */
-//	@Test
-//	public void testUpdateCfpQuery_1()
-//		throws Exception {
-//		GtnWsIfpSaveService fixture = new GtnWsIfpSaveService();
-//		GtnIFamilyPlanBean bean = new GtnIFamilyPlanBean();
-//
-//		fixture.updateCfpQuery(bean);
-//
-//		
-//		// An unexpected exception was thrown in user code while executing this test:
-//		//    java.lang.NullPointerException
-//		//       at com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service.GtnWsIfpSaveService.updateCfpQuery(GtnWsIfpSaveService.java:108)
-//	}
-//
-//
-//	/**
-//	 * Run the String updateFieldsQuery(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	 * 
-//	 */
-//	@Test
-//	public void testUpdateFieldsQuery_1()
-//		throws Exception {
-//		GtnWsIfpSaveService fixture = new GtnWsIfpSaveService();
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//
-//		String result = fixture.updateFieldsQuery(gtnWsRequest);
-//
-//		
-//		// An unexpected exception was thrown in user code while executing this test:
-//		//    java.lang.NullPointerException
-//		//       at com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service.GtnWsIfpSaveService.updateFieldsQuery(GtnWsIfpSaveService.java:146)
-//		assertNotNull(result);
-//	}
+
+	/**
+	 * Run the void updateCfpQuery(GtnIFamilyPlanBean) method test.
+	 *
+	 * @throws Exception
+	 *
+	 * 
+	 */
+	@Test
+	public void testUpdateCfpQuery_1()
+		throws Exception {
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		GtnWsIfpSaveService fix=Mockito.spy(fixture);
+		HelperTable ht=new HelperTable();
+		
+		doReturn(ht).when(fix).getHelperTable(Mockito.any(Integer.class),Mockito.any(Session.class));
+		Session s=Mockito.mock(Session.class);
+		Transaction tran=Mockito.mock(Transaction.class);
+		
+		doReturn(s).when(sessionFactory).openSession();
+		
+		doReturn(sessionFactory).when(fix).getSessionFactory();
+		doReturn(1).when(s).save(Mockito.any(IfpModel.class));
+		doReturn(tran).when(s).beginTransaction();
+		
+	
+		
+		GtnIFamilyPlanInformationBean ifpInfo=new GtnIFamilyPlanInformationBean();
+		ifpInfo.setCreatedBy("10");
+		gtnIFamilyPlan.setIfpInfo(ifpInfo);
+		
+		IfpModel updateIfpModel =new IfpModel();
+		doReturn(updateIfpModel).when(s).get(IfpModel.class,ifpInfo.getIfpSid());
+		
+		fix.updateCfpQuery(gtnIFamilyPlan);
+
+	}
+
+
+	/**
+	 * Run the String updateFieldsQuery(GtnUIFrameworkWebserviceRequest) method test.
+	 *
+	 * @throws Exception
+	 *
+	 * 
+	 */
+	@Test
+	public void testUpdateFieldsQuery_1()
+		throws Exception {
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+	
+		GtnWsIfpRequest gtnWsIfpRequest=new GtnWsIfpRequest();
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+		GtnIFamilyPlanBean gtnIFamilyPlan=new GtnIFamilyPlanBean();
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+		GtnIFamilyPlanCommonUpdateBean updateBean=new GtnIFamilyPlanCommonUpdateBean();
+		updateBean.setColumnName("itemFamilyPlanStatus");
+		updateBean.setValue("1");
+		updateBean.setClassType(String.class.getName());
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+		
+		String result = fixture.updateFieldsQuery(gtnWsRequest);
+
+		
+		assertNotNull(result);
+	}
 
 
 
