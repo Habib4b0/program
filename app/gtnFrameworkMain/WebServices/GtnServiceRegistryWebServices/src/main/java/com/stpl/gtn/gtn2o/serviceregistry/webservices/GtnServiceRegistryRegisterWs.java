@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
-import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 

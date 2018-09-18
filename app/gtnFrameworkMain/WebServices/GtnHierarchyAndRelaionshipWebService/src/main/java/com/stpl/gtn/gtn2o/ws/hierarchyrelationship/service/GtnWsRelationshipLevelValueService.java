@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +51,8 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 	private static final String RELATIONSHIP_BUILD_HIERARCHY_NO = "RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO";
 	private static final String RELATIONSHIP_LEVEL_DEFN = "RELATIONSHIP_LEVEL_DEFINITION";
 	private static final String RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID = "RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID";
+	private static final String SELECT = "SELECT";
+	private static final String EXECUTE_QUERY = "/executeQuery";
 
 	@Override
 	public GtnUIFrameworkWebserviceRequest registerWs() {
@@ -118,11 +119,11 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 			throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		queryExecutorBean.setSqlQuery(inputBean.getHieraryQuery());
-		queryExecutorBean.setQueryType("SELECT");
+		queryExecutorBean.setQueryType(SELECT);
 		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsRelationshipLevelValueService();
-		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
+		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken(EXECUTE_QUERY,
 				gtnQueryEngineWebServiceRequest);
 		return response.getQueryResponseBean().getResultList();
 	}
@@ -140,7 +141,7 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsRelationshipLevelValueService();
-		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
+		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken(EXECUTE_QUERY,
 				gtnQueryEngineWebServiceRequest);
 		return response.getQueryResponseBean().getResultList();
 	}
@@ -171,7 +172,7 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 			finalQuery.append("AND (CONTRACT_ELIGIBLE_DATE >= '?' OR CONTRACT_ELIGIBLE_DATE IS NULL)");
 			finalQuery.append("AND (CFP_ELIGIBLE_DATE >= '?' OR CFP_ELIGIBLE_DATE IS NULL)");
 		}
-		System.out.println("query----->"
+		logger.debug("query----->"
 				+ gtnWsHierarchyAndRelationshipSqlService.getReplacedQuery(inputList, finalQuery.toString()));
 		return gtnWsHierarchyAndRelationshipSqlService.getReplacedQuery(inputList, finalQuery.toString());
 	}
@@ -228,11 +229,11 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 			throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		queryExecutorBean.setSqlQuery(inputBean.getHieraryQuery());
-		queryExecutorBean.setQueryType("SELECT");
+		queryExecutorBean.setQueryType(SELECT);
 		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsRelationshipLevelValueService();
-		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
+		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken(EXECUTE_QUERY,
 				gtnQueryEngineWebServiceRequest);
 		return response.getQueryResponseBean().getResultList();
 	}
@@ -240,11 +241,11 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 	public List<Object[]> loadCustHierarchyAvailableTable(String query) throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		queryExecutorBean.setSqlQuery(query);
-		queryExecutorBean.setQueryType("SELECT");
+		queryExecutorBean.setQueryType(SELECT);
 		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsRelationshipLevelValueService();
-		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
+		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken(EXECUTE_QUERY,
 				gtnQueryEngineWebServiceRequest);
 		return response.getQueryResponseBean().getResultList();
 	}
@@ -289,11 +290,11 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 		String replacedQuery = getQuery(query, inputsForRelationQuery);
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		queryExecutorBean.setSqlQuery(replacedQuery);
-		queryExecutorBean.setQueryType("SELECT");
+		queryExecutorBean.setQueryType(SELECT);
 		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsRelationshipLevelValueService();
-		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
+		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken(EXECUTE_QUERY,
 				gtnQueryEngineWebServiceRequest);
 		return response.getQueryResponseBean().getResultList();
 	}
@@ -319,11 +320,11 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 		String query = getQuery(inputQuery.toString(), inputValuesList);
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		queryExecutorBean.setSqlQuery(query);
-		queryExecutorBean.setQueryType("SELECT");
+		queryExecutorBean.setQueryType(SELECT);
 		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsRelationshipLevelValueService();
-		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
+		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken(EXECUTE_QUERY,
 				gtnQueryEngineWebServiceRequest);
 		return response.getQueryResponseBean().getResultList();
 	}
