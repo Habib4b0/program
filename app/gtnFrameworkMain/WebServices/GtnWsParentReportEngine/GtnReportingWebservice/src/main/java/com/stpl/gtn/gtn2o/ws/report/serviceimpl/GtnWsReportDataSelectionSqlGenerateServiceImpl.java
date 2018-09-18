@@ -370,7 +370,10 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					char variableIndicator = bean.getHierarchyNo().charAt(charIndexmatch.start());
 					String variable = variableDescriptionIndicatorService.getVariable(variableIndicator);
 					dataForHierarchy = rightDataMap.get(bean.getHierarchyNo() + getVariableMap().get(variable));
-					dataForHierarchy.putAll(rightDataMap.get(bean.getHierarchyNo()));
+                                        Map<String, Double> hierarchyData=rightDataMap.get(bean.getHierarchyNo());
+                                       if (hierarchyData != null && !hierarchyData.isEmpty()) {
+                                        dataForHierarchy.putAll(hierarchyData);
+                                        }
 				} else {
 					dataForHierarchy = rightDataMap.get(bean.getHierarchyNo());
 				}
@@ -393,7 +396,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 		String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
 				.getCurrencyConversion();
-
+			
 		if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
 			dataForHierarchy.entrySet().stream()
 					.forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(data -> dataConvertors(recordBean,
@@ -632,13 +635,17 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		}
 
 	}
-
+//To be changed ***	
 	// Method to format values to non-decimal if user has selected Currency
 	// Display
 	// = No Conversion
 	private void currencyTypeNoConversionDataConverters(GtnWsRecordBean gtnWsRecordBean, String mapKey,
 			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition) {
-		if (("V".equals(variableIndicator) || levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
+		
+		GTNLOGGER.info("mapkey: " + mapKey);
+		GTNLOGGER.info("levelName: " + levelName);
+		
+		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
 				|| mapKey.contains("PER") || mapKey.contains("RATE") || mapKey.contains("WEIGHTED")) {
 
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)

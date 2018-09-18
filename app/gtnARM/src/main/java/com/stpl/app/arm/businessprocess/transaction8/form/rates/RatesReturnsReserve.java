@@ -138,10 +138,10 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
             if (!listSize.isEmpty()) {
                 for (int i = 0; i < listSize.size(); i++) {
                     String value = listSize.get(i);
-                    if (value.contains(".")) {
+                    if (value.contains(ARMUtils.DOT)) {
                         value = value.substring(0, value.lastIndexOf('.'));
                     }
-                    listSize.set(i, value.replace(" ", StringUtils.EMPTY).trim());
+                    listSize.set(i, value.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).trim());
                     if (i != listSize.size() - 1) {
                         deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                     } else {

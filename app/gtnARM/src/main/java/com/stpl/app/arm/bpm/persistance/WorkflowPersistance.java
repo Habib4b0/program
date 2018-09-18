@@ -12,7 +12,7 @@ public class WorkflowPersistance {
     public static boolean insertWFInstanceInfo(int projectionId, long processInstanceId) {
         try {
 
-            String customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (PROJECTION_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(" + projectionId + ARMUtils.COMMA_CHAR + processInstanceId + ARMUtils.CLOSE_BRACES;
+            String customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (PROJECTION_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(" + projectionId + ARMUtils.COMMA_CHAR + processInstanceId + ARMUtils.CLOSE_PARANTHESIS;
             int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(customSql);
             return count > 0;
 

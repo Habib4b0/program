@@ -242,9 +242,9 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
     public String getItemId(String value) {
         String values;
         if (value.length() > NumericConstants.FOUR) {
-            values = value.substring(0, NumericConstants.FOUR) + "." + value.substring(NumericConstants.FOUR, value.length());
+            values = value.substring(0, NumericConstants.FOUR) + ARMUtils.DOT + value.substring(NumericConstants.FOUR, value.length());
         } else {
-            values = value + ".";
+            values = value + ARMUtils.DOT;
         }
         return values;
     }

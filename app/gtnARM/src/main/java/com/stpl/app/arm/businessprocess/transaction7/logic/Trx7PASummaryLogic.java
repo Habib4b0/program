@@ -73,11 +73,11 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
             distributionExcelDoubleSingleColumn = new ArrayList<>();
             for (int i = 0; i < columns.length; i++, index++) {
                 String column = columns[i];
-                singleColumn.add(column + "." + index);
-                distributionExcelSingleColumn.add((distributionDetection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : distributionDetection[0].replace(" ", StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
+                singleColumn.add(column + ARMUtils.DOT + index);
+                distributionExcelSingleColumn.add((distributionDetection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : distributionDetection[0].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + ARMUtils.DOT + (index));
                 if (columnList.contains(column)) {
                     int listIndex = columnList.indexOf(column);
-                    String visibleColumn = distributionSelection.getSummaryvariables().get(listIndex)[0] + "." + index;
+                    String visibleColumn = distributionSelection.getSummaryvariables().get(listIndex)[0] + ARMUtils.DOT + index;
                     String header = distributionSelection.getSummaryvariables().get(listIndex)[1];
                     distributionSingleVisibleColumn.add(visibleColumn);
                     singleVisibleHeader.add(header);
@@ -87,10 +87,10 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
                     distributionExcelDoubleSingleColumn.add(distributionDetection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
                 }
             }
-            distributionDoubleVisibleColumn.add(distributionDetection[2] + "~" + distributionDetection[1].replace(" ", StringUtils.EMPTY));
+            distributionDoubleVisibleColumn.add(distributionDetection[2] + "~" + distributionDetection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY));
             doubleVisibleHeader.add(distributionDetection[1]);
-            distributionDoubleSingleVisibleColumn.put(distributionDetection[2] + "~" + distributionDetection[1].replace(" ", StringUtils.EMPTY), distributionDoubleSingleColumn.toArray());
-            distributionExcelDoubleSingleVisibleColumn.put(distributionDetection[2] + "~" + distributionDetection[1].replace(" ", StringUtils.EMPTY), distributionExcelDoubleSingleColumn.toArray());
+            distributionDoubleSingleVisibleColumn.put(distributionDetection[2] + "~" + distributionDetection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), distributionDoubleSingleColumn.toArray());
+            distributionExcelDoubleSingleVisibleColumn.put(distributionDetection[2] + "~" + distributionDetection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), distributionExcelDoubleSingleColumn.toArray());
         }
         distributionSelection.setSummarycolumnList(singleColumn);
         distributonFinalList.add(distributionSingleVisibleColumn);
@@ -184,7 +184,7 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
                 istributionDto = clearVariables(variables, istributionDto);
                 resultList.add(istributionDto);
             }
-            index = indexMap.get(get[0].toString().replace(" ", org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
+            index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
             if (istributionDto != null) {
                 istributionDto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
                 istributionDto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.THREE]))));
