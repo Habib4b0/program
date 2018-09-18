@@ -106,9 +106,9 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         return response;
     }
 
-    public void getQueryMap() {
+    public Map<String,String> getQueryMap() {
         if (queryMap == null) {
-            queryMap = new HashMap();
+            queryMap = new HashMap<>();
             queryMap.put("Commercial Forecasting_projectionName", " AND PM.projection_Name like ? ");
             queryMap.put("Commercial Forecasting_projectionDescription", " AND PM.projection_description like ? ");
             queryMap.put("Commercial Forecasting_company", " AND PM.COMPANY_MASTER_SID like ? ");
@@ -116,7 +116,9 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             queryMap.put("forecastLandingScreen_customerHierarchy", " AND HDC.HIERARCHY_NAME like ? ");
             queryMap.put("Commercial Forecasting_prodhierarchyName", " AND HDP.HIERARCHY_NAME like ? ");
             queryMap.put("Commercial Forecasting_customerGroup", "CG.COMPANY_GROUP_NAME like ? ");
+            queryMap.put("Commercial Forecasting_productGroup"," IG.ITEM_GROUP_NAME like ? ");
         }
+        return queryMap;
     }
 
     public GtnUIFrameworkWebserviceResponse pagedTableSearch(
@@ -130,12 +132,13 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         stringQuery.append(query);
         List<Object> params = new ArrayList();
         List<GtnFrameworkDataType> data = new ArrayList();
+        Map<String,String> map=getQueryMap();
         for (int i = 0; i < webSearchCriteriaList.size(); i++) {
             if (webSearchCriteriaList.get(i).getFilterValue1() != null
                     && !webSearchCriteriaList.get(i).getFilterValue1().equals("0")) {
                 params.add(webSearchCriteriaList.get(i).getFilterValue1().replaceAll("\\*", "%"));
                 data.add(GtnFrameworkDataType.STRING);
-                stringQuery.append(queryMap.get(webSearchCriteriaList.get(i).getFieldId()));
+                stringQuery.append(map.get(webSearchCriteriaList.get(i).getFieldId()));
                 count++;
             }
         }

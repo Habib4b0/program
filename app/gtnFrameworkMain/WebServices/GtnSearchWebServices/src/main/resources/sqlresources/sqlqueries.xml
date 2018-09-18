@@ -237,7 +237,7 @@ where
 
             <![CDATA[            
                      SELECT COUNT(DISTINCT PM.PROJECTION_MASTER_SID) projectionId
-                    
+                    FROM
                     PROJECTION_MASTER PM
                     JOIN HIERARCHY_DEFINITION HDC ON
 	            HDC.HIERARCHY_DEFINITION_SID = PM.CUSTOMER_HIERARCHY_SID
