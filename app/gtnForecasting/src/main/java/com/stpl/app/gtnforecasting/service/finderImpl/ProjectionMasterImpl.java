@@ -405,9 +405,8 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 }
             }
 
-            if (parameters.get(Constant.LAZY_LOAD_RESULTS) != null) {
 
-                if (parameters.get("startIndex") != null && parameters.get(Constant.OFFSET) != null) {
+                if (parameters.get(Constant.LAZY_LOAD_RESULTS) != null && parameters.get("startIndex") != null && parameters.get(Constant.OFFSET) != null) {
                     int startIndex = Integer.parseInt(String.valueOf(parameters.get("startIndex")));
                     int offset = Integer.parseInt(String.valueOf(parameters.get(Constant.OFFSET)));
                     queryString.append(Constant.OFFSET_WITH_CAPS);
@@ -417,7 +416,6 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     queryString.append(Constant.ROWS_ONLY);
 
                 }
-            }
             LOGGER.debug("Final Search Query= {} " , queryString.toString());
             return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
