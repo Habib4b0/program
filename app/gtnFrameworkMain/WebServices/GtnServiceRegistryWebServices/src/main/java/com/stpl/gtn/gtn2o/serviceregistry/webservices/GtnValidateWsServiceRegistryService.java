@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
@@ -83,5 +82,10 @@ public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImpl
 	public GtnUIFrameworkWebserviceRequest registerWs() {
 		return null;
 	}
+
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+    }
 
 }

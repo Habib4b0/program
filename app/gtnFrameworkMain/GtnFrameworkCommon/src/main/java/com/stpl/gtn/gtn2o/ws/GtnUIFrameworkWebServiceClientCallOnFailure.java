@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ws;
 
+import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -40,7 +41,22 @@ public class GtnUIFrameworkWebServiceClientCallOnFailure {
             Logger.getLogger(GtnUIFrameworkWebServiceClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    
+    public void callGtnWebServiceUrlOnFailureOnDeploy() {
+        try {
+            logger.info("staticTime****----------------" +staticTime);
+            if((System.currentTimeMillis() - staticTime)/1000 < 900){
+                Long startTime = System.currentTimeMillis();
+                TimeUnit.SECONDS.sleep(10);
+                logger.info("Waiting Time in milliseconds----------------" + (System.currentTimeMillis() - startTime));
+            }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GtnUIFrameworkWebServiceClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     public String getUrl() {
         return url;
     }

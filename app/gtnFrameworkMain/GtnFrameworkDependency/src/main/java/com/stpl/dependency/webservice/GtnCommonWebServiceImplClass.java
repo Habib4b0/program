@@ -60,4 +60,6 @@ public abstract class GtnCommonWebServiceImplClass {
 				+ url;
 
 	}
+        
+        public abstract void initCallOnFailure();
 }

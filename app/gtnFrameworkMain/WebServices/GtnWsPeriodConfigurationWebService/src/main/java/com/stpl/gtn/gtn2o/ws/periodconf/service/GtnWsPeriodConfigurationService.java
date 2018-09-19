@@ -17,6 +17,7 @@ import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
+import com.stpl.dependency.webservice.concurrency.GtnWebserviceFailureRunnable;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.periodconf.constants.GtnWsPeriodConfigurationConstants;
 import com.stpl.gtn.gtn2o.ws.periodconf.model.PeriodConfData;
@@ -60,10 +61,9 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
             this.loadDate();
         } catch (Exception e) {
             if(e.getMessage().contains("404 Not Found")){
-            logger.error("Exception in Period Webservice Registry");
-            logger.info("Failed Url---------------------" + e.getMessage());
-            GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure = new GtnUIFrameworkWebServiceClientCallOnFailure(this);
-            service.submit(createRunnable(gtnWebServiceClientCallOnFailure));
+            logger.error("Exception in Period Webservice Registry" + e.getMessage());
+            GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
+            service.submit(call.createRunnable(this,staticTime));
             }
         }
     }
@@ -178,17 +178,9 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
         }
         return quarters;
     }
-
-    public Runnable createRunnable(final Object... inputs) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure1 = (GtnUIFrameworkWebServiceClientCallOnFailure) inputs[0];
-                gtnWebServiceClientCallOnFailure1.setStaticTime(staticTime);
-                gtnWebServiceClientCallOnFailure1.callGtnWebServiceUrlOnFailure();
-            }
-        };
-        return runnable;
+    @Override
+    public void initCallOnFailure() {
+        init();
     }
 
 }

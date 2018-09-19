@@ -59,4 +59,9 @@ public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements Sear
         return response;
     }
 
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+    }
+
 }

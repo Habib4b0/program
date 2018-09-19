@@ -14,6 +14,7 @@ import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
+import com.stpl.dependency.webservice.concurrency.GtnWebserviceFailureRunnable;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
@@ -29,6 +30,8 @@ import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +43,8 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
+    long staticTime = System.currentTimeMillis();
+    ExecutorService service = Executors.newCachedThreadPool();
 
     private GtnGeneralSearchService() {
         super(GtnGeneralSearchService.class);
@@ -55,6 +60,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 	private GtnForecastJsonService gtnForecastJsonService;
 
     public void init() {
+        try {
         logger.info("Entering into init method of searchWebservice");
         GtnUIFrameworkWebserviceRequest request = registerWs();
         RestTemplate restTemplate = new RestTemplate();
@@ -62,6 +68,13 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
                 request, GtnUIFrameworkWebserviceResponse.class);
         logger.info("search webservices registered");
+        } catch (Exception e) {
+            if(e.getMessage().contains("404 Not Found")){
+            logger.error("Exception in searchWebservice" + e.getMessage());
+            GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
+            service.submit(call.createRunnable(this,staticTime));
+            }
+        }
 
     }
 
@@ -236,5 +249,10 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 		}
 		return response;
 	}
+    
+     @Override
+    public void initCallOnFailure() {
+        init();
+    }
 
 }
