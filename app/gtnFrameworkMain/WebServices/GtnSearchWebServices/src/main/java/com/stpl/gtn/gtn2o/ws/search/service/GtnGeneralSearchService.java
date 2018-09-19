@@ -58,6 +58,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         logger.info("Entering into init method of searchWebservice");
         GtnUIFrameworkWebserviceRequest request = registerWs();
         RestTemplate restTemplate = new RestTemplate();
+        addSecurityToken(request);
         restTemplate.postForObject(
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
                 request, GtnUIFrameworkWebserviceResponse.class);
@@ -75,6 +76,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         logger.info("webservice to be registered" + gtnServiceRegistryBean.getRegisteredWebContext());
         gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(gtnServiceRegistryBean);
         request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
+        addSecurityToken(request);
         return request;
     }
 
@@ -148,6 +150,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
         RestTemplate restTemplate1 = new RestTemplate();
+        addSecurityToken(gtnQueryEngineWebServiceRequest);
         logger.info("calling query engine via service registry");
         GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
@@ -179,6 +182,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
         RestTemplate restTemplate1 = new RestTemplate();
+        addSecurityToken(gtnQueryEngineWebServiceRequest);
         logger.info("calling query engine via service registry");
         GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
@@ -221,6 +225,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 			GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 			gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 			RestTemplate restTemplate1 = new RestTemplate();
+            addSecurityToken(gtnQueryEngineWebServiceRequest);
 			logger.info("calling query engine via service registry");
 			GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(getWebServiceEndpointBasedOnModule(
 					"/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),

@@ -461,7 +461,7 @@ public class GtnWsHierarchyAndRelationshipController {
 		dataSelectionInput.add("'%'");
 		dataSelectionInput.add(selectedHierarchyLevelDto.getRelationshipBuilderSid());
 		dataSelectionInput.add(selectedHierarchyLevelDto.getRelationshipVersionNo());
-		dataSelectionInput.add(Integer.valueOf(String.valueOf(inputList.get(6)))+1);
+		dataSelectionInput.add(Integer.parseInt(String.valueOf(inputList.get(6)))+1);
 		dataSelectionInput.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
 
 		List<Object[]> dsResultList = relationshipLevelValueService.getResultForSelectedProduct(inputQuery,
