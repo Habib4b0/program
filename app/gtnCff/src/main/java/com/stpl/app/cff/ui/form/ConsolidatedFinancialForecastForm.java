@@ -585,6 +585,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					}
                                         sessionDto.setStatusName("G");
                                         sessionDto.setDeductionName(getDeductionCaptionWithSid(sessionDto));
+                                        sessionDto.setCustomViewMasterSid(resultList[NumericConstants.THIRTY] != null ? Integer.parseInt(String.valueOf(resultList[NumericConstants.THIRTY])) : 0);
                                         cffLogic.loadSalesTempTableInThread(sessionDto,false);
                                         cffLogic.loadDiscountTempTableInThread(sessionDto,false);
                                         cffLogic.callCFFHierarachyDetailsProcedure(sessionDto);
