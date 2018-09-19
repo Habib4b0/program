@@ -42,6 +42,8 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction
 			throws GtnFrameworkGeneralException {
 		final GtnUIFrameworkWebserviceRequest generalRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
+		
+
 
 		String customView = componentId.contains("dataSelectionTab") ? "dataSelectionTab_displaySelectionTabCustomView"
 				: "reportingDashboardTab_displaySelectionTabCustomView";
