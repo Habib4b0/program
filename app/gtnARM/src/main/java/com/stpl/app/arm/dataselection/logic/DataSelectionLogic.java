@@ -111,7 +111,7 @@ public class DataSelectionLogic {
             hierName = hierarchyLookupDTO.getHierarchySearchName().replace(ARMUtils.CHAR_ASTERISK, ARMUtils.CHAR_PERCENT);
         }
         sqlQuery = sqlQuery.replace("$Hierarchy_Name$", hierName);
-        StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder filterQuery = new StringBuilder();
         HashMap<String, String> detailsColumn = new HashMap<>();
         detailsColumn.put("hierarchyName", "c.HIERARCHY_NAME");
         detailsColumn.put("highestLevel", "a.LEVEL_NO");
@@ -780,7 +780,7 @@ public class DataSelectionLogic {
             endLevels = DataSelectionQueryUtils.executeQuery(parameters);
         }
         String sbQuery = SQlUtil.getQuery("insertcustHierarchy");
-        StringBuilder values = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder values = new StringBuilder();
         try {
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
@@ -830,7 +830,7 @@ public class DataSelectionLogic {
             endLevels = DataSelectionQueryUtils.executeQuery(parameters);
         }
         String sbQuery = SQlUtil.getQuery("insertProdHierarchy");
-        StringBuilder values = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder values = new StringBuilder();
         try {
             saveUpdateLogic(indicator, addLevels, values, projectionId, levelList);
             if (endLevels != null && !endLevels.isEmpty()) {
@@ -897,7 +897,7 @@ public class DataSelectionLogic {
 
     public void saveDeductionLogic(Set<Integer> rsModelSidList, int projectionSid) {
         try {
-            StringBuilder insertDeductionQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder insertDeductionQuery = new StringBuilder();
             if (!rsModelSidList.isEmpty()) {
                 insertDeductionQuery.append(SQlUtil.getQuery("DEDUCTION_SAVED_PROJECTION"));
                 for (Integer rsModelSid : rsModelSidList) {
@@ -967,7 +967,7 @@ public class DataSelectionLogic {
         LOGGER.debug("finalQuery - -{}", finalQuery);
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
         LOGGER.info(list.get(0) + "");
-        return Integer.valueOf(list.get(0) + StringUtils.EMPTY);
+        return Integer.parseInt(list.get(0) + StringUtils.EMPTY);
     }
 
     private StringBuilder getSaveQuery(final DataSelectionDTO dataSelectionDTO) {
@@ -999,7 +999,7 @@ public class DataSelectionLogic {
         finalQuery = finalQuery.replace("$$$$VALUE$$$$", queryBuilder.toString());
         LOGGER.debug("finalQuery  --{}", finalQuery);
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
-        return Integer.valueOf(list.get(0) + StringUtils.EMPTY);
+        return Integer.parseInt(list.get(0) + StringUtils.EMPTY);
     }
 
     public void saveAdjustmentMaster(DataSelectionDTO dataSelectionDTO) {
@@ -1192,7 +1192,7 @@ public class DataSelectionLogic {
             String query = SQlUtil.getQuery("LoadSelectedDeductions");
             String rsContractQuery = SQlUtil.getQuery("LoadSelectedRSContract");
             if (!map.isEmpty()) {
-                StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
+                StringBuilder filterQuery = new StringBuilder();
 
                 Map<String, String> filterSelect = ARMUtils.getDeductionValuesMapForLevel();
                 for (Map.Entry<String, Set<Integer>> entrySet : map.entrySet()) {
@@ -1549,7 +1549,7 @@ public class DataSelectionLogic {
     }
 
     public List getRelationShipValues(final Map<String, Object> parameters) {
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         try {
             LOGGER.debug("Entering getRelationShipValues method");
             queryString.append(SQlUtil.getQuery("getRelationshipValues"));

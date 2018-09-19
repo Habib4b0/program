@@ -58,8 +58,8 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
                 for (int i = 0; i < list.size(); i++) {
                     Object[] inventoryObj = (Object[]) list.get(i);
-                    inventoryValue = new StringBuilder(StringUtils.EMPTY);
-                    property = new StringBuilder(StringUtils.EMPTY);
+                    inventoryValue = new StringBuilder();
+                    property = new StringBuilder();
                     if (isValid(inventoryObj[0])) {
                         inventoryValue = new StringBuilder(helperId.getDescriptionByID((Integer) (inventoryObj[0])));
                         property = new StringBuilder(String.valueOf(inventoryObj[0]));
@@ -109,7 +109,7 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     protected String getAmountFilterCondition(List<String> invenotoryCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
         if (invenotoryCondition != null && !invenotoryCondition.isEmpty() && invenotoryCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < invenotoryCondition.size(); i++) {
                 String str = invenotoryCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");

@@ -212,7 +212,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
                 TimeZone central = TimeZone.getTimeZone("CST");
                 format.setTimeZone(central);
                 attachmentDTO.setDateAdded(format.format(new Date()));
-                attachmentDTO.setUserId(Integer.valueOf(userId));
+                attachmentDTO.setUserId(ARMUtils.getIntegerValue(userId));
                 attachmentDTO.setUserName(CommonUtils.getUserNameById(userId));
                 attachmentDTO.setDocumentFullPath(fileUploadPath + name);
                 attachmentsListBean.addBean(attachmentDTO);
