@@ -8,7 +8,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -41,20 +40,20 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 	}
 
 	public void init() {
-            try {
-		GtnUIFrameworkWebserviceRequest request = registerWs();
+		try {
+			GtnUIFrameworkWebserviceRequest request = registerWs();
 
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.postForObject(
-				getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
-				request, GtnUIFrameworkWebserviceResponse.class);
-		logger.info("Webservice Registered");
-		List<Object[]> resultList = loadHierarchyRelationshipResults();
-		Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = resultCustomization(resultList);
-		hierarchyRelationship.setHierarchyMap(hierarchyMap);
-            }catch (Exception e) {
-            logger.error("Exception in HierarchyAndRelationship web service call", e);
-        }
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.postForObject(
+					getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
+					request, GtnUIFrameworkWebserviceResponse.class);
+			logger.info("Webservice Registered");
+			List<Object[]> resultList = loadHierarchyRelationshipResults();
+			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = resultCustomization(resultList);
+			hierarchyRelationship.setHierarchyMap(hierarchyMap);
+		} catch (Exception e) {
+			logger.error("Exception in HierarchyAndRelationship web service call", e);
+		}
 	}
 
 	@Override
@@ -91,7 +90,8 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		return response.getQueryResponseBean().getResultList();
 	}
 
-	public Map<String, GtnWsHierarchyDefinitionBean> resultCustomization(List<Object[]> resultList) {
+	public Map<String, GtnWsHierarchyDefinitionBean> resultCustomization(List<Object[]> resultList)
+			throws NullPointerException {
 		Map<Integer, List<GtnWsRelationshipBuilderBean>> relationMap = new HashMap<>();
 		Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = new HashMap<>();
 		int hierachySid = 0;
@@ -158,38 +158,38 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 	private void getHierarchyListUsingHierarchyNameSearch(List<Object[]> hierarchyList,
 			List<GtnWebServiceSearchCriteria> webSearchCriteriaList,
 			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName,
-			GtnWsHierarchyDefinitionBean hierarchyDefinitionBean) throws IllegalAccessException {
+			GtnWsHierarchyDefinitionBean hierarchyDefBean) throws IllegalAccessException {
 		if (!hierarchyName.contains("*")) {
 			TreeMap<String, GtnWsHierarchyDefinitionBean> hierarchyCaseInsensitiveMap = new TreeMap<>(
 					String.CASE_INSENSITIVE_ORDER);
 			hierarchyCaseInsensitiveMap.putAll(hierarchyMap);
 
-			hierarchyDefinitionBean = hierarchyCaseInsensitiveMap
+			hierarchyDefBean = hierarchyCaseInsensitiveMap
 					.get(webSearchCriteriaList.get(webSearchCriteriaList.size() - 2).getFilterValue1());
-			getHierarchyListFromHierarchyMap(hierarchyList, webSearchCriteriaList, hierarchyDefinitionBean);
+			getHierarchyListFromHierarchyMap(hierarchyList, webSearchCriteriaList, hierarchyDefBean);
 		}
 	}
 
 	private void getHierarchyListUsingStartsAndEndsWithSearch(List<Object[]> hierarchyList,
 			List<GtnWebServiceSearchCriteria> webSearchCriteriaList,
 			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName,
-			GtnWsHierarchyDefinitionBean hierarchyDefinitionBean) throws IllegalAccessException {
+			GtnWsHierarchyDefinitionBean hierarchyDefBean) throws IllegalAccessException {
 		if (hierarchyName.contains("*") && hierarchyName.length() > 1) {
 			for (Map.Entry<String, GtnWsHierarchyDefinitionBean> mapEntry : hierarchyMap.entrySet()) {
 
-				hierarchyDefinitionBean = hierarchyMap.get(mapEntry.getKey());
+				hierarchyDefBean = hierarchyMap.get(mapEntry.getKey());
 				int indexOfSymbol = hierarchyName.indexOf('*');
 				String[] hierarchyNameSplit = hierarchyName.split("\\*");
 
 				if (hierarchyNameSplit.length > 1) {
 					getHierarchyListFromBothStartsAndEndsWithSearch(hierarchyList, webSearchCriteriaList,
-							hierarchyDefinitionBean, hierarchyNameSplit);
+							hierarchyDefBean, hierarchyNameSplit);
 				} else if (indexOfSymbol == hierarchyName.length() - 1) {
-					getHierarchyListFromBothStartsWithSearch(hierarchyList, webSearchCriteriaList,
-							hierarchyDefinitionBean, hierarchyNameSplit);
+					getHierarchyListFromBothStartsWithSearch(hierarchyList, webSearchCriteriaList, hierarchyDefBean,
+							hierarchyNameSplit);
 				} else {
-					getHierarchyListFromBothEndsWithSearch(hierarchyList, webSearchCriteriaList,
-							hierarchyDefinitionBean, hierarchyNameSplit);
+					getHierarchyListFromBothEndsWithSearch(hierarchyList, webSearchCriteriaList, hierarchyDefBean,
+							hierarchyNameSplit);
 				}
 
 			}
@@ -232,12 +232,12 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 	private void getHierarchyListUsingGenericSearch(List<Object[]> hierarchyList,
 			List<GtnWebServiceSearchCriteria> webSearchCriteriaList,
 			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName,
-			GtnWsHierarchyDefinitionBean hierarchyDefinitionBean) throws IllegalAccessException {
+			GtnWsHierarchyDefinitionBean hierarchyDefBean) throws IllegalAccessException {
 		if (hierarchyName.equals("*") && hierarchyName.length() == 1) {
 
 			for (Map.Entry<String, GtnWsHierarchyDefinitionBean> mapEntry : hierarchyMap.entrySet()) {
-				hierarchyDefinitionBean = hierarchyMap.get(mapEntry.getKey());
-				getHierarchyListFromHierarchyMap(hierarchyList, webSearchCriteriaList, hierarchyDefinitionBean);
+				hierarchyDefBean = hierarchyMap.get(mapEntry.getKey());
+				getHierarchyListFromHierarchyMap(hierarchyList, webSearchCriteriaList, hierarchyDefBean);
 			}
 		}
 	}

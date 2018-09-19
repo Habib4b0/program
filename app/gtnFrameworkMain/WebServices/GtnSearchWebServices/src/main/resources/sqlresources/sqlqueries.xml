@@ -3,7 +3,7 @@
 
 <properties>
 
-    <entry key="privatePublic">
+	<entry key="privatePublic">
 		<![CDATA[
                        SELECT FVM.VIEW_NAME viewName,PM.PROJECTION_DESCRIPTION description,
                        'Q' + CAST(CEILING(CAST(month(PM.FROM_DATE) AS decimal(4,2)) / 3) AS char(1))+'-'+ CAST(year(PM.FROM_DATE) AS char(4))fromDate, 
@@ -48,8 +48,8 @@
                         WHERE  FVM.view_Type=? AND  FVM.view_Name LIKE ?
                         AND PM.forecasting_Type =?
 		]]>
-    </entry>
-    <entry key="BusinessUnitGLcomp">
+	</entry>
+	<entry key="BusinessUnitGLcomp">
        
     		<![CDATA[
 			    select
@@ -65,9 +65,9 @@
 				order by
 					company_no
 		]]>
-      
-    </entry>
-    <entry key="CompanyMasterGLcomp">
+
+	</entry>
+	<entry key="CompanyMasterGLcomp">
       
             <![CDATA[
 				select
@@ -83,9 +83,9 @@
 				order by
 					company_no
             ]]>
-    
-    </entry>
-    <entry key="dataSelectionDeduction">
+
+	</entry>
+	<entry key="dataSelectionDeduction">
 
             <![CDATA[            
                   SELECT
@@ -98,15 +98,15 @@
         WHERE HD.HIERARCHY_NAME='DeductionHierarchy'
             ]]>
 
-    </entry>
-     <entry key="frequency">
+	</entry>
+	<entry key="frequency">
 
             <![CDATA[            
                  SELECT HELPER_TABLE_SID,DESCRIPTION from HELPER_TABLE where LIST_NAME LIKE 'FORECAST_FREQUENCY' AND DESCRIPTION NOT LIKE '%LY%' ORDER BY HELPER_TABLE_SID
             ]]>
 
-    </entry>
-    <entry key="saveview">
+	</entry>
+	<entry key="saveview">
 
             <![CDATA[            
                  INSERT
@@ -133,8 +133,8 @@
 			);
             ]]>
 
-    </entry>
-    <entry key="projectionSearch">
+	</entry>
+	<entry key="projectionSearch">
 
             <![CDATA[            
                    SELECT
@@ -231,9 +231,9 @@ where
 	AND PM.FORECASTING_TYPE LIKE 'Non Mandated'
      ]]>
 
-    </entry>
- 
-    <entry key="projectionSearchCount">
+	</entry>
+
+	<entry key="projectionSearchCount">
 
             <![CDATA[            
                      SELECT COUNT(DISTINCT PM.PROJECTION_MASTER_SID) projectionId
@@ -256,9 +256,9 @@ where
                      where PM.projection_Name like ? and PM.projection_description like ?
             ]]>
 
-    </entry>
-    
-		<entry key="CustomerGroup">
+	</entry>
+
+	<entry key="CustomerGroup">
 			<![CDATA[
 					  
          ; WITH CTE_MAIN AS(
@@ -351,9 +351,9 @@ JOIN COUNT_CTE C ON
 ORDER BY
 	IG.COMPANY_GROUP_SID ASC 
 			]]>
-</entry>
+	</entry>
 
-<entry key="ProductGroup">
+	<entry key="ProductGroup">
 	<![CDATA[
 		   
        
@@ -419,7 +419,52 @@ FROM   ITM_GROUP IG
             AND C.CNT = IG.CNT
 ORDER BY IG.ITEM_GROUP_SID ASC  
 			]]>
-	
-</entry>
+
+	</entry>
+	<entry key="salesCustomView">
+		<![CDATA[
+		select A.CUST_VIEW_MASTER_SID,A.CUST_VIEW_NAME from (SELECT
+			DISTINCT CVM.CUST_VIEW_MASTER_SID,
+			CVM.CUST_VIEW_NAME,
+			CVM.MODIFIED_DATE
+		FROM
+			CUST_VIEW_MASTER CVM
+		JOIN CUSTOM_CCP_DETAILS CVD ON
+			CVD.CUST_VIEW_MASTER_SID = CVM.CUST_VIEW_MASTER_SID
+		WHERE
+			CVM.CUSTOMER_RELATIONSHIP_SID = ?
+			AND CVM.PRODUCT_RELATIONSHIP_SID = ?
+			AND CVD.CUSTOMER_VERSION = ?
+			AND CVD.PRODUCT_VERSION = ?
+			AND	CUST_VIEW_TYPE = 'SALES'
+		)A
+			ORDER BY
+			A.MODIFIED_DATE DESC
+		]]>
+	</entry>
+	<entry key="deductionCustomView">
+	<![CDATA[
+		select A.CUST_VIEW_MASTER_SID,A.CUST_VIEW_NAME from (SELECT
+			DISTINCT CVM.CUST_VIEW_MASTER_SID,
+			CVM.CUST_VIEW_NAME,
+			CVM.MODIFIED_DATE
+		FROM
+			CUST_VIEW_MASTER CVM
+		JOIN CUSTOM_CCP_DETAILS CVD ON
+			CVD.CUST_VIEW_MASTER_SID = CVM.CUST_VIEW_MASTER_SID
+		WHERE
+			CVM.CUSTOMER_RELATIONSHIP_SID = ?
+			AND CVM.PRODUCT_RELATIONSHIP_SID = ?
+			AND CVD.CUSTOMER_VERSION = ?
+			AND CVD.PRODUCT_VERSION = ?
+			AND(
+				CUST_VIEW_TYPE = 'SALES'
+				OR CUST_VIEW_TYPE = 'DISCOUNT'
+			)
+		)A
+			ORDER BY
+			A.MODIFIED_DATE DESC
+	]]>
+	</entry>
 
 </properties>

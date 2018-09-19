@@ -31,6 +31,7 @@ import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.implementation.ComboBoxSearch;
+import com.stpl.gtn.gtn2o.ws.search.implementation.CustomViewSearch;
 import com.stpl.gtn.gtn2o.ws.search.implementation.CustomerAndProductGroup;
 import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
 //import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
@@ -101,6 +102,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             keyMap.put("CustomerGroup", new CustomerAndProductGroup());
             keyMap.put("ProductGroup", new CustomerAndProductGroup());
             keyMap.put("saveview", new SaveViewExecution());
+            keyMap.put("salesCustomView", new CustomViewSearch());
+            keyMap.put("deductionCustomView", new CustomViewSearch());
         }
         SearchInterface searchInterface = keyMap.get(key);
         GtnUIFrameworkWebserviceResponse response;

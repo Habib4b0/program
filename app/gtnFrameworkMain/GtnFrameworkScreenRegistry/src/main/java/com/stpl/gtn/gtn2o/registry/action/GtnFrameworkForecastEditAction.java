@@ -56,7 +56,8 @@ public class GtnFrameworkForecastEditAction
 
 	}
 
-	private GtnFrameworkForecastInputBean formForecastInputBean(GtnWsRecordBean selectedRow, List<Object> actionParamsList) throws ParseException {
+	private GtnFrameworkForecastInputBean formForecastInputBean(GtnWsRecordBean selectedRow,
+			List<Object> actionParamsList) throws ParseException {
 		GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
 		try {
 			inputBean.setProjectionName((String) selectedRow.getPropertyValueByIndex(0));
@@ -66,11 +67,6 @@ public class GtnFrameworkForecastEditAction
 			inputBean.setProductHierarchyName((String) selectedRow.getPropertyValueByIndex(4));
 			inputBean.setProductHierarchyLevel((int) selectedRow.getPropertyValueByIndex(5));
 			inputBean.setCreatedBy(String.valueOf(selectedRow.getPropertyValueByIndex(6)));
-			// inputBean.setCreatedDate((Date)
-			// selectedRow.getPropertyValueByIndex(7));
-			// inputBean.setModifiedDate((Date)
-			// selectedRow.getPropertyValueByIndex(8));
-			// inputBean.setModifiedBy(String.valueOf(selectedRow.getPropertyValueByIndex(9)));
 			inputBean.setCompanyName((String) selectedRow.getPropertyValueByIndex(9));
 			inputBean.setBusinessUnitName((String) selectedRow.getPropertyValueByIndex(10));
 			inputBean.setCustomViewMasterSid((int) selectedRow.getPropertyValueByIndex(11));
@@ -106,10 +102,13 @@ public class GtnFrameworkForecastEditAction
 			Date forecastEligibleDate = dateFormatter.parse((String) selectedRow.getPropertyValueByIndex(32));
 			inputBean.setForecastEligibleDate(forecastEligibleDate);
 			inputBean.setDeductionRelationVersion((int) selectedRow.getPropertyValueByIndex(33));
-                        inputBean.setDeductionLevel(GtnUIFrameworkGlobalUI
-                            .getVaadinBaseComponent(actionParamsList.get(24).toString()).getCaptionFromV8ComboBox());
-                        inputBean.setDeductionValue(GtnUIFrameworkGlobalUI
-                            .getVaadinBaseComponent(actionParamsList.get(24).toString()).getStringCaptionFromV8ComboBox());
+			inputBean.setDeductionLevel(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(3).toString()).getCaptionFromV8ComboBox());
+			inputBean.setDeductionValue(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(3).toString()).getStringCaptionFromV8ComboBox());
+			inputBean.setModeOption("Search");
+			inputBean.setFrequency(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(4).toString())
+					.getStringCaptionFromV8ComboBox());
 
 		} catch (Exception ex) {
 			logger.info(ex.getMessage());
