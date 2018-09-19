@@ -250,38 +250,38 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		reportCustomerHierarchySearchButton
 				.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
 		reportCustomerHierarchySearchButton.setAddToParent(true);
-		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		List<GtnUIFrameWorkActionConfig> hierarchyActionConfigList = new ArrayList<>();
 
-		GtnUIFrameWorkActionConfig validationActionConfig = new GtnUIFrameWorkActionConfig();
-		validationActionConfig.setActionType(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
+		GtnUIFrameWorkActionConfig hierarchyValidationActionConfig = new GtnUIFrameWorkActionConfig();
+		hierarchyValidationActionConfig.setActionType(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
 
-		validationActionConfig
+		hierarchyValidationActionConfig
 				.setFieldValues(Arrays.asList("reportCustomerHierarchyLookup_reportCustomerHierarchyNameTextBox"));
 
-		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
-		alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		GtnUIFrameWorkActionConfig hierarchyalertActionConfig = new GtnUIFrameWorkActionConfig();
+		hierarchyalertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 
-		List<Object> alertParamsList = new ArrayList<>();
-		alertParamsList.add("No Results Found");
-		alertParamsList.add("There are no Hierarchies that match the search criteria.");
+		List<Object> hierarchyAlertParamsList = new ArrayList<>();
+		hierarchyAlertParamsList.add("No Results Found");
+		hierarchyAlertParamsList.add("There are no Hierarchies that match the search criteria.");
 
-		alertActionConfig.setActionParameterList(alertParamsList);
+		hierarchyalertActionConfig.setActionParameterList(hierarchyAlertParamsList);
 		Object validationType = GtnUIFrameworkValidationType.OR;
-		validationActionConfig.setActionParameterList(Arrays.asList(validationType, Arrays.asList(alertActionConfig)));
-		actionConfigList.add(validationActionConfig);
+		hierarchyValidationActionConfig.setActionParameterList(Arrays.asList(validationType, Arrays.asList(hierarchyalertActionConfig)));
+		hierarchyActionConfigList.add(hierarchyValidationActionConfig);
 
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
-		loadDataTableActionConfig.setActionParameterList(
-				Arrays.asList(new Object[] { namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE }));
-		loadDataTableActionConfig.setFieldValues(Arrays.asList(new String[] {
+		loadDataTableActionConfig
+				.setActionParameterList(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE));
+		loadDataTableActionConfig.setFieldValues(Arrays.asList(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX }));
-		actionConfigList.add(loadDataTableActionConfig);
-		reportCustomerHierarchySearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
+						+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX));
+		hierarchyActionConfigList.add(loadDataTableActionConfig);
+		reportCustomerHierarchySearchButton.setGtnUIFrameWorkActionConfigList(hierarchyActionConfigList);
 
 		componentList.add(reportCustomerHierarchySearchButton);
 

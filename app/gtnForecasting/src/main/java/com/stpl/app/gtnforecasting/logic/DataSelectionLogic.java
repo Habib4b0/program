@@ -84,16 +84,21 @@ import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.Constants.IndicatorConstants;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.app.utils.converters.LevelDtoToRelationShipBeanConverter;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
@@ -2278,7 +2283,10 @@ public class DataSelectionLogic {
 	 * @param companyId
 	 * @return
 	 */
-	public List getCompanies() {
+        
+        
+        
+        public List getCompanies() {
 
 		String query = SQlUtil.getQuery("get-companies");
 		if (!companiesList.isEmpty()) {
@@ -2290,6 +2298,36 @@ public class DataSelectionLogic {
 		return list;
 
 	}
+        
+	 public GtnUIFrameworkWebserviceComboBoxResponse getCompaniesFromNewArchitecture() {
+
+        GtnUIFrameworkWebserviceComboBoxResponse comboBoxServiceResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
+        GtnUIFrameworkWebServiceClient comboboxWsServiceclient = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest comboboxServiceRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest comboboxGeneralWSServiceRequest = new GtnWsGeneralRequest();
+        comboboxGeneralWSServiceRequest.setComboBoxType("CompanyMasterGLcomp");
+        
+        comboboxServiceRequest.setGtnWsGeneralRequest(comboboxGeneralWSServiceRequest);
+       
+            GtnServiceRegistryWsRequest serviceRequest = new GtnServiceRegistryWsRequest();
+            GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+            serviceRegistryBean.setUrl("/gtnSearch");
+            serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
+            serviceRegistryBean.setModuleName("generalSearch");
+            serviceRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+            GtnWsSearchRequest searchRequest = new GtnWsSearchRequest();
+            searchRequest.setSearchQueryName("CompanyMasterGLcomp");
+            comboboxServiceRequest.setGtnWsSearchRequest(searchRequest);
+            comboboxServiceRequest.setGtnServiceRegistryWsRequest(serviceRequest);
+            
+                comboBoxServiceResponse = comboboxWsServiceclient
+                        .callGtnWebServiceUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
+                                comboboxServiceRequest, getGsnWsSecurityToken())
+                        .getGtnUIFrameworkWebserviceComboBoxResponse();
+        
+        return comboBoxServiceResponse;
+    }
+
 
 	/**
 	 * Checks for at least one active file for the given business unit.

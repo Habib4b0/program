@@ -80,6 +80,7 @@ import com.stpl.app.utils.UiUtils;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
@@ -219,6 +220,17 @@ public class DataSelection extends ForecastDataSelection {
 		fromPeriod.select(from);
 		toPeriod.select(to);
 		toPeriod.setReadOnly(true);
+                
+                GtnUIFrameworkWebserviceComboBoxResponse wsComboboxResponse = dsLogic.getCompaniesFromNewArchitecture();
+                List<String> itemValueList = wsComboboxResponse.getItemValueList();
+                List itemCodeList = wsComboboxResponse.getItemCodeList();
+		for(int i=0;i<itemValueList.size();i++){
+				company.addItem(itemCodeList.get(i));
+				company.setItemCaption(itemCodeList.get(i),itemValueList.get(i));
+			
+		}
+                company.select(Integer.valueOf(selectionDTO.getCompanySid()));
+                
 //		fromPeriod.addValueChangeListener(new Property.ValueChangeListener() {
 //			@Override
 //			public void valueChange(Property.ValueChangeEvent event) {
@@ -286,16 +298,7 @@ public class DataSelection extends ForecastDataSelection {
 //		company.setInputPrompt(Constants.CommonConstants.SELECT_ONE.getConstant());
 //		company.markAsDirty();
 //
-//		List<Object[]> companyList = dsLogic.getCompanies();
-//		if (companyList != null && !companyList.isEmpty()) {
-//			for (Object[] object : companyList) {
-//				company.addItem(object[0]);
-//				company.setItemCaption(object[0], object[NumericConstants.TWO] + Constant.SPACE + Constant.DASH_NO_DATA
-//						+ Constant.SPACE + object[NumericConstants.THREE]);
-//			}
-//		}
-//
-//		company.select(Integer.valueOf(selectionDTO.getCompanySid()));
+
 //		company.addValueChangeListener(new Property.ValueChangeListener() {
 //
 //			@Override

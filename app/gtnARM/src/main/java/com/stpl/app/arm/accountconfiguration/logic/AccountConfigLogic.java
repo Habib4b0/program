@@ -764,12 +764,12 @@ public class AccountConfigLogic {
             inputList.add(con.getCatalog());
         }
         if (binderDto.getAccountDdlb() != null) {
-            inputList.add(binderDto.getAccountDdlb().replace("*", "%"));
+            inputList.add(binderDto.getAccountDdlb().replace(ARMUtils.CHAR_ASTERISK, "%"));
         } else {
             inputList.add("%");
         }
         if (!binderDto.getCostCentre().isEmpty()) {
-            inputList.add(binderDto.getCostCentre().replace("*", "%"));
+            inputList.add(binderDto.getCostCentre().replace(ARMUtils.CHAR_ASTERISK, "%"));
         } else {
             inputList.add("%");
         }
