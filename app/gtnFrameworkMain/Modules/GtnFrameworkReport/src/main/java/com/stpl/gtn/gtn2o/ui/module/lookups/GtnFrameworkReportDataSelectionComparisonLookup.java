@@ -233,47 +233,47 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 
 		GtnUIFrameworkLayoutConfig reportDataSelectionComparisonTopLayout = new GtnUIFrameworkLayoutConfig();
 		reportDataSelectionComparisonTopLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		GtnUIFrameworkComponentConfig DataSelectionComparisonTopLayoutConfig = new GtnUIFrameworkComponentConfig();
-		DataSelectionComparisonTopLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		DataSelectionComparisonTopLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+		GtnUIFrameworkComponentConfig dataSelectionComparisonTopLayoutConfig = new GtnUIFrameworkComponentConfig();
+		dataSelectionComparisonTopLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		dataSelectionComparisonTopLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_TOP_LAYOUT);
-		DataSelectionComparisonTopLayoutConfig.setAddToParent(true);
-		DataSelectionComparisonTopLayoutConfig.setSpacing(true);
-		DataSelectionComparisonTopLayoutConfig
+		dataSelectionComparisonTopLayoutConfig.setAddToParent(true);
+		dataSelectionComparisonTopLayoutConfig.setSpacing(true);
+		dataSelectionComparisonTopLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.PROJECTION_OPTION_INNER_LAYOUT);
-		DataSelectionComparisonTopLayoutConfig.setGtnLayoutConfig(reportDataSelectionComparisonTopLayout);
-		componentList.add(DataSelectionComparisonTopLayoutConfig);
+		dataSelectionComparisonTopLayoutConfig.setGtnLayoutConfig(reportDataSelectionComparisonTopLayout);
+		componentList.add(dataSelectionComparisonTopLayoutConfig);
 
 		GtnUIFrameworkLayoutConfig reportDataSelectionComparisonMiddleLayout = new GtnUIFrameworkLayoutConfig();
 		reportDataSelectionComparisonMiddleLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		GtnUIFrameworkComponentConfig DataSelectionComparisonMiddleLayoutConfig = new GtnUIFrameworkComponentConfig();
-		DataSelectionComparisonMiddleLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		DataSelectionComparisonMiddleLayoutConfig
+		GtnUIFrameworkComponentConfig dataSelectionComparisonMiddleLayoutConfig = new GtnUIFrameworkComponentConfig();
+		dataSelectionComparisonMiddleLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		dataSelectionComparisonMiddleLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_MIDDLE_LAYOUT);
-		DataSelectionComparisonMiddleLayoutConfig.setAddToParent(true);
-		DataSelectionComparisonMiddleLayoutConfig.setSpacing(true);
-		DataSelectionComparisonMiddleLayoutConfig
+		dataSelectionComparisonMiddleLayoutConfig.setAddToParent(true);
+		dataSelectionComparisonMiddleLayoutConfig.setSpacing(true);
+		dataSelectionComparisonMiddleLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.PROJECTION_OPTION_INNER_LAYOUT);
-		DataSelectionComparisonMiddleLayoutConfig.setGtnLayoutConfig(reportDataSelectionComparisonMiddleLayout);
-		componentList.add(DataSelectionComparisonMiddleLayoutConfig);
+		dataSelectionComparisonMiddleLayoutConfig.setGtnLayoutConfig(reportDataSelectionComparisonMiddleLayout);
+		componentList.add(dataSelectionComparisonMiddleLayoutConfig);
 
 		GtnUIFrameworkLayoutConfig reportDataSelectionComparisonBottomLayout = new GtnUIFrameworkLayoutConfig();
 		reportDataSelectionComparisonBottomLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		GtnUIFrameworkComponentConfig DataSelectionComparisonBottomLayoutConfig = new GtnUIFrameworkComponentConfig();
-		DataSelectionComparisonBottomLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		DataSelectionComparisonBottomLayoutConfig
+		GtnUIFrameworkComponentConfig dataSelectionComparisonBottomLayoutConfig = new GtnUIFrameworkComponentConfig();
+		dataSelectionComparisonBottomLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		dataSelectionComparisonBottomLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_BOTTOM_LAYOUT);
-		DataSelectionComparisonBottomLayoutConfig.setAddToParent(true);
-		DataSelectionComparisonBottomLayoutConfig.setSpacing(true);
-		DataSelectionComparisonBottomLayoutConfig
+		dataSelectionComparisonBottomLayoutConfig.setAddToParent(true);
+		dataSelectionComparisonBottomLayoutConfig.setSpacing(true);
+		dataSelectionComparisonBottomLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
-		DataSelectionComparisonBottomLayoutConfig.setGtnLayoutConfig(reportDataSelectionComparisonBottomLayout);
-		componentList.add(DataSelectionComparisonBottomLayoutConfig);
+		dataSelectionComparisonBottomLayoutConfig.setGtnLayoutConfig(reportDataSelectionComparisonBottomLayout);
+		componentList.add(dataSelectionComparisonBottomLayoutConfig);
 
 	}
 
