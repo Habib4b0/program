@@ -1,5 +1,6 @@
 package com.stpl.app.arm.bpm.util;
 
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -89,7 +90,7 @@ public class BPMCommonUtils {
     }
 
     public static String getConvertedQuarters(String selectedQuarters) {
-        return selectedQuarters.replaceAll("Q", StringUtils.EMPTY).replaceAll(" ", StringUtils.EMPTY);
+        return selectedQuarters.replaceAll("Q", StringUtils.EMPTY).replaceAll(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
     }
 
 }

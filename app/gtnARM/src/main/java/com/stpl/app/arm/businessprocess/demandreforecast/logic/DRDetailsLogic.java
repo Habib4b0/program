@@ -8,6 +8,7 @@ package com.stpl.app.arm.businessprocess.demandreforecast.logic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.QueryUtils;
 import static com.stpl.app.utils.VariableConstants.DASH;
 import com.stpl.app.utils.xmlparser.SQlUtil;
@@ -42,12 +43,12 @@ public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         StringBuilder reforecastQuery;
         if (reforecastSelection.getSessionDTO().isWorkFlow()) {
             reforecastQuery = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            reforecastQuery.replace(reforecastQuery.indexOf("?"), reforecastQuery.indexOf("?") + 1, String.valueOf(reforecastSelection.getDataSelectionDTO().getProjectionId()));
-            reforecastQuery.replace(reforecastQuery.indexOf("?"), reforecastQuery.indexOf("?") + 1, isReserve ? "0" : "1");
+            reforecastQuery.replace(reforecastQuery.indexOf(ARMUtils.CHAR_QUS), reforecastQuery.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(reforecastSelection.getDataSelectionDTO().getProjectionId()));
+            reforecastQuery.replace(reforecastQuery.indexOf(ARMUtils.CHAR_QUS), reforecastQuery.indexOf(ARMUtils.CHAR_QUS) + 1, isReserve ? "0" : "1");
         } else {
             reforecastQuery = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
             for (Object temp : reforecastReplaceList) {
-                reforecastQuery.replace(reforecastQuery.indexOf("?"), reforecastQuery.indexOf("?") + 1, String.valueOf(temp));
+                reforecastQuery.replace(reforecastQuery.indexOf(ARMUtils.CHAR_QUS), reforecastQuery.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
             }
         }
         List list = QueryUtils.executeSelect(reforecastQuery.toString());
@@ -119,7 +120,7 @@ public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                     grlStr.append(" OR ");
                 }
             }
-            conditionStr = "(" + grlStr.toString() + " ) AND ";
+            conditionStr = ARMUtils.OPEN_PARANTHESIS + grlStr.toString() + " ) AND ";
         }
         return conditionStr;
     }

@@ -332,7 +332,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
                         j = 1;
                         keyParam = 1;
                     }
-                    demandKey = ExcelUtils.getKey(resultSet, keyParam).replace(" ", StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
+                    demandKey = ExcelUtils.getKey(resultSet, keyParam).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
                     demandNewC = String.valueOf(resultSet[j * NumericConstants.TWO]);
                     demandOldC = demandNewC;
                 }
@@ -365,9 +365,9 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
                     result = resultSet[10];
                     indicator = (Integer) resultSet[resultSet.length - 1];
                 }
-                String headerKey = String.valueOf(result).replace(" ", "").replace("-", StringUtils.EMPTY);
+                String headerKey = String.valueOf(result).replace(ARMUtils.SPACE.toString(), "").replace("-", StringUtils.EMPTY);
                 for (int k = 0; k < visibleColumns.size(); k++) {
-                    demandColumn = visibleColumnsList.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
+                    demandColumn = visibleColumnsList.get(k).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
                     headerKey = (demandColumn.contains(VariableConstants.BEGINNING_BALANCE) && indicator == 2) ? VariableConstants.BEGINNING_BALANCE : headerKey;
                     String gatheredColumn = StringUtils.EMPTY;
                     List<String> columnList = CommonLogic.getInstance().getDemandColumns();
