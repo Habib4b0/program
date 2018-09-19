@@ -14,7 +14,6 @@ import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMConstants;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -116,8 +115,8 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
 
         selection.setSummaryviewType(view);
         List<Object> header = getSummaryLogic().generateHeader(getSelection(), columns);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
-        List<String> rightDoubleVisibleColumn = (ArrayList) header.get(1);
+        List rightSingleVisibleColumn = (List) header.get(0);
+        List<String> rightDoubleVisibleColumn = (List) header.get(1);
         Map<Object, Object[]> rightDoubleSingleVisibleColumn = (HashMap) header.get(NumericConstants.FOUR);
         for (int i = 0; i < rightSingleVisibleColumn.size(); i++) {
             properties.put(rightSingleVisibleColumn.get(i), String.class);
