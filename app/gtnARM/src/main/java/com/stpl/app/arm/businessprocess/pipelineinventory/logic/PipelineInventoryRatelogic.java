@@ -133,7 +133,7 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
             String totVal = getFormattedValue(PER_THREEPIPELINE, String.valueOf(totalvalue));
             inventoryDto.setTotalColumn(totVal);
             String value = getFormattedValue(PER_THREEPIPELINE, String.valueOf(obj[NumericConstants.TWO]));
-            inventoryDto.addStringProperties(String.valueOf(obj[0]) + "." + columnList.indexOf(String.valueOf(obj[0])), value);
+            inventoryDto.addStringProperties(String.valueOf(obj[0]) + ARMUtils.DOT + columnList.indexOf(String.valueOf(obj[0])), value);
             lastValue = String.valueOf(obj[1]);
         }
 

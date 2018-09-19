@@ -102,7 +102,7 @@ public class PipelineInventoryLogic {
     }
 
     public static String astToPerConverter(final String inputString) {
-        return StringUtils.isBlank(inputString) || "null".equals(inputString) ? "%" : inputString.replace("*", "%");
+        return StringUtils.isBlank(inputString) || "null".equals(inputString) ? "%" : inputString.replace(ARMUtils.CHAR_ASTERISK, "%");
     }
 
     public static String convertNullToEmpty(Object value) {

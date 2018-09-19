@@ -151,7 +151,7 @@ public class BSummaryPipelineLogic extends AbstractBSummaryLogic {
                 keyParam = getKeyParam(selection);
                 if (!"0".equals(String.valueOf(resultSet[NumericConstants.TWO]))) {
                     String[] arr = getKey(resultSet, keyParam);
-                    bsrPipelineKey = arr[0].replace(" ", StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
+                    bsrPipelineKey = arr[0].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
                     group = arr[1];
                 }
                 size = mapList.size();
@@ -176,8 +176,8 @@ public class BSummaryPipelineLogic extends AbstractBSummaryLogic {
                     Object result;
                     Object pipelineValue = null;
                     result = resultSet[keyParam];
-                    headerKey = String.valueOf(result).replace(" ", "").replace("-", StringUtils.EMPTY);
-                    column = visibleColumnsList.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
+                    headerKey = String.valueOf(result).replace(ARMUtils.SPACE.toString(), "").replace("-", StringUtils.EMPTY);
+                    column = visibleColumnsList.get(k).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
                     String pipelineGatheredColumn = StringUtils.EMPTY;
                     if (column.contains("StartingBalance")) {
                         pipelineGatheredColumn = !column.contains(VariableConstants.TOTAL_STARTING_BALANCE) ? headerKey + "StartingBalance" : column;

@@ -319,7 +319,7 @@ public class BalanceSummaryLogic {
                     joinQuery.append("LEFT JOIN dbo.ARM_ADJUSTMENT_CONFIG CU").append(count).append("  ON  CU");
                     joinQuery.append(count).append(".ARM_ADJUSTMENT_CONFIG_SID =");
                     if (ARMUtils.getBalanceSummaryVisibleToDBColumnMap().get(stringFilters) != null && !ARMUtils.getBalanceSummaryVisibleToDBColumnMap().get(stringFilters).isEmpty()) {
-                        joinQuery.append("A.").append(ARMUtils.getBalanceSummaryVisibleToDBColumnMap().get(stringFilters)).append(" ");
+                        joinQuery.append("A.").append(ARMUtils.getBalanceSummaryVisibleToDBColumnMap().get(stringFilters)).append(ARMUtils.SPACE);
                     }
                     count++;
                 }
