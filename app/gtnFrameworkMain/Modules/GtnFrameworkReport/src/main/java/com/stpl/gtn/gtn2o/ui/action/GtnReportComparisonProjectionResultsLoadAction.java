@@ -86,7 +86,8 @@ public class GtnReportComparisonProjectionResultsLoadAction
 				recordBean.addProperties(comparisonBean.getContractHolder());
 				recordBean.addProperties(comparisonBean.getContract());
 				recordBean.addProperties(comparisonBean.getBrand());
-				recordBean.addProperties(new SimpleDateFormat("MM/dd/yyyy").format(comparisonBean.getCreatedDate()));
+				recordBean.addProperties(comparisonBean.getCreatedDate() == null ? null
+						: new SimpleDateFormat("MM/dd/yyyy").format(comparisonBean.getCreatedDate()));
 				recordBean.addProperties(comparisonBean.getUserId());
 				recordBean.addProperties(comparisonBean.getCreatedBy());
 				recordBean.addProperties(comparisonBean.getItemNo());
