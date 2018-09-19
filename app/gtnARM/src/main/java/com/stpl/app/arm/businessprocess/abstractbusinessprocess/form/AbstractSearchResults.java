@@ -371,7 +371,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
             getLevelFilterDdlb().setItemCaption(id, value);
             if (i < (size - 1)) {
                 getLevelDdlb().addItem(id);
-                getLevelDdlb().setItemCaption(id, "Level " + id + " " + value);
+                getLevelDdlb().setItemCaption(id, "Level " + id + ARMUtils.SPACE + value);
             }
         }
         getLevelDdlb().setValue(0);

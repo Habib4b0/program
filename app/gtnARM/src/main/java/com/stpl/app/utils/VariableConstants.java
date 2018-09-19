@@ -44,7 +44,7 @@ public class VariableConstants {
     public static final String RATE = "rates";
     public static final String SEARCH_ICON = "searchicon";
     public static final String DASH = " - ";
-    public static final String COMMA = ",";
+    public static final String COMMA = ARMConstants.getComma();
     public static final String GROUP = "group";
     public static final String PRODUCT_NO = "brand_item_no";
     public static final String PRODUCT_NAME = "brand_item_name";

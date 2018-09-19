@@ -63,7 +63,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
     }
 
     protected Object getRateQuery(AbstractSelectionDTO selection, Object lastParent, boolean isCount, int start, int offset, int currentPage, int lastPage) {
-        LOGGER.debug("currentPage {} ", currentPage + " " + lastPage);
+        LOGGER.debug("currentPage {} ", currentPage + ARMUtils.SPACE + lastPage);
         List<AdjustmentDTO> resultDTO;
         int startindex = start + 1;
         int endindex = start + offset;

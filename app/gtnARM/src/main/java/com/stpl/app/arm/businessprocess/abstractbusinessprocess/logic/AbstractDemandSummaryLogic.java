@@ -63,24 +63,24 @@ public abstract class AbstractDemandSummaryLogic<T extends AdjustmentDTO> extend
             excelDoubleSingleColumn = new ArrayList<>();
             for (int i = 0; i < columns.length; i++) {
                 String column = columns[i];
-                singleColumn.add(detection.length > NumericConstants.TWO ? (detection[2] + "~" + detection[0]) + column + "." + (++index) : detection[0] + column + "." + (++index));
-                excelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
+                singleColumn.add(detection.length > NumericConstants.TWO ? (detection[2] + "~" + detection[0]) + column + ARMUtils.DOT + (++index) : detection[0] + column + ARMUtils.DOT + (++index));
+                excelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + ARMUtils.DOT + (index));
                 if (columnList.contains(column)) {
                     int listIndex = columnList.indexOf(column);
-                    String visibleColumn = selection.getSummaryvariables().get(listIndex)[0] + "." + index;
+                    String visibleColumn = selection.getSummaryvariables().get(listIndex)[0] + ARMUtils.DOT + index;
                     String header = selection.getSummaryvariables().get(listIndex)[1];
                     singleVisibleColumn.add(visibleColumn);
                     singleVisibleHeader.add(header);
                     doubleSingleColumn.add(visibleColumn);
-                    excelVisibleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
+                    excelVisibleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
                     excelVisibleHeader.add(header);
                     excelDoubleSingleColumn.add(detection[0] + StringUtils.EMPTY + excelVisibleColumn);
                 }
             }
-            doubleVisibleColumn.add(detection.length > NumericConstants.TWO ? (detection[2] + "~" + detection[1]).replace(" ", StringUtils.EMPTY) : detection[1].replace(" ", StringUtils.EMPTY));
+            doubleVisibleColumn.add(detection.length > NumericConstants.TWO ? (detection[2] + "~" + detection[1]).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY) : detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY));
             doubleVisibleHeader.add(detection[1]);
-            doubleSingleVisibleColumn.put(detection.length > NumericConstants.TWO ? (detection[2] + "~" + detection[1]).replace(" ", StringUtils.EMPTY) : detection[1].replace(" ", StringUtils.EMPTY), doubleSingleColumn.toArray());
-            excelDoubleSingleVisibleColumn.put(detection.length > NumericConstants.TWO ? (detection[2] + "~" + detection[1]).replace(" ", StringUtils.EMPTY) : detection[1].replace(" ", StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
+            doubleSingleVisibleColumn.put(detection.length > NumericConstants.TWO ? (detection[2] + "~" + detection[1]).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY) : detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), doubleSingleColumn.toArray());
+            excelDoubleSingleVisibleColumn.put(detection.length > NumericConstants.TWO ? (detection[2] + "~" + detection[1]).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY) : detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
         }
         ((AbstractSelectionDTO) selection).setSummarycolumnList(singleColumn);
         ((AbstractSelectionDTO) selection).setExcelVisibleColumn(excelSingleColumn);
