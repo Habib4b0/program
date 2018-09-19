@@ -2116,11 +2116,9 @@ public class MProjectionResultsLogic {
 
     public int configureLevelsCount(ProjectionSelectionDTO projSelDTO) {
         int count = NumericConstants.ZERO;
-        if (!projSelDTO.isIsFilter()) {
-            if (!projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
+            if (!projSelDTO.isIsFilter() && !projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
                 count = count + NumericConstants.ONE + projSelDTO.getPeriodList().size();
             }
-        }
         int levelCount;
                 CommonLogic commonLogic = new CommonLogic();
                 if (projSelDTO.isIsCustomHierarchy()) {
