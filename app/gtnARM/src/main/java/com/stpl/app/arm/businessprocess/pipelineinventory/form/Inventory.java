@@ -247,9 +247,9 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
     private void configureDblbLoading() {
         List<String> inventoryDetailsList = getPeriodsByFrequencyForMonth();
         List<Object> defaultValues = logic.getMonthYear();
-        Integer vvalue = Integer.valueOf(String.valueOf(defaultValues.get(1)));
+        Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValues.get(1)));
         String month = InventoryLogic.getMonthName(vvalue);
-        String str = month + " " + defaultValues.get(NumericConstants.TWO);
+        String str = month + ARMUtils.SPACE + defaultValues.get(NumericConstants.TWO);
         priceddlb = CommonUtils.getPeriodsByFrequency("M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), str);
         price.removeAllItems();
         price.setContainerDataSource(new IndexedContainer(priceddlb));
@@ -416,7 +416,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
     }
 
     private void setDefaultValue() {
-        List<String> defaultValues = logic.getRateConfigSettings(new ArrayList<>(Arrays.asList(dataselection.getCompanyMasterSid(), dataselection.getBucompanyMasterSid(), dataselection.getAdjustmentId(), StringUtils.isNotBlank(dataselection.getFromPeriodMonth()) ? CommonUtils.getMonthNo(dataselection.getFromPeriodMonth().trim().split(" ")[0]) : 1)));// Changed for GAL-6120
+        List<String> defaultValues = logic.getRateConfigSettings(new ArrayList<>(Arrays.asList(dataselection.getCompanyMasterSid(), dataselection.getBucompanyMasterSid(), dataselection.getAdjustmentId(), StringUtils.isNotBlank(dataselection.getFromPeriodMonth()) ? CommonUtils.getMonthNo(dataselection.getFromPeriodMonth().trim().split(ARMUtils.SPACE.toString())[0]) : 1)));// Changed for GAL-6120
         if (!defaultValues.isEmpty()) {
             getDefaultValues(defaultValues);
             if (!"0".equals(defaultValues.get(NumericConstants.TEN))) {
@@ -428,7 +428,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                 }
 
                 if (!isCust && !"0".equals(defaultValues.get(NumericConstants.NINE))) {
-                    cgViewSid = Integer.valueOf(defaultValues.get(NumericConstants.NINE));
+                    cgViewSid = ARMUtils.getIntegerValue(defaultValues.get(NumericConstants.NINE));
                     List<CustomerGroupDTO> cgDtoList = new ArrayList<>();
                     List<String> cgList = logic.getCustomerGroupView(String.valueOf(defaultValues.get(NumericConstants.NINE)), cgDtoList);
                     selectionDto.setCustomerGroupList(cgList);
@@ -439,7 +439,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                     }
                 }
                 if (isCust && !"0".equals(defaultValues.get(NumericConstants.NINE))) {
-                    custViewSid = Integer.valueOf(defaultValues.get(NumericConstants.NINE));
+                    custViewSid = ARMUtils.getIntegerValue(defaultValues.get(NumericConstants.NINE));
                     List<CustomerGroupDTO> cgDtoList = new ArrayList<>();
                     List<String> customerList = logic.getCustomerView(String.valueOf(defaultValues.get(NumericConstants.NINE)), cgDtoList);
                     selectionDto.setCustomerList(customerList);
@@ -481,10 +481,10 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                 month = calendar.get(Calendar.MONTH);
                 quarter = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.THREE + 1);
                 semi = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.SIX + 1);
-                String periodWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
-                String periodWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year
+                String periodWithS = freq.startsWith("S") ? "S" + semi + ARMUtils.SPACE + year : year;
+                String periodWithQ = freq.startsWith("Q") ? "Q" + quarter + ARMUtils.SPACE + year
                         : periodWithS;
-                String period = freq.startsWith("M") ? months[month] + " " + year : periodWithQ;
+                String period = freq.startsWith("M") ? months[month] + ARMUtils.SPACE + year : periodWithQ;
                 calendar.add(Calendar.MONTH, increment);
                 periodList.add(period);
             }
@@ -505,7 +505,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         for (int i = 0; i <= NumericConstants.NINE; i++) {
             year = String.valueOf(calendar.get(Calendar.YEAR));
             month = calendar.get(Calendar.MONTH);
-            String period = months[month] + " " + year;
+            String period = months[month] + ARMUtils.SPACE + year;
             calendar.add(Calendar.MONTH, NumericConstants.ONE);
             periodList.add(period);
         }
@@ -566,9 +566,9 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         CommonUtils.loadRatePeriodComboBox(price, 1, CommonConstant.ARM_PERIOD_BASIS);
         CommonUtils.loadRatePeriodComboBox(reserveDate, 1, CommonConstant.ARM_PERIOD_BASIS);
         List<Object> defaultValues = logic.getMonthYear();
-        Integer vvalue = Integer.valueOf(String.valueOf(defaultValues.get(1)));
+        Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValues.get(1)));
         String month = InventoryLogic.getMonthName(vvalue);
-        String str = month + " " + defaultValues.get(NumericConstants.TWO);
+        String str = month + ARMUtils.SPACE + defaultValues.get(NumericConstants.TWO);
         List<String> priceddlbList = CommonUtils.getPeriodsByFrequency("M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), str);
         price.removeAllItems();
         price.setContainerDataSource(new IndexedContainer(priceddlbList));
@@ -715,7 +715,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         for (int i = 0; i <= NumericConstants.TWELVE; i++) {
             year = String.valueOf(calendar.get(Calendar.YEAR));
             month = calendar.get(Calendar.MONTH);
-            String period = months[month] + " " + year;
+            String period = months[month] + ARMUtils.SPACE + year;
             calendar.add(Calendar.MONTH, NumericConstants.ONE);
             periodList.add(period);
         }

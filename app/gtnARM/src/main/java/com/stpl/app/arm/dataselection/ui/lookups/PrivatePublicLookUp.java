@@ -67,7 +67,7 @@ public class PrivatePublicLookUp extends Window {
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private String indicator = StringUtils.EMPTY;
     private ViewDTO viewDTO = new ViewDTO();
-    public static final Logger LOGGER = LoggerFactory.getLogger(PrivatePublicLookUp.class);
+    public static final Logger DS_PUBLIC_LOGGER = LoggerFactory.getLogger(PrivatePublicLookUp.class);
     private boolean selected;
     private String screenName;
 
@@ -114,7 +114,7 @@ public class PrivatePublicLookUp extends Window {
     }
 
     @UiHandler("resetBtn")
-    public void resetButtonLogic(Button.ClickEvent event) {
+    public void resetpulblicButtonLogic(Button.ClickEvent event) {
         MessageBox.showPlain(Icon.QUESTION, "Confirmation", "Are you sure you want to reset the search criteria to its default state", new MessageBoxListener() {
             /**
              * Called when a Button has been clicked .
@@ -122,11 +122,11 @@ public class PrivatePublicLookUp extends Window {
              */
             @SuppressWarnings("PMD")
             @Override
-            public void buttonClicked(final ButtonId buttonId) {
-                if (buttonId.name().equalsIgnoreCase("yes")) {
-                    LOGGER.debug("Entering Reset operation");
+            public void buttonClicked(final ButtonId resetButtonId) {
+                if (resetButtonId.name().equalsIgnoreCase("yes")) {
+                    DS_PUBLIC_LOGGER.debug("Entering Reset operation");
                     resetFields();
-                    LOGGER.debug("Ending Reset operation");
+                    DS_PUBLIC_LOGGER.debug("Ending Reset operation");
                 }
             }
         }, ButtonId.YES, ButtonId.NO);
@@ -137,18 +137,18 @@ public class PrivatePublicLookUp extends Window {
         try {
             if (resultsTable.getValue() != null) {
                 viewDTO = (ViewDTO) resultsTable.getValue();
-                setSelected(Boolean.TRUE);
+                setSelected(true);
                 close();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            DS_PUBLIC_LOGGER.error(ex.getMessage());
         }
 
     }
 
     @UiHandler("closeBtn")
     public void closeButtonLogic(Button.ClickEvent event) {
-        setSelected(Boolean.FALSE);
+        setSelected(false);
         close();
     }
 
@@ -228,7 +228,7 @@ public class PrivatePublicLookUp extends Window {
     }
 
     void loadResultsTable() {
-        LOGGER.debug("Entering Load Results Table");
+        DS_PUBLIC_LOGGER.debug("Entering Load Results Table");
         tableLogic.configureSearchData(true, viewNameEpl.getValue(), indicator, screenName);
         resultsTable.addStyleName(ARMUtils.FILTER_TABLE);
         resultsTable.addStyleName("table-header-normal");
@@ -238,7 +238,7 @@ public class PrivatePublicLookUp extends Window {
 
         resultsTable.setSelectable(true);
         resultsTable.markAsDirtyRecursive();
-        LOGGER.debug("Ending Load Results Table");
+        DS_PUBLIC_LOGGER.debug("Ending Load Results Table");
 
     }
 

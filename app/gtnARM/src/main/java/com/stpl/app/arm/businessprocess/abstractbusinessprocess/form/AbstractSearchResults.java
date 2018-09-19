@@ -371,7 +371,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
             getLevelFilterDdlb().setItemCaption(id, value);
             if (i < (size - 1)) {
                 getLevelDdlb().addItem(id);
-                getLevelDdlb().setItemCaption(id, "Level " + id + " " + value);
+                getLevelDdlb().setItemCaption(id, "Level " + id + ARMUtils.SPACE + value);
             }
         }
         getLevelDdlb().setValue(0);
@@ -385,7 +385,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         if (isLevelFilterEnable()) {
             try {
                 if (setRespectiveLevelFileterValue(value, levelNo)) {
-                    getTableLogic().loadSetData(Boolean.FALSE);
+                    getTableLogic().loadSetData(false);
                 }
                 setLevelFilterValueDdlbEnable(false);
                 loadLevelFilterValueDdlb(value, levelNo);
@@ -412,17 +412,17 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected void excelExportLogic() throws IllegalAccessException, InvocationTargetException {
         tableLayout.addComponent(getExcelTable());
         getExcelTable().setContainerDataSource(getExcelContainer());
-        getExcelTable().setRefresh(Boolean.FALSE);
-        getExcelTable().setVisible(Boolean.FALSE);
+        getExcelTable().setRefresh(false);
+        getExcelTable().setVisible(false);
         setExcelVisibleColumn();
         Object[] excelHierarchy = getExcelHierarchy();
         List resultList = getExcelLogic().getExcelResultList(getSelection());
         callExcelCustomization(resultList, excelHierarchy);
-        ((CommonUI) getUI()).setExcelFlag(Boolean.TRUE);
-        getExcelTable().setRefresh(Boolean.TRUE);
+        ((CommonUI) getUI()).setExcelFlag(true);
+        getExcelTable().setRefresh(true);
         ExtCustomTableHolder extCustomTableHolder = new ExtCustomTableHolder(getExcelTable());
         ExcelExport export = new ExcelExport(extCustomTableHolder, getExcelFileName(), getExcelFileName(), getExcelFileName() + ".xls", false);
-        export.setUseTableFormatPropertyValue(Boolean.TRUE);
+        export.setUseTableFormatPropertyValue(true);
         export.export();
         getExcelContainer().removeAllItems();
         tableLayout.removeComponent(getExcelTable());
@@ -605,19 +605,19 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         for (Object visibleColumn : searchResVisibleColumns) {
             if (!"group".equals(String.valueOf(visibleColumn)) && !"month".equals(String.valueOf(visibleColumn))) {
                 if (isPercentageColumnzeroDecimal(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, perzeroDec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, perzeroDec, false);
                 } else if (isPercentageColumn2Decimal(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, rate2Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, rate2Dec, false);
                 } else if (isNumericTwoDecimalFormat(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, num2Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, num2Dec, false);
                 } else if (isPercentageColumn3Decimal(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, rate3Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, rate3Dec, false);
                 } else if (isUnitColumn(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, zeroDec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, zeroDec, false);
                 } else if (isCurrencyZeroDecimalFormat(visibleColumn.toString())) {
-                    searchResExcelTable.setConverter(visibleColumn, currencyzeroDec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, currencyzeroDec, false);
                 } else {
-                    searchResExcelTable.setConverter(visibleColumn, currency2Dec, Boolean.FALSE);
+                    searchResExcelTable.setConverter(visibleColumn, currency2Dec, false);
                 }
             }
         }

@@ -9,6 +9,7 @@ package com.stpl.app.arm.businessprocess.transaction7.logic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.QueryUtils;
 import static com.stpl.app.utils.VariableConstants.DASH;
 import com.stpl.app.utils.xmlparser.SQlUtil;
@@ -81,12 +82,12 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
         StringBuilder query;
         if (distributionSelection.getSessionDTO().isWorkFlow()) {
             query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(distributionSelection.getDataSelectionDTO().getProjectionId()));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
+            query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(distributionSelection.getDataSelectionDTO().getProjectionId()));
+            query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, isReserve ? "0" : "1");
         } else {
             query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
             for (Object temp : replaceList) {
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
+                query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
             }
         }
         return query;
@@ -94,21 +95,25 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
+        LOGGERFORDETAILLOGIC.debug("Inside getExcelResultList");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected String getTableNameForView() {
+        LOGGERFORDETAILLOGIC.debug("Inside getTableNameForView");
         return "ARM_DISTRIBUTION_FEES_RATE";
     }
 
     @Override
     protected String getTableNameForEdit() {
+        LOGGERFORDETAILLOGIC.debug("Inside getTableNameForEdit");
         return "ST_ARM_DISTRIBUTION_FEES_RATE";
     }
 
     @Override
     protected CharSequence getRateColumn() {
+        LOGGERFORDETAILLOGIC.debug("Inside getRateColumn");
         return "B.RATE";
     }
 
@@ -125,7 +130,7 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
                     grlStr.append(" OR ");
                 }
             }
-            conditionStr = "(" + grlStr.toString() + " ) AND ";
+            conditionStr = ARMUtils.OPEN_PARANTHESIS + grlStr.toString() + " ) AND ";
         }
         LOGGERFORDETAILLOGIC.debug("--Exit getAmountFilterCondition --{}", conditionStr);
         return conditionStr;

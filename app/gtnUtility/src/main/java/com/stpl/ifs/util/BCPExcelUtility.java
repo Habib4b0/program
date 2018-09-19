@@ -35,7 +35,14 @@ public class BCPExcelUtility {
         String oFilePath = outputFilePath;
         boolean isWindows = osName.startsWith("Windows");
         LOGGER.info("os_name :" + osName);
-        Path dataPath = Paths.get("tableData.csv");
+        String folderName;
+        if (isWindows) {
+            folderName = System.getProperty("java.io.tmpdir");
+        } else {
+            folderName = System.getProperty("gtn.app.data.path");
+            folderName+="exceltransaction/";
+        }
+        Path dataPath = Paths.get(folderName,"tableData.csv");
         File data = dataPath.toFile();
         if (!data.exists()) {
             try {
@@ -55,14 +62,7 @@ public class BCPExcelUtility {
         Path path = Paths.get(outputFilePath);
         String timeStamp = new Timestamp(new Date().getTime()).toString().replace("-", "").replace(":", "").replace(" ", "").replace(".", "");
         String module = moduleName.replace(" ", "") + timeStamp;
-        String folderName;
-        if (isWindows) {
-            folderName = System.getProperty("java.io.tmpdir");
-        } else {
-            folderName = System.getProperty("gtn.app.data.path");
-            folderName+="exceltransaction/";
-        }
-
+        
         if (!folderName.endsWith(File.separator)) {
             folderName += File.separator;
         }
@@ -132,7 +132,7 @@ public class BCPExcelUtility {
             }
             int errors = exec.waitFor();
             LOGGER.info("BCP process completed : with errors :" + errors);
-            Path headerFile2 = Paths.get("header.csv");
+            Path headerFile2 = Paths.get(folderName,"header.csv");
             List<String> val = new ArrayList();
             if (osName.startsWith("Windows")) {
                 val.add("cmd.exe");

@@ -73,7 +73,6 @@ public class ProjectionResults extends ForecastProjectionResults {
     public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionResults.class);
     
     private final SessionDTO session;
-    private List<List<String>> discountlist = new ArrayList<>();
     private final ProjectionResultsLogic projResLogic = new ProjectionResultsLogic();
     private final Map<String, List<ProjectionResultsDTO>> resultMap = new HashMap();
 
@@ -183,7 +182,7 @@ public class ProjectionResults extends ForecastProjectionResults {
             projectionSelectionDTO.setCustRelationshipBuilderSid(sessionDTO.getCustRelationshipBuilderSid());
             projectionSelectionDTO.setProdRelationshipBuilderSid(sessionDTO.getProdRelationshipBuilderSid());
             projectionSelectionDTO.setPpa(sessionDTO.isPpaIndicator());
-            discountlist = new ArrayList<>();
+            List<List<String>> discountlist = new ArrayList<>();
             projectionSelectionDTO.setForecastDTO(sessionDTO.getForecastDTO());
             projectionSelectionDTO.setHistoryNum(historyNum);
             projectionSelectionDTO.setProjectionNum(NumericConstants.TWO);
@@ -457,7 +456,7 @@ public class ProjectionResults extends ForecastProjectionResults {
 
                 exceltable.setDoubleHeaderMap((Map<Object, Object[]>) projectionSelectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.FIVE));
                 exceltable.setRefresh(true);
-                String sheetName = "Year " + String.valueOf(projectionSelectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
+                String sheetName = "Year " + (projectionSelectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
               if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, StringConstantsUtil.PROJECTION_RESULTS, "ProjectionResults.xls", false);
                 } else {

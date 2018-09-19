@@ -97,7 +97,7 @@ public class Trx6AdjustmentDetail extends AbstractAdjustmentDetails {
                 : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
             if (tr6DefaultList.contains(object.getMenuItem().getWindow())) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }

@@ -84,16 +84,16 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
                 inventoryDto.setLevelName(String.valueOf(obj[NumericConstants.FOUR]));
                 switch (inventoryDto.getLevelName()) {
                     case VariableConstants.DEDUCTION_UPPERCASE:
-                        inventoryDto.setDeductionSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        inventoryDto.setDeductionSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
                         break;
 
                     case VariableConstants.CUSTOMER_UPPERCASE:
                         if (ARMConstants.getDeductionContractCustomer().equals(inventorySelection.getRateDeductionView())) {
-                            inventoryDto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                            inventoryDto.setCustomerSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
                             inventoryDto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                             inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            inventoryDto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                            inventoryDto.setCustomerSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
                             inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         }
 
@@ -101,17 +101,17 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
 
                     case VariableConstants.CONTRACT_UPPERCASE:
                         if (ARMConstants.getDeductionContractCustomer().equals(inventorySelection.getRateDeductionView())) {
-                            inventoryDto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                            inventoryDto.setContractSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
                             inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            inventoryDto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                            inventoryDto.setContractSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
                             inventoryDto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                             inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         }
                         break;
 
                     case VariableConstants.BRAND_UPPERCASE:
-                        inventoryDto.setBrandSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        inventoryDto.setBrandSID(ARMUtils.getIntegerValue(String.valueOf(obj[NumericConstants.THREE])));
                         inventoryDto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                         inventoryDto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                         inventoryDto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
@@ -133,7 +133,7 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
             String totVal = getFormattedValue(PER_THREEPIPELINE, String.valueOf(totalvalue));
             inventoryDto.setTotalColumn(totVal);
             String value = getFormattedValue(PER_THREEPIPELINE, String.valueOf(obj[NumericConstants.TWO]));
-            inventoryDto.addStringProperties(String.valueOf(obj[0]) + "." + columnList.indexOf(String.valueOf(obj[0])), value);
+            inventoryDto.addStringProperties(String.valueOf(obj[0]) + ARMUtils.DOT + columnList.indexOf(String.valueOf(obj[0])), value);
             lastValue = String.valueOf(obj[1]);
         }
 

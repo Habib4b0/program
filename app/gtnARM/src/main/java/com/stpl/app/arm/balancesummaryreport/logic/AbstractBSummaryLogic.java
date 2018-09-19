@@ -80,25 +80,25 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             startMonth = 1 + (3 * (startMonth - 1));
             endMonth = selection.getToDate().charAt(1) - 48;
             endMonth = 1 + (3 * (endMonth - 1));
-            starttYear = Integer.valueOf(selection.getFromDate().substring(3, 7));
-            endtYear = Integer.valueOf(selection.getToDate().substring(3, 7));
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate().substring(3, 7));
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate().substring(3, 7));
         } else if (ARMUtils.frequencyVarables.SEMI_ANNUALLY.toString().equals(selection.getFrequency())) {
             startMonth = selection.getFromDate().charAt(1) - 48;
             startMonth = 1 + (6 * (startMonth - 1));
             endMonth = selection.getToDate().charAt(1) - 48;
             endMonth = 1 + (6 * (endMonth - 1));
-            starttYear = Integer.valueOf(selection.getFromDate().substring(3, 7));
-            endtYear = Integer.valueOf(selection.getToDate().substring(3, 7));
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate().substring(3, 7));
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate().substring(3, 7));
         } else if (ARMUtils.frequencyVarables.MONTHLY.toString().equals(selection.getFrequency())) {
             startMonth = ArrayUtils.indexOf(months, selection.getFromDate().substring(0, 3)) + 1;
             endMonth = ArrayUtils.indexOf(months, selection.getToDate().substring(0, 3)) + 1;
-            starttYear = Integer.valueOf(selection.getFromDate().substring(4, 8));
-            endtYear = Integer.valueOf(selection.getToDate().substring(4, 8));
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate().substring(4, 8));
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate().substring(4, 8));
         } else if (ARMUtils.frequencyVarables.ANNUALLY.toString().equals(selection.getFrequency())) {
             startMonth = 1;
             endMonth = 12;
-            starttYear = Integer.valueOf(selection.getFromDate());
-            endtYear = Integer.valueOf(selection.getToDate());
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate());
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate());
         }
         frmDate.setDate(1);
         toDate.setDate(28);
@@ -141,128 +141,128 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             List<String> selectedVariables = selection.getSelectedAdjustmentTypeValues();
             List<String> selectedToatalAndCumulative = removeTotalAndCumulative(selectedVariables);
 
-        for (int i = 0; i < ((totalMonth / frequencyDivision) + NumericConstants.ONE); i++) {
-            if (tempPeriod > (NumericConstants.TWELVE / frequencyDivision)) {
-                tempPeriod = NumericConstants.ONE;
-                year++;
-            }
-            switch (frequencyDivision) {
-                case NumericConstants.THREE:
-                    doubleColumn = ARMUtils.Q + tempPeriod + year;
-                    doubleHeaders.add(ARMUtils.Q + tempPeriod + " " + year);
-                    break;
-                case NumericConstants.SIX:
-                    doubleColumn = ARMUtils.S + tempPeriod + year;
-                    doubleHeaders.add(ARMUtils.S + tempPeriod + " " + year);
-                    break;
-                case NumericConstants.ONE:
-                    doubleColumn = months[tempPeriod - NumericConstants.ONE] + year;
-                    doubleHeaders.add(months[tempPeriod - NumericConstants.ONE] + " " + year);
-                    break;
-                case NumericConstants.TWELVE:
-                    doubleColumn = String.valueOf(year);
-                    doubleHeaders.add(String.valueOf(year));
-                    break;
-                default:
-                    break;
-            }
-            doubleColumns.add(doubleColumn);
-            tempList.clear();
-            for (int j = 0; j < selectedVariables.size(); j++) {
-                String adjType;
+            for (int i = 0; i < ((totalMonth / frequencyDivision) + NumericConstants.ONE); i++) {
+                if (tempPeriod > (NumericConstants.TWELVE / frequencyDivision)) {
+                    tempPeriod = NumericConstants.ONE;
+                    year++;
+                }
                 switch (frequencyDivision) {
                     case NumericConstants.THREE:
-                        adjType = selectedVariables.get(j);
-                        column = ARMUtils.Q + tempPeriod + year + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
-                        visibleHeaders.add(adjType);
-                        tempList.add(column);
-                        visibleColumn.add(column);
+                        doubleColumn = ARMUtils.Q + tempPeriod + year;
+                        doubleHeaders.add(ARMUtils.Q + tempPeriod + ARMUtils.SPACE + year);
                         break;
-
                     case NumericConstants.SIX:
-                        adjType = selectedVariables.get(j);
-                        column = ARMUtils.S + tempPeriod + year + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
-                        visibleHeaders.add(adjType);
-                        tempList.add(column);
-                        visibleColumn.add(column);
+                        doubleColumn = ARMUtils.S + tempPeriod + year;
+                        doubleHeaders.add(ARMUtils.S + tempPeriod + ARMUtils.SPACE + year);
                         break;
-
                     case NumericConstants.ONE:
-                        adjType = selectedVariables.get(j);
-                        column = months[tempPeriod - 1] + year + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
-                        visibleHeaders.add(adjType);
-                        tempList.add(column);
-                        visibleColumn.add(column);
+                        doubleColumn = months[tempPeriod - NumericConstants.ONE] + year;
+                        doubleHeaders.add(months[tempPeriod - NumericConstants.ONE] + ARMUtils.SPACE + year);
                         break;
-
                     case NumericConstants.TWELVE:
-                        adjType = selectedVariables.get(j);
-                        column = year + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
-                        visibleHeaders.add(adjType);
-                        tempPeriod = year;
-                        tempList.add(column);
-                        visibleColumn.add(column);
+                        doubleColumn = String.valueOf(year);
+                        doubleHeaders.add(String.valueOf(year));
                         break;
-
                     default:
                         break;
                 }
-                headerVlaueMap.put(StringUtils.EMPTY + tempPeriod + year + selectedVariables.get(j), column);
-                index++;
-            }
-            headerMap.put(doubleColumn, tempList.toArray());
-            excelHeaderMap.put(doubleColumn, tempList.toArray());
-            tempPeriod++;
-        }
-        for (String selectedTotal : selectedToatalAndCumulative) {
-            tempList.clear();
-            if (CommonConstant.BEGINNING_BALANCE.equals(selectedTotal)) {
-                doubleColumn = selectedTotal.replace(" ", StringUtils.EMPTY);
-                doubleHeaders.add(0, selectedTotal);
-                doubleColumns.add(0, doubleColumn);
-                for (int j = 0; j < selectedVariables.size(); j++) {
-                    String adjType = selectedVariables.get(j);
-                    column = doubleColumn + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
-                    visibleHeaders.add(j, adjType);
-                    tempList.add(j, column);
-                    visibleColumn.add(j, column);
-                    headerVlaueMap.put(StringUtils.EMPTY + selectedTotal + selectedVariables.get(j), column);
-                    index++;
-                }
-                headerMap.put(doubleColumn, tempList.toArray());
-                excelHeaderMap.put(doubleColumn, tempList.toArray());
-            } else {
-                doubleColumn = selectedTotal.replace(" ", StringUtils.EMPTY);
-                doubleHeaders.add(selectedTotal);
                 doubleColumns.add(doubleColumn);
+                tempList.clear();
                 for (int j = 0; j < selectedVariables.size(); j++) {
-                    String adjType = selectedVariables.get(j);
-                    column = doubleColumn + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
-                    visibleHeaders.add(totalSectionHeader(selectedTotal, adjType));
-                    tempList.add(column);
-                    visibleColumn.add(column);
-                    headerVlaueMap.put(StringUtils.EMPTY + selectedTotal + (ConstantsUtils.ENDING_BALANCE.equals(selectedVariables.get(j)) ? ConstantsUtils.BALANCE : selectedVariables.get(j)), column);
+                    String adjType;
+                    switch (frequencyDivision) {
+                        case NumericConstants.THREE:
+                            adjType = selectedVariables.get(j);
+                            column = ARMUtils.Q + tempPeriod + year + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                            visibleHeaders.add(adjType);
+                            tempList.add(column);
+                            visibleColumn.add(column);
+                            break;
+
+                        case NumericConstants.SIX:
+                            adjType = selectedVariables.get(j);
+                            column = ARMUtils.S + tempPeriod + year + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                            visibleHeaders.add(adjType);
+                            tempList.add(column);
+                            visibleColumn.add(column);
+                            break;
+
+                        case NumericConstants.ONE:
+                            adjType = selectedVariables.get(j);
+                            column = months[tempPeriod - 1] + year + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                            visibleHeaders.add(adjType);
+                            tempList.add(column);
+                            visibleColumn.add(column);
+                            break;
+
+                        case NumericConstants.TWELVE:
+                            adjType = selectedVariables.get(j);
+                            column = year + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                            visibleHeaders.add(adjType);
+                            tempPeriod = year;
+                            tempList.add(column);
+                            visibleColumn.add(column);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    headerVlaueMap.put(StringUtils.EMPTY + tempPeriod + year + selectedVariables.get(j), column);
                     index++;
                 }
                 headerMap.put(doubleColumn, tempList.toArray());
                 excelHeaderMap.put(doubleColumn, tempList.toArray());
+                tempPeriod++;
             }
-        }
+            for (String selectedTotal : selectedToatalAndCumulative) {
+                tempList.clear();
+                if (CommonConstant.BEGINNING_BALANCE.equals(selectedTotal)) {
+                    doubleColumn = selectedTotal.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
+                    doubleHeaders.add(0, selectedTotal);
+                    doubleColumns.add(0, doubleColumn);
+                    for (int j = 0; j < selectedVariables.size(); j++) {
+                        String adjType = selectedVariables.get(j);
+                        column = doubleColumn + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                        visibleHeaders.add(j, adjType);
+                        tempList.add(j, column);
+                        visibleColumn.add(j, column);
+                        headerVlaueMap.put(StringUtils.EMPTY + selectedTotal + selectedVariables.get(j), column);
+                        index++;
+                    }
+                    headerMap.put(doubleColumn, tempList.toArray());
+                    excelHeaderMap.put(doubleColumn, tempList.toArray());
+                } else {
+                    doubleColumn = selectedTotal.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
+                    doubleHeaders.add(selectedTotal);
+                    doubleColumns.add(doubleColumn);
+                    for (int j = 0; j < selectedVariables.size(); j++) {
+                        String adjType = selectedVariables.get(j);
+                        column = doubleColumn + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                        visibleHeaders.add(totalSectionHeader(selectedTotal, adjType));
+                        tempList.add(column);
+                        visibleColumn.add(column);
+                        headerVlaueMap.put(StringUtils.EMPTY + selectedTotal + (ConstantsUtils.ENDING_BALANCE.equals(selectedVariables.get(j)) ? ConstantsUtils.BALANCE : selectedVariables.get(j)), column);
+                        index++;
+                    }
+                    headerMap.put(doubleColumn, tempList.toArray());
+                    excelHeaderMap.put(doubleColumn, tempList.toArray());
+                }
+            }
 
-        selection.setHeaderVisibleColumnMap(headerVlaueMap);
-        selection.setExcelVisibleColumn(visibleColumn);
+            selection.setHeaderVisibleColumnMap(headerVlaueMap);
+            selection.setExcelVisibleColumn(visibleColumn);
 
-        finalList.add(visibleColumn);
-        finalList.add(visibleHeaders);
-        finalList.add(doubleColumns);
-        finalList.add(doubleHeaders);
-        finalList.add(headerMap);
-        finalList.add(excelHeaderMap);
+            finalList.add(visibleColumn);
+            finalList.add(visibleHeaders);
+            finalList.add(doubleColumns);
+            finalList.add(doubleHeaders);
+            finalList.add(headerMap);
+            finalList.add(excelHeaderMap);
 
-        addTotalAndCumulative(selectedVariables, selectedToatalAndCumulative);
+            addTotalAndCumulative(selectedVariables, selectedToatalAndCumulative);
 
             return finalList;
-    }
+        }
         return Collections.emptyList();
     }
 
@@ -273,10 +273,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
     }
 
     private boolean isHeaderIsAvail(Date frmDate, Date toDate, List<String> selectedAdjustmentType) {
-        if (!selectedAdjustmentType.isEmpty() && (toDate.equals(frmDate) || toDate.after(frmDate))) {
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
+        return (!selectedAdjustmentType.isEmpty() && (toDate.equals(frmDate) || toDate.after(frmDate)));
     }
 
     private List<String> removeTotalAndCumulative(List<String> selectedVariables) {
@@ -338,7 +335,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             AdjustmentDTO val = (AdjustmentDTO) bsrDto;
             int levelNo = val.getLevelNo();
             masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
-            masterSids.put(bsrSelection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
+            masterSids.put(bsrSelection.getSummaryLevel().get(levelNo), ARMUtils.getIntegerValue(val.getBranditemmasterSid()));
             bsrSelection.setMasterSids(masterSids);
             if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(bsrSelection.getSummaryLevel().get(++levelNo))) {
                 nextLevel = bsrSelection.getSummarydeductionLevelDes();
@@ -398,7 +395,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
                 && (criteria.getCurrentPage() == criteria.getLastPage()) && criteria.getSelectionDto().getSummarylevelFilterNo() == 0 && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) {
             totalFlag = true;
             int start = Integer.parseInt(inputs.get(inputs.size() - 2).toString());
-            int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString()) - 1;
+            int offset = ARMUtils.getIntegerValue(inputs.get(inputs.size() - 1).toString()) - 1;
             inputs.set(inputs.size() - 1, offset);
             dataFlag = offset >= start;
         }
@@ -444,7 +441,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
 
     @Override
     public Boolean generateButtonCheck(SelectionDTO selection) {
-        return true;
+        return Boolean.TRUE;
 
     }
 
@@ -552,11 +549,11 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
 
     protected String[] getKey(Object[] resultSet, int keyParam) {
         StringBuilder keys = new StringBuilder();
-        keys.append(resultSet[0].toString()).append(".");
+        keys.append(resultSet[0].toString()).append(ARMUtils.DOT);
         String group = resultSet[1].toString();
         for (int i = 2; i < keyParam; i += 2) {
             if (resultSet[i] != null) {
-                keys.append(resultSet[i]).append(".");
+                keys.append(resultSet[i]).append(ARMUtils.DOT);
                 group = resultSet[i + 1].toString();
             }
         }

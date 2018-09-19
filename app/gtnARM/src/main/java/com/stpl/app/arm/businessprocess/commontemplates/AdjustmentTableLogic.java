@@ -13,6 +13,7 @@ import com.stpl.app.arm.supercode.HasLogic;
 import com.stpl.app.arm.supercode.LogicAble;
 import com.stpl.app.arm.supercode.SelectionCriteria;
 import com.stpl.app.arm.supercode.TableLogicAble;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
 
     private LogicAble<T> logic;
     private AbstractSelectionDTO selection;
-    private boolean isGenerate = Boolean.TRUE;
+    private boolean isGenerate = true;
     public static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentTableLogic.class);
 
     public AdjustmentTableLogic(LogicAble<T> logic, AbstractSelectionDTO selection) {
@@ -100,7 +101,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
         this.clearAll();
         isGenerate = isReset;
         setCurrentPage(1);
-        return Boolean.TRUE;
+        return true;
     }
 
     protected int getSiblingCount() {
@@ -144,7 +145,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
             selection.setLevelNo(levelNo);
             AdjustmentDTO levelDto = levelList.get(j);
             if (levelDto.getChildrenAllowed()) {
-                String customTreeLevel = treeLevel + (index + j) + ".";
+                String customTreeLevel = treeLevel + (index + j) + ARMUtils.DOT;
                 addExpandedTreeList(customTreeLevel, levelDto);
                 recursivelyLoadExpandData(levelDto, customTreeLevel, expandLevelNo);
             }

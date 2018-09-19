@@ -63,7 +63,7 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
         sql = sql.replace(CONFIGTYPETEMPTABLE, criteria.getSelectionDto().getSessionDTO().getCurrentTableNames().get(tableName));
         sql = sql.replace(PAGINATION, StringUtils.EMPTY);
         List count = QueryUtils.executeSelect(sql);
-        return count == null || count.isEmpty() ? 0 : Integer.valueOf(String.valueOf(count.get(0)));
+        return count == null || count.isEmpty() ? 0 : ARMUtils.getIntegerValue(String.valueOf(count.get(0)));
     }
     private static final String PAGINATION = "@PAGINATION";
     private static final String CONFIGTYPETEMPTABLE = "@CONFIGTYPETEMPTABLE";
@@ -168,8 +168,8 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
             sb = sb.replace("@SESSION_DECLARE", StringUtils.EMPTY)
                     .replace("@SESSION_INCLUDE", StringUtils.EMPTY)
                     .replace("@TABLE_1", isView ? CommonConstant.ARM_ADJUSTMENTS : selection.getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_ADJUSTMENTS))
-                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_BRACES)
-                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_BRACES)
+                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_PARANTHESIS)
+                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_PARANTHESIS)
                     .replace("@ACC_VAL1", account)
                     .replace("@ACCOUNT_CONDITION", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (SELECT ACC_ID FROM #ARM_ACC)")
                     .replace("@USER_REF", "" + selection.getSessionDTO().getUserId())
@@ -210,9 +210,9 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
                     .replace("@ADJUSTMENT_TYPE", String.valueOf(selection.getDataSelectionDTO().getAdjustmentId()))
                     .replace("@USER_REF", "" + selection.getSessionDTO().getUserId())
                     .replace("@SESSION_REF", "" + selection.getSessionDTO().getSessionId())
-                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_BRACES)
-                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_BRACES)
-                    .replace("@ACCOUNT", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (" + account + ARMUtils.CLOSE_BRACES)
+                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_PARANTHESIS)
+                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_PARANTHESIS)
+                    .replace("@ACCOUNT", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (" + account + ARMUtils.CLOSE_PARANTHESIS)
                     .replace(CONFIGTYPETEMPTABLE, selection.getSessionDTO().getCurrentTableNames().get(ST_ARM_ADJ_GTN_DETAIL_EXCEL))
                     .replace("?AMOUNTCONDITION", StringUtils.EMPTY.equals(getAmountFilterCondition(selection.getDetailamountFilter(), "TP.")) ? StringUtils.EMPTY : getAmountFilterCondition(selection.getDetailamountFilter(), "TP."));
         }
@@ -371,20 +371,7 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
         fileList.add(tempFileName);
         VaadinSession.getCurrent().setAttribute(dirName, fileList);
         ExcelExportforBB.sendConvertedFileToUser(UI.getCurrent(), file, outputFilePath);
-        deleteTempFolder(fileName);
-        LOGGER.info("--->Temp Folder Deleted....");
     }
 
-    private void deleteTempFolder(String fileName) {
-        File file = CommonUtil.getFilePath(fileName.substring(0, fileName.lastIndexOf('/')));
-        if (file.isDirectory()) {
-            File[] listFiles = file.listFiles();
-            for (File file1 : listFiles) {
-                boolean value = file1.delete();
-                LOGGER.debug("File Deleted {}", value);
-            }
-        }
-        boolean deleteValue = file.delete();
-        LOGGER.debug("Directory Deleted {}", deleteValue);
-    }
+    
 }

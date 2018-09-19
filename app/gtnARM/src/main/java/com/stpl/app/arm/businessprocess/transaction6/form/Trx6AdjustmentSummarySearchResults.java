@@ -42,18 +42,18 @@ public class Trx6AdjustmentSummarySearchResults extends AbstractPipelineSummaryR
     @Override
     public Object[] getExcelHierarchy() {
         LOGGER_TX6_SUMMARY.debug("Inside getExcelHierarchy");
-        Object[] value = null;
+        Object[] tr6SummaryValue = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "C", "T", "B", "I"};
+            tr6SummaryValue = new Object[]{"D", "C", "T", "B", "I"};
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
-            value = new Object[]{"T", "C", "B", "I"};
+            tr6SummaryValue = new Object[]{"T", "C", "B", "I"};
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomer())) {
-            value = new Object[]{"T", "B", "I"};
+            tr6SummaryValue = new Object[]{"T", "B", "I"};
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
-            value = new Object[]{"B", "I"};
+            tr6SummaryValue = new Object[]{"B", "I"};
         }
         LOGGER_TX6_SUMMARY.debug("End of getExcelHierarchy");
-        return value;
+        return tr6SummaryValue;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class Trx6AdjustmentSummarySearchResults extends AbstractPipelineSummaryR
     @Override
     public boolean getisFixedColumns() {
         LOGGER_TX6_SUMMARY.debug("Inside getisFixedColumns");
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Trx6AdjustmentSummarySearchResults extends AbstractPipelineSummaryR
     @Override
     public boolean getisDeductionCustomer() {
         LOGGER_TX6_SUMMARY.debug("Inside getisDeductionCustomer");
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override

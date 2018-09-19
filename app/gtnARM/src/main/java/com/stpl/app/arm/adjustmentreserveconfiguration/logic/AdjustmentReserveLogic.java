@@ -198,7 +198,7 @@ public class AdjustmentReserveLogic {
         List input1 = getInputForAddLine(selection);
         List dataList1 = QueryUtils.getItemData(input1, "ADD_Line_to_Temp_table", null);
         if (!dataList1.isEmpty()) {
-            return Integer.valueOf(String.valueOf(dataList1.get(0)));
+            return ARMUtils.getIntegerValue(String.valueOf(dataList1.get(0)));
         } else {
             return 0;
         }
@@ -255,7 +255,7 @@ public class AdjustmentReserveLogic {
         if (dataList.isEmpty()) {
             return 0;
         }
-        return Integer.valueOf(String.valueOf(dataList.get(0)));
+        return ARMUtils.getIntegerValue(String.valueOf(dataList.get(0)));
     }
 
     private List getInputForLoadData(ReserveSelection selection, Set<Container.Filter> filter) {
@@ -612,7 +612,7 @@ public class AdjustmentReserveLogic {
     }
 
     private void customizeReserveSearch1(Object[] str, AdjustmentReserveDTO dto) {
-        dto.setSearchMasterSid(str[0] == null ? 0 : Integer.valueOf(String.valueOf(str[0])));
+        dto.setSearchMasterSid(str[0] == null ? 0 : ARMUtils.getIntegerValue(String.valueOf(str[0])));
         dto.setCompanyNo(str[NumericConstants.ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ONE]));
         dto.setCompanyName(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
         dto.setBusinessUnitNo(str[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THREE]));
@@ -848,7 +848,7 @@ public class AdjustmentReserveLogic {
         List<Object> resultList = new ArrayList<>();
         if (category != 0) {
             String query = SQlUtil.getQuery("adjustmentSummaryLoadRSType");
-            query = query.replace("?", String.valueOf(category));
+            query = query.replace(ARMUtils.CHAR_QUS, String.valueOf(category));
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         }
         return resultList;
@@ -926,7 +926,7 @@ public class AdjustmentReserveLogic {
      */
     public boolean deleteAdjustmentDetailsCheck(AdjustmentReserveDTO dto) {
         String query = SQlUtil.getQuery("adjustment_details_check");
-        query = query.replace("?", dto.getSearchMasterSid() + StringUtils.EMPTY);
+        query = query.replace(ARMUtils.CHAR_QUS, dto.getSearchMasterSid() + StringUtils.EMPTY);
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         int val = Integer.parseInt(list.get(0).toString());
         return val > 0;
@@ -1067,7 +1067,7 @@ public class AdjustmentReserveLogic {
                     joinQuery.append("LEFT JOIN HELPER_TABLE HET").append(count).append("  ON  HET");
                     joinQuery.append(count).append(".HELPER_TABLE_SID =");
                     if (ARMUtils.getDescriptionForFilter().get(stringFilters) != null && !ARMUtils.getDescriptionForFilter().get(stringFilters).isEmpty()) {
-                        joinQuery.append("ARC.").append(ARMUtils.getDescriptionForFilter().get(stringFilters)).append(" ");
+                        joinQuery.append("ARC.").append(ARMUtils.getDescriptionForFilter().get(stringFilters)).append(ARMUtils.SPACE);
                     }
                     count++;
                 }

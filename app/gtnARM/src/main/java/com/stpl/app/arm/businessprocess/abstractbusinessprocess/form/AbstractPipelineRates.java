@@ -144,7 +144,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
         try {
             deductionLevelDdlb.setValue(0);
             List<String> defaultValues = rateLogic.getRateConfigSettings(new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getCompanyMasterSid(), selection.getDataSelectionDTO().getBucompanyMasterSid(),
-                    selection.getDataSelectionDTO().getAdjustmentId(), StringUtils.isNotBlank(selection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(selection.getDataSelectionDTO().getFromPeriodMonth().trim().split(" ")[0]) : 1)));// Changed for GAL-6120
+                    selection.getDataSelectionDTO().getAdjustmentId(), StringUtils.isNotBlank(selection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(selection.getDataSelectionDTO().getFromPeriodMonth().trim().split(ARMUtils.SPACE.toString())[0]) : 1)));// Changed for GAL-6120
             if (!defaultValues.isEmpty()) {
                 rateBasisDdlb.setValue(Integer.valueOf(defaultValues.get(0)));
                 rateFrequencyDdlb.setValue(Integer.valueOf(defaultValues.get(1)));
@@ -189,10 +189,10 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
 
     @UiHandler("rateFrequencyDdlb")
     public void rateFrequencyValueChange(Property.ValueChangeEvent event) {
-        if (rateFrequencyDdlb.getValue() != null && Integer.valueOf(rateFrequencyDdlb.getValue().toString()) != 0) {
+        if (rateFrequencyDdlb.getValue() != null && ARMUtils.getIntegerValue(rateFrequencyDdlb.getValue().toString()) != 0) {
             ratePeriodDdlb.removeAllItems();
             Calendar cal = Calendar.getInstance();
-            String[] startArr = selection.getDataSelectionDTO().getFromPeriodMonth().split(" ");
+            String[] startArr = selection.getDataSelectionDTO().getFromPeriodMonth().split(ARMUtils.SPACE.toString());
             int start = CommonUtils.getMonthNo(startArr[0]) - 1;
             cal.set(Calendar.MONTH, start);
             cal.set(Calendar.YEAR, Integer.valueOf(startArr[1]));
@@ -200,7 +200,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
             String month = AbstractBPLogic.getMonthName(cal.get(Calendar.MONTH) + 1);
             String year = String.valueOf(cal.get(Calendar.YEAR));
 
-            String str = month + " " + year;
+            String str = month + ARMUtils.SPACE + year;
             priceddlb = CommonUtils.getPeriodsByFrequency(rateFrequencyDdlb.getItemCaption(rateFrequencyDdlb.getValue()), selection.getDataSelectionDTO().getFromPeriodMonth(), str);
             ratePeriodDdlb.setContainerDataSource(new IndexedContainer(priceddlb));
         } else {
@@ -216,7 +216,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
     protected void setSelection() {
         selection.setRateDeductionLevel((Integer) deductionLevelDdlb.getValue());
         selection.setRateDeductionLevelName(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue()));
-        selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, true));
+        selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, Boolean.TRUE));
         StringBuilder deductionValues = new StringBuilder();
         if (!selection.getRateColumnList().isEmpty()) {
             List<String> listSize = new ArrayList(selection.getRateColumnList().get(0));
@@ -236,10 +236,10 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
         if (!ratesListSize.isEmpty()) {
             for (int i = 0; i < ratesListSize.size(); i++) {
                 String ratesValue = ratesListSize.get(i);
-                if (ratesValue.contains(".")) {
+                if (ratesValue.contains(ARMUtils.DOT)) {
                     ratesValue = ratesValue.substring(0, ratesValue.lastIndexOf('.'));
                 }
-                ratesListSize.set(i, ratesValue.replace(" ", StringUtils.EMPTY).trim());
+                ratesListSize.set(i, ratesValue.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).trim());
                 if (i != ratesListSize.size() - 1) {
                     deductionValues.append(ARMUtils.SINGLE_QUOTES).append(ratesValue).append("',");
                 } else {
@@ -368,7 +368,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
             if (!StringUtils.isBlank(selection.getRateFrequency())) {
                 selection.setRateFrequencyName(helperId.getDescriptionByID(Integer.valueOf(selection.getRateFrequency())));
             }
-            selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, true));
+            selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, Boolean.TRUE));
             List<String> listSize = getListSize();
             StringBuilder deductionValues = new StringBuilder();
             if (!listSize.isEmpty()) {

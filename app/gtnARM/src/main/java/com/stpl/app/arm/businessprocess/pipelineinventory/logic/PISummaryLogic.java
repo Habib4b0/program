@@ -64,7 +64,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         boolean totalFlag = false;
         if (((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getCurrentPage() == criteria.getLastPage()) && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
             totalFlag = true;
-            int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString()) - 1;
+            int offset = ARMUtils.getIntegerValue(inputs.get(inputs.size() - 1).toString()) - 1;
             inputs.set(inputs.size() - 1, offset);
         }
         List<Object[]> data;
@@ -121,7 +121,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 dto.setLevelNo((int) get[NumericConstants.EIGHT]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
                 Boolean total = isTotal ? false : (boolean) get[NumericConstants.NINE];
-                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() == 0) ? total : false);
+                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() == 0) ? total : Boolean.FALSE);
                 dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                 if (masterSids != null) {
                     dto.setMasterIds(masterSids);
@@ -129,7 +129,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 resultList.add(dto);
                 dto = clearVariables(variables, dto);
             }
-            index = indexMap.get(get[0].toString().replace(" ", org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
+            index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
             if (dto != null) {
                 if (index < totalColumnIndex) {
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? org.apache.commons.lang.StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));

@@ -14,6 +14,8 @@ import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.ifs.util.constants.ARMConstants;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,18 +23,22 @@ import java.util.Map;
  */
 public class AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
+    private static final Logger RATES_RES_LOGGER = LoggerFactory.getLogger(AccrualRatesSearchResults.class);
+
     public AccrualRatesSearchResults(AbstractBPLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
     }
 
     @Override
     protected void getTotalHeader(List<List> columnList) {
+        RATES_RES_LOGGER.debug("Inside getTotalHeader");
         return;
 
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
+        RATES_RES_LOGGER.debug("Inside getExcelLogic");
         return getSummaryLogic();
     }
 
@@ -49,62 +55,66 @@ public class AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public List getExcelExportVisibleColumn() {
+        RATES_RES_LOGGER.debug("Inside getExcelExportVisibleColumn");
         return getSelection().getRateColumnList().get(0);
     }
 
     @Override
     public String getExcelFileName() {
+        RATES_RES_LOGGER.debug("Inside getExcelFileName");
         return "Rates";
     }
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        RATES_RES_LOGGER.debug("Inside getisFixedColumns");
+        return true;
     }
 
     @Override
     public int getInterval() {
+        RATES_RES_LOGGER.debug("Inside getInterval");
         return 1;
     }
 
     @Override
     public int discountColumnNeeded() {
+        RATES_RES_LOGGER.debug("Inside discountColumnNeeded");
         return 1;
     }
 
     @Override
     public boolean getisDeductionCustomer() {
-        if (ARMConstants.getDeductionCustomerContract().equals(getSelection().getSummaryviewType())
-                || ARMConstants.getDeductionContractCustomer().equals(getSelection().getSummaryviewType())) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
-        }
+        RATES_RES_LOGGER.debug("Inside getisDeductionCustomer");
+        return (ARMConstants.getDeductionCustomerContract().equals(getSelection().getSummaryviewType())
+                || ARMConstants.getDeductionContractCustomer().equals(getSelection().getSummaryviewType()));
     }
 
     @Override
     protected void valueDdlbValueChange(int masterSids) {
-        return;
+        RATES_RES_LOGGER.debug("Inside valueDdlbValueChange");
     }
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-        return;
+        RATES_RES_LOGGER.debug("Inside loadLevelFilterValueDdlb");
     }
-    private static final Object[] searchResult = {ARMConstants.getDeductionProduct(),
+    private static final Object[] RATES_SEARCH_RESULT = {ARMConstants.getDeductionProduct(),
         ARMConstants.getDeductionCustomer(), ARMConstants.getDeductionCustomerContract(), ARMConstants.getDeductionContractCustomer()};
 
     @Override
     protected void configureOnRatesSearchResults() {
-        calculateBtn.setVisible(false);
-        cancelOverride.setVisible(false);
+        boolean visible = false;
+        calculateBtn.setVisible(visible);
+        cancelOverride.setVisible(visible);
         panelCaption.setCaption("Rate Results");
-        valueDdlb.setVisible(false);
+        valueDdlb.setVisible(visible);
         bbExport.setPrimaryStyleName("link");
-        bbExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
-        customerProductView.addItems(searchResult);
+        bbExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, EXCEL_EXPORT);
+        customerProductView.addItems(RATES_SEARCH_RESULT);
         customerProductView.setValue(ARMConstants.getDeductionProduct());
     }
+    private static final String EXCEL_EXPORT = "Excel Export";
 
     @Override
     public PipelineAccrualRateLogic getSummaryLogic() {

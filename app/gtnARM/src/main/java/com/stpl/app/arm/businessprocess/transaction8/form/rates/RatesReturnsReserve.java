@@ -131,17 +131,17 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
     public void setSelection() {
         selection.setRateDeductionLevel((Integer) deductionLevelDdlb.getValue());
         selection.setRateDeductionLevelName(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue()));
-        selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, true));
+        selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, Boolean.TRUE));
         StringBuilder deductionValues = new StringBuilder(StringUtils.EMPTY);
         if (!selection.getRateColumnList().isEmpty()) {
             List<String> listSize = new ArrayList(selection.getRateColumnList().get(0));
             if (!listSize.isEmpty()) {
                 for (int i = 0; i < listSize.size(); i++) {
                     String value = listSize.get(i);
-                    if (value.contains(".")) {
+                    if (value.contains(ARMUtils.DOT)) {
                         value = value.substring(0, value.lastIndexOf('.'));
                     }
-                    listSize.set(i, value.replace(" ", StringUtils.EMPTY).trim());
+                    listSize.set(i, value.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).trim());
                     if (i != listSize.size() - 1) {
                         deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                     } else {

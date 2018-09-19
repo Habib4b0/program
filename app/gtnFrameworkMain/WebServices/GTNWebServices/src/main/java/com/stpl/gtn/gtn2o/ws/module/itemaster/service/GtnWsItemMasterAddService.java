@@ -518,7 +518,7 @@ public class GtnWsItemMasterAddService {
 		return query;
 	}
 
-	private Map<String, String> getPricingColumnMap() {
+	public  Map<String, String> getPricingColumnMap() {
 		Map<String, String> pricingColumnMaping = new HashMap<>();
 		pricingColumnMaping.put(GtnFrameworkCommonConstants.PRICING_QUALIFIER_NAME, "ITEM_PRICING_QUALIFIER_NAME");
 		pricingColumnMaping.put(GtnFrameworkCommonConstants.ITEM_PRICE, "ITEM_PRICE");
@@ -560,6 +560,7 @@ public class GtnWsItemMasterAddService {
 
 	public void updateData(GtnUIFrameworkWebserviceRequest gtnWsRequest)
 			throws GtnFrameworkGeneralException, ParseException {
+		
 		String query = gtnWsSqlService.getQuery("updateinPricingTempTable");
 		query = query.replace("columnName", getPricingColumnMap().get(gtnWsRequest.getGtnWsItemMasterRequest()
 				.getGtnWsItemMasterBean().getGtnWsItemMasterInfoBean().getPopulateField()));
@@ -636,7 +637,7 @@ public class GtnWsItemMasterAddService {
 					gtnWsRequest.getGtnWsGeneralRequest().getUserId(), today };
 			GtnFrameworkDataType[] typeParams = new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER,
 					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER,
-					GtnFrameworkDataType.STRING, GtnFrameworkDataType.DATE, GtnFrameworkDataType.DATE,
+					GtnFrameworkDataType.STRING, GtnFrameworkDataType.DATE, GtnFrameworkDataType.NULL_ALLOWED,
 					GtnFrameworkDataType.STRING, GtnFrameworkDataType.DATE, GtnFrameworkDataType.STRING,
 					GtnFrameworkDataType.DATE };
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, typeParams);
@@ -725,7 +726,7 @@ public class GtnWsItemMasterAddService {
 		gtnResponse.getGtnWsItemMasterResponse().setGtnWsValidationBean(new GtnWsValidationBean());
 	}
 
-	private int getCountBasedOnCountQuery(String statusValidationQuery) throws GtnFrameworkGeneralException {
+	public int getCountBasedOnCountQuery(String statusValidationQuery) throws GtnFrameworkGeneralException {
 		return Integer.parseInt(String.valueOf(gtnSqlQueryEngine.executeSelectQuery(statusValidationQuery).get(0)));
 
 	}

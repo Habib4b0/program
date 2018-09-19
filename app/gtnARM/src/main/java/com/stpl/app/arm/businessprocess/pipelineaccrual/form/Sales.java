@@ -134,9 +134,9 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
         variableVisibleColumns = VariableConstants.getVariableSalesVisibleColumn();
         CommonUtils.loadCustomMenu(customMenuItem, variableValues, variableVisibleColumns);
         List<Object> defaultValue = salesLogic.getMonthYear();
-        Integer vvalue = Integer.valueOf(String.valueOf(defaultValue.get(1)));
+        Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValue.get(1)));
         String month = SalesLogic.getMonthName(vvalue);
-        String str = month + " " + defaultValue.get(NumericConstants.TWO);
+        String str = month + ARMUtils.SPACE + defaultValue.get(NumericConstants.TWO);
         priceddlb = CommonUtils.getPeriodsByFrequency("M", salesSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
         salesPrice.removeAllItems();
         salesPrice.setContainerDataSource(new IndexedContainer(priceddlb));
@@ -148,7 +148,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             salesResults.setValueChangeAllowed(false);
             loadDetails();
             salesSelection.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
-            salesResults.generateButtonLogic(salesSelection, Boolean.TRUE);
+            salesResults.generateButtonLogic(salesSelection, true);
             if (ARMUtils.VIEW_SMALL.equals(salesSelection.getSessionDTO().getAction())) {
                 configureFieldsOnViewMode();
             }
@@ -224,7 +224,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
                         salesSelection.setDateType(description);
                         salesSelection.setProjectionMasterSid(dataselection.getProjectionId());
 
-                        salesResults.generateButtonLogic(salesSelection, Boolean.FALSE);
+                        salesResults.generateButtonLogic(salesSelection, false);
                         salesResults.setValueChangeAllowed(true);
                     }
                 } catch (Exception e) {
@@ -237,7 +237,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
     private void setDefaultValue() {
         try {
             List<String> defaultValue = salesLogic.getRateConfigSettings(new ArrayList<>(Arrays.asList(dataselection.getCompanyMasterSid(), dataselection.getBucompanyMasterSid(), dataselection.getAdjustmentId(),
-                    StringUtils.isNotBlank(salesSelection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(salesSelection.getDataSelectionDTO().getFromPeriodMonth().trim().split(" ")[0]) : 1)));
+                    StringUtils.isNotBlank(salesSelection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(salesSelection.getDataSelectionDTO().getFromPeriodMonth().trim().split(ARMUtils.SPACE.toString())[0]) : 1)));
             if (!defaultValue.isEmpty()) {
                 if (!"0".equals(defaultValue.get(NumericConstants.FOUR))) {
                     salesDateType.setValue(Integer.valueOf(defaultValue.get(NumericConstants.FOUR)));
@@ -286,9 +286,9 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             CommonUtils.loadComboBoxWithInteger(salesDateType, CommonConstant.ARM_DATE_TYPE, false);
             salesDateType.setValue(HelperListUtil.getInstance().getIdByDesc(CommonConstant.ARM_DATE_TYPE, salesSelection.getDateType()));
             List<Object> defaultValue = salesLogic.getMonthYear();
-            Integer vvalue = Integer.valueOf(String.valueOf(defaultValue.get(1)));
+            Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValue.get(1)));
             String month = SalesLogic.getMonthName(vvalue);
-            String str = month + " " + defaultValue.get(NumericConstants.TWO);
+            String str = month + ARMUtils.SPACE + defaultValue.get(NumericConstants.TWO);
             priceddlb = CommonUtils.getPeriodsByFrequency("M", salesSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
             salesPrice.removeAllItems();
             salesPrice.setContainerDataSource(new IndexedContainer(priceddlb));

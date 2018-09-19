@@ -157,7 +157,7 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 }
                 resultList.add(reforecastDto);
                 if (ARMConstants.getMultiplePeriod().equals(reforecastSelection.getSummarydemandview())) {
-                    int sIndex = ARMConstants.getMonthly().equals(reforecastSelection.getSummarydemandfrequency()) ? 0 : indexMap.get(get[get.length - 1].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT;
+                    int sIndex = ARMConstants.getMonthly().equals(reforecastSelection.getSummarydemandfrequency()) ? 0 : indexMap.get(get[get.length - 1].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.EIGHT;
                     startIndex = j == 0 ? sIndex : startIndex;
                     index = 0;
                 } else {
@@ -165,10 +165,10 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 }
             }
             if (ARMConstants.getSinglePeriod().equals(reforecastSelection.getSummarydemandview())) {
-                index = indexMap.get(get[0].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT;
+                index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.EIGHT;
             } else if (!ARMConstants.getMonthly().equals(reforecastSelection.getSummarydemandfrequency())) {
-                index = indexMap.get((get[get.length - 1].toString()).replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT;
-                nextStartIndex = next != null ? indexMap.get(next[next.length - 1].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT : startIndex;
+                index = indexMap.get((get[get.length - 1].toString()).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.EIGHT;
+                nextStartIndex = next != null ? indexMap.get(next[next.length - 1].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.EIGHT : startIndex;
             }
             if (reforecastDto != null) {
                 if (index < totalColumnIndex) {

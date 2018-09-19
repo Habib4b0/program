@@ -95,7 +95,7 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
                 : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
             if (returnReserveList.contains(object.getMenuItem().getWindow())) {
-                object.setChecked(Boolean.TRUE);
+                object.setChecked(true);
             }
         }
     }

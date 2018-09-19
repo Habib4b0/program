@@ -203,7 +203,7 @@ public class CommonLogic {
             for (Object[] str : list) {
                 if (!str[1].equals(String.valueOf(GlobalConstants.getSelectOne()))) {
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
                     dto.setDescription(str[1] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[1]));
                     resultList.add(dto);
                 }
@@ -254,7 +254,7 @@ public class CommonLogic {
             for (Object[] str : list) {
                 if (!str[1].equals(String.valueOf(GlobalConstants.getSelectOne()))) {
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
                     dto.setDescription(str[1] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[1]));
                     resultList.add(dto);
                 }
@@ -277,7 +277,7 @@ public class CommonLogic {
         String comboboxName = queryName;
         comboBox.setValidationVisible(true);
         comboBox.setImmediate(true);
-        comboBox.setNullSelectionAllowed(Boolean.FALSE);
+        comboBox.setNullSelectionAllowed(false);
         comboBox.addItem(0);
         comboBox.setItemCaption(0, GlobalConstants.getSelectOne());
         if (helperListUtil.get(comboboxName) == null) {
@@ -287,7 +287,7 @@ public class CommonLogic {
                 if (!str[1].equals(String.valueOf(GlobalConstants.getSelectOne()))) {
                     StringBuilder description;
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
                     description = new StringBuilder(str[1] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[1]));
                     if (str.length > NumericConstants.TWO) {
                         description.append(" - ");
@@ -330,7 +330,7 @@ public class CommonLogic {
                 if (!str[1].equals(String.valueOf(GlobalConstants.getSelectOne()))) {
                     StringBuilder description;
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
                     description = new StringBuilder();
                     description.append(str[1] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[1]));
                     description.append(str[NumericConstants.TWO] == null ? ARMUtils.ZERO_STRING : String.valueOf(str[NumericConstants.TWO]));
@@ -384,7 +384,7 @@ public class CommonLogic {
             Object obj = list.get(0);
             return (obj == null ? null : (Integer) obj == 1);
         }
-        return false;
+        return Boolean.FALSE;
 
     }
 
@@ -393,7 +393,7 @@ public class CommonLogic {
             Object obj = list.get(0);
             return (obj == null ? null : ((Integer) obj) > 0);
         }
-        return false;
+        return Boolean.FALSE;
 
     }
 
@@ -402,7 +402,7 @@ public class CommonLogic {
             Object obj = list.get(0);
             return (obj == null ? null : (Integer) obj > 0);
         }
-        return false;
+        return Boolean.FALSE;
 
     }
 
@@ -621,9 +621,9 @@ public class CommonLogic {
         LOGGER.debug("Entering saveNotes method with with projectionId {}", projectionId);
         String baseQuery = SQlUtil.getQuery("insertAdditionalNotes");
         Date date = new Date();
-        String param = "(" + projectionId + " , '" + moduleName + "' , " + createdBy + " , '" + new Timestamp(date.getTime()) + "' , " + "@NOTES" + " , '" + reasonCode + "')";
+        String param = ARMUtils.OPEN_PARANTHESIS + projectionId + " , '" + moduleName + "' , " + createdBy + " , '" + new Timestamp(date.getTime()) + "' , " + "@NOTES" + " , '" + reasonCode + "')";
         StringBuilder parameters = new StringBuilder();
-        parameters.append("(").append(projectionId).append(" , '").append(moduleName);
+        parameters.append(ARMUtils.OPEN_PARANTHESIS).append(projectionId).append(" , '").append(moduleName);
         parameters.append(CommonConstant.COMMA).append(createdBy).append(CommonConstant.COMMA).append(new Timestamp(date.getTime()));
         parameters.append(CommonConstant.COMMA).append(notes.get(0)).append("', '").append(reasonCode).append("' )");
         for (int i = 1; i < notes.size(); i++) {
@@ -652,7 +652,7 @@ public class CommonLogic {
         }
         deleteQuery = deleteQuery.replace("@PROJECTION_IDS", param);
         CommonImpl.getInstance().executeUpdate(deleteQuery);
-        return true;
+        return Boolean.TRUE;
     }
 
     public static void saveUploadedFile(int projectionId, List<NotesDTO> fileNames, String uploadedBy, int fileSize, String moduleName) {
@@ -663,11 +663,11 @@ public class CommonLogic {
         String insertQuery = SQlUtil.getQuery("insertUploadDocs");
         StringBuilder fileName = new StringBuilder(fileNames.get(0).getDocumentName());
         String fileType = StringUtils.EMPTY;
-        if (fileName.indexOf(".") == -1) {
-            fileName.append(".");
+        if (fileName.indexOf(ARMUtils.DOT) == -1) {
+            fileName.append(ARMUtils.DOT);
         } else {
-            fileType = fileName.toString().substring(fileName.lastIndexOf(".") + 1);
-            String fileNameStr = fileName.toString().substring(0, fileName.indexOf("."));
+            fileType = fileName.toString().substring(fileName.lastIndexOf(ARMUtils.DOT) + 1);
+            String fileNameStr = fileName.toString().substring(0, fileName.indexOf(ARMUtils.DOT));
             fileName = new StringBuilder();
             fileName.append(fileNameStr);
         }
@@ -675,18 +675,18 @@ public class CommonLogic {
         StringBuilder param = new StringBuilder();
         param.append("( '").append(fileName).append(CommonConstant.COMMA).append(fileType).append(CommonConstant.COMMA);
         param.append(formatter.format(fileSize)).append("' , ").append(ARMUtils.SINGLE_QUOTES).append(uploadedBy).append(CommonConstant.COMMA);
-        param.append(moduleName).append(CommonConstant.COMMA).append(new Timestamp(date.getTime())).append("' , ").append(projectionId).append(ARMUtils.CLOSE_BRACES);
+        param.append(moduleName).append(CommonConstant.COMMA).append(new Timestamp(date.getTime())).append("' , ").append(projectionId).append(ARMUtils.CLOSE_PARANTHESIS);
 
         for (int i = 1; i < fileNames.size(); i++) {
             String fileNameStr = fileNames.get(i).getDocumentName();
             fileName = new StringBuilder();
             fileName.append(fileNameStr);
             fileType = StringUtils.EMPTY;
-            if (fileName.indexOf(".") == -1) {
-                fileName.append(".");
+            if (fileName.indexOf(ARMUtils.DOT) == -1) {
+                fileName.append(ARMUtils.DOT);
             } else {
-                fileType = fileName.toString().substring(fileName.lastIndexOf(".") + 1);
-                String fileNamestr = fileName.substring(0, fileName.indexOf("."));
+                fileType = fileName.toString().substring(fileName.lastIndexOf(ARMUtils.DOT) + 1);
+                String fileNamestr = fileName.substring(0, fileName.indexOf(ARMUtils.DOT));
                 fileName = new StringBuilder();
                 fileName.append(fileNamestr);
             }
@@ -695,7 +695,7 @@ public class CommonLogic {
 
             param.append(fileType).append(CommonConstant.COMMA).append(formatter.format(fileSize)).append("' , ").append(ARMUtils.SINGLE_QUOTES);
             param.append(uploadedBy).append(CommonConstant.COMMA).append(moduleName).append(CommonConstant.COMMA).append(new Timestamp(date.getTime()));
-            param.append("' , ").append(projectionId).append(ARMUtils.CLOSE_BRACES);
+            param.append("' , ").append(projectionId).append(ARMUtils.CLOSE_PARANTHESIS);
 
         }
         insertQuery = (insertQuery.replace("@Values", param)) + ";";
@@ -883,7 +883,7 @@ public class CommonLogic {
 
     public static void getDataSelectionForWorkFlow(DataSelectionDTO result) throws ParseException {
         String query = SQlUtil.getQuery("fetchDataSelectionForWorkflow");
-        query = query.replace("?", Integer.toString(result.getProjectionId()) + "");
+        query = query.replace(ARMUtils.CHAR_QUS, Integer.toString(result.getProjectionId()) + "");
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         Object[] obj = list.get(0);
         result.setProjectionDescription(CommonLogic.convertNullToEmpty(String.valueOf(obj[0])));
@@ -935,7 +935,7 @@ public class CommonLogic {
     }
 
     public static void saveTempToMain(int projId, Map<String, String> currentTableNames, String adjType) {
-        String adjTypes = adjType.trim().replace(" ", String.valueOf(ARMUtils.UNDERSCORE));
+        String adjTypes = adjType.trim().replace(ARMUtils.SPACE.toString(), String.valueOf(ARMUtils.UNDERSCORE));
         String query = SQlUtil.getQuery(adjTypes + "_Wf_Save_Query");
         query = query.replaceAll("@PROJECTION_MASTER_SID", Integer.toString(projId) + "");
         query = QueryUtil.replaceTableNames(query, currentTableNames);
@@ -950,7 +950,7 @@ public class CommonLogic {
         for (Object[] obj : list) {
             NotesDTO dto = new NotesDTO();
             dto.setNotesHistory(String.valueOf(obj[0]));
-            dto.setDocumentName(obj[1] + "." + obj[NumericConstants.TWO]);
+            dto.setDocumentName(obj[1] + ARMUtils.DOT + obj[NumericConstants.TWO]);
             dto.setFileType(String.valueOf(obj[NumericConstants.TWO]));
             dto.setUserName(String.valueOf(obj[NumericConstants.THREE]));
             dto.setDateAdded(String.valueOf(obj[NumericConstants.FOUR]));
@@ -1217,7 +1217,7 @@ public class CommonLogic {
         for (int i = 0; i < list.size(); i++) {
             Object[] helper = list.get(i);
             HelperDTO dto = new HelperDTO();
-            dto.setId(Integer.valueOf(helper[0].toString()));
+            dto.setId(ARMUtils.getIntegerValue(helper[0].toString()));
             dto.setDescription((helper[1].toString()));
             comboBox.addItem(dto);
             String desc = ((String.valueOf(helper[NumericConstants.TWO])).replace("Balance Summary", StringUtils.EMPTY)).trim();
@@ -1234,7 +1234,7 @@ public class CommonLogic {
         List helperList = new ArrayList();
         for (Object[] str : list) {
             HelperDTO dto = new HelperDTO();
-            dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+            dto.setId(str[0] == null ? 0 : ARMUtils.getIntegerValue(str[0].toString()));
             dto.setDescription(str[1] == null ? StringUtils.EMPTY : str[1].toString());
             helperList.add(dto);
         }
@@ -1248,7 +1248,7 @@ public class CommonLogic {
         for (int i = 0; i < list.size(); i++) {
             Object[] helper = list.get(i);
             HelperDTO dto = new HelperDTO();
-            dto.setId(Integer.valueOf(helper[0].toString()));
+            dto.setId(ARMUtils.getIntegerValue(helper[0].toString()));
             dto.setDescription(helper[1].toString());
             comboBox.addItem(dto);
             comboBox.setItemCaption(dto, String.valueOf(helper[1]));
@@ -1741,12 +1741,12 @@ public class CommonLogic {
             return year;
         } else if (ARMConstants.getSemiAnnually().equals(frequency)) {
             int freq = (Integer.valueOf(str[0])) % 6 != 0 ? (((Integer.valueOf(str[0])) / 6) + 1) : ((Integer.valueOf(str[0])) / 6);
-            return "S" + freq + " " + year;
+            return "S" + freq + ARMUtils.SPACE + year;
         } else if (ARMConstants.getQuarterly().equals(frequency)) {
             int freq = (Integer.valueOf(str[0])) % 4 != 0 ? (((Integer.valueOf(str[0])) / 4) + 1) : ((Integer.valueOf(str[0])) / 4);
-            return "Q" + freq + " " + year;
+            return "Q" + freq + ARMUtils.SPACE + year;
         } else {
-            return AbstractBPLogic.getMonthName(Integer.valueOf(str[0])) + " " + year;
+            return AbstractBPLogic.getMonthName(Integer.valueOf(str[0])) + ARMUtils.SPACE + year;
         }
     }
 

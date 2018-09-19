@@ -79,11 +79,11 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             excelDoubleSingleColumn = new ArrayList<>();
             for (int i = 0; i < rrColumns.length; i++, index++) {
                 String column = rrColumns[i];
-                singleColumn.add(column + "." + index);
-                rrExcelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
+                singleColumn.add(column + ARMUtils.DOT + index);
+                rrExcelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + ARMUtils.DOT + (index));
                 if (columnList.contains(column)) {
                     int listIndex = columnList.indexOf(column);
-                    String visibleColumn = rrSelection.getSummaryvariables().get(listIndex)[0] + "." + index;
+                    String visibleColumn = rrSelection.getSummaryvariables().get(listIndex)[0] + ARMUtils.DOT + index;
                     String header = rrSelection.getSummaryvariables().get(listIndex)[1];
                     rrSingleVisibleColumn.add(visibleColumn);
                     rrSingleVisibleHeader.add(header);
@@ -94,10 +94,10 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 }
             }
 
-            rrDoubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY));
+            rrDoubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY));
             rrDoubleVisibleHeader.add(detection[1]);
-            rrDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), doubleSingleColumn.toArray());
-            rrExcelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
+            rrDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), doubleSingleColumn.toArray());
+            rrExcelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
         }
         rrSelection.setSummarycolumnList(singleColumn);
         finalList.add(rrSingleVisibleColumn);
@@ -125,7 +125,7 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
     protected DataResult<T> getSummaryData(List<Object> inputs, Criteria criteria, TreeMap<String, Integer> masterSids) {
         boolean isView = criteria.getSelectionDto().getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getCurrentPage() == criteria.getLastPage())) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
-            int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString());
+            int offset = ARMUtils.getIntegerValue(inputs.get(inputs.size() - 1).toString());
             inputs.set(inputs.size() - 1, offset);
         }
         List<Object[]> data;
@@ -180,7 +180,7 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 rrAdjustmentDto = clearVariables(variables, rrAdjustmentDto);
                 resultList.add(rrAdjustmentDto);
             }
-            index = indexMap.get(get[0].toString().replace(" ", org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
+            index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
             if (rrAdjustmentDto != null) {
                 rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
                 rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.THREE]))));

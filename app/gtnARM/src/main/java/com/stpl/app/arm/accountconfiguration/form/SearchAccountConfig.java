@@ -509,8 +509,8 @@ public class SearchAccountConfig extends CustomComponent {
     }
 
     private void loadAccountDdlb() {
-        int company = companyDdlb.getValue() != null ? Integer.valueOf(String.valueOf(companyDdlb.getValue())) : 0;
-        int businessUnit = businessDdlb.getValue() != null ? Integer.valueOf(String.valueOf(businessDdlb.getValue())) : 0;
+        int company = companyDdlb.getValue() != null ? ARMUtils.getIntegerValue(String.valueOf(companyDdlb.getValue())) : 0;
+        int businessUnit = businessDdlb.getValue() != null ? ARMUtils.getIntegerValue(String.valueOf(businessDdlb.getValue())) : 0;
 
         boolean isLoad = company != 0 && businessUnit != 0;
         accountDdlb.removeAllItems();
@@ -553,7 +553,7 @@ public class SearchAccountConfig extends CustomComponent {
                 binderDto.setFilters(accountConfigSearchTableLogic.getFilters());
                 recordCount = logic.getAccountConfigCount(binderDto);
             }
-            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", String.valueOf(ARMUtils.UNDERSCORE)).toUpperCase(Locale.ENGLISH));
+            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(ARMUtils.SPACE.toString(), String.valueOf(ARMUtils.UNDERSCORE)).toUpperCase(Locale.ENGLISH));
         } catch (Exception ex) {
             GTNLOGGER.error("Error in createWorkSheet :", ex);
         }

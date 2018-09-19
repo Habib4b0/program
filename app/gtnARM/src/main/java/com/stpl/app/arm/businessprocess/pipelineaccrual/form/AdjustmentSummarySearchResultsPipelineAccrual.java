@@ -30,17 +30,17 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
 
     @Override
     public Object[] getExcelHierarchy() {
-        Object[] value = null;
+        Object[] summPAvalue = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "C", "T", "B", "I"};
+            summPAvalue = new Object[]{"D", "C", "T", "B", "I"};
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
-            value = new Object[]{"T", "C", "B", "I"};
+            summPAvalue = new Object[]{"T", "C", "B", "I"};
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomer())) {
-            value = new Object[]{"T", "B", "I"};
+            summPAvalue = new Object[]{"T", "B", "I"};
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
-            value = new Object[]{"B", "I"};
+            summPAvalue = new Object[]{"B", "I"};
         }
-        return value;
+        return summPAvalue;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
 }

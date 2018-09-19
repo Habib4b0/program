@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -102,16 +103,16 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
                 properties.put(prop, String.class);
             }
             excelBeanContainer.setColumnProperties(properties);
-            List<Object> visibleColumn = new ArrayList<>();
-            List<String> columnHeader = new ArrayList<>();
-            visibleColumn.addAll(Arrays.asList(table.getLeftFreezeAsTable().getVisibleColumns()));
-            visibleColumn.addAll(Arrays.asList(table.getRightFreezeAsTable().getVisibleColumns()));
-            List<String> headerList = Arrays.asList(table.getLeftFreezeAsTable().getColumnHeaders());
-            List<String> headerList2 = Arrays.asList(table.getRightFreezeAsTable().getColumnHeaders());
-            columnHeader.addAll(headerList);
-            columnHeader.addAll(headerList2);
-            excelTable.setVisibleColumns(visibleColumn.toArray());
-            excelTable.setColumnHeaders(columnHeader.toArray(new String[0]));
+            List<Object> excelVisibleColumn = new ArrayList<>();
+            List<String> excelColumnHeader = new ArrayList<>();
+            excelVisibleColumn.addAll(Arrays.asList(table.getLeftFreezeAsTable().getVisibleColumns()));
+            excelVisibleColumn.addAll(Arrays.asList(table.getRightFreezeAsTable().getVisibleColumns()));
+            List<String> excelHeaderList = Arrays.asList(table.getLeftFreezeAsTable().getColumnHeaders());
+            List<String> excelHeaderList2 = Arrays.asList(table.getRightFreezeAsTable().getColumnHeaders());
+            excelColumnHeader.addAll(excelHeaderList);
+            excelColumnHeader.addAll(excelHeaderList2);
+            excelTable.setVisibleColumns(excelVisibleColumn.toArray());
+            excelTable.setColumnHeaders(excelColumnHeader.toArray(new String[0]));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -130,7 +131,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
             setDeductionView(selection);
             setRespectiveHierarchy(selection.getReturnReserveDataDeductionView());
             configureLevelAndLevelFilter();
-            tableLogic.loadSetData(Boolean.FALSE);
+            tableLogic.loadSetData(false);
         }
     }
 
@@ -177,7 +178,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
         configureLevelAndLevelFilter();
         selectionDTO.setLevelNo(1);
         loadTableHeader(selectionDTO.getReturnReserveDataVariables());
-        tableLogic.loadSetData(Boolean.FALSE);
+        tableLogic.loadSetData(false);
     }
 
     private void procedureCall(AbstractSelectionDTO selectionDTO) {
@@ -272,7 +273,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
 
     @Override
     public boolean getisFixedColumns() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -282,7 +283,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
 
     @Override
     public boolean getisDeductionCustomer() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -292,7 +293,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
 
     @Override
     protected boolean getIsDemandSreen() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
@@ -329,19 +330,19 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
         for (Object visibleColumn : visibleColumns) {
             if (!VariableConstants.GROUP_RETURNS.equals(String.valueOf(visibleColumn)) && !"month".equals(String.valueOf(visibleColumn)) && !String.valueOf(visibleColumn).contains("brand")) {
                 if (isPercentageColumnzeroDecimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, perzeroDec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, perzeroDec, false);
                 } else if (isPercentageColumn2Decimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, rate2Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, rate2Dec, false);
                 } else if (isNumericTwoDecimalFormat(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, num2Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, num2Dec, false);
                 } else if (isPercentageColumn3Decimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, rate3Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, rate3Dec, false);
                 } else if (isUnitColumn(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, zeroDec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, zeroDec, false);
                 } else if (isCurrencyZeroDecimalFormat(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, currencyzeroDec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, currencyzeroDec, false);
                 } else {
-                    excelTable.setConverter(visibleColumn, currency2Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, currency2Dec, false);
                 }
             }
         }

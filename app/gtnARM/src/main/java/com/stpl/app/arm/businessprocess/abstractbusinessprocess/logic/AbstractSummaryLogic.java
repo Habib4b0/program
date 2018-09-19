@@ -157,7 +157,7 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
         String selectedView = viewMap.get(viewType);
         boolean isContractView = false;
         if (viewType.equals(ARMConstants.getDeductionCustomerContract())) {
-            isContractView = Boolean.TRUE;
+            isContractView = true;
         }
         if (isContractView && deduction.equals(ARMConstants.getDeduction())) {
             selectedView = "Deduction";
@@ -194,7 +194,7 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
         query = query.replace("[@PROJECTION_ID]", String.valueOf(projectionId));
         LOGGER.debug(" deductionTypeDescription {}", deductionTypeDescription);
         if (deductionTypeDescription.equalsIgnoreCase(ARMConstants.getDeduction())) {
-            query = query + "and RC.RS_ID in (" + deductionValues + ARMUtils.CLOSE_BRACES;
+            query = query + "and RC.RS_ID in (" + deductionValues + ARMUtils.CLOSE_PARANTHESIS;
         } else {
             query = query + SQlUtil.getQuery("levelFilterDdlbLoad-DeductionJoin");
             query = query.replace("[@DEDUCTION_ID]", String.valueOf(deductionType));
@@ -217,7 +217,7 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
         String query = SQlUtil.getQuery("getPeriodSidValue");
         query = query.replace("$PERIOD", period);
         List list = QueryUtils.executeSelect(query);
-        return list == null ? 0 : Integer.valueOf(String.valueOf(list.get(0)));
+        return list == null ? 0 : ARMUtils.getIntegerValue(String.valueOf(list.get(0)));
     }
 
     public AdjustmentDTO clearVariables(List<String> variables, AdjustmentDTO dto) {

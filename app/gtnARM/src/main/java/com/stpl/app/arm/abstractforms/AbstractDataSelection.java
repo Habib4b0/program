@@ -34,6 +34,7 @@ import com.stpl.app.arm.dataselection.ui.lookups.PrivatePublicLookUp;
 import com.stpl.app.arm.dataselection.ui.lookups.ViewSearchLookUp;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.DataSelectionUtils;
+import static com.stpl.app.arm.utils.DataSelectionUtils.getBeanFromId;
 import com.stpl.gtn.gtn2o.ws.arm.dataselection.bean.GtnARMHierarchyInputBean;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.GlobalConstants;
@@ -788,8 +789,8 @@ public abstract class AbstractDataSelection extends CustomComponent {
         inputBean.setHierarchyVersionNo(selectedHierarchyLevelDto.getVersionNo());
         inputBean.setLevelNo(levelNo);
         inputBean.setIsNdc(isNdc);
-        inputBean.setBusinessUnit(businessUnit.getValue() != null ? Integer.valueOf(String.valueOf(businessUnit.getValue())) : NumericConstants.ZERO);
-        inputBean.setGlCompany(company.getValue() != null ? Integer.valueOf(String.valueOf(company.getValue())) : NumericConstants.ZERO);
+        inputBean.setBusinessUnit(businessUnit.getValue() != null ? ARMUtils.getIntegerValue(String.valueOf(businessUnit.getValue())) : NumericConstants.ZERO);
+        inputBean.setGlCompany(company.getValue() != null ? ARMUtils.getIntegerValue(String.valueOf(company.getValue())) : NumericConstants.ZERO);
         return inputBean;
     }
 
@@ -834,9 +835,40 @@ public abstract class AbstractDataSelection extends CustomComponent {
             if (parent != null) {
                 selectedDeductionContainer.setParent(value, parent);
             }
-            if (StringUtils.countMatches(key, ".") == NumericConstants.NINE) {
+            if (StringUtils.countMatches(key, ARMUtils.DOT) == NumericConstants.NINE) {
                 selectedDeductionContainer.setChildrenAllowed(value, false);
             }
         }
+    }
+    
+    protected void createHierarchyBasedOnHierarchyNo(ExtTreeContainer<LevelDTO> treeContainer, List<LevelDTO> reslistOne, int customerOrProductLevel) {
+        treeContainer.removeAllItems();
+        reslistOne.forEach(levelDto -> {
+            addToContainer(levelDto, treeContainer, customerOrProductLevel);
+        });
+    }
+
+    private void addToContainer(LevelDTO levelDto, ExtTreeContainer<LevelDTO> treeContainer, int customerOrProductLevel) {
+        if (levelDto.getLevelNo() == 1) {
+            treeContainer.addItem(levelDto);
+            treeContainer.setChildrenAllowed(levelDto, true);
+        } else {
+            LevelDTO parentLevelDTO = getParentNode(levelDto, treeContainer);
+            treeContainer.addBean(levelDto);
+            treeContainer.setParent(levelDto, parentLevelDTO);
+            treeContainer.setChildrenAllowed(levelDto, customerOrProductLevel != levelDto.getLevelNo());
+        }
+    }
+
+    private LevelDTO getParentNode(LevelDTO childLevelDto, ExtTreeContainer<LevelDTO> treeContainer) {
+        String childHierarchyNo = childLevelDto.getHierarchyNo();
+        String tempString = childHierarchyNo.substring(0, childHierarchyNo.lastIndexOf('.'));
+        String parentHierarchyNo = childHierarchyNo.substring(0, tempString.lastIndexOf('.') + 1);
+
+        return treeContainer.getItemIds()
+                .stream()
+                .filter(levelDto -> getBeanFromId(levelDto).getHierarchyNo().equals(parentHierarchyNo))
+                .findFirst()
+                .orElse(childLevelDto);
     }
 }

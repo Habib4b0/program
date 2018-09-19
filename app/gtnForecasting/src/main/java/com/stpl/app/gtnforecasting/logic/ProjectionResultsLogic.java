@@ -1132,7 +1132,7 @@ public class ProjectionResultsLogic {
         int neededRecord = offset;
         int mayBeAdded = 0;
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
-        String discList = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
+        String discList = CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false);
         String freq = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == 1) {
             freq = "ANNUAL";
@@ -1698,7 +1698,7 @@ public class ProjectionResultsLogic {
                 discountTypeColumnName = " J.RS_NAME as DISCOUNTS \n";
                 groupBy += ", J.RS_NAME";
             }
-            whereClause += " and B.RS_CONTRACT_SID in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ") \n";
+            whereClause += " and B.RS_CONTRACT_SID in (" + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + ") \n";
         }
         selectClause += discountTypeColumnName + ", ";
 

@@ -651,7 +651,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         excelTable.setColumnHeaders(visibleHeaders);
         levelFilterDdlbChangeOption(true);
         excelTable.setRefresh(BooleanConstant.getTrueFlag());
-        ForecastUI.setEXCEL_CLOSE(true);
+        ForecastUI.setEXCELCLOSE(true);
         ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.PPA_PROJECTION_RESULT, Constant.PPA_PROJECTION_RESULT, "PPA_Projection_Results.xls", false);
         export.export();
         verticalLayout.removeComponent(excelTable);
@@ -1202,7 +1202,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             excelTable.setVisibleColumns(visibleColums.toArray());
             excelTable.setColumnHeaders(visibleHeaders);
             excelContainer = logic.getLoadedExcelContainer(selection, excelContainer);
-            ForecastUI.setEXCEL_CLOSE(true);
+            ForecastUI.setEXCELCLOSE(true);
             ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.PPA_PROJECTION_RESULT, Constant.PPA_PROJECTION_RESULT, "PPA_Projection_Results.xls", false);
             export.export();
             verticalLayout.removeComponent(excelTable);

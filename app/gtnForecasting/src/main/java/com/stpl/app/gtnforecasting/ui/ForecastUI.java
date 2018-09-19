@@ -350,8 +350,8 @@ public class ForecastUI extends UI {
      *
      */
     public static void makeSessionInValidate() {
-        if (isEXCEL_CLOSE()) { // Fix to avoid blank page issue while excel export
-            setEXCEL_CLOSE(false);
+        if (isEXCELCLOSE()) { // Fix to avoid blank page issue while excel export
+            setEXCELCLOSE(false);
         } else {
             UI.getCurrent().close();
         }
@@ -371,11 +371,11 @@ public class ForecastUI extends UI {
         });
     }
 
-	public static boolean isEXCEL_CLOSE() {
+	public static boolean isEXCELCLOSE() {
 		return EXCEL_CLOSE;
 	}
 
-	public static void setEXCEL_CLOSE(boolean excelClose) {
+	public static void setEXCELCLOSE(boolean excelClose) {
 		EXCEL_CLOSE = excelClose;
 	}
 
