@@ -464,7 +464,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				if (processIdList != null && !processIdList.isEmpty()) {
 					processId = Long.valueOf(processIdList.get(0).toString());
 				}
-				final String userId = (String) VaadinSession.getCurrent().getAttribute("userId");
 				sessionDto.setAction("edit");
 				sessionDto.setIsGenerated(BooleanConstant.getTrueFlag());
 				sessionDto.setProcessId(processId);
