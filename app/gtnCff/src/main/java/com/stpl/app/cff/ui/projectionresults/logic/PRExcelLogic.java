@@ -175,7 +175,7 @@ public class PRExcelLogic {
             if (isTotal) {
                 key = StringConstantsUtil.TOTAL;
             } else {
-                key = obj[baseColumnHierIndex].toString() +("null".equals(String.valueOf(obj[obj.length - 5])) ? StringUtils.EMPTY : "$"+String.valueOf(obj[obj.length - 5]));
+                key = obj[baseColumnHierIndex].toString() +("null".equals(String.valueOf(obj[obj.length - 5])) ? StringUtils.EMPTY : "$"+(obj[obj.length - 5]));
             }
             List<ProjectionResultsDTO> pvList = resultMap.get(key);
             if (pvList == null) {
@@ -723,9 +723,9 @@ public class PRExcelLogic {
         for (int i = 0; i < count; i++) {
             Object[] obj =  procRawListDisc.get(i);
             if (i == 0) {
-                oldHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 3])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 3]));
+                oldHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 3])) ? StringUtils.EMPTY : "$" + (obj[obj.length - 3]));
             }
-            String newHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 3])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 3]));
+            String newHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 3])) ? StringUtils.EMPTY : "$" + (obj[obj.length - 3]));
             if (oldHierarchyNo.equals(newHierarchyNo)) {
 
                 newDiscount = String.valueOf(obj[NumericConstants.FIVE]);
@@ -1161,7 +1161,7 @@ public class PRExcelLogic {
                 key = StringConstantsUtil.TOTAL;
             } else {
                 indexValue = indexDetail;
-                key = obj[baseColumnHierIndex].toString() +("null".equals(String.valueOf(obj[obj.length - 5])) ? StringUtils.EMPTY : "$"+ String.valueOf(obj[obj.length - 5]));
+                key = obj[baseColumnHierIndex].toString() +("null".equals(String.valueOf(obj[obj.length - 5])) ? StringUtils.EMPTY : "$"+ (obj[obj.length - 5]));
             }
             List<ProjectionResultsDTO> pvList = resultMap.get(key);
             List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.parseInt(obj[isTotal ? baseColumnYr : NumericConstants.FIVE].toString()), Integer.parseInt(obj[isTotal ? baseColumnFreq : NumericConstants.SIX].toString()));
@@ -1793,10 +1793,10 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
         for (int i = 0; i < count; i++) {
             Object[] obj = procRawListDetailDisc.get(i);
             if (i == 0) {
-                oldHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 3])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 3]));
+                oldHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 3])) ? StringUtils.EMPTY : "$" + (obj[obj.length - 3]));
                 oldDiscount = String.valueOf(obj[NumericConstants.FIVE]);
             }
-            String newHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 3])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 3]));
+            String newHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 3])) ? StringUtils.EMPTY : "$" + (obj[obj.length - 3]));
             newyear = String.valueOf(obj[NumericConstants.THREE]);
             newPeriod = String.valueOf(obj[NumericConstants.FOUR]);
             newDiscount = String.valueOf(obj[NumericConstants.FIVE]);

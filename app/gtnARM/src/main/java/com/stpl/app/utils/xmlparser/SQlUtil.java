@@ -5,6 +5,7 @@
  */
 package com.stpl.app.utils.xmlparser;
 
+import com.stpl.app.arm.utils.ARMUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
@@ -31,7 +32,7 @@ public class SQlUtil {
     private SQlUtil() {
         try {
             Enumeration<URL> urls = FrameworkUtil.getBundle(SQlUtil.class).getBundleContext().getBundle()
-                    .findEntries("/sqlresources", "*", false);
+                    .findEntries("/sqlresources", ARMUtils.CHAR_ASTERISK, false);
             getResources(urls);
         } catch (IOException | JAXBException e) {
             LOGGER.error(e.getMessage());

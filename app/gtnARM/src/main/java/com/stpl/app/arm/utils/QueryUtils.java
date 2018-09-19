@@ -62,12 +62,12 @@ public class QueryUtils {
             StringBuilder sql = new StringBuilder(SQlUtil.getQuery(queryName));
             if (queryName != null && !queryName.isEmpty()) {
                 if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
-                    sql.append(" ");
+                    sql.append(ARMUtils.SPACE);
                     sql.append(SQlUtil.getQuery(quaryName2));
                 }
 
                 for (Object temp : input) {
-                    sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+                    sql.replace(sql.indexOf(ARMUtils.CHAR_QUS), sql.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
                 }
                 list = executeSelect(sql.toString());
             }
@@ -88,7 +88,7 @@ public class QueryUtils {
             query = isTotal ? query.replace("@RS_ID", "RS_MODEL_SID") : query.replace("@RS_ID", "RS_ID");
             sql = new StringBuilder(query);
             for (Object temp : input) {
-                sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+                sql.replace(sql.indexOf(ARMUtils.CHAR_QUS), sql.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
             }
             LOGGER.debug("sql QUERY -->>{}", sql);
             list = executeSelect(sql.toString());
@@ -104,7 +104,7 @@ public class QueryUtils {
         if (mainQuery != null && !mainQuery.isEmpty()) {
             try {
                 if (fetchQueryName != null && !fetchQueryName.equals(StringUtils.EMPTY)) {
-                    sql.append(" ");
+                    sql.append(ARMUtils.SPACE);
                     sql.append(SQlUtil.getQuery(fetchQueryName));
                 }
                 if (childQueryName != null && !childQueryName.equals(StringUtils.EMPTY)) {
@@ -113,7 +113,7 @@ public class QueryUtils {
 
                 if (orderByQueryName != null && !orderByQueryName.equals(StringUtils.EMPTY)) {
 
-                    sql.append(" ");
+                    sql.append(ARMUtils.SPACE);
                     sql.append(SQlUtil.getQuery(orderByQueryName));
                 }
                 if (tableName != null && !tableName.equals(StringUtils.EMPTY)) {
@@ -144,7 +144,7 @@ public class QueryUtils {
             if (!queryName.isEmpty()) {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
                 for (Object temp : input) {
-                    sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+                    sql.replace(sql.indexOf(ARMUtils.CHAR_QUS), sql.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
                 }
                 Integer count = (Integer) DAO.executeUpdate(sql.toString());
                 if (count > 0) {
@@ -168,7 +168,7 @@ public class QueryUtils {
         try {
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
             for (Object temp : input) {
-                sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+                sql.replace(sql.indexOf(ARMUtils.CHAR_QUS), sql.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
             }
 
         } catch (Exception ex) {
@@ -654,11 +654,11 @@ public class QueryUtils {
         if (mainQuery != null && !mainQuery.isEmpty()) {
             try {
                 if (fetchQueryName != null && !fetchQueryName.equals(StringUtils.EMPTY)) {
-                    sql.append(" ");
+                    sql.append(ARMUtils.SPACE);
                     sql.append(SQlUtil.getQuery(fetchQueryName));
                 }
                 for (Object temp : input) {
-                    sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+                    sql.replace(sql.indexOf(ARMUtils.CHAR_QUS), sql.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
                 }
                 LOGGER.debug("sql QUERY -->>{}", sql);
                 Integer count = (Integer) DAO.executeUpdate(sql.toString());

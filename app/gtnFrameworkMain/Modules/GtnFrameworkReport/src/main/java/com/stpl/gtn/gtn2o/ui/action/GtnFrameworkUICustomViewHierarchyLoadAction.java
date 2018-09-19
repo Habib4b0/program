@@ -8,6 +8,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -40,27 +41,50 @@ public class GtnFrameworkUICustomViewHierarchyLoadAction
 		List<Object> parameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnWsHierarchyType hierarchyType = (GtnWsHierarchyType) parameterList.get(1);
 		GtnUIFrameworkDataTable dataTable = null;
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
 		if (hierarchyType == GtnWsHierarchyType.CUSTOMER || hierarchyType == GtnWsHierarchyType.PRODUCT) {
 			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebServiceReportRequestBuilder()
 					.withCustomViewBean().withDataSelectionBean().build();
 			request.getGtnWsReportRequest().getReportBean().getCustomViewBean().setHierarchyType(hierarchyType);
-			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
 			GTNLOGGER.info("component Id = = = " + componentId);
 			GTNLOGGER.info("sourceComponentId = = =" + sourceComponentId);
 			GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
-			int relationSid = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportLandingScreen_customerSelectionRelationship")
-					.getIntegerFromV8ComboBox();
-			int customerLevelNo = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportLandingScreen_customerSelectionLevel").getIntegerFromV8ComboBox();
-			int productLevelNo = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_level")
-					.getIntegerFromV8ComboBox();
+			int relationSid = 0;
+			int customerLevelNo = 0;
+			int productLevelNo = 0;
+
+			GtnUIFrameworkBaseComponent baseComponent1 = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(getHierarchyComponentId(parameterList.get(2).toString(), sourceComponentId)
+							+ "_customerSelectionRelationship", componentId);
+			if (baseComponent1.getComponent() != null) {
+				relationSid = baseComponent1.getIntegerFromV8ComboBox();
+			}
+
+			GtnUIFrameworkBaseComponent baseComponent2 = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(getHierarchyComponentId(parameterList.get(2).toString(), sourceComponentId)
+							+ "_customerSelectionLevel", componentId);
+			if (baseComponent2.getComponent() != null) {
+				customerLevelNo = baseComponent2.getIntegerFromV8ComboBox();
+			}
+			GtnUIFrameworkBaseComponent baseComponent3 = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+					getHierarchyComponentId(parameterList.get(2).toString(), sourceComponentId) + "_level",
+					componentId);
+
+			if (baseComponent3.getComponent() != null) {
+				productLevelNo = baseComponent3.getIntegerFromV8ComboBox();
+			}
 			dataSelectionBean.setCustomerRelationshipBuilderSid(relationSid);
 			dataSelectionBean.setCustomerHierarchySid(relationSid);
 			dataSelectionBean.setCustomerHierarchyForecastLevel(customerLevelNo);
 			dataSelectionBean.setProductHierarchyForecastLevel(productLevelNo);
-			relationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_relationship")
-					.getIntegerFromV8ComboBox();
+
+			GtnUIFrameworkBaseComponent baseComponent4 = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+					getHierarchyComponentId(parameterList.get(2).toString(), sourceComponentId) + "_relationship",
+					componentId);
+			if (baseComponent4.getComponent() != null) {
+				relationSid = baseComponent4.getIntegerFromV8ComboBox();
+			}
+
 			dataSelectionBean.setProductRelationshipBuilderSid(relationSid);
 			dataSelectionBean.setProductHierarchySid(relationSid);
 			request.getGtnWsReportRequest().getReportBean().setDataSelectionBean(dataSelectionBean);
@@ -75,8 +99,14 @@ public class GtnFrameworkUICustomViewHierarchyLoadAction
 			request.getGtnWsReportRequest().getReportBean().getCustomViewBean()
 					.setHierarchyType(GtnWsHierarchyType.DEDUCTION);
 			GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
-			int relationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_relationship")
-					.getIntegerFromV8ComboBox();
+			int relationSid = 0;
+			GtnUIFrameworkBaseComponent baseComponent5 = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+					getHierarchyComponentId(parameterList.get(2).toString(), sourceComponentId) + "_relationship",
+					componentId);
+			if (baseComponent5.getComponent() != null) {
+				relationSid = baseComponent5.getIntegerFromV8ComboBox();
+			}
+
 			dataSelectionBean.setProductRelationshipBuilderSid(relationSid);
 			request.getGtnWsReportRequest().getReportBean().setDataSelectionBean(dataSelectionBean);
 			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
@@ -90,6 +120,13 @@ public class GtnFrameworkUICustomViewHierarchyLoadAction
 		actionConfig.addActionParameter(componentId);
 		actionConfig.addActionParameter(dataTable);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
+	}
+
+	private String getHierarchyComponentId(String input, String sourceComponentId) {
+		if (input.equals("reportCustomViewLookup")) {
+			return "reportLandingScreen";
+		}
+		return sourceComponentId + "_" + "dataSelectionTab";
 	}
 
 	@Override

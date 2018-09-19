@@ -1408,16 +1408,16 @@ public class QueryUtils {
                 query += String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_TRADE_CLASS)) + "' ";
             }
             if (parameters.get(StringConstantsUtil.FILTERCFP_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_START_DATEFROM)))) {
-                query += " AND  CM.CFP_START_DATE >='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_START_DATEFROM)) + "'";
+                query += " AND  CM.CFP_START_DATE >='" + parameters.get(StringConstantsUtil.FILTERCFP_START_DATEFROM) + "'";
             }
             if (parameters.get(StringConstantsUtil.FILTERCFP_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_START_DATETO)))) {
-                query += " AND  CM.CFP_START_DATE <='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_START_DATETO)) + "'";
+                query += " AND  CM.CFP_START_DATE <='" + parameters.get(StringConstantsUtil.FILTERCFP_START_DATETO) + "'";
             }
             if (parameters.get(StringConstantsUtil.FILTERCFP_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_END_DATEFROM)))) {
-                query += " AND  CM.CFP_END_DATE >='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_END_DATEFROM)) + "'";
+                query += " AND  CM.CFP_END_DATE >='" + parameters.get(StringConstantsUtil.FILTERCFP_END_DATEFROM) + "'";
             }
             if (parameters.get(StringConstantsUtil.FILTERCFP_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_END_DATETO)))) {
-                query += " AND  CM.CFP_END_DATE <='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERCFP_END_DATETO)) + "'";
+                query += " AND  CM.CFP_END_DATE <='" + parameters.get(StringConstantsUtil.FILTERCFP_END_DATETO) + "'";
             }
             if (parameters.get(Constants.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(Constants.IS_ORDERED)))) {
                 query += " ORDER BY CM.CFP_ID ";
@@ -1516,16 +1516,16 @@ public class QueryUtils {
                 query += String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_PLAN_NAME)) + "' ";
             }
             if (parameters.get(StringConstantsUtil.FILTERIFP_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_START_DATEFROM)))) {
-                query += " AND  IM.IFP_START_DATE >='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_START_DATEFROM)) + "'";
+                query += " AND  IM.IFP_START_DATE >='" + parameters.get(StringConstantsUtil.FILTERIFP_START_DATEFROM) + "'";
             }
             if (parameters.get(StringConstantsUtil.FILTERIFP_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_START_DATETO)))) {
-                query += " AND  IM.IFP_START_DATE <='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_START_DATETO)) + "'";
+                query += " AND  IM.IFP_START_DATE <='" + parameters.get(StringConstantsUtil.FILTERIFP_START_DATETO) + "'";
             }
             if (parameters.get(StringConstantsUtil.FILTERIFP_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_END_DATEFROM)))) {
-                query += " AND  IM.IFP_END_DATE >='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_END_DATEFROM)) + "'";
+                query += " AND  IM.IFP_END_DATE >='" + parameters.get(StringConstantsUtil.FILTERIFP_END_DATEFROM) + "'";
             }
             if (parameters.get(StringConstantsUtil.FILTERIFP_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_END_DATETO)))) {
-                query += " AND  IM.IFP_END_DATE <='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_END_DATETO)) + "'";
+                query += " AND  IM.IFP_END_DATE <='" + parameters.get(StringConstantsUtil.FILTERIFP_END_DATETO) + "'";
             }
             if (parameters.get(Constants.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(Constants.IS_ORDERED)))) {
                 query += " ORDER BY IM.IFP_MODEL_SID  ";
@@ -1621,16 +1621,16 @@ public class QueryUtils {
                 query += String.valueOf(parameters.get(StringConstantsUtil.FILTERPARENT_PS_NAME)) + "' ";
             }
             if (parameters.get(StringConstantsUtil.FILTERPS_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_START_DATEFROM)))) {
-                query += " AND  PS.PS_START_DATE >='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_START_DATEFROM)) + "'";
+                query += " AND  PS.PS_START_DATE >='" + parameters.get(StringConstantsUtil.FILTERPS_START_DATEFROM) + "'";
             }
             if (parameters.get(StringConstantsUtil.FILTERPS_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_START_DATETO)))) {
-                query += " AND  PS.PS_START_DATE <='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_START_DATETO)) + "'";
+                query += " AND  PS.PS_START_DATE <='" + parameters.get(StringConstantsUtil.FILTERPS_START_DATETO) + "'";
             }
             if (parameters.get(StringConstantsUtil.FILTERPS_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_END_DATEFROM)))) {
-                query += " AND  PS.PS_END_DATE >='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_END_DATEFROM)) + "'";
+                query += " AND  PS.PS_END_DATE >='" + parameters.get(StringConstantsUtil.FILTERPS_END_DATEFROM) + "'";
             }
             if (parameters.get(StringConstantsUtil.FILTERPS_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_END_DATETO)))) {
-                query += " AND  PS.PS_END_DATE <='" + String.valueOf(parameters.get(StringConstantsUtil.FILTERPS_END_DATETO)) + "'";
+                query += " AND  PS.PS_END_DATE <='" + parameters.get(StringConstantsUtil.FILTERPS_END_DATETO) + "'";
             }
             if (parameters.get(Constants.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(Constants.IS_ORDERED)))) {
                 query += " ORDER BY PS.PS_MODEL_SID ";
@@ -1733,16 +1733,16 @@ public class QueryUtils {
                 query += String.valueOf(parameters.get(Constants.FILTERRS_STATUS)) + "' ";
             }
             if (parameters.get(Constants.FILTERRS_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.FILTERRS_START_DATEFROM)))) {
-                query += " AND  RS.RS_START_DATE >='" + String.valueOf(parameters.get(Constants.FILTERRS_START_DATEFROM)) + "'";
+                query += " AND  RS.RS_START_DATE >='" + parameters.get(Constants.FILTERRS_START_DATEFROM) + "'";
             }
             if (parameters.get(Constants.FILTERRS_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.FILTERRS_START_DATETO)))) {
-                query += " AND  RS.RS_START_DATE <='" + String.valueOf(parameters.get(Constants.FILTERRS_START_DATETO)) + "'";
+                query += " AND  RS.RS_START_DATE <='" + parameters.get(Constants.FILTERRS_START_DATETO) + "'";
             }
             if (parameters.get(Constants.FILTERRS_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.FILTERRS_END_DATEFROM)))) {
-                query += " AND  RS.RS_END_DATE >='" + String.valueOf(parameters.get(Constants.FILTERRS_END_DATEFROM)) + "'";
+                query += " AND  RS.RS_END_DATE >='" + parameters.get(Constants.FILTERRS_END_DATEFROM) + "'";
             }
             if (parameters.get(Constants.FILTERRS_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.FILTERRS_END_DATETO)))) {
-                query += " AND  RS.RS_END_DATE <='" + String.valueOf(parameters.get(Constants.FILTERRS_END_DATETO)) + "'";
+                query += " AND  RS.RS_END_DATE <='" + parameters.get(Constants.FILTERRS_END_DATETO) + "'";
             }
             if (parameters.get(Constants.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(Constants.IS_ORDERED)))) {
                 query += " ORDER BY RS.RS_MODEL_SID ";

@@ -81,5 +81,10 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        return response;
 		}
 
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+    }
+	    
 	    
 }

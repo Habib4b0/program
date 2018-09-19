@@ -293,4 +293,9 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 	public GtnUIFrameworkWebserviceRequest registerWs() {
 		return null;
 	}
+
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+}
 }
