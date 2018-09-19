@@ -943,10 +943,7 @@ public class NMProjectionResultsXLLogic {
         projectionIdList.add(String.valueOf(selection.getProjectionId()));
         String projectionId = CommonUtils.collectionToStringMethod(projectionIdList, false);
          Object[] orderedArg = {projectionId, frequency, discountId, ASSUMPTIONS1, selection.getSessionDTO().getSessionId(), selection.getUserId(), "PIVOT"};
-        List< Object[]> gtsResult   = CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
-        
-        
-        return gtsResult;
+        return CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
     }
 
         private Map<String, String> getGroupcustomViewNM() {

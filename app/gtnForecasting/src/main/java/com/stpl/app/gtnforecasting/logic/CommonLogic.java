@@ -2829,7 +2829,8 @@ public class CommonLogic {
                 + "'" + hierarchyIndicator + Constant.AS_HIERARCHY_INDICATOR_COMMA
                 + " RLD.LEVEL_NAME, RLD.HIERARCHY_LEVEL_DEFINITION_SID";
         String from = FROM_SPACE + getViewTableName(hierarchyIndicator);
-        String customSql = selectClause + from + " as HC,"
+        String customSql = StringUtils.EMPTY;
+        customSql = customSql + selectClause + from + " as HC,"
                 + " RELATIONSHIP_LEVEL_DEFINITION as RLD "
                 + "where HC.PROJECTION_MASTER_SID=" + projectionId
                 + " and HC.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID AND RLD.LEVEL_NO >=" + levelNo;
@@ -2904,268 +2905,6 @@ public class CommonLogic {
             LOGGER.error(StringUtils.EMPTY,ex);
         }
         return null;
-    }
-
-    public static String getMandatedTempCCPQueryForCOGS(PVSelectionDTO pvsDTO) {
-        List fromToList = CommonLogic.getPeriodRestrictionPR(pvsDTO);
-        String query = " DECLARE @FROM_DATE DATE\n"
-                + "     , @STARTFROM DATE\n"
-                + "     , @PROJECTION_DATE DATE\n"
-                + "     , @START_PERIOD_SID INT\n"
-                + "     , @END_PERIOD_SID INT\n"
-                + "      ,  @PROGRAM_TYPE VARCHAR(50) = '" + pvsDTO.getDiscountLevel().toUpperCase(Locale.ENGLISH) + "'"
-                + " \n"
-                + " SELECT TOP 1 @STARTFROM = DATEADD(YY, DATEDIFF(YY, 0, DATEADD(YY, - 3, GETDATE())), 0)\n"
-                + "     , @PROJECTION_DATE = DATEADD(M, DATEDIFF(M, 0, DATEADD(DAY, - 1, DATEADD(QQ, DATEDIFF(QQ, 0, TO_DATE) + 1, 0))), 0)\n"
-                + " FROM PROJECTION_MASTER\n"
-                + " WHERE PROJECTION_MASTER_SID = " + pvsDTO.getProjectionId() + " \n"
-                + " SELECT @START_PERIOD_SID = PERIOD_SID\n"
-                + "      FROM PERIOD\n"
-                + "      WHERE PERIOD_DATE = @STARTFROM\n"
-                + "      SELECT @END_PERIOD_SID = PERIOD_SID\n"
-                + "      FROM  PERIOD\n"
-                + "     WHERE PERIOD_DATE = @PROJECTION_DATE "
-                + "\n"
-                + "DECLARE @PERIOD TABLE\n"
-                + SLASH_N
-                + "     PERIOD_SID  INT PRIMARY KEY,\n"
-                + "     YEAR        INT,\n"
-                + "     MONTH       INT,\n"
-                + "     QUARTER     INT,\n"
-                + "     SEMI_ANNUAL INT\n"
-                + "  )\n"
-                + "\n"
-                + "INSERT INTO @PERIOD\n"
-                + "            (PERIOD_SID,\n"
-                + "             YEAR,\n"
-                + "             MONTH,\n"
-                + "             QUARTER,\n"
-                + "             SEMI_ANNUAL)\n"
-                + "SELECT PERIOD_SID,\n"
-                + "       YEAR,\n"
-                + "       MONTH,\n"
-                + "       QUARTER,\n"
-                + "       SEMI_ANNUAL\n"
-                + "FROM   PERIOD\n"
-                + "WHERE  PERIOD_DATE BETWEEN CONVERT(DATE, '" + fromToList.get(0) + "') AND CONVERT(DATE, '" + fromToList.get(1) + "')"
-                + "\n"
-                + ""
-                + ""
-                + " IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
-                + "     DROP TABLE #TEMP_CCP;\n"
-                + " CREATE TABLE #TEMP_CCP (\n"
-                + " COMPANY_MASTER_SID INT\n"
-                + " ,CONTRACT_MASTER_SID INT\n"
-                + " ,ITEM_MASTER_SID INT\n"
-                + ",CCP_DETAILS_SID        INT\n"
-                + " )\n"
-                + "  INSERT INTO #TEMP_CCP (\n"
-                + " COMPANY_MASTER_SID\n"
-                + " , CONTRACT_MASTER_SID\n"
-                + " , ITEM_MASTER_SID\n"
-                + ",CCP_DETAILS_SID \n"
-                + " )\n"
-                + " SELECT distinct C.COMPANY_MASTER_SID\n"
-                + "  , C.CONTRACT_MASTER_SID\n"
-                + "  , C.ITEM_MASTER_SID\n"
-                + ", C.CCP_DETAILS_SID \n"
-                + " FROM CCP_DETAILS C\n"
-                + "WHERE EXISTS (SELECT 1\n"
-                + "                   FROM   #SELECTED_HIERARCHY_NO CCP\n"
-                + "                   WHERE  CCP.CCP_DETAILS_SID = C.CCP_DETAILS_SID)"
-                + " DECLARE @ITEMID [DBO].[UDT_ITEM]\n"
-                + " INSERT INTO @ITEMID\n"
-                + " SELECT IM.ITEM_MASTER_SID\n"
-                + " FROM ITEM_MASTER IM\n"
-                + " WHERE EXISTS (\n"
-                + "  SELECT 1\n"
-                + " FROM #TEMP_CCP A\n"
-                + " WHERE IM.ITEM_MASTER_SID = A.ITEM_MASTER_SID\n"
-                + " )"
-                + "DECLARE @COGS_ITEM TABLE\n"
-                + SLASH_N
-                + "     ITEM_MASTER_SID   INT,\n"
-                + "     PERIOD_SID        INT,\n"
-                + "     PRICING_QUALIFIER VARCHAR(50),\n"
-                + "     ITEM_PRICE        NUMERIC(22, 6),\n"
-                + "     PRIMARY KEY (ITEM_MASTER_SID, PERIOD_SID)\n"
-                + "  ) \n "
-                + "\n"
-                + "INSERT INTO @COGS_ITEM\n"
-                + "            (ITEM_MASTER_SID,\n"
-                + "             PERIOD_SID,\n"
-                + "             PRICING_QUALIFIER,\n"
-                + "             ITEM_PRICE)\n"
-                + "SELECT ITEM_MASTER_SID,\n"
-                + "       PERIOD_SID,\n"
-                + "       PRICING_QUALIFIER,\n"
-                + "       ITEM_PRICE\n"
-                + "FROM   [dbo].[UDF_ITEM_PRICING](@ITEMID, 'COGS', @START_PERIOD_SID, @END_PERIOD_SID, 'EACH') U"
-                + "\n";
-        return query;
-    }
-    public static final String SLASH_N = "  (\n";
-
-    public static String getTempRetrunsQuery() {
-
-        String query = " DECLARE @COUNT INT\n"
-                + " \n"
-                + "IF OBJECT_ID('TEMPDB..#ITEM') IS NOT NULL\n"
-                + "       DROP TABLE #ITEM\n"
-                + " \n"
-                + "CREATE TABLE #ITEM (\n"
-                + "       ID INT IDENTITY(1, 1)\n"
-                + "       , ITEM_MASTER_SID INT\n"
-                + "     )\n"
-                + " \n"
-                + "INSERT INTO #ITEM (ITEM_MASTER_SID)\n"
-                + "SELECT ITEM_MASTER_SID\n"
-                + "FROM @ITEMID\n"
-                + " \n"
-                + "SET @COUNT = @@ROWCOUNT\n"
-                + " \n"
-                + "DECLARE @I INT = 1\n"
-                + "DECLARE @ITEM INT\n"
-                + " \n"
-                + "IF Object_id('TEMPDB..#TEMP_RETURNS') IS NOT NULL\n"
-                + "       DROP TABLE #TEMP_RETURNS\n"
-                + " \n"
-                + "CREATE TABLE #TEMP_RETURNS (\n"
-                + "       ITEM_MASTER_SID INT\n"
-                + "       , RETURNS_DETAILS_SID INT\n"
-                + "       , PERIOD_SID INT\n"
-                + "       , ACTUAL_RATE NUMERIC(22, 6)\n"
-                + "       , PROJECTED_RATE NUMERIC(22, 6)\n"
-                + "         )\n"
-                + " \n"
-                + "WHILE (@I <= @COUNT)\n"
-                + "BEGIN\n"
-                + "       SET @ITEM = (\n"
-                + "                     SELECT ITEM_MASTER_SID\n"
-                + "                     FROM #ITEM\n"
-                + "                     WHERE id = @I\n"
-                + "                     );\n"
-                + " \n"
-                + "       WITH ITEM_PROJ_DETAILS\n"
-                + "       AS (\n"
-                + "              SELECT ROW_NUMBER() OVER (\n"
-                + "                           PARTITION BY ITEM_MASTER_SID ORDER BY LASTEST_DATE DESC\n"
-                + "                           ) RN\n"
-                + "                     , ITEM_MASTER_SID\n"
-                + "                     , PM.PROJECTION_MASTER_SID\n"
-                + "                     , RETURNS_DETAILS_SID\n"
-                + "              FROM RETURNS_DETAILS RD\n"
-                + "              INNER JOIN PROJECTION_MASTER PM\n"
-                + "                     ON RD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID\n"
-                + "              CROSS APPLY (\n"
-                + "                     VALUES (MODIFIED_DATE)\n"
-                + "                           , (CREATED_DATE)\n"
-                + "                     ) CS(LASTEST_DATE)\n"
-                + "              WHERE SAVE_FLAG = 1\n"
-                + "                     AND ITEM_MASTER_SID = @ITEM\n"
-                + "              )\n"
-                + "       INSERT INTO #TEMP_RETURNS (\n"
-                + "              ITEM_MASTER_SID\n"
-                + "              , RETURNS_DETAILS_SID\n"
-                + "              , PERIOD_SID\n"
-                + "              , ACTUAL_RATE\n"
-                + "              , PROJECTED_RATE\n"
-                + "              )\n"
-                + "       SELECT @ITEM AS ITEM_MASTER_SID\n"
-                + "              , COALESCE(R_ACTUALS.RETURNS_DETAILS_SID, R_PROJ.RETURNS_DETAILS_SID) AS RETURNS_DETAILS_SID\n"
-                + "              , COALESCE(R_ACTUALS.PERIOD_SID, R_PROJ.PERIOD_SID) AS PERIOD_SID\n"
-                + "              , R_ACTUALS.ACTUAL_RETURN_PERCENT\n"
-                + "              , R_PROJ.PROJECTED_RETURN_PERCENT\n"
-                + "       FROM (\n"
-                + "              SELECT RETURNS_DETAILS_SID\n"
-                + "                     , PERIOD_SID\n"
-                + "                     , ACTUAL_RETURN_PERCENT\n"
-                + "              FROM RETURNS_ACTUALS NAP\n"
-                + "              WHERE EXISTS (\n"
-                + "                           SELECT 1\n"
-                + "                           FROM RETURNS_DETAILS RD\n"
-                + "                           INNER JOIN ITEM_PROJ_DETAILS IMPD\n"
-                + "                                  ON IMPD.RETURNS_DETAILS_SID = RD.RETURNS_DETAILS_SID\n"
-                + "                                  AND RD.RETURNS_DETAILS_SID = NAP.RETURNS_DETAILS_SID"
-                + "                           WHERE IMPD.RN = 1\n"
-                + "                           )\n"
-                + "              ) R_ACTUALS\n"
-                + "       FULL JOIN (\n"
-                + "              SELECT RETURNS_DETAILS_SID\n"
-                + "                     , PERIOD_SID\n"
-                + "                     , PROJECTED_RETURN_PERCENT\n"
-                + "              FROM RETURNS_PROJ_DETAILS NPP\n"
-                + "              WHERE EXISTS (\n"
-                + "                           SELECT 1\n"
-                + "                           FROM RETURNS_DETAILS RD\n"
-                + "                           INNER JOIN ITEM_PROJ_DETAILS IMPD\n"
-                + "                                  ON IMPD.RETURNS_DETAILS_SID = RD.RETURNS_DETAILS_SID\n"
-                + "                                  AND RD.RETURNS_DETAILS_SID = NPP.RETURNS_DETAILS_SID"
-                + "                           WHERE IMPD.RN = 1\n"
-                + "                           )\n"
-                + "              ) R_PROJ\n"
-                + "              ON R_ACTUALS.RETURNS_DETAILS_SID = R_PROJ.RETURNS_DETAILS_SID\n"
-                + "                     AND R_ACTUALS.PERIOD_SID = R_PROJ.PERIOD_SID\n"
-                + " \n"
-                + "       SET @I = @I + 1\n"
-                + "END";
-
-        return query;
-    }
-
-    public static String getTempCCPDRetrunsQuery() {
-
-        String query = "   IF Object_id('TEMPDB..#TEMP_CCPD') IS NOT NULL\n"
-                + "  DROP TABLE #TEMP_CCPD\n"
-                + "\n"
-                + "CREATE TABLE #TEMP_CCPD\n"
-                + SLASH_N
-                + "     COMPANY_MASTER_SID     INT,\n"
-                + "     CONTRACT_MASTER_SID    INT,\n"
-                + "     ITEM_MASTER_SID        INT,\n"
-                + "     PROJECTION_DETAILS_SID INT,\n"
-                + "     PROJECTION_MASTER_SID  INT\n"
-                + "  )\n"
-                + "\n"
-                + "INSERT INTO #TEMP_CCPD\n"
-                + "            (COMPANY_MASTER_SID,\n"
-                + "             CONTRACT_MASTER_SID,\n"
-                + "             ITEM_MASTER_SID,\n"
-                + "             PROJECTION_DETAILS_SID,\n"
-                + "             PROJECTION_MASTER_SID)\n"
-                + "SELECT    DISTINCT COMPANY_MASTER_SID,\n"
-                + "                   CONTRACT_MASTER_SID,\n"
-                + "                   ITEM_MASTER_SID,\n"
-                + "                   PROJECTION_DETAILS_SID,\n"
-                + "                   PROJECTION_MASTER_SID\n"
-                + "FROM      (SELECT     COMPANY_MASTER_SID,\n"
-                + "                      T_CCP.CONTRACT_MASTER_SID,\n"
-                + "                      T_CCP.ITEM_MASTER_SID,\n"
-                + "                      PROJECTION_DETAILS_SID,\n"
-                + "                      PROJECTION_MASTER_SID,\n"
-                + "                      RS_ID,\n"
-                + "                      RS_TYPE\n"
-                + "           FROM       #TEMP_CCP T_CCP\n"
-                + "           INNER JOIN RS_CONTRACT RS ON T_CCP.CONTRACT_MASTER_SID = RS.CONTRACT_MASTER_SID\n"
-                + "           INNER JOIN RS_CONTRACT_DETAILS RSC ON RS.RS_CONTRACT_SID = RSC.RS_CONTRACT_SID\n"
-                + "                                             AND T_CCP.ITEM_MASTER_SID = RSC.ITEM_MASTER_SID\n"
-                + "           WHERE      EXISTS (SELECT     1\n"
-                + "                              FROM       CFP_CONTRACT CF\n"
-                + "                              INNER JOIN CFP_CONTRACT_DETAILS CFD ON CF.CFP_CONTRACT_SID = CFD.CFP_CONTRACT_SID\n"
-                + "                                                                 AND T_CCP.COMPANY_MASTER_SID = CFD.COMPANY_MASTER_SID\n"
-                + "                                                                 AND RS.CFP_CONTRACT_SID = CF.CFP_CONTRACT_SID\n"
-                + "                                                                 AND CF.CONTRACT_MASTER_SID = T_CCP.CONTRACT_MASTER_SID)) R\n"
-                + "JOIN HELPER_TABLE HT ON R.RS_TYPE = HT.HELPER_TABLE_SID\n"
-                + "WHERE     HT.DESCRIPTION = 'Returns'\n"
-                + "\n"
-                + "\n"
-                + "DECLARE @ITEM_ID [DBO].[UDT_ITEM]\n"
-                + "\n"
-                + "INSERT INTO @ITEM_ID\n"
-                + "SELECT DISTINCT ITEM_MASTER_SID\n"
-                + "FROM   #TEMP_CCPD A\n";
-
-        return query;
     }
 
     public static List<String> getCommonSelectWhereOrderGroupByNetSalesClause(String table1, String table2, int freq) {
@@ -3304,8 +3043,7 @@ public class CommonLogic {
         }
         query += " FROM ST_NM_PPA_PROJECTION_MASTER TEMP \n"
                 + "JOIN RS_CONTRACT  RS ON RS.RS_CONTRACT_SID = TEMP.RS_CONTRACT_SID \n";
-        List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
     }
     public static void getPPADiscountListPR(ProjectionSelectionDTO selection, List<String> noList, List<String> nameList) {
         List<Object[]> list;
@@ -3938,8 +3676,7 @@ public class CommonLogic {
             currentHierarchyIndicator = projSelDTO.getHierarchyIndicator();
         }
 
-        String joinQuery = getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator);
-        return joinQuery;
+        return getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator);
     }
 
     /**
@@ -3963,8 +3700,7 @@ public class CommonLogic {
         } else {
             currentHierarchyIndicator = hierarchyIndicator;
         }
-        String joinQuery = getHierarchyJoinQuery(isCustom, customerHierarchyNo, productHierarchyNo, currentHierarchyIndicator);
-        return joinQuery;
+        return getHierarchyJoinQuery(isCustom, customerHierarchyNo, productHierarchyNo, currentHierarchyIndicator);
     }
 
     /**
@@ -4257,8 +3993,7 @@ public class CommonLogic {
         if (!isPrior) {
             tableIndicator = "ST_";
         }
-        String query = "  JOIN " + tableIndicator + "NM_PPA_PROJECTION_MASTER P ON P.CCP_DETAILS_SID=CH.CCP_DETAILS_SID WHERE  P.USER_GROUP " + userGroup;
-        return query;
+        return "  JOIN " + tableIndicator + "NM_PPA_PROJECTION_MASTER P ON P.CCP_DETAILS_SID=CH.CCP_DETAILS_SID WHERE  P.USER_GROUP " + userGroup;
     }
 
     public static String getGroupFilterSalesQueryPR(String userGroup, int userId, int sessionId, boolean isPrior) {
@@ -4266,8 +4001,7 @@ public class CommonLogic {
         if (!isPrior) {
             tableIndicator = "ST_";
         }
-        String query = "  JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.CCP_DETAILS_SID=CH.CCP_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
-        return query;
+        return "  JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.CCP_DETAILS_SID=CH.CCP_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
     }
 
     public static String getGroupFilterQueryPR(String userGroup, int userId, int sessionId, boolean isPrior, List<String> discountList) {
