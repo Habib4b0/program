@@ -1057,7 +1057,7 @@ public class AdjustmentReserveLogic {
     }
 
     private void joinHelperTable(List inputList, Set<Container.Filter> filters) {
-        StringBuilder joinQuery = new StringBuilder("");
+        StringBuilder joinQuery = new StringBuilder();
         int count = 0;
         for (Container.Filter filter : filters) {
             if (filter instanceof SimpleStringFilter) {

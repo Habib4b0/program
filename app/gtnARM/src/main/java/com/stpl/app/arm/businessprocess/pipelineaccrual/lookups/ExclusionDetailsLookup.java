@@ -463,9 +463,9 @@ public class ExclusionDetailsLookup extends Window {
     }
 
     public void setFieldValues() {
-        accountId = new StringBuilder(StringUtils.EMPTY);
-        accountName = new StringBuilder(StringUtils.EMPTY);
-        accountContractId = new StringBuilder(StringUtils.EMPTY);
+        accountId = new StringBuilder();
+        accountName = new StringBuilder();
+        accountContractId = new StringBuilder();
         for (ExclusionLookupDTO dto : selectedResultsContainer.getItemIds()) {
             if (ARMConstants.getAccountId().equalsIgnoreCase(dto.getExcludedField())) {
                 accountId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
@@ -490,9 +490,9 @@ public class ExclusionDetailsLookup extends Window {
     }
 
     public void setFieldValuesOnInitialLoad(List<ExclusionLookupDTO> list) {
-        accountId = new StringBuilder(StringUtils.EMPTY);
-        accountName = new StringBuilder(StringUtils.EMPTY);
-        accountContractId = new StringBuilder(StringUtils.EMPTY);
+        accountId = new StringBuilder();
+        accountName = new StringBuilder();
+        accountContractId = new StringBuilder();
         for (ExclusionLookupDTO dto : list) {
             if (ARMConstants.getAccountId().equalsIgnoreCase(dto.getExcludedField())) {
                 accountId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");

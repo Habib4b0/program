@@ -90,7 +90,7 @@ public class Trx7RatesTab extends AbstractPipelineRates {
         selection.setRateDeductionLevelName(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue()));
         selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, Boolean.TRUE));
         List<String> tr7ListSize = new ArrayList(selection.getRateColumnList().get(0));
-        StringBuilder tr7DeductionValues = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder tr7DeductionValues = new StringBuilder();
         if (!tr7ListSize.isEmpty()) {
             for (int i = 0; i < tr7ListSize.size(); i++) {
                 String value = tr7ListSize.get(i);
