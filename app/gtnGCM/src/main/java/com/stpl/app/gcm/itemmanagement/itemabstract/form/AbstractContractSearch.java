@@ -1241,7 +1241,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         HelperDTO tempDTO;
         Date tempDdate;
         Object baseLineValue = null;
-        String baseLineColumnName = StringUtils.EMPTY;
+        String baseLineColumnName ;
         String baseLineTextValue;
         for (Object object : itemId) {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) object;

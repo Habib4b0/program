@@ -776,12 +776,10 @@ public class PPAProjectionResultsLogic {
         query = query.replace(Constant.BRANDSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedBrand()));
 
         if (filter != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter)))) {
-            if (!filter.isEmpty()) {
-                if (Constant.CONTRACT.equals(ddlbType) || Constant.CUSTOMER1_SMALL.equals(ddlbType) || Constant.BRAND.equals(ddlbType)) {
+                if (!filter.isEmpty() && (Constant.CONTRACT.equals(ddlbType) || Constant.CUSTOMER1_SMALL.equals(ddlbType) || Constant.BRAND.equals(ddlbType))) {
                     value = Constant.PERCENT + filter + Constant.PERCENT;
                     query = query.replace(Constant.FILTERR, "'" + value + "'");
                 }
-            }
         } else {
             switch (ddlbType) {
                 case Constant.CONTRACT:

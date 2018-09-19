@@ -120,8 +120,6 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     public void configureTable() {
         
         CustomTableHeaderDTO rightDTO;
-        Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
-        Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
         ExtFilterTreeTable leftTable;
         ExtFilterTreeTable rightTable;
         fullHeader = new CustomTableHeaderDTO();
@@ -145,7 +143,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
         leftTable.setDoubleHeaderVisibleColumns(leftDTO.getDoubleColumns().toArray());
         leftTable.setDoubleHeaderColumnHeaders(leftDTO.getDoubleHeaders().toArray(new String[leftDTO.getDoubleHeaders().size()]));
         leftTable.setColumnWidth("levelValue", NumericConstants.FOUR_HUNDRED);
-        mapLeftVisibleColumns = leftDTO.getDoubleHeaderMaps();
+        Map<Object, Object[]> mapLeftVisibleColumns = leftDTO.getDoubleHeaderMaps();
         rightTable.setVisibleColumns(rightDTO.getSingleColumns().toArray());
         rightTable.setColumnHeaders(rightDTO.getSingleHeaders().toArray(new String[rightDTO.getSingleHeaders().size()]));
         for (int i = 0; i < rightDTO.getSingleColumns().size(); i++) {
@@ -157,7 +155,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
         for (int i = 0; i < rightDTO.getDoubleColumns().size(); i++) {
             rightTable.setColumnAlignment(rightDTO.getDoubleColumns().get(i), ExtCustomTable.Align.CENTER);
         }
-        mapRightVisibleColumns = rightDTO.getDoubleHeaderMaps();
+        Map<Object, Object[]> mapRightVisibleColumns = rightDTO.getDoubleHeaderMaps();
 
         resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         rightTable.addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
