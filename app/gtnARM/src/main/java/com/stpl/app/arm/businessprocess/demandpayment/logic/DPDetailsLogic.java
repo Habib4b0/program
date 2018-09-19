@@ -61,8 +61,8 @@ public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] paymentObj = (Object[]) list.get(i);
-                paymentsValue = new StringBuilder(StringUtils.EMPTY);
-                property = new StringBuilder(StringUtils.EMPTY);
+                paymentsValue = new StringBuilder();
+                property = new StringBuilder();
                 if (isValid(paymentObj[0])) {
                     paymentsValue = new StringBuilder(helperId.getDescriptionByID((Integer) (paymentObj[0])));
                     property = new StringBuilder(String.valueOf(paymentObj[0]));
@@ -112,7 +112,7 @@ public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     protected String getAmountFilterCondition(List<String> paymentsCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
         if (paymentsCondition != null && !paymentsCondition.isEmpty() && paymentsCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < paymentsCondition.size(); i++) {
                 String str = paymentsCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");

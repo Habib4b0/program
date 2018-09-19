@@ -130,7 +130,7 @@ public class ExcelUtils {
                         index = setExcelAndgetIndex(column, value, excelAdjustmentDto, index);
                         setTotalDTOValue(excelAdjustmentDto, value, column);
                         if (!"0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-                            excelAdjustmentDto.setTotalColumnValue(excelAdjustmentDto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
+                            excelAdjustmentDto.setTotalColumnValue(excelAdjustmentDto.getTotalColumnValue() + Double.parseDouble(String.valueOf(value)));
                         }
                         excelAdjustmentDto.setVisibleColumnIndex(0);
                     } else if (!(Boolean) list.get(0)) {
@@ -294,7 +294,7 @@ public class ExcelUtils {
      * @return
      */
     public static String getKey(Object[] obj, int j) {
-        StringBuilder returnValue = new StringBuilder("");
+        StringBuilder returnValue = new StringBuilder();
         for (int i = 0; i < j; i++) {
             if (!"null".equals(String.valueOf(obj[i * NumericConstants.TWO]))) {
                 returnValue.append(String.valueOf(obj[i * NumericConstants.TWO])).append(ARMUtils.DOT);
@@ -375,45 +375,45 @@ public class ExcelUtils {
     public static void setTotalDTOValue(AdjustmentDTO dto, Object value, String column) {
         getDemandColumns(column, value, dto);
         if (column.contains("adjustment.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalAdjustment(dto.getExcelTotalAdjustment() + Double.valueOf(String.valueOf(value)));
+            dto.setExcelTotalAdjustment(dto.getExcelTotalAdjustment() + Double.parseDouble(String.valueOf(value)));
         }
         if (column.contains("demandPaymentRecon.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalDemandPaymentRecon(dto.getExcelTotalDemandPaymentRecon() + Double.valueOf(String.valueOf(value)));
+            dto.setExcelTotalDemandPaymentRecon(dto.getExcelTotalDemandPaymentRecon() + Double.parseDouble(String.valueOf(value)));
         }
         if (column.contains("actualPayments.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalActualPayments(dto.getExcelTotalActualPayments() + Double.valueOf(String.valueOf(value)));
+            dto.setExcelTotalActualPayments(dto.getExcelTotalActualPayments() + Double.parseDouble(String.valueOf(value)));
         }
 
         if (column.contains("cPipelineAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalcPipelineAccrual(dto.getExcelTotalcPipelineAccrual() + Double.valueOf(String.valueOf(value)));
+            dto.setExcelTotalcPipelineAccrual(dto.getExcelTotalcPipelineAccrual() + Double.parseDouble(String.valueOf(value)));
         }
         if (column.contains("pPipelineAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalpPipelineAccrual(dto.getExcelTotalpPipelineAccrual() + Double.valueOf(String.valueOf(value)));
+            dto.setExcelTotalpPipelineAccrual(dto.getExcelTotalpPipelineAccrual() + Double.parseDouble(String.valueOf(value)));
         }
 
     }
 
     private static void getDemandColumns(String column, Object value, AdjustmentDTO dto) {
         if (column.contains("demandAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalDemandAccrual(dto.getExcelTotalDemandAccrual() + Double.valueOf(String.valueOf(value)));
+            dto.setExcelTotalDemandAccrual(dto.getExcelTotalDemandAccrual() + Double.parseDouble(String.valueOf(value)));
         }
         if (column.contains("demandAccrualReforecast.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalDemandAccrualReforecast(dto.getExcelTotalDemandAccrualReforecast() + Double.valueOf(String.valueOf(value)));
+            dto.setExcelTotalDemandAccrualReforecast(dto.getExcelTotalDemandAccrualReforecast() + Double.parseDouble(String.valueOf(value)));
         }
         if (column.contains("totalDemandAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalTotalDemandAccrual(dto.getExcelTotalTotalDemandAccrual() + Double.valueOf(String.valueOf(value)));
+            dto.setExcelTotalTotalDemandAccrual(dto.getExcelTotalTotalDemandAccrual() + Double.parseDouble(String.valueOf(value)));
         }
         if (column.contains("projectedTotalDemandAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalProjectedTotalDemandAccrual(dto.getExcelTotalProjectedTotalDemandAccrual() + Double.valueOf(String.valueOf(value)));
+            dto.setExcelTotalProjectedTotalDemandAccrual(dto.getExcelTotalProjectedTotalDemandAccrual() + Double.parseDouble(String.valueOf(value)));
         }
         if (column.contains("variance.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalVariance(dto.getExcelTotalVariance() + Double.valueOf(String.valueOf(value)));
+            dto.setExcelTotalVariance(dto.getExcelTotalVariance() + Double.parseDouble(String.valueOf(value)));
         }
         if (column.contains("override.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
             if (dto.getExcelTotalOverride() == null) {
                 dto.setExcelTotalOverride(Double.valueOf(String.valueOf(value)));
             } else {
-                dto.setExcelTotalOverride(dto.getExcelTotalOverride() + Double.valueOf(String.valueOf(value)));
+                dto.setExcelTotalOverride(dto.getExcelTotalOverride() + Double.parseDouble(String.valueOf(value)));
             }
         }
     }
@@ -623,7 +623,7 @@ public class ExcelUtils {
                 break;
             }
             ExcelSorterDTO dto = new ExcelSorterDTO();
-            dto.setKey(Integer.valueOf(str[str.length - 1]));
+            dto.setKey(Integer.parseInt(str[str.length - 1]));
             dto.setValue(string);
             dtoList.add(dto);
         }
@@ -639,7 +639,7 @@ public class ExcelUtils {
 
     private static void setTotalValue(String newC, Object value, AdjustmentDTO dto, boolean isTrx3) {
         if ("0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN() && isTrx3 ? true : String.valueOf(value).matches("^[\\d.]+$")) {
-            dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
+            dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.parseDouble(String.valueOf(value)));
         }
     }
 

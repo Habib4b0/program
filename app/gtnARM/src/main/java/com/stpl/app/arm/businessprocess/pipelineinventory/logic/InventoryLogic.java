@@ -340,7 +340,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
 
     public void resetCustomerGroupValue(int projectionId, AbstractSelectionDTO selectionDto) {
         try {
-            StringBuilder resetQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder resetQuery = new StringBuilder();
             resetQuery.append(SQlUtil.getQuery("resetCustomerGroupInventDetails").replace("@PROJECTION_MASTER_SID", String.valueOf(projectionId))
                     .replace("@USER_ID", "" + selectionDto.getSessionDTO().getUserId()).replace("@SESSION_ID", "" + selectionDto.getSessionDTO().getSessionId()));
 

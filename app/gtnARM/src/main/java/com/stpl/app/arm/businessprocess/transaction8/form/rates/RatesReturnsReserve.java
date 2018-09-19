@@ -132,7 +132,7 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
         selection.setRateDeductionLevel((Integer) deductionLevelDdlb.getValue());
         selection.setRateDeductionLevelName(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue()));
         selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, Boolean.TRUE));
-        StringBuilder deductionValues = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder deductionValues = new StringBuilder();
         if (!selection.getRateColumnList().isEmpty()) {
             List<String> listSize = new ArrayList(selection.getRateColumnList().get(0));
             if (!listSize.isEmpty()) {
