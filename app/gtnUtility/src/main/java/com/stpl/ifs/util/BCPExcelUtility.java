@@ -81,6 +81,7 @@ public class BCPExcelUtility {
 
             try (FileOutputStream out = new FileOutputStream(headerFile)) {
                 out.write((Arrays.toString(header).replace("[", "").replace("]", "") + "\n").getBytes());
+                out.flush();
             }
             headerFile.setExecutable(true, false);
             headerFile.setWritable(true, false);
