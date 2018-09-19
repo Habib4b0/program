@@ -422,7 +422,7 @@ public class CommonLogic {
     }
 
     public static String stringListToString(List stringList) {
-        StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder builder = new StringBuilder();
         if (stringList != null && !stringList.isEmpty()) {
             for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
                 builder.append(ARMUtils.SINGLE_QUOTES);
@@ -437,7 +437,7 @@ public class CommonLogic {
     }
 
     public static String listToString(List stringList) {
-        StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder builder = new StringBuilder();
         if (stringList != null && !stringList.isEmpty()) {
             for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
                 builder.append(stringList.get(loop));
@@ -1740,13 +1740,13 @@ public class CommonLogic {
         if (ARMConstants.getAnnually().equals(frequency)) {
             return year;
         } else if (ARMConstants.getSemiAnnually().equals(frequency)) {
-            int freq = (Integer.valueOf(str[0])) % 6 != 0 ? (((Integer.valueOf(str[0])) / 6) + 1) : ((Integer.valueOf(str[0])) / 6);
+            int freq = (Integer.parseInt(str[0])) % 6 != 0 ? (((Integer.parseInt(str[0])) / 6) + 1) : ((Integer.parseInt(str[0])) / 6);
             return "S" + freq + ARMUtils.SPACE + year;
         } else if (ARMConstants.getQuarterly().equals(frequency)) {
-            int freq = (Integer.valueOf(str[0])) % 4 != 0 ? (((Integer.valueOf(str[0])) / 4) + 1) : ((Integer.valueOf(str[0])) / 4);
+            int freq = (Integer.parseInt(str[0])) % 4 != 0 ? (((Integer.parseInt(str[0])) / 4) + 1) : ((Integer.parseInt(str[0])) / 4);
             return "Q" + freq + ARMUtils.SPACE + year;
         } else {
-            return AbstractBPLogic.getMonthName(Integer.valueOf(str[0])) + ARMUtils.SPACE + year;
+            return AbstractBPLogic.getMonthName(Integer.parseInt(str[0])) + ARMUtils.SPACE + year;
         }
     }
 

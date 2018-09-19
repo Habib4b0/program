@@ -1266,10 +1266,8 @@ public class MedicaidUraWorkSheet extends Window {
 
     public void removeBaseYear() {
         try {
-            if (!isSubmit()) {
-                if (!baseYear.isEmpty()) {
+            if (!isSubmit() && !baseYear.isEmpty()) {
                     queryUtil.saveBaseYear(baseYear, sessionDTO, projectionDTO.getNdc9(),StringUtils.EMPTY);
-                }
             }
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());

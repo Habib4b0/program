@@ -35,10 +35,10 @@ public class BSummaryDemandResults extends AbstractBalanceSummaryResutls {
         try {
             Map properties = new HashMap();
             List<Object> header = getSummaryLogic().getRightTableHeaders(getSummarySelection());
-            List rightSingleVisibleColumn = (ArrayList) header.get(NumericConstants.ZERO);
-            List rightSingleVisibleHeader = (ArrayList) header.get(NumericConstants.ONE);
-            List<String> rightDoubleVisibleColumn = (ArrayList) header.get(NumericConstants.TWO);
-            List<String> rightDoubleVisibleHeader = (ArrayList) header.get(NumericConstants.THREE);
+            List rightSingleVisibleColumn = (List) header.get(NumericConstants.ZERO);
+            List rightSingleVisibleHeader = (List) header.get(NumericConstants.ONE);
+            List<String> rightDoubleVisibleColumn = (List) header.get(NumericConstants.TWO);
+            List<String> rightDoubleVisibleHeader = (List) header.get(NumericConstants.THREE);
             for (Object variableColumn : rightSingleVisibleColumn) {
                 properties.put(variableColumn, String.class);
             }

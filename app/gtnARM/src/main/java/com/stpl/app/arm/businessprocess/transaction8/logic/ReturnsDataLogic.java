@@ -145,7 +145,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
 
     public String getFilters(Criteria criteria) {
         RD_LOGIC_LOGGER.debug("--Inside getFilters --");
-        StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder filterQuery = new StringBuilder();
         if (criteria.getFilters() != null && !criteria.getFilters().isEmpty()) {
             for (Container.Filter filter : criteria.getFilters()) {
                 if (filter instanceof SimpleStringFilter) {

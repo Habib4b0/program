@@ -145,7 +145,7 @@ public class ViewLogic {
             objects = (Object[]) result.get(0);
             viewId = Integer.parseInt(String.valueOf(objects[0]));
             String userId = (String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID);
-            CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(0);
+            CffViewMaster viewMaster;
                 viewMaster = dataSelection.getForecastingViewMaster(viewId);
             if (saveViewDTO.getViewName() != null
                     && !StringUtils.isEmpty(saveViewDTO.getViewName())) {
