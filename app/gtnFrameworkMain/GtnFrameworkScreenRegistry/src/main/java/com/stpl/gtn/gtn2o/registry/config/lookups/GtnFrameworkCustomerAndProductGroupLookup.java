@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
-import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
@@ -343,23 +341,16 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 		List<Object> customerAndProductGroupActionParameter = new ArrayList<>();
 		customerAndProductGroupActionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkForecastingStringConstants.CUSTOMER_AND_PRODUCT_GROUP_SEARCH_RESULT_TABLE);
-		customerAndProductGroupActionParameter.add(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
-		customerAndProductGroupActionParameter.add(Arrays.asList("custHierarchyLookupHierName"));
-		customerAndProductGroupActionParameter.add(Arrays.asList(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP));
+		customerAndProductGroupActionParameter.add(namespace.contains("Customer")?"Commercial Forecasting_customerGroup":"Commercial Forecasting_productGroup");
+		customerAndProductGroupActionParameter.add(Arrays.asList(namespace.contains("Customer")?"customerGroupName":"productGroupName"));
+		customerAndProductGroupActionParameter.add(Arrays.asList(namespace.contains("Customer")?"Commercial Forecasting_customerGroup":"Commercial Forecasting_productGroup"));
 		forecastCustomerProductGroupSelectAction.setActionParameterList(customerAndProductGroupActionParameter);
 		customerAndProductGroupActionConfigList.add(forecastCustomerProductGroupSelectAction);
 		
 		GtnUIFrameWorkActionConfig forecastingCustomProductGroupClosepopup = new GtnUIFrameWorkActionConfig();
 		forecastingCustomProductGroupClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		forecastingCustomProductGroupClosepopup.addActionParameter("customerHierarchyLookup");
+		forecastingCustomProductGroupClosepopup.addActionParameter(namespace+"GroupLookupView");
 		customerAndProductGroupActionConfigList.add(forecastingCustomProductGroupClosepopup);
-
-		GtnUIFrameWorkActionConfig forecastingCustomerProductGroupRelationshipLoadAction = new GtnUIFrameWorkActionConfig();
-		forecastingCustomerProductGroupRelationshipLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		forecastingCustomerProductGroupRelationshipLoadAction.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
-		forecastingCustomerProductGroupRelationshipLoadAction.addActionParameter(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
-		forecastingCustomerProductGroupRelationshipLoadAction.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
-		customerAndProductGroupActionConfigList.add(forecastingCustomerProductGroupRelationshipLoadAction);
 		
 		forecastCustomerProductGroupSelectButton.setGtnUIFrameWorkActionConfigList(customerAndProductGroupActionConfigList);
 

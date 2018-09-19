@@ -7,59 +7,61 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 
 public class GtnFrameworkForecastInputBean {
 
-	private String projectionName;
-	private String projectionDescription;
-	private int company;
-	private int businessUnit;
-	private String privateViewName;
-	private String publicViewName;
-	private String customerHierarchyName;
-	private String productHierarchyName;
-	private String customerGroupName;
-	private String productGroupName;
-	private int customerRelationSid;
-	private int productRelationSid;
-	private int customerRelationVersionNo;
-	private int productRelationVersionNo;
-	private int customerHierarchyLevel;
-	private int productHierarchyLevel;
-	private int customerRelationLevel;
-	private int productRelationLevel;
-	private Date forecastEligibleDate;
-	private int customerHierarchySid;
-	private int productHierarchySid;
-	private int customerHierarchyVersion;
-	private int productHierarchyVersion;
-	private String fromPeriod;
-	private String toPeriod;
-	private GtnWsRecordBean customerHierarchyBean;
-	private GtnWsRecordBean productHierarchyBean;
-	private List<GtnWsRecordBean> selectedCustomerList;
-	private List<GtnWsRecordBean> selectedProductList;
-	private String userId;
-	private String sessionId;
-	private String uniqueId;
-	private String createdBy;
-	private Date createdDate;
-	private Date modifiedDate;
-	private String modifiedBy;
-	private int customViewMasterSid;
-	private int projectionMasterSid;
-	private int customerGroupSid;
-	private int productGroupSid;
-	private int discountType;
-	private Date fromDate;
-	private Date toDate;
-	private int deductionRelationVersion;
-	private String companyName;
-	private String businessUnitName;
-	private String deductionLevel;
-	private String deductionValue;
-	private String frequency;
+    private String projectionName;
+    private String projectionDescription;
+    private int company;
+    private int businessUnit;
+    private String privateViewName;
+    private String publicViewName;
+    private String customerHierarchyName;
+    private String productHierarchyName;
+    private String customerGroupName;
+    private String productGroupName;
+    private int customerRelationSid;
+    private int productRelationSid;
+    private int customerRelationVersionNo;
+    private int productRelationVersionNo;
+    private int customerHierarchyLevel;
+    private int productHierarchyLevel;
+    private int customerHierarchyInnerLevel;
+	private int productHierarchyInnerLevel;
+    private int customerRelationLevel;
+    private int productRelationLevel;
+    private Date forecastEligibleDate;
+    private int customerHierarchySid;
+    private int productHierarchySid;
+    private int customerHierarchyVersion;
+    private int productHierarchyVersion;
+    private String fromPeriod;
+    private String toPeriod;
+    private GtnWsRecordBean customerHierarchyBean;
+    private GtnWsRecordBean productHierarchyBean;
+    private List<GtnWsRecordBean> selectedCustomerList;
+    private List<GtnWsRecordBean> selectedProductList;
+    private String userId;
+    private String sessionId;
+    private String uniqueId;
+    private String createdBy;
+    private Date createdDate;
+    private Date modifiedDate;
+    private String modifiedBy;
+    private int customViewMasterSid;
+    private int projectionMasterSid;
+    private int customerGroupSid;
+    private int productGroupSid;
+    private int discountType;
+    private Date fromDate;
+    private Date toDate;
+    private int deductionRelationVersion;
+    private String companyName;
+    private String businessUnitName;
+    private String deductionLevel;
+    private String deductionValue;
+    private String frequency;
 	private String modeOption;
 	private String salesCustomViewId;
 	private String deductionCustomViewId;
-	
+
 	public GtnFrameworkForecastInputBean(){
 		super();
 	}
@@ -144,21 +146,21 @@ public class GtnFrameworkForecastInputBean {
 		this.productGroupName = productGroupName;
 	}
 
-	public int getCustomerRelationSid() {
-		return customerRelationSid;
-	}
+    public int getCustomerRelationSid() {
+        return customerRelationSid;
+    }
 
-	public void setCustomerRelationSid(int customerRelationSid) {
-		this.customerRelationSid = customerRelationSid;
-	}
+    public void setCustomerRelationSid(int customerRelationSid) {
+        this.customerRelationSid = customerRelationSid;
+    }
 
-	public int getProductRelationSid() {
-		return productRelationSid;
-	}
+    public int getProductRelationSid() {
+        return productRelationSid;
+    }
 
-	public void setProductRelationSid(int productRelationSid) {
-		this.productRelationSid = productRelationSid;
-	}
+    public void setProductRelationSid(int productRelationSid) {
+        this.productRelationSid = productRelationSid;
+    }
 
 	public int getCustomerRelationVersionNo() {
 		return customerRelationVersionNo;
@@ -479,5 +481,22 @@ public class GtnFrameworkForecastInputBean {
 	public void setDeductionCustomViewId(String deductionCustomViewId) {
 		this.deductionCustomViewId = deductionCustomViewId;
 	}
+
+	public int getCustomerHierarchyInnerLevel() {
+		return customerHierarchyInnerLevel;
+	}
+
+	public void setCustomerHierarchyInnerLevel(int customerHierarchyInnerLevel) {
+		this.customerHierarchyInnerLevel = customerHierarchyInnerLevel;
+	}
+
+	public int getProductHierarchyInnerLevel() {
+		return productHierarchyInnerLevel;
+	}
+
+	public void setProductHierarchyInnerLevel(int productHierarchyInnerLevel) {
+		this.productHierarchyInnerLevel = productHierarchyInnerLevel;
+	}
+
 
 }

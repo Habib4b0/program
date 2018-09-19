@@ -201,7 +201,7 @@ public class Converters {
         DataSelectionDTO dataSelectionDTO;
         for (int loop = 0, limit = resultList.size(); loop < limit; loop++) {
             dataSelectionDTO = new DataSelectionDTO();
-            Object objects[] = (Object[]) resultList.get(loop);
+            Object [] objects = (Object[]) resultList.get(loop);
             dataSelectionDTO.setProjectionId(Integer.parseInt(String.valueOf(objects[0])));
             dataSelectionDTO.setProjectionName(String.valueOf(objects[1]));
             dataSelectionDTO.setDescription(objects[NumericConstants.TWO] == null ? StringUtils.EMPTY:String.valueOf(objects[NumericConstants.TWO]));
@@ -274,7 +274,7 @@ public class Converters {
     public static DataSelectionDTO getProjection(List resultList) throws ParseException {
 
         DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
-        Object objects[] = (Object[]) resultList.get(0);
+        Object [] objects = (Object[]) resultList.get(0);
         dataSelectionDTO.setProjectionId(Integer.parseInt(String.valueOf(objects[0])));
         dataSelectionDTO.setProjectionName(String.valueOf(objects[1]));
         dataSelectionDTO.setDescription(String.valueOf(objects[NumericConstants.TWO]));

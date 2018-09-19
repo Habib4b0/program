@@ -66,6 +66,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
         RestTemplate restTemplate1 = new RestTemplate();
+        addSecurityToken(gtnQueryEngineWebServiceRequest);
         logger.info("calling query engine via service registry");
            GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
@@ -83,5 +84,10 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         }
         return response;
     }
+
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+}
 
 }

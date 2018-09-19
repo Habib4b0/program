@@ -2,11 +2,9 @@ package com.stpl.gtn.gtn2o.ws.queryengine.engine;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -295,4 +293,9 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 	public GtnUIFrameworkWebserviceRequest registerWs() {
 		return null;
 	}
+
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+}
 }

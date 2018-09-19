@@ -693,7 +693,7 @@ public class ItemLogic {
             dto.setBrand(str[NumericConstants.SEVEN] == null || str[NumericConstants.SEVEN].equals(Constants.SELECT_ONE) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
             dto.setForm(str[NumericConstants.EIGHT] == null || str[NumericConstants.EIGHT].equals(Constants.SELECT_ONE) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
             dto.setStrength(str[NumericConstants.NINE] == null || str[NumericConstants.NINE].equals(Constants.SELECT_ONE) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
-            dto.setPlaceHolder((Boolean) str[NumericConstants.TEN] == false ? String.valueOf("No") : String.valueOf("Yes"));
+            dto.setPlaceHolder(!((Boolean) str[NumericConstants.TEN]) ? String.valueOf("No") : String.valueOf("Yes"));
             dto.setNdc9(str[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
             dto.setItemCategory(str[NumericConstants.TWELVE] == null ? StringUtils.EMPTY : str[NumericConstants.TWELVE].equals(Constants.SELECT_ONE) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWELVE]));
             dto.setItemType(str[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : str[NumericConstants.THIRTEEN].equals(Constants.SELECT_ONE) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTEEN]));

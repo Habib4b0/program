@@ -94,11 +94,11 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
      */
     @Override
     protected void variableDefaultSelection() {
-        List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
+        List reforecastList = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
                 ? VariableConstants.getAdjustmentDemandPipelineReserveVariableDefaultSelection()
                 : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-            if (list.contains(object.getMenuItem().getWindow())) {
+            if (reforecastList.contains(object.getMenuItem().getWindow())) {
                 object.setChecked(true);
             }
         }

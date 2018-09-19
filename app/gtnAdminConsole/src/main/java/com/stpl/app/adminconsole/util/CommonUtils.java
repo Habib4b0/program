@@ -287,7 +287,7 @@ public class CommonUtils {
         query1 = "select HELPER_TABLE_SID FROM HELPER_TABLE Where DESCRIPTION like '" + fileType + "' AND LIST_NAME like 'FILE_TYPE'";
         List<Object[]> helperList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(query1);
         Object obj = helperList.get(0);
-        sqlString = sqlString.concat("select top 1 forecast_name,version FROM dbo.FILE_MANAGEMENT WHERE FILE_TYPE like '" + String.valueOf(obj) + "' order by CREATED_DATE desc");
+        sqlString = sqlString.concat("select top 1 forecast_name,version FROM dbo.FILE_MANAGEMENT WHERE FILE_TYPE like '" + (obj) + "' order by CREATED_DATE desc");
         return (List<Object[]>) DAO.executeSelectQuery(sqlString, null, null);
     }
 
@@ -644,7 +644,7 @@ public class CommonUtils {
             LOGGER.error(e.getMessage());
         }
     }
-    public static HashMap<Long, String> setUserInfo() {
+    public static Map<Long, String> setUserInfo() {
 
         List<User> users = new ArrayList<>();
         DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
@@ -670,7 +670,7 @@ public class CommonUtils {
     public static String getUserInfo(Long userId) {
         return userMap.get(userId) != null ? userMap.get(userId) : StringUtils.EMPTY;
     }
-    public static HashMap<Long, String> getUserMap() {
+    public static Map<Long, String> getUserMap() {
         return userMap;
     }
     /**

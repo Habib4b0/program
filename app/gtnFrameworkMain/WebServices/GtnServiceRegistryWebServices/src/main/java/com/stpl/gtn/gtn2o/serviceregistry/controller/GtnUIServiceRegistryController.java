@@ -28,7 +28,7 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 	public GtnUIServiceRegistryController() {
 		super(GtnUIServiceRegistryController.class);
 	}
-
+        
 	@Autowired
 	private GtnValidateWsServiceRegistryController gtnValidateWsServiceRegistryController;
 
@@ -117,4 +117,9 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 	public GtnUIFrameworkWebserviceRequest registerWs() {
 		return null;
 	}
+
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+    }
 }

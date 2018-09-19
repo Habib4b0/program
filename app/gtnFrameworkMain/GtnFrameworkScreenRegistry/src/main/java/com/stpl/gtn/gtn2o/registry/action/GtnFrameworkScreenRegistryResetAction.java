@@ -57,7 +57,7 @@ public class GtnFrameworkScreenRegistryResetAction
 			String relationshipValue = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(actionParamsList.get(8).toString(), componentId)
 					.getCaptionFromV8ComboBox();
-			if (relationshipValue != "" || !relationshipValue.isEmpty()) {
+			if (!"".equals(relationshipValue) || !relationshipValue.isEmpty()) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(8).toString(), componentId)
 						.loadV8ComboBoxComponentValue(0);
 			}
@@ -65,7 +65,7 @@ public class GtnFrameworkScreenRegistryResetAction
 			String forecastLevelValue = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(actionParamsList.get(9).toString(), componentId)
 					.getCaptionFromV8ComboBox();
-			if (forecastLevelValue != "" || !forecastLevelValue.isEmpty()) {
+			if (!"".equals(forecastLevelValue) || !forecastLevelValue.isEmpty()) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(9).toString(), componentId)
 						.loadV8ComboBoxComponentValue(0);
 			}

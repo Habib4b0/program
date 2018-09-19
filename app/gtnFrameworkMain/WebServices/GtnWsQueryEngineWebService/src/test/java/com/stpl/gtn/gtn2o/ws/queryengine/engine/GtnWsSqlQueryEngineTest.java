@@ -309,6 +309,11 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 	{
 		gtnFrameworkWsSqlQueryEngine.getQueryLogger();
 	}
+
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+    }
 	
 
 }

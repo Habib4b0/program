@@ -1,23 +1,24 @@
 package com.stpl.dependency.webservice;
 
-import org.springframework.web.client.RestTemplate;
-
 import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
+import com.stpl.gtn.gtn2o.ws.manager.GtnWsSecurityManager;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+
+import org.springframework.web.client.RestTemplate;
 
 public abstract class GtnCommonWebServiceImplClass {
 
 	public GtnFrameworkDependencyLogger logger;
-	
-	public GtnCommonWebServiceImplClass(Class<?> className)
-	{
+
+	public GtnCommonWebServiceImplClass(Class<?> className) {
 		logger = GtnFrameworkDependencyLogger.getGTNLogger(className);
 	}
-	
+
 	public String readPropertyFile(String propertyFile) {
 		return "readPropertyFile:" + propertyFile;
 	}
@@ -28,6 +29,7 @@ public abstract class GtnCommonWebServiceImplClass {
 			GtnWsSecurityToken securityToken) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
+			addSecurityToken(request);
 			GtnQueryEngineWebServiceResponse webServiceResponse = restTemplate.postForObject(
 					getWebServiceEndpointBasedOnModule(url, "queryEngine"), request,
 					GtnQueryEngineWebServiceResponse.class);
@@ -44,6 +46,7 @@ public abstract class GtnCommonWebServiceImplClass {
 		try {
 
 			RestTemplate restTemplate = new RestTemplate();
+			addSecurityToken(request);
 			GtnQueryEngineWebServiceResponse webServiceResponse = restTemplate.postForObject(
 					getWebServiceEndpointBasedOnModule(url, "queryEngine"), request,
 					GtnQueryEngineWebServiceResponse.class);
@@ -56,10 +59,30 @@ public abstract class GtnCommonWebServiceImplClass {
 	}
 
 	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
-		
-				return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
+		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
 				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
 				+ url;
 
 	}
+
+	public void addSecurityToken(GtnUIFrameworkWebserviceRequest request) {
+		GtnWsGeneralRequest gtnWsGeneralRequest = request.getGtnWsGeneralRequest() == null ? new GtnWsGeneralRequest()
+				: request.getGtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("0");
+		gtnWsGeneralRequest.setSessionId("0");
+		GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
+		gtnWsGeneralRequest.setToken(gtnWsSecurityManager.createToken("0", "0"));
+		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+	}
+
+	public void addSecurityToken(GtnQueryEngineWebServiceRequest request) {
+		request.setUserId("0");
+		request.setSessionId("0");
+		GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
+		request.setToken(gtnWsSecurityManager.createToken("0", "0"));
+		
+	}
+        
+        public abstract void initCallOnFailure();
+
 }

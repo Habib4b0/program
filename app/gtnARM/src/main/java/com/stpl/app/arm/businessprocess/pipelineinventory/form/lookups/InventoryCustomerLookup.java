@@ -68,7 +68,7 @@ public class InventoryCustomerLookup extends Window {
     private final BeanItemContainer<CustomerGroupDTO> resultsContainer = new BeanItemContainer<>(CustomerGroupDTO.class);
     private Object[] visibleColumns = {"customerName", "include", "indicator"};
     private String[] visibleHeaders = {"Customer", "Include", "+/-Indicator"};
-    private PrivatePublicLookup viewLookUp;
+    private PrivatePublicLookup customerViewLookUp;
     private int projectionId = 0;
     private String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
     private ViewLookupDTO viewDTO = new ViewLookupDTO();
@@ -103,32 +103,32 @@ public class InventoryCustomerLookup extends Window {
         setModal(true);
         setResizable(true);
         setClosable(true);
-        privateView.addClickListener(viewListener);
-        publicView.addClickListener(viewListener);
+        privateView.addClickListener(customerViewListener);
+        publicView.addClickListener(customerViewListener);
         configureTable();
         inventoryTableLayout.addComponent(customerTable);
         inventoryTableLayout.setHeight("50%");
         loadResultTable();
     }
 
-    private CustomTextField.ClickListener viewListener = new CustomTextField.ClickListener() {
+    private CustomTextField.ClickListener customerViewListener = new CustomTextField.ClickListener() {
         @Override
         public void click(CustomTextField.ClickEvent event) {
             try {
                 int userIdValue = userId.equals(StringUtils.EMPTY) ? 0 : Integer.parseInt(userId.replaceAll("\\D+", StringUtils.EMPTY));
-                if (viewLookUp == null) {
-                    viewLookUp = new PrivatePublicLookup(event.getComponent().getCaption(), userIdValue, "C", event.getComponent().getId(), "Customer");
+                if (customerViewLookUp == null) {
+                    customerViewLookUp = new PrivatePublicLookup(event.getComponent().getCaption(), userIdValue, "C", event.getComponent().getId(), "Customer");
                 } else {
-                    viewLookUp.reloadScreen(event.getComponent().getCaption(), userIdValue, "C", event.getComponent().getId());
+                    customerViewLookUp.reloadScreen(event.getComponent().getCaption(), userIdValue, "C", event.getComponent().getId());
                 }
-                getUI().addWindow(viewLookUp);
+                getUI().addWindow(customerViewLookUp);
 
-                viewLookUp.addCloseListener(new CloseListener() {
+                customerViewLookUp.addCloseListener(new CloseListener() {
 
                     @Override
                     public void windowClose(CloseEvent e) {
-                        if (viewLookUp.isSelectFlag()) {
-                            lookupLoadLogic(viewLookUp.getDtoValue());
+                        if (customerViewLookUp.isSelectFlag()) {
+                            lookupLoadLogic(customerViewLookUp.getDtoValue());
                         } else {
                             publicView.setValue("");
                             privateView.setValue("");
@@ -167,17 +167,17 @@ public class InventoryCustomerLookup extends Window {
     class InventoryCustomerFeildFactory implements TableFieldFactory {
 
         @Override
-        public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
-            if ("include".equals(propertyId.toString())) {
-                ExtCustomCheckBox checkRecord = new ExtCustomCheckBox();
-                checkRecord.setImmediate(true);
-                return checkRecord;
+        public Field<?> createField(Container container, Object itemId, Object customerPropertyId, Component uiContext) {
+            if ("include".equals(customerPropertyId.toString())) {
+                ExtCustomCheckBox customerCheckRecord = new ExtCustomCheckBox();
+                customerCheckRecord.setImmediate(true);
+                return customerCheckRecord;
 
             }
-            if ("indicator".equals(propertyId.toString())) {
-                CustomComboBox indicator = new CustomComboBox();
-                loadIndicatorDDLB(indicator);
-                return indicator;
+            if ("indicator".equals(customerPropertyId.toString())) {
+                CustomComboBox customerIndicator = new CustomComboBox();
+                loadIndicatorDDLB(customerIndicator);
+                return customerIndicator;
 
             }
             return null;
@@ -185,23 +185,23 @@ public class InventoryCustomerLookup extends Window {
 
     }
 
-    public CustomComboBox loadIndicatorDDLB(CustomComboBox indicator) {
+    public CustomComboBox loadIndicatorDDLB(CustomComboBox customerIndicator) {
 
         try {
-            indicator.removeAllItems();
-            indicator.setImmediate(true);
-            Object nullItem = indicator.addItem();
-            indicator.setNullSelectionItemId(nullItem);
-            indicator.addItem(Boolean.TRUE);
-            indicator.addItem(Boolean.FALSE);
-            indicator.setItemCaption(nullItem, GlobalConstants.getSelectOne());
-            indicator.setItemCaption(Boolean.TRUE, "+");
-            indicator.setItemCaption(Boolean.FALSE, "-");
-            indicator.select(nullItem);
+            customerIndicator.removeAllItems();
+            customerIndicator.setImmediate(true);
+            Object nullItem = customerIndicator.addItem();
+            customerIndicator.setNullSelectionItemId(nullItem);
+            customerIndicator.addItem(Boolean.TRUE);
+            customerIndicator.addItem(Boolean.FALSE);
+            customerIndicator.setItemCaption(nullItem, GlobalConstants.getSelectOne());
+            customerIndicator.setItemCaption(Boolean.TRUE, "+");
+            customerIndicator.setItemCaption(Boolean.FALSE, "-");
+            customerIndicator.select(nullItem);
         } catch (Exception e) {
             LOGGER.error("Error in loadIndicatorDDLB :", e);
         }
-        return indicator;
+        return customerIndicator;
     }
 
     public boolean checkValidField() {
@@ -423,8 +423,8 @@ public class InventoryCustomerLookup extends Window {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object invCusobj) {
+        return super.equals(invCusobj);
     }
 
     @Override
@@ -432,12 +432,12 @@ public class InventoryCustomerLookup extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream invCusobj) throws IOException {
+        invCusobj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream invCusobj) throws IOException, ClassNotFoundException {
+        invCusobj.defaultReadObject();
     }
 
 }
