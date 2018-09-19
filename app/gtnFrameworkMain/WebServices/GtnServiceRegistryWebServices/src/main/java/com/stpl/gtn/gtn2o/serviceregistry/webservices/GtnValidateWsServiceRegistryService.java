@@ -25,7 +25,7 @@ public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImpl
 		logger.info("Entered into Validating isWebserviceRegistered");
 		GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
-		List<Object[]> resultList = null;
+		List<Object[]> resultList;
 
 		if (singletonObjectBean.getValidateServiceRegistryRegisteredWsResultList() == null
 				|| !isRegisteredWs(serviceRegistryBean,
@@ -86,6 +86,6 @@ public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImpl
     @Override
     public void initCallOnFailure() {
         // Default Method
-    }
+}
 
 }

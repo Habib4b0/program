@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
-import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
@@ -60,5 +59,5 @@ public class GtnServiceRegistryRegisterWs extends GtnCommonWebServiceImplClass {
     @Override
     public void initCallOnFailure() {
         // Default Method
-    }
+}
 }

@@ -146,7 +146,7 @@ public class FcpQueryUtils {
 
                 String formatedValue = values.getValue();
 
-                String tempValue[] = values.getKey().split("~");
+                String [] tempValue = values.getKey().split("~");
                 String propertyId = tempValue[0];
                 String rowId = tempValue[1];
                 String qValue = propertyId.substring(1, NumericConstants.TWO);
@@ -238,7 +238,7 @@ public class FcpQueryUtils {
         queryBuilder1 = new StringBuilder(replacedQuery);
 
         List list = (List) DAO.executeSelectQuery(String.valueOf(queryBuilder1));
-        String notesText[] = new String[NumericConstants.TWO];
+        String [] notesText = new String[NumericConstants.TWO];
         if (list.isEmpty()) {
             notesText[0] = StringUtils.EMPTY;
             notesText[1] = StringUtils.EMPTY;

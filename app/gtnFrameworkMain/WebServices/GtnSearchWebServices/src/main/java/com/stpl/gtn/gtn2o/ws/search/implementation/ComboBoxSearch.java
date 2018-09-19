@@ -44,6 +44,7 @@ public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements Sear
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
         RestTemplate restTemplate1 = new RestTemplate();
         logger.info("calling query engine via service registry");
+        addSecurityToken(gtnQueryEngineWebServiceRequest);
         GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
                 gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);

@@ -297,5 +297,5 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
     @Override
     public void initCallOnFailure() {
         // Default Method
-    }
+}
 }
