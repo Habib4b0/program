@@ -243,7 +243,7 @@ public class AdjustmentSummaryConfigLogic {
      * @return
      */
     private Boolean isAddedLineAdjustmentType(Object obj) {
-        if (obj != null && String.valueOf(obj).contains(".")) {
+        if (obj != null && String.valueOf(obj).contains(ARMUtils.DOT)) {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;

@@ -1845,7 +1845,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     it1.remove();
                     resultExcelContainer.addBean(itemId);
                     if (index == 0) {
-                        String parentKey = StringUtils.EMPTY;
+                        String parentKey ;
                         if (!pvSelectionDTO.isIsCustomHierarchy()) {
                             parentKey = newKey.substring(0, newKey.lastIndexOf('.'));
                         } else {

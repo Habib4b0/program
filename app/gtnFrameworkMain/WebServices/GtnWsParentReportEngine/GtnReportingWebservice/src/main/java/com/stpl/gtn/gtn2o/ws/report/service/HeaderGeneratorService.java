@@ -534,7 +534,7 @@ public class HeaderGeneratorService {
 		List<Object[]> combinedVariableCategory = new ArrayList<>();
 		List<String> categorySeperationList = new ArrayList<>();
 		List<String> categoryWhichWillNotBeUnitedList = new ArrayList<>();
-		List<String> variableCategoryOnlyColumn = Arrays.asList("Volume", "Rate", "Change in Change");
+		List<String> variableCategoryOnlyColumn = Arrays.asList();
 
 		variableCategoryListSpecialCondition(variableCategoryHeader, categorySeperationList,
 				categoryWhichWillNotBeUnitedList, variableCategoryOnlyColumn);
@@ -621,9 +621,13 @@ public class HeaderGeneratorService {
 				columnProperty.add(combinedVariableCategoryColumn[i]);
 			}
 		}
-		columnProperty.add(combinedVariableCategoryColumn[combinedVariableCategoryColumn.length - 1]);
+                if(combinedVariableCategoryColumn.length > 0){
+                columnProperty.add(combinedVariableCategoryColumn[combinedVariableCategoryColumn.length - 1]);
 		columnProperty.trimToSize();
 		return columnProperty.toArray();
+                }
+            return  columnProperty.toArray();
+		
 	}
 
 	private void handleVariableBasedOnComparisionBasis(String comparisonBasis, Map<String, String> variableMap) {

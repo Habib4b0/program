@@ -217,7 +217,7 @@ public class CFFLogic {
 
         String query = "UPDATE dbo.CFF_MASTER\n"
                 + "SET CFF_NAME='" + cffName + "',CFF_TYPE='" + cffType + "',\n"
-                + " CFF_ELIGIBLE_DATE= '"+String.valueOf(valueMap.get("cffEligiblDate")) + "' WHERE CFF_MASTER_SID = " + cffMasterSid;
+                + " CFF_ELIGIBLE_DATE= '"+(valueMap.get("cffEligiblDate")) + "' WHERE CFF_MASTER_SID = " + cffMasterSid;
 
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
@@ -750,7 +750,7 @@ public class CFFLogic {
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
                 Object[] array = (Object[]) userList.get(loop);
-                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
+                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + (array[1]));
             }
         } catch (Exception ex) {
             LOGGER.error(" in CommonUtils ~ getAllUsers= {}", ex);
@@ -906,7 +906,7 @@ public class CFFLogic {
             query = CommonQueryUtils.getAppQuery(l, "updateProjection");
         }
         query = query.replace("@CFF_TYPE", "0");
-        query = query.replace("@CFFELIGDATE", sessionDTO.getCffEligibleDate() == null  ? ConstantsUtils.NULL : "'" + String.valueOf(dBDate.format(sessionDTO.getCffEligibleDate())) + "'");
+        query = query.replace("@CFFELIGDATE", sessionDTO.getCffEligibleDate() == null  ? ConstantsUtils.NULL : "'" + (dBDate.format(sessionDTO.getCffEligibleDate())) + "'");
         query = query.replace("@CFF_NAME", "");
         query = query.replace("@ACTIVE_FROM_DATE", "null");
         query = query.replace("@ACTIVE_TO_DATE", "null");
@@ -915,7 +915,7 @@ public class CFFLogic {
         query = query.replace("@CUSTOMER_HIERARCHY_LEVEL", dataSelectionDTO.getCustomerHierarchyLevel());
 		query = query.replace("@CUSTOMER_HIER_VERSION_NO", String.valueOf(dataSelectionDTO.getCustomerHierVersionNo()));
 
-        query = query.replace("@COMPANY_GROUP_SID", dataSelectionDTO.getCustomerGrpSid().equals("0") ? "null" : "'" + String.valueOf(dataSelectionDTO.getCustomerGrpSid()) + "'");
+        query = query.replace("@COMPANY_GROUP_SID", dataSelectionDTO.getCustomerGrpSid().equals("0") ? "null" : "'" + (dataSelectionDTO.getCustomerGrpSid()) + "'");
         query = query.replace("@CUSTOMER_HIERARCHY_INNER_LEVEL", dataSelectionDTO.getCustomerHierarchyInnerLevel());
         query = query.replace("@CUST_RELATIONSHIP_BUILDER_SID", dataSelectionDTO.getCustRelationshipBuilderSid().equals("0") ? "0" : String.valueOf(dataSelectionDTO.getCustRelationshipBuilderSid()));
         query = query.replace("@COMPANY_MASTER_SID", dataSelectionDTO.getCompanySid() == null || "0".equals(dataSelectionDTO.getCompanySid()) ? "null" : String.valueOf(dataSelectionDTO.getCompanySid()));
@@ -923,7 +923,7 @@ public class CFFLogic {
         query = query.replace("@PRODUCT_HIERARCHY_SID", dataSelectionDTO.getProdHierSid().equals("0") ? "0" : String.valueOf(dataSelectionDTO.getProdHierSid()));
         query = query.replace("@PRODUCT_HIERARCHY_LEVEL", dataSelectionDTO.getProductHierarchyLevel());
 		query = query.replace("@PRODUCT_HIER_VERSION_NO", String.valueOf(dataSelectionDTO.getProductHierVersionNo()));
-        query = query.replace("@ITEM_GROUP_SID", dataSelectionDTO.getProdGrpSid().equals("0") ? "null" : "'" + String.valueOf(dataSelectionDTO.getProdGrpSid()) + "'");
+        query = query.replace("@ITEM_GROUP_SID", dataSelectionDTO.getProdGrpSid().equals("0") ? "null" : "'" + (dataSelectionDTO.getProdGrpSid()) + "'");
 
         query = query.replace("@PRODUCT_HIERARCHY_INNER_LEVEL", dataSelectionDTO.getProductHierarchyInnerLevel());
         query = query.replace("@PROD_RELATIONSHIP_BUILDER_SID", dataSelectionDTO.getProdRelationshipBuilderSid().equals("0") ? "0" : String.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
@@ -1160,9 +1160,8 @@ public class CFFLogic {
                 List<String> roleList = new ArrayList<>();
                 GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(sessionDTO,userId);
                 if (response.isHasPermission()) {
-                    Long processInstanceId = Long.valueOf(String.valueOf(response.getProcessInstanceId()));
                         GtnWsCommonWorkflowResponse taskSummary = DSCalculationLogic.startAndCompleteTask(sessionDTO,userId);
-                        processInstanceId = Long.valueOf(String.valueOf(taskSummary.getProcessInstanceId()));
+                      Long processInstanceId = Long.valueOf(String.valueOf(taskSummary.getProcessInstanceId()));
                    
                     VarianceCalculationLogic.submitWorkflow(processInstanceId, sessionDTO,"CFF");
                     noOfLevel = DSCalculationLogic.getProcessVariableLog(processInstanceId, "NoOfUsers");
