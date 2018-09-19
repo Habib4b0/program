@@ -415,7 +415,7 @@ public class QueryUtils {
         List<Object[]> productList = new ArrayList<>();
         List<String> hierarchyNoList = new ArrayList<>();
         try {
-            getCustomerSelectionHierarchyNo(contractList, customerList, hierarchyNoList, customerSelection, Integer.valueOf(dsDTO.getCustomerHierarchyLevel()));
+            getCustomerSelectionHierarchyNo(contractList, customerList, hierarchyNoList, customerSelection, Integer.parseInt(dsDTO.getCustomerHierarchyLevel()));
 
             String[] ccpHierarchyQuery = new String[NumericConstants.THREE];
 
@@ -432,7 +432,7 @@ public class QueryUtils {
 
             hierarchyNoList.clear();
 
-            getProductSelectionHierarchyNo(productList, hierarchyNoList, productSelection, Integer.valueOf(dsDTO.getProductHierarchyLevel()));
+            getProductSelectionHierarchyNo(productList, hierarchyNoList, productSelection, Integer.parseInt(dsDTO.getProductHierarchyLevel()));
 
             if (productList.isEmpty()) {
                 ccpHierarchyQuery[NumericConstants.TWO] = getCCPValues(String.valueOf(dsDTO.getProdRelationshipBuilderSid()), formInqueryStringValue(hierarchyNoList, CommonConstant.HIERARCHY_NO), "GET_PRODUCT_LEVEL");

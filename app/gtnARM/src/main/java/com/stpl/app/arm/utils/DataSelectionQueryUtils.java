@@ -148,7 +148,7 @@ public class DataSelectionQueryUtils {
     }
 
     public static List getParentLevels(final int relationshipLevelSid, final Map<String, Object> parameters, String relationshipBuilderSid) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
 
         try {
             if (parameters.get(CommonConstant.INDICATOR) != null && !StringUtils.isBlank(String.valueOf(parameters.get(CommonConstant.INDICATOR)))
@@ -180,7 +180,7 @@ public class DataSelectionQueryUtils {
     }
 
     public static List getChildLevels(final Map<String, Object> parameters) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
         try {
             queryBuilder.append(SQlUtil.getQuery("getChildLevelsWithHierarchyNo"));
             queryBuilder.replace(queryBuilder.indexOf(ARMUtils.CHAR_QUS), queryBuilder.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(parameters.get("hierarchyNo")));
@@ -197,7 +197,7 @@ public class DataSelectionQueryUtils {
 
     public static List executeQuery(final Map<String, Object> parameters) {
         LOGGER.debug("----inside executeQuery in finder Impl--------Indicator value---{}", parameters.get(CommonConstant.INDICATOR));
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(CommonConstant.HAS_TRADING_PARTNER));
             queryString.append(ARMUtils.SINGLE_QUOTES);
