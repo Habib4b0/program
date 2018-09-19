@@ -53,6 +53,7 @@
 				<include name="GtnWsPeriodConfigurationWebService.war"/>
 				<include name="GtnHierarchyAndRelaionshipWebService.war"/>
 				<include name="GtnSearchWebService.war"/>
+				<include name="GtnWsQueryEngineWebService.war"/>
 			</fileset>
 		</move>
 
