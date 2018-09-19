@@ -236,7 +236,7 @@ public class RemoveItemLogic {
                     salesTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
                     levelNo = String.valueOf(String.valueOf(obj[NumericConstants.EIGHT]));
                 }
-                salesTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                salesTabDTO.setLevelValue(levelNo + "-" + (obj[1]));
                 salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
                 salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
                 salesTabDTO.setParentLevel(tabSelectionDTO.getParentLevel());
@@ -267,7 +267,7 @@ public class RemoveItemLogic {
                     salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     salesTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
                 }
-                salesTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                salesTabDTO.setLevelValue(levelNo + "-" +(obj[1]));
                 salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
                 salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
             }
@@ -282,7 +282,7 @@ public class RemoveItemLogic {
                     salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     salesTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
                 }
-                salesTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                salesTabDTO.setLevelValue(levelNo + "-" +(obj[1]));
                 salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
                 salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
 
@@ -550,7 +550,7 @@ public class RemoveItemLogic {
                     rebateTabDTO.setBrandMasterSid((Integer) obj[NumericConstants.EIGHT]);
                     levelNo = String.valueOf(obj[NumericConstants.NINE]);
                 }
-                rebateTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                rebateTabDTO.setLevelValue(levelNo + "-" +(obj[1]));
                 rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
                 rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + RATE, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
                 rebateTabDTO.setParentLevel(tabSelectionDTO.getParentLevel());
@@ -587,7 +587,7 @@ public class RemoveItemLogic {
                     rebateTabDTO.setBrandMasterSid((Integer) obj[NumericConstants.EIGHT]);
                     levelNo = String.valueOf(obj[NumericConstants.NINE]);
                 }
-                rebateTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                rebateTabDTO.setLevelValue(levelNo + "-" +(obj[1]));
                 rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
                 rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + RATE, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
             }
@@ -608,7 +608,7 @@ public class RemoveItemLogic {
                     rebateTabDTO.setBrandMasterSid((Integer) obj[NumericConstants.EIGHT]);
                     levelNo = String.valueOf(obj[NumericConstants.NINE]);
                 }
-                rebateTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                rebateTabDTO.setLevelValue(levelNo + "-" +(obj[1]));
                 rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
                 rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + RATE, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
 

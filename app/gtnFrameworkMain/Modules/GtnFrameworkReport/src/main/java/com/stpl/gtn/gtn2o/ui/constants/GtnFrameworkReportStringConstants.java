@@ -8,8 +8,10 @@ package com.stpl.gtn.gtn2o.ui.constants;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public final class GtnFrameworkReportStringConstants {
 
@@ -765,48 +767,27 @@ public final class GtnFrameworkReportStringConstants {
 				: Collections.unmodifiableList(REPORT_COMPARISON_BREAKDOWN_HEADER);
 	}
 
+	private static Map<String, String> getMonthFromString = loadMonthMap();
+
 	public static String getMonthIntegerFromYear(String month) {
-		String monthCountInString = "";
-		switch (month.toUpperCase(Locale.ENGLISH)) {
-		case "JAN":
-			monthCountInString = "01";
-			break;
-		case "FEB":
-			monthCountInString = "02";
-			break;
-		case "MAR":
-			monthCountInString = "03";
-			break;
-		case "APR":
-			monthCountInString = "04";
-			break;
-		case "MAY":
-			monthCountInString = "05";
-			break;
-		case "JUN":
-			monthCountInString = "06";
-			break;
-		case "JUL":
-			monthCountInString = "07";
-			break;
-		case "AUG":
-			monthCountInString = "08";
-			break;
-		case "SEP":
-			monthCountInString = "09";
-			break;
-		case "OCT":
-			monthCountInString = "10";
-			break;
-		case "NOV":
-			monthCountInString = "11";
-			break;
-		case "DEC":
-			monthCountInString = "12";
-			break;
-		default:
-			monthCountInString = "0";
-		}
-		return monthCountInString;
+		String monthCountInString = getMonthFromString.get(month.toUpperCase(Locale.ENGLISH));
+		return monthCountInString == null ? "0" : monthCountInString;
+	}
+
+	private static Map<String, String> loadMonthMap() {
+		Map<String, String> loadMonthFromString = new HashMap<>();
+		loadMonthFromString.put("JAN", "01");
+		loadMonthFromString.put("FEB", "02");
+		loadMonthFromString.put("MAR", "03");
+		loadMonthFromString.put("APR", "04");
+		loadMonthFromString.put("MAY", "05");
+		loadMonthFromString.put("JUN", "06");
+		loadMonthFromString.put("JUL", "07");
+		loadMonthFromString.put("AUG", "08");
+		loadMonthFromString.put("SEP", "09");
+		loadMonthFromString.put("OCT", "10");
+		loadMonthFromString.put("NOV", "11");
+		loadMonthFromString.put("DEC", "12");
+		return loadMonthFromString;
 	}
 }

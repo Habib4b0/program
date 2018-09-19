@@ -637,7 +637,7 @@ public class GtnWsItemMasterAddService {
 					gtnWsRequest.getGtnWsGeneralRequest().getUserId(), today };
 			GtnFrameworkDataType[] typeParams = new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER,
 					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER,
-					GtnFrameworkDataType.STRING, GtnFrameworkDataType.DATE, GtnFrameworkDataType.DATE,
+					GtnFrameworkDataType.STRING, GtnFrameworkDataType.DATE, GtnFrameworkDataType.NULL_ALLOWED,
 					GtnFrameworkDataType.STRING, GtnFrameworkDataType.DATE, GtnFrameworkDataType.STRING,
 					GtnFrameworkDataType.DATE };
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, typeParams);

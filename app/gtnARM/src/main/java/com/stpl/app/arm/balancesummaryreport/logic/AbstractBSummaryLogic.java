@@ -149,15 +149,15 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
                 switch (frequencyDivision) {
                     case NumericConstants.THREE:
                         doubleColumn = ARMUtils.Q + tempPeriod + year;
-                        doubleHeaders.add(ARMUtils.Q + tempPeriod + " " + year);
+                        doubleHeaders.add(ARMUtils.Q + tempPeriod + ARMUtils.SPACE + year);
                         break;
                     case NumericConstants.SIX:
                         doubleColumn = ARMUtils.S + tempPeriod + year;
-                        doubleHeaders.add(ARMUtils.S + tempPeriod + " " + year);
+                        doubleHeaders.add(ARMUtils.S + tempPeriod + ARMUtils.SPACE + year);
                         break;
                     case NumericConstants.ONE:
                         doubleColumn = months[tempPeriod - NumericConstants.ONE] + year;
-                        doubleHeaders.add(months[tempPeriod - NumericConstants.ONE] + " " + year);
+                        doubleHeaders.add(months[tempPeriod - NumericConstants.ONE] + ARMUtils.SPACE + year);
                         break;
                     case NumericConstants.TWELVE:
                         doubleColumn = String.valueOf(year);
@@ -173,7 +173,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
                     switch (frequencyDivision) {
                         case NumericConstants.THREE:
                             adjType = selectedVariables.get(j);
-                            column = ARMUtils.Q + tempPeriod + year + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                            column = ARMUtils.Q + tempPeriod + year + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
                             visibleHeaders.add(adjType);
                             tempList.add(column);
                             visibleColumn.add(column);
@@ -181,7 +181,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
 
                         case NumericConstants.SIX:
                             adjType = selectedVariables.get(j);
-                            column = ARMUtils.S + tempPeriod + year + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                            column = ARMUtils.S + tempPeriod + year + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
                             visibleHeaders.add(adjType);
                             tempList.add(column);
                             visibleColumn.add(column);
@@ -189,7 +189,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
 
                         case NumericConstants.ONE:
                             adjType = selectedVariables.get(j);
-                            column = months[tempPeriod - 1] + year + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                            column = months[tempPeriod - 1] + year + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
                             visibleHeaders.add(adjType);
                             tempList.add(column);
                             visibleColumn.add(column);
@@ -197,7 +197,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
 
                         case NumericConstants.TWELVE:
                             adjType = selectedVariables.get(j);
-                            column = year + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                            column = year + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
                             visibleHeaders.add(adjType);
                             tempPeriod = year;
                             tempList.add(column);
@@ -217,12 +217,12 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             for (String selectedTotal : selectedToatalAndCumulative) {
                 tempList.clear();
                 if (CommonConstant.BEGINNING_BALANCE.equals(selectedTotal)) {
-                    doubleColumn = selectedTotal.replace(" ", StringUtils.EMPTY);
+                    doubleColumn = selectedTotal.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
                     doubleHeaders.add(0, selectedTotal);
                     doubleColumns.add(0, doubleColumn);
                     for (int j = 0; j < selectedVariables.size(); j++) {
                         String adjType = selectedVariables.get(j);
-                        column = doubleColumn + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                        column = doubleColumn + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
                         visibleHeaders.add(j, adjType);
                         tempList.add(j, column);
                         visibleColumn.add(j, column);
@@ -232,12 +232,12 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
                     headerMap.put(doubleColumn, tempList.toArray());
                     excelHeaderMap.put(doubleColumn, tempList.toArray());
                 } else {
-                    doubleColumn = selectedTotal.replace(" ", StringUtils.EMPTY);
+                    doubleColumn = selectedTotal.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
                     doubleHeaders.add(selectedTotal);
                     doubleColumns.add(doubleColumn);
                     for (int j = 0; j < selectedVariables.size(); j++) {
                         String adjType = selectedVariables.get(j);
-                        column = doubleColumn + selectedVariables.get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                        column = doubleColumn + selectedVariables.get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
                         visibleHeaders.add(totalSectionHeader(selectedTotal, adjType));
                         tempList.add(column);
                         visibleColumn.add(column);
@@ -549,11 +549,11 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
 
     protected String[] getKey(Object[] resultSet, int keyParam) {
         StringBuilder keys = new StringBuilder();
-        keys.append(resultSet[0].toString()).append(".");
+        keys.append(resultSet[0].toString()).append(ARMUtils.DOT);
         String group = resultSet[1].toString();
         for (int i = 2; i < keyParam; i += 2) {
             if (resultSet[i] != null) {
-                keys.append(resultSet[i]).append(".");
+                keys.append(resultSet[i]).append(ARMUtils.DOT);
                 group = resultSet[i + 1].toString();
             }
         }
