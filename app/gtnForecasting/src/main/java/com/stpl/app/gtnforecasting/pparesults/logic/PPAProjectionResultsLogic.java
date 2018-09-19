@@ -1033,8 +1033,7 @@ public class PPAProjectionResultsLogic {
         query = query.replace("@order", asc);
         List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames()));
         if (isCount) {
-            int count = (Integer) resultList.get(0);
-            return count;
+            return (Integer) resultList.get(0);
         } else {
            loadPeriodTable(ppaDetailsDTO);
            return convertPPADetailsList(resultList,sessionDTO);

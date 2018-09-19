@@ -82,8 +82,7 @@ public class CustomViewLogic {
         String query = SQlUtil.getQuery(queryName);
         query = query.replace("[$PROJECTION_MASTER_SID]", projectionId);
         query = query.replace(Constant.CUSTOM_VIEW_MASTER_SID, customViewMasterSid);
-        List<Object[]> rawList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return rawList;
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
 
     }
 
@@ -244,8 +243,7 @@ listNameCollection.add(listName);
         }
         query = queryBuilder.toString();
         finalQuery.append(query);
-        List<Object[]> rawList = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
-        return rawList;
+        return HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
 
     }
 
