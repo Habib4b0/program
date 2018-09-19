@@ -103,30 +103,30 @@ public class ExcelUtils {
                 }
                 map.put(key, excelAdjustmentDto);
                 for (int k = excelAdjustmentDto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
-                    String column = visibleColumns.get(k).replace(" ", "");
+                    String column = visibleColumns.get(k).replace(ARMUtils.SPACE.toString(), "");
                     excelAdjustmentDto.addStringProperties(column, StringUtils.EMPTY);
                 }
             }
             int index = 0;
             int dedIndex = (object.length * NumericConstants.TWO) + discountColumnNeeded;
             for (int k = excelAdjustmentDto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
-                String column = visibleColumns.get(k).replace(" ", "");
+                String column = visibleColumns.get(k).replace(ARMUtils.SPACE.toString(), "");
                 boolean columnCheck = true;
                 if (column.contains(ARMUtils.DOUBLE_HIPHEN)) {
                     String[] newColumn = column.split("\\--");
-                    columnCheck = newColumn[0].equals(obj[dedIndex - 1].toString().replace(" ", "")) || ARMUtils.TOTAL.equalsIgnoreCase(newColumn[0]);
+                    columnCheck = newColumn[0].equals(obj[dedIndex - 1].toString().replace(ARMUtils.SPACE.toString(), "")) || ARMUtils.TOTAL.equalsIgnoreCase(newColumn[0]);
                 }
                 int dataIndex = dedIndex + index;
                 Object value = obj[dataIndex];
                 if (columnCheck) {
                     if ("0.".equals(key)) {
-                        if (column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
+                        if (column.startsWith(obj[doubleHeaderIndex].toString().replace(ARMUtils.SPACE.toString(), ""))) {
                             index = setExcelAndgetIndex(column, value, excelAdjustmentDto, index);
                             setTotalDTOValue(excelAdjustmentDto, value, column);
                             setTotalValue(newC, value, excelAdjustmentDto, isTrx3);
                             excelAdjustmentDto.setVisibleColumnIndex(0);
                         }
-                    } else if ((Boolean) list.get(0) && column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
+                    } else if ((Boolean) list.get(0) && column.startsWith(obj[doubleHeaderIndex].toString().replace(ARMUtils.SPACE.toString(), ""))) {
                         index = setExcelAndgetIndex(column, value, excelAdjustmentDto, index);
                         setTotalDTOValue(excelAdjustmentDto, value, column);
                         if (!"0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
@@ -235,14 +235,14 @@ public class ExcelUtils {
             }
             int index = 0;
             for (int k = retResExcelAdjustmentDto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
-                String column = visibleColumns.get(k).replace(" ", "");
+                String column = visibleColumns.get(k).replace(ARMUtils.SPACE.toString(), "");
                 int dataIndex = (object.length * NumericConstants.TWO) + discountColumnNeeded + index;
                 Object value = excelobj[dataIndex];
                 if ("null".equals(String.valueOf(excelobj[object.length * NumericConstants.TWO - 1]))) {
                     retResExcelAdjustmentDto.addStringProperties(column, StringUtils.EMPTY);
                     index++;
                 } else if ("0.".equals(key)) {
-                    if (column.startsWith(excelobj[excelDoubleHeaderIndex].toString().replace(" ", ""))) {
+                    if (column.startsWith(excelobj[excelDoubleHeaderIndex].toString().replace(ARMUtils.SPACE.toString(), ""))) {
                         index = setExcelAndgetIndex(column, value, retResExcelAdjustmentDto, index);
                         setTotalDTOValue(retResExcelAdjustmentDto, value, column);
                         if ("0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN() && String.valueOf(value).matches("^[\\d.]+$")) {
@@ -250,7 +250,7 @@ public class ExcelUtils {
                         }
                         retResExcelAdjustmentDto.setVisibleColumnIndex(0);
                     }
-                } else if ((Boolean) list.get(0) && column.startsWith(excelobj[excelDoubleHeaderIndex].toString().replace(" ", ""))) {
+                } else if ((Boolean) list.get(0) && column.startsWith(excelobj[excelDoubleHeaderIndex].toString().replace(ARMUtils.SPACE.toString(), ""))) {
 
                     index = setExcelAndgetIndex(column, value, retResExcelAdjustmentDto, index);
                     setTotalDTOValue(retResExcelAdjustmentDto, value, column);
@@ -297,7 +297,7 @@ public class ExcelUtils {
         StringBuilder returnValue = new StringBuilder("");
         for (int i = 0; i < j; i++) {
             if (!"null".equals(String.valueOf(obj[i * NumericConstants.TWO]))) {
-                returnValue.append(String.valueOf(obj[i * NumericConstants.TWO])).append(".");
+                returnValue.append(String.valueOf(obj[i * NumericConstants.TWO])).append(ARMUtils.DOT);
             }
         }
         return returnValue.toString();
@@ -516,7 +516,7 @@ public class ExcelUtils {
                 }
                 int index = 0;
                 for (int k = 0; k < visibleColumns.size(); k++) {
-                    column = visibleColumns.get(k).replace(" ", "");
+                    column = visibleColumns.get(k).replace(ARMUtils.SPACE.toString(), "");
                     int dataIndex = (object.length * NumericConstants.TWO) + discountColumnNeeded + index;
                     Object value = resultSet[dataIndex];
                     String company = String.valueOf(resultSet[object.length * NumericConstants.TWO]);
@@ -591,10 +591,10 @@ public class ExcelUtils {
                 int index = 0;
                 for (int k = 0; k < visibleColumns.size(); k++) {
 
-                    summaryColumn = visibleColumns.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
+                    summaryColumn = visibleColumns.get(k).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
                     int dataIndex = (object.length * NumericConstants.TWO) + discountColumnNeeded + index;
                     Object value = resultSet[dataIndex];
-                    String company = String.valueOf(resultSet[object.length * NumericConstants.TWO]).replace(" ", "").replace("-", StringUtils.EMPTY) + String.valueOf(resultSet[(object.length * NumericConstants.TWO) + 1]).replace(" ", "").replace("-", StringUtils.EMPTY);
+                    String company = String.valueOf(resultSet[object.length * NumericConstants.TWO]).replace(ARMUtils.SPACE.toString(), "").replace("-", StringUtils.EMPTY) + String.valueOf(resultSet[(object.length * NumericConstants.TWO) + 1]).replace(ARMUtils.SPACE.toString(), "").replace("-", StringUtils.EMPTY);
                     if (summaryColumn.startsWith(company)) {
                         if (summaryColumn.matches(CommonConstant.ALPHA)) {
                             summaryAdjustmentDto.addStringProperties(summaryColumn, value == null ? StringUtils.EMPTY : String.valueOf(value));

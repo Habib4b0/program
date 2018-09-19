@@ -46,16 +46,16 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
 
     @Override
     public List<Object> getMonthYear() {
-        String sql = SQlUtil.getQuery("getMonthYear");
-        List result = HelperTableLocalServiceUtil.executeSelectQuery(sql);
-        List<Object> defaultValues = new ArrayList<>();
-        if (!result.isEmpty()) {
-            Object[] value = (Object[]) result.get(0);
+        String sqlquery = SQlUtil.getQuery("getMonthYear");
+        List results = HelperTableLocalServiceUtil.executeSelectQuery(sqlquery);
+        List<Object> defaultValue = new ArrayList<>();
+        if (!results.isEmpty()) {
+            Object[] value = (Object[]) results.get(0);
             for (Object value1 : value) {
-                defaultValues.add(String.valueOf(value1));
+                defaultValue.add(String.valueOf(value1));
             }
         }
-        return defaultValues;
+        return defaultValue;
     }
 
     /**
@@ -65,16 +65,16 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
      * @return Jan-1........Dec-12
      */
     public static String getMonthName(int monthNo) {
-        String monthName = StringUtils.EMPTY;
+        String month = StringUtils.EMPTY;
         try {
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
-            String[] months = dateFormatSymbols.getShortMonths();
-            monthName = months[monthNo - 1];
+            String[] shortMonths = dateFormatSymbols.getShortMonths();
+            month = shortMonths[monthNo - 1];
         } catch (Exception e) {
             LOGGER.error("Error in getMonthName :", e);
 
         }
-        return monthName;
+        return month;
     }
 
     public int getSalesCount(Object parentId, SelectionDTO selection) {

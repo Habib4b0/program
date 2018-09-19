@@ -8,6 +8,7 @@ package com.stpl.app.arm.businessprocess.demandpayment.logic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.QueryUtils;
 import static com.stpl.app.utils.VariableConstants.DASH;
 import com.stpl.app.utils.xmlparser.SQlUtil;
@@ -42,12 +43,12 @@ public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         StringBuilder paymentsQuery;
         if (paymentsSelection.getSessionDTO().isWorkFlow()) {
             paymentsQuery = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            paymentsQuery.replace(paymentsQuery.indexOf("?"), paymentsQuery.indexOf("?") + 1, String.valueOf(paymentsSelection.getDataSelectionDTO().getProjectionId()));
-            paymentsQuery.replace(paymentsQuery.indexOf("?"), paymentsQuery.indexOf("?") + 1, isReserve ? "0" : "1");
+            paymentsQuery.replace(paymentsQuery.indexOf(ARMUtils.CHAR_QUS), paymentsQuery.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(paymentsSelection.getDataSelectionDTO().getProjectionId()));
+            paymentsQuery.replace(paymentsQuery.indexOf(ARMUtils.CHAR_QUS), paymentsQuery.indexOf(ARMUtils.CHAR_QUS) + 1, isReserve ? "0" : "1");
         } else {
             paymentsQuery = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
             for (Object temp : paymentsReplaceList) {
-                paymentsQuery.replace(paymentsQuery.indexOf("?"), paymentsQuery.indexOf("?") + 1, String.valueOf(temp));
+                paymentsQuery.replace(paymentsQuery.indexOf(ARMUtils.CHAR_QUS), paymentsQuery.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
             }
         }
         List list = QueryUtils.executeSelect(paymentsQuery.toString());
@@ -119,7 +120,7 @@ public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                     grlStr.append(" OR ");
                 }
             }
-            conditionStr = "(" + grlStr + " ) AND ";
+            conditionStr = String.valueOf(ARMUtils.OPEN_PARANTHESIS) + grlStr + " ) AND ";
         }
         return conditionStr;
     }

@@ -58,7 +58,6 @@ public class DiscountView extends VerticalLayout implements View{
     @Override
     public void enter(final ViewChangeEvent event) {
         try {
-            DiscountSearchDTO deductionGroupDTO = new DiscountSearchDTO(); 
             final DiscountLogic logic = new DiscountLogic();
             final int deductionGroupSId = (Integer) VaadinSession.getCurrent().getAttribute(ConstantsUtils.SYS_ID);
             resultsBean.removeAllItems();
@@ -69,7 +68,7 @@ public class DiscountView extends VerticalLayout implements View{
                 if (!selectedRebate.isEmpty()) {
                     resultsBean.addAll(selectedRebate);
                 }
-                deductionGroupDTO = logic.getDeductionGroupInfo(deductionGroupSId);
+               DiscountSearchDTO deductionGroupDTO = logic.getDeductionGroupInfo(deductionGroupSId);
                 discountViewForm.groupInfo(deductionGroupDTO);
             }
         } catch (SystemException | PortalException ex) {

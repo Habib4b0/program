@@ -480,7 +480,7 @@ public class MasterFcpWorkSheet extends Window {
                 formatFlag = checkNotes(ovrAdjustedValues);
             }
             for (String values : fssAdjustedValues.keySet()) {
-                String tempValue[] = values.split("~");
+                String[] tempValue= values.split("~");
                 String propertyId = tempValue[0];
                 qValue = propertyId.substring(1, NumericConstants.TWO);
             }
