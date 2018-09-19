@@ -328,4 +328,9 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 				gtnQueryEngineWebServiceRequest);
 		return response.getQueryResponseBean().getResultList();
 	}
+
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+}
 }

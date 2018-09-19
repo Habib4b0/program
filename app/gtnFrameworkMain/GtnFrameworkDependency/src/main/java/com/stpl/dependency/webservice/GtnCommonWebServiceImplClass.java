@@ -82,5 +82,7 @@ public abstract class GtnCommonWebServiceImplClass {
 		request.setToken(gtnWsSecurityManager.createToken("0", "0"));
 		
 	}
+        
+        public abstract void initCallOnFailure();
 
 }

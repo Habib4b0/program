@@ -117,4 +117,9 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 	public GtnUIFrameworkWebserviceRequest registerWs() {
 		return null;
 	}
+
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+    }
 }

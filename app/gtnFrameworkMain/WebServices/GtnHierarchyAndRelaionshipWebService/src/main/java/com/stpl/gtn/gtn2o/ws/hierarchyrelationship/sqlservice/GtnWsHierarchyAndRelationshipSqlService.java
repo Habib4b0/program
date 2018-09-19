@@ -75,4 +75,9 @@ public class GtnWsHierarchyAndRelationshipSqlService extends GtnCommonWebService
 		return sql.toString();
 	}
 
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+}
+
 }

@@ -85,4 +85,9 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         return response;
     }
 
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+}
+
 }
