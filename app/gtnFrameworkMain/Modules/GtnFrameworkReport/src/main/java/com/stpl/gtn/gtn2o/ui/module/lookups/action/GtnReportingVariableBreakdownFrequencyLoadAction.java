@@ -36,63 +36,63 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		logger.debug("Inside Configure Parameters");
+		logger.debug("Inside GtnReportingVariableBreakdownFrequencyLoadAction Configure Parameters");
 	}
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
+		List<Object> frequencyLoadActionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
-		String frequencyId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(1).toString())
+		String frequencyLoadFrequencyId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(frequencyLoadActionParameterList.get(1).toString())
 				.getCaptionFromV8ComboBox();
-		String frequencyCaption = null;
-		GtnWsReportDataSelectionBean dataSelectionBean = null;
+		String frequencyLoadFrequencyCaption = null;
+		GtnWsReportDataSelectionBean frequencyLoadDataSelectionBean = null;
 
-		if ("reportingDashboardScreen".equals(actionParameterList.get(3).toString())) {
+		if ("reportingDashboardScreen".equals(frequencyLoadActionParameterList.get(3).toString())) {
 			GtnUIFrameworkBaseComponent reportingDashboardFrequencyComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId);
 
 			String reportingDashboardFrequency = reportingDashboardFrequencyComponent.getCaptionFromV8ComboBox();
-			frequencyCaption = reportingDashboardFrequencyComponent.getStringCaptionFromV8ComboBox();
+			frequencyLoadFrequencyCaption = reportingDashboardFrequencyComponent.getStringCaptionFromV8ComboBox();
 			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
-			dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+			frequencyLoadDataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 
 			if (!"0".equals(reportingDashboardFrequency)) {
-				frequencyId = reportingDashboardFrequency;
+				frequencyLoadFrequencyId = reportingDashboardFrequency;
 			}
-			GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromView(actionParameterList.get(2).toString(), componentId)
+			GtnUIFrameworkComboBoxConfig rdRelationComboboxConfig = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponentFromView(frequencyLoadActionParameterList.get(2).toString(), componentId)
 					.getComponentConfig().getGtnComboboxConfig();
-			relationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+			rdRelationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 					+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-			relationComboboxConfig.setComboBoxType(GtnFrameworkReportStringConstants.REPORT_CONFIG_FREQUENCY);
-			relationComboboxConfig.setIsLoadAtStart(true);
-			List<GtnUIFrameWorkActionConfig> frequencyActionConfigList = new ArrayList<>();
+			rdRelationComboboxConfig.setComboBoxType(GtnFrameworkReportStringConstants.REPORT_CONFIG_FREQUENCY);
+			rdRelationComboboxConfig.setIsLoadAtStart(true);
+			List<GtnUIFrameWorkActionConfig> rdFrequencyActionConfigList = new ArrayList<>();
 
-			GtnUIFrameWorkActionConfig variableBreakdownFrequencyLoadActionConfig = new GtnUIFrameWorkActionConfig();
-			variableBreakdownFrequencyLoadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-			variableBreakdownFrequencyLoadActionConfig
+			GtnUIFrameWorkActionConfig rdVariableBreakdownFrequencyLoadActionConfig = new GtnUIFrameWorkActionConfig();
+			rdVariableBreakdownFrequencyLoadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			rdVariableBreakdownFrequencyLoadActionConfig
 					.addActionParameter(GtnReportingVariableBreakdownGridLoadAction.class.getName());
-			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+			rdVariableBreakdownFrequencyLoadActionConfig.addActionParameter(
 					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT);
-			variableBreakdownFrequencyLoadActionConfig
+			rdVariableBreakdownFrequencyLoadActionConfig
 					.addActionParameter("reportingDashboardTab_reportOptionsTabVariableBreakdown");
-			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+			rdVariableBreakdownFrequencyLoadActionConfig.addActionParameter(
 					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FILE_OR_PROJECTION);
-			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+			rdVariableBreakdownFrequencyLoadActionConfig.addActionParameter(
 					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
-			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+			rdVariableBreakdownFrequencyLoadActionConfig.addActionParameter(
 					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
-			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+			rdVariableBreakdownFrequencyLoadActionConfig.addActionParameter(
 					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_START_PERIOD);
-			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+			rdVariableBreakdownFrequencyLoadActionConfig.addActionParameter(
 					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_END_PERIOD);
-			variableBreakdownFrequencyLoadActionConfig.addActionParameter(componentId);
-			variableBreakdownFrequencyLoadActionConfig.addActionParameter(dataSelectionBean.getReportDataSource());
-			frequencyActionConfigList.add(variableBreakdownFrequencyLoadActionConfig);
+			rdVariableBreakdownFrequencyLoadActionConfig.addActionParameter(componentId);
+			rdVariableBreakdownFrequencyLoadActionConfig.addActionParameter(frequencyLoadDataSelectionBean.getReportDataSource());
+			rdFrequencyActionConfigList.add(rdVariableBreakdownFrequencyLoadActionConfig);
 
 			GtnUIFrameWorkActionConfig variableBreakDownHistoryLoadConfig = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -102,24 +102,24 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
 			variableBreakDownHistoryLoadConfig.addActionParameter(
 					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
 			variableBreakDownHistoryLoadConfig.addActionParameter("reportOptionsTab_variableBreakdownHistoryConfig");
-			if (frequencyCaption != null && dataSelectionBean.getCustomDataList() != null
-					&& frequencyCaption.equals(String.valueOf(dataSelectionBean.getCustomDataList().get(0)))) {
+			if (frequencyLoadFrequencyCaption != null && frequencyLoadDataSelectionBean.getCustomDataList() != null
+					&& frequencyLoadFrequencyCaption.equals(String.valueOf(frequencyLoadDataSelectionBean.getCustomDataList().get(0)))) {
 				variableBreakDownHistoryLoadConfig
-						.addActionParameter(String.valueOf(dataSelectionBean.getCustomDataList().get(1)));
+						.addActionParameter(String.valueOf(frequencyLoadDataSelectionBean.getCustomDataList().get(1)));
 			}
-			frequencyActionConfigList.add(variableBreakDownHistoryLoadConfig);
+			rdFrequencyActionConfigList.add(variableBreakDownHistoryLoadConfig);
 
 			GtnUIFrameworkComponentConfig componentConfig = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromView(actionParameterList.get(2).toString(), componentId)
+					.getVaadinBaseComponentFromView(frequencyLoadActionParameterList.get(2).toString(), componentId)
 					.getComponentConfig();
-			componentConfig.setGtnUIFrameWorkActionConfigList(frequencyActionConfigList);
+			componentConfig.setGtnUIFrameWorkActionConfigList(rdFrequencyActionConfigList);
 			GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-			combobox.reloadComponentFromView(actionParameterList.get(2).toString(), componentId, Arrays.asList(""));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(actionParameterList.get(2).toString(), componentId)
-					.loadV8ComboBoxComponentValue(Integer.valueOf(frequencyId));
+			combobox.reloadComponentFromView(frequencyLoadActionParameterList.get(2).toString(), componentId, Arrays.asList(""));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(frequencyLoadActionParameterList.get(2).toString(), componentId)
+					.loadV8ComboBoxComponentValue(Integer.valueOf(frequencyLoadFrequencyId));
 		} else {
 			GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId).getComponentConfig()
+					.getVaadinBaseComponent(frequencyLoadActionParameterList.get(2).toString(), componentId).getComponentConfig()
 					.getGtnComboboxConfig();
 			relationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 					+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
@@ -162,14 +162,14 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
 			frequencyActionConfigList.add(variableBreakdownFrequencyLoadActionConfig);
 			frequencyActionConfigList.add(variableBreakDownHistoryLoadConfig);
 			GtnUIFrameworkComponentConfig componentConfig = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId).getComponentConfig();
+					.getVaadinBaseComponent(frequencyLoadActionParameterList.get(2).toString(), componentId).getComponentConfig();
 			componentConfig.setGtnUIFrameWorkActionConfigList(frequencyActionConfigList);
 			GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
 			combobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-					actionParameterList.get(2).toString(), componentId, Arrays.asList(""));
+					frequencyLoadActionParameterList.get(2).toString(), componentId, Arrays.asList(""));
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
-					.loadV8ComboBoxComponentValue(Integer.valueOf(frequencyId));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(frequencyLoadActionParameterList.get(2).toString(), componentId)
+					.loadV8ComboBoxComponentValue(Integer.valueOf(frequencyLoadFrequencyId));
 		}
 
 	}

@@ -371,8 +371,8 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
         fileList.add(tempFileName);
         VaadinSession.getCurrent().setAttribute(dirName, fileList);
         ExcelExportforBB.sendConvertedFileToUser(UI.getCurrent(), file, outputFilePath);
-        deleteTempFolder(fileName);
-        LOGGER.info("--->Temp Folder Deleted....");
+        //deleteTempFolder(fileName);
+        //LOGGER.info("--->Temp Folder Deleted....");
     }
 
     private void deleteTempFolder(String fileName) {
