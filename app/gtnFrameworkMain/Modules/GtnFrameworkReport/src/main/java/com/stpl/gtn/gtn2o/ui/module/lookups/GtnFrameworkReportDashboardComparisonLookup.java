@@ -71,7 +71,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		addResultsMainLayout(componentList);
 		addResultPanel(componentList);
 		addResultsButtonLayout(componentList, GtnFrameworkReportStringConstants.DASHBOARD_COMPARISON_LOOKUP);
-		addRuleDetailsPanel(componentList);
+		addRDRuleDetailsPanel(componentList);
 		addActionButtonLayout(componentList, GtnFrameworkReportStringConstants.DASHBOARD_COMPARISON_LOOKUP);
 
 	}
@@ -709,43 +709,43 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 				+ GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_COUNTSERVICE);
 		comparisonLookupResultsGridConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE);
-		comparisonLookupResultsGridConfig.setCustomFilterConfigMap(getCustomFilterConfig());
+		comparisonLookupResultsGridConfig.setCustomFilterConfigMap(getRDCustomFilterConfig());
 		comparisonLookupResultsGridComponent.setModuleName("report");
 
 		comparisonLookupResultsGridComponent.setGtnPagedTableConfig(comparisonLookupResultsGridConfig);
 	}
 
-	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> comparisonLookupCustomFilterConfigMap = new HashMap<>(
+	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getRDCustomFilterConfig() {
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> rdComparisonLookupCustomFilterConfigMap = new HashMap<>(
 				columnPropertyIds.length);
-		String[] comparisonLookupComboboxIds = new String[1];
-		String[] comparisonLookupComboBoxType = new String[1];
+		String[] rdComparisonLookupComboboxIds = new String[1];
+		String[] rdComparisonLookupComboBoxType = new String[1];
 		int startIndex = 0;
 		for (int i = 0; i < columnPropertyIds.length; i++) {
-			GtnUIFrameworkPagedTableCustomFilterConfig comparisonLookupFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			comparisonLookupFilterConfig.setPropertId(columnPropertyIds[i]);
-			comparisonLookupFilterConfig.setGtnComponentType(comparisonLookupComponentType[i]);
-			if ((startIndex < comparisonLookupComboboxIds.length)
-					&& columnPropertyIds[i].equals(comparisonLookupComboboxIds[startIndex])) {
-				GtnUIFrameworkComponentConfig comparisonLookupSearchFilterConfig = new GtnUIFrameworkComponentConfig();
-				comparisonLookupSearchFilterConfig.setComponentId("customFilterComboBox");
-				comparisonLookupSearchFilterConfig.setComponentName("customFilterComboBox");
-				comparisonLookupSearchFilterConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
-				comparisonLookupSearchFilterConfig.getGtnComboboxConfig()
-						.setComboBoxType(comparisonLookupComboBoxType[startIndex]);
-				comparisonLookupSearchFilterConfig.getGtnComboboxConfig()
+			GtnUIFrameworkPagedTableCustomFilterConfig rdComparisonLookupFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			rdComparisonLookupFilterConfig.setPropertId(columnPropertyIds[i]);
+			rdComparisonLookupFilterConfig.setGtnComponentType(comparisonLookupComponentType[i]);
+			if ((startIndex < rdComparisonLookupComboboxIds.length)
+					&& columnPropertyIds[i].equals(rdComparisonLookupComboboxIds[startIndex])) {
+				GtnUIFrameworkComponentConfig rdComparisonLookupSearchFilterConfig = new GtnUIFrameworkComponentConfig();
+				rdComparisonLookupSearchFilterConfig.setComponentId("customFilterComboBox");
+				rdComparisonLookupSearchFilterConfig.setComponentName("customFilterComboBox");
+				rdComparisonLookupSearchFilterConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
+				rdComparisonLookupSearchFilterConfig.getGtnComboboxConfig()
+						.setComboBoxType(rdComparisonLookupComboBoxType[startIndex]);
+				rdComparisonLookupSearchFilterConfig.getGtnComboboxConfig()
 						.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-				comparisonLookupFilterConfig.setGtnComponentConfig(comparisonLookupSearchFilterConfig);
+				rdComparisonLookupFilterConfig.setGtnComponentConfig(rdComparisonLookupSearchFilterConfig);
 				startIndex++;
 			}
-			comparisonLookupCustomFilterConfigMap.put(comparisonLookupFilterConfig.getPropertId(),
-					comparisonLookupFilterConfig);
+			rdComparisonLookupCustomFilterConfigMap.put(rdComparisonLookupFilterConfig.getPropertId(),
+					rdComparisonLookupFilterConfig);
 		}
-		return comparisonLookupCustomFilterConfigMap;
+		return rdComparisonLookupCustomFilterConfigMap;
 	}
 
-	private void addRuleDetailsPanel(List<GtnUIFrameworkComponentConfig> componentList) {
+	private void addRDRuleDetailsPanel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig selectedProjectionsPanel = configProvider.getPanelConfig("ruleDetailsResultPanel",
 				false, null);
 		selectedProjectionsPanel.setComponentWidth("100%");
@@ -796,7 +796,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 				GtnFrameworkReportStringConstants.MARKET_TYPE, GtnFrameworkReportStringConstants.CONTRACT_HOLDER,
 				GtnFrameworkReportStringConstants.CONTRACT_LOWER, GtnFrameworkReportStringConstants.BRAND,
 				GtnFrameworkReportStringConstants.CREATED_DATE2, GtnFrameworkReportStringConstants.CREATED_BY });
-		comparisonLookupProjectionsPagedGridConfig.setCustomFilterConfigMap(getCustomFilterConfig());
+		comparisonLookupProjectionsPagedGridConfig.setCustomFilterConfigMap(getRDCustomFilterConfig());
 		projectionResultsPagedGridComponent.setGtnPagedTableConfig(comparisonLookupProjectionsPagedGridConfig);
 	}
 

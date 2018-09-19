@@ -2290,7 +2290,7 @@ public class FileManagementLogic {
 				for (int j = 0; j <= innerSize; j++) {
 					String version = String.valueOf(i);
 					if (outerSize.contains("0")) {
-						version = "0" + String.valueOf(i);
+						version = "0" + i;
 					}
 					sqlString = sqlString.concat(" '" + version + "." + j + "',");
 				}
@@ -3342,7 +3342,7 @@ public class FileManagementLogic {
 				for (int j = 0; j <= innerSize; j++) {
 					String version = String.valueOf(i);
 					if (outerSize.contains("0")) {
-						version = "0" + String.valueOf(i);
+						version = "0" + i;
 					}
                                         sqlString = sqlString.concat(" '" + version + "." + j + "',");
 				}

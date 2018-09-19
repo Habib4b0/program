@@ -76,14 +76,14 @@
   <notepads>
   </notepads>
   <connection>
-    <name>Connection</name>
-    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
+    <name>STAGING_DB</name>
+    <server>10.4.48.18</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
+    <database>BPIGTN_AGN_STAGING_DEV</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
-    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
+    <username>bpigtn_db</username>
+    <password>Encrypted 2be98afc86aa7f2e4953dea728cb9fa9b</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -297,7 +297,7 @@
            </partitioning>
       <valuename>TRADE_CLASS_INTERFACE_ID</valuename>
       <use_database>N</use_database>
-      <connection>Connection</connection>
+      <connection>STAGING_DB</connection>
       <schema/>
       <seqname>SEQ_</seqname>
       <use_counter>Y</use_counter>
@@ -726,7 +726,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>Connection</connection>
+    <connection>STAGING_DB</connection>
     <schema>dbo</schema>
     <table>IVLD_PSTG_COMPANY_TRADE_CLASS_INTERFACE</table>
     <commit>1000</commit>
@@ -876,11 +876,11 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>Connection</connection>
+    <connection>STAGING_DB</connection>
     <schema>dbo</schema>
     <table>PSTG_COMPANY_TRADE_CLASS_INTERFACE</table>
     <commit>1000</commit>
-    <truncate>N</truncate>
+    <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
     <specify_fields>Y</specify_fields>
@@ -1079,9 +1079,9 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>Connection</connection>
+    <connection>STAGING_DB</connection>
     <schema>dbo</schema>
-    <table>VLD_COMPANY_TRADE_CLASS_INTERFACE</table>
+    <table>VLD_PSTG_COMPANY_TRADE_CLASS_INTERFACE</table>
     <commit>1000</commit>
     <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>

@@ -105,7 +105,7 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
                 accrualDto.setLevelNo(accrualSelection.getLevelNo());
             }
 
-            accrualDto.addStringProperties(String.valueOf(obj[0]) + "." + columnList.indexOf(String.valueOf(obj[0])), decimalformat.format(Double.valueOf(String.valueOf(obj[NumericConstants.TWO]))) + "%");
+            accrualDto.addStringProperties(String.valueOf(obj[0]) + ARMUtils.DOT + columnList.indexOf(String.valueOf(obj[0])), decimalformat.format(Double.valueOf(String.valueOf(obj[NumericConstants.TWO]))) + "%");
             lastValue = String.valueOf(obj[1]);
         }
 

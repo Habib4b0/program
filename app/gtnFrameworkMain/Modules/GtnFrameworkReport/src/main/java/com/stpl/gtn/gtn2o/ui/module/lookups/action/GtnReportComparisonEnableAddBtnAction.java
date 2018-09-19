@@ -28,18 +28,18 @@ public class GtnReportComparisonEnableAddBtnAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		GtnUIFrameworkBaseComponent availableGrid = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(1).toString());
-		GtnUIFrameworkComponentData availableGridData = (GtnUIFrameworkComponentData) availableGrid.getData();
-		Grid<GtnWsRecordBean> grid = availableGridData.getPagedGrid().getGrid();
-		if(grid.getDataProvider() instanceof ListDataProvider){
-			ListDataProvider dataProvider = (ListDataProvider) grid.getDataProvider();
-			if(dataProvider.getItems().size() > 0){
-			GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
-			enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-			enableAction.addActionParameter(actionParamsList.get(2).toString()); 
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, enableAction);
+		List<Object> addBtnActionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
+		GtnUIFrameworkBaseComponent addBtnAvailableGrid = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(addBtnActionParamsList.get(1).toString());
+		GtnUIFrameworkComponentData addBtnAvailableGridData = (GtnUIFrameworkComponentData) addBtnAvailableGrid.getData();
+		Grid<GtnWsRecordBean> addBtnActiongrid = addBtnAvailableGridData.getPagedGrid().getGrid();
+		if(addBtnActiongrid.getDataProvider() instanceof ListDataProvider){
+			ListDataProvider addBtnActiondataProvider = (ListDataProvider) addBtnActiongrid.getDataProvider();
+			if(addBtnActiondataProvider.getItems().size() > 0){
+			GtnUIFrameWorkActionConfig addBtnEnableAction = new GtnUIFrameWorkActionConfig();
+			addBtnEnableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+			addBtnEnableAction.addActionParameter(addBtnActionParamsList.get(2).toString()); 
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, addBtnEnableAction);
 			}
 		}
 	}

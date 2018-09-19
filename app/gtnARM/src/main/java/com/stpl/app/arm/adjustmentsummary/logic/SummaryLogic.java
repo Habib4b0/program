@@ -133,15 +133,15 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
                 switch (frequencyDivision) {
                     case NumericConstants.THREE:
                         doubleColumn = ARMUtils.Q + tempPeriod + year;
-                        doubleHeaders.add(ARMUtils.Q + tempPeriod + " " + year);
+                        doubleHeaders.add(ARMUtils.Q + tempPeriod + ARMUtils.SPACE + year);
                         break;
                     case NumericConstants.SIX:
                         doubleColumn = ARMUtils.S + tempPeriod + year;
-                        doubleHeaders.add(ARMUtils.S + tempPeriod + " " + year);
+                        doubleHeaders.add(ARMUtils.S + tempPeriod + ARMUtils.SPACE + year);
                         break;
                     case 1:
                         doubleColumn = summaryMonths[tempPeriod - 1] + year;
-                        doubleHeaders.add(summaryMonths[tempPeriod - 1] + " " + year);
+                        doubleHeaders.add(summaryMonths[tempPeriod - 1] + ARMUtils.SPACE + year);
                         break;
                     case NumericConstants.TWELVE:
                         doubleColumn = String.valueOf(year);
@@ -441,7 +441,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             tempPeriods = tempPeriod;
             frontVal = q + (tempPeriods == 0 ? StringUtils.EMPTY : tempPeriods);
         }
-        return frontVal + year + selection.getSelectedAdjustmentTypeValues().get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+        return frontVal + year + selection.getSelectedAdjustmentTypeValues().get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
     }
 
 }

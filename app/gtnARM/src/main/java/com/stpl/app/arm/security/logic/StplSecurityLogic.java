@@ -34,7 +34,7 @@ public class StplSecurityLogic {
             sql = SQlUtil.getQuery("BusinessRoleModuleFinder.functionPermission");
             if (businessRoleId.length() != 0) {
                 sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
-                        + businessRoleId + ARMUtils.CLOSE_BRACES;
+                        + businessRoleId + ARMUtils.CLOSE_PARANTHESIS;
             }
             if (mod.length() != 0) {
                 sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
@@ -72,7 +72,7 @@ public class StplSecurityLogic {
 
             if (businessRoleId.length() != 0) {
                 sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
-                        + businessRoleId + ARMUtils.CLOSE_BRACES;
+                        + businessRoleId + ARMUtils.CLOSE_PARANTHESIS;
             }
 
             if (mod.length() != 0) {
