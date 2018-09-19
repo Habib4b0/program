@@ -135,7 +135,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
         List<Object> defaultValue = logic.getMonthYear();
         Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValue.get(1)));
         String month = Trx7SalesLogic.getMonthName(vvalue);
-        String str = month + " " + defaultValue.get(NumericConstants.TWO);
+        String str = month + ARMUtils.SPACE + defaultValue.get(NumericConstants.TWO);
         priceddlb = CommonUtils.getPeriodsByFrequency("M", distributionSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
         price.removeAllItems();
         price.setContainerDataSource(new IndexedContainer(priceddlb));
@@ -239,7 +239,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
     private void setDefaultValue() {
         try {
             List<String> defaultValueList = logic.getRateConfigSettings(new ArrayList<>(Arrays.asList(dataselection.getCompanyMasterSid(), dataselection.getBucompanyMasterSid(), dataselection.getAdjustmentId(),
-                    StringUtils.isNotBlank(distributionSelection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(distributionSelection.getDataSelectionDTO().getFromPeriodMonth().trim().split(" ")[0]) : 1)));
+                    StringUtils.isNotBlank(distributionSelection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(distributionSelection.getDataSelectionDTO().getFromPeriodMonth().trim().split(ARMUtils.SPACE.toString())[0]) : 1)));
             if (!defaultValueList.isEmpty()) {
                 if (!"0".equals(defaultValueList.get(NumericConstants.THREE)) || defaultValueList.get(NumericConstants.THREE).contains("CURRENT")) {
                     price.setValue(logic.getRatePeriod(defaultValueList.get(NumericConstants.THREE), "M", distributionSelection.getDataSelectionDTO().getFromPeriodMonth(), priceddlb));
@@ -292,7 +292,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
             List<Object> defaultValueList = logic.getMonthYear();
             Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValueList.get(1)));
             String month = Trx7SalesLogic.getMonthName(vvalue);
-            String str = month + " " + defaultValueList.get(NumericConstants.TWO);
+            String str = month + ARMUtils.SPACE + defaultValueList.get(NumericConstants.TWO);
             List<String> priceddlbList = CommonUtils.getPeriodsByFrequency("M", distributionSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
             price.removeAllItems();
             price.setContainerDataSource(new IndexedContainer(priceddlbList));

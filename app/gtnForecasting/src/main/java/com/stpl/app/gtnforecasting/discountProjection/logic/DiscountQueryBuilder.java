@@ -609,7 +609,7 @@ public class DiscountQueryBuilder {
                         .replace(RELATION_SID, discountName).replace(BUILDER_SID, session.getDedRelationshipBuilderSid())
                         .replace(Constant.RELVERSION, String.valueOf(session.getDeductionRelationVersion()))
                         .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnNameCustomRel(hierarchyIndicator,hierarchyNo,session))
-                        .replace("?Y", String.valueOf(year)).replace(Constant.AT_RS_COLUMN, isCustomHierarchy ? Constant.RS_CONTRACT_SID : isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE)
+                        .replace("?Y", String.valueOf(year)).replace(Constant.AT_RS_COLUMN, checkCustomOrProgram(isCustomHierarchy, isProgram))
                         .replace("@HIERARCHY_NO", hierarchyNo)
                         .replace("?Freq", String.valueOf(frequency.charAt(0)))
                         .replace("?Ref", session.getDedRelationshipBuilderSid())
@@ -621,13 +621,13 @@ public class DiscountQueryBuilder {
                         .replace(RELATION_SID, discountName).replace(BUILDER_SID, session.getDedRelationshipBuilderSid())
                         .replace(Constant.RELVERSION, String.valueOf(session.getDeductionRelationVersion()))
                         .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnNameCustom(hierarchyIndicator)).replace("@UOMDIV", uomDivJoin)
-                        .replace("?Y", String.valueOf(year)).replace(Constant.AT_RS_COLUMN, isCustomHierarchy ? Constant.RS_CONTRACT_SID : isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE);
+                        .replace("?Y", String.valueOf(year)).replace(Constant.AT_RS_COLUMN, checkCustomOrProgram(isCustomHierarchy, isProgram));
             } else {
                 customSql = SQlUtil.getQuery("MANUAL_ENTRY_DISCOUNT").replace(PERIOD_TABLE, queryPeriod)
                         .replace(RELATION_SID, discountName).replace(BUILDER_SID, session.getDedRelationshipBuilderSid())
                         .replace(Constant.RELVERSION, String.valueOf(session.getDeductionRelationVersion()))
                         .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnNameCustom(hierarchyIndicator))
-                        .replace("?Y", String.valueOf(year)).replace(Constant.AT_RS_COLUMN, isCustomHierarchy ? Constant.RS_CONTRACT_SID : isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE);
+                        .replace("?Y", String.valueOf(year)).replace(Constant.AT_RS_COLUMN, checkCustomOrProgram(isCustomHierarchy, isProgram));
             }
             if ("GROWTH".equals(refreshName)) {
                 customSql = customSql.replace("@SETTER", "DPT.GROWTH = " + fieldValue);
@@ -648,8 +648,17 @@ public class DiscountQueryBuilder {
             return BooleanConstant.getFalseFlag();
         }
     }
-    
 
+    private static String checkCustomOrProgram(boolean isCustomHierarchy, boolean isProgram) {
+        String value;
+        if (isCustomHierarchy || isProgram) {
+            value = "Constant.RS_CONTRACT_SID";
+        } else {
+            value = "Constant.PRICE_GROUP_TYPE";
+        }
+        return value;
+    }
+    
     public List<String> getGroupValues(SessionDTO session, List<String> discountList) {
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" entering getGroupValues");

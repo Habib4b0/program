@@ -583,7 +583,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             if (resultTable.size() != 0) {
                 recordCount = selection.isViewMode() && selection.isCurrentView() ? 1 : logic.getAccountConfigCount(selection, detailsTableLogic.getFilters());
             }
-            ExcelExportforBB.createWorkSheet(ARMUtils.getExcelAccountConfigSearchHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(" ", String.valueOf(ARMUtils.UNDERSCORE)).toUpperCase(Locale.ENGLISH));
+            ExcelExportforBB.createWorkSheet(ARMUtils.getExcelAccountConfigSearchHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(ARMUtils.SPACE.toString(), String.valueOf(ARMUtils.UNDERSCORE)).toUpperCase(Locale.ENGLISH));
         } catch (Exception ex) {
             GTNLOGGER.error("Error in createWorkSheet :", ex);
         }
