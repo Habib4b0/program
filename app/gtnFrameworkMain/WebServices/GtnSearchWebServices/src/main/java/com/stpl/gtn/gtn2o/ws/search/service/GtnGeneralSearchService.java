@@ -42,18 +42,18 @@ import java.util.ArrayList;
 @Service
 public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 
-    private GtnGeneralSearchService() {
+    public GtnGeneralSearchService() {
         super(GtnGeneralSearchService.class);
     }
 
     @Autowired
-    GtnSearchwebServiceSqlService gtnSearchSqlService;
+    private GtnSearchwebServiceSqlService gtnSearchSqlService;
     
     @Autowired
     private GtnForecastJsonService gtnForecastJsonService;
 
-    private Map<String, SearchInterface> keyMap = null;
-    private Map<String, String> queryMap = null;
+    private Map<String, SearchInterface> keyMap = new HashMap();
+    private Map<String, String> queryMap = new HashMap();
 
     public void init() {
         logger.info("Entering into init method of searchWebservice");
@@ -86,12 +86,10 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
                 GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointServiceName"));
     }
 
-    public GtnUIFrameworkWebserviceResponse commonMethod(
+    public  GtnUIFrameworkWebserviceResponse commonMethod(
             GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
         String key = gtnUiFrameworkWebservicerequest.getGtnWsSearchRequest().getSearchQueryName();
         String query = gtnSearchSqlService.getQuery(key);
-        if (keyMap == null) {
-            keyMap = new HashMap<>();
             keyMap.put("privatePublic", new PrivatePublic());
             keyMap.put("BusinessUnitGLcomp", new ComboBoxSearch());
             keyMap.put("CompanyMasterGLcomp", new ComboBoxSearch());
@@ -99,16 +97,13 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             keyMap.put("dataSelectionDeduction", new ComboBoxSearch());
             keyMap.put("CustomerGroup", new CustomerAndProductGroup());
             keyMap.put("ProductGroup", new CustomerAndProductGroup());
-        }
         SearchInterface searchInterface = keyMap.get(key);
         GtnUIFrameworkWebserviceResponse response;
         response = searchInterface.getSearch(gtnUiFrameworkWebservicerequest, query);
         return response;
     }
 
-    public Map<String,String> getQueryMap() {
-        if (queryMap == null) {
-            queryMap = new HashMap<>();
+    public  Map<String,String> getQueryMap() {
             queryMap.put("Commercial Forecasting_projectionName", " AND PM.projection_Name like ? ");
             queryMap.put("Commercial Forecasting_projectionDescription", " AND PM.projection_description like ? ");
             queryMap.put("Commercial Forecasting_company", " AND PM.COMPANY_MASTER_SID like ? ");
@@ -117,7 +112,6 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             queryMap.put("Commercial Forecasting_prodhierarchyName", " AND HDP.HIERARCHY_NAME like ? ");
             queryMap.put("Commercial Forecasting_customerGroup", "CG.COMPANY_GROUP_NAME like ? ");
             queryMap.put("Commercial Forecasting_productGroup"," IG.ITEM_GROUP_NAME like ? ");
-        }
         return queryMap;
     }
 
@@ -148,8 +142,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         dataType = data.toArray(dataType);
         String finalQuery = stringQuery.toString();
         CallQueryEngine callQueryEngine = new CallQueryEngine();
-        GtnQueryEngineWebServiceResponse response1 = callQueryEngine.
-                commonCall(finalQuery, "SELECTWITHPARAMS", param, dataType);
+        GtnQueryEngineWebServiceResponse response1 = callQueryEngine.commonCallWithParams(finalQuery, "SELECTWITHPARAMS", param, dataType);
         List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
         int countQuery = pagedTableSearchCount(webSearchCriteriaList);
         GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
@@ -183,8 +176,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         dataTypeCount = dataCount.toArray(dataTypeCount);
         String finalQueryCount = stringQueryCount.toString();
         CallQueryEngine callQueryEngine = new CallQueryEngine();
-        GtnQueryEngineWebServiceResponse response1 = callQueryEngine.
-                commonCall(finalQueryCount, "COUNTWITHPARAMS", paramCount, dataTypeCount);
+        GtnQueryEngineWebServiceResponse response1 = callQueryEngine.commonCallWithParams(finalQueryCount, "COUNTWITHPARAMS", paramCount, dataTypeCount);
         logger.info("calling query engine via service registry");
         return response1.getQueryResponseBean().getResultInteger();
     }

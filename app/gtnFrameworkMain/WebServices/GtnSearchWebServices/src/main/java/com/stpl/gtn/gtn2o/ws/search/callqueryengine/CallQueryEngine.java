@@ -23,7 +23,7 @@ public class CallQueryEngine extends GtnCommonWebServiceImplClass {
         super(CallQueryEngine.class);
     }
 
-    public GtnQueryEngineWebServiceResponse commonCall(String query, String type, Object[] params,
+    public GtnQueryEngineWebServiceResponse commonCallWithParams(String query, String type, Object[] params,
             GtnFrameworkDataType[] dataType) {
         GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
         queryExecutorBean.setSqlQuery(query);
@@ -34,10 +34,9 @@ public class CallQueryEngine extends GtnCommonWebServiceImplClass {
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
         RestTemplate restTemplateQueryEngine = new RestTemplate();
         logger.info("calling query engine via service registry");
-        GtnQueryEngineWebServiceResponse response = restTemplateQueryEngine.postForObject(
+        return restTemplateQueryEngine.postForObject(
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
-        return response;
+                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);    
     }
 
     @Override
