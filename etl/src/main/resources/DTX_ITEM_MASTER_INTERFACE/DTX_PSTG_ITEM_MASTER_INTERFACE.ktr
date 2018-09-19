@@ -77,13 +77,13 @@
   </notepads>
   <connection>
     <name>Staging DB</name>
-    <server> &#x24;&#x7b;STAGING_HOST&#x7d;</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
     <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username> &#x24;&#x7b;STAGING_USER&#x7d;</username>
-    <password> &#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -497,7 +497,7 @@
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
-    <separator> &#x24;&#x7b;DELIMITER&#x7d;</separator>
+    <separator>&#x24;&#x7b;DELIMITER&#x7d;</separator>
     <enclosure>&#x22;</enclosure>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
@@ -1882,7 +1882,7 @@
            </partitioning>
     <connection>Staging DB</connection>
     <schema>dbo</schema>
-    <table>IVLD_PSTG_ITM_MST_INTERFACE</table>
+    <table>IVLD_PSTG_ITEM_MASTER_INTERFACE</table>
     <commit>1000</commit>
     <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
@@ -2247,7 +2247,7 @@
           <stream_name>CREATED_DATE</stream_name>
         </field>
         <field>
-          <column_name>PSTG_ITM_MST_INTERFACE_SID</column_name>
+          <column_name>PSTG_ITEM_MASTER_INTERFACE_SID</column_name>
           <stream_name>PSTG_ITM_MST_INTERFACE_SID</stream_name>
         </field>
         <field>
@@ -2502,9 +2502,9 @@
            </partitioning>
     <connection>Staging DB</connection>
     <schema>dbo</schema>
-    <table>PSTG_ITM_MST_INTERFACE</table>
+    <table>PSTG_ITEM_MASTER_INTERFACE</table>
     <commit>1000</commit>
-    <truncate>N</truncate>
+    <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>N</use_batch>
     <specify_fields>Y</specify_fields>
@@ -3237,7 +3237,7 @@
            </partitioning>
     <connection>Staging DB</connection>
     <schema>dbo</schema>
-    <table>VLD_PSTG_ITM_MST_INTERFACE</table>
+    <table>VLD_PSTG_ITEM_MASTER_INTERFACE</table>
     <commit>1000</commit>
     <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
