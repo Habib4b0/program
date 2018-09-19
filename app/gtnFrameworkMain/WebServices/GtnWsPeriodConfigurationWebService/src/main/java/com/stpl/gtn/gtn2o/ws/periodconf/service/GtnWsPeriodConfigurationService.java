@@ -9,14 +9,11 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
+import com.stpl.dependency.webservice.concurrency.GtnWebserviceFailureRunnable;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.periodconf.constants.GtnWsPeriodConfigurationConstants;
 import com.stpl.gtn.gtn2o.ws.periodconf.model.PeriodConfData;
@@ -28,12 +25,16 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 @Service
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
     private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
-    long staticTime = System.currentTimeMillis();
-    ExecutorService service = Executors.newCachedThreadPool();
+    private long staticTime = System.currentTimeMillis();
+    private ExecutorService service = Executors.newCachedThreadPool();
 
     public List<Object[]> getPeriodResults(String businessProcessType) {
         return loadDateBusinessType(businessProcessType);
@@ -59,11 +60,10 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
             logger.info("Webservice Registered");
             this.loadDate();
         } catch (Exception e) {
-            if(e.getMessage().contains("404 Not Found")){
-            logger.error("Exception in Period Webservice Registry");
-            logger.info("Failed Url---------------------" + e.getMessage());
-            GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure = new GtnUIFrameworkWebServiceClientCallOnFailure(this);
-            service.submit(createRunnable(gtnWebServiceClientCallOnFailure));
+            if (e.getMessage().contains("404 Not Found")) {
+                logger.error("Exception in Period Webservice Registry" + e.getMessage());
+                GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
+                service.submit(call.createRunnable(this, staticTime));
             }
         }
     }
@@ -85,6 +85,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 
     public GtnQueryEngineWebServiceResponse callQueryEngine(GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest) {
         RestTemplate restTemplate = new RestTemplate();
+        addSecurityToken(gtnQueryEngineWebServiceRequest);
         return restTemplate.postForObject(
                 getWebServiceEndpointBasedOnModule(
                         GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REDIRECTTOQUERYENGINE,
@@ -141,6 +142,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
         logger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
         gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
         request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
+        addSecurityToken(request);
         return request;
     }
 
@@ -179,16 +181,9 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
         return quarters;
     }
 
-    public Runnable createRunnable(final Object... inputs) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure1 = (GtnUIFrameworkWebServiceClientCallOnFailure) inputs[0];
-                gtnWebServiceClientCallOnFailure1.setStaticTime(staticTime);
-                gtnWebServiceClientCallOnFailure1.callGtnWebServiceUrlOnFailure();
-            }
-        };
-        return runnable;
+    @Override
+    public void initCallOnFailure() {
+        init();
     }
 
 }

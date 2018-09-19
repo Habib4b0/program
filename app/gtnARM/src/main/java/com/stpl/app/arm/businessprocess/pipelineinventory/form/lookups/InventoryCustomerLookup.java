@@ -423,8 +423,8 @@ public class InventoryCustomerLookup extends Window {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object invCusobj) {
+        return super.equals(invCusobj);
     }
 
     @Override
@@ -432,12 +432,12 @@ public class InventoryCustomerLookup extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream invCusobj) throws IOException {
+        invCusobj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream invCusobj) throws IOException, ClassNotFoundException {
+        invCusobj.defaultReadObject();
     }
 
 }

@@ -17,7 +17,6 @@ import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.utils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -215,14 +214,14 @@ public class StplSecurity {
     public String getBusinessRoleIds(final Collection<Object> userGroupId) {
         try {
             String businessRoleIds = StringUtils.EMPTY;
-            String query = "SELECT BUSINESSROLE_MASTER_SID FROM dbo.USERGROUP_BUSINESSROLE WHERE USERGROUP_ID IN (" + StringUtils.join(userGroupId, ARMUtils.COMMA) + ARMUtils.CLOSE_BRACES;
+            String query = "SELECT BUSINESSROLE_MASTER_SID FROM dbo.USERGROUP_BUSINESSROLE WHERE USERGROUP_ID IN (" + StringUtils.join(userGroupId, ARMUtils.COMMA) + ARMUtils.CLOSE_PARANTHESIS;
             final List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
             for (int i = 0; i < list.size(); i++) {
                 if (StringUtils.EMPTY.equals(businessRoleIds)) {
                     businessRoleIds = String.valueOf(list.get(i));
                 } else {
                     final StringBuilder tempStringBuffer = new StringBuilder();
-                    businessRoleIds = tempStringBuffer.append(businessRoleIds).append(ConstantsUtils.COMMA).append(list.get(i)).toString();
+                    businessRoleIds = tempStringBuffer.append(businessRoleIds).append(ARMUtils.COMMA).append(list.get(i)).toString();
                     tempStringBuffer.delete(0, tempStringBuffer.length());
                 }
             }
@@ -300,7 +299,7 @@ public class StplSecurity {
                 + "            and spm.CATEGORY_NAME IN ('List view Header')";
         if (businessRoleIds.length() != 0) {
             query += CommonConstant.AND_UBM_BUSINESSROLE_MASTER_SID_IN
-                    + businessRoleIds + ARMUtils.CLOSE_BRACES;
+                    + businessRoleIds + ARMUtils.CLOSE_PARANTHESIS;
         }
         if (mod.length() != 0) {
             query += " AND spm.MODULE_NAME in ('" + mod + "') ";
@@ -337,7 +336,7 @@ public class StplSecurity {
         }
         if (businessRoleIds.length() != 0) {
             query += CommonConstant.AND_UBM_BUSINESSROLE_MASTER_SID_IN
-                    + businessRoleIds + ARMUtils.CLOSE_BRACES;
+                    + businessRoleIds + ARMUtils.CLOSE_PARANTHESIS;
         }
 
         if (mod.length() != 0) {
@@ -396,7 +395,7 @@ public class StplSecurity {
         input.add(tabName);
         if (businessRoleId.length() != 0) {
             String sql = CommonConstant.AND_UBM_BUSINESSROLE_MASTER_SID_IN
-                    + businessRoleId + ARMUtils.CLOSE_BRACES;
+                    + businessRoleId + ARMUtils.CLOSE_PARANTHESIS;
             input.add(sql);
         } else {
             input.add(StringUtils.EMPTY);

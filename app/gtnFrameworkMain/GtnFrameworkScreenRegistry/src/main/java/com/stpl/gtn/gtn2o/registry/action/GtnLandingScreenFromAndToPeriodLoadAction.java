@@ -80,7 +80,7 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
 				.loadV8ComboBoxComponentValue(fromPeriodItemCodeList.get(0));
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
-				.loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(0));
+				.loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(fromPeriodItemValueList.size()-1));
 
 	}
 

@@ -10,7 +10,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.search.callqueryengine.CallQueryEngine;
+import com.stpl.gtn.gtn2o.ws.search.callqueryengine.CallQueryEngineSearchWs;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 
 public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implements SearchInterface{
@@ -52,7 +52,7 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        }
 	        GtnFrameworkDataType[] dataType = {GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING};
 	        logger.debug("Customer And Product Group query" + query);
-                CallQueryEngine callQueryEngine =new CallQueryEngine();
+                CallQueryEngineSearchWs callQueryEngine =new CallQueryEngineSearchWs();
                 GtnQueryEngineWebServiceResponse response1=callQueryEngine.commonCallWithParams(query, "SELECTWITHPARAMS", params, dataType);
 	        List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
 	        GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
@@ -66,6 +66,11 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        }
 	        return response;
 		}
+
+    @Override
+    public void initCallOnFailure() {
+        
+    }
 
 	    
 }

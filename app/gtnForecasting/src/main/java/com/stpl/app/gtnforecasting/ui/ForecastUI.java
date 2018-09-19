@@ -410,6 +410,8 @@ public class ForecastUI extends UI {
         dataSelectionDto.setCustomerHierarchyLevel((String)actionParamList.get(9));
         dataSelectionDto.setCustomerHierarchyInnerLevel((String)actionParamList.get(10));
          dataSelectionDto.setDsCustomerSelectedTableBean(inputBean.getSelectedCustomerList());
+         dataSelectionDto.setDsProductSelectedTableBean(inputBean.getSelectedProductList());
+         dataSelectionDto.setCompanySid(String.valueOf(inputBean.getCompany()));
          dataSelectionDto.setInputBean(inputBean);
         DataSelectionForm form = new DataSelectionForm(sessionDto,dataSelectionDto, inputBean);
         form.generateButtonLogicNewArch(sessionDto,inputBean);

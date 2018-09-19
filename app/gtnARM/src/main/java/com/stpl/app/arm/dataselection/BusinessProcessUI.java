@@ -161,7 +161,7 @@ public class BusinessProcessUI extends CommonUI {
             sessionDTO.setProcessId(processId);
             dataSelectionDto.setProjectionId(Integer.valueOf(projectionId));
             dataSelectionDto.setAdjustmentType(adjType);
-            dataSelectionDto.setSelectedAdjType(selectedAdjType.replaceAll("~", " "));
+            dataSelectionDto.setSelectedAdjType(selectedAdjType.replaceAll("~", ARMUtils.SPACE.toString()));
             sessionDTO.setProjectionId(Integer.valueOf(projectionId));
             try {
                 CommonLogic.getDataSelectionForWorkFlow(dataSelectionDto);
@@ -176,7 +176,7 @@ public class BusinessProcessUI extends CommonUI {
             sessionDTO.setWorkflowStatus(workflowStatus);
             sessionDTO.setAdjustmentType(adjType);
             sessionDTO.setWorkFlow(true);
-            sessionDTO.setConfigType(configType.replace("~", " "));
+            sessionDTO.setConfigType(configType.replace("~", ARMUtils.SPACE.toString()));
             try {
                 if (!WorkflowConstants.getRejectedStatus().equals(workflowStatus) && !WorkflowConstants.getWithdrawnStatus().equals(workflowStatus)) {
                     sessionDTO.setAction(ARMUtils.VIEW_SMALL);
@@ -194,7 +194,7 @@ public class BusinessProcessUI extends CommonUI {
                 List id = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
                 dataSelectionDto.setAdjustmentId(Integer.parseInt(String.valueOf(id.get(0))));
-                editWindow = new BussinessProcessForm(adjType.replace("~", " "), dataSelectionDto, sessionDTO);
+                editWindow = new BussinessProcessForm(adjType.replace("~", ARMUtils.SPACE.toString()), dataSelectionDto, sessionDTO);
             } catch (Exception ex) {
                 LOGGERVALUE.error("Error in editWindow :" , ex);
             }
@@ -225,7 +225,7 @@ public class BusinessProcessUI extends CommonUI {
      * @return String
      */
     private String getTransactionName(String adjType) {
-        String adjustType = adjType.replace("~", " ");
+        String adjustType = adjType.replace("~", ARMUtils.SPACE.toString());
         if (adjustType.equals(ARMConstants.getPipelineAccrual())) {
             return "ARM_Txt_1";
         } else if (adjustType.equals(ARMConstants.getDemandAccrual())) {

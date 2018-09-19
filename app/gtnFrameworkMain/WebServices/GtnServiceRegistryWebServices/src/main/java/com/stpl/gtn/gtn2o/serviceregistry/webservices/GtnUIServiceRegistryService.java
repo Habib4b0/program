@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
-import javax.annotation.PostConstruct;
 
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;

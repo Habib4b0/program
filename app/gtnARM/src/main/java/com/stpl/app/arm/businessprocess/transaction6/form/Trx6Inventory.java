@@ -117,7 +117,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
         List<Object> defaultValues = logic.getMonthYear();
         Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValues.get(1)));
         String month = Trx6InventoryLogic.getMonthName(vvalue);
-        String str = month + " " + defaultValues.get(NumericConstants.TWO);
+        String str = month + ARMUtils.SPACE + defaultValues.get(NumericConstants.TWO);
         priceddlb = CommonUtils.getPeriodsByFrequency("M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), str);
         adjustedPrice.setNullSelectionAllowed(false);
         inventoryDetailsDdlb.setNullSelectionAllowed(false);
@@ -247,7 +247,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
     }
 
     private void setDefaultValue() {
-        List<String> defaultValues = logic.getRateConfigSettings(new ArrayList<>(Arrays.asList(selectionDto.getDataSelectionDTO().getCompanyMasterSid(), selectionDto.getDataSelectionDTO().getBucompanyMasterSid(), selectionDto.getDataSelectionDTO().getAdjustmentId(), StringUtils.isNotBlank(selectionDto.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(selectionDto.getDataSelectionDTO().getFromPeriodMonth().trim().split(" ")[0]) : 1))); // Changed for GAL-6120
+        List<String> defaultValues = logic.getRateConfigSettings(new ArrayList<>(Arrays.asList(selectionDto.getDataSelectionDTO().getCompanyMasterSid(), selectionDto.getDataSelectionDTO().getBucompanyMasterSid(), selectionDto.getDataSelectionDTO().getAdjustmentId(), StringUtils.isNotBlank(selectionDto.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(selectionDto.getDataSelectionDTO().getFromPeriodMonth().trim().split(ARMUtils.SPACE.toString())[0]) : 1))); // Changed for GAL-6120
         if (!defaultValues.isEmpty()) {
             adjustedPrice.setValue(logic.getRatePeriod(defaultValues.get(NumericConstants.SEVEN), "M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), priceddlb));
             baseLinePrice.setValue(logic.getRatePeriod(defaultValues.get(NumericConstants.EIGHT), "M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), priceddlb));
@@ -278,7 +278,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
         for (int i = 0; i <= NumericConstants.FIFTEEN; i++) {
             year = String.valueOf(calendar.get(Calendar.YEAR));
             month = calendar.get(Calendar.MONTH);
-            String period = months[month] + " " + year;
+            String period = months[month] + ARMUtils.SPACE + year;
             calendar.add(Calendar.MONTH, NumericConstants.ONE);
             periodList.add(period);
         }

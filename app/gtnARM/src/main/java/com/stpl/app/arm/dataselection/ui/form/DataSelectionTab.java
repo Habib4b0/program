@@ -301,7 +301,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             prodLevelListenerFlag = false;
             deductionLevel.select(new HelperDTO(selection.getDeductionLevel(), HelperListUtil.getInstance().getIdDescMap().get(selection.getDeductionLevel())));
             description.setValue(selection.getProjectionDescription());
-            String adjType = selection.getAdjustmentType().replace("~", " ");
+            String adjType = selection.getAdjustmentType().replace("~", ARMUtils.SPACE.toString());
             HelperDTO adjHeper = new HelperDTO(selection.getAdjustmentId(), adjType);
             adjustmentType.setItemCaption(adjHeper, selection.getSelectedAdjType());
             adjustmentType.select(adjHeper);

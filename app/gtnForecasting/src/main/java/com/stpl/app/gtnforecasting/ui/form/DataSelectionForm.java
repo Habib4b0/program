@@ -4216,13 +4216,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 			return;
 		}
 
-		MessageBox.showPlain(Icon.QUESTION, "Confirm Deletion",
-				"Are you sure you want to delete record " + inputBean.getProjectionName() + " ?",
-				new MessageBoxListener() {
-
-					@Override
-					public void buttonClicked(ButtonId buttonId) {
-						if (buttonId.name().equals(Constant.YES)) {
 							DataSelectionLogic logic = new DataSelectionLogic();
 								try {
 									String currentUserId = inputBean.getUserId();
@@ -4240,9 +4233,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 								} catch (Property.ReadOnlyException ex) {
 									LOGGER.error(" - in deleteBtn= {}",ex);
 								}
-							}
-					}
-				}, ButtonId.YES, ButtonId.NO);
 
 	}
 
@@ -4842,6 +4832,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 //			setCustomerLevelNullSelection();
 //			customerBeanList.clear();
 //		}
+		
 	}
         
       private String formHierarchyInnerLevelValues(int levelNo, String levelValue) {

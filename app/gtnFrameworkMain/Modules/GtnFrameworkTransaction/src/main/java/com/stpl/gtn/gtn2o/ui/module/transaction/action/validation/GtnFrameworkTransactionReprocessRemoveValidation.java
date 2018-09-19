@@ -70,16 +70,21 @@ public class GtnFrameworkTransactionReprocessRemoveValidation
 		}
 
 		request.setGtnWsTransactionRequest(gtnWsTransactionRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsTransactionConstants.GTN_WS_TRANSACTION_SERVICE
-						+ GtnWsTransactionConstants.GTN_WS_TRANSACTION_VALIDATION_SERVICE,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = callTransactionValidationService(request);
 
 		if ("Y".equals(response.getOutBountData()[0])) {
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
 			throw new GtnFrameworkSkipActionException("Skip Action");
 		}
 	}
+
+    public GtnUIFrameworkWebserviceResponse callTransactionValidationService(GtnUIFrameworkWebserviceRequest request) {
+        return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsTransactionConstants.GTN_WS_TRANSACTION_SERVICE
+                        + GtnWsTransactionConstants.GTN_WS_TRANSACTION_VALIDATION_SERVICE,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

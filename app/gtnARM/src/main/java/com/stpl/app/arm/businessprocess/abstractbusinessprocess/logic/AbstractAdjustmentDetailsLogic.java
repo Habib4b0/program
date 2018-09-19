@@ -168,8 +168,8 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
             sb = sb.replace("@SESSION_DECLARE", StringUtils.EMPTY)
                     .replace("@SESSION_INCLUDE", StringUtils.EMPTY)
                     .replace("@TABLE_1", isView ? CommonConstant.ARM_ADJUSTMENTS : selection.getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_ADJUSTMENTS))
-                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_BRACES)
-                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_BRACES)
+                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_PARANTHESIS)
+                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_PARANTHESIS)
                     .replace("@ACC_VAL1", account)
                     .replace("@ACCOUNT_CONDITION", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (SELECT ACC_ID FROM #ARM_ACC)")
                     .replace("@USER_REF", "" + selection.getSessionDTO().getUserId())
@@ -210,9 +210,9 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
                     .replace("@ADJUSTMENT_TYPE", String.valueOf(selection.getDataSelectionDTO().getAdjustmentId()))
                     .replace("@USER_REF", "" + selection.getSessionDTO().getUserId())
                     .replace("@SESSION_REF", "" + selection.getSessionDTO().getSessionId())
-                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_BRACES)
-                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_BRACES)
-                    .replace("@ACCOUNT", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (" + account + ARMUtils.CLOSE_BRACES)
+                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_PARANTHESIS)
+                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_PARANTHESIS)
+                    .replace("@ACCOUNT", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (" + account + ARMUtils.CLOSE_PARANTHESIS)
                     .replace(CONFIGTYPETEMPTABLE, selection.getSessionDTO().getCurrentTableNames().get(ST_ARM_ADJ_GTN_DETAIL_EXCEL))
                     .replace("?AMOUNTCONDITION", StringUtils.EMPTY.equals(getAmountFilterCondition(selection.getDetailamountFilter(), "TP.")) ? StringUtils.EMPTY : getAmountFilterCondition(selection.getDetailamountFilter(), "TP."));
         }
