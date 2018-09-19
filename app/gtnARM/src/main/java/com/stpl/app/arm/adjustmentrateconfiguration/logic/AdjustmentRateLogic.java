@@ -253,7 +253,7 @@ public class AdjustmentRateLogic {
     }
 
     public boolean isAddORUpdateView(SaveViewLookUpDTO saveViewDTO) {
-        StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sbQuery = new StringBuilder();
         try {
             String viewSid;
             if (saveViewDTO.isViewStatus()) {

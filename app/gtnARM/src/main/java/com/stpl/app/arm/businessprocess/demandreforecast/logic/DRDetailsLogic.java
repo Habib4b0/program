@@ -61,8 +61,8 @@ public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] reforecastObj = (Object[]) list.get(i);
-                value = new StringBuilder(StringUtils.EMPTY);
-                property = new StringBuilder(StringUtils.EMPTY);
+                value = new StringBuilder();
+                property = new StringBuilder();
                 if (isValid(reforecastObj[0])) {
                     value = new StringBuilder(helperId.getDescriptionByID((Integer) (reforecastObj[0])));
                     property = new StringBuilder(String.valueOf(reforecastObj[0]));
@@ -112,7 +112,7 @@ public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     protected String getAmountFilterCondition(List<String> reforecastCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
         if (reforecastCondition != null && !reforecastCondition.isEmpty() && reforecastCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < reforecastCondition.size(); i++) {
                 String str = reforecastCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
