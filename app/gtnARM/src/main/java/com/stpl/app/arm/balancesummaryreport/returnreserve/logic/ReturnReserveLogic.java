@@ -160,7 +160,7 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
                 keyParam = getKeyParam(selection);
                 if (!"0".equals(String.valueOf(resultSet[NumericConstants.TWO]))) {
                     String[] arr = getKey(resultSet, keyParam);
-                    key = arr[0].replace(" ", StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
+                    key = arr[0].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
                     group = arr[1];
                 }
                 size = mapList.size();
@@ -184,8 +184,8 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
                     String headerKey;
                     Object result = resultSet[keyParam];
                     Object value = null;
-                    headerKey = String.valueOf(result).replace(" ", "").replace("-", StringUtils.EMPTY);
-                    column = visibleColumnsList.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
+                    headerKey = String.valueOf(result).replace(ARMUtils.SPACE.toString(), "").replace("-", StringUtils.EMPTY);
+                    column = visibleColumnsList.get(k).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
                     String gatheredColumn = StringUtils.EMPTY;
                     if (column.contains("StartingBalance")) {
                         gatheredColumn = !column.contains(VariableConstants.TOTAL_STARTING_BALANCE) ? headerKey + "StartingBalance" : column;

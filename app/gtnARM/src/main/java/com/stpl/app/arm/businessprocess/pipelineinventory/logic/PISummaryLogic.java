@@ -129,7 +129,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 resultList.add(dto);
                 dto = clearVariables(variables, dto);
             }
-            index = indexMap.get(get[0].toString().replace(" ", org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
+            index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
             if (dto != null) {
                 if (index < totalColumnIndex) {
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? org.apache.commons.lang.StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
@@ -139,27 +139,27 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null || dto.getChildrenAllowed() || isTotal ? org.apache.commons.lang.StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))));
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] != null ? decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))) : org.apache.commons.lang.StringUtils.EMPTY);
                     if (get[NumericConstants.TWO] != null) {
-                        totalColumnValue[0] += Double.valueOf(String.valueOf(get[NumericConstants.TWO]));
+                        totalColumnValue[0] += Double.parseDouble(String.valueOf(get[NumericConstants.TWO]));
                         flag[0] = true;
                     }
                     if (get[NumericConstants.THREE] != null) {
-                        totalColumnValue[1] += Double.valueOf(String.valueOf(get[NumericConstants.THREE]));
+                        totalColumnValue[1] += Double.parseDouble(String.valueOf(get[NumericConstants.THREE]));
                         flag[1] = true;
                     }
                     if (get[NumericConstants.FOUR] != null) {
-                        totalColumnValue[NumericConstants.TWO] += Double.valueOf(String.valueOf(get[NumericConstants.FOUR]));
+                        totalColumnValue[NumericConstants.TWO] += Double.parseDouble(String.valueOf(get[NumericConstants.FOUR]));
                         flag[NumericConstants.TWO] = true;
                     }
                     if (get[NumericConstants.FIVE] != null) {
-                        totalColumnValue[NumericConstants.THREE] += Double.valueOf(String.valueOf(get[NumericConstants.FIVE]));
+                        totalColumnValue[NumericConstants.THREE] += Double.parseDouble(String.valueOf(get[NumericConstants.FIVE]));
                         flag[NumericConstants.THREE] = true;
                     }
                     if (get[NumericConstants.SIX] != null && !dto.getChildrenAllowed() && !isTotal && !selection.isCancelOverride()) {
-                        totalColumnValue[NumericConstants.FOUR] += Double.valueOf(String.valueOf(get[NumericConstants.SIX]));// For Override in Total column
+                        totalColumnValue[NumericConstants.FOUR] += Double.parseDouble(String.valueOf(get[NumericConstants.SIX]));// For Override in Total column
                         flag[NumericConstants.FOUR] = true;
                     }
                     if (get[NumericConstants.SEVEN] != null) {
-                        totalColumnValue[NumericConstants.FIVE] += Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]));// For Adjustment in Total column
+                        totalColumnValue[NumericConstants.FIVE] += Double.parseDouble(String.valueOf(get[NumericConstants.SEVEN]));// For Adjustment in Total column
                         flag[NumericConstants.FIVE] = true;
                     }
                 }

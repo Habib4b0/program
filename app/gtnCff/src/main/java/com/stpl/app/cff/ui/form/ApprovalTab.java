@@ -605,10 +605,7 @@ public class ApprovalTab extends CustomComponent {
             furl += parameter;
             LOGGER.debug("Redirecting to URL Ready : --------------{}",furl);
             link.setResource(new ExternalResource(furl));
-        } else {
-            projectionIdHidden = null;
-
-        }
+        } 
 
     }
 

@@ -9,6 +9,7 @@ package com.stpl.app.arm.businessprocess.transaction7.logic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.QueryUtils;
 import static com.stpl.app.utils.VariableConstants.DASH;
 import com.stpl.app.utils.xmlparser.SQlUtil;
@@ -52,8 +53,8 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                distributionValue = new StringBuilder(StringUtils.EMPTY);
-                property = new StringBuilder(StringUtils.EMPTY);
+                distributionValue = new StringBuilder();
+                property = new StringBuilder();
                 if (isValid(obj[0])) {
                     distributionValue = new StringBuilder(helperId.getDescriptionByID((Integer) (obj[0])));
                     property = new StringBuilder(String.valueOf(obj[0]));
@@ -81,12 +82,12 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
         StringBuilder query;
         if (distributionSelection.getSessionDTO().isWorkFlow()) {
             query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(distributionSelection.getDataSelectionDTO().getProjectionId()));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
+            query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(distributionSelection.getDataSelectionDTO().getProjectionId()));
+            query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, isReserve ? "0" : "1");
         } else {
             query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
             for (Object temp : replaceList) {
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
+                query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
             }
         }
         return query;
@@ -121,7 +122,7 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
         LOGGERFORDETAILLOGIC.debug("--Inside getAmountFilterCondition --");
         String conditionStr = StringUtils.EMPTY;
         if (distributionCondition != null && !distributionCondition.isEmpty() && distributionCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < distributionCondition.size(); i++) {
                 String str = distributionCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
@@ -129,7 +130,7 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
                     grlStr.append(" OR ");
                 }
             }
-            conditionStr = "(" + grlStr.toString() + " ) AND ";
+            conditionStr = ARMUtils.OPEN_PARANTHESIS + grlStr.toString() + " ) AND ";
         }
         LOGGERFORDETAILLOGIC.debug("--Exit getAmountFilterCondition --{}", conditionStr);
         return conditionStr;

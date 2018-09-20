@@ -76,13 +76,13 @@ public class ExclusionDetailsLogic {
     }
 
     public void saveORUpdateExclusionDetailsLookUp(int projectionSid, List<ExclusionLookupDTO> list, String accountId, String accountName, String contractId, SessionDTO sessionDTO) {
-        StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sbQuery = new StringBuilder();
         boolean isView = sessionDTO.getAction().equals(ARMUtils.VIEW_SMALL);
         String saveQuery = isView ? SQlUtil.getQuery("saveORUpdateQuery") : SQlUtil.getQuery("saveORUpdateQueryEdit");
         saveQuery = saveQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
         sbQuery.append(saveQuery);
         for (ExclusionLookupDTO dtoList : list) {
-            sbQuery.append("(").append(projectionSid).append(",'").append(dtoList.getExcludedField()).append(ARMUtils.SINGLE_QUOTES).append(",'").append(dtoList.getValues()).append("'),");
+            sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(projectionSid).append(",'").append(dtoList.getExcludedField()).append(ARMUtils.SINGLE_QUOTES).append(",'").append(dtoList.getValues()).append("'),");
         }
         sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
         String query = isView ? SQlUtil.getQuery("saveORUpdateQueryPipeline") : SQlUtil.getQuery("saveORUpdateQueryPipelineEdit");
@@ -156,7 +156,7 @@ public class ExclusionDetailsLogic {
     }
 
     public boolean isAddORUpdateView(ExclusionLookupDTO saveViewDTO) {
-        StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sbQuery = new StringBuilder();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
         try {
             String viewSid;
@@ -175,7 +175,7 @@ public class ExclusionDetailsLogic {
             if (saveViewDTO.isScreenFlag()) {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (CustomerGroupDTO dtoValue : saveViewDTO.getCustGrpList()) {
-                        sbQuery.append("(" + viewSid + ",").append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null + "," : dtoValue.getCompanyMasterSid() + ",").append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null + "," : dtoValue.getCustomerGroupSid() + ",").append(dtoValue.isInclude() == true ? 1 : 0).append(",");
+                        sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(viewSid).append(ARMUtils.COMMA).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null + "," : dtoValue.getCompanyMasterSid() + ",").append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null + ARMUtils.COMMA : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA).append(dtoValue.isInclude() == true ? 1 : 0).append(",");
                         if (dtoValue.getIndicator() != null) {
                             if (dtoValue.getIndicator() == true) {
                                 sbQuery.append(1);
@@ -185,14 +185,14 @@ public class ExclusionDetailsLogic {
                         } else {
                             sbQuery.append("null");
                         }
-                        sbQuery.append("," + null + ARMUtils.COMMA_CHAR + null + "),");
+                        sbQuery.append(ARMUtils.COMMA).append("null").append(ARMUtils.COMMA_CHAR).append("null),");
 
                     }
                 }
             } else {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (ExclusionLookupDTO idValue : saveViewDTO.getFieldList()) {
-                        sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
+                        sbQuery.append(ARMUtils.OPEN_PARANTHESIS + viewSid + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
                     }
                 }
 
@@ -254,7 +254,7 @@ public class ExclusionDetailsLogic {
             getAllUsers();
             String exclusionViewValue = exRateDTO.getViewName();
             if (StringUtils.isNotBlank(exRateDTO.getViewName())) {
-                exclusionViewValue = exclusionViewValue.replace("*", "%");
+                exclusionViewValue = exclusionViewValue.replace(ARMUtils.CHAR_ASTERISK, "%");
             }
             StringBuilder exclQuery;
             if (isCount) {
@@ -289,7 +289,7 @@ public class ExclusionDetailsLogic {
             detailsColumn.put("modifiedBy", "AVM.MODIFIED_BY");
             detailsColumn.put("modifiedDate", "AVM.MODIFIED_DATE");
             boolean makeCount = false;
-            StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder filterQuery = new StringBuilder();
             makeCount = getExculstionFilters(filterSet, exRateDTO, makeCount, filterQuery, detailsColumn, exclQuery);
             StringBuilder finalQuery;
             String order = getOrderBy(isCount, sortByColumns, detailsColumn, startIndex, endIndex);
@@ -364,7 +364,7 @@ public class ExclusionDetailsLogic {
             } else {
                 exclOrder = exclOrder + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
             }
-            exclOrder = exclOrder + " " + "OFFSET ";
+            exclOrder = exclOrder + ARMUtils.SPACE + "OFFSET ";
             exclOrder = exclOrder + startIndex;
             exclOrder = exclOrder + " ROWS FETCH NEXT " + endIndex;
             exclOrder = exclOrder + " ROWS ONLY;";
@@ -414,14 +414,14 @@ public class ExclusionDetailsLogic {
             StringBuilder initialEnd = new StringBuilder("where ( ( * <= '?' )");
             if (!betweenexclFilter.getStartValue().toString().isEmpty()) {
                 StringBuilder tempStart = getTempStringBuilder(exclQuery, initialStart, dateStar);
-                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(betweenexclFilter.getPropertyId().toString()));
-                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
+                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(betweenexclFilter.getPropertyId().toString()));
+                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(startValue));
                 exclQuery.append(tempStart);
             }
             if (!betweenexclFilter.getEndValue().toString().isEmpty()) {
                 StringBuilder tempEnd = getTempStringBuilder(exclQuery, initialEnd, dateEnd);
-                tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(betweenexclFilter.getPropertyId().toString()));
-                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
+                tempEnd.replace(tempEnd.indexOf(ARMUtils.CHAR_ASTERISK), tempEnd.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(betweenexclFilter.getPropertyId().toString()));
+                tempEnd.replace(tempEnd.indexOf(ARMUtils.CHAR_QUS), tempEnd.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(endValue));
                 exclQuery.append(tempEnd);
             }
         }

@@ -121,10 +121,10 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
         try {
             Map properties = new HashMap();
             List<Object> header = summaryLogic.getRightTableHeaders(selectionAdj);
-            List summaryRightSingleVisibleColumn = (ArrayList) header.get(0);
-            List summaryRightSingleVisibleHeader = (ArrayList) header.get(1);
-            List<String> summaryRightDoubleVisibleColumn = (ArrayList) header.get(NumericConstants.TWO);
-            List<String> summaryRightDoubleVisibleHeader = (ArrayList) header.get(NumericConstants.THREE);
+            List summaryRightSingleVisibleColumn = (List) header.get(0);
+            List summaryRightSingleVisibleHeader = (List) header.get(1);
+            List<String> summaryRightDoubleVisibleColumn = (List) header.get(NumericConstants.TWO);
+            List<String> summaryRightDoubleVisibleHeader = (List) header.get(NumericConstants.THREE);
             for (Object variableColumn : summaryRightSingleVisibleColumn) {
                 properties.put(variableColumn, String.class);
             }

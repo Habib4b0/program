@@ -9,6 +9,7 @@ package com.stpl.app.arm.businessprocess.pipelineinventory.logic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.QueryUtils;
 import static com.stpl.app.utils.VariableConstants.DASH;
 import com.stpl.app.utils.xmlparser.SQlUtil;
@@ -43,12 +44,12 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             StringBuilder inventoryQuery;
             if (inventorySelection.getSessionDTO().isWorkFlow()) {
                 inventoryQuery = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-                inventoryQuery.replace(inventoryQuery.indexOf("?"), inventoryQuery.indexOf("?") + 1, String.valueOf(inventorySelection.getDataSelectionDTO().getProjectionId()));
-                inventoryQuery.replace(inventoryQuery.indexOf("?"), inventoryQuery.indexOf("?") + 1, isReserve ? "0" : "1");
+                inventoryQuery.replace(inventoryQuery.indexOf(ARMUtils.CHAR_QUS), inventoryQuery.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(inventorySelection.getDataSelectionDTO().getProjectionId()));
+                inventoryQuery.replace(inventoryQuery.indexOf(ARMUtils.CHAR_QUS), inventoryQuery.indexOf(ARMUtils.CHAR_QUS) + 1, isReserve ? "0" : "1");
             } else {
                 inventoryQuery = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
                 for (Object temp : inventoryReplaceList) {
-                    inventoryQuery.replace(inventoryQuery.indexOf("?"), inventoryQuery.indexOf("?") + 1, String.valueOf(temp));
+                    inventoryQuery.replace(inventoryQuery.indexOf(ARMUtils.CHAR_QUS), inventoryQuery.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
                 }
             }
             LOGGER.debug("query-- {}", inventoryQuery);
@@ -57,8 +58,8 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
                 for (int i = 0; i < list.size(); i++) {
                     Object[] inventoryObj = (Object[]) list.get(i);
-                    inventoryValue = new StringBuilder(StringUtils.EMPTY);
-                    property = new StringBuilder(StringUtils.EMPTY);
+                    inventoryValue = new StringBuilder();
+                    property = new StringBuilder();
                     if (isValid(inventoryObj[0])) {
                         inventoryValue = new StringBuilder(helperId.getDescriptionByID((Integer) (inventoryObj[0])));
                         property = new StringBuilder(String.valueOf(inventoryObj[0]));
@@ -108,7 +109,7 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     protected String getAmountFilterCondition(List<String> invenotoryCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
         if (invenotoryCondition != null && !invenotoryCondition.isEmpty() && invenotoryCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < invenotoryCondition.size(); i++) {
                 String str = invenotoryCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
@@ -116,7 +117,7 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                     grlStr.append(" OR ");
                 }
             }
-            conditionStr = "(" + grlStr.toString() + " ) AND ";
+            conditionStr = ARMUtils.OPEN_PARANTHESIS + grlStr.toString() + " ) AND ";
         }
         LOGGER.debug("conditionStr--{}", conditionStr);
         return conditionStr;

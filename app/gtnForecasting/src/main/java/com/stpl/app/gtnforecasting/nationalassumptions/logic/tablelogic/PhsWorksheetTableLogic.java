@@ -81,8 +81,7 @@ public class PhsWorksheetTableLogic extends PageTreeTableLogic {
         int index = getItemIndex(count + levelIndex + levelValue);
         int start = getStartIndex(count + levelIndex, index);
         int end = getPageLength();
-        ContainerLogic.LevelMap levelMap = new ContainerLogic.LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
-        return levelMap;
+        return new ContainerLogic.LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
     }
     
    public void setProjectionResultsData(ProjectionSelectionDTO selection, SessionDTO sessionDTO) {
@@ -128,17 +127,14 @@ public class PhsWorksheetTableLogic extends PageTreeTableLogic {
         setExpandCollapseProgress(false);
     } 
     public int getPageForItem(int pos) {
-        int curPage = ((pos - NumericConstants.TWO) / getPageLength()) + 1;
-        return curPage;
+       return ((pos - NumericConstants.TWO) / getPageLength()) + 1;
     }
 
     public int getItemIndex(int pos) {
-        int index = (pos - NumericConstants.TWO) % getPageLength();
-        return index;
+        return (pos - NumericConstants.TWO) % getPageLength();
     }
 
     public int getStartIndex(int count, int index) {
-        int start = count - index;
-        return start;
+        return count - index;
     }
 }

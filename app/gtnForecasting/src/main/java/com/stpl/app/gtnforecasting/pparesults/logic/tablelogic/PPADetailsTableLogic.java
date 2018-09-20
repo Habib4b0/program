@@ -40,8 +40,7 @@ public class PPADetailsTableLogic extends PageTableLogic{
 
     @Override
     public List loadData(int start, int offset) {
-        List<PPADetailsDTO> resultList = (List<PPADetailsDTO>) logic.loadPPADetails(ppaDetailsDTO, sessionDTO, false, start, offset, this.getSortByColumns());  
-        return resultList;
+       return (List<PPADetailsDTO>) logic.loadPPADetails(ppaDetailsDTO, sessionDTO, false, start, offset, this.getSortByColumns());  
     }
 
     @Override

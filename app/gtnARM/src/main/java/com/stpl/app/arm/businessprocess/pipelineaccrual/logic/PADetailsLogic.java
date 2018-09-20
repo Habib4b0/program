@@ -8,6 +8,7 @@ package com.stpl.app.arm.businessprocess.pipelineaccrual.logic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.QueryUtils;
 import static com.stpl.app.utils.VariableConstants.DASH;
 import com.stpl.app.utils.xmlparser.SQlUtil;
@@ -47,12 +48,12 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         StringBuilder query;
         if (accrualSelection.getSessionDTO().isWorkFlow()) {
             query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(accrualSelection.getDataSelectionDTO().getProjectionId()));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
+            query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(accrualSelection.getDataSelectionDTO().getProjectionId()));
+            query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, isReserve ? "0" : "1");
         } else {
             query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
             for (Object temp : pipelineReplaceList) {
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
+                query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
             }
         }
         List list = QueryUtils.executeSelect(query.toString());
@@ -60,8 +61,8 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] pipelineObj = (Object[]) list.get(i);
-                accrualValue = new StringBuilder(StringUtils.EMPTY);
-                property = new StringBuilder(StringUtils.EMPTY);
+                accrualValue = new StringBuilder();
+                property = new StringBuilder();
                 if (isValid(pipelineObj[0])) {
                     accrualValue = new StringBuilder(helperId.getDescriptionByID((Integer) (pipelineObj[0])));
                     property = new StringBuilder(String.valueOf(pipelineObj[0]));
@@ -112,7 +113,7 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     protected String getAmountFilterCondition(List<String> pipelineCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
         if (pipelineCondition != null && !pipelineCondition.isEmpty() && pipelineCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < pipelineCondition.size(); i++) {
                 String str = pipelineCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
@@ -120,7 +121,7 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                     grlStr.append(" OR ");
                 }
             }
-            conditionStr = "(" + grlStr.toString() + " ) AND ";
+            conditionStr = ARMUtils.OPEN_PARANTHESIS + grlStr.toString() + " ) AND ";
         }
         return conditionStr;
     }
