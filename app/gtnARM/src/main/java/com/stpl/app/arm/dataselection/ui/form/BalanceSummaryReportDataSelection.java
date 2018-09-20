@@ -165,7 +165,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 if (customerRelation.getValue() != null && !GlobalConstants.getSelectOne().equals(customerRelation.getValue()) && !innerCustLevels.isEmpty()) {
 
                     String relationshipSid = String.valueOf(customerRelation.getValue());
-                    int relSid = relationshipSid.isEmpty() || "null".equals(relationshipSid) ? 0 : Integer.valueOf(relationshipSid);
+                    int relSid = relationshipSid.isEmpty() || "null".equals(relationshipSid) ? 0 : Integer.parseInt(relationshipSid);
                     DataSelectionLogic logicVal = new DataSelectionLogic();
                     String[] val = selectedLevel.split(ARMUtils.SPACE.toString());
                     forecastLevel = Integer.parseInt(val[1]);
@@ -2128,8 +2128,8 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE);
                 String[] levelNoArrCus = bsrLevelArrCus[0].split(ARMUtils.SPACE.toString());
                 String[] levelNoArrProd = bsrLevelArrProd[0].split(ARMUtils.SPACE.toString());
-                customerLevl = Integer.valueOf(levelNoArrCus[1]);
-                productLevelVal = Integer.valueOf(levelNoArrProd[1]);
+                customerLevl = Integer.parseInt(levelNoArrCus[1]);
+                productLevelVal = Integer.parseInt(levelNoArrProd[1]);
                 String userId = (String) VaadinSession.getCurrent().getAttribute(ARMUtils.USER_ID);
                 bsrDataSelectionDTO.setProjectionName(StringUtils.EMPTY);
                 bsrDataSelectionDTO.setProjectionDescription(StringUtils.EMPTY);
@@ -2284,11 +2284,11 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     bsrDataSelectionDTO.setViewName(searchLookUp.getViewDTO().getViewName());
                     HierarchyLookupDTO customerHierarchyDto = new HierarchyLookupDTO();
                     HierarchyLookupDTO productHierarchyDto = new HierarchyLookupDTO();
-                    customerHierarchyDto.setHierarchyId(searchLookUp.getViewDTO().getCustomerHierarchySid().isEmpty() ? 0 : Integer.valueOf(searchLookUp.getViewDTO().getCustomerHierarchySid()));
+                    customerHierarchyDto.setHierarchyId(searchLookUp.getViewDTO().getCustomerHierarchySid().isEmpty() ? 0 : Integer.parseInt(searchLookUp.getViewDTO().getCustomerHierarchySid()));
                     customerHierarchyDto.setVersionNo(searchLookUp.getViewDTO().getCustomerHierVers());
                     customerHierarchyDto.setHighestLevel(searchLookUp.getViewDTO().getCustomerHierHL());
                     customerHierarchyLookup.setHierarchyDto(customerHierarchyDto);
-                    productHierarchyDto.setHierarchyId(searchLookUp.getViewDTO().getProductHierarchySid().isEmpty() ? 0 : (Integer.valueOf(searchLookUp.getViewDTO().getProductHierarchySid())));
+                    productHierarchyDto.setHierarchyId(searchLookUp.getViewDTO().getProductHierarchySid().isEmpty() ? 0 : (Integer.parseInt(searchLookUp.getViewDTO().getProductHierarchySid())));
                     productHierarchyDto.setVersionNo(searchLookUp.getViewDTO().getProductHierVers());
                     productHierarchyDto.setHighestLevel(searchLookUp.getViewDTO().getProductHierHL());
                     productHierarchyLookup.setHierarchyDto(productHierarchyDto);
@@ -2339,7 +2339,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
                 customerDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getCustRelationshipBuilderSid(), bsrCustomerVersionMap.get(dto.getCustRelationshipBuilderSid()), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 customerLevel.select(dto.getCustomerHierarchyLevel());
-                initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getCustomerHierarchyLevel()));
+                initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.parseInt(dto.getCustomerHierarchyLevel()));
                 availableCustomerContainer.removeAllItems();
                 availableCustomer.removeAllItems();
 
@@ -2352,7 +2352,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 productDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getProdRelationshipBuilderSid(),
                         bsrProductVersionMap.get(dto.getProdRelationshipBuilderSid()), productHierarchyLookup.getHierarchyDto().getHierarchyId(),
                         productHierarchyLookup.getHierarchyDto().getVersionNo());
-                initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getProductHierarchyLevel()));
+                initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.parseInt(dto.getProductHierarchyLevel()));
                 availableProductContainer.removeAllItems();
                 availableProduct.removeAllItems();
             } catch (Property.ReadOnlyException | NumberFormatException e) {
@@ -2936,8 +2936,8 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE) : new String[0];
             String[] levelNoArrCus = bsrLevelArrCus.length > 0 ? bsrLevelArrCus[0].split(ARMUtils.SPACE.toString()) : new String[0];
             String[] levelNoArrProd = bsrLevelArrProd.length > 0 ? bsrLevelArrProd[0].split(ARMUtils.SPACE.toString()) : new String[0];
-            bsrCustomerLevl = levelNoArrCus.length > 0 ? Integer.valueOf(levelNoArrCus[1]) : 0;
-            bsrProductLevelVal = levelNoArrProd.length > 0 ? Integer.valueOf(levelNoArrProd[1]) : 0;
+            bsrCustomerLevl = levelNoArrCus.length > 0 ? Integer.parseInt(levelNoArrCus[1]) : 0;
+            bsrProductLevelVal = levelNoArrProd.length > 0 ? Integer.parseInt(levelNoArrProd[1]) : 0;
             String userId = (String) VaadinSession.getCurrent().getAttribute(ARMUtils.USER_ID);
             bsrDataSelectionDTO.setProjectionName(StringUtils.EMPTY);
             bsrDataSelectionDTO.setCreatedBy(CommonLogic.parseStringToInteger(userId));

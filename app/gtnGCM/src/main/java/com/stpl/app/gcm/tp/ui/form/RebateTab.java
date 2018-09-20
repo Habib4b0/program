@@ -323,7 +323,6 @@ public class RebateTab extends VerticalLayout {
         if (history.getValue() != null) {
             tradingPartnerSalesTableLayout.removeAllComponents();
             String[] his = history.getValue().toString().split(" ");
-            HeaderUtils header = new HeaderUtils();
             tableHeader = new CustomTableHeaderDTO();
             fullHeader = new CustomTableHeaderDTO();
             resultsTable = new FreezePagedTreeTable(tableLogic);

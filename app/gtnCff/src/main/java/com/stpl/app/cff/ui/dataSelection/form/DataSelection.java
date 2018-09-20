@@ -133,6 +133,7 @@ public class DataSelection extends AbstractDataSelection {
 			configureOnTabLoad(sessionDTO.getProjectionId(), sessionDTO);
 			initializeCompanyCombobox();
 			readModeOnly();
+                        customViewDdlb.select(sessionDTO.getCustomViewMasterSid());
 		}
 
 		configureBusinessUnitDdlb();
