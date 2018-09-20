@@ -133,8 +133,10 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             queryMap.put("Commercial Forecasting_businessUnit", " AND PM.BUSINESS_UNIT like ? ");
             queryMap.put("forecastLandingScreen_customerHierarchy", " AND HDC.HIERARCHY_NAME like ? ");
             queryMap.put("Commercial Forecasting_prodhierarchyName", " AND HDP.HIERARCHY_NAME like ? ");
-            queryMap.put("Commercial Forecasting_customerGroup", "CG.COMPANY_GROUP_NAME like ? ");
-            queryMap.put("Commercial Forecasting_productGroup"," IG.ITEM_GROUP_NAME like ? ");
+            queryMap.put("Commercial Forecasting_customerGroup", " AND CG.COMPANY_GROUP_NAME like ? ");
+            queryMap.put("Commercial Forecasting_productGroup"," AND IG.ITEM_GROUP_NAME like ? ");
+            queryMap.put("Commercial Forecasting_from"," AND P.PERIOD_SID >= ? ");
+            queryMap.put("Commercial Forecasting_to"," AND PD.PERIOD_SID <= ? ");
             queryMap.put("projactionName"," AND PM.projection_Name like ? ");
             queryMap.put("description", " AND PM.projection_description like ? ");
             queryMap.put("customerHierarchy", " AND HDC.HIERARCHY_NAME like ? ");
