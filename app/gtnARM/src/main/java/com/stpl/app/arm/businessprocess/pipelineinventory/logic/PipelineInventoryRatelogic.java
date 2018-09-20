@@ -129,11 +129,11 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
                 inventoryDto.setChildrenAllowed(!VariableConstants.PRODUCT_UPPER.equalsIgnoreCase(inventoryDto.getLevelName()) && !"TOTAL".equalsIgnoreCase(inventoryDto.getGroup()) && (inventorySelection.getRateslevelFilterNo() == 0));
                 inventoryDto.setLevelNo(inventorySelection.getLevelNo());
             }
-            totalvalue += Double.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+            totalvalue += Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
             String totVal = getFormattedValue(PER_THREEPIPELINE, String.valueOf(totalvalue));
             inventoryDto.setTotalColumn(totVal);
             String value = getFormattedValue(PER_THREEPIPELINE, String.valueOf(obj[NumericConstants.TWO]));
-            inventoryDto.addStringProperties(String.valueOf(obj[0]) + "." + columnList.indexOf(String.valueOf(obj[0])), value);
+            inventoryDto.addStringProperties(String.valueOf(obj[0]) + ARMUtils.DOT + columnList.indexOf(String.valueOf(obj[0])), value);
             lastValue = String.valueOf(obj[1]);
         }
 

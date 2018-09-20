@@ -85,12 +85,10 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
     @Override
     public int getCount() {
         int count = 0;
-        if (firstGenerated) {
-            if (!StringUtils.EMPTY.equals(getScreenName()) && getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+            if (firstGenerated && !StringUtils.EMPTY.equals(getScreenName()) && getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 projSelDTO.setTabName("Variance");
                 count = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(getLastParent(), projSelDTO, baseVariables, true);
             }
-        }
         return count;
     }
 

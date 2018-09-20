@@ -121,8 +121,7 @@ public class MProjectionResultsLogic {
                 + "WHERE PERIOD_DATE = @PROJECTION_DATE \n";
         query += sql + " \n" + getProjectionResultsNetSalesQueryForPR(projSelDTO);
         prMainQuery = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-        List<ProjectionResultsDTO> projDTOList = getCustomizedProjectionResultsSales(prMainQuery, projSelDTO);
-        return projDTOList;
+        return getCustomizedProjectionResultsSales(prMainQuery, projSelDTO);
     }
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsSales(List<Object> list, ProjectionSelectionDTO projSelDTO) {
@@ -905,16 +904,12 @@ public class MProjectionResultsLogic {
         String query = "";
         query = getNetSalesQuery(projSelDTO);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-        List<ProjectionResultsDTO> projDTOList = getCustomizedNetSales(list, projSelDTO);
-
-        return projDTOList;
+        return getCustomizedNetSales(list, projSelDTO);
     }
 
     public List<ProjectionResultsDTO> getNetSales(ProjectionSelectionDTO projSelDTO) {
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
-        List<ProjectionResultsDTO> projDTOList = getCustomizedNetSales(prMainQuery, projSelDTO);
-
-        return projDTOList;
+        return getCustomizedNetSales(prMainQuery, projSelDTO);
     }
 
     public List<ProjectionResultsDTO> getDiscountPer(ProjectionSelectionDTO projSelDTO) throws PortalException  {
@@ -2116,11 +2111,9 @@ public class MProjectionResultsLogic {
 
     public int configureLevelsCount(ProjectionSelectionDTO projSelDTO) {
         int count = NumericConstants.ZERO;
-        if (!projSelDTO.isIsFilter()) {
-            if (!projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
+            if (!projSelDTO.isIsFilter() && !projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
                 count = count + NumericConstants.ONE + projSelDTO.getPeriodList().size();
             }
-        }
         int levelCount;
                 CommonLogic commonLogic = new CommonLogic();
                 if (projSelDTO.isIsCustomHierarchy()) {
@@ -3231,8 +3224,7 @@ public class MProjectionResultsLogic {
         projSelDTO.setFuture(true);
         String futureQuery = getChildTotalDiscountQuery(projSelDTO);
          String ccpQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-        String customQuery = ccpQuery + " \n" + finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
-        return customQuery;
+        return ccpQuery + " \n" + finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
     }
 
     public String getTotalDiscountMainQuery(ProjectionSelectionDTO projSelDTO) {
@@ -3250,8 +3242,7 @@ public class MProjectionResultsLogic {
         projSelDTO.setFuture(true);
         String futureQuery = getChildTotalDiscountQuery(projSelDTO);
 
-        String customQuery = finalSelectClause + "  from  (\n " + historyQuery + "\n) HISTORY FULL  OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n " + finalWhereCond;
-        return customQuery;
+        return finalSelectClause + "  from  (\n " + historyQuery + "\n) HISTORY FULL  OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n " + finalWhereCond;
     }
 
     public String getProjectionResultsNetSalesQuery(ProjectionSelectionDTO projSelDTO) {
@@ -3616,8 +3607,7 @@ public class MProjectionResultsLogic {
                 + "FUTURE.SUP_PROJECTION_RATE as SUP_PROJECTION_RATE,\n"
                 + "FUTURE.SUP_PROJECTION_RPU as SUP_PROJECTION_RPU\n";
 
-        String customQuery = finalSelectClause + "from (\n" + historyQuery + "\n) HISTORY  FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE  \n" + finalWhereCond;
-        return customQuery;
+        return finalSelectClause + "from (\n" + historyQuery + "\n) HISTORY  FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE  \n" + finalWhereCond;
     }
 
 

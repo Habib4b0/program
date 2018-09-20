@@ -220,7 +220,7 @@ public class AdjustmentRateLogic {
         try {
             String query = "select  Distinct RCD.FIELD_NAME,AED.FILED_VALUES from ARM_EXCLUSION_DETAIL AED\n"
                     + "  Join ARM_ADJ_RATE_CONFIG_DETAIL RCD ON AED.ARM_ADJ_RATE_CONFIG_DETAIL_SID=RCD.ARM_ADJ_RATE_CONFIG_DETAIL_SID\n"
-                    + "  where AED.ARM_ADJ_RATE_CONFIG_DETAIL_SID=" + rateDetailsSid + " ";
+                    + "  where AED.ARM_ADJ_RATE_CONFIG_DETAIL_SID=" + rateDetailsSid + ARMUtils.SPACE;
             LOGGER.debug("Inside getIntialLoadValue query--{}", query);
             List<Object[]> rawList = QueryUtils.executeSelect(query);
             if (rawList == null || rawList.isEmpty()) {
@@ -253,7 +253,7 @@ public class AdjustmentRateLogic {
     }
 
     public boolean isAddORUpdateView(SaveViewLookUpDTO saveViewDTO) {
-        StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sbQuery = new StringBuilder();
         try {
             String viewSid;
             if (saveViewDTO.isViewStatus()) {
@@ -266,7 +266,7 @@ public class AdjustmentRateLogic {
             if (!StringUtils.EMPTY.equals(viewSid)) {
                 sbQuery.append("Insert into ARM_VIEW_DETAILS (ARM_View_Master_Sid,Field_Values) Values ");
                 for (String idValue : saveViewDTO.getCompanyIDList()) {
-                    sbQuery.append("(" + viewSid + ",'" + idValue + "'),");
+                    sbQuery.append(ARMUtils.OPEN_PARANTHESIS + viewSid + ",'" + idValue + "'),");
                 }
                 sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
                 LOGGER.debug("Inside isAdd_OR_UpdateView query--{}", sbQuery.toString());
@@ -308,7 +308,7 @@ public class AdjustmentRateLogic {
         try {
             String viewValue = StringUtils.EMPTY;
             if (StringUtils.isNotBlank(viewName)) {
-                viewValue = viewName.replace("*", "%");
+                viewValue = viewName.replace(ARMUtils.CHAR_ASTERISK, "%");
             }
             String query = "select Distinct ARM_VIEW_MASTER_SID,VIEW_NAME,VIEW_TYPE,CREATED_BY,CREATED_DATE from ARM_VIEW_MASTER\n"
                     + "where VIEW_TYPE IN(Select DESCRIPTION from HELPER_TABLE where HELPER_TABLE_SID='@View_Type')  AND VIEW_NAME like'@VIEW_NAME'";
@@ -423,8 +423,8 @@ public class AdjustmentRateLogic {
                                 } else {
                                     tmpStart = new StringBuilder(ratesDateStartstr);
                                 }
-                                tmpStart.replace(tmpStart.indexOf("*"), tmpStart.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                                tmpStart.replace(tmpStart.indexOf("?"), tmpStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startVal));
+                                tmpStart.replace(tmpStart.indexOf(ARMUtils.CHAR_ASTERISK), tmpStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
+                                tmpStart.replace(tmpStart.indexOf(ARMUtils.CHAR_QUS), tmpStart.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(startVal));
                                 sqlQuery.append(tmpStart);
                             }
                             if (!betweenFilter.getEndValue().toString().isEmpty()) {
@@ -435,8 +435,8 @@ public class AdjustmentRateLogic {
                                     tempEnd = new StringBuilder(ratesDateEndstr);
                                 }
 
-                                tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endVal));
+                                tempEnd.replace(tempEnd.indexOf(ARMUtils.CHAR_ASTERISK), tempEnd.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
+                                tempEnd.replace(tempEnd.indexOf(ARMUtils.CHAR_QUS), tempEnd.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(endVal));
                                 sqlQuery.append(tempEnd);
                             }
                         }
@@ -468,7 +468,7 @@ public class AdjustmentRateLogic {
                 } else {
                     orderBy = orderBy + " ORDER BY " + orderByCol + ((!sortOrdering) ? " ASC " : " DESC ");
                 }
-                orderBy = orderBy + " " + "OFFSET ";
+                orderBy = orderBy + ARMUtils.SPACE + "OFFSET ";
                 orderBy = orderBy + startIndex;
                 orderBy = orderBy + " ROWS FETCH NEXT " + endIndex;
                 orderBy = orderBy + " ROWS ONLY;";

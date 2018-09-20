@@ -400,7 +400,7 @@ public class GtnFrameworkReportDSCustomertHierarchyLookUp {
 				+ GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE);
 		dsCustomerHierarchyPagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE);
-		dsCustomerHierarchyPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
+		dsCustomerHierarchyPagedTableConfig.setCustomFilterConfigMap(getDSCustomFilterConfig());
 		dsCustomerHierarchyPagedTableConfig.setSelectionListener(true);
 		List<GtnUIFrameWorkActionConfig> itemClickActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig selectButtonEnableActionConfig = new GtnUIFrameWorkActionConfig(
@@ -416,32 +416,32 @@ public class GtnFrameworkReportDSCustomertHierarchyLookUp {
 		dsCustomerHierarchyPagedTableComponent.setGtnPagedTableConfig(dsCustomerHierarchyPagedTableConfig);
 	}
 
-	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customerHierarchyustomFilterConfigMap = new HashMap<>(
+	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getDSCustomFilterConfig() {
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> dsCustomerHierarchyustomFilterConfigMap = new HashMap<>(
 				columnPropertyIds.length);
-		String[] custComboboxIds = new String[1];
-		String[] custComboBoxType = new String[1];
+		String[] dsCustComboboxIds = new String[1];
+		String[] dsCustComboBoxType = new String[1];
 		int startIndex = 0;
 		for (int i = 0; i < columnPropertyIds.length; i++) {
-			GtnUIFrameworkPagedTableCustomFilterConfig custHierarchyFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			custHierarchyFilterConfig.setPropertId(columnPropertyIds[i]);
-			custHierarchyFilterConfig.setGtnComponentType(componentType[i]);
-			if ((startIndex < custComboboxIds.length) && columnPropertyIds[i].equals(custComboboxIds[startIndex])) {
-				GtnUIFrameworkComponentConfig custHierarchySearchFilterConfig = new GtnUIFrameworkComponentConfig();
-				custHierarchySearchFilterConfig.setComponentId("customFilterComboBox");
-				custHierarchySearchFilterConfig.setComponentName("customFilterComboBox");
-				custHierarchySearchFilterConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
-				custHierarchySearchFilterConfig.getGtnComboboxConfig().setComboBoxType(custComboBoxType[startIndex]);
-				custHierarchySearchFilterConfig.getGtnComboboxConfig()
+			GtnUIFrameworkPagedTableCustomFilterConfig dsCustHierarchyFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			dsCustHierarchyFilterConfig.setPropertId(columnPropertyIds[i]);
+			dsCustHierarchyFilterConfig.setGtnComponentType(componentType[i]);
+			if ((startIndex < dsCustComboboxIds.length) && columnPropertyIds[i].equals(dsCustComboboxIds[startIndex])) {
+				GtnUIFrameworkComponentConfig dsCustHierarchySearchFilterConfig = new GtnUIFrameworkComponentConfig();
+				dsCustHierarchySearchFilterConfig.setComponentId("customFilterComboBox");
+				dsCustHierarchySearchFilterConfig.setComponentName("customFilterComboBox");
+				dsCustHierarchySearchFilterConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
+				dsCustHierarchySearchFilterConfig.getGtnComboboxConfig().setComboBoxType(dsCustComboBoxType[startIndex]);
+				dsCustHierarchySearchFilterConfig.getGtnComboboxConfig()
 						.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-				custHierarchyFilterConfig.setGtnComponentConfig(custHierarchySearchFilterConfig);
+				dsCustHierarchyFilterConfig.setGtnComponentConfig(dsCustHierarchySearchFilterConfig);
 				startIndex++;
 			}
-			customerHierarchyustomFilterConfigMap.put(custHierarchyFilterConfig.getPropertId(),
-					custHierarchyFilterConfig);
+			dsCustomerHierarchyustomFilterConfigMap.put(dsCustHierarchyFilterConfig.getPropertId(),
+					dsCustHierarchyFilterConfig);
 		}
-		return customerHierarchyustomFilterConfigMap;
+		return dsCustomerHierarchyustomFilterConfigMap;
 	}
 
 	private void reportCustomerHierarchyControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,

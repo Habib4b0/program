@@ -405,10 +405,31 @@ AS
                                                             AND D.COLUMN_NAME <>  CASE WHEN D.ORG_TABLE_NAME ='COMPARISION_REPORT' THEN '1' ELSE 'PROJECTION_MASTER_SID' END
                                                      ORDER  BY D.key_ordinal
                                                      FOR XML PATH ('')) CS (COL_LIST)
+													 where c.ORG_TABLE_NAME<>'APPROVED_REPORT'
                                  FOR XML PATH (''))
-
+								 								 
           EXEC Sp_executesql
             @PRIMARY_SCRIPT
+			SET @PRIMARY_SCRIPT = (SELECT DISTINCT 'ALTER TABLE [' + C.TEMP_TABLE_NAME
+                                                 + '] ADD CONSTRAINT ['
+                                                 + case when C.TEMP_TABLE_NAME like 'ST_CUSTOM_CFF_DISCOUNT%' then replace(Replace(C.CONSTRAINT_NAME, C.ORG_TABLE_NAME, C.TEMP_TABLE_NAME),'ST_CUSTOM_CFF_DISCOUNT','S_CFF_Disc')
+												 when C.TEMP_TABLE_NAME like 'ST_CUSTOM_DISCOUNT_REPORT%' then replace(Replace(C.CONSTRAINT_NAME, C.ORG_TABLE_NAME, C.TEMP_TABLE_NAME),'ST_CUSTOM_DISCOUNT_REPORT','S_CDR')
+												 else Replace(C.CONSTRAINT_NAME, C.ORG_TABLE_NAME, C.TEMP_TABLE_NAME)
+												 end 
+                                                 + '] PRIMARY KEY ('
+                                                 + stuff(cs.COL_LIST,1,1,'')
+                                                 + '); '
+                                 FROM    #PRIMARY C
+                                        CROSS APPLY (SELECT ','+d.COLUMN_NAME
+                                                     FROM   #PRIMARY D 
+													 where ORG_TABLE_NAME='APPROVED_REPORT'
+                                                     ORDER  BY D.key_ordinal
+                                                     FOR XML PATH ('')) CS (COL_LIST)
+													 where c.ORG_TABLE_NAME='APPROVED_REPORT'
+													 FOR XML PATH (''))
+			EXEC Sp_executesql
+            @PRIMARY_SCRIPT
+
 
           -------------------------------------------------PRIMARY SCRIPT END---------------------------------------------------
           -------------------------------------------------UNIQUE CONSTARINT SCRIPT START---------------------------------------------------
@@ -620,6 +641,7 @@ AS
           );
       END CATCH
   END 
+
 GO
 
 
