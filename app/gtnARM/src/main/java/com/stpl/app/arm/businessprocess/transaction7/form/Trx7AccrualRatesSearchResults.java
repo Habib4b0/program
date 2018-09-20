@@ -45,15 +45,15 @@ public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
         Map<Integer, String> hierarchy = getHierarchy();
         Object[] value = new Object[hierarchy.size()];
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomer())) {
-            value = new Object[]{"T", "C", "B", "I"};
+            value = ARMUtils.getTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
-            value = new Object[]{"B", "I"};
+            value = ARMUtils.getBI();
         } else if (selection.getRateDeductionView().equals(VariableConstants.DEDUCTION_CONTRACT)) {
-            value = new Object[]{"C", "T", "B", "I"};
+            value = ARMUtils.getCTBI();
         }
         return value;
     }

@@ -495,8 +495,8 @@ public class AccountConfigLogic {
         }
         for (Object[] obj : resultsListValue) {
             if (obj[NumericConstants.TWO] != null) {
-                comboBox.addItem((int) obj[NumericConstants.ZERO]);
-                comboBox.setItemCaption((int) obj[NumericConstants.ZERO], (isIdAndNameRequired ? (obj[NumericConstants.ONE] + " - ") : "") + obj[NumericConstants.TWO] + "");
+                comboBox.addItem(Integer.valueOf(String.valueOf(obj[NumericConstants.ZERO])));
+                comboBox.setItemCaption(Integer.valueOf(String.valueOf(obj[NumericConstants.ZERO])), (isIdAndNameRequired ? (obj[NumericConstants.ONE] + " - ") : "") + obj[NumericConstants.TWO] + "");
             }
         }
         comboBox.setNullSelectionAllowed(true);

@@ -80,7 +80,7 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
         return VariableConstants.getVisibleColumnDemandAccrualDeduction();
     }
 
-    public void configureWorkFlow() throws InvocationTargetException {
+    private void configureWorkFlow() throws InvocationTargetException {
         if (selectionDTO.getSessionDTO().isWorkFlow()) {
             loadDetails();
             loadSelection();
@@ -133,7 +133,7 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
     private void loadSelection() {
         try {
             frequencyDdlb.select(Integer.valueOf(selectionDTO.getSummarydemandfrequency()));
-            selectionDTO.setSummarydemandfrequency((descriptionMap.get((int) frequencyDdlb.getValue())).getDescription());
+            selectionDTO.setSummarydemandfrequency((descriptionMap.get((Integer) frequencyDdlb.getValue())).getDescription());
             fromDate.setValue(selectionDTO.getSummarydemandfromDate());
             toDate.setValue(selectionDTO.getSummarydemandtoDate());
             glImpactDate.removeValueChangeListener(glListener);

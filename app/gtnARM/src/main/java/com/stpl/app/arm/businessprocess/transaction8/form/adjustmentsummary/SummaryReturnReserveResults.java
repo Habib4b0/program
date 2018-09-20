@@ -64,11 +64,11 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
     public Object[] getExcelHierarchy() {
         Object[] value = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomer())) {
-            value = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? new Object[]{"D", "C", "T", "B", "I"} : new Object[]{"C", "T", "B", "I"};
+            value = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? ARMUtils.getDCTBI() : ARMUtils.getCTBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionContract())) {
-            value = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? new Object[]{"D", "T", "C", "B", "I"} : new Object[]{"T", "C", "B", "I"};
+            value = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? ARMUtils.getDTCBI() : ARMUtils.getTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
-            value = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? new Object[]{"D", "B", "I"} : new Object[]{"B", "I"};
+            value = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? new Object[]{"D", "B", "I"} : ARMUtils.getBI();
         }
         return value;
     }
