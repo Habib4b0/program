@@ -3728,7 +3728,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				Map<String, String> tempProductDescriptionMap;
                                 
 				final DataSelectionDTO dto = bindDataselectionDtoToSaveNewArch(inputBean);
-                               // dto.setProjectionId(inputBean.getProjectionMasterSid());
+                                dto.setProjectionId(inputBean.getProjectionMasterSid());
 				int projectionIdValue = dto.getProjectionId();
                                 Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(projectionIdValue, TAB_DISCOUNT_PROJECTION.getConstant());
                                 Object mapValue = map.get(Constant.DEDUCTION_LEVEL_DDLB);
