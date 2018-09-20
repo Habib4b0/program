@@ -237,7 +237,6 @@ public class CDRLogic {
     }
 
     private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
-        Map<Integer, String> userMap = StplSecurity.getUsermap();
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {

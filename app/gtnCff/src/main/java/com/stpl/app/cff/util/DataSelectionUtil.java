@@ -517,9 +517,7 @@ public class DataSelectionUtil {
     }
 
     public static String getUserName(String userId) {
-        String userName = StringUtils.EMPTY;
-            userName = userMap.get(userId);
-        return userName;
+        return userMap.get(userId);
     }
 
     public static List<Leveldto> getFSValue(final String relationshipLevelValue, final String fieldName) {
@@ -633,9 +631,7 @@ public class DataSelectionUtil {
     }
 
     public static String getUserId(String userId) {
-        String userName = StringUtils.EMPTY;
-            userName = userIdMap.get(userId);
-        return userName;
+        return userIdMap.get(userId);
     }
 
     public static String identifyLevel(Leveldto levelDto) {

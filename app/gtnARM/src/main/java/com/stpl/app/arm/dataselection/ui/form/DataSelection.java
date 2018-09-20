@@ -2166,8 +2166,8 @@ public class DataSelection extends AbstractDataSelection {
                         ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE);
                 String[] levelNoArrCus = levelArrCus[0].split(ARMUtils.SPACE.toString());
                 String[] levelNoArrProd = levelArrProd[0].split(ARMUtils.SPACE.toString());
-                customerLevl = Integer.valueOf(levelNoArrCus[1]);
-                productLevelVal = Integer.valueOf(levelNoArrProd[1]);
+                customerLevl = Integer.parseInt(levelNoArrCus[1]);
+                productLevelVal = Integer.parseInt(levelNoArrProd[1]);
                 String userId = (String) VaadinSession.getCurrent().getAttribute(ARMUtils.USER_ID);
                 dataSelectionDTO.setProjectionName(StringUtils.EMPTY);
                 dataSelectionDTO.setProjectionDescription(description.getValue());
@@ -2332,11 +2332,11 @@ public class DataSelection extends AbstractDataSelection {
                     }
                     HierarchyLookupDTO customerHierarchyDto = new HierarchyLookupDTO();
                     HierarchyLookupDTO productHierarchyDto = new HierarchyLookupDTO();
-                    customerHierarchyDto.setHierarchyId(lookUP.getViewDTO().getCustomerHierarchySid().isEmpty() ? 0 : Integer.valueOf(lookUP.getViewDTO().getCustomerHierarchySid()));
+                    customerHierarchyDto.setHierarchyId(lookUP.getViewDTO().getCustomerHierarchySid().isEmpty() ? 0 : Integer.parseInt(lookUP.getViewDTO().getCustomerHierarchySid()));
                     customerHierarchyDto.setVersionNo(lookUP.getViewDTO().getCustomerHierVers());
                     customerHierarchyDto.setHighestLevel(lookUP.getViewDTO().getCustomerHierHL());
                     customerHierarchyLookup.setHierarchyDto(customerHierarchyDto);
-                    productHierarchyDto.setHierarchyId(lookUP.getViewDTO().getProductHierarchySid().isEmpty() ? 0 : (Integer.valueOf(lookUP.getViewDTO().getProductHierarchySid())));
+                    productHierarchyDto.setHierarchyId(lookUP.getViewDTO().getProductHierarchySid().isEmpty() ? 0 : (Integer.parseInt(lookUP.getViewDTO().getProductHierarchySid())));
                     productHierarchyDto.setVersionNo(lookUP.getViewDTO().getProductHierVers());
                     productHierarchyDto.setHighestLevel(lookUP.getViewDTO().getProductHierHL());
                     productHierarchyLookup.setHierarchyDto(productHierarchyDto);
@@ -2389,7 +2389,7 @@ public class DataSelection extends AbstractDataSelection {
                 int relationshipSid = dto.getCustRelationshipBuilderSid();
                 customerDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(relationshipSid, customerVersionMap.get(relationshipSid), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 customerLevel.select(dto.getCustomerHierarchyLevel());
-                initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getCustomerHierarchyLevel()));
+                initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.parseInt(dto.getCustomerHierarchyLevel()));
                 availableCustomerContainer.removeAllItems();
                 availableCustomer.removeAllItems();
                 productHierarchy.setValue(dto.getProductHierarchyName());
@@ -2401,7 +2401,7 @@ public class DataSelection extends AbstractDataSelection {
                 productDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getProdRelationshipBuilderSid(),
                         productVersionMap.get(dto.getProdRelationshipBuilderSid()), productHierarchyLookup.getHierarchyDto().getHierarchyId(),
                         productHierarchyLookup.getHierarchyDto().getVersionNo());
-                initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getProductHierarchyLevel()));
+                initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.parseInt(dto.getProductHierarchyLevel()));
                 availableProductContainer.removeAllItems();
                 availableProduct.removeAllItems();
 
@@ -2855,8 +2855,8 @@ public class DataSelection extends AbstractDataSelection {
                     ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE) : new String[0];
             String[] levelNoArrCus = levelArrCus.length > 0 ? levelArrCus[0].split(ARMUtils.SPACE.toString()) : new String[0];
             String[] levelNoArrProd = levelArrProd.length > 0 ? levelArrProd[0].split(ARMUtils.SPACE.toString()) : new String[0];
-            customerLevl = levelNoArrCus.length > 0 ? Integer.valueOf(levelNoArrCus[1]) : 0;
-            productLevelVal = levelNoArrProd.length > 0 ? Integer.valueOf(levelNoArrProd[1]) : 0;
+            customerLevl = levelNoArrCus.length > 0 ? Integer.parseInt(levelNoArrCus[1]) : 0;
+            productLevelVal = levelNoArrProd.length > 0 ? Integer.parseInt(levelNoArrProd[1]) : 0;
             String userId = (String) VaadinSession.getCurrent().getAttribute(ARMUtils.USER_ID);
             dataSelectionDTO.setProjectionName(StringUtils.EMPTY);
             dataSelectionDTO.setProjectionDescription(description.getValue());

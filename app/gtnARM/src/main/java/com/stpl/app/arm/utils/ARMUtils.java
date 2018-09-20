@@ -3007,6 +3007,6 @@ public class ARMUtils {
     }
 
     public static int getIntegerValue(String value) {
-        return Integer.valueOf(value);
+        return Integer.parseInt(value);
     }
 }
