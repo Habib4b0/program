@@ -723,7 +723,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         }
         pvSelectionDTO.setDeductionLevelValues(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
         StringBuilder br=new StringBuilder();
-        if(sessionDTO.getComparisonLookupData()!=null){
+        if(!pvSelectionDTO.getProjIdList().isEmpty()){
             for (Integer checkedSalesValue : pvSelectionDTO.getProjIdList()) {
                 br.append(checkedSalesValue).append(Constants.COMMA_CHAR);
             }
@@ -748,6 +748,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void tempTablePopulationInThread(CFFLogic cffLogicForTempTable) {
+        
         cffLogicForTempTable.loadSalesTempTableInThread(sessionDTO,false);
         cffLogicForTempTable.loadDiscountTempTableInThread(sessionDTO,false);
         cffLogicForTempTable.loadDiscountCustomTempTableInThread(sessionDTO,false);
