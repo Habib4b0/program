@@ -706,38 +706,69 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	private void dataConvertors(GtnWsRecordBean recordBean, String key, Double data, String indicator, String levelName,
 			boolean isTotalSpecialCondition, String variableChild) {
+		
+		
+		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
+			
+			if (key.contains("PER") || key.contains("WEIGHTED") || levelName.contains("Weighted")) {
+				
+				recordBean.addProperties(key,
+						GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+			}
+			if ((key.contains("VOLUME") && levelName.contains("Weighted"))
+					|| (key.contains("VOLUME") && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
+				
+				recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
+			}
 
-		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
-				|| key.contains("PER") || key.contains("RATE") || key.contains("WEIGHTED")
-				|| levelName.contains("Weighted")) {
+		} else if (key.contains("VOLUME")) {
 
-			recordBean.addProperties(key,
-					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
-
-		} else if (("V".equals(indicator) && levelName.contains("Unit"))) {
 			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
 		}
+		else if (key.contains("RATE") || key.contains("CHANGE"))
+		{
+			recordBean.addProperties(key,
+					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+		}
+		else if (("V".equals(indicator) && levelName.contains("Unit")) || key.contains("UNIT")
+				|| key.contains("VOLUME")) {
 
-		else if ((!"V".equals(indicator) && variableChild.equals("Contract Units"))
+			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
+
+		} else if ((!"V".equals(indicator) && variableChild.equals("Contract Units"))
 				|| (!"V".equals(indicator) && variableChild.equals("Contract Units") && key.contains("Total"))) {
-			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
-		}
 
-		else if ((!"V".equals(indicator)
-				&& (variableChild.contains("%") || (variableChild.equals("Weighted GTN Contribution"))))
-				|| (!"V".equals(indicator)
-						&& (variableChild.contains("%") || (variableChild.equals("Weighted GTN Contribution")))
-						&& key.contains("Total"))) {
+			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
+
+		} else if ((!"V".equals(indicator) && (variableChild.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)
+				|| (variableChild.equals("Weighted GTN Contribution")) || key.contains("CHANGE")))
+				|| (!"V".equals(indicator) && (variableChild.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)
+						|| (variableChild.equals("Weighted GTN Contribution"))) && key.contains("Total"))) {
+
 			recordBean.addProperties(key,
 					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+
 		}
+		
 		// Not to show 0 in top level
-		else if (!"V".equals(indicator) && isTotalSpecialCondition && variableChild.equals("")) {
+		else if (!"V".equals(indicator) && isTotalSpecialCondition && variableChild.equals(""))
+		{
 			recordBean.addProperties(key, "");
 		}
-
 		else {
-			recordBean.addProperties(key, GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));
+			
+			if (levelName.contains("Weighted") || levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)) {
+				
+				recordBean.addProperties(key, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data)
+						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+				
+			} else if ((key.contains("PER") || key.contains("GTN"))) {
+				recordBean.addProperties(key, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data)
+						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+				
+			} else {
+				recordBean.addProperties(key, GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));
+			}
 		}
 
 	}
