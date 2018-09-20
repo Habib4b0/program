@@ -61,7 +61,7 @@ public class SaveViewPopup extends Window {
         configureFields();
     }
 
-    public void configureFields() {
+    private void configureFields() {
         setDraggable(true);
         center();
         setModal(true);

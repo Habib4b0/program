@@ -174,9 +174,9 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
                 } else {
                     istributionDto.setMonth(brand);
                 }
-                istributionDto.setLevelNo((int) get[NumericConstants.EIGHT]);
+                istributionDto.setLevelNo((Integer) get[NumericConstants.EIGHT]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                istributionDto.setChildrenAllowed((distributionSelection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
+                istributionDto.setChildrenAllowed((distributionSelection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.NINE]);
                 istributionDto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                 if (masterSids != null) {
                     istributionDto.setMasterIds(masterSids);

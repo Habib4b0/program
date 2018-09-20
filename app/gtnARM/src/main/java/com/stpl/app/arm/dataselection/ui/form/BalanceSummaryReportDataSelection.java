@@ -2449,7 +2449,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         productLevel.select(null);
     }
 
-    public void configureFields() {
+    private void configureFields() {
         summaryTypeDdlb.focus();
         adjustmentType.setVisible(false);
         description.setVisible(false);

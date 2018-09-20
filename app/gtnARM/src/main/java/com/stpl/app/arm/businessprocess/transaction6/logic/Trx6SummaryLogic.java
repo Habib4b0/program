@@ -199,9 +199,9 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                     } else {
                         dto.setMonth(brand);
                     }
-                    dto.setLevelNo((int) get[NumericConstants.EIGHT]);
+                    dto.setLevelNo((Integer) get[NumericConstants.EIGHT]);
                     isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                    dto.setChildrenAllowed((tx6Selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
+                    dto.setChildrenAllowed((tx6Selection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.NINE]);
                     dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                     if (masterSids != null) {
                         dto.setMasterIds(masterSids);

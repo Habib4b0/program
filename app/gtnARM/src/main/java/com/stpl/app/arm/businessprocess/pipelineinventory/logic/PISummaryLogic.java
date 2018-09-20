@@ -118,9 +118,9 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 } else {
                     dto.setMonth(brand);
                 }
-                dto.setLevelNo((int) get[NumericConstants.EIGHT]);
+                dto.setLevelNo((Integer) get[NumericConstants.EIGHT]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                Boolean total = isTotal ? false : (boolean) get[NumericConstants.NINE];
+                Boolean total = isTotal ? Boolean.FALSE : (Boolean) get[NumericConstants.NINE];
                 dto.setChildrenAllowed((selection.getSummarylevelFilterNo() == 0) ? total : Boolean.FALSE);
                 dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                 if (masterSids != null) {

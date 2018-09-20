@@ -170,9 +170,9 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 } else {
                     rrAdjustmentDto.setMonth(brand);
                 }
-                rrAdjustmentDto.setLevelNo((int) get[NumericConstants.EIGHT]);
+                rrAdjustmentDto.setLevelNo((Integer) get[NumericConstants.EIGHT]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                rrAdjustmentDto.setChildrenAllowed((rrSelection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
+                rrAdjustmentDto.setChildrenAllowed((rrSelection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.NINE]);
                 rrAdjustmentDto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                 if (masterSids != null) {
                     rrAdjustmentDto.setMasterIds(masterSids);
