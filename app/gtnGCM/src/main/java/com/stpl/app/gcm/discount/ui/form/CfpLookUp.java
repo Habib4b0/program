@@ -68,8 +68,8 @@ public class CfpLookUp extends Window {
     @UiField("cfpCategory")
     public ComboBox cfpCategory;
     private final CommonUtil commonUtil = CommonUtil.getInstance();
-    private final LookUpTableLogic tableLogic = new LookUpTableLogic();
-    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final LookUpTableLogic tableDataLogic = new LookUpTableLogic();
+    private final ExtPagedTable resultsDataTable = new ExtPagedTable(tableDataLogic);
     private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private final CustomTextField parentCfpName;
     private final boolean flag;
@@ -91,32 +91,32 @@ public class CfpLookUp extends Window {
     public final void configureFields() {
         try {
             cfpId.focus();
-            cfpTableLayout.addComponent(resultsTable);
-            cfpTableLayout.addComponent(tableLogic.createControls());
-            tableLogic.setContainerDataSource(resultsContainer);
-            tableLogic.setPageLength(NumericConstants.TEN);
-            tableLogic.sinkItemPerPageWithPageLength(false);
-            resultsTable.setSelectable(true);
-            resultsTable.setContainerDataSource(resultsContainer);
-            resultsTable.setVisibleColumns(Constants.getInstance().cfpSearchColumns);
-            resultsTable.setColumnHeaders(Constants.getInstance().cfpSearchHeaders);
-            resultsTable.setColumnAlignment(Constants.CFP_START_DATE, ExtCustomTable.Align.CENTER);
-            resultsTable.setColumnAlignment(Constants.CFP_END_DATE, ExtCustomTable.Align.CENTER);
-            resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-            resultsTable.setFilterBarVisible(true);
-            resultsTable.setConverter(Constants.CFP_START_DATE, new DateToStringConverter());
-            resultsTable.setConverter(Constants.CFP_END_DATE, new DateToStringConverter());
-            for (Object propertyId : resultsTable.getVisibleColumns()) {
-                resultsTable.setColumnWidth(propertyId, NumericConstants.ONE_TWO_ZERO);
+            cfpTableLayout.addComponent(resultsDataTable);
+            cfpTableLayout.addComponent(tableDataLogic.createControls());
+            tableDataLogic.setContainerDataSource(resultsContainer);
+            tableDataLogic.setPageLength(NumericConstants.TEN);
+            tableDataLogic.sinkItemPerPageWithPageLength(false);
+            resultsDataTable.setSelectable(true);
+            resultsDataTable.setContainerDataSource(resultsContainer);
+            resultsDataTable.setVisibleColumns(Constants.getInstance().cfpSearchColumns);
+            resultsDataTable.setColumnHeaders(Constants.getInstance().cfpSearchHeaders);
+            resultsDataTable.setColumnAlignment(Constants.CFP_START_DATE, ExtCustomTable.Align.CENTER);
+            resultsDataTable.setColumnAlignment(Constants.CFP_END_DATE, ExtCustomTable.Align.CENTER);
+            resultsDataTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
+            resultsDataTable.setFilterBarVisible(true);
+            resultsDataTable.setConverter(Constants.CFP_START_DATE, new DateToStringConverter());
+            resultsDataTable.setConverter(Constants.CFP_END_DATE, new DateToStringConverter());
+            for (Object propertyId : resultsDataTable.getVisibleColumns()) {
+                resultsDataTable.setColumnWidth(propertyId, NumericConstants.ONE_TWO_ZERO);
             }
             Object[] objColumn = Constants.getInstance().cfpSearchColumns;
             for (Object objColumn1 : objColumn) {
                 String value = objColumn1.toString();
                 if (value.endsWith("Date")) {
-                    resultsTable.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
+                    resultsDataTable.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
                 }
             }
-            resultsTable.setFilterGenerator(new ExtFilterGenerator() {
+            resultsDataTable.setFilterGenerator(new ExtFilterGenerator() {
                 @Override
                 public Container.Filter generateFilter(Object propertyId, Object value) {
                     return null;
@@ -136,27 +136,27 @@ public class CfpLookUp extends Window {
 
                 @Override
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                     CustomComboBox comboBox = new CustomComboBox();
+                     CustomComboBox comboCustomBox = new CustomComboBox();
                     if (propertyId.equals("cfpType")) {
                         try {
-                            commonUtil.loadComboBox(comboBox, UiUtils.CFP_TYPE, true);
-                            return comboBox;
+                            commonUtil.loadComboBox(comboCustomBox, UiUtils.CFP_TYPE, true);
+                            return comboCustomBox;
                         } catch (Exception ex) {
                             LOGGER.error("",ex);
                         }
                     }
                     if (propertyId.equals("cfpCategory")) {
                         try {
-                            commonUtil.loadComboBox(comboBox, UiUtils.CFP_CATEGORY, true);
-                            return comboBox;
+                            commonUtil.loadComboBox(comboCustomBox, UiUtils.CFP_CATEGORY, true);
+                            return comboCustomBox;
                         } catch (Exception ex) {
                             LOGGER.error("",ex);
                         }
                     }
                 if (propertyId.equals("cfpDesignation")) {
                          try {
-                            commonUtil.loadComboBox(comboBox, UiUtils.CFP_DESIGNATION, true);                          
-                             return comboBox;
+                            commonUtil.loadComboBox(comboCustomBox, UiUtils.CFP_DESIGNATION, true);                          
+                             return comboCustomBox;
                              } catch (Exception ex) {
                             LOGGER.error("",ex);
                              }
@@ -164,16 +164,16 @@ public class CfpLookUp extends Window {
                 }
                     if (propertyId.equals("cfpStatus")) {
                         try {
-                            commonUtil.loadComboBox(comboBox, UiUtils.STATUS, true);
-                            return comboBox;
+                            commonUtil.loadComboBox(comboCustomBox, UiUtils.STATUS, true);
+                            return comboCustomBox;
                         } catch (Exception ex) {
                             LOGGER.error("",ex);
                         }
                     }
                     if (propertyId.equals("cfpTradeClass")) {
                         try {
-                            commonUtil.loadComboBox(comboBox, UiUtils.CFP_TRADE_CLASS, true);
-                            return comboBox;
+                            commonUtil.loadComboBox(comboCustomBox, UiUtils.CFP_TRADE_CLASS, true);
+                            return comboCustomBox;
                         } catch (Exception ex) {
                             LOGGER.error("",ex);
                         }
@@ -196,8 +196,8 @@ public class CfpLookUp extends Window {
                     return null;
                 }
             });
-            resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-            resultsTable.addStyleName("filterbar");
+            resultsDataTable.setFilterDecorator(new ExtDemoFilterDecorator());
+            resultsDataTable.addStyleName("filterbar");
             CommonUtil.loadComboBoxForGCM(cfpStatus, UiUtils.STATUS, false);
             CommonUtil.loadComboBoxForGCM(cfpType, UiUtils.CFP_TYPE, false);
             CommonUtil.loadComboBoxForGCM(cfpCategory, UiUtils.CFP_CATEGORY, false);
@@ -223,7 +223,7 @@ public class CfpLookUp extends Window {
     @UiHandler("searchBtn")
     public void searchButtonLogic(Button.ClickEvent event) throws FieldGroup.CommitException {
         binder.commit();
-        if (!tableLogic.loadSetData(binder, Constants.CFP)) {
+        if (!tableDataLogic.loadSetData(binder, Constants.CFP)) {
             AbstractNotificationUtils.getErrorNotification("No Matching Records",
                     "There were no records matching the search criteria.  Please try again.");
         } else {
@@ -233,14 +233,14 @@ public class CfpLookUp extends Window {
 
     @UiHandler("selectBtn")
     public void selectButtonLogic(Button.ClickEvent event) {
-        if (resultsTable.getValue() == null) {
+        if (resultsDataTable.getValue() == null) {
             AbstractNotificationUtils.getErrorNotification("Select Error",
                     "Please select a record. Then try again.");
         } else {
             if (flag) {
-                parentCfpName.setValue(resultsContainer.getItem(resultsTable.getValue()).getBean().getCfpNo());
+                parentCfpName.setValue(resultsContainer.getItem(resultsDataTable.getValue()).getBean().getCfpNo());
             } else {
-                parentCfpName.setValue(resultsContainer.getItem(resultsTable.getValue()).getBean().getCfpName());
+                parentCfpName.setValue(resultsContainer.getItem(resultsDataTable.getValue()).getBean().getCfpName());
             }
             close();
         }
@@ -262,7 +262,7 @@ public class CfpLookUp extends Window {
             @Override
             public void yesMethod() {
                 binder.setItemDataSource(new BeanItem<>(new LookupDTO()));
-                resultsTable.resetFilters();
+                resultsDataTable.resetFilters();
             }
         }.getConfirmationMessage("Reset confirmation", "Are you sure you want to reset the page to default/previous values? ");
 

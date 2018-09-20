@@ -76,7 +76,7 @@
   <notepads>
   </notepads>
   <connection>
-    <name>Connection</name>
+    <name>STAGING_DB</name>
     <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
@@ -528,7 +528,7 @@
            </partitioning>
       <valuename>CUSTOMER_GTS_FORECAST_INTF_ID</valuename>
       <use_database>N</use_database>
-      <connection>Connection</connection>
+      <connection>STAGING_DB</connection>
       <schema/>
       <seqname>SEQ_</seqname>
       <use_counter>Y</use_counter>
@@ -1158,7 +1158,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>Connection</connection>
+    <connection>STAGING_DB</connection>
     <rowlimit>0</rowlimit>
     <sql>SELECT ISNULL&#x28;&#xd;&#xa;&#x28;SELECT TOP 1 PRICE FROM PSTG_FORECAST_SALES_WAC &#xd;&#xa;where convert&#x28;int,PROD_NUM&#x29;&#x3d;convert&#x28;int,&#x3f;&#x29;&#xd;&#xa;AND &#x28;convert&#x28;date,&#x3f;&#x29; BETWEEN convert&#x28;date,EFFECTIVE_START_DATE&#x29; AND convert&#x28;date,EFFECTIVE_END_DATE&#x29;&#x29;&#x29;,100&#x29; AS PRICE</sql>
     <outer_join>N</outer_join>
@@ -1221,7 +1221,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>Connection</connection>
+    <connection>STAGING_DB</connection>
     <schema>dbo</schema>
     <table>IVLD_PSTG_CUSTOMER_GTS_FORECAST</table>
     <commit>1000</commit>
@@ -1393,7 +1393,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>Connection</connection>
+    <connection>STAGING_DB</connection>
     <schema>dbo</schema>
     <table>PSTG_CUSTOMER_GTS_FORECAST</table>
     <commit>1000</commit>
@@ -1737,7 +1737,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>Connection</connection>
+    <connection>STAGING_DB</connection>
     <schema>dbo</schema>
     <table>VLD_PSTG_CUSTOMER_GTS_FORECAST</table>
     <commit>1000</commit>

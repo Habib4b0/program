@@ -39,12 +39,10 @@ public class ForecastingViewMasterImpl {
                     && StringUtils.isNotBlank(forecastType)) {
                 customSql += " AND PM.forecasting_Type = '" + forecastType + "' ";
             }
-            if (("private").equalsIgnoreCase(viewType)) {
-                if (StringUtils.isNotEmpty(userId)
+                if (("private").equalsIgnoreCase(viewType) && StringUtils.isNotEmpty(userId)
                         && StringUtils.isNotBlank(userId)) {
                     customSql += "AND FVM.created_By = " + userId;
                 }
-            }
             LOGGER.debug("End of findViewByName method");
             return HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         } catch (Exception e) {
