@@ -266,8 +266,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	private String topLevelName = StringUtils.EMPTY;
 	public static final String NO_RECORD_SELECTED = "No Record Selected.";
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
-	private Future customerFuture;
-	private Future productFuture;
 	/**
 	 * ConsolidatedFinancialForecastForm constructor
 	 *
@@ -466,7 +464,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				if (processIdList != null && !processIdList.isEmpty()) {
 					processId = Long.valueOf(processIdList.get(0).toString());
 				}
-				final String userId = (String) VaadinSession.getCurrent().getAttribute("userId");
 				sessionDto.setAction("edit");
 				sessionDto.setIsGenerated(BooleanConstant.getTrueFlag());
 				sessionDto.setProcessId(processId);
@@ -509,9 +506,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 							? Integer.parseInt(resultList[NumericConstants.THREE].toString()) : 0));
 					sessionDto.setProjectionId(dto.getCffMasterSid());
 					loadDataSelectionDTO(resultList);
-					customerFuture = checkAndDoAutomaticUpdate(dataSelectionDto.getCustomerRelationShipVersionNo(),
+					Future customerFuture = checkAndDoAutomaticUpdate(dataSelectionDto.getCustomerRelationShipVersionNo(),
 							Integer.parseInt(dataSelectionDto.getCustomerHierSid()));
-					productFuture = checkAndDoAutomaticUpdate(dataSelectionDto.getProductRelationShipVersionNo(),
+					Future  productFuture = checkAndDoAutomaticUpdate(dataSelectionDto.getProductRelationShipVersionNo(),
 							Integer.parseInt(dataSelectionDto.getProdHierSid()));
 					boolean isCustRelationUpdate = (boolean) customerFuture.get();
 					boolean isProdRelationUpdate = (boolean) productFuture.get();
@@ -588,6 +585,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					}
                                         sessionDto.setStatusName("G");
                                         sessionDto.setDeductionName(getDeductionCaptionWithSid(sessionDto));
+                                        sessionDto.setCustomViewMasterSid(resultList[NumericConstants.THIRTY] != null ? Integer.parseInt(String.valueOf(resultList[NumericConstants.THIRTY])) : 0);
                                         cffLogic.loadSalesTempTableInThread(sessionDto,false);
                                         cffLogic.loadDiscountTempTableInThread(sessionDto,false);
                                         cffLogic.callCFFHierarachyDetailsProcedure(sessionDto);

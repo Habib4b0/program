@@ -835,7 +835,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
             if (parent != null) {
                 selectedDeductionContainer.setParent(value, parent);
             }
-            if (StringUtils.countMatches(key, ".") == NumericConstants.NINE) {
+            if (StringUtils.countMatches(key, ARMUtils.DOT) == NumericConstants.NINE) {
                 selectedDeductionContainer.setChildrenAllowed(value, false);
             }
         }

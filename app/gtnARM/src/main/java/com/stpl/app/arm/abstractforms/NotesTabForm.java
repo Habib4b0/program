@@ -200,19 +200,19 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
                 CommonUIUtils.successNotification(file + " uploaded successfully");
                 fileUpload = new CommonUtil().getFileName(fileUploadPath + event.getFilename());
                 StringBuilder sb = new StringBuilder(event.getFilename());
-                int index = sb.lastIndexOf(".");
+                int index = sb.lastIndexOf(ARMUtils.DOT);
                 sb.replace(0, index, file);
                 Date date = new Date();
                 long value = date.getTime();
-                sb.insert(sb.lastIndexOf("."), ARMUtils.UNDERSCORE + value);
+                sb.insert(sb.lastIndexOf(ARMUtils.DOT), ARMUtils.UNDERSCORE + value);
                 NotesDTO attachmentDTO = new NotesDTO();
-                String name = file + sb.substring(sb.indexOf("."));
+                String name = file + sb.substring(sb.indexOf(ARMUtils.DOT));
                 attachmentDTO.setDocumentName(name);
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
                 TimeZone central = TimeZone.getTimeZone("CST");
                 format.setTimeZone(central);
                 attachmentDTO.setDateAdded(format.format(new Date()));
-                attachmentDTO.setUserId(Integer.valueOf(userId));
+                attachmentDTO.setUserId(ARMUtils.getIntegerValue(userId));
                 attachmentDTO.setUserName(CommonUtils.getUserNameById(userId));
                 attachmentDTO.setDocumentFullPath(fileUploadPath + name);
                 attachmentsListBean.addBean(attachmentDTO);
@@ -266,7 +266,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         String currentUsersName = tableBean.getUserName();
         if (currentUsersName.contains(",")) {
             String[] str = currentUsersName.split(",");
-            currentUsersName = str[1] + " " + str[0];
+            currentUsersName = str[1] + ARMUtils.SPACE + str[0];
         }
         if (tableBeanId == null || !table.isSelected(tableBeanId)) {
             AbstractNotificationUtils.getErrorNotification(CommonConstant.REMOVE_ATTACHMENT, "Please select an attachment to remove ");

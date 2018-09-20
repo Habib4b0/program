@@ -428,7 +428,7 @@ public class QueryUtils {
             query = SQLUtil.getQuery(ConstantsUtils.CHECK_TEMP_TABLE)
             .replace(ConstantsUtils.AT_CHECK, value)
             .replace(ConstantsUtils.AT_JOIN, StringUtils.EMPTY)
-            .replace(ConstantsUtils.AT_WHERE, ConstantsUtils.WHERE_COMPANY_MASTER_SID + String.valueOf(dto.getCompanySid()) + " AND CD.ITEM_MASTER_SID = " + String.valueOf(dto.getItemSid()));
+            .replace(ConstantsUtils.AT_WHERE, ConstantsUtils.WHERE_COMPANY_MASTER_SID + (dto.getCompanySid()) + " AND CD.ITEM_MASTER_SID = " + (dto.getItemSid()));
         }
         return query;
     }
@@ -457,12 +457,12 @@ public class QueryUtils {
             query = SQLUtil.getQuery(ConstantsUtils.CHECK_TEMP_TABLE);
             query = query.replace(ConstantsUtils.AT_CHECK, value);
             query = query.replace(ConstantsUtils.AT_JOIN, " JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID");
-            query = query.replace(ConstantsUtils.AT_WHERE,ConstantsUtils.WHERE_COMPANY_MASTER_SID + String.valueOf(dto.getCompanySid()) + " AND IM.BRAND_MASTER_SID ="+String.valueOf(dto.getBrandSid()));
+            query = query.replace(ConstantsUtils.AT_WHERE,ConstantsUtils.WHERE_COMPANY_MASTER_SID + (dto.getCompanySid()) + " AND IM.BRAND_MASTER_SID ="+ (dto.getBrandSid()));
         } else {
             query = SQLUtil.getQuery(ConstantsUtils.CHECK_TEMP_TABLE);
             query = query.replace(ConstantsUtils.AT_CHECK, value);
             query = query.replace(ConstantsUtils.AT_JOIN, " JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID= CD.ITEM_MASTER_SID");
-            query = query.replace(ConstantsUtils.AT_WHERE, ConstantsUtils.WHERE_COMPANY_MASTER_SID + String.valueOf(dto.getCompanySid()) + " AND IM.BRAND_MASTER_SID ="+String.valueOf(dto.getBrandSid())+" AND IM.ITEM_MASTER_SID = " + String.valueOf(dto.getItemSid()));
+            query = query.replace(ConstantsUtils.AT_WHERE, ConstantsUtils.WHERE_COMPANY_MASTER_SID + (dto.getCompanySid()) + " AND IM.BRAND_MASTER_SID ="+ (dto.getBrandSid())+" AND IM.ITEM_MASTER_SID = " + (dto.getItemSid()));
         }
         return query;
     }

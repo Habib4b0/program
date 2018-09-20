@@ -9,6 +9,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.pipelineinventory.dto.PipelineInventorySelectionDTO;
 import com.stpl.app.arm.common.dto.SessionDTO;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.utils.CommonUtils;
@@ -66,7 +67,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
      */
     public String getRatePeriod(String ratePeriod, String frequency, String startPeriod, List<String> periodList) {
         String period = StringUtils.EMPTY;
-        String description = ratePeriod.contains("CURRENT") ? ratePeriod : HelperListUtil.getInstance().getDescriptionByID(Integer.valueOf(ratePeriod)).trim();
+        String description = ratePeriod.contains("CURRENT") ? ratePeriod : HelperListUtil.getInstance().getDescriptionByID(ARMUtils.getIntegerValue(ratePeriod)).trim();
         if (StringUtils.isNotBlank(frequency) && StringUtils.isNotBlank(description)) {
             int monthNoWithPlus = getMonthNoWithPlus(description);
             int monthNo = getMonthNo(description, monthNoWithPlus);
@@ -78,9 +79,9 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
             String[] months = dateFormatSymbols.getShortMonths();
             Calendar calendar = Calendar.getInstance();
             if (!StringUtils.isBlank(startPeriod)) {
-                String[] startArr = startPeriod.split(" ");
+                String[] startArr = startPeriod.split(ARMUtils.SPACE.toString());
                 calendar.set(Calendar.MONTH, CommonUtils.getMonthNo(startArr[0]) - 1);
-                calendar.set(Calendar.YEAR, Integer.valueOf(startArr[1]));
+                calendar.set(Calendar.YEAR, ARMUtils.getIntegerValue(startArr[1]));
             }
             calendar.add(Calendar.MONTH, monthNo);
             String year;
@@ -93,7 +94,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
             semi = String.valueOf(month / NumericConstants.SIX + 1);
             String periodWithS = getPeriodWithSemi(freq, semi, year);
             String periodWithQ = getPeriodWithQuarter(freq, quarter, year, periodWithS);
-            period = freq.startsWith("M") ? months[month] + " " + year : periodWithQ;
+            period = freq.startsWith("M") ? months[month] + ARMUtils.SPACE + year : periodWithQ;
         }
         /**
          * This block is for returning the default value. This block is added
@@ -123,12 +124,12 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
     }
 
     private String getPeriodWithQuarter(String freq, String quarter, String year, String periodWithS) {
-        return freq.startsWith("Q") ? "Q" + quarter + " " + year
+        return freq.startsWith("Q") ? "Q" + quarter + ARMUtils.SPACE + year
                 : periodWithS;
     }
 
     private static String getPeriodWithSemi(String freq, String semi, String year) {
-        return freq.startsWith("S") ? "S" + semi + " " + year : year;
+        return freq.startsWith("S") ? "S" + semi + ARMUtils.SPACE + year : year;
     }
 
     private int getCurrentMinus(String description, String frequency, int currentPlus) {
@@ -162,7 +163,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
      */
     public String getRatePeriodFromDS(String dsRatePeriod, String dsFrequency, String dsStartPeriod, List<String> dsPeriodList, Date dsFromDate) {
         String period = StringUtils.EMPTY;
-        String description = dsRatePeriod.contains("CURRENT") ? dsRatePeriod : HelperListUtil.getInstance().getDescriptionByID(Integer.valueOf(dsRatePeriod)).trim();
+        String description = dsRatePeriod.contains("CURRENT") ? dsRatePeriod : HelperListUtil.getInstance().getDescriptionByID(ARMUtils.getIntegerValue(dsRatePeriod)).trim();
         if (StringUtils.isNotBlank(dsFrequency) && StringUtils.isNotBlank(description)) {
             int monthNoWithPlus = getMonthNoWithPlus(description);
             int monthNo = getMonthNo(description, monthNoWithPlus);
@@ -175,9 +176,9 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dsFromDate);
             if (!StringUtils.isBlank(dsStartPeriod)) {
-                String[] startArr = dsStartPeriod.split(" ");
+                String[] startArr = dsStartPeriod.split(ARMUtils.SPACE.toString());
                 calendar.set(Calendar.MONTH, CommonUtils.getMonthNo(startArr[0]) - 1);
-                calendar.set(Calendar.YEAR, Integer.valueOf(startArr[1]));
+                calendar.set(Calendar.YEAR, ARMUtils.getIntegerValue(startArr[1]));
             }
             calendar.add(Calendar.MONTH, monthNo);
             String dsYear;
@@ -190,7 +191,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
             dsSemi = String.valueOf(dsMonth / NumericConstants.SIX + 1);
             String periodWithS = getPeriodWithSemi(freq, dsSemi, dsYear);
             String periodWithQ = getPeriodWithQuarter(freq, dsQuarter, dsYear, periodWithS);
-            period = freq.startsWith("M") ? months[dsMonth] + " " + dsYear : periodWithQ;
+            period = freq.startsWith("M") ? months[dsMonth] + ARMUtils.SPACE + dsYear : periodWithQ;
         }
         /**
          * This block is for returning the default value. This block is added
@@ -272,7 +273,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
 
             if (columnList.contains(column)) {
                 int listIndex = columnList.indexOf(column);
-                String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + "." + index;
+                String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + ARMUtils.DOT + index;
                 String header = selection.getSalesVariables().get(listIndex)[1];
                 singleVisibleColumn.add(visibleColumn);
                 singleVisibleHeader.add(header);
@@ -280,11 +281,11 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
 
             if (column.contains("~") && columnList.contains(column)) {
                 int listIndex = columnList.indexOf(column);
-                String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + "." + index;
+                String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + ARMUtils.DOT + index;
                 defaultVisibleColumn.add(visibleColumn);
             } else if (!column.contains("~")) {
                 String column1 = defaultColumn.get(defaultindex++);
-                String visibleColumn = column1 + "." + index;
+                String visibleColumn = column1 + ARMUtils.DOT + index;
                 defaultVisibleColumn.add(visibleColumn);
                 map.put(column1, visibleColumn);
             }

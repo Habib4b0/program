@@ -368,10 +368,10 @@ public class ARMUtils {
     public static final String YYYY_MM_DD = CommonConstant.YYYY_M_MDD;
     public static final String MM_DD_YYYY_HH_MM_SS = "MM/dd/yyyy hh:mm:ss";
     public static final String NULL = "null";
-    public static final String CHAR_ASTERISK = "*";
-    public static final String CHAR_PERCENT = "%";
-    public static final String CHAR_QUS = "?";
-    public static final String SPACE = " ";
+    public static final String CHAR_ASTERISK = ARMConstants.getAsterisk();
+    public static final String CHAR_PERCENT = ARMConstants.getPercent();
+    public static final String CHAR_QUS = ARMConstants.getQuestionMark();
+    public static final Character SPACE = ' ';
     public static final String HIPHEN = "-";
     public static final String LEVEL = "Level";
     public static final String PRIMARY = "Primary";
@@ -918,7 +918,7 @@ public class ARMUtils {
     public static final String CUSTOMERORPRODUCT = "Customer/Product";
     public static final String CUSTOMERORPRODUCT_COLUMN = "group";
     public static final String INDICATOR = "indicator";
-    public static final String DOT = ".";
+    public static final String DOT = ARMConstants.getDot();
     public static final String HIERARACHY_NO_PROPERTY = "hierarchyNo";
 
     public static Map listNameMapper() {
@@ -952,7 +952,7 @@ public class ARMUtils {
     public static final String UPDATE = "update";
     public static final String PROJECTION_ID = "projectionId";
     public static final String HIERARCHY_NO = "hierarchyNo";
-    public static final String COMMA = ",";
+    public static final String COMMA = ARMConstants.getComma();
     public static final String HORIZONTAL = "horizontal";
     public static final String FAIL = "fail";
     public static final String STRING_ONE = "1";
@@ -994,8 +994,9 @@ public class ARMUtils {
     public static final String YES = "YES";
     public static final String REPORT_INDICATOR_YES = "Yes";
     public static final String REPORT_INDICATOR_NO = "No";
-    
-    public static final char CLOSE_BRACES = ')';
+
+    public static final char OPEN_PARANTHESIS = '(';
+    public static final char CLOSE_PARANTHESIS = ')';
     public static final char UNDERSCORE = '_';
     public static final char COMMA_CHAR = ',';
     public static final char SINGLE_QUOTES = '\'';
@@ -3006,6 +3007,6 @@ public class ARMUtils {
     }
 
     public static int getIntegerValue(String value) {
-        return Integer.valueOf(value);
+        return Integer.parseInt(value);
     }
 }

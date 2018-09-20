@@ -137,6 +137,11 @@ public class PagedTreeGrid {
 
 		initialConfig(componentId);
 	}
+	
+	public void resetGrid(String componentId){
+        itemsPerPage.setSelectedItem(pageLength);
+        columnsPerPage.setSelectedItem(10);
+	}
 
 	public void initialConfig(String componentId) {
 		setComponentIdInMap(componentId);
@@ -265,7 +270,8 @@ public class PagedTreeGrid {
 				}
 				return parent;
 			}).forEach((GtnWsRecordBean parent) -> {
-				if (expandedRowIds.contains(GridUtils.getNodeIndex(parent))) {
+				if (expandedRowIds.contains(GridUtils.getNodeIndex(parent))
+                                        || (levelExpandOn && GridUtils.getLevelNo(parent) <= levelExpandNo))  {
 
 					expandRow(parent, data, false);
 					if (GridUtils.getNodeIndex(parent) % pageLength != 0 && GridUtils.getNodeIndex(parent) != 0 ) {

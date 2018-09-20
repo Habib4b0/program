@@ -966,7 +966,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     if (baselineMethodology.isEnabled() && SINGLE_PERIOD.getConstant().equalsIgnoreCase(baselineMethodology.getValue().toString())) {
                         if (selecteditems == 1) {
                             if ((PRICE_TRENDING.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())))
-                                    && ((CommonUtil.isValueEligibleForLoading() && (priceTrendDdlb.getValue() == null || priceTrendDdlb.getValue() == SELECT_ONE.getConstant())))) {
+                                    && (CommonUtil.isValueEligibleForLoading() && (priceTrendDdlb.getValue() == null || priceTrendDdlb.getValue() == SELECT_ONE.getConstant()))) {
                                 AbstractNotificationUtils.getErrorNotification(Constant.NO_PRICE_TREND_SELECTED, Constant.PLEASE_SELECT_A_PRICE_TREND);
                                 return;
                             }
@@ -1210,7 +1210,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         PriceTypeDTO priceTypeDTO = new PriceTypeDTO();
         priceTypeDTO.setPriceType(ObjectUtils.toString(priceTypeDdlb.getValue()));
 
-        priceTypeDTO.setBaselineMethodology((priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) || ((PER_OF_WAC.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))))) ? ((!Constant.ANNUAL_FSS.equals(priceTypeDdlb.getValue()) && (PER_OF_WAC.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())))) ? "" : "Mandated Calculation") : ObjectUtils
+        priceTypeDTO.setBaselineMethodology((priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) || (PER_OF_WAC.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())))) ? ((!Constant.ANNUAL_FSS.equals(priceTypeDdlb.getValue()) && (PER_OF_WAC.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())))) ? "" : "Mandated Calculation") : ObjectUtils
                 .toString(baselineMethodology.getValue()));
 
         String actualsPeriod1 = null;
@@ -1457,8 +1457,7 @@ public class NationalAssumptions extends CustomComponent implements View {
     public void getNDCSetup(String projectionId) throws NamingException, SQLException {
         callNDCPopupProcedure();
         String ndcNo = Arrays.toString(ndcList.toArray()).replace('[', ' ').replace(']', ' ');
-        if (StringUtils.isNotBlank(ndcNo)) {
-            if (logic.isAFSSPriceTypeAvailable(projectionId)) {
+            if (StringUtils.isNotBlank(ndcNo) && logic.isAFSSPriceTypeAvailable(projectionId)) {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
@@ -1471,7 +1470,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                     }
                 }.getConfirmationMessage("NDC Setup Required", "The following NDC’s " + ndcNo + " are not setup with AMP, CPI, AFSS, Non-FAMP or Best Price. Do you want to manually update these NDC’s?");
             }
-        }
     }
 
     private void loadNDCSetup() {

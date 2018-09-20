@@ -20,7 +20,9 @@ import org.springframework.web.client.RestTemplate;
 public class GtnUIFrameworkWebServiceClient {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameworkWebServiceClient.class);
-        long staticTime = System.currentTimeMillis();
+
+	long staticTime = System.currentTimeMillis();
+
 
 	public GtnUIFrameworkWebserviceResponse callGtnWebServiceUrl(String url, GtnUIFrameworkWebserviceRequest request,
 			GtnWsSecurityToken securityToken) {
@@ -73,7 +75,8 @@ public class GtnUIFrameworkWebServiceClient {
 
 		} catch (Exception e) {
             logger.error(e.getMessage());
-            logger.info("Failed Url---------------------" + url);
+            if(e.getMessage().contains("404 Not Found")){
+            logger.info("Failed Url-----------GtnUIFrameworkWebServiceClient----------" + url);
             GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure = new GtnUIFrameworkWebServiceClientCallOnFailure();
             gtnWebServiceClientCallOnFailure.setUrl(url);
             gtnWebServiceClientCallOnFailure.setModuleName(moduleName);
@@ -82,6 +85,7 @@ public class GtnUIFrameworkWebServiceClient {
             gtnWebServiceClientCallOnFailure.setWsClient(this);
             gtnWebServiceClientCallOnFailure.setStaticTime(staticTime);
             gtnWebServiceClientCallOnFailure.callGtnWebServiceUrlOnFailure();
+            }
 
 			return null;
 		}

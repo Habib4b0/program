@@ -166,7 +166,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 dto.setPeriod(get[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : String.valueOf(get[NumericConstants.THIRTEEN]));
                 resultList.add(dto);
                 if (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())) {
-                    int sIndex = ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) ? 0 : indexMap.get(get[get.length - 1].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT;
+                    int sIndex = ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) ? 0 : indexMap.get(get[get.length - 1].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.EIGHT;
                     startIndex = j == 0 ? sIndex : startIndex;
                     index = 0;
                 } else {
@@ -174,10 +174,10 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 }
             }
             if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
-                index = indexMap.get(get[0].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT;
+                index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.EIGHT;
             } else if (!ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency())) {
-                index = indexMap.get(get[get.length - 1].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT;
-                nextStartIndex = next != null ? indexMap.get(next[next.length - 1].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.EIGHT : startIndex;
+                index = indexMap.get(get[get.length - 1].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.EIGHT;
+                nextStartIndex = next != null ? indexMap.get(next[next.length - 1].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.EIGHT : startIndex;
             }
             if (dto != null) {
                 if (index < totalColumnIndex) {
@@ -190,16 +190,16 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.EIGHT] == null || dto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.EIGHT]))));
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.NINE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.NINE]))));
 
-                    totalColumnValue[0] += Double.valueOf(String.valueOf(get[NumericConstants.TWO]));
-                    totalColumnValue[1] += Double.valueOf(String.valueOf(get[NumericConstants.THREE]));
-                    totalColumnValue[NumericConstants.TWO] += Double.valueOf(get[NumericConstants.FOUR].toString());
-                    totalColumnValue[NumericConstants.THREE] += Double.valueOf(get[NumericConstants.FIVE].toString());
-                    totalColumnValue[NumericConstants.FIVE] += Double.valueOf(get[NumericConstants.SEVEN].toString());
+                    totalColumnValue[0] += Double.parseDouble(String.valueOf(get[NumericConstants.TWO]));
+                    totalColumnValue[1] += Double.parseDouble(String.valueOf(get[NumericConstants.THREE]));
+                    totalColumnValue[NumericConstants.TWO] += Double.parseDouble(get[NumericConstants.FOUR].toString());
+                    totalColumnValue[NumericConstants.THREE] += Double.parseDouble(get[NumericConstants.FIVE].toString());
+                    totalColumnValue[NumericConstants.FIVE] += Double.parseDouble(get[NumericConstants.SEVEN].toString());
                     if (get[NumericConstants.EIGHT] != null && !dto.getChildrenAllowed() && !isTotal) {
-                        totalColumnValue[NumericConstants.SIX] += Double.valueOf(get[NumericConstants.EIGHT].toString());
+                        totalColumnValue[NumericConstants.SIX] += Double.parseDouble(get[NumericConstants.EIGHT].toString());
                         ovverrideFlag = true;
                     }
-                    totalColumnValue[NumericConstants.SEVEN] += Double.valueOf(get[NumericConstants.NINE].toString());
+                    totalColumnValue[NumericConstants.SEVEN] += Double.parseDouble(get[NumericConstants.NINE].toString());
                 }
                 if (getaccrualCondition(selection, index, totalColumnIndex, nextBrand, brand)
                         || ((!ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && getAccrualConditionMultiplePeriod(selection, startIndex, nextStartIndex))

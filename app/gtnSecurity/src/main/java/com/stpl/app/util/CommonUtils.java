@@ -13,17 +13,17 @@ import java.util.HashMap;
 import java.util.List;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import java.util.Map;
 
 /**
  *
  * @author Santanukumar
  */
 public class CommonUtils {
-    public static HashMap<String, Long> getUserInfo() {
+    public static Map<String, Long> getUserInfo() {
 
-        List<User> users = new ArrayList<>();
         DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
-        users = UserLocalServiceUtil.dynamicQuery(userGroupDynamicQuery);
+        List<User> users  = UserLocalServiceUtil.dynamicQuery(userGroupDynamicQuery);
         HashMap<String, Long> userMap = new HashMap<>();
         for (User user : users) {
                         userMap.put( user.getLastName()
@@ -31,12 +31,11 @@ public class CommonUtils {
         }
         return userMap;
     }
-    public static HashMap<Integer, String> getCategoryNameFromId() {
+    public static Map<Integer, String> getCategoryNameFromId() {
 
-        List<HelperTable> category = new ArrayList<>();
         DynamicQuery categoryDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         categoryDynamicQuery.add(RestrictionsFactoryUtil.ilike("listName", "MailNotificationCategory"));
-        category = HelperTableLocalServiceUtil.dynamicQuery(categoryDynamicQuery);
+        List<HelperTable> category = HelperTableLocalServiceUtil.dynamicQuery(categoryDynamicQuery);
         HashMap<Integer, String> categoryMap = new HashMap<>();
         for (HelperTable sts : category) {
             categoryMap.put(sts.getHelperTableSid(), sts.getDescription());

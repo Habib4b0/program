@@ -1,15 +1,11 @@
+
 package com.stpl.gtn.gtn2o.ws.queryengine.engine;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -25,7 +21,6 @@ import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger;
 import com.stpl.gtn.gtn2o.ws.queryengine.constants.GtnWsQueryEngineConstants;
 
@@ -364,4 +359,11 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 	public GtnUIFrameworkWebserviceRequest registerWs() {
 		return null;
 	}
+	  @Override
+	    public void initCallOnFailure() {
+	        // Default Method
+	}
 }
+
+
+   

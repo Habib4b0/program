@@ -301,7 +301,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             prodLevelListenerFlag = false;
             deductionLevel.select(new HelperDTO(selection.getDeductionLevel(), HelperListUtil.getInstance().getIdDescMap().get(selection.getDeductionLevel())));
             description.setValue(selection.getProjectionDescription());
-            String adjType = selection.getAdjustmentType().replace("~", " ");
+            String adjType = selection.getAdjustmentType().replace("~", ARMUtils.SPACE.toString());
             HelperDTO adjHeper = new HelperDTO(selection.getAdjustmentId(), adjType);
             adjustmentType.setItemCaption(adjHeper, selection.getSelectedAdjType());
             adjustmentType.select(adjHeper);
@@ -340,8 +340,8 @@ public class DataSelectionTab extends AbstractDataSelection {
                             prodVersionMap.get(selection.getProdRelationshipBuilderSid()),
                             selection.getProductHierarchySid(),
                             selection.getProductHierarchyVersionNo());
-            initializeCustomerHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getCustomerHierarchyLevel()));
-            initializeProductHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getProductHierarchyLevel()));
+            initializeCustomerHierarchy(selection.getProjectionId(), Integer.parseInt(selection.getCustomerHierarchyLevel()));
+            initializeProductHierarchy(selection.getProjectionId(), Integer.parseInt(selection.getProductHierarchyLevel()));
 
             custLevelListenerFlag = true;
             prodLevelListenerFlag = true;

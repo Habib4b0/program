@@ -186,7 +186,6 @@ public final class UISecurityUtil {
     }
 
     public static TableResultCustom getTableColumnsPermission(List<Object> resultList, Object[] obj, Map<String, AppPermission> fieldIfpHM, String mode) {
-        TableResultCustom tableResultCustom = new TableResultCustom();
         List<Object> strList = Arrays.asList(obj);
         List<String> columnList = new ArrayList<>();
         List<Object> columnList1 = new ArrayList<>();
@@ -211,8 +210,7 @@ public final class UISecurityUtil {
         for (int i = 0; i < headerList2.size(); i++) {
             LOGGER.debug("headerArray----------- {}" , headerArray[i]);
         }
-        tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
-        return tableResultCustom;
+        return modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
     }
 
     /**
@@ -273,7 +271,7 @@ public final class UISecurityUtil {
                 if (mode.equals(ConstantsUtils.VIEW)) {
                     appPerm = appPermission.isViewFlag();
                 }
-                if (appPerm == true) {
+                if (appPerm) {
                     objResultList.add(obj[i]);
                     objResultHeaderList.add(header[i]);
                 }

@@ -111,7 +111,7 @@ public class DataSelectionLogic {
             hierName = hierarchyLookupDTO.getHierarchySearchName().replace(ARMUtils.CHAR_ASTERISK, ARMUtils.CHAR_PERCENT);
         }
         sqlQuery = sqlQuery.replace("$Hierarchy_Name$", hierName);
-        StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder filterQuery = new StringBuilder();
         HashMap<String, String> detailsColumn = new HashMap<>();
         detailsColumn.put("hierarchyName", "c.HIERARCHY_NAME");
         detailsColumn.put("highestLevel", "a.LEVEL_NO");
@@ -127,90 +127,90 @@ public class DataSelectionLogic {
                     filterQuery.append(filterQuery).append(CommonConstant.AND).append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
                     filterQuery.append(" like '").append(filterString).append(ARMUtils.SINGLE_QUOTES);
                 } else if (filter instanceof Between) {
-                    Between betweenFilter = (Between) filter;
-                    StringBuilder dateStartstr = new StringBuilder("AND ( * >='?')");
-                    StringBuilder dateEndstr = new StringBuilder("AND ( * <='?')");
-                    if (!detailsColumn.get(betweenFilter.getPropertyId().toString()).isEmpty()) {
-                        Date startValue = (Date) betweenFilter.getStartValue();
-                        Date endValue = (Date) betweenFilter.getEndValue();
+                    Between dsBetweenFilter = (Between) filter;
+                    StringBuilder dsDateStartstr = new StringBuilder("AND ( * >='?')");
+                    StringBuilder dsDateEndstr = new StringBuilder("AND ( * <='?')");
+                    if (!detailsColumn.get(dsBetweenFilter.getPropertyId().toString()).isEmpty()) {
+                        Date startValue = (Date) dsBetweenFilter.getStartValue();
+                        Date endValue = (Date) dsBetweenFilter.getEndValue();
                         StringBuilder initialStart = new StringBuilder("AND  ( * >= '?' )");
                         StringBuilder initialEnd = new StringBuilder("AND  ( * <= '?' )");
-                        if (!betweenFilter.getStartValue().toString().isEmpty()) {
-                            StringBuilder tempStart;
+                        if (!dsBetweenFilter.getStartValue().toString().isEmpty()) {
+                            StringBuilder dsTempStart;
                             if (filterQuery.length() == 0) {
-                                tempStart = new StringBuilder(initialStart);
+                                dsTempStart = new StringBuilder(initialStart);
                             } else {
-                                tempStart = new StringBuilder(dateStartstr);
+                                dsTempStart = new StringBuilder(dsDateStartstr);
                             }
-                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
-                            filterQuery.append(tempStart);
+                            dsTempStart.replace(dsTempStart.indexOf(ARMUtils.CHAR_ASTERISK), dsTempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsBetweenFilter.getPropertyId().toString()));
+                            dsTempStart.replace(dsTempStart.indexOf(ARMUtils.CHAR_QUS), dsTempStart.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(startValue));
+                            filterQuery.append(dsTempStart);
                         }
-                        if (!betweenFilter.getEndValue().toString().isEmpty()) {
-                            StringBuilder tempEnd;
+                        if (!dsBetweenFilter.getEndValue().toString().isEmpty()) {
+                            StringBuilder dsTempEnd;
                             if (filterQuery.length() == 0) {
-                                tempEnd = new StringBuilder(initialEnd);
+                                dsTempEnd = new StringBuilder(initialEnd);
                             } else {
-                                tempEnd = new StringBuilder(dateEndstr);
+                                dsTempEnd = new StringBuilder(dsDateEndstr);
                             }
 
-                            tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
-                            filterQuery.append(tempEnd);
+                            dsTempEnd.replace(dsTempEnd.indexOf(ARMUtils.CHAR_ASTERISK), dsTempEnd.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsBetweenFilter.getPropertyId().toString()));
+                            dsTempEnd.replace(dsTempEnd.indexOf(ARMUtils.CHAR_QUS), dsTempEnd.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(endValue));
+                            filterQuery.append(dsTempEnd);
                         }
                     }
                 } else if (filter instanceof Compare) {
-                    Compare stringFilter = (Compare) filter;
-                    if (!detailsColumn.get(stringFilter.getPropertyId().toString()).isEmpty()) {
-                        Compare.Operation operation = stringFilter.getOperation();
-                        if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
-                            StringBuilder startStr = new StringBuilder("AND ( * ='?')");
-                            StringBuilder intStartstr = new StringBuilder("AND ( * = '?' )");
-                            StringBuilder tempStart;
-                            String value;
-                            if (((Integer) stringFilter.getValue()) == 0) {
-                                value = String.valueOf(stringFilter.getValue());
+                    Compare dsStringFilter = (Compare) filter;
+                    if (!detailsColumn.get(dsStringFilter.getPropertyId().toString()).isEmpty()) {
+                        Compare.Operation dsCompareOperation = dsStringFilter.getOperation();
+                        if (Compare.Operation.EQUAL.toString().equals(dsCompareOperation.name())) {
+                            StringBuilder dsstartStr = new StringBuilder("AND ( * ='?')");
+                            StringBuilder dsIntStartstr = new StringBuilder("AND ( * = '?' )");
+                            StringBuilder dsTempStart;
+                            String dsValue;
+                            if (((Integer) dsStringFilter.getValue()) == 0) {
+                                dsValue = String.valueOf(dsStringFilter.getValue());
                             } else {
-                                int val = (Integer) stringFilter.getValue();
-                                value = String.valueOf(val);
+                                int val = (Integer) dsStringFilter.getValue();
+                                dsValue = String.valueOf(val);
                             }
-                            if (!value.isEmpty()) {
+                            if (!dsValue.isEmpty()) {
                                 if (filterQuery.length() == 0) {
-                                    tempStart = new StringBuilder(intStartstr);
+                                    dsTempStart = new StringBuilder(dsIntStartstr);
                                 } else {
-                                    tempStart = new StringBuilder(startStr);
+                                    dsTempStart = new StringBuilder(dsstartStr);
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
-                                filterQuery.append(tempStart);
+                                dsTempStart.replace(dsTempStart.indexOf(ARMUtils.CHAR_ASTERISK), dsTempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                                dsTempStart.replace(dsTempStart.indexOf(ARMUtils.CHAR_QUS), dsTempStart.indexOf(ARMUtils.CHAR_QUS) + 1, dsValue);
+                                filterQuery.append(dsTempStart);
                             }
                         }
-                        if (Compare.Operation.GREATER.toString().equals(operation.name())) {
-                            StringBuilder tempStart;
+                        if (Compare.Operation.GREATER.toString().equals(dsCompareOperation.name())) {
+                            StringBuilder greaterTempStart;
                             String value = StringUtils.EMPTY;
-                            int val = (Integer) stringFilter.getValue();
+                            int val = (Integer) dsStringFilter.getValue();
                             if (val < 0) {
                                 if (filterQuery.length() == 0) {
-                                    tempStart = new StringBuilder("AND ( * >'?' or * = '0')");
+                                    greaterTempStart = new StringBuilder("AND ( * >'?' or * = '0')");
                                 } else {
-                                    tempStart = new StringBuilder("AND ( * > '?' or * = '0')");
+                                    greaterTempStart = new StringBuilder("AND ( * > '?' or * = '0')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
-                                filterQuery.append(tempStart);
+                                greaterTempStart.replace(greaterTempStart.indexOf(ARMUtils.CHAR_ASTERISK), greaterTempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                                greaterTempStart.replace(greaterTempStart.indexOf(ARMUtils.CHAR_QUS), greaterTempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
+                                filterQuery.append(greaterTempStart);
                             } else {
                                 if (filterQuery.length() == 0) {
-                                    tempStart = new StringBuilder("AND ( * >'?')");
+                                    greaterTempStart = new StringBuilder("AND ( * >'?')");
                                 } else {
-                                    tempStart = new StringBuilder("AND ( * > '?')");
+                                    greaterTempStart = new StringBuilder("AND ( * > '?')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
-                                filterQuery.append(tempStart);
+                                greaterTempStart.replace(greaterTempStart.indexOf(ARMUtils.CHAR_ASTERISK), greaterTempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                                greaterTempStart.replace(greaterTempStart.indexOf(ARMUtils.CHAR_QUS), greaterTempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
+                                filterQuery.append(greaterTempStart);
                             }
                         }
-                        if (operation.LESS.toString().equals(operation.name())) {
-                            int val = (Integer) stringFilter.getValue();
+                        if (dsCompareOperation.LESS.toString().equals(dsCompareOperation.name())) {
+                            int val = (Integer) dsStringFilter.getValue();
                             StringBuilder tempStart;
                             String value = StringUtils.EMPTY;
                             if (val > 0) {
@@ -219,8 +219,8 @@ public class DataSelectionLogic {
                                 } else {
                                     tempStart = new StringBuilder("AND ( * < '?' or * = '0')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
                                 filterQuery.append(tempStart);
                             } else {
                                 if (filterQuery.length() == 0) {
@@ -228,15 +228,15 @@ public class DataSelectionLogic {
                                 } else {
                                     tempStart = new StringBuilder("AND ( * < '?')");
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
                                 filterQuery.append(tempStart);
                             }
                         }
-                        if (stringFilter.getValue() instanceof Date) {
-                            Date value = (Date) stringFilter.getValue();
+                        if (dsStringFilter.getValue() instanceof Date) {
+                            Date value = (Date) dsStringFilter.getValue();
                             StringBuilder tempStart;
-                            if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                            if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(dsCompareOperation.name())) {
                                 if (filterQuery.length() == 0) {
                                     tempStart = new StringBuilder("AND ( * >= '?')");
                                 } else {
@@ -249,8 +249,8 @@ public class DataSelectionLogic {
                                     tempStart = new StringBuilder("AND ( * <='?' )");
                                 }
                             }
-                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(value));
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(dsStringFilter.getPropertyId().toString()));
+                            tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(value));
                             filterQuery.append(tempStart);
                         }
                     }
@@ -280,7 +280,7 @@ public class DataSelectionLogic {
             } else {
                 order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
             }
-            order = order + " " + "OFFSET ";
+            order = order + ARMUtils.SPACE + "OFFSET ";
             order = order + startIndex;
             order = order + " ROWS FETCH NEXT " + endIndex;
             order = order + " ROWS ONLY;";
@@ -336,7 +336,7 @@ public class DataSelectionLogic {
         LOGGER.debug("--Inside loadProductRelation--");
         String sqlQuery = SQlUtil.getQuery("getProdRelation").concat(StringUtils.EMPTY + hierSid);
         if (glComp != 0) {
-            sqlQuery += " " + SQlUtil.getQuery("joinGLComp").concat(StringUtils.EMPTY + glComp);
+            sqlQuery += ARMUtils.SPACE + SQlUtil.getQuery("joinGLComp").concat(StringUtils.EMPTY + glComp);
         }
         LOGGER.debug(CommonConstant.SQL_QUERY, sqlQuery);
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
@@ -362,7 +362,7 @@ public class DataSelectionLogic {
         String customSql = SQlUtil.getQuery("getLevelsFromHierarchy");
         if (StringUtils.isNotEmpty(String.valueOf(hierSid))
                 && StringUtils.isNotBlank(String.valueOf(hierSid))) {
-            customSql = customSql.replace("?", String.valueOf(hierSid).trim());
+            customSql = customSql.replace(ARMUtils.CHAR_QUS, String.valueOf(hierSid).trim());
         }
         LOGGER.debug(CommonConstant.SQL_QUERY, customSql);
         List<Integer> integerList = new ArrayList<>();
@@ -780,14 +780,14 @@ public class DataSelectionLogic {
             endLevels = DataSelectionQueryUtils.executeQuery(parameters);
         }
         String sbQuery = SQlUtil.getQuery("insertcustHierarchy");
-        StringBuilder values = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder values = new StringBuilder();
         try {
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
                     if (values.length() == 0) {
-                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
+                        values.append(ARMUtils.OPEN_PARANTHESIS).append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_PARANTHESIS);
                     } else {
-                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
+                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_PARANTHESIS);
                     }
                 }
             }
@@ -830,16 +830,16 @@ public class DataSelectionLogic {
             endLevels = DataSelectionQueryUtils.executeQuery(parameters);
         }
         String sbQuery = SQlUtil.getQuery("insertProdHierarchy");
-        StringBuilder values = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder values = new StringBuilder();
         try {
             saveUpdateLogic(indicator, addLevels, values, projectionId, levelList);
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
                     if (values.length() == 0) {
-                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
+                        values.append(ARMUtils.OPEN_PARANTHESIS).append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_PARANTHESIS);
 
                     } else {
-                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
+                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_PARANTHESIS);
 
                     }
                 }
@@ -858,20 +858,20 @@ public class DataSelectionLogic {
         if (ARMUtils.UPDATE.equals(indicator)) {
             for (String rsId : addLevels) {
                 if (values.length() == 0) {
-                    values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_BRACES);
+                    values.append(ARMUtils.OPEN_PARANTHESIS).append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_PARANTHESIS);
 
                 } else {
-                    values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_BRACES);
+                    values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_PARANTHESIS);
 
                 }
             }
         } else if (ARMUtils.SAVE.equals(indicator)) {
             for (LevelDTO dto : levelList) {
                 if (values.length() == 0) {
-                    values.append("(").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_BRACES);
+                    values.append(ARMUtils.OPEN_PARANTHESIS).append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_PARANTHESIS);
 
                 } else {
-                    values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_BRACES);
+                    values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_PARANTHESIS);
 
                 }
             }
@@ -897,11 +897,11 @@ public class DataSelectionLogic {
 
     public void saveDeductionLogic(Set<Integer> rsModelSidList, int projectionSid) {
         try {
-            StringBuilder insertDeductionQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder insertDeductionQuery = new StringBuilder();
             if (!rsModelSidList.isEmpty()) {
                 insertDeductionQuery.append(SQlUtil.getQuery("DEDUCTION_SAVED_PROJECTION"));
                 for (Integer rsModelSid : rsModelSidList) {
-                    insertDeductionQuery.append("(").append(projectionSid).append(ARMUtils.COMMA_CHAR).append(rsModelSid).append("),");
+                    insertDeductionQuery.append(ARMUtils.OPEN_PARANTHESIS).append(projectionSid).append(ARMUtils.COMMA_CHAR).append(rsModelSid).append("),");
                 }
                 insertDeductionQuery.replace(insertDeductionQuery.length() - 1, insertDeductionQuery.length(), StringUtils.EMPTY);
             }
@@ -967,7 +967,7 @@ public class DataSelectionLogic {
         LOGGER.debug("finalQuery - -{}", finalQuery);
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
         LOGGER.info(list.get(0) + "");
-        return Integer.valueOf(list.get(0) + StringUtils.EMPTY);
+        return Integer.parseInt(list.get(0) + StringUtils.EMPTY);
     }
 
     private StringBuilder getSaveQuery(final DataSelectionDTO dataSelectionDTO) {
@@ -999,7 +999,7 @@ public class DataSelectionLogic {
         finalQuery = finalQuery.replace("$$$$VALUE$$$$", queryBuilder.toString());
         LOGGER.debug("finalQuery  --{}", finalQuery);
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
-        return Integer.valueOf(list.get(0) + StringUtils.EMPTY);
+        return Integer.parseInt(list.get(0) + StringUtils.EMPTY);
     }
 
     public void saveAdjustmentMaster(DataSelectionDTO dataSelectionDTO) {
@@ -1192,7 +1192,7 @@ public class DataSelectionLogic {
             String query = SQlUtil.getQuery("LoadSelectedDeductions");
             String rsContractQuery = SQlUtil.getQuery("LoadSelectedRSContract");
             if (!map.isEmpty()) {
-                StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
+                StringBuilder filterQuery = new StringBuilder();
 
                 Map<String, String> filterSelect = ARMUtils.getDeductionValuesMapForLevel();
                 for (Map.Entry<String, Set<Integer>> entrySet : map.entrySet()) {
@@ -1241,7 +1241,7 @@ public class DataSelectionLogic {
                     String currentColumnPrevKey = parentLevelKeys.get(mapKey);
                     String currentKey;
                     if (currentColumnPrevKey == null) {
-                        currentKey = parentKey.isEmpty() ? (keyBegins++) + "." : parentKey + (keyBegins++) + ".";
+                        currentKey = parentKey.isEmpty() ? (keyBegins++) + ARMUtils.DOT : parentKey + (keyBegins++) + ARMUtils.DOT;
                         columnIncrementer.put(parentKey, keyBegins);
                     } else {
                         currentKey = currentColumnPrevKey;
@@ -1339,7 +1339,7 @@ public class DataSelectionLogic {
             tempCal.set(Calendar.MINUTE, 0);
             tempCal.set(Calendar.SECOND, 0);
             item = getMonth.format(tempCal.getTime());
-            caption = MONTHS[startmonth] + " " + startYear;
+            caption = MONTHS[startmonth] + ARMUtils.SPACE + startYear;
             period.addItem(item);
             period.setItemCaption(item, caption);
             if (startmonth == endMonth && startYear == endYear) {
@@ -1353,7 +1353,7 @@ public class DataSelectionLogic {
                     tempCal.set(Calendar.MONTH, tempStartmonth);
                     tempCal.set(Calendar.YEAR, startYear);
                     item = getMonth.format(tempCal.getTime());
-                    caption = MONTHS[tempStartmonth] + " " + startYear;
+                    caption = MONTHS[tempStartmonth] + ARMUtils.SPACE + startYear;
                     period.addItem(item);
                     period.setItemCaption(item, caption);
                     if (endMonth == 0 && (startYear == endYear)) {
@@ -1404,7 +1404,7 @@ public class DataSelectionLogic {
             int month = cal.get(Calendar.MONTH);
             int year = cal.get(Calendar.YEAR);
             String item = getMonth.format(cal.getTime());
-            String caption = MONTHS[month] + " " + year;
+            String caption = MONTHS[month] + ARMUtils.SPACE + year;
             fromPeriod.addItem(item);
             fromPeriod.setItemCaption(item, caption);
             toPeriod.addItem(item);
@@ -1549,14 +1549,14 @@ public class DataSelectionLogic {
     }
 
     public List getRelationShipValues(final Map<String, Object> parameters) {
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         try {
             LOGGER.debug("Entering getRelationShipValues method");
             queryString.append(SQlUtil.getQuery("getRelationshipValues"));
             if ("customer".equalsIgnoreCase(String.valueOf(parameters.get(INDICATOR)))) {
-                queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, " Projection_Cust_Hierarchy ");
+                queryString.replace(queryString.indexOf(ARMUtils.CHAR_QUS), queryString.indexOf(ARMUtils.CHAR_QUS) + 1, " Projection_Cust_Hierarchy ");
             } else if ("product".equalsIgnoreCase(String.valueOf(parameters.get(INDICATOR)))) {
-                queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, " Projection_Prod_Hierarchy ");
+                queryString.replace(queryString.indexOf(ARMUtils.CHAR_QUS), queryString.indexOf(ARMUtils.CHAR_QUS) + 1, " Projection_Prod_Hierarchy ");
             }
             queryString.append(" WHERE PH.PROJECTION_MASTER_SID='");
             queryString.append(String.valueOf(parameters.get("projectionId")));

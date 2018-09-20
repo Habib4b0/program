@@ -580,12 +580,16 @@ public class DataSelectionUtil {
 					"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request,
 					RelationShipFilterLogic.getGsnWsSecurityToken());
 
-			List<String> fromPeriodItemValueList = new ArrayList<>(
-					response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
+			List<String> fromPeriodItemValueList = new ArrayList<>();
+                        List<String> toPeriodItemValueList = new ArrayList<>();
+                        if (MODE_SEARCH.getConstant().equalsIgnoreCase(mode)) {
+                        fromPeriodItemValueList.add(SELECT_ONE);
+                        toPeriodItemValueList.add(SELECT_ONE);
+                        }
+                        fromPeriodItemValueList.addAll(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
 			List<String> fromPeriodItemCodeList = new ArrayList<>(
 					response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
 
-			List<String> toPeriodItemValueList = new ArrayList<>();
 			toPeriodItemValueList.add(fromPeriodItemValueList.get(fromPeriodItemValueList.size() - 1));
 
 			List<String> toPeriodItemCodeList = new ArrayList<>();
@@ -599,7 +603,11 @@ public class DataSelectionUtil {
 			fromPeriod.setContainerDataSource(new IndexedContainer(fromPeriodItemValueList));
 			toPeriod.setContainerDataSource(new IndexedContainer(toPeriodItemValueList));
 			fromPeriod.select(fromPeriodItemValueList.get(0));
+                        if (MODE_SEARCH.getConstant().equalsIgnoreCase(mode)) {
+                        toPeriod.select(toPeriodItemValueList.get(0));
+                        }else{
 			toPeriod.select(toPeriodItemValueList.get(toPeriodItemValueList.size()-1));
+                        }
 			/*if (forecastConfig != null) {
 				if (Constant.MONTH1
 						.equals(HelperListUtil.getInstance().getDescriptionByID(forecastConfig.getHistFreq()))
@@ -678,7 +686,7 @@ public class DataSelectionUtil {
 		String dd = "01";
 		String mMonth = "01";
 		String date;
-		String split[] = quarter.split(" - ");
+		String [] split= quarter.split(" - ");
 		String splitQuarter = split[0];
 		int quarterValue = UiUtils.parseStringToInteger(splitQuarter);
 		String yyyy = split[1];
@@ -873,7 +881,7 @@ public class DataSelectionUtil {
 		String dd = "30";
 		String mm = "01";
 		String date;
-		String split[] = quarter.split(" - ");
+		String [] split= quarter.split(" - ");
 		String splitQuarter = split[0];
 		int quarterValue = UiUtils.parseStringToInteger(splitQuarter);
 		String yyyy = split[1];
