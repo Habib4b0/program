@@ -60,8 +60,8 @@ public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmen
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                inflationValue = new StringBuilder(StringUtils.EMPTY);
-                property = new StringBuilder(StringUtils.EMPTY);
+                inflationValue = new StringBuilder();
+                property = new StringBuilder();
                 if (isValid(obj[0])) {
                     inflationValue = new StringBuilder(helperId.getDescriptionByID((Integer) (obj[0])));
                     property = new StringBuilder(String.valueOf(obj[0]));
@@ -118,7 +118,7 @@ public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmen
     protected String getAmountFilterCondition(List<String> inflationCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
         if (inflationCondition != null && !inflationCondition.isEmpty() && inflationCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < inflationCondition.size(); i++) {
                 String str = inflationCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");

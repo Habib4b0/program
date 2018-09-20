@@ -188,8 +188,8 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                value = new StringBuilder("");
-                property = new StringBuilder("");
+                value = new StringBuilder();
+                property = new StringBuilder();
 
                 if (isValid(obj[0])) {
                     value = new StringBuilder(helperId.getDescriptionByID((Integer) (obj[0])));

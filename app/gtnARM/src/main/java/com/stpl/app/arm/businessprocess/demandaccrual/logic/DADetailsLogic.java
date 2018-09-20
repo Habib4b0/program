@@ -72,8 +72,8 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                demandValue = new StringBuilder(StringUtils.EMPTY);
-                property = new StringBuilder(StringUtils.EMPTY);
+                demandValue = new StringBuilder();
+                property = new StringBuilder();
                 if (isValid(obj[0])) {
                     demandValue = new StringBuilder(helperId.getDescriptionByID((Integer) (obj[0])));
                     property = new StringBuilder(String.valueOf(obj[0]));
@@ -123,7 +123,7 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     protected String getAmountFilterCondition(List<String> demandCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
         if (demandCondition != null && !demandCondition.isEmpty() && demandCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < demandCondition.size(); i++) {
                 String str = demandCondition.get(i);
                 grlStr.append(tableAliasName + "ACCRUAL_AMOUNT ").append(String.valueOf(str.charAt(0))).append(" 0.00");

@@ -259,7 +259,7 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
     }
 
     private String getSelectVariable(List<String[]> variables, boolean isTotal) {
-        StringBuilder distributionSelectQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder distributionSelectQuery = new StringBuilder();
         String[] object = null;
         if (variables != null && !variables.isEmpty()) {
             for (int i = 0; i < variables.size(); i++) {

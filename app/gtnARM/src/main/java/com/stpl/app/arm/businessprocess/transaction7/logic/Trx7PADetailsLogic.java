@@ -53,8 +53,8 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                distributionValue = new StringBuilder(StringUtils.EMPTY);
-                property = new StringBuilder(StringUtils.EMPTY);
+                distributionValue = new StringBuilder();
+                property = new StringBuilder();
                 if (isValid(obj[0])) {
                     distributionValue = new StringBuilder(helperId.getDescriptionByID((Integer) (obj[0])));
                     property = new StringBuilder(String.valueOf(obj[0]));
@@ -122,7 +122,7 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
         LOGGERFORDETAILLOGIC.debug("--Inside getAmountFilterCondition --");
         String conditionStr = StringUtils.EMPTY;
         if (distributionCondition != null && !distributionCondition.isEmpty() && distributionCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < distributionCondition.size(); i++) {
                 String str = distributionCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");

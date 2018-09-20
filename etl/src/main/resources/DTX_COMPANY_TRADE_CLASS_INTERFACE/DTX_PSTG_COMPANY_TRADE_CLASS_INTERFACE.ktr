@@ -77,13 +77,13 @@
   </notepads>
   <connection>
     <name>STAGING_DB</name>
-    <server>10.4.48.18</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>BPIGTN_AGN_STAGING_DEV</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>bpigtn_db</username>
-    <password>Encrypted 2be98afc86aa7f2e4953dea728cb9fa9b</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
