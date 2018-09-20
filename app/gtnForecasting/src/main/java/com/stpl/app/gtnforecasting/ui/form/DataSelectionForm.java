@@ -231,7 +231,7 @@ public class DataSelectionForm extends ForecastDataSelection {
                 this.scrName = "Non Mandated";
                 this.dataSelectionDTO = dataSelectionDto;
                 setLandingScreenDataSelectionDto(dataSelectionDTO);
-                generateButtonLogicNewArch(sessionDto,inputBean);
+//                generateButtonLogicNewArch(sessionDto,inputBean);
                 this.inputBean = inputBean;
 		LOGGER.info("DataSelectionIndex Initializing... ");
 		LOGGER.info("DataSelectionIndex Ends");
