@@ -30,7 +30,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
  */
 public class GtnUIFrameworkReportLevelDdlbLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
-
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -42,12 +41,11 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction
 			throws GtnFrameworkGeneralException {
 		final GtnUIFrameworkWebserviceRequest generalRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
-		
 
 
 		String customView = componentId.contains("dataSelectionTab") ? "dataSelectionTab_displaySelectionTabCustomView"
 				: "reportingDashboardTab_displaySelectionTabCustomView";
-
+		
 		String selectedItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(customView, componentId)
 				.getV8StringFromField();
 
