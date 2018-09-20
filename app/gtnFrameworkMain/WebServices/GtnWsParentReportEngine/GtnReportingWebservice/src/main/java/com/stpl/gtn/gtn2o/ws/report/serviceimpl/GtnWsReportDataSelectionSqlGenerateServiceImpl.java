@@ -317,7 +317,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					String indicator = hierachyBean.getData()[5].toString();
 					if (("V".equals(indicator)
 							&& bean.getStringProperty(levelName).contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
-							|| object.toString().contains("PER") || object.toString().contains("RATE")) {
+							|| object.toString().contains("PER") || object.toString().contains("RATE") || object.toString().contains("Weighted") || bean.getStringProperty(levelName).contains("Weighted")) {
 						total = bean.getRecordHeader().stream()
 								.filter(e -> e != null && e.toString()
 										.contains(object.toString().replace(GtnWsQueryConstants.TOTAL, "")))
