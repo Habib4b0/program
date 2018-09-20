@@ -37,7 +37,7 @@ import org.junit.Ignore;
  * @author KARTHIK.RAJA
  * @version $Revision: 1.0 $
  */
-@Ignore
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/test/resources/AutomaticContext.xml"})
 public class GtnWsIfpValidationServiceTest {
