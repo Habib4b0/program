@@ -209,13 +209,13 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         }
         Object[] value = null;
         if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
-            value = new Object[]{"T", "C", "B", "I"};
+            value = ARMUtils.getTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-            value = new Object[]{"T", "B", "I"};
+            value = ARMUtils.getTBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-            value = new Object[]{"B", "I"};
+            value = ARMUtils.getBI();
         }
         query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + org.apache.commons.lang.StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getSummarydeductionLevelDes());

@@ -271,13 +271,13 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
             }
             Object[] value = null;
             if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && tx6Selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-                value = new Object[]{"D", "T", "C", "B", "I"};
+                value = ARMUtils.getDTCBI();
             } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
-                value = new Object[]{"T", "C", "B", "I"};
+                value = ARMUtils.getTCBI();
             } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-                value = new Object[]{"T", "B", "I"};
+                value = ARMUtils.getTBI();
             } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-                value = new Object[]{"B", "I"};
+                value = ARMUtils.getBI();
             }
             query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + org.apache.commons.lang.StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
 

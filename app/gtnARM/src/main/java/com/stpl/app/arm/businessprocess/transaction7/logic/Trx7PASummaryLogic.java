@@ -235,15 +235,15 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
         }
         Object[] distributionValue = null;
         if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            distributionValue = new Object[]{"D", "T", "C", "B", "I"};
+            distributionValue = ARMUtils.getDTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
-            distributionValue = new Object[]{"T", "C", "B", "I"};
+            distributionValue = ARMUtils.getTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-            distributionValue = new Object[]{"T", "B", "I"};
+            distributionValue = ARMUtils.getTBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-            distributionValue = new Object[]{"B", "I"};
+            distributionValue = ARMUtils.getBI();
         } else if (selection.getRateDeductionView().equals(CommonConstant.DEDUCTION_CONTRACT)) {
-            distributionValue = new Object[]{"C", "T", "B", "I"};
+            distributionValue = ARMUtils.getCTBI();
 
         }
         query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(distributionValue, ",") + ARMUtils.SINGLE_QUOTES);
