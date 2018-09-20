@@ -7,6 +7,7 @@ package com.stpl.gtn.gtn2o.ws.search.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,19 +121,19 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 					.getViewType();
 			String viewName = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
 					.getViewName();
-			String userId = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
-					.getUserId();
+			Integer userId = Integer.parseInt(gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId());
+				
 			GtnFrameworkForecastDataSelectionBean dataSelectionBean = gtnUiFrameworkWebservicerequest
 					.getGtnWsForecastNewArchRequest().getDataSelectionBean();
 			String viewData = gtnForecastJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'",
 					"\\\\");
 
 			Object[] params = new Object[5];
-			params[0] = viewType.replaceAll("\\*", "%");
-			params[1] = viewName.replaceAll("\\*", "%");
+			params[0] = viewName.replaceAll("\\*", "%");
+			params[1] = viewType.replaceAll("\\*", "%");
 			params[2] = userId;
 			params[3] = userId;
-			params[4] = "'" + viewData + "'";
+			params[4] = viewData;
 
 			GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
 					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING };
@@ -161,6 +162,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 		}
 		return response;
 	}
+	
 
 	public GtnUIFrameworkWebserviceResponse pagedTableSearch(
 			GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
@@ -183,16 +185,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 		String projectionName = webSearchCriteriaList.get(2).getFilterValue1();
 		String projectionDescription = webSearchCriteriaList.get(3).getFilterValue1();
 		Object[] params = new Object[webSearchCriteriaList.size()];
-		// GtnFrameworkDataType[] dataType = new
-		// GtnFrameworkDataType[webSearchCriteriaList.size()];
-		// for (int i = 0; i < webSearchCriteriaList.size(); i++) {
-		// if (webSearchCriteriaList.get(i).getFilterValue1() != null) {
-		//// params[i] =
-		// webSearchCriteriaList.get(i).getFilterValue1().replaceAll("\\*", "%");
-		// dataType[i] = GtnFrameworkDataType.STRING;
-		//
-		// }
-		// }
+		 
 		stringQuery.append(queryMap.get(0));
 		stringQuery.append(queryMap.get(2));
 		params[0] = projectionName.replaceAll("\\*", "%");
@@ -214,12 +207,12 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 						"/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
 				gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
 		List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
-		// int count = pagedTableSearchCount(webSearchCriteriaList);
+	
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		GtnSerachResponse searchResponse = new GtnSerachResponse();
 		dataTable.addData(resultList);
 		searchResponse.setResultSet(dataTable);
-		// searchResponse.setCount(count);
+		
 		gtnUIFrameworkWebserviceResponse.setGtnSerachResponse(searchResponse);
 		return gtnUIFrameworkWebserviceResponse;
 	}

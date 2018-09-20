@@ -4,22 +4,31 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.type.DateType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger;
 import com.stpl.gtn.gtn2o.ws.queryengine.constants.GtnWsQueryEngineConstants;
+
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
@@ -83,6 +92,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			logger.debug(GtnWsQueryEngineConstants.START
 					+ new SimpleDateFormat(GtnWsQueryEngineConstants.TIME).format(new Date(startTime)));
+			
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
 			queyValuelist = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
@@ -138,6 +148,65 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 			}
 		}
 		return query;
+	}
+	
+	public List<Object[]> executeScalarResults(String sqlquery,Map<String, GtnFrameworkDataType> inputMap ,Object[] params, GtnFrameworkDataType[] type) {
+		
+		
+		Session session = sessionFactory.openSession();
+
+		SQLQuery query=session.createSQLQuery(sqlquery) ;
+		
+		for(Map.Entry<String, GtnFrameworkDataType> mapEntry : inputMap.entrySet()) {
+			GtnFrameworkDataType dataType = mapEntry.getValue();
+			switch(dataType) {
+			   case STRING:
+				   query = query.addScalar(mapEntry.getKey(), new StringType());
+				   break;
+			   case INTEGER:
+				   query = query.addScalar(mapEntry.getKey(), new IntegerType());
+				   break;
+			   case DATE:
+				   query = query.addScalar(mapEntry.getKey(), new DateType());
+				   break;
+			   default:
+				   break;
+			}
+		}
+		for (int i = 0; i < params.length; i++) {
+
+			switch (type[i]) {
+			case STRING:
+				query.setString(i, (String) params[i]);
+				break;
+			case DATE:
+				query.setDate(i, (Date) params[i]);
+				break;
+			case INTEGER:
+				query.setInteger(i, (int) params[i]);
+				break;
+			case LIST:
+				query.setParameter(i, params[i]);
+				break;
+			case DOUBLE:
+				query.setDouble(i, (double) params[i]);
+				break;
+			case NULL_ALLOWED:
+				query.setParameter(i, params[i]);
+				break;
+
+			case IN_LIST:
+				query.setParameterList("inParameter", (List<Object>) params[i]);
+				break;
+			case BIG_DECIMAL:
+				query.setBigDecimal(i, (BigDecimal) params[i]);
+				break;
+
+			default:
+				query.setParameter(i, params[i]);
+			}
+		}
+		return query.list();
 	}
 
 	private void debugQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type) {
