@@ -76,8 +76,8 @@
   <notepads>
   </notepads>
   <connection>
-    <name>connection</name>
-    <server> &#x24;&#x7b;STAGING_HOST&#x7d;</server>
+    <name>STAGING_DB</name>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
     <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
@@ -359,7 +359,7 @@
            </partitioning>
       <valuename>CUSTOMER_GTS_ACTUAL_INTF_ID</valuename>
       <use_database>N</use_database>
-      <connection>connection</connection>
+      <connection>STAGING_DB</connection>
       <schema/>
       <seqname>SEQ_</seqname>
       <use_counter>Y</use_counter>
@@ -1210,7 +1210,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>connection</connection>
+    <connection>STAGING_DB</connection>
     <rowlimit>0</rowlimit>
     <sql>select distinct SUM&#x28;cast&#x28;INVOICE_QUANTITY as float&#x29; &#x29; OVER &#x28;PARTITION BY YEAR&#x28;&#x5b;INVOICE_DATE&#x5d;&#x29;,MONTH&#x28;&#x5b;INVOICE_DATE&#x5d;&#x29;,&#x5b;ndc11&#x5d;&#x29; as QUANTITY ,&#xd;&#xa;SUM&#x28;cast&#x28;INVOICE_AMOUNT as float&#x29;&#x29; OVER &#x28;PARTITION BY YEAR&#x28;&#x5b;INVOICE_DATE&#x5d;&#x29;,MONTH&#x28;&#x5b;INVOICE_DATE&#x5d;&#x29;,&#x5b;ndc11&#x5d;&#x29; as AMOUNT ,&#xd;&#xa;DATEADD&#x28;month, DATEDIFF&#x28;month, 0, &#x5b;INVOICE_DATE&#x5d;&#x29;, 0&#x29; as INVOICE_DATE from PSTG_CUSTOMER_GTS_ACTUAL &#xd;&#xa;WHERE NDC11&#x3d;&#x3f; AND INVOICE_DATE&#x3d;&#x3f;&#xd;&#xa;&#xd;&#xa;</sql>
     <outer_join>N</outer_join>
@@ -1273,7 +1273,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>connection</connection>
+    <connection>STAGING_DB</connection>
     <schema>dbo</schema>
     <table>IVLD_PSTG_CUSTOMER_GTS_ACTUAL</table>
     <commit>1000</commit>
@@ -1621,7 +1621,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>connection</connection>
+    <connection>STAGING_DB</connection>
     <schema>dbo</schema>
     <table>PSTG_CUSTOMER_GTS_ACTUAL</table>
     <commit>1000</commit>
@@ -1810,7 +1810,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>connection</connection>
+    <connection>STAGING_DB</connection>
     <schema>dbo</schema>
     <table>VLD_PSTG_CUSTOMER_GTS_ACTUAL</table>
     <commit>1000</commit>
