@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoader;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsColumnDetailsConfig;
@@ -13,6 +15,7 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.module.udc.constants.GtnWsUdcQueryConstants;
 
+@Service
 public class GtnWsUdcConfig implements GtnWsSearchQueryConfigLoader {
 
 	private Map<String, GtnWsSearchQueryConfig> udcSearchQueryConfigMap = null;

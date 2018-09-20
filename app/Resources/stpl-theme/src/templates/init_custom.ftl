@@ -1,6 +1,10 @@
 <#assign side_bar_shortcut =  getterUtil.getString(theme_settings["side_bar_shortcut"]!"", "") />
 <#assign horizontal_menu =  getterUtil.getString(theme_settings["horizontal_menu"]!"", "") />
 <#assign footer_section_1 =  getterUtil.getString(theme_settings["footer_section_1_article_id"]!"", "") />
+<#assign show_signout  = "true">
+<#if is_sso??>
+<#assign show_signout  = "false">
+</#if>
 <#assign displayLanguage = false />
 
 <#if journalContentUtil??>
