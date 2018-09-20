@@ -3005,8 +3005,38 @@ public class ARMUtils {
         return map.get(key);
 
     }
+    private static final Object[] DCTBI = new Object[]{"D", "C", "T", "B", "I"};
+    private static final Object[] DTCBI = new Object[]{"D", "T", "C", "B", "I"};
+    private static final Object[] TCBI = new Object[]{"T", "C", "B", "I"};
+    private static final Object[] CTBI = new Object[]{"C", "T", "B", "I"};
+    private static final Object[] TBI = new Object[]{"T", "B", "I"};
+    private static final Object[] BI = new Object[]{"B", "I"};
 
     public static int getIntegerValue(String value) {
         return Integer.parseInt(value);
+    }
+
+    public static Object[] getDCTBI() {
+        return ARMUtils.DCTBI.clone();
+    }
+
+    public static Object[] getDTCBI() {
+        return ARMUtils.DTCBI.clone();
+    }
+
+    public static Object[] getTCBI() {
+        return ARMUtils.TCBI.clone();
+    }
+
+    public static Object[] getCTBI() {
+        return ARMUtils.CTBI.clone();
+    }
+
+    public static Object[] getTBI() {
+        return ARMUtils.TBI.clone();
+    }
+
+    public static Object[] getBI() {
+        return ARMUtils.BI.clone();
     }
 }

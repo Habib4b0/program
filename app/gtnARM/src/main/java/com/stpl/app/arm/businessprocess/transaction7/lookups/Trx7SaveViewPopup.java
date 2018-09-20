@@ -56,7 +56,7 @@ public class Trx7SaveViewPopup extends Window {
         configureFields();
     }
 
-    public void configureFields() {
+    private void configureFields() {
         setDraggable(true);
         center();
         setModal(true);

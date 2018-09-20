@@ -1194,7 +1194,7 @@ public class AdjustmentRateForm extends CustomComponent {
         return input;
     }
 
-    public void configurePermission() {
+    private void configurePermission() {
 
         final StplSecurity stplSecurity = new StplSecurity();
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
