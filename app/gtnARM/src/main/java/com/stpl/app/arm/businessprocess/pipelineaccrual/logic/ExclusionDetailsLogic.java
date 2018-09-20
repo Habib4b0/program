@@ -76,7 +76,7 @@ public class ExclusionDetailsLogic {
     }
 
     public void saveORUpdateExclusionDetailsLookUp(int projectionSid, List<ExclusionLookupDTO> list, String accountId, String accountName, String contractId, SessionDTO sessionDTO) {
-        StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sbQuery = new StringBuilder();
         boolean isView = sessionDTO.getAction().equals(ARMUtils.VIEW_SMALL);
         String saveQuery = isView ? SQlUtil.getQuery("saveORUpdateQuery") : SQlUtil.getQuery("saveORUpdateQueryEdit");
         saveQuery = saveQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
@@ -156,7 +156,7 @@ public class ExclusionDetailsLogic {
     }
 
     public boolean isAddORUpdateView(ExclusionLookupDTO saveViewDTO) {
-        StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sbQuery = new StringBuilder();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
         try {
             String viewSid;
@@ -289,7 +289,7 @@ public class ExclusionDetailsLogic {
             detailsColumn.put("modifiedBy", "AVM.MODIFIED_BY");
             detailsColumn.put("modifiedDate", "AVM.MODIFIED_DATE");
             boolean makeCount = false;
-            StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder filterQuery = new StringBuilder();
             makeCount = getExculstionFilters(filterSet, exRateDTO, makeCount, filterQuery, detailsColumn, exclQuery);
             StringBuilder finalQuery;
             String order = getOrderBy(isCount, sortByColumns, detailsColumn, startIndex, endIndex);

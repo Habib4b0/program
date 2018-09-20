@@ -152,23 +152,23 @@ public class BusinessProcessUI extends CommonUI {
             } catch (ParseException ex) {
                 LOGGER.error(ex.getMessage());
             }
-            List list = WorkflowPersistance.selectWFInstanceInfo(Integer.valueOf(projectionId));
+            List list = WorkflowPersistance.selectWFInstanceInfo(Integer.parseInt(projectionId));
             Long processId = 0L;
             if (list != null && !list.isEmpty()) {
                 processId = Long.valueOf(list.get(0).toString());
             }
 
             sessionDTO.setProcessId(processId);
-            dataSelectionDto.setProjectionId(Integer.valueOf(projectionId));
+            dataSelectionDto.setProjectionId(Integer.parseInt(projectionId));
             dataSelectionDto.setAdjustmentType(adjType);
             dataSelectionDto.setSelectedAdjType(selectedAdjType.replaceAll("~", ARMUtils.SPACE.toString()));
-            sessionDTO.setProjectionId(Integer.valueOf(projectionId));
+            sessionDTO.setProjectionId(Integer.parseInt(projectionId));
             try {
                 CommonLogic.getDataSelectionForWorkFlow(dataSelectionDto);
             } catch (Exception ex) {
                 LOGGERVALUE.error("Error in getDataSelectionForWorkFlow :" , ex);
             }
-            sessionDTO.setWorkflowId(Integer.valueOf(workflowId));
+            sessionDTO.setWorkflowId(Integer.parseInt(workflowId));
             sessionDTO.setWorkflowUserType(userType);
             sessionDTO.setUserId(Integer.valueOf(userId));
             sessionDTO.setNoOfApproval(Integer.parseInt(noOfApprovals));
