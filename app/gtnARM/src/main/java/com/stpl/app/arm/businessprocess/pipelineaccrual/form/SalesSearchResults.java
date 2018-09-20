@@ -91,8 +91,8 @@ public class SalesSearchResults extends AbstractSearchResults {
     public void setExcelVisibleColumn() {
         Map properties = new HashMap();
         List<Object> header = getSummaryLogic().generateHeader((PipelineAccrualSelectionDTO) selection);
-        List salesRightSingleVisibleColumn = (ArrayList) header.get(0);
-        List salesRightSingleVisibleHeader = (ArrayList) header.get(1);
+        List salesRightSingleVisibleColumn = (List) header.get(0);
+        List salesRightSingleVisibleHeader = (List) header.get(1);
         for (Object variableColumn : salesRightSingleVisibleColumn) {
             properties.put(variableColumn, String.class);
         }
@@ -109,7 +109,7 @@ public class SalesSearchResults extends AbstractSearchResults {
     public void generateButtonLogic(PipelineAccrualSelectionDTO selection, boolean isEditButtonClick) {
         LOGGER.debug("Inside generate ButtonClick Btn{}", selection.getSalesVariables().size());
         List<Object> header = getSummaryLogic().generateHeader(selection);
-        List salesRightSingleVisibleColumn = (ArrayList) header.get(0);
+        List salesRightSingleVisibleColumn = (List) header.get(0);
         Map salesProperties = new HashMap();
         Object[] variableColumns = VariableConstants.getVariableSalesVisibleColumn();
         for (int i = 0; i < variableColumns.length; i++) {

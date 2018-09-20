@@ -1457,8 +1457,7 @@ public class NationalAssumptions extends CustomComponent implements View {
     public void getNDCSetup(String projectionId) throws NamingException, SQLException {
         callNDCPopupProcedure();
         String ndcNo = Arrays.toString(ndcList.toArray()).replace('[', ' ').replace(']', ' ');
-        if (StringUtils.isNotBlank(ndcNo)) {
-            if (logic.isAFSSPriceTypeAvailable(projectionId)) {
+            if (StringUtils.isNotBlank(ndcNo) && logic.isAFSSPriceTypeAvailable(projectionId)) {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
@@ -1471,7 +1470,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                     }
                 }.getConfirmationMessage("NDC Setup Required", "The following NDC’s " + ndcNo + " are not setup with AMP, CPI, AFSS, Non-FAMP or Best Price. Do you want to manually update these NDC’s?");
             }
-        }
     }
 
     private void loadNDCSetup() {

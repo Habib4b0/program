@@ -320,8 +320,7 @@ public class ProjectionResultsLogic {
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsSalesQuery(projSelDTO);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
-        List<ProjectionResultsDTO> projDTOList = getCustomizedProjectionResultsSales(list, projSelDTO);
-        return projDTOList;
+        return getCustomizedProjectionResultsSales(list, projSelDTO);
     }
 
     public List<ProjectionResultsDTO> getProjectionPivot(ProjectionSelectionDTO projSelDTO) {
