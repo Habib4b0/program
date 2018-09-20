@@ -300,9 +300,9 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
     public Object[] getExcelHierarchy() {
         Object[] value = null;
         if (customerProductView.getValue().equals(ARMUtils.CONTRACT_CUSTOMER)) {
-            value = new Object[]{"D", "C", "T", "B", "I"};
+            value = ARMUtils.getDCTBI();
         } else if (customerProductView.getValue().equals(ARMUtils.CUSTOMER_CONTRACT)) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         }
         return value;
     }

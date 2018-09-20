@@ -27,6 +27,7 @@ public abstract class AbstractDemandSummaryLogic<T extends AdjustmentDTO> extend
 
     protected DecimalFormat percent = new DecimalFormat("0.00");
     protected DecimalFormat dollar = new DecimalFormat("$####");
+    private final String[] doublecolumn = {"total", "Total", StringUtils.EMPTY};
 
     /**
      *
@@ -53,7 +54,7 @@ public abstract class AbstractDemandSummaryLogic<T extends AdjustmentDTO> extend
         int index = -1;
         List<String> columnList = getColumns(selection.getSummaryvariables());
         List<String[]> doubleHeaderVariables = isFrequencyMultiple ? selection.getSummaryfrequencyList() : selection.getSummarydeductionVariables();
-        String[] doublecolumn = {"total", "Total", StringUtils.EMPTY};
+        
         List<String[]> doublecolumnList = new ArrayList<>();
         doublecolumnList.addAll(doubleHeaderVariables);
         doublecolumnList.add(doublecolumn);

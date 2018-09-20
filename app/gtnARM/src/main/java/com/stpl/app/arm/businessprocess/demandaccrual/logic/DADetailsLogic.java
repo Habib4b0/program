@@ -126,7 +126,7 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < demandCondition.size(); i++) {
                 String str = demandCondition.get(i);
-                grlStr.append(tableAliasName + "ACCRUAL_AMOUNT ").append(String.valueOf(str.charAt(0))).append(" 0.00");
+                grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(String.valueOf(str.charAt(0))).append(" 0.00");
                 if (demandCondition.size() > 1 && i != 1) {
                     grlStr.append(" OR ");
                 }

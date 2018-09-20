@@ -199,9 +199,9 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                     } else {
                         dto.setMonth(brand);
                     }
-                    dto.setLevelNo((int) get[NumericConstants.EIGHT]);
+                    dto.setLevelNo((Integer) get[NumericConstants.EIGHT]);
                     isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                    dto.setChildrenAllowed((tx6Selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
+                    dto.setChildrenAllowed((tx6Selection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.NINE]);
                     dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                     if (masterSids != null) {
                         dto.setMasterIds(masterSids);
@@ -271,13 +271,13 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
             }
             Object[] value = null;
             if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && tx6Selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-                value = new Object[]{"D", "T", "C", "B", "I"};
+                value = ARMUtils.getDTCBI();
             } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
-                value = new Object[]{"T", "C", "B", "I"};
+                value = ARMUtils.getTCBI();
             } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-                value = new Object[]{"T", "B", "I"};
+                value = ARMUtils.getTBI();
             } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-                value = new Object[]{"B", "I"};
+                value = ARMUtils.getBI();
             }
             query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + org.apache.commons.lang.StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
 
