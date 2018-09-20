@@ -1003,7 +1003,11 @@ public class DataSelectionForm extends ForecastDataSelection {
 //					&& !customerGroup.getValue().isEmpty()) {
 //				dataSelectionDTO.setCustomerGrpSid(String.valueOf(selectedCustomerGroupDTO.getCustomerGroupSid()));
 //			} else {
+                        if(inputBean.getCustomerGroupSid()!=0){
+                            dataSelectionDTO.setCustomerGrpSid(String.valueOf(inputBean.getCustomerGroupSid()));
+                        }else{
 				dataSelectionDTO.setCustomerGrpSid(String.valueOf(0));
+                        }
 //			}
 //			if (selectedProductGroupDTO != null
 //					&& !Constants.CommonConstants.NULL.getConstant()
@@ -1013,19 +1017,23 @@ public class DataSelectionForm extends ForecastDataSelection {
 //					&& !productGroup.getValue().isEmpty()) {
 //				dataSelectionDTO.setProdGrpSid(String.valueOf(selectedProductGroupDTO.getProductGroupSid()));
 //			} else {
+                        if(inputBean.getProductGroupSid()!=0){
+                            dataSelectionDTO.setCustomerGrpSid(String.valueOf(inputBean.getProductGroupSid()));
+                        }else{
 				dataSelectionDTO.setProdGrpSid(String.valueOf(0));
+                        }
 //			}
 //                        if (dataSelectionDeductionLevel.getValue() != null
 //					&& !SELECT_ONE.equals(dataSelectionDeductionLevel.getValue())) {
 
-				dataSelectionDTO.setDataSelectionDeductionLevelSid(Integer.parseInt(String.valueOf("1")));
+				dataSelectionDTO.setDataSelectionDeductionLevelSid(Integer.parseInt(String.valueOf(inputBean.getDeductionLevel())));
 //			} else {
 //				dataSelectionDTO.setDataSelectionDeductionLevelSid(0);
 //			}
 //                        if (frequency.getValue() != null
 //					&& !SELECT_ONE.equals(frequency.getValue())) {
 
-				dataSelectionDTO.setFrequency(String.valueOf("Quarterly"));
+				dataSelectionDTO.setFrequency(String.valueOf(inputBean.getFrequency()));
 //			} else {
 //				dataSelectionDTO.setFrequency("0");
 //			}
@@ -1070,119 +1078,121 @@ public class DataSelectionForm extends ForecastDataSelection {
 //			}
 
 //			if (fromPeriod.getData() == null) {
-//				if (fromPeriod.getValue() != null) {
-//					if (MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(modeOption.getValue()))) {
-//						dataSelectionDTO.setFromPeriod(String.valueOf(fromPeriod.getValue()));
-//						if (!String.valueOf(fromPeriod.getValue()).isEmpty()
-//								&& !Constant.SELECT_ONE.equals(String.valueOf(fromPeriod.getValue()))) {
+//				if (inputBean.getFromPeriod() != null) {
+//					if (MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf("Add"))) {
+//						dataSelectionDTO.setFromPeriod(String.valueOf(inputBean.getFromPeriod()));
+//						if (!String.valueOf(inputBean.getFromPeriod()).isEmpty()
+//								&& !Constant.SELECT_ONE.equals(String.valueOf(inputBean.getFromPeriod()))) {
 //							dataSelectionDTO.setFromDate(format.parse(
-//									DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue()))));
+//									DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod()))));
 //						}
 //					} else {
 //						dataSelectionDTO.setFromPeriod(
-//								DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue())));
+//								DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod())));
 //						dataSelectionDTO.setFromDate(format
-//								.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue()))));
+//								.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod()))));
 //					}
 //
 //				}
 //			} else 
-//                            if (fromPeriod.getValue() != null) {
-//				if (MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(modeOption.getValue()))) {
-//					dataSelectionDTO.setFromPeriod(String.valueOf(fromPeriod.getValue()));
-//					if (!String.valueOf(fromPeriod.getValue()).isEmpty()
-//							&& !Constant.SELECT_ONE.equals(String.valueOf(fromPeriod.getValue()))) {
-//						dataSelectionDTO.setFromDate(format
-//								.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue()))));
-//					}
-//				} else {
-//					// Getting Current Year & Period Value
-//					Date dateFromValue = format
-//							.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue())));
-//					int quarterFromValue = DataSelectionUtil.getQuarter(dateFromValue);
-//					int yearFromValue = DataSelectionUtil.getYearFromDate(dateFromValue);
-//
-//					// Getting Existing Year & Period Value
-//					Date date = inputFormat.parse(String.valueOf(fromPeriod.getData()));
-//					int quarterFromFc = DataSelectionUtil.getQuarter(date);
-//					int yearFromFc = DataSelectionUtil.getYearFromDate(date);
-//					// Comparing Existing year Value with New Value
-//					if (yearFromValue == yearFromFc) {
-//						// Comparing Existing year Period with New Year Period
-//						if (quarterFromValue == quarterFromFc) {
-//							String outputString = format.format(date);
-//							dataSelectionDTO.setFromPeriod(outputString);
-//							dataSelectionDTO.setFromDate(format.parse(outputString));
-//						} else {
-//							dataSelectionDTO.setFromPeriod(
-//									DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue())));
-//							dataSelectionDTO.setFromDate(format.parse(
-//									DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue()))));
-//						}
-//					} else {
-						dataSelectionDTO.setFromPeriod(
-								DataSelectionUtil.getDateFromQuarter(String.valueOf("Q1 - 2017")));
+                            if (inputBean.getFromPeriod() != null) {
+				if (!MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(inputBean.getModeOption()))) {
+					dataSelectionDTO.setFromPeriod(String.valueOf(inputBean.getFromPeriod()));
+					if (!String.valueOf(inputBean.getFromPeriod()).isEmpty()
+							&& !Constant.SELECT_ONE.equals(String.valueOf(inputBean.getFromPeriod()))) {
+                                                dataSelectionDTO.setFromPeriod(
+								DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod())));
 						dataSelectionDTO.setFromDate(format
-								.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf("Q1 - 2017"))));
-//					}
-//				}
-//
-//			}
+								.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod()))));
+					}
+				} else {
+					// Getting Current Year & Period Value
+					Date dateFromValue = format
+							.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod())));
+					int quarterFromValue = DataSelectionUtil.getQuarter(dateFromValue);
+					int yearFromValue = DataSelectionUtil.getYearFromDate(dateFromValue);
+
+					// Getting Existing Year & Period Value
+					Date date = inputFormat.parse(String.valueOf(inputBean.getFromPeriod()));
+					int quarterFromFc = DataSelectionUtil.getQuarter(date);
+					int yearFromFc = DataSelectionUtil.getYearFromDate(date);
+					// Comparing Existing year Value with New Value
+					if (yearFromValue == yearFromFc) {
+						// Comparing Existing year Period with New Year Period
+						if (quarterFromValue == quarterFromFc) {
+							String outputString = format.format(date);
+							dataSelectionDTO.setFromPeriod(outputString);
+							dataSelectionDTO.setFromDate(format.parse(outputString));
+						} else {
+							dataSelectionDTO.setFromPeriod(
+									DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue())));
+							dataSelectionDTO.setFromDate(format.parse(
+									DataSelectionUtil.getDateFromQuarter(String.valueOf(fromPeriod.getValue()))));
+						}
+					} else {
+						dataSelectionDTO.setFromPeriod(
+								DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod())));
+						dataSelectionDTO.setFromDate(format
+								.parse(DataSelectionUtil.getDateFromQuarter(String.valueOf(inputBean.getFromPeriod()))));
+					}
+				}
+
+			}
 //			if (toPeriod.getData() == null) {
-//				if (toPeriod.getValue() != null) {
-//					if (MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(modeOption.getValue()))) {
-//						dataSelectionDTO.setToPeriod(String.valueOf(toPeriod.getValue()));
-//						if (!String.valueOf(toPeriod.getValue()).isEmpty()
-//								&& !Constant.SELECT_ONE.equals(String.valueOf(toPeriod.getValue()))) {
+//				if (inputBean.getToPeriod() != null) {
+//					if (MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf("Add"))) {
+//						dataSelectionDTO.setToPeriod(String.valueOf(inputBean.getToPeriod()));
+//						if (!String.valueOf(inputBean.getToPeriod()).isEmpty()
+//								&& !Constant.SELECT_ONE.equals(String.valueOf(inputBean.getToPeriod()))) {
 //							dataSelectionDTO.setToDate(format.parse(
-//									DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue()))));
+//									DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod()))));
 //						}
-//					} else {
-						dataSelectionDTO.setToPeriod(
-								DataSelectionUtil.getLastDateFromQuarter(String.valueOf("Q4 - 2020")));
-						dataSelectionDTO.setToDate(format
-								.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf("Q4 - 2020"))));
-//					}
-//				}
-//
-//			} else 
-//                            if (toPeriod.getValue() != null) {
-//				if (MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(modeOption.getValue()))) {
-//					dataSelectionDTO.setToPeriod(String.valueOf(toPeriod.getValue()));
-//					if (!String.valueOf(toPeriod.getValue()).isEmpty()
-//							&& !Constant.SELECT_ONE.equals(String.valueOf(toPeriod.getValue()))) {
-//						Date date = inputFormat.parse(String.valueOf(toPeriod.getData()));
-//						String outputString = format.format(date);
-//						dataSelectionDTO.setToDate(format.parse(outputString));
-//					}
-//				} else {
-//					Date date = inputFormat.parse(String.valueOf(toPeriod.getData()));
-//					Date dateToValue = format
-//							.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue())));
-//					int quarterToValue = DataSelectionUtil.getQuarter(dateToValue);
-//					int yearToValue = DataSelectionUtil.getYearFromDate(dateToValue);
-//					int quarterToFc = DataSelectionUtil.getQuarter(date);
-//					int yearToFc = DataSelectionUtil.getYearFromDate(dateToValue);
-//					if (yearToValue == yearToFc) {
-//						if (quarterToValue == quarterToFc) {
-//							String outputString = format.format(date);
-//							dataSelectionDTO.setToPeriod(outputString);
-//							dataSelectionDTO.setToDate(format.parse(outputString));
-//						} else {
-//							dataSelectionDTO.setToPeriod(
-//									DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue())));
-//							dataSelectionDTO.setToDate(format.parse(
-//									DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue()))));
-//						}
-//
 //					} else {
 //						dataSelectionDTO.setToPeriod(
-//								DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue())));
+//								DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod())));
 //						dataSelectionDTO.setToDate(format
-//								.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf(toPeriod.getValue()))));
+//								.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod()))));
 //					}
 //				}
-//			}
+
+			 if (inputBean.getToPeriod() != null) {
+				if (!MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(inputBean.getModeOption()))) {
+					dataSelectionDTO.setToPeriod(String.valueOf(inputBean.getToPeriod()));
+					if (!String.valueOf(inputBean.getToPeriod()).isEmpty()
+							&& !Constant.SELECT_ONE.equals(String.valueOf(inputBean.getToPeriod()))) {
+						dataSelectionDTO.setToPeriod(
+								DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod())));
+						dataSelectionDTO.setToDate(format
+								.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod()))));
+					}
+				} else {
+					Date date = inputFormat.parse(String.valueOf(inputBean.getToPeriod()));
+					Date dateToValue = format
+							.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod())));
+					int quarterToValue = DataSelectionUtil.getQuarter(dateToValue);
+					int yearToValue = DataSelectionUtil.getYearFromDate(dateToValue);
+					int quarterToFc = DataSelectionUtil.getQuarter(date);
+					int yearToFc = DataSelectionUtil.getYearFromDate(dateToValue);
+					if (yearToValue == yearToFc) {
+						if (quarterToValue == quarterToFc) {
+							String outputString = format.format(date);
+							dataSelectionDTO.setToPeriod(outputString);
+							dataSelectionDTO.setToDate(format.parse(outputString));
+						} else {
+							dataSelectionDTO.setToPeriod(
+									DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod())));
+							dataSelectionDTO.setToDate(format.parse(
+									DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod()))));
+						}
+
+					} else {
+						dataSelectionDTO.setToPeriod(
+								DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod())));
+						dataSelectionDTO.setToDate(format
+								.parse(DataSelectionUtil.getLastDateFromQuarter(String.valueOf(inputBean.getToPeriod()))));
+					}
+				}
+			}
 
 //			if (discount.getValue() != null && !SELECT_ONE.equals(discount.getValue())
 //					&& StringUtils.isNotBlank(discount.getValue().toString())) {
@@ -1208,8 +1218,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 			dataSelectionDTO.setProjectionName(inputBean.getProjectionName());
 			dataSelectionDTO.setDescription(inputBean.getProjectionDescription());
                         dataSelectionDTO.setForecastEligibleDate(inputBean.getForecastEligibleDate());
-//                        dataSelectionDTO.setCustomRelationShipSid(inputBean.getCustomerRelationSid());
-//                        dataSelectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlbDeduction.getValue())):0 );
+                        dataSelectionDTO.setCustomRelationShipSid(Integer.valueOf(inputBean.getSalesCustomViewId()));
+                        dataSelectionDTO.setCustomDeductionRelationShipSid(Integer.valueOf(inputBean.getDeductionCustomViewId()) );
 
 		} catch (Exception ex) {
 
@@ -3728,7 +3738,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				Map<String, String> tempProductDescriptionMap;
                                 
 				final DataSelectionDTO dto = bindDataselectionDtoToSaveNewArch(inputBean);
-                               // dto.setProjectionId(inputBean.getProjectionMasterSid());
+                                dto.setProjectionId(inputBean.getProjectionMasterSid());
 				int projectionIdValue = dto.getProjectionId();
                                 Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(projectionIdValue, TAB_DISCOUNT_PROJECTION.getConstant());
                                 Object mapValue = map.get(Constant.DEDUCTION_LEVEL_DDLB);
@@ -5157,7 +5167,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 //				}
 //                                
 //                                if(!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
-//                                    loadCustomViewDropDown(customRelationDdlb,customViewInput);
+                                    loadCustomViewDropDown(customRelationDdlb,customViewInput);
 //                                    loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 //                                }
 
@@ -5315,8 +5325,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 //					}
 
 					bindDataselectionDtoToSaveNewArch(inputBean);
-                                        dataSelectionDTO.setCustomRelationShipSid(0);
-                                        dataSelectionDTO.setCustomDeductionRelationShipSid(0);
+                                        dataSelectionDTO.setCustomRelationShipSid(Integer.valueOf(inputBean.getSalesCustomViewId()));
+                                        dataSelectionDTO.setCustomDeductionRelationShipSid(Integer.valueOf(inputBean.getDeductionCustomViewId()));
                                         VaadinSession.getCurrent().setAttribute(Constant.USER_ID, inputBean.getUserId());
 					int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName,false);
 					VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);

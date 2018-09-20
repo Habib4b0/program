@@ -56,7 +56,7 @@ public class GtnFrameworkNewToOldArchitectureDeleteAction implements GtnUIFrameW
             inputBean.setSessionId(sessionId);
             ForecastUI ui = new ForecastUI();
             String nameSpace = "Commercial Forecasting";
-            ui.getForecastingToDelete(inputBean);
+//            ui.getForecastingToDelete(inputBean);
             GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
             loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
             loadDataSearchTableActionConfig.setActionParameterList(

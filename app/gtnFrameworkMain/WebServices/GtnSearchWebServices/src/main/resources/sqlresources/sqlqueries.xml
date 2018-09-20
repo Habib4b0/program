@@ -3,53 +3,14 @@
 
 <properties>
 
-    <entry key="privatePublic">
+	<entry key="privatePublic">
 		<![CDATA[
-                       SELECT FVM.VIEW_NAME viewName,PM.PROJECTION_DESCRIPTION description,
-                       'Q' + CAST(CEILING(CAST(month(PM.FROM_DATE) AS decimal(4,2)) / 3) AS char(1))+'-'+ CAST(year(PM.FROM_DATE) AS char(4))fromDate, 
-                       'Q' + CAST(CEILING(CAST(month(PM.TO_DATE) AS decimal(4,2)) / 3) AS char(1))+'-'+ CAST(year(PM.TO_DATE) AS char(4)) toDate,
-                       CUST_HD.HIERARCHY_NAME customerHierarchy,PM.CUSTOMER_HIERARCHY_LEVEL customerLevel,
-                       CMG.COMPANY_GROUP_NAME customerGroup,CM.COMPANY_NAME company,
-                       CASE 
-                       when PM.BRAND_TYPE=1 then
-                       'Contracted'
-                       ELSE
-                       'All Branded' END
-                       brandType,
-                       PROD_HD.HIERARCHY_NAME productHierarchy,PM.PRODUCT_HIERARCHY_LEVEL productLevel,IG.ITEM_GROUP_NAME productGroup,
-                       format(PM.CREATED_DATE,'MM/dd/yyyy hh:mm:ss' ) createdDate,CAST(PM.MODIFIED_DATE AS DATE) modifiedDate,PM.CREATED_BY createdBy, CM1.COMPANY_NAME AS  BUSINESSUNITNAME,PM.PROJECTION_MASTER_SID projectionId, FVM.VIEW_ID viewId, PM.CUSTOMER_HIERARCHY_SID customerHierarchySid,
-                       PM.PRODUCT_HIERARCHY_SID productHierarchySid, PM.COMPANY_GROUP_SID companyGroupSid, PM.ITEM_GROUP_SID productGroupSid, PM.COMPANY_MASTER_SID companyMasterSid,  
-                       PM.CUSTOMER_HIERARCHY_INNER_LEVEL customerInnerLevel,PM.PRODUCT_HIERARCHY_INNER_LEVEL productInnerLevel, PM.CUST_RELATIONSHIP_BUILDER_SID custRelationshipBuilderSid, PM.PROD_RELATIONSHIP_BUILDER_SID prodRelationshipBuilderSid,PM.BUSINESS_UNIT AS BUSINESSUNIT,             
-                       PM.CUSTOMER_HIER_VERSION_NO custHierarchyVersion, PM.PRODUCT_HIER_VERSION_NO prodHierarchyVersion,PM.CUSTOM_VIEW_MASTER_SID CUSTOM_VIEW_MASTER_SID,PM.CUSTOM_VIEW_MASTER_DEDUCTION_SID CUSTOM_VIEW_MASTER_DEDUCTION_SID,  
-                       PM.PROJECTION_NAME projectionName
-                       from PROJECTION_MASTER PM 
-                        
-                        LEFT JOIN FORECASTING_VIEW_MASTER FVM 
-                        on FVM.projection_Id  = PM.projection_Master_Sid 
-
-                        LEFT JOIN HIERARCHY_DEFINITION CUST_HD 
-                        on CUST_HD.HIERARCHY_DEFINITION_SID =PM.CUSTOMER_HIERARCHY_SID 
-
-                        LEFT JOIN HIERARCHY_DEFINITION PROD_HD 
-                        on PROD_HD.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID 
-
-                        LEFT JOIN COMPANY_GROUP CMG 
-                        on CMG.COMPANY_GROUP_SID  = PM.COMPANY_GROUP_SID
-
-                        LEFT JOIN ITEM_GROUP IG 
-                        on IG.ITEM_GROUP_SID  = PM.ITEM_GROUP_SID
-
-                        LEFT JOIN COMPANY_MASTER CM 
-                        on PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID 
-                        
-                        LEFT JOIN COMPANY_MASTER CM1
-                        on PM.BUSINESS_UNIT = CM1.COMPANY_MASTER_SID 
-
-                        WHERE  FVM.view_Type=? AND  FVM.view_Name LIKE ?
-                        AND PM.forecasting_Type =?
+		          SELECT FV.VIEW_ID,FV.VIEW_NAME,FV.VIEW_TYPE,FV.CREATED_BY,FV.CREATED_DATE,FV.MODIFIED_BY,FV.MODIFIED_DATE,FV.VIEW_DATA FROM FORECASTING_VIEWS FV
+		          WHERE  FV.VIEW_TYPE LIKE ?  AND FV.VIEW_NAME LIKE ? 
+                       
 		]]>
-    </entry>
-    <entry key="BusinessUnitGLcomp">
+	</entry>
+	<entry key="BusinessUnitGLcomp">
        
     		<![CDATA[
 			    select
@@ -65,9 +26,9 @@
 				order by
 					company_no
 		]]>
-      
-    </entry>
-    <entry key="CompanyMasterGLcomp">
+
+	</entry>
+	<entry key="CompanyMasterGLcomp">
       
             <![CDATA[
 				select
@@ -83,9 +44,9 @@
 				order by
 					company_no
             ]]>
-    
-    </entry>
-    <entry key="dataSelectionDeduction">
+
+	</entry>
+	<entry key="dataSelectionDeduction">
 
             <![CDATA[            
                   SELECT
@@ -98,15 +59,15 @@
         WHERE HD.HIERARCHY_NAME='DeductionHierarchy'
             ]]>
 
-    </entry>
-     <entry key="frequency">
+	</entry>
+	<entry key="frequency">
 
             <![CDATA[            
                  SELECT HELPER_TABLE_SID,DESCRIPTION from HELPER_TABLE where LIST_NAME LIKE 'FORECAST_FREQUENCY' AND DESCRIPTION NOT LIKE '%LY%' ORDER BY HELPER_TABLE_SID
             ]]>
 
-    </entry>
-    <entry key="saveview">
+	</entry>
+	<entry key="saveview">
 
             <![CDATA[            
                  INSERT
@@ -118,7 +79,7 @@
 					CREATED_DATE,
 					MODIFIED_BY,
 					MODIFIED_DATE,
-					VIEW_DATA,
+					VIEW_DATA
 					
 				)
 			VALUES(
@@ -130,11 +91,11 @@
 				getDate(),
 				?
 				
-			);
+			)
             ]]>
 
-    </entry>
-    <entry key="projectionSearch">
+	</entry>
+	<entry key="projectionSearch">
 
             <![CDATA[            
                    SELECT
@@ -181,7 +142,7 @@
 			date,
 			PM.from_Date
 		),
-		'dd/MM/yyyy'
+		'dd-MM-yyyy'
 	)
 	 FromDate,
 	 FORMAT(
@@ -189,7 +150,7 @@
 			date,
 			PM.TO_DATE
 		),
-		'dd/MM/yyyy'
+		'dd-MM-yyyy'
 	)
 	 ToPeriod,
 	PROJECTION_CUST_VERSION,
@@ -201,7 +162,7 @@
 			date,
 			PM.FORECAST_ELIGIBLE_DATE
 		),
-		'dd/MM/yyyy'
+		'dd-MM-yyyy'
 	)FORECAST_ELIGIBLE_DATE1,
 	PROJECTION_DED_VERSION
 FROM
@@ -231,9 +192,9 @@ where
 	AND PM.FORECASTING_TYPE LIKE 'Non Mandated'
      ]]>
 
-    </entry>
- 
-    <entry key="projectionSearchCount">
+	</entry>
+
+	<entry key="projectionSearchCount">
 
             <![CDATA[            
                      SELECT COUNT(DISTINCT PM.PROJECTION_MASTER_SID) projectionId
@@ -256,9 +217,9 @@ where
                      where PM.projection_Name like ? and PM.projection_description like ?
             ]]>
 
-    </entry>
-    
-		<entry key="CustomerGroup">
+	</entry>
+
+	<entry key="CustomerGroup">
 			<![CDATA[
 					  
          ; WITH CTE_MAIN AS(
@@ -351,9 +312,9 @@ JOIN COUNT_CTE C ON
 ORDER BY
 	IG.COMPANY_GROUP_SID ASC 
 			]]>
-</entry>
+	</entry>
 
-<entry key="ProductGroup">
+	<entry key="ProductGroup">
 	<![CDATA[
 		   
        
@@ -419,7 +380,52 @@ FROM   ITM_GROUP IG
             AND C.CNT = IG.CNT
 ORDER BY IG.ITEM_GROUP_SID ASC  
 			]]>
-	
-</entry>
+
+	</entry>
+	<entry key="salesCustomView">
+		<![CDATA[
+		select A.CUST_VIEW_MASTER_SID,A.CUST_VIEW_NAME from (SELECT
+			DISTINCT CVM.CUST_VIEW_MASTER_SID,
+			CVM.CUST_VIEW_NAME,
+			CVM.MODIFIED_DATE
+		FROM
+			CUST_VIEW_MASTER CVM
+		JOIN CUSTOM_CCP_DETAILS CVD ON
+			CVD.CUST_VIEW_MASTER_SID = CVM.CUST_VIEW_MASTER_SID
+		WHERE
+			CVM.CUSTOMER_RELATIONSHIP_SID = ?
+			AND CVM.PRODUCT_RELATIONSHIP_SID = ?
+			AND CVD.CUSTOMER_VERSION = ?
+			AND CVD.PRODUCT_VERSION = ?
+			AND	CUST_VIEW_TYPE = 'SALES'
+		)A
+			ORDER BY
+			A.MODIFIED_DATE DESC
+		]]>
+	</entry>
+	<entry key="deductionCustomView">
+	<![CDATA[
+		select A.CUST_VIEW_MASTER_SID,A.CUST_VIEW_NAME from (SELECT
+			DISTINCT CVM.CUST_VIEW_MASTER_SID,
+			CVM.CUST_VIEW_NAME,
+			CVM.MODIFIED_DATE
+		FROM
+			CUST_VIEW_MASTER CVM
+		JOIN CUSTOM_CCP_DETAILS CVD ON
+			CVD.CUST_VIEW_MASTER_SID = CVM.CUST_VIEW_MASTER_SID
+		WHERE
+			CVM.CUSTOMER_RELATIONSHIP_SID = ?
+			AND CVM.PRODUCT_RELATIONSHIP_SID = ?
+			AND CVD.CUSTOMER_VERSION = ?
+			AND CVD.PRODUCT_VERSION = ?
+			AND(
+				CUST_VIEW_TYPE = 'SALES'
+				OR CUST_VIEW_TYPE = 'DISCOUNT'
+			)
+		)A
+			ORDER BY
+			A.MODIFIED_DATE DESC
+	]]>
+	</entry>
 
 </properties>

@@ -120,7 +120,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameworkComponentConfig customerSelectionRelationshipVersionLayout = configProvider
 				.getHorizontalLayoutConfig("customerSelectionRelationshipVersionLayout", true,
 						relationshipLayout.getComponentId());
-		// customerSelectionRelationshipVersionLayout.setVisible(false);
+		 customerSelectionRelationshipVersionLayout.setVisible(false);
 
 		GtnUIFrameworkComponentConfig customerRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
 				"Commercial_Forecasting_customerRelationshipVersion", true,

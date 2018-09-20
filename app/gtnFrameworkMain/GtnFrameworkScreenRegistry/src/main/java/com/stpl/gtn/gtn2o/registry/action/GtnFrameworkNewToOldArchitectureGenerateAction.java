@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
+import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.TreeGrid;
-import com.stpl.app.gtnforecasting.ui.ForecastUI;
 
 public class GtnFrameworkNewToOldArchitectureGenerateAction
         implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -90,8 +90,8 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
                     gtnUIFrameWorkActionConfig.getActionParameterList(), selectedCustomerList, selectedProductList,
                     componentId,parametersForDataSelection);
 
-            ForecastUI ui = new ForecastUI();
-            ui.getContentForecasting(userId, uniqueId, parametersForDataSelection, dto);
+//            ForecastUI ui = new ForecastUI();
+//            ui.getContentForecasting(userId, uniqueId, parametersForDataSelection, dto);
 
         } catch (Exception ex) {
             logger.error("Error", ex);
@@ -183,10 +183,10 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
                 .getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox())));
         dto.setBusinessUnit(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(actionParamList.get(14).toString()).getCaptionFromV8ComboBox())));
-        dto.setFromPeriod(GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(actionParamList.get(15).toString()).getStringCaptionFromV8ComboBox());
-        dto.setToPeriod(GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(actionParamList.get(17).toString()).getStringCaptionFromV8ComboBox());
+		dto.setFromPeriod(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString())
+				.getStringCaptionFromV8ComboBox());
+		dto.setToPeriod(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(17).toString())
+				.getStringCaptionFromV8ComboBox());
         dto.setCustomerHierarchySid(
                 checkDDLBValues(Integer.valueOf(String.valueOf(customerRecordBean.getPropertyValueByIndex(7)))));
         dto.setCustomerHierarchyVersion(
@@ -217,11 +217,17 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
                 .getVaadinBaseComponent(actionParamList.get(19).toString()).getV8StringFromField()));
         dto.setCustomerHierarchyName(String.valueOf(customerRecordBean.getPropertyValueByIndex(0)));
         dto.setProductHierarchyName(String.valueOf(productRecordBean.getPropertyValueByIndex(0)));
-        dto.setDeductionLevel(GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(actionParamList.get(24).toString()).getCaptionFromV8ComboBox());
-        dto.setDeductionValue(GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(actionParamList.get(24).toString()).getStringCaptionFromV8ComboBox());
-        dto.setFrequency("");
+		dto.setDeductionLevel(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(24).toString())
+				.getCaptionFromV8ComboBox());
+		dto.setDeductionValue(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(24).toString())
+				.getStringCaptionFromV8ComboBox());
+		dto.setFrequency(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(25).toString())
+				.getStringCaptionFromV8ComboBox());
+		dto.setModeOption("Add");
+		dto.setSalesCustomViewId(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(26).toString())
+				.getCaptionFromV8ComboBox());
+		dto.setDeductionCustomViewId(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(27).toString())
+				.getCaptionFromV8ComboBox());
                 
     }
 

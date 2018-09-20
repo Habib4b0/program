@@ -16,7 +16,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 public class GtnFrameworkForecastInnerLevelLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastInnerLevelLoadAction.class);
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastInnerLevelLoadAction.class);
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -47,7 +47,7 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 
 	private void formHierarchyInnerLevelValues(int i, String levelValue, List<String> hierarchyCaptionList,
 			List<Integer> hierarchyIdList) {
-		int levelNo = i+1;
+		int levelNo = i + 1;
 		String levelName = "Level " + levelNo + " - " + levelValue;
 		hierarchyCaptionList.add(levelName);
 		hierarchyIdList.add(levelNo);
