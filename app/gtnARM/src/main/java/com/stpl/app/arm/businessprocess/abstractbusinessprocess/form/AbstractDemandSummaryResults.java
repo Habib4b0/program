@@ -117,10 +117,10 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         Map properties = new HashMap();
         boolean isFrequencyMultiple = ARMConstants.getMultiplePeriod().equals(getSelection().getSummarydemandview());
         List<Object> header = getSummaryLogic().generateHeader(getSelection(), tableColumns, isFrequencyMultiple);
-        List rightSingleVisibleColumn = (ArrayList) header.get(NumericConstants.FIVE);
-        List rightSingleVisibleHeader = (ArrayList) header.get(NumericConstants.SIX);
-        List<String> rightDoubleVisibleColumn = (ArrayList) header.get(1);
-        List<String> rightDoubleVisibleHeader = (ArrayList) header.get(NumericConstants.THREE);
+        List rightSingleVisibleColumn = (List) header.get(NumericConstants.FIVE);
+        List rightSingleVisibleHeader = (List) header.get(NumericConstants.SIX);
+        List<String> rightDoubleVisibleColumn = (List) header.get(1);
+        List<String> rightDoubleVisibleHeader = (List) header.get(NumericConstants.THREE);
         for (Object variableColumn : rightSingleVisibleColumn) {
             properties.put(variableColumn, String.class);
         }
@@ -202,8 +202,8 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         getSelection().setSummarydemandLevel(ARMUtils.getADJSummaryLevel(view));
         boolean isFrequencyMultiple = ARMConstants.getMultiplePeriod().equals(getSelection().getSummarydemandview());
         List<Object> header = getSummaryLogic().generateHeader(getSelection(), columns, isFrequencyMultiple);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
-        List<String> rightDoubleVisibleColumn = (ArrayList) header.get(1);
+        List rightSingleVisibleColumn = (List) header.get(0);
+        List<String> rightDoubleVisibleColumn = (List) header.get(1);
         Map<Object, Object[]> rightDoubleSingleVisibleColumn = (HashMap) header.get(NumericConstants.FOUR);
         for (int i = 0; i < rightSingleVisibleColumn.size(); i++) {
             properties.put(rightSingleVisibleColumn.get(i), String.class);

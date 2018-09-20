@@ -61,8 +61,8 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] pipelineObj = (Object[]) list.get(i);
-                accrualValue = new StringBuilder(StringUtils.EMPTY);
-                property = new StringBuilder(StringUtils.EMPTY);
+                accrualValue = new StringBuilder();
+                property = new StringBuilder();
                 if (isValid(pipelineObj[0])) {
                     accrualValue = new StringBuilder(helperId.getDescriptionByID((Integer) (pipelineObj[0])));
                     property = new StringBuilder(String.valueOf(pipelineObj[0]));
@@ -113,7 +113,7 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     protected String getAmountFilterCondition(List<String> pipelineCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
         if (pipelineCondition != null && !pipelineCondition.isEmpty() && pipelineCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < pipelineCondition.size(); i++) {
                 String str = pipelineCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");

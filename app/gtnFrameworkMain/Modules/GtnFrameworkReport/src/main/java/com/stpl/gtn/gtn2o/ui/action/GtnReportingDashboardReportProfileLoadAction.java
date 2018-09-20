@@ -251,14 +251,18 @@ public class GtnReportingDashboardReportProfileLoadAction
 
 	private void setPeriodRangeFromAndTo(GtnReportingDashboardSaveProfileLookupBean reportProfileSaveLookupBean,
 			List<Object> actionParamList, String viewId) throws GtnFrameworkValidationFailedException {
+		
+		
 		if (reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeFrom() != null) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(3).toString(), viewId)
 					.loadV8ComboBoxComponentValue(reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeFrom());
+			
+			
 		}
 		if (reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeTo() != null) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString(), viewId)
 					.loadV8ComboBoxComponentValue(reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeTo());
-
+			
 		}
 	}
 

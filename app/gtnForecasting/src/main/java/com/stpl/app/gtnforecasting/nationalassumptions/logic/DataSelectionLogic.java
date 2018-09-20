@@ -411,8 +411,7 @@ public class DataSelectionLogic {
                     sql = sql.append("AND  IM.THERAPEUTIC_CLASS = '").append(String.valueOf(therapeuticClassValue)).append('\'');
                 }
                 sql = sql.append(" AND HT.DESCRIPTION ='NDC-11'");
-                List list = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
-                return list;
+                return HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             }
          } catch (Exception e) {
              LOGGER.error(e.getMessage());
@@ -448,8 +447,6 @@ public class DataSelectionLogic {
         String query = SQlUtil.getQuery("get-companyName");
         query = query.replace("@GLCOMP", StringUtils.EMPTY + companyId);
 
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 }
