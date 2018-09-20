@@ -197,6 +197,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private void variableHierarchyNoInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
 		GTNLOGGER.info("Calling variable Insert Procedure");
+		GTNLOGGER.info("Calling variable Insert Procedure with getCustomViewMasterSid"
+				+ dataSelectionBean.getCustomViewMasterSid());
 		Object[] input = { dataSelectionBean.getCustomViewMasterSid(), Integer.valueOf(dataSelectionBean.getUserId()),
 				dataSelectionBean.getSessionId() };
 		GtnFrameworkDataType[] type = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER,
@@ -288,8 +290,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			return gtnWsReportCustomCCPListDetails.stream().filter(row -> row.getLevelNo() == levelNo
 					&& matchedFilteredHierarchyNo(filteredHierarchy, row.getHierarchyNo(), row.getData()[5].toString())
 					&& filterCustomViewVariable(customviewData, reportDashboardBean.getSelectedVariableType(), row)
-					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start)
-					.limit(limit)
+					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start).limit(limit)
 					.map(row -> aggregate(
 							convertToRecordbean(gtnWsRequest, row,
 									gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
@@ -458,11 +459,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		// When currency display is set to no conversion in report options
 		if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
 			dataForHierarchy.entrySet().stream()
-					.forEach(
-							entry -> Optional.ofNullable(entry.getValue())
-									.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean,
-											entry.getKey(), data, bean.getData()[5].toString(), levelName, false,
-											variableChild)));
+					.forEach(entry -> Optional.ofNullable(entry.getValue())
+							.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
+									bean.getData()[5].toString(), levelName, false, variableChild)));
 		}
 	}
 
@@ -791,7 +790,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	public static Double extractDouble(Object value) {
 		return Optional.ofNullable(value).isPresent()
-				? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", "")) : 0.0;
+				? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", ""))
+				: 0.0;
 	}
 
 	private boolean matchedFilteredHierarchyNo(Set<String> filteredHierarchyNo, String hierarchyNoFromFile,
@@ -806,4 +806,3 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 }
-
