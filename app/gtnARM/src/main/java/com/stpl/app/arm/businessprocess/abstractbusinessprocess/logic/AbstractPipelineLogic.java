@@ -67,7 +67,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
      */
     public String getRatePeriod(String ratePeriod, String frequency, String startPeriod, List<String> periodList) {
         String period = StringUtils.EMPTY;
-        String description = ratePeriod.contains("CURRENT") ? ratePeriod : HelperListUtil.getInstance().getDescriptionByID(Integer.valueOf(ratePeriod)).trim();
+        String description = ratePeriod.contains("CURRENT") ? ratePeriod : HelperListUtil.getInstance().getDescriptionByID(ARMUtils.getIntegerValue(ratePeriod)).trim();
         if (StringUtils.isNotBlank(frequency) && StringUtils.isNotBlank(description)) {
             int monthNoWithPlus = getMonthNoWithPlus(description);
             int monthNo = getMonthNo(description, monthNoWithPlus);
@@ -81,7 +81,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
             if (!StringUtils.isBlank(startPeriod)) {
                 String[] startArr = startPeriod.split(ARMUtils.SPACE.toString());
                 calendar.set(Calendar.MONTH, CommonUtils.getMonthNo(startArr[0]) - 1);
-                calendar.set(Calendar.YEAR, Integer.valueOf(startArr[1]));
+                calendar.set(Calendar.YEAR, ARMUtils.getIntegerValue(startArr[1]));
             }
             calendar.add(Calendar.MONTH, monthNo);
             String year;
@@ -163,7 +163,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
      */
     public String getRatePeriodFromDS(String dsRatePeriod, String dsFrequency, String dsStartPeriod, List<String> dsPeriodList, Date dsFromDate) {
         String period = StringUtils.EMPTY;
-        String description = dsRatePeriod.contains("CURRENT") ? dsRatePeriod : HelperListUtil.getInstance().getDescriptionByID(Integer.valueOf(dsRatePeriod)).trim();
+        String description = dsRatePeriod.contains("CURRENT") ? dsRatePeriod : HelperListUtil.getInstance().getDescriptionByID(ARMUtils.getIntegerValue(dsRatePeriod)).trim();
         if (StringUtils.isNotBlank(dsFrequency) && StringUtils.isNotBlank(description)) {
             int monthNoWithPlus = getMonthNoWithPlus(description);
             int monthNo = getMonthNo(description, monthNoWithPlus);
@@ -178,7 +178,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
             if (!StringUtils.isBlank(dsStartPeriod)) {
                 String[] startArr = dsStartPeriod.split(ARMUtils.SPACE.toString());
                 calendar.set(Calendar.MONTH, CommonUtils.getMonthNo(startArr[0]) - 1);
-                calendar.set(Calendar.YEAR, Integer.valueOf(startArr[1]));
+                calendar.set(Calendar.YEAR, ARMUtils.getIntegerValue(startArr[1]));
             }
             calendar.add(Calendar.MONTH, monthNo);
             String dsYear;

@@ -195,7 +195,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
             String[] startArr = selection.getDataSelectionDTO().getFromPeriodMonth().split(ARMUtils.SPACE.toString());
             int start = CommonUtils.getMonthNo(startArr[0]) - 1;
             cal.set(Calendar.MONTH, start);
-            cal.set(Calendar.YEAR, Integer.valueOf(startArr[1]));
+            cal.set(Calendar.YEAR, ARMUtils.getIntegerValue(startArr[1]));
             cal.add(Calendar.MONTH, NumericConstants.THIRTY_SIX);
             String month = AbstractBPLogic.getMonthName(cal.get(Calendar.MONTH) + 1);
             String year = String.valueOf(cal.get(Calendar.YEAR));
@@ -366,7 +366,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
             selection.setRateBasisName(rateBasis);
             selection.setRatePeriodValue(selection.getRatePeriod());
             if (!StringUtils.isBlank(selection.getRateFrequency())) {
-                selection.setRateFrequencyName(helperId.getDescriptionByID(Integer.valueOf(selection.getRateFrequency())));
+                selection.setRateFrequencyName(helperId.getDescriptionByID(ARMUtils.getIntegerValue(selection.getRateFrequency())));
             }
             selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, Boolean.TRUE));
             List<String> listSize = getListSize();

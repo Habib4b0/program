@@ -75,8 +75,8 @@ public class HeaderGeneratorService {
 	private Map<String, String> getVariableCategorymap() {
 		Map<String, String> variableCategoryMap = new HashMap<>();
 		variableCategoryMap.put("Value", "PROJ");
-		variableCategoryMap.put(VARIANCE, "ACT_VARIANCE");
-		variableCategoryMap.put("% Change", "PER_CHANGE");
+		variableCategoryMap.put(VARIANCE, "PROJ_VARIANCE");
+		variableCategoryMap.put("% Change", "PROJ_PER_CHANGE");
 		variableCategoryMap.put(ACTUALS, "ACTUAL_VALUE");
 		variableCategoryMap.put("Accruals", "ACCRUAL");
 		variableCategoryMap.put("Volume", "VOLUME");
@@ -534,7 +534,7 @@ public class HeaderGeneratorService {
 		List<Object[]> combinedVariableCategory = new ArrayList<>();
 		List<String> categorySeperationList = new ArrayList<>();
 		List<String> categoryWhichWillNotBeUnitedList = new ArrayList<>();
-		List<String> variableCategoryOnlyColumn = Arrays.asList();
+		List<String> variableCategoryOnlyColumn = Arrays.asList("Volume", "Rate", "Change in Change");
 
 		variableCategoryListSpecialCondition(variableCategoryHeader, categorySeperationList,
 				categoryWhichWillNotBeUnitedList, variableCategoryOnlyColumn);
@@ -630,10 +630,13 @@ public class HeaderGeneratorService {
 		
 	}
 
-	private void handleVariableBasedOnComparisionBasis(String comparisonBasis, Map<String, String> variableMap) {
+	private void handleVariableBasedOnComparisionBasis(String comparisonBasis, Map<String, String> variableCategoryMap) {
 		if (comparisonBasis.equals(ACTUALS)) {
-			variableMap.put(VARIANCE, "PROJ_VARIANCE");
+			variableCategoryMap.put(VARIANCE, "ACT_VARIANCE");
 		}
+                else{
+                    variableCategoryMap.put(VARIANCE,"VARIANCE");
+                }
 
 	}
 

@@ -121,8 +121,7 @@ public class CommonLogic {
             }
            
             LOGGER.debug("End of tempOperation method");
-            Object temp =dao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames())) ;
-            return temp;
+            return dao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames())) ;
         } catch (SystemException e) {
            
             LOGGER.error(e.getMessage());
