@@ -1427,7 +1427,7 @@ public class NMProjectionVarianceLogic {
 						rsIds = String.valueOf(obj);
 						flag = false;
 					} else {
-						rsIds = rsIds + "," + String.valueOf(obj);
+						rsIds = rsIds + "," + obj;
 					}
 				}
 			}
