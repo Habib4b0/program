@@ -44,13 +44,13 @@ public class Trx6AdjustmentSummarySearchResults extends AbstractPipelineSummaryR
         LOGGER_TX6_SUMMARY.debug("Inside getExcelHierarchy");
         Object[] tr6SummaryValue = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            tr6SummaryValue = new Object[]{"D", "C", "T", "B", "I"};
+            tr6SummaryValue = ARMUtils.getDCTBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
-            tr6SummaryValue = new Object[]{"T", "C", "B", "I"};
+            tr6SummaryValue = ARMUtils.getTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomer())) {
-            tr6SummaryValue = new Object[]{"T", "B", "I"};
+            tr6SummaryValue = ARMUtils.getTBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
-            tr6SummaryValue = new Object[]{"B", "I"};
+            tr6SummaryValue = ARMUtils.getBI();
         }
         LOGGER_TX6_SUMMARY.debug("End of getExcelHierarchy");
         return tr6SummaryValue;

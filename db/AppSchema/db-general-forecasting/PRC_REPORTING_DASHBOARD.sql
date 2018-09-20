@@ -1025,11 +1025,11 @@ PD.PROJECTION_MASTER_SID ,
 												      #PRIOR_DATA_TABLE PT  ON PD.CCP_DETAILS_SID=PT.CCP_DETAILS_SID
                                                        INNER JOIN #DEDUCTION_INCLUSION_PRIOR DI
                                                                ON DI.PROJECTION_DETAILS_SID = PT.PROJECTION_DETAILS_SID
+															     AND (DI.RS_CONTRACT_SID = pd.RS_CONTRACT_SID or pd.RS_CONTRACT_SID=0)
                                                        LEFT JOIN NM_ACTUAL_DISCOUNT NDP
                                                               ON NDP.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
                                                                  AND DI.CCP_DETAILS_SID = NDP.CCP_DETAILS_SID
                                                                  AND DI.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
-																 AND PD.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
                                                                  AND NDP.PERIOD_SID = PT.PERIOD_SID) A
                                         GROUP  BY PROJECTION_MASTER_SID,
 										           CCP_DETAILS_SID,
@@ -1108,12 +1108,12 @@ SET @SQL_APP =  @SQL_APP + ' GROUP  BY PROJECTION_MASTER_SID,
 													   AND PD.PROJECTION_MASTER_SID=PT.PROJECTION_MASTER_SID AND PT.PERIOD=PD.PERIOD
 													   AND PT.YEAR=PD.YEAR
                                                        INNER JOIN #DEDUCTION_INCLUSION_PRIOR DI
-                                                               ON DI.PROJECTION_DETAILS_SID = PT.PROJECTION_DETAILS_SID
+                                                               ON DI.PROJECTION_DETAILS_SID = PT.PROJECTION_DETAILS_SID 
+															     AND (DI.RS_CONTRACT_SID = pd.RS_CONTRACT_SID or pd.RS_CONTRACT_SID=0)
                                                        LEFT JOIN NM_DISCOUNT_PROJECTION NDP
                                                               ON NDP.PROJECTION_MASTER_SID = PT.PROJECTION_MASTER_SID
                                                                  AND DI.CCP_DETAILS_SID = NDP.CCP_DETAILS_SID
                                                                  AND DI.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
-																 AND  NDP.RS_CONTRACT_SID=PD.RS_CONTRACT_SID
                                                                  AND NDP.PERIOD_SID = PT.PERIOD_SID) A
                                         GROUP  BY PROJECTION_MASTER_SID,
 										           CCP_DETAILS_SID,

@@ -832,16 +832,16 @@ public class SalesLogic {
             for (int i = 0; i < list.size(); i++) {
                 Object [] obj = list.get(i);
                 int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
-                String key = Constant.Q_SMALL + String.valueOf(obj[NumericConstants.THREE]) + "-" + String.valueOf(obj[NumericConstants.TWO]);
+                String key = Constant.Q_SMALL + obj[NumericConstants.THREE] + "-" + obj[NumericConstants.TWO];
                 if (frequencyDivision == 1) {
                     key = String.valueOf(obj[NumericConstants.TWO]);
                 } else if (frequencyDivision == NumericConstants.FOUR) {
-                    key = Constant.Q_SMALL + String.valueOf(obj[NumericConstants.THREE]) + "-" + String.valueOf(obj[NumericConstants.TWO]);
+                    key = Constant.Q_SMALL + obj[NumericConstants.THREE] + "-" + obj[NumericConstants.TWO];
                 } else if (frequencyDivision == NumericConstants.TWO) {
-                    key = Constant.S_SMALL + String.valueOf(obj[NumericConstants.THREE]) + "-" + String.valueOf(obj[NumericConstants.TWO]);
+                    key = Constant.S_SMALL + obj[NumericConstants.THREE] + "-" + obj[NumericConstants.TWO];
                 } else if (frequencyDivision == NumericConstants.TWELVE) {
                     String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])) - 1);
-                    key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[NumericConstants.TWO]);
+                    key = monthName.toLowerCase(Locale.ENGLISH) + "-" + obj[NumericConstants.TWO];
                 }
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, String.valueOf(PROJECTEDUNITDECIMAL.format(obj[0] == null ? 0 : obj[0])));
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, String.valueOf(PROJECTEDUNITDECIMAL.format(obj[1] == null ? 0 : obj[1])));
@@ -924,16 +924,16 @@ public class SalesLogic {
             }
 
             int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
-            String key = Constant.Q_SMALL + String.valueOf(obj[NumericConstants.SEVEN]) + "-" + String.valueOf(obj[NumericConstants.SIX]);
+            String key = Constant.Q_SMALL + obj[NumericConstants.SEVEN] + "-" + obj[NumericConstants.SIX];
             if (frequencyDivision == 1) {
                 key = String.valueOf(obj[NumericConstants.SIX]);
             } else if (frequencyDivision == NumericConstants.FOUR) {
-                key = Constant.Q_SMALL + String.valueOf(obj[NumericConstants.SEVEN]) + "-" + String.valueOf(obj[NumericConstants.SIX]);
+                key = Constant.Q_SMALL + obj[NumericConstants.SEVEN] + "-" + obj[NumericConstants.SIX];
             } else if (frequencyDivision == NumericConstants.TWO) {
-                key = Constant.S_SMALL + String.valueOf(obj[NumericConstants.SEVEN]) + "-" + String.valueOf(obj[NumericConstants.SIX]);
+                key = Constant.S_SMALL + obj[NumericConstants.SEVEN] + "-" + obj[NumericConstants.SIX];
             } else if (frequencyDivision == NumericConstants.TWELVE) {
                 String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN])) - 1);
-                key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[NumericConstants.SIX]);
+                key = monthName.toLowerCase(Locale.ENGLISH) + "-" + obj[NumericConstants.SIX];
             }
             if (CommonUtil.isValueEligibleForLoading()) {
                 if (obj[NumericConstants.NINETEEN] != null) {
@@ -1501,7 +1501,7 @@ public class SalesLogic {
         } else {
 
             int[] quarterAndYear = SalesUtils.getQuarterAndYear(startPeriodValue);
-            period = " AND P2.QUARTER = " + String.valueOf(quarterAndYear[0]) + " AND P2.YEAR = " + String.valueOf(quarterAndYear[1]) + " ";
+            period = " AND P2.QUARTER = " + quarterAndYear[0] + " AND P2.YEAR = " + quarterAndYear[1] + " ";
         }
         return period;
     }
@@ -3450,17 +3450,17 @@ public class SalesLogic {
 
             int frequencyDivision = projSelDTO.getFrequencyDivision();
 
-            String key = Constant.Q_SMALL + String.valueOf(obj[0]) + "-" + String.valueOf(obj[1]);
+            String key = Constant.Q_SMALL + obj[0] + "-" + obj[1];
             if (frequencyDivision == 1) {
                 key = String.valueOf(obj[1]);
             } else if (frequencyDivision == NumericConstants.FOUR) {
-                key = Constant.Q_SMALL + String.valueOf(obj[0]) + "-" + String.valueOf(obj[1]);
+                key = Constant.Q_SMALL + obj[0] + "-" + obj[1];
             } else if (frequencyDivision == NumericConstants.TWO) {
-                key = Constant.S_SMALL + String.valueOf(obj[0]) + "-" + String.valueOf(obj[1]);
+                key = Constant.S_SMALL + obj[0] + "-" + obj[1];
             } else if (frequencyDivision == NumericConstants.TWELVE) {
 
                 String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[0])) - 1);
-                key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[1]);
+                key = monthName.toLowerCase(Locale.ENGLISH) + "-" + obj[1];
             }
             salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualReturned%", String.valueOf(UNIT.format(obj[NumericConstants.SEVEN] == null ? 0 : obj[NumericConstants.SEVEN])) + '%');
             salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualRPU", String.valueOf(MONEY.format(obj[NumericConstants.EIGHT] == null ? 0 : obj[NumericConstants.EIGHT])));
