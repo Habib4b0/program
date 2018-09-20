@@ -77,10 +77,10 @@
   </notepads>
   <connection>
     <name>ETK_KTR</name>
-    <server> &#x24;&#x7b;STAGING_HOST&#x7d;</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database> &#x24;&#x7b;STAGING_DB&#x7d;</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
     <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
     <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
@@ -302,7 +302,7 @@
     <enclosure>&#x22;</enclosure>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
-    <lazy_conversion>Y</lazy_conversion>
+    <lazy_conversion>N</lazy_conversion>
     <add_filename_result>N</add_filename_result>
     <parallel>N</parallel>
     <newline_possible>N</newline_possible>
@@ -723,7 +723,7 @@
     <schema>dbo</schema>
     <table>PSTG_ITEM_IDENTIFIER_INTERFACE</table>
     <commit>1000</commit>
-    <truncate>N</truncate>
+    <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>N</use_batch>
     <specify_fields>Y</specify_fields>

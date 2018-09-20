@@ -904,10 +904,9 @@ public class DataSelectionIndex extends CustomComponent implements View {
                         UI.getCurrent().setFocusedComponent(UI.getCurrent());
                         nationalAssumptions.getNDCSetup(String.valueOf(sessionDTO.getProjectionId()));
                     }
-                } else if (modeOption.getValue() != null && Constants.LabelConstants.MODE_SEARCH.getConstant().equals(modeOption.getValue())) {
-                    if (projectionId.getValue() != null || !StringUtils.EMPTY.equals(projectionId.getValue())) {
+                } else if (modeOption.getValue() != null && Constants.LabelConstants.MODE_SEARCH.getConstant().equals(modeOption.getValue())
+                       && (projectionId.getValue() != null || !StringUtils.EMPTY.equals(projectionId.getValue()))) {
                         msg = projectionId.getValue();
-                    }
                 }
 
                 if (!msg.equals(Constant.FAIL)) {

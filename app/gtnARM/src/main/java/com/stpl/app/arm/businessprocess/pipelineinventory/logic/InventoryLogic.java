@@ -118,7 +118,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             invSql = invSql.replace(CommonConstant.AIREF_CUST_MASTER_SID, ",''");
 
         } else {
-            invSql = invSql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ARMUtils.CLOSE_BRACES);
+            invSql = invSql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ARMUtils.CLOSE_PARANTHESIS);
             invSql = invSql.replace(CommonConstant.AICOMP_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
             invSql = invSql.replace(CommonConstant.AIREF_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
         }
@@ -188,7 +188,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, "''");
 
         } else {
-            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ARMUtils.CLOSE_BRACES);
+            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ARMUtils.CLOSE_PARANTHESIS);
             sql = sql.replace(CommonConstant.AICOMP_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
             sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, "AI.COMP_CUST_MASTER_SID");
         }
@@ -340,7 +340,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
 
     public void resetCustomerGroupValue(int projectionId, AbstractSelectionDTO selectionDto) {
         try {
-            StringBuilder resetQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder resetQuery = new StringBuilder();
             resetQuery.append(SQlUtil.getQuery("resetCustomerGroupInventDetails").replace("@PROJECTION_MASTER_SID", String.valueOf(projectionId))
                     .replace("@USER_ID", "" + selectionDto.getSessionDTO().getUserId()).replace("@SESSION_ID", "" + selectionDto.getSessionDTO().getSessionId()));
 

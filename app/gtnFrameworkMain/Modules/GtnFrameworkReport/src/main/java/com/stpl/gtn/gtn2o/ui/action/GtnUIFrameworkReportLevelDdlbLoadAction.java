@@ -42,10 +42,17 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction
 			throws GtnFrameworkGeneralException {
 		final GtnUIFrameworkWebserviceRequest generalRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
-		String selectedItem = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView", componentId)
+		
+
+
+		String customView = componentId.contains("dataSelectionTab") ? "dataSelectionTab_displaySelectionTabCustomView"
+				: "reportingDashboardTab_displaySelectionTabCustomView";
+
+		String selectedItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(customView, componentId)
 				.getV8StringFromField();
+
 		if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
+
 			cvRequest.setCvSysId(Integer.parseInt(selectedItem));
 			generalRequest.setGtnWsCustomViewRequest(cvRequest);
 			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(

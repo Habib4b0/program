@@ -57,8 +57,10 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 	public GtnUIFrameworkViewConfig getReportDSComparisonLookupView() {
 		GtnUIFrameworkViewConfig dataSelectionComparisonLookupView = configProvider.getViewConfig("Comparison Lookup",
 				GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_LOOKUP_VIEW, false);
+
 		dataSelectionComparisonLookupView.setResetAllowed(true);
 		addComponentList(dataSelectionComparisonLookupView);
+
 		return dataSelectionComparisonLookupView;
 	}
 
@@ -217,7 +219,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		componentList.add(reportComparisonLookupFromToLayoutConfig);
 
 		GtnUIFrameworkLayoutConfig privateViewCompanyProjectionNameLayoutConfig = new GtnUIFrameworkLayoutConfig();
-		privateViewCompanyProjectionNameLayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		privateViewCompanyProjectionNameLayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		GtnUIFrameworkComponentConfig privateViewCompanyProjectionNameLayout = new GtnUIFrameworkComponentConfig();
 		privateViewCompanyProjectionNameLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		privateViewCompanyProjectionNameLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -227,8 +229,51 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		privateViewCompanyProjectionNameLayout
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.PROJECTION_OPTION_INNER_LAYOUT);
-		privateViewCompanyProjectionNameLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_3);
 		componentList.add(privateViewCompanyProjectionNameLayout);
+
+		GtnUIFrameworkLayoutConfig reportDataSelectionComparisonTopLayout = new GtnUIFrameworkLayoutConfig();
+		reportDataSelectionComparisonTopLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		GtnUIFrameworkComponentConfig dataSelectionComparisonTopLayoutConfig = new GtnUIFrameworkComponentConfig();
+		dataSelectionComparisonTopLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		dataSelectionComparisonTopLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_TOP_LAYOUT);
+		dataSelectionComparisonTopLayoutConfig.setAddToParent(true);
+		dataSelectionComparisonTopLayoutConfig.setSpacing(true);
+		dataSelectionComparisonTopLayoutConfig
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkCommonConstants.PROJECTION_OPTION_INNER_LAYOUT);
+		dataSelectionComparisonTopLayoutConfig.setGtnLayoutConfig(reportDataSelectionComparisonTopLayout);
+		componentList.add(dataSelectionComparisonTopLayoutConfig);
+
+		GtnUIFrameworkLayoutConfig reportDataSelectionComparisonMiddleLayout = new GtnUIFrameworkLayoutConfig();
+		reportDataSelectionComparisonMiddleLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		GtnUIFrameworkComponentConfig dataSelectionComparisonMiddleLayoutConfig = new GtnUIFrameworkComponentConfig();
+		dataSelectionComparisonMiddleLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		dataSelectionComparisonMiddleLayoutConfig
+				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_MIDDLE_LAYOUT);
+		dataSelectionComparisonMiddleLayoutConfig.setAddToParent(true);
+		dataSelectionComparisonMiddleLayoutConfig.setSpacing(true);
+		dataSelectionComparisonMiddleLayoutConfig
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkCommonConstants.PROJECTION_OPTION_INNER_LAYOUT);
+		dataSelectionComparisonMiddleLayoutConfig.setGtnLayoutConfig(reportDataSelectionComparisonMiddleLayout);
+		componentList.add(dataSelectionComparisonMiddleLayoutConfig);
+
+		GtnUIFrameworkLayoutConfig reportDataSelectionComparisonBottomLayout = new GtnUIFrameworkLayoutConfig();
+		reportDataSelectionComparisonBottomLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		GtnUIFrameworkComponentConfig dataSelectionComparisonBottomLayoutConfig = new GtnUIFrameworkComponentConfig();
+		dataSelectionComparisonBottomLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		dataSelectionComparisonBottomLayoutConfig
+				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_BOTTOM_LAYOUT);
+		dataSelectionComparisonBottomLayoutConfig.setAddToParent(true);
+		dataSelectionComparisonBottomLayoutConfig.setSpacing(true);
+		dataSelectionComparisonBottomLayoutConfig
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
+		dataSelectionComparisonBottomLayoutConfig.setGtnLayoutConfig(reportDataSelectionComparisonBottomLayout);
+		componentList.add(dataSelectionComparisonBottomLayoutConfig);
 
 	}
 
@@ -241,9 +286,9 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
 		publicViewsLayoutConfig.setAddToParent(true);
 		publicViewsLayoutConfig.setSpacing(true);
-		publicViewsLayoutConfig.addComponentStyle("stpl-margin-top-15");
 		publicViewsLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
+				+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_BOTTOM_LAYOUT);
+		publicViewsLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_LAYOUT);
 		publicViewsLayoutConfig.setGtnLayoutConfig(workflowStatusNameLayout);
 		componentList.add(publicViewsLayoutConfig);
 
@@ -252,10 +297,12 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		workflowStatus.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.WORKFLOW_STATUS);
 		workflowStatus.setComponentName("Workflow Status: ");
+		workflowStatus.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT);
 		workflowStatus.setAddToParent(true);
 		workflowStatus.setCustomReference("integerId");
 		workflowStatus.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+
 		workflowStatus.setComponentWsFieldId("workflowStatus");
 
 		GtnUIFrameworkComboBoxConfig workflowStatusConfig = new GtnUIFrameworkComboBoxConfig();
@@ -279,10 +326,9 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		reportComparisonLookupBusinessUnitLayoutConfig.setAddToParent(true);
 		reportComparisonLookupBusinessUnitLayoutConfig.setSpacing(true);
 		reportComparisonLookupBusinessUnitLayoutConfig
-				.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
-		reportComparisonLookupBusinessUnitLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
+						+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_TOP_LAYOUT);
+		reportComparisonLookupBusinessUnitLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_LAYOUT);
 		reportComparisonLookupBusinessUnitLayoutConfig.setGtnLayoutConfig(reportComparisonLookupBusinessUnitLayout);
 		componentList.add(reportComparisonLookupBusinessUnitLayoutConfig);
 
@@ -294,6 +340,8 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		reportComparisonLookupMarketType.setAddToParent(true);
 		reportComparisonLookupMarketType.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.BUSINESS_UNIT_LAYOUT);
+		reportComparisonLookupMarketType.setComponentStyle(
+				Arrays.asList(new String[] { GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT }));
 		reportComparisonLookupMarketType.setComponentWsFieldId(GtnFrameworkReportStringConstants.MARKET_TYPE);
 
 		componentList.add(reportComparisonLookupMarketType);
@@ -304,10 +352,10 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupBrandLayoutConfig");
 		reportComparisonLookupBrandLayoutConfig.setAddToParent(true);
 		reportComparisonLookupBrandLayoutConfig.setSpacing(true);
-		reportComparisonLookupBrandLayoutConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
 		reportComparisonLookupBrandLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
+						+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_MIDDLE_LAYOUT);
+		reportComparisonLookupBrandLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_LAYOUT);
 		reportComparisonLookupBrandLayoutConfig.setGtnLayoutConfig(reportComparisonLookupBrandLayout);
 		componentList.add(reportComparisonLookupBrandLayoutConfig);
 
@@ -319,6 +367,8 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		reportComparisonLookupBrand.setAddToParent(true);
 		reportComparisonLookupBrand.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupBrandLayoutConfig");
+		reportComparisonLookupBrand.setComponentStyle(
+				Arrays.asList(new String[] { GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT }));
 		reportComparisonLookupBrand.setComponentWsFieldId(GtnFrameworkReportStringConstants.BRAND);
 		componentList.add(reportComparisonLookupBrand);
 	}
@@ -326,15 +376,16 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 	private void addProjectionNameComponents(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 
 		GtnUIFrameworkLayoutConfig projectionNameComponent = new GtnUIFrameworkLayoutConfig();
+		projectionNameComponent.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		GtnUIFrameworkComponentConfig publicViewsLayoutConfig = new GtnUIFrameworkComponentConfig();
 		publicViewsLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		publicViewsLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
 		publicViewsLayoutConfig.setAddToParent(true);
 		publicViewsLayoutConfig.setSpacing(true);
-		publicViewsLayoutConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
 		publicViewsLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
+				+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_BOTTOM_LAYOUT);
+		publicViewsLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_LAYOUT);
 		publicViewsLayoutConfig.setGtnLayoutConfig(projectionNameComponent);
 		componentList.add(publicViewsLayoutConfig);
 
@@ -346,6 +397,8 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		projectionName.setAddToParent(true);
 		projectionName.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+		projectionName.setComponentStyle(
+				Arrays.asList(new String[] { GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT }));
 		projectionName.setComponentWsFieldId(GtnFrameworkReportStringConstants.PROJECTION_NAME);
 
 		componentList.add(projectionName);
@@ -357,10 +410,10 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupContractHolderConfig");
 		reportComparisonLookupContractHolderConfig.setAddToParent(true);
 		reportComparisonLookupContractHolderConfig.setSpacing(true);
-		reportComparisonLookupContractHolderConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
 		reportComparisonLookupContractHolderConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
+						+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_TOP_LAYOUT);
+		reportComparisonLookupContractHolderConfig.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_LAYOUT);
 		reportComparisonLookupContractHolderConfig.setGtnLayoutConfig(reportComparisonLookupContractHolderLayout);
 		componentList.add(reportComparisonLookupContractHolderConfig);
 
@@ -372,6 +425,8 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		reportComparisonLookupContractHolder.setAddToParent(true);
 		reportComparisonLookupContractHolder.setParentComponentId(namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupContractHolderConfig");
+		reportComparisonLookupContractHolder.setComponentStyle(
+				Arrays.asList(new String[] { GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT }));
 		reportComparisonLookupContractHolder.setComponentWsFieldId(GtnFrameworkReportStringConstants.CONTRACT_HOLDER);
 		componentList.add(reportComparisonLookupContractHolder);
 
@@ -382,9 +437,9 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 				+ GtnFrameworkReportStringConstants.NDC_LAYOUT);
 		ndcLayoutConfig.setAddToParent(true);
 		ndcLayoutConfig.setSpacing(true);
-		ndcLayoutConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
 		ndcLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
+				+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_MIDDLE_LAYOUT);
+		ndcLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_LAYOUT);
 		ndcLayoutConfig.setGtnLayoutConfig(ndcLayout);
 		componentList.add(ndcLayoutConfig);
 
@@ -396,6 +451,8 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		ndcConfig.setAddToParent(true);
 		ndcConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.NDC_LAYOUT);
+		ndcConfig.setComponentStyle(
+				Arrays.asList(new String[] { GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT }));
 		ndcConfig.setComponentWsFieldId("comparisonNDC");
 		componentList.add(ndcConfig);
 
@@ -403,15 +460,16 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 
 	private void addDescriptionComponents(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkLayoutConfig descriptionLayout = new GtnUIFrameworkLayoutConfig();
+		descriptionLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		GtnUIFrameworkComponentConfig publicViewsLayoutConfig = new GtnUIFrameworkComponentConfig();
 		publicViewsLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		publicViewsLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
 		publicViewsLayoutConfig.setAddToParent(true);
 		publicViewsLayoutConfig.setSpacing(true);
-		publicViewsLayoutConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
 		publicViewsLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
+				+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_BOTTOM_LAYOUT);
+		publicViewsLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_LAYOUT);
 		publicViewsLayoutConfig.setGtnLayoutConfig(descriptionLayout);
 		componentList.add(publicViewsLayoutConfig);
 
@@ -422,6 +480,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		description.setAddToParent(true);
 		description.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+		description.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT);
 		description.setComponentWsFieldId(GtnFrameworkReportStringConstants.DESCRIPTION2);
 
 		componentList.add(description);
@@ -433,9 +492,9 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonContractConfig");
 		reportComparisonContractConfig.setAddToParent(true);
 		reportComparisonContractConfig.setSpacing(true);
-		reportComparisonContractConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
 		reportComparisonContractConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
+				+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_TOP_LAYOUT);
+		reportComparisonContractConfig.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_LAYOUT);
 		reportComparisonContractConfig.setGtnLayoutConfig(reportComparisonContractLayout);
 		componentList.add(reportComparisonContractConfig);
 
@@ -447,6 +506,8 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		reportComparisonContract.setAddToParent(true);
 		reportComparisonContract.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonContractConfig");
+		reportComparisonContract.setComponentStyle(
+				Arrays.asList(new String[] { GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT }));
 		reportComparisonContract.setComponentWsFieldId(GtnFrameworkReportStringConstants.CONTRACT_LOWER);
 		componentList.add(reportComparisonContract);
 
@@ -457,9 +518,9 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonNdcNameConfig");
 		reportComparisonNdcNameConfig.setAddToParent(true);
 		reportComparisonNdcNameConfig.setSpacing(true);
-		reportComparisonNdcNameConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
 		reportComparisonNdcNameConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
+				+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_MIDDLE_LAYOUT);
+		reportComparisonNdcNameConfig.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_LAYOUT);
 		reportComparisonNdcNameConfig.setGtnLayoutConfig(reportComparisonNdcNameLayout);
 		componentList.add(reportComparisonNdcNameConfig);
 
@@ -471,6 +532,8 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		reportComparisonNdcName.setAddToParent(true);
 		reportComparisonNdcName.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonNdcNameConfig");
+		reportComparisonNdcName.setComponentStyle(
+				Arrays.asList(new String[] { GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT }));
 		reportComparisonNdcName.setComponentWsFieldId("ndcName");
 		componentList.add(reportComparisonNdcName);
 

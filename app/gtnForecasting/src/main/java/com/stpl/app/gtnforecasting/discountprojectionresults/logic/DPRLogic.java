@@ -1481,7 +1481,18 @@ public class DPRLogic {
         freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
         String frequency = freq.get(projSelDTO.getFrequencyDivision());
         String freqChar;
-        freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
+            if (Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency)) {
+                freqChar = Constant.S;
+            } else if (Constant.QUARTER.equalsIgnoreCase(frequency)) {
+                freqChar = Constant.Q;
+            } else {
+                freqChar = CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED;
+            }
+        } else {
+            freqChar = StringUtils.EMPTY;
+        }
+        
         String query = getHierarchyLevelQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
         double annualMandamt = 0.0;
