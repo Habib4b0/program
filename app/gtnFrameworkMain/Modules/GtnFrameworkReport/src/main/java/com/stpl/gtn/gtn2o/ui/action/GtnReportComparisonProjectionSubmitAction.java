@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -78,7 +80,8 @@ public class GtnReportComparisonProjectionSubmitAction
 				comparisonProjectionBean.setItemNo(String.valueOf(recordBean.getPropertyValueByIndex(9)));
 				String createdDate = recordBean.getStringPropertyByIndex(6);
 
-				comparisonProjectionBean.setCreatedDate(new SimpleDateFormat("MM/dd/yyyy").parse(createdDate));
+				comparisonProjectionBean.setCreatedDate(StringUtils.isBlank(createdDate) ? null
+						: new SimpleDateFormat("MM/dd/yyyy").parse(createdDate));
 
 				comparisonProjectionBean.setItemName(String.valueOf(recordBean.getPropertyValueByIndex(10)));
 				comparisonProjectionBean
