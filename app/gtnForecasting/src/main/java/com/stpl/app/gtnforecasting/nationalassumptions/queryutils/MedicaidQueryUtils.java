@@ -232,7 +232,7 @@ public class MedicaidQueryUtils {
                 String formatedValue = values.getValue();
 
                 String tempValue[] = formatedValue.split("~");
-                String rowId = tempValue[1];
+                String rowId = tempValue[0];
                 Double finalvalue;
 
                 if (rowId.equals(Constant.ADJUSTMENT)) {
