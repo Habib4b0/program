@@ -38,7 +38,7 @@ public class GtnWsReportRightTableLoadDataService {
 
 	@Autowired
 	private GtnWsReportVaribleRowResultTransformer rowTransformer;
-	
+
 	@Autowired
 	private GtnWsReportDataSelectionSqlGenerateServiceImpl generateButtonService;
 
@@ -94,8 +94,6 @@ public class GtnWsReportRightTableLoadDataService {
 		if (dashboardBean.getCcpDetailsSidList() != null && !dashboardBean.getCcpDetailsSidList().isEmpty()) {
 			ccpFilter = StringUtils.join(dashboardBean.getCcpDetailsSidList(), ",");
 		}
-		
-		
 
 		ccpFilter = !ccpFilter.equals("NULL") ? "'" + ccpFilter + "'" : "NULL";
 		procedure = procedure.replaceAll(":ccpComp:", ccpFilter);
@@ -107,8 +105,6 @@ public class GtnWsReportRightTableLoadDataService {
 		procedure = procedure.replaceAll(":comparisonBasis:", comparisonBasis);
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
 
-		generateButtonService.regenerateChangedCustomViewTreeAndData(gtnWsRequest);
-		
 		@SuppressWarnings("unchecked")
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(procedure,
 				new Object[] { frequency, annualTotals, currencyConversion,
