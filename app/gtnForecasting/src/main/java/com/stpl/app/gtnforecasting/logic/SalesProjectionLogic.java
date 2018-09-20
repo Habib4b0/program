@@ -502,22 +502,15 @@ public class SalesProjectionLogic {
     }
 
     public List<SalesRowDto> loadSalesProjection() {
-        List<SalesRowDto> resultList = new ArrayList<>();
-     
-        return resultList;
+        return new ArrayList<>();
     }
 
     public boolean checkAll() {
-        boolean status = false;
-
-        return status;
+        return false;
     }
 
     public boolean checkSelected() {
-        boolean status = false;
-
-        return status;
-
+        return false;
     }
 
     public int savecheckedRecords(Object[] inputs) {

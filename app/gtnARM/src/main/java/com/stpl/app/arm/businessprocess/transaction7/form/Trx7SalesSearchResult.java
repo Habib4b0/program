@@ -92,8 +92,8 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
     public void setExcelVisibleColumn() {
         Map properties = new HashMap();
         List<Object> header = getSummaryLogic().generateHeader((Trx7SelectionDTO) selection);
-        List tx7RightSingleVisibleColumn = (ArrayList) header.get(0);
-        List tx7RightSingleVisibleHeader = (ArrayList) header.get(1);
+        List tx7RightSingleVisibleColumn = (List) header.get(0);
+        List tx7RightSingleVisibleHeader = (List) header.get(1);
         for (Object variableColumn : tx7RightSingleVisibleColumn) {
             properties.put(variableColumn, String.class);
         }
@@ -110,7 +110,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
     public void generateButtonLogic(Trx7SelectionDTO selection, boolean isEditButtonClick) {
         TR7_LOGGER.debug("Inside generate ButtonClick Btn{}", selection.getSalesVariables().size());
         List<Object> header = getSummaryLogic().generateHeader(selection);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
+        List rightSingleVisibleColumn = (List) header.get(0);
         Map properties = new HashMap();
         Object[] variableColumns = VariableConstants.getVariableSalesVisibleColumn();
         for (int i = 0; i < variableColumns.length; i++) {

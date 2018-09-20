@@ -69,8 +69,8 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 
     @Override
     public void initCallOnFailure() {
-        
+        return;
     }
-
+	    
 	    
 }

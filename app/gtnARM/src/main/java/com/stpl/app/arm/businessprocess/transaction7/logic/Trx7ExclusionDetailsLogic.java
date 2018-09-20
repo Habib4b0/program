@@ -78,7 +78,7 @@ public class Trx7ExclusionDetailsLogic {
 
     public void saveORUpdateExclusionDetailsLookUp(int projectionSid, List<ExclusionLookupDTO> list, String accountId, String accountName, String contractId, SessionDTO sessionDTO) {
         LOGGER.debug("--Inside saveORUpdate_Exclusion_Details_LookUp--{}", projectionSid);
-        StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sbQuery = new StringBuilder();
         boolean isView = sessionDTO.getAction().equals(ARMUtils.VIEW_SMALL);
         String saveQuery = isView ? SQlUtil.getQuery("saveORUpdateQuery") : SQlUtil.getQuery("saveORUpdateQueryEdit");
         saveQuery = saveQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
@@ -214,7 +214,7 @@ public class Trx7ExclusionDetailsLogic {
 
     public boolean isAddORUpdateView(ExclusionLookupDTO tr7ExclSaveViewDTO) {
         LOGGER.debug("--Inside isAdd_OR_UpdateView--{}", tr7ExclSaveViewDTO.getViewMasterSid());
-        StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sbQuery = new StringBuilder();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
         try {
             String viewSid;
@@ -350,7 +350,7 @@ public class Trx7ExclusionDetailsLogic {
 
             }
             LOGGER.debug(query.toString());
-            StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder filterQuery = new StringBuilder();
             HashMap<String, String> detailsColumn = new HashMap<>();
             detailsColumn.put("viewName", "AVM.VIEW_NAME");
             detailsColumn.put("viewType", "AVM.VIEW_TYPE");

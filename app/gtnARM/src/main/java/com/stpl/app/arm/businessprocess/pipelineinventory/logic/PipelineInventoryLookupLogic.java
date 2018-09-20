@@ -136,7 +136,7 @@ public class PipelineInventoryLookupLogic {
     public void saveCustomerGroupValue(List<CustomerGroupDTO> saveList, int projectionId, AbstractSelectionDTO selectionDto) {
         LOGGER.debug("Inside saveCustomerGroupValue ");
         try {
-            StringBuilder saveQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder saveQuery = new StringBuilder();
             saveQuery.append(SQlUtil.getQuery("saveCustomerGroupInventDetails").replace("@PROJECTION_MASTER_SID", String.valueOf(projectionId)));
             for (CustomerGroupDTO dtoValue : saveList) {
                 String companyMasterSid = StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid();
