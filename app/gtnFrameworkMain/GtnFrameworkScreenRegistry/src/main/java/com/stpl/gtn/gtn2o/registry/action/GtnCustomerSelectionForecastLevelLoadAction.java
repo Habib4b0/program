@@ -52,13 +52,13 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 				for (GtnWsRelationshipBuilderBean relationshipBuilderBean : relationshipBuilderBeanList) {
 					if (relationshipBuilderBean.getRelationshipBuilderSid() == relationshipBuilderSid) {
 						relationshipCaptionList.add(String.valueOf(relationshipBuilderBean.getVersionNo()));
-						relationshipIdList.add(relationshipBuilderBean.getRelationshipBuilderSid());
+						relationshipIdList.add(relationshipBuilderBean.getVersionNo());
 						break;
 					}
 				}
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(4))
-						.addAllItemsToComboBox(relationshipCaptionList, relationshipIdList);
+						.loadItemsToCombobox(relationshipCaptionList, relationshipIdList);
 
 				Map<Integer, String> hierarchyMap = (Map<Integer, String>) recordBean
 						.getPropertyValueByIndex(recordBean.getProperties().size() - 2);

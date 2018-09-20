@@ -10,5 +10,5 @@ public class GtnWsPeriodConfigurationConstants {
 	public static final String GTN_SERVICEREGISTTRY_REDIRECTTOQUERYENGINE = "/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine";
 	public static final String GTN_SERVICEREGISTTRY = "serviceRegistry";
 	public static final String GTN_SERVICEREGISTTRY_REGISTERWEBSERVICE = "/gtnServiceRegistry/registerWebservices";
-	
-	}
+
+}
