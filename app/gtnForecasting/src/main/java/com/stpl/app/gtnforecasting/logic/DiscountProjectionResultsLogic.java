@@ -4552,10 +4552,9 @@ public class DiscountProjectionResultsLogic {
 
 
     public String getTradingPartnerLevel(int projectionMasterId) {
-        String query = "SELECT distinct RLD1.level_no from  relationship_level_definition RLD1 JOIN PROJECTION_CUST_HIERARCHY PCH "
+        return "SELECT distinct RLD1.level_no from  relationship_level_definition RLD1 JOIN PROJECTION_CUST_HIERARCHY PCH "
                 + " ON PCH.relationship_level_sid = RLD1.relationship_level_sid  AND PCH.projection_master_sid =" + projectionMasterId + StringUtils.EMPTY
                 + " WHERE RLD1.level_Name='Trading Partner'";
-        return query;
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
@@ -4577,8 +4576,7 @@ public class DiscountProjectionResultsLogic {
         String year = value.substring(value.length() - NumericConstants.FOUR, value.length());
         String mon = value.replace(year, StringUtils.EMPTY);
         String month = monthMap.get(mon);
-        String commonColumn = month + year;
-        return commonColumn;
+        return month + year;
     }
 
     private void loadMap() {

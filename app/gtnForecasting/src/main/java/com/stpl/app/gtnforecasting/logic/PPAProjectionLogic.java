@@ -677,8 +677,7 @@ public class PPAProjectionLogic {
         query = StringUtils.isEmpty(filterQuery) ? query.replace(Constant.FILTERR, StringUtils.EMPTY) : query.replace(Constant.FILTERR, filterQuery);
         List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (isCount) {
-            int count = (Integer) resultList.get(0);
-            return count;
+            return (Integer) resultList.get(0);
         } else {
             return convertFormulaList(resultList);
         }
@@ -757,8 +756,7 @@ public class PPAProjectionLogic {
         query = StringUtils.isEmpty(filterQuery) ? query.replace(Constant.FILTERR, StringUtils.EMPTY) : query.replace(Constant.FILTERR, filterQuery);
         List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (isCount) {
-            int count = (Integer) resultList.get(0);
-            return count;
+            return (Integer) resultList.get(0);
         } else {
             return convertFormulaDetailsList(resultList);
         }

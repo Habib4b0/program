@@ -233,11 +233,8 @@ public class Summary extends CustomComponent {
         CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
         CustomTableHeaderDTO rightDTO;
         ExtTreeContainer<DiscountDTO> resultBean = new ExtTreeContainer<>(DiscountDTO.class, ExtContainer.DataStructureMode.MAP);
-        Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
-        Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
         rightDTO = HeaderUtils.getSalesTabsRightTableColumns(fullHeader, Constants.QUARTERLY);
         CustomTableHeaderDTO leftDTO = HeaderUtils.getSalesTabLeftTableColumnsForPromoteTP(fullHeader);
-        resultBean = new ExtTreeContainer<>(DiscountDTO.class, ExtContainer.DataStructureMode.MAP);
         resultBean.setColumnProperties(leftDTO.getProperties());
         resultBean.setColumnProperties(rightDTO.getProperties());
         tableLogic.setContainerDataSource(resultBean);
@@ -252,7 +249,7 @@ public class Summary extends CustomComponent {
         leftTable.setDoubleHeaderVisibleColumns(leftDTO.getDoubleColumns().toArray());
         leftTable.setDoubleHeaderColumnHeaders(leftDTO.getDoubleHeaders().toArray(new String[leftDTO.getDoubleHeaders().size()]));
         leftTable.setColumnWidth("levelValue", NumericConstants.FOUR_HUNDRED);
-        mapLeftVisibleColumns = leftDTO.getDoubleHeaderMaps();
+        Map<Object, Object[]> mapLeftVisibleColumns = leftDTO.getDoubleHeaderMaps();
         rightTable.setVisibleColumns(rightDTO.getSingleColumns().toArray());
         rightTable.setColumnHeaders(rightDTO.getSingleHeaders().toArray(new String[rightDTO.getSingleHeaders().size()]));
         for (int i = 0; i < rightDTO.getSingleColumns().size(); i++) {
@@ -264,7 +261,7 @@ public class Summary extends CustomComponent {
         for (int i = 0; i < rightDTO.getDoubleColumns().size(); i++) {
             rightTable.setColumnAlignment(rightDTO.getDoubleColumns().get(i), ExtCustomTable.Align.CENTER);
         }
-        mapRightVisibleColumns = rightDTO.getDoubleHeaderMaps();
+        Map<Object, Object[]> mapRightVisibleColumns  = rightDTO.getDoubleHeaderMaps();
         discountTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         loadResultTable();
     }

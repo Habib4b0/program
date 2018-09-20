@@ -132,23 +132,23 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] != null ? decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))) : StringUtils.EMPTY);
                     if (get[NumericConstants.TWO] != null) {
                         flag[0] = true;
-                        totalColumnValue[0] += Double.valueOf(String.valueOf(get[NumericConstants.TWO]));
+                        totalColumnValue[0] += Double.parseDouble(String.valueOf(get[NumericConstants.TWO]));
                     }
                     if (get[NumericConstants.THREE] != null) {
                         flag[1] = true;
-                        totalColumnValue[1] += Double.valueOf(String.valueOf(get[NumericConstants.THREE]));
+                        totalColumnValue[1] += Double.parseDouble(String.valueOf(get[NumericConstants.THREE]));
                     }
                     if (get[NumericConstants.FOUR] != null) {
                         flag[NumericConstants.TWO] = true;
-                        totalColumnValue[NumericConstants.TWO] += Double.valueOf(String.valueOf(get[NumericConstants.FOUR]));
+                        totalColumnValue[NumericConstants.TWO] += Double.parseDouble(String.valueOf(get[NumericConstants.FOUR]));
                     }
                     if (get[NumericConstants.FIVE] != null && !dto.getChildrenAllowed() && !isTotal && !selection.isCancelOverride()) {
                         flag[NumericConstants.THREE] = true;
-                        totalColumnValue[NumericConstants.THREE] += Double.valueOf(String.valueOf(get[NumericConstants.FIVE]));
+                        totalColumnValue[NumericConstants.THREE] += Double.parseDouble(String.valueOf(get[NumericConstants.FIVE]));
                     }
                     if (get[NumericConstants.SIX] != null) {
                         flag[NumericConstants.FOUR] = true;
-                        totalColumnValue[NumericConstants.FOUR] += Double.valueOf(String.valueOf(get[NumericConstants.SIX]));
+                        totalColumnValue[NumericConstants.FOUR] += Double.parseDouble(String.valueOf(get[NumericConstants.SIX]));
                     }
                 }
                 dto.addStringProperties(variables.get(totalColumnIndex), flag[0] ? decimalformat.format(totalColumnValue[0]) : StringUtils.EMPTY);
@@ -218,7 +218,7 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
     }
 
     private String getSelectVariable(List<String[]> variables, boolean isTotal) {
-        StringBuilder selectQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder selectQuery = new StringBuilder();
         String[] object = null;
         if (variables != null && !variables.isEmpty()) {
             for (int i = 0; i < variables.size(); i++) {

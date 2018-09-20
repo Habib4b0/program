@@ -605,6 +605,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/abstractforecast/forecastSalesProjection.xml"), this));
             projectionDTO.setTabName(Constant.SALES_PROJECTION_LABEL);
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                NMSalesProjectionTableLogic nmSalesProjectionTableLogic  = new NMSalesProjectionTableLogic();
+                resultsTable =  new FreezePagedTreeTable(nmSalesProjectionTableLogic); 
                 projectionDTO.setScreenName(screenName);
             }
             projectionDTO.setSessionDTO(session);

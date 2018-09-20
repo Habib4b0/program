@@ -2094,7 +2094,6 @@ public class Newcomponent extends CustomComponent {
                     String id = rsModel.getRsId();
                     String no = rsModel.getRsNo();
                     int type = rsModel.getRsType();
-                    int rpType = rsModel.getRebateProgramType();
                     Date stDate = rsModel.getRsStartDate();
                     int calender = rsModel.getRsCalendar();
                     int status=rsModel.getRsStatus();

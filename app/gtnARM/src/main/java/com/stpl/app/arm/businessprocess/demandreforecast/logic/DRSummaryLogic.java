@@ -180,16 +180,16 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                     reforecastDto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))));
                     reforecastDto.addStringProperties(variables.get(index++), get[NumericConstants.EIGHT] == null || reforecastDto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.EIGHT]))));
                     reforecastDto.addStringProperties(variables.get(index++), get[NumericConstants.NINE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.NINE]))));
-                    totalColumnValue[0] += Double.valueOf(String.valueOf(get[NumericConstants.TWO]));
-                    totalColumnValue[1] += Double.valueOf(String.valueOf(get[NumericConstants.THREE]));
-                    totalColumnValue[NumericConstants.TWO] += Double.valueOf(get[NumericConstants.FOUR].toString());
-                    totalColumnValue[NumericConstants.THREE] += Double.valueOf(get[NumericConstants.FIVE].toString());
-                    totalColumnValue[NumericConstants.FIVE] += Double.valueOf(get[NumericConstants.SEVEN].toString());
+                    totalColumnValue[0] += Double.parseDouble(String.valueOf(get[NumericConstants.TWO]));
+                    totalColumnValue[1] += Double.parseDouble(String.valueOf(get[NumericConstants.THREE]));
+                    totalColumnValue[NumericConstants.TWO] += Double.parseDouble(get[NumericConstants.FOUR].toString());
+                    totalColumnValue[NumericConstants.THREE] += Double.parseDouble(get[NumericConstants.FIVE].toString());
+                    totalColumnValue[NumericConstants.FIVE] += Double.parseDouble(get[NumericConstants.SEVEN].toString());
                     if (get[NumericConstants.EIGHT] != null && !reforecastDto.getChildrenAllowed() && !isTotal) {
-                        totalColumnValue[NumericConstants.SIX] += Double.valueOf(get[NumericConstants.EIGHT].toString());
+                        totalColumnValue[NumericConstants.SIX] += Double.parseDouble(get[NumericConstants.EIGHT].toString());
                         ovverrideFlag = true;
                     }
-                    totalColumnValue[NumericConstants.SEVEN] += Double.valueOf(get[NumericConstants.NINE].toString());
+                    totalColumnValue[NumericConstants.SEVEN] += Double.parseDouble(get[NumericConstants.NINE].toString());
                 }
                 if (getCondition(reforecastSelection, index, totalColumnIndex, nextBrand, brand)
                         || ((!ARMConstants.getMonthly().equals(reforecastSelection.getSummarydemandfrequency()) && getConditionMultiplePeriod(reforecastSelection, startIndex, nextStartIndex))

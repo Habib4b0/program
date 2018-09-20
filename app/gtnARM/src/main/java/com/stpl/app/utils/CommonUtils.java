@@ -336,9 +336,9 @@ public class CommonUtils {
             String desc = helperDTO.getDescription();
             int month = 0;
             if (desc.contains("+")) {
-                month = Integer.valueOf(desc.substring(desc.indexOf('+') + NumericConstants.TWO));
+                month = Integer.parseInt(desc.substring(desc.indexOf('+') + NumericConstants.TWO));
             } else if (desc.contains("-")) {
-                month = -Integer.valueOf(desc.substring(desc.indexOf('-') + NumericConstants.TWO));
+                month = -Integer.parseInt(desc.substring(desc.indexOf('-') + NumericConstants.TWO));
             }
             ids.add(month);
         }
@@ -588,7 +588,7 @@ public class CommonUtils {
             Calendar calendar = Calendar.getInstance();
             String[] startDate = startPeriod.split(ARMUtils.SPACE.toString());
             calendar.set(Calendar.MONTH, CommonUtils.getMonthNo(startDate[0]) - 1);
-            calendar.set(Calendar.YEAR, Integer.valueOf(startDate[1]));
+            calendar.set(Calendar.YEAR, Integer.parseInt(startDate[1]));
             calendar.add(Calendar.MONTH, -NumericConstants.TWELVE);
             String periodYear;
             int periodMonth;
@@ -650,7 +650,7 @@ public class CommonUtils {
         //End Period
         Calendar endCal = Calendar.getInstance();
         endCal.set(Calendar.MONTH, end);
-        endCal.set(Calendar.YEAR, Integer.valueOf(endArr[1]));
+        endCal.set(Calendar.YEAR, Integer.parseInt(endArr[1]));
 
         //Start variable is to find the starting month based on the Quarter and Semi-Annual
         int start = CommonUtils.getMonthNo(startArr[0]) - 1;
@@ -661,7 +661,7 @@ public class CommonUtils {
         //Start Period
         Calendar startCal = Calendar.getInstance();
         startCal.set(Calendar.MONTH, start);
-        startCal.set(Calendar.YEAR, Integer.valueOf(startArr[1]));
+        startCal.set(Calendar.YEAR, Integer.parseInt(startArr[1]));
 
         while (startCal.before(endCal) || startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)) {
             count++;
@@ -1050,10 +1050,10 @@ public class CommonUtils {
         //history variable is used for setting the date based on user selection
         Calendar history = Calendar.getInstance();
         if ('A' == freq) {
-            history.set(Calendar.YEAR, Integer.valueOf(histPeriodArr[0]));
+            history.set(Calendar.YEAR, Integer.parseInt(histPeriodArr[0]));
         } else {
             history.set(Calendar.MONTH, CommonUtils.getMonthNo(histPeriodArr[0]) - 1);
-            history.set(Calendar.YEAR, Integer.valueOf(histPeriodArr[1]));
+            history.set(Calendar.YEAR, Integer.parseInt(histPeriodArr[1]));
         }
 
         /**

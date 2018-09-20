@@ -1160,9 +1160,8 @@ public class CFFLogic {
                 List<String> roleList = new ArrayList<>();
                 GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(sessionDTO,userId);
                 if (response.isHasPermission()) {
-                    Long processInstanceId = Long.valueOf(String.valueOf(response.getProcessInstanceId()));
                         GtnWsCommonWorkflowResponse taskSummary = DSCalculationLogic.startAndCompleteTask(sessionDTO,userId);
-                        processInstanceId = Long.valueOf(String.valueOf(taskSummary.getProcessInstanceId()));
+                      Long processInstanceId = Long.valueOf(String.valueOf(taskSummary.getProcessInstanceId()));
                    
                     VarianceCalculationLogic.submitWorkflow(processInstanceId, sessionDTO,"CFF");
                     noOfLevel = DSCalculationLogic.getProcessVariableLog(processInstanceId, "NoOfUsers");
