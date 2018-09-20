@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.doReturn;
 
+import java.util.Date;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -37,7 +39,7 @@ import org.junit.Ignore;
  * @author KARTHIK.RAJA
  * @version $Revision: 1.0 $
  */
-@Ignore
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/test/resources/AutomaticContext.xml"})
 public class GtnWsIfpSaveServiceTest {
@@ -49,9 +51,9 @@ public class GtnWsIfpSaveServiceTest {
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 	
-	@Mock
-	@Autowired
-	private GtnWsSqlService gtnWsSqlService;
+//	@Mock
+//	@Autowired
+//	private GtnWsSqlService gtnWsSqlService;
 	@Mock
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
@@ -142,22 +144,38 @@ public class GtnWsIfpSaveServiceTest {
 
 
 
-//	/**
-//	 * Run the void saveNotesTabDetails(GtnIFamilyPlanBean) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	 * 
-//	 */
-//	@Test
-//	public void testSaveNotesTabDetails_1()
-//		throws Exception {
-//		GtnWsIfpSaveService fixture = new GtnWsIfpSaveService();
-//		GtnIFamilyPlanBean ruleInfoBean = new GtnIFamilyPlanBean();
-//
-//		fixture.saveNotesTabDetails(ruleInfoBean);
-//
-//	}
+	/**
+	 * Run the void saveNotesTabDetails(GtnIFamilyPlanBean) method test.
+	 *
+	 * @throws Exception
+	 *
+	 * 
+	 */
+	@Test
+	public void testSaveNotesTabDetails_1()
+		throws Exception {
+		GtnIFamilyPlanBean ruleInfoBean = new GtnIFamilyPlanBean();
+		GtnIFamilyPlanInformationBean ifpInfo=new GtnIFamilyPlanInformationBean();
+		ifpInfo.setIfpSid(1);
+		ruleInfoBean.setIfpInfo(ifpInfo);
+		
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		GtnWsIfpSaveService fix=Mockito.spy(fixture);
+		HelperTable ht=new HelperTable();
+		
+		doReturn(ht).when(fix).getHelperTable(Mockito.any(Integer.class),Mockito.any(Session.class));
+		Session s=Mockito.mock(Session.class);
+		Transaction tran=Mockito.mock(Transaction.class);
+		
+		doReturn(s).when(sessionFactory).openSession();
+		
+		doReturn(sessionFactory).when(fix).getSessionFactory();
+		doReturn(1).when(s).save(Mockito.any(IfpModel.class));
+		doReturn(tran).when(s).beginTransaction();
+
+		fixture.saveNotesTabDetails(ruleInfoBean);
+
+	}
 
 
 	/**
@@ -219,9 +237,29 @@ public class GtnWsIfpSaveServiceTest {
 		updateBean.setValue("1");
 		updateBean.setClassType(String.class.getName());
 		gtnIFamilyPlan.setUpdateBean(updateBean);
+	    fixture.updateFieldsQuery(gtnWsRequest);
+	    
 		
+		updateBean.setClassType("java.util.Date");
+		updateBean.setColumnName("itemFamilyPlanStartDate");
+		updateBean.setValue(Long.MAX_VALUE);
 		String result = fixture.updateFieldsQuery(gtnWsRequest);
-
+		
+		updateBean.setClassType("java.util.Date");
+		updateBean.setColumnName("itemFamilyPlanEndDate");
+		updateBean.setValue(Long.MAX_VALUE);
+		fixture.updateFieldsQuery(gtnWsRequest);
+		
+		updateBean.setClassType(String.class.getName());
+		updateBean.setColumnName("checkRecordId");
+		updateBean.setValue("0");
+		fixture.updateFieldsQuery(gtnWsRequest);
+		
+		updateBean.setImtdIfpDetailsSid("1");
+		updateBean.setClassType(String.class.getName());
+		updateBean.setColumnName("default");
+		updateBean.setValue("0");
+		fixture.updateFieldsQuery(gtnWsRequest);
 		
 		assertNotNull(result);
 	}
