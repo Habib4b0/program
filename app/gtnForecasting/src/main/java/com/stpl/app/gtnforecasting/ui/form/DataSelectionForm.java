@@ -231,7 +231,6 @@ public class DataSelectionForm extends ForecastDataSelection {
                 this.scrName = "Non Mandated";
                 this.dataSelectionDTO = dataSelectionDto;
                 setLandingScreenDataSelectionDto(dataSelectionDTO);
-                generateButtonLogicNewArch(sessionDto,inputBean);
                 this.inputBean = inputBean;
 		LOGGER.info("DataSelectionIndex Initializing... ");
 		LOGGER.info("DataSelectionIndex Ends");
@@ -1096,7 +1095,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 //				}
 //			} else 
                             if (inputBean.getFromPeriod() != null) {
-				if (!MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf("Add"))) {
+				if (!MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(inputBean.getModeOption()))) {
 					dataSelectionDTO.setFromPeriod(String.valueOf(inputBean.getFromPeriod()));
 					if (!String.valueOf(inputBean.getFromPeriod()).isEmpty()
 							&& !Constant.SELECT_ONE.equals(String.valueOf(inputBean.getFromPeriod()))) {
@@ -1156,7 +1155,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 //				}
 
 			 if (inputBean.getToPeriod() != null) {
-				if (!MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf("Add"))) {
+				if (!MODE_SEARCH.getConstant().equalsIgnoreCase(String.valueOf(inputBean.getModeOption()))) {
 					dataSelectionDTO.setToPeriod(String.valueOf(inputBean.getToPeriod()));
 					if (!String.valueOf(inputBean.getToPeriod()).isEmpty()
 							&& !Constant.SELECT_ONE.equals(String.valueOf(inputBean.getToPeriod()))) {
@@ -3738,7 +3737,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				Map<String, String> tempProductDescriptionMap;
                                 
 				final DataSelectionDTO dto = bindDataselectionDtoToSaveNewArch(inputBean);
-                               // dto.setProjectionId(inputBean.getProjectionMasterSid());
+                                dto.setProjectionId(inputBean.getProjectionMasterSid());
 				int projectionIdValue = dto.getProjectionId();
                                 Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(projectionIdValue, TAB_DISCOUNT_PROJECTION.getConstant());
                                 Object mapValue = map.get(Constant.DEDUCTION_LEVEL_DDLB);

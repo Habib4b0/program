@@ -972,6 +972,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		forecastEditAction.addActionParameter(GtnFrameworkForecastEditAction.class.getName());
 		forecastEditAction.addActionParameter(nameSpace + "_" + "projectionResultsTable");
 		forecastEditAction.addActionParameter("Edit");
+                forecastEditAction.addActionParameter("Commercial Forecasting_deductionLevel");
+		forecastEditAction.addActionParameter("Commercial Forecasting_frequency");
 		editBtn.addGtnUIFrameWorkActionConfig(forecastEditAction);
 
 	}
@@ -992,6 +994,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		forecastViewAction.addActionParameter(GtnFrameworkForecastEditAction.class.getName());
 		forecastViewAction.addActionParameter(nameSpace + "_" + "projectionResultsTable");
 		forecastViewAction.addActionParameter("View");
+                forecastViewAction.addActionParameter("Commercial Forecasting_deductionLevel");
+		forecastViewAction.addActionParameter("Commercial Forecasting_frequency");
 		viewBtn.addGtnUIFrameWorkActionConfig(forecastViewAction);
 	}
 

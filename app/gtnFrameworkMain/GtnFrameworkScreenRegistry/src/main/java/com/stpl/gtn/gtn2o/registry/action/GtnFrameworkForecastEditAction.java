@@ -98,7 +98,7 @@ public class GtnFrameworkForecastEditAction
 			inputBean.setProductRelationVersionNo((int) selectedRow.getPropertyValueByIndex(29));
 			inputBean.setCustomerHierarchyVersion((int) selectedRow.getPropertyValueByIndex(30));
 			inputBean.setProductHierarchyVersion((int) selectedRow.getPropertyValueByIndex(31));
-			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date forecastEligibleDate = dateFormatter.parse((String) selectedRow.getPropertyValueByIndex(32));
 			inputBean.setForecastEligibleDate(forecastEligibleDate);
 			inputBean.setDeductionRelationVersion((int) selectedRow.getPropertyValueByIndex(33));

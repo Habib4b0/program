@@ -181,7 +181,7 @@
 			date,
 			PM.from_Date
 		),
-		'dd/MM/yyyy'
+		'dd-MM-yyyy'
 	)
 	 FromDate,
 	 FORMAT(
@@ -189,7 +189,7 @@
 			date,
 			PM.TO_DATE
 		),
-		'dd/MM/yyyy'
+		'dd-MM-yyyy'
 	)
 	 ToPeriod,
 	PROJECTION_CUST_VERSION,
@@ -201,7 +201,7 @@
 			date,
 			PM.FORECAST_ELIGIBLE_DATE
 		),
-		'dd/MM/yyyy'
+		'dd-MM-yyyy'
 	)FORECAST_ELIGIBLE_DATE1,
 	PROJECTION_DED_VERSION
 FROM
