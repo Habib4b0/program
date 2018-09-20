@@ -62,7 +62,7 @@ public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements Sear
 
     @Override
     public void initCallOnFailure() {
-        // Default Method
+        return;
     }
 
 }

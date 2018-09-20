@@ -5,10 +5,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
@@ -25,16 +28,12 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 @Service
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
     private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
-    private long staticTime = System.currentTimeMillis();
-    private ExecutorService service = Executors.newCachedThreadPool();
+    long staticTime = System.currentTimeMillis();
+    ExecutorService service = Executors.newCachedThreadPool();
 
     public List<Object[]> getPeriodResults(String businessProcessType) {
         return loadDateBusinessType(businessProcessType);
@@ -154,36 +153,56 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
     }
 
     private List<Object[]> getQuarter(String startDate, String endDate) {
-        List<Object[]> quarters = new ArrayList<>();
-        DateFormat df = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT);
-        DateFormat dfYY = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_YEAR_FORMAT);
+		List<Object[]> quarters = new ArrayList<>();
+		DateFormat df = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT);
+		DateFormat dfpsid = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_SID_DATE_FORMAT);
+		DateFormat dfYY = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_YEAR_FORMAT);
 
-        try {
-            Integer i = 1;
+		try {
+			String periodCounterStartDate = readProperty("periodCounterStartDate");
 
-            Calendar scal = Calendar.getInstance();
-            scal.setTime(df.parse(startDate));
-            Calendar ecal = Calendar.getInstance();
-            ecal.setTime(df.parse(endDate));
 
-            while (ecal.getTime().after(scal.getTime()) || ecal.getTime().equals(scal.getTime())) {
-                int month = scal.get(Calendar.MONTH) + 1;
+			Calendar scal = Calendar.getInstance();
+			scal.setTime(df.parse(startDate));
+			Calendar ecal = Calendar.getInstance();
+			ecal.setTime(df.parse(endDate));
+			Calendar pcal = Calendar.getInstance();
+			pcal.setTime(dfpsid.parse(periodCounterStartDate.trim()));
 
-                int quarter = month % 3 == 0 ? (month / 3) : (month / 3) + 1;
-                String[] s = {i.toString(), "Q" + quarter + " - " + dfYY.format(scal.getTime())};
-                i++;
-                quarters.add(s);
-                scal.add(Calendar.MONTH, 3);
+			while (ecal.getTime().after(scal.getTime()) || ecal.getTime().equals(scal.getTime())) {
+				int periodSid = (scal.get(Calendar.YEAR) - pcal.get(Calendar.YEAR)) * 12
+						+ (scal.get(Calendar.MONTH) - pcal.get(Calendar.MONTH)) + 1;
+				int month = scal.get(Calendar.MONTH) + 1;
+
+				int quarter = month % 3 == 0 ? (month / 3) : (month / 3) + 1;
+				String[] s = { String.valueOf(periodSid), "Q" + quarter + "-" + dfYY.format(scal.getTime()) };
+				logger.debug("Period Value" + Arrays.toString(s));
+
+				quarters.add(s);
+				scal.add(Calendar.MONTH, 3);
+			}
+		} catch (ParseException e) {
+			logger.error("Error in generating quarter information:" + e.toString());
+		}
+		return quarters;
+	}
+
+    public Runnable createRunnable(final Object... inputs) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure1 = (GtnUIFrameworkWebServiceClientCallOnFailure) inputs[0];
+                gtnWebServiceClientCallOnFailure1.setStaticTime(staticTime);
+                gtnWebServiceClientCallOnFailure1.callGtnWebServiceUrlOnFailure();
             }
-        } catch (ParseException e) {
-            logger.error("Error in generating quarter information:" + e.toString());
-        }
-        return quarters;
+        };
+        return runnable;
     }
 
     @Override
     public void initCallOnFailure() {
-        init();
+        return;
     }
 
 }
+
