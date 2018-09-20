@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ws.request.forecastingsearch;
 
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 import com.stpl.gtn.gtn2o.ws.generalsearch.GtnGeneralSearchBean;
 
 /**
@@ -12,14 +13,23 @@ import com.stpl.gtn.gtn2o.ws.generalsearch.GtnGeneralSearchBean;
  * @author anandh.karuppusamy
  */
 public class GtnGeneralSearchRequest {
-    private GtnGeneralSearchBean gtnGeneralSearchBean;
+	private GtnGeneralSearchBean gtnGeneralSearchBean;
+	private GtnFrameworkForecastInputBean inputBean;
 
-    public GtnGeneralSearchBean getGtnGeneralSearchBean() {
-        return gtnGeneralSearchBean;
-    }
+	public GtnGeneralSearchBean getGtnGeneralSearchBean() {
+		return gtnGeneralSearchBean;
+	}
 
-    public void setGtnGeneralSearchBean(GtnGeneralSearchBean gtnGeneralSearchBean) {
-        this.gtnGeneralSearchBean = gtnGeneralSearchBean;
-    }
-    
+	public void setGtnGeneralSearchBean(GtnGeneralSearchBean gtnGeneralSearchBean) {
+		this.gtnGeneralSearchBean = gtnGeneralSearchBean;
+	}
+
+	public GtnFrameworkForecastInputBean getInputBean() {
+		return inputBean;
+	}
+
+	public void setInputBean(GtnFrameworkForecastInputBean inputBean) {
+		this.inputBean = inputBean;
+	}
+
 }

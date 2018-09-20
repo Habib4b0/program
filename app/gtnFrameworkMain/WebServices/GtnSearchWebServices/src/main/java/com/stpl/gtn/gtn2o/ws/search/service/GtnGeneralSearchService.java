@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.implementation.ComboBoxSearch;
+import com.stpl.gtn.gtn2o.ws.search.implementation.CustomViewSearch;
 import com.stpl.gtn.gtn2o.ws.search.implementation.CustomerAndProductGroup;
 import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
@@ -113,6 +114,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             keyMap.put("dataSelectionDeduction", new ComboBoxSearch());
             keyMap.put("CustomerGroup", new CustomerAndProductGroup());
             keyMap.put("ProductGroup", new CustomerAndProductGroup());
+            keyMap.put("salesCustomView", new CustomViewSearch());
+            keyMap.put("deductionCustomView", new CustomViewSearch());
         }
         SearchInterface searchInterface = keyMap.get(key);
         GtnUIFrameworkWebserviceResponse response;
@@ -212,19 +215,19 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 					.getViewType();
 			String viewName = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
 					.getViewName();
-			String userId = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
-					.getUserId();
+			Integer userId = Integer.parseInt(gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId());
+				
 			GtnFrameworkForecastDataSelectionBean dataSelectionBean = gtnUiFrameworkWebservicerequest
 					.getGtnWsForecastNewArchRequest().getDataSelectionBean();
 			String viewData = gtnForecastJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'",
 					"\\\\");
 
 			Object[] params = new Object[5];
-			params[0] = viewType.replaceAll("\\*", "%");
-			params[1] = viewName.replaceAll("\\*", "%");
+			params[0] = viewName.replaceAll("\\*", "%");
+			params[1] = viewType.replaceAll("\\*", "%");
 			params[2] = userId;
 			params[3] = userId;
-			params[4] = "'" + viewData + "'";
+			params[4] = viewData;
 
 			GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
 					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING };
@@ -238,7 +241,6 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 			GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 			gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 			RestTemplate restTemplate1 = new RestTemplate();
-            addSecurityToken(gtnQueryEngineWebServiceRequest);
 			logger.info("calling query engine via service registry");
 			GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(getWebServiceEndpointBasedOnModule(
 					"/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
@@ -261,3 +263,4 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
     }
 
 }
+

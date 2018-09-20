@@ -634,6 +634,9 @@ public class HeaderGeneratorService {
 		if (comparisonBasis.equals(ACTUALS)) {
 			variableCategoryMap.put(VARIANCE, "ACT_VARIANCE");
 		}
+                else{
+                    variableCategoryMap.put(VARIANCE,"VARIANCE");
+                }
 
 	}
 

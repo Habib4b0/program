@@ -50,6 +50,7 @@ public class GtnFrameworkSaveViewAction
 				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getCaptionFromV8ComboBox())
 				.orElseGet(String::new);
 		dataSelectionBean.setCompany(company == "0" ? 0 : Integer.parseInt(company));
+		
 		String businessUnit = Optional.ofNullable(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getCaptionFromV8ComboBox())
 				.orElseGet(String::new);
@@ -57,6 +58,22 @@ public class GtnFrameworkSaveViewAction
 		String projectionName = Optional.ofNullable(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(3).toString()).getV8StringFromField())
 				.orElseGet(String::new);
+		String companyName = Optional.ofNullable(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getStringCaptionFromV8ComboBox())
+				.orElseGet(String::new);
+		dataSelectionBean.setCompanyName(companyName);
+		String businessUnitName = Optional.ofNullable(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getStringCaptionFromV8ComboBox())
+				.orElseGet(String::new);
+		dataSelectionBean.setBusinessUnitName(businessUnitName);
+		String fromPeriodForecast = Optional.ofNullable(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(5).toString()).getStringCaptionFromV8ComboBox())
+				.orElseGet(String::new);
+		dataSelectionBean.setFromPeriodForecastName(fromPeriodForecast);
+		String toPeriodForecast = Optional.ofNullable(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(6).toString()).getStringCaptionFromV8ComboBox())
+				.orElseGet(String::new);
+		dataSelectionBean.setToPeriodForecastName(toPeriodForecast);
 		dataSelectionBean.setProjectionName(projectionName == null ? "" : projectionName);
 		String projectionDescription = Optional.ofNullable(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(4).toString()).getV8StringFromField())
@@ -126,8 +143,7 @@ public class GtnFrameworkSaveViewAction
 				.orElseGet(String::new);
 		dataSelectionBean.setPublicViewName(StringUtils.isBlank(publicViewName) ? null : publicViewName);
 
-
-
+		
 		GtnUIFrameWorkActionConfig popupAction = new GtnUIFrameWorkActionConfig();
 		popupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> params = new ArrayList<>();

@@ -37,7 +37,11 @@ public class GtnFrameworkForecastDataSelectionBean {
 	
 
 	private Integer company;
+	private String companyName;
 	private Integer businessUnit;
+	private String businessUnitName;
+	private String fromPeriodForecastName;
+	private String toPeriodForecastName;
 	private Integer fromPeriodForecast;
 	private Integer toPeriod;
 	private GtnWsRecordBean customerHierarchyRecordBean;
@@ -465,6 +469,37 @@ public class GtnFrameworkForecastDataSelectionBean {
 	public void setCustomDataList(List<Object> customDataList) {
 		this.customDataList = customDataList != null ? new ArrayList<>(customDataList) : customDataList;
 	}
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getBusinessUnitName() {
+		return businessUnitName;
+	}
+
+	public void setBusinessUnitName(String businessUnitName) {
+		this.businessUnitName = businessUnitName;
+	}
+
+	public String getFromPeriodForecastName() {
+		return fromPeriodForecastName;
+	}
+
+	public void setFromPeriodForecastName(String fromPeriodForecastName) {
+		this.fromPeriodForecastName = fromPeriodForecastName;
+	}
+
+	public String getToPeriodForecastName() {
+		return toPeriodForecastName;
+	}
+
+	public void setToPeriodForecastName(String toPeriodForecastName) {
+		this.toPeriodForecastName = toPeriodForecastName;
+	}
 
 	public GtnFrameworkForecastDataSelectionBean DataSelectionBeanCopy() {
 		GtnFrameworkForecastDataSelectionBean DataSelectionCopyBean = new GtnFrameworkForecastDataSelectionBean();
@@ -485,7 +520,9 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setSessionId(this.sessionId);
 		DataSelectionCopyBean.setUniqueId(this.uniqueId);
 		DataSelectionCopyBean.setCompany(this.company);
+		DataSelectionCopyBean.setCompanyName(this.companyName);
 		DataSelectionCopyBean.setBusinessUnit(this.businessUnit);
+		DataSelectionCopyBean.setBusinessUnitName(this.businessUnitName);
 		DataSelectionCopyBean.setFromPeriodForecast(this.fromPeriodForecast);
 		DataSelectionCopyBean.setToPeriod(this.toPeriod);
 		DataSelectionCopyBean.setCustomerHierarchyRecordBean(this.customerHierarchyRecordBean);
@@ -496,7 +533,9 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setSelectedProductHierarchyList(this.selectedProductHierarchyList);
 
 		DataSelectionCopyBean.setFromPeriod(this.fromPeriod);
+		DataSelectionCopyBean.setFromPeriodForecastName(this.fromPeriodForecastName);
 		DataSelectionCopyBean.setToPeriodReport(this.toPeriodReport);
+		DataSelectionCopyBean.setToPeriodForecastName(this.toPeriodForecastName);
 		DataSelectionCopyBean.setFrequency(this.frequency);
 		DataSelectionCopyBean.setFrequencyName(this.frequencyName);
 		DataSelectionCopyBean.setReportDataSource(this.reportDataSource);
@@ -514,5 +553,8 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setCustomDataList(this.customDataList);
 		return DataSelectionCopyBean;
 	}
+
+	
+	
 
 }
