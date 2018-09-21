@@ -111,7 +111,7 @@ public class GtnWsTransactionReprocessIOService {
 		}
 	}
 
-	private String removeUnwantedColumnForStagingtable(List<String> selectedColumn, String inavlidTableName) {
+	public String removeUnwantedColumnForStagingtable(List<String> selectedColumn, String inavlidTableName) {
 		if ("IvldAccrualInbound".equals(inavlidTableName)) {
 			int index = selectedColumn.indexOf("accrualIntfid");
 			selectedColumn.remove("accrualIntfid");
@@ -122,7 +122,7 @@ public class GtnWsTransactionReprocessIOService {
 
 	}
 
-	private List<String> removeUnwantedColumns(List<String> selectedColumn, String inavlidTableName) {
+	public List<String> removeUnwantedColumns(List<String> selectedColumn, String inavlidTableName) {
 		final List<String> notCommonColumnsList = Arrays.asList("reasonForFailure", "intfInsertedDate", "errorCode",
 				"errorField", "reprocessedFlag", "checkRecord");
 		List<String> selectedColumnList = new ArrayList<>(selectedColumn);
@@ -146,7 +146,7 @@ public class GtnWsTransactionReprocessIOService {
 		return selectedColumnList;
 	}
 
-	private void updateConditionFlag(GtnWsTransactionRequest gtnWsTransactionRequest, String whereCondition,
+	public void updateConditionFlag(GtnWsTransactionRequest gtnWsTransactionRequest, String whereCondition,
 			String tableName) throws GtnFrameworkGeneralException {
 		StringBuilder conditionalUpdate = new StringBuilder(" UPDATE ");
 		conditionalUpdate.append(tableName).append(" SET ");
@@ -165,7 +165,7 @@ public class GtnWsTransactionReprocessIOService {
 		}
 	}
 
-	private String getWhereClauseForReprocess(GtnWsTransactionRequest gtnWsTransactionRequest) {
+	public String getWhereClauseForReprocess(GtnWsTransactionRequest gtnWsTransactionRequest) {
 
 		Map<String, String> columnDataTypeMap = new HashMap<>();
 		StringBuilder whereClause = new StringBuilder();
@@ -278,7 +278,7 @@ public class GtnWsTransactionReprocessIOService {
 		}
 	}
 
-	private void replaceBatchIdColumn(List<String> selectColumns) {
+	public void replaceBatchIdColumn(List<String> selectColumns) {
 		if (selectColumns.contains("batchId")) {
 			selectColumns.set(selectColumns.indexOf("batchId"), "'IVLD_' + replace(batchId, 'IVLD_', '')");
 		}
@@ -322,7 +322,7 @@ public class GtnWsTransactionReprocessIOService {
 		}
 	}
 
-	private void updateConditionAndCallEtlService(GtnWsTransactionRequest gtnWsTransactionRequest,
+	public void updateConditionAndCallEtlService(GtnWsTransactionRequest gtnWsTransactionRequest,
 			String whereCondition, String tableName, String etlJobName) {
 		try {
 			updateConditionFlag(gtnWsTransactionRequest, whereCondition, tableName);
@@ -334,7 +334,7 @@ public class GtnWsTransactionReprocessIOService {
 		}
 	}
 
-	private String getWhereQueries(GtnWsTransactionRequest gtnWsTransactionRequest, ClassMetadata classMetadata,
+	public String getWhereQueries(GtnWsTransactionRequest gtnWsTransactionRequest, ClassMetadata classMetadata,
 			List<String> ids, String condition, Object[] extraColumns) {
 		StringBuilder whereQuery = new StringBuilder();
 		if (!gtnWsTransactionRequest.isOutBoundModule()) {
@@ -351,7 +351,7 @@ public class GtnWsTransactionReprocessIOService {
 		return whereQuery.toString();
 	}
 
-	private Object[] getSidsList(List<String> ids, int index) {
+	public Object[] getSidsList(List<String> ids, int index) {
 		Set<String> obj = new HashSet<>();
 		for (int i = 0; i < ids.size(); i++) {
 			String value = ids.get(i);
@@ -363,5 +363,14 @@ public class GtnWsTransactionReprocessIOService {
 		}
 		return obj.toArray();
 	}
+        
+    public GtnWsAllListConfig getGtnWebServiceAllListConfig() {
+        return gtnWebServiceAllListConfig;
+    }
+    
+
+    public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
+        return gtnSqlQueryEngine;
+    }
 
 }
