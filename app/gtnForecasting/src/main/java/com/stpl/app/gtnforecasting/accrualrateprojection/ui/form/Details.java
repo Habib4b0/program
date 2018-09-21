@@ -343,16 +343,12 @@ public class Details extends CustomComponent {
             } else if (accrualRateSelectionDTO.getVariableList().isEmpty()) {
                 AbstractNotificationUtils.getErrorNotification("Not all Required Fields are Populated", alertMsg.getString("ACR_MSG_ID_05"));
             } else {
-                if (AccrualRateUtils.EDIT.equalsIgnoreCase(session.getAction()) && !session.isFileNotChanged()
-                        && !session.isNewFileCalculationNeeded() && !map.containsKey(Constant.IS_SALES_GENERATED) && !map.containsKey(Constant.IS_RATES_GENERATED)) {
-                    AbstractNotificationUtils.getInfoNotification("Error", alertMsg.getString("ACR_MSG_ID_09"));
+                if (!checkSalesAndRatesTabIsGeneratedOrNot()) {
                     return;
-                } else if ((AccrualRateUtils.EDIT.equalsIgnoreCase(session.getAction()) || AccrualRateUtils.VIEW.equalsIgnoreCase(session.getAction())) && (!session.isFileNotChanged() && !session.isNewFileCalculationNeeded())) {
-                    AbstractNotificationUtils.getInfoNotification("Confirmation", alertMsg.getString("ACR_MSG_ID_07"));
                 }
                 accrualRateSelectionDTO.setPeriodBasis(map.containsKey(Constant.PERIOD_BASIS) ? map.get(Constant.PERIOD_BASIS) : StringUtils.EMPTY);
                 accrualRateSelectionDTO.setRateBasis(map.containsKey("Rate Basis") ? map.get("Rate Basis") : StringUtils.EMPTY);
-                accrualRateSelectionDTO.setIsFilterValid(!isNotValidFilter && StringUtils.isNotBlank((String) fromDdlb.getValue()));
+                accrualRateSelectionDTO.setIsFilterValid(StringUtils.isNotBlank((String) fromDdlb.getValue()));
                 tableVerticalLayout.removeAllComponents();
                 tableLogic = new AccrualRateProjectionTableLogic();
                 table = new FreezePagedTable(tableLogic);
@@ -368,6 +364,17 @@ public class Details extends CustomComponent {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
+    }
+
+    private boolean checkSalesAndRatesTabIsGeneratedOrNot() {
+        if (AccrualRateUtils.EDIT.equalsIgnoreCase(session.getAction()) && !session.isFileNotChanged()
+                && !session.isNewFileCalculationNeeded() && !map.containsKey(Constant.IS_SALES_GENERATED) && !map.containsKey(Constant.IS_RATES_GENERATED)) {
+            AbstractNotificationUtils.getInfoNotification("Error", alertMsg.getString("ACR_MSG_ID_09"));
+            return false;
+        } else if ((AccrualRateUtils.EDIT.equalsIgnoreCase(session.getAction()) || AccrualRateUtils.VIEW.equalsIgnoreCase(session.getAction())) && (!session.isFileNotChanged() && !session.isNewFileCalculationNeeded())) {
+            AbstractNotificationUtils.getInfoNotification("Confirmation", alertMsg.getString("ACR_MSG_ID_07"));
+        }
+        return true;
     }
 
     /**
@@ -542,41 +549,47 @@ public class Details extends CustomComponent {
                 brandDdlb.setValue(String.valueOf(value));
             }
 
-            value = editviewMap.get(Constant.VARIABLES);
-            if (value != null) {
-                String val = value.toString();
+            configureSelectedVariables(editviewMap);
 
-                final String[] col = val.split(",");
-                for (int i = 0; i < col.length; i++) {
-                    if (i == Constant.ZERO) {
-                        for (CustomMenuBar.CustomMenuItem string : customMenuItem.getChildren()) {
-                            if (string.getText().equals(String.valueOf(col[i]).trim())) {
-                                string.setChecked(true);
-                            }
-                        }
-                    } else {
-                        for (CustomMenuBar.CustomMenuItem string : customMenuItem.getChildren()) {
-                            if (string.getText().equals(col[i])) {
-                                string.setChecked(true);
-                            }
-                        }
+            configureTimePeriodFromAndTo(editviewMap);
+
+        }
+
+        List<String> selectedVariableList = new ArrayList<>();
+        AccrualRateUtils.getCurrentCheckValue(selectedVariableList, customMenuItem, AccrualRateUtils.SALES);
+        accrualRateSelectionDTO.setVariableList(selectedVariableList);
+    }
+
+    private void configureTimePeriodFromAndTo(Map<Object, Object> editviewMap) throws Property.ReadOnlyException {
+        Object value;
+        value = editviewMap.get("FromDDLB");
+        if (value != null) {
+            fromDdlb.setValue(String.valueOf(value));
+        }
+        value = editviewMap.get("TODDLB");
+        if (value != null) {
+            toDdlb.setValue(String.valueOf(value));
+        }
+    }
+
+    private void configureSelectedVariables(Map<Object, Object> editviewMap) {
+        Object value;
+        value = editviewMap.get(Constant.VARIABLES);
+        if (value != null) {
+            String val = value.toString();
+
+            final String[] col = val.split(",");
+            for (int i = 0; i < col.length; i++) {
+                for (CustomMenuBar.CustomMenuItem string : customMenuItem.getChildren()) {
+                    if ((customMenuItem.getSize() - 1 == col.length) && string.getText().equalsIgnoreCase("Check All")) {
+                        string.setChecked(true);
+                    }
+                    if (string.getText().equals(String.valueOf(col[i]).trim())) {
+                        string.setChecked(true);
                     }
                 }
             }
-            value = editviewMap.get("FromDDLB");
-            if (value != null) {
-                fromDdlb.setValue(String.valueOf(value));
-            }
-            value = editviewMap.get("TODDLB");
-            if (value != null) {
-                toDdlb.setValue(String.valueOf(value));
-            }
-
         }
-        
-        List<String> selectedVariableList=new ArrayList<>();
-        AccrualRateUtils.getCurrentCheckValue(selectedVariableList, customMenuItem, AccrualRateUtils.SALES);
-        accrualRateSelectionDTO.setVariableList(selectedVariableList);
     }
 
     public void callDetailsProcedure() {

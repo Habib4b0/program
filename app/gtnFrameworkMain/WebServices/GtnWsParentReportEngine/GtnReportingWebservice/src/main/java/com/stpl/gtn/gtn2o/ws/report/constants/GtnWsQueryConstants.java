@@ -84,6 +84,11 @@ public class GtnWsQueryConstants {
 	public static final String CHECK_PROCESS_MODE_FOR_REPORT_FROM_AND_TO_DATE = "select PROCESS_MODE from forecast_config where ACTIVE_END_DATE IS null and BUSINESS_PROCESS_TYPE = 331";
 
 	public static final String PERCENTAGE_OPERATOR = "%";
+	public static final String CONTRACT_UNITS = "Contract Units";
+	public static final String WEIGHTED_GTN_CONTRIBUTION = "Weighted GTN Contribution";
+	public static final String VOLUME = "VOLUME";
+	public static final String CHANGE = "CHANGE";
+	public static final String TOTAL_CAPS = "TOTAL";
 
 	public static final String CUSTOM_CCP_FILE_NAME = "CustomViewCCP";
 
