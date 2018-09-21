@@ -1323,7 +1323,7 @@ public class CommonUtils {
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
                 Object [] array = (Object[]) userList.get(loop);
-                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
+                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + array[1]);
             }
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -1356,7 +1356,7 @@ public class CommonUtils {
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
                 Object [] array = (Object[]) userList.get(loop);
-                userMap.put(String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]), String.valueOf(array[0]));
+                userMap.put(String.valueOf(array[NumericConstants.TWO]) + ", " + array[1], String.valueOf(array[0]));
             }
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());

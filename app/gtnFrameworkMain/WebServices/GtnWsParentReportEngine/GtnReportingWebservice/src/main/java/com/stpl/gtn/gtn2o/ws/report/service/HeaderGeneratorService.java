@@ -64,6 +64,8 @@ public class HeaderGeneratorService {
 	private static final String TOTAL = " Total";
 
 	private static final String VARIANCE = "Variance";
+        
+        private static final String CURRENTPROJECTION = "Projection_1";
 
 	public HeaderGeneratorService() {
 		super();
@@ -634,8 +636,13 @@ public class HeaderGeneratorService {
 		if (comparisonBasis.equals(ACTUALS)) {
 			variableCategoryMap.put(VARIANCE, "ACT_VARIANCE");
 		}
-                else{
+                if(comparisonBasis.equals(CURRENTPROJECTION)){
                     variableCategoryMap.put(VARIANCE,"VARIANCE");
+                    variableCategoryMap.put("% Change", "PER_CHANGE");
+                }
+                else{
+                    variableCategoryMap.put(VARIANCE,"PROJ_VARIANCE");
+                    variableCategoryMap.put("% Change", "PROJ_PER_CHANGE");
                 }
 
 	}

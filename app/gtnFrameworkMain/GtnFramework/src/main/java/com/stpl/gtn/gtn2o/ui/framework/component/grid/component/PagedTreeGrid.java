@@ -138,7 +138,7 @@ public class PagedTreeGrid {
 		initialConfig(componentId);
 	}
 	
-	public void resetGrid(String componentId){
+	public void resetGrid(){
         itemsPerPage.setSelectedItem(pageLength);
         columnsPerPage.setSelectedItem(10);
 	}
