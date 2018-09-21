@@ -256,8 +256,6 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
     @Override
     public List<Object> generateHeader(AbstractSelectionDTO selection, String[] columns) {
         List<Object> finalList = new ArrayList<>();
-        List<String> paDoubleSingleColumn;
-        List<String> paExcelDoubleSingleColumn;
         List<String> paSingleVisibleColumn = new ArrayList<>();
         List<String> paExcelSingleColumn = new ArrayList<>();
         List<String> paExcelVisibleColumn = new ArrayList<>();
@@ -281,9 +279,11 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             doublecolumnList.add(doublecolumn);
         }
         doubleHeaderVariables = doublecolumnList;
+        List<String> paDoubleSingleColumn = new ArrayList<>();
+        List<String> paExcelDoubleSingleColumn = new ArrayList<>();
         for (String[] detection : doubleHeaderVariables) {
-            paDoubleSingleColumn = new ArrayList<>();
-            paExcelDoubleSingleColumn = new ArrayList<>();
+            paDoubleSingleColumn.clear();
+            paExcelDoubleSingleColumn.clear();
             for (int i = 0; i < columns.length; i++, index++) {
                 String column = columns[i];
                 singleColumn.add(column + ARMUtils.DOT + index);

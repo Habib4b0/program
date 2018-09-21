@@ -144,7 +144,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
 
             if (isCount) {
                 List count = null;
-                if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+                if ((lastParent instanceof AdjustmentDTO)) {
                     AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                     count = QueryUtils.getItemData(getQueryInput(parentDTO, selection, input, queryName), queryName, CommonConstant.TRX7_CUSTOMERPRODUCTCOUNT);
 
@@ -161,7 +161,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
                 return count != null && !count.isEmpty() && count.get(0) != null ? count.get(0) : 0;
             } else {
                 List result;
-                if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+                if ((lastParent instanceof AdjustmentDTO)) {
                     AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                     getQueryInput(parentDTO, selection, input, queryName);
                     input.addAll(new ArrayList<>(Arrays.asList(isView ? CommonConstant.ARM_DISTRIBUTION_FEES_SALES : selection.getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_DISTRIBUTION_FEES_SALES), startindex, endindex)));

@@ -643,6 +643,9 @@ public class HeaderGeneratorService {
                 else{
                     variableCategoryMap.put(VARIANCE,"PROJ_VARIANCE");
                     variableCategoryMap.put("% Change", "PROJ_PER_CHANGE");
+                    variableCategoryMap.put("Volume", "VOLUME");
+                    variableCategoryMap.put("Rate", "RATE");
+                    variableCategoryMap.put("Change in Change", "CHANGEINCHANGE");
                 }
 
 	}
