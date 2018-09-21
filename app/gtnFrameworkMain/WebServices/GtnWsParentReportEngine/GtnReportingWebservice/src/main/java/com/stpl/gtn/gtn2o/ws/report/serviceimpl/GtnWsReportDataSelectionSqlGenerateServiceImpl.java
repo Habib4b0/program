@@ -736,7 +736,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 		} else if ((!"V".equals(indicator) && variableChild.equals(GtnWsQueryConstants.CONTRACT_UNITS))
 				|| (!"V".equals(indicator) && variableChild.equals(GtnWsQueryConstants.CONTRACT_UNITS)
-						&& key.contains(GtnWsQueryConstants.TOTAL))) {
+						&& key.contains(GtnWsQueryConstants.TOTAL_CAPS))) {
 
 			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
 
@@ -746,7 +746,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 				|| (!"V".equals(indicator)
 						&& (variableChild.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)
 								|| (variableChild.equals(GtnWsQueryConstants.WEIGHTED_GTN_CONTRIBUTION)))
-						&& key.contains(GtnWsQueryConstants.TOTAL))) {
+						&& key.contains(GtnWsQueryConstants.TOTAL_CAPS))) {
 
 			recordBean.addProperties(key,
 					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
@@ -812,7 +812,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 		} else if ((!"V".equals(variableIndicator) && variableChild.equals(GtnWsQueryConstants.CONTRACT_UNITS))
 				|| (!"V".equals(variableIndicator) && variableChild.equals(GtnWsQueryConstants.CONTRACT_UNITS)
-						&& mapKey.contains(GtnWsQueryConstants.TOTAL))) {
+						&& mapKey.contains(GtnWsQueryConstants.TOTAL_CAPS))) {
 
 			gtnWsRecordBean.addProperties(mapKey,
 					GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
@@ -823,7 +823,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 				|| (!"V".equals(variableIndicator)
 						&& (variableChild.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)
 								|| (variableChild.equals(GtnWsQueryConstants.WEIGHTED_GTN_CONTRIBUTION)))
-						&& mapKey.contains(GtnWsQueryConstants.TOTAL))) {
+						&& mapKey.contains(GtnWsQueryConstants.TOTAL_CAPS))) {
 
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
 					+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);

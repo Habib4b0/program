@@ -88,7 +88,7 @@ public class GtnWsQueryConstants {
 	public static final String WEIGHTED_GTN_CONTRIBUTION = "Weighted GTN Contribution";
 	public static final String VOLUME = "VOLUME";
 	public static final String CHANGE = "CHANGE";
-	public static final String TOTAL = "TOTAL";
+	public static final String TOTAL_CAPS = "TOTAL";
 
 	public static final String CUSTOM_CCP_FILE_NAME = "CustomViewCCP";
 
