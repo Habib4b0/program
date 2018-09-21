@@ -103,8 +103,8 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     @UiField("cancelOverride")
     protected Button cancelOverride;
 
-    protected final AdjustmentTableLogic tableLogic;
-    protected final FreezePagedTreeTable table;
+    protected AdjustmentTableLogic tableLogic;
+    protected FreezePagedTreeTable table;
     protected ExtPagedTreeTable leftTable;
     protected ExtPagedTreeTable rightTable;
     protected PropertyFormatCustomTreeTable excelTable;
@@ -125,6 +125,10 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     public AbstractSearchResults(LogicAble logic, T selection) {
         this.logic = logic;
         this.selection = selection;
+        getTableLogicAndTable();
+    }
+
+    private void getTableLogicAndTable() {
         this.tableLogic = new AdjustmentTableLogic(getSummaryLogic(), getSelection());
         this.table = new FreezePagedTreeTable(getTableLogic());
     }

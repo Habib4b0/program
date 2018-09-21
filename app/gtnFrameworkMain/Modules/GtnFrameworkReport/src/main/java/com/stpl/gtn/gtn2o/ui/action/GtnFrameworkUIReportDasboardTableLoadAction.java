@@ -127,6 +127,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
 				dataSelectionBean.setDataRefreshDone(true);
+                                dataSelectionBean.setCustomViewMasterSid(reportBean.getDataSelectionBean().getCustomViewMasterSid());
 			}
 		} catch (GtnFrameworkValidationFailedException e) {
 			logger.error(e.getErrorMessage(), e);

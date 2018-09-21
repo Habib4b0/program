@@ -87,7 +87,7 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
         return VariableConstants.getVisibleColumnDemandPaymentDeduction();
     }
 
-    public void configureWorkFlow() throws InvocationTargetException {
+    private void configureWorkFlow() throws InvocationTargetException {
         if (paymentsSelectionDTO.getSessionDTO().isWorkFlow()) {
             loadDetails();
             loadSelection();

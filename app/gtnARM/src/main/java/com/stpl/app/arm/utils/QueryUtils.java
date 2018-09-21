@@ -324,9 +324,9 @@ public class QueryUtils {
 
     public static String buildadjustmentselectiondeletequery(int projectionId) {
         LOGGER.debug("--Inside build_adjustment_selection_delete_query --");
-        StringBuilder sql = new StringBuilder("DELETE FROM ARM_PROJ_SELECTION WHERE PROJECTION_MASTER_SID=" + projectionId);
-        LOGGER.debug(CommonConstant.SQL_QUERY, sql.toString());
-        return sql.toString();
+        String sql = "DELETE FROM ARM_PROJ_SELECTION WHERE PROJECTION_MASTER_SID=" + projectionId;
+        LOGGER.debug(CommonConstant.SQL_QUERY, sql);
+        return sql;
     }
 
     /**
@@ -439,7 +439,7 @@ public class QueryUtils {
             } else {
                 ccpHierarchyQuery[NumericConstants.TWO] = formQueryWithUnionAll(productList);
             }
-            LOGGER.debug("ccpHierarchyQuery -- {}",  ccpHierarchyQuery.length);
+            LOGGER.debug("ccpHierarchyQuery -- {}", ccpHierarchyQuery.length);
             LOGGER.debug("isDataSelectionTab -- {}", isDataSelectionTab);
             LOGGER.debug("tempTableNames -- {}", tempTableNames.entrySet());
             LOGGER.debug("topLevelName -- {}", topLevelName);

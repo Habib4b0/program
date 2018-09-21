@@ -478,8 +478,8 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
             deductionTypeDdlbRes.setNullSelectionAllowed(false);
             for (Object obj : list) {
                 if (obj != null) {
-                    deductionTypeDdlbRes.addItem((int) obj);
-                    deductionTypeDdlbRes.setItemCaption((int) obj, (idhelper.get((int) obj)).getDescription());
+                    deductionTypeDdlbRes.addItem((Integer) obj);
+                    deductionTypeDdlbRes.setItemCaption((Integer) obj, (idhelper.get((Integer) obj)).getDescription());
                 }
             }
             deductionTypeDdlbRes.select(0);
@@ -506,8 +506,8 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
                 deductionProgramDdlbRes.setNullSelectionAllowed(false);
                 for (Object obj : list) {
                     if (obj != null) {
-                        deductionProgramDdlbRes.addItem((int) obj);
-                        deductionProgramDdlbRes.setItemCaption((int) obj, (idhelper.get((int) obj)).getDescription());
+                        deductionProgramDdlbRes.addItem((Integer) obj);
+                        deductionProgramDdlbRes.setItemCaption((Integer) obj, (idhelper.get((Integer) obj)).getDescription());
                     }
                 }
             }

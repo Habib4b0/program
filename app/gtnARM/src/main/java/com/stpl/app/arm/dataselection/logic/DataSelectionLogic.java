@@ -1178,7 +1178,7 @@ public class DataSelectionLogic {
         rsContractIdFilters = rsContractIdFilters.replace("$$$FILTER$$$", filter);
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(rsContractIdFilters);
         for (Object obj : list) {
-            rsContractSidList.add((int) obj);
+            rsContractSidList.add((Integer) obj);
         }
 
         String retLitString = " RS_CONTRACT_SID IN (" + StringUtils.join(list.toArray(), ",") + ") ";
