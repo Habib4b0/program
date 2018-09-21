@@ -209,7 +209,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     @Override
     public Object[] getExcelHierarchy() {
         TR6_INVENTORY_LOGGER.debug("Inside getExcelHierarchy");
-        return new Object[]{"T", "B", "I"};
+        return ARMUtils.getTBI();
     }
 
     @Override

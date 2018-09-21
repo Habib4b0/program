@@ -316,7 +316,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					String indicator = hierachyBean.getData()[5].toString();
 					if (("V".equals(indicator)
 							&& bean.getStringProperty(levelName).contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
-							|| object.toString().contains("PER") || object.toString().contains("RATE")) {
+							|| object.toString().contains("PER") || object.toString().contains("RATE")
+							|| object.toString().contains("GTN")
+							|| bean.getStringProperty(levelName).contains("Weighted")) {
 						total = bean.getRecordHeader().stream()
 								.filter(e -> e != null && e.toString()
 										.contains(object.toString().replace(GtnWsQueryConstants.TOTAL, "")))
@@ -415,15 +417,13 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			variableChild = getchildOfVariable("A");
 		} else if (bean.getHierarchyNo().contains(".B.")) {
 			variableChild = getchildOfVariable("B");
-		}
-		if (bean.getHierarchyNo().contains(".C.")) {
+		} else if (bean.getHierarchyNo().contains(".C.")) {
 			variableChild = getchildOfVariable("C");
 		} else if (bean.getHierarchyNo().contains(".D.")) {
 			variableChild = getchildOfVariable("D");
 		} else if (bean.getHierarchyNo().contains(".E.")) {
 			variableChild = getchildOfVariable("E");
-		}
-		if (bean.getHierarchyNo().contains(".F.")) {
+		} else if (bean.getHierarchyNo().contains(".F.")) {
 			variableChild = getchildOfVariable("F");
 		} else if (bean.getHierarchyNo().contains(".G.")) {
 			variableChild = getchildOfVariable("G");
@@ -707,37 +707,68 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private void dataConvertors(GtnWsRecordBean recordBean, String key, Double data, String indicator, String levelName,
 			boolean isTotalSpecialCondition, String variableChild) {
 
-		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
-				|| key.contains("PER") || key.contains("RATE") || key.contains("WEIGHTED")
-				|| levelName.contains("Weighted")) {
+		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
 
+			if (key.contains("PER") || key.contains("WEIGHTED") || levelName.contains("Weighted")) {
+
+				recordBean.addProperties(key, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data)
+						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+			}
+			if ((key.contains(GtnWsQueryConstants.VOLUME) && levelName.contains("Weighted"))
+					|| (key.contains(GtnWsQueryConstants.VOLUME)
+							&& levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
+
+				recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
+			}
+
+		} else if (key.contains(GtnWsQueryConstants.VOLUME)) {
+
+			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
+
+		} else if (key.contains("RATE") || key.contains(GtnWsQueryConstants.CHANGE)) {
 			recordBean.addProperties(key,
 					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 
-		} else if (("V".equals(indicator) && levelName.contains("Unit"))) {
-			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
-		}
+		} else if (("V".equals(indicator) && levelName.contains("Unit")) || key.contains("UNIT")
+				|| key.contains(GtnWsQueryConstants.VOLUME)) {
 
-		else if ((!"V".equals(indicator) && variableChild.equals("Contract Units"))
-				|| (!"V".equals(indicator) && variableChild.equals("Contract Units") && key.contains("Total"))) {
 			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
-		}
 
-		else if ((!"V".equals(indicator)
-				&& (variableChild.contains("%") || (variableChild.equals("Weighted GTN Contribution"))))
+		} else if ((!"V".equals(indicator) && variableChild.equals(GtnWsQueryConstants.CONTRACT_UNITS))
+				|| (!"V".equals(indicator) && variableChild.equals(GtnWsQueryConstants.CONTRACT_UNITS)
+						&& key.contains(GtnWsQueryConstants.TOTAL_CAPS))) {
+
+			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
+
+		} else if ((!"V".equals(indicator) && (variableChild.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)
+				|| (variableChild.equals(GtnWsQueryConstants.WEIGHTED_GTN_CONTRIBUTION))
+				|| key.contains(GtnWsQueryConstants.CHANGE)))
 				|| (!"V".equals(indicator)
-						&& (variableChild.contains("%") || (variableChild.equals("Weighted GTN Contribution")))
-						&& key.contains("Total"))) {
+						&& (variableChild.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)
+								|| (variableChild.equals(GtnWsQueryConstants.WEIGHTED_GTN_CONTRIBUTION)))
+						&& key.contains(GtnWsQueryConstants.TOTAL_CAPS))) {
+
 			recordBean.addProperties(key,
 					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 		}
-		// Not to show 0 in top level
-		else if (!"V".equals(indicator) && isTotalSpecialCondition && variableChild.equals("")) {
-			recordBean.addProperties(key, "");
-		}
 
-		else {
-			recordBean.addProperties(key, GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));
+		// Not to show 0 in top level
+		else if (!"V".equals(indicator) && (isTotalSpecialCondition && variableChild.equals(""))) {
+			recordBean.addProperties(key, "");
+		} else {
+
+			if (levelName.contains("Weighted") || levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)) {
+
+				recordBean.addProperties(key, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data)
+						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+
+			} else if ((key.contains("PER") || key.contains("GTN"))) {
+				recordBean.addProperties(key, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data)
+						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+
+			} else {
+				recordBean.addProperties(key, GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));
+			}
 		}
 
 	}
@@ -749,43 +780,71 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition,
 			String variableChild) {
 
-		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
-				|| mapKey.contains("PER") || mapKey.contains("RATE") || mapKey.contains("WEIGHTED")
-				|| levelName.contains("Weighted")) {
+		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
+			if (mapKey.contains("PER") || mapKey.contains("WEIGHTED") || levelName.contains("Weighted")) {
+				gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
+						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+			}
+			if ((mapKey.contains(GtnWsQueryConstants.VOLUME) && levelName.contains("Weighted"))
+					|| (mapKey.contains(GtnWsQueryConstants.VOLUME)
+							&& levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
+				gtnWsRecordBean.addProperties(mapKey,
+						GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
+			}
 
+		} else if (mapKey.contains(GtnWsQueryConstants.VOLUME)) {
+
+			gtnWsRecordBean.addProperties(mapKey,
+					GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
+		}
+		if (mapKey.contains("RATE") || mapKey.contains(GtnWsQueryConstants.CHANGE))
+
+		{
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
 					+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+		}
 
-		} else if (("V".equals(variableIndicator) && levelName.contains("Unit")) || mapKey.contains("UNIT")) {
-
-			gtnWsRecordBean.addProperties(mapKey,
-					GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
-
-		} else if ((!"V".equals(variableIndicator) && variableChild.equals("Contract Units"))
-				|| (!"V".equals(variableIndicator) && variableChild.equals("Contract Units")
-						&& mapKey.contains("Total"))) {
+		else if (("V".equals(variableIndicator) && levelName.contains("Unit")) || mapKey.contains("UNIT")
+				|| mapKey.contains(GtnWsQueryConstants.VOLUME)) {
 
 			gtnWsRecordBean.addProperties(mapKey,
 					GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
 
-		} else if ((!"V".equals(variableIndicator)
-				&& (variableChild.contains("%") || (variableChild.equals("Weighted GTN Contribution"))))
+		} else if ((!"V".equals(variableIndicator) && variableChild.equals(GtnWsQueryConstants.CONTRACT_UNITS))
+				|| (!"V".equals(variableIndicator) && variableChild.equals(GtnWsQueryConstants.CONTRACT_UNITS)
+						&& mapKey.contains(GtnWsQueryConstants.TOTAL_CAPS))) {
+
+			gtnWsRecordBean.addProperties(mapKey,
+					GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
+
+		} else if ((!"V".equals(variableIndicator) && (variableChild.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)
+				|| (variableChild.equals(GtnWsQueryConstants.WEIGHTED_GTN_CONTRIBUTION))
+				|| mapKey.contains(GtnWsQueryConstants.CHANGE)))
 				|| (!"V".equals(variableIndicator)
-						&& (variableChild.contains("%") || (variableChild.equals("Weighted GTN Contribution")))
-						&& mapKey.contains("Total"))) {
+						&& (variableChild.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)
+								|| (variableChild.equals(GtnWsQueryConstants.WEIGHTED_GTN_CONTRIBUTION)))
+						&& mapKey.contains(GtnWsQueryConstants.TOTAL_CAPS))) {
 
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
 					+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 
 		}
 		// Not to show 0 in top level
-		else if (!"V".equals(variableIndicator) && isTotalSpecialCondition && variableChild.equals("")) {
+		else if (!"V".equals(variableIndicator) && (isTotalSpecialCondition && variableChild.equals(""))) {
 			gtnWsRecordBean.addProperties(mapKey, "");
 		}
 
 		else {
-			gtnWsRecordBean.addProperties(mapKey,
-					GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));
+			if (levelName.contains("Weighted") || levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)) {
+				gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
+						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+			} else if ((mapKey.contains("PER") || mapKey.contains("GTN"))) {
+				gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
+						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+			} else {
+				gtnWsRecordBean.addProperties(mapKey,
+						GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));
+			}
 		}
 	}
 
@@ -806,4 +865,3 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 }
-

@@ -171,7 +171,7 @@ public class GtnWsIfpAddService {
 		return sql.toString();
 	}
 
-	String getDbColumnForFilterField(String filterValue1) {
+	public String getDbColumnForFilterField(String filterValue1) {
 		String ifpItemAdditionFilterField = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 		if (null != filterValue1) {
 			switch (filterValue1) {
@@ -242,7 +242,7 @@ public class GtnWsIfpAddService {
 		return ifpAdditionTabSortByQuery.toString();
 	}
 
-	private String getImAdditionTabColumns(String property) {
+	public String getImAdditionTabColumns(String property) {
 		String ifpItemAdditionColumnName;
 		switch (property) {
 		case "itemId":
@@ -285,7 +285,7 @@ public class GtnWsIfpAddService {
 		return ifpItemAdditionColumnName;
 	}
 
-	private String getWhereClauseForAColumn(String expersion, String field, String field2, String value) {
+	public String getWhereClauseForAColumn(String expersion, String field, String field2, String value) {
 		StringBuilder itemsWhereClauseSql = new StringBuilder();
 		SimpleDateFormat dbDate = new SimpleDateFormat("yyyy-MM-dd");
 		switch (expersion) {
@@ -404,7 +404,7 @@ public class GtnWsIfpAddService {
 		return itemsTabSortByQuery.toString();
 	}
 
-	private String getItemsTabColumns(String property) {
+	public String getItemsTabColumns(String property) {
 		String idpItemsTabColumnName;
 		switch (property) {
 		case "itemNo":
@@ -465,7 +465,7 @@ public class GtnWsIfpAddService {
 		return idpItemsTabColumnName;
 	}
 
-	private static String getFrequencyQuery(boolean cuurent, boolean history, boolean future) {
+	public static String getFrequencyQuery(boolean cuurent, boolean history, boolean future) {
 		String ifpItemsTabFrequencySql = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 		if (cuurent && history && future) {
 			ifpItemsTabFrequencySql += " AND ( CAST(GETDATE() as DATE) BETWEEN CAST(ICD.ifp_DETAILS_START_DATE AS DATE) AND CAST(ISNULL(ICD.ifp_DETAILS_END_DATE, GETDATE()) as DATE) ";

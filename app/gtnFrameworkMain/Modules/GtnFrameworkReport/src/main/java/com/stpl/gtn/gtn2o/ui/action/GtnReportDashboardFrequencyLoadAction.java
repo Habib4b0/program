@@ -33,6 +33,7 @@ public class GtnReportDashboardFrequencyLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		
 		GtnUIFrameworkBaseComponent vaadinFrequencyInReportingDashboardBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId);
 		GtnUIFrameworkBaseComponent annualTotal = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
@@ -51,11 +52,8 @@ public class GtnReportDashboardFrequencyLoadAction
 				annualTotal.setComponentEnable(true);
 				annualTotal.loadV8ComboBoxComponentValue("Yes");
 			}
-			if (vaadinFrequencyInReportingDashboardBaseComponent.getComponentConfig().isUserOriginatedFlag()) {
 				loadFromTo(selectedFrequency, componentId);
-			}
 		}
-
 	}
 
 	private void loadFromTo(String selectedFrequency, String componentId) {

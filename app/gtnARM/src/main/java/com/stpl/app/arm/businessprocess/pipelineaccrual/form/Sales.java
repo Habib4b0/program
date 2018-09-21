@@ -193,7 +193,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
 
     }
 
-    public void reset() {
+    private void reset() {
         reset.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -207,7 +207,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
         });
     }
 
-    public void generate() {
+    private void generate() {
         generate.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {

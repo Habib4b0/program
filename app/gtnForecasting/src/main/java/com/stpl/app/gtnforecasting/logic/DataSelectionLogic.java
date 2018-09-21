@@ -2408,7 +2408,7 @@ public class DataSelectionLogic {
 			if (parameters.get(RL_SIDS) != null) {
 				ArrayList<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
 				if (rlSids != null && !rlSids.isEmpty()) {
-					String qry = "   SELECT distinct " + String.valueOf(parameters.get(Constant.PROJECTION_ID))
+					String qry = "   SELECT distinct " + parameters.get(Constant.PROJECTION_ID)
 							+ ",RLD.RELATIONSHIP_LEVEL_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD ";
 					queryString.append(qry);
 
@@ -2553,7 +2553,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 
     }
     
-    public void callViewInsertProcedureForNm(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod) {
+    public void callViewInsertProcedureForNm(SessionDTO session,String screenName,String view,String startPeriod) {
         int masterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
         String frequency = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
         String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
