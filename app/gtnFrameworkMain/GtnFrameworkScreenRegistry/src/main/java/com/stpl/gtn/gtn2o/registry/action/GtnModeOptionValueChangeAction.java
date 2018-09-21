@@ -33,8 +33,8 @@ public class GtnModeOptionValueChangeAction implements GtnUIFrameWorkAction, Gtn
         GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(1)));
         String modeValue = baseComponent.getV8StringFromField();
         boolean add = "Add".equals(modeValue);
-        method1("Commercial Forecasting_from", add);
-        method2("Commercial Forecasting_to", add);
+        valueChangeForFrom("Commercial Forecasting_from", add);
+        valueChangeForTo("Commercial Forecasting_to", add);
        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(2))).setEnable(add);
        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(3))).setEnable(!add);
        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4))).setEnable(!add);
@@ -47,7 +47,7 @@ public class GtnModeOptionValueChangeAction implements GtnUIFrameWorkAction, Gtn
        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(11))).setEnable(!add);
     }
 
-    private void method2(String string, boolean add) throws GtnFrameworkValidationFailedException {
+    private void valueChangeForTo(String string, boolean add) throws GtnFrameworkValidationFailedException {
     	 try {
     	 GtnFrameworkFromAndToLoadBean bean = GtnFrameworkFromAndToLoadBean.getInstance();
          List<Integer> itemId = new ArrayList<>();
@@ -81,7 +81,7 @@ public class GtnModeOptionValueChangeAction implements GtnUIFrameWorkAction, Gtn
     }
 
     @SuppressWarnings("unchecked")
-	private void method1(String string, boolean add) {
+	private void valueChangeForFrom(String string, boolean add) {
         try {
             GtnFrameworkFromAndToLoadBean bean = GtnFrameworkFromAndToLoadBean.getInstance();
             List<Integer> itemIdFrom = new ArrayList<>();
