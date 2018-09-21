@@ -5381,7 +5381,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 						relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(),
 								dataLogic.customizeLevelDtoFromRecordBean(inputBean.getSelectedCustomerList(),inputBean.getCustomerRelationVersionNo()), dataLogic.customizeLevelDtoFromRecordBean(inputBean.getSelectedProductList(),inputBean.getProductRelationVersionNo()),
 								dataSelectionDTO);
-                                                
+                                            dataSelectionDTO.setCustomerGroup(inputBean.getCustomerGroupName());
+                                            dataSelectionDTO.setProductGroup(inputBean.getProductGroupName());
                                                 
 
                                             session.setCustomerLevelDetails(

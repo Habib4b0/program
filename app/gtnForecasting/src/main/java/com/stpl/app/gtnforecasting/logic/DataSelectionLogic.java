@@ -2299,13 +2299,13 @@ public class DataSelectionLogic {
 
 	}
         
-	 public GtnUIFrameworkWebserviceComboBoxResponse getCompaniesFromNewArchitecture() {
+	 public GtnUIFrameworkWebserviceComboBoxResponse getComboboxResponseFromForecastingNewArchitecture(String comboboxType,String queryName) {
 
         GtnUIFrameworkWebserviceComboBoxResponse comboBoxServiceResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
         GtnUIFrameworkWebServiceClient comboboxWsServiceclient = new GtnUIFrameworkWebServiceClient();
         GtnUIFrameworkWebserviceRequest comboboxServiceRequest = new GtnUIFrameworkWebserviceRequest();
         GtnWsGeneralRequest comboboxGeneralWSServiceRequest = new GtnWsGeneralRequest();
-        comboboxGeneralWSServiceRequest.setComboBoxType("CompanyMasterGLcomp");
+        comboboxGeneralWSServiceRequest.setComboBoxType(comboboxType);
         
         comboboxServiceRequest.setGtnWsGeneralRequest(comboboxGeneralWSServiceRequest);
        
@@ -2316,7 +2316,7 @@ public class DataSelectionLogic {
             serviceRegistryBean.setModuleName("generalSearch");
             serviceRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
             GtnWsSearchRequest searchRequest = new GtnWsSearchRequest();
-            searchRequest.setSearchQueryName("CompanyMasterGLcomp");
+            searchRequest.setSearchQueryName(queryName);
             comboboxServiceRequest.setGtnWsSearchRequest(searchRequest);
             comboboxServiceRequest.setGtnServiceRegistryWsRequest(serviceRequest);
             

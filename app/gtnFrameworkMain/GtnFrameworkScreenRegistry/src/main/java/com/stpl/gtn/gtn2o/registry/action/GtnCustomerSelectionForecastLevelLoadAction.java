@@ -52,7 +52,7 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 				for (GtnWsRelationshipBuilderBean relationshipBuilderBean : relationshipBuilderBeanList) {
 					if (relationshipBuilderBean.getRelationshipBuilderSid() == relationshipBuilderSid) {
 						relationshipCaptionList.add(String.valueOf(relationshipBuilderBean.getVersionNo()));
-						relationshipIdList.add(relationshipBuilderBean.getRelationshipBuilderSid());
+						relationshipIdList.add(relationshipBuilderBean.getVersionNo());
 						break;
 					}
 				}

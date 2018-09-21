@@ -20,7 +20,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.TreeGrid;
-import com.stpl.app.gtnforecasting.ui.ForecastUI;
+import com.stpl.app.gtnforecasting.ui.ForecastUI; 
 
 public class GtnFrameworkNewToOldArchitectureGenerateAction
         implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -141,6 +141,7 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
         GtnWsRecordBean productRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(actionParamList.get(8).toString()).getComponentData().getCustomData();
 
+      
         LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(7).toString())
                 .getFieldValue();
         if (date != null) {
@@ -148,7 +149,7 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
         }
 
         dto.setForecastEligibleDate(forecastEligibleDate);
-        generateButtonMandatoryCheck(dto, actionParamList, customerRecordBean, productRecordBean, relationshipComponentId);
+        generateButtonMandatoryCheck(dto, actionParamList, customerRecordBean, productRecordBean,relationshipComponentId);
         String privateView = String.valueOf(GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(actionParamList.get(22).toString(), componentId).getV8PopupFieldValue());
         if (privateView != "") {
@@ -179,6 +180,10 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
     private void generateButtonMandatoryCheck(GtnFrameworkForecastInputBean dto, List<Object> actionParamList,
             GtnWsRecordBean customerRecordBean, GtnWsRecordBean productRecordBean, String relationshipComponentId)
             throws NumberFormatException, GtnFrameworkValidationFailedException {
+    	  GtnWsRecordBean customerGroupRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+                  .getVaadinBaseComponent(actionParamList.get(20).toString()).getComponentData().getCustomData();
+          GtnWsRecordBean productGroupRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+                  .getVaadinBaseComponent(actionParamList.get(12).toString()).getComponentData().getCustomData();
         dto.setCompany(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox())));
         dto.setBusinessUnit(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
@@ -217,6 +222,8 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
                 .getVaadinBaseComponent(actionParamList.get(19).toString()).getV8StringFromField()));
         dto.setCustomerHierarchyName(String.valueOf(customerRecordBean.getPropertyValueByIndex(0)));
         dto.setProductHierarchyName(String.valueOf(productRecordBean.getPropertyValueByIndex(0)));
+        dto.setCustomerGroupName(customerGroupRecordBean !=null ? String.valueOf(customerGroupRecordBean.getPropertyValueByIndex(0)) : "");
+        dto.setProductGroupName(productGroupRecordBean !=null ?String.valueOf(productGroupRecordBean.getPropertyValueByIndex(0)):"");
         dto.setDeductionLevel(GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(actionParamList.get(24).toString()).getCaptionFromV8ComboBox());
         dto.setDeductionValue(GtnUIFrameworkGlobalUI
