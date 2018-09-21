@@ -457,7 +457,7 @@ public class ProjectionOptionsPrivateViewLookup
 		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
 		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadViewAction.addActionParameter( GtnForecastingDataSelectionLoadViewAction.class.getName());
-		loadViewAction.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		loadViewAction.addActionParameter("Commercial Forecasting_privateViewLookup");
 		loadViewAction.addActionParameter("Commercial Forecasting");
 		actionConfigList.add(loadViewAction);
 
