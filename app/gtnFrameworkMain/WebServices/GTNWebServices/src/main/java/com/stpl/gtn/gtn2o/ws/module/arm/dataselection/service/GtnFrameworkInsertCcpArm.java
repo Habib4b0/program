@@ -92,14 +92,7 @@ public class GtnFrameworkInsertCcpArm {
         GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getQuerybySituationNameAndLevel(lastLevelDto,
                 beanName, hierarchyLevelDefinitionList);
         queryGeneratorService.getWhereQueryForCustomerAndContract(selectedRelationLevelList, queryBean);
-        StringBuilder query = new StringBuilder(queryBean.generateQuery());
-        if (!isProduct) {
-            List<Object> input1 = new ArrayList<>();
-            input1.add(inputBean.getProjectionId());
-            query.append(gtnWsSqlService.getQuery(input1, "filtercontractsbasedoneligibledate"));
-        }
-
-        return gtnWsSqlService.getReplacedQuery(input, query.toString());
+        return gtnWsSqlService.getReplacedQuery(input, queryBean.generateQuery());
     }
 
     public static String replaceTableNames(String query, final Map<String, String> tableNameMap) {
