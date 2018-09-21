@@ -2068,10 +2068,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 int endYear;
                 int length;
                 String temp;
-                String forecastPeriodend = null;
                 if (endPeriod.getValue() == null) {
-
-                    forecastPeriodend = rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1);
                     endQuater = rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1).charAt(1) - NumericConstants.FORTY_EIGHT;
                     temp = rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1);
                     length = temp.length();
@@ -2083,7 +2080,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     }
                 } else {
                     endPeriodValue = endPeriod.getValue().toString();
-                    forecastPeriodend = endPeriodValue;
                     endQuater = endPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT;
                     endPeriod.getValue().toString().length();
 
