@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.ws.search.implementation;
 
 import java.util.List;
 
-import org.springframework.web.client.RestTemplate;
 
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;

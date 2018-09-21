@@ -36,7 +36,6 @@ import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -239,6 +238,46 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 		}
 		return response;
 	}
+    
+    public GtnUIFrameworkWebserviceResponse deleteView(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebservicerequest)
+    {
+    	
+    		logger.info("inside delete view method");
+    		String deleteViewQuery = "deleteView";
+    	GtnFrameworkForecastDataSelectionBean bean = gtnUIFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean();
+    	GtnQueryEngineWebServiceResponse response = callQueryEngineforDeleteView(createQuery(readProperty(deleteViewQuery),bean));
+    	GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+    	int count = response.getQueryResponseBean().getResultInteger();
+    	GtnFrameworkForecastDataSelectionBean bean1 = new GtnFrameworkForecastDataSelectionBean();
+    	bean1.setResultCount(count);
+    	gtnUIFrameworkWebserviceResponse.setGtnFrameworkForecastDataSelectionBean(bean1);
+    		return gtnUIFrameworkWebserviceResponse;
+    	}
+    	private GtnQueryEngineWebServiceResponse callQueryEngineforDeleteView(GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest)
+    	{
+    		return callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
+    	}
+
+    	private GtnQueryEngineWebServiceRequest createQuery(String query, GtnFrameworkForecastDataSelectionBean bean) {
+    		
+    		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+    		queryExecutorBean.setSqlQuery(query);
+    		queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
+    		Object[] params= {bean.getViewId(),bean.getUserId()};
+    		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.STRING  };
+    		queryExecutorBean.setParams(params);
+    		queryExecutorBean.setDataType(dataType);
+    		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
+    		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
+    		return gtnQueryEngineWebServiceRequest;
+    	}
+
+    	private String readProperty(String deleteViewQuery) {
+    		String query = gtnSearchSqlService.getQuery(deleteViewQuery);
+    		logger.info("inside delete view method query------->" + query);
+    		return query;
+    	}
+    
     
      @Override
     public void initCallOnFailure() {

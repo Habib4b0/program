@@ -14,7 +14,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import java.util.List;
-import org.springframework.web.client.RestTemplate;
 
 /**
  *
