@@ -148,7 +148,7 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 		queryExecutorBean.setSqlQuery(query);
 		queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
 		Object[] params= {bean.getViewId(),bean.getUserId()};
-		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.INTEGER  };
+		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.STRING  };
 		queryExecutorBean.setParams(params);
 		queryExecutorBean.setDataType(dataType);
 		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
@@ -158,7 +158,7 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 
 	private String readProperty(String deleteViewQuery) {
 		String query = gtnWsSqlService.getQuery(deleteViewQuery);
-		logger.info("inside  view method query" + query);
+		logger.info("inside delete view method query------->" + query);
 		return query;
 		
 
