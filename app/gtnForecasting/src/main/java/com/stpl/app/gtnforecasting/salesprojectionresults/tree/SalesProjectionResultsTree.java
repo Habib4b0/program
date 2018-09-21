@@ -84,7 +84,7 @@ public class SalesProjectionResultsTree {
         query = query.replace("[?PROD_RELATIONSHIP_BUILDER_SID]", projSelDTO.getSessionDTO().getProdRelationshipBuilderSid());
         query = query.replace("[?Custom_View_Master_SID]", String.valueOf(projSelDTO.getCustomId()));
         if (!String.valueOf(projSelDTO.getGroupFilter()).isEmpty()) {
-            query = query.replace("[?UserGroup]", "and PPA.USER_GROUP like " + String.valueOf(projSelDTO.getGroupFilter()));
+            query = query.replace("[?UserGroup]", "and PPA.USER_GROUP like " + projSelDTO.getGroupFilter());
         } else {
             query = query.replace("[?UserGroup]", "and PPA.USER_GROUP like '%'");
         }

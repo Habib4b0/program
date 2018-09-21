@@ -170,7 +170,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
                 int month = scal.get(Calendar.MONTH) + 1;
 
                 int quarter = month % 3 == 0 ? (month / 3) : (month / 3) + 1;
-                String[] s = {i.toString(), "Q" + quarter + "-" + dfYY.format(scal.getTime())};
+                String[] s = {i.toString(), "Q" + quarter + " - " + dfYY.format(scal.getTime())};
                 i++;
                 quarters.add(s);
                 scal.add(Calendar.MONTH, 3);

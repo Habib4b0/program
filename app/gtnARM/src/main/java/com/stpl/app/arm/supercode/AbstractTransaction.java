@@ -39,6 +39,10 @@ public abstract class AbstractTransaction extends AbstractModule implements Subm
         super(tabSheet, id, name, dataselectionDTO, sessionDTO);
         this.binder = binder;
         dataSelectionWF = new DataSelectionTab(dataselectionDTO, sessionDTO);
+        getNotesTab();
+    }
+
+    private void getNotesTab() throws SystemException {
         notes = new NotesTabForm(getBinder(), "businessProcess", getSessionDTO(), getName());
         createDynamicTempTables();
     }

@@ -201,9 +201,9 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
         String query = SQlUtil.getQuery("getExcelReturnReserveDataTx8");
         Object[] value = null;
         if (selection.getRateDeductionView().equals(ARMUtils.CUSTOMER_CONTRACT)) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         } else {
-            value = new Object[]{"D", "C", "T", "B", "I"};
+            value = ARMUtils.getDCTBI();
         }
         query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getRateDeductionLevelName());

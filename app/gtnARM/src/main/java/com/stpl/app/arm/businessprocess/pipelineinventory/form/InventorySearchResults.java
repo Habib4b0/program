@@ -210,7 +210,7 @@ public class InventorySearchResults extends AbstractSearchResults {
 
     @Override
     public Object[] getExcelHierarchy() {
-        return new Object[]{"B", "I"};
+        return ARMUtils.getBI();
     }
 
     @Override

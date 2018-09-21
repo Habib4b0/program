@@ -334,17 +334,17 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
         }
         Object[] value = null;
         if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract()) && inventorySelection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer()) && inventorySelection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "C", "T", "B", "I"};
+            value = ARMUtils.getDCTBI();
         } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer())) {
-            value = new Object[]{"C", "T", "B", "I"};
+            value = ARMUtils.getCTBI();
         } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract())) {
-            value = new Object[]{"T", "C", "B", "I"};
+            value = ARMUtils.getTCBI();
         } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomer())) {
-            value = new Object[]{"T", "B", "I"};
+            value = ARMUtils.getTBI();
         } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionProduct())) {
-            value = new Object[]{"B", "I"};
+            value = ARMUtils.getBI();
         }
         query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", inventorySelection.getRateDeductionLevelName());
