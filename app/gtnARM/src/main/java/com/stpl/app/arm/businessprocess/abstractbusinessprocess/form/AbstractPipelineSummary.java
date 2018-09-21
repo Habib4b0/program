@@ -73,7 +73,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
     protected String[] variableHeaderDeduction;
     protected CustomMenuBar.CustomMenuItem customMenuItem;
     protected CustomMenuBar.CustomMenuItem deductionCustomMenuItem;
-    protected final AbstractPipelineSummaryResults summaryResults;
+    protected AbstractPipelineSummaryResults summaryResults;
     protected String[] variableVisibleColumns;
     protected String[] variableVisibleColumnsDeduction;
     protected final AbstractSelectionDTO selectionDto;
@@ -89,6 +89,10 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
     public AbstractPipelineSummary(AbstractSummaryLogic logic, AbstractSelectionDTO selectionDto) {
         this.logic = logic;
         this.selectionDto = selectionDto;
+        getSummaryResults();
+    }
+
+    private void getSummaryResults() {
         this.summaryResults = getResultsObject(this.logic, this.selectionDto);
     }
 

@@ -59,7 +59,7 @@ public class DataSelectionTab extends AbstractDataSelection {
         init();
     }
 
-    public void init() {
+    private void init() {
         panel1.setCaption("Adjustment Options");
         if (sessionDTO.isWorkFlow()) {
             configureDataSelection();

@@ -112,9 +112,9 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 } else {
                     dto.setMonth(brand);
                 }
-                dto.setLevelNo((int) get[NumericConstants.SEVEN]);
+                dto.setLevelNo((Integer) get[NumericConstants.SEVEN]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.EIGHT]);
+                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.EIGHT]);
                 dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.NINE]));
                 if (masterSids != null) {
                     dto.setMasterIds(masterSids);
@@ -198,13 +198,13 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         }
         Object[] paExcelValue = null;
         if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            paExcelValue = new Object[]{"D", "T", "C", "B", "I"};
+            paExcelValue = ARMUtils.getDTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
-            paExcelValue = new Object[]{"T", "C", "B", "I"};
+            paExcelValue = ARMUtils.getTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-            paExcelValue = new Object[]{"T", "B", "I"};
+            paExcelValue = ARMUtils.getTBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-            paExcelValue = new Object[]{"B", "I"};
+            paExcelValue = ARMUtils.getBI();
         }
         paExcelQuery = paExcelQuery.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(paExcelValue, ",") + ARMUtils.SINGLE_QUOTES);
         paExcelQuery = paExcelQuery.replace("@DEDCONDITION", selection.getSummarydeductionLevelDes());

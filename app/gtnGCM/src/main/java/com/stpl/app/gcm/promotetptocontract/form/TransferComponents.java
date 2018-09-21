@@ -528,26 +528,26 @@ public class TransferComponents extends CustomComponent implements View {
                     componentDetailResultsContainer.removeAllItems();
                     List<ComponentInfoDTO> itemList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
-                        ComponentInfoDTO itemDTO = new ComponentInfoDTO();
-                        Object[] obje = (Object[]) componentList.get(i);
-                        itemDTO.setItemNo(String.valueOf(obje[0]));
-                        itemDTO.setItemName(String.valueOf(obje[1]));
-                        itemDTO.setTherapyClass(Converters.convertNullToEmpty(obje[NumericConstants.TWO]));
-                        itemDTO.setBrand((obje[NumericConstants.THREE] != null) ? String.valueOf(obje[NumericConstants.THREE]) : Constants.EMPTY);
-                        itemDTO.setIfpStatus(String.valueOf(obje[NumericConstants.FOUR]));
-                        if (obje[NumericConstants.FIVE] != null) {
-                            String date = df.format((Date) obje[NumericConstants.FIVE]);
-                            itemDTO.setIfpStartDate(date);
+                        ComponentInfoDTO itemDto=  new ComponentInfoDTO();
+                        Object[] objeTrans = (Object[]) componentList.get(i);
+                        itemDto.setItemNo(String.valueOf(objeTrans[0]));
+                        itemDto.setItemName(String.valueOf(objeTrans[1]));
+                        itemDto.setTherapyClass(Converters.convertNullToEmpty(objeTrans[NumericConstants.TWO]));
+                        itemDto.setBrand((objeTrans[NumericConstants.THREE] != null) ? String.valueOf(objeTrans[NumericConstants.THREE]) : Constants.EMPTY);
+                        itemDto.setIfpStatus(String.valueOf(objeTrans[NumericConstants.FOUR]));
+                        if (objeTrans[NumericConstants.FIVE] != null) {
+                            String dateGcm = df.format((Date) objeTrans[NumericConstants.FIVE]);
+                            itemDto.setIfpStartDate(dateGcm);
                         } else {
-                            itemDTO.setIfpStartDate(Constants.EMPTY);
+                            itemDto.setIfpStartDate(Constants.EMPTY);
                         }
-                        if (obje[NumericConstants.SIX] != null) {
-                            String date = df.format((Date) obje[NumericConstants.SIX]);
-                            itemDTO.setIfpEndDate(date);
+                        if (objeTrans[NumericConstants.SIX] != null) {
+                            String date = df.format((Date) objeTrans[NumericConstants.SIX]);
+                            itemDto.setIfpEndDate(date);
                         } else {
-                            itemDTO.setIfpEndDate(Constants.EMPTY);
+                            itemDto.setIfpEndDate(Constants.EMPTY);
                         }
-                        itemList.add(itemDTO);
+                        itemList.add(itemDto);
                     }
                     componentDetailResultsContainer.addAll(itemList);
                 }
@@ -582,38 +582,38 @@ public class TransferComponents extends CustomComponent implements View {
                     componentDetailResultsContainer.removeAllItems();
                     List<ComponentInfoDTO> priceList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
-                        ComponentInfoDTO itemDTO = new ComponentInfoDTO();
-                        Object[] obje = (Object[]) componentList.get(i);
-                        itemDTO.setItemNo(String.valueOf(obje[0]));
-                        itemDTO.setItemName(String.valueOf(obje[1]));
-                        itemDTO.setTherapyClass(Converters.convertNullToEmpty(obje[NumericConstants.TWO]));
-                        itemDTO.setBrand((obje[NumericConstants.THREE] != null) ? String.valueOf(obje[NumericConstants.THREE]) : Constants.EMPTY);
-                        itemDTO.setIfpStatus(String.valueOf(obje[NumericConstants.FOUR]));
-                        if (obje[NumericConstants.FIVE] != null) {
-                            String date = df.format((Date) obje[NumericConstants.FIVE]);
-                            itemDTO.setIfpStartDate(date);
+                        ComponentInfoDTO itemDtoPs = new ComponentInfoDTO();
+                        Object[] objePs = (Object[]) componentList.get(i);
+                        itemDtoPs.setItemNo(String.valueOf(objePs[0]));
+                        itemDtoPs.setItemName(String.valueOf(objePs[1]));
+                        itemDtoPs.setTherapyClass(Converters.convertNullToEmpty(objePs[NumericConstants.TWO]));
+                        itemDtoPs.setBrand((objePs[NumericConstants.THREE] != null) ? String.valueOf(objePs[NumericConstants.THREE]) : Constants.EMPTY);
+                        itemDtoPs.setIfpStatus(String.valueOf(objePs[NumericConstants.FOUR]));
+                        if (objePs[NumericConstants.FIVE] != null) {
+                            String date = df.format((Date) objePs[NumericConstants.FIVE]);
+                            itemDtoPs.setIfpStartDate(date);
                         } else {
-                            itemDTO.setIfpStartDate(Constants.EMPTY);
+                            itemDtoPs.setIfpStartDate(Constants.EMPTY);
                         }
-                        if (obje[NumericConstants.SIX] != null) {
-                            String date = df.format((Date) obje[NumericConstants.SIX]);
-                            itemDTO.setIfpEndDate(date);
+                        if (objePs[NumericConstants.SIX] != null) {
+                            String datePs = df.format((Date) objePs[NumericConstants.SIX]);
+                            itemDtoPs.setIfpEndDate(datePs);
                         } else {
-                            itemDTO.setIfpEndDate(Constants.EMPTY);
+                            itemDtoPs.setIfpEndDate(Constants.EMPTY);
                         }
-                        if ((obje[NumericConstants.EIGHT] != null) && !obje[NumericConstants.EIGHT].equals(Constants.SELECT_ONE) && !obje[NumericConstants.EIGHT].equals(Constants.NULL)) {
-                            itemDTO.setPriceType(String.valueOf(obje[NumericConstants.EIGHT]));
+                        if ((objePs[NumericConstants.EIGHT] != null) && !objePs[NumericConstants.EIGHT].equals(Constants.SELECT_ONE) && !objePs[NumericConstants.EIGHT].equals(Constants.NULL)) {
+                            itemDtoPs.setPriceType(String.valueOf(objePs[NumericConstants.EIGHT]));
                         } else {
-                            itemDTO.setPriceType(Constants.EMPTY);
+                            itemDtoPs.setPriceType(Constants.EMPTY);
                         }
 
-                        if (obje[NumericConstants.SEVEN] != null) {
-                            String date = df.format((Date) obje[NumericConstants.SEVEN]);
-                            itemDTO.setPpStartDate(date);
+                        if (objePs[NumericConstants.SEVEN] != null) {
+                            String datePrice = df.format((Date) objePs[NumericConstants.SEVEN]);
+                            itemDtoPs.setPpStartDate(datePrice);
                         } else {
-                            itemDTO.setPpStartDate(Constants.EMPTY);
+                            itemDtoPs.setPpStartDate(Constants.EMPTY);
                         }
-                        priceList.add(itemDTO);
+                        priceList.add(itemDtoPs);
                     }
                     componentDetailResultsContainer.addAll(priceList);
                 }
@@ -953,24 +953,24 @@ public class TransferComponents extends CustomComponent implements View {
                     contractInfoContainer.removeAllItems();
                     List<ComponentInfoDTO> companyList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
-                        ComponentInfoDTO companyDTO = new ComponentInfoDTO();
-                        Object[] obje = (Object[]) componentList.get(i);
-                        companyDTO.setCompanyNo(String.valueOf(obje[1]));
-                        companyDTO.setCompanyName(String.valueOf(obje[NumericConstants.TWO]));
-                        companyDTO.setCompanyStatus(String.valueOf(obje[NumericConstants.FIVE]));
-                        if (obje[NumericConstants.THREE] != null) {
-                            String date = df.format(obje[NumericConstants.THREE]);
-                            companyDTO.setCompanyStartDate(date);
+                        ComponentInfoDTO companyDtoPopulate = new ComponentInfoDTO();
+                        Object[] objePopulate = (Object[]) componentList.get(i);
+                        companyDtoPopulate.setCompanyNo(String.valueOf(objePopulate[1]));
+                        companyDtoPopulate.setCompanyName(String.valueOf(objePopulate[NumericConstants.TWO]));
+                        companyDtoPopulate.setCompanyStatus(String.valueOf(objePopulate[NumericConstants.FIVE]));
+                        if (objePopulate[NumericConstants.THREE] != null) {
+                            String date = df.format(objePopulate[NumericConstants.THREE]);
+                            companyDtoPopulate.setCompanyStartDate(date);
                         } else {
-                            companyDTO.setCompanyStartDate(Constants.EMPTY);
+                            companyDtoPopulate.setCompanyStartDate(Constants.EMPTY);
                         }
-                        if (obje[NumericConstants.FOUR] != null) {
-                            String date = df.format(obje[NumericConstants.FOUR]);
-                            companyDTO.setCompanyEndDate(date);
+                        if (objePopulate[NumericConstants.FOUR] != null) {
+                            String date = df.format(objePopulate[NumericConstants.FOUR]);
+                            companyDtoPopulate.setCompanyEndDate(date);
                         } else {
-                            companyDTO.setCompanyEndDate(Constants.EMPTY);
+                            companyDtoPopulate.setCompanyEndDate(Constants.EMPTY);
                         }
-                        companyList.add(companyDTO);
+                        companyList.add(companyDtoPopulate);
                     }
                     contractInfoContainer.addAll(companyList);
                     contractComponentDetailsTable.setVisibleColumns(Constants.getInstance().ccComponentDetailsColumns);
@@ -1078,255 +1078,255 @@ public class TransferComponents extends CustomComponent implements View {
      */
     public List<Integer> saveTransferContract() throws  PortalException, ParseException {
 
-        int contractMasterSid = 0;
-        List<Integer> returnList = new ArrayList<>();
+        int contractMasterSidTC = 0;
+        List<Integer> returnListTc=  new ArrayList<>();
         try {
-            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+            String userIdTc = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
             Collection<?> treeItem = contractDashboardResultsTable.getItemIds();
 
-            for (Object item : treeItem) {
-                String level = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.LEVELNO).getValue());
+            for (Object itemTransContract : treeItem) {
+                String level = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.LEVELNO).getValue());
                 if (level.equals(Constants.ZEROSTRING)) {
-                    String contractId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_ID).getValue());
-                    String contractNo = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NUMBER).getValue());
-                    String contractName = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NAME).getValue());
-                    int contractType = Integer.parseInt(String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MARKET_TYPE).getValue()));
+                    String contractId = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.DASHBOARD_ID).getValue());
+                    String contractNo = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.DASHBOARD_NUMBER).getValue());
+                    String contractName = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.DASHBOARD_NAME).getValue());
+                    int contractType = Integer.parseInt(String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.MARKET_TYPE).getValue()));
                     int contStatus = 1;
-                    ContractMaster contractMaster;
-                    contractMaster = ContractMasterLocalServiceUtil.createContractMaster(0);
-                    contractMaster.setContractId(contractId);
-                    contractMaster.setContractNo(contractNo);
-                    contractMaster.setContractName(contractName);
-                    contractMaster.setContractType(contractType);
-                    contractMaster.setProcessStatus(true);
-                    contractMaster.setSource("GCM");
-                    contractMaster.setContractStatus(contStatus);
-                    contractMaster.setCreatedBy(Integer.parseInt(userId));
-                    contractMaster.setStartDate(new Date());
-                    contractMaster.setInboundStatus("A");
-                    contractMaster.setCreatedDate(new Date());
-                    contractMaster.setModifiedDate(new Date());
-                    contractMaster.setContHoldCompanyMasterSid(session.getCompanyMasterSid());
-                    contractMaster = ContractMasterLocalServiceUtil.addContractMaster(contractMaster);
-                    contractMasterSid = contractMaster.getContractMasterSid();
-                    session.setContractMasterSid(String.valueOf(contractMasterSid));
-                    returnList.add(contractMasterSid);
-                    String aliasType = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "type").getValue());
-                    String aliasNumber = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "number").getValue());
-                    ContractAliasMaster cam = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
-                    cam.setContractAliasNo(aliasNumber);
-                    cam.setContractAliasType(aliasType != null && !Constants.NULL.equals(aliasType) ? Integer.parseInt(aliasType) : 0);
-                    cam.setStartDate(new Date());
-                    cam.setModifiedDate(new Date());
-                    cam.setCreatedBy(1);
-                    cam.setCreatedDate(new Date());
-                    cam.setSource("BPI");
-                    cam.setInboundStatus("A");
-                    cam.setContractMasterSid(contractMasterSid);
-                    ContractAliasMasterLocalServiceUtil.addContractAliasMaster(cam);
+                    ContractMaster contractMasterTransContract;
+                    contractMasterTransContract = ContractMasterLocalServiceUtil.createContractMaster(0);
+                    contractMasterTransContract.setContractId(contractId);
+                    contractMasterTransContract.setContractNo(contractNo);
+                    contractMasterTransContract.setContractName(contractName);
+                    contractMasterTransContract.setContractType(contractType);
+                    contractMasterTransContract.setProcessStatus(true);
+                    contractMasterTransContract.setSource("GCM");
+                    contractMasterTransContract.setContractStatus(contStatus);
+                    contractMasterTransContract.setCreatedBy(Integer.parseInt(userIdTc));
+                    contractMasterTransContract.setStartDate(new Date());
+                    contractMasterTransContract.setInboundStatus("A");
+                    contractMasterTransContract.setCreatedDate(new Date());
+                    contractMasterTransContract.setModifiedDate(new Date());
+                    contractMasterTransContract.setContHoldCompanyMasterSid(session.getCompanyMasterSid());
+                    contractMasterTransContract = ContractMasterLocalServiceUtil.addContractMaster(contractMasterTransContract);
+                    contractMasterSidTC = contractMasterTransContract.getContractMasterSid();
+                    session.setContractMasterSid(String.valueOf(contractMasterSidTC));
+                    returnListTc.add(contractMasterSidTC);
+                    String aliasTypeTc=  String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, "type").getValue());
+                    String aliasNumberTc=  String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, "number").getValue());
+                    ContractAliasMaster camTc = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
+                    camTc.setContractAliasNo(aliasNumberTc);
+                    camTc.setContractAliasType(aliasTypeTc != null && !Constants.NULL.equals(aliasTypeTc) ? Integer.parseInt(aliasTypeTc) : 0);
+                    camTc.setStartDate(new Date());
+                    camTc.setModifiedDate(new Date());
+                    camTc.setCreatedBy(1);
+                    camTc.setCreatedDate(new Date());
+                    camTc.setSource("BPI");
+                    camTc.setInboundStatus("A");
+                    camTc.setContractMasterSid(contractMasterSidTC);
+                    ContractAliasMasterLocalServiceUtil.addContractAliasMaster(camTc);
 
                 } else if (level.equals(Constants.ONE)) {
 
-                    CfpModel cfpmodel;
-                    cfpmodel = CfpModelLocalServiceUtil.createCfpModel(0);
-                    String cfpName = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.CFP_NAME).getValue());
-                    String cfpId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "id").getValue());
-                    String cfpNo = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "cfpNo").getValue());
-                    String cfpStatus = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "cfpStatus").getValue());
-                    String cfpEndDate = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.CFP_END_DATE).getValue());
-                    String cfpStartDate = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.CFP_START_DATE).getValue());
+                    CfpModel cfpmodelTc;
+                    cfpmodelTc = CfpModelLocalServiceUtil.createCfpModel(0);
+                    String cfpNameTc=  String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.CFP_NAME).getValue());
+                    String cfpIdTc = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, "id").getValue());
+                    String cfpNoTc = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, "cfpNo").getValue());
+                    String cfpStatus = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, "cfpStatus").getValue());
+                    String cfpEndDate = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.CFP_END_DATE).getValue());
+                    String cfpStartDate = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.CFP_START_DATE).getValue());
                     Date sdate = simpleDateFormat.parse(cfpStartDate);
                     Date edate = simpleDateFormat.parse(cfpEndDate);
-                    cfpmodel.setCfpName(cfpName);
-                    cfpmodel.setCfpNo(cfpNo);
-                    cfpmodel.setCfpStatus(Integer.parseInt(cfpStatus));
-                    cfpmodel.setCfpId(cfpId);
-                    cfpmodel.setCfpStartDate(sdate);
-                    cfpmodel.setCfpEndDate(edate);
-                    cfpmodel.setSource("GCM");
-                    cfpmodel.setInboundStatus("A");
-                    cfpmodel.setCreatedDate(new Date());
-                    cfpmodel.setModifiedDate(new Date());
-                    cfpmodel.setRecordLockStatus(false);
-                    cfpmodel.setCreatedBy(Integer.parseInt(userId));
-                    cfpmodel.setModifiedBy(Integer.parseInt(userId));
-                    cfpmodel = CfpModelLocalServiceUtil.addCfpModel(cfpmodel);
+                    cfpmodelTc.setCfpName(cfpNameTc);
+                    cfpmodelTc.setCfpNo(cfpNoTc);
+                    cfpmodelTc.setCfpStatus(Integer.parseInt(cfpStatus));
+                    cfpmodelTc.setCfpId(cfpIdTc);
+                    cfpmodelTc.setCfpStartDate(sdate);
+                    cfpmodelTc.setCfpEndDate(edate);
+                    cfpmodelTc.setSource("GCM");
+                    cfpmodelTc.setInboundStatus("A");
+                    cfpmodelTc.setCreatedDate(new Date());
+                    cfpmodelTc.setModifiedDate(new Date());
+                    cfpmodelTc.setRecordLockStatus(false);
+                    cfpmodelTc.setCreatedBy(Integer.parseInt(userIdTc));
+                    cfpmodelTc.setModifiedBy(Integer.parseInt(userIdTc));
+                    cfpmodelTc = CfpModelLocalServiceUtil.addCfpModel(cfpmodelTc);
                     String companySid = session.getCompanyMasterSid();
-                    returnList.add(Integer.valueOf(companySid));
-                    CfpDetails cfpDetails;
-                    cfpDetails = CfpDetailsLocalServiceUtil.createCfpDetails(0);
-                    cfpDetails.setCfpModelSid(cfpmodel.getCfpModelSid());
-                    cfpDetails.setCompanyMasterSid(Integer.parseInt(companySid));
-                    cfpDetails.setCompanyStartDate(new Date());
-                    cfpDetails.setInboundStatus("A");
-                    cfpDetails.setSource("BPI");
-                    cfpDetails.setRecordLockStatus(false);
-                    cfpDetails.setCreatedDate(new Date());
-                    cfpDetails.setModifiedDate(new Date());
-                    cfpDetails.setCreatedBy(Integer.parseInt(userId));
-                    cfpDetails.setModifiedBy(Integer.parseInt(userId));
-                    CfpDetailsLocalServiceUtil.addCfpDetails(cfpDetails);
+                    returnListTc.add(Integer.valueOf(companySid));
+                    CfpDetails cfpDetailsTc;
+                    cfpDetailsTc = CfpDetailsLocalServiceUtil.createCfpDetails(0);
+                    cfpDetailsTc.setCfpModelSid(cfpmodelTc.getCfpModelSid());
+                    cfpDetailsTc.setCompanyMasterSid(Integer.parseInt(companySid));
+                    cfpDetailsTc.setCompanyStartDate(new Date());
+                    cfpDetailsTc.setInboundStatus("A");
+                    cfpDetailsTc.setSource("BPI");
+                    cfpDetailsTc.setRecordLockStatus(false);
+                    cfpDetailsTc.setCreatedDate(new Date());
+                    cfpDetailsTc.setModifiedDate(new Date());
+                    cfpDetailsTc.setCreatedBy(Integer.parseInt(userIdTc));
+                    cfpDetailsTc.setModifiedBy(Integer.parseInt(userIdTc));
+                    CfpDetailsLocalServiceUtil.addCfpDetails(cfpDetailsTc);
 
-                    CfpContract cfpcontract;
-                    cfpcontract = CfpContractLocalServiceUtil.createCfpContract(0);
-                    cfpcontract.setCfpModelSid(cfpmodel.getCfpModelSid());
-                    cfpcontract.setCfpName(cfpmodel.getCfpName());
-                    cfpcontract.setCfpStatus(1);
-                    cfpcontract.setCfpStartDate(new Date());
-                    cfpcontract.setContractMasterSid(contractMasterSid);
-                    cfpcontract.setInboundStatus("A");
-                    cfpcontract.setSource("GCM");
-                    cfpcontract.setRecordLockStatus(false);
-                    cfpcontract.setCreatedDate(new Date());
-                    cfpcontract.setModifiedDate(new Date());
-                    cfpcontract.setCreatedBy(Integer.parseInt(userId));
-                    cfpcontract.setModifiedBy(Integer.parseInt(userId));
-                    cfpcontract = CfpContractLocalServiceUtil.addCfpContract(cfpcontract);
-                    String cfpContractSid = String.valueOf(cfpcontract.getCfpContractSid());
-                    contractDashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).setValue(cfpContractSid);
-                    CfpContractDetails cfpcontractDetails;
-                    cfpcontractDetails = CfpContractDetailsLocalServiceUtil.createCfpContractDetails(0);
-                    cfpcontractDetails.setCfpContractSid(cfpcontract.getCfpContractSid());
-                    cfpcontractDetails.setCompanyMasterSid(Integer.parseInt(session.getCompanyMasterSid()));
-                    cfpcontractDetails.setCompanyStartDate(cfpmodel.getCfpStartDate());
-                    cfpcontractDetails.setCompanyEndDate(cfpmodel.getCfpEndDate());
-                    cfpcontractDetails.setCfpContractAttachedStatus(cfpmodel.getCfpStatus());
-                    cfpcontractDetails.setCreatedDate(new Date());
-                    cfpcontractDetails.setModifiedDate(new Date());
-                    cfpcontractDetails.setCreatedBy(Integer.parseInt(userId));
-                    cfpcontractDetails.setModifiedBy(Integer.parseInt(userId));
-                    cfpcontractDetails.setInboundStatus("A");
-                    cfpcontractDetails.setRecordLockStatus(false);
-                    CfpContractDetailsLocalServiceUtil.addCfpContractDetails(cfpcontractDetails);
+                    CfpContract cfpcontractTranContract;
+                    cfpcontractTranContract = CfpContractLocalServiceUtil.createCfpContract(0);
+                    cfpcontractTranContract.setCfpModelSid(cfpmodelTc.getCfpModelSid());
+                    cfpcontractTranContract.setCfpName(cfpmodelTc.getCfpName());
+                    cfpcontractTranContract.setCfpStatus(1);
+                    cfpcontractTranContract.setCfpStartDate(new Date());
+                    cfpcontractTranContract.setContractMasterSid(contractMasterSidTC);
+                    cfpcontractTranContract.setInboundStatus("A");
+                    cfpcontractTranContract.setSource("GCM");
+                    cfpcontractTranContract.setRecordLockStatus(false);
+                    cfpcontractTranContract.setCreatedDate(new Date());
+                    cfpcontractTranContract.setModifiedDate(new Date());
+                    cfpcontractTranContract.setCreatedBy(Integer.parseInt(userIdTc));
+                    cfpcontractTranContract.setModifiedBy(Integer.parseInt(userIdTc));
+                    cfpcontractTranContract = CfpContractLocalServiceUtil.addCfpContract(cfpcontractTranContract);
+                    String cfpContractSid = String.valueOf(cfpcontractTranContract.getCfpContractSid());
+                    contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.HIDDEN_ID).setValue(cfpContractSid);
+                    CfpContractDetails cfpcontractDetailsTransContract;
+                    cfpcontractDetailsTransContract = CfpContractDetailsLocalServiceUtil.createCfpContractDetails(0);
+                    cfpcontractDetailsTransContract.setCfpContractSid(cfpcontractTranContract.getCfpContractSid());
+                    cfpcontractDetailsTransContract.setCompanyMasterSid(Integer.parseInt(session.getCompanyMasterSid()));
+                    cfpcontractDetailsTransContract.setCompanyStartDate(cfpmodelTc.getCfpStartDate());
+                    cfpcontractDetailsTransContract.setCompanyEndDate(cfpmodelTc.getCfpEndDate());
+                    cfpcontractDetailsTransContract.setCfpContractAttachedStatus(cfpmodelTc.getCfpStatus());
+                    cfpcontractDetailsTransContract.setCreatedDate(new Date());
+                    cfpcontractDetailsTransContract.setModifiedDate(new Date());
+                    cfpcontractDetailsTransContract.setCreatedBy(Integer.parseInt(userIdTc));
+                    cfpcontractDetailsTransContract.setModifiedBy(Integer.parseInt(userIdTc));
+                    cfpcontractDetailsTransContract.setInboundStatus("A");
+                    cfpcontractDetailsTransContract.setRecordLockStatus(false);
+                    CfpContractDetailsLocalServiceUtil.addCfpContractDetails(cfpcontractDetailsTransContract);
 
                 } else if (level.equals(Constants.TWO)) {
-                    String ifpModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
-                    Object parentItem = contractDashboardResultsTable.getParent(item);
+                    String ifpModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.MODEL_ID).getValue());
+                    Object parentItem = contractDashboardResultsTable.getParent(itemTransContract);
                     String cfpContractSId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
-                    IfpModel ifpmodel;
-                    ifpmodel = IfpModelLocalServiceUtil.getIfpModel(Integer.parseInt(ifpModelId));
-                    IfpContract ifpcontract;
-                    ifpcontract = IfpContractLocalServiceUtil.createIfpContract(0);
-                    ifpcontract.setIfpModelSid(Integer.parseInt(ifpModelId));
-                    ifpcontract.setIfpName(ifpmodel.getIfpName());
-                    ifpcontract.setIfpType(ifpmodel.getIfpType());
-                    ifpcontract.setIfpCategory(ifpmodel.getIfpCategory());
-                    ifpcontract.setIfpStatus(ifpmodel.getIfpStatus());
-                    ifpcontract.setIfpStartDate(ifpmodel.getIfpStartDate());
-                    ifpcontract.setIfpEndDate(ifpmodel.getIfpEndDate());
-                    ifpcontract.setCfpContractSid(cfpContractSId);
-                    ifpcontract.setContractMasterSid(contractMasterSid);
-                    ifpcontract.setInboundStatus("A");
-                    ifpcontract.setRecordLockStatus(false);
-                    ifpcontract.setSource("GCM");
-                    ifpcontract.setCreatedBy(Integer.parseInt(userId));
-                    ifpcontract.setModifiedBy(Integer.parseInt(userId));
-                    ifpcontract.setCreatedDate(new Date());
-                    ifpcontract.setModifiedDate(new Date());
-                    ifpcontract = IfpContractLocalServiceUtil.addIfpContract(ifpcontract);
+                    IfpModel ifpmodelTransContract;
+                    ifpmodelTransContract = IfpModelLocalServiceUtil.getIfpModel(Integer.parseInt(ifpModelId));
+                    IfpContract ifpcontractTc;
+                    ifpcontractTc = IfpContractLocalServiceUtil.createIfpContract(0);
+                    ifpcontractTc.setIfpModelSid(Integer.parseInt(ifpModelId));
+                    ifpcontractTc.setIfpName(ifpmodelTransContract.getIfpName());
+                    ifpcontractTc.setIfpType(ifpmodelTransContract.getIfpType());
+                    ifpcontractTc.setIfpCategory(ifpmodelTransContract.getIfpCategory());
+                    ifpcontractTc.setIfpStatus(ifpmodelTransContract.getIfpStatus());
+                    ifpcontractTc.setIfpStartDate(ifpmodelTransContract.getIfpStartDate());
+                    ifpcontractTc.setIfpEndDate(ifpmodelTransContract.getIfpEndDate());
+                    ifpcontractTc.setCfpContractSid(cfpContractSId);
+                    ifpcontractTc.setContractMasterSid(contractMasterSidTC);
+                    ifpcontractTc.setInboundStatus("A");
+                    ifpcontractTc.setRecordLockStatus(false);
+                    ifpcontractTc.setSource("GCM");
+                    ifpcontractTc.setCreatedBy(Integer.parseInt(userIdTc));
+                    ifpcontractTc.setModifiedBy(Integer.parseInt(userIdTc));
+                    ifpcontractTc.setCreatedDate(new Date());
+                    ifpcontractTc.setModifiedDate(new Date());
+                    ifpcontractTc = IfpContractLocalServiceUtil.addIfpContract(ifpcontractTc);
 
-                    contractDashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).setValue(String.valueOf(ifpcontract.getIfpContractSid()));
+                    contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.HIDDEN_ID).setValue(String.valueOf(ifpcontractTc.getIfpContractSid()));
 
-                    List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
-                    input.add(ifpcontract.getIfpContractSid());
-                    input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(simpleDateFormat.format(new Date()));
-                    input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(simpleDateFormat.format(new Date()));
-                    input.add(ifpModelId);
-                    input.add(simpleDateFormat.format(ifpmodel.getIfpStartDate()));
-                    input.add(ifpmodel.getIfpEndDate() == null ? null : simpleDateFormat.format(ifpmodel.getIfpEndDate()));
-                    IfpContractDetailsImpl.saveIfpDetailsAttached(input);
+                    List<Object> inputTc = new ArrayList<>(NumericConstants.EIGHT);
+                    inputTc.add(ifpcontractTc.getIfpContractSid());
+                    inputTc.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+                    inputTc.add(simpleDateFormat.format(new Date()));
+                    inputTc.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+                    inputTc.add(simpleDateFormat.format(new Date()));
+                    inputTc.add(ifpModelId);
+                    inputTc.add(simpleDateFormat.format(ifpmodelTransContract.getIfpStartDate()));
+                    inputTc.add(ifpmodelTransContract.getIfpEndDate() == null ? null : simpleDateFormat.format(ifpmodelTransContract.getIfpEndDate()));
+                    IfpContractDetailsImpl.saveIfpDetailsAttached(inputTc);
                 } else if (level.equals(Constants.THREE)) {
 
-                    String psModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
-                    Object parentItem = contractDashboardResultsTable.getParent(item);
+                    String psModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.MODEL_ID).getValue());
+                    Object parentItem = contractDashboardResultsTable.getParent(itemTransContract);
                     String ifpSystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
                     Object parentCFPItem = contractDashboardResultsTable.getParent(parentItem);
                     String cfpSystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
 
-                    PsContract psContract;
-                    psContract = PsContractLocalServiceUtil.createPsContract(0);
-                    psContract.setPsModelSid(Integer.parseInt(psModelId));
-                    PsModel psmodel;
-                    psmodel = PsModelLocalServiceUtil.getPsModel(Integer.parseInt(psModelId));
-                    psContract.setPsName(psmodel.getPsName());
-                    psContract.setPsType(psmodel.getPsType());
-                    psContract.setPsCategory(psmodel.getPsCategory());
-                    psContract.setPsStatus(psmodel.getPsStatus());
-                    psContract.setPsStartDate(psmodel.getPsStartDate());
-                    psContract.setPsEndDate(psmodel.getPsEndDate());
-                    psContract.setContractMasterSid(contractMasterSid);
-                    psContract.setCfpContractSid(cfpSystemId);
-                    psContract.setIfpContractSid(ifpSystemId);
-                    psContract.setInboundStatus("A");
-                    psContract.setRecordLockStatus(false);
-                    psContract.setSource("GCM");
-                    psContract.setCreatedBy(Integer.parseInt(userId));
-                    psContract.setModifiedBy(Integer.parseInt(userId));
-                    psContract.setCreatedDate(new Date());
-                    psContract.setModifiedDate(new Date());
-                    psContract = PsContractLocalServiceUtil.addPsContract(psContract);
+                    PsContract psContractTc;
+                    psContractTc = PsContractLocalServiceUtil.createPsContract(0);
+                    psContractTc.setPsModelSid(Integer.parseInt(psModelId));
+                    PsModel psmodelTc;
+                    psmodelTc = PsModelLocalServiceUtil.getPsModel(Integer.parseInt(psModelId));
+                    psContractTc.setPsName(psmodelTc.getPsName());
+                    psContractTc.setPsType(psmodelTc.getPsType());
+                    psContractTc.setPsCategory(psmodelTc.getPsCategory());
+                    psContractTc.setPsStatus(psmodelTc.getPsStatus());
+                    psContractTc.setPsStartDate(psmodelTc.getPsStartDate());
+                    psContractTc.setPsEndDate(psmodelTc.getPsEndDate());
+                    psContractTc.setContractMasterSid(contractMasterSidTC);
+                    psContractTc.setCfpContractSid(cfpSystemId);
+                    psContractTc.setIfpContractSid(ifpSystemId);
+                    psContractTc.setInboundStatus("A");
+                    psContractTc.setRecordLockStatus(false);
+                    psContractTc.setSource("GCM");
+                    psContractTc.setCreatedBy(Integer.parseInt(userIdTc));
+                    psContractTc.setModifiedBy(Integer.parseInt(userIdTc));
+                    psContractTc.setCreatedDate(new Date());
+                    psContractTc.setModifiedDate(new Date());
+                    psContractTc = PsContractLocalServiceUtil.addPsContract(psContractTc);
 
-                    contractDashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).setValue(String.valueOf(psContract.getPsContractSid()));
-                    List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
-                    input.add(psContract.getPsContractSid());
-                    input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(simpleDateFormat.format(new Date()));
-                    input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(simpleDateFormat.format(new Date()));
-                    input.add(psModelId);
-                    input.add(simpleDateFormat.format(psmodel.getPsStartDate()));
-                    input.add(psmodel.getPsEndDate() == null ? null : simpleDateFormat.format(psmodel.getPsEndDate()));
-                    PsContractDetailsImpl.savePsDetailsAttached(input);
+                    contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.HIDDEN_ID).setValue(String.valueOf(psContractTc.getPsContractSid()));
+                    List<Object> inputPsTc = new ArrayList<>(NumericConstants.EIGHT);
+                    inputPsTc.add(psContractTc.getPsContractSid());
+                    inputPsTc.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+                    inputPsTc.add(simpleDateFormat.format(new Date()));
+                    inputPsTc.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+                    inputPsTc.add(simpleDateFormat.format(new Date()));
+                    inputPsTc.add(psModelId);
+                    inputPsTc.add(simpleDateFormat.format(psmodelTc.getPsStartDate()));
+                    inputPsTc.add(psmodelTc.getPsEndDate() == null ? null : simpleDateFormat.format(psmodelTc.getPsEndDate()));
+                    PsContractDetailsImpl.savePsDetailsAttached(inputPsTc);
 
                 } else if (level.equals(Constants.FOUR)) {
-                    String rsModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
-                    Object psParentItem = contractDashboardResultsTable.getParent(item);
+                    String rsModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(itemTransContract, Constants.MODEL_ID).getValue());
+                    Object psParentItem = contractDashboardResultsTable.getParent(itemTransContract);
                     String contractPSId = String.valueOf(contractDashboardResultsTable.getContainerProperty(psParentItem, Constants.HIDDEN_ID).getValue());
                     Object parentIFPItem = contractDashboardResultsTable.getParent(psParentItem);
                     String contractIFPId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentIFPItem, Constants.HIDDEN_ID).getValue());
                     Object parentCFPItem = contractDashboardResultsTable.getParent(parentIFPItem);
                     String contractCFPId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
 
-                    RsContract rsContract;
-                    rsContract = RsContractLocalServiceUtil.createRsContract(0);
-                    rsContract.setRsModelSid(Integer.parseInt(rsModelId));
-                    RsModel rsmodel;
-                    rsmodel = RsModelLocalServiceUtil.getRsModel(Integer.parseInt(rsModelId));
-                    rsContract.setRsId(rsmodel.getRsId());
-                    rsContract.setRsNo(rsmodel.getRsNo());
-                    rsContract.setRsType(rsmodel.getRsType());
-                    rsContract.setRebateProgramType(rsmodel.getRebateProgramType());
-                    rsContract.setRsCategory(rsmodel.getRsCategory());
-                    rsContract.setRsStatus(rsmodel.getRsStatus());
-                    rsContract.setRsDesignation(String.valueOf(rsmodel.getRsDesignation()));
-                    rsContract.setRsStartDate(rsmodel.getRsStartDate());
-                    rsContract.setRsEndDate(rsmodel.getRsEndDate());
-                    rsContract.setRsTradeClass(rsmodel.getRsTradeClass());
-                    rsContract.setCfpContractSid(contractCFPId);
-                    rsContract.setIfpContractSid(contractIFPId);
-                    rsContract.setPsContractSid(contractPSId);
-                    rsContract.setContractMasterSid(contractMasterSid);
-                    rsContract.setInboundStatus("A");
-                    rsContract.setRecordLockStatus(false);
-                    rsContract.setSource("GCM");
-                    rsContract.setCreatedBy(Integer.parseInt(userId));
-                    rsContract.setModifiedBy(Integer.parseInt(userId));
-                    rsContract.setCreatedDate(new Date());
-                    rsContract.setModifiedDate(new Date());
-                    rsContract = RsContractLocalServiceUtil.addRsContract(rsContract);
+                    RsContract rsContractTc;
+                    rsContractTc = RsContractLocalServiceUtil.createRsContract(0);
+                    rsContractTc.setRsModelSid(Integer.parseInt(rsModelId));
+                    RsModel rsmodelTc;
+                    rsmodelTc = RsModelLocalServiceUtil.getRsModel(Integer.parseInt(rsModelId));
+                    rsContractTc.setRsId(rsmodelTc.getRsId());
+                    rsContractTc.setRsNo(rsmodelTc.getRsNo());
+                    rsContractTc.setRsType(rsmodelTc.getRsType());
+                    rsContractTc.setRebateProgramType(rsmodelTc.getRebateProgramType());
+                    rsContractTc.setRsCategory(rsmodelTc.getRsCategory());
+                    rsContractTc.setRsStatus(rsmodelTc.getRsStatus());
+                    rsContractTc.setRsDesignation(String.valueOf(rsmodelTc.getRsDesignation()));
+                    rsContractTc.setRsStartDate(rsmodelTc.getRsStartDate());
+                    rsContractTc.setRsEndDate(rsmodelTc.getRsEndDate());
+                    rsContractTc.setRsTradeClass(rsmodelTc.getRsTradeClass());
+                    rsContractTc.setCfpContractSid(contractCFPId);
+                    rsContractTc.setIfpContractSid(contractIFPId);
+                    rsContractTc.setPsContractSid(contractPSId);
+                    rsContractTc.setContractMasterSid(contractMasterSidTC);
+                    rsContractTc.setInboundStatus("A");
+                    rsContractTc.setRecordLockStatus(false);
+                    rsContractTc.setSource("GCM");
+                    rsContractTc.setCreatedBy(Integer.parseInt(userIdTc));
+                    rsContractTc.setModifiedBy(Integer.parseInt(userIdTc));
+                    rsContractTc.setCreatedDate(new Date());
+                    rsContractTc.setModifiedDate(new Date());
+                    rsContractTc = RsContractLocalServiceUtil.addRsContract(rsContractTc);
 
-                    List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
-                    input.add(rsContract.getRsContractSid());
-                    input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(simpleDateFormat.format(new Date()));
-                    input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(simpleDateFormat.format(new Date()));
-                    input.add(rsModelId);
-                    input.add(rsmodel.getRsStartDate());
-                    input.add(rsmodel.getRsEndDate() == null ? null : rsmodel.getRsEndDate());
-                    RsContractDetailsImpl.saveRsDetailsAttached(input);
+                    List<Object> inputRsTc = new ArrayList<>(NumericConstants.EIGHT);
+                    inputRsTc.add(rsContractTc.getRsContractSid());
+                    inputRsTc.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+                    inputRsTc.add(simpleDateFormat.format(new Date()));
+                    inputRsTc.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+                    inputRsTc.add(simpleDateFormat.format(new Date()));
+                    inputRsTc.add(rsModelId);
+                    inputRsTc.add(rsmodelTc.getRsStartDate());
+                    inputRsTc.add(rsmodelTc.getRsEndDate() == null ? null : rsmodelTc.getRsEndDate());
+                    RsContractDetailsImpl.saveRsDetailsAttached(inputRsTc);
 
                 }
             }
@@ -1334,7 +1334,7 @@ public class TransferComponents extends CustomComponent implements View {
         } catch (Exception ex) {
             LOGGER.error("",ex);
         }
-        return returnList;
+        return returnListTc;
     }
 
     public void saveCfp(String cfpId, String cfpModelId) {
@@ -1478,13 +1478,13 @@ public class TransferComponents extends CustomComponent implements View {
             String query = queryUtils.getPSDetails(psIdValue);
             List psList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (psList != null && !psList.isEmpty()) {
-                Object[] object = (Object[]) psList.get(0);
-                psId.setValue(String.valueOf(object[0]));
-                psNo.setValue(String.valueOf(object[1]));
-                psName.setValue(String.valueOf(object[NumericConstants.TWO]));
-                psStatus.setValue(String.valueOf(object[NumericConstants.THREE]));
-                if (object[NumericConstants.FOUR] != null) {
-                    String date = df.format(object[NumericConstants.FOUR]);
+                Object[] psValues = (Object[]) psList.get(0);
+                psId.setValue(String.valueOf(psValues[0]));
+                psNo.setValue(String.valueOf(psValues[1]));
+                psName.setValue(String.valueOf(psValues[NumericConstants.TWO]));
+                psStatus.setValue(String.valueOf(psValues[NumericConstants.THREE]));
+                if (psValues[NumericConstants.FOUR] != null) {
+                    String date = df.format(psValues[NumericConstants.FOUR]);
                     psStartDate.setValue(date);
                 } else {
                     psStartDate.setValue(Constants.EMPTY);

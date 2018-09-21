@@ -406,7 +406,7 @@ public class BussinessProcessForm extends Window {
                 } else {
                     StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
                     if (!roleList.isEmpty()) {
-                        notiMsg.append("\n Only " + roleList + " can submit a projection.");
+                        notiMsg.append("\n Only ").append(roleList).append(" can submit a projection.");
                     }
                     AbstractNotificationUtils.getWarningNotification("Permission Denied", notiMsg.toString());
 
@@ -863,7 +863,7 @@ public class BussinessProcessForm extends Window {
                                         AbstractNotificationUtils.getInfoNotification("Cancel Information", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " cancelled successfully");
                                         // For Mail
                                         StringBuilder sb = new StringBuilder("Hi,<br /><br />");
-                                        sb.append("The workflow with workflow Id " + workflowIdUpdate + " is cancelled Succesfully.");
+                                        sb.append("The workflow with workflow Id ").append(workflowIdUpdate).append(" is cancelled Succesfully.");
                                         sb.append("<br /><br />Thanks,<br />BPI Technical Team");
                                         btnApprove.setEnabled(false);
                                         btnWithdraw.setEnabled(false);
@@ -894,7 +894,7 @@ public class BussinessProcessForm extends Window {
         QueryUtils.itemUpdate(input, "Insert To Reserve CCP");
     }
 
-    public void configureWindowHeader(SessionDTO sessionDTO) {
+    private void configureWindowHeader(SessionDTO sessionDTO) {
         if (sessionDTO.isWorkFlow()) {
             String result = getWorkflowId(sessionDTO);
             winHeaderLabel.setCaption(dataselectionDTO.getSelectedAdjType() + ARMUtils.SPACE + ">" + ARMUtils.SPACE
