@@ -14,16 +14,6 @@
     
 	</entry>
 	
-	<entry key="deleteView">
-		<![CDATA[
-			DELETE FROM FORECASTING_VIEWS WHERE VIEW_ID = ? AND CREATED_BY = ?
-		]]>
-	</entry>
-        
-        <entry key="deleteValidation">
-		<![CDATA[
-			SELECT COUNT(*) FROM FORECASTING_VIEWS WHERE VIEW_ID = ? AND CREATED_BY = ?
-		]]>
-	</entry>
+	
 	
 </properties>	

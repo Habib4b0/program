@@ -19,7 +19,6 @@ import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryRegisterWs;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService;
-import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -33,8 +32,7 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 	public GtnUIServiceRegistryController() {
 		super(GtnUIServiceRegistryController.class);
 	}
-	@Autowired
-	private GtnWsSqlService gtnWsSqlService;
+	
 	@Autowired
 	private GtnValidateWsServiceRegistryController gtnValidateWsServiceRegistryController;
 
@@ -118,51 +116,8 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 	public GtnUIFrameworkWebserviceRequest registerWs() {
 		return null;
 	}
-	@RequestMapping(value = "/deleteView", method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse deleteView(@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-	{
-		logger.info("inside delete view method");
-		String deleteViewQuery = "deleteView";
-	GtnFrameworkForecastDataSelectionBean bean = gtnUIFrameworkWebserviceRequest.getGtnWsForecastNewArchRequest().getDataSelectionBean();
-	GtnQueryEngineWebServiceResponse response = callQueryEngineforDeleteView(createQuery(readProperty(deleteViewQuery),bean));
-	GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
-	int count = response.getQueryResponseBean().getResultInteger();
-	GtnFrameworkForecastDataSelectionBean bean1 = new GtnFrameworkForecastDataSelectionBean();
-	bean1.setResultCount(count);
-	gtnUIFrameworkWebserviceResponse.setGtnFrameworkForecastDataSelectionBean(bean1);
-		return gtnUIFrameworkWebserviceResponse;
-	}
-	private GtnQueryEngineWebServiceResponse callQueryEngineforDeleteView(GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest)
-	{
-		
-		RestTemplate restTemplate = new RestTemplate();
-		return restTemplate.postForObject(getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine"
-					,"serviceRegistry"),gtnQueryEngineWebServiceRequest,
-				GtnQueryEngineWebServiceResponse.class);
-		
-	}
-
-	private GtnQueryEngineWebServiceRequest createQuery(String query, GtnFrameworkForecastDataSelectionBean bean) {
-		
-		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setSqlQuery(query);
-		queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
-		Object[] params= {bean.getViewId(),bean.getUserId()};
-		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.STRING  };
-		queryExecutorBean.setParams(params);
-		queryExecutorBean.setDataType(dataType);
-		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
-		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-		return gtnQueryEngineWebServiceRequest;
-	}
-
-	private String readProperty(String deleteViewQuery) {
-		String query = gtnWsSqlService.getQuery(deleteViewQuery);
-		logger.info("inside delete view method query------->" + query);
-		return query;
-		
-
-	}
+	
+	
 	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
 		
 		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")

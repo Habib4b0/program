@@ -38,7 +38,7 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 					.getVaadinBaseComponent(actionParamList.get(2).toString()).getComponentData().getCustomData();
 		}
 		
-		int viewId = 12;
+		int viewId =50;
 		
 		GtnFrameworkForecastDataSelectionBean gtnFrameworkForecastDataSelectionBean = new GtnFrameworkForecastDataSelectionBean();
 		gtnFrameworkForecastDataSelectionBean.setViewId(viewId);
@@ -57,7 +57,7 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 		request.setGtnWsGeneralRequest(generalRequest);
 		
 		GtnUIFrameworkWebserviceResponse response =  new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl
-			("/gtnServiceRegistry/deleteView","serviceRegistry",
+			("/deleteView","generalSearch",
 						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
 		logger.info("Number of rows affected-------->" + response.getGtnFrameworkForecastDataSelectionBean().getResultCount());
