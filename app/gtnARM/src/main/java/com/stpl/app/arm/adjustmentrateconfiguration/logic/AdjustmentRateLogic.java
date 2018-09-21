@@ -257,8 +257,8 @@ public class AdjustmentRateLogic {
         try {
             String viewSid;
             if (saveViewDTO.isViewStatus()) {
-                sbQuery.append("Delete ARM_VIEW_DETAILS where ARM_VIEW_MASTER_SID=" + saveViewDTO.getViewMasterSid() + ";");
-                sbQuery.append("Update  ARM_VIEW_MASTER set FIELD_NAME='" + saveViewDTO.getFieldName() + "' where ARM_VIEW_MASTER_SID=" + saveViewDTO.getViewMasterSid() + ";");
+                sbQuery.append("Delete ARM_VIEW_DETAILS where ARM_VIEW_MASTER_SID=").append(saveViewDTO.getViewMasterSid()).append(";");
+                sbQuery.append("Update  ARM_VIEW_MASTER set FIELD_NAME='").append(saveViewDTO.getFieldName()).append("' where ARM_VIEW_MASTER_SID=").append(saveViewDTO.getViewMasterSid()).append(";");
                 viewSid = saveViewDTO.getViewMasterSid();
             } else {
                 viewSid = isSaveView(saveViewDTO);
@@ -266,7 +266,7 @@ public class AdjustmentRateLogic {
             if (!StringUtils.EMPTY.equals(viewSid)) {
                 sbQuery.append("Insert into ARM_VIEW_DETAILS (ARM_View_Master_Sid,Field_Values) Values ");
                 for (String idValue : saveViewDTO.getCompanyIDList()) {
-                    sbQuery.append(ARMUtils.OPEN_PARANTHESIS + viewSid + ",'" + idValue + "'),");
+                    sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(viewSid).append(",'").append(idValue).append("'),");
                 }
                 sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
                 LOGGER.debug("Inside isAdd_OR_UpdateView query--{}", sbQuery.toString());

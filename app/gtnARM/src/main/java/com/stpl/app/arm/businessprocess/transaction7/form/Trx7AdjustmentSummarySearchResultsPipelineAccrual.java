@@ -39,15 +39,15 @@ public class Trx7AdjustmentSummarySearchResultsPipelineAccrual extends AbstractP
     public Object[] getExcelHierarchy() {
         Object[] tr7EscelValue = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            tr7EscelValue = new Object[]{"D", "C", "T", "B", "I"};
+            tr7EscelValue = ARMUtils.getDCTBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
-            tr7EscelValue = new Object[]{"T", "C", "B", "I"};
+            tr7EscelValue = ARMUtils.getTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomer())) {
-            tr7EscelValue = new Object[]{"T", "B", "I"};
+            tr7EscelValue = ARMUtils.getTBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
-            tr7EscelValue = new Object[]{"B", "I"};
+            tr7EscelValue = ARMUtils.getBI();
         } else if (selection.getRateDeductionView().equals(CommonConstant.DEDUCTION_CONTRACT)) {
-            tr7EscelValue = new Object[]{"C", "T", "B", "I"};
+            tr7EscelValue = ARMUtils.getCTBI();
 
         }
         return tr7EscelValue;

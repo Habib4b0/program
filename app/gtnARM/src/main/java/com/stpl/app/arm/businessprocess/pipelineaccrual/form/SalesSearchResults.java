@@ -190,7 +190,7 @@ public class SalesSearchResults extends AbstractSearchResults {
     @Override
     public Object[] getExcelHierarchy() {
         LOGGER.debug("inside Sales getExcelHierarchy");
-        return new Object[]{"B", "I"};
+        return ARMUtils.getBI();
     }
 
     @Override
