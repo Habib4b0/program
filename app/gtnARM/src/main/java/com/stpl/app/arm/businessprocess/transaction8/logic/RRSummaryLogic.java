@@ -170,9 +170,9 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 } else {
                     rrAdjustmentDto.setMonth(brand);
                 }
-                rrAdjustmentDto.setLevelNo((int) get[NumericConstants.EIGHT]);
+                rrAdjustmentDto.setLevelNo((Integer) get[NumericConstants.EIGHT]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                rrAdjustmentDto.setChildrenAllowed((rrSelection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
+                rrAdjustmentDto.setChildrenAllowed((rrSelection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.NINE]);
                 rrAdjustmentDto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                 if (masterSids != null) {
                     rrAdjustmentDto.setMasterIds(masterSids);
@@ -232,11 +232,11 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             query = SQlUtil.getQuery("getRRAdjustmentSummaryExcelQuery");
             Object[] value = null;
             if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? new Object[]{"D", "T", "C", "B", "I"} : new Object[]{"T", "C", "B", "I"};
+                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? ARMUtils.getDTCBI() : ARMUtils.getTCBI();
             } else if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionContract())) {
-                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? new Object[]{"D", "C", "T", "B", "I"} : new Object[]{"C", "T", "B", "I"};
+                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? ARMUtils.getDCTBI() : ARMUtils.getCTBI();
             } else if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? new Object[]{"D", "B", "I"} : new Object[]{"B", "I"};
+                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? new Object[]{"D", "B", "I"} : ARMUtils.getBI();
             }
             query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
             query = query.replace("@DEDCONDITION", rrSelection.getSummarydeductionLevelDes());

@@ -195,7 +195,7 @@ public class Converters {
         return returnList;
     }
 
-    public static List<DataSelectionDTO> searchDsProjection(List resultList, boolean channelsFlag, boolean notReturnsFlag) throws ParseException  {
+    public static List<DataSelectionDTO> searchDsProjection(List resultList, boolean notReturnsFlag) throws ParseException  {
 
         List<DataSelectionDTO> dataSelectionDTOs = new ArrayList<>();
         DataSelectionDTO dataSelectionDTO;

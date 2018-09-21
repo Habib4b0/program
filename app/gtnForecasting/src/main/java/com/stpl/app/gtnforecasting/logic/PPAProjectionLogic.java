@@ -115,7 +115,7 @@ public class PPAProjectionLogic {
         } else if (columnValue instanceof Date) {
             input.add("CONVERT(DATE, '" + CommonUtils.getDateTime(Constant.DATE_FORMAT_1, (Date) columnValue) + "')");
         } else {
-            input.add("'" + String.valueOf(columnValue) + "'");
+            input.add("'" + columnValue + "'");
         }
         input.add(selection.getRelationshipBuilderSid());
         input.add(projectionId);
@@ -343,7 +343,7 @@ public class PPAProjectionLogic {
         } else if (Constant.NULL.equalsIgnoreCase(String.valueOf(columnValue))) {
             input.add(Constant.NULL_CAPS);
         } else {
-            input.add("'" + String.valueOf(columnValue) + "'");
+            input.add("'" + columnValue + "'");
         }
         input.add(selection.getRelationshipBuilderSid());
         input.add(projectionId);
