@@ -723,7 +723,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         }
         pvSelectionDTO.setDeductionLevelValues(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
         StringBuilder br=new StringBuilder();
-        if(!pvSelectionDTO.getProjIdList().isEmpty()){
+        if(sessionDTO.getComparisonLookupData()!=null){        
             for (Integer checkedSalesValue : pvSelectionDTO.getProjIdList()) {
                 br.append(checkedSalesValue).append(Constants.COMMA_CHAR);
             }
