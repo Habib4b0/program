@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -39,10 +40,6 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
          super(PrivatePublic.class);
     }
 
-    @Override
-    public GtnUIFrameworkWebserviceRequest registerWs() {
-        return null;
-    }
 
     @Override
     public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,String query) {
@@ -142,9 +139,14 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 		return mapper.readValue(viewData, dataSelectionBean);
 	}
 	 @Override
-	    public void initCallOnFailure() {
-	        // Default Method
-	}
+	   public void initCallOnFailure() {
+        // Default Method
+    }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        // Default Method
+    }
 
 	
 }

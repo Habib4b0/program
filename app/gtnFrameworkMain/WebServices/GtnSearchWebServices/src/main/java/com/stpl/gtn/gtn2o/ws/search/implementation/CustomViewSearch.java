@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class CustomViewSearch extends GtnCommonWebServiceImplClass implements SearchInterface {
 
@@ -46,20 +47,15 @@ public class CustomViewSearch extends GtnCommonWebServiceImplClass implements Se
         return response;
     }
 
-    public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
-        return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
-                + GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
-                + url;
-    }
-
-    @Override
-    public GtnUIFrameworkWebserviceRequest registerWs() {
-        return null;
-    }
 
     @Override
     public void initCallOnFailure() {
     //default method
+    }
+    
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        // Default Method
     }
 
 }

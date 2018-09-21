@@ -27,6 +27,7 @@ import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintio
 import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.sqlservice.GtnWsHierarchyAndRelationshipSqlService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 @Service
 public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplClass {
@@ -53,11 +54,6 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 	private static final String RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID = "RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID";
 	private static final String SELECT = "SELECT";
 	private static final String EXECUTE_QUERY = "/executeQuery";
-
-	@Override
-	public GtnUIFrameworkWebserviceRequest registerWs() {
-		return null;
-	}
 
 	private GtnWsRelationshipLevelValueService() {
 		super(GtnWsRelationshipLevelValueService.class);
@@ -333,4 +329,9 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
     public void initCallOnFailure() {
         // Default Method
 }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        // Default Method
+    }
 }

@@ -119,21 +119,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
     }
 
     @Override
-    public GtnUIFrameworkWebserviceRequest registerWs() {
-        logger.info("Building request to register Webservice in Service Registry");
-        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-        GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
-
-        GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-        getEndPointUrl(webServiceRegistryBean);
-        logger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
-        gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
-        request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
-        addSecurityToken(request);
-        return request;
-    }
-
-    private void getEndPointUrl(GtnWsServiceRegistryBean webServiceRegistryBean) {
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
         webServiceRegistryBean.setWebserviceEndPointUrl(
                 GtnFrameworkPropertyManager.getProperty("gtn.webservices.periodConfiguration.endPointUrl"));
         webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");

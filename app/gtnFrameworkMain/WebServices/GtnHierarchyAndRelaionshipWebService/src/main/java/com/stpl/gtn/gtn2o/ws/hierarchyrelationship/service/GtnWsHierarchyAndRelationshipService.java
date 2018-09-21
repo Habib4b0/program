@@ -60,22 +60,7 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
         }
 	}
 
-	@Override
-	public GtnUIFrameworkWebserviceRequest registerWs() {
-		logger.info("Building request to register Webservice in Service Registry");
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
-
-		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-		getEndPointServiceURL(webServiceRegistryBean);
-		logger.info("Webservice to Register: " + webServiceRegistryBean.getRegisteredWebContext());
-		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
-		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
-		addSecurityToken(request);
-		return request;
-	}
-
-	private void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+	public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
 		webServiceRegistryBean.setWebserviceEndPointUrl(
 				GtnFrameworkPropertyManager.getProperty("gtn.webservices.hierarchyRelationship.endPointUrl"));
 		webServiceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");

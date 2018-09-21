@@ -9,7 +9,9 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.manager.GtnWsSecurityManager;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 import org.springframework.web.client.RestTemplate;
 
@@ -25,7 +27,6 @@ public abstract class GtnCommonWebServiceImplClass {
         return "readPropertyFile:" + propertyFile;
     }
 
-    public abstract GtnUIFrameworkWebserviceRequest registerWs();
 
     public GtnQueryEngineWebServiceResponse callQueryEngine(String url, GtnQueryEngineWebServiceRequest request,
             GtnWsSecurityToken securityToken) {
@@ -114,5 +115,23 @@ public abstract class GtnCommonWebServiceImplClass {
         }
 
     }
+    
+    
+    public GtnUIFrameworkWebserviceRequest registerWs() {
+		logger.info("Building request to register Webservice in Service Registry");
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
+
+		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
+		getEndPointServiceURL(webServiceRegistryBean);
+		logger.info("Webservice to Register: " + webServiceRegistryBean.getRegisteredWebContext());
+		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
+		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
+		addSecurityToken(request);
+		return request;
+	}
+    
+    
+    public abstract void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean);
 
 }

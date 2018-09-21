@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implements SearchInterface{
 	 public CustomerAndProductGroup()
@@ -21,13 +22,6 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        super(CustomerAndProductGroup.class);
 	    }
 	   
-
-
-	    @Override
-	    public GtnUIFrameworkWebserviceRequest registerWs() {
-	        return null;
-	    }
-
 
 		@Override
 		public GtnUIFrameworkWebserviceResponse getSearch(
@@ -79,6 +73,11 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
     @Override
     public void initCallOnFailure() {
         return;
+    }
+    
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        // Default Method
     }
 	    
 	    

@@ -21,7 +21,6 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.implementation.ComboBoxSearch;
@@ -74,28 +73,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         }
 
     }
-
-    @Override
-    public GtnUIFrameworkWebserviceRequest registerWs() {
-        logger.info("building request to register searchwebservice");
-        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-        GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
-        GtnWsServiceRegistryBean gtnServiceRegistryBean = new GtnWsServiceRegistryBean();
-        getUrl(gtnServiceRegistryBean);
-        logger.info("webservice to be registered" + gtnServiceRegistryBean.getRegisteredWebContext());
-        gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(gtnServiceRegistryBean);
-        request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
-        addSecurityToken(request);
-        return request;
-    }
-
-    public void getUrl(GtnWsServiceRegistryBean gtnServiceRegistryBean) {
-        gtnServiceRegistryBean.setWebserviceEndPointUrl(
-                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointUrl"));
-        gtnServiceRegistryBean.setRegisteredWebContext(
-                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointServiceName"));
-    }
-
+    
     public GtnUIFrameworkWebserviceResponse commonMethod(
             GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
         String key = gtnUiFrameworkWebservicerequest.getGtnWsSearchRequest().getSearchQueryName();
@@ -282,6 +260,14 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
      @Override
     public void initCallOnFailure() {
         init();
+    }
+    
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean gtnServiceRegistryBean) {
+        gtnServiceRegistryBean.setWebserviceEndPointUrl(
+                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointUrl"));
+        gtnServiceRegistryBean.setRegisteredWebContext(
+                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointServiceName"));
     }
 
 }

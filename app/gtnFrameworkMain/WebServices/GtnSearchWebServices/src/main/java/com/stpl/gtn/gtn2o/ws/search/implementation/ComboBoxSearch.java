@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.util.List;
 
 /**
@@ -25,10 +26,6 @@ public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements Sear
         super(ComboBoxSearch.class);
     }
 
-    @Override
-    public GtnUIFrameworkWebserviceRequest registerWs() {
-        return null;
-    }
 
     @Override
     public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query) {
@@ -54,6 +51,11 @@ public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements Sear
 
     @Override
     public void initCallOnFailure() {
+        // Default Method
+    }
+    
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
         // Default Method
     }
 
