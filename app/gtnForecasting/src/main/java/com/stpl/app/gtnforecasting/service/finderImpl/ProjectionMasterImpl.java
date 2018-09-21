@@ -1482,13 +1482,13 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             }
 
             if (parameters.get(Constant.HIERARCHY_NAME) != null && !"null".equals(String.valueOf(parameters.get(Constant.HIERARCHY_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.HIERARCHY_NAME)))) {
-                query = query.replace("?HIERARCHY_NAME_CONDITION?", " AND C.HIERARCHY_NAME like '" + String.valueOf(parameters.get(Constant.HIERARCHY_NAME)) + "' ");
+                query = query.replace("?HIERARCHY_NAME_CONDITION?", " AND C.HIERARCHY_NAME like '" + parameters.get(Constant.HIERARCHY_NAME) + "' ");
             } else {
                 query = query.replace("?HIERARCHY_NAME_CONDITION?", StringUtils.EMPTY);
             }
             if (parameters.get(Constant.HIERARCHY_TYPE) != null && !"null".equals(String.valueOf(parameters.get(Constant.HIERARCHY_TYPE))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.HIERARCHY_TYPE)))) {
                 query = query.replace("?HIERARCHY_TYPE_CONDITION?", " AND C.HIERARCHY_TYPE in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT where HT.DESCRIPTION LIKE '"
-                        + String.valueOf(parameters.get(Constant.HIERARCHY_TYPE)) + "') ");
+                        + parameters.get(Constant.HIERARCHY_TYPE) + "') ");
             } else {
                 query = query.replace("?HIERARCHY_TYPE_CONDITION?", StringUtils.EMPTY);
             }

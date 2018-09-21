@@ -156,9 +156,9 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 ovverrideFlag = false;
                 totalColumnValue = new double[NumericConstants.NINE];
                 dto.setMonth(brand);
-                dto.setLevelNo((int) get[NumericConstants.ELEVEN]);
+                dto.setLevelNo((Integer) get[NumericConstants.ELEVEN]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.TWELVE]);
+                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.TWELVE]);
                 dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.THIRTEEN]));
                 if (masterSids != null) {
                     dto.setMasterIds(masterSids);

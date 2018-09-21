@@ -42,8 +42,8 @@ public class ComboBoxLoadLogic {
         }
         for (Object[] obj : resultsListValue) {
             if (obj[NumericConstants.TWO] != null) {
-                comboBox.addItem((int) obj[NumericConstants.ZERO]);
-                comboBox.setItemCaption((int) obj[NumericConstants.ZERO], obj[NumericConstants.ONE] + "");
+                comboBox.addItem((Integer) obj[NumericConstants.ZERO]);
+                comboBox.setItemCaption((Integer) obj[NumericConstants.ZERO], obj[NumericConstants.ONE] + "");
             }
         }
         comboBox.setNullSelectionAllowed(true);
