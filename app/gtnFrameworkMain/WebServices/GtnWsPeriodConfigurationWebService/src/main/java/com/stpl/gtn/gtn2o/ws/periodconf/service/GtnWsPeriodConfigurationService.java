@@ -51,12 +51,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
         try {
             logger.info("Entering into init method");
             GtnUIFrameworkWebserviceRequest request = registerWs();
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.postForObject(
-                    getWebServiceEndpointBasedOnModule(
-                            GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REGISTERWEBSERVICE,
-                            GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
-                    request, GtnUIFrameworkWebserviceResponse.class);
+            callServiceRegistry(request);
             logger.info("Webservice Registered");
             this.loadDate();
         } catch (Exception e) {
@@ -84,13 +79,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
     }
 
     public GtnQueryEngineWebServiceResponse callQueryEngine(GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest) {
-        RestTemplate restTemplate = new RestTemplate();
-        addSecurityToken(gtnQueryEngineWebServiceRequest);
-        return restTemplate.postForObject(
-                getWebServiceEndpointBasedOnModule(
-                        GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REDIRECTTOQUERYENGINE,
-                        GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
-                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+        return callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
     }
 
     public void populateallBusinessProcessTypeResultObject(List<Object[]> resultDataSet) {

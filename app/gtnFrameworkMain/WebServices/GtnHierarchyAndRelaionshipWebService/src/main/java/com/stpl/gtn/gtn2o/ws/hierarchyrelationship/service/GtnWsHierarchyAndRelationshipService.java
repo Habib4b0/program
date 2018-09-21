@@ -48,11 +48,7 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
     public void init() {
         try {
             GtnUIFrameworkWebserviceRequest request = registerWs();
-
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.postForObject(
-                    getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
-                    request, GtnUIFrameworkWebserviceResponse.class);
+            callServiceRegistry(request);
             logger.info("Webservice Registered");
             List<Object[]> resultList = loadHierarchyRelationshipResults();
             Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = resultCustomization(resultList);

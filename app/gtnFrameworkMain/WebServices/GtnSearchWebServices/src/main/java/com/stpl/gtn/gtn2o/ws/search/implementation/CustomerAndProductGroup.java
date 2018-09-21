@@ -62,12 +62,8 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        queryExecutorBean.setDataType(dataType);
 	        GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 	        gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-			RestTemplate restTemplate1 = new RestTemplate();
-			addSecurityToken(gtnQueryEngineWebServiceRequest);
 	        logger.info("calling query engine via service registry");
-	           GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
-	                getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-	                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+	        GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
 	        List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
 	        GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 			dataTable.addData(resultList);

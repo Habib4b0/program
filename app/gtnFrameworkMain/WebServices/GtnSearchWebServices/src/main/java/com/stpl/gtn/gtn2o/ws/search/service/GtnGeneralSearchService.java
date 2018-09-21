@@ -64,11 +64,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         try {
         logger.info("Entering into init method of searchWebservice");
         GtnUIFrameworkWebserviceRequest request = registerWs();
-        RestTemplate restTemplate = new RestTemplate();
-        addSecurityToken(request);
-        restTemplate.postForObject(
-                getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
-                request, GtnUIFrameworkWebserviceResponse.class);
+        callServiceRegistry(request);
         logger.info("search webservices registered");
         } catch (Exception e) {
             if(e.getMessage().contains("404 Not Found")){
@@ -165,19 +161,13 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         queryExecutorBean.setDataType(dataType);
         GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-        RestTemplate restTemplate1 = new RestTemplate();
-        addSecurityToken(gtnQueryEngineWebServiceRequest);
         logger.info("calling query engine via service registry");
-        GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
-                getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+        GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
         List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
-//        int count = pagedTableSearchCount(webSearchCriteriaList);
         GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
         GtnSerachResponse searchResponse = new GtnSerachResponse();
         dataTable.addData(resultList);
         searchResponse.setResultSet(dataTable);
-//        searchResponse.setCount(count);
         gtnUIFrameworkWebserviceResponse.setGtnSerachResponse(searchResponse);
         return gtnUIFrameworkWebserviceResponse;
     }
@@ -197,12 +187,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         queryExecutorBean.setDataType(dataType);
         GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-        RestTemplate restTemplate1 = new RestTemplate();
-        addSecurityToken(gtnQueryEngineWebServiceRequest);
         logger.info("calling query engine via service registry");
-        GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
-                getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+        GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
         return response1.getQueryResponseBean().getResultInteger();
     }
 
@@ -240,11 +226,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 			queryExecutorBean.setDataType(dataType);
 			GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 			gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-			RestTemplate restTemplate1 = new RestTemplate();
 			logger.info("calling query engine via service registry");
-			GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(getWebServiceEndpointBasedOnModule(
-					"/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-					gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+			GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
 			List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
 			GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 			GtnSerachResponse searchResponse = new GtnSerachResponse();
