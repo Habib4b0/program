@@ -1048,8 +1048,7 @@ public class DataSelectionUtil {
 
 	public static int getYearFromDate(Date date) {
 		SimpleDateFormat getYear = new SimpleDateFormat("yyyy");
-		int year = Integer.parseInt(getYear.format(date));
-		return year;
+		return Integer.parseInt(getYear.format(date));
 	}
 
 }
