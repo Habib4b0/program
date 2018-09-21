@@ -38,7 +38,7 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 					.getVaadinBaseComponent(actionParamList.get(2).toString()).getComponentData().getCustomData();
 		}
 		
-		int viewId =50;
+		int viewId =recordBean.getIntegerPropertyByIndex(16);
 		
 		GtnFrameworkForecastDataSelectionBean gtnFrameworkForecastDataSelectionBean = new GtnFrameworkForecastDataSelectionBean();
 		gtnFrameworkForecastDataSelectionBean.setViewId(viewId);
