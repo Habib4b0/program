@@ -160,8 +160,8 @@ public class CommonLogic {
 
             for (Object[] obj : arr) {
                 if (obj[1] != null && obj[NumericConstants.TWO] != null) {
-                    comboBox.addItem((int) obj[0]);
-                    comboBox.setItemCaption((int) obj[0], obj[1] + " - " + obj[NumericConstants.TWO]);
+                    comboBox.addItem((Integer) obj[0]);
+                    comboBox.setItemCaption((Integer) obj[0], obj[1] + " - " + obj[NumericConstants.TWO]);
                 }
             }
         } else {
@@ -176,8 +176,8 @@ public class CommonLogic {
 
         for (Object[] obj : arr) {
             if (obj[1] != null) {
-                comboBox.addItem((int) obj[0]);
-                comboBox.setItemCaption((int) obj[0], (String) obj[1]);
+                comboBox.addItem((Integer) obj[0]);
+                comboBox.setItemCaption((Integer) obj[0], (String) obj[1]);
             }
         }
 
@@ -503,8 +503,8 @@ public class CommonLogic {
         List<Object[]> arr = HelperTableLocalServiceUtil.executeSelectQuery(query);
         for (Object[] obj : arr) {
             if (obj[0] != null && obj[1] != null) {
-                comboBox.addItem((int) obj[0]);
-                comboBox.setItemCaption((int) obj[0], obj[1].toString());
+                comboBox.addItem((Integer) obj[0]);
+                comboBox.setItemCaption((Integer) obj[0], obj[1].toString());
             }
         }
         return comboBox;
@@ -600,8 +600,8 @@ public class CommonLogic {
         comboBox.setNullSelectionAllowed(true);
         comboBox.setNullSelectionItemId(0);
         for (Object[] obj : list) {
-            comboBox.addItem((int) obj[0]);
-            comboBox.setItemCaption((int) obj[0], (String) obj[1]);
+            comboBox.addItem((Integer) obj[0]);
+            comboBox.setItemCaption((Integer) obj[0], (String) obj[1]);
         }
         return comboBox;
     }

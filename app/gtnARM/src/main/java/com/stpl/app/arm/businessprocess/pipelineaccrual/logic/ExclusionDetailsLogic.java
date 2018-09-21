@@ -192,7 +192,7 @@ public class ExclusionDetailsLogic {
             } else {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (ExclusionLookupDTO idValue : saveViewDTO.getFieldList()) {
-                        sbQuery.append(ARMUtils.OPEN_PARANTHESIS + viewSid + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
+                        sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(viewSid).append(ARMUtils.COMMA_CHAR).append("null").append(ARMUtils.COMMA_CHAR).append("null").append(ARMUtils.COMMA_CHAR).append("null").append(ARMUtils.COMMA_CHAR).append("null,'").append(idValue.getExcludedField()).append("','").append(idValue.getValues()).append("'),");
                     }
                 }
 

@@ -3666,8 +3666,7 @@ public class DataSelectionForm extends ForecastDataSelection {
                                     Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
                                     tempSession.setDedRelationshipBuilderSid(obj[0].toString());
                                     }
-                                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)) {
-                                    if (dataLogic.isFileChanged(tempSession) == 0) {
+                                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName) && dataLogic.isFileChanged(tempSession) == 0) {
                                         MessageBox.showPlain(Icon.QUESTION, "New File is Activated in the File Management module",
                                                 "There is a new file " + "[ " + tempSession.getFileName() + " ]\n"
                                                 + " that has been activated. \n"
@@ -3679,7 +3678,6 @@ public class DataSelectionForm extends ForecastDataSelection {
                                                 return;
                                             }
                                         }, ButtonId.OK);
-                                    }
                                 }
                                 ForecastWindow forecastWindow = new ForecastWindow(dto.getProjectionName(), tempSession,
 							resultTable, scrName, this, dto);
@@ -5391,7 +5389,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 						relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(),
 								dataLogic.customizeLevelDtoFromRecordBean(inputBean.getSelectedCustomerList(),inputBean.getCustomerRelationVersionNo()), dataLogic.customizeLevelDtoFromRecordBean(inputBean.getSelectedProductList(),inputBean.getProductRelationVersionNo()),
 								dataSelectionDTO);
-                                                
+                                            dataSelectionDTO.setCustomerGroup(inputBean.getCustomerGroupName());
+                                            dataSelectionDTO.setProductGroup(inputBean.getProductGroupName());
                                                 
 
                                             session.setCustomerLevelDetails(

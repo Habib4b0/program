@@ -111,7 +111,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 	private  List<Object[]> method(List<Object[]> resultList) throws JsonParseException, JsonMappingException, IOException {
 		 List<Object[]> list = new ArrayList<>();
 		 GtnFrameworkForecastDataSelectionBean bean = new GtnFrameworkForecastDataSelectionBean();
-		 Object[] ob = new Object[17];
+		 Object[] ob = new Object[18];
 		 for(int i=0;i<resultList.size();i++)
 		 {
 			 Object[] obj = resultList.get(i);
@@ -134,6 +134,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 			 ob[14]=obj[4];
 			 ob[15]=bean.getBusinessUnitName();
 			 ob[16]=obj[7];
+			 ob[17]=bean;
 			 list.add(ob);
 		 }
 		 return list;

@@ -252,6 +252,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		popupActionParam.add(nameSpace + "_" + "viewBtn");
 		popupActionParam.add(nameSpace + "_" + "deleteBtn");
 		popupActionParam.add(nameSpace + "_" + "to");
+		popupActionParam.add(nameSpace + "_" + "from");
+		
 
 		optionChangeActionConfig.setActionParameterList(popupActionParam);
 

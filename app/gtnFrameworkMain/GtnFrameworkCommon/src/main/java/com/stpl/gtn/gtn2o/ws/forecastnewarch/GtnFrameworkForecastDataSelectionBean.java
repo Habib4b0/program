@@ -75,7 +75,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private String privateViewName;
 	private String publicViewName;
 	private List<Object> customDataList;
-	
+	private int resultCount;
 	public String getProjectionName() {
 		return projectionName;
 	}
@@ -554,7 +554,13 @@ public class GtnFrameworkForecastDataSelectionBean {
 		return DataSelectionCopyBean;
 	}
 
-	
-	
+	public int getResultCount() {
+		return resultCount;
+	}
 
+	public void setResultCount(int resultCount) {
+		this.resultCount = resultCount;
+	}
+
+	
 }

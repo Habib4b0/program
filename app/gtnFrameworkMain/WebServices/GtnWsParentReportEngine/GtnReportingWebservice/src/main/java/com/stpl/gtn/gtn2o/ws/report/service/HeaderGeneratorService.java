@@ -636,6 +636,7 @@ public class HeaderGeneratorService {
 		}
                 else{
                     variableCategoryMap.put(VARIANCE,"VARIANCE");
+                    variableCategoryMap.put("% Change", "PER_CHANGE");
                 }
 
 	}

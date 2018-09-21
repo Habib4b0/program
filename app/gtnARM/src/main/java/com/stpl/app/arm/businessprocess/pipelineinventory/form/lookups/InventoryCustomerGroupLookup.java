@@ -126,7 +126,7 @@ public class InventoryCustomerGroupLookup extends Window {
         instance = this;
     }
 
-    public void init() {
+    private void init() {
         setClosable(true);
         setResizable(true);
         setModal(true);

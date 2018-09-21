@@ -2299,13 +2299,13 @@ public class DataSelectionLogic {
 
 	}
         
-	 public GtnUIFrameworkWebserviceComboBoxResponse getCompaniesFromNewArchitecture() {
+	 public GtnUIFrameworkWebserviceComboBoxResponse getComboboxResponseFromForecastingNewArchitecture(String comboboxType,String queryName) {
 
         GtnUIFrameworkWebserviceComboBoxResponse comboBoxServiceResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
         GtnUIFrameworkWebServiceClient comboboxWsServiceclient = new GtnUIFrameworkWebServiceClient();
         GtnUIFrameworkWebserviceRequest comboboxServiceRequest = new GtnUIFrameworkWebserviceRequest();
         GtnWsGeneralRequest comboboxGeneralWSServiceRequest = new GtnWsGeneralRequest();
-        comboboxGeneralWSServiceRequest.setComboBoxType("CompanyMasterGLcomp");
+        comboboxGeneralWSServiceRequest.setComboBoxType(comboboxType);
         
         comboboxServiceRequest.setGtnWsGeneralRequest(comboboxGeneralWSServiceRequest);
        
@@ -2316,7 +2316,7 @@ public class DataSelectionLogic {
             serviceRegistryBean.setModuleName("generalSearch");
             serviceRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
             GtnWsSearchRequest searchRequest = new GtnWsSearchRequest();
-            searchRequest.setSearchQueryName("CompanyMasterGLcomp");
+            searchRequest.setSearchQueryName(queryName);
             comboboxServiceRequest.setGtnWsSearchRequest(searchRequest);
             comboboxServiceRequest.setGtnServiceRegistryWsRequest(serviceRequest);
             
@@ -2613,7 +2613,7 @@ public class DataSelectionLogic {
 			if (parameters.get(RL_SIDS) != null) {
 				ArrayList<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
 				if (rlSids != null && !rlSids.isEmpty()) {
-					String qry = "   SELECT distinct " + String.valueOf(parameters.get(Constant.PROJECTION_ID))
+					String qry = "   SELECT distinct " + parameters.get(Constant.PROJECTION_ID)
 							+ ",RLD.RELATIONSHIP_LEVEL_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD ";
 					queryString.append(qry);
 

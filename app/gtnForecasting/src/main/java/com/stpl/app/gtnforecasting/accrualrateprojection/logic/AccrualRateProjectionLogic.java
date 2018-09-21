@@ -249,13 +249,13 @@ public final class AccrualRateProjectionLogic {
             Object[] object = (Object[]) list.get(i);
             if (StringUtils.isBlank(lastProduct) || lastProduct.equals(object[0])) {
                 lastProduct = String.valueOf(object[0]);
-                accrualRateProjectionDTO.setProduct(lastProduct+" , "+String.valueOf(object[NumericConstants.FIVE]));
+                accrualRateProjectionDTO.setProduct(lastProduct+" , "+object[NumericConstants.FIVE]);
             } else {
                 resultList.add(accrualRateProjectionDTO);
                 accrualRateProjectionDTO = new AccrualRateProjectionDTO();
                 j = 0;
                 lastProduct = String.valueOf(object[0]);
-                accrualRateProjectionDTO.setProduct(lastProduct+" , "+String.valueOf(object[NumericConstants.FIVE]));
+                accrualRateProjectionDTO.setProduct(lastProduct+" , "+object[NumericConstants.FIVE]);
             }
             String column = AccrualRateUtils.M + object[1] + AccrualRateUtils.DASH + object[NumericConstants.TWO] + AccrualRateUtils.DOT + j;
             if (availableVisibleColumns.contains(column)) {
@@ -282,13 +282,13 @@ public final class AccrualRateProjectionLogic {
             Object[] object = (Object[]) list.get(i);
             if (StringUtils.isBlank(lastProduct) || lastProduct.equals(object[NumericConstants.ONE])) {
                 lastProduct = String.valueOf(object[NumericConstants.ONE]);
-                accrualRateProjectionDTO.setGroup(lastProduct+" , "+String.valueOf(object[NumericConstants.FIFTEEN]));
+                accrualRateProjectionDTO.setGroup(lastProduct+" , "+object[NumericConstants.FIFTEEN]);
             } else {
                 resultList.add(accrualRateProjectionDTO);
                 accrualRateProjectionDTO = new AccrualRateProjectionDTO();
                 j = 0;
                 lastProduct = String.valueOf(object[NumericConstants.ONE]);
-                accrualRateProjectionDTO.setGroup(lastProduct+" , "+String.valueOf(object[NumericConstants.FIFTEEN]));
+                accrualRateProjectionDTO.setGroup(lastProduct+" , "+object[NumericConstants.FIFTEEN]);
             }
 
             String key = AccrualRateUtils.M + object[NumericConstants.TWO] + AccrualRateUtils.DASH + object[NumericConstants.THREE];
