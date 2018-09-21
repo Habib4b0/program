@@ -653,7 +653,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     projectionId.setCaption(dto.getProjectionId()); // for setting revision date in excel
                     projectionId.setData(dto);
                     projectionId.setStyleName(Reindeer.BUTTON_LINK);
-                    String furl = StringUtils.EMPTY;
+                    String furl;
                     furl = Constants.HTTP + Page.getCurrent().getLocation().getHost() + ":" + Page.getCurrent().getLocation().getPort() + Constants.WEB_WORKFLOW;
 
                     BrowserWindowOpener opener = new BrowserWindowOpener(furl);

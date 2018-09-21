@@ -117,8 +117,8 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     public void setExcelVisibleColumn() {
         Map properties = new HashMap();
         List<Object> header = getSummaryLogic().generateInventoryHeader(selection);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
-        List rightSingleVisibleHeader = (ArrayList) header.get(1);
+        List rightSingleVisibleColumn = (List) header.get(0);
+        List rightSingleVisibleHeader = (List) header.get(1);
         for (Object variableColumn : rightSingleVisibleColumn) {
             properties.put(variableColumn, String.class);
         }
@@ -159,7 +159,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
 
     public void generateButtonLogic(AbstractSelectionDTO selection) {
         List<Object> header = getSummaryLogic().generateInventoryHeader(selection);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
+        List rightSingleVisibleColumn = (List) header.get(0);
         Map properties = new HashMap();
         Object[] variableColumns = new String[rightSingleVisibleColumn.size()];
         variableColumns = rightSingleVisibleColumn.toArray(variableColumns);
@@ -209,7 +209,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     @Override
     public Object[] getExcelHierarchy() {
         TR6_INVENTORY_LOGGER.debug("Inside getExcelHierarchy");
-        return new Object[]{"T", "B", "I"};
+        return ARMUtils.getTBI();
     }
 
     @Override

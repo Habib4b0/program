@@ -191,7 +191,7 @@ public class MedicaidUraWorkSheet extends Window {
     private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
     private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
     private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    public static final String MODE = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private  final String MODE = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     private Property.ValueChangeListener valueChangeListener = null;
     private Property.ValueChangeListener valueChangeListenerTA = null;
     private boolean valueChange = false;
@@ -1266,10 +1266,8 @@ public class MedicaidUraWorkSheet extends Window {
 
     public void removeBaseYear() {
         try {
-            if (!isSubmit()) {
-                if (!baseYear.isEmpty()) {
+            if (!isSubmit() && !baseYear.isEmpty()) {
                     queryUtil.saveBaseYear(baseYear, sessionDTO, projectionDTO.getNdc9(),StringUtils.EMPTY);
-                }
             }
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());

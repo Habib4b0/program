@@ -32,10 +32,10 @@ public class ReturnReserveResults extends AbstractBalanceSummaryResutls {
         try {
             Map properties = new HashMap();
             List<Object> header = getSummaryLogic().getRightTableHeaders(getSummarySelection());
-            List rrRightSingleVisibleColumn = (ArrayList) header.get(NumericConstants.ZERO);
-            List rrRightSingleVisibleHeader = (ArrayList) header.get(NumericConstants.ONE);
-            List<String> rrRightDoubleVisibleColumn = (ArrayList) header.get(NumericConstants.TWO);
-            List<String> rrRightDoubleVisibleHeader = (ArrayList) header.get(NumericConstants.THREE);
+            List rrRightSingleVisibleColumn = (List) header.get(NumericConstants.ZERO);
+            List rrRightSingleVisibleHeader = (List) header.get(NumericConstants.ONE);
+            List<String> rrRightDoubleVisibleColumn = (List) header.get(NumericConstants.TWO);
+            List<String> rrRightDoubleVisibleHeader = (List) header.get(NumericConstants.THREE);
             for (Object variableColumn : rrRightSingleVisibleColumn) {
                 properties.put(variableColumn, String.class);
             }

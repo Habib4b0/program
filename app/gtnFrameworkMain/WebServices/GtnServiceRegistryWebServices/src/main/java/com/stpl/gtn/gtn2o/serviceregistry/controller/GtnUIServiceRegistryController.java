@@ -170,4 +170,9 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 		+ url;
 
 }
+
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+    }
 }

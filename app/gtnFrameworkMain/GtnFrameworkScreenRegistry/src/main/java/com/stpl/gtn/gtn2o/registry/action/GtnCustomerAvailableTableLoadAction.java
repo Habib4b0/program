@@ -61,15 +61,12 @@ public class GtnCustomerAvailableTableLoadAction
 		Integer selectedLevelNo = Integer.valueOf(
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)), componentId)
 						.getCaptionFromV8ComboBox());
-		String selectedLevel = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)), componentId)
-				.getStringCaptionFromV8ComboBox();
 		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(String.valueOf(actionParamList.get(5)), componentId).getFieldValue();
 		if (date != null) {
 			forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
-		if (!selectedLevel.equals("")) {
+		if (selectedLevelNo != 0) {
 			String query = getLevelValueMapQuery(relationshipBuilderSid, hierarchyDefSid, hierarchyVersionNo,
 					relationshipVersionNo);
 			Map<String, String> levelValueMap = getLevelValueMap(query);
@@ -116,10 +113,10 @@ public class GtnCustomerAvailableTableLoadAction
 		request.setGtnWsForecastRequest(forecastRequest);
 		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
 		GtnUIFrameworkWebserviceResponse relationResponse = callGtnService(request);
-                if(relationResponse==null){
-                     GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
-                     alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP);
-                }
+		if (relationResponse == null) {
+			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+			alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP);
+		}
 		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
@@ -136,10 +133,10 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnServiceRegistryWsRequest serviceRegistryWsRequest = buildServiceRequest("/loadLevelValueMapResults");
 		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
 		GtnUIFrameworkWebserviceResponse response = callGtnService(request);
-                if(response==null){
-                     GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
-                     alertAction.throwAlertUtil("", "/loadLevelValueMapResults");
-                }
+		if (response == null) {
+			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+			alertAction.throwAlertUtil("", "/loadLevelValueMapResults");
+		}
 		return response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
 	}
 
@@ -155,10 +152,10 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnServiceRegistryWsRequest serviceRegistryWsRequest = buildServiceRequest("/getHierarchyLevelValues");
 		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
 		GtnUIFrameworkWebserviceResponse response = callGtnService(request);
-                if (response == null) {
-                GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
-                alertAction.throwAlertUtil("", "/getHierarchyLevelValues");
-            }
+		if (response == null) {
+			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+			alertAction.throwAlertUtil("", "/getHierarchyLevelValues");
+		}
 		return response.getGtnWsForecastResponse().getInputBean().getLevelList();
 	}
 
@@ -181,10 +178,10 @@ public class GtnCustomerAvailableTableLoadAction
 				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL);
 		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
 		GtnUIFrameworkWebserviceResponse response = callGtnService(request);
-                if(response==null){
-                         GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
-                alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL);
-                }
+		if (response == null) {
+			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
+			alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL);
+		}
 		return response.getGtnWsForecastResponse().getInputBean().getHieraryQuery();
 	}
 

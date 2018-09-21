@@ -9,6 +9,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractPip
 import com.stpl.app.arm.businessprocess.pipelineinventory.dto.PipelineInventorySelectionDTO;
 import com.stpl.app.arm.businessprocess.pipelineinventory.logic.PISummaryLogic;
 import com.stpl.app.arm.supercode.ExcelInterface;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMConstants;
@@ -43,13 +44,13 @@ public class AdjustmentSummarySearchResultsInventory extends AbstractPipelineSum
         SUMMARY_RESULTS_LOGGER.debug("Inside getExcelHierarchy");
         Object[] value = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "C", "T", "B", "I"};
+            value = ARMUtils.getDCTBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
-            value = new Object[]{"T", "C", "B", "I"};
+            value = ARMUtils.getTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomer())) {
-            value = new Object[]{"T", "B", "I"};
+            value = ARMUtils.getTBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
-            value = new Object[]{"B", "I"};
+            value = ARMUtils.getBI();
         }
         SUMMARY_RESULTS_LOGGER.debug("End of getExcelHierarchy");
         return value;

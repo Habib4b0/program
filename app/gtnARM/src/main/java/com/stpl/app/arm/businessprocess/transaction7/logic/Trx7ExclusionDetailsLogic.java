@@ -78,7 +78,7 @@ public class Trx7ExclusionDetailsLogic {
 
     public void saveORUpdateExclusionDetailsLookUp(int projectionSid, List<ExclusionLookupDTO> list, String accountId, String accountName, String contractId, SessionDTO sessionDTO) {
         LOGGER.debug("--Inside saveORUpdate_Exclusion_Details_LookUp--{}", projectionSid);
-        StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sbQuery = new StringBuilder();
         boolean isView = sessionDTO.getAction().equals(ARMUtils.VIEW_SMALL);
         String saveQuery = isView ? SQlUtil.getQuery("saveORUpdateQuery") : SQlUtil.getQuery("saveORUpdateQueryEdit");
         saveQuery = saveQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
@@ -86,7 +86,7 @@ public class Trx7ExclusionDetailsLogic {
         saveQuery = saveQuery.replace("@SESSION_ID", "" + sessionDTO.getSessionId());
         sbQuery.append(saveQuery);
         for (ExclusionLookupDTO dtoList : list) {
-            sbQuery.append("(" + projectionSid + ",'" + dtoList.getExcludedField() + ARMUtils.SINGLE_QUOTES + ",'" + dtoList.getValues() + "'),");
+            sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(projectionSid).append(",'").append(dtoList.getExcludedField()).append(ARMUtils.SINGLE_QUOTES).append(",'").append(dtoList.getValues()).append("'),");
         }
         sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
         String query = isView ? SQlUtil.getQuery("saveORUpdateQueryPipeline") : SQlUtil.getQuery("saveORUpdateQueryPipelineEdit");
@@ -96,7 +96,7 @@ public class Trx7ExclusionDetailsLogic {
         query = query.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
         query = query.replace("@USER_ID", "" + sessionDTO.getUserId());
         query = query.replace("@SESSION_ID", "" + sessionDTO.getSessionId());
-        sbQuery.append(" ; " + query);
+        sbQuery.append(" ; ").append(query);
         LOGGER.debug("--Exit saveORUpdate_Exclusion_Details_LookUp--{}", sbQuery);
         DAO.executeUpdate(sbQuery.toString());
     }
@@ -214,7 +214,7 @@ public class Trx7ExclusionDetailsLogic {
 
     public boolean isAddORUpdateView(ExclusionLookupDTO tr7ExclSaveViewDTO) {
         LOGGER.debug("--Inside isAdd_OR_UpdateView--{}", tr7ExclSaveViewDTO.getViewMasterSid());
-        StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sbQuery = new StringBuilder();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
         try {
             String viewSid;
@@ -233,7 +233,7 @@ public class Trx7ExclusionDetailsLogic {
             if (tr7ExclSaveViewDTO.isScreenFlag()) {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (CustomerGroupDTO dtoValue : tr7ExclSaveViewDTO.getCustGrpList()) {
-                        sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid() + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA_CHAR).append(dtoValue.isInclude() == true ? 1 : 0).append(ARMUtils.COMMA_CHAR);
+                        sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(viewSid).append(ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid() + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA_CHAR).append(dtoValue.isInclude() == true ? 1 : 0).append(ARMUtils.COMMA_CHAR);
                         if (dtoValue.getIndicator() != null) {
                             if (dtoValue.getIndicator() == true) {
                                 sbQuery.append(1);
@@ -243,12 +243,12 @@ public class Trx7ExclusionDetailsLogic {
                         } else {
                             sbQuery.append("null");
                         }
-                        sbQuery.append("," + null + ARMUtils.COMMA_CHAR + null + "),");
+                        sbQuery.append(",null").append(ARMUtils.COMMA_CHAR).append("null),");
                     }
                 }
             } else if (!StringUtils.EMPTY.equals(viewSid)) {
                 for (ExclusionLookupDTO idValue : tr7ExclSaveViewDTO.getFieldList()) {
-                    sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
+                    sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(viewSid).append(ARMUtils.COMMA_CHAR).append("null").append(ARMUtils.COMMA_CHAR).append("null").append(ARMUtils.COMMA_CHAR).append("null").append(ARMUtils.COMMA_CHAR).append("null,'").append(idValue.getExcludedField()).append("','").append(idValue.getValues()).append("'),");
                 }
             }
             sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
@@ -318,7 +318,7 @@ public class Trx7ExclusionDetailsLogic {
             getAllUsers();
             String viewValue = exRateDTO.getViewName();
             if (StringUtils.isNotBlank(exRateDTO.getViewName())) {
-                viewValue = viewValue.replace("*", "%");
+                viewValue = viewValue.replace(ARMUtils.CHAR_ASTERISK, "%");
             }
             StringBuilder query;
             if (isCount) {
@@ -350,7 +350,7 @@ public class Trx7ExclusionDetailsLogic {
 
             }
             LOGGER.debug(query.toString());
-            StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder filterQuery = new StringBuilder();
             HashMap<String, String> detailsColumn = new HashMap<>();
             detailsColumn.put("viewName", "AVM.VIEW_NAME");
             detailsColumn.put("viewType", "AVM.VIEW_TYPE");
@@ -383,8 +383,8 @@ public class Trx7ExclusionDetailsLogic {
                                 } else {
                                     tempStart = new StringBuilder(dateStartstr);
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(tr7ExclbetweenFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(tr7ExclbetweenFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(startValue));
                                 query.append(tempStart);
                             }
                             if (!tr7ExclbetweenFilter.getEndValue().toString().isEmpty()) {
@@ -395,8 +395,8 @@ public class Trx7ExclusionDetailsLogic {
                                     tempEnd = new StringBuilder(dateEndstr);
                                 }
 
-                                tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(tr7ExclbetweenFilter.getPropertyId().toString()));
-                                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
+                                tempEnd.replace(tempEnd.indexOf(ARMUtils.CHAR_ASTERISK), tempEnd.indexOf(ARMUtils.CHAR_ASTERISK) + 1, detailsColumn.get(tr7ExclbetweenFilter.getPropertyId().toString()));
+                                tempEnd.replace(tempEnd.indexOf(ARMUtils.CHAR_QUS), tempEnd.indexOf(ARMUtils.CHAR_QUS) + 1, ARMUtils.getInstance().getDbDate().format(endValue));
                                 query.append(tempEnd);
                             }
                         }
@@ -428,7 +428,7 @@ public class Trx7ExclusionDetailsLogic {
                 } else {
                     tr7ExclOrder = tr7ExclOrder + " ORDER BY " + tr7ExclOrderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
                 }
-                tr7ExclOrder = tr7ExclOrder + " " + "OFFSET ";
+                tr7ExclOrder = tr7ExclOrder + ARMUtils.SPACE + "OFFSET ";
                 tr7ExclOrder = tr7ExclOrder + startIndex;
                 tr7ExclOrder = tr7ExclOrder + " ROWS FETCH NEXT " + endIndex;
                 tr7ExclOrder = tr7ExclOrder + " ROWS ONLY;";

@@ -111,8 +111,8 @@ public class InventorySearchResults extends AbstractSearchResults {
     public void setExcelVisibleColumn() {
         Map inventoryProperties = new HashMap();
         List<Object> inventoryHeader = getSummaryLogic().generateInventoryHeader(selection);
-        List invRightSingleVisibleColumn = (ArrayList) inventoryHeader.get(0);
-        List invRightSingleVisibleHeader = (ArrayList) inventoryHeader.get(1);
+        List invRightSingleVisibleColumn = (List) inventoryHeader.get(0);
+        List invRightSingleVisibleHeader = (List) inventoryHeader.get(1);
         for (Object variableColumn : invRightSingleVisibleColumn) {
             inventoryProperties.put(variableColumn, String.class);
         }
@@ -153,7 +153,7 @@ public class InventorySearchResults extends AbstractSearchResults {
     public void generateButtonLogic(AbstractSelectionDTO selection) {
         List<Object> header = getSummaryLogic().generateInventoryHeader(selection);
 
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
+        List rightSingleVisibleColumn = (List) header.get(0);
         Map properties = new HashMap();
         Object[] variableColumns = new String[rightSingleVisibleColumn.size()];
         variableColumns = rightSingleVisibleColumn.toArray(variableColumns);
@@ -210,7 +210,7 @@ public class InventorySearchResults extends AbstractSearchResults {
 
     @Override
     public Object[] getExcelHierarchy() {
-        return new Object[]{"B", "I"};
+        return ARMUtils.getBI();
     }
 
     @Override

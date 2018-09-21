@@ -79,11 +79,11 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             excelDoubleSingleColumn = new ArrayList<>();
             for (int i = 0; i < rrColumns.length; i++, index++) {
                 String column = rrColumns[i];
-                singleColumn.add(column + "." + index);
-                rrExcelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
+                singleColumn.add(column + ARMUtils.DOT + index);
+                rrExcelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + ARMUtils.DOT + (index));
                 if (columnList.contains(column)) {
                     int listIndex = columnList.indexOf(column);
-                    String visibleColumn = rrSelection.getSummaryvariables().get(listIndex)[0] + "." + index;
+                    String visibleColumn = rrSelection.getSummaryvariables().get(listIndex)[0] + ARMUtils.DOT + index;
                     String header = rrSelection.getSummaryvariables().get(listIndex)[1];
                     rrSingleVisibleColumn.add(visibleColumn);
                     rrSingleVisibleHeader.add(header);
@@ -94,10 +94,10 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 }
             }
 
-            rrDoubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY));
+            rrDoubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY));
             rrDoubleVisibleHeader.add(detection[1]);
-            rrDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), doubleSingleColumn.toArray());
-            rrExcelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
+            rrDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), doubleSingleColumn.toArray());
+            rrExcelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
         }
         rrSelection.setSummarycolumnList(singleColumn);
         finalList.add(rrSingleVisibleColumn);
@@ -170,9 +170,9 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 } else {
                     rrAdjustmentDto.setMonth(brand);
                 }
-                rrAdjustmentDto.setLevelNo((int) get[NumericConstants.EIGHT]);
+                rrAdjustmentDto.setLevelNo((Integer) get[NumericConstants.EIGHT]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                rrAdjustmentDto.setChildrenAllowed((rrSelection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
+                rrAdjustmentDto.setChildrenAllowed((rrSelection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.NINE]);
                 rrAdjustmentDto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                 if (masterSids != null) {
                     rrAdjustmentDto.setMasterIds(masterSids);
@@ -180,7 +180,7 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 rrAdjustmentDto = clearVariables(variables, rrAdjustmentDto);
                 resultList.add(rrAdjustmentDto);
             }
-            index = indexMap.get(get[0].toString().replace(" ", org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
+            index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
             if (rrAdjustmentDto != null) {
                 rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
                 rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.THREE]))));
@@ -232,11 +232,11 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             query = SQlUtil.getQuery("getRRAdjustmentSummaryExcelQuery");
             Object[] value = null;
             if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? new Object[]{"D", "T", "C", "B", "I"} : new Object[]{"T", "C", "B", "I"};
+                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? ARMUtils.getDTCBI() : ARMUtils.getTCBI();
             } else if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionContract())) {
-                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? new Object[]{"D", "C", "T", "B", "I"} : new Object[]{"C", "T", "B", "I"};
+                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? ARMUtils.getDCTBI() : ARMUtils.getCTBI();
             } else if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? new Object[]{"D", "B", "I"} : new Object[]{"B", "I"};
+                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? new Object[]{"D", "B", "I"} : ARMUtils.getBI();
             }
             query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
             query = query.replace("@DEDCONDITION", rrSelection.getSummarydeductionLevelDes());

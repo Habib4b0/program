@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.interceptor;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -10,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.manager.GtnWsSecurityManager;
@@ -43,27 +45,14 @@ public class GtnWsSecurityAuthFilter implements Filter {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		if (!"".equals(requestBody)) {
-
-			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = null;
-			gtnUIFrameworkWebserviceRequest = objectMapper.readValue(requestBody,
-					GtnUIFrameworkWebserviceRequest.class);
-			GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
-			GtnWsGeneralRequest gtnWsGeneralRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
-
+			String path = ((HttpServletRequest) httpServletRequest).getRequestURI();
 			boolean result;
-
-			String resultString;
-			if (gtnWsGeneralRequest == null) {
-				result = false;
-				resultString = "Token verification failed";
+			if (path.contains("serviceRegistryWebservicesForRedirectToQueryEngine")) {
+				result = doValidationForQueryRequest(objectMapper, requestBody);
 			} else {
-				result = gtnWsSecurityManager.verifyToken(gtnWsGeneralRequest.getUserId(),
-						gtnWsGeneralRequest.getSessionId(), gtnWsGeneralRequest.getToken());
-				resultString = result ? "Token Verifed Sucessfully"
-						: "  Token verification failed  : " + gtnWsGeneralRequest.getUserId();
+				result = doValidationForGeneralRequest(objectMapper, requestBody);
 			}
 
-			logger.info(resultString);
 			if (result) {
 				filterChain.doFilter(wrapper, servletResponse);
 				return;
@@ -87,6 +76,55 @@ public class GtnWsSecurityAuthFilter implements Filter {
 		servletResponse.getWriter().close();
 		return;
 
+	}
+
+	private boolean doValidationForQueryRequest(ObjectMapper objectMapper, String requestBody) {
+		GtnQueryEngineWebServiceRequest gtnUIFrameworkWebserviceRequest = null;
+		try {
+			gtnUIFrameworkWebserviceRequest = objectMapper.readValue(requestBody,
+					GtnQueryEngineWebServiceRequest.class);
+		} catch (IOException e) {
+			logger.error("Unable to read request body ", e);
+		}
+		GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
+		boolean result;
+		String resultString;
+		if (gtnUIFrameworkWebserviceRequest == null) {
+			result = false;
+			resultString = "Token verification failed";
+		} else {
+			result = gtnWsSecurityManager.verifyToken(gtnUIFrameworkWebserviceRequest.getUserId(),
+					gtnUIFrameworkWebserviceRequest.getSessionId(), gtnUIFrameworkWebserviceRequest.getToken());
+			resultString = result ? "Token Verifed Sucessfully"
+					: "  Token verification failed  : " + gtnUIFrameworkWebserviceRequest.getUserId();
+		}
+		logger.info(resultString);
+		return result;
+	}
+
+	private boolean doValidationForGeneralRequest(ObjectMapper objectMapper, String requestBody) {
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = null;
+		try {
+			gtnUIFrameworkWebserviceRequest = objectMapper.readValue(requestBody,
+					GtnUIFrameworkWebserviceRequest.class);
+		} catch (IOException e) {
+			logger.error("Unable to read request body ", e);
+		}
+		GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
+		GtnWsGeneralRequest gtnWsGeneralRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+		boolean result;
+		String resultString;
+		if (gtnWsGeneralRequest == null) {
+			result = false;
+			resultString = "Token verification failed";
+		} else {
+			result = gtnWsSecurityManager.verifyToken(gtnWsGeneralRequest.getUserId(),
+					gtnWsGeneralRequest.getSessionId(), gtnWsGeneralRequest.getToken());
+			resultString = result ? "Token Verifed Sucessfully"
+					: "  Token verification failed  : " + gtnWsGeneralRequest.getUserId();
+		}
+		logger.info(resultString);
+		return result;
 	}
 
 	@Override

@@ -176,7 +176,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
                         j = 1;
                         keyParam = 1;
                     }
-                    key = ExcelUtils.getKey(resultSet, keyParam).replace(" ", StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
+                    key = ExcelUtils.getKey(resultSet, keyParam).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
                     newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
                     oldC = newC;
                 }
@@ -210,9 +210,9 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
                     indicator = (Integer) resultSet[resultSet.length - 1];
                 }
                 total = indicator == 1 ? new Double[8] : total;
-                String headerKey = String.valueOf(result).replace(" ", "").replace("-", StringUtils.EMPTY);
+                String headerKey = String.valueOf(result).replace(ARMUtils.SPACE.toString(), "").replace("-", StringUtils.EMPTY);
                 for (int k = 0; k < visibleColumns.size(); k++) {
-                    column = visibleColumnsList.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
+                    column = visibleColumnsList.get(k).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
                     headerKey = (column.contains(VariableConstants.BEGINNING_BALANCE) && indicator == 2) ? VariableConstants.BEGINNING_BALANCE : headerKey;
                     String gatheredColumn = StringUtils.EMPTY;
                     List<String> columnList = CommonLogic.getInstance().getSingleLiablityColumns();

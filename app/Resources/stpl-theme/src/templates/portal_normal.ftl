@@ -66,7 +66,9 @@
 								<ul class="dropdown-menu">
 									<#assign myProfile=theme_display.getURLMyAccount().toString() + "&controlPanelCategory=my" />
 									<li><a href='${myProfile}'>My Profile</a></li>
-									<li><a href="${sign_out_url}">Sign Out</a></li>
+									<#if show_signout?boolean>
+										<li><a href="${sign_out_url}">Sign Out</a></li>
+									</#if>
 								</ul>
 							</li>
 						</ul>

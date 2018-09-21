@@ -72,4 +72,9 @@ public class GtnFrameworkAutomaticRelationUpdateService extends GtnCommonWebServ
 		return null;
 	}
 
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+    }
+
 }

@@ -73,7 +73,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
     protected String[] variableHeaderDeduction;
     protected CustomMenuBar.CustomMenuItem customMenuItem;
     protected CustomMenuBar.CustomMenuItem deductionCustomMenuItem;
-    protected final AbstractPipelineSummaryResults summaryResults;
+    protected AbstractPipelineSummaryResults summaryResults;
     protected String[] variableVisibleColumns;
     protected String[] variableVisibleColumnsDeduction;
     protected final AbstractSelectionDTO selectionDto;
@@ -89,6 +89,10 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
     public AbstractPipelineSummary(AbstractSummaryLogic logic, AbstractSelectionDTO selectionDto) {
         this.logic = logic;
         this.selectionDto = selectionDto;
+        getSummaryResults();
+    }
+
+    private void getSummaryResults() {
         this.summaryResults = getResultsObject(this.logic, this.selectionDto);
     }
 
@@ -183,7 +187,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
             if (!pipelineListSize.isEmpty()) {
                 for (int i = 0; i < pipelineListSize.size(); i++) {
                     String value = pipelineListSize.get(i)[0];
-                    pipelineListSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
+                    pipelineListSize.get(i)[0] = value.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).trim();
                     if (i != pipelineListSize.size() - 1) {
                         pipelineDeductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                     } else {
@@ -300,7 +304,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                 if (!listSizePipeline.isEmpty()) {
                     for (int i = 0; i < listSizePipeline.size(); i++) {
                         String value = listSizePipeline.get(i)[0];
-                        listSizePipeline.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
+                        listSizePipeline.get(i)[0] = value.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).trim();
                         if (i != listSizePipeline.size() - 1) {
                             deductionValuesPipeline.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                         } else {

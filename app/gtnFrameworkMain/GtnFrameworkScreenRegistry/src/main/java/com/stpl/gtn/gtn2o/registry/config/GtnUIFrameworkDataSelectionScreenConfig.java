@@ -9,6 +9,7 @@ import java.util.Map;
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkDeleteViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastEditAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureDeleteAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkScreenRegistryResetAction;
@@ -329,12 +330,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		frequency.setCustomReference("integerId");
 		
 		GtnUIFrameworkComboBoxConfig frequencyConfig = new GtnUIFrameworkComboBoxConfig();
-		frequencyConfig.setLoadingUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
-		frequencyConfig.setComboBoxType("frequency");
-		frequencyConfig.setActualWsUrl("/gtnSearch");
-		frequencyConfig.setActualWsContext("/GtnSearchWebService");
-		frequencyConfig.setModuleName("serviceRegistry");
-		frequencyConfig.setActualWsModuleName("generalSearch");
+		frequencyConfig.setItemValues(Arrays.asList("Quarterly", "Monthly", "Annual", "Semi-Annual"));
+		frequencyConfig.setDefaultDesc("next");
+		frequencyConfig.setHasDefaultValue(true);
 		frequency.setGtnComboboxConfig(frequencyConfig);
 		componentList.add(frequency);
 	}
@@ -610,6 +608,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		generateAction.addActionParameter("Commercial Forecasting_privateViewLookup");
 		generateAction.addActionParameter("Commercial Forecasting_publicView");
 		generateAction.addActionParameter("Commercial Forecasting_deductionLevel");
+		generateAction.addActionParameter("Commercial Forecasting_frequency");
+		generateAction.addActionParameter("Commercial Forecasting_salesCustomView");
+		generateAction.addActionParameter("Commercial Forecasting_deductionCustomView");
 		generateBtn.addGtnUIFrameWorkActionConfig(generateAction);
 	}
 
@@ -678,13 +679,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 	
 	private List<Object> getParameters() {
 
-	 
-
-		return Arrays.asList(
-																																																																	 
-																																				 
-
-				GtnFrameworkScreenRegistryResetAction.class.getName(),
+		return Arrays.asList(GtnFrameworkScreenRegistryResetAction.class.getName(),
 				"Commercial Forecasting_privateViewLookup",
 				"Commercial Forecasting" + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
 				"Commercial Forecasting" + "_" + "projectionName",
@@ -979,6 +974,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		forecastEditAction.addActionParameter(GtnFrameworkForecastEditAction.class.getName());
 		forecastEditAction.addActionParameter(nameSpace + "_" + "projectionResultsTable");
 		forecastEditAction.addActionParameter("Edit");
+                forecastEditAction.addActionParameter("Commercial Forecasting_deductionLevel");
+		forecastEditAction.addActionParameter("Commercial Forecasting_frequency");
 		editBtn.addGtnUIFrameWorkActionConfig(forecastEditAction);
 
 	}
@@ -999,6 +996,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		forecastViewAction.addActionParameter(GtnFrameworkForecastEditAction.class.getName());
 		forecastViewAction.addActionParameter(nameSpace + "_" + "projectionResultsTable");
 		forecastViewAction.addActionParameter("View");
+                forecastViewAction.addActionParameter("Commercial Forecasting_deductionLevel");
+		forecastViewAction.addActionParameter("Commercial Forecasting_frequency");
 		viewBtn.addGtnUIFrameWorkActionConfig(forecastViewAction);
 	}
 
@@ -1012,6 +1011,20 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteBtn.setAddToParent(true);
 		deleteBtn.setEnable(false);
 		componentList.add(deleteBtn);
+
+                GtnUIFrameWorkActionConfig confirmDeleteAction = new GtnUIFrameWorkActionConfig();
+		confirmDeleteAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		confirmDeleteAction.addActionParameter("Confirmation");
+		confirmDeleteAction.addActionParameter("Are you sure you want to delete the projection?");
+		List<GtnUIFrameWorkActionConfig> onSuccessDeleteActionConfigList = new ArrayList<>();
+		confirmDeleteAction.addActionParameter(onSuccessDeleteActionConfigList);
+		
+		GtnUIFrameWorkActionConfig deleteAction = new GtnUIFrameWorkActionConfig();
+		deleteAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteAction.addActionParameter(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName());
+		deleteAction.addActionParameter(nameSpace + "_" + "projectionResultsTable");
+		onSuccessDeleteActionConfigList.add(deleteAction);
+                deleteBtn.addGtnUIFrameWorkActionConfig(confirmDeleteAction);
 	}
 
 	private GtnUIFrameWorkActionConfig loadForecastEligibleDate(String nameSpace) {

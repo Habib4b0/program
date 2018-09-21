@@ -19,7 +19,6 @@ import static com.stpl.app.gtnforecasting.logic.CommonLogic.getCustomViewDetails
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
 import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.dataSelection;
-import com.stpl.app.gtnforecasting.salesprojection.form.MSalesProjection;
 import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
 import static com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils.getMonthForInt;
 import com.stpl.app.gtnforecasting.salesprojection.utils.QueryUtils;
@@ -176,7 +175,7 @@ public class SalesLogic {
     public static final String VIEWTABLE ="@VIEWTABLE";
     public static final String WAC_PRICE = " (NULLIF(CASE WHEN P.PERIOD_DATE<CONVERT(DATETIME, DATEADD(MM, -1, DATEADD(DD, 1, EOMONTH(GETDATE(), 0)))) THEN PF.ITEM_PRICE ELSE (EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0)) END,0)) ";
     public static final String MASTERSID = "@MASTERSID";
-    
+    private static final Map<String, Integer> rowCountMap = new HashMap<>();
     
               
     public SalesLogic() {
@@ -831,18 +830,18 @@ public class SalesLogic {
             salesRowDto.setLevelName("Total Alternate History");
             salesRowDto.setParent(0);
             for (int i = 0; i < list.size(); i++) {
-                Object obj[] = list.get(i);
+                Object [] obj = list.get(i);
                 int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
-                String key = Constant.Q_SMALL + String.valueOf(obj[NumericConstants.THREE]) + "-" + String.valueOf(obj[NumericConstants.TWO]);
+                String key = Constant.Q_SMALL + obj[NumericConstants.THREE] + "-" + obj[NumericConstants.TWO];
                 if (frequencyDivision == 1) {
                     key = String.valueOf(obj[NumericConstants.TWO]);
                 } else if (frequencyDivision == NumericConstants.FOUR) {
-                    key = Constant.Q_SMALL + String.valueOf(obj[NumericConstants.THREE]) + "-" + String.valueOf(obj[NumericConstants.TWO]);
+                    key = Constant.Q_SMALL + obj[NumericConstants.THREE] + "-" + obj[NumericConstants.TWO];
                 } else if (frequencyDivision == NumericConstants.TWO) {
-                    key = Constant.S_SMALL + String.valueOf(obj[NumericConstants.THREE]) + "-" + String.valueOf(obj[NumericConstants.TWO]);
+                    key = Constant.S_SMALL + obj[NumericConstants.THREE] + "-" + obj[NumericConstants.TWO];
                 } else if (frequencyDivision == NumericConstants.TWELVE) {
                     String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])) - 1);
-                    key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[NumericConstants.TWO]);
+                    key = monthName.toLowerCase(Locale.ENGLISH) + "-" + obj[NumericConstants.TWO];
                 }
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, String.valueOf(PROJECTEDUNITDECIMAL.format(obj[0] == null ? 0 : obj[0])));
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, String.valueOf(PROJECTEDUNITDECIMAL.format(obj[1] == null ? 0 : obj[1])));
@@ -853,8 +852,8 @@ public class SalesLogic {
         final SessionDTO sessionDTO = projectionSelectionDTO.getSessionDTO();
         final Map<String, List> relationshipDetailsMap =  projectionSelectionDTO.isIsCustomHierarchy() ?  sessionDTO.getSalesHierarchyLevelDetails(): sessionDTO.getHierarchyLevelDetails();
         for (int i = 0; i < resulList.size(); i++) {
-            Object obj[] = (Object[]) resulList.get(i);
-            MSalesProjection.getRowCountMap().put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN] != null ? DataTypeConverter.convertObjectToInt(obj[NumericConstants.ELEVEN]) : null);
+            Object [] obj = (Object[]) resulList.get(i);
+            getRowCountMap().put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN] != null ? DataTypeConverter.convertObjectToInt(obj[NumericConstants.ELEVEN]) : null);
             if (lastLevelValue.equalsIgnoreCase(STRING_EMPTY) || lastLevelValue.equals(String.valueOf(obj[NumericConstants.TEN]))) {
 
                 lastLevelValue = String.valueOf(obj[NumericConstants.TEN]);
@@ -925,16 +924,16 @@ public class SalesLogic {
             }
 
             int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
-            String key = Constant.Q_SMALL + String.valueOf(obj[NumericConstants.SEVEN]) + "-" + String.valueOf(obj[NumericConstants.SIX]);
+            String key = Constant.Q_SMALL + obj[NumericConstants.SEVEN] + "-" + obj[NumericConstants.SIX];
             if (frequencyDivision == 1) {
                 key = String.valueOf(obj[NumericConstants.SIX]);
             } else if (frequencyDivision == NumericConstants.FOUR) {
-                key = Constant.Q_SMALL + String.valueOf(obj[NumericConstants.SEVEN]) + "-" + String.valueOf(obj[NumericConstants.SIX]);
+                key = Constant.Q_SMALL + obj[NumericConstants.SEVEN] + "-" + obj[NumericConstants.SIX];
             } else if (frequencyDivision == NumericConstants.TWO) {
-                key = Constant.S_SMALL + String.valueOf(obj[NumericConstants.SEVEN]) + "-" + String.valueOf(obj[NumericConstants.SIX]);
+                key = Constant.S_SMALL + obj[NumericConstants.SEVEN] + "-" + obj[NumericConstants.SIX];
             } else if (frequencyDivision == NumericConstants.TWELVE) {
                 String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN])) - 1);
-                key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[NumericConstants.SIX]);
+                key = monthName.toLowerCase(Locale.ENGLISH) + "-" + obj[NumericConstants.SIX];
             }
             if (CommonUtil.isValueEligibleForLoading()) {
                 if (obj[NumericConstants.NINETEEN] != null) {
@@ -1502,7 +1501,7 @@ public class SalesLogic {
         } else {
 
             int[] quarterAndYear = SalesUtils.getQuarterAndYear(startPeriodValue);
-            period = " AND P2.QUARTER = " + String.valueOf(quarterAndYear[0]) + " AND P2.YEAR = " + String.valueOf(quarterAndYear[1]) + " ";
+            period = " AND P2.QUARTER = " + quarterAndYear[0] + " AND P2.YEAR = " + quarterAndYear[1] + " ";
         }
         return period;
     }
@@ -1909,7 +1908,7 @@ public class SalesLogic {
         LOGGER.debug("Property Id->= {}, EditedValue-->= {}, incOrDecPer-->= {} " , propertyId, editedValue, incOrDecPer);
         Double actualAmount;
         String editedValueReturns = editedValue;
-        String detailsIdValues[];
+        String [] detailsIdValues;
         if (StringUtils.isNotBlank(editedValueReturns) && !Constant.NULL.equals(editedValueReturns)) {
             String saveQuery;
 
@@ -1924,9 +1923,9 @@ public class SalesLogic {
             int year = 0;
             int quater = 0;
             String hierarchyNo = salesDTO.getHierarchyNo();
-            String keyarr[] = propertyId.split("-");
+            String [] keyarr= propertyId.split("-");
             detailsIdValues = salesDTO.getReturnDetailsSid().split("\\s*,\\s*");
-            String keyarray[] = propertyId.split("-");
+            String [] keyarray= propertyId.split("-");
             if (frequencyDivision == 1) {
                 year = Integer.parseInt(keyarr[0]);
                 keyarray[1] = StringUtils.EMPTY;
@@ -2028,8 +2027,8 @@ public class SalesLogic {
 
             BigDecimal value = new BigDecimal(editedValueRecs);
             String hierarchyNo = salesDTO.getHierarchyNo();
-            int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
-            String keyarr[] = propertyId.split("-");
+            int rowcount = getRowCountMap().get(hierarchyNo);
+            String [] keyarr = propertyId.split("-");
             if (frequencyDivision == 1) {
                 year = Integer.parseInt(keyarr[0]);
                 rowcount = rowcount * NumericConstants.TWELVE;
@@ -2150,6 +2149,10 @@ public class SalesLogic {
     }
     public static final String PROJECTED_SALES = "ProjectedSales";
     
+    public static Map<String, Integer> getRowCountMap() {
+            return rowCountMap;
+    }
+
     public void saveRecords(String propertyId, String editedValue, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException {
         String editedValueSave = editedValue;
         String key;
@@ -2169,7 +2172,7 @@ public class SalesLogic {
 
             BigDecimal value = new BigDecimal(editedValueSave);
             String hierarchyNo = salesDTO.getHierarchyNo();
-            int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
+            int rowcount = getRowCountMap().get(hierarchyNo);
             String[] keyarr = propertyId.split("-");
             String startPeriodSid;
             String endPeriodSid;
@@ -3419,7 +3422,7 @@ public class SalesLogic {
         SalesRowDto salesRowDto = new SalesRowDto();
         salesRowDto.setHierarchyNo(StringUtils.EMPTY);
         for (int i = 0; i < resulList.size(); i++) {
-            Object obj[] = (Object[]) resulList.get(i);
+            Object [] obj = (Object[]) resulList.get(i);
             if (obj[NumericConstants.TWO] != null && StringUtils.isNotBlank(salesRowDto.getHierarchyNo()) && !obj[NumericConstants.TWO].equals(salesRowDto.getHierarchyNo())) {
                 salesRowList.add(salesRowDto);
                 salesRowDto = new SalesRowDto();
@@ -3447,17 +3450,17 @@ public class SalesLogic {
 
             int frequencyDivision = projSelDTO.getFrequencyDivision();
 
-            String key = Constant.Q_SMALL + String.valueOf(obj[0]) + "-" + String.valueOf(obj[1]);
+            String key = Constant.Q_SMALL + obj[0] + "-" + obj[1];
             if (frequencyDivision == 1) {
                 key = String.valueOf(obj[1]);
             } else if (frequencyDivision == NumericConstants.FOUR) {
-                key = Constant.Q_SMALL + String.valueOf(obj[0]) + "-" + String.valueOf(obj[1]);
+                key = Constant.Q_SMALL + obj[0] + "-" + obj[1];
             } else if (frequencyDivision == NumericConstants.TWO) {
-                key = Constant.S_SMALL + String.valueOf(obj[0]) + "-" + String.valueOf(obj[1]);
+                key = Constant.S_SMALL + obj[0] + "-" + obj[1];
             } else if (frequencyDivision == NumericConstants.TWELVE) {
 
                 String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[0])) - 1);
-                key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[1]);
+                key = monthName.toLowerCase(Locale.ENGLISH) + "-" + obj[1];
             }
             salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualReturned%", String.valueOf(UNIT.format(obj[NumericConstants.SEVEN] == null ? 0 : obj[NumericConstants.SEVEN])) + '%');
             salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualRPU", String.valueOf(MONEY.format(obj[NumericConstants.EIGHT] == null ? 0 : obj[NumericConstants.EIGHT])));

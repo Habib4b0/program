@@ -129,11 +129,11 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
                 inventoryDto.setChildrenAllowed(!VariableConstants.PRODUCT_UPPER.equalsIgnoreCase(inventoryDto.getLevelName()) && !"TOTAL".equalsIgnoreCase(inventoryDto.getGroup()) && (inventorySelection.getRateslevelFilterNo() == 0));
                 inventoryDto.setLevelNo(inventorySelection.getLevelNo());
             }
-            totalvalue += Double.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+            totalvalue += Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
             String totVal = getFormattedValue(PER_THREEPIPELINE, String.valueOf(totalvalue));
             inventoryDto.setTotalColumn(totVal);
             String value = getFormattedValue(PER_THREEPIPELINE, String.valueOf(obj[NumericConstants.TWO]));
-            inventoryDto.addStringProperties(String.valueOf(obj[0]) + "." + columnList.indexOf(String.valueOf(obj[0])), value);
+            inventoryDto.addStringProperties(String.valueOf(obj[0]) + ARMUtils.DOT + columnList.indexOf(String.valueOf(obj[0])), value);
             lastValue = String.valueOf(obj[1]);
         }
 
@@ -334,17 +334,17 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
         }
         Object[] value = null;
         if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract()) && inventorySelection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer()) && inventorySelection.getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "C", "T", "B", "I"};
+            value = ARMUtils.getDCTBI();
         } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer())) {
-            value = new Object[]{"C", "T", "B", "I"};
+            value = ARMUtils.getCTBI();
         } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract())) {
-            value = new Object[]{"T", "C", "B", "I"};
+            value = ARMUtils.getTCBI();
         } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionCustomer())) {
-            value = new Object[]{"T", "B", "I"};
+            value = ARMUtils.getTBI();
         } else if (inventorySelection.getRateDeductionView().equals(ARMConstants.getDeductionProduct())) {
-            value = new Object[]{"B", "I"};
+            value = ARMUtils.getBI();
         }
         query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", inventorySelection.getRateDeductionLevelName());

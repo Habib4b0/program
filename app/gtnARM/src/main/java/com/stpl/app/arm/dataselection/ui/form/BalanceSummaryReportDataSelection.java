@@ -165,9 +165,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 if (customerRelation.getValue() != null && !GlobalConstants.getSelectOne().equals(customerRelation.getValue()) && !innerCustLevels.isEmpty()) {
 
                     String relationshipSid = String.valueOf(customerRelation.getValue());
-                    int relSid = relationshipSid.isEmpty() || "null".equals(relationshipSid) ? 0 : Integer.valueOf(relationshipSid);
+                    int relSid = relationshipSid.isEmpty() || "null".equals(relationshipSid) ? 0 : Integer.parseInt(relationshipSid);
                     DataSelectionLogic logicVal = new DataSelectionLogic();
-                    String[] val = selectedLevel.split(" ");
+                    String[] val = selectedLevel.split(ARMUtils.SPACE.toString());
                     forecastLevel = Integer.parseInt(val[1]);
                     LevelDTO tempDto = innerCustLevels.get(forecastLevel - 1);
                     if (tempDto.getLevel() != null) {
@@ -403,14 +403,14 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         List<String> hierarchyNos = new ArrayList<>();
                         List<LevelDTO> bsrNewParentLevels = null;
                         List<LevelDTO> bsrNewChildLevels = null;
-                        hierarchyNos.add(bsrHierarchyNo + ".");
+                        hierarchyNos.add(bsrHierarchyNo + ARMUtils.DOT);
                         int pos = 0;
                         while (bsrHierarchyNo.contains(ARMUtils.DOT)) {
                             pos = bsrHierarchyNo.lastIndexOf(ARMUtils.DOT);
                             if (pos != -1) {
                                 bsrHierarchyNo = bsrHierarchyNo.substring(0, pos);
                             }
-                            hierarchyNos.add(bsrHierarchyNo + ".");
+                            hierarchyNos.add(bsrHierarchyNo + ARMUtils.DOT);
                         }
                         Collections.reverse(hierarchyNos);
                         List<String> bsrSelectedHierarchyNos = new ArrayList<>();
@@ -445,9 +445,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 }
                                 pos2 = bsrTempHNo.lastIndexOf(ARMUtils.DOT);
                                 if (pos2 != -1) {
-                                    parentHierarchyNo = bsrTempHNo.substring(0, pos2) + ".";
+                                    parentHierarchyNo = bsrTempHNo.substring(0, pos2) + ARMUtils.DOT;
                                 } else {
-                                    parentHierarchyNo = bsrTempHNo + ".";
+                                    parentHierarchyNo = bsrTempHNo + ARMUtils.DOT;
                                 }
                                 if (customerBeanList.isEmpty() || !customerBeanList.contains(bsrNewLevel.getRelationshipLevelSid())) {
                                     customerBeanList.add(bsrNewLevel.getRelationshipLevelSid());
@@ -481,9 +481,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                     }
                                     pos3 = bsrtempHierNo.lastIndexOf(ARMUtils.DOT);
                                     if (pos3 != -1) {
-                                        childHierarchyNo = bsrtempHierNo.substring(0, pos3) + ".";
+                                        childHierarchyNo = bsrtempHierNo.substring(0, pos3) + ARMUtils.DOT;
                                     } else {
-                                        childHierarchyNo = bsrtempHierNo + ".";
+                                        childHierarchyNo = bsrtempHierNo + ARMUtils.DOT;
                                     }
                                     if (customerBeanList.isEmpty() || !customerBeanList.contains(bsrNewLevels.getRelationshipLevelSid())) {
                                         customerBeanList.add(bsrNewLevels.getRelationshipLevelSid());
@@ -518,7 +518,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         List<String> hierarchyNos = new ArrayList<>();
                         List<LevelDTO> newParentLevels = null;
                         List<LevelDTO> newChildLevelsBsr = null;
-                        hierarchyNos.add(bsrSelhierarchyNo + ".");
+                        hierarchyNos.add(bsrSelhierarchyNo + ARMUtils.DOT);
                         int pos = 0;
                         String selectedParentHierarchyNoBsr = StringUtils.EMPTY;
                         LevelDTO selectedParent = null;
@@ -527,7 +527,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                             if (pos != -1) {
                                 bsrSelhierarchyNo = bsrSelhierarchyNo.substring(0, pos);
                             }
-                            hierarchyNos.add(bsrSelhierarchyNo + ".");
+                            hierarchyNos.add(bsrSelhierarchyNo + ARMUtils.DOT);
                         }
                         Collections.reverse(hierarchyNos);
                         List<String> bsrselectedHierarchyNos = new ArrayList<>();
@@ -554,9 +554,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                             int pos2 = 0;
                             pos2 = tempHNo.lastIndexOf(ARMUtils.DOT);
                             if (pos2 != -1) {
-                                selectedParentHierarchyNoBsr = tempHNo.substring(0, pos2) + ".";
+                                selectedParentHierarchyNoBsr = tempHNo.substring(0, pos2) + ARMUtils.DOT;
                             } else {
-                                selectedParentHierarchyNoBsr = tempHNo + ".";
+                                selectedParentHierarchyNoBsr = tempHNo + ARMUtils.DOT;
                             }
                         }
                         if (!StringUtils.isBlank(selectedParentHierarchyNoBsr)) {
@@ -597,9 +597,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                     }
                                     pos3 = tempHNoBsr.lastIndexOf(ARMUtils.DOT);
                                     if (pos3 != -1) {
-                                        childHierarchyNoBsr = tempHNoBsr.substring(0, pos3) + ".";
+                                        childHierarchyNoBsr = tempHNoBsr.substring(0, pos3) + ARMUtils.DOT;
                                     } else {
-                                        childHierarchyNoBsr = tempHNoBsr + ".";
+                                        childHierarchyNoBsr = tempHNoBsr + ARMUtils.DOT;
                                     }
 
                                     if (customerBeanList.isEmpty() || !customerBeanList.contains(newLevel.getRelationshipLevelSid())) {
@@ -638,7 +638,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     List<String> hierarchyNosListBsr = new ArrayList<>();
                     List<LevelDTO> newParentLevels = null;
                     List<LevelDTO> newChildLevels = null;
-                    hierarchyNosListBsr.add(hierarchyBsrNo + ".");
+                    hierarchyNosListBsr.add(hierarchyBsrNo + ARMUtils.DOT);
                     int pos = 0;
                     String selectedParentBsrHierarchyNo = StringUtils.EMPTY;
                     LevelDTO selectedParent2 = null;
@@ -647,7 +647,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         if (pos != -1) {
                             hierarchyBsrNo = hierarchyBsrNo.substring(0, pos);
                         }
-                        hierarchyNosListBsr.add(hierarchyBsrNo + ".");
+                        hierarchyNosListBsr.add(hierarchyBsrNo + ARMUtils.DOT);
                     }
                     Collections.reverse(hierarchyNosListBsr);
                     if (!StringUtils.isBlank(selectedParentBsrHierarchyNo)) {
@@ -687,9 +687,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 }
                                 pos3 = tempHNo.lastIndexOf(ARMUtils.DOT);
                                 if (pos3 != -1) {
-                                    childHierarchyNoBsr = tempHNo.substring(0, pos3) + ".";
+                                    childHierarchyNoBsr = tempHNo.substring(0, pos3) + ARMUtils.DOT;
                                 } else {
-                                    childHierarchyNoBsr = tempHNo + ".";
+                                    childHierarchyNoBsr = tempHNo + ARMUtils.DOT;
                                 }
                                 if (customerBeanList.isEmpty() || !customerBeanList.contains(newLevel.getRelationshipLevelSid())) {
                                     customerBeanList.add(newLevel.getRelationshipLevelSid());
@@ -727,7 +727,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         while (hierarchyNoBSr.contains(ARMUtils.DOT)) {
                             pos = hierarchyNoBSr.lastIndexOf(ARMUtils.DOT);
                             if (pos != -1) {
-                                hierarchyNoBSr = hierarchyNoBSr.substring(0, pos) + ".";
+                                hierarchyNoBSr = hierarchyNoBSr.substring(0, pos) + ARMUtils.DOT;
                             }
                         }
                     }
@@ -754,9 +754,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                             }
                             pos3 = tempHNo.lastIndexOf(ARMUtils.DOT);
                             if (pos3 != -1) {
-                                childHierarchyNoBSr = tempHNo.substring(0, pos3) + ".";
+                                childHierarchyNoBSr = tempHNo.substring(0, pos3) + ARMUtils.DOT;
                             } else {
-                                childHierarchyNoBSr = tempHNo + ".";
+                                childHierarchyNoBSr = tempHNo + ARMUtils.DOT;
                             }
                             if (customerBeanList.isEmpty()) {
                                 customerBeanList.add(newLevel.getRelationshipLevelSid());
@@ -841,14 +841,14 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         List<String> bsrProductHierarchyNos = new ArrayList<>();
                         List<LevelDTO> bsrProductNewParentLevels = null;
                         List<LevelDTO> bsrProductNewChildLevels = null;
-                        bsrProductHierarchyNos.add(bsrProductsHierarchyNo + ".");
+                        bsrProductHierarchyNos.add(bsrProductsHierarchyNo + ARMUtils.DOT);
                         int pos = 0;
                         while (bsrProductsHierarchyNo.contains(ARMUtils.DOT)) {
                             pos = bsrProductsHierarchyNo.lastIndexOf(ARMUtils.DOT);
                             if (pos != -1) {
                                 bsrProductsHierarchyNo = bsrProductsHierarchyNo.substring(0, pos);
                             }
-                            bsrProductHierarchyNos.add(bsrProductsHierarchyNo + ".");
+                            bsrProductHierarchyNos.add(bsrProductsHierarchyNo + ARMUtils.DOT);
                         }
                         Collections.reverse(bsrProductHierarchyNos);
                         List<String> bsrProductSelectedHierarchyNos = new ArrayList<>();
@@ -882,9 +882,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 }
                                 pos2 = bsrProducttempHNo.lastIndexOf(ARMUtils.DOT);
                                 if (pos2 != -1) {
-                                    parentHierarchyNo = bsrProducttempHNo.substring(0, pos2) + ".";
+                                    parentHierarchyNo = bsrProducttempHNo.substring(0, pos2) + ARMUtils.DOT;
                                 } else {
-                                    parentHierarchyNo = bsrProducttempHNo + ".";
+                                    parentHierarchyNo = bsrProducttempHNo + ARMUtils.DOT;
                                 }
                                 if (productBeanList.isEmpty() || !productBeanList.contains(bsrProductNewLevel.getRelationshipLevelSid())) {
                                     productBeanList.add(bsrProductNewLevel.getRelationshipLevelSid());
@@ -918,9 +918,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                     }
                                     pos3 = bsrProducttempHNo2.lastIndexOf(ARMUtils.DOT);
                                     if (pos3 != -1) {
-                                        bsrchildHierarchyNoProduct = bsrProducttempHNo2.substring(0, pos3) + ".";
+                                        bsrchildHierarchyNoProduct = bsrProducttempHNo2.substring(0, pos3) + ARMUtils.DOT;
                                     } else {
-                                        bsrchildHierarchyNoProduct = bsrProducttempHNo2 + ".";
+                                        bsrchildHierarchyNoProduct = bsrProducttempHNo2 + ARMUtils.DOT;
                                     }
                                     if (productBeanList.isEmpty() || !productBeanList.contains(bsrProductNewLevel2.getRelationshipLevelSid())) {
                                         productBeanList.add(bsrProductNewLevel2.getRelationshipLevelSid());
@@ -956,7 +956,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         List<String> childLevelshierarchyNos = new ArrayList<>();
                         List<LevelDTO> newParentLevals = null;
                         List<LevelDTO> newChildLevals = null;
-                        childLevelshierarchyNos.add(newChildLevelsHierarchyNo + ".");
+                        childLevelshierarchyNos.add(newChildLevelsHierarchyNo + ARMUtils.DOT);
                         int pos = 0;
                         String selectedParentHierarchyNo = StringUtils.EMPTY;
                         LevelDTO selectedParent = null;
@@ -965,7 +965,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                             if (pos != -1) {
                                 newChildLevelsHierarchyNo = newChildLevelsHierarchyNo.substring(0, pos);
                             }
-                            childLevelshierarchyNos.add(newChildLevelsHierarchyNo + ".");
+                            childLevelshierarchyNos.add(newChildLevelsHierarchyNo + ARMUtils.DOT);
                         }
                         Collections.reverse(childLevelshierarchyNos);
                         List<String> selectedHierarchyNos = new ArrayList<>();
@@ -992,9 +992,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                             int pos2 = 0;
                             pos2 = childProducttempHNo.lastIndexOf(ARMUtils.DOT);
                             if (pos2 != -1) {
-                                selectedParentHierarchyNo = childProducttempHNo.substring(0, pos2) + ".";
+                                selectedParentHierarchyNo = childProducttempHNo.substring(0, pos2) + ARMUtils.DOT;
                             } else {
-                                selectedParentHierarchyNo = childProducttempHNo + ".";
+                                selectedParentHierarchyNo = childProducttempHNo + ARMUtils.DOT;
                             }
                         }
                         if (!StringUtils.isBlank(selectedParentHierarchyNo)) {
@@ -1034,9 +1034,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                     }
                                     pos3 = newHierlevelstempHNo.lastIndexOf(ARMUtils.DOT);
                                     if (pos3 != -1) {
-                                        newChildLevalsChildHierarchyNo = newHierlevelstempHNo.substring(0, pos3) + ".";
+                                        newChildLevalsChildHierarchyNo = newHierlevelstempHNo.substring(0, pos3) + ARMUtils.DOT;
                                     } else {
-                                        newChildLevalsChildHierarchyNo = newHierlevelstempHNo + ".";
+                                        newChildLevalsChildHierarchyNo = newHierlevelstempHNo + ARMUtils.DOT;
                                     }
                                     if (productBeanList.isEmpty() || !productBeanList.contains(newLevel.getRelationshipLevelSid())) {
                                         productBeanList.add(newLevel.getRelationshipLevelSid());
@@ -1074,7 +1074,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     List<String> existingProductHierarchyNos = new ArrayList<>();
                     List<LevelDTO> existingProductNewParentLevels = null;
                     List<LevelDTO> existingProductNewChildLevels = null;
-                    existingProductHierarchyNos.add(existingProducthierarchyNo + ".");
+                    existingProductHierarchyNos.add(existingProducthierarchyNo + ARMUtils.DOT);
                     int pos = 0;
                     String selectedParentHierarchyNo = StringUtils.EMPTY;
                     LevelDTO selectedParent2 = null;
@@ -1083,7 +1083,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         if (pos != -1) {
                             existingProducthierarchyNo = existingProducthierarchyNo.substring(0, pos);
                         }
-                        existingProductHierarchyNos.add(existingProducthierarchyNo + ".");
+                        existingProductHierarchyNos.add(existingProducthierarchyNo + ARMUtils.DOT);
                     }
                     Collections.reverse(existingProductHierarchyNos);
                     if (!StringUtils.isBlank(selectedParentHierarchyNo)) {
@@ -1121,9 +1121,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 }
                                 pos3 = existingProductstempHNo.lastIndexOf(ARMUtils.DOT);
                                 if (pos3 != -1) {
-                                    existingProductsChildHierarchyNo = existingProductstempHNo.substring(0, pos3) + ".";
+                                    existingProductsChildHierarchyNo = existingProductstempHNo.substring(0, pos3) + ARMUtils.DOT;
                                 } else {
-                                    existingProductsChildHierarchyNo = existingProductstempHNo + ".";
+                                    existingProductsChildHierarchyNo = existingProductstempHNo + ARMUtils.DOT;
                                 }
                                 if (productBeanList.isEmpty() || !productBeanList.contains(existingProductsNewLevel.getRelationshipLevelSid())) {
                                     productBeanList.add(existingProductsNewLevel.getRelationshipLevelSid());
@@ -1162,7 +1162,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         while (newProdutsHierarchyNo.contains(ARMUtils.DOT)) {
                             pos = newProdutsHierarchyNo.lastIndexOf(ARMUtils.DOT);
                             if (pos != -1) {
-                                newProdutsHierarchyNo = newProdutsHierarchyNo.substring(0, pos) + ".";
+                                newProdutsHierarchyNo = newProdutsHierarchyNo.substring(0, pos) + ARMUtils.DOT;
                             }
                         }
                     }
@@ -1187,9 +1187,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                             }
                             pos3 = newProdutstempHNo.lastIndexOf(ARMUtils.DOT);
                             if (pos3 != -1) {
-                                newProdutsChildHierarchyNo = newProdutstempHNo.substring(0, pos3) + ".";
+                                newProdutsChildHierarchyNo = newProdutstempHNo.substring(0, pos3) + ARMUtils.DOT;
                             } else {
-                                newProdutsChildHierarchyNo = newProdutstempHNo + ".";
+                                newProdutsChildHierarchyNo = newProdutstempHNo + ARMUtils.DOT;
                             }
                             if (productBeanList.isEmpty() || !productBeanList.contains(newLevel.getRelationshipLevelSid())) {
                                 productBeanList.add(newLevel.getRelationshipLevelSid());
@@ -1284,14 +1284,14 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 List<String> existinghierarchyNos = new ArrayList<>();
                                 List<LevelDTO> newParentLevels = null;
                                 List<LevelDTO> newProductChildLevelsforAllProducts = null;
-                                existinghierarchyNos.add(existingHierarchyNo + ".");
+                                existinghierarchyNos.add(existingHierarchyNo + ARMUtils.DOT);
                                 int pos = 0;
                                 while (existingHierarchyNo.contains(ARMUtils.DOT)) {
                                     pos = existingHierarchyNo.lastIndexOf(ARMUtils.DOT);
                                     if (pos != -1) {
                                         existingHierarchyNo = existingHierarchyNo.substring(0, pos);
                                     }
-                                    existinghierarchyNos.add(existingHierarchyNo + ".");
+                                    existinghierarchyNos.add(existingHierarchyNo + ARMUtils.DOT);
                                 }
                                 Collections.reverse(existinghierarchyNos);
                                 List<String> existingProductselectedHierarchyNos = new ArrayList<>();
@@ -1323,9 +1323,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                         }
                                         pos2 = tempHNo.lastIndexOf(ARMUtils.DOT);
                                         if (pos2 != -1) {
-                                            parentHierarchyNoallProd = tempHNo.substring(0, pos2) + ".";
+                                            parentHierarchyNoallProd = tempHNo.substring(0, pos2) + ARMUtils.DOT;
                                         } else {
-                                            parentHierarchyNoallProd = tempHNo + ".";
+                                            parentHierarchyNoallProd = tempHNo + ARMUtils.DOT;
                                         }
                                         if (productBeanList.isEmpty() || !productBeanList.contains(allProdNewLevel.getRelationshipLevelSid())) {
                                             productBeanList.add(allProdNewLevel.getRelationshipLevelSid());
@@ -1359,9 +1359,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                             }
                                             pos3 = newProductTempHNoAllProduct.lastIndexOf(ARMUtils.DOT);
                                             if (pos3 != -1) {
-                                                newProductChildHierarchyNoBsr = newProductTempHNoAllProduct.substring(0, pos3) + ".";
+                                                newProductChildHierarchyNoBsr = newProductTempHNoAllProduct.substring(0, pos3) + ARMUtils.DOT;
                                             } else {
-                                                newProductChildHierarchyNoBsr = newProductTempHNoAllProduct + ".";
+                                                newProductChildHierarchyNoBsr = newProductTempHNoAllProduct + ARMUtils.DOT;
                                             }
                                             if (productBeanList.isEmpty() || !productBeanList.contains(newLevelAllProduct.getRelationshipLevelSid())) {
                                                 productBeanList.add(newLevelAllProduct.getRelationshipLevelSid());
@@ -1398,7 +1398,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                             List<String> hierarchyNos = new ArrayList<>();
                             List<LevelDTO> bsrDSnewParentLevels = null;
                             List<LevelDTO> newChildLevelsforAllProductBsr = null;
-                            hierarchyNos.add(bsrNewItemHierarchyNo + ".");
+                            hierarchyNos.add(bsrNewItemHierarchyNo + ARMUtils.DOT);
                             int pos = 0;
                             String selectedParentHierarchyNoforAllProdBsr = StringUtils.EMPTY;
                             LevelDTO selectedParent = null;
@@ -1407,7 +1407,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 if (pos != -1) {
                                     bsrNewItemHierarchyNo = bsrNewItemHierarchyNo.substring(0, pos);
                                 }
-                                hierarchyNos.add(bsrNewItemHierarchyNo + ".");
+                                hierarchyNos.add(bsrNewItemHierarchyNo + ARMUtils.DOT);
                             }
                             Collections.reverse(hierarchyNos);
                             List<String> bsrNewItemsSelectedHierarchyNos = new ArrayList<>();
@@ -1434,9 +1434,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 int pos2 = 0;
                                 pos2 = existingProducttempHNoAllProd.lastIndexOf(ARMUtils.DOT);
                                 if (pos2 != -1) {
-                                    selectedParentHierarchyNoforAllProdBsr = existingProducttempHNoAllProd.substring(0, pos2) + ".";
+                                    selectedParentHierarchyNoforAllProdBsr = existingProducttempHNoAllProd.substring(0, pos2) + ARMUtils.DOT;
                                 } else {
-                                    selectedParentHierarchyNoforAllProdBsr = existingProducttempHNoAllProd + ".";
+                                    selectedParentHierarchyNoforAllProdBsr = existingProducttempHNoAllProd + ARMUtils.DOT;
                                 }
 
                             }
@@ -1477,9 +1477,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                         }
                                         pos3 = bsrDsAllProductstempHNo.lastIndexOf(ARMUtils.DOT);
                                         if (pos3 != -1) {
-                                            childHierarchyNo = bsrDsAllProductstempHNo.substring(0, pos3) + ".";
+                                            childHierarchyNo = bsrDsAllProductstempHNo.substring(0, pos3) + ARMUtils.DOT;
                                         } else {
-                                            childHierarchyNo = bsrDsAllProductstempHNo + ".";
+                                            childHierarchyNo = bsrDsAllProductstempHNo + ARMUtils.DOT;
                                         }
                                         if (productBeanList.isEmpty() || !productBeanList.contains(bsrDsProductnewLevel.getRelationshipLevelSid())) {
                                             productBeanList.add(bsrDsProductnewLevel.getRelationshipLevelSid());
@@ -1517,14 +1517,14 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         List<String> bsrAllNewProducthierarchyNos = new ArrayList<>();
                         List<LevelDTO> newParentLevels = null;
                         List<LevelDTO> newChildLevels = null;
-                        bsrAllNewProducthierarchyNos.add(bsrDsNewProductshierarchyNo + ".");
+                        bsrAllNewProducthierarchyNos.add(bsrDsNewProductshierarchyNo + ARMUtils.DOT);
                         int pos = 0;
                         while (bsrDsNewProductshierarchyNo.contains(ARMUtils.DOT)) {
                             pos = bsrDsNewProductshierarchyNo.lastIndexOf(ARMUtils.DOT);
                             if (pos != -1) {
                                 bsrDsNewProductshierarchyNo = bsrDsNewProductshierarchyNo.substring(0, pos);
                             }
-                            bsrAllNewProducthierarchyNos.add(bsrDsNewProductshierarchyNo + ".");
+                            bsrAllNewProducthierarchyNos.add(bsrDsNewProductshierarchyNo + ARMUtils.DOT);
                         }
                         Collections.reverse(bsrAllNewProducthierarchyNos);
                         List<String> selectedHierarchyNos = new ArrayList<>();
@@ -1567,9 +1567,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 pos2 = tempHNo.lastIndexOf(ARMUtils.DOT);
 
                                 if (pos2 != -1) {
-                                    parentHierarchyNo = tempHNo.substring(0, pos2) + ".";
+                                    parentHierarchyNo = tempHNo.substring(0, pos2) + ARMUtils.DOT;
                                 } else {
-                                    parentHierarchyNo = tempHNo + ".";
+                                    parentHierarchyNo = tempHNo + ARMUtils.DOT;
                                 }
                                 if (productBeanList.isEmpty() || !productBeanList.contains(moveNewAllProductsnewLevel.getRelationshipLevelSid())) {
                                     productBeanList.add(moveNewAllProductsnewLevel.getRelationshipLevelSid());
@@ -1603,9 +1603,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                     }
                                     pos3 = gettempHNo.lastIndexOf(ARMUtils.DOT);
                                     if (pos3 != -1) {
-                                        getChildHierarchyNo = gettempHNo.substring(0, pos3) + ".";
+                                        getChildHierarchyNo = gettempHNo.substring(0, pos3) + ARMUtils.DOT;
                                     } else {
-                                        getChildHierarchyNo = gettempHNo + ".";
+                                        getChildHierarchyNo = gettempHNo + ARMUtils.DOT;
                                     }
                                     if (productBeanList.isEmpty() || !productBeanList.contains(getnewLevel.getRelationshipLevelSid())) {
                                         productBeanList.add(getnewLevel.getRelationshipLevelSid());
@@ -1663,14 +1663,14 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 List<String> hierarchyNos = new ArrayList<>();
                                 List<LevelDTO> newParentLevels = null;
                                 List<LevelDTO> newChildLevels = null;
-                                hierarchyNos.add(allCustomershierarchyNo + ".");
+                                hierarchyNos.add(allCustomershierarchyNo + ARMUtils.DOT);
                                 int pos = 0;
                                 while (allCustomershierarchyNo.contains(ARMUtils.DOT)) {
                                     pos = allCustomershierarchyNo.lastIndexOf(ARMUtils.DOT);
                                     if (pos != -1) {
                                         allCustomershierarchyNo = allCustomershierarchyNo.substring(0, pos);
                                     }
-                                    hierarchyNos.add(allCustomershierarchyNo + ".");
+                                    hierarchyNos.add(allCustomershierarchyNo + ARMUtils.DOT);
                                 }
                                 Collections.reverse(hierarchyNos);
                                 List<String> allCustomersselectedHierarchyNos = new ArrayList<>();
@@ -1705,9 +1705,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                         pos2 = allCustomerstempHNo.lastIndexOf(ARMUtils.DOT);
 
                                         if (pos2 != -1) {
-                                            allCustomersparentHierarchyNo = allCustomerstempHNo.substring(0, pos2) + ".";
+                                            allCustomersparentHierarchyNo = allCustomerstempHNo.substring(0, pos2) + ARMUtils.DOT;
                                         } else {
-                                            allCustomersparentHierarchyNo = allCustomerstempHNo + ".";
+                                            allCustomersparentHierarchyNo = allCustomerstempHNo + ARMUtils.DOT;
                                         }
                                         if (customerBeanList.isEmpty() || !customerBeanList.contains(allCustomersnewLevel.getRelationshipLevelSid())) {
                                             customerBeanList.add(allCustomersnewLevel.getRelationshipLevelSid());
@@ -1741,9 +1741,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                             }
                                             pos3 = allCustomerstempHNo.lastIndexOf(ARMUtils.DOT);
                                             if (pos3 != -1) {
-                                                childHierarchyNo = allCustomerstempHNo.substring(0, pos3) + ".";
+                                                childHierarchyNo = allCustomerstempHNo.substring(0, pos3) + ARMUtils.DOT;
                                             } else {
-                                                childHierarchyNo = allCustomerstempHNo + ".";
+                                                childHierarchyNo = allCustomerstempHNo + ARMUtils.DOT;
                                             }
                                             if (customerBeanList.isEmpty() || !customerBeanList.contains(allCustomersnewLevel.getRelationshipLevelSid())) {
                                                 customerBeanList.add(allCustomersnewLevel.getRelationshipLevelSid());
@@ -1780,7 +1780,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                             List<String> initHierarchyNos = new ArrayList<>();
                             List<LevelDTO> initNewParentLevels = null;
                             List<LevelDTO> newChildLevels = null;
-                            initHierarchyNos.add(initHierarchyNo + ".");
+                            initHierarchyNos.add(initHierarchyNo + ARMUtils.DOT);
                             int pos = 0;
                             String initSelectedParentHierarchyNo = StringUtils.EMPTY;
                             LevelDTO selectedParent = null;
@@ -1789,7 +1789,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 if (pos != -1) {
                                     initHierarchyNo = initHierarchyNo.substring(0, pos);
                                 }
-                                initHierarchyNos.add(initHierarchyNo + ".");
+                                initHierarchyNos.add(initHierarchyNo + ARMUtils.DOT);
                             }
                             Collections.reverse(initHierarchyNos);
                             List<String> selectedHierarchyNos = new ArrayList<>();
@@ -1816,9 +1816,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 int pos2 = 0;
                                 pos2 = initTtempHNo.lastIndexOf(ARMUtils.DOT);
                                 if (pos2 != -1) {
-                                    initSelectedParentHierarchyNo = initTtempHNo.substring(0, pos2) + ".";
+                                    initSelectedParentHierarchyNo = initTtempHNo.substring(0, pos2) + ARMUtils.DOT;
                                 } else {
-                                    initSelectedParentHierarchyNo = initTtempHNo + ".";
+                                    initSelectedParentHierarchyNo = initTtempHNo + ARMUtils.DOT;
                                 }
 
                             }
@@ -1859,9 +1859,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                         }
                                         pos3 = innitCustomerstempHNo.lastIndexOf(ARMUtils.DOT);
                                         if (pos3 != -1) {
-                                            initCustomerschildHierarchyNo = innitCustomerstempHNo.substring(0, pos3) + ".";
+                                            initCustomerschildHierarchyNo = innitCustomerstempHNo.substring(0, pos3) + ARMUtils.DOT;
                                         } else {
-                                            initCustomerschildHierarchyNo = innitCustomerstempHNo + ".";
+                                            initCustomerschildHierarchyNo = innitCustomerstempHNo + ARMUtils.DOT;
                                         }
                                         if (customerBeanList.isEmpty() || !customerBeanList.contains(innitCustomersnewLevel.getRelationshipLevelSid())) {
                                             customerBeanList.add(innitCustomersnewLevel.getRelationshipLevelSid());
@@ -1907,7 +1907,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                             while (customerLevelHierarchyNo.contains(ARMUtils.DOT)) {
                                 pos = customerLevelHierarchyNo.lastIndexOf(ARMUtils.DOT);
                                 if (pos != -1) {
-                                    customerLevelHierarchyNo = customerLevelHierarchyNo.substring(0, pos) + ".";
+                                    customerLevelHierarchyNo = customerLevelHierarchyNo.substring(0, pos) + ARMUtils.DOT;
                                 }
                             }
                         }
@@ -1932,9 +1932,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                 }
                                 pos3 = existingCustomerstempHNo.lastIndexOf(ARMUtils.DOT);
                                 if (pos3 != -1) {
-                                    childHierarchyNo = existingCustomerstempHNo.substring(0, pos3) + ".";
+                                    childHierarchyNo = existingCustomerstempHNo.substring(0, pos3) + ARMUtils.DOT;
                                 } else {
-                                    childHierarchyNo = existingCustomerstempHNo + ".";
+                                    childHierarchyNo = existingCustomerstempHNo + ARMUtils.DOT;
                                 }
                                 if (customerBeanList.isEmpty() || !customerBeanList.contains(existingCustomersnewLevel.getRelationshipLevelSid())) {
                                     customerBeanList.add(existingCustomersnewLevel.getRelationshipLevelSid());
@@ -1968,7 +1968,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         List<String> customerHierarchyNos = new ArrayList<>();
                         List<LevelDTO> newParentLevels = null;
                         List<LevelDTO> newChildLevels = null;
-                        customerHierarchyNos.add(customerhierarchyNo + ".");
+                        customerHierarchyNos.add(customerhierarchyNo + ARMUtils.DOT);
                         int pos = 0;
                         String selectedParentHierarchyNo = StringUtils.EMPTY;
                         LevelDTO selectedParent = null;
@@ -1977,7 +1977,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                             if (pos != -1) {
                                 customerhierarchyNo = customerhierarchyNo.substring(0, pos);
                             }
-                            customerHierarchyNos.add(customerhierarchyNo + ".");
+                            customerHierarchyNos.add(customerhierarchyNo + ARMUtils.DOT);
                         }
                         Collections.reverse(customerHierarchyNos);
                         List<String> selectedHierarchyNos = new ArrayList<>();
@@ -2005,9 +2005,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                             int pos2 = 0;
                             pos2 = customersstempHNo.lastIndexOf(ARMUtils.DOT);
                             if (pos2 != -1) {
-                                selectedParentHierarchyNo = customersstempHNo.substring(0, pos2) + ".";
+                                selectedParentHierarchyNo = customersstempHNo.substring(0, pos2) + ARMUtils.DOT;
                             } else {
-                                selectedParentHierarchyNo = customersstempHNo + ".";
+                                selectedParentHierarchyNo = customersstempHNo + ARMUtils.DOT;
                             }
 
                         }
@@ -2046,9 +2046,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                                     }
                                     pos3 = gettempHNoCustomers.lastIndexOf(ARMUtils.DOT);
                                     if (pos3 != -1) {
-                                        childHierarchyNo = gettempHNoCustomers.substring(0, pos3) + ".";
+                                        childHierarchyNo = gettempHNoCustomers.substring(0, pos3) + ARMUtils.DOT;
                                     } else {
-                                        childHierarchyNo = gettempHNoCustomers + ".";
+                                        childHierarchyNo = gettempHNoCustomers + ARMUtils.DOT;
                                     }
                                     if (customerBeanList.isEmpty() || !customerBeanList.contains(getnewLevel.getRelationshipLevelSid())) {
                                         customerBeanList.add(getnewLevel.getRelationshipLevelSid());
@@ -2126,10 +2126,10 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE);
                 String[] bsrLevelArrProd = productLevel.getItemCaption(productLevel.getValue()).split(
                         ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE);
-                String[] levelNoArrCus = bsrLevelArrCus[0].split(ARMUtils.SPACE);
-                String[] levelNoArrProd = bsrLevelArrProd[0].split(ARMUtils.SPACE);
-                customerLevl = Integer.valueOf(levelNoArrCus[1]);
-                productLevelVal = Integer.valueOf(levelNoArrProd[1]);
+                String[] levelNoArrCus = bsrLevelArrCus[0].split(ARMUtils.SPACE.toString());
+                String[] levelNoArrProd = bsrLevelArrProd[0].split(ARMUtils.SPACE.toString());
+                customerLevl = Integer.parseInt(levelNoArrCus[1]);
+                productLevelVal = Integer.parseInt(levelNoArrProd[1]);
                 String userId = (String) VaadinSession.getCurrent().getAttribute(ARMUtils.USER_ID);
                 bsrDataSelectionDTO.setProjectionName(StringUtils.EMPTY);
                 bsrDataSelectionDTO.setProjectionDescription(StringUtils.EMPTY);
@@ -2284,11 +2284,11 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     bsrDataSelectionDTO.setViewName(searchLookUp.getViewDTO().getViewName());
                     HierarchyLookupDTO customerHierarchyDto = new HierarchyLookupDTO();
                     HierarchyLookupDTO productHierarchyDto = new HierarchyLookupDTO();
-                    customerHierarchyDto.setHierarchyId(searchLookUp.getViewDTO().getCustomerHierarchySid().isEmpty() ? 0 : Integer.valueOf(searchLookUp.getViewDTO().getCustomerHierarchySid()));
+                    customerHierarchyDto.setHierarchyId(searchLookUp.getViewDTO().getCustomerHierarchySid().isEmpty() ? 0 : Integer.parseInt(searchLookUp.getViewDTO().getCustomerHierarchySid()));
                     customerHierarchyDto.setVersionNo(searchLookUp.getViewDTO().getCustomerHierVers());
                     customerHierarchyDto.setHighestLevel(searchLookUp.getViewDTO().getCustomerHierHL());
                     customerHierarchyLookup.setHierarchyDto(customerHierarchyDto);
-                    productHierarchyDto.setHierarchyId(searchLookUp.getViewDTO().getProductHierarchySid().isEmpty() ? 0 : (Integer.valueOf(searchLookUp.getViewDTO().getProductHierarchySid())));
+                    productHierarchyDto.setHierarchyId(searchLookUp.getViewDTO().getProductHierarchySid().isEmpty() ? 0 : (Integer.parseInt(searchLookUp.getViewDTO().getProductHierarchySid())));
                     productHierarchyDto.setVersionNo(searchLookUp.getViewDTO().getProductHierVers());
                     productHierarchyDto.setHighestLevel(searchLookUp.getViewDTO().getProductHierHL());
                     productHierarchyLookup.setHierarchyDto(productHierarchyDto);
@@ -2339,7 +2339,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
                 customerDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getCustRelationshipBuilderSid(), bsrCustomerVersionMap.get(dto.getCustRelationshipBuilderSid()), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 customerLevel.select(dto.getCustomerHierarchyLevel());
-                initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getCustomerHierarchyLevel()));
+                initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.parseInt(dto.getCustomerHierarchyLevel()));
                 availableCustomerContainer.removeAllItems();
                 availableCustomer.removeAllItems();
 
@@ -2352,7 +2352,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 productDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getProdRelationshipBuilderSid(),
                         bsrProductVersionMap.get(dto.getProdRelationshipBuilderSid()), productHierarchyLookup.getHierarchyDto().getHierarchyId(),
                         productHierarchyLookup.getHierarchyDto().getVersionNo());
-                initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getProductHierarchyLevel()));
+                initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.parseInt(dto.getProductHierarchyLevel()));
                 availableProductContainer.removeAllItems();
                 availableProduct.removeAllItems();
             } catch (Property.ReadOnlyException | NumberFormatException e) {
@@ -2406,7 +2406,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
             if (parent != null) {
                 selectedDeductionContainer.setParent(value, parent);
             }
-            if (StringUtils.countMatches(bsrHierkey, ".") == NumericConstants.NINE) {
+            if (StringUtils.countMatches(bsrHierkey, ARMUtils.DOT) == NumericConstants.NINE) {
                 selectedDeductionContainer.setChildrenAllowed(value, false);
             }
         }
@@ -2449,7 +2449,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         productLevel.select(null);
     }
 
-    public void configureFields() {
+    private void configureFields() {
         summaryTypeDdlb.focus();
         adjustmentType.setVisible(false);
         description.setVisible(false);
@@ -2934,10 +2934,10 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE) : new String[0];
             String[] bsrLevelArrProd = productLevel.getValue() != null ? productLevel.getItemCaption(productLevel.getValue()).split(
                     ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE) : new String[0];
-            String[] levelNoArrCus = bsrLevelArrCus.length > 0 ? bsrLevelArrCus[0].split(ARMUtils.SPACE) : new String[0];
-            String[] levelNoArrProd = bsrLevelArrProd.length > 0 ? bsrLevelArrProd[0].split(ARMUtils.SPACE) : new String[0];
-            bsrCustomerLevl = levelNoArrCus.length > 0 ? Integer.valueOf(levelNoArrCus[1]) : 0;
-            bsrProductLevelVal = levelNoArrProd.length > 0 ? Integer.valueOf(levelNoArrProd[1]) : 0;
+            String[] levelNoArrCus = bsrLevelArrCus.length > 0 ? bsrLevelArrCus[0].split(ARMUtils.SPACE.toString()) : new String[0];
+            String[] levelNoArrProd = bsrLevelArrProd.length > 0 ? bsrLevelArrProd[0].split(ARMUtils.SPACE.toString()) : new String[0];
+            bsrCustomerLevl = levelNoArrCus.length > 0 ? Integer.parseInt(levelNoArrCus[1]) : 0;
+            bsrProductLevelVal = levelNoArrProd.length > 0 ? Integer.parseInt(levelNoArrProd[1]) : 0;
             String userId = (String) VaadinSession.getCurrent().getAttribute(ARMUtils.USER_ID);
             bsrDataSelectionDTO.setProjectionName(StringUtils.EMPTY);
             bsrDataSelectionDTO.setCreatedBy(CommonLogic.parseStringToInteger(userId));

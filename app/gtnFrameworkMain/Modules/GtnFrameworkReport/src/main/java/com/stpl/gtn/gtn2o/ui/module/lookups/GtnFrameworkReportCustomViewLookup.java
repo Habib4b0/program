@@ -360,6 +360,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		hierachyLoadAction.addActionParameter(GtnFrameworkUICustomViewHierarchyLoadAction.class.getName());
 		hierachyLoadAction.addActionParameter(GtnWsHierarchyType.CUSTOMER);
+		hierachyLoadAction.addActionParameter(tabName);
 		customerGrid.setGtnUIFrameWorkActionConfigList(Arrays.asList(hierachyLoadAction));
 		customerGrid.setGtnUIFrameWorkGridConfig(gridConfig);
 		componentList.add(customerGrid);
@@ -431,6 +432,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		hierachyLoadAction.addActionParameter(GtnFrameworkUICustomViewHierarchyLoadAction.class.getName());
 		hierachyLoadAction.addActionParameter(GtnWsHierarchyType.PRODUCT);
+		hierachyLoadAction.addActionParameter(tabName);
 		productGrid.setGtnUIFrameWorkActionConfigList(Arrays.asList(hierachyLoadAction));
 
 		GtnUIFrameworkGridComponentConfig gridConfig = new GtnUIFrameworkGridComponentConfig();
@@ -506,6 +508,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		hierachyLoadAction.addActionParameter(GtnFrameworkUICustomViewHierarchyLoadAction.class.getName());
 		hierachyLoadAction.addActionParameter(GtnWsHierarchyType.DEDUCTION);
+		hierachyLoadAction.addActionParameter(tabName);
 		deductionGrid.setGtnUIFrameWorkActionConfigList(Arrays.asList(hierachyLoadAction));
 
 		GtnUIFrameworkGridComponentConfig gridConfig = new GtnUIFrameworkGridComponentConfig();

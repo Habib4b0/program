@@ -49,7 +49,11 @@
 				<include name="GtnForecastWebServices.war" />
 				<include name="GtnWsBpmWebService.war" />
 				<include name="GTNWebServices.war" />
-				<include name="GtnReportingWebservice.war"/>
+				<include name="GtnServiceRegistryWebServices.war"/>
+				<include name="GtnWsPeriodConfigurationWebService.war"/>
+				<include name="GtnHierarchyAndRelaionshipWebService.war"/>
+				<include name="GtnSearchWebService.war"/>
+				<include name="GtnWsQueryEngineWebService.war"/>
 			</fileset>
 		</move>
 

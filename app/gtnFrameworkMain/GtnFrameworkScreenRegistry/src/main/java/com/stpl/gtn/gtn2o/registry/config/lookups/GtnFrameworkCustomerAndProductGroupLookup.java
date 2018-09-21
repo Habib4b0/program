@@ -341,9 +341,9 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 		List<Object> customerAndProductGroupActionParameter = new ArrayList<>();
 		customerAndProductGroupActionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkForecastingStringConstants.CUSTOMER_AND_PRODUCT_GROUP_SEARCH_RESULT_TABLE);
-		customerAndProductGroupActionParameter.add(namespace+"GroupLookupView");
-		customerAndProductGroupActionParameter.add(Arrays.asList("customerGroupName"));
-		customerAndProductGroupActionParameter.add(Arrays.asList(namespace+"GroupLookupView"));
+		customerAndProductGroupActionParameter.add(namespace.contains("Customer")?"Commercial Forecasting_customerGroup":"Commercial Forecasting_productGroup");
+		customerAndProductGroupActionParameter.add(Arrays.asList(namespace.contains("Customer")?"customerGroupName":"productGroupName"));
+		customerAndProductGroupActionParameter.add(Arrays.asList(namespace.contains("Customer")?"Commercial Forecasting_customerGroup":"Commercial Forecasting_productGroup"));
 		forecastCustomerProductGroupSelectAction.setActionParameterList(customerAndProductGroupActionParameter);
 		customerAndProductGroupActionConfigList.add(forecastCustomerProductGroupSelectAction);
 		
