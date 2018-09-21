@@ -118,9 +118,9 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 } else {
                     dto.setMonth(brand);
                 }
-                dto.setLevelNo((int) get[NumericConstants.EIGHT]);
+                dto.setLevelNo((Integer) get[NumericConstants.EIGHT]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                Boolean total = isTotal ? false : (boolean) get[NumericConstants.NINE];
+                Boolean total = isTotal ? Boolean.FALSE : (Boolean) get[NumericConstants.NINE];
                 dto.setChildrenAllowed((selection.getSummarylevelFilterNo() == 0) ? total : Boolean.FALSE);
                 dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                 if (masterSids != null) {
@@ -209,13 +209,13 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         }
         Object[] value = null;
         if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
-            value = new Object[]{"T", "C", "B", "I"};
+            value = ARMUtils.getTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-            value = new Object[]{"T", "B", "I"};
+            value = ARMUtils.getTBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-            value = new Object[]{"B", "I"};
+            value = ARMUtils.getBI();
         }
         query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + org.apache.commons.lang.StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getSummarydeductionLevelDes());

@@ -203,7 +203,7 @@ public class DataSelection extends AbstractDataSelection {
                         levelName = tempDto.getLevel();
                         tempDto.getLevelNo();
                     }
-                    List<LevelDTO> customerHierarchyLevelDefinitionList = dslogic.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());;
+                    List<LevelDTO> customerHierarchyLevelDefinitionList = dslogic.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                     LevelDTO selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
                     custVlues = dslogic.loadCustomerInnerLevel(createInputBean(customerHierarchyLookup.getHierarchyDto(), relationshipSid,
                             customerVersionMap.get(relationshipSid), tempDto.getLevelNo(), customerHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), false, rsContractSids), customerDescriptionMap, selectedHierarchyLevelDto);

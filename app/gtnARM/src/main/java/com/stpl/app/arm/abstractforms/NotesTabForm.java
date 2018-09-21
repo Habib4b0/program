@@ -86,6 +86,8 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
     private final NotesDTO binderDto = new NotesDTO();
     private final ErrorfulFieldGroup notesBinder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     private final ErrorLabel errorMsg = new ErrorLabel();
+    private Object[] visibleColumnsobj = new Object[]{"documentName", "dateAdded", "userName"};
+    private String[] columnHeadersobj = new String[]{"Document Name", "Date Added", "User Name"};
 
     public NotesTabForm(FieldGroup binder, String moduleName, SessionDTO sessionDTO, String adjustmentType) throws SystemException {
         super(binder, moduleName);
@@ -98,11 +100,9 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         getUserName();
         userName = userMap.get(Integer.valueOf(userId));
-        Object[] obj = new Object[]{"documentName", "dateAdded", "userName"};
-        String[] objHeaders = new String[]{"Document Name", "Date Added", "User Name"};
         table.setContainerDataSource(attachmentsListBean);
-        table.setVisibleColumns(obj);
-        table.setColumnHeaders(objHeaders);
+        table.setVisibleColumns(visibleColumnsobj);
+        table.setColumnHeaders(columnHeadersobj);
         configureGeneratedColumn();
         if (!this.adjustmentType.isEmpty()) {
             addReasonCodeDdlb();
@@ -126,7 +126,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         newNote.setValidationVisible(true);
     }
 
-    public FieldGroup getNotesBinder() {
+    private FieldGroup getNotesBinder() {
         notesBinder.setErrorDisplay(errorMsg);
         notesBinder.bindMemberFields(this);
         notesBinder.setBuffered(true);

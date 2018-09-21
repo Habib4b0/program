@@ -85,7 +85,7 @@
             "columnAlignment": "CENTER",
             "viewFlag": true,
             "dateFlag": true,
-            "componentType": "text"
+            "componentType": "date"
         },
         {
             "columnID": "startDate",
@@ -103,7 +103,7 @@
             "columnAlignment": "CENTER",
             "viewFlag": true,
             "dateFlag": true,
-            "componentType": "text"
+            "componentType": "date"
         },
         {
             "columnID": "endDate",
@@ -143,7 +143,7 @@
             "columnAlignment": "CENTER",
             "viewFlag": true,
             "dateFlag": true,
-            "componentType": "text"
+            "componentType": "date"
         },
         {
             "columnID": "createdDate",
@@ -168,7 +168,7 @@
             "isResultView": true,
             "dateFlag": true,
             "columnAlignment": "CENTER",
-            "componentType": "text"
+            "componentType": "date"
         },
         {
             "columnID": "modifiedDate",

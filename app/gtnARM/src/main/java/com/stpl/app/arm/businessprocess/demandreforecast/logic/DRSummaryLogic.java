@@ -149,8 +149,8 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
                 totalColumnValue = new double[NumericConstants.NINE];
                 reforecastDto.setMonth(brand);
-                reforecastDto.setLevelNo((int) get[NumericConstants.TEN]);
-                reforecastDto.setChildrenAllowed((reforecastSelection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.ELEVEN]);
+                reforecastDto.setLevelNo((Integer) get[NumericConstants.TEN]);
+                reforecastDto.setChildrenAllowed((reforecastSelection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.ELEVEN]);
                 reforecastDto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TWELVE]));
                 if (masterSids != null) {
                     reforecastDto.setMasterIds(masterSids);
