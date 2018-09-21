@@ -142,7 +142,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        getSelection().setReturnReserveDataHierarchy(ARMUtils.getReserveDataLevelAndLevelFilter(viewType));
+        getSelection().setReturnReserveDataHierarchy(ARMUtils.getInstance().getReserveDataLevelAndLevelFilter(viewType));
     }
 
     @Override

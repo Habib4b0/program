@@ -70,7 +70,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
         calculateBtn.setVisible(false);
         summarySelection.setStatus("Pending");
         summarySelection.setSummaryDeductionView(String.valueOf(customerProductView.getValue()));
-        summarySelection.setSummaryLevel(ARMUtils.getADJSummaryLevel(String.valueOf(customerProductView.getValue())));
+        summarySelection.setSummaryLevel(ARMUtils.getInstance().getADJSummaryLevel(String.valueOf(customerProductView.getValue())));
     }
 
     @Override
@@ -136,7 +136,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
             if (bsrSummaryVal.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) {
                 bsrSummaryVal = getSelection().getSummarydeductionLevelDes().toUpperCase(Locale.ENGLISH);
             }
-            value[i] = ARMUtils.getLevelExcelQueryName(bsrSummaryVal);
+            value[i] = ARMUtils.getInstance().getLevelExcelQueryName(bsrSummaryVal);
         }
         getSelection().setExcelHierarchy(value);
         return value;
@@ -172,7 +172,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
         return false;
     }
 
-    class BsrResultsCustomNotification extends AbstractNotificationUtils {
+    static class BsrResultsCustomNotification extends AbstractNotificationUtils {
 
         private String bsrResultsbuttonName;
 
@@ -293,7 +293,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        summarySelection.setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        summarySelection.setSummeryhierarchy(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override

@@ -39,9 +39,9 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
     @Override
     public void setVisibleColumnsAndHeaders() {
         Map properties = new HashMap();
-        Object[] variableColumns = VariableConstants.getVariableSalesVisibleColumn();
-        for (int i = 0; i < variableColumns.length; i++) {
-            properties.put(variableColumns[i], String.class);
+        String[] variableColumns = VariableConstants.getVariableSalesVisibleColumn();
+        for (String variableColumn : variableColumns) {
+            properties.put(variableColumn, String.class);
         }
 
         configureOnSalesSearchResults();
@@ -112,11 +112,11 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
         List<Object> header = getSummaryLogic().generateHeader(selection);
         List rightSingleVisibleColumn = (List) header.get(0);
         Map properties = new HashMap();
-        Object[] variableColumns = VariableConstants.getVariableSalesVisibleColumn();
-        for (int i = 0; i < variableColumns.length; i++) {
-            properties.put(variableColumns[i], String.class);
+        String[] variableColumns = VariableConstants.getVariableSalesVisibleColumn();
+        for (String variableColumn : variableColumns) {
+            properties.put(variableColumn, String.class);
         }
-        if (!selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL) && !isEditButtonClick) {
+        if (!isEditButtonClick && !selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
             salesProcedureCall(selection);
         }
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
@@ -223,7 +223,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        getSelection().setSaleshierarchy(ARMUtils.getTYrx7LevelAndLevelFilter(viewType + "Sales"));
+        getSelection().setSaleshierarchy(ARMUtils.getInstance().getTYrx7LevelAndLevelFilter(viewType + "Sales"));
     }
 
     @Override
