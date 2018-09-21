@@ -68,7 +68,7 @@ public class BSummaryPipelineResults extends AbstractBalanceSummaryResutls {
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        getSummarySelection().setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        getSummarySelection().setSummeryhierarchy(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override

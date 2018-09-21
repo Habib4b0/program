@@ -110,7 +110,7 @@ public class AdjustmentReserveUI extends UI {
         });
     }
 
-    class HelperListLoadJob implements Runnable {
+    static class HelperListLoadJob implements Runnable {
 
         private final String listName;
 

@@ -36,7 +36,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO> extends AbstractPipelineLogic<T, E> {
 
-    private static final List<String> inventoryVariablesList = new ArrayList<>();
+    private final List<String> inventoryVariablesList = new ArrayList<>();
 
     @Override
     public int getCount(Criteria criteria) {
@@ -200,7 +200,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
         return cutomize(result, inventorySelection);
     }
 
-    public static List<String> getInventoryVariables(SelectionDTO selection) {
+    public List<String> getInventoryVariables(SelectionDTO selection) {
 
         if (inventoryVariablesList.isEmpty()) {
             List<String> variables = selection.getSummarycolumnList();

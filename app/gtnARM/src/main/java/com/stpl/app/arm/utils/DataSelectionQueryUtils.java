@@ -209,7 +209,7 @@ public class DataSelectionQueryUtils {
         } else if (parameters.get(CommonConstant.INDICATOR) != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             LOGGER.debug("--inside getChildLevelRLSid---------------------------->>>>>>>>");
             if (parameters.get(CommonConstant.RL_SIDS) != null) {
-                List<String> rlSids = (ArrayList<String>) parameters.get(CommonConstant.RL_SIDS);
+                List<String> rlSids = (List<String>) parameters.get(CommonConstant.RL_SIDS);
                 if (rlSids != null && !rlSids.isEmpty()) {
                     queryString.append(SQlUtil.getQuery("getChildLevelRLSidRestricted"));
                     queryString.append(" WHERE (");
@@ -237,7 +237,7 @@ public class DataSelectionQueryUtils {
                 }
             }
         } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
-            List<String> rlSids = (ArrayList<String>) parameters.get(CommonConstant.RL_SIDS);
+            List<String> rlSids = (List<String>) parameters.get(CommonConstant.RL_SIDS);
             if (rlSids != null && !rlSids.isEmpty()) {
                 queryString.append(SQlUtil.getQuery(CommonConstant.CHILD_LEVEL_RL));
                 queryString.append(" and (");
@@ -252,7 +252,7 @@ public class DataSelectionQueryUtils {
                 queryString.append(") and HIERARCHY_NO not in (");
                 queryString.append(CommonLogic.stringListToString(rlSids));
                 if (parameters.get("availableHierNo") != null) {
-                    List<String> availableHierNo = (ArrayList<String>) parameters.get("availableHierNo");
+                    List<String> availableHierNo = (List<String>) parameters.get("availableHierNo");
                     queryString.append(", ");
                     queryString.append(CommonLogic.stringListToString(availableHierNo));
                 }

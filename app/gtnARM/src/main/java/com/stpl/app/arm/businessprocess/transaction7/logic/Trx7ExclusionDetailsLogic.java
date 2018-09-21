@@ -49,7 +49,7 @@ public class Trx7ExclusionDetailsLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Trx7ExclusionDetailsLogic.class);
     private static final CommonDao DAO = CommonImpl.getInstance();
-    protected static Map<String, String> userMap = new HashMap<>();
+    protected Map<String, String> userMap = new HashMap<>();
 
     public List<ExclusionLookupDTO> getCompanySid(String viewSid) {
         LOGGER.debug("--Inside getCompanySid--{}", viewSid);
@@ -215,7 +215,7 @@ public class Trx7ExclusionDetailsLogic {
     public boolean isAddORUpdateView(ExclusionLookupDTO tr7ExclSaveViewDTO) {
         LOGGER.debug("--Inside isAdd_OR_UpdateView--{}", tr7ExclSaveViewDTO.getViewMasterSid());
         StringBuilder sbQuery = new StringBuilder();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         try {
             String viewSid;
             if (tr7ExclSaveViewDTO.isViewStatus()) {
@@ -472,7 +472,7 @@ public class Trx7ExclusionDetailsLogic {
 
     }
 
-    public static void getAllUsers() {
+    public void getAllUsers() {
         LOGGER.debug("--Inside getAllUsers--");
         List<Object> userList = new ArrayList<>();
         try {
