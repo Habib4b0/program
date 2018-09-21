@@ -419,7 +419,7 @@ public class CommonUtil {
                         break;
                     case Constant.PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.SEVEN],inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,String.valueOf(inputs[6]));
+                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.SEVEN],inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString());
                         break;
                     case Constant.PV_PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());

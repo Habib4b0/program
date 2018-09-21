@@ -217,8 +217,8 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
 
     private boolean getAllowed(Object value, Object oldValue, boolean a) {
         boolean allowed = a;
-        List<String> valList = (List) value;
-        List<String> oldValList = (List) oldValue;
+        List<String> valList = (List<String>) value;
+        List<String> oldValList = (List<String>) oldValue;
         if (valList.size() != oldValList.size()) {
             allowed = true;
         } else {

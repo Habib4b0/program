@@ -104,16 +104,15 @@ public class GtnReportingDashboardReportProfileLoadAction
 										: "Yes");
 
 		setPeriodRangeFromAndTo(reportProfileSaveLookupBean, actionParamList, viewId);
-		
-		
+
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(11).toString(), viewId)
-		.loadV8MultiSelectValue();
+				.loadV8MultiSelectValue();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(10).toString(), viewId)
 				.loadV8ComboBoxComponentValue(
 						Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabCustomerLevel()).isPresent()
 								? reportProfileSaveLookupBean.getFilterOptionsTabCustomerLevel()
 								: "0");
-		
+
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(11).toString(), viewId).updateSelection(
 				Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabCustomerFilter()).isPresent()
 						? reportProfileSaveLookupBean.getFilterOptionsTabCustomerFilter()
@@ -132,7 +131,6 @@ public class GtnReportingDashboardReportProfileLoadAction
 						? reportProfileSaveLookupBean.getFilterOptionsTabProductFilter()
 						: new ArrayList<>());
 
-		// Reset first then load based on deduction level ddlb load
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString(), viewId)
 		.loadV8MultiSelectValue();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(14).toString(), viewId)
@@ -141,6 +139,7 @@ public class GtnReportingDashboardReportProfileLoadAction
 								? reportProfileSaveLookupBean.getFilterOptionsTabDeductionLevel()
 								: "0");
 
+		
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString(), viewId)
 				.updateSelection(Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabDeductionFilter())
 						.isPresent() ? reportProfileSaveLookupBean.getFilterOptionsTabDeductionFilter()

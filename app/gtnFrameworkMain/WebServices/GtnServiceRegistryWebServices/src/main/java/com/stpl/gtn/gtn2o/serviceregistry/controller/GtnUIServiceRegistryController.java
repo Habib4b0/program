@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBe
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 @RestController
 @RequestMapping(value = "/gtnServiceRegistry")
@@ -111,23 +112,13 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 	}
 
 	
-
-	@Override
-	public GtnUIFrameworkWebserviceRequest registerWs() {
-		return null;
-	}
-	
-	
-	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
-		
-		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
-		+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
-		+ url;
-
-}
-
     @Override
     public void initCallOnFailure() {
         // Default Method
+    }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+       // Default Method
     }
 }

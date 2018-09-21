@@ -244,7 +244,7 @@ public class BusinessProcessUI extends CommonUI {
         return StringUtils.EMPTY;
     }
 
-    class BPMJob implements Runnable {
+    static class BPMJob implements Runnable {
 
         @Override
         public void run() {

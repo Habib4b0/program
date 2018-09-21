@@ -329,7 +329,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
             Object value = event.getProperty().getValue();
             int val = 0;
             String caption = "";
-            if (value != null && value instanceof Integer) {
+            if (value instanceof Integer) {
 
                 val = (Integer) value;
                 caption = getLevelFilterDdlb().getItemCaption(value);
@@ -343,7 +343,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         if (isValueChangeAllowed() && isLevelFilterValueDdlbEnable()) {
             Object value = event.getProperty().getValue();
             int val = 0;
-            if (value != null && value instanceof Integer) {
+            if (value instanceof Integer) {
                 val = (Integer) value;
                 valueDdlbValueChange(val);
             } else {
