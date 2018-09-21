@@ -61,9 +61,7 @@ public class GtnFrameworkUdcAddAction
 
 				udcRequest.setGtnWsBrandMasterInfoBean(gtnWsBrandMasterInfoBean);
 				request.setGtnWsUdcRequest(udcRequest);
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsUdcConstants.GTN_UDC_SERVICE + GtnWsUdcConstants.GTN_UDC_BRAND_SAVE_SERVICE, request,
-						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = getResponse1(request);
 				displayResultStatus(response, componentId);
 
 			} else if (udcCategory.equals("FILE_TYPE")) {
@@ -87,9 +85,7 @@ public class GtnFrameworkUdcAddAction
 
 				udcRequest.setGtnWsUdcBean(udcBean);
 				request.setGtnWsUdcRequest(udcRequest);
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsUdcConstants.GTN_UDC_SERVICE + GtnWsUdcConstants.GTN_UDC_SAVE_SERVICE, request,
-						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = getResponse2(request);
 				displayResultStatus(response, componentId);
 			} else {
 				String udcValue = null;
@@ -108,9 +104,7 @@ public class GtnFrameworkUdcAddAction
 
 				udcRequest.setGtnWsUdcBean(udcBean);
 				request.setGtnWsUdcRequest(udcRequest);
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsUdcConstants.GTN_UDC_SERVICE + GtnWsUdcConstants.GTN_UDC_SAVE_SERVICE, request,
-						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = getResponse3(request);
 				displayResultStatus(response, componentId);
 
 			}
@@ -120,6 +114,25 @@ public class GtnFrameworkUdcAddAction
 		} finally {
 			gtnLogger.info("Exit UdcSaveAction");
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse3(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsUdcConstants.GTN_UDC_SERVICE + GtnWsUdcConstants.GTN_UDC_SAVE_SERVICE, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse2(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsUdcConstants.GTN_UDC_SERVICE + GtnWsUdcConstants.GTN_UDC_SAVE_SERVICE, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse1(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsUdcConstants.GTN_UDC_SERVICE + GtnWsUdcConstants.GTN_UDC_BRAND_SAVE_SERVICE, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+	
 	}
 
 	private GtnWsBrandMasterBean loadBrandValues(Date date) {

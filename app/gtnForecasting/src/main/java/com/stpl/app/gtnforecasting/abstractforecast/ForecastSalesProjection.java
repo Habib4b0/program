@@ -1888,11 +1888,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         for (String hierarchyNo : hierarchyNos) {
             Object tempId = getTableLogic().getcurrentTreeData(hierarchyNo);
-            if (tempId == null) {
-                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+                if (tempId == null && CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                     ((NMSalesProjectionTableLogic) getTableLogic()).getExpandedTreeValues(hierarchyNo);
                 }
-            }
             if (tempId != null) {
                 SalesRowDto tempDto = (SalesRowDto) tempId;
 
@@ -1944,11 +1942,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         childTableHierarchyNos.add(tableHierarchyNo);
         for (String hierarchyNo : childTableHierarchyNos) {
             Object tempId = getTableLogic().getcurrentTreeData(hierarchyNo);
-            if (tempId == null) {
-                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+                if (tempId == null && CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                     ((NMSalesProjectionTableLogic) getTableLogic()).getExpandedTreeValues(hierarchyNo);
                 }
-            }
             if (tempId != null) {
                 SalesRowDto tempDto = (SalesRowDto) tempId;
 
@@ -1973,11 +1969,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         Set<String> finalHirarechyNo = new HashSet<>();
         for (String tableTreeLevelNo : getTableLogic().getAllLevels()) {
             Object itemId = getTableLogic().getcurrentTreeData(tableTreeLevelNo);
-            if (itemId == null) {
-                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+                if (itemId == null && CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                     ((NMSalesProjectionTableLogic) getTableLogic()).getExpandedTreeValues(tableTreeLevelNo);
                 }
-            }
             if (itemId != null) {
                 int uncheckCount = ((SalesRowDto) itemId).getUncheckCount();
                 uncheckRecordCount += uncheckCount;

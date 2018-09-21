@@ -1298,7 +1298,7 @@ public class SupplementalDiscountProjectionLogic {
                             }
                             insertDtoList.add(prclookUpDto);
                         } else {
-                            quarList.add(Constant.Q + String.valueOf(obj[0]) + " " + String.valueOf(obj[1]));
+                            quarList.add(Constant.Q + obj[0] + " " + obj[1]);
                         }
                     }
                     if (prcList.size() == quarList.size()) {
