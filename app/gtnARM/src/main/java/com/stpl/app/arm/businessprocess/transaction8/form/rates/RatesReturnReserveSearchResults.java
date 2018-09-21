@@ -69,7 +69,7 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        getSelection().setRateshierarchy(ARMUtils.getTrx8LevelAndLevelFilter(viewType));
+        getSelection().setRateshierarchy(ARMUtils.getInstance().getTrx8LevelAndLevelFilter(viewType));
     }
 
     @Override
@@ -129,7 +129,7 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
             if (val.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) {
                 val = getSelection().getRateDeductionLevelName().toUpperCase(Locale.ENGLISH);
             }
-            value[i] = ARMUtils.getLevelExcelQueryName(val);
+            value[i] = ARMUtils.getInstance().getLevelExcelQueryName(val);
         }
         getSelection().setExcelHierarchy(value);
         return value;

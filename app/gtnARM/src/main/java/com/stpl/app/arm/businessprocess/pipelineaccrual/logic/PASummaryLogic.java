@@ -112,9 +112,9 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 } else {
                     dto.setMonth(brand);
                 }
-                dto.setLevelNo((int) get[NumericConstants.SEVEN]);
+                dto.setLevelNo((Integer) get[NumericConstants.SEVEN]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.EIGHT]);
+                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.EIGHT]);
                 dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.NINE]));
                 if (masterSids != null) {
                     dto.setMasterIds(masterSids);
@@ -122,7 +122,7 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 dto = clearVariables(variables, dto);
                 resultList.add(dto);
             }
-            index = indexMap.get(get[0].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.FIVE;
+            index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.FIVE;
             if (dto != null) {
                 if (index < totalColumnIndex) {
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
@@ -132,23 +132,23 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] != null ? decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))) : StringUtils.EMPTY);
                     if (get[NumericConstants.TWO] != null) {
                         flag[0] = true;
-                        totalColumnValue[0] += Double.valueOf(String.valueOf(get[NumericConstants.TWO]));
+                        totalColumnValue[0] += Double.parseDouble(String.valueOf(get[NumericConstants.TWO]));
                     }
                     if (get[NumericConstants.THREE] != null) {
                         flag[1] = true;
-                        totalColumnValue[1] += Double.valueOf(String.valueOf(get[NumericConstants.THREE]));
+                        totalColumnValue[1] += Double.parseDouble(String.valueOf(get[NumericConstants.THREE]));
                     }
                     if (get[NumericConstants.FOUR] != null) {
                         flag[NumericConstants.TWO] = true;
-                        totalColumnValue[NumericConstants.TWO] += Double.valueOf(String.valueOf(get[NumericConstants.FOUR]));
+                        totalColumnValue[NumericConstants.TWO] += Double.parseDouble(String.valueOf(get[NumericConstants.FOUR]));
                     }
                     if (get[NumericConstants.FIVE] != null && !dto.getChildrenAllowed() && !isTotal && !selection.isCancelOverride()) {
                         flag[NumericConstants.THREE] = true;
-                        totalColumnValue[NumericConstants.THREE] += Double.valueOf(String.valueOf(get[NumericConstants.FIVE]));
+                        totalColumnValue[NumericConstants.THREE] += Double.parseDouble(String.valueOf(get[NumericConstants.FIVE]));
                     }
                     if (get[NumericConstants.SIX] != null) {
                         flag[NumericConstants.FOUR] = true;
-                        totalColumnValue[NumericConstants.FOUR] += Double.valueOf(String.valueOf(get[NumericConstants.SIX]));
+                        totalColumnValue[NumericConstants.FOUR] += Double.parseDouble(String.valueOf(get[NumericConstants.SIX]));
                     }
                 }
                 dto.addStringProperties(variables.get(totalColumnIndex), flag[0] ? decimalformat.format(totalColumnValue[0]) : StringUtils.EMPTY);
@@ -198,13 +198,13 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         }
         Object[] paExcelValue = null;
         if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            paExcelValue = new Object[]{"D", "T", "C", "B", "I"};
+            paExcelValue = ARMUtils.getDTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
-            paExcelValue = new Object[]{"T", "C", "B", "I"};
+            paExcelValue = ARMUtils.getTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-            paExcelValue = new Object[]{"T", "B", "I"};
+            paExcelValue = ARMUtils.getTBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-            paExcelValue = new Object[]{"B", "I"};
+            paExcelValue = ARMUtils.getBI();
         }
         paExcelQuery = paExcelQuery.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(paExcelValue, ",") + ARMUtils.SINGLE_QUOTES);
         paExcelQuery = paExcelQuery.replace("@DEDCONDITION", selection.getSummarydeductionLevelDes());
@@ -218,7 +218,7 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
     }
 
     private String getSelectVariable(List<String[]> variables, boolean isTotal) {
-        StringBuilder selectQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder selectQuery = new StringBuilder();
         String[] object = null;
         if (variables != null && !variables.isEmpty()) {
             for (int i = 0; i < variables.size(); i++) {
@@ -256,8 +256,6 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
     @Override
     public List<Object> generateHeader(AbstractSelectionDTO selection, String[] columns) {
         List<Object> finalList = new ArrayList<>();
-        List<String> paDoubleSingleColumn;
-        List<String> paExcelDoubleSingleColumn;
         List<String> paSingleVisibleColumn = new ArrayList<>();
         List<String> paExcelSingleColumn = new ArrayList<>();
         List<String> paExcelVisibleColumn = new ArrayList<>();
@@ -281,16 +279,18 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             doublecolumnList.add(doublecolumn);
         }
         doubleHeaderVariables = doublecolumnList;
+        List<String> paDoubleSingleColumn = new ArrayList<>();
+        List<String> paExcelDoubleSingleColumn = new ArrayList<>();
         for (String[] detection : doubleHeaderVariables) {
-            paDoubleSingleColumn = new ArrayList<>();
-            paExcelDoubleSingleColumn = new ArrayList<>();
+            paDoubleSingleColumn.clear();
+            paExcelDoubleSingleColumn.clear();
             for (int i = 0; i < columns.length; i++, index++) {
                 String column = columns[i];
-                singleColumn.add(column + "." + index);
-                paExcelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
+                singleColumn.add(column + ARMUtils.DOT + index);
+                paExcelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + ARMUtils.DOT + (index));
                 if (columnList.contains(column)) {
                     int listIndex = columnList.indexOf(column);
-                    String visibleColumn = selection.getSummaryvariables().get(listIndex)[0] + "." + index;
+                    String visibleColumn = selection.getSummaryvariables().get(listIndex)[0] + ARMUtils.DOT + index;
                     String header = selection.getSummaryvariables().get(listIndex)[1];
                     paSingleVisibleColumn.add(visibleColumn);
                     paSingleVisibleHeader.add(header);
@@ -301,10 +301,10 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 }
             }
 
-            paDoubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY));
+            paDoubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY));
             paDoubleVisibleHeader.add(detection[1]);
-            paDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), paDoubleSingleColumn.toArray());
-            paExcelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), paExcelDoubleSingleColumn.toArray());
+            paDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), paDoubleSingleColumn.toArray());
+            paExcelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), paExcelDoubleSingleColumn.toArray());
         }
         selection.setSummarycolumnList(singleColumn);
         finalList.add(paSingleVisibleColumn);

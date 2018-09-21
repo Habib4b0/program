@@ -847,7 +847,7 @@ public class CommonUtils {
 
         if (frequency.equals(QUARTERLY.getConstant())) {
             frequencyDivision = NumericConstants.FOUR;
-            int a[] = getQSPeriodDetails(projSelDTO, frequencyDivision);
+            int [] a = getQSPeriodDetails(projSelDTO, frequencyDivision);
             historyStartPeriod = a[1];
             historyEndPeriod = a[NumericConstants.TWO];
             forecastStartPeriod = a[NumericConstants.THREE];
@@ -856,7 +856,7 @@ public class CommonUtils {
             projectionEndPeriod = a[NumericConstants.SIX];
         } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequencyDivision = NumericConstants.TWO;
-            int a[] = getQSPeriodDetails(projSelDTO, frequencyDivision);
+            int [] a = getQSPeriodDetails(projSelDTO, frequencyDivision);
             historyStartPeriod = a[1];
             historyEndPeriod = a[NumericConstants.TWO];
             forecastStartPeriod = a[NumericConstants.THREE];
@@ -1322,8 +1322,8 @@ public class CommonUtils {
         try {
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
-                Object array[] = (Object[]) userList.get(loop);
-                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
+                Object [] array = (Object[]) userList.get(loop);
+                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + array[1]);
             }
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -1355,8 +1355,8 @@ public class CommonUtils {
         try {
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
-                Object array[] = (Object[]) userList.get(loop);
-                userMap.put(String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]), String.valueOf(array[0]));
+                Object [] array = (Object[]) userList.get(loop);
+                userMap.put(String.valueOf(array[NumericConstants.TWO]) + ", " + array[1], String.valueOf(array[0]));
             }
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -1376,7 +1376,7 @@ public class CommonUtils {
         try {
             discountList = HelperTableLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = discountList.size(); loop < limit; loop++) {
-                Object array[] = (Object[]) discountList.get(loop);
+                Object [] array = (Object[]) discountList.get(loop);
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[1]));
             }
         } catch (SystemException ex) {

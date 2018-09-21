@@ -71,7 +71,7 @@ public class ViewSearchLookUp extends Window {
 
     private ExtPagedTable resultsTableLevel = new ExtPagedTable(tableLogic);
     private ViewDTO viewDTO = new ViewDTO();
-    public static final Logger VIEW_SEARCH_LOGGER = LoggerFactory.getLogger(PrivatePublicLookUp.class);
+    public static final Logger VIEW_SEARCH_LOGGER = LoggerFactory.getLogger(ViewSearchLookUp.class);
     private boolean selected;
     private String screenName;
 
@@ -141,7 +141,7 @@ public class ViewSearchLookUp extends Window {
                 close();
             }
         } catch (Exception ex) {
-            VIEW_SEARCH_LOGGER.error("Error in selectButtonLogic" , ex);
+            VIEW_SEARCH_LOGGER.error("Error in selectButtonLogic", ex);
         }
 
     }

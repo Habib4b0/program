@@ -6,7 +6,6 @@
 package com.stpl.app.arm.businessprocess.transaction7.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractPipelineSummaryResults;
-import com.stpl.app.arm.businessprocess.demandreforecast.form.AdjustmentDetailReforecast;
 import com.stpl.app.arm.businessprocess.transaction7.dto.Trx7SelectionDTO;
 import com.stpl.app.arm.businessprocess.transaction7.logic.Trx7PASummaryLogic;
 import com.stpl.app.arm.utils.ARMUtils;
@@ -24,7 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Trx7AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipelineSummaryResults {
 
-    public static final Logger TR7_ADJ_SUM_RES_PA_LOGGER = LoggerFactory.getLogger(AdjustmentDetailReforecast.class);
+    public static final Logger TR7_ADJ_SUM_RES_PA_LOGGER = LoggerFactory.getLogger(Trx7AdjustmentSummarySearchResultsPipelineAccrual.class);
 
     public Trx7AdjustmentSummarySearchResultsPipelineAccrual(Trx7PASummaryLogic logic, Trx7SelectionDTO selection) {
         super(logic, selection);
@@ -39,15 +38,15 @@ public class Trx7AdjustmentSummarySearchResultsPipelineAccrual extends AbstractP
     public Object[] getExcelHierarchy() {
         Object[] tr7EscelValue = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            tr7EscelValue = new Object[]{"D", "C", "T", "B", "I"};
+            tr7EscelValue = ARMUtils.getDCTBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
-            tr7EscelValue = new Object[]{"T", "C", "B", "I"};
+            tr7EscelValue = ARMUtils.getTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomer())) {
-            tr7EscelValue = new Object[]{"T", "B", "I"};
+            tr7EscelValue = ARMUtils.getTBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
-            tr7EscelValue = new Object[]{"B", "I"};
+            tr7EscelValue = ARMUtils.getBI();
         } else if (selection.getRateDeductionView().equals(CommonConstant.DEDUCTION_CONTRACT)) {
-            tr7EscelValue = new Object[]{"C", "T", "B", "I"};
+            tr7EscelValue = ARMUtils.getCTBI();
 
         }
         return tr7EscelValue;
@@ -116,7 +115,7 @@ public class Trx7AdjustmentSummarySearchResultsPipelineAccrual extends AbstractP
         if (viewType.equals(ARMConstants.getDeductionCustomerContract()) && !getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
             viewType = "non" + ARMConstants.getDeductionCustomerContract();
         }
-        getSelection().setSummeryhierarchy(ARMUtils.getTYrx7LevelAndLevelFilter(viewType));
+        getSelection().setSummeryhierarchy(ARMUtils.getInstance().getTYrx7LevelAndLevelFilter(viewType));
     }
 
     @Override

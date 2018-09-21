@@ -169,15 +169,13 @@ public class StChSalesProjectionImpl  {
         try {
 
 
-            if (parameters.get(Constants.INDICATOR) != null) {
-                if (Constant.SAVE_CHECK_RECORD.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
+                if (parameters.get(Constants.INDICATOR) != null && (Constant.SAVE_CHECK_RECORD.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
                         || Constant.UNCHECK_ALL.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
                         || Constant.PREPARE_PROCEDURE_CALL.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
-                        || Constant.UPDATE_RECORD.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
+                        || Constant.UPDATE_RECORD.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR))))) {
                     HelperTableLocalServiceUtil.executeUpdateQuery(queryString.toString());
                     return Collections.emptyList();
                 }
-            }
             return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
         } catch (Exception ex) {
             LOGGER.error("{}, While assembling query for= {} " , ex.getMessage(), parameters.get(Constants.INDICATOR));

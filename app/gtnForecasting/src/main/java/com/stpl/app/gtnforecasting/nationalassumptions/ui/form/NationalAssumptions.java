@@ -1393,7 +1393,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     newNdcDto.setFssFlag(true);
                     String ndcDesc = String.valueOf(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO]);
                     if (StringUtils.isNotBlank(ndcDesc)) {
-                        ndcDesc = ndcDesc + ", " + String.valueOf(obj[NumericConstants.THREE]);
+                        ndcDesc = ndcDesc + ", " + obj[NumericConstants.THREE];
                     } else {
                         ndcDesc = String.valueOf(obj[NumericConstants.THREE]);
                     }
@@ -1418,7 +1418,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     newNdcDto.setFederalFlag(true);
                     String ndcDesc = String.valueOf(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO]);
                     if (StringUtils.isNotBlank(ndcDesc)) {
-                        ndcDesc = ndcDesc + ", " + String.valueOf(obj[1]);
+                        ndcDesc = ndcDesc + ", " + obj[1];
                     } else {
                         ndcDesc = String.valueOf(obj[1]);
                     }
@@ -1457,8 +1457,7 @@ public class NationalAssumptions extends CustomComponent implements View {
     public void getNDCSetup(String projectionId) throws NamingException, SQLException {
         callNDCPopupProcedure();
         String ndcNo = Arrays.toString(ndcList.toArray()).replace('[', ' ').replace(']', ' ');
-        if (StringUtils.isNotBlank(ndcNo)) {
-            if (logic.isAFSSPriceTypeAvailable(projectionId)) {
+            if (StringUtils.isNotBlank(ndcNo) && logic.isAFSSPriceTypeAvailable(projectionId)) {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
@@ -1471,7 +1470,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                     }
                 }.getConfirmationMessage("NDC Setup Required", "The following NDC’s " + ndcNo + " are not setup with AMP, CPI, AFSS, Non-FAMP or Best Price. Do you want to manually update these NDC’s?");
             }
-        }
     }
 
     private void loadNDCSetup() {

@@ -36,6 +36,7 @@ public class Trx6AdjustmentDetail extends AbstractAdjustmentDetails {
 
     public Trx6AdjustmentDetail(AbstractSelectionDTO selectionDto) {
         super(new Trx6DetailsLogic(), selectionDto);
+        this.tr6SelectionDto = selectionDto;
         init();
     }
 

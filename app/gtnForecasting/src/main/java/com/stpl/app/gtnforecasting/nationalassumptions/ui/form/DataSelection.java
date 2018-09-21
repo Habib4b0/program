@@ -652,10 +652,9 @@ public class DataSelection extends CustomComponent implements View {
                     sessionDTO.setProjectionId(Integer.parseInt(msg));
                     getUI().getNavigator().navigateTo(NationalAssumptionsView.NAME);
                     UI.getCurrent().setFocusedComponent(UI.getCurrent());
-                } else if (modeOption.getValue() != null && Constants.LabelConstants.MODE_SEARCH.getConstant().equals(modeOption.getValue())) {
-                    if (projectionId.getValue() != null || !StringUtils.EMPTY.equals(projectionId.getValue())) {
+                } else if (modeOption.getValue() != null && Constants.LabelConstants.MODE_SEARCH.getConstant().equals(modeOption.getValue())
+                        && (projectionId.getValue() != null || !StringUtils.EMPTY.equals(projectionId.getValue()))) {
                         msg = projectionId.getValue();
-                    }
                 }
 
                 if (!msg.equals(Constant.FAIL)) {

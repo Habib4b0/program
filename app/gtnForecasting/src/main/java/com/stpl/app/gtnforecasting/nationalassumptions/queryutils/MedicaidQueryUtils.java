@@ -117,7 +117,7 @@ public class MedicaidQueryUtils {
 
                 String formatedValue = values.getValue();
                 String formatedKey = values.getKey();
-                String tempValue[] = formatedKey.split("~");
+                String[] tempValue = formatedKey.split("~");
                 String propertyId = tempValue[0];
                 String rowId = tempValue[1];
                 String qValue = propertyId.substring(1, NumericConstants.TWO);
@@ -205,7 +205,7 @@ public class MedicaidQueryUtils {
         queryBuilder1 = new StringBuilder(replacedQuery);
 
         List list = (List) DAO.executeSelectQuery(String.valueOf(queryBuilder1));
-        String notesText[] = new String[NumericConstants.TWO];
+        String[] notesText = new String[NumericConstants.TWO];
         if (list.isEmpty()) {
             notesText[0] = StringUtils.EMPTY;
             notesText[1] = StringUtils.EMPTY;
@@ -231,8 +231,8 @@ public class MedicaidQueryUtils {
 
                 String formatedValue = values.getValue();
 
-                String tempValue[] = formatedValue.split("~");
-                String rowId = tempValue[1];
+                String[] tempValue = formatedValue.split("~");
+                String rowId = tempValue[0];
                 Double finalvalue;
 
                 if (rowId.equals(Constant.ADJUSTMENT)) {
@@ -397,7 +397,7 @@ public class MedicaidQueryUtils {
             for (Map.Entry<String, String> values : editedValues.entrySet()) {
                 queryBuilder1 = new StringBuilder();
                 String formatedValue = values.getValue();
-                String tempValue[] = formatedValue.split("~");
+                String[] tempValue = formatedValue.split("~");
                 String rowId = tempValue[0];
                 Double finalvalue;
 

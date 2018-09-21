@@ -103,8 +103,8 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     @UiField("cancelOverride")
     protected Button cancelOverride;
 
-    protected final AdjustmentTableLogic tableLogic;
-    protected final FreezePagedTreeTable table;
+    protected AdjustmentTableLogic tableLogic;
+    protected FreezePagedTreeTable table;
     protected ExtPagedTreeTable leftTable;
     protected ExtPagedTreeTable rightTable;
     protected PropertyFormatCustomTreeTable excelTable;
@@ -125,6 +125,10 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     public AbstractSearchResults(LogicAble logic, T selection) {
         this.logic = logic;
         this.selection = selection;
+        getTableLogicAndTable();
+    }
+
+    private void getTableLogicAndTable() {
         this.tableLogic = new AdjustmentTableLogic(getSummaryLogic(), getSelection());
         this.table = new FreezePagedTreeTable(getTableLogic());
     }
@@ -325,7 +329,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
             Object value = event.getProperty().getValue();
             int val = 0;
             String caption = "";
-            if (value != null && value instanceof Integer) {
+            if (value instanceof Integer) {
 
                 val = (Integer) value;
                 caption = getLevelFilterDdlb().getItemCaption(value);
@@ -339,7 +343,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         if (isValueChangeAllowed() && isLevelFilterValueDdlbEnable()) {
             Object value = event.getProperty().getValue();
             int val = 0;
-            if (value != null && value instanceof Integer) {
+            if (value instanceof Integer) {
                 val = (Integer) value;
                 valueDdlbValueChange(val);
             } else {
@@ -371,7 +375,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
             getLevelFilterDdlb().setItemCaption(id, value);
             if (i < (size - 1)) {
                 getLevelDdlb().addItem(id);
-                getLevelDdlb().setItemCaption(id, "Level " + id + " " + value);
+                getLevelDdlb().setItemCaption(id, "Level " + id + ARMUtils.SPACE + value);
             }
         }
         getLevelDdlb().setValue(0);

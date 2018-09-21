@@ -3,7 +3,7 @@ package com.stpl.app.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.stpl.app.security.businessRoleModuleMaster.dto.HelperDTO;
+import com.stpl.app.security.businessrolemodulemaster.dto.HelperDTO;
 import com.vaadin.v7.ui.ComboBox;
  
 public class HelperUtils {

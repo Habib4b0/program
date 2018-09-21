@@ -405,7 +405,6 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
                 saveViewDTO.setViewStatus(true);
                 saveViewDTO.setCreatedBy(viewDTO.getCreatedBy());
                 saveViewDTO.setCreatedUser(viewDTO.getCreatedUser());
-                getSelectedIdValues();
             } else {
                 saveViewDTO.setFieldName(String.valueOf(fieldName.getValue()));
                 saveViewDTO.setViewName(StringUtils.EMPTY);
@@ -414,8 +413,6 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
                 saveViewDTO.setViewStatus(false);
                 saveViewDTO.setCreatedBy(viewDTO.getCreatedBy());
                 saveViewDTO.setCreatedUser(viewDTO.getCreatedUser());
-                getSelectedIdValues();
-
             }
             saveViewDTO.setFieldList(selectedResultsContainer.getItemIds());
             Trx7SaveViewPopup viewPopup = new Trx7SaveViewPopup(saveViewDTO);
@@ -451,16 +448,6 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
         }
     }
 
-    public void getSelectedIdValues() {
-        List<String> companyIdList;
-        if (!selectedResultsContainer.getItemIds().isEmpty()) {
-            companyIdList = new ArrayList();
-            for (ExclusionLookupDTO dtoValue : selectedResultsContainer.getItemIds()) {
-                companyIdList.add(dtoValue.getValues());
-            }
-        }
-    }
-
     public ViewLookupDTO getViewDTO() {
         return viewDTO;
     }
@@ -470,9 +457,9 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     }
 
     public void setFieldValues() {
-        accountId = new StringBuilder(StringUtils.EMPTY);
-        accountName = new StringBuilder(StringUtils.EMPTY);
-        accountContractId = new StringBuilder(StringUtils.EMPTY);
+        accountId = new StringBuilder();
+        accountName = new StringBuilder();
+        accountContractId = new StringBuilder();
         for (ExclusionLookupDTO dto : selectedResultsContainer.getItemIds()) {
             if (ARMConstants.getAccountId().equalsIgnoreCase(dto.getExcludedField())) {
                 accountId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
@@ -497,8 +484,8 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object tr7ExclObj) {
+        return super.equals(tr7ExclObj);
     }
 
     @Override
@@ -506,11 +493,11 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream tr7ExclObj) throws IOException {
+        tr7ExclObj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream tr7ExclObj) throws IOException, ClassNotFoundException {
+        tr7ExclObj.defaultReadObject();
     }
 }

@@ -6,7 +6,6 @@
 package com.stpl.app.arm.balancesummaryreport.returnreserve.logic;
 
 import com.stpl.app.arm.balancesummaryreport.logic.AbstractBSummaryLogic;
-import com.stpl.app.arm.balancesummaryreport.logic.BSummaryDemandLogic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
@@ -36,7 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ReturnReserveLogic extends AbstractBSummaryLogic {
 
-    public static final Logger RETURN_RESERVE_LOGGER = LoggerFactory.getLogger(BSummaryDemandLogic.class);
+    public static final Logger RETURN_RESERVE_LOGGER = LoggerFactory.getLogger(ReturnReserveLogic.class);
 
     public ReturnReserveLogic() {
         super();
@@ -160,7 +159,7 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
                 keyParam = getKeyParam(selection);
                 if (!"0".equals(String.valueOf(resultSet[NumericConstants.TWO]))) {
                     String[] arr = getKey(resultSet, keyParam);
-                    key = arr[0].replace(" ", StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
+                    key = arr[0].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
                     group = arr[1];
                 }
                 size = mapList.size();
@@ -184,8 +183,8 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
                     String headerKey;
                     Object result = resultSet[keyParam];
                     Object value = null;
-                    headerKey = String.valueOf(result).replace(" ", "").replace("-", StringUtils.EMPTY);
-                    column = visibleColumnsList.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
+                    headerKey = String.valueOf(result).replace(ARMUtils.SPACE.toString(), "").replace("-", StringUtils.EMPTY);
+                    column = visibleColumnsList.get(k).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
                     String gatheredColumn = StringUtils.EMPTY;
                     if (column.contains("StartingBalance")) {
                         gatheredColumn = !column.contains(VariableConstants.TOTAL_STARTING_BALANCE) ? headerKey + "StartingBalance" : column;

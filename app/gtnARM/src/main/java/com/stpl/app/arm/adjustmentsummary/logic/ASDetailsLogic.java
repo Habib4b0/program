@@ -173,7 +173,7 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
             StringBuilder query = new StringBuilder(SQlUtil.getQuery("getReserveAccountSummary"));
             for (Object temp : replaceList) {
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
+                query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
             }
             List list = QueryUtils.executeSelect(query.toString());
             finalList = getFinallist(list, reserveHeader, reserveProperty);
@@ -188,8 +188,8 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                value = new StringBuilder("");
-                property = new StringBuilder("");
+                value = new StringBuilder();
+                property = new StringBuilder();
 
                 if (isValid(obj[0])) {
                     value = new StringBuilder(helperId.getDescriptionByID((Integer) (obj[0])));

@@ -1306,7 +1306,7 @@ public class AddContractSelection extends CustomComponent {
         Object value = null;
         Object baseLineValue = null;
         String columnName = StringUtils.EMPTY;
-        String baseLineColumnName = StringUtils.EMPTY;
+        String baseLineColumnName ;
         String textValue;
         String baseLineTextValue;
         HelperDTO tempDTO;

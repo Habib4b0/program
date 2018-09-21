@@ -82,7 +82,7 @@ public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelecti
         return VariableConstants.getVisibleColumnDemandAccrualDeduction();
     }
 
-    public void configureWorkFlow() throws InvocationTargetException {
+    private void configureWorkFlow() throws InvocationTargetException {
         if (demandSummarySelectionDTO.getSessionDTO().isWorkFlow()) {
             loadSummaryDemandDetails();
             loadsumaryDemandSelection();
@@ -137,7 +137,7 @@ public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelecti
         try {
             view.setValue(demandSummarySelectionDTO.getSummarydemandview());
             frequencyDdlb.select(Integer.valueOf(demandSummarySelectionDTO.getSummarydemandfrequency()));
-            demandSummarySelectionDTO.setSummarydemandfrequency((descriptionMap.get((int) frequencyDdlb.getValue())).getDescription());
+            demandSummarySelectionDTO.setSummarydemandfrequency((descriptionMap.get((Integer) frequencyDdlb.getValue())).getDescription());
             fromDate.setValue(demandSummarySelectionDTO.getSummarydemandfromDate());
             toDate.setValue(demandSummarySelectionDTO.getSummarydemandtoDate());
             LOGGER.debug("selectionDTO.getSummary_glDate(){}", demandSummarySelectionDTO.getSummaryglDate());

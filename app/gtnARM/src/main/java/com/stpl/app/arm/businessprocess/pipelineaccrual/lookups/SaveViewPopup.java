@@ -61,7 +61,7 @@ public class SaveViewPopup extends Window {
         configureFields();
     }
 
-    public void configureFields() {
+    private void configureFields() {
         setDraggable(true);
         center();
         setModal(true);
@@ -132,9 +132,9 @@ public class SaveViewPopup extends Window {
                     saveViewDTOSavePopup.setViewType(String.valueOf(viewOptionSavePopup.getValue()));
                     isSaveView(saveViewDTOSavePopup);
                     if (viewOptionSavePopup.getValue().equals(ARMUtils.PRIVATE)) {
-                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added private view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_BRACES);
+                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added private view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_PARANTHESIS);
                     } else {
-                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added public view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_BRACES);
+                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added public view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_PARANTHESIS);
                     }
                 }
             }
@@ -173,9 +173,9 @@ public class SaveViewPopup extends Window {
                 close();
                 isSaveView(saveViewDTOSavePopup);
                 if (viewOptionSavePopup.getValue().equals(ARMUtils.PRIVATE)) {
-                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated private view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_BRACES);
+                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated private view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_PARANTHESIS);
                 } else {
-                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated public view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_BRACES);
+                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated public view (" + saveViewDTOSavePopup.getViewName() + ARMUtils.CLOSE_PARANTHESIS);
                 }
 
             }

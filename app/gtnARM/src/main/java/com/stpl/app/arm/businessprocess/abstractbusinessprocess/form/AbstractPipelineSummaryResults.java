@@ -101,11 +101,11 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
     public void setExcelVisibleColumn() {
         Map properties = new HashMap();
         List<Object> header = getSummaryLogic().generateHeader(getSelection(), getExcelVariableVisibleColumns());
-        getSelection().setExcelVisibleColumn((ArrayList) header.get(NumericConstants.EIGHT));
-        List rightSingleVisibleColumn = (ArrayList) header.get(NumericConstants.FIVE);
-        List rightSingleVisibleHeader = (ArrayList) header.get(NumericConstants.SIX);
-        List<String> rightDoubleVisibleColumn = (ArrayList) header.get(1);
-        List<String> rightoubleVisibleHeader = (ArrayList) header.get(NumericConstants.THREE);
+        getSelection().setExcelVisibleColumn((List) header.get(NumericConstants.EIGHT));
+        List rightSingleVisibleColumn = (List) header.get(NumericConstants.FIVE);
+        List rightSingleVisibleHeader = (List) header.get(NumericConstants.SIX);
+        List<String> rightDoubleVisibleColumn = (List) header.get(1);
+        List<String> rightoubleVisibleHeader = (List) header.get(NumericConstants.THREE);
         for (Object variableColumn : rightSingleVisibleColumn) {
             properties.put(variableColumn, String.class);
         }
@@ -141,9 +141,9 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
 
         pipelineSummarySelection.setSummaryviewType(pipelineView);
         List<Object> pipelineHeader = getSummaryLogic().generateHeader(getSelection(), columns);
-        List pipelineRightSingleVisibleColumn = (ArrayList) pipelineHeader.get(0);
-        List<String> pipelineRightDoubleVisibleColumn = (ArrayList) pipelineHeader.get(1);
-        Map<Object, Object[]> pipelineRightDoubleSingleVisibleColumn = (HashMap) pipelineHeader.get(NumericConstants.FOUR);
+        List pipelineRightSingleVisibleColumn = (List) pipelineHeader.get(0);
+        List<String> pipelineRightDoubleVisibleColumn = (List) pipelineHeader.get(1);
+        Map<Object, Object[]> pipelineRightDoubleSingleVisibleColumn = (Map) pipelineHeader.get(NumericConstants.FOUR);
         for (int i = 0; i < pipelineRightSingleVisibleColumn.size(); i++) {
             pipelineProperties.put(pipelineRightSingleVisibleColumn.get(i), String.class);
         }
@@ -280,7 +280,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
         } else {
             viewTypevalue = viewType;
         }
-        getSelection().setSummeryhierarchy(ARMUtils.getPipeLineLevelAndLevelFilter(viewTypevalue));
+        getSelection().setSummeryhierarchy(ARMUtils.getInstance().getPipeLineLevelAndLevelFilter(viewTypevalue));
     }
 
     @Override

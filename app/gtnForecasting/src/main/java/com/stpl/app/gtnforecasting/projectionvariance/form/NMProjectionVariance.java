@@ -2304,7 +2304,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     public void getExcelProcedureInput() {
 
-        String splitarr[] = (Constant.ALL_SALES_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter())
+        String [] splitarr= (Constant.ALL_SALES_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter())
                 || Constant.ALL_DISCOUNT_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter())
                 || Constant.ALL_GROUP.equalsIgnoreCase(pvSelectionDTO.getGroupFilter()))
                 ? pvSelectionDTO.getGroupFilter().split(" ") : pvSelectionDTO.getGroupFilter().split("-");

@@ -30,8 +30,8 @@ public abstract class AbstractPipelineSummaryLogic<T extends AdjustmentDTO> exte
 
     public List<Object> generateHeader(AbstractSelectionDTO selection, String[] columns) {
         List<Object> finalList = new ArrayList<>();
-        List<String> doubleSingleColumn;
-        List<String> excelDoubleSingleColumn;
+        List<String> doubleSingleColumn = new ArrayList<>();
+        List<String> excelDoubleSingleColumn = new ArrayList<>();
         List<String> singleVisibleColumn = new ArrayList<>();
         List<String> excelVisibleColumn = new ArrayList<>();
         List<String> excelVisibleHeader = new ArrayList<>();
@@ -64,15 +64,15 @@ public abstract class AbstractPipelineSummaryLogic<T extends AdjustmentDTO> exte
         }
         doubleHeaderVariables = doublecolumnList;
         for (String[] detection : doubleHeaderVariables) {
-            doubleSingleColumn = new ArrayList<>();
-            excelDoubleSingleColumn = new ArrayList<>();
+            doubleSingleColumn.clear();
+            excelDoubleSingleColumn.clear();
             for (int i = 0; i < columns.length; i++, index++) {
                 String column = columns[i];
-                singleColumn.add(column + "." + index);
-                excelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
+                singleColumn.add(column + ARMUtils.DOT + index);
+                excelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + ARMUtils.DOT + (index));
                 if (columnList.contains(column)) {
                     int listIndex = columnList.indexOf(column);
-                    String visibleColumn = selection.getSummaryvariables().get(listIndex)[0] + "." + index;
+                    String visibleColumn = selection.getSummaryvariables().get(listIndex)[0] + ARMUtils.DOT + index;
                     String header = selection.getSummaryvariables().get(listIndex)[1];
                     singleVisibleColumn.add(visibleColumn);
                     singleVisibleHeader.add(header);
@@ -83,10 +83,10 @@ public abstract class AbstractPipelineSummaryLogic<T extends AdjustmentDTO> exte
                 }
             }
 
-            doubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY));
+            doubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY));
             doubleVisibleHeader.add(detection[1]);
-            doubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), doubleSingleColumn.toArray());
-            excelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
+            doubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), doubleSingleColumn.toArray());
+            excelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
         }
         selection.setSummarycolumnList(singleColumn);
         finalList.add(singleVisibleColumn);
@@ -157,17 +157,17 @@ public abstract class AbstractPipelineSummaryLogic<T extends AdjustmentDTO> exte
                     view = selection.getSummaryviewType();
                 }
 
-                viewType = ARMUtils.getPipeLineLevelAndLevelFilter(view).get(selection.getSummarylevelFilterNo());
+                viewType = ARMUtils.getInstance().getPipeLineLevelAndLevelFilter(view).get(selection.getSummarylevelFilterNo());
             }
         }
         if (viewType.equals(ARMConstants.getDeduction())) {
-            viewType = ARMUtils.getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
+            viewType = ARMUtils.getInstance().getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
         }
         inputs.add(viewType);
-        inputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
+        inputs.add(ARMUtils.getInstance().getSummaryViewType(selection.getSummaryviewType()));
 
-        inputs.add(" ");
-        inputs.add(" ");
+        inputs.add(ARMUtils.SPACE);
+        inputs.add(ARMUtils.SPACE);
         inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
         inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
         inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));

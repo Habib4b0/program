@@ -41,10 +41,7 @@ public class GtnUIFrameworkWebServiceClient {
 		}
 	}
 
-	private RestTemplate getRestTemplate() {
-		// SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-		// Proxy proxy = new Proxy(Type.HTTP, new InetSocketAddress("localhost", 9999));
-		// requestFactory.setProxy(proxy);
+	private RestTemplate getRestTemplate() {		
 		return new RestTemplate();
 	}
 

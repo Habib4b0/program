@@ -8,6 +8,7 @@ package com.stpl.app.arm.businessprocess.transaction8.logic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import static com.stpl.app.utils.VariableConstants.DASH;
@@ -53,12 +54,12 @@ public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             StringBuilder query;
             if (returnReserveSelection.getSessionDTO().isWorkFlow()) {
                 query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(returnReserveSelection.getDataSelectionDTO().getProjectionId()));
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
+                query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(returnReserveSelection.getDataSelectionDTO().getProjectionId()));
+                query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, isReserve ? "0" : "1");
             } else {
                 query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
                 for (Object temp : replaceList) {
-                    query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
+                    query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
                 }
             }
             LOGGER.debug("--query --{}", query);
@@ -67,8 +68,8 @@ public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
                 for (int i = 0; i < list.size(); i++) {
                     Object[] obj = (Object[]) list.get(i);
-                    retResvalue = new StringBuilder(StringUtils.EMPTY);
-                    property = new StringBuilder(StringUtils.EMPTY);
+                    retResvalue = new StringBuilder();
+                    property = new StringBuilder();
                     if (isValid(obj[0])) {
                         retResvalue = new StringBuilder(helperId.getDescriptionByID((Integer) (obj[0])));
 
@@ -115,7 +116,7 @@ public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     protected String getAmountFilterCondition(List<String> retResCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
         if (retResCondition != null && !retResCondition.isEmpty() && retResCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < retResCondition.size(); i++) {
                 String str = retResCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
@@ -123,7 +124,7 @@ public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                     grlStr.append(" OR ");
                 }
             }
-            conditionStr = "(" + grlStr.toString() + " ) AND ";
+            conditionStr = ARMUtils.OPEN_PARANTHESIS + grlStr.toString() + " ) AND ";
         }
         return conditionStr;
     }

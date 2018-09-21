@@ -117,8 +117,8 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     public void setExcelVisibleColumn() {
         Map properties = new HashMap();
         List<Object> header = getSummaryLogic().generateInventoryHeader(selection);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
-        List rightSingleVisibleHeader = (ArrayList) header.get(1);
+        List rightSingleVisibleColumn = (List) header.get(0);
+        List rightSingleVisibleHeader = (List) header.get(1);
         for (Object variableColumn : rightSingleVisibleColumn) {
             properties.put(variableColumn, String.class);
         }
@@ -159,12 +159,12 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
 
     public void generateButtonLogic(AbstractSelectionDTO selection) {
         List<Object> header = getSummaryLogic().generateInventoryHeader(selection);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
+        List rightSingleVisibleColumn = (List) header.get(0);
         Map properties = new HashMap();
-        Object[] variableColumns = new String[rightSingleVisibleColumn.size()];
+        Object[] variableColumns = new Object[rightSingleVisibleColumn.size()];
         variableColumns = rightSingleVisibleColumn.toArray(variableColumns);
-        for (int i = 0; i < variableColumns.length; i++) {
-            properties.put(variableColumns[i], String.class);
+        for (Object variableColumn : variableColumns) {
+            properties.put(variableColumn, String.class);
         }
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainertRX6.setColumnProperties(properties);
@@ -209,7 +209,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     @Override
     public Object[] getExcelHierarchy() {
         TR6_INVENTORY_LOGGER.debug("Inside getExcelHierarchy");
-        return new Object[]{"T", "B", "I"};
+        return ARMUtils.getTBI();
     }
 
     @Override
@@ -251,7 +251,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     @Override
     public void setRespectiveHierarchy(String viewType) {
         TR6_INVENTORY_LOGGER.debug("Inside setRespectiveHierarchy");
-        getSelection().setSaleshierarchy(ARMUtils.getLevelAndLevelFilter(ARMConstants.getDeductionCustomer()));
+        getSelection().setSaleshierarchy(ARMUtils.getInstance().getLevelAndLevelFilter(ARMConstants.getDeductionCustomer()));
     }
 
     @Override

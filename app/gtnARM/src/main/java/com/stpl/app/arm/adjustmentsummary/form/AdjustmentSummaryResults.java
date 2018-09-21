@@ -121,10 +121,10 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
         try {
             Map properties = new HashMap();
             List<Object> header = summaryLogic.getRightTableHeaders(selectionAdj);
-            List summaryRightSingleVisibleColumn = (ArrayList) header.get(0);
-            List summaryRightSingleVisibleHeader = (ArrayList) header.get(1);
-            List<String> summaryRightDoubleVisibleColumn = (ArrayList) header.get(NumericConstants.TWO);
-            List<String> summaryRightDoubleVisibleHeader = (ArrayList) header.get(NumericConstants.THREE);
+            List summaryRightSingleVisibleColumn = (List) header.get(0);
+            List summaryRightSingleVisibleHeader = (List) header.get(1);
+            List<String> summaryRightDoubleVisibleColumn = (List) header.get(NumericConstants.TWO);
+            List<String> summaryRightDoubleVisibleHeader = (List) header.get(NumericConstants.THREE);
             for (Object variableColumn : summaryRightSingleVisibleColumn) {
                 properties.put(variableColumn, String.class);
             }
@@ -149,7 +149,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     protected void loadSummarySelection() {
         LOGGERSUMMARYRESULT.debug("customerProductView.getValue()-->>{}", customerProductView.getValue());
-        selectionAdj.setSummaryLevel(ARMUtils.getADJSummaryLevel(String.valueOf(customerProductView.getValue())));
+        selectionAdj.setSummaryLevel(ARMUtils.getInstance().getADJSummaryLevel(String.valueOf(customerProductView.getValue())));
     }
 
     @Override
@@ -197,7 +197,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
             if (val.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) {
                 val = getSelection().getSummarydeductionLevelDes().toUpperCase(Locale.ENGLISH);
             }
-            hierValue[i] = ARMUtils.getLevelExcelQueryName(val);
+            hierValue[i] = ARMUtils.getInstance().getLevelExcelQueryName(val);
         }
         getSelection().setExcelHierarchy(hierValue);
         return hierValue;
@@ -304,7 +304,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        selection.setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        selection.setSummeryhierarchy(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override

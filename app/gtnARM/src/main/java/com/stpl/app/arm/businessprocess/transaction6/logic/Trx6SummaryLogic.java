@@ -47,8 +47,6 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
         LOGGERFORTX6SUMMARYLOGIC.debug("inside generateHeader");
         List<Object> finalList = new ArrayList<>();
         try {
-            List<String> tx6DoubleSingleColumn;
-            List<String> tx6ExcelDoubleSingleColumn;
             List<String> tx6SingleVisibleColumn = new ArrayList<>();
             List<String> tx6ExcelVisibleColumn = new ArrayList<>();
             List<String> tx6ExcelVisibleHeader = new ArrayList<>();
@@ -67,17 +65,18 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
             List<String[]> doublecolumnList = new ArrayList<>();
             doublecolumnList.addAll(doubleHeaderVariables);
             doubleHeaderVariables = doublecolumnList;
-
+            List<String> tx6DoubleSingleColumn = new ArrayList<>();
+            List<String> tx6ExcelDoubleSingleColumn = new ArrayList<>();
             for (String[] detection : doubleHeaderVariables) {
-                tx6DoubleSingleColumn = new ArrayList<>();
-                tx6ExcelDoubleSingleColumn = new ArrayList<>();
+                tx6DoubleSingleColumn.clear();
+                tx6ExcelDoubleSingleColumn.clear();
                 for (int i = 0; i < columns.length; i++, index++) {
                     String column = columns[i];
-                    singleColumn.add(column + "." + index);
-                    tx6ExcelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", org.apache.commons.lang.StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
+                    singleColumn.add(column + ARMUtils.DOT + index);
+                    tx6ExcelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(ARMUtils.SPACE.toString(), org.apache.commons.lang.StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + ARMUtils.DOT + (index));
                     if (columnList.contains(column)) {
                         int listIndex = columnList.indexOf(column);
-                        String visibleColumn = selection.getSummaryvariables().get(listIndex)[0] + "." + index;
+                        String visibleColumn = selection.getSummaryvariables().get(listIndex)[0] + ARMUtils.DOT + index;
                         String header = selection.getSummaryvariables().get(listIndex)[1];
                         tx6SingleVisibleColumn.add(visibleColumn);
                         tx6SingleVisibleHeader.add(header);
@@ -88,10 +87,10 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                     }
                 }
 
-                tx6DoubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY));
+                tx6DoubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY));
                 tx6DoubleVisibleHeader.add(detection[1]);
-                tx6DoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), tx6DoubleSingleColumn.toArray());
-                tx6ExcelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), tx6ExcelDoubleSingleColumn.toArray());
+                tx6DoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), tx6DoubleSingleColumn.toArray());
+                tx6ExcelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY), tx6ExcelDoubleSingleColumn.toArray());
             }
             selection.setSummarycolumnList(singleColumn);
             finalList.add(tx6SingleVisibleColumn);
@@ -199,9 +198,9 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                     } else {
                         dto.setMonth(brand);
                     }
-                    dto.setLevelNo((int) get[NumericConstants.EIGHT]);
+                    dto.setLevelNo((Integer) get[NumericConstants.EIGHT]);
                     isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                    dto.setChildrenAllowed((tx6Selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
+                    dto.setChildrenAllowed((tx6Selection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.NINE]);
                     dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                     if (masterSids != null) {
                         dto.setMasterIds(masterSids);
@@ -209,7 +208,7 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                     resultList.add(dto);
                     dto = clearVariables(variables, dto);
                 }
-                index = indexMap.get(get[0].toString().replace(" ", StringUtils.EMPTY)) * NumericConstants.SIX;
+                index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.SIX;
                 if (dto != null) {
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.TWO].toString().trim())));
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.THREE].toString().trim())));
@@ -271,13 +270,13 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
             }
             Object[] value = null;
             if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && tx6Selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-                value = new Object[]{"D", "T", "C", "B", "I"};
+                value = ARMUtils.getDTCBI();
             } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
-                value = new Object[]{"T", "C", "B", "I"};
+                value = ARMUtils.getTCBI();
             } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-                value = new Object[]{"T", "B", "I"};
+                value = ARMUtils.getTBI();
             } else if (tx6Selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-                value = new Object[]{"B", "I"};
+                value = ARMUtils.getBI();
             }
             query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + org.apache.commons.lang.StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
 

@@ -85,12 +85,10 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
     @Override
     public int getCount() {
         int count = 0;
-        if (firstGenerated) {
-            if (!StringUtils.EMPTY.equals(getScreenName()) && getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+            if (firstGenerated && !StringUtils.EMPTY.equals(getScreenName()) && getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 projSelDTO.setTabName("Variance");
                 count = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(getLastParent(), projSelDTO, baseVariables, true);
             }
-        }
         return count;
     }
 
@@ -180,23 +178,19 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
         int index = getItemIndex(count + levelIndex + levelValue);
         int start = getStartIndex(count + levelIndex, index);
         int end = getPageLength();
-        LevelMap levelMap = new LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
-        return levelMap;
+        return  new LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
     }
 
     public int getPageForItem(int pos) {
-        int curPage = ((pos - NumericConstants.TWO) / getPageLength()) + 1;
-        return curPage;
+        return ((pos - NumericConstants.TWO) / getPageLength()) + 1;
     }
 
     public int getItemIndex(int pos) {
-        int index = (pos - NumericConstants.TWO) % getPageLength();
-        return index;
+        return (pos - NumericConstants.TWO) % getPageLength();
     }
 
     public int getStartIndex(int count, int index) {
-        int start = count - index;
-        return start;
+        return  count - index;
     }
 
     public void loadExpandData(int levelNo) {

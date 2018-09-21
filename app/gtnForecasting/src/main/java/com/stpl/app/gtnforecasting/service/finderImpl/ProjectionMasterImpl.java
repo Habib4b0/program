@@ -405,9 +405,8 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 }
             }
 
-            if (parameters.get(Constant.LAZY_LOAD_RESULTS) != null) {
 
-                if (parameters.get("startIndex") != null && parameters.get(Constant.OFFSET) != null) {
+                if (parameters.get(Constant.LAZY_LOAD_RESULTS) != null && parameters.get("startIndex") != null && parameters.get(Constant.OFFSET) != null) {
                     int startIndex = Integer.parseInt(String.valueOf(parameters.get("startIndex")));
                     int offset = Integer.parseInt(String.valueOf(parameters.get(Constant.OFFSET)));
                     queryString.append(Constant.OFFSET_WITH_CAPS);
@@ -417,7 +416,6 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     queryString.append(Constant.ROWS_ONLY);
 
                 }
-            }
             LOGGER.debug("Final Search Query= {} " , queryString.toString());
             return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
@@ -638,7 +636,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             List<Integer> idList = HelperTableLocalServiceUtil.executeSelectQuery(sql);
 
             if (idList != null && !idList.isEmpty()) {
-                String fkTbName[] = foreignKeyTableName.split(",");
+                String[] fkTbName = foreignKeyTableName.split(",");
                 int pksize = fkTbName.length;
                 for (int i = 0; i < pksize; i++) {
                    sqlBuilder.append("delete from ");
@@ -654,7 +652,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 HelperTableLocalServiceUtil.executeUpdateQuery(sql1);
             }
 
-            String pkTbName[] = primarykeyTableName.split(",");
+            String [] pkTbName = primarykeyTableName.split(",");
 
             if (screenName.equals("Non Mandated") || screenName.equals("Mandated")) {
                 sql2Builder.append("delete from WORKFLOW_PROCESS_INFO where PROJECTION_MASTER_SID=" ).append( projectionID ).append( "; ");
@@ -1484,13 +1482,13 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             }
 
             if (parameters.get(Constant.HIERARCHY_NAME) != null && !"null".equals(String.valueOf(parameters.get(Constant.HIERARCHY_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.HIERARCHY_NAME)))) {
-                query = query.replace("?HIERARCHY_NAME_CONDITION?", " AND C.HIERARCHY_NAME like '" + String.valueOf(parameters.get(Constant.HIERARCHY_NAME)) + "' ");
+                query = query.replace("?HIERARCHY_NAME_CONDITION?", " AND C.HIERARCHY_NAME like '" + parameters.get(Constant.HIERARCHY_NAME) + "' ");
             } else {
                 query = query.replace("?HIERARCHY_NAME_CONDITION?", StringUtils.EMPTY);
             }
             if (parameters.get(Constant.HIERARCHY_TYPE) != null && !"null".equals(String.valueOf(parameters.get(Constant.HIERARCHY_TYPE))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.HIERARCHY_TYPE)))) {
                 query = query.replace("?HIERARCHY_TYPE_CONDITION?", " AND C.HIERARCHY_TYPE in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT where HT.DESCRIPTION LIKE '"
-                        + String.valueOf(parameters.get(Constant.HIERARCHY_TYPE)) + "') ");
+                        + parameters.get(Constant.HIERARCHY_TYPE) + "') ");
             } else {
                 query = query.replace("?HIERARCHY_TYPE_CONDITION?", StringUtils.EMPTY);
             }

@@ -1193,19 +1193,19 @@ public class NewComponents extends CustomComponent implements View {
             if (!ifpId.getValue().equals(StringUtils.EMPTY) && !ifpNo.getValue().equals(StringUtils.EMPTY) && !ifpName.getValue().equals(StringUtils.EMPTY) && ifpStartDate.getValue() != null && ifpEndDate.getValue() != null && ifpType.getValue() != null && ifpStatus.getValue() != null) {
                 Boolean ifpIdFlag = tpLogic.duplicateCheck("IFP_ID", String.valueOf(ifpId.getValue()), "ifp");
                 if (ifpIdFlag) {
-                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered IFP ID " + String.valueOf(ifpId.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
+                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered IFP ID " +(ifpId.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
                     return;
                 }
                 /*used to check whether Entered IFP NAME is already exist in the system or not */
                 Boolean ifpNameFlag = tpLogic.duplicateCheck("IFP_NAME", String.valueOf(ifpName.getValue()), "ifp");
                 if (ifpNameFlag) {
-                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered IFP Name " + String.valueOf(ifpName.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
+                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered IFP Name " +(ifpName.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
                     return;
                 }
                 /*used to check whether Entered IFP NO is already exist in the system or not */
                 Boolean ifpNoFlag = tpLogic.duplicateCheck("IFP_NO", String.valueOf(ifpNo.getValue()), "ifp");
                 if (ifpNoFlag) {
-                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered IFP No " + String.valueOf(ifpNo.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
+                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered IFP No " +(ifpNo.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
                     return;
                 }
             } else {
@@ -1220,19 +1220,19 @@ public class NewComponents extends CustomComponent implements View {
             if (!psId.getValue().equals(StringUtils.EMPTY) && !psNo.getValue().equals(StringUtils.EMPTY) && !psName.getValue().equals(StringUtils.EMPTY) && psStartDate.getValue() != null && psEndDate.getValue() != null && psType.getValue() != null && psStatus.getValue() != null) {
                 Boolean psIdFlag = tpLogic.duplicateCheck("PS_ID", String.valueOf(psId.getValue()), "ps");
                 if (psIdFlag) {
-                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered PS ID " + String.valueOf(psId.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
+                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered PS ID " +(psId.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
                     return;
                 }
                 /*used to check whether Entered PS NAME is already exist in the system or not */
                 Boolean psNameFlag = tpLogic.duplicateCheck("PS_NAME", String.valueOf(psName.getValue()), "ps");
                 if (psNameFlag) {
-                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered PS Name " + String.valueOf(psName.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
+                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered PS Name " +(psName.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
                     return;
                 }
                 /*used to check whether Entered PS No is already exist in the system or not */
                 Boolean psNoFlag = tpLogic.duplicateCheck("PS_NO", String.valueOf(psNo.getValue()), "ps");
                 if (psNoFlag) {
-                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered PS No " + String.valueOf(psNo.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
+                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered PS No " +(psNo.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
                     return;
                 }
             } else {
@@ -1249,19 +1249,19 @@ public class NewComponents extends CustomComponent implements View {
                 /*used to check whether Entered RS ID is already exist in the system or not */
                 Boolean psIdFlag = tpLogic.duplicateCheck("RS_ID", String.valueOf(rebateScheduleId.getValue()), "rs");
                 if (psIdFlag) {
-                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered RS ID " + String.valueOf(rebateScheduleId.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
+                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered RS ID " +(rebateScheduleId.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
                     return;
                 }
                 /*used to check whether Entered RS Name is already exist in the system or not */
                 Boolean psNameFlag = tpLogic.duplicateCheck("RS_NAME", String.valueOf(rsName.getValue()), "rs");
                 if (psNameFlag) {
-                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered RS Name " + String.valueOf(rsName.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
+                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered RS Name " +(rsName.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
                     return;
                 }
                 /*used to check whether Entered RS NO is already exist in the system or not */
                 Boolean psNoFlag = tpLogic.duplicateCheck("RS_NO", String.valueOf(rsNumber.getValue()), "rs");
                 if (psNoFlag) {
-                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered RS No " + String.valueOf(rsNumber.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
+                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered RS No " +(rsNumber.getValue()) + ALREADY_EXIST_IN_THE_SYSTEM);
                     return;
                 }
 

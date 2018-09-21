@@ -476,7 +476,6 @@ public class CompanyMasterImpl {
             if (parameters.get("identifierStatus") != null) {
                 String identifierStatus = parameters.get("identifierStatus").toString();
                 sql.append(andOperator).append(" crti.IDENTIFIER_STATUS like '").append(identifierStatus).append("' ");
-                andOperator = CONST_AND;
             }
             if (parameters.get("filter~systemId~>") != null) {
                 String value = parameters.get("filter~systemId~>").toString();

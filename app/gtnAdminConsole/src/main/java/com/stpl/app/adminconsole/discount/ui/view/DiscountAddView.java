@@ -63,26 +63,23 @@ public class DiscountAddView extends VerticalLayout implements View {
     @Override
     public void enter(final ViewChangeEvent event) {
         try {
-            DiscountAddForm discountAddForm = new DiscountAddForm();
-            DiscountSearchDTO deductionGroupDTO = new DiscountSearchDTO();
             final DiscountLogic logic = new DiscountLogic();
 
             final int deductionGroupSId = sessionDTO.getSystemId();
             this.removeAllComponents();
             resultsBean.removeAllItems();
             availableResultsBean.removeAllItems();
-            deductionGroupDTO = new DiscountSearchDTO();
 
-            discountAddForm = new DiscountAddForm(resultsBean, availableResultsBean, sessionDTO);
+            DiscountAddForm discountAddForm = new DiscountAddForm(resultsBean, availableResultsBean, sessionDTO);
             addComponent(discountAddForm);
 
-            String pageName = sessionDTO.getLogic();
+             String pageName = sessionDTO.getLogic();
             if (pageName.equals("edit")) {
                 List<DiscountSearchDTO> selectedRebate;
                 selectedRebate = logic.getDeductionGroupDetails(deductionGroupSId);
                 if (!selectedRebate.isEmpty()) {
                     resultsBean.addAll(selectedRebate);
-                    deductionGroupDTO = logic.getDeductionGroupInfo(deductionGroupSId);
+                    DiscountSearchDTO deductionGroupDTO = logic.getDeductionGroupInfo(deductionGroupSId);
                     discountAddForm.groupInfo(deductionGroupDTO, BooleanConstant.getFalseFlag());
                 }
             } else if (pageName.equals("view")) {
@@ -91,7 +88,7 @@ public class DiscountAddView extends VerticalLayout implements View {
                 if (!selectedRebate.isEmpty()) {
                     resultsBean.addAll(selectedRebate);
                 }
-                deductionGroupDTO = logic.getDeductionGroupInfo(deductionGroupSId);
+               DiscountSearchDTO deductionGroupDTO = logic.getDeductionGroupInfo(deductionGroupSId);
                 discountAddForm.groupInfo(deductionGroupDTO, BooleanConstant.getFalseFlag());
             } else {
                 discountAddForm.groupInfo(new DiscountSearchDTO(), BooleanConstant.getTrueFlag());

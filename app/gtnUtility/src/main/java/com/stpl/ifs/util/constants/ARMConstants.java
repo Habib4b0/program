@@ -782,6 +782,7 @@ public class ARMConstants {
     public static String getOctalValue() {
         return properties.getProperty("OCTAL_VALUE");
     }
+
     public static String getCurrentPipeline() {
         return properties.getProperty("C_PIPELINE");
     }
@@ -789,9 +790,29 @@ public class ARMConstants {
     public static String getDemandPayment() {
         return properties.getProperty("DEMAND_PAYMENTS_RECON_VAR");
     }
-    
-     public static String getDeductionContractCustomer() {
+
+    public static String getDeductionContractCustomer() {
         return properties.getProperty("DEDUCTION_CONTRACT_CUSTOMER");
+    }
+
+    public static String getDot() {
+        return properties.getProperty("DOT");
+    }
+    
+    public static String getQuestionMark() {
+        return properties.getProperty("QUESTION_MARK");
+    }
+    
+    public static String getComma() {
+        return properties.getProperty("COMMA");
+    }
+    
+    public static String getAsterisk() {
+        return properties.getProperty("ARSTERISK");
+    }
+    
+    public static String getPercent() {
+        return properties.getProperty("PERCENT");
     }
 
 }

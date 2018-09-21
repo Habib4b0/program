@@ -35,10 +35,10 @@ public class SingleLiablityResults extends AbstractBalanceSummaryResutls {
         try {
             Map properties = new HashMap();
             List<Object> header = getSummaryLogic().getRightTableHeaders(getSummarySelection());
-            List slRightSingleVisibleColumn = (ArrayList) header.get(0);
-            List slRightSingleVisibleHeader = (ArrayList) header.get(1);
-            List<String> slRightDoubleVisibleColumn = (ArrayList) header.get(2);
-            List<String> slRightDoubleVisibleHeader = (ArrayList) header.get(3);
+            List slRightSingleVisibleColumn = (List) header.get(0);
+            List slRightSingleVisibleHeader = (List) header.get(1);
+            List<String> slRightDoubleVisibleColumn = (List) header.get(2);
+            List<String> slRightDoubleVisibleHeader = (List) header.get(3);
             for (Object variableColumn : slRightSingleVisibleColumn) {
                 properties.put(variableColumn, String.class);
             }
@@ -76,7 +76,7 @@ public class SingleLiablityResults extends AbstractBalanceSummaryResutls {
     @Override
     public void setRespectiveHierarchy(String viewType) {
         SINGLE_LIABLITY_LOGGER.debug("inside setRespectiveHierarchy");
-        getSummarySelection().setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        getSummarySelection().setSummeryhierarchy(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override
