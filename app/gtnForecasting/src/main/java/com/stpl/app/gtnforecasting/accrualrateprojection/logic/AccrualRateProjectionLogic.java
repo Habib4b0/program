@@ -699,15 +699,12 @@ public final class AccrualRateProjectionLogic {
                 sortOrder = sortByColumn.getType() != SortByColumn.Type.ASC;
                 orderByColumn = sortByColumn.getName();
                 if (null != orderByColumn) {
-                    switch (orderByColumn) {
-                        case AccrualRateUtils.COMPANY_ID:
-                            query.append(" ORDER BY A.COMPANY_ID ").append((!sortOrder) ? Constant.ASC_SPACE : Constant.DESC_SPACE);
-                            break;
-                        default:
-                            query.append(" ORDER BY A.COMPANY_ID  ASC ");
-                            break;
+                    if (AccrualRateUtils.COMPANY_ID.equals(orderByColumn)) {
+                        query.append(" ORDER BY A.COMPANY_ID ").append((!sortOrder) ? Constant.ASC_SPACE : Constant.DESC_SPACE);
+                    } else {
+                        query.append(" ORDER BY A.COMPANY_ID  ASC ");
                     }
-
+                      
                 }
             }
         }
