@@ -104,8 +104,8 @@
   <hop> <from>Add constants 2 2</from><to>IVLD_PSTG TABLE</to><enabled>Y</enabled> </hop>
   <hop> <from>Data Validator 2</from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants</from><to>Get System Info</to><enabled>Y</enabled> </hop>
-  <hop> <from>CSV file input</from><to>Table output 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table output 2</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>CSV file input</from><to>PSTG_CUSTOMER_GTS_ACTUAL</to><enabled>Y</enabled> </hop>
+  <hop> <from>PSTG_CUSTOMER_GTS_ACTUAL</from><to>Add constants</to><enabled>Y</enabled> </hop>
   <hop> <from>Modified Java Script Value</from><to>Database join 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Get System Info</from><to>Add sequence</to><enabled>Y</enabled> </hop>
   <hop> <from>Add sequence</from><to>Data Validator 2</to><enabled>Y</enabled> </hop>
@@ -386,11 +386,11 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>C&#x3a;&#x5c;Users&#x5c;bikram.kumar&#x5c;Downloads&#x5c;DTX_RELATED&#x5c;Input_file&#x5c;20171222_RevProd_Customer_GTS_Actuals_DECRYPT.csv</filename>
+    <filename>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;Encrypted_File_Name&#x7d;_DECRYPT.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
-    <separator>&#x7c;</separator>
+    <separator>&#x24;&#x7b;DELIMITER&#x7d;</separator>
     <enclosure>&#x22;</enclosure>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
@@ -1611,7 +1611,7 @@
     </step>
 
   <step>
-    <name>Table output 2</name>
+    <name>PSTG_CUSTOMER_GTS_ACTUAL</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
