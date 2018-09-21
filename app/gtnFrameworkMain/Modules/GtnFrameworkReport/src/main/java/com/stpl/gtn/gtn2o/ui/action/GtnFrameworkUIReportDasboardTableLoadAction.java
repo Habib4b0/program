@@ -156,6 +156,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 				.getVaadinComponentData(actionParameterList.get(8).toString(), componentId);
 		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = (List<GtnReportComparisonProjectionBean>) comparisonProjectionData
 				.getCustomData();
+                comparisonProjectionBeanList = comparisonProjectionBeanList==null || comparisonProjectionBeanList.isEmpty() ? null : comparisonProjectionBeanList;
 		boolean refreshNeeded = false;
 		GtnReportDataRefreshBean refreshBean = tableConfig.getGtnReportDataRefreshBean();
 		if (refreshBean == null) {
