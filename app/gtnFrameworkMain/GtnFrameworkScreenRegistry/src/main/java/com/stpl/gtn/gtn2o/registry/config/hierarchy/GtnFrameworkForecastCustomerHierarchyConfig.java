@@ -67,6 +67,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig hierarchyName = new GtnUIFrameworkComponentConfig();
 		hierarchyName.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
+		hierarchyName.addComponentStyle("stpl-padding-top-18");
 		hierarchyName.setComponentId("forecastLandingScreen_customerHierarchy");
 		hierarchyName.setComponentName("Hierarchy");
 		hierarchyName.setAddToParent(Boolean.TRUE);
@@ -77,8 +78,8 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		forecastCustomerSelectionHierarchypopupAction
 				.addActionParameter("forecastingLandingScreen_customerHierarchyLookup");
 		forecastCustomerSelectionHierarchypopupAction.addActionParameter("Forecast Customer Hierarchy LookUp");
-		forecastCustomerSelectionHierarchypopupAction.addActionParameter("720");
-		forecastCustomerSelectionHierarchypopupAction.addActionParameter("875");
+		forecastCustomerSelectionHierarchypopupAction.addActionParameter("1000px");
+		forecastCustomerSelectionHierarchypopupAction.addActionParameter("845px");
 		hierarchyName.addGtnUIFrameWorkActionConfig(forecastCustomerSelectionHierarchypopupAction);
 		componentList.add(hierarchyName);
 	}

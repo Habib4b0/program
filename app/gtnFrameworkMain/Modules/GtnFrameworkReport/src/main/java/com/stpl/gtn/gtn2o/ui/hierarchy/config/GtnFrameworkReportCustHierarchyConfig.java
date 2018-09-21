@@ -372,7 +372,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				"parentNode", "levelName", "levelValuReference", "tableName", "fieldName", "relationshipLevelSid",
 				"hierarchyNo", "relationshipBuilderSid", "hierarchyLevelDefSid", "hierarchyDefSid", "versionNo",
 				GtnFrameworkReportStringConstants.LEVEL_VALUE));
-		customerSelectionDualListBoxConfig.setModuleType("report");
+		customerSelectionDualListBoxConfig.setModuleType("");
 		customerSelectionDualListBoxConfig.setLeftTableURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE);
 		customerSelectionDualListBoxConfig.setMoveRightURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE

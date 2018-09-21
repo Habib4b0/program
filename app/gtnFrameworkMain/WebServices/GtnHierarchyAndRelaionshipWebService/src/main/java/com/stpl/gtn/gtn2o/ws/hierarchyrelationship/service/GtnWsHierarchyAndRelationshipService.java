@@ -27,43 +27,47 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Service
 public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImplClass {
 
-    long staticTime = System.currentTimeMillis();
-    ExecutorService service = Executors.newCachedThreadPool();
+	long staticTime = System.currentTimeMillis();
+	ExecutorService service = Executors.newCachedThreadPool();
 
-    @Autowired
-    private GtnWsHierarchyAndRelationshipSqlService gtnWsHierarchyAndRelationshipSqlService;
+	@Autowired
+	private GtnWsHierarchyAndRelationshipSqlService gtnWsHierarchyAndRelationshipSqlService;
 
-    private GtnFrameworkSingletonObjectBean hierarchyRelationship = GtnFrameworkSingletonObjectBean.getInstance();
+	private GtnFrameworkSingletonObjectBean hierarchyRelationship = GtnFrameworkSingletonObjectBean.getInstance();
 
-    private GtnWsHierarchyAndRelationshipService() {
-        super(GtnWsHierarchyAndRelationshipService.class);
-    }
+	private GtnWsHierarchyAndRelationshipService() {
+		super(GtnWsHierarchyAndRelationshipService.class);
+	}
 
-    public void init() {
-        try {
-            GtnUIFrameworkWebserviceRequest request = registerWs();
+	public void init() {
+		try {
+			GtnUIFrameworkWebserviceRequest request = registerWs();
 
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.postForObject(
-                    getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
-                    request, GtnUIFrameworkWebserviceResponse.class);
-            logger.info("Webservice Registered");
-            List<Object[]> resultList = loadHierarchyRelationshipResults();
-            Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = resultCustomization(resultList);
-            hierarchyRelationship.setHierarchyMap(hierarchyMap);
-        } catch (Exception e) {
-            if (e.getMessage().contains("404 Not Found")) {
-                logger.error("Exception in GtnWsHierarchyAndRelationshipService" + e.getMessage());
-                GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
-                service.submit(call.createRunnable(this, staticTime));
-            }
-        }
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.postForObject(
+					getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
+					request, GtnUIFrameworkWebserviceResponse.class);
+			logger.info("Webservice Registered");
+			List<Object[]> resultList = loadHierarchyRelationshipResults();
+			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = resultCustomization(resultList);
+			hierarchyRelationship.setHierarchyMap(hierarchyMap);
+		} catch (Exception e) {
+			if (e.getMessage().contains("404 Not Found")) {
+				logger.error("Exception in GtnWsHierarchyAndRelationshipService" + e.getMessage());
+				GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
+				service.submit(call.createRunnable(this, staticTime));
+			}
+		}
 	}
 
 	@Override
@@ -102,7 +106,7 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 	}
 
 	public Map<String, GtnWsHierarchyDefinitionBean> resultCustomization(List<Object[]> resultList)
-			throws NullPointerException {
+			throws NullPointerException, ParseException {
 		Map<Integer, List<GtnWsRelationshipBuilderBean>> relationMap = new HashMap<>();
 		Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = new HashMap<>();
 		int hierachySid = 0;
@@ -118,6 +122,11 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 				bean.setHierarchyDefSid(hierachySid);
 				bean.setHighLevel((int) object[1]);
 				bean.setLowestLevel((int) object[2]);
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+				String createdDate = formatter.format(object[3]);
+				bean.setCreatedDate(createdDate);
+				String modifiedDate = formatter.format(object[4]);
+				bean.setModifiedDate(modifiedDate);
 				bean.setLevelName((String) object[5]);
 				bean.setHierarchyVersion((int) object[6]);
 				bean.setHierarchyCategory((String) object[8]);
@@ -274,8 +283,8 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		}
 	}
 
-    @Override
-    public void initCallOnFailure() {
-        init();
-}
+	@Override
+	public void initCallOnFailure() {
+		init();
+	}
 }

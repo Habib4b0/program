@@ -12,17 +12,15 @@ import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
 @Component
 public class GtnWsPeriodConfSqlService {
 
-
-	private GtnWsPeriodConfSqlService()
-	{
-		//empty
+	private GtnWsPeriodConfSqlService() {
+		super();
 	}
 
 	@Autowired
 	private volatile PropertiesFactoryBean sqlPropertyBean;
 
 	public String getQuery(String queryId) {
-		
+
 		final GtnFrameworkDependencyLogger gtnLogger = GtnFrameworkDependencyLogger
 				.getGTNLogger(GtnWsPeriodConfSqlService.class);
 		try {

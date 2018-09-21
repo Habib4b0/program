@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadA
 import com.stpl.gtn.gtn2o.registry.action.GtnForecastingProductAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnFrameworkForecastCustomViewLoadAction;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -68,6 +69,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig hierarchyName = new GtnUIFrameworkComponentConfig();
 		hierarchyName.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
+		hierarchyName.addComponentStyle("stpl-padding-top-18");
 		hierarchyName.setComponentId(nameSpace + "_" + "prodhierarchyName");
 		hierarchyName.setComponentName("Hierarchy");
 		hierarchyName.setAddToParent(Boolean.TRUE);
@@ -77,8 +79,8 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		hierarchyPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		hierarchyPopupAction.addActionParameter("forecastLandingScreen_productHierarchyLookup");
 		hierarchyPopupAction.addActionParameter("Forecast Product Hierarchy LookUp");
-		hierarchyPopupAction.addActionParameter("720");
-		hierarchyPopupAction.addActionParameter("875");
+		hierarchyPopupAction.addActionParameter("1000px");
+		hierarchyPopupAction.addActionParameter("845px");
 		hierarchyName.addGtnUIFrameWorkActionConfig(hierarchyPopupAction);
 
 		componentList.add(hierarchyName);
@@ -95,7 +97,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		relationship.setComponentName("Relationship");
 		relationship.setAddToParent(Boolean.TRUE);
 		relationship.setParentComponentId(nameSpace + "_" + "prodrelationshipLayout");
-		relationship.setVaadinComponentPlaceHolder("-Select One-");
+		relationship.setVaadinComponentPlaceHolder(GtnFrameworkScreenRegisteryConstants.SELECTONE);
 		relationship.addDependentComponent(nameSpace + "_" + "salesCustomView");
 		relationship.addDependentComponent(nameSpace + "_" + "deductionCustomView");
 
@@ -156,7 +158,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		forecastLevel.setComponentName("Forecast Level");
 		forecastLevel.setAddToParent(Boolean.TRUE);
 		forecastLevel.setParentComponentId(nameSpace + "_" + "prodforecastLevelLayout");
-		forecastLevel.setVaadinComponentPlaceHolder("-Select One-");
+		forecastLevel.setVaadinComponentPlaceHolder(GtnFrameworkScreenRegisteryConstants.SELECTONE);
 
 		GtnUIFrameworkComboBoxConfig forecastLevelConfig = new GtnUIFrameworkComboBoxConfig();
 		forecastLevel.setGtnComboboxConfig(forecastLevelConfig);
@@ -205,7 +207,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		salesCustomView.setComponentName("Sales Custom View");
 		salesCustomView.setAddToParent(Boolean.TRUE);
 		salesCustomView.setParentComponentId(nameSpace + "_" + "salesCustomViewLayout");
-		salesCustomView.setVaadinComponentPlaceHolder("-Select One-");
+		salesCustomView.setVaadinComponentPlaceHolder(GtnFrameworkScreenRegisteryConstants.SELECTONE);
 		componentList.add(salesCustomView);
 
 		GtnUIFrameworkComboBoxConfig salesCustomViewConfig = new GtnUIFrameworkComboBoxConfig();
@@ -236,7 +238,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		deductionCustomView.setComponentName("Deduction Custom View");
 		deductionCustomView.setAddToParent(Boolean.TRUE);
 		deductionCustomView.setParentComponentId(nameSpace + "_" + "deductionViewLayout");
-		deductionCustomView.setVaadinComponentPlaceHolder("-Select One-");
+		deductionCustomView.setVaadinComponentPlaceHolder(GtnFrameworkScreenRegisteryConstants.SELECTONE);
 		componentList.add(deductionCustomView);
 
 		GtnUIFrameworkComboBoxConfig salesCustomViewConfig = new GtnUIFrameworkComboBoxConfig();
@@ -286,7 +288,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		level.setComponentName("Level");
 		level.setAddToParent(Boolean.TRUE);
 		level.setParentComponentId(nameSpace + "_" + "productlevelLayout");
-		level.setVaadinComponentPlaceHolder("-Select One-");
+		level.setVaadinComponentPlaceHolder(GtnFrameworkScreenRegisteryConstants.SELECTONE);
 
 		GtnUIFrameworkComboBoxConfig levelConfig = new GtnUIFrameworkComboBoxConfig();
 		level.setGtnComboboxConfig(levelConfig);

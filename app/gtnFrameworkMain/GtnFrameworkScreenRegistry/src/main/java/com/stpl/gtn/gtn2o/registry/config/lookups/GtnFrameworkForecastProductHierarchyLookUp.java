@@ -21,6 +21,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastNewArchitectureConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -29,18 +30,20 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnFrameworkForecastProductHierarchyLookUp {
 
-	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastProductHierarchyLookUp.class);
+	private static final GtnWSLogger LOGGER = GtnWSLogger
+			.getGTNLogger(GtnFrameworkForecastProductHierarchyLookUp.class);
 
-	private String[] propertyIds = { GtnFrameworkCommonConstants.SCREEN_REGISTRY_HIERACHY_NAME,
+	private static final String[] PROPERTYIDS = { GtnFrameworkCommonConstants.SCREEN_REGISTRY_HIERACHY_NAME,
 			GtnFrameworkCommonConstants.SCREEN_REGISTRY_HIGHEST_LEVEL, "lowestLevel", "createdDate", "modifiedDate" };
-	private GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+	private static final GtnUIFrameworkComponentType[] PROPERTYCOMPONENTTYPE = {
 			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8 };
-	private String[] comboboxIds = { GtnFrameworkCommonConstants.SCREEN_REGISTRY_HIGHEST_LEVEL };
-	private String[] comboboxType = { "STATUS" };
+			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+			GtnUIFrameworkComponentType.DATEFIELDVAADIN8 };
+	private static final String[] COMBOBOXIDS = { GtnFrameworkCommonConstants.SCREEN_REGISTRY_HIGHEST_LEVEL };
+	private static final String[] COMBOBOXTYPE = { "STATUS" };
 
 	public GtnUIFrameworkViewConfig getProdHierarchyLookUpView(String namespace) {
-		logger.info("********** entered into the GtnFrameworkForecastProductHierarchyLookUp");
+		LOGGER.info("Entered into the GtnFrameworkForecastProductHierarchyLookUp");
 		GtnUIFrameworkViewConfig productHierarchyView = new GtnUIFrameworkViewConfig();
 		productHierarchyView.setViewName("Forecast Product Hierarchy LookUp");
 		productHierarchyView.setViewId("forecastLandingScreen_productHierarchyLookup");
@@ -162,6 +165,7 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 				+ GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		addHierarchyNameTextBox.setComponentName("Hierarchy Name");
 		addHierarchyNameTextBox.setAddToParent(true);
+		addHierarchyNameTextBox.setDefaultFocus(true);
 		addHierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		addHierarchyNameTextBox.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.SCREEN_REGISTRY_FORECAST_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
@@ -220,6 +224,20 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		productHierarchyResetButton.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.SEARCH_AND_RESET_BUTTON_LAYOUT);
 		productHierarchyResetButton.setAddToParent(true);
+
+		GtnUIFrameWorkActionConfig resetAction = new GtnUIFrameWorkActionConfig();
+		resetAction.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+		List<Object> params = new ArrayList<>();
+		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION);
+		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION_MESSAGE);
+		params.add(Arrays.asList(
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+ GtnFrameworkCommonConstants.HIERARCHY_TYPE,
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+						+ GtnFrameworkCommonConstants.HIERARCHY_NAME));
+		params.add(Arrays.asList(new Object[] { "Primary", GtnFrameworkCommonStringConstants.STRING_EMPTY }));
+		resetAction.setActionParameterList(params);
+		productHierarchyResetButton.addGtnUIFrameWorkActionConfig(resetAction);
 
 		componentList.add(productHierarchyResetButton);
 	}
@@ -295,6 +313,7 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 				.setTableColumnMappingId(new Object[] { GtnFrameworkCommonConstants.SCREEN_REGISTRY_HIERACHY_NAME,
 						GtnFrameworkCommonConstants.SCREEN_REGISTRY_HIGHEST_LEVEL, "lowestLevel", "createdDate",
 						"modifiedDate" });
+		productHierarchyPagedTableConfig.setPaginationOff(true);
 		GtnFrameworkAlertUtil alertActionUtil = new GtnFrameworkAlertUtil();
 		GtnUIFrameWorkActionConfig alertAction = alertActionUtil
 				.throwAlertUtil(GtnWsForecastConstants.GTN_FORECAST_SERVICE
@@ -316,19 +335,19 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>(
-				propertyIds.length);
+				PROPERTYIDS.length);
 		int comboboxStart = 0;
-		for (int i = 0; i < propertyIds.length; i++) {
+		for (int i = 0; i < PROPERTYIDS.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
-			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
-			if ((comboboxStart < comboboxIds.length) && propertyIds[i].equals(comboboxIds[comboboxStart])) {
+			pagedTableCustomFilterConfig.setPropertId(PROPERTYIDS[i]);
+			pagedTableCustomFilterConfig.setGtnComponentType(PROPERTYCOMPONENTTYPE[i]);
+			if ((comboboxStart < COMBOBOXIDS.length) && PROPERTYIDS[i].equals(COMBOBOXIDS[comboboxStart])) {
 				GtnUIFrameworkComponentConfig productHierarchySearchFilterComponentConfig = new GtnUIFrameworkComponentConfig();
 				productHierarchySearchFilterComponentConfig.setComponentId("customFilterComboBox");
 				productHierarchySearchFilterComponentConfig.setComponentName("customFilterComboBox");
 				productHierarchySearchFilterComponentConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
 				productHierarchySearchFilterComponentConfig.getGtnComboboxConfig()
-						.setComboBoxType(comboboxType[comboboxStart]);
+						.setComboBoxType(COMBOBOXTYPE[comboboxStart]);
 				productHierarchySearchFilterComponentConfig.getGtnComboboxConfig()
 						.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
@@ -410,6 +429,20 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		resetButton.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		resetButton.setAddToParent(true);
+
+		GtnUIFrameWorkActionConfig productGridResetAction = new GtnUIFrameWorkActionConfig();
+		productGridResetAction.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+
+		List<Object> paramList = new ArrayList<>();
+		paramList.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION);
+		paramList.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION_TABLE_MESSAGE);
+
+		paramList.add(Arrays.asList(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE));
+		paramList.add(Arrays.asList(new Object[] { GtnFrameworkCommonStringConstants.STRING_EMPTY }));
+
+		productGridResetAction.setActionParameterList(paramList);
+		resetButton.addGtnUIFrameWorkActionConfig(productGridResetAction);
 
 		componentList.add(resetButton);
 	}
