@@ -58,7 +58,7 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 				}
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(4))
-						.addAllItemsToComboBox(relationshipCaptionList, relationshipIdList);
+						.loadItemsToCombobox(relationshipCaptionList, relationshipIdList);
 
 				Map<Integer, String> hierarchyMap = (Map<Integer, String>) recordBean
 						.getPropertyValueByIndex(recordBean.getProperties().size() - 2);
