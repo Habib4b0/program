@@ -69,7 +69,7 @@ public class GtnFrameworkAvaliableNameUpdateAction implements GtnUIFrameWorkActi
                 GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
                         + GtnWsRelationshipBuilderConstants.HIERARCHY_NAME_LEVEL_VALUE,
                 wsRelationrequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-        if(!gtnResponse.getGtnWsRelationshipBuilderResponse().getHierarchyName().equals("null")){
+        if(gtnResponse.getGtnWsRelationshipBuilderResponse().getHierarchyName()!=null){
         tableBaseComponent.setTableColumnHeader(GtnFrameworkRelationshipBuilderConstants.AVAILABLE_LIST_COLUMNID,
                 gtnResponse.getGtnWsRelationshipBuilderResponse().getHierarchyName());
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) parameters.get(1), componentId)
