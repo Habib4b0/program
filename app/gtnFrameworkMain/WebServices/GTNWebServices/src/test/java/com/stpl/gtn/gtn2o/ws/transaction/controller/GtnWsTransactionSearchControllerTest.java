@@ -100,6 +100,7 @@ public class GtnWsTransactionSearchControllerTest {
         gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
         GtnWsSearchRequest gtnWsSearchRequest=new GtnWsSearchRequest();
         gtnWsSearchRequest.setCount(true);
+        gtnWsSearchRequest.isCount();
         gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("checkRecord","cfpId","cfpNo","cfpName","cfpStatus","cfpStartDate","cfpEndDate",
                                  "cfpType","cfpCategory","cfpTradeClass","cfpDesignation","parentCfpId","parentCfpName","createdBy","createdDate","modifiedBy",
                                  "modifiedDate","batchId","source","addChgDelIndictor","errorCode","errorField","reasonForFailure","reprocessedFlag","cfpIntfid"));
@@ -146,6 +147,27 @@ public class GtnWsTransactionSearchControllerTest {
         gtnWsTransactionSearchController.getViewResults(gtnWsRequest);
         assertFalse(generalRequest.getUserId().isEmpty());       
     }
+        @Test
+    public void testGetViewResultsFalse() {
+        System.out.println("getViewResults");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("410");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        //gtnWsTransactionRequest.setTableName("VwAdjustDemandForecastAct");
+        gtnWsTransactionRequest.setProjectionColumns(Arrays.asList("forecastType","itemId","itemName","brandId","brandName","segment","marketSizeUnits","marketShareRatio",
+                        "marketShareUnits","grossUnits","grossPrice","grossAmount","netSalesPrice","netSalesAmount","forecastYear","forecastMonth","totalDemandUnits","totalDemandAmount",
+                        "batchId","source","country","businessUnitNo","businessUnitName"));
+        gtnWsTransactionRequest.setHelpercomponentList(Arrays.asList("adjustedDemandForecastId","forecastTypeSid","organizationKey"));
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);
+        gtnWsTransactionSearchController.getViewResults(gtnWsRequest);
+        assertFalse(generalRequest.getUserId().isEmpty());       
+    }
+    
 
     /**
      * Test of getValidationResults method, of class GtnWsTransactionSearchController.
