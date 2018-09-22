@@ -288,8 +288,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			return gtnWsReportCustomCCPListDetails.stream().filter(row -> row.getLevelNo() == levelNo
 					&& matchedFilteredHierarchyNo(filteredHierarchy, row.getHierarchyNo(), row.getData()[5].toString())
 					&& filterCustomViewVariable(customviewData, reportDashboardBean.getSelectedVariableType(), row)
-					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start)
-					.limit(limit)
+					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start).limit(limit)
 					.map(row -> aggregate(
 							convertToRecordbean(gtnWsRequest, row,
 									gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
@@ -318,7 +317,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 							&& bean.getStringProperty(levelName).contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
 							|| object.toString().contains("PER") || object.toString().contains("RATE")
 							|| object.toString().contains("GTN")
-							|| bean.getStringProperty(levelName).contains("Weighted")) {
+							|| bean.getStringProperty(levelName).contains(GtnWsQueryConstants.WEIGHTED)) {
 						total = bean.getRecordHeader().stream()
 								.filter(e -> e != null && e.toString()
 										.contains(object.toString().replace(GtnWsQueryConstants.TOTAL, "")))
@@ -458,11 +457,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		// When currency display is set to no conversion in report options
 		if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
 			dataForHierarchy.entrySet().stream()
-					.forEach(
-							entry -> Optional.ofNullable(entry.getValue())
-									.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean,
-											entry.getKey(), data, bean.getData()[5].toString(), levelName, false,
-											variableChild)));
+					.forEach(entry -> Optional.ofNullable(entry.getValue())
+							.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
+									bean.getData()[5].toString(), levelName, false, variableChild)));
 		}
 	}
 
@@ -574,7 +571,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					obj[0] = variableBreakdown.get(i).getMasterSid();
 					obj[1] = variableBreakdown.get(i).getPeriod();
 					obj[2] = variableBreakdown.get(i).getYear();
-					obj[3] = Byte.valueOf((byte) ((Integer) variableBreakdown.get(i).getSelectedVariable()).intValue());
+					obj[3] = Byte.valueOf(((Integer) variableBreakdown.get(i).getSelectedVariable()).byteValue());
 					gtnSqlQueryEngine.executeInsertOrUpdateQuery(
 
 							replaceTableNames(GtnWsQueryConstants.VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY, tableMap), obj,
@@ -709,12 +706,12 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
 
-			if (key.contains("PER") || key.contains("WEIGHTED") || levelName.contains("Weighted")) {
+			if (key.contains("PER") || key.contains("WEIGHTED") || levelName.contains(GtnWsQueryConstants.WEIGHTED)) {
 
 				recordBean.addProperties(key, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data)
 						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 			}
-			if ((key.contains(GtnWsQueryConstants.VOLUME) && levelName.contains("Weighted"))
+			if ((key.contains(GtnWsQueryConstants.VOLUME) && levelName.contains(GtnWsQueryConstants.WEIGHTED))
 					|| (key.contains(GtnWsQueryConstants.VOLUME)
 							&& levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
 
@@ -757,7 +754,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			recordBean.addProperties(key, "");
 		} else {
 
-			if (levelName.contains("Weighted") || levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)) {
+			if (levelName.contains(GtnWsQueryConstants.WEIGHTED)
+					|| levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)) {
 
 				recordBean.addProperties(key, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data)
 						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
@@ -781,11 +779,12 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			String variableChild) {
 
 		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
-			if (mapKey.contains("PER") || mapKey.contains("WEIGHTED") || levelName.contains("Weighted")) {
+			if (mapKey.contains("PER") || mapKey.contains("WEIGHTED")
+					|| levelName.contains(GtnWsQueryConstants.WEIGHTED)) {
 				gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
 						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 			}
-			if ((mapKey.contains(GtnWsQueryConstants.VOLUME) && levelName.contains("Weighted"))
+			if ((mapKey.contains(GtnWsQueryConstants.VOLUME) && levelName.contains(GtnWsQueryConstants.WEIGHTED))
 					|| (mapKey.contains(GtnWsQueryConstants.VOLUME)
 							&& levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
 				gtnWsRecordBean.addProperties(mapKey,
@@ -835,7 +834,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		}
 
 		else {
-			if (levelName.contains("Weighted") || levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)) {
+			if (levelName.contains(GtnWsQueryConstants.WEIGHTED)
+					|| levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR)) {
 				gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
 						+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 			} else if ((mapKey.contains("PER") || mapKey.contains("GTN"))) {
@@ -850,7 +850,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	public static Double extractDouble(Object value) {
 		return Optional.ofNullable(value).isPresent()
-				? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", "")) : 0.0;
+				? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", ""))
+				: 0.0;
 	}
 
 	private boolean matchedFilteredHierarchyNo(Set<String> filteredHierarchyNo, String hierarchyNoFromFile,
