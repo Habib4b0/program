@@ -24,6 +24,7 @@ public class StplSamlPropertyBean {
     private String[] specialCharArray;
     private String isSAMLRequestNeeded;
     private String assertionConsumerServiceUrl;
+    private String logoutUrl;
 
     public String getCertificatePath() {
         return certificatePath;
@@ -107,5 +108,19 @@ public class StplSamlPropertyBean {
      */
     public void setAssertionConsumerServiceUrl(String assertionConsumerServiceUrl) {
         this.assertionConsumerServiceUrl = assertionConsumerServiceUrl;
+    }
+
+    /**
+     * @return the logoutUrl
+     */
+    public String getLogoutUrl() {
+        return logoutUrl;
+    }
+
+    /**
+     * @param logoutUrl the logoutUrl to set
+     */
+    public void setLogoutUrl(String logoutUrl) {
+        this.logoutUrl = logoutUrl;
     }
 }
