@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
-    private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
+	private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
     private long staticTime = System.currentTimeMillis();
     private ExecutorService service = Executors.newCachedThreadPool();
 
@@ -42,11 +43,11 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 
     @Autowired
     private GtnWsPeriodConfSqlService gtnWsPeriodConfSqlService;
-
+    
     private GtnWsPeriodConfigurationService() {
-        super(GtnWsPeriodConfigurationService.class);
+    	super(GtnWsPeriodConfigurationService.class);
     }
-
+    
     public void init() {
         try {
             logger.info("Entering into init method");
@@ -64,6 +65,13 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
                 logger.error("Exception in Period Webservice Registry" + e.getMessage());
                 GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
                 service.submit(call.createRunnable(this, staticTime));
+                service.shutdown();
+                try {
+					service.awaitTermination(1, TimeUnit.NANOSECONDS);
+				} catch (InterruptedException e1) {
+					logger.info("Exception while shutdown the executor service" + e1);
+				    Thread.currentThread().interrupt();
+				}
             }
         }
     }
@@ -176,7 +184,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
                 scal.add(Calendar.MONTH, 3);
             }
         } catch (ParseException e) {
-            logger.error("Error in generating quarter information:" + e.toString());
+            logger.error("Error in generating quarter information:" + e);
         }
         return quarters;
     }
@@ -185,5 +193,6 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
     public void initCallOnFailure() {
         init();
     }
-
+    
+    
 }
