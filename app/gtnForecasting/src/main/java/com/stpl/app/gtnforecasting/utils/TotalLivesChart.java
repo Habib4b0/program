@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.utils;
 
 import com.vaadin.ui.Window;
-import com.vaadin.v7.ui.HorizontalLayout;
 
 /**
  *
@@ -40,15 +39,6 @@ public class TotalLivesChart extends Window {
         super();
     }
 
-    /**
-     * Gets the chart.
-     *
-     * @return the chart
-     */
-    public HorizontalLayout getChart() {
-        final HorizontalLayout layout = new HorizontalLayout();
-        return layout;
-    }
 
     public String getHistory() {
         return history;

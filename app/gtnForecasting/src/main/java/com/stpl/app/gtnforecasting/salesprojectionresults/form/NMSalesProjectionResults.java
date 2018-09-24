@@ -108,16 +108,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(
             String.class);
-    /**
-     * The map left visible columns.
-     */
-    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
-    /**
-     * The map right visible columns.
-     */
-    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
     private ExtFilterTreeTable leftTable;
-    private ExtFilterTreeTable rightTable;
     private final SessionDTO session;
     private List<Object> headerList;
     private List<CustomViewMaster> customViewList = new ArrayList<>();
@@ -403,7 +394,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         tableLogic.setContainerDataSource(resultBean);
 
         leftTable = resultsTable.getLeftFreezeAsTable();
-        rightTable = resultsTable.getRightFreezeAsTable();
+        ExtFilterTreeTable  rightTable = resultsTable.getRightFreezeAsTable();
         leftTable.markAsDirty();
         rightTable.markAsDirty();
         leftTable.setVisibleColumns(leftDTO.getSingleColumns().toArray());
@@ -413,7 +404,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         resultsTable.setHeight(Constant.SIX_FIFTY_PX);
         leftTable.setHeight(Constant.SIX_FIFTY_PX);
         rightTable.setHeight(Constant.SIX_FIFTY_PX);
-        mapLeftVisibleColumns = leftDTO.getDoubleHeaderMaps();
+        Map<Object, Object[]> mapLeftVisibleColumns = leftDTO.getDoubleHeaderMaps();
         rightTable.setVisibleColumns(rightDTO.getSingleColumns().toArray());
 
         rightTable.setColumnHeaders(rightDTO.getSingleHeaders().toArray(new String[rightDTO.getSingleHeaders().size()]));
@@ -428,7 +419,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         for (int i = 0; i < rightDTO.getDoubleColumns().size(); i++) {
             rightTable.setColumnAlignment(rightDTO.getDoubleColumns().get(i), ExtCustomTable.Align.CENTER);
         }
-        mapRightVisibleColumns = rightDTO.getDoubleHeaderMaps();
+        Map<Object, Object[]> mapRightVisibleColumns = rightDTO.getDoubleHeaderMaps();
         resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         rightTable
                 .addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {

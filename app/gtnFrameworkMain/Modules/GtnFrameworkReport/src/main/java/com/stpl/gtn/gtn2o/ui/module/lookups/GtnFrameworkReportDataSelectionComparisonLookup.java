@@ -199,8 +199,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		reportComparisonLookupModeSelectionConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.PROJECTION_OPTION_INNER_LAYOUT);
-		reportComparisonLookupModeSelectionConfig
-				.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_3);
+		
 		componentList.add(reportComparisonLookupModeSelectionConfig);
 
 		GtnUIFrameworkLayoutConfig reportComparisonLookupFromToMainLayout = new GtnUIFrameworkLayoutConfig();
@@ -269,6 +268,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 						+ GtnFrameworkCommonConstants.REPORT_DATASELECTION_COMPARISON_BOTTOM_LAYOUT);
 		dataSelectionComparisonBottomLayoutConfig.setAddToParent(true);
 		dataSelectionComparisonBottomLayoutConfig.setSpacing(true);
+		dataSelectionComparisonBottomLayoutConfig.addComponentStyle("v-report-bottomlayout");
 		dataSelectionComparisonBottomLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
@@ -297,7 +297,8 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		workflowStatus.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.WORKFLOW_STATUS);
 		workflowStatus.setComponentName("Workflow Status: ");
-		workflowStatus.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT);
+		workflowStatus.setComponentStyle(
+				Arrays.asList(new String[] { GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT }));
 		workflowStatus.setAddToParent(true);
 		workflowStatus.setCustomReference("integerId");
 		workflowStatus.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE

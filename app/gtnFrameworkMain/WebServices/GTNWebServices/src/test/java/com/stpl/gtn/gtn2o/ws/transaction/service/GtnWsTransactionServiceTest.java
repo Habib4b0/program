@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
+import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
 import com.stpl.gtn.gtn2o.ws.entity.forecastconfiguration.ForecastConfig;
 import com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemIdentifier;
 import com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemMaster;
@@ -75,6 +76,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -88,72 +90,69 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Hazihabibullah.Syed
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
+@ContextConfiguration(locations = {"file:src/test/resources/AutomaticContext.xml"})
 public class GtnWsTransactionServiceTest {
-    
-   
+
     @Mock
     @Autowired
     private org.hibernate.SessionFactory sessionFactory;
     @InjectMocks
     @Autowired
     GtnWsTransactionService gtnWsTransactionService1;
-    
+
     @Mock
     @Autowired
     private GtnWsAllListConfig gtnWsAllListConfig;
-    
+
     @Mock
     @Autowired
     private GtnWsSqlService gtnWsSqlService;
-    
+
+    @Mock
+    @Autowired
+    private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine1;
+
     public GtnWsTransactionServiceTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
-    
+
     @After
     public void tearDown() {
     }
-    
-    
-  
-    
-   
-    
+
     @Autowired
     private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-    
-     @Autowired
-     private GtnWsTransactionService gtnWsTransactionService;
-     
+
+    @Autowired
+    private GtnWsTransactionService gtnWsTransactionService;
+
 //     @Autowired
 //     private GtnWsAllListConfig gtnWebServiceAllListConfig;
-    
     @PostConstruct
-    public void constrcut(){
-       GtnWsAllListConfig gtnWebServiceAllListConfig= gtnWsTransactionService.getGtnWebServiceAllListConfig();
-       gtnWebServiceAllListConfig.setGtnSqlQueryEngine(gtnWsTransactionService.getGtnSqlQueryEngine());
+    public void constrcut() {
+        GtnWsAllListConfig gtnWebServiceAllListConfig = gtnWsTransactionService.getGtnWebServiceAllListConfig();
+        gtnWebServiceAllListConfig.setGtnSqlQueryEngine(gtnWsTransactionService.getGtnSqlQueryEngine());
     }
-    
-    	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     /**
      * Test of getSearchDetails method, of class GtnWsTransactionService.
@@ -198,7 +197,6 @@ public class GtnWsTransactionServiceTest {
 //        gtnWsTransactionService.getSearchDetails(gtnWsSearchRequest, isCount, isExcel);
 //        assertFalse(generalRequest.getUserId().isEmpty());       
 //    }
-
     /**
      * Test of appendWhereCondition method, of class GtnWsTransactionService.
      */
@@ -214,30 +212,28 @@ public class GtnWsTransactionServiceTest {
         generalRequest.setExcel(false);
         gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
         GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
-      
+
         ClassMetadata classMetadata = null;
-       
-        
-               SessionFactory factory=Mockito.mock(SessionFactory.class);
-		Session session=Mockito.mock(Session.class);
+
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
 //		Transaction tx = Mockito.mock(Transaction.class);
-		Criteria criteria3=Mockito.mock(Criteria.class);
-                
-		//doReturn(factory).when(gtnSqlQueryEngine).getSessionFactory();
-		doReturn(session).when(factory).openSession();
+        Criteria criteria3 = Mockito.mock(Criteria.class);
+
+        //doReturn(factory).when(gtnSqlQueryEngine).getSessionFactory();
+        doReturn(session).when(factory).openSession();
 //		doReturn(tx).when(session).beginTransaction();
-		doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
-        
+        doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
+
 //        Session session = sessionFactory.openSession();
         //Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-       
         boolean isInvalid = false;
-       
+
         gtnWsSearchRequest.setCount(true);
-        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType","itemId","itemName","brandId","brandName","segment","forecastYear","forecastMonth","marketSizeUnits","marketShareRatio",
-                        "marketShareUnits","grossUnits","grossPrice","grossAmount","netSalesPrice","netSalesAmount",
-                        "batchId","source","country","organizationKey"));
-                List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "forecastYear", "forecastMonth", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount",
+                "batchId", "source", "country", "organizationKey"));
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
         criteria.setFieldId("itemId");
         criteria.setFilterValue1("*");
@@ -253,10 +249,357 @@ public class GtnWsTransactionServiceTest {
         gtnWebServiceSearchCriteriaList.add(criteria2);
         gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
         gtnWsSearchRequest.setSearchModuleName("VwAdjustDemandForecastAct");
-        Map<String, String> columnDataTypeMap=new HashMap<>();
-                     
+        Map<String, String> columnDataTypeMap = new HashMap<>();
+
         gtnWsTransactionService.appendWhereCondition(gtnWsSearchRequest, columnDataTypeMap, criteria3, classMetadata, isInvalid);
-        assertFalse(generalRequest.getUserId().isEmpty());    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+
+    @Test
+    public void testAppendWhereConditionBETWEEN() throws Exception {
+
+        System.out.println("appendWhereCondition");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("410");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+
+        ClassMetadata classMetadata = null;
+
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
+
+        doReturn(session).when(factory).openSession();
+        doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
+
+        boolean isInvalid = false;
+
+        gtnWsSearchRequest.setCount(true);
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "forecastYear", "forecastMonth", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount",
+                "batchId", "source", "country", "organizationKey"));
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("itemId");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("BETWEEN");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("forecastTypeSid");
+        criteria2.setFilterValue1("645");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        gtnWsSearchRequest.setSearchModuleName("VwAdjustDemandForecastAct");
+        Map<String, String> columnDataTypeMap = new HashMap<>();
+        gtnWsTransactionService.appendWhereCondition(gtnWsSearchRequest, columnDataTypeMap, criteria3, classMetadata, isInvalid);
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+
+    @Test
+    public void testAppendWhereConditionEQUAL() throws Exception {
+
+        System.out.println("appendWhereCondition");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("410");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+
+        ClassMetadata classMetadata = null;
+
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
+
+        doReturn(session).when(factory).openSession();
+        doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
+
+        boolean isInvalid = false;
+
+        gtnWsSearchRequest.setCount(true);
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "forecastYear", "forecastMonth", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount",
+                "batchId", "source", "country", "organizationKey"));
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("itemId");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("EQUAL");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("forecastTypeSid");
+        criteria2.setFilterValue1("645");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        gtnWsSearchRequest.setSearchModuleName("VwAdjustDemandForecastAct");
+        Map<String, String> columnDataTypeMap = new HashMap<>();
+        gtnWsTransactionService.appendWhereCondition(gtnWsSearchRequest, columnDataTypeMap, criteria3, classMetadata, isInvalid);
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+
+    @Test
+    public void testAppendWhereConditionGREATER() throws Exception {
+
+        System.out.println("appendWhereCondition");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("410");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+
+        ClassMetadata classMetadata = null;
+
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
+
+        doReturn(session).when(factory).openSession();
+        doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
+
+        boolean isInvalid = false;
+
+        gtnWsSearchRequest.setCount(true);
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "forecastYear", "forecastMonth", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount",
+                "batchId", "source", "country", "organizationKey"));
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("itemId");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("GREATER");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("forecastTypeSid");
+        criteria2.setFilterValue1("645");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        gtnWsSearchRequest.setSearchModuleName("VwAdjustDemandForecastAct");
+        Map<String, String> columnDataTypeMap = new HashMap<>();
+        gtnWsTransactionService.appendWhereCondition(gtnWsSearchRequest, columnDataTypeMap, criteria3, classMetadata, isInvalid);
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+
+    @Test
+    public void testAppendWhereConditionLESS() throws Exception {
+
+        System.out.println("appendWhereCondition");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("410");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+
+        ClassMetadata classMetadata = null;
+
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
+
+        doReturn(session).when(factory).openSession();
+        doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
+
+        boolean isInvalid = false;
+
+        gtnWsSearchRequest.setCount(true);
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "forecastYear", "forecastMonth", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount",
+                "batchId", "source", "country", "organizationKey"));
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("itemId");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("LESS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("forecastTypeSid");
+        criteria2.setFilterValue1("645");
+        criteria2.setExpression("GREATER_OR_EQUAL");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        gtnWsSearchRequest.setSearchModuleName("VwAdjustDemandForecastAct");
+        Map<String, String> columnDataTypeMap = new HashMap<>();
+        gtnWsTransactionService.appendWhereCondition(gtnWsSearchRequest, columnDataTypeMap, criteria3, classMetadata, isInvalid);
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+
+    @Test
+    public void testAppendWhereConditionLESS_OR_EQUAL() throws Exception {
+
+        System.out.println("appendWhereCondition");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("410");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+
+        ClassMetadata classMetadata = null;
+
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
+
+        doReturn(session).when(factory).openSession();
+        doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
+
+        boolean isInvalid = false;
+
+        gtnWsSearchRequest.setCount(true);
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "forecastYear", "forecastMonth", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount",
+                "batchId", "source", "country", "organizationKey"));
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("itemId");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("LESS_OR_EQUAL");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("forecastTypeSid");
+        criteria2.setFilterValue1("645");
+        criteria2.setExpression("AND");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        gtnWsSearchRequest.setSearchModuleName("VwAdjustDemandForecastAct");
+        Map<String, String> columnDataTypeMap = new HashMap<>();
+        gtnWsTransactionService.appendWhereCondition(gtnWsSearchRequest, columnDataTypeMap, criteria3, classMetadata, isInvalid);
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+
+    @Test
+    public void testAppendWhereConditionDATE_BETWEEN() throws Exception {
+
+        System.out.println("appendWhereCondition");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("410");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+
+        ClassMetadata classMetadata = null;
+
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
+
+        doReturn(session).when(factory).openSession();
+        doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
+
+        boolean isInvalid = false;
+
+        gtnWsSearchRequest.setCount(true);
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "forecastYear", "forecastMonth", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount",
+                "batchId", "source", "country", "organizationKey"));
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("itemId");
+        criteria.setFilterValue1("YES");
+        criteria.setExpression("BOOLEAN_SEARCH");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("forecastTypeSid");
+        criteria2.setFilterValue1("645");
+        criteria2.setExpression("AND");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        gtnWsSearchRequest.setSearchModuleName("VwAdjustDemandForecastAct");
+        Map<String, String> columnDataTypeMap = new HashMap<>();
+        gtnWsTransactionService.appendWhereCondition(gtnWsSearchRequest, columnDataTypeMap, criteria3, classMetadata, isInvalid);
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+
+    @Test
+    public void testAppendWhereConditionDATE_DEFAULT() throws Exception {
+
+        System.out.println("appendWhereCondition");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("410");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+
+        ClassMetadata classMetadata = null;
+
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
+
+        doReturn(session).when(factory).openSession();
+        doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
+
+        boolean isInvalid = false;
+
+        gtnWsSearchRequest.setCount(true);
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "forecastYear", "forecastMonth", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount",
+                "batchId", "source", "country", "organizationKey"));
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("itemId");
+        criteria.setFilterValue1("YES");
+        criteria.setExpression("BOOLEAN_SEARCHh");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("forecastTypeSid");
+        criteria2.setFilterValue1("645");
+        criteria2.setExpression("AND");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        gtnWsSearchRequest.setSearchModuleName("VwAdjustDemandForecastAct");
+        Map<String, String> columnDataTypeMap = new HashMap<>();
+        gtnWsTransactionService.appendWhereCondition(gtnWsSearchRequest, columnDataTypeMap, criteria3, classMetadata, isInvalid);
+        assertFalse(generalRequest.getUserId().isEmpty());
     }
 
     /**
@@ -265,9 +608,9 @@ public class GtnWsTransactionServiceTest {
     @Test
     public void testAndCriteriaDouble() throws Exception {
         System.out.println("andCriteria");
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
 //        Session session = sessionFactory.openSession();
@@ -283,17 +626,17 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.andCriteria(criteria3, criteria, value, type, dateFormat);
-        assertFalse(value.isEmpty());    
+        assertFalse(value.isEmpty());
     }
-    
-        @Test
+
+    @Test
     public void testAndCriteriaInteger() throws Exception {
         System.out.println("andCriteria");
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
@@ -307,17 +650,17 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.andCriteria(criteria3, criteria, value, type, dateFormat);
-        assertFalse(value.isEmpty());    
+        assertFalse(value.isEmpty());
     }
-    
+
     @Test
     public void testAndCriteriaDate() throws Exception {
         System.out.println("andCriteria");
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
@@ -331,7 +674,7 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.andCriteria(criteria3, criteria, value, type, dateFormat);
-        assertFalse(value.isEmpty());    
+        assertFalse(value.isEmpty());
     }
 
     /**
@@ -346,9 +689,9 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         Object result = instance.getValueBasedOnType(type, value, filterValue, dateFormat);
-        assertFalse(filterValue.isEmpty());    
+        assertFalse(filterValue.isEmpty());
     }
-    
+
     @Test
     public void testGetValueBasedOnTypeDouble() throws Exception {
         System.out.println("getValueBasedOnType");
@@ -358,10 +701,10 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         Object result = instance.getValueBasedOnType(type, value, filterValue, dateFormat);
-        assertFalse(filterValue.isEmpty());    
+        assertFalse(filterValue.isEmpty());
     }
-    
-      @Test
+
+    @Test
     public void testGetValueBasedOnTypeInteger() throws Exception {
         System.out.println("getValueBasedOnType");
         String type = GtnWsConstants.INTEGER;
@@ -370,7 +713,7 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         Object result = instance.getValueBasedOnType(type, value, filterValue, dateFormat);
-        assertFalse(filterValue.isEmpty());    
+        assertFalse(filterValue.isEmpty());
     }
 
     /**
@@ -381,9 +724,9 @@ public class GtnWsTransactionServiceTest {
         System.out.println("equalsCriteria");
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
@@ -397,17 +740,17 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.equalsCriteria(criteria3, criteria, type, value, dateFormat);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
-    
-        @Test
+
+    @Test
     public void testEqualsCriteriaInteger() throws Exception {
         System.out.println("equalsCriteria");
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
@@ -421,15 +764,15 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.equalsCriteria(criteria3, criteria, type, value, dateFormat);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
-    
+
     @Test
     public void testEqualsCriteriaDate() throws Exception {
         System.out.println("equalsCriteria");
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
 //        Session session = sessionFactory.openSession();
@@ -445,15 +788,15 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.equalsCriteria(criteria3, criteria, type, value, dateFormat);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
-    
+
     @Test
     public void testEqualsCriteriaDouble() throws Exception {
         System.out.println("equalsCriteria");
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
 //        Session session = sessionFactory.openSession();
@@ -469,18 +812,18 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.equalsCriteria(criteria3, criteria, type, value, dateFormat);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
-    
+
     @Test
     public void testEqualsCriteriaCheckRecord() throws Exception {
         System.out.println("equalsCriteria");
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
         System.out.println("equalsCriteria");
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
@@ -494,17 +837,17 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.equalsCriteria(criteria3, criteria, type, value, dateFormat);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
-    
+
     @Test
     public void testEqualsCriteriaElse() throws Exception {
         System.out.println("equalsCriteria");
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
@@ -518,7 +861,7 @@ public class GtnWsTransactionServiceTest {
         String dateFormat = "yyyy-MM-dd";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.equalsCriteria(criteria3, criteria, type, value, dateFormat);
-        assertFalse(value.isEmpty());    
+        assertFalse(value.isEmpty());
     }
 
     /**
@@ -529,9 +872,9 @@ public class GtnWsTransactionServiceTest {
         System.out.println("equalCriteria");
 //         Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
@@ -540,22 +883,23 @@ public class GtnWsTransactionServiceTest {
         criteria.setFilterValue2("2");
         criteria.setExpression("AND");
         criteria.setFilter(true);
+        criteria.isFilter();
         String type = GtnFrameworkWebserviceConstant.DOUBLE;
         String dateFormat = "";
         String value = "";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.equalCriteria(criteria3, criteria, type, dateFormat, value);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
-    
+
     @Test
     public void testEqualCriteriaInteger() throws Exception {
         System.out.println("equalCriteria");
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
@@ -569,17 +913,41 @@ public class GtnWsTransactionServiceTest {
         String value = "";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.equalCriteria(criteria3, criteria, type, dateFormat, value);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
-    
+
+    @Test
+    public void testEqualCriteriaInteger2() throws Exception {
+        System.out.println("equalCriteria");
+//        Session session = sessionFactory.openSession();
+//        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
+        doReturn(session).when(factory).openSession();
+        doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("Item");
+        criteria.setFilterValue1("2");
+        criteria.setFilterValue2("2");
+        criteria.setExpression("AND");
+        criteria.setFilter(true);
+        String type = GtnFrameworkWebserviceConstant.JAVA_LANG_INTEGER;
+        String dateFormat = "";
+        String value = "";
+        GtnWsTransactionService instance = new GtnWsTransactionService();
+        gtnWsTransactionService.equalCriteria(criteria3, criteria, type, dateFormat, value);
+        assertFalse(type.isEmpty());
+    }
+
     @Test
     public void testEqualCriteriaDate() throws Exception {
         System.out.println("equalCriteria");
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
@@ -593,7 +961,7 @@ public class GtnWsTransactionServiceTest {
         String value = "";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.equalCriteria(criteria3, criteria, type, dateFormat, value);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
 
     /**
@@ -604,9 +972,9 @@ public class GtnWsTransactionServiceTest {
         System.out.println("likeCriteria");
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
@@ -620,17 +988,43 @@ public class GtnWsTransactionServiceTest {
         String type = "java.lang.String";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.likeCriteria(criteria3, criteria2, value, isUser, isInvalidFilter, type);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
-    
+
+    @Test
+    public void testLikeCriteriaUser() {
+        System.out.println("likeCriteria");
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
+        doReturn(session).when(factory).openSession();
+        doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("forecastTypeSid");
+        criteria2.setFilterValue1("*");
+        criteria2.setExpression("LIKE");
+        criteria2.setFilter(false);
+        String value = "*";
+        boolean isUser = true;
+        boolean isInvalidFilter = false;
+        String type = "java.lang.String";
+        Map<Integer, String> userIdNameMap = new HashMap<>();
+        userIdNameMap.put(20156, "John");
+        gtnWsAllListConfig.setUserIdNameMap(userIdNameMap);
+        doReturn(userIdNameMap).when(gtnWsAllListConfig).getUserIdNameMap();
+        GtnWsTransactionService instance = new GtnWsTransactionService();
+        gtnWsTransactionService.likeCriteria(criteria3, criteria2, value, isUser, isInvalidFilter, type);
+        assertFalse(type.isEmpty());
+    }
+
     @Test
     public void testLikeCriteriaDouble() {
         System.out.println("likeCriteria");
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
@@ -644,17 +1038,17 @@ public class GtnWsTransactionServiceTest {
         String type = GtnFrameworkWebserviceConstant.DOUBLE;
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.likeCriteria(criteria3, criteria2, value, isUser, isInvalidFilter, type);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
-    
-       @Test
+
+    @Test
     public void testLikeCriteriaInteger() {
         System.out.println("likeCriteria");
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
@@ -668,15 +1062,15 @@ public class GtnWsTransactionServiceTest {
         String type = GtnFrameworkWebserviceConstant.INTEGER;
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.likeCriteria(criteria3, criteria2, value, isUser, isInvalidFilter, type);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
-    
-     @Test
+
+    @Test
     public void testLikeCriteriaElse() {
         System.out.println("likeCriteria");
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
@@ -690,7 +1084,7 @@ public class GtnWsTransactionServiceTest {
         String type = GtnFrameworkWebserviceConstant.INTEGER;
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.likeCriteria(criteria3, criteria2, value, isUser, isInvalidFilter, type);
-        assertFalse(type.isEmpty());    
+        assertFalse(type.isEmpty());
     }
 
     /**
@@ -699,9 +1093,9 @@ public class GtnWsTransactionServiceTest {
     @Test
     public void testGetDoubleFilterValue() {
         System.out.println("getDoubleFilterValue");
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
@@ -713,7 +1107,7 @@ public class GtnWsTransactionServiceTest {
         String type = GtnFrameworkWebserviceConstant.DOUBLE;
         GtnWsTransactionService instance = new GtnWsTransactionService();
         gtnWsTransactionService.getDoubleFilterValue(criteria2, criteria3, columnName);
-        assertFalse(type.isEmpty()); 
+        assertFalse(type.isEmpty());
     }
 
     /**
@@ -730,25 +1124,24 @@ public class GtnWsTransactionServiceTest {
         generalRequest.setExcel(false);
         gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
         GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
-      
+
         ClassMetadata classMetadata = null;
-       
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
 
-       
         boolean isInvalid = false;
-       
+
         gtnWsSearchRequest.setCount(true);
-        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType","itemId","itemName","brandId","brandName","segment","forecastYear","forecastMonth","marketSizeUnits","marketShareRatio",
-                        "marketShareUnits","grossUnits","grossPrice","grossAmount","netSalesPrice","netSalesAmount",
-                        "batchId","source","country","organizationKey"));
-                List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "forecastYear", "forecastMonth", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount",
+                "batchId", "source", "country", "organizationKey"));
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
         criteria.setFieldId("itemId");
         criteria.setFilterValue1("*");
@@ -764,11 +1157,11 @@ public class GtnWsTransactionServiceTest {
         gtnWebServiceSearchCriteriaList.add(criteria2);
         gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
         gtnWsSearchRequest.setSearchModuleName("VwAdjustDemandForecastAct");
-        Map<String, String> columnDataTypeMap=new HashMap<>();
-        String type="";       
-        String dateFormat="yyyy-MM-dd";    
+        Map<String, String> columnDataTypeMap = new HashMap<>();
+        String type = "";
+        String dateFormat = "yyyy-MM-dd";
         gtnWsTransactionService.betweenConditon(criteria3, criteria, type, dateFormat);
-        assertFalse(generalRequest.getUserId().isEmpty());    
+        assertFalse(generalRequest.getUserId().isEmpty());
     }
 
     /**
@@ -777,16 +1170,17 @@ public class GtnWsTransactionServiceTest {
     @Test
     public void testGetDateValue() throws Exception {
         System.out.println("getDateValue");
-        String type = "";
-        String filterValue = "*";
-        String dateFormat = "yyyy-MM-dd";
+        String type = "java.util.Date";
+        String filterValue = "31/12/1998";
+        String dateFormat = "dd/MM/yyyy";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         Object result = instance.getDateValue(type, filterValue, dateFormat);
-        assertFalse(filterValue.isEmpty()); 
+        assertFalse(filterValue.isEmpty());
     }
 
     /**
-     * Test of generateCountProjectionAndCriteria method, of class GtnWsTransactionService.
+     * Test of generateCountProjectionAndCriteria method, of class
+     * GtnWsTransactionService.
      */
     @Test
     public void testGenerateCountProjectionAndCriteria() {
@@ -802,12 +1196,12 @@ public class GtnWsTransactionServiceTest {
         boolean isCount = true;
         boolean isExcel = false;
         //ClassMetadata classMetadata = null;
-       
+
         gtnWsSearchRequest.setCount(false);
-        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType","itemId","itemName","brandId","brandName","segment","forecastYear","forecastMonth","marketSizeUnits","marketShareRatio",
-                        "marketShareUnits","grossUnits","grossPrice","grossAmount","netSalesPrice","netSalesAmount",
-                        "batchId","source","country","organizationKey"));
-                List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "forecastYear", "forecastMonth", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount",
+                "batchId", "source", "country", "organizationKey"));
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
         GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
         criteria.setFieldId("itemId");
         criteria.setFilterValue1("*");
@@ -825,28 +1219,28 @@ public class GtnWsTransactionServiceTest {
         gtnWsSearchRequest.setSearchModuleName("VwAdjustDemandForecastAct");
         gtnWsSearchRequest.setTableRecordStart(0);
         gtnWsSearchRequest.setTableRecordOffset(10);
-        Map<String, String> columnDataTypeMap=new HashMap<>();   
+        Map<String, String> columnDataTypeMap = new HashMap<>();
         columnDataTypeMap.put("marketShareUnits", "java.lang.Double");
         columnDataTypeMap.put("country", "java.lang.String");
-        
+
 //        Session session = sessionFactory.openSession();
 //        Criteria criteria3 = session.createCriteria(GtnWsTransactionService.class);
-        SessionFactory factory=Mockito.mock(SessionFactory.class);
-        Session session=Mockito.mock(Session.class);
-        Criteria criteria3=Mockito.mock(Criteria.class);
+        SessionFactory factory = Mockito.mock(SessionFactory.class);
+        Session session = Mockito.mock(Session.class);
+        Criteria criteria3 = Mockito.mock(Criteria.class);
         doReturn(session).when(factory).openSession();
         doReturn(criteria3).when(session).createCriteria(GtnWsTransactionService.class);
         ClassMetadata classMetadata1 = Mockito.mock(ClassMetadata.class);
-        
+
         when(classMetadata1.getIdentifierPropertyName()).thenReturn("");
-        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList=new ArrayList<>();
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
         GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
         e.setPropertyId("marketShareUnits");
         gtnWebServiceOrderByCriteriaList.add(e);
         gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
 
         gtnWsTransactionService1.generateCountProjectionAndCriteria(gtnWsSearchRequest, columnDataTypeMap, criteria3, classMetadata1);
-        assertFalse(generalRequest.getUserId().isEmpty());      
+        assertFalse(generalRequest.getUserId().isEmpty());
     }
 
     /**
@@ -863,7 +1257,7 @@ public class GtnWsTransactionServiceTest {
         String tableName = GtnFrameworkWebserviceConstant.GL_BALANCE;
         GtnWsTransactionService instance = new GtnWsTransactionService();
         String result = instance.getExpressionType(criteria, tableName);
-        assertFalse(tableName.isEmpty()); 
+        assertFalse(tableName.isEmpty());
     }
 
     /**
@@ -892,7 +1286,6 @@ public class GtnWsTransactionServiceTest {
 //        gtnWsTransactionService1.getViewDetails(gtnWsTransactionRequest);
 //        assertFalse(generalRequest.getUserId().isEmpty());      
 //    }
-
     /**
      * Test of getViewRecord method, of class GtnWsTransactionService.
      */
@@ -907,18 +1300,69 @@ public class GtnWsTransactionServiceTest {
         generalRequest.setSessionId("410");
         generalRequest.setExcel(false);
         gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
-        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        GtnWsTransactionRequest gtnWsTransactionRequest = new GtnWsTransactionRequest();
         gtnWsTransactionRequest.setTableName("VwAdjustDemandForecastAct");
-        gtnWsTransactionRequest.setProjectionColumns(Arrays.asList("forecastType","itemId","itemName","brandId","brandName","segment","marketSizeUnits","marketShareRatio",
-                        "marketShareUnits","grossUnits","grossPrice","grossAmount","netSalesPrice","netSalesAmount","forecastYear","forecastMonth","totalDemandUnits","totalDemandAmount",
-                        "batchId","source","country","businessUnitNo","businessUnitName"));
-        gtnWsTransactionRequest.setHelpercomponentList(Arrays.asList("adjustedDemandForecastId","forecastTypeSid","organizationKey"));
+        gtnWsTransactionRequest.setProjectionColumns(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount", "forecastYear", "forecastMonth", "totalDemandUnits", "totalDemandAmount",
+                "batchId", "source", "country", "businessUnitNo", "businessUnitName"));
+        gtnWsTransactionRequest.setHelpercomponentList(Arrays.asList("adjustedDemandForecastId", "forecastTypeSid", "organizationKey"));
         gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);
-        List<Object> resultList=new ArrayList<>();
-        Object[] ob={1,2};
+        List<Object> resultList = new ArrayList<>();
+        Object[] ob = {1, 2};
         resultList.add(ob);
         instance.getViewRecord(resultList, gtnWsTransactionRequest);
-        assertFalse(generalRequest.getUserId().isEmpty());      
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+
+    @Test
+    public void testGetViewRecordDouble() {
+        GtnWsTransactionService instance = new GtnWsTransactionService();
+        System.out.println("getViewRecord");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("410");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest = new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("VwAdjustDemandForecastAct");
+        gtnWsTransactionRequest.setProjectionColumns(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount", "forecastYear", "forecastMonth", "totalDemandUnits", "totalDemandAmount",
+                "batchId", "source", "country", "businessUnitNo", "businessUnitName"));
+        gtnWsTransactionRequest.setHelpercomponentList(Arrays.asList("adjustedDemandForecastId", "forecastTypeSid", "organizationKey"));
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);
+        List<Object> resultList = new ArrayList<>();
+        Object[] ob = {1.25, 2.11};
+        resultList.add(ob);
+        instance.getViewRecord(resultList, gtnWsTransactionRequest);
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+
+    @Test
+    public void testGetViewRecordHelper() {
+        GtnWsTransactionService instance = new GtnWsTransactionService();
+        System.out.println("getViewRecord");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("410");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest = new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("VwAdjustDemandForecastAct");
+        gtnWsTransactionRequest.setProjectionColumns(Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount", "forecastYear", "forecastMonth", "totalDemandUnits", "totalDemandAmount",
+                "batchId", "source", "country", "businessUnitNo", "businessUnitName"));
+        gtnWsTransactionRequest.setHelpercomponentList(Arrays.asList("adjustedDemandForecastId", "forecastTypeSid", "organizationKey"));
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);
+        List<Object> resultList = new ArrayList<>();
+        HelperTable helperTable = new HelperTable();
+        Object[] ob = {helperTable};
+        resultList.add(ob);
+        instance.getViewRecord(resultList, gtnWsTransactionRequest);
+        assertFalse(generalRequest.getUserId().isEmpty());
     }
 
     /**
@@ -953,25 +1397,27 @@ public class GtnWsTransactionServiceTest {
     public void testWriteFile() {
         System.out.println("writeFile");
         List resultList = new ArrayList<>();
-        PrintWriter printWriter = new PrintWriter(System.out);    
-        FileWriter writer = null;
-        Boolean excelComplete = false;
+        PrintWriter printWriter = new PrintWriter(System.out);
+        Boolean excelComplete = true;
         List<String> columnFormatList = new ArrayList<>();
         GtnWsTransactionService instance = new GtnWsTransactionService();
-        instance.writeFile(resultList, printWriter, writer, excelComplete, columnFormatList);
-        assertFalse(excelComplete);    
+        PrintWriter pprintWriter = Mockito.mock(PrintWriter.class);
+        FileWriter ffileWriter = Mockito.mock(FileWriter.class);
+        instance.writeFile(resultList, pprintWriter, ffileWriter, excelComplete, columnFormatList);
+        assertFalse(!excelComplete);
     }
 
     /**
      * Test of getFilePath method, of class GtnWsTransactionService.
      */
-//    @Test
-//    public void testGetFilePath() throws Exception {
-//        System.out.println("getFilePath");
-//        GtnWsTransactionService instance = new GtnWsTransactionService();
-//        String result = gtnWsTransactionService.getFilePath();
-//        assertFalse(result.isEmpty()); 
-//    }
+    @Test
+    public void testGetFilePath() throws Exception {
+        System.out.println("getFilePath");
+        GtnWsTransactionService instance = new GtnWsTransactionService();
+        System.setProperty("gtn.app.data.path", "D:\\Habib/Allergan Servers/bpigtn_portlet/jboss-7.1.1/gtnframework_base_path/null/GtnFrameworkItemMaster");
+        String result = gtnWsTransactionService.getFilePath();
+        assertFalse(result.isEmpty());
+    }
 
     /**
      * Test of getHelperValue method, of class GtnWsTransactionService.
@@ -979,10 +1425,10 @@ public class GtnWsTransactionServiceTest {
     @Test
     public void testGetHelperValue() {
         System.out.println("getHelperValue");
-        Object value = 12;
+        HelperTable helperTable = new HelperTable();
         GtnWsTransactionService instance = new GtnWsTransactionService();
-        Object result = instance.getHelperValue(value);
-        assertFalse(result==null); 
+        Object result = instance.getHelperValue(helperTable);
+        assertFalse(result != null);
     }
 
     /**
@@ -996,7 +1442,7 @@ public class GtnWsTransactionServiceTest {
         userMap.put(20156, "JohnSmith");
         GtnWsTransactionService instance = new GtnWsTransactionService();
         String result = instance.getUserName(value, userMap);
-        assertFalse(result==null); 
+        assertFalse(result == null);
     }
 
     /**
@@ -1008,7 +1454,25 @@ public class GtnWsTransactionServiceTest {
         Object value = 1;
         GtnWsTransactionService instance = new GtnWsTransactionService();
         String result = instance.getYesNoValue(value);
-        assertFalse(result==null); 
+        assertFalse(result == null);
+    }
+
+    @Test
+    public void testGetYesNoValueFalse() {
+        System.out.println("getYesNoValue");
+        Object value = 2;
+        GtnWsTransactionService instance = new GtnWsTransactionService();
+        String result = instance.getYesNoValue(value);
+        assertFalse(result == null);
+    }
+
+    @Test
+    public void testGetYesNoValueNull() {
+        System.out.println("getYesNoValue");
+        Object value = null;
+        GtnWsTransactionService instance = new GtnWsTransactionService();
+        String result = instance.getYesNoValue(value);
+        assertFalse(result == null);
     }
 
     /**
@@ -1017,17 +1481,23 @@ public class GtnWsTransactionServiceTest {
     @Test
     public void testGetResultList() {
         System.out.println("getResultList");
-        List<Object> resultSet = new ArrayList<Object>();
-        List<Object> searchColumnNameList = new ArrayList<>();
-        searchColumnNameList.add(12);
-        searchColumnNameList.add(GtnFrameworkCommonConstants.CREATED_BY);
-        searchColumnNameList.add(GtnFrameworkCommonConstants.MODIFIED_BY);
+
+        HelperTable helperTable = new HelperTable();
+        List<Object> searchColumnNameList = Arrays.asList("forecastType", "itemId", "itemName", "brandId", "brandName", "segment", "forecastYear", "forecastMonth", "marketSizeUnits", "marketShareRatio",
+                "marketShareUnits", "grossUnits", "grossPrice", "grossAmount", "netSalesPrice", "netSalesAmount",
+                "batchId", "source", "country", "organizationKey", GtnFrameworkCommonConstants.CREATED_BY, GtnFrameworkCommonConstants.MODIFIED_BY, GtnFrameworkWebserviceConstant.ACTIVE);
+//        searchColumnNameList.add(12);
+//        searchColumnNameList.add(GtnFrameworkCommonConstants.CREATED_BY);
+//        searchColumnNameList.add(GtnFrameworkCommonConstants.MODIFIED_BY);
+        Object[] ob = {helperTable, "BASE", "ITEM_9", "ITEM_9", "BRAND_1", "IMITREX", null, "2017", 4, 0.0, "0", 355.0, 929312.69, 34008.53, 28594.0, 38167.49, 16674.56, 189.19, 27243.22, "COMMERCIAL_20170512", "DW", "US", "BU_1", 1};
+        List<Object> resultSet = new ArrayList<>();
+        resultSet.add(ob);
         Map<Integer, String> userMap = new HashMap<>();
-        userMap.put(20156, "JohnSmith");
+        userMap.put(164321, "John Smith");
         String tableName = GtnFrameworkWebserviceConstant.GL_BALANCE;
         GtnWsTransactionService instance = new GtnWsTransactionService();
         List result = instance.getResultList(resultSet, searchColumnNameList, userMap, tableName);
-        assertFalse(result==null); 
+        assertFalse(result == null);
     }
 
     /**
@@ -1039,17 +1509,20 @@ public class GtnWsTransactionServiceTest {
 //        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 //        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
 //        generalRequest.setComboBoxType("COMPANY_TYPE");
-//        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+//        List<String> list = new ArrayList<>();
+//        list.add("fsfs");
+//        list.add(" fsfs ");
+//        generalRequest.setExtraParameter(list);
 //        generalRequest.setUserId("20156");
 //        generalRequest.setSessionId("767");
 //        generalRequest.setExcel(false);
 //        GtnWsTransactionService instance = new GtnWsTransactionService();
 //        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
-//        GtnWsSearchRequest gtnWsSearchRequest=new GtnWsSearchRequest();
+//        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
 //        gtnWsSearchRequest.setCount(true);
-//        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("checkRecord","cfpId","cfpNo","cfpName","cfpStatus","cfpStartDate","cfpEndDate",
-//                                 "cfpType","cfpCategory","cfpTradeClass","cfpDesignation","parentCfpId","parentCfpName","createdBy","createdDate","modifiedBy",
-//                                 "modifiedDate","batchId","source","addChgDelIndictor","errorCode","errorField","reasonForFailure","reprocessedFlag","cfpIntfid"));
+//        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList("checkRecord", "cfpId", "cfpNo", "cfpName", "cfpStatus", "cfpStartDate", "cfpEndDate",
+//                "cfpType", "cfpCategory", "cfpTradeClass", "cfpDesignation", "parentCfpId", "parentCfpName", "createdBy", "createdDate", "modifiedBy",
+//                "modifiedDate", "batchId", "source", "addChgDelIndictor", "errorCode", "errorField", "reasonForFailure", "reprocessedFlag", "cfpIntfid"));
 //        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
 //        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
 //        criteria.setFieldId("reprocessedFlag");
@@ -1067,8 +1540,17 @@ public class GtnWsTransactionServiceTest {
 //        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
 //        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
 //        GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
-//        //System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH)
-//        instance.getExcelFile(gtnUIFrameworkWebserviceResponse, generalRequest, gtnWsSearchRequest, gtnWsRequest);
+//        PrintWriter pprintWriter = Mockito.mock(PrintWriter.class);
+//        FileWriter ffileWriter = Mockito.mock(FileWriter.class);
+//
+//        SessionFactory factory = Mockito.mock(SessionFactory.class);
+//        Session session = Mockito.mock(Session.class);
+//
+//        doReturn(factory).when(gtnSqlQueryEngine1).getSessionFactory();
+//        doReturn(session).when(factory).openSession();
+//        doReturn(GtnWsTransactionReprocessController.class).when(gtnWsAllListConfig).getTransctionDynamicClass(Mockito.anyString());
+//        System.setProperty("gtn.app.data.path", "D:\\Habib/Allergan Servers/bpigtn_portlet/jboss-7.1.1/gtnframework_base_path/null/GtnFrameworkItemMaster");
+//        gtnWsTransactionService1.getExcelFile(gtnUIFrameworkWebserviceResponse, generalRequest, gtnWsSearchRequest, gtnWsRequest);
 //        assertFalse(gtnWsSearchRequest.getSearchColumnNameList().isEmpty());
 //    }
 
@@ -1081,13 +1563,13 @@ public class GtnWsTransactionServiceTest {
         Date ob = new Date();
         GtnWsTransactionService instance = new GtnWsTransactionService();
         Date result = instance.getDateForSearch(ob);
-        assertFalse(result==null);
+        assertFalse(result == null);
     }
 
     /**
      * Test of getFormattedData method, of class GtnWsTransactionService.
      */
-   @Test
+    @Test
     public void testGetFormattedData() {
         System.out.println("getFormattedData");
         List<String> projectionColumns = new ArrayList<>();
@@ -1101,7 +1583,7 @@ public class GtnWsTransactionServiceTest {
         gtnWsTransactionService1.getFormattedData(projectionColumns, ob, tableName);
         assertFalse(tableName.isEmpty());
     }
-    
+
     @Test
     public void testGetFormattedDataModifiedBy() {
         System.out.println("getFormattedData");
@@ -1116,8 +1598,8 @@ public class GtnWsTransactionServiceTest {
         gtnWsTransactionService1.getFormattedData(projectionColumns, ob, tableName);
         assertFalse(tableName.isEmpty());
     }
-    
-       @Test
+
+    @Test
     public void testGetFormattedDataACTIVE() {
         System.out.println("testGetFormattedDataACTIVE");
         List<String> projectionColumns = new ArrayList<>();
@@ -1138,9 +1620,19 @@ public class GtnWsTransactionServiceTest {
     @Test
     public void testGetValidOrInvalidModules() {
         System.out.println("getValidOrInvalidModules");
-        String searchModuleName = "Ivld";
+        String searchModuleName = "Ivldhff";
         GtnWsTransactionService instance = new GtnWsTransactionService();
         boolean expResult = true;
+        boolean result = instance.getValidOrInvalidModules(searchModuleName);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testGetValidOrInvalidModulesFalse() {
+        System.out.println("getValidOrInvalidModules");
+        String searchModuleName = "ff";
+        GtnWsTransactionService instance = new GtnWsTransactionService();
+        boolean expResult = false;
         boolean result = instance.getValidOrInvalidModules(searchModuleName);
         assertEquals(expResult, result);
     }
@@ -1154,7 +1646,7 @@ public class GtnWsTransactionServiceTest {
         String searchModuleName = "FORECAST_SALES_INTERFACE";
         List<Object> inputList = new ArrayList<>();
         inputList.add(searchModuleName);
-       // GtnFrameworkSqlQueryEngine engine=new GtnFrameworkSqlQueryEngine();
+        // GtnFrameworkSqlQueryEngine engine=new GtnFrameworkSqlQueryEngine();
         GtnFrameworkSqlQueryEngine engine=Mockito.mock(GtnFrameworkSqlQueryEngine.class);
         doReturn("FORECAST_SALES_INTERFACE").when(gtnWsSqlService).getQuery(Mockito.any());
         doReturn(engine).when(gtnWsAllListConfig).getGtnSqlQueryEngine();
@@ -1176,7 +1668,7 @@ public class GtnWsTransactionServiceTest {
         String result = gtnWsTransactionService1.getValidationForRunning(searchModuleName);
         assertFalse(searchModuleName.isEmpty());
     }
-
+    
     /**
      * Test of getColumnName method, of class GtnWsTransactionService.
      */
@@ -1200,6 +1692,14 @@ public class GtnWsTransactionServiceTest {
         String result = instance.replaceSingleQuote(searchValue);
         assertFalse(searchValue.isEmpty());
     }
+    @Test
+    public void testReplaceSingleQuotefalse() {
+        System.out.println("replaceSingleQuote");
+        String searchValue = "2222'''2";
+        GtnWsTransactionService instance = new GtnWsTransactionService();
+        String result = instance.replaceSingleQuote(searchValue);
+        assertFalse(searchValue.isEmpty());
+    }
 
     /**
      * Test of getGtnWebServiceAllListConfig method, of class GtnWsTransactionService.
@@ -1208,7 +1708,7 @@ public class GtnWsTransactionServiceTest {
     public void testGetGtnWebServiceAllListConfig() {
         System.out.println("getGtnWebServiceAllListConfig");
         GtnWsAllListConfig result = gtnWsTransactionService1.getGtnWebServiceAllListConfig();
-        assertFalse(result==null);
+        assertFalse(result == null);
     }
 
     /**
@@ -1218,25 +1718,25 @@ public class GtnWsTransactionServiceTest {
     public void testGetGtnSqlQueryEngine() {
         System.out.println("getGtnSqlQueryEngine");
         GtnFrameworkSqlQueryEngine result = gtnWsTransactionService1.getGtnSqlQueryEngine();
-        assertFalse(result==null);
+        assertFalse(result == null);
     }
-    
+
     public String getFilePath() throws GtnFrameworkGeneralException {
-		StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH));
-		filePath.append('/');
-		filePath.append("exceltransaction");
-		filePath.append('/');
-		Path path = Paths.get(filePath.toString());
-                if (path.toFile().exists()){
-			try {
-				Files.createDirectories(path);
-			} catch (IOException e) {
+        StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH));
+        filePath.append('/');
+        filePath.append("exceltransaction");
+        filePath.append('/');
+        Path path = Paths.get(filePath.toString());
+        if (path.toFile().exists()) {
+            try {
+                Files.createDirectories(path);
+            } catch (IOException e) {
 
-				throw new GtnFrameworkGeneralException(e);
+                throw new GtnFrameworkGeneralException(e);
 
-			}
-		}
-		return filePath.toString();
-	}
-    
+            }
+        }
+        return filePath.toString();
+    }
+
 }

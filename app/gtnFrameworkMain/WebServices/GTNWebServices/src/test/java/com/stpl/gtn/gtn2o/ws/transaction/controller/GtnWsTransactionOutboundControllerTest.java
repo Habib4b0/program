@@ -105,4 +105,32 @@ public class GtnWsTransactionOutboundControllerTest {
         assertFalse(generalRequest.getUserId().isEmpty());       
     }
     
+    @Test
+    public void testReprocessRecordsFalse() {  
+        System.out.println("reprocessRecords");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("319");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("StCffOutboundMaster");
+        gtnWsTransactionRequest.setStagingTableName("StCffOutboundMaster");
+        List<String> reprocessIds = new ArrayList<>();
+        reprocessIds.add("133699_1363_601");
+        //gtnWsTransactionRequest.setReprocessFlag(true);
+        gtnWsTransactionRequest.setOutBoundModule(true);
+        Object[] stagInsertColumns={"cffDetailsSid","rsModelSid","periodSid"};
+        gtnWsTransactionRequest.setStagInsertColumns(stagInsertColumns);
+        gtnWsTransactionRequest.setStagUpdateColumns(new Object[]{"etlCheckRecord","UserId","sessionId"});
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(new Object[]{"1","1","1"});
+        gtnWsTransactionRequest.setOutBoundTableName("VwCffOutboundMaster");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);
+        gtnWsTransactionOutboundController.reprocessRecords(gtnWsRequest);
+        assertFalse(generalRequest.getUserId().isEmpty());       
+    }
+    
 }
