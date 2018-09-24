@@ -155,7 +155,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             super.setProjectionSelection(false);
         }
+        else{
         nmFrequencyDdlb.setValue(session.getDsFrequency());
+        }
         generateBtnLogic(null);
         configureGroupDDLB();
         super.configureGraph();
