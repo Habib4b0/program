@@ -4969,7 +4969,7 @@ public class NMProjectionResultsLogic {
                 String commonColumn = common.get(0);
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
-                    int v =pos == 1 ? NumericConstants.THREE : pos == NumericConstants.TWO ? NumericConstants.FIVE  : pos == NumericConstants.FOUR ? NumericConstants.TEN : NumericConstants.SEVEN; 
+                    int v = findPositionActual(pos);
                     String value = StringUtils.EMPTY + discountRow[pos == 1 ? NumericConstants.THREE : pos == NumericConstants.TWO ? NumericConstants.FIVE  : pos == NumericConstants.FOUR ? NumericConstants.TEN : NumericConstants.SEVEN]; 
                     String value1 = StringUtils.EMPTY;
                     if (projSelDTO.getSales().contains(Constant.SALES_WHOLE_CAPS)) {
@@ -4988,7 +4988,7 @@ public class NMProjectionResultsLogic {
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
-                    int u =pos == 1 ? NumericConstants.FOUR : pos == NumericConstants.TWO ? NumericConstants.SIX :pos == NumericConstants.FOUR ? NumericConstants.ELEVEN : NumericConstants.EIGHT; 
+                    int u = findPositionProjection(pos);
                     String value = StringUtils.EMPTY + discountRow[pos == 1 ? NumericConstants.FOUR : pos == NumericConstants.TWO ? NumericConstants.SIX : pos == NumericConstants.FOUR ? NumericConstants.ELEVEN : NumericConstants.EIGHT]; 
                     String value1 = StringUtils.EMPTY;
                     if (projSelDTO.getSales().contains(Constant.SALES_WHOLE_CAPS)) {
@@ -5018,6 +5018,43 @@ public class NMProjectionResultsLogic {
             projDTO.addStringProperties(columns, getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
         }
         return projDtoList;
+    }
+
+    private int findPositionActual(int pos) {
+        int v;
+        switch (pos) {
+            case 1:
+                v = NumericConstants.THREE;
+                break;
+            case NumericConstants.TWO:
+                v = NumericConstants.FIVE;
+                break;
+            case NumericConstants.FOUR:
+                v = NumericConstants.TEN;
+                break;
+            default:
+                v =NumericConstants.SEVEN;
+                break;
+        }
+        return v;
+    }
+    private int findPositionProjection(int pos) {
+        int u;
+        switch (pos) {
+            case 1:
+                u = NumericConstants.FOUR;
+                break;
+            case NumericConstants.TWO:
+                u = NumericConstants.SIX;
+                break;
+            case NumericConstants.FOUR:
+                u = NumericConstants.ELEVEN;
+                break;
+            default:
+                u =NumericConstants.EIGHT;
+                break;
+        }
+        return u;
     }
 
     /**

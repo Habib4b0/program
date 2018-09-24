@@ -144,7 +144,6 @@ public class NMPVExcelLogic {
     private final Map<String, String> customViewRelationshipHierarchy = new HashMap();
     protected PVParameters parameterDto;
     private boolean discountFlag;
-    private boolean isCustomView;
     protected Map<String, String> discountNameMap = new HashMap<>();
     public static final String PROGRAM = "Program";
     public static final String PROGRAM_CAT = "Program Category";
@@ -184,7 +183,7 @@ public class NMPVExcelLogic {
         discountKeys.clear();
         isTotal = "Total".equalsIgnoreCase(selection.getLevel());
         discountFlag = !"Total Discount".equalsIgnoreCase(selection.getDiscountLevel());
-        isCustomView = selection.isIsCustomHierarchy();
+        boolean isCustomView = selection.isIsCustomHierarchy();
 
         if (isCustomView) {
             customViewRelationshipHierarchy.putAll(getGroupCustomViewNM());

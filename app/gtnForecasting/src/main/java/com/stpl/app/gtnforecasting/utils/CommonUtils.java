@@ -487,7 +487,7 @@ public class CommonUtils {
         try {
             String path = controller.getClass().getCanonicalName();
             String finalPath = path.substring(0, path.lastIndexOf('.'));
-            finalPath = finalPath.replaceAll("\\.", "\\" + File.separator);
+            finalPath = finalPath.replaceAll(Constant.DOUBLE_SLASH_DOT, Constant.DOUBLE_SLASH + File.separator);
             finalPath += xmlClassResourceFileName;
             LOGGER.debug("Path to XML= {}" , finalPath);
             xml = Thread.currentThread().getContextClassLoader().getResource(finalPath).openStream();

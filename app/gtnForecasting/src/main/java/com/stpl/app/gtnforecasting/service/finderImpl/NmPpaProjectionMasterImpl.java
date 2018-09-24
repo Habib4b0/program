@@ -99,7 +99,7 @@ public class NmPpaProjectionMasterImpl {
         }
     }
     
-    public List getPPAResults(Integer projectionId, int levelNo, String parent, int endIndex, boolean isCount, List<String> input, String levelName) {
+    public List getPPAResults(Integer projectionId, int levelNo, String parent, boolean isCount, List<String> input, String levelName) {
        
         StringBuilder sql = new StringBuilder();
         Integer startFrequency = null;
