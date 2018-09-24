@@ -5,6 +5,31 @@
  */
 package com.stpl.gtn.gtn2o.ws.module.companymaster.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.annotation.PostConstruct;
+
+import org.hibernate.QueryException;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
@@ -21,26 +46,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import org.hibernate.QueryException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -49,507 +54,491 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
 public class GtnWsCMasterServiceTest {
-    
-    
-    
-    public GtnWsCMasterServiceTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-    
 
-    
-    @Autowired
-    private GtnWsCMasterService gtnWsCMasterService;
-   
-    @PostConstruct
-    public void constrcut(){
-       GtnWsAllListConfig gtnWebServiceAllListConfig= gtnWsCMasterService.getGtnWebServiceAllListConfig();
-       gtnWebServiceAllListConfig.setGtnSqlQueryEngine(gtnWsCMasterService.getGtnSqlQueryEngine());
-    }
+	public GtnWsCMasterServiceTest() {
+	}
 
-    /**
-     * Test of getCompantMasterSearch method, of class GtnWsCMasterService.
-     */
-    
-        @Test
-        
-        public void testGetCompantMasterSearch()  {
-        System.out.println("getCompantMasterSearch");
-        List<Object> searchColumnNameList = new ArrayList<Object> ();
-        searchColumnNameList.add("companyName");
-        searchColumnNameList.add("companyType");
-      GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
-      GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
-      gtnWsSearchRequest.setSearchQueryName("SearchQuery");
-      gtnWsSearchRequest.setCount(true);
-      gtnWsSearchRequest.setSearchColumnNameList(searchColumnNameList);
-       
-       List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList=new ArrayList<>();
-       GtnWebServiceSearchCriteria criteria=new GtnWebServiceSearchCriteria();
-       criteria.setFieldId("companyName");
-       criteria.setFilterValue1("Company_1");
-       criteria.setExpression("EQUALS");
-       gtnWebServiceSearchCriteriaList.add(criteria);
-       gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
-      
-       
-       List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList=new ArrayList<>();
-       GtnWebServiceOrderByCriteria byCriteria=new GtnWebServiceOrderByCriteria();
-       byCriteria.setPropertyId("companyName");
-       byCriteria.setOrderByCriteria("DESC");
-       gtnWebServiceOrderByCriteriaList.add(byCriteria);
-      gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
-      
-      gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
-      
-      gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
-   
-        try {
-           gtnWsCMasterService.getCompantMasterSearch(gtnUIFrameworkWebserviceRequest);
-        } 
-          catch (QueryException ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-              assertTrue(true);
-        }
-        catch (GtnFrameworkGeneralException ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    
-    /**
-     * Test of getCompanyMasterQueryGeneratorBean method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetCompanyMasterQueryGeneratorBean() {
-        System.out.println("getCompanyMasterQueryGeneratorBean");
-        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
-        GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
-      
-        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
-              Object[] columnArray = new Object[] { "companyMasterSid", "companyId", "companyNo", "companyName",
+	@BeforeClass
+	public static void setUpClass() {
+	}
+
+	@AfterClass
+	public static void tearDownClass() {
+	}
+
+	@Before
+	public void setUp() {
+	}
+
+	@After
+	public void tearDown() {
+	}
+
+	@Autowired
+	private GtnWsCMasterService gtnWsCMasterService;
+
+	@PostConstruct
+	public void constrcut() {
+		GtnWsAllListConfig gtnWebServiceAllListConfig = gtnWsCMasterService.getGtnWebServiceAllListConfig();
+		gtnWebServiceAllListConfig.setGtnSqlQueryEngine(gtnWsCMasterService.getGtnSqlQueryEngine());
+	}
+
+	/**
+	 * Test of getCompantMasterSearch method, of class GtnWsCMasterService.
+	 */
+
+	@Test
+
+	public void testGetCompantMasterSearch() {
+		System.out.println("getCompantMasterSearch");
+		List<Object> searchColumnNameList = new ArrayList<Object>();
+		searchColumnNameList.add("companyName");
+		searchColumnNameList.add("companyType");
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setSearchQueryName("SearchQuery");
+		gtnWsSearchRequest.setCount(true);
+		gtnWsSearchRequest.setSearchColumnNameList(searchColumnNameList);
+
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+		GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+		criteria.setFieldId("companyName");
+		criteria.setFilterValue1("Company_1");
+		criteria.setExpression("EQUALS");
+		gtnWebServiceSearchCriteriaList.add(criteria);
+		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		GtnWebServiceOrderByCriteria byCriteria = new GtnWebServiceOrderByCriteria();
+		byCriteria.setPropertyId("companyName");
+		byCriteria.setOrderByCriteria("DESC");
+		gtnWebServiceOrderByCriteriaList.add(byCriteria);
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+
+		gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
+
+		gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+
+		try {
+			gtnWsCMasterService.getCompantMasterSearch(gtnUIFrameworkWebserviceRequest);
+		} catch (QueryException ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+			assertTrue(true);
+		} catch (GtnFrameworkGeneralException ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	/**
+	 * Test of getCompanyMasterQueryGeneratorBean method, of class
+	 * GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetCompanyMasterQueryGeneratorBean() {
+		System.out.println("getCompanyMasterQueryGeneratorBean");
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
+
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		Object[] columnArray = new Object[] { "companyMasterSid", "companyId", "companyNo", "companyName",
 				"companyStatus", "companyType", "companyStartDate", "companyEndDate", "companyTradeClass",
 				"tradeClassStartDate", "tradeClassEndDate", "companyGroup", "companyCategory", "organizationKey",
 				"financialSystem", "parentCompanyNo", "parentStartDate", "parentEndDate", "priorParentCompanyNo",
 				"priorParentStartDate", "regionCode", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "address1",
 				"address2", "zipCode", "city", "state", "country" };
-	        gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
+		gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
 		gtnWsSearchRequest.setSearchQueryName("SearchQuery");
 		gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(columnArray));
 		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(Arrays.asList(
 				new GtnWebServiceSearchCriteria[] { new GtnWebServiceSearchCriteria("companyId", "*", "EQUALS") }));
 		gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
-        try {
-            testMap(gtnWebServiceSearchQueryConfig);
-        } catch (Exception ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-                List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();
+		try {
+			testMap(gtnWebServiceSearchQueryConfig);
+		} catch (Exception ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();
 		orderByClauseList.add(new GtnWebServiceOrderByCriteria("companyId", "ASC"));
 		gtnWebServiceSearchQueryConfig.setOrderByClause(orderByClauseList);
 
-                
 		gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
-                  gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().setGtnWebServiceOrderByCriteriaList(Arrays
-				.asList(new GtnWebServiceOrderByCriteria[] { new GtnWebServiceOrderByCriteria("companyId", "ASC") })); 
-           
-        GtnFrameworkQueryGeneratorBean expResult = new GtnFrameworkQueryGeneratorBean();
-        expResult.setFromTableAlies("cm");
-        GtnFrameworkQueryGeneratorBean result = gtnWsCMasterService.getCompanyMasterQueryGeneratorBean(gtnUIFrameworkWebserviceRequest, gtnWebServiceSearchQueryConfig);
-        assertEquals(expResult.getFromTableAlies(), result.getFromTableAlies());
-    }
+		gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().setGtnWebServiceOrderByCriteriaList(Arrays
+				.asList(new GtnWebServiceOrderByCriteria[] { new GtnWebServiceOrderByCriteria("companyId", "ASC") }));
 
-    /**
-     * Test of getSearchColumnBean method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetSearchColumnBean() {
-        System.out.println("getSearchColumnBean");
-        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new  GtnUIFrameworkWebserviceRequest();
-        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
-        GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
-        GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
-              Object[] columnArray = new Object[] { "companyMasterSid", "companyId", "companyNo", "companyName",
+		GtnFrameworkQueryGeneratorBean expResult = new GtnFrameworkQueryGeneratorBean();
+		expResult.setFromTableAlies("cm");
+		GtnFrameworkQueryGeneratorBean result = gtnWsCMasterService
+				.getCompanyMasterQueryGeneratorBean(gtnUIFrameworkWebserviceRequest, gtnWebServiceSearchQueryConfig);
+		assertEquals(expResult.getFromTableAlies(), result.getFromTableAlies());
+	}
+
+	/**
+	 * Test of getSearchColumnBean method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetSearchColumnBean() {
+		System.out.println("getSearchColumnBean");
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
+		GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
+		Object[] columnArray = new Object[] { "companyMasterSid", "companyId", "companyNo", "companyName",
 				"companyStatus", "companyType", "companyStartDate", "companyEndDate", "companyTradeClass",
 				"tradeClassStartDate", "tradeClassEndDate", "companyGroup", "companyCategory", "organizationKey",
 				"financialSystem", "parentCompanyNo", "parentStartDate", "parentEndDate", "priorParentCompanyNo",
 				"priorParentStartDate", "regionCode", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "address1",
 				"address2", "zipCode", "city", "state", "country" };
-	        gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
+		gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
 		gtnWsSearchRequest.setSearchQueryName("SearchQuery");
 		gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(columnArray));
 		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(Arrays.asList(
 				new GtnWebServiceSearchCriteria[] { new GtnWebServiceSearchCriteria("companyId", "*", "EQUALS") }));
 		gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
-      
-        try {
-            testMap(gtnWebServiceSearchQueryConfig);
-        } catch (Exception ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        gtnWsCMasterService.getSearchColumnBean(gtnUIFrameworkWebserviceRequest, gtnWebServiceSearchQueryConfig, queryGeneratorConfig);
-      
-    }
 
-    /**
-     * Test of getJoinClauseBean method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetJoinClauseBean() {
-        System.out.println("getJoinClauseBean");
-        GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
-      
-        gtnWsCMasterService.getJoinClauseBean(queryGeneratorConfig);
-    }
+		try {
+			testMap(gtnWebServiceSearchQueryConfig);
+		} catch (Exception ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		gtnWsCMasterService.getSearchColumnBean(gtnUIFrameworkWebserviceRequest, gtnWebServiceSearchQueryConfig,
+				queryGeneratorConfig);
 
-    /**
-     * Test of getWhereClauseBean method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetWhereClauseBean() {
-        System.out.println("getWhereClauseBean");
-        GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
-        GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
-        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();  
-        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
-              Object[] columnArray = new Object[] { "companyMasterSid", "companyId", "companyNo", "companyName",
+	}
+
+	/**
+	 * Test of getJoinClauseBean method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetJoinClauseBean() {
+		System.out.println("getJoinClauseBean");
+		GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
+
+		gtnWsCMasterService.getJoinClauseBean(queryGeneratorConfig);
+	}
+
+	/**
+	 * Test of getWhereClauseBean method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetWhereClauseBean() {
+		System.out.println("getWhereClauseBean");
+		GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
+		GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		Object[] columnArray = new Object[] { "companyMasterSid", "companyId", "companyNo", "companyName",
 				"companyStatus", "companyType", "companyStartDate", "companyEndDate", "companyTradeClass",
 				"tradeClassStartDate", "tradeClassEndDate", "companyGroup", "companyCategory", "organizationKey",
 				"financialSystem", "parentCompanyNo", "parentStartDate", "parentEndDate", "priorParentCompanyNo",
 				"priorParentStartDate", "regionCode", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "address1",
 				"address2", "zipCode", "city", "state", "country" };
-	        gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
+		gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
 		gtnWsSearchRequest.setSearchQueryName("SearchQuery");
 		gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(columnArray));
 		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(Arrays.asList(
 				new GtnWebServiceSearchCriteria[] { new GtnWebServiceSearchCriteria("companyId", "*", "EQUALS") }));
 		gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
-        
-        
-      
-        try {
-            testMap(gtnWebServiceSearchQueryConfig);
-        } catch (Exception ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        gtnWsCMasterService.getWhereClauseBean(queryGeneratorConfig, gtnWebServiceSearchQueryConfig, gtnUIFrameworkWebserviceRequest);
-    }
 
-    /**
-     * Test of getOrderByClause method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetOrderByClauseIf() {
-        System.out.println("getOrderByClause");
-        GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
-        GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
-        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
-      
-        try {
-            testMap(gtnWebServiceSearchQueryConfig);
-        
-        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
-              Object[] columnArray = new Object[] { "companyMasterSid", "companyId", "companyNo", "companyName",
-				"companyStatus", "companyType", "companyStartDate", "companyEndDate", "companyTradeClass",
-				"tradeClassStartDate", "tradeClassEndDate", "companyGroup", "companyCategory", "organizationKey",
-				"financialSystem", "parentCompanyNo", "parentStartDate", "parentEndDate", "priorParentCompanyNo",
-				"priorParentStartDate", "regionCode", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "address1",
-				"address2", "zipCode", "city", "state", "country" };
-	        gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
-		gtnWsSearchRequest.setSearchQueryName("SearchQuery");
-		gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(columnArray));
-		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(Arrays.asList(
-				new GtnWebServiceSearchCriteria[] { new GtnWebServiceSearchCriteria("companyId", "*", "EQUALS") }));
-                 
+		try {
+			testMap(gtnWebServiceSearchQueryConfig);
+		} catch (Exception ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		gtnWsCMasterService.getWhereClauseBean(queryGeneratorConfig, gtnWebServiceSearchQueryConfig,
+				gtnUIFrameworkWebserviceRequest);
+	}
 
-                List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();
-		orderByClauseList.add(new GtnWebServiceOrderByCriteria("companyId", "ASC"));
-		gtnWebServiceSearchQueryConfig.setOrderByClause(orderByClauseList);
-                
-                
-                
-		gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
-                  gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().setGtnWebServiceOrderByCriteriaList(Arrays
-				.asList(new GtnWebServiceOrderByCriteria[] { new GtnWebServiceOrderByCriteria("companyId", "ASC") })); 
-                  
-        } catch (Exception ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        gtnWsCMasterService.getOrderByClause(queryGeneratorConfig, gtnWebServiceSearchQueryConfig, gtnUIFrameworkWebserviceRequest);
-    }
-    
-    @Test
-    public void testGetOrderByClauseElse() {
-        System.out.println("getOrderByClause1");
-        GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
-        GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
-        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
-      
-        try {
-            testMap(gtnWebServiceSearchQueryConfig);
-        
-        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
-              Object[] columnArray = new Object[] { "companyMasterSid", "companyId", "companyNo", "companyName",
-				"companyStatus", "companyType", "companyStartDate", "companyEndDate", "companyTradeClass",
-				"tradeClassStartDate", "tradeClassEndDate", "companyGroup", "companyCategory", "organizationKey",
-				"financialSystem", "parentCompanyNo", "parentStartDate", "parentEndDate", "priorParentCompanyNo",
-				"priorParentStartDate", "regionCode", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "address1",
-				"address2", "zipCode", "city", "state", "country" };
-	        gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
-		gtnWsSearchRequest.setSearchQueryName("SearchQuery");
-		gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(columnArray));
-                 
-                gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(new ArrayList<GtnWebServiceSearchCriteria>());
+	/**
+	 * Test of getOrderByClause method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetOrderByClauseIf() {
+		System.out.println("getOrderByClause");
+		GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
+		GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
 
-                List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();
-		orderByClauseList.add(new GtnWebServiceOrderByCriteria("companyId", "ASC"));
-		gtnWebServiceSearchQueryConfig.setOrderByClause(orderByClauseList);  
-		gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);               
-        } catch (Exception ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        gtnWsCMasterService.getOrderByClause(queryGeneratorConfig, gtnWebServiceSearchQueryConfig, gtnUIFrameworkWebserviceRequest);
-    }
+		try {
+			testMap(gtnWebServiceSearchQueryConfig);
 
-    /**
-     * Test of getTableColumnForField method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetTableColumnForFieldpoIf() {
-        System.out.println("getTableColumnForField");
-        String fieldName = "companyId";
-        GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
-        try {
-            testMap(gtnWebServiceSearchQueryConfig);
-        } catch (Exception ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-      
-        String expResult = "cm.COMPANY_ID";
-        String result = gtnWsCMasterService.getTableColumnForField(fieldName, gtnWebServiceSearchQueryConfig);
-        assertEquals(expResult.trim(), result.trim());
+			GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+			Object[] columnArray = new Object[] { "companyMasterSid", "companyId", "companyNo", "companyName",
+					"companyStatus", "companyType", "companyStartDate", "companyEndDate", "companyTradeClass",
+					"tradeClassStartDate", "tradeClassEndDate", "companyGroup", "companyCategory", "organizationKey",
+					"financialSystem", "parentCompanyNo", "parentStartDate", "parentEndDate", "priorParentCompanyNo",
+					"priorParentStartDate", "regionCode", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "address1",
+					"address2", "zipCode", "city", "state", "country" };
+			gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
+			gtnWsSearchRequest.setSearchQueryName("SearchQuery");
+			gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(columnArray));
+			gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(Arrays.asList(
+					new GtnWebServiceSearchCriteria[] { new GtnWebServiceSearchCriteria("companyId", "*", "EQUALS") }));
 
-    }
-    
-      @Test
-    public void testGetTableColumnForFieldElse() {
-        System.out.println("getTableColumnForField1");
-        String fieldName = "companId";
-        GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
-        try {
-            testMap(gtnWebServiceSearchQueryConfig);
-            gtnWsCMasterService.getTableColumnForField(fieldName, gtnWebServiceSearchQueryConfig);
-        } 
-      catch(IllegalArgumentException ex)
-        {
-          assertTrue(true);
-        }
-        
-        catch (Exception ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
+			List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();
+			orderByClauseList.add(new GtnWebServiceOrderByCriteria("companyId", "ASC"));
+			gtnWebServiceSearchQueryConfig.setOrderByClause(orderByClauseList);
 
-    /**
-     * Test of getTableColumnForWhereClause method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetTableColumnForWhereClauseIf() {
-        System.out.println("getTableColumnForWhereClause");
-        String fieldName = "companyId";
-        GtnWsSearchQueryConfig searchQueryConfig = new GtnWsSearchQueryConfig();
-          try {
-            testMap(searchQueryConfig);
-        } catch (Exception ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-      
-        String expResult = "cm.COMPANY_ID";
-        String result = gtnWsCMasterService.getTableColumnForWhereClause(fieldName, searchQueryConfig);
-        assertEquals(expResult.trim(), result.trim());
-  
-    }
+			gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+			gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().setGtnWebServiceOrderByCriteriaList(Arrays.asList(
+					new GtnWebServiceOrderByCriteria[] { new GtnWebServiceOrderByCriteria("companyId", "ASC") }));
 
-      @Test
-    public void testGetTableColumnForWhereClauseElse() {
-        System.out.println("getTableColumnForWhereClause1");
-        String fieldName = "compayId";
-        GtnWsSearchQueryConfig searchQueryConfig = new GtnWsSearchQueryConfig();
-          try {
-            testMap(searchQueryConfig);
-            gtnWsCMasterService.getTableColumnForWhereClause(fieldName, searchQueryConfig);
-        } 
-            catch(IllegalArgumentException ex)
-        {
-          assertTrue(true);
-        }
-          
-          catch (Exception ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-      
-    }
-    
-    /**
-     * Test of findTypeList method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testFindTypeList() {
-        System.out.println("findTypeList");
-        GtnWsSearchQueryConfig searchQueryConfig = new GtnWsSearchQueryConfig();
-        List<Object> columnNameList = new ArrayList<>();
-        columnNameList.add("companyId");
-        try {
-            testMap(searchQueryConfig);
-        } catch (Exception ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        
-      
-        List<String> expResult = new ArrayList<>();
-        expResult.add("String");
-        List<String> result = gtnWsCMasterService.findTypeList(searchQueryConfig, columnNameList);
-        assertEquals(expResult, result);
-    }
-    }
+		} catch (Exception ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		gtnWsCMasterService.getOrderByClause(queryGeneratorConfig, gtnWebServiceSearchQueryConfig,
+				gtnUIFrameworkWebserviceRequest);
+	}
 
-    /**
-     * Test of getHelperTypeValue method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetHelperTypeValue() {
-        System.out.println("getHelperTypeValue");
-        Object object = 10;
-      
-        Object expResult = "CFP_DESIGNATION";
-        Object result = gtnWsCMasterService.getHelperTypeValue(object);
-        assertEquals(expResult, result);
-    }
+	@Test
+	public void testGetOrderByClauseElse() {
+		System.out.println("getOrderByClause1");
+		GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
+		GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
 
-    /**
-     * Test of getStringFromObject method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetStringFromObject() {
-        System.out.println("getStringFromObject");
-        Object str = 10;
-      
-        String expResult = "10";
-        String result = gtnWsCMasterService.getStringFromObject(str);
-        assertEquals(expResult.trim(), result.trim());
-    }
-    
-        @Test
-    public void testGetStringFromObjectElse() {
-        System.out.println("getStringFromObject1");
-        Object str = "";    
-        String expResult = "";
-        String result = gtnWsCMasterService.getStringFromObject(str);
-        assertEquals(expResult.trim(), result.trim());
-    }
+		try {
+			testMap(gtnWebServiceSearchQueryConfig);
 
-    /**
-     * Test of getIntegerFromObject method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetIntegerFromObject() {
-        System.out.println("getIntegerFromObject");
-        Object obj = 10;
-      
-        Integer expResult = 10;
-        Integer result = gtnWsCMasterService.getIntegerFromObject(obj);
-        assertEquals(expResult, result);
-    }
+			GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+			Object[] columnArray = new Object[] { "companyMasterSid", "companyId", "companyNo", "companyName",
+					"companyStatus", "companyType", "companyStartDate", "companyEndDate", "companyTradeClass",
+					"tradeClassStartDate", "tradeClassEndDate", "companyGroup", "companyCategory", "organizationKey",
+					"financialSystem", "parentCompanyNo", "parentStartDate", "parentEndDate", "priorParentCompanyNo",
+					"priorParentStartDate", "regionCode", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "address1",
+					"address2", "zipCode", "city", "state", "country" };
+			gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
+			gtnWsSearchRequest.setSearchQueryName("SearchQuery");
+			gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(columnArray));
 
-    /**
-     * Test of getCustomisedResult method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetCustomisedResult() {
-        System.out.println("getCustomisedResult");
-        List resultList = new ArrayList();
-        resultList.add(new Object[]{"sb",10,new Date(),"boolean"});
-        GtnWsSearchQueryConfig searchQueryConfig = new GtnWsSearchQueryConfig();
-        List<Object> columnName = new ArrayList<>();
-        columnName.add("companyId");
-        columnName.add("parentCompanySearchcompanyType");
-        columnName.add("lastUpdatedDate");
-        columnName.add("recordLockStatus");
-        try {
-            testMap(searchQueryConfig);
-        } catch (Exception ex) {
-            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-      
-        gtnWsCMasterService.getCustomisedResult(resultList, searchQueryConfig, columnName);
-    }
+			gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(new ArrayList<GtnWebServiceSearchCriteria>());
 
-    /**
-     * Test of getOperatorType method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testGetOperatorType() {
-        System.out.println("getOperatorType");
-        ArrayList<String> list = new ArrayList<>();
-        String between = "BETWEEN";
-        String like = "LIKE";
-        String equal = "EQUAL_TO";
-        String greater = "GREATERTHAN";
-        String less = "LESSTHAN";
-        String in = "IN";
-        String inn = "inn";
+			List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();
+			orderByClauseList.add(new GtnWebServiceOrderByCriteria("companyId", "ASC"));
+			gtnWebServiceSearchQueryConfig.setOrderByClause(orderByClauseList);
+			gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+		} catch (Exception ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		gtnWsCMasterService.getOrderByClause(queryGeneratorConfig, gtnWebServiceSearchQueryConfig,
+				gtnUIFrameworkWebserviceRequest);
+	}
 
-        list.add(between);
-        list.add(like);
-        list.add(equal);
-        list.add(greater);
-        list.add(less);
-        list.add(in);
-        list.add(inn);
+	/**
+	 * Test of getTableColumnForField method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetTableColumnForFieldpoIf() {
+		System.out.println("getTableColumnForField");
+		String fieldName = "companyId";
+		GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
+		try {
+			testMap(gtnWebServiceSearchQueryConfig);
+		} catch (Exception ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
-        for (String e : list) {
-            System.out.println(e);
-            GtnFrameworkOperatorType result = null;
-                result = gtnWsCMasterService.getOperatorType(e);
-                if(result!=null){
-                String s=result.toString();        
-                assertEquals(e, s);
-                }
-     
-        }
-    }
+		String expResult = "cm.COMPANY_ID";
+		String result = gtnWsCMasterService.getTableColumnForField(fieldName, gtnWebServiceSearchQueryConfig);
+		assertEquals(expResult.trim(), result.trim());
 
-    /**
-     * Test of ccpId method, of class GtnWsCMasterService.
-     */
-    @Test
-    public void testCcpId() throws Exception {
-        System.out.println("ccpId");
-        List<Object> inputValueList = new ArrayList<>();
-        inputValueList.add("COMPANY_1");
-        GtnUIFrameworkWebserviceResponse gtnWSresponse =new GtnUIFrameworkWebserviceResponse();
-        
-        gtnWsCMasterService.ccpId(inputValueList, gtnWSresponse);
-    }
-    
-    public void testMap(GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig) throws Exception{
-        GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
-        Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>(100);
+	}
+
+	@Test
+	public void testGetTableColumnForFieldElse() {
+		System.out.println("getTableColumnForField1");
+		String fieldName = "companId";
+		GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
+		try {
+			testMap(gtnWebServiceSearchQueryConfig);
+			gtnWsCMasterService.getTableColumnForField(fieldName, gtnWebServiceSearchQueryConfig);
+		} catch (IllegalArgumentException ex) {
+			assertTrue(true);
+		}
+
+		catch (Exception ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+	}
+
+	/**
+	 * Test of getTableColumnForWhereClause method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetTableColumnForWhereClauseIf() {
+		System.out.println("getTableColumnForWhereClause");
+		String fieldName = "companyId";
+		GtnWsSearchQueryConfig searchQueryConfig = new GtnWsSearchQueryConfig();
+		try {
+			testMap(searchQueryConfig);
+		} catch (Exception ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+		String expResult = "cm.COMPANY_ID";
+		String result = gtnWsCMasterService.getTableColumnForWhereClause(fieldName, searchQueryConfig);
+		assertEquals(expResult.trim(), result.trim());
+
+	}
+
+	@Test
+	public void testGetTableColumnForWhereClauseElse() {
+		System.out.println("getTableColumnForWhereClause1");
+		String fieldName = "compayId";
+		GtnWsSearchQueryConfig searchQueryConfig = new GtnWsSearchQueryConfig();
+		try {
+			testMap(searchQueryConfig);
+			gtnWsCMasterService.getTableColumnForWhereClause(fieldName, searchQueryConfig);
+		} catch (IllegalArgumentException ex) {
+			assertTrue(true);
+		}
+
+		catch (Exception ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+	}
+
+	/**
+	 * Test of findTypeList method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testFindTypeList() {
+		System.out.println("findTypeList");
+		GtnWsSearchQueryConfig searchQueryConfig = new GtnWsSearchQueryConfig();
+		List<Object> columnNameList = new ArrayList<>();
+		columnNameList.add("companyId");
+		try {
+			testMap(searchQueryConfig);
+		} catch (Exception ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+
+			List<String> expResult = new ArrayList<>();
+			expResult.add("String");
+			List<String> result = gtnWsCMasterService.findTypeList(searchQueryConfig, columnNameList);
+			assertEquals(expResult, result);
+		}
+	}
+
+	/**
+	 * Test of getHelperTypeValue method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetHelperTypeValue() {
+		System.out.println("getHelperTypeValue");
+		Object object = 10;
+		gtnWsCMasterService.getHelperTypeValue(object);
+	}
+
+	/**
+	 * Test of getStringFromObject method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetStringFromObject() {
+		System.out.println("getStringFromObject");
+		Object str = 10;
+
+		String expResult = "10";
+		String result = gtnWsCMasterService.getStringFromObject(str);
+		assertEquals(expResult.trim(), result.trim());
+	}
+
+	@Test
+	public void testGetStringFromObjectElse() {
+		System.out.println("getStringFromObject1");
+		Object str = "";
+		String expResult = "";
+		String result = gtnWsCMasterService.getStringFromObject(str);
+		assertEquals(expResult.trim(), result.trim());
+	}
+
+	/**
+	 * Test of getIntegerFromObject method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetIntegerFromObject() {
+		System.out.println("getIntegerFromObject");
+		Object obj = 10;
+
+		Integer expResult = 10;
+		Integer result = gtnWsCMasterService.getIntegerFromObject(obj);
+		assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test of getCustomisedResult method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetCustomisedResult() {
+		System.out.println("getCustomisedResult");
+		List resultList = new ArrayList();
+		resultList.add(new Object[] { "sb", 10, new Date(), "boolean" });
+		GtnWsSearchQueryConfig searchQueryConfig = new GtnWsSearchQueryConfig();
+		List<Object> columnName = new ArrayList<>();
+		columnName.add("companyId");
+		columnName.add("parentCompanySearchcompanyType");
+		columnName.add("lastUpdatedDate");
+		columnName.add("recordLockStatus");
+		try {
+			testMap(searchQueryConfig);
+		} catch (Exception ex) {
+			Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+		gtnWsCMasterService.getCustomisedResult(resultList, searchQueryConfig, columnName);
+	}
+
+	/**
+	 * Test of getOperatorType method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testGetOperatorType() {
+		System.out.println("getOperatorType");
+		ArrayList<String> list = new ArrayList<>();
+		String between = "BETWEEN";
+		String like = "LIKE";
+		String equal = "EQUAL_TO";
+		String greater = "GREATERTHAN";
+		String less = "LESSTHAN";
+		String in = "IN";
+		String inn = "inn";
+
+		list.add(between);
+		list.add(like);
+		list.add(equal);
+		list.add(greater);
+		list.add(less);
+		list.add(in);
+		list.add(inn);
+
+		for (String e : list) {
+			System.out.println(e);
+			GtnFrameworkOperatorType result = null;
+			result = gtnWsCMasterService.getOperatorType(e);
+			if (result != null) {
+				String s = result.toString();
+				assertEquals(e, s);
+			}
+
+		}
+	}
+
+	/**
+	 * Test of ccpId method, of class GtnWsCMasterService.
+	 */
+	@Test
+	public void testCcpId() throws Exception {
+		System.out.println("ccpId");
+		List<Object> inputValueList = new ArrayList<>();
+		inputValueList.add("COMPANY_1");
+		GtnUIFrameworkWebserviceResponse gtnWSresponse = new GtnUIFrameworkWebserviceResponse();
+
+		gtnWsCMasterService.ccpId(inputValueList, gtnWSresponse);
+	}
+
+	public void testMap(GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig) throws Exception {
+		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
+		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>(100);
 		fieldToColumnDetailsMap.put("companyMasterSid",
 				configProvider.getColumnStringConfig("COMPANY_MASTER_SID", "cm"));
 		GtnWsColumnDetailsConfig companyIdColumnConfig = configProvider.getColumnStringConfig("COMPANY_ID", "cm");
@@ -706,6 +695,6 @@ public class GtnWsCMasterServiceTest {
 		fieldToColumnDetailsMap.put("companyStatus1",
 				configProvider.getColumnStringConfig(GtnWsConstants.DESCRIPTION, "helperDescription"));
 		gtnWebServiceSearchQueryConfig.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
-    }
-    
+	}
+
 }
