@@ -117,44 +117,6 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT_DATASELECTION_PUBLICVIEW = "dataSelectionPublicView";
 
-	public static final String PRODUCT_HIERARCHY_LOOKUP_NAME = "Product Hierarchy LookUp";
-
-	public static final String PRODUCT_FORCAST_LEVEL = "ProductForecastLevel";
-
-	public static final String CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE = "customerHierarchySearchResultTableNEW";
-
-	public static final String CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE = "customViewLookupProductTable";
-
-	public static final String CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE = "customViewLookupDeductionTable";
-
-	public static final String CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE = "customViewLookupVariableTable";
-
-	public static final String CUSTOM_VIEW_LOOKUP_CUSTOMER_TABLE = "customViewLookupCustomerTable";
-
-	public static final String PRODUCT_BTN_MAIN = "productBtnMain";
-
-	public static final String PRODUCT_BTN = "productBtn";
-
-	public static final String ADD_PRODUCT_BTN = "addProductBtn";
-
-	public static final String REMOVE_PRODUCT_BTN = "removeProductBtn";
-
-	public static final String DEDUCTION_BTN_MAIN = "deductionBtnMain";
-
-	public static final String DEDUCTION_BTN = "deductionBtn";
-
-	public static final String ADD_DEDUCTION_BTN = "addDeductionBtn";
-
-	public static final String REMOVE_DEDUCTION_BTN = "removeDeductionBtn";
-
-	public static final String VARIABLES_BTN_MAIN = "variablesBtnMain";
-
-	public static final String VARIABLES_BTN = "variablesBtn";
-
-	public static final String ADD_VARIABLES_BTN = "addVariablesBtn";
-
-	public static final String REMOVE_VARIABLES_BTN = "removeVariablesBtn";
-
 	public static final String MODULE_TYPE = "forecast";
 
 	public static final String HUNDRED_ONE_PERCENT = "101%";
@@ -663,6 +625,44 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String VARIABLE_BREAKDOWN_RESULTS_LAYOUT = "variableBreakdownResultsLayout";
 
 	public static final String PERIOD = "period";
+
+	public static final String PRODUCT_HIERARCHY_LOOKUP_NAME = "Product Hierarchy LookUp";
+
+	public static final String CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE = "customerHierarchySearchResultTableNEW";
+
+	public static final String ADD_VARIABLES_BTN = "addVariablesBtn";
+
+	public static final String DEDUCTION_BTN = "deductionBtn";
+
+	public static final String CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE = "customViewLookupDeductionTable";
+
+	public static final String REMOVE_PRODUCT_BTN = "removeProductBtn";
+
+	public static final String PRODUCT_BTN = "productBtn";
+
+	public static final String PRODUCT_FORCAST_LEVEL = "ProductForecastLevel";
+
+	public static final String VARIABLES_BTN_MAIN = "variablesBtnMain";
+
+	public static final String DEDUCTION_BTN_MAIN = "deductionBtnMain";
+
+	public static final String CUSTOM_VIEW_LOOKUP_CUSTOMER_TABLE = "customViewLookupCustomerTable";
+
+	public static final String REMOVE_DEDUCTION_BTN = "removeDeductionBtn";
+
+	public static final String VARIABLES_BTN = "variablesBtn";
+
+	public static final String REMOVE_VARIABLES_BTN = "removeVariablesBtn";
+
+	public static final String CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE = "customViewLookupProductTable";
+
+	public static final String ADD_DEDUCTION_BTN = "addDeductionBtn";
+
+	public static final String CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE = "customViewLookupVariableTable";
+
+	public static final String PRODUCT_BTN_MAIN = "productBtnMain";
+
+	public static final String ADD_PRODUCT_BTN = "addProductBtn";
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
