@@ -21,73 +21,8 @@ import org.slf4j.LoggerFactory;
 public class NmPpaProjectionMasterImpl {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(NmPpaProjectionMasterImpl.class);
-    public List getPPAProjectionList(Integer projectionId, int levelNo, String parent, boolean last, int startIndex, int endIndex, boolean isCount, String levelName) {
-      
-        StringBuilder sql = new StringBuilder();
-       
-        
-        List<Object> resultList = new ArrayList<>();
-        try {
-            if (isCount) {
-                sql.append("select count(*) ");
-            } else {
-                sql.append("DECLARE @start INT=");
-                sql.append(startIndex);
-                sql.append(", @End   INT=");
-                sql.append(endIndex);
-                sql.append("SELECT LEVEL_NO,\n"
-                        + "       LEVEL_NAME,\n"
-                        + "       RELATIONSHIP_LEVEL_VALUES,\n"
-                        + "       QUARTER,\n"
-                        + "       YEAR,\n"
-                        + "       USER_GROUP,\n"
-                        + "       ACTUAL_PRICE_CAP,\n"
-                        + "       PRICE_BASIS,\n"
-                        + "       PRICE_CAP,\n"
-                        + "       RESET,\n"
-                        + "       PROJECTION_MASTER_SID,\n"
-                        + "       PARENT_NODE,\n"
-                        + "CHECK_RECORD,"
-                        + "       rn \n"
-                        + "FROM  (SELECT E.LEVEL_NO as LEVEL_NO,\n"
-                        + "E.LEVEL_NAME,E.RELATIONSHIP_LEVEL_VALUES,\n"
-                        + "Apr.QUARTER,Apr.YEAR,\n"
-                        + "A.USER_GROUP,");
-                if (last) {
-                    sql.append("A.ACTUAL_PRICE_CAP,A.PRICE_BASIS,PA.PRICE_CAP,PA.RESET,\n");
-                } else {
-                    sql.append("sum(A.ACTUAL_PRICE_CAP)as ACTUAL_PRICE_CAP,(A.PRICE_BASIS) as PRICE_BASIS,sum(PA.PRICE_CAP) as PRICE_CAP,PA.RESET,\n");
-                }
-                sql.append("D.PROJECTION_MASTER_SID ");
-                sql.append(",E.PARENT_NODE ,A.CHECK_RECORD,\n"
-                        + "              Row_number()\n"
-                        + "                OVER(\n"
-                        + "                  ORDER BY E.LEVEL_NO, Apr.YEAR ) rn ");
-            }
-            
-            sql.append("FROM  ST_NM_PPA_PROJECTION_MASTER A JOIN PROJECTION_DETAILS B ON"
-                    ).append( " A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
-                    ).append( "JOIN  PROJECTION_CUST_HIERARCHY D ON D.PROJECTION_MASTER_SID = B.PROJECTION_MASTER_SID \n"
-                    ).append( "JOIN  RELATIONSHIP_LEVEL_DEFINITION E ON E.RELATIONSHIP_LEVEL_SID = D.RELATIONSHIP_LEVEL_SID \n"
-                    ).append( "JOIN  ST_NM_PPA_PROJECTION PA ON PA.PROJECTION_DETAILS_SID=A.PROJECTION_DETAILS_SID \n"
-                    ).append( "JOIN  PERIOD Apr on PA.PERIOD_SID=Apr.PERIOD_SID  \n"
-                    ).append( "WHERE B.PROJECTION_MASTER_SID="
-                    ).append( projectionId ).append( " and E.PARENT_NODE = '" ).append( parent ).append( "' \n"
-                    ).append( "and E.LEVEL_NO=" ).append( levelNo ).append( " \n");
-            if (levelName != null&&!levelName.equals(StringUtils.EMPTY)) {
-                sql.append(" E.LEVEL_NAME=");
-                sql.append(levelName);
-            }
-            resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            LOGGER.error(sql.toString());
-        }
-        
-        return resultList;
-    }
     
-    public void setPPAProjectionMassUpdate(Object priceCap, int startQuater, int endQuater, int startYear, int endYear, int projectionId,String levelValue) {
+    public void setPPAProjectionMassUpdate(Object priceCap, int startQuater, int endQuater, int startYear, int endYear, int projectionId) {
 
         StringBuilder sql = new StringBuilder();
 

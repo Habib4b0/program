@@ -346,7 +346,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     }
 
     private DataResult<T> getCustomizedData(SelectionDTO data, List<Object[]> list) {
-        SummarySelection selection = (SummarySelection) data;
+        SummarySelection selection =  (SummarySelection) data;
         String lastMasterSid = StringUtils.EMPTY;
         String mastersId;
         List finalList = new ArrayList();

@@ -82,7 +82,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
     public static final String SPECIAL_CHAR = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*";
     private List<String> notesList = new ArrayList<>();
     private final SessionDTO sessionDTO;
-    protected static final Map<Integer, String> userMap = new ConcurrentHashMap<>();
+    protected final Map<Integer, String> userMap = new ConcurrentHashMap<>();
     private final NotesDTO binderDto = new NotesDTO();
     private final ErrorfulFieldGroup notesBinder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     private final ErrorLabel errorMsg = new ErrorLabel();
@@ -93,7 +93,6 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         super(binder, moduleName);
         getNotesBinder();
         configureField();
-        this.masterTableSid = masterTableSid;
         this.binder = (CustomFieldGroup) binder;
         this.sessionDTO = sessionDTO;
         this.adjustmentType = adjustmentType;
@@ -402,7 +401,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         internalNotes.setReadOnly(true);
     }
 
-    public void configureGeneratedColumn() {
+    private void configureGeneratedColumn() {
 
         table.addGeneratedColumn("documentName", new ExtFilterTable.ColumnGenerator() {
 

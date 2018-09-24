@@ -25,7 +25,7 @@ import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.queryengine.controller.GtnFrameworkWsSqlQueryEngineController;
 import com.stpl.gtn.gtn2o.ws.queryengine.service.GtnFrameworkWsSqlQueryEngineService;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/resources/GtnWsSqlQueryEngine-test.xml" })
@@ -275,10 +275,6 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 		System.setProperty("com.stpl.gtnframework.base.path", "E:/GTN Server Setup/conf");
 	}
 
-	@Override
-	public GtnUIFrameworkWebserviceRequest registerWs() {
-		return null;
-	}
 	@Test
 	public void testingWS()
 	{
@@ -312,6 +308,11 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 
     @Override
     public void initCallOnFailure() {
+        // Default Method
+    }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
         // Default Method
     }
 	

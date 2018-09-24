@@ -138,7 +138,7 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
 
         if (isCount) {
             List count = null;
-            if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+            if ((lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                 count = QueryUtils.getItemData(getQueryInput(parentDTO, selection, accrualInput, queryName), queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
             } else if (!ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) && !ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
@@ -152,7 +152,7 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
         } else {
             List result;
             List<AdjustmentDTO> resultDTO;
-            if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+            if ((lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                 getQueryInput(parentDTO, selection, accrualInput, queryName);
                 accrualInput.addAll(new ArrayList<>(Arrays.asList(startindex, endindex)));

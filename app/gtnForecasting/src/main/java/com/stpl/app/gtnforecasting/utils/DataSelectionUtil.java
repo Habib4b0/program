@@ -9,12 +9,12 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
+import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.form.DataSelectionIndex;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
-import com.stpl.app.model.ForecastConfig;
 import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_CONTRACT;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
@@ -49,7 +49,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
@@ -585,7 +584,7 @@ public class DataSelectionUtil {
                         if (MODE_SEARCH.getConstant().equalsIgnoreCase(mode)) {
                         fromPeriodItemValueList.add(SELECT_ONE);
                         toPeriodItemValueList.add(SELECT_ONE);
-                        }
+			}
                         fromPeriodItemValueList.addAll(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
 			List<String> fromPeriodItemCodeList = new ArrayList<>(
 					response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
@@ -1096,8 +1095,7 @@ public class DataSelectionUtil {
 
 	public static int getYearFromDate(Date date) {
 		SimpleDateFormat getYear = new SimpleDateFormat("yyyy");
-		int year = Integer.parseInt(getYear.format(date));
-		return year;
+		return Integer.parseInt(getYear.format(date));
 	}
 
 }

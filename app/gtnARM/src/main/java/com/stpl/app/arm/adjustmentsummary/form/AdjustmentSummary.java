@@ -258,7 +258,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
         }
     }
 
-    class AdjustmentSummaryCustomNotification extends AbstractNotificationUtils {
+    static class AdjustmentSummaryCustomNotification extends AbstractNotificationUtils {
 
         private String summaryButtonName;
 

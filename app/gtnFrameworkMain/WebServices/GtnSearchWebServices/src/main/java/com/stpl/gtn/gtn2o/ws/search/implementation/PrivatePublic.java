@@ -20,13 +20,13 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -40,10 +40,6 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
          super(PrivatePublic.class);
     }
 
-    @Override
-    public GtnUIFrameworkWebserviceRequest registerWs() {
-        return null;
-    }
 
     @Override
     public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,String query) {
@@ -87,12 +83,8 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 		queryExecutorBean.setInputMap(inputMap);
         GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-        RestTemplate restTemplate1 = new RestTemplate();
-        addSecurityToken(gtnQueryEngineWebServiceRequest);
         logger.info("calling query engine via service registry");
-           GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
-                getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+        GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
         List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
        
         GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
@@ -146,9 +138,14 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 		return mapper.readValue(viewData, dataSelectionBean);
 	}
 	 @Override
-	    public void initCallOnFailure() {
-	        // Default Method
-	}
+	   public void initCallOnFailure() {
+        // Default Method
+    }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        // Default Method
+    }
 
 	
 }

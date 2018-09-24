@@ -322,7 +322,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
                 demandNewC = String.valueOf(resultSet[j * NumericConstants.TWO]);
                 if (!"0".equals(demandNewC)) {
                     if (!"null".equals(demandNewC)) {
-                        if (!demandOldC.equals(demandNewC) && object.length > keyParam) {
+                        if (object.length > keyParam && !demandOldC.equals(demandNewC)) {
                             keyParam++;
                             if ("null".equalsIgnoreCase(String.valueOf(resultSet[(j + 1) * NumericConstants.TWO]))) {
                                 j++;
@@ -368,7 +368,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
                 String headerKey = String.valueOf(result).replace(ARMUtils.SPACE.toString(), "").replace("-", StringUtils.EMPTY);
                 for (int k = 0; k < visibleColumns.size(); k++) {
                     demandColumn = visibleColumnsList.get(k).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
-                    headerKey = (demandColumn.contains(VariableConstants.BEGINNING_BALANCE) && indicator == 2) ? VariableConstants.BEGINNING_BALANCE : headerKey;
+                    headerKey = (indicator == 2 && demandColumn.contains(VariableConstants.BEGINNING_BALANCE)) ? VariableConstants.BEGINNING_BALANCE : headerKey;
                     String gatheredColumn = StringUtils.EMPTY;
                     List<String> columnList = CommonLogic.getInstance().getDemandColumns();
                     List<String> totalColumnList = CommonLogic.getInstance().getTotalDemandColumns();

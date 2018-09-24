@@ -426,7 +426,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                     return logicdisProjection.getDiscountCustomCount(session, tempHierarchyIndicator, levelNumber, userGroup,customViewDetails,isCustomHierarchy,customDetailsList);
                 } else {
 
-                    return logicdisProjection.getDiscountCount(session, hierarchyNo, treeLevelNo, tempHierarchyIndicator, isProgram, discountList, userGroup, projectionSelection);
+                    return logicdisProjection.getDiscountCount(session, hierarchyNo, treeLevelNo, tempHierarchyIndicator, isProgram, discountList, userGroup);
                 }
 
             }

@@ -952,7 +952,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
     }
 
     public void setSavedetailvariables(List<String> savedetailvariables) {
-        this.savedetailvariables = new ArrayList<>(savedetailvariables);
+        this.savedetailvariables = savedetailvariables == null ? null : new ArrayList<>(savedetailvariables);
     }
 
     public Set<String> getCustomerGroupSidSet() {

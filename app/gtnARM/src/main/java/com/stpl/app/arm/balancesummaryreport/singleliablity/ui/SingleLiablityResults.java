@@ -76,7 +76,7 @@ public class SingleLiablityResults extends AbstractBalanceSummaryResutls {
     @Override
     public void setRespectiveHierarchy(String viewType) {
         SINGLE_LIABLITY_LOGGER.debug("inside setRespectiveHierarchy");
-        getSummarySelection().setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        getSummarySelection().setSummeryhierarchy(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override
