@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 public class ExclusionDetailsLogic {
 
     private static final CommonDao DAO = CommonImpl.getInstance();
-    protected static Map<String, String> userMap = new HashMap<>();
+    protected Map<String, String> userMap = new HashMap<>();
     public static final Logger LOGGER = LoggerFactory.getLogger(ExclusionDetailsLogic.class);
 
     public List<ExclusionLookupDTO> getCompanySid(String viewSid) {
@@ -157,7 +157,7 @@ public class ExclusionDetailsLogic {
 
     public boolean isAddORUpdateView(ExclusionLookupDTO saveViewDTO) {
         StringBuilder sbQuery = new StringBuilder();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         try {
             String viewSid;
             if (saveViewDTO.isViewStatus()) {
@@ -437,7 +437,7 @@ public class ExclusionDetailsLogic {
         return tempStart;
     }
 
-    public static void getAllUsers() {
+    public void getAllUsers() {
         List<Object> userList = new ArrayList<>();
         try {
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(User.class);

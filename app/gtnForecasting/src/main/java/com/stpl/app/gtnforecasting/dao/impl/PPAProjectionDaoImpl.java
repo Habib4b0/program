@@ -35,21 +35,9 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
 			String level, String discountLevel) throws PortalException {
 		return Collections.emptyList();
 	}
-/**
- * 
- * @param projectionId
- * @throws SystemException
- * @throws PortalException
- * @throws Exception 
- */
-    @Override
-    public List getPPAProjection(Integer projectionId,int levelNo,String parent,boolean last,int startIndex,int endIndex,boolean isCount,String levelName) throws PortalException{
-        return new NmPpaProjectionMasterImpl().getPPAProjectionList(projectionId,levelNo,parent,last,startIndex,endIndex,isCount,levelName);
-        
-    }
      @Override
     public void massUpdate(Object priceCap, int startQuater, int endQuater, int startYear, int endYear, int projectionId,String levelValue) {
-         new NmPpaProjectionMasterImpl().setPPAProjectionMassUpdate(priceCap,startQuater,endQuater,startYear,endYear,projectionId, levelValue);
+         new NmPpaProjectionMasterImpl().setPPAProjectionMassUpdate(priceCap,startQuater,endQuater,startYear,endYear,projectionId);
     }
 
     @Override

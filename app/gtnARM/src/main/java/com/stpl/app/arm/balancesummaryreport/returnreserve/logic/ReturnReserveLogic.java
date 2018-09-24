@@ -6,7 +6,6 @@
 package com.stpl.app.arm.balancesummaryreport.returnreserve.logic;
 
 import com.stpl.app.arm.balancesummaryreport.logic.AbstractBSummaryLogic;
-import com.stpl.app.arm.balancesummaryreport.logic.BSummaryDemandLogic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
@@ -36,7 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ReturnReserveLogic extends AbstractBSummaryLogic {
 
-    public static final Logger RETURN_RESERVE_LOGGER = LoggerFactory.getLogger(BSummaryDemandLogic.class);
+    public static final Logger RETURN_RESERVE_LOGGER = LoggerFactory.getLogger(ReturnReserveLogic.class);
 
     public ReturnReserveLogic() {
         super();

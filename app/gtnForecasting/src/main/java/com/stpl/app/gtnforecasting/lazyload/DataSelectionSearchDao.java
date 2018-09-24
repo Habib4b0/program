@@ -24,16 +24,13 @@ public class DataSelectionSearchDao implements BeanDAO<DataSelectionDTO> {
 
     @Override
     public int count(BeanSearchCriteria sc) {
-        int count = 0;
+        return 0;
 
-        return count;
     }
 
     @Override
     public List<DataSelectionDTO> find(BeanSearchCriteria sc, int startIndex, int offset, List<OrderByColumn> orderByColumns) {
-        List<DataSelectionDTO> resultList = new ArrayList<>();
-
-        return resultList;
+        return new ArrayList<>();
     }
 
 }
