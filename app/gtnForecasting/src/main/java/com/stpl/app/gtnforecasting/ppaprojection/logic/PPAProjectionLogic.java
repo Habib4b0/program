@@ -62,13 +62,13 @@ public class PPAProjectionLogic {
                 input.add(Double.valueOf(String.valueOf(columnValue)));
                 input.add(selection.getProjectionId());
             } else {
-                input.add("'" + String.valueOf(columnValue) + "'");
+                input.add("'" + columnValue + "'");
             }
 
         }
 
         input.add(selection.getRelationshipBuilderSid());
-        if (selection.getGroupFilter() != Constant.ALL_GROUP) {
+        if (!selection.getGroupFilter().equals(Constant.ALL_GROUP)) {
             input.add(selection.getGroupFilter().replace(Constant.PPA, StringUtils.EMPTY));
         } else {
             input.add(Constant.PERCENT);
@@ -89,10 +89,10 @@ public class PPAProjectionLogic {
         } else if (columnValue instanceof Date) {
             input.add("CONVERT(DATE, '" + CommonUtils.getDateTime(Constant.DATE_FORMAT_1, (Date) columnValue) + "')");
         } else {
-            input.add("'" + String.valueOf(columnValue) + "'");
+            input.add("'" + columnValue + "'");
         }
         input.add(selection.getRelationshipBuilderSid());
-        if (selection.getGroupFilter() != Constant.ALL_GROUP) {
+        if (!selection.getGroupFilter().equals(Constant.ALL_GROUP)) {
             input.add(selection.getGroupFilter().replace(Constant.PPA, StringUtils.EMPTY));
         } else {
             input.add(Constant.PERCENT);

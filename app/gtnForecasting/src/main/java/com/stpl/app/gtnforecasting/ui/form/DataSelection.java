@@ -221,16 +221,22 @@ public class DataSelection extends ForecastDataSelection {
 		toPeriod.select(to);
 		toPeriod.setReadOnly(true);
                 
-                GtnUIFrameworkWebserviceComboBoxResponse wsComboboxResponse = dsLogic.getCompaniesFromNewArchitecture();
-                List<String> itemValueList = wsComboboxResponse.getItemValueList();
-                List itemCodeList = wsComboboxResponse.getItemCodeList();
-		for(int i=0;i<itemValueList.size();i++){
-				company.addItem(itemCodeList.get(i));
-				company.setItemCaption(itemCodeList.get(i),itemValueList.get(i));
-			
-		}
-                company.select(Integer.valueOf(selectionDTO.getCompanySid()));
-                
+                loadDsCombobox(dsLogic.getComboboxResponseFromForecastingNewArchitecture("CompanyMasterGLcomp","CompanyMasterGLcomp"),company,Integer.valueOf(selectionDTO.getCompanySid()));
+                loadDsCombobox(dsLogic.getComboboxResponseFromForecastingNewArchitecture("BusinessUnitGLcomp","BusinessUnitGLcomp"),businessUnit,selectionDTO.getBusinessUnitSystemId());
+
+	}
+
+    private void loadDsCombobox(GtnUIFrameworkWebserviceComboBoxResponse wsComboboxResponse,ComboBox combobox,int itemId) throws NumberFormatException, UnsupportedOperationException {
+        List<String> itemValueList = wsComboboxResponse.getItemValueList();
+        List itemCodeList = wsComboboxResponse.getItemCodeList();
+        for(int i=0;i<itemValueList.size();i++){
+            combobox.addItem(itemCodeList.get(i));
+            combobox.setItemCaption(itemCodeList.get(i),itemValueList.get(i));
+            
+        }
+        
+        combobox.select(itemCodeList.get(1) instanceof String ? String.valueOf(itemId) : itemId);
+        
 //		fromPeriod.addValueChangeListener(new Property.ValueChangeListener() {
 //			@Override
 //			public void valueChange(Property.ValueChangeEvent event) {
@@ -309,8 +315,7 @@ public class DataSelection extends ForecastDataSelection {
 //				productBeanList.clear();
 //			}
 //		});
-
-	}
+    }
 
 	private void configureForView() {
 //		resultsTablePanel.setVisible(false);

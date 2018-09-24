@@ -278,12 +278,9 @@ public class ForecastForm extends AbstractForm {
 			session.setDataAssumptionLogic(dataAssumption);
 			dataAssumption.getLatestFilesList();
 			dataAssumption.isSalesCalculatedAlready();
-			if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
-					|| Constant.VIEW.equalsIgnoreCase(session.getAction())) {
 				if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())) {
 					discountFlag = false;
 				}
-			}
 			this.salesProjectionResults = new NMSalesProjectionResults(session, screenName);
 			this.nmSalesProjection = new NMSalesProjection(session, screenName);
 			this.dataAssumptions = new DataAssumptions(session);
@@ -915,12 +912,11 @@ public class ForecastForm extends AbstractForm {
 
 			@Override
 			public void noMethod() {
-				if (!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION)) {
-                                            if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
-							|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
+				if (!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION) && 
+                                        (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
+							|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()))) {
 						checkCloseFlag(true);
 					}
-				}
 			}
 		}.getConfirmationMessage(msgTitle, msgContent);
 
@@ -1507,7 +1503,7 @@ public class ForecastForm extends AbstractForm {
 				public void yesMethod() {
 					try {
 						if (!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-							callInsertProcedureOnGenerate(session, screenName);
+							callInsertProcedureOnGenerate(session);
 						}
 						init();
 						addContent();
@@ -1521,7 +1517,7 @@ public class ForecastForm extends AbstractForm {
 					try {                                                                                     
 						logic.removeTPOrCustomerFromProjection(session,dataSelectionDTO);
 						if (!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-							callInsertProcedureOnGenerate(session, screenName);
+							callInsertProcedureOnGenerate(session);
 						}
 						init();
 						addContent();
@@ -1533,7 +1529,7 @@ public class ForecastForm extends AbstractForm {
 					"F_" + screenName.replaceAll("\\s", StringUtils.EMPTY).toUpperCase(Locale.ENGLISH) + "_ACT_CHECK_MSG"));
 		} else {
 			if (!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-				callInsertProcedureOnGenerate(session, screenName);
+				callInsertProcedureOnGenerate(session);
 			}
 			init();
 			addContent();
@@ -1544,7 +1540,7 @@ public class ForecastForm extends AbstractForm {
 	 * Method calls the insert procedure while generating a projection based on
 	 * the forecast module.
 	 */
-	private void callInsertProcedureOnGenerate(final SessionDTO session, final String screenName) {
+	private void callInsertProcedureOnGenerate(final SessionDTO session) {
 		dsLogic.callInsertProcedure(session.getProjectionId(), session.getUserId(), session.getSessionId(),SalesUtils.MANDATED_PRO_NAME);
 	}
 

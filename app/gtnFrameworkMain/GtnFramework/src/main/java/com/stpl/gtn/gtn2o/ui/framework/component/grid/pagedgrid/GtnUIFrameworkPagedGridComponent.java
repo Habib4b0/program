@@ -135,7 +135,8 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
 		PagedGrid baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentData()
 				.getPagedGrid();
-        resetGridFilter(baseComponent);
+                baseComponent.getGrid().clearSortOrder();
+                resetGridFilter(baseComponent);
 		baseComponent.getGrid().setItems(Collections.emptyList());
 		if (!componentConfig.getGtnPagedTableConfig().isPaginationOff()){
 		HorizontalLayout controlLayout = baseComponent.getControlLayout();
