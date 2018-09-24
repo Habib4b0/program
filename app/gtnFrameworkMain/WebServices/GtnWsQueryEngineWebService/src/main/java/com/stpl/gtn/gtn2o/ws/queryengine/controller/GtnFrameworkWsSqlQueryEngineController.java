@@ -19,10 +19,10 @@ import com.stpl.gtn.gtn2o.ws.queryengine.service.GtnFrameworkWsSqlQueryEngineSer
 public class GtnFrameworkWsSqlQueryEngineController extends GtnServiceRegistryImplClass {
 
 	@Autowired
-	private GtnFrameworkWsSqlQueryEngineService gtnFrameworkWsSqlQueryEngineService;
+	protected  GtnFrameworkWsSqlQueryEngineService gtnFrameworkWsSqlQueryEngineService;
 	
 	@Autowired
-	private GtnFrameworkQueryExecutorBean gtnFrameworkQueryExecutorBean;
+	protected  GtnFrameworkQueryExecutorBean gtnFrameworkQueryExecutorBean;
 
 	public GtnFrameworkWsSqlQueryEngineController() {
 		super(GtnFrameworkWsSqlQueryEngineController.class);
@@ -30,8 +30,8 @@ public class GtnFrameworkWsSqlQueryEngineController extends GtnServiceRegistryIm
 
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public int test(int a) {
-		return a;
+	public boolean test() {
+		return true;
 	}
 
 	@RequestMapping(value = "/executeQuery", method = RequestMethod.POST)
