@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>DTX_PSTG_CUSTOMER_GTS_FORECAST_INTERFACE</name>
+    <name>DTX_PSTG_SALES_FORECAST_INTERFACE</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -67,9 +67,9 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2018&#x2f;08&#x2f;14 16&#x3a;42&#x3a;51.175</created_date>
+  <created_date>2018&#x2f;08&#x2f;01 12&#x3a;22&#x3a;50.539</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2018&#x2f;08&#x2f;14 16&#x3a;42&#x3a;51.175</modified_date>
+  <modified_date>2018&#x2f;08&#x2f;01 12&#x3a;22&#x3a;50.539</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -101,23 +101,28 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Add constants 2</from><to>Get System Info 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Get System Info 2</from><to>Add sequence</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add sequence</from><to>Modified Java Script Value</to><enabled>Y</enabled> </hop>
-  <hop> <from>Modified Java Script Value</from><to>PSTG_FORECAST table</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add sequence</from><to>Get System Info</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID_REASON</from><to>Set field value 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Data Validator</from><to>INVALID_REASON</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Modified Java Script Value 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Modified Java Script Value 2</from><to>Select values</to><enabled>Y</enabled> </hop>
+  <hop> <from>Set field value 4</from><to>INVALID_PSTG_TABLE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values</from><to>Insert &#x2f; Update&#x28;VIEW_TABLE&#x29;</to><enabled>N</enabled> </hop>
   <hop> <from>CSV file input</from><to>Sort rows</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows</from><to>Add constants 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values</from><to>VLD_PSTG_FORECAST_SALES</to><enabled>Y</enabled> </hop>
-  <hop> <from>Data Validator</from><to>Unique rows &#x28;HashSet&#x29;</to><enabled>Y</enabled> </hop>
-  <hop> <from>Unique rows &#x28;HashSet&#x29;</from><to>Database join</to><enabled>Y</enabled> </hop>
-  <hop> <from>PSTG_FORECAST table</from><to>Data Validator</to><enabled>Y</enabled> </hop>
-  <hop> <from>Data Validator</from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants 2 2</from><to>INVALID_PSTG_TABLE</to><enabled>Y</enabled> </hop>
-  <hop> <from>Database join</from><to>Add constants 2 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants 2 3</from><to>Select values</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows</from><to>Add sequence</to><enabled>Y</enabled> </hop>
+  <hop> <from>Modified Java Script Value</from><to>Data Validator</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database join</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Set field value to a constant</to><enabled>Y</enabled> </hop>
+  <hop> <from>Set field value to a constant</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values</from><to>VLD_PSTG_TABLE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Data Validator</from><to>Database join</to><enabled>Y</enabled> </hop>
+  <hop> <from>Get System Info</from><to>Add constants </to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants </from><to>PSTG_FORECAST table 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>PSTG_FORECAST table 2</from><to>Modified Java Script Value</to><enabled>Y</enabled> </hop>
   </order>
   <step>
-    <name>Add constants 2</name>
+    <name>Add constants</name>
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
@@ -128,126 +133,6 @@
            <schema_name/>
            </partitioning>
     <fields>
-      <field>
-        <name>COMPANY_ID</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>GTSOWNER</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>SALES_INCLUSION</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>Y</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>DEDUCTION_ID</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>Y</set_empty_string>
-      </field>
-      <field>
-        <name>DEDUCTION_CATEGORY</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>Y</set_empty_string>
-      </field>
-      <field>
-        <name>DEDUCTION_TYPE</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>Y</set_empty_string>
-      </field>
-      <field>
-        <name>DEDUCTION_PROGRAM_TYPE</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>Y</set_empty_string>
-      </field>
-      <field>
-        <name>ADJUSTMENT_CODE</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>Y</set_empty_string>
-      </field>
-      <field>
-        <name>DEDUCTION_RATE</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>Y</set_empty_string>
-      </field>
-      <field>
-        <name>DEDUCTION_AMOUNT</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>Y</set_empty_string>
-      </field>
-      <field>
-        <name>DEDUCTION_INCLUSION</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>Y</set_empty_string>
-      </field>
       <field>
         <name>FORECAST_VALUE_TYPE</name>
         <type>String</type>
@@ -261,25 +146,142 @@
         <set_empty_string>Y</set_empty_string>
       </field>
       <field>
-        <name>SEGMENT</name>
+        <name>FORECAST_VALUE</name>
         <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
-        <nullif>SEG</nullif>
+        <nullif/>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
+        <set_empty_string>Y</set_empty_string>
       </field>
       <field>
-        <name>ADD_CHG_DEL_INDICATOR</name>
+        <name>PERCENTAGE_ESTIMATE</name>
         <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
-        <nullif>A</nullif>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>PERCENTAGE_ESTIMATE_YEAR</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>ACTUAL_SALES_PERCENTAGE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>ACTUAL_SALES_PERCENTAGE_MONTH</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>FORECASTED_SALES_PERCENTAGE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>FORECASTED_SALES_PERCENTAGE_MONTH</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>PRODUCT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>FORECAST_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>389</xloc>
+      <yloc>726</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants </name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>MODIFIED_BY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>REVITAS</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -297,37 +299,13 @@
         <set_empty_string>N</set_empty_string>
       </field>
       <field>
-        <name>MODIFIED_BY</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>REVITAS</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
         <name>BATCH_ID</name>
         <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
-        <nullif>BATCH_ID</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>SOURCE</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>REVITAS</nullif>
+        <nullif>date</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -345,157 +323,19 @@
         <set_empty_string>N</set_empty_string>
       </field>
       <field>
-        <name>UDC1</name>
+        <name>SEGMENT</name>
         <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
-        <nullif>UDC1</nullif>
+        <nullif>SEG</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
       </field>
       <field>
-        <name>UDC2</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>UDC2</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>UDC3</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>UDC3</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>UDC4</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>UDC4</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>UDC5</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>UDC5</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>UDC6</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>UDC6</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>PRICE_TYPE</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>Y</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>324</xloc>
-      <yloc>266</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Add constants 2 2</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>ERROR_CODE </name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>E01</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>REASON_FOR_FAILURE</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>Missing Required Fields</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1178</xloc>
-      <yloc>172</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Add constants 2 3</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>IS_COMPLETE</name>
+        <name>IsComplete</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -509,8 +349,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1146</xloc>
-      <yloc>333</yloc>
+      <xloc>375</xloc>
+      <yloc>263</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -526,9 +366,9 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <valuename>CUSTOMER_GTS_FORECAST_INTF_ID</valuename>
+      <valuename>FORECAST_INTERFACE_ID</valuename>
       <use_database>N</use_database>
-      <connection>STAGING_DB</connection>
+      <connection/>
       <schema/>
       <seqname>SEQ_</seqname>
       <use_counter>Y</use_counter>
@@ -538,8 +378,8 @@
       <max_value>999999999</max_value>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>506</xloc>
-      <yloc>266</yloc>
+      <xloc>373</xloc>
+      <yloc>196</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -781,8 +621,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>166</xloc>
-      <yloc>265</yloc>
+      <xloc>364</xloc>
+      <yloc>54</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -805,7 +645,7 @@
 <validation_name>FCS_YER</validation_name>
 <max_length/>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>None</data_type>
@@ -822,7 +662,7 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>FCS_YER</error_description>
+<error_description>Required Field Missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -831,7 +671,7 @@
 <validation_name>FCS_MON</validation_name>
 <max_length/>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>None</data_type>
@@ -848,7 +688,7 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>FCS_MON</error_description>
+<error_description>Required Field Missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -857,7 +697,7 @@
 <validation_name>FCS_PRD_NUM</validation_name>
 <max_length/>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>None</data_type>
@@ -874,7 +714,7 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>FCS_PRD_NUM</error_description>
+<error_description>Required Field Missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -900,7 +740,7 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>FCS_DY1</error_description>
+<error_description>Required Field Missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -909,7 +749,7 @@
 <validation_name>FCS_QTY</validation_name>
 <max_length/>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>None</data_type>
@@ -926,7 +766,7 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>FCS_QTY</error_description>
+<error_description>Required Field Missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -952,7 +792,7 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>FCS_AMT</error_description>
+<error_description>Required Field missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -978,13 +818,13 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>FCS_BRD_NME</error_description>
+<error_description>Required Field Missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
-       <validator_field><name>SOURCE</name>
-<validation_name>FCS_SRC</validation_name>
+       <validator_field><name>FCS_ACD_IND</name>
+<validation_name>FCS_ACD_IND</validation_name>
 <max_length/>
 <min_length/>
 <null_allowed>N</null_allowed>
@@ -1004,7 +844,33 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>FCS_SRC</error_description>
+<error_description>Required Field missing</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>FCS_SRC</name>
+<validation_name>FCS_SRC</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>Required Field missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -1013,7 +879,7 @@
 <validation_name>FCS_VER</validation_name>
 <max_length/>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>None</data_type>
@@ -1030,7 +896,7 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>FCS_VER</error_description>
+<error_description>Required Field Missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -1039,7 +905,7 @@
 <validation_name>FCS_NME</validation_name>
 <max_length/>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>None</data_type>
@@ -1056,13 +922,13 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>FCS_NME</error_description>
+<error_description>Required Field missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
-       <validator_field><name>CUSTOMER_GTS_FORECAST_INTF_ID</name>
-<validation_name>CUSTOMER_GTS_FORECAST_INTF_ID</validation_name>
+       <validator_field><name>FORECAST_INTERFACE_ID</name>
+<validation_name>FORECAST_INTERFACE_ID</validation_name>
 <max_length/>
 <min_length/>
 <null_allowed>N</null_allowed>
@@ -1082,7 +948,7 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>CUSTOMER_GTS_FORECAST_INTF_ID</error_description>
+<error_description>Required Field missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -1108,7 +974,7 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>BATCH_ID</error_description>
+<error_description>Required Field missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -1134,15 +1000,15 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>COUNTRY</error_description>
+<error_description>Required Field is missing</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>857</xloc>
-      <yloc>246</yloc>
+      <xloc>367</xloc>
+      <yloc>463</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1175,14 +1041,43 @@
     </parameter>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1067</xloc>
-      <yloc>300</yloc>
+      <xloc>374</xloc>
+      <yloc>633</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Get System Info 2</name>
+    <name>Filter rows</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Set field value to a constant</send_true_to>
+<send_false_to>Add constants</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>PRICE</leftvalue>
+ <function>&#x3d;</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>100</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>229</xloc>
+      <yloc>687</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Get System Info</name>
     <type>SystemInfo</type>
     <description/>
     <distribute>Y</distribute>
@@ -1194,18 +1089,22 @@
            </partitioning>
     <fields>
       <field>
-        <name>CREATED_DATE</name>
-        <type>system date &#x28;fixed&#x29;</type>
+        <name>UPLOAD_DATE</name>
+        <type>system date &#x28;variable&#x29;</type>
         </field>
       <field>
         <name>MODIFIED_DATE</name>
         <type>system date &#x28;fixed&#x29;</type>
         </field>
+      <field>
+        <name>CREATED_DATE</name>
+        <type>system date &#x28;fixed&#x29;</type>
+        </field>
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>417</xloc>
-      <yloc>265</yloc>
+      <xloc>581</xloc>
+      <yloc>237</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1223,9 +1122,9 @@
            </partitioning>
     <connection>STAGING_DB</connection>
     <schema>dbo</schema>
-    <table>IVLD_PSTG_CUSTOMER_GTS_FORECAST</table>
+    <table>IVLD_PSTG_FORECAST_SALES</table>
     <commit>1000</commit>
-    <truncate>Y</truncate>
+    <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
     <specify_fields>Y</specify_fields>
@@ -1239,6 +1138,14 @@
     <return_keys>N</return_keys>
     <return_field/>
     <fields>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
         <field>
           <column_name>FCS_YER</column_name>
           <stream_name>FCS_YER</stream_name>
@@ -1258,14 +1165,6 @@
         <field>
           <column_name>NDC11</column_name>
           <stream_name>NDC11</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>CREATED_BY</stream_name>
         </field>
         <field>
           <column_name>FCS_BRD_IDN</column_name>
@@ -1329,11 +1228,11 @@
         </field>
         <field>
           <column_name>ERROR_FIELD</column_name>
-          <stream_name>Error_Field</stream_name>
+          <stream_name>ERROR_FIELD_VALUE</stream_name>
         </field>
         <field>
-          <column_name>ERROR_CODE </column_name>
-          <stream_name>ERROR_CODE </stream_name>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE</stream_name>
         </field>
         <field>
           <column_name>BATCH_ID</column_name>
@@ -1341,13 +1240,264 @@
         </field>
         <field>
           <column_name>PSTG_FORECAST_SALES_SID</column_name>
-          <stream_name>CUSTOMER_GTS_FORECAST_INTF_ID</stream_name>
+          <stream_name>FORECAST_INTERFACE_ID</stream_name>
         </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1390</xloc>
-      <yloc>112</yloc>
+      <xloc>692</xloc>
+      <yloc>586</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID_REASON</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>REASON_FOR_FAILURE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>REQUIRED FIELD IS MISSING</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ERROR_CODE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E01</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ERROR_FIELD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>551</xloc>
+      <yloc>471</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Insert &#x2f; Update&#x28;VIEW_TABLE&#x29;</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING_DB</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>dbo</schema>
+      <table>VW_FCS_TGT</table>
+      <key>
+        <name>FORECAST_YEAR</name>
+        <field>FORECAST_YEAR</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_MONTH</name>
+        <field>FORECAST_MONTH</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_START_DATE</name>
+        <field>FORECAST_START_DATE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>PRICE</name>
+        <rename>PRICE</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>FORECAST_MONTH</name>
+        <rename>FORECAST_MONTH</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>NDC</name>
+        <rename>NDC</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>FORECAST_YEAR</name>
+        <rename>FORECAST_YEAR</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>BRAND</name>
+        <rename>BRAND</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>UNITS</name>
+        <rename>UNITS</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>DOLLARS</name>
+        <rename>DOLLARS</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>ADD_CHG_DEL_INDICATOR</name>
+        <rename>ADD_CHG_DEL_INDICATOR</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>SOURCE</name>
+        <rename>SOURCE</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>FORECAST_VER</name>
+        <rename>FORECAST_VER</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>FORECAST_NAME</name>
+        <rename>FORECAST_NAME</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>FORECAST_START_DATE</name>
+        <rename>FORECAST_START_DATE</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>FORECAST_INTERFACE_ID</name>
+        <rename>FORECAST_INTERFACE_ID</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>MODIFIED_DATE</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>CREATED_DATE</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>MODIFIED_BY</name>
+        <rename>MODIFIED_BY</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>CREATED_BY</name>
+        <rename>CREATED_BY</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>BATCH_ID</name>
+        <rename>BATCH_ID</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>COUNTRY</name>
+        <rename>COUNTRY</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>SEGMENT</name>
+        <rename>SEGMENT</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>FORECAST_VALUE_TYPE</name>
+        <rename>FORECAST_VALUE_TYPE</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>FORECAST_VALUE</name>
+        <rename>FORECAST_VALUE</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>PERCENTAGE_ESTIMATE</name>
+        <rename>PERCENTAGE_ESTIMATE</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>PERCENTAGE_ESTIMATE_YEAR</name>
+        <rename>PERCENTAGE_ESTIMATE_YEAR</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>ACTUAL_SALES_PERCENTAGE</name>
+        <rename>ACTUAL_SALES_PERCENTAGE</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>ACTUAL_SALES_PERCENTAGE_MONTH</name>
+        <rename>ACTUAL_SALES_PERCENTAGE_MONTH</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>FORECASTED_SALES_PERCENTAGE</name>
+        <rename>FORECASTED_SALES_PERCENTAGE</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>FORECASTED_SALES_PERCENTAGE_MONTH</name>
+        <rename>FORECASTED_SALES_PERCENTAGE_MONTH</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>PRODUCT</name>
+        <rename>PRODUCT</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>FORECAST_DATE</name>
+        <rename>FORECAST_DATE</rename>
+        <update>N</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>817</xloc>
+      <yloc>875</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1367,7 +1517,7 @@
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;&#xd;&#xa;var datevalue&#x3d;new Date&#x28;&#x29;&#x3b;&#xd;&#xa;var sdf &#x3d; new java.text.SimpleDateFormat&#x28;&#x22;yyyymmdd_hhmmss&#x22;&#x29;&#x3b;&#xd;&#xa;var BATCH_ID &#x3d; &#x22;CST_GTS_FCS_&#x22;&#x2b;sdf.format&#x28;datevalue&#x29;&#x3b; &#xd;&#xa;&#xd;&#xa;</jsScript_script>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;&#xd;&#xa;var datevalue&#x3d;new Date&#x28;&#x29;&#x3b;&#xd;&#xa;var sdf &#x3d; new java.text.SimpleDateFormat&#x28;&#x22;yyyymmdd_hhmmss&#x22;&#x29;&#x3b;&#xd;&#xa;var BATCH_ID &#x3d; &#x22;FCS_&#x22;&#x2b;sdf.format&#x28;datevalue&#x29;&#x3b; </jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>BATCH_ID</name>
         <rename>BATCH_ID</rename>
         <type>String</type>
@@ -1376,14 +1526,330 @@
         <replace>Y</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>607</xloc>
-      <yloc>255</yloc>
+      <xloc>372</xloc>
+      <yloc>320</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>PSTG_FORECAST table</name>
+    <name>Modified Java Script Value 2</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;FORECAST_DATE&#x3d;FCS_DY1&#x3b;&#xd;&#xa;PRODUCT&#x3d;FCS_BRD_NME&#x3b;&#xd;&#xa;&#xd;&#xa;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>FORECAST_DATE</name>
+        <rename>FORECAST_DATE</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>PRODUCT</name>
+        <rename>PRODUCT</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>538</xloc>
+      <yloc>733</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>FCS_MON_DY1</name>
+      </remove>      <remove>        <name>NDC11</name>
+      </remove>      <remove>        <name>FCS_BRD_IDN</name>
+      </remove>      <remove>        <name>CMP_IDN</name>
+      </remove>      <remove>        <name>FCS_PRC_TYP</name>
+      </remove>      <remove>        <name>FCS_PRC</name>
+      </remove>      <remove>        <name>FCS_MON_DY1_WAC</name>
+      </remove>      <remove>        <name>FCS_BTC_IDN</name>
+      </remove>      <meta>        <name>FCS_YER</name>
+        <rename>FORECAST_YEAR</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>FCS_MON</name>
+        <rename>FORECAST_MONTH</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>FCS_PRD_NUM</name>
+        <rename>NDC</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>FCS_BRD_NME</name>
+        <rename>BRAND</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>FCS_QTY</name>
+        <rename>UNITS</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>FCS_AMT</name>
+        <rename>DOLLARS</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>FCS_ACD_IND</name>
+        <rename>ADD_CHG_DEL_INDICATOR</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>FCS_SRC</name>
+        <rename>SOURCE</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>FCS_VER</name>
+        <rename>FORECAST_VER</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>FCS_NME</name>
+        <rename>FORECAST_NAME</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>FCS_DY1</name>
+        <rename>FORECAST_START_DATE</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>695</xloc>
+      <yloc>731</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Set field value 4</name>
+    <type>SetValueField</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>ERROR_FIELD</name>
+        <replaceby>ERROR_FIELD_VALUE</replaceby>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>546</xloc>
+      <yloc>587</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Set field value to a constant</name>
+    <type>SetValueConstant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+   <usevar>N</usevar>
+    <fields>
+      <field>
+        <name>IsComplete</name>
+        <value>N</value>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>232</xloc>
+      <yloc>817</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>out</prefix>
+      <sort_size>1000000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>FCS_PRD_NUM</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>370</xloc>
+      <yloc>140</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>VLD_PSTG_TABLE</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1395,7 +1861,169 @@
            </partitioning>
     <connection>STAGING_DB</connection>
     <schema>dbo</schema>
-    <table>PSTG_CUSTOMER_GTS_FORECAST</table>
+    <table>VLD_PSTG_FORECAST_SALES</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>FORECAST_YEAR</column_name>
+          <stream_name>FORECAST_YEAR</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_MONTH</column_name>
+          <stream_name>FORECAST_MONTH</stream_name>
+        </field>
+        <field>
+          <column_name>NDC</column_name>
+          <stream_name>NDC</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND</column_name>
+          <stream_name>BRAND</stream_name>
+        </field>
+        <field>
+          <column_name>UNITS</column_name>
+          <stream_name>UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>DOLLARS</column_name>
+          <stream_name>DOLLARS</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_VER</column_name>
+          <stream_name>FORECAST_VER</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_NAME</column_name>
+          <stream_name>FORECAST_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_START_DATE</column_name>
+          <stream_name>FORECAST_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_INTERFACE_ID</column_name>
+          <stream_name>FORECAST_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COUNTRY</column_name>
+          <stream_name>COUNTRY</stream_name>
+        </field>
+        <field>
+          <column_name>SEGMENT</column_name>
+          <stream_name>SEGMENT</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE</column_name>
+          <stream_name>PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_VALUE_TYPE</column_name>
+          <stream_name>FORECAST_VALUE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_VALUE</column_name>
+          <stream_name>FORECAST_VALUE</stream_name>
+        </field>
+        <field>
+          <column_name>PERCENTAGE_ESTIMATE</column_name>
+          <stream_name>PERCENTAGE_ESTIMATE</stream_name>
+        </field>
+        <field>
+          <column_name>PERCENTAGE_ESTIMATE_YEAR</column_name>
+          <stream_name>PERCENTAGE_ESTIMATE_YEAR</stream_name>
+        </field>
+        <field>
+          <column_name>ACTUAL_SALES_PERCENTAGE</column_name>
+          <stream_name>ACTUAL_SALES_PERCENTAGE</stream_name>
+        </field>
+        <field>
+          <column_name>ACTUAL_SALES_PERCENTAGE_MONTH</column_name>
+          <stream_name>ACTUAL_SALES_PERCENTAGE_MONTH</stream_name>
+        </field>
+        <field>
+          <column_name>FORECASTED_SALES_PERCENTAGE</column_name>
+          <stream_name>FORECASTED_SALES_PERCENTAGE</stream_name>
+        </field>
+        <field>
+          <column_name>FORECASTED_SALES_PERCENTAGE_MONTH</column_name>
+          <stream_name>FORECASTED_SALES_PERCENTAGE_MONTH</stream_name>
+        </field>
+        <field>
+          <column_name>PRODUCT</column_name>
+          <stream_name>PRODUCT</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_DATE</column_name>
+          <stream_name>FORECAST_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>IS_COMPLETE</column_name>
+          <stream_name>IsComplete</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>656</xloc>
+      <yloc>903</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>PSTG_FORECAST table 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING_DB</connection>
+    <schema>dbo</schema>
+    <table>PSTG_FORECAST_SALES</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
@@ -1488,434 +2116,18 @@
           <stream_name>FCS_DY1</stream_name>
         </field>
         <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>CREATED_BY</stream_name>
-        </field>
-        <field>
           <column_name>CREATED_DATE</column_name>
           <stream_name>CREATED_DATE</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>742</xloc>
-      <yloc>257</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>FCS_MON_DY1</name>
-      </remove>      <remove>        <name>NDC11</name>
-      </remove>      <remove>        <name>FCS_BRD_IDN</name>
-      </remove>      <remove>        <name>CMP_IDN</name>
-      </remove>      <remove>        <name>FCS_PRC_TYP</name>
-      </remove>      <remove>        <name>FCS_PRC</name>
-      </remove>      <remove>        <name>FCS_MON_DY1_WAC</name>
-      </remove>      <remove>        <name>FCS_ACD_IND</name>
-      </remove>      <remove>        <name>FCS_BTC_IDN</name>
-      </remove>      <remove>        <name>FCS_SRC</name>
-      </remove>      <meta>        <name>FCS_YER</name>
-        <rename>FORECAST_YEAR</rename>
-        <type>None</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>      <meta>        <name>FCS_MON</name>
-        <rename>FORECAST_MONTH</rename>
-        <type>None</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>      <meta>        <name>FCS_PRD_NUM</name>
-        <rename>ITEM_ID</rename>
-        <type>None</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>      <meta>        <name>FCS_QTY</name>
-        <rename>UNITS</rename>
-        <type>None</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>      <meta>        <name>FCS_AMT</name>
-        <rename>SALES_AMOUNT</rename>
-        <type>None</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>      <meta>        <name>FCS_BRD_NME</name>
-        <rename>BRAND</rename>
-        <type>None</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>      <meta>        <name>FCS_VER</name>
-        <rename>FORECAST_VER</rename>
-        <type>None</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>      <meta>        <name>FCS_NME</name>
-        <rename>FORECAST_NAME</rename>
-        <type>None</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>      <meta>        <name>FCS_DY1</name>
-        <rename>FORECAST_DATE</rename>
-        <type>None</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1212</xloc>
-      <yloc>362</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>FCS_PRD_NUM</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>253</xloc>
-      <yloc>265</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Unique rows &#x28;HashSet&#x29;</name>
-    <type>UniqueRowsByHashSet</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <store_values>N</store_values>
-      <reject_duplicate_row>N</reject_duplicate_row>
-      <error_description/>
-    <fields>      <field>        <name>CUSTOMER_GTS_FORECAST_INTF_ID</name>
-        </field>      </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>973</xloc>
-      <yloc>272</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>VLD_PSTG_FORECAST_SALES</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>STAGING_DB</connection>
-    <schema>dbo</schema>
-    <table>VLD_PSTG_CUSTOMER_GTS_FORECAST</table>
-    <commit>1000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>FORECAST_YEAR</column_name>
-          <stream_name>FORECAST_YEAR</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_MONTH</column_name>
-          <stream_name>FORECAST_MONTH</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_ID</column_name>
-          <stream_name>ITEM_ID</stream_name>
-        </field>
-        <field>
-          <column_name>BRAND</column_name>
-          <stream_name>BRAND</stream_name>
-        </field>
-        <field>
-          <column_name>UNITS</column_name>
-          <stream_name>UNITS</stream_name>
-        </field>
-        <field>
-          <column_name>SALES_AMOUNT</column_name>
-          <stream_name>SALES_AMOUNT</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_VER</column_name>
-          <stream_name>FORECAST_VER</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_NAME</column_name>
-          <stream_name>FORECAST_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_DATE</column_name>
-          <stream_name>FORECAST_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>COMPANY_ID</column_name>
-          <stream_name>COMPANY_ID</stream_name>
-        </field>
-        <field>
-          <column_name>SALES_INCLUSION</column_name>
-          <stream_name>SALES_INCLUSION</stream_name>
-        </field>
-        <field>
-          <column_name>DEDUCTION_ID</column_name>
-          <stream_name>DEDUCTION_ID</stream_name>
-        </field>
-        <field>
-          <column_name>DEDUCTION_CATEGORY</column_name>
-          <stream_name>DEDUCTION_CATEGORY</stream_name>
-        </field>
-        <field>
-          <column_name>DEDUCTION_TYPE</column_name>
-          <stream_name>DEDUCTION_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>DEDUCTION_PROGRAM_TYPE</column_name>
-          <stream_name>DEDUCTION_PROGRAM_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>ADJUSTMENT_CODE</column_name>
-          <stream_name>ADJUSTMENT_CODE</stream_name>
-        </field>
-        <field>
-          <column_name>DEDUCTION_RATE</column_name>
-          <stream_name>DEDUCTION_RATE</stream_name>
-        </field>
-        <field>
-          <column_name>DEDUCTION_AMOUNT</column_name>
-          <stream_name>DEDUCTION_AMOUNT</stream_name>
-        </field>
-        <field>
-          <column_name>DEDUCTION_INCLUSION</column_name>
-          <stream_name>DEDUCTION_INCLUSION</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_VALUE_TYPE</column_name>
-          <stream_name>FORECAST_VALUE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>SEGMENT</column_name>
-          <stream_name>SEGMENT</stream_name>
-        </field>
-        <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
         </field>
         <field>
           <column_name>CREATED_BY</column_name>
           <stream_name>CREATED_BY</stream_name>
         </field>
-        <field>
-          <column_name>MODIFIED_BY</column_name>
-          <stream_name>MODIFIED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
-        </field>
-        <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
-        </field>
-        <field>
-          <column_name>COUNTRY</column_name>
-          <stream_name>COUNTRY</stream_name>
-        </field>
-        <field>
-          <column_name>UDC1</column_name>
-          <stream_name>UDC1</stream_name>
-        </field>
-        <field>
-          <column_name>UDC2</column_name>
-          <stream_name>UDC2</stream_name>
-        </field>
-        <field>
-          <column_name>UDC3</column_name>
-          <stream_name>UDC3</stream_name>
-        </field>
-        <field>
-          <column_name>UDC4</column_name>
-          <stream_name>UDC4</stream_name>
-        </field>
-        <field>
-          <column_name>UDC5</column_name>
-          <stream_name>UDC5</stream_name>
-        </field>
-        <field>
-          <column_name>UDC6</column_name>
-          <stream_name>UDC6</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_TYPE</column_name>
-          <stream_name>PRICE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_DATE</column_name>
-          <stream_name>MODIFIED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_INTERFACE_ID</column_name>
-          <stream_name>CUSTOMER_GTS_FORECAST_INTF_ID</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE</column_name>
-          <stream_name>PRICE</stream_name>
-        </field>
-        <field>
-          <column_name>IS_COMPLETE</column_name>
-          <stream_name>IS_COMPLETE</stream_name>
-        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1364</xloc>
-      <yloc>410</yloc>
+      <xloc>258</xloc>
+      <yloc>290</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1923,11 +2135,11 @@
   <step_error_handling>
       <error>
         <source_step>Data Validator</source_step>
-        <target_step>Add constants 2 2</target_step>
+        <target_step>INVALID_REASON</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
-        <fields_valuename>Error_Field</fields_valuename>
+        <fields_valuename>ERROR_FIELD_VALUE</fields_valuename>
         <codes_valuename/>
         <max_errors/>
         <max_pct_errors/>

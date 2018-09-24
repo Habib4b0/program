@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>DTX_CUSTOMER_GTS_FORECAST_INTERFACE</name>
+  <name>DTX_SALSE_FORECAST_INTERFACE</name>
     <description/>
     <extended_description/>
     <job_version/>
@@ -237,12 +237,12 @@
       <yloc>237</yloc>
       </entry>
     <entry>
-      <name>PSTG_CUSTOMER_GTS_FORECAST</name>
+      <name>DTX_PSTG_SALES_FORECAST</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;DTX_PSTG_CUSTOMER_GTS_FORECAST_INTERFACE.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;DTX_PSTG_SALES_FORECAST_INTERFACE.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -307,8 +307,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>795</xloc>
-      <yloc>80</yloc>
+      <xloc>793</xloc>
+      <yloc>81</yloc>
       </entry>
     <entry>
       <name>MOVE_TO_ERROR</name>
@@ -427,7 +427,7 @@
     </hop>
     <hop>
       <from>foreach</from>
-      <to>PSTG_CUSTOMER_GTS_FORECAST</to>
+      <to>DTX_PSTG_SALES_FORECAST</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -435,7 +435,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>PSTG_CUSTOMER_GTS_FORECAST</from>
+      <from>DTX_PSTG_SALES_FORECAST</from>
       <to>Move_Processed</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -444,7 +444,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>PSTG_CUSTOMER_GTS_FORECAST</from>
+      <from>DTX_PSTG_SALES_FORECAST</from>
       <to>MOVE_TO_ERROR</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
