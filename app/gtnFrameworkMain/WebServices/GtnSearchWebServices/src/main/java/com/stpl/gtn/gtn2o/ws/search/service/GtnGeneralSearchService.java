@@ -5,13 +5,10 @@
  */
 package com.stpl.gtn.gtn2o.ws.search.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
@@ -24,7 +21,6 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.callqueryengine.CallQueryEngineSearchWs;
@@ -35,12 +31,11 @@ import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -51,7 +46,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
     long staticTime = System.currentTimeMillis();
     ExecutorService service = Executors.newCachedThreadPool();
 
-    public GtnGeneralSearchService() {
+    private GtnGeneralSearchService() {
         super(GtnGeneralSearchService.class);
     }
 
@@ -68,11 +63,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         try {
         logger.info("Entering into init method of searchWebservice");
         GtnUIFrameworkWebserviceRequest request = registerWs();
-        RestTemplate restTemplate = new RestTemplate();
-        addSecurityToken(request);
-        restTemplate.postForObject(
-                getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
-                request, GtnUIFrameworkWebserviceResponse.class);
+        callServiceRegistry(request);
         logger.info("search webservices registered");
         } catch (Exception e) {
             if(e.getMessage().contains("404 Not Found")){
@@ -82,8 +73,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             }
         }
 
-
     }
+    
     static
     {
             keyMap.put("privatePublic", new PrivatePublic());
@@ -96,62 +87,15 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             keyMap.put("salesCustomView", new CustomViewSearch());
             keyMap.put("deductionCustomView", new CustomViewSearch());
     }
-
-    @Override
-    public GtnUIFrameworkWebserviceRequest registerWs() {
-        logger.info("building request to register searchwebservice");
-        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-        GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
-        GtnWsServiceRegistryBean gtnServiceRegistryBean = new GtnWsServiceRegistryBean();
-        getUrl(gtnServiceRegistryBean);
-        logger.info("webservice to be registered" + gtnServiceRegistryBean.getRegisteredWebContext());
-        gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(gtnServiceRegistryBean);
-        request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
-        addSecurityToken(request);
-        return request;
-    }
-
-    public void getUrl(GtnWsServiceRegistryBean gtnServiceRegistryBean) {
-        gtnServiceRegistryBean.setWebserviceEndPointUrl(
-                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointUrl"));
-        gtnServiceRegistryBean.setRegisteredWebContext(
-                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointServiceName"));
-    }
-
-    public  GtnUIFrameworkWebserviceResponse commonMethod(
+    
+    public GtnUIFrameworkWebserviceResponse commonMethod(
             GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
         String key = gtnUiFrameworkWebservicerequest.getGtnWsSearchRequest().getSearchQueryName();
         String query = gtnSearchSqlService.getQuery(key);
-
         SearchInterface searchInterface = keyMap.get(key);
         GtnUIFrameworkWebserviceResponse response;
         response = searchInterface.getSearch(gtnUiFrameworkWebservicerequest, query);
         return response;
-    }
-
-    public  Map<String,String> getQueryMap() {
-            queryMap.put("Commercial Forecasting_projectionName", " AND PM.projection_Name like ? ");
-            queryMap.put("Commercial Forecasting_projectionDescription", " AND PM.projection_description like ? ");
-            queryMap.put("Commercial Forecasting_company", " AND PM.COMPANY_MASTER_SID like ? ");
-            queryMap.put("Commercial Forecasting_businessUnit", " AND PM.BUSINESS_UNIT like ? ");
-            queryMap.put("forecastLandingScreen_customerHierarchy", " AND HDC.HIERARCHY_NAME like ? ");
-            queryMap.put("Commercial Forecasting_prodhierarchyName", " AND HDP.HIERARCHY_NAME like ? ");
-            queryMap.put("Commercial Forecasting_customerGroup", " AND CG.COMPANY_GROUP_NAME like ? ");
-            queryMap.put("Commercial Forecasting_productGroup"," AND IG.ITEM_GROUP_NAME like ? ");
-            queryMap.put("Commercial Forecasting_from"," AND P.PERIOD_SID >= ? ");
-            queryMap.put("Commercial Forecasting_to"," AND PD.PERIOD_SID <= ? ");
-            queryMap.put("projactionName"," AND PM.projection_Name like ? ");
-            queryMap.put("description", " AND PM.projection_description like ? ");
-            queryMap.put("customerHierarchy", " AND HDC.HIERARCHY_NAME like ? ");
-            queryMap.put("customerLevel", " AND PM.CUSTOMER_HIERARCHY_LEVEL like ? ");
-            queryMap.put("productHierarchy", " AND HDP.HIERARCHY_NAME like ? ");
-            queryMap.put("productLevel"," AND PM.PRODUCT_HIERARCHY_LEVEL like ? ");
-            queryMap.put("createdBy"," AND concat(U.firstName,+','+U.lastName) like ? ");
-            queryMap.put("createdDate", " AND PM.CREATED_DATE like ? ");
-            queryMap.put("modifiedDate", " AND PM.MODIFIED_DATE like ?");
-            queryMap.put("Company"," AND CM.COMPANY_NAME like ? ");
-            queryMap.put("businessUnit", " AND CM1.COMPANY_NAME like ? ");
-        return queryMap;
     }
 
     public GtnUIFrameworkWebserviceResponse pagedTableSearch(
@@ -229,19 +173,19 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 					.getViewType();
 			String viewName = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
 					.getViewName();
-			String userId = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
-					.getUserId();
+			Integer userId = Integer.parseInt(gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId());
+				
 			GtnFrameworkForecastDataSelectionBean dataSelectionBean = gtnUiFrameworkWebservicerequest
 					.getGtnWsForecastNewArchRequest().getDataSelectionBean();
 			String viewData = gtnForecastJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'",
 					"\\\\");
 
 			Object[] params = new Object[5];
-			params[0] = viewType.replaceAll("\\*", "%");
-			params[1] = viewName.replaceAll("\\*", "%");
+			params[0] = viewName.replaceAll("\\*", "%");
+			params[1] = viewType.replaceAll("\\*", "%");
 			params[2] = userId;
 			params[3] = userId;
-			params[4] = "'" + viewData + "'";
+			params[4] = viewData;
 
 			GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
 					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING };
@@ -254,12 +198,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 			queryExecutorBean.setDataType(dataType);
 			GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 			gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-			RestTemplate restTemplate1 = new RestTemplate();
-                        addSecurityToken(gtnQueryEngineWebServiceRequest);
 			logger.info("calling query engine via service registry");
-			GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(getWebServiceEndpointBasedOnModule(
-					"/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-					gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+			GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
 			List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
 			GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 			GtnSerachResponse searchResponse = new GtnSerachResponse();
@@ -272,9 +212,83 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 		return response;
 	}
     
+    public GtnUIFrameworkWebserviceResponse deleteView(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebservicerequest)
+    {
+    	
+    		logger.info("inside delete view method");
+    		String deleteViewQuery = "deleteView";
+    	GtnFrameworkForecastDataSelectionBean bean = gtnUIFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean();
+    	GtnQueryEngineWebServiceResponse response = callQueryEngineforDeleteView(createQuery(readProperty(deleteViewQuery),bean));
+    	GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+    	int count = response.getQueryResponseBean().getResultInteger();
+    	GtnFrameworkForecastDataSelectionBean bean1 = new GtnFrameworkForecastDataSelectionBean();
+    	bean1.setResultCount(count);
+    	gtnUIFrameworkWebserviceResponse.setGtnFrameworkForecastDataSelectionBean(bean1);
+    		return gtnUIFrameworkWebserviceResponse;
+    	}
+    	private GtnQueryEngineWebServiceResponse callQueryEngineforDeleteView(GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest)
+    	{
+    		return callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
+    	}
+
+    	private GtnQueryEngineWebServiceRequest createQuery(String query, GtnFrameworkForecastDataSelectionBean bean) {
+    		
+    		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+    		queryExecutorBean.setSqlQuery(query);
+    		queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
+    		Object[] params= {bean.getViewId(),bean.getUserId()};
+    		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.STRING  };
+    		queryExecutorBean.setParams(params);
+    		queryExecutorBean.setDataType(dataType);
+    		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
+    		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
+    		return gtnQueryEngineWebServiceRequest;
+    	}
+
+    	private String readProperty(String deleteViewQuery) {
+    		String query = gtnSearchSqlService.getQuery(deleteViewQuery);
+    		logger.info("inside delete view method query------->" + query);
+    		return query;
+    	}
+    
+    
      @Override
     public void initCallOnFailure() {
         init();
     }
+    
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean gtnServiceRegistryBean) {
+        gtnServiceRegistryBean.setWebserviceEndPointUrl(
+                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointUrl"));
+        gtnServiceRegistryBean.setRegisteredWebContext(
+                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointServiceName"));
+    }
+    
+    public  Map<String,String> getQueryMap() {
+            queryMap.put("Commercial Forecasting_projectionName", " AND PM.projection_Name like ? ");
+            queryMap.put("Commercial Forecasting_projectionDescription", " AND PM.projection_description like ? ");
+            queryMap.put("Commercial Forecasting_company", " AND PM.COMPANY_MASTER_SID like ? ");
+            queryMap.put("Commercial Forecasting_businessUnit", " AND PM.BUSINESS_UNIT like ? ");
+            queryMap.put("forecastLandingScreen_customerHierarchy", " AND HDC.HIERARCHY_NAME like ? ");
+            queryMap.put("Commercial Forecasting_prodhierarchyName", " AND HDP.HIERARCHY_NAME like ? ");
+            queryMap.put("Commercial Forecasting_customerGroup", " AND CG.COMPANY_GROUP_NAME like ? ");
+            queryMap.put("Commercial Forecasting_productGroup"," AND IG.ITEM_GROUP_NAME like ? ");
+            queryMap.put("Commercial Forecasting_from"," AND P.PERIOD_SID >= ? ");
+            queryMap.put("Commercial Forecasting_to"," AND PD.PERIOD_SID <= ? ");
+            queryMap.put("projactionName"," AND PM.projection_Name like ? ");
+            queryMap.put("description", " AND PM.projection_description like ? ");
+            queryMap.put("customerHierarchy", " AND HDC.HIERARCHY_NAME like ? ");
+            queryMap.put("customerLevel", " AND PM.CUSTOMER_HIERARCHY_LEVEL like ? ");
+            queryMap.put("productHierarchy", " AND HDP.HIERARCHY_NAME like ? ");
+            queryMap.put("productLevel"," AND PM.PRODUCT_HIERARCHY_LEVEL like ? ");
+            queryMap.put("createdBy"," AND concat(U.firstName,+','+U.lastName) like ? ");
+            queryMap.put("createdDate", " AND PM.CREATED_DATE like ? ");
+            queryMap.put("modifiedDate", " AND PM.MODIFIED_DATE like ?");
+            queryMap.put("Company"," AND CM.COMPANY_NAME like ? ");
+            queryMap.put("businessUnit", " AND CM1.COMPANY_NAME like ? ");
+        return queryMap;
+    }
 
 }
+

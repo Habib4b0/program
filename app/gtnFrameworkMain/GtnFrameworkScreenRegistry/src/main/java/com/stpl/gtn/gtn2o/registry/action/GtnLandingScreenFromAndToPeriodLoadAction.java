@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkFromAndToLoadBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -82,6 +83,11 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
 				.loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(fromPeriodItemValueList.size()-1));
 
+		GtnFrameworkFromAndToLoadBean bean =    GtnFrameworkFromAndToLoadBean.getInstance(); 
+		bean.setFromPeriodItemCodeList(fromPeriodItemCodeList);
+		bean.setFromPeriodItemValueList(fromPeriodItemValueList);
+		bean.setToPeriodItemCodeList(toPeriodItemCodeList);
+		bean.setToPeriodItemValueList(toPeriodItemValueList);
 	}
 
 	@Override

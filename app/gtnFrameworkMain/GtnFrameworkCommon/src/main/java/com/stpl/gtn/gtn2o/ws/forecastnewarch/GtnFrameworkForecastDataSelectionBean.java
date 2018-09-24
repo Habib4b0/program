@@ -45,6 +45,10 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private Integer fromPeriodForecast;
 	private Integer toPeriod;
 	private GtnWsRecordBean customerHierarchyRecordBean;
+	private GtnWsRecordBean customerGroup;
+	private GtnWsRecordBean productGroup;
+	
+
 	private List<GtnWsRecordBean> availableCustomerHierarchyList;
 	private List<GtnWsRecordBean> availableProductHierarchyList;
 	private GtnWsRecordBean productHierarchyRecordBean;
@@ -75,7 +79,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private String privateViewName;
 	private String publicViewName;
 	private List<Object> customDataList;
-	
+	private int resultCount;
 	public String getProjectionName() {
 		return projectionName;
 	}
@@ -272,6 +276,13 @@ public class GtnFrameworkForecastDataSelectionBean {
 		return customerHierarchyRecordBean;
 	}
 
+	public void setCustomerGroup(GtnWsRecordBean customerGroup) {
+		this.customerGroup = customerGroup;
+	}
+	public GtnWsRecordBean getCustomerGroup() {
+		return customerGroup;
+	}
+
 	public void setCustomerHierarchyRecordBean(GtnWsRecordBean customerHierarchyRecordBean) {
 		this.customerHierarchyRecordBean = customerHierarchyRecordBean;
 	}
@@ -301,6 +312,13 @@ public class GtnFrameworkForecastDataSelectionBean {
 
 	public GtnWsRecordBean getProductHierarchyRecordBean() {
 		return productHierarchyRecordBean;
+	}
+	public GtnWsRecordBean getProductGroup() {
+		return productGroup;
+	}
+
+	public void setProductGroup(GtnWsRecordBean productGroup) {
+		this.productGroup = productGroup;
 	}
 
 	public void setProductHierarchyRecordBean(GtnWsRecordBean productHierarchyRecordBean) {
@@ -554,7 +572,13 @@ public class GtnFrameworkForecastDataSelectionBean {
 		return DataSelectionCopyBean;
 	}
 
-	
-	
+	public int getResultCount() {
+		return resultCount;
+	}
 
+	public void setResultCount(int resultCount) {
+		this.resultCount = resultCount;
+	}
+
+	
 }

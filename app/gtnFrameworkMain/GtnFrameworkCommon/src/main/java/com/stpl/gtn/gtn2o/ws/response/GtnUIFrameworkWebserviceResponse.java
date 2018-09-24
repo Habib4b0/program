@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.rebateschedule.GtnWsRebateScheduleInfoBean;
 import com.stpl.gtn.gtn2o.ws.response.arm.GtnWsARMResponse;
 import com.stpl.gtn.gtn2o.ws.response.authorization.GtnWsModuleAuthorizationGeneralResponse;
@@ -97,7 +98,7 @@ public class GtnUIFrameworkWebserviceResponse {
     private GtnWsReportResponse gtnWsReportResponse;
     private GtnWsReportResponse gtnReportResponse;
     private GtnWsPagedTableResponse gtnWsPagedTableResponse;
-    
+    private GtnFrameworkForecastDataSelectionBean gtnFrameworkForecastDataSelectionBean;
 //    private Listbean listBean;
     private List<Object[]> gtnGeneralSearchWsList;
 
@@ -503,6 +504,15 @@ public class GtnUIFrameworkWebserviceResponse {
 
 	public void setGtnServiceRegistryWSResponse(GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse) {
 		this.gtnServiceRegistryWSResponse = gtnServiceRegistryWSResponse;
+	}
+
+	public GtnFrameworkForecastDataSelectionBean getGtnFrameworkForecastDataSelectionBean() {
+		return gtnFrameworkForecastDataSelectionBean;
+	}
+
+	public void setGtnFrameworkForecastDataSelectionBean(
+			GtnFrameworkForecastDataSelectionBean gtnFrameworkForecastDataSelectionBean) {
+		this.gtnFrameworkForecastDataSelectionBean = gtnFrameworkForecastDataSelectionBean;
 	}
 
 }

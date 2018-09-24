@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.callqueryengine.CallQueryEngineSearchWs;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implements SearchInterface{
 	 public CustomerAndProductGroup()
@@ -53,8 +54,8 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        GtnFrameworkDataType[] dataType = {GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING};
 	        logger.debug("Customer And Product Group query" + query);
                 CallQueryEngineSearchWs callQueryEngine =new CallQueryEngineSearchWs();
-                GtnQueryEngineWebServiceResponse response1=callQueryEngine.commonCallWithParams(query, "SELECTWITHPARAMS", params, dataType);
-	        List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
+                GtnQueryEngineWebServiceResponse responseForCustAndProd=callQueryEngine.commonCallWithParams(query, "SELECTWITHPARAMS", params, dataType);
+	        List<Object[]> resultList = responseForCustAndProd.getQueryResponseBean().getResultList();
 	        GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 			dataTable.addData(resultList);
 			searchResponse.setResultSet(dataTable);
@@ -70,6 +71,11 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
     @Override
     public void initCallOnFailure() {
         return;
+    }
+    
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        // Default Method
     }
 	    
 	    

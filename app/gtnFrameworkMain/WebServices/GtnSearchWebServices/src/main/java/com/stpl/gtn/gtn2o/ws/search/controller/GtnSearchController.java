@@ -60,4 +60,13 @@ public class GtnSearchController extends GtnServiceRegistryImplClass {
 		response = gtnGeneralSearch.saveView(gtnUiFrameworkWebservicerequest);
 		return response;
 	}
+	
+	@PostMapping(value = "/deleteView")
+	public GtnUIFrameworkWebserviceResponse gtnForecastDeleteView(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
+		logger.info("entering into general search controller");
+		GtnUIFrameworkWebserviceResponse response;
+		response = gtnGeneralSearch.deleteView(gtnUiFrameworkWebservicerequest);
+		return response;
+	}
 }

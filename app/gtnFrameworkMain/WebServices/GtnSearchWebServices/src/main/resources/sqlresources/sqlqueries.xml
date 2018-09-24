@@ -63,7 +63,7 @@
 	<entry key="frequency">
 
             <![CDATA[            
-                 SELECT HELPER_TABLE_SID,DESCRIPTION from HELPER_TABLE where LIST_NAME LIKE 'FORECAST_FREQUENCY' AND DESCRIPTION NOT LIKE '%LY%' ORDER BY HELPER_TABLE_SID
+                 SELECT HELPER_TABLE_SID,DESCRIPTION from HELPER_TABLE where LIST_NAME LIKE 'FORECAST_FREQUENCY' ORDER BY HELPER_TABLE_SID
             ]]>
 
 	</entry>
@@ -440,6 +440,18 @@ ORDER BY IG.ITEM_GROUP_SID ASC
 			ORDER BY
 			A.MODIFIED_DATE DESC
 	]]>
+	</entry>
+	
+	<entry key="deleteView">
+		<![CDATA[
+			DELETE FROM FORECASTING_VIEWS WHERE VIEW_ID = ? AND CREATED_BY = ?
+		]]>
+	</entry>
+        
+        <entry key="deleteValidation">
+		<![CDATA[
+			SELECT COUNT(*) FROM FORECASTING_VIEWS WHERE VIEW_ID = ? AND CREATED_BY = ?
+		]]>
 	</entry>
 
 </properties>

@@ -11,7 +11,7 @@ import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import org.springframework.web.client.RestTemplate;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 /**
  *
@@ -32,12 +32,9 @@ public class CallQueryEngineSearchWs extends GtnCommonWebServiceImplClass {
         queryExecutorBean.setDataType(dataType);
         GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-        RestTemplate restTemplateQueryEngine = new RestTemplate();
         addSecurityToken(gtnQueryEngineWebServiceRequest);
         logger.info("calling query engine via service registry");
-        return restTemplateQueryEngine.postForObject(
-                getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);    
+        return callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);  
     }
 
     @Override
@@ -47,6 +44,11 @@ public class CallQueryEngineSearchWs extends GtnCommonWebServiceImplClass {
     
      @Override
     public void initCallOnFailure() {
+        // Default Method
+    }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
         // Default Method
     }
 
