@@ -2787,7 +2787,7 @@ public class DataSelection extends AbstractDataSelection {
         return description.getValue().length() <= 200;
     }
 
-    public void securityForAllScreens() {
+    private void securityForAllScreens() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent()
                 .getAttribute(com.stpl.app.utils.ConstantsUtils.USER_ID));

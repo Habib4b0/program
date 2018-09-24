@@ -70,7 +70,7 @@ public class DataSelectionSummaryUI extends CommonUI {
         CommonLogic.loadTransactionName();
     }
 
-    class HelperListLoadJob implements Runnable {
+    static class HelperListLoadJob implements Runnable {
 
         private final String listName;
 

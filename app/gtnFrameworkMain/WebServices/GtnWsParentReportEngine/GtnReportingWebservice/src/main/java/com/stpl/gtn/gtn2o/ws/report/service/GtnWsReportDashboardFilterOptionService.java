@@ -2,10 +2,12 @@ package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +35,7 @@ import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 public class GtnWsReportDashboardFilterOptionService {
 
 	private static final String STRING_CLOSE_BRACES = ") ";
-
 	private static final String STRING_OPEN_BRACES = " (";
-
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportDashboardFilterOptionService.class);
 
 	public GtnWsReportDashboardFilterOptionService() {
@@ -44,17 +44,15 @@ public class GtnWsReportDashboardFilterOptionService {
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-
 	@Autowired
 	private GtnWsReportSqlService reportSqlService;
+	private static Map<Integer, String> discountJoinQuery = loadDiscountJoinQuery();
 
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getCustAndProdLevelValues(GtnUIFrameworkWebserviceRequest gtnWsRequest)
 			throws GtnFrameworkGeneralException {
-
 		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
 		GtnWsReportDashboardBean dashboardBean = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean();
-
 		String custProdLevelQuery = reportSqlService.getQuery("filterOptionCustLevelProdLevelLoadQuery");
 		gtnLogger.debug(custProdLevelQuery);
 		double hierarchySid = dataSelectionBean.getProductHierarchySid();
@@ -126,7 +124,6 @@ public class GtnWsReportDashboardFilterOptionService {
 			return (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(replacedQuery);
 		}
 		return Collections.emptyList();
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -181,55 +178,14 @@ public class GtnWsReportDashboardFilterOptionService {
 	private List<String> getDeductionLevelQuery(GtnWsReportDashboardFilterBean filterBean) {
 		int deductionLevel = filterBean.getDeductionLevelNo();
 		List<String> clause = new ArrayList<>();
-		String joinClause = "";
-		String whereClause = "";
-		switch (deductionLevel) {
-		case 1:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_CATEGORY  AND HT.HELPER_TABLE_SID <> 0 ";
-			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
-			break;
-		case 2:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_TYPE AND HT.HELPER_TABLE_SID <> 0 ";
-			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
-			break;
-		case 3:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.REBATE_PROGRAM_TYPE AND HT.HELPER_TABLE_SID <> 0 ";
-			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
-			break;
-		case 4:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC1 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC1'";
-			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
-			break;
-		case 5:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC2 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC2'";
-			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
-			break;
-		case 6:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC3 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC3'";
-			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
-			break;
-		case 7:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC4 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC4'";
-			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
-			break;
-		case 8:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC5 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC5'";
-			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
-			break;
-		case 9:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC6 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC6'";
-			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
-			break;
-		case 10:
-			joinClause = "";
-			whereClause = "rcd.RS_CONTRACT_SID in";
-			break;
-		default:
-			break;
-
+		String discountJoinClause = getDiscountJoinQuery(deductionLevel);
+		String discountWhereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
+		if (deductionLevel == 10) {
+			discountJoinClause = "";
+			discountWhereClause = "rcd.RS_CONTRACT_SID in";
 		}
-		clause.add(joinClause);
-		clause.add(whereClause);
+		clause.add(discountJoinClause);
+		clause.add(discountWhereClause);
 		return clause;
 	}
 
@@ -368,50 +324,16 @@ public class GtnWsReportDashboardFilterOptionService {
 		int deductionLevel = filterBean.getDeductionLevelNo();
 		StringBuilder query = new StringBuilder();
 		String selectClause = " HT.DESCRIPTION,HT.HELPER_TABLE_SID ";
-		String joinClause = "";
+		String joinClause = getDiscountJoinQuery(deductionLevel);
 		String udcJoinClause = " JOIN UDCS  UDC ON UDC.MASTER_SID=RC.RS_CONTRACT_SID AND UDC.MASTER_TYPE='RS_CONTRACT' ";
-
-		switch (deductionLevel) {
-		case 1:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_CATEGORY  AND HT.HELPER_TABLE_SID <> 0 ";
+		if (deductionLevel == 1 || deductionLevel == 2 || deductionLevel == 3 || deductionLevel == 10) {
+			if (deductionLevel == 10) {
+				selectClause = " RC.RS_NAME,RC.RS_CONTRACT_SID ";
+				joinClause = "";
+			}
 			udcJoinClause = "";
-			break;
-		case 2:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_TYPE AND HT.HELPER_TABLE_SID <> 0 ";
-			udcJoinClause = "";
-			break;
-		case 3:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.REBATE_PROGRAM_TYPE AND HT.HELPER_TABLE_SID <> 0 ";
-			udcJoinClause = "";
-			break;
-		case 4:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC1 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC1'";
-			break;
-
-		case 5:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC2 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC2'";
-			break;
-		case 6:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC3 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC3'";
-			break;
-		case 7:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC4 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC4'";
-			break;
-		case 8:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC5 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC5'";
-			break;
-		case 9:
-			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC6 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC6'";
-			break;
-		case 10:
-			selectClause = " RC.RS_NAME,RC.RS_CONTRACT_SID ";
-			joinClause = "";
-			udcJoinClause = "";
-			break;
-		default:
-			break;
-
 		}
+
 		query.append("SELECT ").append(selectClause).append(reportSqlService.getQuery("deductionFilterLoadQuery"));
 		query.append(udcJoinClause).append(joinClause);
 		if (!filterBean.getSelectedProductList().isEmpty()) {
@@ -451,7 +373,6 @@ public class GtnWsReportDashboardFilterOptionService {
 		GtnWsReportDashboardFilterBean filterBean = reportRequest.getFilterBean();
 		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
 		StringBuilder getCCPSidQuery = new StringBuilder();
-
 		if (filterBean.getSelectedCustomerList().isEmpty() && filterBean.getSelectedProductList().isEmpty()
 				&& filterBean.getSelectedDeductionList().isEmpty()) {
 			return Collections.emptyList();
@@ -460,7 +381,6 @@ public class GtnWsReportDashboardFilterOptionService {
 			String productLoadQuery = getProductCCP(filterBean, dataSelectionBean);
 			getCCPSidQuery.append(customerLoadQuery).append(productLoadQuery);
 			getCCPSidQuery.append(reportSqlService.getQuery("filterOptionsGenerateQuery"));
-
 			StringBuilder joinQuery = new StringBuilder();
 			if (!filterBean.getSelectedCustomerList().isEmpty()) {
 				joinQuery
@@ -471,7 +391,6 @@ public class GtnWsReportDashboardFilterOptionService {
 						" JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO + '%'");
 			}
 			getCCPSidQuery = joinQuery.length() == 0 ? getCCPSidQuery : getCCPSidQuery.append(joinQuery);
-
 			String finalQuery = getDeductionCCP(getCCPSidQuery, filterBean);
 			Map<String, String> tableNameMap = dataSelectionBean.getSessionTableMap();
 			String replacedQuery = GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(finalQuery,
@@ -518,5 +437,33 @@ public class GtnWsReportDashboardFilterOptionService {
 					.append(STRING_CLOSE_BRACES);
 		}
 		return queryString.toString();
+	}
+
+	private String getDiscountJoinQuery(int levelNo) {
+		String discountStr = discountJoinQuery.get(levelNo);
+		return discountStr == null ? StringUtils.EMPTY : discountStr;
+	}
+
+	private static synchronized Map<Integer, String> loadDiscountJoinQuery() {
+		discountJoinQuery = new HashMap<>();
+		discountJoinQuery.put(1,
+				" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_CATEGORY  AND HT.HELPER_TABLE_SID <> 0 ");
+		discountJoinQuery.put(2,
+				" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_TYPE AND HT.HELPER_TABLE_SID <> 0 ");
+		discountJoinQuery.put(3,
+				" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.REBATE_PROGRAM_TYPE AND HT.HELPER_TABLE_SID <> 0 ");
+		discountJoinQuery.put(4,
+				" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC1 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC1'");
+		discountJoinQuery.put(5,
+				" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC2 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC2'");
+		discountJoinQuery.put(6,
+				" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC3 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC3'");
+		discountJoinQuery.put(7,
+				" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC4 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC4'");
+		discountJoinQuery.put(8,
+				" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC5 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC5'");
+		discountJoinQuery.put(9,
+				" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC6 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC6'");
+		return discountJoinQuery;
 	}
 }
