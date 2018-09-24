@@ -21,6 +21,8 @@ import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkSkipActionException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -33,6 +35,14 @@ import com.vaadin.ui.TreeGrid;
  * @author Lokeshwari.Kumarasam
  */
 public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkCVSaveValidationAction.class);
+
+	private boolean isSelectButton;
+
+	public GtnFrameworkCVSaveValidationAction() {
+		super();
+	}
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -95,7 +105,7 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		reportCustomViewRequest.setCustomerRelationshipSid(customerRelationSid);
 		reportCustomViewRequest.setProductRelationshipSid(productRelationSid);
 		reportCustomViewRequest.setCustomViewType(customViewType);
-		boolean isSelectButton = (boolean) paramList.get(4);
+		isSelectButton = (boolean) paramList.get(4);
 		if (!isSelectButton
 				&& String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit")) {
 			reportCustomViewRequest.setCvSysId(
@@ -104,12 +114,16 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		List<GtnWsRecordBean> treeNodeList = new ArrayList<>();
 		getAllTreeNodes(treeData, treeNodeList, treeData.getRootItems());
 		reportCustomViewRequest.setCvTreeNodeList(treeNodeList);
+
 		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
 				GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE + GtnWsCustomViewConstants.CHECK_CUSTOM_VIEW_SAVE,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnWsCustomViewResponse cvResponse = response.getGtnWsCustomViewResponse();
+
+		GtnWsReportDataSelectionBean dataSelectionBean = getDataSelectionBean(componentId);
+
 		if (cvResponse.isSuccess()) {
-			saveCustomView(componentId, customViewName, reportCustomViewRequest, paramList);
+			saveCustomView(componentId, customViewName, reportCustomViewRequest, paramList, dataSelectionBean);
 		} else if (isSelectButton) {
 			selectButtonAction(componentId, (GtnUIFrameWorkActionConfig) paramList.get(5));
 		} else {
@@ -175,12 +189,26 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 	}
 
 	private void saveCustomView(String componentId, String customViewName, GtnWsCustomViewRequest cvRequest,
-			List<Object> paramList) throws GtnFrameworkGeneralException {
+			List<Object> paramList, GtnWsReportDataSelectionBean dataSelectionBean)
+			throws GtnFrameworkGeneralException {
 		GtnUIFrameWorkActionConfig confirmActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		confirmActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.CONFIRMATION);
 		confirmActionConfig.addActionParameter("Save record " + customViewName + " ?");
 		List<GtnUIFrameWorkActionConfig> successActionConfigList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig checkForTreeStructureChangeActionConfig = new GtnUIFrameWorkActionConfig();
+		checkForTreeStructureChangeActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		checkForTreeStructureChangeActionConfig
+				.addActionParameter(GtnFrameworkCheckTreeStructureChangeAction.class.getName());
+		checkForTreeStructureChangeActionConfig.addActionParameter(Boolean.TRUE);
+		checkForTreeStructureChangeActionConfig.addActionParameter(dataSelectionBean);
+		checkForTreeStructureChangeActionConfig.addActionParameter(cvRequest);
+		checkForTreeStructureChangeActionConfig.addActionParameter(
+				String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit"));
+		checkForTreeStructureChangeActionConfig.addActionParameter(isSelectButton);
+		successActionConfigList.add(checkForTreeStructureChangeActionConfig);
+
 		GtnUIFrameWorkActionConfig saveActionConfig = new GtnUIFrameWorkActionConfig();
 		saveActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		saveActionConfig.addActionParameter(GtnFrameworkConfirmSaveAction.class.getName());
@@ -193,7 +221,19 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 				successActionConfigList.add(actionConfig);
 			}
 		}
+
 		confirmActionConfig.addActionParameter(successActionConfigList);
+
+		List<GtnUIFrameWorkActionConfig> failActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig failActionConfig = new GtnUIFrameWorkActionConfig();
+		failActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		failActionConfig.addActionParameter(GtnFrameworkCheckTreeStructureChangeAction.class.getName());
+		failActionConfig.addActionParameter(Boolean.FALSE);
+		failActionConfig.addActionParameter(dataSelectionBean);
+		failActionConfigList.add(failActionConfig);
+
+		confirmActionConfig.addActionParameter(failActionConfigList);
+
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmActionConfig);
 	}
 
@@ -204,6 +244,12 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		selectActionConfig.addActionParameter(GtnFrameworkConfirmSaveAction.class.getName());
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, selectActionConfig);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, closeActionConfig);
+	}
+
+	private GtnWsReportDataSelectionBean getDataSelectionBean(String componentId) {
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
+		return (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(sourceComponentId)
+				.getComponentData().getSharedPopupData();
 	}
 
 	@Override
