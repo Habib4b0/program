@@ -164,4 +164,6 @@ public class GtnWsQueryConstants {
 	public static final String SINGLE_QUOTES = "' ";
 
 	public static final String TOTAL = "Total";
+
+	public static final String WEIGHTED = "Weighted";
 }

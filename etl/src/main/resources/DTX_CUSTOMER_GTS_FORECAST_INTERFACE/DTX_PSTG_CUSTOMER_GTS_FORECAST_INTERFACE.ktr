@@ -1397,7 +1397,7 @@
     <schema>dbo</schema>
     <table>PSTG_CUSTOMER_GTS_FORECAST</table>
     <commit>1000</commit>
-    <truncate>N</truncate>
+    <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
     <specify_fields>Y</specify_fields>
@@ -1756,36 +1756,44 @@
     <return_field/>
     <fields>
         <field>
-          <column_name>CUSTOMER_GTS_FORECAST_INTF_ID</column_name>
-          <stream_name>CUSTOMER_GTS_FORECAST_INTF_ID</stream_name>
-        </field>
-        <field>
           <column_name>FORECAST_YEAR</column_name>
           <stream_name>FORECAST_YEAR</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_MONTH</column_name>
+          <stream_name>FORECAST_MONTH</stream_name>
         </field>
         <field>
           <column_name>ITEM_ID</column_name>
           <stream_name>ITEM_ID</stream_name>
         </field>
         <field>
-          <column_name>COMPANY_ID</column_name>
-          <stream_name>COMPANY_ID</stream_name>
+          <column_name>BRAND</column_name>
+          <stream_name>BRAND</stream_name>
         </field>
         <field>
           <column_name>UNITS</column_name>
           <stream_name>UNITS</stream_name>
         </field>
         <field>
-          <column_name>PRICE</column_name>
-          <stream_name>PRICE</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_TYPE</column_name>
-          <stream_name>PRICE_TYPE</stream_name>
-        </field>
-        <field>
           <column_name>SALES_AMOUNT</column_name>
           <stream_name>SALES_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_VER</column_name>
+          <stream_name>FORECAST_VER</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_NAME</column_name>
+          <stream_name>FORECAST_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_DATE</column_name>
+          <stream_name>FORECAST_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_ID</column_name>
+          <stream_name>COMPANY_ID</stream_name>
         </field>
         <field>
           <column_name>SALES_INCLUSION</column_name>
@@ -1824,24 +1832,12 @@
           <stream_name>DEDUCTION_INCLUSION</stream_name>
         </field>
         <field>
-          <column_name>FORECAST_MONTH</column_name>
-          <stream_name>FORECAST_MONTH</stream_name>
-        </field>
-        <field>
           <column_name>FORECAST_VALUE_TYPE</column_name>
           <stream_name>FORECAST_VALUE_TYPE</stream_name>
         </field>
         <field>
-          <column_name>BRAND</column_name>
-          <stream_name>BRAND</stream_name>
-        </field>
-        <field>
           <column_name>SEGMENT</column_name>
           <stream_name>SEGMENT</stream_name>
-        </field>
-        <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
         </field>
         <field>
           <column_name>ADD_CHG_DEL_INDICATOR</column_name>
@@ -1856,32 +1852,16 @@
           <stream_name>MODIFIED_BY</stream_name>
         </field>
         <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
         </field>
         <field>
-          <column_name>MODIFIED_DATE</column_name>
-          <stream_name>MODIFIED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_VER</column_name>
-          <stream_name>FORECAST_VER</stream_name>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
         </field>
         <field>
           <column_name>COUNTRY</column_name>
           <stream_name>COUNTRY</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_NAME</column_name>
-          <stream_name>FORECAST_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_DATE</column_name>
-          <stream_name>FORECAST_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
         </field>
         <field>
           <column_name>UDC1</column_name>
@@ -1906,6 +1886,26 @@
         <field>
           <column_name>UDC6</column_name>
           <stream_name>UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_TYPE</column_name>
+          <stream_name>PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_INTERFACE_ID</column_name>
+          <stream_name>CUSTOMER_GTS_FORECAST_INTF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE</column_name>
+          <stream_name>PRICE</stream_name>
         </field>
         <field>
           <column_name>IS_COMPLETE</column_name>
