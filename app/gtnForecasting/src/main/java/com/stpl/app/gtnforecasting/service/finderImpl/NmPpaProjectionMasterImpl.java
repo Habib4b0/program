@@ -393,6 +393,7 @@ public class NmPpaProjectionMasterImpl {
             }
             
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
+            LOGGER.debug(" isCount= {} " , isCount);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
