@@ -130,8 +130,16 @@ public class GtnFrameworkSaveViewAction
 				.getVaadinBaseComponent(actionParamsList.get(18).toString()).getCaptionFromV8ComboBox()))));
 		List<GtnWsRecordBean> selectedProductList = getSelectedList(actionParamsList.get(19).toString(), componentId);
 		dataSelectionBean.setSelectedProductHierarchyList(selectedProductList);
-		dataSelectionBean.setFrequency((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(20).toString()).getCaptionFromV8ComboBox()))));
+		String frequency = Optional.ofNullable(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(20).toString()).getCaptionFromV8ComboBox())
+				.orElseGet(String::new);
+		dataSelectionBean.setFrequency(frequency == "0" ? 0 : Integer.parseInt(frequency));
+		GtnWsRecordBean customerGroup = ((GtnWsRecordBean) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(21).toString()).getComponentData().getCustomData());
+	dataSelectionBean.setCustomerGroup(customerGroup);
+	GtnWsRecordBean productGroup = ((GtnWsRecordBean) GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponent(actionParamsList.get(22).toString()).getComponentData().getCustomData());
+    dataSelectionBean.setProductGroup(productGroup);
 		String privateViewName = Optional
 				.ofNullable(String.valueOf(GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent("Commercial Forecasting_privateViewLookup").getV8PopupFieldValue()))
