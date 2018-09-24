@@ -19,7 +19,6 @@ import com.stpl.gtn.gtn2o.ws.periodconf.constants.GtnWsPeriodConfigurationConsta
 import com.stpl.gtn.gtn2o.ws.periodconf.model.PeriodConfData;
 import com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,13 +57,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
                 logger.error("Exception in Period Webservice Registry" + e.getMessage());
                 GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
                 service.submit(call.createRunnable(this, staticTime));
-                service.shutdown();
-                try {
-					service.awaitTermination(1, TimeUnit.NANOSECONDS);
-				} catch (InterruptedException e1) {
-					logger.info("Exception while shutdown the executor service" + e1);
-				    Thread.currentThread().interrupt();
-				}
+               
             }
         }
     }
