@@ -5,12 +5,14 @@
 <gtnSSOConfig>
 	<ssotype>saml</ssotype> <!-- specify saml or spnego -->
 	<saml>
-		<idp.url>https://sso.connect.pingidentity.com/sso/idp/SSO.saml2?idpid=5a9276de-365e-4d72-a2be-e729d050503a</idp.url>
-		<issuer.public.cert>/opt/bpigtn/conf/okta-allergan.cert</issuer.public.cert>
+		<idp.url><![CDATA[https://sso.connect.pingidentity.com/sso/idp/SSO.saml2?idpid=473eefb4-e862-43b7-9491-08358b2409f4]]></idp.url>
+		<issuer.public.cert>/certificate//path</issuer.public.cert>
 		<log.saml.response>true</log.saml.response>
-		<issuer>https://fedlogin.jnj.com</issuer>
-		<relaystate>BPIGTNRelay</relaystate>
+		<issuer>SAMPLE_TECH</issuer>
+		<relaystate>https://pingone.com/1.0/04fa3664-f502-482d-b80b-086ba87bd10f</relaystate>
 		<specialchar.email>_,'</specialchar.email>
+		<is.saml.request.needed>Yes</is.saml.request.needed>
+		<acs.url>http://localhost:8080</acs.url>
+		<logout.url>https://sso.connect.pingidentity.com/sso/SLO.saml2</logout.url>
 	</saml>
-
 </gtnSSOConfig>

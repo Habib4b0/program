@@ -59,7 +59,6 @@ public class DiscountQueryBuilder {
     public static final String DEDCUST_JOIN = "@DEDCUSTJOIN";
     public static final String SELECTED_HIERARCHY_JOIN = "[?SELECTED_HIERARCHY_JOIN]";
     public static final String RS_JOIN = "@RSJOIN";
-    private static final String REL_COLUMN = "@REL_COLUMN";
     private static final String MANUAL_ENTRY_COUNT = " / ( CASE WHEN @REFRESHED_NAME = 'AMOUNT' THEN AMOUNT_COUNT * @PERIOD_COUNT ELSE RATE_RPU_COUNT END) ";
     public static final String NINE_LEVEL_DED = " UNION ALL SELECT NULL,HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL  FROM #SELECTED_HIERARCHY_NO WHERE DEDUCTION_INCLUSION=  ";
     public static final String TENTH_LEVEL_DED = " UNION ALL SELECT NULL,HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL  FROM #SELECTED_HIERARCHY_NO WHERE DEDUCTION_INCLUSION=  ";
@@ -789,7 +788,7 @@ public class DiscountQueryBuilder {
 	}
     
     public List getDiscountProjectionLastLevel(final String frequency, final List<String> discountList,
-            final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo, final List<String> customViewDetails, final int treeLevelNo,
+            final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo,
             final int start, final int end, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
         String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
         String dedQuery = NINE_LEVEL_DED;

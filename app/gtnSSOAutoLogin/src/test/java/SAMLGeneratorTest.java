@@ -1,7 +1,5 @@
 import com.stpl.sso.saml.StplSAMLRequestGenerator;
 
-import org.junit.jupiter.api.Test;
-
 public class SAMLGeneratorTest {
 
     // @Test
@@ -9,6 +7,13 @@ public class SAMLGeneratorTest {
 
         StplSAMLRequestGenerator gee = new StplSAMLRequestGenerator();
         System.out.println(gee.getAuthNRedirectUrl());
+
+    }
+
+    // @Test
+    public void testLogoutGenerate() {
+
+        // new StplSAMLLogoutRequestGenerator(/).buildLogOutRequest();
 
     }
 }

@@ -243,16 +243,4 @@ public class DPQueryUtils {
         return query.toString();
     }
 
-    public String checkClearAllQuery(int projectionId, String userId, String sessionId, boolean checkClear) {
-
-        int check = checkClear ? 1 : 0;
-        String query = "UPDATE M SET CHECK_RECORD = " + check
-                + " From  ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E \n"
-                + " Where M.USER_ID = " + userId + " \n"
-                + "  and M.SESSION_ID = " + sessionId + "\n"
-                + " AND  E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
-                + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID  ";
-
-        return query;
-    }
 }
