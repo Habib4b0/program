@@ -63,7 +63,8 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		String inventoryLevelColumnValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 		List<String> inventoryType = new ArrayList<>();
 
-		
+		try
+                {
 		if (wsViewName.contains("InventoryWdActualProjMas")) {
 			List<String> viewColumnList = (List<String>) actionParamList.get(1);
 			List<Object> columnList = (List<Object>) actionParamList.get(4);
@@ -120,6 +121,11 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			componentList = (List<Object>) actionParamList.get(1);
 
 		}
+                }
+                catch(Exception e)
+                {
+                    throw new GtnFrameworkGeneralException("Error in Transaction viewAction,null pointer", e);
+                }
 		List<GtnWSTransactionColumnBean> viewDateModeComponents = (List<GtnWSTransactionColumnBean>) actionParamList
 				.get(9);
 		
