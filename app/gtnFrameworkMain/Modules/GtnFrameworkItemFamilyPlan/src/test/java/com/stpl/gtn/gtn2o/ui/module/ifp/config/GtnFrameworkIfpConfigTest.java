@@ -8,6 +8,8 @@ import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
  * @author spandan.majumder
  * @version $Revision: 1.0 
  */
+
+@Ignore
 public class GtnFrameworkIfpConfigTest {
 
 	@Test

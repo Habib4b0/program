@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.module.ifp.dynamicclasses;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
@@ -13,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
  * @version $Revision: 1.0 
  */
 
+@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GtnUIFrameworkGlobalUI.class)
 public class GtnUIFrameworkIfpDynamicClassFillerTest {
