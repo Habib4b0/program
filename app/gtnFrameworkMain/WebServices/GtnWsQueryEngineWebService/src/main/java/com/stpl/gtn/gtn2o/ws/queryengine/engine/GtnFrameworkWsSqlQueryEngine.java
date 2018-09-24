@@ -24,7 +24,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger;
 import com.stpl.gtn.gtn2o.ws.queryengine.constants.GtnWsQueryEngineConstants;
 
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {

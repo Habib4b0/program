@@ -298,7 +298,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig company = new GtnUIFrameworkComponentConfig();
 		company.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		company.setComponentId(nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
-		company.setComponentName(GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
+		company.setComponentName(GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_NAME);
 		company.setAddToParent(Boolean.TRUE);
 		company.setParentComponentId(nameSpace + "_" + "companyLayout");
 		company.setCustomReference("integerId");
@@ -324,7 +324,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig frequency = new GtnUIFrameworkComponentConfig();
 		frequency.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		frequency.setComponentId(nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_FREQUENCY_COMBOX_ID);
-		frequency.setComponentName( GtnFrameworkScreenRegisteryConstants.ADD_FREQUENCY_COMBOX_ID);
+		frequency.setComponentName( GtnFrameworkScreenRegisteryConstants.ADD_FREQUENCY_COMBOX_NAME);
 		frequency.setAddToParent(Boolean.TRUE);
 		frequency.setParentComponentId(nameSpace + "_" + "frequencyLayout");
 		frequency.setCustomReference("integerId");
