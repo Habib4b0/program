@@ -253,7 +253,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
         selection.getSessionDTO().setCurrentTableNames(createTempTables);
     }
 
-    class AbstractReportCustomNotification extends AbstractNotificationUtils {
+    static class AbstractReportCustomNotification extends AbstractNotificationUtils {
 
         private String reportSummaryButtonName;
 

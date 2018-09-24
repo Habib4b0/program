@@ -95,7 +95,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
             levelNo = dto.getLevelNo();
 
             inflationMasterSids = (TreeMap<String, Integer>) dto.getMasterIds().clone();
-            inflationMasterSids.put(ARMUtils.getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo), Integer.valueOf(dto.getBranditemmasterSid()));
+            inflationMasterSids.put(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo), Integer.valueOf(dto.getBranditemmasterSid()));
             levelNo++;
         } else {
             inflationMasterSids = ARMUtils.getMasterIdsMapForTrx6();
@@ -106,7 +106,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
                 levelNo = NumericConstants.THREE;
             }
         }
-        input.add(ARMUtils.getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo));
+        input.add(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo));
         if (inflationSelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
             input.add(ARM_INFLATION_INVENTORY);
         } else {
@@ -130,7 +130,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
             AdjustmentDTO dto = (AdjustmentDTO) inflationParentId;
             levelNo = dto.getLevelNo();
             masterSids = (TreeMap<String, Integer>) dto.getMasterIds().clone();
-            masterSids.put(ARMUtils.getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo), Integer.valueOf(dto.getBranditemmasterSid()));
+            masterSids.put(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo), Integer.valueOf(dto.getBranditemmasterSid()));
             levelNo++;
         } else {
             masterSids = ARMUtils.getMasterIdsMapForTrx6();
@@ -143,7 +143,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
         }
         inflationSelection.setLevelNo(levelNo);
         inflationSelection.setMasterSids(masterSids);
-        input.add(ARMUtils.getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo));
+        input.add(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo));
         if (inflationSelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
             input.add(ARM_INFLATION_INVENTORY);
         } else {
@@ -243,14 +243,12 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
         List<String> singleVisibleColumn = new ArrayList<>();
         List<String> defaultVisibleColumn = new ArrayList<>();
         List<String> singleVisibleHeader = new ArrayList<>();
-        List<String> singleColumn = new ArrayList<>();
         int index = 0;
         int defaultindex = 0;
         List<String> columnList = getColumns(selection.getSalesVariables());
         String[] variableVisibleColumn = selection.getVariableVisibleColumns();
         HashMap<String, String> map = new HashMap<>();
         for (String inflationColumn : variableVisibleColumn) {
-            singleColumn.add(inflationColumn + ARMUtils.DOT + index++);
 
             if (columnList.contains(inflationColumn)) {
                 int listIndex = columnList.indexOf(inflationColumn);

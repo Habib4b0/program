@@ -15495,6 +15495,21 @@ div.v-layout.v-horizontal.v-widget {
 	margin-left: 26px !important;
 }
 
+.stpl .v-report-bottomlayout {
+	margin-left: -10px;
+}
+
+.stpl .v-report-comparsion-search-topLayout {
+	margin-left: 125px;
+	margin-top: -30px;
+	width: 120px;
+	height: 26px;
+}
+
+.stpl .v-report-layout {
+	margin-top: 30px;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;

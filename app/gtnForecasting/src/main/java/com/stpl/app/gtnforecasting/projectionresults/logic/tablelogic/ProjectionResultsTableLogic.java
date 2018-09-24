@@ -305,14 +305,12 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
     private int getCountByForecastName(final Object parentId) throws PortalException {
         int count;
         String screenName = StringUtils.isBlank(projSelDTO.getScreenName()) ? StringUtils.EMPTY : projSelDTO.getScreenName();
-        switch (screenName) {
-            case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
-                count = getNmProjectionResultsLogic().getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
-                break;
-            default:
-                LOGGER.warn("BUSINESS_PROCESS_TYPE is Empty.Commercial is loaded by default.");
-                count = getNmProjectionResultsLogic().getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
-                break;
+       
+        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
+            count = getNmProjectionResultsLogic().getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
+        } else {
+            LOGGER.warn("BUSINESS_PROCESS_TYPE is Empty.Commercial is loaded by default.");
+            count = getNmProjectionResultsLogic().getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
         }
         return count;
     }
@@ -321,15 +319,13 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
         List<ProjectionResultsDTO> list;
         String screenName = StringUtils.isBlank(projSelDTO.getScreenName()) ? StringUtils.EMPTY : projSelDTO.getScreenName();
         LOGGER.debug("Screen Name is= {} ",screenName);
-        switch (screenName) {
-            case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
-                LOGGER.debug("Projection results load data method with start = {}, and offset= {}",start,offset);
+        
+        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
+            LOGGER.debug("Projection results load data method with start = {}, and offset= {}",start,offset);
+            list = getNmProjectionResultsLogic().getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
+        } else {
+             LOGGER.warn("BUSINESS_PROCESS_TYPE is Empty.Commercial is loaded by default.");
                 list = getNmProjectionResultsLogic().getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
-                break;
-            default:
-                LOGGER.warn("BUSINESS_PROCESS_TYPE is Empty.Commercial is loaded by default.");
-                list = getNmProjectionResultsLogic().getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
-                break;
         }
         return list;
     }

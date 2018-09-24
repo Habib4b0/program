@@ -1,5 +1,14 @@
 package com.stpl.gtn.gtn2o.ws;
 
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.springframework.web.client.RestTemplate;
+
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
@@ -7,18 +16,6 @@ import com.stpl.gtn.gtn2o.ws.manager.GtnWsSecurityManager;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import java.lang.reflect.Field;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.Proxy.Type;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.web.client.RestTemplate;
 
 public class GtnUIFrameworkWebServiceClient {
 
@@ -41,7 +38,7 @@ public class GtnUIFrameworkWebServiceClient {
 		}
 	}
 
-	private RestTemplate getRestTemplate() {		
+	private RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
 

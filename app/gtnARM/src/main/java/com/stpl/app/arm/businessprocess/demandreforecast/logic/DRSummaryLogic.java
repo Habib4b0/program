@@ -193,7 +193,7 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 }
                 if (getCondition(reforecastSelection, index, totalColumnIndex, nextBrand, brand)
                         || ((!ARMConstants.getMonthly().equals(reforecastSelection.getSummarydemandfrequency()) && getConditionMultiplePeriod(reforecastSelection, startIndex, nextStartIndex))
-                        || (ARMConstants.getMultiplePeriod().equals(reforecastSelection.getSummarydemandview()) && ARMConstants.getMonthly().equals(reforecastSelection.getSummarydemandfrequency()) && index >= totalColumnIndex))) {
+                        || (index >= totalColumnIndex && ARMConstants.getMultiplePeriod().equals(reforecastSelection.getSummarydemandview()) && ARMConstants.getMonthly().equals(reforecastSelection.getSummarydemandfrequency())))) {
                     reforecastDto.addStringProperties(variables.get(totalColumnIndex), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[0]))));
                     reforecastDto.addStringProperties(variables.get(totalColumnIndex + 1), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[1]))));
                     reforecastDto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.TWO), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.TWO]))));
@@ -280,10 +280,10 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             }
         }
         if (viewType.equals(ARMConstants.getDeduction())) {
-            viewType = ARMUtils.getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
+            viewType = ARMUtils.getInstance().getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
         }
         reforecastInputs.add(viewType);
-        reforecastInputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
+        reforecastInputs.add(ARMUtils.getInstance().getSummaryViewType(selection.getSummaryviewType()));
         reforecastInputs.add(frequency.get(0)[1]);
         reforecastInputs.add(frequency.get(frequency.size() - 1)[1]);
 

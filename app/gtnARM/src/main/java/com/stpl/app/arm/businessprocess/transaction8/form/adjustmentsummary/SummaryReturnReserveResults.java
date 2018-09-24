@@ -94,9 +94,9 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
     @Override
     public void setRespectiveHierarchy(String viewType) {
         if (ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes())) {
-            getSelection().setSummeryhierarchy(ARMUtils.getTYrx8LevelAndLevelFilter(viewType));
+            getSelection().setSummeryhierarchy(ARMUtils.getInstance().getTYrx8LevelAndLevelFilter(viewType));
         } else {
-            getSelection().setSummeryhierarchy(ARMUtils.getReturnsLevelAndLevelFilter(viewType));
+            getSelection().setSummeryhierarchy(ARMUtils.getInstance().getReturnsLevelAndLevelFilter(viewType));
         }
     }
 
@@ -117,7 +117,7 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
         List<Object> header = getSummaryLogic().generateHeader(getSelection(), columns);
         List rightSingleVisibleColumn = (List) header.get(0);
         List<String> rightDoubleVisibleColumn = (List) header.get(1);
-        Map<Object, Object[]> rightDoubleSingleVisibleColumn = (HashMap) header.get(NumericConstants.FOUR);
+        Map<Object, Object[]> rightDoubleSingleVisibleColumn = (Map<Object, Object[]>) header.get(NumericConstants.FOUR);
         for (int i = 0; i < rightSingleVisibleColumn.size(); i++) {
             properties.put(rightSingleVisibleColumn.get(i), String.class);
         }

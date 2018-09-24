@@ -246,7 +246,7 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
         } else {
             viewTypeValue = viewType;
         }
-        getSelection().setRateshierarchy(ARMUtils.getLevelAndLevelFilter(viewTypeValue));
+        getSelection().setRateshierarchy(ARMUtils.getInstance().getLevelAndLevelFilter(viewTypeValue));
     }
 
     public void trx7RateProcedureCall(AbstractSelectionDTO selectionDTO) {
