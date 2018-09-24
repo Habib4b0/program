@@ -68,7 +68,7 @@ public class PPAProjectionLogic {
         }
 
         input.add(selection.getRelationshipBuilderSid());
-        if (selection.getGroupFilter() != Constant.ALL_GROUP) {
+        if (!selection.getGroupFilter().equals(Constant.ALL_GROUP)) {
             input.add(selection.getGroupFilter().replace(Constant.PPA, StringUtils.EMPTY));
         } else {
             input.add(Constant.PERCENT);
@@ -92,7 +92,7 @@ public class PPAProjectionLogic {
             input.add("'" + columnValue + "'");
         }
         input.add(selection.getRelationshipBuilderSid());
-        if (selection.getGroupFilter() != Constant.ALL_GROUP) {
+        if (!selection.getGroupFilter().equals(Constant.ALL_GROUP)) {
             input.add(selection.getGroupFilter().replace(Constant.PPA, StringUtils.EMPTY));
         } else {
             input.add(Constant.PERCENT);

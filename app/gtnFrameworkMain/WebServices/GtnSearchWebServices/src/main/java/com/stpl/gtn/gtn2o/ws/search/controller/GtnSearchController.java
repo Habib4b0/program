@@ -28,7 +28,7 @@ public class GtnSearchController extends GtnServiceRegistryImplClass {
 
 
 	@Autowired
-	GtnGeneralSearchService gtnGeneralSearch;
+	private GtnGeneralSearchService gtnGeneralSearch;
 
 	@GetMapping(value = "/searchTest")
 	public boolean test() {

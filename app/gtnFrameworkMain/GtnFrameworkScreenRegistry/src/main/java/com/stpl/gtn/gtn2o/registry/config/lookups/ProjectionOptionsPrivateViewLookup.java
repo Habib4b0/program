@@ -433,9 +433,19 @@ public class ProjectionOptionsPrivateViewLookup
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
-		actionParameter.add(namespace+"_"+"lookup");
-		actionParameter.add(Arrays.asList("viewName"));
-		actionParameter.add(Arrays.asList("Commercial Forecasting_privateViewLookup"));
+                if(namespace.equals("Private"))
+                {
+		actionParameter.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+                actionParameter.add(Arrays.asList("viewName"));
+                actionParameter.add(Arrays.asList("Commercial Forecasting_privateViewLookup"));
+                }
+                if(namespace.equals("Public"))
+                {
+                actionParameter.add(GtnFrameworkCommonConstants.PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
+                actionParameter.add(Arrays.asList("viewName"));
+                actionParameter.add(Arrays.asList(GtnFrameworkCommonConstants.PUBLIC_VIEW_SEARCH_LOOKUP_VIEW));
+                }
+		
 		privateViewSelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(privateViewSelectAction);
 
