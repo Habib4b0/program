@@ -595,7 +595,7 @@ public class CommonLogic {
                     + " AND RLD.RELATIONSHIP_BUILDER_SID  = " + relationshipBuilderSid + " \n"
                     + " JOIN projection_details PD "
                     + " ON PD.ccp_details_sid = CCP.ccp_details_sid  AND PD.projection_master_sid =" + projectionId + " "
-                    + getGroupFilterQuery(userGroup, userId, sessionId, false, discountList);
+                    + getGroupFilterQuery(userGroup, false, discountList);
 
             joinQuery1 += Constant.CCPMAP;
 
@@ -674,7 +674,7 @@ public class CommonLogic {
         String joinQuery1 = " relationship_level_definition RLD JOIN ccp_map CCP ON RLD.relationship_level_sid = CCP.relationship_level_sid "
                 + " AND RLD.RELATIONSHIP_BUILDER_SID=" + relationshipBuilderSid + " \n"
                 + " JOIN projection_details PD "
-                + "  ON PD.ccp_details_sid = CCP.ccp_details_sid  AND PD.projection_master_sid =" + projectionId + " " + getGroupFilterQuery(userGroup, userId, sessionId, false, null) + Constant.CCPMAP;
+                + "  ON PD.ccp_details_sid = CCP.ccp_details_sid  AND PD.projection_master_sid =" + projectionId + " " + getGroupFilterQuery(userGroup, false, null) + Constant.CCPMAP;
         String joinQuery2 = " relationship_level_definition RLD1 JOIN " + tableName + " PCH  ON PCH.relationship_level_sid =  RLD1.relationship_level_sid \n"
                 + " AND PCH.projection_master_sid  = " + projectionId
                 + " WHERE  RLD1.hierarchy_no LIKE '%' AND RLD1.LEVEL_NO >= " + levelNo + ")  HLD ";
@@ -1387,7 +1387,7 @@ public class CommonLogic {
                 + " AND PD.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId();
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), isPrior, projSelDTO.getDiscountNoList());
+            ccpQuery += " " + getGroupFilterQuery(userGroup, isPrior, projSelDTO.getDiscountNoList());
         }
         ccpQuery += " ) CCPMAP, \n"
                 + " (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID  \n"
@@ -1431,7 +1431,7 @@ public class CommonLogic {
                 + "AND PD.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId();
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), isPrior, projSelDTO.getDiscountNoList());
+            ccpQuery += " " + getGroupFilterQuery(userGroup, isPrior, projSelDTO.getDiscountNoList());
         }
         ccpQuery += " ) CCPMAP,\n"
                 + " (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID \n"
@@ -1478,7 +1478,7 @@ public class CommonLogic {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), isPrior, projSelDTO.getDiscountNoList());
+            ccpQuery += " " + getGroupFilterQuery(userGroup, isPrior, projSelDTO.getDiscountNoList());
         }
 
         ccpQuery += "  ) CCPMAPC \n"
@@ -1491,7 +1491,7 @@ public class CommonLogic {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), isPrior, projSelDTO.getDiscountNoList());
+            ccpQuery += " " + getGroupFilterQuery(userGroup, isPrior, projSelDTO.getDiscountNoList());
         }
 
         ccpQuery += " ) CCPMAPP \n"
@@ -1540,7 +1540,7 @@ public class CommonLogic {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), isPrior, projSelDTO.getDiscountNoList());
+            ccpQuery += " " + getGroupFilterQuery(userGroup,  isPrior, projSelDTO.getDiscountNoList());
         }
 
         ccpQuery += " ) CCPMAPC JOIN"
@@ -1552,7 +1552,7 @@ public class CommonLogic {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), isPrior, projSelDTO.getDiscountNoList());
+            ccpQuery += " " + getGroupFilterQuery(userGroup, isPrior, projSelDTO.getDiscountNoList());
         }
 
         ccpQuery += " ) CCPMAPP  \n"
@@ -1639,7 +1639,7 @@ public class CommonLogic {
         return query;
     }
 
-    public static String getGroupFilterQuery(String userGroup, int userId, int sessionId, boolean isPrior, List<String> discountList) {
+    public static String getGroupFilterQuery(String userGroup, boolean isPrior, List<String> discountList) {
         String query = StringUtils.EMPTY;
         String userGroupFilter = userGroup;
         
@@ -1652,7 +1652,7 @@ public class CommonLogic {
                     query = getGroupFilterPPAQuery(userGroupFilter, isPrior);
                 } else if (userGroupFilter.contains(Constant.SALES_SMALL)) {
                     userGroupFilter = LIKE_PERCENT;
-                    query = getGroupFilterSalesQuery(userGroupFilter,  sessionId, isPrior);
+                    query = getGroupFilterSalesQuery(userGroupFilter, isPrior);
                 }
             } else if (userGroupFilter.startsWith(Constant.DISCOUNT)) {
                 query = getGroupFilterDiscountQuery(isPrior, discountList);
@@ -1661,7 +1661,7 @@ public class CommonLogic {
                 query = getGroupFilterPPAQuery(userGroupFilter, isPrior);
             } else if (userGroupFilter.startsWith(Constant.SALES_WITH_HYPHEN)) {
                 userGroupFilter = " = '" + userGroupFilter.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterSalesQuery(userGroupFilter,  sessionId, isPrior);
+                query = getGroupFilterSalesQuery(userGroupFilter, isPrior);
             }
         }
         return query;
@@ -1688,7 +1688,7 @@ public class CommonLogic {
         return "   JOIN " + tableIndicator + "NM_PPA_PROJECTION_MASTER P ON P.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID WHERE  P.USER_GROUP " + userGroup;
     }
 
-    public static String getGroupFilterSalesQuery(String userGroup, int sessionId, boolean isPrior) {
+    public static String getGroupFilterSalesQuery(String userGroup, boolean isPrior) {
         String tableIndicator = StringUtils.EMPTY;
         if (!isPrior) {
             tableIndicator = "ST_";
@@ -1854,7 +1854,7 @@ public class CommonLogic {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false, projSelDTO.getDiscountNoList());
+            ccpQuery += " " + getGroupFilterQuery(userGroup,  false, projSelDTO.getDiscountNoList());
         }
 
         ccpQuery += " ) CCPMAPC  JOIN"
@@ -1865,7 +1865,7 @@ public class CommonLogic {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false, projSelDTO.getDiscountNoList());
+            ccpQuery += " " + getGroupFilterQuery(userGroup, false, projSelDTO.getDiscountNoList());
         }
 
         ccpQuery += " ) CCPMAPP  \n"
@@ -3063,7 +3063,7 @@ public class CommonLogic {
                 + "       LEFT JOIN HLD" + projSelDTO.getHierarchyIndicator() + " H ON C.HIERARCHY_NO = H.HIERARCHY_NO\n";
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             String userGroup = projSelDTO.getGroupFilter();
-            String groupFilter = getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), isPrior, projSelDTO.getDiscountNoList());
+            String groupFilter = getGroupFilterQuery(userGroup, isPrior, projSelDTO.getDiscountNoList());
             groupFilter = groupFilter.replace("PD", "C");
             ccpQuery += " " + groupFilter;
         }
@@ -3832,7 +3832,7 @@ public class CommonLogic {
         }
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQueryPR(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), isPrior, projSelDTO.getDiscountNoList());
+            ccpQuery += " " + getGroupFilterQueryPR(userGroup, isPrior, projSelDTO.getDiscountNoList());
         }
         return ccpQuery;
     }
@@ -3861,7 +3861,7 @@ public class CommonLogic {
         return "  JOIN " + tableIndicator + "NM_PPA_PROJECTION_MASTER P ON P.CCP_DETAILS_SID=CH.CCP_DETAILS_SID WHERE  P.USER_GROUP " + userGroup;
     }
 
-    public static String getGroupFilterSalesQueryPR(String userGroup, int sessionId, boolean isPrior) {
+    public static String getGroupFilterSalesQueryPR(String userGroup, boolean isPrior) {
         String tableIndicator = StringUtils.EMPTY;
         if (!isPrior) {
             tableIndicator = "ST_";
@@ -3869,7 +3869,7 @@ public class CommonLogic {
         return "  JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.CCP_DETAILS_SID=CH.CCP_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
     }
 
-    public static String getGroupFilterQueryPR(String userGroup, int userId, int sessionId, boolean isPrior, List<String> discountList) {
+    public static String getGroupFilterQueryPR(String userGroup,  boolean isPrior, List<String> discountList) {
         String query = StringUtils.EMPTY;
         String userGroupPR = userGroup;
         if (!userGroupPR.isEmpty()) {
@@ -3881,7 +3881,7 @@ public class CommonLogic {
                     query = getGroupFilterPPAQueryPR(userGroupPR, isPrior);
                 } else if (userGroupPR.contains(Constant.SALES_SMALL)) {
                     userGroupPR = LIKE_PERCENT;
-                    query = getGroupFilterSalesQueryPR(userGroupPR, sessionId, isPrior);
+                    query = getGroupFilterSalesQueryPR(userGroupPR,  isPrior);
                 }
             } else if (userGroupPR.startsWith(Constant.DISCOUNT)) {
                 query = getGroupFilterDiscountQueryPR(isPrior, discountList);
@@ -3890,7 +3890,7 @@ public class CommonLogic {
                 query = getGroupFilterPPAQueryPR(userGroupPR, isPrior);
             } else if (userGroupPR.startsWith(Constant.SALES_WITH_HYPHEN)) {
                 userGroupPR = " = '" + userGroupPR.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterSalesQueryPR(userGroupPR, sessionId, isPrior);
+                query = getGroupFilterSalesQueryPR(userGroupPR,  isPrior);
             }
         }
         return query;
@@ -4053,7 +4053,8 @@ public class CommonLogic {
     }
     
     public void insertPFDTemp(SessionDTO session, String methodology, String allocationBasis, boolean isSales) {
-        String values, screensName;
+        String values;
+        String screensName;
         if (isSales) {
             screensName = "S";
             if (Constant.SINGLE_PERIOD.equals(methodology) || Constant.AVERAGE.equals(methodology) || Constant.ROLLINGANNUALTREND.equalsIgnoreCase(methodology)) {

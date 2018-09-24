@@ -35,7 +35,6 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     private SessionDTO session;
     private int customId = 0;
     private boolean isSelect = false;
-    private CustomViewMaster customView = null;
     private final CustomViewLogic relationBuildLogic = new CustomViewLogic();
     
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomTreeBuild.class);
@@ -356,7 +355,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     @Override
     protected String getCustomMasterData() {
         String str = StringUtils.EMPTY;
-        customView = CommonLogic.getCustomView(customId);
+        CustomViewMaster customView = CommonLogic.getCustomView(customId);
         customId = 0;
         if (customView != null) {
             str = customView.getViewName();

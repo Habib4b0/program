@@ -57,8 +57,6 @@ public class MProjectionResultsLogic {
     private ProjectionResultsDTO supDisDolDto = null;
     private ProjectionResultsDTO manDisPerDto = null;
     private ProjectionResultsDTO manDisDolDto = null;
-    private ProjectionResultsDTO manRPUDto = null;
-    private ProjectionResultsDTO supRPUDto = null;
     private List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
     private List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
 
@@ -1253,8 +1251,8 @@ public class MProjectionResultsLogic {
                 supDisDolDto = projectionTotalList.get(NumericConstants.FIFTEEN);
                 supDisPerDto = projectionTotalList.get(NumericConstants.SIXTEEN);
                 manDisPerDto = projectionTotalList.get(NumericConstants.SEVENTEEN);
-                supRPUDto = projectionTotalList.get(NumericConstants.NINETEEN);
-                manRPUDto = projectionTotalList.get(NumericConstants.EIGHTEEN);
+                ProjectionResultsDTO supRPUDto = projectionTotalList.get(NumericConstants.NINETEEN);
+                ProjectionResultsDTO manRPUDto = projectionTotalList.get(NumericConstants.EIGHTEEN);
 
                 if (projSelDTO.isIsChildTotal() && projSelDTO.getGroup().equals(TOTAL_DISCOUNT_PERC.getConstant())) {
 

@@ -138,7 +138,7 @@ public class WorkFlowNotesLookup extends Window {
         uploader.setEnabled(false);
         Receiver uploadReceiver = (Receiver) new FileUploader(StringUtils.EMPTY + "/" + userId);
         uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
-        fileUploadPath = FileUploader.FILE_PATH + StringUtils.EMPTY + "/" + userId + "/";
+        fileUploadPath = FileUploader.FILE_PATH + StringUtils.EMPTY + Constant.SLASH + userId + Constant.SLASH;
         uploadComponent.setButtonCaption(Constant.ADD);
         uploadComponent.setStyleName("uploadIdBB");
         cssLayout1.addComponent(addAttachmentLable);
