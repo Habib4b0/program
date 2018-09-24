@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.web.client.RestTemplate;
+
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
@@ -14,8 +16,6 @@ import com.stpl.gtn.gtn2o.ws.manager.GtnWsSecurityManager;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-
-import org.springframework.web.client.RestTemplate;
 
 public class GtnUIFrameworkWebServiceClient {
 
@@ -41,7 +41,7 @@ public class GtnUIFrameworkWebServiceClient {
 		}
 	}
 
-	private RestTemplate getRestTemplate() {		
+	private RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
 
