@@ -340,7 +340,7 @@ public class BussinessProcessForm extends Window {
                                 @Override
                                 public void yesMethod() {
                                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-                                    getUI().getCurrent().addWindow(popup);
+                                    UI.getCurrent().addWindow(popup);
                                     popup.addCloseListener(new Window.CloseListener() {
                                         @Override
                                         public void windowClose(Window.CloseEvent e) {
@@ -653,7 +653,7 @@ public class BussinessProcessForm extends Window {
                     if (approveButtonId.name().equals(ARMUtils.YES)) {
 
                         final WorkFlowNotesLookup approvePopup = new WorkFlowNotesLookup();
-                        getUI().getCurrent().addWindow(approvePopup);
+                        UI.getCurrent().addWindow(approvePopup);
                         approvePopup.addCloseListener(new Window.CloseListener() {
 
                             @Override
@@ -735,7 +735,7 @@ public class BussinessProcessForm extends Window {
             public void buttonClicked(ButtonId rejectButtonId) {
                 if (rejectButtonId.name().equals(ARMUtils.YES)) {
                     final WorkFlowNotesLookup rejectPopup = new WorkFlowNotesLookup();
-                    getUI().getCurrent().addWindow(rejectPopup);
+                    UI.getCurrent().addWindow(rejectPopup);
                     rejectPopup.addCloseListener(new Window.CloseListener() {
 
                         @Override
@@ -751,8 +751,6 @@ public class BussinessProcessForm extends Window {
                                     String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
 
-                                        Map<String, Object> rejectParams = new HashMap<>();
-                                        rejectParams.put(CommonConstant.APPROVE_FLAG, "reject-RWC");
                                         VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         // For Mail
                                         callWorkflowInboxRefresh();
@@ -787,7 +785,7 @@ public class BussinessProcessForm extends Window {
             public void buttonClicked(ButtonId withdrawButtonId) {
                 if (withdrawButtonId.name().equals(ARMUtils.YES)) {
                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-                    getUI().getCurrent().addWindow(popup);
+                    UI.getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
 
                         @Override
@@ -803,8 +801,6 @@ public class BussinessProcessForm extends Window {
                                     String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
 
-                                        Map<String, Object> withdrawParams = new HashMap<>();
-                                        withdrawParams.put(CommonConstant.APPROVE_FLAG, "withdraw-RWC");
                                         VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         callWorkflowInboxRefresh();
                                         AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
@@ -839,7 +835,7 @@ public class BussinessProcessForm extends Window {
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals(ARMUtils.YES)) {
                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-                    getUI().getCurrent().addWindow(popup);
+                    UI.getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
 
                         @Override
@@ -854,9 +850,6 @@ public class BussinessProcessForm extends Window {
                                     WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getCancelledStatus(), popup.getNotes().getValue(), sessionDTO.getApprovalLevel());
                                     String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
-
-                                        Map<String, Object> cancelParams = new HashMap<>();
-                                        cancelParams.put(CommonConstant.APPROVE_FLAG, "cancel-RWC");
 
                                         VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         callWorkflowInboxRefresh();
@@ -916,7 +909,7 @@ public class BussinessProcessForm extends Window {
 
     }
 
-    public void configurePermission() {
+    private void configurePermission() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String PermissionUserId = String.valueOf(VaadinSession.getCurrent()
                 .getAttribute(com.stpl.app.utils.ConstantsUtils.USER_ID));

@@ -1159,7 +1159,7 @@ public class DiscountProjectionLogic {
     }
 
     public int getDiscountCount(final SessionDTO sessionDTO, final String hierarchyNo, final int levelNo, final String hierarchyIndicator,
-            boolean isProgram, final List<String> discountList, final String userGroup, final ProjectionSelectionDTO projselection) {
+            boolean isProgram, final List<String> discountList, final String userGroup) {
         String query;
         if (CommonUtil.isValueEligibleForLoading()) {
             query = queryBuilderAndExecutor.getDiscountCountQueryForAllLevel(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, discountList, userGroup);

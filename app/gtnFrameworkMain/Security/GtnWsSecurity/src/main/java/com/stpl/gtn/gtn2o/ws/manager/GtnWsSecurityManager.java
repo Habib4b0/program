@@ -10,11 +10,10 @@ import io.jsonwebtoken.Claims;
 public class GtnWsSecurityManager {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsSecurityManager.class);
-	
 
 	public GtnWsSecurityManager() {
+		super();
 	}
-
 
 	public String createToken(String userId, String sessionId) {
 

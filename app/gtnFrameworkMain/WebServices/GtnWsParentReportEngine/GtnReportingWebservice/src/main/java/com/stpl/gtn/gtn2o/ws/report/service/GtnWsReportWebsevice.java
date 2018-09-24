@@ -40,10 +40,10 @@ public class GtnWsReportWebsevice {
 	}
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportWebsevice.class);
-        
-        @Autowired
-        private org.hibernate.SessionFactory sessionFactory;
-	
+
+	@Autowired
+	private org.hibernate.SessionFactory sessionFactory;
+
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
 
@@ -94,43 +94,8 @@ public class GtnWsReportWebsevice {
 			boolean viewMode, int viewCheck) {
 		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
 				.getService(ConnectionProvider.class).getConnection()) {
-			List<Object> inputList = new ArrayList<>();
-			String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
-			String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
-			String viewName = "";
-			boolean viewModeType = viewMode;
-			Map<String, String> criteriaMap = new HashMap<>();
-			addValuesToCriteriaMap(criteriaMap,
-					gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
-			if (viewCheck == 1) {
-				viewType = criteriaMap.get(GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_TYPE);
-				viewName = criteriaMap.get(GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_NAME);
-				if (viewName == null)
-					viewName = "%";
-				if (viewType.startsWith("Priv")) {
-					viewModeType = true;
-				} else {
-					viewModeType = false;
-				}
-			}
-			inputList.add(connection.getCatalog());
-			inputList.add("'" + viewType + "'");
-			if (viewModeType) {
-				if (viewCheck == 0) {
-					viewName = criteriaMap.get(GtnWsQueryConstants.PRIVATE_VIEW_NAME);
-				}
-				inputList.add("'" + viewName + "'");
-				inputList.add(" AND CREATED_BY = " + userId);
-				inputList.add(viewCheck);
-			} else {
-				if (viewCheck == 0) {
-					viewName = criteriaMap.get(GtnWsQueryConstants.PUBLIC_VIEW_NAME);
-				}
-				inputList.add("'" + viewName + "'");
-				inputList.add(StringUtils.EMPTY);
-				inputList.add(viewCheck);
-			}
-
+			List<Object> inputList = loadViewResultsCommon(connection, gtnUIFrameworkWebserviceRequest, viewMode,
+					viewCheck);
 			String viewQuery = sqlService.getQuery(inputList, "getLoadViewResultsCount");
 			return executeGetLoadViewResultsQueryCount(viewQuery, gtnUIFrameworkWebserviceRequest);
 		} catch (Exception ex) {
@@ -148,46 +113,55 @@ public class GtnWsReportWebsevice {
 		}
 	}
 
+	private List<Object> loadViewResultsCommon(Connection connection,
+			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest, boolean viewMode, int viewCheck)
+			throws SQLException {
+		List<Object> inputList = new ArrayList<>();
+		String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
+		String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
+		String viewName = "";
+		boolean viewModeType = viewMode;
+		Map<String, String> criteriaMap = new HashMap<>();
+		addValuesToCriteriaMap(criteriaMap,
+				gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
+		if (viewCheck == 1) {
+			viewType = criteriaMap.get(GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_TYPE);
+			viewName = criteriaMap.get(GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_NAME);
+			if (viewName == null)
+				viewName = "%";
+			if (viewType.startsWith("Priv")) {
+				viewModeType = true;
+			} else {
+				viewModeType = false;
+			}
+		}
+		inputList.add(connection.getCatalog());
+		inputList.add("'" + viewType + "'");
+		if (viewModeType) {
+			if (viewCheck == 0) {
+				viewName = criteriaMap.get(GtnWsQueryConstants.PRIVATE_VIEW_NAME);
+			}
+			inputList.add("'" + viewName + "'");
+			inputList.add(" AND CREATED_BY = " + userId);
+			inputList.add(viewCheck);
+		} else {
+			if (viewCheck == 0) {
+				viewName = criteriaMap.get(GtnWsQueryConstants.PUBLIC_VIEW_NAME);
+			}
+			inputList.add("'" + viewName + "'");
+			inputList.add(StringUtils.EMPTY);
+			inputList.add(viewCheck);
+		}
+
+		return inputList;
+	}
+
 	public List<Object[]> loadViewResults(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
 			boolean viewMode, int viewCheck) {
 		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
 				.getService(ConnectionProvider.class).getConnection()) {
-			List<Object> inputList = new ArrayList<>();
-			String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
-			String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
-			String viewName = "";
-			boolean viewModeType = viewMode;
-			Map<String, String> criteriaMap = new HashMap<>();
-			addValuesToCriteriaMap(criteriaMap,
-					gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
-			if (viewCheck == 1) {
-				viewType = criteriaMap.get(GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_TYPE);
-				viewName = criteriaMap.get(GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_NAME);
-				if (viewName == null)
-					viewName = "%";
-				if (viewType.startsWith("Priv")) {
-					viewModeType = true;
-				} else {
-					viewModeType = false;
-				}
-			}
-			inputList.add(connection.getCatalog());
-			inputList.add("'" + viewType + "'");
-			if (viewModeType) {
-				if (viewCheck == 0) {
-					viewName = criteriaMap.get(GtnWsQueryConstants.PRIVATE_VIEW_NAME);
-				}
-				inputList.add("'" + viewName + "'");
-				inputList.add(" AND CREATED_BY = " + userId);
-				inputList.add(viewCheck);
-			} else {
-				if (viewCheck == 0) {
-					viewName = criteriaMap.get(GtnWsQueryConstants.PUBLIC_VIEW_NAME);
-				}
-				inputList.add("'" + viewName + "'");
-				inputList.add(StringUtils.EMPTY);
-				inputList.add(viewCheck);
-			}
+			List<Object> inputList = loadViewResultsCommon(connection, gtnUIFrameworkWebserviceRequest, viewMode,
+					viewCheck);
 			int noOfRowsForFetchClause = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordOffset();
 			if (noOfRowsForFetchClause == 0)
 				noOfRowsForFetchClause = 10;

@@ -203,7 +203,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 }
                 if (getaccrualCondition(selection, index, totalColumnIndex, nextBrand, brand)
                         || ((!ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && getAccrualConditionMultiplePeriod(selection, startIndex, nextStartIndex))
-                        || (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview()) && ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && index >= totalColumnIndex))) {
+                        || (index >= totalColumnIndex && ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview()) && ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency())))) {
                     dto.addStringProperties(variables.get(totalColumnIndex), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[0]))));
                     dto.addStringProperties(variables.get(totalColumnIndex + 1), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[1]))));
                     dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.TWO), decimalformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.TWO]))));
@@ -296,10 +296,10 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             }
 
             if (ARMConstants.getDeduction().equals(accrualViewType)) {
-                accrualViewType = ARMUtils.getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
+                accrualViewType = ARMUtils.getInstance().getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
             }
             accrualInputs.add(accrualViewType);
-            accrualInputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
+            accrualInputs.add(ARMUtils.getInstance().getSummaryViewType(selection.getSummaryviewType()));
             accrualInputs.add(frequency.get(0)[1]);
             accrualInputs.add(frequency.get(frequency.size() - 1)[1]);
             accrualInputs.add(selection.getSummarydemandfrequency());

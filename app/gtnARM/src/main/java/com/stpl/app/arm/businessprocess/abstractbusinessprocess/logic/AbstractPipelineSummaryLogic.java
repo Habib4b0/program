@@ -30,8 +30,8 @@ public abstract class AbstractPipelineSummaryLogic<T extends AdjustmentDTO> exte
 
     public List<Object> generateHeader(AbstractSelectionDTO selection, String[] columns) {
         List<Object> finalList = new ArrayList<>();
-        List<String> doubleSingleColumn;
-        List<String> excelDoubleSingleColumn;
+        List<String> doubleSingleColumn = new ArrayList<>();
+        List<String> excelDoubleSingleColumn = new ArrayList<>();
         List<String> singleVisibleColumn = new ArrayList<>();
         List<String> excelVisibleColumn = new ArrayList<>();
         List<String> excelVisibleHeader = new ArrayList<>();
@@ -64,8 +64,8 @@ public abstract class AbstractPipelineSummaryLogic<T extends AdjustmentDTO> exte
         }
         doubleHeaderVariables = doublecolumnList;
         for (String[] detection : doubleHeaderVariables) {
-            doubleSingleColumn = new ArrayList<>();
-            excelDoubleSingleColumn = new ArrayList<>();
+            doubleSingleColumn.clear();
+            excelDoubleSingleColumn.clear();
             for (int i = 0; i < columns.length; i++, index++) {
                 String column = columns[i];
                 singleColumn.add(column + ARMUtils.DOT + index);
@@ -157,14 +157,14 @@ public abstract class AbstractPipelineSummaryLogic<T extends AdjustmentDTO> exte
                     view = selection.getSummaryviewType();
                 }
 
-                viewType = ARMUtils.getPipeLineLevelAndLevelFilter(view).get(selection.getSummarylevelFilterNo());
+                viewType = ARMUtils.getInstance().getPipeLineLevelAndLevelFilter(view).get(selection.getSummarylevelFilterNo());
             }
         }
         if (viewType.equals(ARMConstants.getDeduction())) {
-            viewType = ARMUtils.getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
+            viewType = ARMUtils.getInstance().getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
         }
         inputs.add(viewType);
-        inputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
+        inputs.add(ARMUtils.getInstance().getSummaryViewType(selection.getSummaryviewType()));
 
         inputs.add(ARMUtils.SPACE);
         inputs.add(ARMUtils.SPACE);

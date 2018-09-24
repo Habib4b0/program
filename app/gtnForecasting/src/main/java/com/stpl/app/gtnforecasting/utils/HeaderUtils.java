@@ -2196,8 +2196,7 @@ public class HeaderUtils {
     static int getEndDay(int monthNo, int year) {
         Calendar ob = Calendar.getInstance();
         ob.set(year, monthNo - 1, 1);
-        int daysInMonth = ob.getActualMaximum(Calendar.DAY_OF_MONTH);
-        return daysInMonth;
+        return ob.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     /**

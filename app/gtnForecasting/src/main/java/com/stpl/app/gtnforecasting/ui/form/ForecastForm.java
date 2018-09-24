@@ -1192,6 +1192,10 @@ public class ForecastForm extends AbstractForm {
 
 				LOGGER.debug("autoApproval  = {} " , autoApproval);
 				LOGGER.debug("no of users = {} " , noOfUsers);
+                                
+                            session.setProjectionName(data.getProjectionName());
+                            session.setDescription(data.getProjectionDescription());
+                            dsLogic.updateProjectionNameAndProjectionDescription(session);
 				String workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
 				String approvedFlag;
 				logic.deleteTempBySession();

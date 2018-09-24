@@ -102,7 +102,7 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
 
     protected void valueChangeLogic(AdjustmentDTO dto, Object val, Object propertyId, Component uiContext) {
         ExtCustomTable table = (ExtCustomTable) uiContext;
-        int singleVisibleColumn = Integer.valueOf(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
+        int singleVisibleColumn = Integer.parseInt(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
         if (ARMCheckUtils.isSingleVisibleColumnPresentInDto(singleVisibleColumn, dto)
                 || (ARMCheckUtils.checkIsSummaryTypeDeductionCustomerContract(selection) && ARMCheckUtils.checkIsProductFilterLevel(selection))) {
             Double value = 0.0;
