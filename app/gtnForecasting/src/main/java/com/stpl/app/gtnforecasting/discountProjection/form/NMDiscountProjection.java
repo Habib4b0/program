@@ -870,7 +870,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             saveDiscountProjectionListview();
                             Object[] orderedArg = {session.getProjectionId(), session.getUserId(),
                                 session.getSessionId()};
-                            CommonLogic.callProcedure("PRC_NM_DISCOUNT_REFRESH", orderedArg);
+                            CommonLogic.callProcedureforUpdate("PRC_NM_DISCOUNT_REFRESH", orderedArg);
                             String startPeriod = getPeriodSid(period, projectionSelection.getFrequency(), "Min");
                             String endPeriod = getPeriodSid(period, projectionSelection.getFrequency(), "Max");
                             new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3, startPeriod, endPeriod, "");
