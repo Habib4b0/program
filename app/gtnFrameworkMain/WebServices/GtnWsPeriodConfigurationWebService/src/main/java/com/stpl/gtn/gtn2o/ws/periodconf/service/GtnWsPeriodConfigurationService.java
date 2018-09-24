@@ -20,7 +20,6 @@ import com.stpl.gtn.gtn2o.ws.periodconf.model.PeriodConfData;
 import com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,7 +27,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
@@ -52,12 +50,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
         try {
             logger.info("Entering into init method");
             GtnUIFrameworkWebserviceRequest request = registerWs();
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.postForObject(
-                    getWebServiceEndpointBasedOnModule(
-                            GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REGISTERWEBSERVICE,
-                            GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
-                    request, GtnUIFrameworkWebserviceResponse.class);
+            callServiceRegistry(request);
             logger.info("Webservice Registered");
             this.loadDate();
         } catch (Exception e) {
@@ -92,13 +85,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
     }
 
     public GtnQueryEngineWebServiceResponse callQueryEngine(GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest) {
-        RestTemplate restTemplate = new RestTemplate();
-        addSecurityToken(gtnQueryEngineWebServiceRequest);
-        return restTemplate.postForObject(
-                getWebServiceEndpointBasedOnModule(
-                        GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REDIRECTTOQUERYENGINE,
-                        GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
-                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+        return callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
     }
 
     public void populateallBusinessProcessTypeResultObject(List<Object[]> resultDataSet) {
@@ -140,21 +127,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
     }
 
     @Override
-    public GtnUIFrameworkWebserviceRequest registerWs() {
-        logger.info("Building request to register Webservice in Service Registry");
-        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-        GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
-
-        GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-        getEndPointUrl(webServiceRegistryBean);
-        logger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
-        gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
-        request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
-        addSecurityToken(request);
-        return request;
-    }
-
-    private void getEndPointUrl(GtnWsServiceRegistryBean webServiceRegistryBean) {
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
         webServiceRegistryBean.setWebserviceEndPointUrl(
                 GtnFrameworkPropertyManager.getProperty("gtn.webservices.periodConfiguration.endPointUrl"));
         webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");

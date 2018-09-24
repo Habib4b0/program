@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.ws.search.implementation;
 
 import java.util.List;
 
-import org.springframework.web.client.RestTemplate;
 
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
@@ -15,6 +14,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implements SearchInterface{
 	 public CustomerAndProductGroup()
@@ -22,13 +22,6 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        super(CustomerAndProductGroup.class);
 	    }
 	   
-
-
-	    @Override
-	    public GtnUIFrameworkWebserviceRequest registerWs() {
-	        return null;
-	    }
-
 
 		@Override
 		public GtnUIFrameworkWebserviceResponse getSearch(
@@ -62,12 +55,8 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        queryExecutorBean.setDataType(dataType);
 	        GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 	        gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-			RestTemplate restTemplate1 = new RestTemplate();
-			addSecurityToken(gtnQueryEngineWebServiceRequest);
 	        logger.info("calling query engine via service registry");
-	           GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
-	                getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
-	                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+	        GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
 	        List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
 	        GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 			dataTable.addData(resultList);
@@ -84,6 +73,11 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
     @Override
     public void initCallOnFailure() {
         return;
+    }
+    
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        // Default Method
     }
 	    
 	    
