@@ -156,9 +156,9 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 ovverrideFlag = false;
                 totalColumnValue = new double[NumericConstants.NINE];
                 dto.setMonth(brand);
-                dto.setLevelNo((int) get[NumericConstants.ELEVEN]);
+                dto.setLevelNo((Integer) get[NumericConstants.ELEVEN]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.TWELVE]);
+                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.TWELVE]);
                 dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.THIRTEEN]));
                 if (masterSids != null) {
                     dto.setMasterIds(masterSids);
@@ -205,7 +205,7 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 }
                 if (getPaymentCondition(selection, index, totalColumnIndex, nextBrand, brand)
                         || ((!ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && getPaymentConditionMultiplePeriod(selection, startIndex, nextStartIndex))
-                        || (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview()) && ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency()) && index >= totalColumnIndex))) {
+                        || (index >= totalColumnIndex && ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview()) && ARMConstants.getMonthly().equals(selection.getSummarydemandfrequency())))) {
                     dto.addStringProperties(variables.get(totalColumnIndex), deciformat.format(Double.valueOf(String.valueOf(totalColumnValue[0]))));
                     dto.addStringProperties(variables.get(totalColumnIndex + 1), deciformat.format(Double.valueOf(String.valueOf(totalColumnValue[1]))));
                     dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.TWO), deciformat.format(Double.valueOf(String.valueOf(totalColumnValue[NumericConstants.TWO]))));
@@ -295,10 +295,10 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             }
         }
         if (viewType.equals(ARMConstants.getDeduction())) {
-            viewType = ARMUtils.getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
+            viewType = ARMUtils.getInstance().getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
         }
         inputs.add(viewType);
-        inputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
+        inputs.add(ARMUtils.getInstance().getSummaryViewType(selection.getSummaryviewType()));
         inputs.add(frequency.get(0)[1]);
         inputs.add(frequency.get(frequency.size() - 1)[1]);
         if (selection.getSummarydemandfrequency().matches("^[-+]?\\d+(\\.\\d+)?$")) {

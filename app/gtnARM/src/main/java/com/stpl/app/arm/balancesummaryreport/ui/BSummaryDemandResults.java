@@ -76,7 +76,7 @@ public class BSummaryDemandResults extends AbstractBalanceSummaryResutls {
     @Override
     public void setRespectiveHierarchy(String viewType) {
         DEMAND_RESULTS_LOGGER.debug("inside viewType");
-        getSummarySelection().setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        getSummarySelection().setSummeryhierarchy(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override

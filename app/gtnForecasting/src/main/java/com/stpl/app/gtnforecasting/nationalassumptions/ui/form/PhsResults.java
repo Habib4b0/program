@@ -174,8 +174,6 @@ public class PhsResults extends CustomComponent implements View {
     @UiField("levelDdlb")
     private ComboBox levelDdlb;
     
-    private LazyContainer ndcLevelContainer;
-
     /**
      * The excel export image.
      */
@@ -188,11 +186,8 @@ public class PhsResults extends CustomComponent implements View {
     private Panel tablePanel;
     
     private final CommonLogic commonLogic = new CommonLogic();
-    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    private HorizontalLayout controlLayout;
     private final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     private final HelperDTO therapyDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
@@ -214,7 +209,6 @@ public class PhsResults extends CustomComponent implements View {
      * The split position.
      */
     private static final float SPLIT_POSITION = 300;
-    private LazyContainer therapeuticContainer;
     private LazyContainer brandContainer;
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
@@ -445,7 +439,7 @@ public class PhsResults extends CustomComponent implements View {
         therapeuticDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         therapeuticDdlb.setItemCaptionPropertyId(DESCRIPTION.getConstant());
         therapeuticDdlb.markAsDirty();
-        therapeuticContainer = new LazyContainer(HelperDTO.class, new TherapeuticContainer(), new TherapeuticCriteria());
+        LazyContainer therapeuticContainer = new LazyContainer(HelperDTO.class, new TherapeuticContainer(), new TherapeuticCriteria());
         therapeuticContainer.setMinFilterLength(0);
         therapeuticDdlb.setContainerDataSource(therapeuticContainer);
         therapeuticDdlb.select(therapyDto);
@@ -639,8 +633,8 @@ public class PhsResults extends CustomComponent implements View {
     private void configureResultTable() {
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         fullHeader = new CustomTableHeaderDTO();
-        leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, Constant.PHS);
+        CustomTableHeaderDTO leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, Constant.PHS);
         resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
@@ -739,7 +733,7 @@ public class PhsResults extends CustomComponent implements View {
     
     private void addResultTable() {
         tableVerticalLayout.addComponent(periodTableId);
-        controlLayout = tableLogic.createControls();
+        HorizontalLayout controlLayout = tableLogic.createControls();
         controlLayout.addStyleName(Constant.RESPONSIVE_PAGED_TABLE);
         controlLayout.setSizeUndefined();
         tableLogic.sinkItemPerPageWithPageLength(false);
@@ -1051,7 +1045,7 @@ public class PhsResults extends CustomComponent implements View {
         levelDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         levelDdlb.setItemCaptionPropertyId(DESCRIPTION.getConstant());
         levelDdlb.markAsDirty();
-        ndcLevelContainer = new LazyContainer(HelperDTO.class, new NdcFilterContainer(projectionDTO.getBrandSid(), true, projectionDTO.getTherapeuticSid(),false), new NdcFilterCriteria());
+        LazyContainer ndcLevelContainer = new LazyContainer(HelperDTO.class, new NdcFilterContainer(projectionDTO.getBrandSid(), true, projectionDTO.getTherapeuticSid(),false), new NdcFilterCriteria());
         ndcLevelContainer.setMinFilterLength(0);
         levelDdlb.setContainerDataSource(ndcFilterContainer);
         levelDdlb.select(levelDTO);

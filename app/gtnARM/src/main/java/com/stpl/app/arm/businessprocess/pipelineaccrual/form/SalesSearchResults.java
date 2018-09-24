@@ -41,9 +41,9 @@ public class SalesSearchResults extends AbstractSearchResults {
     @Override
     public void setVisibleColumnsAndHeaders() {
         Map salesProperties = new HashMap();
-        Object[] salesVariableColumns = VariableConstants.getVariableSalesVisibleColumn();
-        for (int i = 0; i < salesVariableColumns.length; i++) {
-            salesProperties.put(salesVariableColumns[i], String.class);
+        String[] salesVariableColumns = VariableConstants.getVariableSalesVisibleColumn();
+        for (String salesVariableColumn : salesVariableColumns) {
+            salesProperties.put(salesVariableColumn, String.class);
         }
 
         configureOnSalesSearchResults();
@@ -111,11 +111,11 @@ public class SalesSearchResults extends AbstractSearchResults {
         List<Object> header = getSummaryLogic().generateHeader(selection);
         List salesRightSingleVisibleColumn = (List) header.get(0);
         Map salesProperties = new HashMap();
-        Object[] variableColumns = VariableConstants.getVariableSalesVisibleColumn();
-        for (int i = 0; i < variableColumns.length; i++) {
-            salesProperties.put(variableColumns[i], String.class);
+        String[] variableColumns = VariableConstants.getVariableSalesVisibleColumn();
+        for (String variableColumn : variableColumns) {
+            salesProperties.put(variableColumn, String.class);
         }
-        if (!selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL) && !isEditButtonClick) {
+        if (!isEditButtonClick && !selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
             salesProcedureCall(selection);
         }
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
@@ -190,7 +190,7 @@ public class SalesSearchResults extends AbstractSearchResults {
     @Override
     public Object[] getExcelHierarchy() {
         LOGGER.debug("inside Sales getExcelHierarchy");
-        return new Object[]{"B", "I"};
+        return ARMUtils.getBI();
     }
 
     @Override
@@ -232,7 +232,7 @@ public class SalesSearchResults extends AbstractSearchResults {
     @Override
     public void setRespectiveHierarchy(String viewType) {
         LOGGER.debug("inside Sales setRespectiveHierarchy");
-        getSelection().setSaleshierarchy(ARMUtils.getLevelAndLevelFilter(viewType));
+        getSelection().setSaleshierarchy(ARMUtils.getInstance().getLevelAndLevelFilter(viewType));
     }
 
     @Override

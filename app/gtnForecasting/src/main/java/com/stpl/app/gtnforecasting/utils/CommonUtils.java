@@ -487,7 +487,7 @@ public class CommonUtils {
         try {
             String path = controller.getClass().getCanonicalName();
             String finalPath = path.substring(0, path.lastIndexOf('.'));
-            finalPath = finalPath.replaceAll("\\.", "\\" + File.separator);
+            finalPath = finalPath.replaceAll(Constant.DOUBLE_SLASH_DOT, Constant.DOUBLE_SLASH + File.separator);
             finalPath += xmlClassResourceFileName;
             LOGGER.debug("Path to XML= {}" , finalPath);
             xml = Thread.currentThread().getContextClassLoader().getResource(finalPath).openStream();
@@ -1323,7 +1323,7 @@ public class CommonUtils {
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
                 Object [] array = (Object[]) userList.get(loop);
-                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
+                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + array[1]);
             }
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -1356,7 +1356,7 @@ public class CommonUtils {
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
                 Object [] array = (Object[]) userList.get(loop);
-                userMap.put(String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]), String.valueOf(array[0]));
+                userMap.put(String.valueOf(array[NumericConstants.TWO]) + ", " + array[1], String.valueOf(array[0]));
             }
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());

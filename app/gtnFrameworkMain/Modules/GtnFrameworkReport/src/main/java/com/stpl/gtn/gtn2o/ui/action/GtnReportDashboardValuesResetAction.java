@@ -111,7 +111,7 @@ public class GtnReportDashboardValuesResetAction
 				GtnFrameworkReportStringConstants.REPORT_DASHBOARD + GtnFrameworkCommonConstants.RESULT_TABLE,
 				componentId);
 		PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
-		grid.resetGrid(componentId);
+		grid.resetGrid();
 
 		VerticalLayout treeGridLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
 				GtnFrameworkReportStringConstants.REPORT_DASHBOARD + GtnFrameworkCommonConstants.RESULT_TABLE,

@@ -778,7 +778,7 @@ public class DataSelectionQueryUtils {
                 sql = sql + Constant.SPACE_AND_SPACE;
             }
 
-            sql += " ITEM_GROUP_NAME like '" + String.valueOf(parameters.get(FILTER_PRODUCT_GROUP_NAME)) + Constant.SLASH_N;
+            sql += " ITEM_GROUP_NAME like '" + parameters.get(FILTER_PRODUCT_GROUP_NAME) + Constant.SLASH_N;
 
         }
 
@@ -883,7 +883,7 @@ public class DataSelectionQueryUtils {
                     sql = sql + Constant.SPACE_AND_SPACE;
                 }
 
-                sql += " ITEM_GROUP_NAME like '" + String.valueOf(parameters.get(FILTER_PRODUCT_GROUP_NAME)) + Constant.SLASH_N;
+                sql += " ITEM_GROUP_NAME like '" + parameters.get(FILTER_PRODUCT_GROUP_NAME) + Constant.SLASH_N;
 
             }
 
@@ -991,9 +991,9 @@ public class DataSelectionQueryUtils {
             }
             if (!String.valueOf(businessUnit).equals("0") && !String.valueOf(businessUnit).equals("null") && !String.valueOf(businessUnit).isEmpty()) {
                 if (flag) {
-                    customSql = customSql + " AND  IM.ORGANIZATION_KEY like '" + String.valueOf(businessUnit) + "' ";
+                    customSql = customSql + " AND  IM.ORGANIZATION_KEY like '" + businessUnit + "' ";
                 } else {
-                    customSql = customSql + " WHERE  IM.ORGANIZATION_KEY like '" + String.valueOf(businessUnit) + "' ";
+                    customSql = customSql + " WHERE  IM.ORGANIZATION_KEY like '" + businessUnit + "' ";
                 }
             }
             customSql = customSql + " AND HT.DESCRIPTION ='NDC-11'";

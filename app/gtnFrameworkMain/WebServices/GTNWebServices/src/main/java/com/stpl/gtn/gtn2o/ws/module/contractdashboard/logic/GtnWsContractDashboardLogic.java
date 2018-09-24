@@ -241,7 +241,7 @@ public class GtnWsContractDashboardLogic {
                 value.append(" '").append(searchCriteria.getFilterValue1().replace('*', '%')).append("' ");
 		String expression = " " + searchCriteria.getExpression().replace("EQUALS", "=");
 		if (searchQuery.contains("in (")) {
-			value.append(value).append(')');
+			value.append(')');
 		}
 		inputWhereConditions.append(where).append(and).append(searchQuery).append(expression).append(value);
 	}

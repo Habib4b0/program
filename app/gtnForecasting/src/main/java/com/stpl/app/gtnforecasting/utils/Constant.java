@@ -2083,6 +2083,9 @@ public class Constant {
     public static final String JOIN_ST_NM_DISCOUNT_PROJECTION_NMDP = " JOIN ST_NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n";
     public static final String AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST = " AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=";
     public static final String CLOSE_BRACKET_NEW_LINE = ")  \n";
+    public static final String SLASH = "/";
+    public static final String DOUBLE_SLASH_DOT = "\\."; 
+    public static final String DOUBLE_SLASH = "\\";
 	public static final String WHERE_CAPS = "WHERE";
     public static final int COLUMN_COUNT_TOTAL = 75;
     /**

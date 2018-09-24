@@ -203,7 +203,7 @@ public class DataSelection extends AbstractDataSelection {
                         levelName = tempDto.getLevel();
                         tempDto.getLevelNo();
                     }
-                    List<LevelDTO> customerHierarchyLevelDefinitionList = dslogic.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());;
+                    List<LevelDTO> customerHierarchyLevelDefinitionList = dslogic.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                     LevelDTO selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
                     custVlues = dslogic.loadCustomerInnerLevel(createInputBean(customerHierarchyLookup.getHierarchyDto(), relationshipSid,
                             customerVersionMap.get(relationshipSid), tempDto.getLevelNo(), customerHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), false, rsContractSids), customerDescriptionMap, selectedHierarchyLevelDto);
@@ -2787,7 +2787,7 @@ public class DataSelection extends AbstractDataSelection {
         return description.getValue().length() <= 200;
     }
 
-    public void securityForAllScreens() {
+    private void securityForAllScreens() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent()
                 .getAttribute(com.stpl.app.utils.ConstantsUtils.USER_ID));

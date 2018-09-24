@@ -49,7 +49,7 @@ public class Trx7ExclusionDetailsLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Trx7ExclusionDetailsLogic.class);
     private static final CommonDao DAO = CommonImpl.getInstance();
-    protected static Map<String, String> userMap = new HashMap<>();
+    protected Map<String, String> userMap = new HashMap<>();
 
     public List<ExclusionLookupDTO> getCompanySid(String viewSid) {
         LOGGER.debug("--Inside getCompanySid--{}", viewSid);
@@ -86,7 +86,7 @@ public class Trx7ExclusionDetailsLogic {
         saveQuery = saveQuery.replace("@SESSION_ID", "" + sessionDTO.getSessionId());
         sbQuery.append(saveQuery);
         for (ExclusionLookupDTO dtoList : list) {
-            sbQuery.append(ARMUtils.OPEN_PARANTHESIS + projectionSid + ",'" + dtoList.getExcludedField() + ARMUtils.SINGLE_QUOTES + ",'" + dtoList.getValues() + "'),");
+            sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(projectionSid).append(",'").append(dtoList.getExcludedField()).append(ARMUtils.SINGLE_QUOTES).append(",'").append(dtoList.getValues()).append("'),");
         }
         sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
         String query = isView ? SQlUtil.getQuery("saveORUpdateQueryPipeline") : SQlUtil.getQuery("saveORUpdateQueryPipelineEdit");
@@ -96,7 +96,7 @@ public class Trx7ExclusionDetailsLogic {
         query = query.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
         query = query.replace("@USER_ID", "" + sessionDTO.getUserId());
         query = query.replace("@SESSION_ID", "" + sessionDTO.getSessionId());
-        sbQuery.append(" ; " + query);
+        sbQuery.append(" ; ").append(query);
         LOGGER.debug("--Exit saveORUpdate_Exclusion_Details_LookUp--{}", sbQuery);
         DAO.executeUpdate(sbQuery.toString());
     }
@@ -215,7 +215,7 @@ public class Trx7ExclusionDetailsLogic {
     public boolean isAddORUpdateView(ExclusionLookupDTO tr7ExclSaveViewDTO) {
         LOGGER.debug("--Inside isAdd_OR_UpdateView--{}", tr7ExclSaveViewDTO.getViewMasterSid());
         StringBuilder sbQuery = new StringBuilder();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         try {
             String viewSid;
             if (tr7ExclSaveViewDTO.isViewStatus()) {
@@ -233,7 +233,7 @@ public class Trx7ExclusionDetailsLogic {
             if (tr7ExclSaveViewDTO.isScreenFlag()) {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (CustomerGroupDTO dtoValue : tr7ExclSaveViewDTO.getCustGrpList()) {
-                        sbQuery.append(ARMUtils.OPEN_PARANTHESIS + viewSid + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid() + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA_CHAR).append(dtoValue.isInclude() == true ? 1 : 0).append(ARMUtils.COMMA_CHAR);
+                        sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(viewSid).append(ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid() + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA_CHAR).append(dtoValue.isInclude() == true ? 1 : 0).append(ARMUtils.COMMA_CHAR);
                         if (dtoValue.getIndicator() != null) {
                             if (dtoValue.getIndicator() == true) {
                                 sbQuery.append(1);
@@ -243,12 +243,12 @@ public class Trx7ExclusionDetailsLogic {
                         } else {
                             sbQuery.append("null");
                         }
-                        sbQuery.append("," + null + ARMUtils.COMMA_CHAR + null + "),");
+                        sbQuery.append(",null").append(ARMUtils.COMMA_CHAR).append("null),");
                     }
                 }
             } else if (!StringUtils.EMPTY.equals(viewSid)) {
                 for (ExclusionLookupDTO idValue : tr7ExclSaveViewDTO.getFieldList()) {
-                    sbQuery.append(ARMUtils.OPEN_PARANTHESIS + viewSid + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
+                    sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(viewSid).append(ARMUtils.COMMA_CHAR).append("null").append(ARMUtils.COMMA_CHAR).append("null").append(ARMUtils.COMMA_CHAR).append("null").append(ARMUtils.COMMA_CHAR).append("null,'").append(idValue.getExcludedField()).append("','").append(idValue.getValues()).append("'),");
                 }
             }
             sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
@@ -472,7 +472,7 @@ public class Trx7ExclusionDetailsLogic {
 
     }
 
-    public static void getAllUsers() {
+    public void getAllUsers() {
         LOGGER.debug("--Inside getAllUsers--");
         List<Object> userList = new ArrayList<>();
         try {

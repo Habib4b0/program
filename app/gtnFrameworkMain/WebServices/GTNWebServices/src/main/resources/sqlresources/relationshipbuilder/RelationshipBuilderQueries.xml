@@ -11,6 +11,27 @@
 
 		</query>
 	</entity>
+        
+	<entity id="getRBHierarchyLevelNameAndNo">
+		<query> 
+        <![CDATA[
+                SELECT
+      LEVEL_NAME
+    FROM
+      HIERARCHY_LEVEL_DEFINITION HLD
+    JOIN dbo.HIERARCHY_DEFINITION HD on
+      HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
+    JOIN dbo.HELPER_TABLE HT on
+      HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY
+    WHERE
+      HLD.HIERARCHY_DEFINITION_SID =?
+      AND HLD.VERSION_NO =?
+        AND HLD.LEVEL_NO= ?
+
+        ]]>
+
+		</query>
+	</entity>
 
 
 	<entity id="getRelationshipBuilderResults">

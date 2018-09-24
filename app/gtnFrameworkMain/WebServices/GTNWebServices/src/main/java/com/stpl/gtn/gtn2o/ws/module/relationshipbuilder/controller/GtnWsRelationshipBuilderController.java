@@ -431,5 +431,20 @@ public class GtnWsRelationshipBuilderController {
 		logger.info("Exit loadRelationship");
 		return gtnResponse;
 	}
+        
+        @RequestMapping(value = GtnWsRelationshipBuilderConstants.HIERARCHY_NAME_LEVEL_VALUE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getLevlNameAndNo(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info("Enter getLevlNameAndNo");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
+			gtnResponse.setGtnWsRelationshipBuilderResponse(
+					logic.getHierarchyNameAndNo(gtnWsRequest, rbResponse));
+		} catch (Exception ex) {
+			logger.error("Exception in getLevlNameAndNo", ex);
+		}
+		logger.info("Exit getLevlNameAndNo");
+		return gtnResponse;
+	}
 
 }
