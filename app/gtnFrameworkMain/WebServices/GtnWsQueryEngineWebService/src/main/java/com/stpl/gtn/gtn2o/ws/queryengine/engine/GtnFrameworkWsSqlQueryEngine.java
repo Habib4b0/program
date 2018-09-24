@@ -1,4 +1,3 @@
-
 package com.stpl.gtn.gtn2o.ws.queryengine.engine;
 
 import java.math.BigDecimal;
@@ -132,7 +131,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 				break;
 
 			case IN_LIST:
-				queryForGenerate.setParameterList("inParameter", (List<Object>) params[i]);
+				queryForGenerate.setParameterList(GtnFrameworkWebserviceConstant.IN_PARAMETER, (List<Object>) params[i]);
 				break;
 			case BIG_DECIMAL:
 				queryForGenerate.setBigDecimal(i, (BigDecimal) params[i]);
@@ -191,7 +190,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 				break;
 
 			case IN_LIST:
-				query.setParameterList("inParameter", (List<Object>) params[i]);
+				query.setParameterList(GtnFrameworkWebserviceConstant.IN_PARAMETER, (List<Object>) params[i]);
 				break;
 			case BIG_DECIMAL:
 				query.setBigDecimal(i, (BigDecimal) params[i]);
@@ -367,4 +366,3 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 }
 
 
-   
