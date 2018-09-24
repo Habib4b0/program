@@ -41,7 +41,7 @@ public class GtnUIFrameworkWebServiceClient {
 		}
 	}
 
-	private RestTemplate getRestTemplate() {		
+	private RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
 

@@ -298,7 +298,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig company = new GtnUIFrameworkComponentConfig();
 		company.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		company.setComponentId(nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
-		company.setComponentName(GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_NAME);
+		company.setComponentName(GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
 		company.setAddToParent(Boolean.TRUE);
 		company.setParentComponentId(nameSpace + "_" + "companyLayout");
 		company.setCustomReference("integerId");
@@ -330,9 +330,12 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		frequency.setCustomReference("integerId");
 		
 		GtnUIFrameworkComboBoxConfig frequencyConfig = new GtnUIFrameworkComboBoxConfig();
-		frequencyConfig.setItemValues(Arrays.asList("Quarterly", "Monthly", "Annual", "Semi-Annual"));
-		frequencyConfig.setDefaultDesc("next");
-		frequencyConfig.setHasDefaultValue(true);
+		frequencyConfig.setLoadingUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
+		frequencyConfig.setComboBoxType("frequency");
+		frequencyConfig.setActualWsUrl("/gtnSearch");
+		frequencyConfig.setModuleName("serviceRegistry");
+		frequencyConfig.setActualWsContext("/GtnSearchWebService");
+		frequencyConfig.setActualWsModuleName("generalSearch");
 		frequency.setGtnComboboxConfig(frequencyConfig);
 		componentList.add(frequency);
 	}
@@ -635,12 +638,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
                         nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
                         nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
                         "forecastLandingScreen_customerHierarchy",
-                        nameSpace + "_" + "prodhierarchyName"
+                        nameSpace + "_" + "prodhierarchyName",
+                        nameSpace + "_" + "customerGroup",
+                        nameSpace+"_"+"from",nameSpace+"_"+"to"
                         }));
-//                List<String> list=Arrays.asList(nameSpace + "_" + "to",nameSpace + "_" + "from");
-////                list.add(nameSpace + "_" + "to");
-////                list.add(nameSpace + "_" + "from");
-//                loadDataSearchTableActionConfig.setFieldDescription(list);
                 actionConfigListSearch.add(loadDataSearchTableActionConfig);
                 searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
 		searchBtn.setEnable(false);
@@ -745,7 +746,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				
 				"Commercial Forecasting_productLevel",
 				"Commercial Forecasting_productDualListBox",
-				"Commercial Forecasting_frequency"));
+				"Commercial Forecasting_frequency",
+				"Commercial Forecasting_productGroup",
+				"Commercial Forecasting_customerGroup"
+				));
 
 		GtnUIFrameWorkActionConfig saveViewDataSelectionAlertActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
@@ -756,7 +760,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 		saveViewDataSelectionValidationActionConfig.setActionParameterList(
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(saveViewDataSelectionAlertActionConfig)));
-//		saveViewActionConfigList.add(saveViewDataSelectionValidationActionConfig);
+     	saveViewActionConfigList.add(saveViewDataSelectionValidationActionConfig);
 
 		GtnUIFrameWorkActionConfig saveViewAction = new GtnUIFrameWorkActionConfig();
 		saveViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -788,7 +792,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				
 				"Commercial Forecasting_productLevel",
 				"Commercial Forecasting_productDualListBox",
-				"Commercial Forecasting_frequency"
+				"Commercial Forecasting_frequency",
+				"Commercial Forecasting_productGroup",
+				"Commercial Forecasting_customerGroup"
 			));
 		saveViewActionConfigList.add(saveViewAction);
 		saveViewBtn.setGtnUIFrameWorkActionConfigList(saveViewActionConfigList);

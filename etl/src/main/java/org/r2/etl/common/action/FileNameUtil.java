@@ -126,6 +126,10 @@ public class FileNameUtil {
                         map.put(Constants.DTX_COMPANY_MASTER_INTERFACE, Constants.DTX_COMPANY_MASTER_INTERFACE);
                         map.put(Constants.DTX_COMPANY_TRADE_CLASS_INTERFACE, Constants.DTX_COMPANY_TRADE_CLASS_INTERFACE);
                         map.put(Constants.DTX_COMPANY_IDENTIFIER_INTERFACE, Constants.DTX_COMPANY_IDENTIFIER_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_CFP_INTERFACE, Constants.DTX_CONTRACT_CFP_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_HEADER_INTERFACE, Constants.DTX_CONTRACT_HEADER_INTERFACE);
+                        map.put(Constants.DTX_FORECAST_SALES_INTERFACE, Constants.DTX_FORECAST_SALES_INTERFACE);
+                        map.put(Constants.DTX_FORECAST_SALES_WAC_INTERFACE, Constants.DTX_FORECAST_SALES_WAC_INTERFACE);
 
 		}
 		return map;
@@ -297,6 +301,14 @@ public class FileNameUtil {
                     Constants.DTX_COMPANY_TRADE_CLASS_INTERFACE);
                         interfaceNameMap.put(Constants.DTX_COMPANY_IDENTIFIER_INTERFACE,
                     Constants.DTX_COMPANY_IDENTIFIER_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_CFP_INTERFACE,
+                    Constants.DTX_CONTRACT_CFP_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_HEADER_INTERFACE,
+                    Constants.DTX_CONTRACT_HEADER_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_FORECAST_SALES_INTERFACE,
+                    Constants.DTX_FORECAST_SALES_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_FORECAST_SALES_WAC_INTERFACE,
+                    Constants.DTX_FORECAST_SALES_WAC_INTERFACE);
 		}
 		return interfaceNameMap;
 	}
