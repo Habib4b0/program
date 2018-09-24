@@ -47,6 +47,7 @@ import com.stpl.app.cff.dao.impl.CommonDAOImpl;
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
+import static com.stpl.app.cff.logic.CFFLogic.STRING_COMMA;
 import com.stpl.app.cff.queryUtils.CFFQueryUtils;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
@@ -642,6 +643,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
+                        LOGGER.info("orderedArgs {} -->{} ",procedureName, orderedArgs[i]);
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
                 statement.executeUpdate();
@@ -679,7 +681,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             @Override
             public void run() {
                 updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "PRODUCT");
-                Object[] productInput = {sessionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId(), 0};
+                Object[] productInput = {sessionDTO.getProjectionId()+ (sessionDTO.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + sessionDTO.getPriorProjectionId()), sessionDTO.getUserId(), sessionDTO.getSessionId(), 0};
                 callProcedureUpdate(PRC_CFF_FILES_DATA_INSERT, productInput);
             }
         });
@@ -687,7 +689,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             @Override
             public void run() {
                  updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "CUSTOMER");
-                Object[] customerInput = {sessionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId(), 1};
+                Object[] customerInput = {sessionDTO.getProjectionId()+ (sessionDTO.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + sessionDTO.getPriorProjectionId()), sessionDTO.getUserId(), sessionDTO.getSessionId(), 1};
                 callProcedureUpdate(PRC_CFF_FILES_DATA_INSERT, customerInput);
             }
         });
