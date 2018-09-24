@@ -5,8 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ws.search.implementation;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
@@ -51,7 +50,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
                 .getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList();
         String viewType = webSearchCriteriaList.get(1).getFilterValue1();
         String viewName = webSearchCriteriaList.get(0).getFilterValue1();
-        
+        String queryCopy =query;
         
        
         String userId=gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId();
@@ -61,13 +60,13 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
        
        
         if (("private").equalsIgnoreCase(viewType)) {
-                query += "AND FV.created_By = " + userId;
+        	queryCopy += "AND FV.created_By = " + userId;
         }
         GtnFrameworkDataType[] dataType = {GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING
             };
-        logger.debug("Private and public view query" + query);
+        logger.debug("Private and public view query" + queryCopy);
         GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-        queryExecutorBean.setSqlQuery(query);
+        queryExecutorBean.setSqlQuery(queryCopy);
         queryExecutorBean.setQueryType("SCALAR");
         queryExecutorBean.setParams(params);
         queryExecutorBean.setDataType(dataType);
@@ -100,10 +99,9 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         return response;
     }
 
-	private  List<Object[]> method(List<Object[]> resultList) throws JsonParseException, JsonMappingException, IOException {
+	private  List<Object[]> method(List<Object[]> resultList) throws  IOException {
 		 List<Object[]> list = new ArrayList<>();
-		 int j=0;
-		 GtnFrameworkForecastDataSelectionBean bean = new GtnFrameworkForecastDataSelectionBean();
+		 GtnFrameworkForecastDataSelectionBean bean;
 		 Object[] ob = new Object[18];
 		 for(int i=0;i<resultList.size();i++)
 		 {
@@ -133,7 +131,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 		 return list;
 	}
 	private GtnFrameworkForecastDataSelectionBean convertJsonToObject(Class<GtnFrameworkForecastDataSelectionBean> dataSelectionBean,
-			String viewData) throws JsonParseException, JsonMappingException, IOException {
+			String viewData) throws  IOException {
 
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.readValue(viewData, dataSelectionBean);

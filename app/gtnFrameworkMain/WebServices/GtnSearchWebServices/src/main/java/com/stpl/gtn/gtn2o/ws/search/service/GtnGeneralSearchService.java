@@ -43,8 +43,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
-    long staticTime = System.currentTimeMillis();
-    ExecutorService service = Executors.newCachedThreadPool();
+  private  long staticTime = System.currentTimeMillis();
+  private  ExecutorService service = Executors.newCachedThreadPool();
 
     private GtnGeneralSearchService() {
         super(GtnGeneralSearchService.class);
@@ -173,7 +173,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 					.getViewType();
 			String viewName = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
 					.getViewName();
-			Integer userId = Integer.parseInt(gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId());
+			Integer userId = Integer.valueOf(gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId());
 				
 			GtnFrameworkForecastDataSelectionBean dataSelectionBean = gtnUiFrameworkWebservicerequest
 					.getGtnWsForecastNewArchRequest().getDataSelectionBean();
