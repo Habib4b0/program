@@ -21,7 +21,6 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.implementation.ComboBoxSearch;
@@ -36,7 +35,6 @@ import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -56,8 +54,6 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 
     private Map<String, SearchInterface> keyMap = null;
     private Map<String, String> queryMap = null;
-    private static final String SERVICE_REGISTRY = "serviceRegistry";
-    private static final String CALL_SERVICE_REGISTRY = "/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine";
 
     @Autowired
 	private GtnForecastJsonService gtnForecastJsonService;
@@ -66,11 +62,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         try {
         logger.info("Entering into init method of searchWebservice");
         GtnUIFrameworkWebserviceRequest request = registerWs();
-        RestTemplate restTemplate = new RestTemplate();
-        addSecurityToken(request);
-        restTemplate.postForObject(
-                getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", SERVICE_REGISTRY),
-                request, GtnUIFrameworkWebserviceResponse.class);
+        callServiceRegistry(request);
         logger.info("search webservices registered");
         } catch (Exception e) {
             if(e.getMessage().contains("404 Not Found")){
@@ -81,28 +73,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         }
 
     }
-
-    @Override
-    public GtnUIFrameworkWebserviceRequest registerWs() {
-        logger.info("building request to register searchwebservice");
-        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-        GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
-        GtnWsServiceRegistryBean gtnServiceRegistryBean = new GtnWsServiceRegistryBean();
-        getUrl(gtnServiceRegistryBean);
-        logger.info("webservice to be registered" + gtnServiceRegistryBean.getRegisteredWebContext());
-        gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(gtnServiceRegistryBean);
-        request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
-        addSecurityToken(request);
-        return request;
-    }
-
-    public void getUrl(GtnWsServiceRegistryBean gtnServiceRegistryBean) {
-        gtnServiceRegistryBean.setWebserviceEndPointUrl(
-                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointUrl"));
-        gtnServiceRegistryBean.setRegisteredWebContext(
-                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointServiceName"));
-    }
-
+    
     public GtnUIFrameworkWebserviceResponse commonMethod(
             GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
         String key = gtnUiFrameworkWebservicerequest.getGtnWsSearchRequest().getSearchQueryName();
@@ -167,19 +138,13 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         queryExecutorBean.setDataType(dataType);
         GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-        RestTemplate restTemplate1 = new RestTemplate();
-        addSecurityToken(gtnQueryEngineWebServiceRequest);
-        logger.info("calling queryengine via service registry");
-        GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
-                getWebServiceEndpointBasedOnModule(CALL_SERVICE_REGISTRY, SERVICE_REGISTRY),
-                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+        logger.info("calling query engine via service registry");
+        GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
         List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
-//        int count = pagedTableSearchCount(webSearchCriteriaList);
         GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
         GtnSerachResponse searchResponse = new GtnSerachResponse();
         dataTable.addData(resultList);
         searchResponse.setResultSet(dataTable);
-//        searchResponse.setCount(count);
         gtnUIFrameworkWebserviceResponse.setGtnSerachResponse(searchResponse);
         return gtnUIFrameworkWebserviceResponse;
     }
@@ -199,12 +164,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         queryExecutorBean.setDataType(dataType);
         GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-        RestTemplate restTemplate1 = new RestTemplate();
-        addSecurityToken(gtnQueryEngineWebServiceRequest);
-        logger.info("calling query engine via service_registry");
-        GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
-                getWebServiceEndpointBasedOnModule(CALL_SERVICE_REGISTRY, SERVICE_REGISTRY),
-                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+        logger.info("calling query engine via service registry");
+        GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
         return response1.getQueryResponseBean().getResultInteger();
     }
 
@@ -242,11 +203,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 			queryExecutorBean.setDataType(dataType);
 			GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 			gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-			RestTemplate restTemplate1 = new RestTemplate();
 			logger.info("calling query engine via service registry");
-			GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(getWebServiceEndpointBasedOnModule(
-					CALL_SERVICE_REGISTRY, SERVICE_REGISTRY),
-					gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+			GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
 			List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
 			GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 			GtnSerachResponse searchResponse = new GtnSerachResponse();
@@ -259,9 +217,58 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 		return response;
 	}
     
+    public GtnUIFrameworkWebserviceResponse deleteView(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebservicerequest)
+    {
+    	
+    		logger.info("inside delete view method");
+    		String deleteViewQuery = "deleteView";
+    	GtnFrameworkForecastDataSelectionBean bean = gtnUIFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean();
+    	GtnQueryEngineWebServiceResponse response = callQueryEngineforDeleteView(createQuery(readProperty(deleteViewQuery),bean));
+    	GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+    	int count = response.getQueryResponseBean().getResultInteger();
+    	GtnFrameworkForecastDataSelectionBean bean1 = new GtnFrameworkForecastDataSelectionBean();
+    	bean1.setResultCount(count);
+    	gtnUIFrameworkWebserviceResponse.setGtnFrameworkForecastDataSelectionBean(bean1);
+    		return gtnUIFrameworkWebserviceResponse;
+    	}
+    	private GtnQueryEngineWebServiceResponse callQueryEngineforDeleteView(GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest)
+    	{
+    		return callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
+    	}
+
+    	private GtnQueryEngineWebServiceRequest createQuery(String query, GtnFrameworkForecastDataSelectionBean bean) {
+    		
+    		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+    		queryExecutorBean.setSqlQuery(query);
+    		queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
+    		Object[] params= {bean.getViewId(),bean.getUserId()};
+    		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.STRING  };
+    		queryExecutorBean.setParams(params);
+    		queryExecutorBean.setDataType(dataType);
+    		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
+    		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
+    		return gtnQueryEngineWebServiceRequest;
+    	}
+
+    	private String readProperty(String deleteViewQuery) {
+    		String query = gtnSearchSqlService.getQuery(deleteViewQuery);
+    		logger.info("inside delete view method query------->" + query);
+    		return query;
+    	}
+    
+    
      @Override
     public void initCallOnFailure() {
         init();
     }
+    
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean gtnServiceRegistryBean) {
+        gtnServiceRegistryBean.setWebserviceEndPointUrl(
+                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointUrl"));
+        gtnServiceRegistryBean.setRegisteredWebContext(
+                GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointServiceName"));
+    }
 
 }
+

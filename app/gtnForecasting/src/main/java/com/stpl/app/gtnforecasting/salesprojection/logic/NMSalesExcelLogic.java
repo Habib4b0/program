@@ -54,18 +54,17 @@ public class NMSalesExcelLogic {
                 key = key.substring(key.indexOf('-') + 1);
             String hierarchyNo=getHierarchyNumber(obj[NumericConstants.ZERO]);
             if(hierarchyLevelDetails.get(hierarchyNo.trim())!=null){
-            String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(hierarchyNo.trim()).get(4));
             SalesRowDto salesRowDto = resultMap.get(key);
             if (salesRowDto == null) {
                  getHierarchy(hierKey,projectionSelectionDTO);
                  getParentLevels(projectionSelectionDTO,obj);
                 //To check condition total or details values
                 salesRowDto = new SalesRowDto();
-                setActualsProjectionValues(salesRowDto, freq, obj, projectionSelectionDTO, historyColumn, hierarchyLevelDetails,hierarchyIndicator);
+                setActualsProjectionValues(salesRowDto, freq, obj, projectionSelectionDTO, historyColumn, hierarchyLevelDetails);
                 resultMap.put(key, salesRowDto);
                 hierarchykeys(key);
             } else {
-                setActualsProjectionValues(salesRowDto, freq, obj, projectionSelectionDTO, historyColumn, hierarchyLevelDetails,hierarchyIndicator);
+                setActualsProjectionValues(salesRowDto, freq, obj, projectionSelectionDTO, historyColumn, hierarchyLevelDetails);
             }
             }
 
@@ -109,7 +108,7 @@ public class NMSalesExcelLogic {
             }
         }
 
-    private void setActualsProjectionValues(SalesRowDto salesRowDto, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelectionDTO, List historyColumn, Map<String, List> hierarchyLevelDetails, String hierarchyIndicator) {
+    private void setActualsProjectionValues(SalesRowDto salesRowDto, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelectionDTO, List historyColumn, Map<String, List> hierarchyLevelDetails) {
         try {
             if(obj[NumericConstants.ONE] == null){
             getExcelFormatColumns(getHierarchyNumber(obj[NumericConstants.ZERO]),hierarchyLevelDetails,projectionSelectionDTO,salesRowDto);

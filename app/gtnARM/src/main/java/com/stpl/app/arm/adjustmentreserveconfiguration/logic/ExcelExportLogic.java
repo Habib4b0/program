@@ -13,7 +13,6 @@ import com.stpl.app.arm.adjustmentreserveconfiguration.logic.tablelogic.Adjustme
 import com.stpl.app.arm.adjustmentreserveconfiguration.logic.tablelogic.BalSummaryConfigurationTableLogic;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.ReserveSelection;
-import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.Arrays;
@@ -29,7 +28,7 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
  */
 public class ExcelExportLogic {
 
-    protected static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(AbstractNotificationUtils.class);
+    protected static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(ExcelExportLogic.class);
 
     protected AdjustmentReserveLogic logic = AdjustmentReserveLogic.getInstance();
     private ReserveSelection selection;

@@ -59,7 +59,7 @@ public class PeriodCheckValidator extends AbstractValidator {
                 Date toDate = ARMUtils.getInstance().getDbDate().parse(String.valueOf(toPeriod.getValue()));
                 return toDate.before(fromDate);
             } catch (ParseException ex) {
-                LoggerFactory.getLogger(CalcultionProfileTableGenerator.class).error(ex.getMessage());
+                LoggerFactory.getLogger(PeriodCheckValidator.class).error(ex.getMessage());
             }
         } else {
             return false;

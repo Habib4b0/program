@@ -9,17 +9,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
+import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryRegisterWs;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 @RestController
 @RequestMapping(value = "/gtnServiceRegistry")
@@ -28,7 +33,7 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 	public GtnUIServiceRegistryController() {
 		super(GtnUIServiceRegistryController.class);
 	}
-        
+	
 	@Autowired
 	private GtnValidateWsServiceRegistryController gtnValidateWsServiceRegistryController;
 
@@ -106,20 +111,14 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 
 	}
 
-	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
-		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
-				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
-				+ url;
-
-	}
-
-	@Override
-	public GtnUIFrameworkWebserviceRequest registerWs() {
-		return null;
-	}
-
+	
     @Override
     public void initCallOnFailure() {
         // Default Method
+    }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+       // Default Method
     }
 }
