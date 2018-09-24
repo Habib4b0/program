@@ -8,6 +8,8 @@ import static org.junit.Assert.*;
  * @author spandan.majumder
  * @version $Revision: 1.0 
  */
+
+@Ignore
 public class GtnFrameworkIfpStringContantsTest {
 
 	@Test

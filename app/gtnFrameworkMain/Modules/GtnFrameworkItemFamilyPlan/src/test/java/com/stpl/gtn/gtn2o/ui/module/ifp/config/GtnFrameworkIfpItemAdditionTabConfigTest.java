@@ -10,6 +10,8 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
  * @author spandan.majumder
  * @version $Revision: 1.0 
  */
+
+@Ignore
 public class GtnFrameworkIfpItemAdditionTabConfigTest {
 
 	@Test

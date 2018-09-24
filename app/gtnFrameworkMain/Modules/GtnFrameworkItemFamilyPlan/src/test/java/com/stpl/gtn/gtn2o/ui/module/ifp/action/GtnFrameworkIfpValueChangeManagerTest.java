@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.module.ifp.action;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
  * @version $Revision: 1.0 
  */
 
+@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = { GtnUIFrameworkGlobalUI.class})
 public class GtnFrameworkIfpValueChangeManagerTest {

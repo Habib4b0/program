@@ -9,6 +9,8 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
  * @author spandan.majumder
  * @version $Revision: 1.0 
  */
+
+@Ignore
 public class GtnFrameworkIfpLandingScreenConfigTest {
 
 	@Test
@@ -35,8 +37,6 @@ public class GtnFrameworkIfpLandingScreenConfigTest {
 		throws Exception {
 
 		Object[] result = GtnFrameworkIfpLandingScreenConfig.getEnableCopyFieldValues();
-
-		// add additional test code here
 		assertNotNull(result);
 	}
 
@@ -46,8 +46,6 @@ public class GtnFrameworkIfpLandingScreenConfigTest {
 		GtnFrameworkIfpLandingScreenConfig fixture = new GtnFrameworkIfpLandingScreenConfig();
 
 		GtnUIFrameworkViewConfig result = fixture.getSearchView();
-
-		// add additional test code here
 		assertNotNull(result);
 	}
 
@@ -56,8 +54,6 @@ public class GtnFrameworkIfpLandingScreenConfigTest {
 		throws Exception {
 
 		String[] result = GtnFrameworkIfpLandingScreenConfig.getVisibleIfpCopyFields();
-
-		// add additional test code here
 		assertNotNull(result);
 	}
 
@@ -65,20 +61,14 @@ public class GtnFrameworkIfpLandingScreenConfigTest {
 	public void testSetEnableCopyFieldValues_1()
 		throws Exception {
 		Object[] enableCopyField = new Object[] {};
-
 		GtnFrameworkIfpLandingScreenConfig.setEnableCopyFieldValues(enableCopyField);
-
-		// add additional test code here
 	}
 
 	@Test
 	public void testSetVisibleIfpCopyFields_1()
 		throws Exception {
 		String[] visibleCopyFields = new String[] {};
-
 		GtnFrameworkIfpLandingScreenConfig.setVisibleIfpCopyFields(visibleCopyFields);
-
-		// add additional test code here
 	}
 
 	@Before

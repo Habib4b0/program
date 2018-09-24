@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -27,6 +28,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
  * @version $Revision: 1.0 
  */
 
+@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = { GtnUIFrameworkGlobalUI.class})
 public class GtnFrameworkIfpCompaniesMassFieldValueChangeActionTest {
