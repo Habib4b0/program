@@ -745,7 +745,7 @@ public class DataSelectionLogic {
         LOGGER.debug("Entering loadAvailableDeductions method");
         List<DeductionLevelDTO> resultList = new ArrayList<>();
         String sqlQuery = SQlUtil.getQuery("getDeductionAvailableLevels");
-        String[] select = ARMUtils.getLevelMap(valueLevel.getDescription());
+        String[] select = ARMUtils.getInstance().getLevelMap(valueLevel.getDescription());
 
         sqlQuery = sqlQuery.replace("@PARAMETERS", select[0]);
         if ("UDC".equalsIgnoreCase(select[1])) {
@@ -1171,14 +1171,14 @@ public class DataSelectionLogic {
         String rsContractIdFilters;
         rsContractIdFilters = SQlUtil.getQuery("getDeductionAvailableLevelsWithWhere");
         rsContractIdFilters = rsContractIdFilters.replace("@PARAMETERS", " RS_CONTRACT_SID ");
-        String filter = ARMUtils.getLevelMap(deductionMap.get(1)[1])[0] + CommonConstant.IN + dedval.getRsCategory() + "') AND "
-                + ARMUtils.getLevelMap(deductionMap.get(NumericConstants.TWO)[1])[0] + " in ( '" + dedval.getRsType() + "' ) AND "
-                + ARMUtils.getLevelMap(deductionMap.get(NumericConstants.THREE)[1])[0] + CommonConstant.IN + dedval.getRsProg() + "')"
+        String filter = ARMUtils.getInstance().getLevelMap(deductionMap.get(1)[1])[0] + CommonConstant.IN + dedval.getRsCategory() + "') AND "
+                + ARMUtils.getInstance().getLevelMap(deductionMap.get(NumericConstants.TWO)[1])[0] + " in ( '" + dedval.getRsType() + "' ) AND "
+                + ARMUtils.getInstance().getLevelMap(deductionMap.get(NumericConstants.THREE)[1])[0] + CommonConstant.IN + dedval.getRsProg() + "')"
                 + "AND RS_CONTRACT_SID " + CommonConstant.IN + dedval.getActualValue() + "')";
         rsContractIdFilters = rsContractIdFilters.replace("$$$FILTER$$$", filter);
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(rsContractIdFilters);
         for (Object obj : list) {
-            rsContractSidList.add((int) obj);
+            rsContractSidList.add((Integer) obj);
         }
 
         String retLitString = " RS_CONTRACT_SID IN (" + StringUtils.join(list.toArray(), ",") + ") ";
@@ -1284,8 +1284,6 @@ public class DataSelectionLogic {
 
     public static void getDates(int buscinessProcess, int companySystemId, int buSid, ComboBox fromPeriod, ComboBox toPeriod, boolean checkFlag, DataSelectionDTO selection) {
         List<Date> periodDates = CommonLogic.getPeriodList("ARM", buscinessProcess, companySystemId, buSid);
-        List datesInput = new ArrayList();
-        datesInput.add(buscinessProcess);
         if (periodDates != null && !periodDates.isEmpty()) {
             Date currentDate = new Date();
             Date fromDate = periodDates.get(0);

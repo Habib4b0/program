@@ -159,7 +159,9 @@ public class HeaderUtils {
                 List<Object> singleColumns = new ArrayList<>(excelHeader.getSingleColumns().subList(0, sizeToCopy));
                 List<String> singleHeaders = new ArrayList<>(excelHeader.getSingleHeaders().subList(0, sizeToCopy));//Ends here
 
-                int tempYear, j = 0, k = 0;//Ends here
+                int tempYear;
+                int j = 0;
+                int k = 0;//Ends here
                 for (int i = 0; i < periodList.size(); i++) {
                     List<Object> dmap = new ArrayList<>();
                     List<Object> dmapsum = new ArrayList<>();

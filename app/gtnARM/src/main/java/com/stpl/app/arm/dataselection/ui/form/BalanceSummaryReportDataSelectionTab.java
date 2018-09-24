@@ -76,7 +76,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
         init();
     }
 
-    public void init() {
+    private void init() {
         panel1.setCaption("Selection Criteria");
         configureDataSelection();
         loadValuesInDataSelection();

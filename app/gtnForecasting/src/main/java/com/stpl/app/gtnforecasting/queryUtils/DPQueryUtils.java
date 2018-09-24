@@ -118,64 +118,6 @@ public class DPQueryUtils {
         return customSql;
     }
 
-    public String saveDiscountProjectionListView(Date startDate, Date endDate, boolean isCustomHierarchy,
-            List<String> customViewDetails, String hierarchyIndicator, SessionDTO session, String hierarchyNo, String fieldValue, String selectedField) {
-
-        final int discountName = session.getDiscountTypeId();
-        final String userId = session.getUserId();
-        final int projectionId = session.getProjectionId();
-        final String sessionId = session.getSessionId();
-        String fieldValuequery = StringUtils.EMPTY;
-        String hierarchy = StringUtils.EMPTY;
-        // C indicates customer, P indicates product
-        if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-            hierarchy = "PROJECTION_CUST_HIERARCHY ";
-        } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-            hierarchy = "PROJECTION_PROD_HIERARCHY ";
-        }
-
-        String ccpDetails;
-        if (isCustomHierarchy && customViewDetails != null && !customViewDetails.isEmpty()) {
-            ccpDetails = getCustomCCPDetailsQuery(hierarchyIndicator, projectionId, customViewDetails, true, hierarchyNo);
-        } else {
-            String appendQuery = " HLD.HIERARCHY_NO = '" + hierarchyNo + "'";
-            ccpDetails = getCCPDetailsQuery(hierarchy, projectionId, StringUtils.EMPTY, hierarchyNo, StringUtils.EMPTY, appendQuery, true);
-        }
-        if ("Projected Rate".equals(selectedField)) {
-            fieldValuequery = " \n UPDATE DPT SET DPT.DISCOUNT_RATE = ";
-        } else if (Constant.PRODUCT_GROWTH.equals(selectedField)) {
-            fieldValuequery = " \n UPDATE DPT SET DPT.PRODUCT_GROWTH = ";
-        } else if (Constant.ACCOUNT_GROWTH.equals(selectedField)) {
-            fieldValuequery = " \n UPDATE DPT SET DPT.ACCOUNT_GROWTH = ";
-        } else if ("Projected Amount".equals(selectedField)) {
-            fieldValuequery = " \n UPDATE DPT SET DPT.DISCOUNT_AMOUNT = ";
-        }
-        String customSql = fieldValuequery + fieldValue + " FROM ST_CH_PROJECTION_DISCOUNT DPT, \n"
-                + "(SELECT M.PROJECTION_DETAILS_SID, DP.PERIOD_SID , M.RS_CONTRACT_SID FROM ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS B,\n "
-                + " ST_CH_PROJECTION_DISCOUNT DP, RS_CONTRACT RS, \"PERIOD\" P, \n" + ccpDetails
-                + " WHERE  M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
-                + " and M.USER_ID = " + userId + "\n"
-                + " and  M.SESSION_ID = " + sessionId + "\n"
-                + " and DP.USER_ID = " + userId + "\n"
-                + " and DP.SESSION_ID = " + sessionId + "\n"
-                + " and DP.RS_CONTRACT_SID = M.RS_CONTRACT_SID \n"
-                + " AND B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n"
-                + " AND DP.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID \n"
-                + " AND RS.RS_CONTRACT_SID = M.RS_CONTRACT_SID \n"
-                + " AND RS.RS_TYPE = '" + discountName + "' \n"
-                + " AND DP.PERIOD_SID = P.PERIOD_SID \n"
-                + " AND P.PERIOD_DATE "
-                + " BETWEEN CONVERT(DATE, '" + dbDateDP.format(startDate) + "') AND CONVERT(DATE, '" + dbDateDP.format(endDate) + "')" + "\n"
-                + " AND B.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
-                + ") A "
-                + " WHERE DPT.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID "
-                + " AND DPT.RS_CONTRACT_SID = A.RS_CONTRACT_SID \n"
-                + " AND DPT.PERIOD_SID = A.PERIOD_SID \n"
-                + " AND DPT.USER_ID = " + userId + "\n"
-                + " AND DPT.SESSION_ID = " + sessionId + "\n";
-        return customSql;
-    }
-
     public String getCCPDetailsQuery(String hierarchy, int projectionId, String connector,
             String hierarchyNo, String hierarchyNumbers, String levelSelectionStatement, boolean isCount) {
          String  hierarchyNoCCP = hierarchyNo; 
@@ -301,45 +243,4 @@ public class DPQueryUtils {
         return query.toString();
     }
 
-    public String discountProjectionTableUpdateQuery(String adjustmentType, String adjustmentBasis, String allocationMethodology, String adjustmentValue, int projectionId,
-            int discountName, String userId, String sessionId, String period, String selectedPeriodsToUpdate) {
-        StringBuilder query = new StringBuilder();
-         String allocationMethodologyDP = allocationMethodology;
-        if ("Lowest Level (Month and Product)".equals(allocationMethodologyDP)) {
-            allocationMethodologyDP = "None";
-        }
-        query.append("UPDATE DP ");
-        query.append(" SET ADJUSTMENT_TYPE='" ).append( adjustmentType ).append( "' , ADJUSTMENT_BASIS='" ).append( adjustmentBasis ).append( "', ADJUSTMENT_VALUE=" ).append( adjustmentValue ).append( ", ");
-        query.append(" ADJUSTMENT_METHODOLOGY = '" ).append( allocationMethodologyDP ).append( "' FROM ST_CH_PROJECTION_DISCOUNT DP");
-        query.append(" JOIN (SELECT   DPM.PROJECTION_DETAILS_SID, DP.PERIOD_SID  FROM ST_CH_DISCOUNT_PROJ_MASTER DPM");
-        query.append(" JOIN PROJECTION_DETAILS B ON DPM.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID ");
-        query.append(" JOIN ST_CH_PROJECTION_DISCOUNT DP ON DP.PROJECTION_DETAILS_SID=DPM.PROJECTION_DETAILS_SID ");
-
-        query.append(" JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID ");
-
-        query.append(" JOIN \"PERIOD\" Ppr on DP.PERIOD_SID=Ppr.PERIOD_SID  ");
-        query.append(" WHERE B.PROJECTION_MASTER_SID=" ).append( projectionId ).append( " AND DPM.CHECK_RECORD = 1");
-
-        query.append("AND RS.RS_TYPE = '" ).append( discountName ).append( '\'');
-
-        query.append(" AND Ppr.PERIOD_SID in(SELECT PERIOD_SID from \"PERIOD\" PR WHERE " ).append( period ).append( " IN (" ).append( selectedPeriodsToUpdate ).append( ")) ");
-        query.append(" GROUP BY DPM.PROJECTION_DETAILS_SID, DP.PERIOD_SID )A ON A.PROJECTION_DETAILS_SID = DP.PROJECTION_DETAILS_SID WHERE DP.PERIOD_SID = A.PERIOD_SID");
-        query.append(" AND DP.USER_ID = " ).append( userId ).append( '\n');
-        query.append(" AND DP.SESSION_ID = " ).append( sessionId ).append( '\n');
-
-        return query.toString();
-    }
-
-    public String checkClearAllQuery(int projectionId, String userId, String sessionId, boolean checkClear) {
-
-        int check = checkClear ? 1 : 0;
-        String query = "UPDATE M SET CHECK_RECORD = " + check
-                + " From  ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E \n"
-                + " Where M.USER_ID = " + userId + " \n"
-                + "  and M.SESSION_ID = " + sessionId + "\n"
-                + " AND  E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
-                + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID  ";
-
-        return query;
-    }
 }

@@ -2449,7 +2449,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         productLevel.select(null);
     }
 
-    public void configureFields() {
+    private void configureFields() {
         summaryTypeDdlb.focus();
         adjustmentType.setVisible(false);
         description.setVisible(false);
@@ -2806,7 +2806,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         deleteViewBtn.setEnabled(false);
     }
 
-    public void securityForAllScreens() {
+    private void securityForAllScreens() {
 
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent()

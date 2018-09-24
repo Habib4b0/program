@@ -102,7 +102,7 @@ public class CommonLogic {
 
     }
     private static CommonDao dao = CommonImpl.getInstance();
-    private static Map<String, List> helperListUtil = new HashMap();
+    private final Map<String, List> helperListUtil = new HashMap();
     private static final CustomComparator sorter = new CustomComparator();
     public static final HelperDTO DDLB_DEFAULT_VALUE = new HelperDTO(0, GlobalConstants.getSelectOne());
     public static final HelperDTO DDLB_SHOW_ALL_VALUE = new HelperDTO(0, GlobalConstants.getShowAll());
@@ -160,8 +160,8 @@ public class CommonLogic {
 
             for (Object[] obj : arr) {
                 if (obj[1] != null && obj[NumericConstants.TWO] != null) {
-                    comboBox.addItem((int) obj[0]);
-                    comboBox.setItemCaption((int) obj[0], obj[1] + " - " + obj[NumericConstants.TWO]);
+                    comboBox.addItem((Integer) obj[0]);
+                    comboBox.setItemCaption((Integer) obj[0], obj[1] + " - " + obj[NumericConstants.TWO]);
                 }
             }
         } else {
@@ -176,14 +176,14 @@ public class CommonLogic {
 
         for (Object[] obj : arr) {
             if (obj[1] != null) {
-                comboBox.addItem((int) obj[0]);
-                comboBox.setItemCaption((int) obj[0], (String) obj[1]);
+                comboBox.addItem((Integer) obj[0]);
+                comboBox.setItemCaption((Integer) obj[0], (String) obj[1]);
             }
         }
 
     }
 
-    public static ComboBox getComboBoxByListNameSorted(ComboBox comboBox, String listName, Boolean isFilter, Map<Integer, String[]> map) {
+    public ComboBox getComboBoxByListNameSorted(ComboBox comboBox, String listName, Boolean isFilter, Map<Integer, String[]> map) {
         BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         final HelperDTO defaultValue = isFilter ? DDLB_SHOW_ALL_VALUE : DDLB_DEFAULT_VALUE;
         String comboboxName = listName;
@@ -238,7 +238,7 @@ public class CommonLogic {
         }
     }
 
-    public static ComboBox getComboBoxByListNameForTable(ComboBox comboBox, String listName) {
+    public ComboBox getComboBoxByListNameForTable(ComboBox comboBox, String listName) {
         String comboboxName = listName;
         comboBox.setValidationVisible(true);
         comboBox.setImmediate(true);
@@ -272,7 +272,7 @@ public class CommonLogic {
         return comboBox;
     }
 
-    public static ComboBox getComboBoxByQueryName(ComboBox comboBox, String queryName) {
+    public ComboBox getComboBoxByQueryName(ComboBox comboBox, String queryName) {
         BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         String comboboxName = queryName;
         comboBox.setValidationVisible(true);
@@ -312,7 +312,7 @@ public class CommonLogic {
         return comboBox;
     }
 
-    public static ComboBox getComboBoxByQueryNameForARM(ComboBox comboBox, String queryName, Boolean isFilter) {
+    public ComboBox getComboBoxByQueryNameForARM(ComboBox comboBox, String queryName, Boolean isFilter) {
         BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         final HelperDTO defaultValue = isFilter ? DDLB_SHOW_ALL_VALUE : DDLB_DEFAULT_VALUE;
         String comboboxName = queryName;
@@ -489,7 +489,7 @@ public class CommonLogic {
         User loggedUserDetails = null;
 
         try {
-            loggedUserDetails = UserLocalServiceUtil.getUser(Long.valueOf(userId));
+            loggedUserDetails = UserLocalServiceUtil.getUser(Long.parseLong(userId));
         } catch (PortalException | SystemException noSuchUserException) {
             LOGGER.error("Error in getUser :", noSuchUserException);
             loggedUserDetails = null;
@@ -503,8 +503,8 @@ public class CommonLogic {
         List<Object[]> arr = HelperTableLocalServiceUtil.executeSelectQuery(query);
         for (Object[] obj : arr) {
             if (obj[0] != null && obj[1] != null) {
-                comboBox.addItem((int) obj[0]);
-                comboBox.setItemCaption((int) obj[0], obj[1].toString());
+                comboBox.addItem((Integer) obj[0]);
+                comboBox.setItemCaption((Integer) obj[0], obj[1].toString());
             }
         }
         return comboBox;
@@ -600,8 +600,8 @@ public class CommonLogic {
         comboBox.setNullSelectionAllowed(true);
         comboBox.setNullSelectionItemId(0);
         for (Object[] obj : list) {
-            comboBox.addItem((int) obj[0]);
-            comboBox.setItemCaption((int) obj[0], (String) obj[1]);
+            comboBox.addItem((Integer) obj[0]);
+            comboBox.setItemCaption((Integer) obj[0], (String) obj[1]);
         }
         return comboBox;
     }
@@ -1866,7 +1866,7 @@ public class CommonLogic {
 
     public static int getSummaryPeriods(String fromPeriod, String toPeriod, String frequency) {
         if (ARMConstants.getAnnually().equals(frequency)) {
-            return (Integer.valueOf(toPeriod) - Integer.valueOf(fromPeriod)) + 1;
+            return (Integer.valueOf(toPeriod) - Integer.parseInt(fromPeriod)) + 1;
         } else {
             List inputs = new ArrayList();
             String column = ARMConstants.getSemiAnnually().equals(frequency) ? "SEMI_ANNUAL" : frequency.replace("ly", StringUtils.EMPTY);

@@ -52,8 +52,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
         LOGGER.info("loadData initiated with firstGenerated= {}, and start= {}, and offset= {} " , firstGenerated, start, offset);
-        GtnSmallHashMap map = new GtnSmallHashMap();
-        return map;
+        return new GtnSmallHashMap();
     }
 
     /**
@@ -124,23 +123,19 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
         int index = getItemIndex(count + levelIndex + levelValue);
         int start = getStartIndex(count + levelIndex, index);
         int end = getPageLength();
-        LevelMap levelMap = new LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
-        return levelMap;
+        return new LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
     }
 
     public int getPageForItem(int pos) {
-        int curPage = ((pos - 2) / getPageLength()) + 1;
-        return curPage;
+        return ((pos - 2) / getPageLength()) + 1;
     }
 
     public int getItemIndex(int pos) {
-        int index = (pos - 2) % getPageLength();
-        return index;
+        return (pos - 2) % getPageLength();
     }
 
     public int getStartIndex(int count, int index) {
-        int start = count - index;
-        return start;
+        return count - index;
     }
 
     @Override

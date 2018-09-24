@@ -146,7 +146,7 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
         }
         sql += " ORDER BY PRODUCT_ID OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
         List<Object[]> result = QueryUtils.executeSelect(sql);
-        return customizier(ARMUtils.getSalesVariables(), result);
+        return customizier(ARMUtils.getInstance().getSalesVariables(), result);
     }
 
     public boolean updatePriceOverride(List input) {

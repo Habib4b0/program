@@ -38,13 +38,11 @@ import org.slf4j.LoggerFactory;
  */
 public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSummaryLogic<T> {
 
-    public static final Logger LOGGERFORSUMMAEYTAB = LoggerFactory.getLogger(Trx7PADetailsLogic.class);
+    public static final Logger LOGGERFORSUMMAEYTAB = LoggerFactory.getLogger(Trx7PASummaryLogic.class);
 
     @Override
     public List<Object> generateHeader(AbstractSelectionDTO distributionSelection, String[] columns) {
         List<Object> distributonFinalList = new ArrayList<>();
-        List<String> distributionDoubleSingleColumn;
-        List<String> distributionExcelDoubleSingleColumn;
         List<String> distributionExcelSingleColumn = new ArrayList<>();
         List<String> distributionSingleVisibleColumn = new ArrayList<>();
         List<String> distributionExcelVisibleColumn = new ArrayList<>();
@@ -68,9 +66,11 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
             doublecolumnList.add(doublecolumn);
         }
         doubleHeaderVariables = doublecolumnList;
+        List<String> distributionDoubleSingleColumn = new ArrayList<>();
+        List<String> distributionExcelDoubleSingleColumn = new ArrayList<>();
         for (String[] distributionDetection : doubleHeaderVariables) {
-            distributionDoubleSingleColumn = new ArrayList<>();
-            distributionExcelDoubleSingleColumn = new ArrayList<>();
+            distributionDoubleSingleColumn.clear();
+            distributionExcelDoubleSingleColumn.clear();
             for (int i = 0; i < columns.length; i++, index++) {
                 String column = columns[i];
                 singleColumn.add(column + ARMUtils.DOT + index);
@@ -174,9 +174,9 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
                 } else {
                     istributionDto.setMonth(brand);
                 }
-                istributionDto.setLevelNo((int) get[NumericConstants.EIGHT]);
+                istributionDto.setLevelNo((Integer) get[NumericConstants.EIGHT]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                istributionDto.setChildrenAllowed((distributionSelection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
+                istributionDto.setChildrenAllowed((distributionSelection.getSummarylevelFilterNo() != 0 || isTotal) ? Boolean.FALSE : (Boolean) get[NumericConstants.NINE]);
                 istributionDto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                 if (masterSids != null) {
                     istributionDto.setMasterIds(masterSids);
@@ -235,15 +235,15 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
         }
         Object[] distributionValue = null;
         if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            distributionValue = new Object[]{"D", "T", "C", "B", "I"};
+            distributionValue = ARMUtils.getDTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
-            distributionValue = new Object[]{"T", "C", "B", "I"};
+            distributionValue = ARMUtils.getTCBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-            distributionValue = new Object[]{"T", "B", "I"};
+            distributionValue = ARMUtils.getTBI();
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-            distributionValue = new Object[]{"B", "I"};
+            distributionValue = ARMUtils.getBI();
         } else if (selection.getRateDeductionView().equals(CommonConstant.DEDUCTION_CONTRACT)) {
-            distributionValue = new Object[]{"C", "T", "B", "I"};
+            distributionValue = ARMUtils.getCTBI();
 
         }
         query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(distributionValue, ",") + ARMUtils.SINGLE_QUOTES);
@@ -324,8 +324,8 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
                 currentViewType = ARMUtils.getTrx7SummaryLevelSinglePeriod().get(levelNo);
                 distributionViewType = ARMUtils.getTrx7SummaryLevelSinglePeriod().get(++levelNo);
             } else {
-                currentViewType = ARMUtils.getTYrx7LevelAndLevelFilter(ARMConstants.getDeductionCustomerContract()).get(levelNo);
-                distributionViewType = ARMUtils.getTYrx7LevelAndLevelFilter(ARMConstants.getDeductionCustomerContract()).get(++levelNo);
+                currentViewType = ARMUtils.getInstance().getTYrx7LevelAndLevelFilter(ARMConstants.getDeductionCustomerContract()).get(levelNo);
+                distributionViewType = ARMUtils.getInstance().getTYrx7LevelAndLevelFilter(ARMConstants.getDeductionCustomerContract()).get(++levelNo);
             }
             if (distributionMasterSids == null) {
                 distributionMasterSids = new TreeMap<>();
@@ -352,14 +352,14 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
                 } else {
                     view = selection.getSummaryviewType();
                 }
-                distributionViewType = ARMUtils.getTYrx7LevelAndLevelFilter(view).get(selection.getSummarylevelFilterNo());
+                distributionViewType = ARMUtils.getInstance().getTYrx7LevelAndLevelFilter(view).get(selection.getSummarylevelFilterNo());
             }
         }
         if (distributionViewType.equals(ARMConstants.getDeduction())) {
-            distributionViewType = ARMUtils.getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
+            distributionViewType = ARMUtils.getInstance().getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
         }
         distributionInputs.add(distributionViewType);
-        distributionInputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
+        distributionInputs.add(ARMUtils.getInstance().getSummaryViewType(selection.getSummaryviewType()));
         distributionInputs.add(StringUtils.EMPTY);
         distributionInputs.add(StringUtils.EMPTY);
         distributionInputs.add(distributionMasterSids.get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : distributionMasterSids.get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));

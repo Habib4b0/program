@@ -589,7 +589,7 @@ public class SupplementalDiscountProjectionLogic {
         } else {
             ccpDetailsId = CommonUtils.collectionToStringMethod(checkedDto.getCcpDetailIds(), false);
         }
-        if (fieldSelection.equals(METHODOLOGY.getConstant().toUpperCase(Locale.ENGLISH))) {
+        if (String.valueOf(fieldSelection).equalsIgnoreCase(METHODOLOGY.getConstant())) {
             populateMethodologyWithFormulaDetails(checkedDto, value, session);
         } else {
             populateUpadteQuery(checkedDto, value, fieldSelection, session, ccpDetailsId);
@@ -1298,7 +1298,7 @@ public class SupplementalDiscountProjectionLogic {
                             }
                             insertDtoList.add(prclookUpDto);
                         } else {
-                            quarList.add(Constant.Q + String.valueOf(obj[0]) + " " + String.valueOf(obj[1]));
+                            quarList.add(Constant.Q + obj[0] + " " + obj[1]);
                         }
                     }
                     if (prcList.size() == quarList.size()) {
