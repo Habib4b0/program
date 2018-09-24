@@ -394,7 +394,6 @@ public class ExclusionDetailsLookup extends Window {
                 saveViewDTO.setCreatedBy(viewDTO.getCreatedBy());
                 saveViewDTO.setCreatedUser(viewDTO.getCreatedUser());
                 saveViewDTO.setSessionUserID(sessionDTO.getUserId());
-                getSelectedIdValues();
             } else {
                 saveViewDTO.setFieldName(String.valueOf(fieldName.getValue()));
                 saveViewDTO.setViewName(StringUtils.EMPTY);
@@ -404,7 +403,6 @@ public class ExclusionDetailsLookup extends Window {
                 saveViewDTO.setCreatedBy(viewDTO.getCreatedBy());
                 saveViewDTO.setCreatedUser(viewDTO.getCreatedUser());
                 saveViewDTO.setSessionUserID(sessionDTO.getUserId());
-                getSelectedIdValues();
 
             }
             saveViewDTO.setFieldList(selectedResultsContainer.getItemIds());
@@ -443,15 +441,6 @@ public class ExclusionDetailsLookup extends Window {
         setFieldValuesOnInitialLoad(list);
         arLogic.saveORUpdateExclusionDetailsLookUp(dataSelection.getProjectionId(), list, accountId.toString(), accountName.toString(), accountContractId.toString(), sessionDTO); // Ends here for GAL-7235
         selectedResultsContainer.addAll(dataSelection.getProjectionId() != 0 ? arLogic.getIntialLoadValue(dataSelection.getProjectionId()) : dumbyResultsContainer);
-    }
-
-    public void getSelectedIdValues() {
-        if (!selectedResultsContainer.getItemIds().isEmpty()) {
-            List<String> companyIdList = new ArrayList();
-            for (ExclusionLookupDTO dtoValue : selectedResultsContainer.getItemIds()) {
-                companyIdList.add(dtoValue.getValues());
-            }
-        }
     }
 
     public ViewLookupDTO getViewDTO() {

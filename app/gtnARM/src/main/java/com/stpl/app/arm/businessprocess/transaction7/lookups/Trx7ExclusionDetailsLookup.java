@@ -405,7 +405,6 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
                 saveViewDTO.setViewStatus(true);
                 saveViewDTO.setCreatedBy(viewDTO.getCreatedBy());
                 saveViewDTO.setCreatedUser(viewDTO.getCreatedUser());
-                getSelectedIdValues();
             } else {
                 saveViewDTO.setFieldName(String.valueOf(fieldName.getValue()));
                 saveViewDTO.setViewName(StringUtils.EMPTY);
@@ -414,8 +413,6 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
                 saveViewDTO.setViewStatus(false);
                 saveViewDTO.setCreatedBy(viewDTO.getCreatedBy());
                 saveViewDTO.setCreatedUser(viewDTO.getCreatedUser());
-                getSelectedIdValues();
-
             }
             saveViewDTO.setFieldList(selectedResultsContainer.getItemIds());
             Trx7SaveViewPopup viewPopup = new Trx7SaveViewPopup(saveViewDTO);
@@ -448,16 +445,6 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
             publicView.setValue(StringUtils.EMPTY);
             privateView.setValue(StringUtils.EMPTY);
             fieldName.select(ARMConstants.getAccountId());
-        }
-    }
-
-    public void getSelectedIdValues() {
-        List<String> companyIdList;
-        if (!selectedResultsContainer.getItemIds().isEmpty()) {
-            companyIdList = new ArrayList();
-            for (ExclusionLookupDTO dtoValue : selectedResultsContainer.getItemIds()) {
-                companyIdList.add(dtoValue.getValues());
-            }
         }
     }
 

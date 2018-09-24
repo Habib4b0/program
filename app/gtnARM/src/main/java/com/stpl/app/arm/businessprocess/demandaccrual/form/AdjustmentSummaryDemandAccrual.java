@@ -82,7 +82,7 @@ public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelecti
         return VariableConstants.getVisibleColumnDemandAccrualDeduction();
     }
 
-    public void configureWorkFlow() throws InvocationTargetException {
+    private void configureWorkFlow() throws InvocationTargetException {
         if (demandSummarySelectionDTO.getSessionDTO().isWorkFlow()) {
             loadSummaryDemandDetails();
             loadsumaryDemandSelection();

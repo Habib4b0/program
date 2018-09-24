@@ -143,7 +143,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
         List<Object> pipelineHeader = getSummaryLogic().generateHeader(getSelection(), columns);
         List pipelineRightSingleVisibleColumn = (List) pipelineHeader.get(0);
         List<String> pipelineRightDoubleVisibleColumn = (List) pipelineHeader.get(1);
-        Map<Object, Object[]> pipelineRightDoubleSingleVisibleColumn = (HashMap) pipelineHeader.get(NumericConstants.FOUR);
+        Map<Object, Object[]> pipelineRightDoubleSingleVisibleColumn = (Map) pipelineHeader.get(NumericConstants.FOUR);
         for (int i = 0; i < pipelineRightSingleVisibleColumn.size(); i++) {
             pipelineProperties.put(pipelineRightSingleVisibleColumn.get(i), String.class);
         }
@@ -280,7 +280,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
         } else {
             viewTypevalue = viewType;
         }
-        getSelection().setSummeryhierarchy(ARMUtils.getPipeLineLevelAndLevelFilter(viewTypevalue));
+        getSelection().setSummeryhierarchy(ARMUtils.getInstance().getPipeLineLevelAndLevelFilter(viewTypevalue));
     }
 
     @Override

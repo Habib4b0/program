@@ -145,13 +145,13 @@ public class PrivatePublicLookup extends Window {
         resultsTablePrivate.setConverter("createdDate", new StringToDateConverter() {
             @Override
             public DateFormat getFormat(Locale locale) {
-                return new SimpleDateFormat("MM/dd/YYYY hh:mm:ss");
+                return new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
             }
         });
         resultsTablePrivate.setConverter("modifiedDate", new StringToDateConverter() {
             @Override
             public DateFormat getFormat(Locale locale) {
-                return new SimpleDateFormat("MM/dd/YYYY hh:mm:ss");
+                return new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
             }
         });
 

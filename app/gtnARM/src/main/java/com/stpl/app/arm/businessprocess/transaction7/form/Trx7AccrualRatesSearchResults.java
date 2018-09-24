@@ -6,7 +6,6 @@
 package com.stpl.app.arm.businessprocess.transaction7.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
-import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractPipelineRates;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractRatesSearchResults;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractBPLogic;
 import com.stpl.app.arm.businessprocess.transaction7.logic.Trx7PipelineAccrualRateLogic;
@@ -23,7 +22,7 @@ import java.util.Map;
  */
 public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
-    private static final org.slf4j.Logger TR7_RATES_LOGGER = org.slf4j.LoggerFactory.getLogger(AbstractPipelineRates.class);
+    private static final org.slf4j.Logger TR7_RATES_LOGGER = org.slf4j.LoggerFactory.getLogger(Trx7AccrualRatesSearchResults.class);
 
     public Trx7AccrualRatesSearchResults(AbstractBPLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
@@ -104,7 +103,7 @@ public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
         if (viewType.equals(ARMConstants.getDeductionCustomer())) {
             viewType = ARMConstants.getDeductionCustomer() + "Sales";
         }
-        getSelection().setRateshierarchy(ARMUtils.getTYrx7LevelAndLevelFilter(viewType));
+        getSelection().setRateshierarchy(ARMUtils.getInstance().getTYrx7LevelAndLevelFilter(viewType));
     }
 
     /*

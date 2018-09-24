@@ -7,7 +7,6 @@ package com.stpl.app.arm.businessprocess.transaction6.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
-import com.stpl.app.arm.businessprocess.pipelineinventory.dto.InventoryFieldFactory;
 import com.stpl.app.arm.businessprocess.transaction6.logic.Trx6InventoryLogic;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.utils.ARMUtils;
@@ -43,7 +42,7 @@ public class Trx6InventoryFieldFactory implements TableFieldFactory {
     private final Trx6InventoryLogic logic;
     private final int projectionId;
     private final AbstractSelectionDTO selection;
-    private static final Logger LOGGER = LoggerFactory.getLogger(InventoryFieldFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Trx6InventoryFieldFactory.class);
     private final ExecutorService service = ThreadPool.getInstance().getService();
     private DataFormatConverter curThree = new DataFormatConverter("#,##0.00", "");
     private DataFormatConverter curThreeDollar = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);

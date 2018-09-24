@@ -210,7 +210,7 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
         tr7SalesSql = CommonLogic.replaceTableNames(tr7SalesSql, tr7Selection.getSessionDTO().getCurrentTableNames());
         List<Object[]> result = QueryUtils.executeSelect(tr7SalesSql);
         LOGGERTRX7.debug("sql=============={}", tr7SalesSql);
-        DataResult<T> resultList = customizier(ARMUtils.getTrx7SalesVariables(), result);
+        DataResult<T> resultList = customizier(ARMUtils.getInstance().getTrx7SalesVariables(), result);
         LOGGERTRX7.debug("Exit getSalesData--{}", result.size());
         return resultList;
     }

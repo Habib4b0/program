@@ -72,7 +72,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
         String queryName = "tx8dedProdMain";
         if (isCount) {
             List count;
-            if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+            if ((lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                 count = QueryUtils.getItemData(getQueryInput(parentDTO, selection, input), queryName, "tx8dedProdCount");
 
@@ -85,7 +85,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
             return count != null && !count.isEmpty() && count.get(0) != null ? count.get(0) : 0;
         } else {
             List result;
-            if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+            if ((lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                 getQueryInput(parentDTO, selection, input);
                 input.addAll(new ArrayList<>(Arrays.asList(startindex, endindex)));

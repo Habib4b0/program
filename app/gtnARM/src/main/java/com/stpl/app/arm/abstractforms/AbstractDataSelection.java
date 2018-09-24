@@ -426,7 +426,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
         configurePeriodDropDown(toPeriod);
         buttonLay.setVisible(true);
         configureDropDowns(deductionLevel);
-        CommonLogic.getComboBoxByListNameSorted(deductionLevel, "DEDUCTION_LEVELS", Boolean.FALSE, deductionHelperLevelMap);
+        CommonLogic.getInstance().getComboBoxByListNameSorted(deductionLevel, "DEDUCTION_LEVELS", Boolean.FALSE, deductionHelperLevelMap);
         configureDropDowns(company);
         configureDropDowns(businessUnit);
         CommonLogic.loadCompanyAndBusinessUnit(company, "getCompanyQueryForDS");
