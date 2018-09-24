@@ -6,7 +6,6 @@
 package com.stpl.app.arm.businessprocess.transaction7.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractPipelineSummaryResults;
-import com.stpl.app.arm.businessprocess.demandreforecast.form.AdjustmentDetailReforecast;
 import com.stpl.app.arm.businessprocess.transaction7.dto.Trx7SelectionDTO;
 import com.stpl.app.arm.businessprocess.transaction7.logic.Trx7PASummaryLogic;
 import com.stpl.app.arm.utils.ARMUtils;
@@ -24,7 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Trx7AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipelineSummaryResults {
 
-    public static final Logger TR7_ADJ_SUM_RES_PA_LOGGER = LoggerFactory.getLogger(AdjustmentDetailReforecast.class);
+    public static final Logger TR7_ADJ_SUM_RES_PA_LOGGER = LoggerFactory.getLogger(Trx7AdjustmentSummarySearchResultsPipelineAccrual.class);
 
     public Trx7AdjustmentSummarySearchResultsPipelineAccrual(Trx7PASummaryLogic logic, Trx7SelectionDTO selection) {
         super(logic, selection);
@@ -116,7 +115,7 @@ public class Trx7AdjustmentSummarySearchResultsPipelineAccrual extends AbstractP
         if (viewType.equals(ARMConstants.getDeductionCustomerContract()) && !getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
             viewType = "non" + ARMConstants.getDeductionCustomerContract();
         }
-        getSelection().setSummeryhierarchy(ARMUtils.getTYrx7LevelAndLevelFilter(viewType));
+        getSelection().setSummeryhierarchy(ARMUtils.getInstance().getTYrx7LevelAndLevelFilter(viewType));
     }
 
     @Override
