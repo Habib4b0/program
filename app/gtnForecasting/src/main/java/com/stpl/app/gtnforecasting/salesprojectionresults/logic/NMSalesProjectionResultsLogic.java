@@ -2186,12 +2186,6 @@ public class NMSalesProjectionResultsLogic {
 		return count;
 	}
 
-	public int configureLevelsCountMandated(ProjectionSelectionDTO projSelDTO) {
-		return SPRCommonLogic.getLevelListCount(projSelDTO.getProjectionId(), projSelDTO.getHierarchyIndicator(),
-				projSelDTO.getLevelNo(), projSelDTO.getHierarchyNo(), projSelDTO.isIsFilter(),
-				projSelDTO.isFilterDdlb(), projSelDTO.getLevelName());
-	}
-
 	public List<SalesProjectionResultsDTO> getConfiguredSalesProjectionResultsMandated(Object parentId, int start,
 			int offset, ProjectionSelectionDTO projSelDTO) {
 		LOGGER.debug("Entering getConfiguredSalesProjectionResultsMandated ");

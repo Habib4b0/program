@@ -46,13 +46,10 @@ public class DPRTableLogic extends PageTreeTableLogic {
         List<DiscountProjectionResultsDTO> list = new ArrayList<>();
         if (firstGenerated && offset > 0) {
             try {
-                switch (screenName) {
-                    case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
-                        list = commercialDPRLogic.getConfiguredProjectionResults(getLastParent(), start, offset, projSelDTO);
-                        break;
-                    default:
-                        LOGGER.warn("screenName is not valid= {} " , screenName);
-                        break;
+                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
+                    list = commercialDPRLogic.getConfiguredProjectionResults(getLastParent(), start, offset, projSelDTO);
+                } else {
+                    LOGGER.warn("screenName is not valid= {} ", screenName);
                 }
 
                 int i = start;
@@ -74,16 +71,11 @@ public class DPRTableLogic extends PageTreeTableLogic {
         int count = 0;
         try {
             if (firstGenerated) {
-
-                switch (screenName) {
-                    case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
-                        count = commercialDPRLogic.getConfiguredProjectionResultsCount(getLastParent(), projSelDTO, true);
-                        break;
-                    default:
-                        LOGGER.warn("screenName is not valid= {} " , screenName);
-                        break;
+                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
+                     count = commercialDPRLogic.getConfiguredProjectionResultsCount(getLastParent(), projSelDTO, true);
+                } else {
+                    LOGGER.warn("screenName is not valid= {} ", screenName);
                 }
-               
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -164,15 +156,11 @@ public class DPRTableLogic extends PageTreeTableLogic {
     }
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) throws PortalException {
-        switch (screenName) {
-            case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
-                nmExpandData(parentId, treeLevel, expandLevelNo);
-                break;
-            default:
-                LOGGER.warn("screenName is not valid in default= {} " , screenName);
-                break;
+        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
+            nmExpandData(parentId, treeLevel, expandLevelNo);
+        } else {
+            LOGGER.warn("screenName is not valid in default= {} ", screenName);
         }
-
     }
 
     private void nmExpandData(Object parentId, String treeLevel, int expandLevelNo) throws PortalException {

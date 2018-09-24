@@ -149,7 +149,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     protected void loadSummarySelection() {
         LOGGERSUMMARYRESULT.debug("customerProductView.getValue()-->>{}", customerProductView.getValue());
-        selectionAdj.setSummaryLevel(ARMUtils.getADJSummaryLevel(String.valueOf(customerProductView.getValue())));
+        selectionAdj.setSummaryLevel(ARMUtils.getInstance().getADJSummaryLevel(String.valueOf(customerProductView.getValue())));
     }
 
     @Override
@@ -197,7 +197,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
             if (val.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) {
                 val = getSelection().getSummarydeductionLevelDes().toUpperCase(Locale.ENGLISH);
             }
-            hierValue[i] = ARMUtils.getLevelExcelQueryName(val);
+            hierValue[i] = ARMUtils.getInstance().getLevelExcelQueryName(val);
         }
         getSelection().setExcelHierarchy(hierValue);
         return hierValue;
@@ -304,7 +304,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        selection.setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        selection.setSummeryhierarchy(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override

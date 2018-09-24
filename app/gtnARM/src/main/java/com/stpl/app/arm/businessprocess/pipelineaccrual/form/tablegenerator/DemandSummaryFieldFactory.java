@@ -40,7 +40,7 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
     protected void valueChangeLogic(AdjustmentDTO dto, Object val, Object propertyId, Component uiContext) {
         ExtCustomTable table = (ExtCustomTable) uiContext;
         int singleVisibleColumn = ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())
-                ? 0 : Integer.valueOf(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
+                ? 0 : Integer.parseInt(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
         if (ARMCheckUtils.isSingleVisibleColumnPresentInDto(singleVisibleColumn, dto) || ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())
                 || (ARMCheckUtils.checkIsSummaryTypeDeductionCustomerContract(selection) && ARMCheckUtils.checkIsProductFilterLevel(selection))) {
             String doubleVisibleHeader = table.getDoubleHeaderColumnHeader(table.getDoubleHeaderForSingleHeader(propertyId.toString()));

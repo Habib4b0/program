@@ -319,7 +319,7 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 				.setAdditionalSearchCriteriaListValues(customerProductGroupAdditionalSearchCriteria);
 		GtnFrameworkAlertUtil customerProductGroupAlertActionUtil = new GtnFrameworkAlertUtil();
 		GtnUIFrameWorkActionConfig alertAction = customerProductGroupAlertActionUtil
-				.throwAlertUtil("/loadHierarchyResults");
+				.throwAlertUtil(GtnFrameworkForecastNewArchitectureConstants.CUSTOMER_AND_PRODUCT_GROUP_RESULTS_URL);
 		customerProductGroupPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
 
 		customerProductGroupPagedTableConfig.setQueryName(namespace + "Group");

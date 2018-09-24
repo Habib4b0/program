@@ -138,19 +138,12 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
 
 		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-		getEndPointUrl(webServiceRegistryBean);
+		getEndPointServiceURL(webServiceRegistryBean);
 		logger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
 		addSecurityToken(request);
 		return request;
-	}
-
-	private void getEndPointUrl(GtnWsServiceRegistryBean webServiceRegistryBean) {
-		webServiceRegistryBean.setWebserviceEndPointUrl(
-				GtnFrameworkPropertyManager.getProperty("gtn.webservices.periodConfiguration.endPointUrl"));
-		webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
-
 	}
 
 	private List<Object[]> getQuarter(String startDate, String endDate) {
@@ -202,6 +195,14 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 	@Override
 	public void initCallOnFailure() {
 		return;
+	}
+
+	@Override
+	public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+		webServiceRegistryBean.setWebserviceEndPointUrl(
+				GtnFrameworkPropertyManager.getProperty("gtn.webservices.periodConfiguration.endPointUrl"));
+		webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
+
 	}
 
 }
