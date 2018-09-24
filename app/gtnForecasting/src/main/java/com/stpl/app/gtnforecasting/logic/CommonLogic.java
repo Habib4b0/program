@@ -860,7 +860,7 @@ public class CommonLogic {
     }
 
     public static void callProcedureforUpdate(String procedureName, Object[] orderedArgs) {
-        LOGGER.debug("Procedure Name= {} " , procedureName);
+        LOGGER.info("Procedure Name= {} " , procedureName);
         GtnSqlUtil.procedureCallService(getQuery(procedureName, orderedArgs), orderedArgs);
 
     }
