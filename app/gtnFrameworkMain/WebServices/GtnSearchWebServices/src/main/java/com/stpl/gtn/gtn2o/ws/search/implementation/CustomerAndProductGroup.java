@@ -2,9 +2,6 @@ package com.stpl.gtn.gtn2o.ws.search.implementation;
 
 import java.util.List;
 
-
-import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
-import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
@@ -13,6 +10,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.search.callqueryengine.CallQueryEngineSearchWs;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
@@ -22,6 +20,13 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        super(CustomerAndProductGroup.class);
 	    }
 	   
+
+
+	    @Override
+	    public GtnUIFrameworkWebserviceRequest registerWs() {
+	        return null;
+	    }
+
 
 		@Override
 		public GtnUIFrameworkWebserviceResponse getSearch(
@@ -48,16 +53,9 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        }
 	        GtnFrameworkDataType[] dataType = {GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING};
 	        logger.debug("Customer And Product Group query" + query);
-	        GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-	        queryExecutorBean.setSqlQuery(query);
-	        queryExecutorBean.setQueryType("SELECTWITHPARAMS");
-	        queryExecutorBean.setParams(params);
-	        queryExecutorBean.setDataType(dataType);
-	        GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
-	        gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-	        logger.info("calling query engine via service registry");
-	        GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
-	        List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
+                CallQueryEngineSearchWs callQueryEngine =new CallQueryEngineSearchWs();
+                GtnQueryEngineWebServiceResponse responseForCustAndProd=callQueryEngine.commonCallWithParams(query, "SELECTWITHPARAMS", params, dataType);
+	        List<Object[]> resultList = responseForCustAndProd.getQueryResponseBean().getResultList();
 	        GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 			dataTable.addData(resultList);
 			searchResponse.setResultSet(dataTable);
@@ -65,7 +63,7 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
 	        }
 	        catch(Exception e)
 	        {
-	            logger.error("Exception in loading private and public views"+e);
+	            logger.error("Exception in loading customer and product group"+e);
 	        }
 	        return response;
 		}
