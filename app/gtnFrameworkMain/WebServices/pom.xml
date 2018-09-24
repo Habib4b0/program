@@ -14,14 +14,15 @@
 		<module>GtnWsHibernateHbm</module>
 		<module>GtnQueryEngine</module>
 		<module>GTNWebServices</module>
-		<module>GtnForecastWebServices</module>
 		<module>GtnWsBpmWebService</module>
-		<module>GtnMethodologyCalculation</module>
+<!-- 	<module>GtnMethodologyCalculation</module> -->
+<!-- 	<module>GtnForecastWebServices</module> -->
 		<module>GtnWsParentReportEngine</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<javacomplier>1.8</javacomplier>
+		<maven.compiler.source>${javacomplier}</maven.compiler.source>
+		<maven.compiler.target>${javacomplier}</maven.compiler.target>
 	</properties>
 </project>

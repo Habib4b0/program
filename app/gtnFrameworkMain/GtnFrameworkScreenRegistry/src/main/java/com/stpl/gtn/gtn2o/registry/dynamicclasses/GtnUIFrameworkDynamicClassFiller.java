@@ -20,26 +20,25 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 	public void addDynamicObject() {
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
-				GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction.class.getName(),
-				new GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
 				GtnFrameworkConfigureRightTableHeaderForPTTCompoAction.class.getName(),
 				new GtnFrameworkConfigureRightTableHeaderForPTTCompoAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkFSPagedTreeTableFillCountDataAction.class.getName(),
-				new GtnFrameworkFSPagedTreeTableFillCountDataAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkFSPagedTreeTableGetBulkDataAction.class.getName(),
-				new GtnFrameworkFSPagedTreeTableGetBulkDataAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkFSPagedTreeTableGetCountAction.class.getName(),
 				new GtnFrameworkFSPagedTreeTableGetCountAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
 				GtnFrameworkFSPTTCompLeftHeaderFormHeaderAndConfigAction.class.getName(),
 				new GtnFrameworkFSPTTCompLeftHeaderFormHeaderAndConfigAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
-				GtnFrameworkFSPTTCompRightHeaderFormHeaderAndConfigAction.class.getName(),
-				new GtnFrameworkFSPTTCompRightHeaderFormHeaderAndConfigAction());
+				GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction.class.getName(),
+				new GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkFSPagedTreeTableGetBulkDataAction.class.getName(),
+				new GtnFrameworkFSPagedTreeTableGetBulkDataAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReturnCheckAllAction.class.getName(),
 				new GtnFrameworkReturnCheckAllAction());
-		
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkFSPagedTreeTableFillCountDataAction.class.getName(),
+				new GtnFrameworkFSPagedTreeTableFillCountDataAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
+				GtnFrameworkFSPTTCompRightHeaderFormHeaderAndConfigAction.class.getName(),
+				new GtnFrameworkFSPTTCompRightHeaderFormHeaderAndConfigAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnRelationshipVersionLoadAction.class.getName(),
 				new GtnRelationshipVersionLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnForecastLevelLoadAction.class.getName(),

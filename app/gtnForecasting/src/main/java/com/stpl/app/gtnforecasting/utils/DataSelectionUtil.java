@@ -299,10 +299,9 @@ public class DataSelectionUtil {
 		String indicatorTable = Constant.TABLE1;
 		String indicatorColumn = Constant.COLUMN1;
 
-		int i, j, k;
-		i = 0;
-		j = 0;
-		k = 0;
+		int i = 0;
+		int j = 0;
+		int k = 0;
 		StringBuilder query = new StringBuilder();
 		if ("item".equalsIgnoreCase(tableIndicator)) {
 			query.append(" SELECT  distinct ccpd.");

@@ -212,6 +212,9 @@
 						<manifestFile>
 							${project.build.outputDirectory}/META-INF/MANIFEST.MF
 						</manifestFile>
+					 <manifestEntries>
+					  <Vaadin-Widgetsets>com.stpl.widgetset.vaadin.widgetset.AppWidgetSet</Vaadin-Widgetsets>
+					 </manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
@@ -221,6 +224,7 @@
 				<version>${vaadin.plugin.version}</version>
 				<configuration>
 					<deploy>${project.build.directory}/gwt-deploy</deploy>
+                                        <style>PRETTY</style>
 				</configuration>
 				<executions>
 					<execution>

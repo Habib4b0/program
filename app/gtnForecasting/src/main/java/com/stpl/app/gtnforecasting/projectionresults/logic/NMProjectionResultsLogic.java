@@ -3456,9 +3456,8 @@ public class NMProjectionResultsLogic {
             groupBy += ", P.\"MONTH\"";
             groupQuery += Constant.PERIODS_QUOTE;
         }
-
-        String query
-                = "   IF Object_id('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
+        String query = StringUtils.EMPTY;
+        query  = query + "   IF Object_id('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
                 + "  DROP TABLE #TEMP_CCP;\n"
                 + " \n"
                 + "   CREATE TABLE #TEMP_CCP\n"
@@ -3805,8 +3804,8 @@ public class NMProjectionResultsLogic {
         }
 
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
-
-        String customQuery = "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS \n"
+        String customQuery = StringUtils.EMPTY;
+        customQuery  = customQuery +  "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS \n"
                 + "              , Isnull(HISTORY.PERIODS, FUTURE.PERIODS) AS PERIODS \n"
                 + "              , Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) AS SALES_ACTUAL_SALES \n"
                 + "              , Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES \n"
@@ -3896,8 +3895,8 @@ public class NMProjectionResultsLogic {
         }
 
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
-
-        String customQuery = "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS\n"
+        String customQueryPR = StringUtils.EMPTY;
+        customQueryPR  = customQueryPR + "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS\n"
                 + "              , Isnull(HISTORY.PERIODS, FUTURE.PERIODS) AS PERIODS \n"
                 + "              , Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) AS SALES_ACTUAL_SALES \n"
                 + "              , Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES \n"
@@ -3962,7 +3961,7 @@ public class NMProjectionResultsLogic {
                 + "              ) FUTURE \n"
                 + "              ON HISTORY.YEARS = FUTURE.YEARS\n"
                 + "                     AND HISTORY.PERIODS = FUTURE.PERIODS";
-        return customQuery;
+        return customQueryPR;
     }
 
     public String getProjectionResultsCOGSQuery(ProjectionSelectionDTO projSelDTO) {
@@ -3978,8 +3977,9 @@ public class NMProjectionResultsLogic {
         }
 
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
-
-        String customQuery = "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS\n"
+        String customQueryCos = StringUtils.EMPTY;
+        customQueryCos  = customQueryCos 
+                + "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS\n"
                 + "              , Isnull(HISTORY.PERIODS, FUTURE.PERIODS) AS PERIODS\n"
                 + "              , Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
                 + "              , Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
@@ -4047,7 +4047,7 @@ public class NMProjectionResultsLogic {
                 + "           ) FUTURE \n"
                 + "              ON HISTORY.YEARS = FUTURE.YEARS\n"
                 + " AND HISTORY.PERIODS = FUTURE.PERIODS";
-        return customQuery;
+        return customQueryCos;
 
     }
 
@@ -4065,7 +4065,9 @@ public class NMProjectionResultsLogic {
 
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
 
-        String customQuery = "SELECT    ISNULL(HISTORY.YEARS, FUTURE.YEARS)                                   AS YEARS,\n"
+       String customQueryTotal = StringUtils.EMPTY;
+        customQueryTotal  = customQueryTotal 
+                + "SELECT    ISNULL(HISTORY.YEARS, FUTURE.YEARS)                                   AS YEARS,\n"
                 + "                     ISNULL(HISTORY.PERIODS, FUTURE.PERIODS)                               AS PERIODS,\n"
                 + "                     ISNULL(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES)         AS SALES_ACTUAL_SALES,\n"
                 + "                     ISNULL(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES,\n"
@@ -4142,7 +4144,7 @@ public class NMProjectionResultsLogic {
                 + "              ) FUTURE\n"
                 + "             ON HISTORY.YEARS = FUTURE.YEARS\n"
                 + " AND HISTORY.PERIODS = FUTURE.PERIODS";
-        return customQuery;
+        return customQueryTotal;
 
     }
 
@@ -4503,29 +4505,6 @@ public class NMProjectionResultsLogic {
     }
     public static final String SLASH_SPACE_N = "       )\n";
 
-    public List<ProjectionResultsDTO> getReturns(ProjectionSelectionDTO projSelDTO) {
-        LOGGER.debug("= = = Inside getReturns = = =");
-
-        List<ProjectionResultsDTO> projDTOList;
-        List<Object> list = null;
-        String query = "DECLARE @FROM_DATE DATE\n"
-                + "     , @STARTFROM DATE\n"
-                + "     , @PROJECTION_DATE DATE\n"
-                + "     , @START_PERIOD_SID INT\n"
-                + "     , @END_PERIOD_SID INT\n"
-                + "SELECT TOP 1 @STARTFROM = DATEADD(YY, DATEDIFF(YY, 0, DATEADD(YY, - 3, GETDATE())), 0)\n"
-                + "     , @PROJECTION_DATE = DATEADD(M, DATEDIFF(M, 0, DATEADD(DAY, - 1, DATEADD(QQ, DATEDIFF(QQ, 0, TO_DATE) + 1, 0))), 0)\n"
-                + "FROM PROJECTION_MASTER\n"
-                + "WHERE PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n";
-
-        query += "\n" + CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n";
-        query += getReturnsQuery(projSelDTO);
-        list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-        projDTOList = getCustomizedProjectionResultsReturns(list, projSelDTO);
-        LOGGER.debug("= = = Ending getReturns = = =");
-        return projDTOList;
-    }
-
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsReturns(List<Object> list, ProjectionSelectionDTO projSelDTO) {
         List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         List<ProjectionResultsDTO> projDTO = new ArrayList<>();
@@ -4596,340 +4575,6 @@ public class NMProjectionResultsLogic {
         return projDTO;
     }
 
-    public String getReturnsQuery(ProjectionSelectionDTO projSelDTO) {
-
-        String selectPeriod = StringUtils.EMPTY;
-        if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectPeriod = Constant.IQUARTER_AS_PERIODS;
-        } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectPeriod = Constant.ISEMI_ANNUAL_AS_PERIODS;
-        } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectPeriod = Constant.ZERO_AS_PERIODS;
-        } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectPeriod = Constant.IMONTH_AS_PERIODS;
-        }
-
-        String query = "IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
-                + "       DROP TABLE #TEMP_CCP;\n"
-                + "\n"
-                + "CREATE TABLE #TEMP_CCP ( \n"
-                + " COMPANY_MASTER_SID INT\n"
-                + "       , CONTRACT_MASTER_SID INT\n"
-                + "       , ITEM_MASTER_SID INT \n"
-                + "       , PROJECTION_DETAILS_SID INT PRIMARY KEY\n"
-                + "       , PROJECTION_MASTER_SID INT\n"
-                + SLASH_SPACE_N
-                + "\n"
-                + "INSERT INTO  #TEMP_CCP (\n"
-                + "    COMPANY_MASTER_SID\n"
-                + "       , CONTRACT_MASTER_SID \n"
-                + "       , ITEM_MASTER_SID \n"
-                + "       , PROJECTION_DETAILS_SID \n"
-                + "       , PROJECTION_MASTER_SID \n"
-                + SLASH_SPACE_N
-                + "SELECT C.COMPANY_MASTER_SID\n"
-                + "       , C.CONTRACT_MASTER_SID\n"
-                + "       , C.ITEM_MASTER_SID\n"
-                + "       , PD.PROJECTION_DETAILS_SID\n"
-                + "       , pm.PROJECTION_MASTER_SID\n"
-                + "FROM CCP_DETAILS C\n"
-                + "       , PROJECTION_DETAILS PD\n"
-                + "       , PROJECTION_MASTER PM\n"
-                + "WHERE PD.CCP_DETAILS_SID = C.CCP_DETAILS_SID\n"
-                + "       AND PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID\n"
-                + "       AND PM.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
-                + "       AND EXISTS (\n"
-                + "              SELECT 1\n"
-                + "              FROM @CCP CCP\n"
-                + "              WHERE CCP.CCP_DETAILS_SID = C.CCP_DETAILS_SID\n"
-                + "          )\n"
-                + "\n"
-                + "DECLARE  @ITEMID [DBO].[UDT_ITEM]\n"
-                + "\n"
-                + " INSERT INTO @ITEMID\n"
-                + "SELECT DISTINCT IM.ITEM_MASTER_SID \n"
-                + "FROM ITEM_MASTER IM \n"
-                + "\n"
-                + "IF Object_id('TEMPDB..#TEMP_CCPD') IS NOT NULL\n"
-                + "       DROP TABLE #TEMP_CCPD\n"
-                + "\n"
-                + "CREATE TABLE #TEMP_CCPD (\n"
-                + "       COMPANY_MASTER_SID INT \n "
-                + "       , CONTRACT_MASTER_SID INT\n"
-                + "       , ITEM_MASTER_SID INT\n"
-                + "       , PROJECTION_DETAILS_SID INT\n"
-                + "       , PROJECTION_MASTER_SID INT\n"
-                + SLASH_SPACE_N
-                + "\n"
-                + "INSERT INTO #TEMP_CCPD (\n"
-                + "       COMPANY_MASTER_SID\n"
-                + "       , CONTRACT_MASTER_SID\n"
-                + "       , ITEM_MASTER_SID\n"
-                + "       , PROJECTION_DETAILS_SID\n"
-                + "       , PROJECTION_MASTER_SID\n"
-                + SLASH_SPACE_N
-                + "SELECT DISTINCT COMPANY_MASTER_SID\n"
-                + "       , CONTRACT_MASTER_SID\n"
-                + "       , ITEM_MASTER_SID\n"
-                + "       , PROJECTION_DETAILS_SID\n"
-                + "       , PROJECTION_MASTER_SID\n"
-                + "FROM (\n"
-                + "       SELECT COMPANY_MASTER_SID\n"
-                + "              , T_CCP.CONTRACT_MASTER_SID\n"
-                + "              , T_CCP.ITEM_MASTER_SID\n"
-                + "              , PROJECTION_DETAILS_SID\n"
-                + "              , PROJECTION_MASTER_SID\n"
-                + "              , RS_ID\n"
-                + "              , RS_TYPE\n"
-                + "       FROM #TEMP_CCP T_CCP\n"
-                + "       INNER JOIN RS_CONTRACT RS\n"
-                + "              ON T_CCP.CONTRACT_MASTER_SID = RS.CONTRACT_MASTER_SID\n"
-                + "       INNER JOIN RS_CONTRACT_DETAILS RSC\n"
-                + "              ON RS.RS_CONTRACT_SID = RSC.RS_CONTRACT_SID\n"
-                + "                     AND T_CCP.ITEM_MASTER_SID = RSC.ITEM_MASTER_SID\n"
-                + "       WHERE EXISTS (\n"
-                + "                     SELECT 1\n"
-                + "                     FROM CFP_CONTRACT CF\n"
-                + "                     INNER JOIN CFP_CONTRACT_DETAILS CFD\n"
-                + "                           ON CF.CFP_CONTRACT_SID = CFD.CFP_CONTRACT_SID\n"
-                + "                                  AND T_CCP.COMPANY_MASTER_SID = CFD.COMPANY_MASTER_SID\n"
-                + "                                  AND RS.CFP_CONTRACT_SID = CF.CFP_CONTRACT_SID\n"
-                + "                                  AND CF.CONTRACT_MASTER_SID = T_CCP.CONTRACT_MASTER_SID\n"
-                + "                     )\n"
-                + "       ) R\n"
-                + "INNER JOIN HELPER_TABLE HT\n"
-                + "       ON R.RS_TYPE = HT.HELPER_TABLE_SID\n"
-                + "WHERE HT.DESCRIPTION = 'Returns'\n"
-                + "\n"
-                + "DECLARE @ITEM_ID [DBO].[UDT_ITEM]\n"
-                + "\n"
-                + "INSERT INTO @ITEM_ID\n"
-                + "SELECT DISTINCT ITEM_MASTER_SID\n"
-                + "FROM #TEMP_CCPD A\n"
-                + "\n"
-                + "DECLARE @COUNT INT\n"
-                + "\n"
-                + "IF Object_id('TEMPDB..#ITEM') IS NOT NULL\n"
-                + "       DROP TABLE #ITEM\n"
-                + "\n"
-                + "CREATE TABLE #ITEM (\n"
-                + "       ID INT IDENTITY(1, 1)\n"
-                + "       , ITEM_MASTER_SID INT\n"
-                + SLASH_SPACE_N
-                + "\n"
-                + "INSERT INTO #ITEM (ITEM_MASTER_SID)\n"
-                + "SELECT ITEM_MASTER_SID\n"
-                + "FROM @ITEMID\n"
-                + "\n"
-                + "SET @COUNT = @@ROWCOUNT\n"
-                + "\n"
-                + "DECLARE @I INT = 1\n"
-                + "DECLARE @ITEM INT\n"
-                + "\n"
-                + "IF Object_id('TEMPDB..#TEMP_RETURNS') IS NOT NULL\n"
-                + "       DROP TABLE #TEMP_RETURNS\n"
-                + "\n"
-                + "CREATE TABLE #TEMP_RETURNS (\n"
-                + "       ITEM_MASTER_SID INT\n"
-                + "       , RETURNS_DETAILS_SID INT\n"
-                + "       , PERIOD_SID INT\n"
-                + "       , ACTUAL_RATE NUMERIC(22, 6)\n"
-                + "       , PROJECTED_RATE NUMERIC(22, 6)\n"
-                + SLASH_SPACE_N
-                + "\n"
-                + "WHILE (@I <= @COUNT)\n"
-                + "BEGIN\n"
-                + "       SET @ITEM = (\n"
-                + "                     SELECT ITEM_MASTER_SID\n"
-                + "                     FROM #ITEM\n"
-                + "                     WHERE id = @I\n"
-                + "                     );\n"
-                + "\n"
-                + "       WITH ITEM_PROJ_DETAILS\n"
-                + "       AS (\n"
-                + "              SELECT ROW_NUMBER() OVER (\n"
-                + "                           PARTITION BY ITEM_MASTER_SID ORDER BY LASTEST_DATE DESC\n"
-                + "                           ) RN\n"
-                + "                     , ITEM_MASTER_SID\n"
-                + "                     , PM.PROJECTION_MASTER_SID\n"
-                + "                     , RETURNS_DETAILS_SID\n"
-                + "              FROM RETURNS_DETAILS RD\n"
-                + "              INNER JOIN PROJECTION_MASTER PM\n"
-                + "                     ON RD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID\n"
-                + "              CROSS APPLY (\n"
-                + "                     VALUES (MODIFIED_DATE)\n"
-                + "                           , (CREATED_DATE)\n"
-                + "                     ) CS(LASTEST_DATE)\n"
-                + "              WHERE SAVE_FLAG = 1\n"
-                + "                     AND ITEM_MASTER_SID = @ITEM\n"
-                + "              )\n"
-                + "       INSERT INTO #TEMP_RETURNS (\n"
-                + "              ITEM_MASTER_SID\n"
-                + "              , RETURNS_DETAILS_SID\n"
-                + "              , PERIOD_SID\n"
-                + "              , ACTUAL_RATE\n"
-                + "              , PROJECTED_RATE\n"
-                + "              )\n"
-                + "       SELECT @ITEM AS ITEM_MASTER_SID\n"
-                + "              , COALESCE(R_ACTUALS.RETURNS_DETAILS_SID, R_PROJ.RETURNS_DETAILS_SID) AS RETURNS_DETAILS_SID\n"
-                + "              , COALESCE(R_ACTUALS.PERIOD_SID, R_PROJ.PERIOD_SID) AS PERIOD_SID\n"
-                + "              , R_ACTUALS.ACTUAL_RETURN_PERCENT\n"
-                + "              , R_PROJ.PROJECTED_RETURN_PERCENT\n"
-                + "      FROM (\n"
-                + "              SELECT RETURNS_DETAILS_SID\n"
-                + "                     , PERIOD_SID\n"
-                + "                     , ACTUAL_RETURN_PERCENT\n"
-                + "              FROM RETURNS_ACTUALS NAP\n"
-                + "              WHERE EXISTS (\n"
-                + "                           SELECT 1\n"
-                + "                           FROM RETURNS_DETAILS RD\n"
-                + "                           INNER JOIN ITEM_PROJ_DETAILS IMPD\n"
-                + "                                  ON IMPD.RETURNS_DETAILS_SID = RD.RETURNS_DETAILS_SID\n"
-                + "                                         AND RD.RETURNS_DETAILS_SID = NAP.RETURNS_DETAILS_SID\n"
-                + "                           WHERE IMPD.RN = 1\n"
-                + "                           )\n"
-                + "              ) R_ACTUALS\n"
-                + "       FULL JOIN  (\n "
-                + "              SELECT RETURNS_DETAILS_SID\n"
-                + "                     , PERIOD_SID\n"
-                + "                     , PROJECTED_RETURN_PERCENT\n"
-                + "              FROM RETURNS_PROJ_DETAILS NPP\n"
-                + "              WHERE EXISTS (\n"
-                + "                           SELECT 1\n"
-                + "                           FROM RETURNS_DETAILS RD\n"
-                + "                           INNER JOIN ITEM_PROJ_DETAILS IMPD\n"
-                + "                                  ON IMPD.RETURNS_DETAILS_SID = RD.RETURNS_DETAILS_SID\n"
-                + "                                         AND RD.RETURNS_DETAILS_SID = NPP.RETURNS_DETAILS_SID\n"
-                + "                           WHERE IMPD.RN = 1\n"
-                + "                           )\n"
-                + "              ) R_PROJ\n"
-                + "              ON R_ACTUALS.RETURNS_DETAILS_SID = R_PROJ.RETURNS_DETAILS_SID\n"
-                + "                     AND R_ACTUALS.PERIOD_SID = R_PROJ.PERIOD_SID\n"
-                + "\n"
-                + "       SET @I = @I + 1\n"
-                + "END\n"
-                + "\n"
-                + "SELECT Isnull(TODIS.YEARS, SALE.YEARS) AS YEARS\n"
-                + "       , Isnull(TODIS.PERIODS, SALE.PERIODS) AS PERIODS\n"
-                + "       , 'Returns' AS DISCOUNTS\n"
-                + "       , RETURNS_ACTUAL_AMOUNT = ISNULL(SALE.RETURNS_ACTUAL, 0)\n"
-                + "       , RETURNS_ACTUAL_AMOUNT = ISNULL(SALE.RETURNS_PROJECTED, 0)\n"
-                + "       , RETURNS_ACTUAL_RPU = Isnull((Isnull(SALE.RETURNS_ACTUAL, 0)) / NULLIF(SALE.ACTUAL_UNITS, 0), 0)\n"
-                + "       , RETURNS_PROJECTED_RPU = Isnull((Isnull(SALE.RETURNS_PROJECTED, 0)) / NULLIF(SALE.ACTUAL_UNITS, 0), 0)\n"
-                + "       , RETURNS_ACTUAL_RATE = Isnull(SALE.RETURNS_ACTUAL_RATE, 0)\n"
-                + "       , RETURNS_PROJECTED_RATE = Isnull(SALE.RETURNS_PROJECTED_RATE, 0)\n"
-                + "FROM ( \n" + getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY) + ") TODIS\n"
-                + "LEFT JOIN (\n"
-                + "       SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS\n"
-                + "              , Isnull(HISTORY.PERIODS, FUTURE.PERIODS) AS PERIODS\n"
-                + "              , Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
-                + "              , Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
-                + "              , Isnull(HISTORY.ACTUAL_UNITS, FUTURE.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
-                + "              , Isnull(FUTURE.PROJECTION_UNITS, HISTORY.PROJECTION_UNITS) AS PROJECTION_UNITS\n"
-                + "              , Isnull(HISTORY.RETURNS_ACTUAL, 0) AS RETURNS_ACTUAL\n"
-                + "              , Isnull(FUTURE.RETURNS_PROJECTED, 0) AS RETURNS_PROJECTED\n"
-                + "              , Isnull(HISTORY.ACTUAL_RATE, 0) AS RETURNS_ACTUAL_RATE\n"
-                + "              , Isnull(FUTURE.PROJECTED_RATE, 0) AS RETURNS_PROJECTED_RATE\n"
-                + "       FROM   (\n"
-                + "              SELECT YEARS\n"
-                + Constant.PERIODS_SPACE_QUERY
-                + "                     , sum(A.ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
-                + "                     , sum(A.HISTORY_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
-                + "                    , sum(A.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
-                + "                     , sum(A.HISTORY_PROJECTION_UNITS) AS PROJECTION_UNITS\n"
-                + "                     , ACTUAL_RATE = Avg(A.ACTUAL_RATE)\n"
-                + "                     , RETURNS_ACTUAL = Sum(A.ACTUAL_SALES) * Avg(A.ACTUAL_RATE)\n"
-                + "   FROM (\n"
-                + "                   SELECT I.\"YEAR\" AS YEARS\n"
-                + "                           " + selectPeriod + "\n"
-                + "                           , A.ACTUAL_SALES\n"
-                + "                           , A.HISTORY_PROJECTION_SALES\n"
-                + "                           , A.ACTUAL_UNITS\n"
-                + "                           , A.HISTORY_PROJECTION_UNITS\n"
-                + "                           , TR.ACTUAL_RATE\n"
-                + "                     FROM ST_NM_ACTUAL_SALES A\n"
-                + "                     INNER JOIN PROJECTION_DETAILS E\n"
-                + "                           ON A.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID\n"
-                + "                    INNER JOIN PERIOD I\n"
-                + "                           ON A.PERIOD_SID = I.PERIOD_SID\n"
-                + "                     INNER JOIN @CCP CCP\n"
-                + "                           ON CCP.CCP_DETAILS_SID = E.CCP_DETAILS_SID\n"
-                + "    INNER JOIN CCP_DETAILS CC\n"
-                + "                           ON CC.CCP_DETAILS_SID = E.CCP_DETAILS_SID\n"
-                + "                                 AND A.PERIOD_SID = I.PERIOD_SID\n"
-                + "                     LEFT JOIN (\n"
-                + "                           SELECT A.ITEM_MASTER_sID\n"
-                + "                                  , A.PERIOD_sID\n"
-                + "                                  , A.ACTUAL_RATE\n"
-                + "                                  , A.PROJECTED_RATE\n"
-                + "                                  , CCPD.PROJECTION_DETAILS_SID\n"
-                + "                           FROM #TEMP_RETURNS A\n"
-                + "                           INNER JOIN #TEMP_CCPD CCPD\n"
-                + "                                  ON A.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID\n"
-                + "                           ) TR\n"
-                + "                           ON TR.ITEM_MASTER_sID = CC.ITEM_MASTER_sID\n"
-                + "                                  AND TR.PERIOD_SID = A.PERIOD_SID\n"
-                + "                                  AND A.PROJECTION_DETAILS_SID = TR.PROJECTION_DETAILS_SID\n"
-                + "                     WHERE E.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
-                + "                           AND CCP.CCP_DETAILS_SID = E.CCP_DETAILS_SID AND \n" + CommonLogic.getPeriodRestrictionQuery(projSelDTO) + "\n"
-                + "                     ) A\n"
-                + "              GROUP BY YEARS \n "
-                + Constant.PERIODS_SPACE_QUERY
-                + "              ) HISTORY \n "
-                + "       FULL JOIN (\n"
-                + "              SELECT YEARS\n"
-                + Constant.PERIODS_SPACE_QUERY
-                + "                     , 0 AS SALES_ACTUAL_SALES\n"
-                + "                     , sum(P.PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
-                + "                     , 0 AS ACTUAL_UNITS\n"
-                + "                     , sum(P.PROJECTION_UNITS) AS PROJECTION_UNITS \n"
-                + "                     , PROJECTED_RATE = Avg(P.PROJECTED_RATE)\n"
-                + "                     , RETURNS_PROJECTED = Sum(P.PROJECTION_SALES) * Avg(PROJECTED_RATE)\n"
-                + "              FROM (\n"
-                + "                 SELECT I.\"YEAR\" AS YEARS\n"
-                + "                           " + selectPeriod + "\n"
-                + "                           , A.PROJECTION_SALES\n"
-                + "                           , A.PROJECTION_UNITS\n"
-                + "                           , TR.PROJECTED_RATE\n"
-                + "                     FROM ST_NM_SALES_PROJECTION A\n"
-                + "                     INNER JOIN PROJECTION_DETAILS E\n"
-                + "                           ON A.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID\n"
-                + "           INNER JOIN PERIOD I\n"
-                + "                           ON A.PERIOD_SID = I.PERIOD_SID \n"
-                + "                     INNER JOIN @CCP CCP\n"
-                + "                           ON CCP.CCP_DETAILS_SID = E.CCP_DETAILS_SID\n"
-                + "                 INNER JOIN CCP_DETAILS CC\n"
-                + "                           ON CC.CCP_DETAILS_SID = E.CCP_DETAILS_SID\n"
-                + "                                   AND A.PERIOD_SID = I.PERIOD_SID\n"
-                + "                     LEFT JOIN (\n"
-                + "                           SELECT A.ITEM_MASTER_sID\n"
-                + "                                  , A.PERIOD_sID\n"
-                + "                                  , A.ACTUAL_RATE\n"
-                + "                                  , A.PROJECTED_RATE\n"
-                + "                                  , CCPD.PROJECTION_DETAILS_SID\n"
-                + "                           FROM #TEMP_RETURNS A\n"
-                + "                           INNER JOIN #TEMP_CCPD CCPD\n"
-                + "                                  ON A.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID\n"
-                + "                           ) TR\n"
-                + "                           ON TR.ITEM_MASTER_sID = CC.ITEM_MASTER_sID\n"
-                + "                                  AND TR.PERIOD_SID = A.PERIOD_SID\n"
-                + "                                  AND A.PROJECTION_DETAILS_SID = TR.PROJECTION_DETAILS_SID\n"
-                + "                     WHERE E.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
-                + "                           AND CCP.CCP_DETAILS_SID = E.CCP_DETAILS_SID AND \n" + CommonLogic.getPeriodRestrictionQuery(projSelDTO) + "\n"
-                + "                     ) P\n"
-                + "              GROUP BY YEARS\n"
-                + Constant.PERIODS_SPACE_QUERY
-                + "              ) FUTURE\n"
-                + "          ON HISTORY.YEARS = FUTURE.YEARS\n"
-                + "                     AND HISTORY.PERIODS = FUTURE.PERIODS\n"
-                + "       ) SALE\n"
-                + "       ON TODIS.YEARS = SALE.YEARS\n"
-                + "              AND TODIS.PERIODS = SALE.PERIODS";
-
-        return query;
-    }
-
-
     /**
      * Used to load PPA static row and discount under Total Discount
      *
@@ -4969,7 +4614,7 @@ public class NMProjectionResultsLogic {
                 String commonColumn = common.get(0);
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
-                    int v =pos == 1 ? NumericConstants.THREE : pos == NumericConstants.TWO ? NumericConstants.FIVE  : pos == NumericConstants.FOUR ? NumericConstants.TEN : NumericConstants.SEVEN; 
+                    int v = findPositionActual(pos);
                     String value = StringUtils.EMPTY + discountRow[pos == 1 ? NumericConstants.THREE : pos == NumericConstants.TWO ? NumericConstants.FIVE  : pos == NumericConstants.FOUR ? NumericConstants.TEN : NumericConstants.SEVEN]; 
                     String value1 = StringUtils.EMPTY;
                     if (projSelDTO.getSales().contains(Constant.SALES_WHOLE_CAPS)) {
@@ -4988,7 +4633,7 @@ public class NMProjectionResultsLogic {
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
-                    int u =pos == 1 ? NumericConstants.FOUR : pos == NumericConstants.TWO ? NumericConstants.SIX :pos == NumericConstants.FOUR ? NumericConstants.ELEVEN : NumericConstants.EIGHT; 
+                    int u = findPositionProjection(pos);
                     String value = StringUtils.EMPTY + discountRow[pos == 1 ? NumericConstants.FOUR : pos == NumericConstants.TWO ? NumericConstants.SIX : pos == NumericConstants.FOUR ? NumericConstants.ELEVEN : NumericConstants.EIGHT]; 
                     String value1 = StringUtils.EMPTY;
                     if (projSelDTO.getSales().contains(Constant.SALES_WHOLE_CAPS)) {
@@ -5018,6 +4663,43 @@ public class NMProjectionResultsLogic {
             projDTO.addStringProperties(columns, getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
         }
         return projDtoList;
+    }
+
+    private int findPositionActual(int pos) {
+        int v;
+        switch (pos) {
+            case 1:
+                v = NumericConstants.THREE;
+                break;
+            case NumericConstants.TWO:
+                v = NumericConstants.FIVE;
+                break;
+            case NumericConstants.FOUR:
+                v = NumericConstants.TEN;
+                break;
+            default:
+                v =NumericConstants.SEVEN;
+                break;
+        }
+        return v;
+    }
+    private int findPositionProjection(int pos) {
+        int u;
+        switch (pos) {
+            case 1:
+                u = NumericConstants.FOUR;
+                break;
+            case NumericConstants.TWO:
+                u = NumericConstants.SIX;
+                break;
+            case NumericConstants.FOUR:
+                u = NumericConstants.ELEVEN;
+                break;
+            default:
+                u =NumericConstants.EIGHT;
+                break;
+        }
+        return u;
     }
 
     /**

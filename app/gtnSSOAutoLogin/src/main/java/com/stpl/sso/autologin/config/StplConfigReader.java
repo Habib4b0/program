@@ -110,6 +110,7 @@ public class StplConfigReader {
 		StplSamlPropertyBean samlPropertyBean = new StplSamlPropertyBean();
 		propertyBean.setSamlPropertyBean(samlPropertyBean);
 		Element samlElement = (Element) parentElement.getElementsByTagName("saml").item(0);
+		
 		samlPropertyBean.setCertificatePath(getData(samlElement, SSOConstants.ISSUER_PUBLIC_CERTIFICATE));
 		createPublicKeyCredential(samlPropertyBean);
 		samlPropertyBean.setIdpURL(getData(samlElement, SSOConstants.IDP_URL));
@@ -117,6 +118,7 @@ public class StplConfigReader {
 		samlPropertyBean.setIssuer(getData(samlElement, SSOConstants.ISSUER));
 		samlPropertyBean.setIsSAMLRequestNeeded(getData(samlElement, SSOConstants.ISSAMLREQUIRED));
 		samlPropertyBean.setAssertionConsumerServiceUrl(getData(samlElement, SSOConstants.ACSURL));
+		samlPropertyBean.setLogoutUrl(getData(samlElement, SSOConstants.LOGOUTURL));
 		samlPropertyBean.setRelayState(getData(samlElement, SSOConstants.RELAYSTATE));
 		samlPropertyBean.setSpecialCharArray(getData(samlElement, Constants.SPECIALCHAR_EMAIL).split(","));
 	}

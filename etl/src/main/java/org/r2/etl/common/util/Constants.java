@@ -408,6 +408,14 @@ public final class Constants {
         public static final String DTX_COMPANY_TRADE_CLASS_INTERFACE = "DTX_COMPANY_TRADE_CLASS_INTERFACE";
         
         public static final String DTX_COMPANY_IDENTIFIER_INTERFACE = "DTX_COMPANY_IDENTIFIER_INTERFACE";
+        
+        public static final String DTX_CONTRACT_CFP_INTERFACE = "DTX_CONTRACT_CFP_INTERFACE";
+        
+        public static final String DTX_CONTRACT_HEADER_INTERFACE = "DTX_CONTRACT_HEADER_INTERFACE";
+        
+        public static final String DTX_FORECAST_SALES_INTERFACE = "DTX_FORECAST_SALES_INTERFACE";
+        
+        public static final String DTX_FORECAST_SALES_WAC_INTERFACE = "DTX_FORECAST_SALES_WAC_INTERFACE";
 
 	private Constants() {
 	}
