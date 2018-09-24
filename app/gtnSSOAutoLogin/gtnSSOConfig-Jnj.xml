@@ -6,7 +6,7 @@
 	<ssotype>saml</ssotype> <!-- specify saml or spnego -->
 	<saml>
 		<idp.url><![CDATA[https://sso.connect.pingidentity.com/sso/idp/SSO.saml2?idpid=473eefb4-e862-43b7-9491-08358b2409f4]]></idp.url>
-		<issuer.public.cert>E:/Abishekram/Project/Gtn2/Conf/idp-signing.crt</issuer.public.cert>
+		<issuer.public.cert>/certificate//path</issuer.public.cert>
 		<log.saml.response>true</log.saml.response>
 		<issuer>SAMPLE_TECH</issuer>
 		<relaystate>https://pingone.com/1.0/04fa3664-f502-482d-b80b-086ba87bd10f</relaystate>
