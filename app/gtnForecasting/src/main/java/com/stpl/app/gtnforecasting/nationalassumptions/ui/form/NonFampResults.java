@@ -181,7 +181,7 @@ public class NonFampResults extends Window {
     private NonFampTableLogic tableLogic = new NonFampTableLogic();
     private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    public ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     private final FcpResultsLogic fcpLogic = new FcpResultsLogic();
     private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());

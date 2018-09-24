@@ -50,8 +50,7 @@ public class DateToStringConverter implements Converter<String, Date> {
             return null;
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-        String dateStr = dateFormat.format(value);
-        return dateStr;
+        return dateFormat.format(value);
     }
     /*
      * (non-Javadoc)

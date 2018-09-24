@@ -14,7 +14,6 @@ import com.stpl.app.gtnforecasting.dao.CommonDAO;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -199,52 +198,6 @@ public class SPRCommonLogic {
         return objList;
     }
 
-    public static String getCustomCCPQuery(ProjectionSelectionDTO projSelDTO) {
-        String customerHierarchyNo = projSelDTO.getCustomerHierarchyNo() + Constant.PERCENT;
-        String productHierarchyNo = projSelDTO.getProductHierarchyNo() + Constant.PERCENT;
-        String customerLevelNo = Constant.PERCENT;
-        String productLevelNo = Constant.PERCENT;
-
-        if (projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-
-            customerLevelNo = StringUtils.EMPTY + projSelDTO.getCustomLevelNo();
-        } else if (projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-
-            productLevelNo = StringUtils.EMPTY + projSelDTO.getCustomLevelNo();
-        }
-        String ccpQuery = "(SELECT distinct HLD" + projSelDTO.getHierarchyIndicator() + ".RELATIONSHIP_LEVEL_SID,HLD"
-                + projSelDTO.getHierarchyIndicator() + ".HIERARCHY_NO, CCPMAP" + projSelDTO.getHierarchyIndicator()
-                + ".CCP_DETAILS_SID FROM \n"
-                + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                + " JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID="
-                + projSelDTO.getProjectionId() + "\n" + " ) CCPMAPC \n" + " JOIN  "
-                + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES,  RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                + " JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID="
-                + projSelDTO.getProjectionId() + "\n" + " ) CCPMAPP \n"
-                + " ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID \n" + JOIN_SPACE
-                + " (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                + " JOIN dbo.CUSTOM_VIEW_MASTER  CVM ON \n" + " CVD.CUSTOM_VIEW_MASTER_SID=" + projSelDTO.getCustomId()
-                + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'\n"
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION  HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2  ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN  PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID="
-                + projSelDTO.getProjectionId() + "\n" + " WHERE  RLD2.HIERARCHY_NO like '" + customerHierarchyNo
-                + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE + JOIN_SPACE
-                + " (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                + " JOIN dbo.CUSTOM_VIEW_MASTER CVM ON \n" + " CVD.CUSTOM_VIEW_MASTER_SID=" + projSelDTO.getCustomId()
-                + " AND  CVD.LEVEL_NO like '" + productLevelNo + "'\n"
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION  HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN  RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN PROJECTION_PROD_HIERARCHY PCH2 ON  PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID="
-                + projSelDTO.getProjectionId() + "\n" + " WHERE  RLD2.HIERARCHY_NO like '" + productHierarchyNo
-                + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE + " ) CCP \n";
-        return ccpQuery;
-    }
-
     public static List<Leveldto> getAllHierarchyLevels(int startLevelNo, int projectionId, String hierarchyIndicator) {
         List<Leveldto> newLevelList = new ArrayList<>();
 
@@ -367,9 +320,8 @@ public class SPRCommonLogic {
     }
 
     public static String getUserSessionQueryCondition(int userId, int sessionId, String table) {
-        String user = Constant.AND_SMALL_SPACE + table + ".USER_ID=" + userId + Constant.AND_SMALL_SPACE + table
+        return Constant.AND_SMALL_SPACE + table + ".USER_ID=" + userId + Constant.AND_SMALL_SPACE + table
                 + ".SESSION_ID=" + sessionId + " \n";
-        return user;
     }
 
     public static String getGroupFilterQuery(String userGroup, int userId, int sessionId) {
@@ -402,22 +354,19 @@ public class SPRCommonLogic {
     }
 
     public static String getGroupFilterDiscountQuery(String userGroup, int userId, int sessionId) {
-        String query = "JOIN ST_M_DISCOUNT_PROJ_MASTER D ON D.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  D.USER_GROUP "
+        return "JOIN ST_M_DISCOUNT_PROJ_MASTER D ON D.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  D.USER_GROUP "
                 + userGroup + getUserSessionQueryCondition(userId, sessionId, "D");
-        return query;
     }
 
     public static String getGroupFilterPPAQuery(String userGroup, int userId, int sessionId) {
-        String query = "JOIN ST_M_PPA_PROJECTION_MASTER P ON P.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  P.USER_GROUP "
+        return "JOIN ST_M_PPA_PROJECTION_MASTER P ON P.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  P.USER_GROUP "
                 + userGroup
                 + getUserSessionQueryCondition(userId, sessionId, Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
-        return query;
     }
 
     public static String getGroupFilterSalesQuery(String userGroup, int userId, int sessionId) {
-        String query = "JOIN ST_M_SALES_PROJECTION_MASTER S ON S.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  S.USER_GROUP "
+        return "JOIN ST_M_SALES_PROJECTION_MASTER S ON S.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  S.USER_GROUP "
                 + userGroup + getUserSessionQueryCondition(userId, sessionId, Constant.S);
-        return query;
     }
 
     public List<HelperDTO> getDropDownList(final String listType) {
