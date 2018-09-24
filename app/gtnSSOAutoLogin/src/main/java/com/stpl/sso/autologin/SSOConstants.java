@@ -11,6 +11,7 @@ public interface SSOConstants {
 	 String SPNEGO ="spnego";
 	 String ISSAMLREQUIRED = "is.saml.request.needed";
 	 String ACSURL = "acs.url";
+	 String LOGOUTURL ="logout.url";
 	 String CONFIGPATH ="/opt/bpigtn/conf/gtnSSOConfig.xml";
 	 
 }

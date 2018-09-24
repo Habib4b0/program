@@ -3,6 +3,5 @@
 
 <hook>
   <portal-properties>portal.properties</portal-properties>
-  <custom-jsp-dir>/hookcontent</custom-jsp-dir>
 </hook>
 

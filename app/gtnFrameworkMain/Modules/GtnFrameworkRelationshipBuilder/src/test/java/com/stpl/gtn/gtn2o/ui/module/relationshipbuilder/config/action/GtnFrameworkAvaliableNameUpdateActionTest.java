@@ -116,6 +116,7 @@ public class GtnFrameworkAvaliableNameUpdateActionTest {
            when(table.getComponentData()).thenReturn(data);
         when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(table);
         fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
+        gtnUIFrameWorkActionConfig.setEventParameter(getSampleBean());
         
         //case 2
          data.setDataTableRecordList(null);

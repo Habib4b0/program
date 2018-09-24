@@ -2806,7 +2806,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         deleteViewBtn.setEnabled(false);
     }
 
-    public void securityForAllScreens() {
+    private void securityForAllScreens() {
 
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent()

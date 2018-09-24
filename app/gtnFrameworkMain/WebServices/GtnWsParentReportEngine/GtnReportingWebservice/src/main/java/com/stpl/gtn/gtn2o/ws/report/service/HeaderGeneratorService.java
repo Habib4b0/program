@@ -39,6 +39,12 @@ import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 @Service
 public class HeaderGeneratorService {
 
+	private static final String CHANGE_IN_CHANGE = "Change in Change";
+
+	private static final String VOLUME = "Volume";
+
+	private static final String CHANGE = "% Change";
+
 	private static final String PERIOD_DATE = " PERIOD_DATE = '";
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(HeaderGeneratorService.class);
@@ -64,6 +70,8 @@ public class HeaderGeneratorService {
 	private static final String TOTAL = " Total";
 
 	private static final String VARIANCE = "Variance";
+        
+        private static final String CURRENTPROJECTION = "Projection_1";
 
 	public HeaderGeneratorService() {
 		super();
@@ -76,12 +84,12 @@ public class HeaderGeneratorService {
 		Map<String, String> variableCategoryMap = new HashMap<>();
 		variableCategoryMap.put("Value", "PROJ");
 		variableCategoryMap.put(VARIANCE, "PROJ_VARIANCE");
-		variableCategoryMap.put("% Change", "PROJ_PER_CHANGE");
+		variableCategoryMap.put(CHANGE, "PROJ_PER_CHANGE");
 		variableCategoryMap.put(ACTUALS, "ACTUAL_VALUE");
 		variableCategoryMap.put("Accruals", "ACCRUAL");
-		variableCategoryMap.put("Volume", "VOLUME");
+		variableCategoryMap.put(VOLUME, "VOLUME");
 		variableCategoryMap.put("Rate", "RATE");
-		variableCategoryMap.put("Change in Change", "CHANGEINCHANGE");
+		variableCategoryMap.put(CHANGE_IN_CHANGE, "CHANGEINCHANGE");
 		return variableCategoryMap;
 	}
 
@@ -534,7 +542,7 @@ public class HeaderGeneratorService {
 		List<Object[]> combinedVariableCategory = new ArrayList<>();
 		List<String> categorySeperationList = new ArrayList<>();
 		List<String> categoryWhichWillNotBeUnitedList = new ArrayList<>();
-		List<String> variableCategoryOnlyColumn = Arrays.asList("Volume", "Rate", "Change in Change");
+		List<String> variableCategoryOnlyColumn = Arrays.asList(VOLUME, "Rate", CHANGE_IN_CHANGE);
 
 		variableCategoryListSpecialCondition(variableCategoryHeader, categorySeperationList,
 				categoryWhichWillNotBeUnitedList, variableCategoryOnlyColumn);
@@ -634,8 +642,16 @@ public class HeaderGeneratorService {
 		if (comparisonBasis.equals(ACTUALS)) {
 			variableCategoryMap.put(VARIANCE, "ACT_VARIANCE");
 		}
-                else{
+                if(comparisonBasis.equals(CURRENTPROJECTION)){
                     variableCategoryMap.put(VARIANCE,"VARIANCE");
+                    variableCategoryMap.put(CHANGE, "PER_CHANGE");
+                }
+                else{
+                    variableCategoryMap.put(VARIANCE,"PROJ_VARIANCE");
+                    variableCategoryMap.put(CHANGE, "PROJ_PER_CHANGE");
+                    variableCategoryMap.put(VOLUME, "VOLUME");
+                    variableCategoryMap.put("Rate", "RATE");
+                    variableCategoryMap.put(CHANGE_IN_CHANGE, "CHANGEINCHANGE");
                 }
 
 	}

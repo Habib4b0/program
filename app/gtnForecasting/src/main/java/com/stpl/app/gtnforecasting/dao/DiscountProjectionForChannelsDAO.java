@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.dao;
 
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import java.util.List;
@@ -17,33 +16,6 @@ import java.util.Map;
  * @author vigneshkanna
  */
 public interface DiscountProjectionForChannelsDAO {
-//    /**
-//     * Get the Discount Projection
-//     *
-//     * @param session
-//     * @param startAndEndPeriods
-//     * @param frequency
-//     * @param year
-//     * @param actualsOrProjections
-//     * @param isProgram
-//     * @param discountList
-//     * @param historyNumber
-//     * @param levelNo
-//     * @param isCount
-//     * @param userGroup
-//     * @param hierarchyIndicator
-//     * @param start
-//     * @param isCustom
-//     * @param offset
-//     * @param customViewDetails
-//     * @param isRefresh
-//     * @param refreshHierarchyNumbers
-//     * @return
-//     */
-
-    List<DiscountProjectionDTO> getDiscountProjection(SessionDTO session, String parentName,
-            String year, int historyNumber, int levelNo, String hierarchyIndicator,
-            int start, int offset, boolean isCount, boolean isCustom, List<String> customViewDetails, boolean isRefresh, String refreshHierarchyNumbers, ProjectionSelectionDTO projectionSelection);
     /**
      * To update the records which are all checked
      *
@@ -85,43 +57,6 @@ public interface DiscountProjectionForChannelsDAO {
      */
     void massUpdate(SessionDTO session, String frequency, List<Integer> startAndEndPeriods, String selectedField, String fieldValue,
             List<String> selectedDiscounts);
-
-    /**
-     * TO save Group values
-     *
-     * @param session
-     * @param frequency
-     * @param year
-     * @param period
-     * @param hierarchy
-     * @param levelNo
-     * @param hierarchyNo
-     * @param discountName
-     * @param fieldValue
-     * @param isProgram
-     * @param isCustomHierarchy
-     * @param customViewDetails
-     * @return
-     */
-    boolean saveDiscountProjectionListView(SessionDTO session, String frequency, int period, int year, String hierarchy,
-            int levelNo, String hierarchyNo, String discountName, String fieldValue, boolean isCustomHierarchy, List<String> customViewDetails, String selectedField);
-
-    /**
-     * To update input before calling adjustment procedure.
-     *
-     * @param session
-     * @param frequency
-     * @param levelType
-     * @param adjustmentType
-     * @param adjustmentBasis
-     * @param adjustmentValue
-     * @param allocationMethodology
-     * @param selectedPeriods
-     * @return
-     */
-    boolean updateInputsForAdjustment(SessionDTO session, String frequency, String adjustmentType, String adjustmentBasis,
-            String adjustmentValue, String allocationMethodology, List<String> baselinePeriods, List<String> selectedPeriods);
-
 
     /**
      * Query for the alternate contract history

@@ -2,7 +2,6 @@ package com.stpl.app.gtnforecasting.utils;
 
 import com.stpl.app.security.permission.model.AppPermission;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -33,34 +32,6 @@ public final class UISecurityUtil {
      */
     private UISecurityUtil() {
 //Empty
-    }
-
-    public static TableResultCustom getTableColumnsPermission(List<Object> resultList, Object[] obj, Map<String, AppPermission> fieldIfpHM, String mode) {
-            List<Object> strList = Arrays.asList(obj);
-            List<String> columnList = new ArrayList<>();
-            List<Object> columnList1 = new ArrayList<>();
-            List<String> headerList = new ArrayList<>();
-            List<String> headerList2 = new ArrayList<>();
-            for (int i = 0; i < resultList.size(); i++) {
-                Object[] objResult = (Object[]) resultList.get(i);
-                String value = objResult[1].toString();
-                if (strList.contains(value)) {
-                    columnList.add(value);
-                    headerList.add(objResult[0].toString());
-                }
-            }
-            for (Object headerList1 : strList) {
-                if (columnList.contains(headerList1.toString())) {
-                    columnList1.add(headerList1);
-                    headerList2.add(headerList.get(columnList.indexOf(headerList1.toString())));
-                }
-            }
-            String[] headerArray = new String[headerList2.size()];
-            headerArray = headerList2.toArray(headerArray);
-            TableResultCustom tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
-
-
-        return tableResultCustom;
     }
 
     /**

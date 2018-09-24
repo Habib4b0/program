@@ -47,8 +47,6 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
         LOGGERFORTX6SUMMARYLOGIC.debug("inside generateHeader");
         List<Object> finalList = new ArrayList<>();
         try {
-            List<String> tx6DoubleSingleColumn;
-            List<String> tx6ExcelDoubleSingleColumn;
             List<String> tx6SingleVisibleColumn = new ArrayList<>();
             List<String> tx6ExcelVisibleColumn = new ArrayList<>();
             List<String> tx6ExcelVisibleHeader = new ArrayList<>();
@@ -67,10 +65,11 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
             List<String[]> doublecolumnList = new ArrayList<>();
             doublecolumnList.addAll(doubleHeaderVariables);
             doubleHeaderVariables = doublecolumnList;
-
+            List<String> tx6DoubleSingleColumn = new ArrayList<>();
+            List<String> tx6ExcelDoubleSingleColumn = new ArrayList<>();
             for (String[] detection : doubleHeaderVariables) {
-                tx6DoubleSingleColumn = new ArrayList<>();
-                tx6ExcelDoubleSingleColumn = new ArrayList<>();
+                tx6DoubleSingleColumn.clear();
+                tx6ExcelDoubleSingleColumn.clear();
                 for (int i = 0; i < columns.length; i++, index++) {
                     String column = columns[i];
                     singleColumn.add(column + ARMUtils.DOT + index);
