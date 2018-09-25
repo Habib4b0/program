@@ -952,7 +952,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         StringBuilder hierarchyNo1 = new StringBuilder(hierarchyNoArray[0]);
         allLevelHierarchy.add(hierarchyNo1 + extraDot);
         for (int i = 1; i < hierarchyNoArray.length - 1; i++) {
-            hierarchyNo1.append(".").append(hierarchyNoArray[i]);
+            hierarchyNo1.append('.').append(hierarchyNoArray[i]);
             allLevelHierarchy.add(hierarchyNo1 + extraDot);
         }
         if (!allLevelHierarchy.contains(hierarchyNo)) {
@@ -2690,12 +2690,12 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             Object[] obj = listOfLevelFilter.get(i);
             newLevel = obj[0].toString();
             if (oldLevel.equals(newLevel)) {
-                listOfSids.append(",").append(obj[1]);
+                listOfSids.append(',').append(obj[1]);
                 oldLevel = newLevel;
             } else {
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
-                    listOfSids = new StringBuilder("");
+                    listOfSids = new StringBuilder();
                     customerlevelItem[i] = filterValues.addItem(dto, null);
                     customerlevelItem[i].setCheckable(true);
                     customerlevelItem[i].setItemClickable(true);
@@ -3133,7 +3133,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
          
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
-                     listOfSids = new StringBuilder("");
+                     listOfSids = new StringBuilder();
                     customerlevelItem[i] = filterValues.addItem(dto, null);
                     customerlevelItem[i].setCheckable(true);
                     customerlevelItem[i].setItemClickable(true);

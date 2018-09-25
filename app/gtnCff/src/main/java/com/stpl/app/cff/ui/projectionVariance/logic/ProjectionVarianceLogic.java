@@ -2883,7 +2883,7 @@ public class ProjectionVarianceLogic {
     String getCCPIds(PVSelectionDTO projSelDTO) {
         String query = getCCPQueryForCff(projSelDTO);
         List list = projSelDTO.isIsCustomHierarchy() ? Collections.emptyList() : HelperTableLocalServiceUtil.executeSelectQuery(query);
-        StringBuilder ccps = new StringBuilder("");
+        StringBuilder ccps = new StringBuilder();
         boolean flag = true;
         if (list != null) {
             int size = list.size();
@@ -2893,7 +2893,7 @@ public class ProjectionVarianceLogic {
                     ccps.append(String.valueOf(obj[0]));
                     flag = false;
                 } else {
-                    ccps.append(",").append(obj[0]);
+                    ccps.append(", ").append(obj[0]);
             }
         }
     }
