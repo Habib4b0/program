@@ -127,9 +127,6 @@ public class PPADetailsLookup extends Window {
 
     private final FreezePagedTable resultsTable = new FreezePagedTable(tableLogic);
 
-    private ExtFilterTable leftTable;
-    private ExtFilterTable rightTable;
-
     private final PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
     /**
      * The max split position.
@@ -196,8 +193,8 @@ public class PPADetailsLookup extends Window {
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.sinkItemPerPageWithPageLength(BooleanConstant.getFalseFlag());
-        rightTable = resultsTable.getRightFreezeAsTable();
-        leftTable = resultsTable.getLeftFreezeAsTable();
+        ExtFilterTable rightTable = resultsTable.getRightFreezeAsTable();
+        ExtFilterTable leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable.setVisibleColumns(HeaderUtils.getPpaDetailsVisibleColRight());
         leftTable.setVisibleColumns(HeaderUtils.getPpaDetailsVisibleColLeft());
         rightTable.setColumnHeaders(HeaderUtils.getPpaDetailsVisibleHeaderRight());
