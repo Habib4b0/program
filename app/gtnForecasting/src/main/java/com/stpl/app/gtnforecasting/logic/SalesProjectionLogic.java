@@ -356,10 +356,6 @@ public class SalesProjectionLogic {
         LivesDTO lives = null;
         Date startDate = null;
         Date endDate = null;
-        Calendar calStartDate = Calendar.getInstance();
-        calStartDate.setTime(startDate);
-        Calendar calEndDate = Calendar.getInstance();
-        calEndDate.setTime(endDate);
         session.getForecastDTO().getForecastEndDate();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -381,8 +377,8 @@ public class SalesProjectionLogic {
                 }
 
                 lives.setEndYear(endDate.getYear());
-                lives.setEndQuator(getQuator(calEndDate.get(Calendar.MONTH) + 1));
-                lives.setStartQuator(getQuator(calStartDate.get(Calendar.MONTH) + 1));
+                lives.setEndQuator(getQuator(endDate.getMonth() + 1));
+                lives.setStartQuator(getQuator(startDate.getMonth() + 1));
                 lives.setStartYear(startDate.getYear());
                 lives.setStartDate(startDate);
                 lives.setEndDate(endDate);
