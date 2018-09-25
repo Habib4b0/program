@@ -582,12 +582,11 @@ public class MedicaidURA extends CustomComponent implements View {
             com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
-            Calendar calStartDateMedi = Calendar.getInstance();
-            calStartDateMedi.setTime(startDate);
-            Calendar calEndDateMedi = Calendar.getInstance();
-            calEndDateMedi.setTime(endDate);
-            
             if (startDate != null && endDate != null) {
+                Calendar calStartDateMedi = Calendar.getInstance();
+                calStartDateMedi.setTime(startDate);
+                Calendar calEndDateMedi = Calendar.getInstance();
+                calEndDateMedi.setTime(endDate);
                 projectionDTO.setEndYear(calEndDateMedi.get(Calendar.YEAR));
                 projectionDTO.setEndMonth(calEndDateMedi.get(Calendar.MONTH) + 1);
                 projectionDTO.setHistProjYear(calStartDateMedi.get(Calendar.YEAR));
