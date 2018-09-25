@@ -225,14 +225,16 @@ public class SalesProjectionLogic {
             tempDate = String.valueOf(list.get(0));
 
             Date currentDate = new Date();
+            Calendar calDate = Calendar.getInstance();
+            calDate.setTime(currentDate);
             tempDate = tempDate.substring(0, NumericConstants.TEN);
             String [] temparry = tempDate.split("-");
             int fromYear = Integer.parseInt(String.valueOf(temparry[0]));
             int fromQuator = getQuator(Integer.parseInt(String.valueOf(temparry[1])));
-            int toYear = currentDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
-            int toQuator = getQuator(currentDate.getMonth() + 1);
+            int toYear = calDate.get(Calendar.YEAR);
+            int toQuator = getQuator(calDate.get(Calendar.MONTH) + 1);
 
-            if (getQuator(currentDate.getMonth()) == 0) {
+            if (getQuator(calDate.get(Calendar.MONTH)) == 0) {
                 toYear = toYear - 1;
                 toQuator = NumericConstants.FOUR;
 
@@ -354,6 +356,10 @@ public class SalesProjectionLogic {
         LivesDTO lives = null;
         Date startDate = null;
         Date endDate = null;
+        Calendar calStartDate = Calendar.getInstance();
+        calStartDate.setTime(startDate);
+        Calendar calEndDate = Calendar.getInstance();
+        calEndDate.setTime(endDate);
         session.getForecastDTO().getForecastEndDate();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -375,8 +381,8 @@ public class SalesProjectionLogic {
                 }
 
                 lives.setEndYear(endDate.getYear());
-                lives.setEndQuator(getQuator(endDate.getMonth() + 1));
-                lives.setStartQuator(getQuator(startDate.getMonth() + 1));
+                lives.setEndQuator(getQuator(calEndDate.get(Calendar.MONTH) + 1));
+                lives.setStartQuator(getQuator(calStartDate.get(Calendar.MONTH) + 1));
                 lives.setStartYear(startDate.getYear());
                 lives.setStartDate(startDate);
                 lives.setEndDate(endDate);
