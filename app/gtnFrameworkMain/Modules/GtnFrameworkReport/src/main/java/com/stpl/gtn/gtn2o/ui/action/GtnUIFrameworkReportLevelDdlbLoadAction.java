@@ -81,6 +81,10 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction
 				}
 			}
 		}
+                else{
+                GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportOptionsTabUnitOfMeasure",componentId).loadV8ComboBoxComponentValue("0");
+                }
 	}
 
 	@Override
