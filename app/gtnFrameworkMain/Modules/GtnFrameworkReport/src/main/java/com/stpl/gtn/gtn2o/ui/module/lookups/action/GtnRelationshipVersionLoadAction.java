@@ -30,25 +30,25 @@ public class GtnRelationshipVersionLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-			List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-			String relationshipValue = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(actionParamsList.get(1).toString(), componentId)
+			List<Object> reportRelationActionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
+			String reportRelationshipValue = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(reportRelationActionParamsList.get(1).toString(), componentId)
 					.getStringCaptionFromV8ComboBox();
-			Integer relationshipBuilderSid = Integer.valueOf(
-					GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(1).toString(), componentId)
-							.getCaptionFromV8ComboBox());
-			if (relationshipValue != "") {
-				GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent(actionParamsList.get(2).toString(), componentId).getComponentConfig()
-						.getGtnComboboxConfig();
-				relationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+			Integer reportRelationshipBuilderSid = Integer.valueOf(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(reportRelationActionParamsList.get(1).toString(), componentId)
+					.getCaptionFromV8ComboBox());
+			if (reportRelationshipValue != "") {
+				GtnUIFrameworkComboBoxConfig reportRelationComboboxConfig = GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(reportRelationActionParamsList.get(2).toString(), componentId)
+						.getComponentConfig().getGtnComboboxConfig();
+				reportRelationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-				relationComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION);
+				reportRelationComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION);
 
-				GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-				combobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+				GtnUIFrameworkComboBoxComponent reportCombobox = new GtnUIFrameworkComboBoxComponent();
+				reportCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 						(String) gtnUIFrameWorkActionConfig.getActionParameterList().get(2), componentId,
-						Arrays.asList(relationshipBuilderSid));
+						Arrays.asList(reportRelationshipBuilderSid));
 			}
 		} catch (Exception e) {
 			logger.error("Error in", e);
