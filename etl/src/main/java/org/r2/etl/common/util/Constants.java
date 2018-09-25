@@ -381,6 +381,9 @@ public final class Constants {
 	 * variable for the ETLInterface.
 	 */
 	public static final String PSTG_GCC_PROD_HIERARCHY_INTERFACE = "PSTG_GCC_PROD_HIERARCHY_INTERFACE";
+	public static final String ARM_LOAD_INTERFACE = "ARM_LOAD_INTERFACE";
+	
+	
         
         /**
 	 * variable for the DTX ETL Interface.
