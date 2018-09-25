@@ -23,50 +23,50 @@ public class GtnFrameworkReportGenerateLookUp {
 
 	public GtnUIFrameworkViewConfig getGtnReportGenerateLookUpView(String namespace) {
 
-		GtnUIFrameworkViewConfig view = new GtnUIFrameworkViewConfig();
-		view.setViewName(GtnFrameworkReportStringConstants.REPORTING_DASHBOARD);
-		view.setViewId(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
-		view.setDefaultView(false);
-		view.setReplicable(true);
-		addComponentList(view, namespace);
-		view.addViewAction(getDataSelectionTabAction());
-		return view;
+		GtnUIFrameworkViewConfig reportGenerateLookupVew = new GtnUIFrameworkViewConfig();
+		reportGenerateLookupVew.setViewName(GtnFrameworkReportStringConstants.REPORTING_DASHBOARD);
+		reportGenerateLookupVew.setViewId(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		reportGenerateLookupVew.setDefaultView(false);
+		reportGenerateLookupVew.setReplicable(true);
+		addComponentList(reportGenerateLookupVew, namespace);
+		reportGenerateLookupVew.addViewAction(getDataSelectionTabAction());
+		return reportGenerateLookupVew;
 	}
 
-	private void addComponentList(GtnUIFrameworkViewConfig view, String namespace) {
+	private void addComponentList(GtnUIFrameworkViewConfig view, String reportGenerateLookupNmespace) {
 
-		List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
-		view.setGtnComponentList(componentList);
+		List<GtnUIFrameworkComponentConfig> reportGenerateLookupComponentList = new ArrayList<>();
+		view.setGtnComponentList(reportGenerateLookupComponentList);
 
-		GtnUIFrameworkComponentConfig layoutConfig = new GtnUIFrameworkComponentConfig();
-		layoutConfig.setComponentId(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT);
-		layoutConfig.setComponentWidth("100%");
-		layoutConfig.setAddToParent(false);
-		layoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		layoutConfig.setSpacing(true);
-		layoutConfig.setMargin(true);
-		GtnUIFrameworkLayoutConfig layout = new GtnUIFrameworkLayoutConfig();
-		layout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
-		layoutConfig.setGtnLayoutConfig(layout);
-		componentList.add(layoutConfig);
+		GtnUIFrameworkComponentConfig reportGenerateLookupLayoutConfig = new GtnUIFrameworkComponentConfig();
+		reportGenerateLookupLayoutConfig.setComponentId(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT);
+		reportGenerateLookupLayoutConfig.setComponentWidth("100%");
+		reportGenerateLookupLayoutConfig.setAddToParent(false);
+		reportGenerateLookupLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		reportGenerateLookupLayoutConfig.setSpacing(true);
+		reportGenerateLookupLayoutConfig.setMargin(true);
+		GtnUIFrameworkLayoutConfig reportGenerateLookupLayout = new GtnUIFrameworkLayoutConfig();
+		reportGenerateLookupLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+		reportGenerateLookupLayoutConfig.setGtnLayoutConfig(reportGenerateLookupLayout);
+		reportGenerateLookupComponentList.add(reportGenerateLookupLayoutConfig);
 
-		addTabLayout(componentList, namespace);
+		addTabLayout(reportGenerateLookupComponentList, reportGenerateLookupNmespace);
 	}
 
 	private void addTabLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 
-		GtnUIFrameworkComponentConfig layoutConfig = new GtnUIFrameworkComponentConfig();
-		layoutConfig.setComponentId("projectionDetailsTabsheetLayout");
-		layoutConfig.setComponentWidth("100%");
-		layoutConfig.setAddToParent(true);
-		layoutConfig.setParentComponentId(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT);
-		layoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		layoutConfig.setSpacing(true);
-		layoutConfig.setMargin(true);
+		GtnUIFrameworkComponentConfig reportGenerateLookupLayoutConfig = new GtnUIFrameworkComponentConfig();
+		reportGenerateLookupLayoutConfig.setComponentId("projectionDetailsTabsheetLayout");
+		reportGenerateLookupLayoutConfig.setComponentWidth("100%");
+		reportGenerateLookupLayoutConfig.setAddToParent(true);
+		reportGenerateLookupLayoutConfig.setParentComponentId(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT);
+		reportGenerateLookupLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		reportGenerateLookupLayoutConfig.setSpacing(true);
+		reportGenerateLookupLayoutConfig.setMargin(true);
 		GtnUIFrameworkLayoutConfig layout = new GtnUIFrameworkLayoutConfig();
 		layout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		layoutConfig.setGtnLayoutConfig(layout);
-		componentList.add(layoutConfig);
+		reportGenerateLookupLayoutConfig.setGtnLayoutConfig(layout);
+		componentList.add(reportGenerateLookupLayoutConfig);
 
 		addTabSheet(componentList, namespace);
 
