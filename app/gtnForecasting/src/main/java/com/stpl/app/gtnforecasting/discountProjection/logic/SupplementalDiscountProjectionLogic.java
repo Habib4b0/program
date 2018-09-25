@@ -589,7 +589,7 @@ public class SupplementalDiscountProjectionLogic {
         } else {
             ccpDetailsId = CommonUtils.collectionToStringMethod(checkedDto.getCcpDetailIds(), false);
         }
-        if (fieldSelection.equals(METHODOLOGY.getConstant().toUpperCase(Locale.ENGLISH))) {
+        if (String.valueOf(fieldSelection).equalsIgnoreCase(METHODOLOGY.getConstant())) {
             populateMethodologyWithFormulaDetails(checkedDto, value, session);
         } else {
             populateUpadteQuery(checkedDto, value, fieldSelection, session, ccpDetailsId);

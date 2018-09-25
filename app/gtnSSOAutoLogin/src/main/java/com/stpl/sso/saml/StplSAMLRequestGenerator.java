@@ -17,11 +17,16 @@ import org.opensaml.saml2.core.AuthnContextClassRef;
 import org.opensaml.saml2.core.AuthnContextComparisonTypeEnumeration;
 import org.opensaml.saml2.core.AuthnRequest;
 import org.opensaml.saml2.core.Issuer;
+import org.opensaml.saml2.core.LogoutRequest;
+import org.opensaml.saml2.core.NameID;
 import org.opensaml.saml2.core.NameIDPolicy;
+import org.opensaml.saml2.core.RequestAbstractType;
 import org.opensaml.saml2.core.RequestedAuthnContext;
 import org.opensaml.saml2.core.impl.AuthnContextClassRefBuilder;
 import org.opensaml.saml2.core.impl.AuthnRequestBuilder;
 import org.opensaml.saml2.core.impl.IssuerBuilder;
+import org.opensaml.saml2.core.impl.LogoutRequestBuilder;
+import org.opensaml.saml2.core.impl.NameIDBuilder;
 import org.opensaml.saml2.core.impl.NameIDPolicyBuilder;
 import org.opensaml.saml2.core.impl.RequestedAuthnContextBuilder;
 import org.opensaml.xml.io.Marshaller;
@@ -50,7 +55,7 @@ public class StplSAMLRequestGenerator {
 
   public String getAuthNRedirectUrl() {
     StplSamlPropertyBean propertyBean = StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean();
-  
+
     String url = null;
 
     try {
@@ -71,11 +76,29 @@ public class StplSAMLRequestGenerator {
 
   }
 
+  public String getLognRequest(String emailAddress) {
+    StplSamlPropertyBean propertyBean = StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean();
+    String url = null;
+    LogoutRequest logOutRequest = buildLogOutRequest(propertyBean.getAssertionConsumerServiceUrl(),
+        "BPI Technologies", emailAddress);
+    String samlRequest;
+    try {
+      samlRequest = generateSAMLRequest(logOutRequest);
+      url = propertyBean.getLogoutUrl() + "?SAMLRequest=" + samlRequest + "&RelayState="
+          + URLEncoder.encode(propertyBean.getRelayState(), "UTF-8");
+    } catch (Exception e) {
+      LOGGER.error("Exception while creating Logut request - " + e.getMessage(), e);
+    }
+
+    LOGGER.debug("redirect url is = " + url);
+    return url;
+  }
+
   /*
    * Converts AuthN object to xml, compresses it, base64 encode it and url encode
    * it
    */
-  private String generateSAMLRequest(AuthnRequest authRequest) throws Exception {
+  private String generateSAMLRequest(RequestAbstractType authRequest) throws Exception {
 
     Marshaller marshaller = org.opensaml.Configuration.getMarshallerFactory().getMarshaller(authRequest);
     org.w3c.dom.Element authDOM = marshaller.marshall(authRequest);
@@ -114,7 +137,7 @@ public class StplSAMLRequestGenerator {
     authRequest.setRequestedAuthnContext(buildRequestedAuthnContext());
     authRequest.setID(UUID.randomUUID().toString());
     authRequest.setVersion(SAMLVersion.VERSION_20);
-    authRequest.setProviderName("BPI TECHNOLOGIES");
+    authRequest.setProviderName(issuerId);
 
     return authRequest;
   }
@@ -163,6 +186,24 @@ public class StplSAMLRequestGenerator {
     requestedAuthnContext.getAuthnContextClassRefs().add(authnContextClassRef);
 
     return requestedAuthnContext;
+  }
+
+  public LogoutRequest buildLogOutRequest(String destinationUrl, String issuerId, String emailAddress) {
+    LogoutRequestBuilder logoutRequestBuilder = new LogoutRequestBuilder();
+    LogoutRequest request = logoutRequestBuilder.buildObject(SAML2_PROTOCOL, "LogoutRequest", "samlp");
+    request.setIssueInstant(new DateTime());
+    request.setDestination(destinationUrl);
+    request.setIssuer(buildIssuer(issuerId));
+    request.setNameID(buildNameId(emailAddress));
+    return request;
+
+  }
+
+  private NameID buildNameId(String emailAddress) {
+    NameID nameID = new NameIDBuilder().buildObject();
+    nameID.setFormat(SAML2_NAME_ID_POLICY);
+    nameID.setValue(emailAddress);
+    return nameID;
   }
 
 }

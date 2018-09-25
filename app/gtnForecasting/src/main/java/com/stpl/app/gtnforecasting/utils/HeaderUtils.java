@@ -4395,7 +4395,8 @@ public class HeaderUtils {
         List<String> doubleHeaderForExcel = new ArrayList<>();
         Map<Object, Object[]> doubleHeaderMap = new HashMap<>();
         List headerListForExcel;
-        int j = 0, k = 0;// Ends here
+        int j = 0;
+        int  k = 0;// Ends here
         String actualDiscount = "Actual Discount";
         Object actualdisColn = "actualdiscount";
         Object[] singleActualDiscount = {"actualdiscount"};

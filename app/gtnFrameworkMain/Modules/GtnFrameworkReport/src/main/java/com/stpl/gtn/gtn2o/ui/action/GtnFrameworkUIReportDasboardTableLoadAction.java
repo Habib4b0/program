@@ -127,7 +127,8 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
 				dataSelectionBean.setDataRefreshDone(true);
-                                dataSelectionBean.setCustomViewMasterSid(reportBean.getDataSelectionBean().getCustomViewMasterSid());
+				dataSelectionBean.setCustomViewMasterSid(reportBean.getDataSelectionBean().getCustomViewMasterSid());
+				dataSelectionBean.setCustomViewStructureChanged(false);
 			}
 		} catch (GtnFrameworkValidationFailedException e) {
 			logger.error(e.getErrorMessage(), e);
@@ -156,17 +157,21 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 				.getVaadinComponentData(actionParameterList.get(8).toString(), componentId);
 		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = (List<GtnReportComparisonProjectionBean>) comparisonProjectionData
 				.getCustomData();
-                comparisonProjectionBeanList = comparisonProjectionBeanList==null || comparisonProjectionBeanList.isEmpty() ? null : comparisonProjectionBeanList;
+		comparisonProjectionBeanList = comparisonProjectionBeanList == null || comparisonProjectionBeanList.isEmpty()
+				? null
+				: comparisonProjectionBeanList;
 		boolean refreshNeeded = false;
 		GtnReportDataRefreshBean refreshBean = tableConfig.getGtnReportDataRefreshBean();
 		if (refreshBean == null) {
 			refreshBean = new GtnReportDataRefreshBean();
-			refreshNeeded = (customViewId != dataSelectionBean.getCustomViewMasterSid())
+			refreshNeeded = (dataSelectionBean.isCustomViewStructureChanged()
+					|| customViewId != dataSelectionBean.getCustomViewMasterSid())
 					|| (!frequency.equals(dataSelectionBean.getFrequencyName()))
 					|| (checkComparison(dataSelectionBean.getComparisonProjectionBeanList(),
 							comparisonProjectionBeanList));
 		} else {
-			refreshNeeded = (customViewId != refreshBean.getCustomViewMasterSid())
+			refreshNeeded = (dataSelectionBean.isCustomViewStructureChanged()
+					|| customViewId != refreshBean.getCustomViewMasterSid())
 					|| (!frequency.equals(refreshBean.getFrequencyName()))
 					|| (checkComparison(refreshBean.getComparisonProjectionBeanList(), comparisonProjectionBeanList));
 		}
