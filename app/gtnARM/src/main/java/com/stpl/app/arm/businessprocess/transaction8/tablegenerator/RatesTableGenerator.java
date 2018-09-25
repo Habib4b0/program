@@ -115,6 +115,7 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
                     selection.setRatesOverrideFlag(NumericConstants.ONE);
                     valueChangeLogic(dto, val, Boolean.TRUE, "0");
                 }
+                ThreadPool.getInstance().wait();
                 refreshTable(tableLogic);
             } catch (Exception e) {
                 LOGGER.error("Error in overrideListener :", e);

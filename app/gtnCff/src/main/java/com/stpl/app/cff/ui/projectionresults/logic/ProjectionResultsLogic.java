@@ -460,7 +460,7 @@ public class ProjectionResultsLogic {
                     ccps = String.valueOf(obj[1]);
                     flag = false;
                 } else {
-                    ccps = ccps + "," +(obj[1]);
+                    ccps = ccps.concat(",").concat(String.valueOf(obj[1]));
                 }
             }
         }
@@ -1522,7 +1522,7 @@ public class ProjectionResultsLogic {
                                     ccps = String.valueOf(obj[1]);
                                     flag = false;
                                 } else {
-                                    ccps = ccps + "," +(obj[1]);
+                                    ccps = ccps.concat(",").concat(String.valueOf(obj[1]));
                                 }
                             }
                         }
@@ -4229,7 +4229,7 @@ public class ProjectionResultsLogic {
                     ccps = String.valueOf(obj[1]);
                     flag = false;
                 } else {
-                    ccps = ccps + "," + (obj[1]);
+                    ccps = ccps.concat(",").concat(String.valueOf(obj[1]));
                 }
             }
         }
