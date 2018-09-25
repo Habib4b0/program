@@ -58,6 +58,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -581,11 +582,16 @@ public class MedicaidURA extends CustomComponent implements View {
             com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
+            Calendar calStartDateMedi = Calendar.getInstance();
+            calStartDateMedi.setTime(startDate);
+            Calendar calEndDateMedi = Calendar.getInstance();
+            calEndDateMedi.setTime(endDate);
+            
             if (startDate != null && endDate != null) {
-                projectionDTO.setEndYear(endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-                projectionDTO.setEndMonth(endDate.getMonth() + 1);
-                projectionDTO.setHistProjYear(startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-                projectionDTO.setHistProjMonth(startDate.getMonth() + 1);
+                projectionDTO.setEndYear(calEndDateMedi.get(Calendar.YEAR));
+                projectionDTO.setEndMonth(calEndDateMedi.get(Calendar.MONTH) + 1);
+                projectionDTO.setHistProjYear(calStartDateMedi.get(Calendar.YEAR));
+                projectionDTO.setHistProjMonth(calStartDateMedi.get(Calendar.MONTH) + 1);
                 projectionDTO.setProjectionNum(CommonUtils.getProjections(new Date(), endDate, QUARTERLY.getConstant()));
             }
             panel2.setCaption(view.getValue().toString() + SPACE.getConstant() + PIVOT_VIEW.getConstant());
