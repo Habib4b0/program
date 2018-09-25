@@ -408,7 +408,7 @@ public class CommonUIUtils {
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
         List<Object> resultList = new ArrayList<>();
         try {
-            resultList = new GlobalImpl().fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+            resultList = new GlobalImpl().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }

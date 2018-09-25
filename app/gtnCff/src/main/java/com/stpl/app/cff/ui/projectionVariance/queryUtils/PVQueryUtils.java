@@ -275,9 +275,9 @@ public class PVQueryUtils {
         }
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             if (projSelDTO.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
-                selectClause += ", P" + i + "." + projectedSales + "  AS P" + i + "_" + projectedSales + " ";
-                selectClause += ", P" + i + "." + projectedReturns + " AS  P" + i + "_" + projectedReturns + " ";
-                selectClause += ", P" + i + "." + projectionPPA + " AS  P" + i + "_" + projectionPPA + " ";
+                selectClause = selectClause.concat(", P").concat(String.valueOf(i)).concat(".").concat(projectedSales).concat("  AS P").concat(String.valueOf(i)).concat("_").concat(projectedSales).concat(" ");
+                selectClause = selectClause.concat(", P").concat(String.valueOf(i)).concat(".").concat(projectedReturns).concat(" AS  P").concat(String.valueOf(i)).concat("_").concat(projectedReturns).concat(" ");
+                selectClause = selectClause.concat(", P").concat(String.valueOf(i)).concat(".").concat(projectionPPA).concat(" AS  P").concat(String.valueOf(i)).concat("_").concat(projectionPPA).concat(" ");
             } else if (projSelDTO.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
                 selectClause += ", (IsNull (C." + projectedSales + ", 0) - IsNull(P" + i + "." + projectedSales + ", 0))  AS  P" + i + "_" + projectedSales + " ";
                 selectClause += ",  (IsNull(C." + projectedReturns + ", 0)  - IsNull(P" + i + "." + projectedReturns + ", 0))  AS P" + i + "_" + projectedReturns + " ";
@@ -918,99 +918,81 @@ public class PVQueryUtils {
 
     public String getPVMainDiscountPivotQuery(PVSelectionDTO projSelDTO) {
         projSelDTO.setIsTotal(false);
-        String selectClauseDol = " select C.YEARS as YEARS, C.PERIODS AS PERIODS,C.DISCOUNTS AS DISCOUNTS,";
+        StringBuilder selectClauseDol = new StringBuilder(" select C.YEARS as YEARS, C.PERIODS AS PERIODS,C.DISCOUNTS AS DISCOUNTS,");
         StringBuilder customQuery = new StringBuilder();
         String orderBy = " DISCOUNTS , YEARS,PERIODS ";
-        selectClauseDol += "IsNull(C.PROJECTION_SALES, 0) AS C_DOL_VAL ";
-        selectClauseDol += ",0  AS C_DOL_VAR ";
-        selectClauseDol += ",0  AS C_DOL_PER ";
+        selectClauseDol.append("IsNull(C.PROJECTION_SALES, 0) AS C_DOL_VAL ");
+        selectClauseDol.append(",0  AS C_DOL_VAR ");
+        selectClauseDol.append( ",0  AS C_DOL_PER ");
 
-        selectClauseDol += ",IsNull(C.PROJECTION_RATE, 0) C_RATE_VAL";
-        selectClauseDol += ",0  AS C_RATE_VAR ";
-        selectClauseDol += ",0  AS C_RATE_PER ";
+        selectClauseDol.append( ",IsNull(C.PROJECTION_RATE, 0) C_RATE_VAL");
+        selectClauseDol.append( ",0  AS C_RATE_VAR ");
+        selectClauseDol.append( ",0  AS C_RATE_PER ");
 
-        selectClauseDol += ",IsNull(C.RPU, 0) C_RPU_VAL";
-        selectClauseDol += ",0  AS C_RPU_VAR ";
-        selectClauseDol += ",0  AS C_RPU_PER ";
+        selectClauseDol.append( ",IsNull(C.RPU, 0) C_RPU_VAL");
+        selectClauseDol.append( ",0  AS C_RPU_VAR ");
+        selectClauseDol.append( ",0  AS C_RPU_PER ");
 
-        selectClauseDol += ",IsNull(C.RETURNS_PROJECTED_AMOUNT, 0) AS C_DOL_RET_VAL ";
-        selectClauseDol += ",0  AS  C_DOL_RET_VAR ";
-        selectClauseDol += ",0  AS  C_DOL_RET_PER ";
+        selectClauseDol.append( ",IsNull(C.RETURNS_PROJECTED_AMOUNT, 0) AS C_DOL_RET_VAL ");
+        selectClauseDol.append( ",0  AS  C_DOL_RET_VAR ");
+        selectClauseDol.append( ",0  AS  C_DOL_RET_PER ");
 
-        selectClauseDol += ",IsNull(C.RETURNS_PROJECTED_RATE, 0) C_RATE_RET_VAL";
-        selectClauseDol += ",0  AS C_RATE_RET_VAR ";
-        selectClauseDol += ",0  AS C_RATE_RET_PER ";
+        selectClauseDol.append( ",IsNull(C.RETURNS_PROJECTED_RATE, 0) C_RATE_RET_VAL");
+        selectClauseDol.append( ",0  AS C_RATE_RET_VAR ");
+        selectClauseDol.append( ",0  AS C_RATE_RET_PER ");
 
-        selectClauseDol += ",IsNull(C.RETURNS_RPU, 0) C_RPU_RET_VAL";
-        selectClauseDol += ",0  AS C_RPU_RET_VAR ";
-        selectClauseDol += ",0  AS C_RPU_RET_PER ";
+        selectClauseDol.append( ",IsNull(C.RETURNS_RPU, 0) C_RPU_RET_VAL");
+        selectClauseDol.append( ",0  AS C_RPU_RET_VAR ");
+        selectClauseDol.append( ",0  AS C_RPU_RET_PER ");
 
-        selectClauseDol += ",IsNull(C.PPA_DISCOUNT_AMOUNT, 0) AS C_DOL_PPA_VAL ";
-        selectClauseDol += ",0  AS  C_DOL_PPA_VAR ";
-        selectClauseDol += ",0  AS  C_DOL_PPA_PER ";
+        selectClauseDol.append( ",IsNull(C.PPA_DISCOUNT_AMOUNT, 0) AS C_DOL_PPA_VAL ");
+        selectClauseDol.append( ",0  AS  C_DOL_PPA_VAR ");
+        selectClauseDol.append( ",0  AS  C_DOL_PPA_PER ");
 
-        selectClauseDol += ",IsNull(C.PPA_DISCOUNT_PERCENT, 0) C_RATE_PPA_VAL";
-        selectClauseDol += ",0  AS C_RATE_PPA_VAR ";
-        selectClauseDol += ",0  AS C_RATE_PPA_PER ";
+        selectClauseDol.append( ",IsNull(C.PPA_DISCOUNT_PERCENT, 0) C_RATE_PPA_VAL");
+        selectClauseDol.append( ",0  AS C_RATE_PPA_VAR ");
+        selectClauseDol.append( ",0  AS C_RATE_PPA_PER ");
 
-        selectClauseDol += ",IsNull(C.PPA_DISCOUNT_RPU, 0) C_RPU_PPA_VAL";
-        selectClauseDol += ",0  AS C_RPU_PPA_VAR ";
-        selectClauseDol += ",0  AS C_RPU_PPA_PER ";
+        selectClauseDol.append( ",IsNull(C.PPA_DISCOUNT_RPU, 0) C_RPU_PPA_VAL");
+        selectClauseDol.append( ",0  AS C_RPU_PPA_VAR ");
+        selectClauseDol.append( ",0  AS C_RPU_PPA_PER ");
 
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
-            selectClauseDol += ",  IsNull(P" + i + ".PROJECTION_SALES,0) AS P" + i + "_DOL_VALUE ";
-            selectClauseDol += ", (IsNull(C.PROJECTION_SALES, 0)- IsNull(P" + i + ".PROJECTION_SALES, 0)) AS P" + i + "_DOL_VAR ";
-            selectClauseDol += CASE_WHEN_P + i + ".PROJECTION_SALES = 0 THEN 0\n"
-                    + " ELSE (IsNull(C.PROJECTION_SALES, 0) - IsNull(P" + i + ".PROJECTION_SALES, 0) / P" + i + ".PROJECTION_SALES) \n"
-                    + " END  AS  P" + i + "_DOL_PER ";
+            selectClauseDol.append(",  IsNull(P").append(i).append(".PROJECTION_SALES,0) AS P").append(i).append("_DOL_VALUE ");
+            selectClauseDol.append(", (IsNull(C.PROJECTION_SALES, 0)- IsNull(P").append(i).append(".PROJECTION_SALES, 0)) AS P").append(i).append("_DOL_VAR ");
+            selectClauseDol.append(CASE_WHEN_P).append(i).append(".PROJECTION_SALES = 0 THEN 0\n ELSE (IsNull(C.PROJECTION_SALES, 0) - IsNull(P").append(i).append(".PROJECTION_SALES, 0) / P").append(i).append(".PROJECTION_SALES) \n END  AS  P").append(i).append("_DOL_PER ");
 
-            selectClauseDol += ",  IsNull(P" + i + ".PROJECTION_RATE,0) AS P" + i + "_RATE_VAL ";
-            selectClauseDol += ", (IsNull(C.PROJECTION_RATE, 0)- IsNull(P" + i + ".PROJECTION_RATE, 0)) AS P" + i + "_RATE_VAR ";
-            selectClauseDol += CASE_WHEN_P + i + ".PROJECTION_RATE = 0 THEN 0\n"
-                    + " ELSE (IsNull(C.PROJECTION_RATE, 0) - IsNull(P" + i + ".PROJECTION_RATE, 0) / P" + i + ".PROJECTION_RATE) \n"
-                    + " END  AS   P" + i + "_RATE_PER ";
+            selectClauseDol.append(",  IsNull(P").append(i).append(".PROJECTION_RATE,0) AS P").append(i).append("_RATE_VAL ");
+            selectClauseDol.append(", (IsNull(C.PROJECTION_RATE, 0)- IsNull(P").append(i).append(".PROJECTION_RATE, 0)) AS P").append(i).append("_RATE_VAR ");
+            selectClauseDol.append(CASE_WHEN_P).append(i).append(".PROJECTION_RATE = 0 THEN 0\n ELSE (IsNull(C.PROJECTION_RATE, 0) - IsNull(P").append(i).append(".PROJECTION_RATE, 0) / P").append(i).append(".PROJECTION_RATE) \n END  AS   P").append(i).append("_RATE_PER ");
 
-            selectClauseDol += ", IsNull (P" + i + ".RPU,0) AS P" + i + "_RPU_VAL ";
-            selectClauseDol += ", (IsNull(C.RPU, 0)- IsNull(P" + i + ".RPU, 0)) AS P" + i + "_RPU_VAR ";
-            selectClauseDol += CASE_WHEN_P + i + ".RPU = 0 THEN 0\n"
-                    + " ELSE (IsNull(C.RPU, 0) - IsNull(P" + i + ".RPU, 0) / P" + i + ".RPU) \n"
-                    + " END  AS    P" + i + "_RPU_PER ";
+            selectClauseDol.append(", IsNull (P").append(i).append(".RPU,0) AS P").append(i).append("_RPU_VAL ");
+            selectClauseDol.append(", (IsNull(C.RPU, 0)- IsNull(P").append(i).append(".RPU, 0)) AS P").append(i).append("_RPU_VAR ");
+            selectClauseDol.append(CASE_WHEN_P).append(i).append(".RPU = 0 THEN 0\n ELSE (IsNull(C.RPU, 0) - IsNull(P").append(i).append(".RPU, 0) / P").append(i).append(".RPU) \n END  AS    P").append(i).append("_RPU_PER ");
 
-            selectClauseDol += ", IsNull (P" + i + ".RETURNS_PROJECTED_AMOUNT,0) AS P" + i + "_RET_DOL_VALUE ";
-            selectClauseDol += ", (IsNull(C.RETURNS_PROJECTED_AMOUNT, 0)- IsNull(P" + i + ".RETURNS_PROJECTED_AMOUNT, 0)) AS P" + i + "_RET_DOL_VAR ";
-            selectClauseDol += CASE_WHEN_P + i + ".RETURNS_PROJECTED_AMOUNT = 0 THEN 0\n"
-                    + " ELSE (IsNull(C.RETURNS_PROJECTED_AMOUNT, 0) - IsNull(P" + i + ".RETURNS_PROJECTED_AMOUNT, 0) / P" + i + ".RETURNS_PROJECTED_AMOUNT) \n"
-                    + " END  AS  P" + i + "_RET_DOL_PER ";
+            selectClauseDol.append(", IsNull (P").append(i).append(".RETURNS_PROJECTED_AMOUNT,0) AS P").append(i).append("_RET_DOL_VALUE ");
+            selectClauseDol.append(", (IsNull(C.RETURNS_PROJECTED_AMOUNT, 0)- IsNull(P").append(i).append(".RETURNS_PROJECTED_AMOUNT, 0)) AS P").append(i).append("_RET_DOL_VAR ");
+            selectClauseDol.append(CASE_WHEN_P).append(i).append(".RETURNS_PROJECTED_AMOUNT = 0 THEN 0\n ELSE (IsNull(C.RETURNS_PROJECTED_AMOUNT, 0) - IsNull(P").append(i).append(".RETURNS_PROJECTED_AMOUNT, 0) / P").append(i).append(".RETURNS_PROJECTED_AMOUNT) \n END  AS  P").append(i).append("_RET_DOL_PER ");
 
-            selectClauseDol += ",  IsNull (P" + i + ".RETURNS_PROJECTED_RATE,0) AS P" + i + "_RET_RATE_VAL ";
-            selectClauseDol += ", (IsNull(C.RETURNS_PROJECTED_RATE, 0)- IsNull(P" + i + ".RETURNS_PROJECTED_RATE, 0)) AS P" + i + "_RET_RATE_VAR ";
-            selectClauseDol += CASE_WHEN_P + i + ".RETURNS_PROJECTED_RATE = 0 THEN 0\n"
-                    + " ELSE (IsNull(C.RETURNS_PROJECTED_RATE, 0) - IsNull(P" + i + ".RETURNS_PROJECTED_RATE, 0) / P" + i + ".RETURNS_PROJECTED_RATE) \n"
-                    + " END  AS      P" + i + "_RET_RATE_PER ";
+            selectClauseDol.append(",  IsNull (P").append(i).append(".RETURNS_PROJECTED_RATE,0) AS P").append(i).append("_RET_RATE_VAL ");
+            selectClauseDol.append(", (IsNull(C.RETURNS_PROJECTED_RATE, 0)- IsNull(P").append(i).append(".RETURNS_PROJECTED_RATE, 0)) AS P").append(i).append("_RET_RATE_VAR ");
+            selectClauseDol.append(CASE_WHEN_P).append(i).append(".RETURNS_PROJECTED_RATE = 0 THEN 0\n ELSE (IsNull(C.RETURNS_PROJECTED_RATE, 0) - IsNull(P").append(i).append(".RETURNS_PROJECTED_RATE, 0) / P").append(i).append(".RETURNS_PROJECTED_RATE) \n END  AS      P").append(i).append("_RET_RATE_PER ");
 
-            selectClauseDol += ",  IsNull (P" + i + ".RETURNS_RPU,0) AS P" + i + "_RET_RPU_VAL ";
-            selectClauseDol += ", (IsNull(C.RETURNS_RPU, 0)- IsNull(P" + i + ".RETURNS_RPU, 0)) AS P" + i + "_RET_RPU_VAR ";
-            selectClauseDol += CASE_WHEN_P + i + ".RETURNS_RPU = 0 THEN 0\n"
-                    + " ELSE (IsNull(C.RETURNS_RPU, 0) - IsNull(P" + i + ".RETURNS_RPU, 0) / P" + i + ".RPU) \n"
-                    + " END  AS      P" + i + "_RET_RPU_PER ";
+            selectClauseDol.append(",  IsNull (P").append(i).append(".RETURNS_RPU,0) AS P").append(i).append("_RET_RPU_VAL ");
+            selectClauseDol.append(", (IsNull(C.RETURNS_RPU, 0)- IsNull(P").append(i).append(".RETURNS_RPU, 0)) AS P").append(i).append("_RET_RPU_VAR ");
+            selectClauseDol.append(CASE_WHEN_P).append(i).append(".RETURNS_RPU = 0 THEN 0\n ELSE (IsNull(C.RETURNS_RPU, 0) - IsNull(P").append(i).append(".RETURNS_RPU, 0) / P").append(i).append(".RPU) \n END  AS      P").append(i).append("_RET_RPU_PER ");
             
-            selectClauseDol += ", IsNull(P" + i + ".PPA_DISCOUNT_AMOUNT,0) AS P" + i + "_PPA_DOL_VALUE ";
-            selectClauseDol += ", (IsNull(C.PPA_DISCOUNT_AMOUNT, 0)- IsNull(P" + i + ".PPA_DISCOUNT_AMOUNT, 0)) AS P" + i + "_PPA_DOL_VAR ";
-            selectClauseDol += CASE_WHEN_P + i + ".PPA_DISCOUNT_AMOUNT = 0 THEN 0\n"
-                    + " ELSE (IsNull(C.PPA_DISCOUNT_AMOUNT, 0) - IsNull(P" + i + ".PPA_DISCOUNT_AMOUNT, 0) / P" + i + ".PPA_DISCOUNT_AMOUNT) \n"
-                    + " END  AS P" + i + "_PPA_DOL_PER ";
+            selectClauseDol.append(", IsNull(P").append(i).append(".PPA_DISCOUNT_AMOUNT,0) AS P").append(i).append("_PPA_DOL_VALUE ");
+            selectClauseDol.append(", (IsNull(C.PPA_DISCOUNT_AMOUNT, 0)- IsNull(P").append(i).append(".PPA_DISCOUNT_AMOUNT, 0)) AS P").append(i).append("_PPA_DOL_VAR ");
+            selectClauseDol.append(CASE_WHEN_P).append(i).append(".PPA_DISCOUNT_AMOUNT = 0 THEN 0\n ELSE (IsNull(C.PPA_DISCOUNT_AMOUNT, 0) - IsNull(P").append(i).append(".PPA_DISCOUNT_AMOUNT, 0) / P").append(i).append(".PPA_DISCOUNT_AMOUNT) \n END  AS P").append(i).append("_PPA_DOL_PER ");
 
-            selectClauseDol += " , IsNull (P" + i + ".PPA_DISCOUNT_PERCENT,0) AS P" + i + "_PPA_RATE_VAL ";
-            selectClauseDol += ", (IsNull(C.PPA_DISCOUNT_PERCENT, 0)- IsNull(P" + i + ".PPA_DISCOUNT_PERCENT, 0)) AS P" + i + "_PPA_RATE_VAR ";
-            selectClauseDol += CASE_WHEN_P + i + ".PPA_DISCOUNT_PERCENT = 0 THEN 0\n"
-                    + " ELSE (IsNull(C.PPA_DISCOUNT_PERCENT, 0) - IsNull(P" + i + ".PPA_DISCOUNT_PERCENT, 0) / P" + i + ".PPA_DISCOUNT_PERCENT) \n"
-                    + " END  AS     P" + i + "_PPA_RATE_PER ";
+            selectClauseDol.append(" , IsNull (P").append(i).append(".PPA_DISCOUNT_PERCENT,0) AS P").append(i).append("_PPA_RATE_VAL ");
+            selectClauseDol.append(", (IsNull(C.PPA_DISCOUNT_PERCENT, 0)- IsNull(P").append(i).append(".PPA_DISCOUNT_PERCENT, 0)) AS P").append(i).append("_PPA_RATE_VAR ");
+            selectClauseDol.append(CASE_WHEN_P).append(i).append(".PPA_DISCOUNT_PERCENT = 0 THEN 0\n ELSE (IsNull(C.PPA_DISCOUNT_PERCENT, 0) - IsNull(P").append(i).append(".PPA_DISCOUNT_PERCENT, 0) / P").append(i).append(".PPA_DISCOUNT_PERCENT) \n END  AS     P").append(i).append("_PPA_RATE_PER ");
 
-            selectClauseDol += ", IsNull(P" + i + ".PPA_DISCOUNT_RPU,0) AS P" + i + "_PPA_RPU_VAL ";
-            selectClauseDol += ", (IsNull(C.PPA_DISCOUNT_RPU, 0)- IsNull(P" + i + ".PPA_DISCOUNT_RPU, 0)) AS P" + i + "_PPA_RPU_VAR ";
-            selectClauseDol += CASE_WHEN_P + i + ".PPA_DISCOUNT_RPU = 0 THEN 0\n"
-                    + " ELSE (IsNull(C.PPA_DISCOUNT_RPU, 0) - IsNull(P" + i + ".PPA_DISCOUNT_RPU, 0) / P" + i + ".RPU)  \n"
-                    + " END  AS     P" + i + "_PPA_RPU_PER ";
+            selectClauseDol.append(", IsNull(P").append(i).append(".PPA_DISCOUNT_RPU,0) AS P").append(i).append("_PPA_RPU_VAL ");
+            selectClauseDol.append(", (IsNull(C.PPA_DISCOUNT_RPU, 0)- IsNull(P").append(i).append(".PPA_DISCOUNT_RPU, 0)) AS P").append(i).append("_PPA_RPU_VAR ");
+            selectClauseDol.append(CASE_WHEN_P).append(i).append(".PPA_DISCOUNT_RPU = 0 THEN 0\n ELSE (IsNull(C.PPA_DISCOUNT_RPU, 0) - IsNull(P").append(i).append(".PPA_DISCOUNT_RPU, 0) / P").append(i).append(".RPU)  \n END  AS     P").append(i).append("_PPA_RPU_PER ");
         }
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
         projSelDTO.setCurrentOrPrior("C");
@@ -1210,7 +1192,7 @@ public class PVQueryUtils {
 
         customQuery = selectClause + getMainSelectClause("C");
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
-            customQuery += ", " + getMainSelectClause("P" + i);
+            customQuery = customQuery.concat(", ").concat(getMainSelectClause("P" + i));
         }
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
         projSelDTO.setCurrentOrPrior("C");
@@ -1220,7 +1202,7 @@ public class PVQueryUtils {
         projSelDTO.setIsPrior(true);
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             projSelDTO.setProjectionId(projSelDTO.getProjIdList().get(i));
-            customQuery += " LEFT JOIN (\n" + getProjVarianceQuery(projSelDTO) + "\n) " + "P" + i + " \n" + getProjVarMainWhereCond("P" + i);
+            customQuery = customQuery.concat(" LEFT JOIN (\n").concat(getProjVarianceQuery(projSelDTO)).concat("\n) ").concat("P").concat(String.valueOf(i)).concat(" \n").concat(getProjVarMainWhereCond("P" + i));
         }
         customQuery += " order by  " + orderBy;
         projSelDTO.setIsPrior(false);
