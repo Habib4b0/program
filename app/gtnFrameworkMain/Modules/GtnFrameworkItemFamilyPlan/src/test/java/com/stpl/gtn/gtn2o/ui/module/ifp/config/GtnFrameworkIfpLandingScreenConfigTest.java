@@ -10,7 +10,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 public class GtnFrameworkIfpLandingScreenConfigTest {
 
 	@Test
@@ -28,14 +27,16 @@ public class GtnFrameworkIfpLandingScreenConfigTest {
 
 		List<Object> result = fixture.getDefaultFieldValueList();
 
-		// add additional test code here
 		assertNotNull(result);
 	}
 
 	@Test
 	public void testGetEnableCopyFieldValues_1()
 		throws Exception {
-
+		
+		Object[] enableCopyField = new Object[] {"1", "2"};
+		GtnFrameworkIfpLandingScreenConfig.setEnableCopyFieldValues(enableCopyField);
+		
 		Object[] result = GtnFrameworkIfpLandingScreenConfig.getEnableCopyFieldValues();
 		assertNotNull(result);
 	}

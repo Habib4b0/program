@@ -9,7 +9,6 @@ import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 public class GtnFrameworkIfpConfigTest {
 
 	@Test

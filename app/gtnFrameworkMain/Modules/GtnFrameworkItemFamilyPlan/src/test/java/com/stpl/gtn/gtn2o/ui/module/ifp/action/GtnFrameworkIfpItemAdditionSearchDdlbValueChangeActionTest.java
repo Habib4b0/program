@@ -28,7 +28,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = { GtnUIFrameworkGlobalUI.class})
 public class GtnFrameworkIfpItemAdditionSearchDdlbValueChangeActionTest {

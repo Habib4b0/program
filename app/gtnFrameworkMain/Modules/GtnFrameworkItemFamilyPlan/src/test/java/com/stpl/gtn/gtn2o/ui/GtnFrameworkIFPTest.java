@@ -31,7 +31,6 @@ import com.vaadin.ui.UI;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = { UI.class, GtnUIFrameworkGlobalUI.class })
 public class GtnFrameworkIFPTest {

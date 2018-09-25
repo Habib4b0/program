@@ -14,7 +14,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GtnUIFrameworkGlobalUI.class)
 public class GtnUIFrameworkIfpDynamicClassFillerTest {

@@ -9,7 +9,6 @@ import static org.junit.Assert.*;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 public class GtnFrameworkIfpStringContantsTest {
 
 	@Test

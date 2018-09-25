@@ -28,7 +28,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = { GtnUIFrameworkGlobalUI.class})
 public class GtnFrameworkIfpItemsDeleteActionTest {

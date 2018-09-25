@@ -11,7 +11,6 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 public class GtnFrameworkIfpItemsTabConfigTest {
 
 	@Test
