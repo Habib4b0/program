@@ -249,7 +249,6 @@
   <hop> <from>Update 5 2</from><to>Dummy &#x28;do nothing&#x29; 4 2</to><enabled>Y</enabled> </hop>
   <hop> <from>STATE</from><to>INCLUSION</to><enabled>N</enabled> </hop>
   <hop> <from>INCLUSION</from><to>UDC1</to><enabled>N</enabled> </hop>
-  <hop> <from>WAIT 3</from><to>Filter rows 2</to><enabled>N</enabled> </hop>
   <hop> <from>REBATE_PLAN LOOKUP </from><to>Dummy &#x28;do nothing&#x29;</to><enabled>N</enabled> </hop>
   <hop> <from>REBATE_PLAN LOOKUP  2</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter rows 2</from><to>GET CFP CONTRACT SID</to><enabled>Y</enabled> </hop>
@@ -299,11 +298,10 @@
   <hop> <from>UPDATE RS CONT</from><to>UDCS CHECK CONTRACT 2</to><enabled>Y</enabled> </hop>
   <hop> <from>UDCS CHECK CONTRACT 2</from><to>Update 5 2</to><enabled>Y</enabled> </hop>
   <hop> <from>UDCS CHECK CONTRACT 2</from><to>UDCS_INSERT 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Reason 6 2 2 2</from><to>INVALID TABLE DUP</to><enabled>Y</enabled> </hop>
-  <hop> <from>WAIT 3</from><to>RS MODEL DUP CHECK </to><enabled>Y</enabled> </hop>
-  <hop> <from>RS MODEL DUP CHECK </from><to>Invalid Reason 6 2 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>RS MODEL DUP CHECK </from><to>Filter rows 2</to><enabled>N</enabled> </hop>
-  <hop> <from>RS MODEL DUP CHECK </from><to>Filter rows deduction</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason 6 2 2 2</from><to>INVALID TABLE DUP</to><enabled>N</enabled> </hop>
+  <hop> <from>WAIT 3</from><to>RS MODEL DUP CHECK </to><enabled>N</enabled> </hop>
+  <hop> <from>RS MODEL DUP CHECK </from><to>Invalid Reason 6 2 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>RS MODEL DUP CHECK </from><to>Filter rows deduction</to><enabled>N</enabled> </hop>
   <hop> <from>Filter rows deduction</from><to>GET deduction sid</to><enabled>Y</enabled> </hop>
   <hop> <from>GET deduction sid</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Invalid Reason 6 2 2 2 2</from><to>INVALID Deduction</to><enabled>Y</enabled> </hop>
@@ -318,6 +316,7 @@
   <hop> <from>DED INCL NO CHECK </from><to>CALC RULE</to><enabled>Y</enabled> </hop>
   <hop> <from>Invalid Ded Inclusion</from><to>INVALID Deduction 2</to><enabled>Y</enabled> </hop>
   <hop> <from>DED INCL YES CHECK</from><to>CALC RULE</to><enabled>Y</enabled> </hop>
+  <hop> <from>WAIT 3</from><to>Filter rows deduction</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>ADD Audit update</name>
@@ -1645,8 +1644,8 @@
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1340</xloc>
-      <yloc>549</yloc>
+      <xloc>1274</xloc>
+      <yloc>391</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2456,7 +2455,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1102</xloc>
-      <yloc>521</yloc>
+      <yloc>516</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -10587,8 +10586,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1490</xloc>
-      <yloc>423</yloc>
+      <xloc>1514</xloc>
+      <yloc>267</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -11598,8 +11597,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1319</xloc>
-      <yloc>424</yloc>
+      <xloc>1366</xloc>
+      <yloc>193</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -13771,8 +13770,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1126</xloc>
-      <yloc>417</yloc>
+      <xloc>1156</xloc>
+      <yloc>263</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -14681,7 +14680,7 @@
       <key>
         <name>RS_MODEL_SID</name>
         <field>MASTER_SID</field>
-        <condition>LIKE</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>

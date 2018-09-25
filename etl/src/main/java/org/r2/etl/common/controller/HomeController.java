@@ -486,6 +486,9 @@ public class HomeController {
 	private static final String CONTRACT_CFP_MBR_INTERFACE = "ContractCfpMbrInterface";
 	private static final String PSTG_FORECAST_SALES_WAC_INTERFACE = "PstgForecastSalesWacInterface";
 	private static final String PSTG_GCC_PROD_HIERARCHY_INTERFACE = "PstgGccProdHierarchyInterface";
+	
+	private static final String ARM_LOAD_INTERFACE = "ArmLoadInterface";
+	
         
         private static final String DTX_UOM_INTERFACE = "DtxUOMInterface";
         private static final String DTX_CPI_INTERFACE = "DtxCPIInterface";
@@ -738,7 +741,11 @@ public class HomeController {
 					FilePathUtil.PSTG_FORECAST_SALES_WAC_INTERFACE });
 			loaddata.put(PSTG_GCC_PROD_HIERARCHY_INTERFACE, new String[] { Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE,
 					FilePathUtil.PSTG_GCC_PROD_HIERARCHY_INTERFACE });
-                        loaddata.put(DTX_UOM_INTERFACE,
+			   
+			            loaddata.put(ARM_LOAD_INTERFACE,
+					new String[] { Constants.ARM_LOAD_INTERFACE, FilePathUtil.ARM_LOAD_INTERFACE });
+			            
+			            loaddata.put(DTX_UOM_INTERFACE,
 					new String[] { Constants.DTX_UOM_INTERFACE, FilePathUtil.DTX_UOM_INTERFACE });
                         loaddata.put(DTX_CPI_INTERFACE,
 					new String[] { Constants.DTX_CPI_INTERFACE, FilePathUtil.DTX_CPI_INTERFACE });
@@ -820,7 +827,7 @@ public class HomeController {
 					ACCRUALS_INTERFACE, PSTG_SALES_FORECAST_INTERFACE, PSTG_FORECAST_SALES_WAC_INTERFACE,
 					PSTG_GCC_PROD_HIERARCHY_INTERFACE,DTX_UOM_INTERFACE,DTX_CPI_INTERFACE,DTX_RETURN_RATE_INTERFACE,DTX_ACCRUAL_ACTUAL_INTERFACE,
 					DTX_CUSTOMER_GTS_ACTUAL_INTERFACE,DTX_CUSTOMER_GTS_FORECAST_INTERFACE,DTX_FORECAST_SALES_INTERFACE
-					,DTX_FORECAST_SALES_WAC_INTERFACE
+					,DTX_FORECAST_SALES_WAC_INTERFACE,ARM_LOAD_INTERFACE
 			);
 
 			if (Constants.APP_KEY.equals(apikey)) {
