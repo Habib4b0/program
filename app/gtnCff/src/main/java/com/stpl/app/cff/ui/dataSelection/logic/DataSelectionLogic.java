@@ -1694,9 +1694,7 @@ public class DataSelectionLogic {
 	 * @return the Product group result list
 	 * @throws java.lang.Exception
 	 */
-	public List<GroupDTO> searchGroup(String name, String no, List<String> sids, String indicator,
-			String groupIdentifier, String action, int start, int offset, Set<Container.Filter> filters,
-			List<SortByColumn> sortByColumns) throws SystemException {
+	public List<GroupDTO> searchGroup(String name, String no, String indicator, String groupIdentifier, String action, int start, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws SystemException {
 		List resultList = null;
 		List<GroupDTO> returnList = null;
 		name = name.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
