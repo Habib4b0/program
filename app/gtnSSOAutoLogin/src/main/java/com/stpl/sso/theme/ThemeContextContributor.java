@@ -14,6 +14,6 @@ public class ThemeContextContributor implements TemplateContextContributor {
 
     @Override
     public void prepare(Map<String, Object> contextObjects, HttpServletRequest request) {
-        contextObjects.put("is_sso", "true");
+        // contextObjects.put("is_sso", "true");
     }
 }

@@ -1226,12 +1226,6 @@ public class NMSalesProjectionResultsLogic {
 		return frequencyNo;
 	}
 
-	public String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String ccp) {
-		String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp
-				+ ".RELATIONSHIP_LEVEL_SID and " + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
-		return ccpWhereCond;
-	}
-
 	public String getPeriodRestrictionQuery(ProjectionSelectionDTO projSelDTO) {
 		String endDate = String.format("%04d", projSelDTO.getEndYear()) + "-"
 				+ String.format("%02d", projSelDTO.getEndMonth()) + "-" + String.format("%02d", projSelDTO.getEndDay());
@@ -1246,12 +1240,6 @@ public class NMSalesProjectionResultsLogic {
 					+ "') ";
 		}
 		return periodFilter;
-	}
-
-	public String getUserSessionQueryCondition(int userId, int sessionId, String table) {
-		String user = Constant.AND_SMALL_SPACE + table + ".USER_ID=" + userId + Constant.AND_SMALL_SPACE + table
-				+ ".SESSION_ID=" + sessionId + " ";
-		return user;
 	}
 
 	public String getCCPQuery(ProjectionSelectionDTO projSelDTO) {
@@ -2940,19 +2928,6 @@ public class NMSalesProjectionResultsLogic {
 		common.add(commonColumn);
 		common.add(commonHeader);
 		return common;
-	}
-
-	public String getCCPWhereConditionQueryMandated(String relationShipLevelDefination, String projectionDetails,
-			String ccp) {
-		String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp
-				+ ".RELATIONSHIP_LEVEL_SID and " + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
-		return ccpWhereCond;
-	}
-
-	public String getUserSessionQueryConditionMandated(String userId, String sessionId, String table) {
-		String user = Constant.AND_SMALL_SPACE + table + ".USER_ID=" + userId + Constant.AND_SMALL_SPACE + table
-				+ ".SESSION_ID=" + sessionId + " ";
-		return user;
 	}
 
 	public List<SalesProjectionResultsDTO> getCustomizedProjectionPivotMandated(List<Object[]> list,
