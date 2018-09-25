@@ -670,47 +670,47 @@ public class FileManagementLogic {
 					invWdProjMas.setModifiedDate(date);
 					InventoryWdProjMasLocalServiceUtil.addInventoryWdProjMas(invWdProjMas);
 				} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-					String query = insertQueryForInventoryDetails();
+					StringBuilder query = new StringBuilder(insertQueryForInventoryDetails());
 					if (beanItem.getYear() == null || "".equals(beanItem.getYear())) {
-						query += "0";
+						query.append("0");
 					} else {
-						query += "'" + beanItem.getYear() + "'";
+						query.append("'").append(beanItem.getYear()).append("'");
 					}
-					query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getMonth())) ? "," + 0
-							: buildQuery(beanItem.getMonth());
-					query += buildQuery(beanItem.getDay());
-					query += buildQuery(beanItem.getWeek());
-					query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getCompanyId())) ? "," + 0
-							: buildQuery(beanItem.getCompanyId());
-					query += buildQuery(beanItem.getIdentifierCodeQualifier());
-					query += buildQuery(beanItem.getCompanyIdentifier());
-					query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getItemId())) ? "," + 0
-							: buildQuery(beanItem.getItemId());
-					query += buildQuery(beanItem.getItemIdentifierCodeQualifier());
-					query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getItemIdentifier()))
-							? ",'" + 0 + "'" : buildQuery(beanItem.getItemIdentifier());
-					query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getUnitsWithdrawn())) ? "," + 0
-							: buildQuery(beanItem.getUnitsWithdrawn());
-					query += buildQuery(beanItem.getAmountWithdrawn());
-					query += buildQuery(beanItem.getPrice());
-					query += ",'" + convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
-							DEFAULT_SQL_DATE_FORMAT) + "'";
-					query += ",'" + convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
-							DEFAULT_SQL_DATE_FORMAT) + "'";
-					query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getBatchId())) ? ",'" + 0 + "'"
-							: buildQuery(beanItem.getBatchId());
-					query += ",'" + source + "'";
-					query += ",'" + forecastName + "'";
-					query += ",'" + version + "'";
-					query += ",'" + country + "'";
-					query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getOrganizationKey()))
-							? ",'" + 0 + "'" : buildQuery(beanItem.getOrganizationKey());
-					query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getCompanyId())) ? ",'" + 0 + "'"
-							: buildQuery(beanItem.getCompanyId());
-					query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getItemId())) ? ",'" + 0 + "'"
-							: buildQuery(beanItem.getItemId());
-					query += ");";
-					HelperTableLocalServiceUtil.executeUpdateQuery(query);
+					query.append(StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getMonth())) ? "," + 0
+							: buildQuery(beanItem.getMonth()));
+					query.append(buildQuery(beanItem.getDay()));
+					query.append(buildQuery(beanItem.getWeek()));
+					query.append(StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getCompanyId())) ? "," + 0
+							: buildQuery(beanItem.getCompanyId()));
+					query.append(buildQuery(beanItem.getIdentifierCodeQualifier()));
+					query.append(buildQuery(beanItem.getCompanyIdentifier()));
+					query.append(StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getItemId())) ? "," + 0
+							: buildQuery(beanItem.getItemId()));
+					query.append(buildQuery(beanItem.getItemIdentifierCodeQualifier()));
+					query.append(StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getItemIdentifier()))
+							? ",'" + 0 + "'" : buildQuery(beanItem.getItemIdentifier()));
+					query.append(StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getUnitsWithdrawn())) ? "," + 0
+							: buildQuery(beanItem.getUnitsWithdrawn()));
+					query.append(buildQuery(beanItem.getAmountWithdrawn()));
+					query.append(buildQuery(beanItem.getPrice()));
+					query.append(",'").append(convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
+                                                DEFAULT_SQL_DATE_FORMAT)).append("'");
+					query.append(",'").append(convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
+                                                DEFAULT_SQL_DATE_FORMAT)).append("'");
+					query.append(StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getBatchId())) ? ",'" + 0 + "'"
+							: buildQuery(beanItem.getBatchId()));
+					query.append(",'").append(source).append("'");
+					query.append(",'").append(forecastName).append("'");
+					query.append(",'").append(version).append("'");
+					query.append(",'").append(country).append("'");
+					query.append(StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getOrganizationKey()))
+							? ",'" + 0 + "'" : buildQuery(beanItem.getOrganizationKey()));
+					query.append(StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getCompanyId())) ? ",'" + 0 + "'"
+							: buildQuery(beanItem.getCompanyId()));
+					query.append( StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getItemId())) ? ",'" + 0 + "'"
+							: buildQuery(beanItem.getItemId()));
+					query.append( ");");
+					HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 					flag = true;
 
 				}
@@ -1069,7 +1069,7 @@ public class FileManagementLogic {
 			String query2 = "", query = "";
 
 			LOGGER.debug("getResults started with P1:String fileType= {} and P2:String country= {} and P3:String fileName= {} and P4:String type= {} and P5:String version= {} and P6:String forecastYear= {} and P7:Date fromDate= {} and P8: Date toDate= {}", resultDTO.getFileType(), resultDTO.getCountry(), fileName, type, version, resultDTO.getForecastYear(), resultDTO.getFromPeriod(), resultDTO.getToPeriod());
-			String condition = "";
+			StringBuilder condition = new StringBuilder();
 			String having = "";
 			if (ConstantsUtils.EX_FACTORY_SALES.equals(resultDTO.getFileType())
 					&& ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
@@ -1081,9 +1081,9 @@ public class FileManagementLogic {
 						+ "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND  CM.COMPANY_MASTER_SID = "
 						+ resultDTO.getCompany() + " " + "WHERE ";
 				query = query1 + query2;
-				condition = "(FM.SOURCE in('FORESIGHT','LE_FORESIGHT'))";
-				condition = condition + " AND FM.COUNTRY ='" + resultDTO.getCountry() + "'";
-				condition = condition + " AND  FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
+				condition.append("(FM.SOURCE in('FORESIGHT','LE_FORESIGHT'))");
+				condition.append(" AND FM.COUNTRY ='").append(resultDTO.getCountry()).append("'");
+				condition.append(" AND  FM.BUSINESS_UNIT='").append(resultDTO.getBusinessUnit()).append("'");
 			} else if (ConstantsUtils.EX_FACTORY_SALES.equals(resultDTO.getHelperType())
 					&& ConstantsUtils.COUNTRY_PR.equals(resultDTO.getCountry())) {
 				query2 = " Year(Max(Cast(( Cast(fm.FORECAST_YEAR AS VARCHAR(4)) + '-'+ Cast(fm.FORECAST_MONTH AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR FROM  FORECASTING_MASTER FM "
@@ -1094,9 +1094,9 @@ public class FileManagementLogic {
 						+ "    JOIN COMPANY_MASTER CM  ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "
 						+ resultDTO.getCompany() + " " + "WHERE ";
 				query = query1 + query2;
-				condition = "(FM.SOURCE in('FF_SALES'))";
-				condition = condition + " AND FM.COUNTRY = '" + resultDTO.getCountry() + "'";
-				condition = condition + " AND  FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
+				condition.append("(FM.SOURCE in('FF_SALES'))");
+				condition.append(" AND FM.COUNTRY = '").append(resultDTO.getCountry()).append("'");
+				condition.append(" AND  FM.BUSINESS_UNIT='").append(resultDTO.getBusinessUnit()).append("'");
 			} else if (ConstantsUtils.DEMAND.equals(resultDTO.getFileType())
 					&& ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
 				query2 = " Year(Max(Cast(( Cast(fm.FORECAST_YEAR AS VARCHAR(4)) + '-'+ Cast(fm.FORECAST_MONTH AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR FROM  DEMAND_FORECAST FM "
@@ -1107,8 +1107,8 @@ public class FileManagementLogic {
 						+ "    JOIN COMPANY_MASTER CM  ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "
 						+ resultDTO.getCompany() + " " + " WHERE ";
 				query = query1 + query2;
-				condition = "FM.COUNTRY ='" + resultDTO.getCountry() + "'";
-				condition = condition + " AND FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
+				condition.append("FM.COUNTRY ='").append(resultDTO.getCountry()).append("'");
+				condition.append(" AND FM.BUSINESS_UNIT='").append(resultDTO.getBusinessUnit()).append("'");
 			} else if (ConstantsUtils.ADJUSTED_DEMAND.equals(resultDTO.getFileType())
 					&& ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
 				query2 = "SELECT FM.FORECAST_NAME,FM.FORECAST_VER,FM.\"SOURCE\",FM.COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, Max(Cast(( Cast(fm.YEAR AS VARCHAR(4)) + '-' + Cast(fm.MONTH AS VARCHAR(2))+ '-01' ) AS DATE)) AS FT_MAX_DATE, "
@@ -1121,8 +1121,8 @@ public class FileManagementLogic {
 						+ "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID =  GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "
 						+ resultDTO.getCompany() + " " + " WHERE ";
 				query = query2;
-				condition = "FM.COUNTRY='" + resultDTO.getCountry() + "'";
-				condition = condition + "  AND FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
+				condition.append("FM.COUNTRY='").append(resultDTO.getCountry()).append("'");
+				condition.append("  AND FM.BUSINESS_UNIT='").append(resultDTO.getBusinessUnit()).append("'");
 			} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY.equals(resultDTO.getFileType())
 					&& ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
 				query = "SELECT FM.FORECAST_NAME,FM.FORECAST_VER,FM.\"SOURCE\",FM.COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, \n"
@@ -1138,8 +1138,8 @@ public class FileManagementLogic {
 						+ "    JOIN GL_COST_CENTER_MASTER GLC ON  IM.NDC8 = GLC.NDC8 \n"
 						+ "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE  AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "
 						+ resultDTO.getCompany() + " " + " WHERE  ";
-				condition = "FM.COUNTRY LIKE '" + resultDTO.getCountry() + "%'";
-				condition = condition + " AND FM.BUSINESS_UNIT = '" + resultDTO.getBusinessUnit() + "'";
+				condition.append("FM.COUNTRY LIKE '").append(resultDTO.getCountry()).append("%'");
+				condition.append(" AND FM.BUSINESS_UNIT = '").append(resultDTO.getBusinessUnit()).append("'");
 			} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(resultDTO.getFileType())
 					&& ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
 				query = "SELECT FM.FORECAST_NAME,FM.FORECAST_VER,FM.\"SOURCE\",FM.COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, \n"
@@ -1155,8 +1155,8 @@ public class FileManagementLogic {
 						+ "    JOIN GL_COST_CENTER_MASTER  GLC ON IM.NDC8 = GLC.NDC8 \n"
 						+ "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "
 						+ resultDTO.getCompany() + " " + " WHERE    ";
-				condition = "FM.COUNTRY LIKE '" + resultDTO.getCountry() + "%'";
-				condition = condition + " AND FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
+				condition = new StringBuilder("FM.COUNTRY LIKE '" + resultDTO.getCountry() + "%'");
+				condition.append(" AND FM.BUSINESS_UNIT='").append(resultDTO.getBusinessUnit()).append("'");
 			} else if (ConstantsUtils.CUSTOMERGTS.equals(resultDTO.getFileType())
 					&& ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
 				query2 = " Year(Max(Cast(( Cast(fm.FORECAST_YEAR AS VARCHAR(4)) + '-'+ Cast(fm.FORECAST_MONTH AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR FROM  CUSTOMER_GTS_FORECAST FM "
@@ -1167,35 +1167,35 @@ public class FileManagementLogic {
 						+ "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "
 						+ resultDTO.getCompany() + " " + " WHERE    ";
 				query = query1 + query2;
-				condition = "FM.COUNTRY='" + resultDTO.getCountry() + "'";
-				condition = condition + " AND  FM.BUSINESS_UNIT = '" + resultDTO.getBusinessUnit() + "'";
+				condition = new StringBuilder("FM.COUNTRY='" + resultDTO.getCountry() + "'");
+				condition.append(" AND  FM.BUSINESS_UNIT = '").append(resultDTO.getBusinessUnit()).append("'");
 			}
 
 			if (!ConstantsUtils.EMPTY.equals(fileName)) {
 				fileName = fileName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-				condition = condition + " AND FM.FORECAST_NAME like '" + fileName + "'";
+				condition.append(" AND FM.FORECAST_NAME like '").append(fileName).append("'");
 			}
 			if (!ConstantsUtils.EMPTY.equals(type)) {
 				type = type.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-				condition = condition + " AND FM.SOURCE like '" + type + "'";
+				condition.append(" AND FM.SOURCE like '").append(type).append("'");
 			}
 			if (!ConstantsUtils.EMPTY.equals(version)) {
 				version = version.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-				condition = condition + " AND FM.FORECAST_VER like '" + version + "'";
+				condition.append(" AND FM.FORECAST_VER like '").append(version).append("'");
 			}
 			if (!ConstantsUtils.EMPTY.equals(searchForecastYear)) {
 				if (resultDTO.getFileType().contains("Adjusted Demand")) {
-					condition = condition + " AND fm.YEAR like '" + searchForecastYear + "'";
+					condition.append(" AND fm.YEAR like '").append(searchForecastYear).append("'");
 				} else if (!resultDTO.getFileType().contains("Inventory")) {
-					condition = condition + " AND fm.FORECAST_YEAR like '" + searchForecastYear + "'";
+					condition.append(" AND fm.FORECAST_YEAR like '").append(searchForecastYear).append("'");
 				} else {
-					condition = condition + " AND \"YEAR\" like '" + searchForecastYear + "'";
+					condition.append(" AND \"YEAR\" like '").append(searchForecastYear).append("'");
 				}
 			}
 
 			if (resultDTO.getFromPeriod() != null) {
 				String from = formatter.format(resultDTO.getFromPeriod());
-				condition = condition + " AND FT_MIN_DATE >='" + from + "'";
+				condition.append(" AND FT_MIN_DATE >='").append(from).append("'");
 			}
 			if (resultDTO.getToPeriod() != null) {
 				String to = formatter.format(resultDTO.getToPeriod());
@@ -1240,13 +1240,9 @@ public class FileManagementLogic {
 						}
 						if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId())
 								|| StringConstantsUtil.TO_DATE.equals(stringFilter.getPropertyId())) {
-							condition = condition + StringConstantsUtil.AND
-									+ resultsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " = '"
-									+ filterString + "'";
+							condition.append(StringConstantsUtil.AND).append(resultsColumn.get(String.valueOf(stringFilter.getPropertyId()))).append(" = '").append(filterString).append("'");
 						} else {
-							condition = condition + StringConstantsUtil.AND
-									+ resultsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-									+ StringConstantsUtil.LIKE_QUOTE + filterString + "'";
+							condition.append(StringConstantsUtil.AND).append(resultsColumn.get(String.valueOf(stringFilter.getPropertyId()))).append(StringConstantsUtil.LIKE_QUOTE).append(filterString).append("'");
 						}
 
 					} else if (filter instanceof Between) {
@@ -1255,13 +1251,13 @@ public class FileManagementLogic {
 						Date filterString1 = (Date) stringFilter.getEndValue();
 						if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId())) {
 
-							condition = condition + " AND FT_MIN_DATE >= '" + formatter.format(filterString) + "' ";
-							condition = condition + " AND FT_MIN_DATE <= '" + formatter.format(filterString1) + "' ";
+							condition.append(" AND FT_MIN_DATE >= '").append(formatter.format(filterString)).append("' ");
+							condition.append(" AND FT_MIN_DATE <= '").append(formatter.format(filterString1)).append("' ");
 						} else if (StringConstantsUtil.TO_DATE.equals(stringFilter.getPropertyId())) {
-							filterHaving = filterHaving + " AND  FT_MAX_DATE >= '" + formatter.format(filterString)
+							filterHaving = filterHaving.concat(" AND  FT_MAX_DATE >= '").concat(formatter.format(filterString))
 									+ "' ";
-							filterHaving = filterHaving + " AND  FT_MAX_DATE <= '" + formatter.format(filterString1)
-									+ "' ";
+							filterHaving = filterHaving.concat(" AND  FT_MAX_DATE <= '").concat(formatter.format(filterString1))
+									.concat("' ");
 						}
 					} else if (filter instanceof Compare) {
 						Compare stringFilter = (Compare) filter;
@@ -1271,16 +1267,16 @@ public class FileManagementLogic {
 
 							if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
 								if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId())) {
-									condition = condition + " AND FT_MIN_DATE >= '" + filterString + "' ";
+									condition.append(" AND FT_MIN_DATE >= '").append(filterString).append("' ");
 								} else if (StringConstantsUtil.TO_DATE.equals(stringFilter.getPropertyId())) {
-									filterHaving = filterHaving + " AND  FT_MAX_DATE >= '" + filterString + "' ";
+									filterHaving = filterHaving.concat(" AND  FT_MAX_DATE >= '").concat(filterString).concat("' ");
 								}
 
 							} else {
 								if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId())) {
-									condition = condition + " AND FT_MIN_DATE <= '" + filterString + "' ";
+									condition.append(" AND FT_MIN_DATE <= '").append(filterString).append("' ");
 								} else if (StringConstantsUtil.TO_DATE.equals(stringFilter.getPropertyId())) {
-									filterHaving = filterHaving + " AND  FT_MAX_DATE <= '" + filterString + "' ";
+									filterHaving = filterHaving.concat(" AND  FT_MAX_DATE <= '").concat(filterString).concat("' ");
 								}
 
 							}
