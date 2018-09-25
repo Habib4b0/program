@@ -53,7 +53,7 @@ public class GroupSearchLogic extends PageTableLogic{
     public List loadData(int start, int offset) {
         List<GroupDTO> resultList = new ArrayList<>();
         try {
-            resultList = logic.searchGroup(groupName, groupNo, itemsOrCompanySids, "searchGroup", groupIdentifier, "find", start, offset, getFilters(), getSortByColumns());
+            resultList = logic.searchGroup(groupName, groupNo, "searchGroup", groupIdentifier, "find", start, offset, getFilters(), getSortByColumns());
         } catch (SystemException ex) {
             LOGGER.error(" in loadData= {}", ex);
         }

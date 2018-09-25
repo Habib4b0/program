@@ -5,10 +5,10 @@ public class GtnFrameworkUdcStringConstants {
 	private GtnFrameworkUdcStringConstants() {
 
 	}
-
+        public static final String CATEGORY = "Category";
 	private static final Object[] UDC_TABLE_COLUMNS = new Object[] { "description", "udcCategory" };
 
-	private static final String[] UDC_TABLE_HEADER = new String[] { "Description", "Category" };
+	private static final String[] UDC_TABLE_HEADER = new String[] { "Description", CATEGORY };
 
 	private static final Class<?>[] UDC_TABLE_COLUMN_TYPE = new Class<?>[] { String.class, String.class };
 
@@ -16,7 +16,7 @@ public class GtnFrameworkUdcStringConstants {
 			"category" };
 
 	private static final String[] UDC_BRANDTABLE_HEADER = new String[] { "Brand ID", "Brand Name", "Display Brand",
-			"Category" };
+			CATEGORY };
 
 	private static final Class<?>[] UDC_BRANDTABLE_COLUMN_TYPE = new Class<?>[] { String.class, String.class,
 			String.class, String.class };
@@ -26,7 +26,7 @@ public class GtnFrameworkUdcStringConstants {
 				
     private static final Object[] UDC_FILETYPETABLE_COLUMNS = new Object[] { "description", "udcCategory", "aliasName"};
 
-    private static final String[] UDC_FILETYPETABLE_HEADER = new String[] { "Description", "Category","Alias Name"};
+    private static final String[] UDC_FILETYPETABLE_HEADER = new String[] { "Description", CATEGORY,"Alias Name"};
     
 	public static Object[] getUdcTableColumns() {
 		return UDC_TABLE_COLUMNS.clone();
