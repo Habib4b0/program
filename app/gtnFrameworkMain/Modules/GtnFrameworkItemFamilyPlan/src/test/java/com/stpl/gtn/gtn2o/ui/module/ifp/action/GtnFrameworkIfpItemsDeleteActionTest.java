@@ -25,34 +25,26 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 public class GtnFrameworkIfpItemsDeleteActionTest {
 
 	@Test
-	public void testGtnFrameworkIfpItemsDeleteAction_1()
-		throws Exception {
-		GtnFrameworkIfpItemsDeleteAction result = new GtnFrameworkIfpItemsDeleteAction();
-		assertNotNull(result);
-	}
-
-	@Test
 	public void testConfigureParams()
 		throws Exception {
 		
 		GtnFrameworkIfpItemsDeleteAction fixture = new GtnFrameworkIfpItemsDeleteAction();
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
 		fixture.configureParams(gtnUIFrameWorkActionConfig);
 
 	}
 
 	@Test
 	public void testCreateInstance()
-		throws Exception {
+		throws Exception { 
+		
 		GtnFrameworkIfpItemsDeleteAction fixture = new GtnFrameworkIfpItemsDeleteAction();
-
 		GtnUIFrameWorkAction result = fixture.createInstance();
 		assertNotNull(result);
 	}
 
 	@Test
-	public void testDoAction()
+	public void testGtnFrameworkIfpItemsDeleteAction_doAction()
 		throws Exception {
 		
 		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);
