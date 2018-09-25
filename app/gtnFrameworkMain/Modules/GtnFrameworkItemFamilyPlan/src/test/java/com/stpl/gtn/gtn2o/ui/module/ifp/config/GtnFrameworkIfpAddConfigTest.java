@@ -1,7 +1,11 @@
 package com.stpl.gtn.gtn2o.ui.module.ifp.config;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 
 /**
@@ -12,21 +16,19 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 public class GtnFrameworkIfpAddConfigTest {
 
 	@Test
-	public void testGtnFrameworkIfpAddConfig_1()
+	public void testGtnFrameworkIfpAddConfig()
 		throws Exception {
 		GtnFrameworkIfpAddConfig result = new GtnFrameworkIfpAddConfig();
 		assertNotNull(result);
-		// add additional test code here
 	}
 
 	@Test
-	public void testGetIFPAddView_1()
+	public void testGetIFPAddView()
 		throws Exception {
 		GtnFrameworkIfpAddConfig fixture = new GtnFrameworkIfpAddConfig();
 
 		GtnUIFrameworkViewConfig result = fixture.getIFPAddView();
 
-		// add additional test code here
 		assertNotNull(result);
 	}
 
@@ -42,7 +44,4 @@ public class GtnFrameworkIfpAddConfigTest {
 		// Add additional tear down code here
 	}
 
-	public static void main(String[] args) {
-		new org.junit.runner.JUnitCore().run(GtnFrameworkIfpAddConfigTest.class);
-	}
 }

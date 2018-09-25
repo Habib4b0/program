@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.module.ifp.dynamicclasses;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;

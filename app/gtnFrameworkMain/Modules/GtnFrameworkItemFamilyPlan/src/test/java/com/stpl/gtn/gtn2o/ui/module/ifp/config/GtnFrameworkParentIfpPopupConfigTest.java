@@ -1,7 +1,11 @@
 package com.stpl.gtn.gtn2o.ui.module.ifp.config;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 
 /**
@@ -12,21 +16,19 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 public class GtnFrameworkParentIfpPopupConfigTest {
 	
 	@Test
-	public void testGtnFrameworkParentIfpPopupConfig_1()
+	public void testGtnFrameworkParentIfpPopupConfig()
 		throws Exception {
+		
 		GtnFrameworkParentIfpPopupConfig result = new GtnFrameworkParentIfpPopupConfig();
 		assertNotNull(result);
-		// add additional test code here
 	}
 
 	@Test
-	public void testGetSearchView_1()
+	public void testGetSearchView()
 		throws Exception {
+		
 		GtnFrameworkParentIfpPopupConfig fixture = new GtnFrameworkParentIfpPopupConfig();
-
 		GtnUIFrameworkViewConfig result = fixture.getSearchView();
-
-		// add additional test code here
 		assertNotNull(result);
 	}
 
@@ -40,9 +42,5 @@ public class GtnFrameworkParentIfpPopupConfigTest {
 	public void tearDown()
 		throws Exception {
 		// Add additional tear down code here
-	}
-
-	public static void main(String[] args) {
-		new org.junit.runner.JUnitCore().run(GtnFrameworkParentIfpPopupConfigTest.class);
 	}
 }
