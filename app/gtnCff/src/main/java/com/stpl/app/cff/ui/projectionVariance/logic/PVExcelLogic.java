@@ -2722,7 +2722,8 @@ public class PVExcelLogic {
         final Object[] proj;
             final Object[] actual;
             if (list.size() > 1) {
-                if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
+                
+                if (String.valueOf(obj[obj.length - 1]).equalsIgnoreCase(ZERO)) {
                     actual = list.get(0);
                     proj = list.get(1);
                 } else {
