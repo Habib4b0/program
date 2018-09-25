@@ -178,7 +178,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final DataSelectionLogic dsLogic = new DataSelectionLogic();
     protected DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
     public static final String EACH = "EACH";
-    private boolean pvFlag = true;
 
     private final CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -1071,7 +1070,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
     }
      public void checkPvFrequency(){
-        pvFlag = true;
+        boolean pvFlag = true;
         if(pvFlag && (!session.getDsFrequency().equals(frequency.getValue()))){            
             pvFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
@@ -1447,37 +1446,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             forecastConfig = (ForecastConfig) resultList.get(0);
         }
         return forecastConfig;
-    }
-
-    public static int getProjections(Date endDate, String frequency) {
-
-        if (frequency.equals(Constant.ANNUALLY)) {
-            return endDate.getYear() - new Date().getYear();
-        } else {
-            Calendar startCalendar = new GregorianCalendar();
-            startCalendar.setTime(new Date());
-            Calendar endCalendar = new GregorianCalendar();
-            endCalendar.setTime(endDate);
-            int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
-            int diffMonth = diffYear * NumericConstants.TWELVE + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
-            if (frequency.equals(Constant.QUARTERLY)) {
-                if (diffMonth % NumericConstants.THREE == 0) {
-                    return diffMonth / NumericConstants.THREE;
-                } else {
-                    return (diffMonth / NumericConstants.THREE) + 1;
-                }
-
-            } else if (frequency.equals(Constant.SEMIANNUALLY)) {
-                if (diffMonth % NumericConstants.SIX == 0) {
-                    return diffMonth / NumericConstants.SIX;
-                } else {
-                    return (diffMonth / NumericConstants.SIX) + 1;
-                }
-            } else if (frequency.equals(Constant.MONTHLY)) {
-                return diffMonth;
-            }
-            return 0;
-        }
     }
 
     public void fetchDiscountsFromSave() {

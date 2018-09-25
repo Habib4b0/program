@@ -59,6 +59,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -158,10 +159,6 @@ public class NonFampResults extends Window {
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
     /**
-     * The table control Layout.
-     */
-    private HorizontalLayout controlLayout;
-    /**
      * The max split position.
      */
     private final float maxSplitPosition = 1000;
@@ -184,8 +181,6 @@ public class NonFampResults extends Window {
     
     private NonFampTableLogic tableLogic = new NonFampTableLogic();
     private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
-    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
@@ -198,7 +193,6 @@ public class NonFampResults extends Window {
     
     @UiField("nfNdcFilterDdlb")
     private ComboBox ndcFilterDdlb;
-    private LazyContainer ndcFilterContainer;
     private final HelperDTO ndcFilterDTO = new HelperDTO(0, SELECT_ONE.getConstant());
     private HelperDTO brandWorksheetDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final SessionDTO sessionDTO;
@@ -455,7 +449,7 @@ public class NonFampResults extends Window {
      */
     private void addResultTable() {
         tableVerticalLayout.addComponent(periodTableId);
-        controlLayout = tableLogic.createControls();
+        HorizontalLayout controlLayout = tableLogic.createControls();
         tableLogic.sinkItemPerPageWithPageLength(false);
         tableVerticalLayout.addComponent(controlLayout);
     }
@@ -466,8 +460,8 @@ public class NonFampResults extends Window {
     private void configureResultTable() {
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         fullHeader = new CustomTableHeaderDTO();
-        leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, StringUtils.EMPTY);
+        CustomTableHeaderDTO leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, StringUtils.EMPTY);
         resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
@@ -565,11 +559,15 @@ public class NonFampResults extends Window {
             com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
+            Calendar calStartDateResults = Calendar.getInstance();
+            calStartDateResults.setTime(startDate);
+            Calendar calEndDateResults = Calendar.getInstance();
+            calEndDateResults.setTime(endDate);
             if (startDate != null && endDate != null) {
-                projectionDTO.setEndYear(endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-                projectionDTO.setEndMonth(endDate.getMonth() + 1);
-                projectionDTO.setHistProjYear(startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-                projectionDTO.setHistProjMonth(startDate.getMonth() + 1);
+                projectionDTO.setEndYear(calEndDateResults.get(Calendar.YEAR));
+                projectionDTO.setEndMonth(calEndDateResults.get(Calendar.MONTH) + 1);
+                projectionDTO.setHistProjYear(calStartDateResults.get(Calendar.YEAR));
+                projectionDTO.setHistProjMonth(calStartDateResults.get(Calendar.MONTH) + 1);
                 projectionDTO.setProjectionNum(CommonUtils.getProjections(new Date(), endDate, QUARTERLY.getConstant()));
             }
         }
@@ -687,7 +685,7 @@ public class NonFampResults extends Window {
         ndcFilterDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         ndcFilterDdlb.setItemCaptionPropertyId(DESCRIPTION.getConstant());
         ndcFilterDdlb.markAsDirty();
-        ndcFilterContainer = new LazyContainer(HelperDTO.class, new NdcFilterContainer(projectionDTO.getBrandSid(), true, projectionDTO.getTherapeuticSid(), false), new NdcFilterCriteria());
+        LazyContainer ndcFilterContainer = new LazyContainer(HelperDTO.class, new NdcFilterContainer(projectionDTO.getBrandSid(), true, projectionDTO.getTherapeuticSid(), false), new NdcFilterCriteria());
         ndcFilterContainer.setMinFilterLength(0);
         ndcFilterDdlb.setContainerDataSource(ndcFilterContainer);
         ndcFilterDdlb.select(ndcFilterDTO);

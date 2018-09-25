@@ -203,6 +203,427 @@ public class GtnWsTransactionReprocessIOServiceTest {
         gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
         assertFalse(generalRequest.getUserId().isEmpty());
     }
+    
+    @Test
+    public void testGetWhereClauseForReprocessException() {
+        System.out.println("getWhereClauseForReprocess");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("767");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("IvldCfp");
+        gtnWsTransactionRequest.setStagingTableName("StagCfp");
+        List<String> reprocessIds=new ArrayList<>();
+        reprocessIds.add("115");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setReprocessFlag(true);
+        Object[] stagUpdateColumn={"reprocessFlag"};
+        Object[] stagUpdateColumns={"Y"};
+        gtnWsTransactionRequest.setStagUpdateColumns(stagUpdateColumn);
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(stagUpdateColumns);
+        gtnWsTransactionRequest.setOutBoundTableName("IvldCfp");
+        List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
+        GtnWebServiceSearchCriteria e = new GtnWebServiceSearchCriteria();
+        e.setFieldId("intfInsertedDate");
+        e.setFilterValue1("Wed Oct 19 14:34:26 BRST 2016");
+        e.setFilterValue2("Wed Oct 19 14:34:26 BRST 2016");
+        e.setExpression("BETWEEN");
+        e.setFilter(false);
+        searchCriteria.add(e);     
+        gtnWsTransactionRequest.setSearchCriteria(searchCriteria);
+        
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);       
+        gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+    
+    
+       @Test
+    public void testGetWhereClauseForReprocessLIKE() {
+        System.out.println("getWhereClauseForReprocess");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("767");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("IvldCfp");
+        gtnWsTransactionRequest.setStagingTableName("StagCfp");
+        List<String> reprocessIds=new ArrayList<>();
+        reprocessIds.add("115");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setReprocessFlag(true);
+        Object[] stagUpdateColumn={"reprocessFlag"};
+        Object[] stagUpdateColumns={"Y"};
+        gtnWsTransactionRequest.setStagUpdateColumns(stagUpdateColumn);
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(stagUpdateColumns);
+        gtnWsTransactionRequest.setOutBoundTableName("IvldCfp");
+        List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
+        GtnWebServiceSearchCriteria e = new GtnWebServiceSearchCriteria();
+        e.setFieldId("CDProcessView_IADTCombo_IFP");
+        e.setFilterValue1("IFP No");
+        e.setExpression("LIKE");
+        e.setFilter(false);
+        searchCriteria.add(e);
+      
+        gtnWsTransactionRequest.setSearchCriteria(searchCriteria);
+        
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);       
+        gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+    
+     @Test
+    public void testGetWhereClauseForReprocessEQUAL() {
+        System.out.println("getWhereClauseForReprocess");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("767");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("IvldCfp");
+        gtnWsTransactionRequest.setStagingTableName("StagCfp");
+        List<String> reprocessIds=new ArrayList<>();
+        reprocessIds.add("115");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setReprocessFlag(true);
+        Object[] stagUpdateColumn={"reprocessFlag"};
+        Object[] stagUpdateColumns={"Y"};
+        gtnWsTransactionRequest.setStagUpdateColumns(stagUpdateColumn);
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(stagUpdateColumns);
+        gtnWsTransactionRequest.setOutBoundTableName("IvldCfp");
+        List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
+        GtnWebServiceSearchCriteria e = new GtnWebServiceSearchCriteria();
+        e.setFieldId("CDProcessView_IADTCombo_IFP");
+        e.setFilterValue1("IFP No");
+        e.setExpression("EQUAL");
+        e.setFilter(false);
+        searchCriteria.add(e);
+      
+        gtnWsTransactionRequest.setSearchCriteria(searchCriteria);
+        
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);       
+        gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+    
+    @Test
+    public void testGetWhereClauseForReprocessGREATER() {
+        System.out.println("getWhereClauseForReprocess");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("767");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("IvldCfp");
+        gtnWsTransactionRequest.setStagingTableName("StagCfp");
+        List<String> reprocessIds=new ArrayList<>();
+        reprocessIds.add("115");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setReprocessFlag(true);
+        Object[] stagUpdateColumn={"reprocessFlag"};
+        Object[] stagUpdateColumns={"Y"};
+        gtnWsTransactionRequest.setStagUpdateColumns(stagUpdateColumn);
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(stagUpdateColumns);
+        gtnWsTransactionRequest.setOutBoundTableName("IvldCfp");
+        List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
+        GtnWebServiceSearchCriteria e = new GtnWebServiceSearchCriteria();
+        e.setFieldId("CDProcessView_IADTCombo_IFP");
+        e.setFilterValue1("IFP No");
+        e.setExpression("GREATER");
+        e.setFilter(false);
+        searchCriteria.add(e);
+      
+        gtnWsTransactionRequest.setSearchCriteria(searchCriteria);
+        
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);       
+        gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+    
+      @Test
+    public void testGetWhereClauseForReprocessLESS() {
+        System.out.println("getWhereClauseForReprocess");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("767");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("IvldCfp");
+        gtnWsTransactionRequest.setStagingTableName("StagCfp");
+        List<String> reprocessIds=new ArrayList<>();
+        reprocessIds.add("115");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setReprocessFlag(true);
+        Object[] stagUpdateColumn={"reprocessFlag"};
+        Object[] stagUpdateColumns={"Y"};
+        gtnWsTransactionRequest.setStagUpdateColumns(stagUpdateColumn);
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(stagUpdateColumns);
+        gtnWsTransactionRequest.setOutBoundTableName("IvldCfp");
+        List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
+        GtnWebServiceSearchCriteria e = new GtnWebServiceSearchCriteria();
+        e.setFieldId("CDProcessView_IADTCombo_IFP");
+        e.setFilterValue1("IFP No");
+        e.setExpression("LESS");
+        e.setFilter(false);
+        searchCriteria.add(e);
+      
+        gtnWsTransactionRequest.setSearchCriteria(searchCriteria);
+        
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);       
+        gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+    
+       @Test
+    public void testGetWhereClauseForReprocessGREATER_OR_EQUAL() {
+        System.out.println("getWhereClauseForReprocess");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("767");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("IvldCfp");
+        gtnWsTransactionRequest.setStagingTableName("StagCfp");
+        List<String> reprocessIds=new ArrayList<>();
+        reprocessIds.add("115");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setReprocessFlag(true);
+        Object[] stagUpdateColumn={"reprocessFlag"};
+        Object[] stagUpdateColumns={"Y"};
+        gtnWsTransactionRequest.setStagUpdateColumns(stagUpdateColumn);
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(stagUpdateColumns);
+        gtnWsTransactionRequest.setOutBoundTableName("IvldCfp");
+        List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
+        GtnWebServiceSearchCriteria e = new GtnWebServiceSearchCriteria();
+        e.setFieldId("CDProcessView_IADTCombo_IFP");
+        e.setFilterValue1("IFP No");
+        e.setExpression("GREATER_OR_EQUAL");
+        e.setFilter(false);
+        searchCriteria.add(e);
+      
+        gtnWsTransactionRequest.setSearchCriteria(searchCriteria);
+        
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);       
+        gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+    
+           @Test
+    public void testGetWhereClauseForReprocessLESS_OR_EQUAL() {
+        System.out.println("getWhereClauseForReprocess");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("767");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("IvldCfp");
+        gtnWsTransactionRequest.setStagingTableName("StagCfp");
+        List<String> reprocessIds=new ArrayList<>();
+        reprocessIds.add("115");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setReprocessFlag(true);
+        Object[] stagUpdateColumn={"reprocessFlag"};
+        Object[] stagUpdateColumns={"Y"};
+        gtnWsTransactionRequest.setStagUpdateColumns(stagUpdateColumn);
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(stagUpdateColumns);
+        gtnWsTransactionRequest.setOutBoundTableName("IvldCfp");
+        List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
+        GtnWebServiceSearchCriteria e = new GtnWebServiceSearchCriteria();
+        e.setFieldId("CDProcessView_IADTCombo_IFP");
+        e.setFilterValue1("IFP No");
+        e.setExpression("LESS_OR_EQUAL");
+        e.setFilter(false);
+        searchCriteria.add(e);
+      
+        gtnWsTransactionRequest.setSearchCriteria(searchCriteria);
+        
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);       
+        gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+    
+    @Test
+    public void testGetWhereClauseForReprocessAND() {
+        System.out.println("getWhereClauseForReprocess");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("767");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("IvldCfp");
+        gtnWsTransactionRequest.setStagingTableName("StagCfp");
+        List<String> reprocessIds=new ArrayList<>();
+        reprocessIds.add("115");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setReprocessFlag(true);
+        Object[] stagUpdateColumn={"reprocessFlag"};
+        Object[] stagUpdateColumns={"Y"};
+        gtnWsTransactionRequest.setStagUpdateColumns(stagUpdateColumn);
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(stagUpdateColumns);
+        gtnWsTransactionRequest.setOutBoundTableName("IvldCfp");
+        List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
+        GtnWebServiceSearchCriteria e = new GtnWebServiceSearchCriteria();
+        e.setFieldId("CDProcessView_IADTCombo_IFP");
+        e.setFilterValue1("2");
+        e.setFilterValue2("2");
+        e.setExpression("AND");
+        e.setFilter(false);
+        searchCriteria.add(e);
+      
+        gtnWsTransactionRequest.setSearchCriteria(searchCriteria);
+        
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);       
+        gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+    
+    @Test
+    public void testGetWhereClauseForReprocessDATE_BETWEEN() {
+        System.out.println("getWhereClauseForReprocess");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("767");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("IvldCfp");
+        gtnWsTransactionRequest.setStagingTableName("StagCfp");
+        List<String> reprocessIds=new ArrayList<>();
+        reprocessIds.add("115");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setReprocessFlag(true);
+        Object[] stagUpdateColumn={"reprocessFlag"};
+        Object[] stagUpdateColumns={"Y"};
+        gtnWsTransactionRequest.setStagUpdateColumns(stagUpdateColumn);
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(stagUpdateColumns);
+        gtnWsTransactionRequest.setOutBoundTableName("IvldCfp");
+        List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
+        GtnWebServiceSearchCriteria e = new GtnWebServiceSearchCriteria();
+        e.setFieldId("intfInsertedDate");
+        e.setFilterValue1("Wed Oct 16 00:00:00 CEST 2013");
+        e.setExpression("DATE_BETWEEN");
+        e.setFilter(false);
+        searchCriteria.add(e);
+      
+        gtnWsTransactionRequest.setSearchCriteria(searchCriteria);
+        
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);       
+        gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+    
+     @Test
+    public void testGetWhereClauseForReprocessDATE_BETWEENDate() {
+        System.out.println("getWhereClauseForReprocess");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("767");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("IvldCfp");
+        gtnWsTransactionRequest.setStagingTableName("StagCfp");
+        List<String> reprocessIds=new ArrayList<>();
+        reprocessIds.add("115");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setReprocessFlag(true);
+        Object[] stagUpdateColumn={"reprocessFlag"};
+        Object[] stagUpdateColumns={"Y"};
+        gtnWsTransactionRequest.setStagUpdateColumns(stagUpdateColumn);
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(stagUpdateColumns);
+        gtnWsTransactionRequest.setOutBoundTableName("IvldCfp");
+        List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
+        GtnWebServiceSearchCriteria e = new GtnWebServiceSearchCriteria();
+        e.setFieldId("CDProcessView_IADTCombo_IFP");
+        e.setFilterValue1("2");
+        e.setExpression("BETWEEN");
+        e.setFilter(false);
+        searchCriteria.add(e);
+      
+        gtnWsTransactionRequest.setSearchCriteria(searchCriteria);
+        
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);       
+        gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
+    
+    
+     @Test
+    public void testGetWhereClauseForReprocessDATE_BETWEENDefault() {
+        System.out.println("getWhereClauseForReprocess");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setExtraParameter("CDMainView_ComponentResultTable");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("767");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("IvldCfp");
+        gtnWsTransactionRequest.setStagingTableName("StagCfp");
+        List<String> reprocessIds=new ArrayList<>();
+        reprocessIds.add("115");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setReprocessFlag(true);
+        Object[] stagUpdateColumn={"reprocessFlag"};
+        Object[] stagUpdateColumns={"Y"};
+        gtnWsTransactionRequest.setStagUpdateColumns(stagUpdateColumn);
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(stagUpdateColumns);
+        gtnWsTransactionRequest.setOutBoundTableName("IvldCfp");
+        List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
+        GtnWebServiceSearchCriteria e = new GtnWebServiceSearchCriteria();
+        e.setFieldId("CDProcessView_IADTCombo_IFP");
+        e.setFilterValue1("2");
+        e.setExpression("BETWEENn");
+        e.setFilter(false);
+        searchCriteria.add(e);
+      
+        gtnWsTransactionRequest.setSearchCriteria(searchCriteria);
+        
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);       
+        gtnWsTransactionReprocessIOService.getWhereClauseForReprocess(gtnWsTransactionRequest);    
+        assertFalse(generalRequest.getUserId().isEmpty());
+    }
 
     /**
      * Test of getValueBasedOnType method, of class GtnWsTransactionReprocessIOService.
@@ -251,7 +672,7 @@ public class GtnWsTransactionReprocessIOServiceTest {
         instance.runJobForReprocess(tableName);
         assertFalse(tableName.isEmpty());
     }
-
+    
     /**
      * Test of replaceBatchIdColumn method, of class GtnWsTransactionReprocessIOService.
      */
@@ -260,6 +681,7 @@ public class GtnWsTransactionReprocessIOServiceTest {
         System.out.println("replaceBatchIdColumn");
         GtnWsTransactionReprocessIOService instance = new GtnWsTransactionReprocessIOService();
         instance.replaceBatchIdColumn(Arrays.asList("batchId"));
+        assertFalse(Arrays.asList("batchId").isEmpty());
     }
 
     /**
@@ -293,7 +715,38 @@ public class GtnWsTransactionReprocessIOServiceTest {
         gtnWsTransactionReprocessIOService.outboundRecords(gtnWsTransactionRequest);
         assertFalse(generalRequest.getUserId().isEmpty());       
     }
-
+    
+     @Test
+    public void testOutboundRecordsFalse() throws Exception {
+        System.out.println("reprocessRecords");
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("319");
+        generalRequest.setExcel(false);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        GtnWsTransactionRequest gtnWsTransactionRequest=new GtnWsTransactionRequest();
+        gtnWsTransactionRequest.setTableName("StCffOutboundMaster");
+        gtnWsTransactionRequest.setStagingTableName("StCffOutboundMaster");
+        List<String> reprocessIds = new ArrayList<>();
+        List<String> reprocessIds1 = new ArrayList<>();
+        reprocessIds1.add("133699_1363_601");
+        gtnWsTransactionRequest.setReprocessFlag(false);
+        gtnWsTransactionRequest.setOutBoundModule(true);
+        Object[] stagInsertColumns={"cffDetailsSid","rsModelSid","periodSid"};
+        gtnWsTransactionRequest.setStagInsertColumns(stagInsertColumns);
+        gtnWsTransactionRequest.setStagUpdateColumns(new Object[]{"etlCheckRecord","UserId","sessionId"});
+        gtnWsTransactionRequest.setStagUpdateColumnsValues(new Object[]{"1","1","1"});
+        gtnWsTransactionRequest.setOutBoundTableName("VwCffOutboundMaster");
+        gtnWsTransactionRequest.setReprocessIds(reprocessIds);
+        gtnWsTransactionRequest.setUncheckedIds(reprocessIds1);
+        gtnWsRequest.setGtnWsTransactionRequest(gtnWsTransactionRequest);
+        GtnWsTransactionReprocessIOService instance = new GtnWsTransactionReprocessIOService();
+        gtnWsTransactionReprocessIOService.outboundRecords(gtnWsTransactionRequest);
+        assertFalse(generalRequest.getUserId().isEmpty());       
+    }
+    
     /**
      * Test of updateConditionAndCallEtlService method, of class GtnWsTransactionReprocessIOService.
      */
@@ -371,6 +824,14 @@ public class GtnWsTransactionReprocessIOServiceTest {
         System.out.println("getSidsList");
         GtnWsTransactionReprocessIOService instance = new GtnWsTransactionReprocessIOService();
         Object[] result = instance.getSidsList(Arrays.asList("133699_1363_601"), 2);
+        assertFalse(result.length==0);
+    }
+    
+    @Test
+    public void testGetSidsListFalse() {
+        System.out.println("getSidsList");
+        GtnWsTransactionReprocessIOService instance = new GtnWsTransactionReprocessIOService();
+        Object[] result = instance.getSidsList(Arrays.asList("1336991363601"), 2);
         assertFalse(result.length==0);
     }
 

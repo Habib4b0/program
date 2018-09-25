@@ -201,7 +201,7 @@ public class DiscountProjectionLogic {
         if (levelNo != 0) {
             if (CommonUtil.isValueEligibleForLoading() && !isCustom) {
                 discountProjectionList = queryBuilderAndExecutor.getDiscountProjectionLastLevel(frequency, discountList, session, hierarchyNo,
-                        hierarchyIndicator, levelNo,  customViewDetails, treeLevelNo, start, offset, userGroup, projectionSelection);
+                        hierarchyIndicator, levelNo,  start, offset, userGroup, projectionSelection);
             } else {
                 discountProjectionList = queryBuilderAndExecutor.getDiscountProjectionCustom(isProgram, frequency, discountList, session, hierarchyNo,
                         hierarchyIndicator, levelNo, isCustom, customViewDetails, treeLevelNo, start, offset, userGroup);
