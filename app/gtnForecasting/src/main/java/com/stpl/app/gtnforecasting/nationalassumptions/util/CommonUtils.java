@@ -84,11 +84,6 @@ public class CommonUtils {
      */
     protected static int currentSemi;
 
-    /**
-     * The current date.
-     */
-    private static int currentDate;
-    
     public static final String GLCOMP = "GLCOMP";
     public static final char CHAR_PERCENT = '%';
     public static final char CHAR_ASTERISK = '*';
@@ -131,7 +126,7 @@ public class CommonUtils {
         try {
             String path = controller.getClass().getCanonicalName();
             String finalPath = path.substring(0, path.lastIndexOf('.'));
-            finalPath = finalPath.replaceAll("\\.", "\\" + File.separator);
+            finalPath = finalPath.replaceAll(Constant.DOUBLE_SLASH_DOT, Constant.DOUBLE_SLASH + File.separator);
             finalPath += xmlClassResourceFileName;
             LOGGER.debug("Path to XML= {}" , finalPath);
             xml = Thread.currentThread().getContextClassLoader().getResource(finalPath).openStream();
@@ -168,7 +163,7 @@ public class CommonUtils {
         now.setTime(todayDate);
         currentYear = now.get(Calendar.YEAR);
         currentMonth = now.get(Calendar.MONTH);
-        currentDate = now.get(Calendar.DATE);        
+        int currentDate = now.get(Calendar.DATE);        
         now.set(currentYear, currentMonth, currentDate);
         return now;
 
