@@ -10198,3 +10198,289 @@ BEGIN
 END
 GO
 
+
+----------------------------------------------DTX_CONTRACT_IFP_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_CONTRACT_IFP_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_CONTRACT_IFP_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Contract_IFP_Intf.sh'
+		,'DTX_CONTRACT_IFP_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_CONTRACT_IFP_INTERFACE'
+		,'DTX_CONTRACT_IFP_INTERFACE SUCCESS'
+		,'FAILURE - DTX_CONTRACT_IFP_INTERFACE '
+		,'DTX_CONTRACT_IFP_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+
+----------------------------------------------DTX_CONTRACT_CPGRP_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_CONTRACT_CPGRP_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_CONTRACT_CPGRP_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Conrtact_CPGRP_Intf.sh'
+		,'DTX_CONTRACT_CPGRP_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_CONTRACT_CPGRP_INTERFACE'
+		,'DTX_CONTRACT_CPGRP_INTERFACE SUCCESS'
+		,'FAILURE - DTX_CONTRACT_CPGRP_INTERFACE '
+		,'DTX_CONTRACT_CPGRP_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+
+----------------------------------------------DTX_CONTRACT_PRICE_PLAN_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_CONTRACT_PRICE_PLAN_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_CONTRACT_PRICE_PLAN_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Contract_Price_Plan_Intf.sh'
+		,'DTX_CONTRACT_PRICE_PLAN_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_CONTRACT_PRICE_PLAN_INTERFACE'
+		,'DTX_CONTRACT_PRICE_PLAN_INTERFACE SUCCESS'
+		,'FAILURE - DTX_CONTRACT_PRICE_PLAN_INTERFACE '
+		,'DTX_CONTRACT_PRICE_PLAN_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+
+----------------------------------------------DTX_CONTRACT_CPPPO_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_CONTRACT_CPPPO_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_CONTRACT_CPPPO_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Contract_CPPPO_Intf.sh'
+		,'DTX_CONTRACT_CPPPO_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_CONTRACT_CPPPO_INTERFACE'
+		,'DTX_CONTRACT_CPPPO_INTERFACE SUCCESS'
+		,'FAILURE - DTX_CONTRACT_CPPPO_INTERFACE '
+		,'DTX_CONTRACT_CPPPO_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+
+----------------------------------------------DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Contract_Cpgrp_Pgm_Mkt_Intf.sh'
+		,'DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE'
+		,'DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE SUCCESS'
+		,'FAILURE - DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE '
+		,'DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+
+
+
+
+
+
+
+
+
+
+

@@ -130,6 +130,12 @@ public class FileNameUtil {
                         map.put(Constants.DTX_CONTRACT_HEADER_INTERFACE, Constants.DTX_CONTRACT_HEADER_INTERFACE);
                         map.put(Constants.DTX_FORECAST_SALES_INTERFACE, Constants.DTX_FORECAST_SALES_INTERFACE);
                         map.put(Constants.DTX_FORECAST_SALES_WAC_INTERFACE, Constants.DTX_FORECAST_SALES_WAC_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_PRICE_PLAN_INTERFACE, Constants.DTX_CONTRACT_PRICE_PLAN_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_IFP_INTERFACE, Constants.DTX_CONTRACT_IFP_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_CPGRP_INTERFACE, Constants.DTX_CONTRACT_CPGRP_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_CPPPO_INTERFACE, Constants.DTX_CONTRACT_CPPPO_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE, Constants.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE);
+                        
 
 		}
 		return map;
@@ -309,6 +315,16 @@ public class FileNameUtil {
                     Constants.DTX_FORECAST_SALES_INTERFACE);
                         interfaceNameMap.put(Constants.DTX_FORECAST_SALES_WAC_INTERFACE,
                     Constants.DTX_FORECAST_SALES_WAC_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_PRICE_PLAN_INTERFACE,
+                    Constants.DTX_CONTRACT_PRICE_PLAN_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_IFP_INTERFACE,
+                    Constants.DTX_CONTRACT_IFP_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_CPGRP_INTERFACE,
+                    Constants.DTX_CONTRACT_CPGRP_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_CPPPO_INTERFACE,
+                    Constants.DTX_CONTRACT_CPPPO_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE,
+                    Constants.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE);
 		}
 		return interfaceNameMap;
 	}
