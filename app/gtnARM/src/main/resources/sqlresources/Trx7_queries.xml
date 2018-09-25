@@ -531,10 +531,10 @@ ORDER BY
            
             @ITEM_MASTER_SID       INT = ?, 
             @OVERRIDE_VALUE        INT = ? ,
-            @CONTRACT_MASTER_SID   VARCHAR = '?',
-            @COMPANY_MASTER_SID   VARCHAR = '?',
-            @BRAND_MASTER_SID   VARCHAR = '?',
-            @RS_MODEL_SID   VARCHAR = '?'
+            @CONTRACT_MASTER_SID   NVARCHAR(MAX) = '?',
+            @COMPANY_MASTER_SID   NVARCHAR(MAX) = '?',
+            @BRAND_MASTER_SID   NVARCHAR(MAX) = '?',
+            @RS_MODEL_SID   NVARCHAR(MAX) = '?'
  
           UPDATE	
                 RATE SET

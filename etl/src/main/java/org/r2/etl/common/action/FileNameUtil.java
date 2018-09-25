@@ -114,6 +114,9 @@ public class FileNameUtil {
 			map.put(Constants.PSTG_FORECAST_SALES_WAC_INTERFACE, Constants.PSTG_FORECAST_SALES_WAC_INTERFACE);
 			map.put(Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE, Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE);
                         
+			
+			map.put(Constants.ARM_LOAD_INTERFACE, Constants.ARM_LOAD_INTERFACE);
+			
                         map.put(Constants.DTX_UOM_INTERFACE, Constants.DTX_UOM_INTERFACE);
                         map.put(Constants.DTX_CPI_INTERFACE, Constants.DTX_CPI_INTERFACE);
                         map.put(Constants.DTX_RETURN_RATE_INTERFACE, Constants.DTX_RETURN_RATE_INTERFACE);
@@ -277,6 +280,10 @@ public class FileNameUtil {
 					Constants.PSTG_FORECAST_SALES_WAC_INTERFACE);
 			interfaceNameMap.put(Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE,
 					Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE);
+			
+			interfaceNameMap.put(Constants.ARM_LOAD_INTERFACE,
+					Constants.ARM_LOAD_INTERFACE);
+			
                         interfaceNameMap.put(Constants.DTX_UOM_INTERFACE,
 					Constants.DTX_UOM_INTERFACE);
                         interfaceNameMap.put(Constants.DTX_CPI_INTERFACE,
