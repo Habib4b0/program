@@ -2505,7 +2505,7 @@ public class ProjectionVarianceLogic {
                             value = getFormattedValue(AMOUNT, value);
                         } else if (projSelDTO.getSales().contains("RATE")) {
                             value = getFormattedValue(RATE_PER_THREE, value);
-                            value = value + PERCENT;
+                            value = value.concat(PERCENT.toString());
                         }
                         projDTO.addStringProperties(column1, value);
                         columnList.remove(column1);
@@ -2518,7 +2518,7 @@ public class ProjectionVarianceLogic {
                                 priorVal = getFormattedValue(AMOUNT, priorVal);
                             } else if (projSelDTO.getSales().contains("RATE")) {
                                 priorVal = getFormattedValue(RATE_PER_THREE, priorVal);
-                                priorVal = priorVal + PERCENT;
+                                priorVal = priorVal.concat(String.valueOf(PERCENT));
                             }
                             projDTO.addStringProperties(column1, priorVal);
                             columnList.remove(column1);
@@ -2883,21 +2883,21 @@ public class ProjectionVarianceLogic {
     String getCCPIds(PVSelectionDTO projSelDTO) {
         String query = getCCPQueryForCff(projSelDTO);
         List list = projSelDTO.isIsCustomHierarchy() ? Collections.emptyList() : HelperTableLocalServiceUtil.executeSelectQuery(query);
-        String ccps = StringUtils.EMPTY;
+        StringBuilder ccps = new StringBuilder("");
         boolean flag = true;
         if (list != null) {
             int size = list.size();
             for (int i = 0; i < size; i++) {
                 Object[] obj = (Object[]) list.get(i);
                 if (flag) {
-                    ccps = String.valueOf(obj[0]);
+                    ccps.append(String.valueOf(obj[0]));
                     flag = false;
                 } else {
-                    ccps = ccps + "," + String.valueOf(obj[0]);
+                    ccps.append(",").append(obj[0]);
             }
         }
     }
-        return ccps;
+        return ccps.toString();
     }
     
     public String getCCPQueryForCff(ProjectionSelectionDTO projSelDTO) {

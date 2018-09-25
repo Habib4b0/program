@@ -45,7 +45,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
     }
 
     protected Object getReturnReserveDataQuery(AbstractSelectionDTO selection, Object lastParent, boolean isCount, int start, int offset, int currentPage, int lastPage) {
-        LOGGER.debug("currentPage {}", (currentPage + " " + lastPage));
+        LOGGER.debug("currentPage {}", (currentPage + ARMUtils.SPACE + lastPage));
         List<AdjustmentDTO> resultDTO;
         int startindex = start + 1;
         int endindex = start + offset;
@@ -56,7 +56,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
         String queryName = "tx8ReturnReserveDataMain";
         if (isCount) {
             List count;
-            if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+            if ((lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                 count = QueryUtils.getItemData(getQueryInput(parentDTO, selection, input, tableName), queryName, "tx8ReturnReserveDataCount");
 
@@ -68,7 +68,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
             return count != null && !count.isEmpty() && count.get(0) != null ? count.get(0) : 0;
         } else {
             List result;
-            if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+            if ((lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                 getQueryInput(parentDTO, selection, input, tableName);
                 input.addAll(new ArrayList<>(Arrays.asList(startindex, endindex)));
@@ -201,9 +201,9 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
         String query = SQlUtil.getQuery("getExcelReturnReserveDataTx8");
         Object[] value = null;
         if (selection.getRateDeductionView().equals(ARMUtils.CUSTOMER_CONTRACT)) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         } else {
-            value = new Object[]{"D", "C", "T", "B", "I"};
+            value = ARMUtils.getDCTBI();
         }
         query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getRateDeductionLevelName());

@@ -12,7 +12,6 @@ import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
 import com.stpl.app.arm.dataselection.dto.DeductionLevelDTO;
 import com.stpl.app.arm.dataselection.dto.LevelDTO;
 import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
-import static com.stpl.app.arm.dataselection.ui.form.DataSelection.getBeanFromId;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.DataSelectionQueryUtils;
@@ -60,7 +59,7 @@ public class DataSelectionTab extends AbstractDataSelection {
         init();
     }
 
-    public void init() {
+    private void init() {
         panel1.setCaption("Adjustment Options");
         if (sessionDTO.isWorkFlow()) {
             configureDataSelection();
@@ -302,7 +301,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             prodLevelListenerFlag = false;
             deductionLevel.select(new HelperDTO(selection.getDeductionLevel(), HelperListUtil.getInstance().getIdDescMap().get(selection.getDeductionLevel())));
             description.setValue(selection.getProjectionDescription());
-            String adjType = selection.getAdjustmentType().replace("~", " ");
+            String adjType = selection.getAdjustmentType().replace("~", ARMUtils.SPACE.toString());
             HelperDTO adjHeper = new HelperDTO(selection.getAdjustmentId(), adjType);
             adjustmentType.setItemCaption(adjHeper, selection.getSelectedAdjType());
             adjustmentType.select(adjHeper);
@@ -311,7 +310,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             hierarchyKeys.clear();
             Map<String, DeductionLevelDTO> levelKeys = logic.getDeductionTree(selectedLevelIds, rsContractSidList, hierarchyKeys);
             selectedDeductionContainer.removeAllItems();
-            setDeductionTree(levelKeys,hierarchyKeys);
+            setDeductionTree(levelKeys, hierarchyKeys);
             customerHierarchy.setValue(selection.getCustomerHierarchyName());
             productHierarchy.setValue(selection.getProductHierarchyName());
             logic.loadCustomerRelation(customerRelation, selection.getCustomerHierarchySid());
@@ -341,8 +340,8 @@ public class DataSelectionTab extends AbstractDataSelection {
                             prodVersionMap.get(selection.getProdRelationshipBuilderSid()),
                             selection.getProductHierarchySid(),
                             selection.getProductHierarchyVersionNo());
-            initializeCustomerHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getCustomerHierarchyLevel()));
-            initializeProductHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getProductHierarchyLevel()));
+            initializeCustomerHierarchy(selection.getProjectionId(), Integer.parseInt(selection.getCustomerHierarchyLevel()));
+            initializeProductHierarchy(selection.getProjectionId(), Integer.parseInt(selection.getProductHierarchyLevel()));
 
             custLevelListenerFlag = true;
             prodLevelListenerFlag = true;
@@ -388,37 +387,13 @@ public class DataSelectionTab extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = CustHierarchyLogic.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
-        for (LevelDTO selectionCustHierarchy : reslistOne) {
-            if (selectionCustHierarchy.getLevelNo() == 1) {
-                selectedCustomerContainer.removeAllItems();
-                selectedCustomerContainer.addItem(selectionCustHierarchy);
-                selectedCustomerContainer.setChildrenAllowed(selectionCustHierarchy, true);
-            } else {
-                for (Object tempselection : selectedCustomerContainer.getItemIds()) {
-                    if (selectionCustHierarchy.getParentNode().contains("~")) {
-                        String[] parentarr = selectionCustHierarchy.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempselection).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedCustomerContainer.addBean(selectionCustHierarchy);
-                            selectedCustomerContainer.setChildrenAllowed(selectionCustHierarchy, true);
-                            selectedCustomerContainer.setParent(selectionCustHierarchy, tempselection);
-                            break;
-                        }
-                    } else {
-                        selectedCustomerContainer.addBean(selectionCustHierarchy);
-                        selectedCustomerContainer.setChildrenAllowed(selectionCustHierarchy, true);
-                        selectedCustomerContainer.setParent(selectionCustHierarchy, tempselection);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedCustomerContainer, reslistOne, customerLevel);
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
-        
+
         selectedCustomer.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
-        
+
         selectedCustomer.setColumnHeaders(new String[]{"Customer Hierarchy Group Builder"});
-        
+
         for (LevelDTO ddo : selectedCustomerContainer.getItemIds()) {
             selectedCustomer.setCollapsed(ddo, false);
         }
@@ -435,45 +410,13 @@ public class DataSelectionTab extends AbstractDataSelection {
 
         List<LevelDTO> reslistOne;
         reslistOne = initProdHierarchyDsLogic.getRelationShipValues(projectionId, "product", productLevel, productDescriptionMap);
-        for (LevelDTO selected : reslistOne) {
-            if (selected.getLevelNo() == 1) {
-                selectedProductContainer.removeAllItems();
-                selectedProductContainer.addItem(selected);
-                selectedProductContainer.setChildrenAllowed(selected, true);
-            } else {
-                for (Object tempselection : selectedProductContainer.getItemIds()) {
-                    if (selected.getParentNode().contains("~")) {
-                        String[] parentarr = selected.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempselection).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedProductContainer.addBean(selected);
-                            if (productLevel != selected.getLevelNo()) {
-                                selectedProductContainer.setChildrenAllowed(selected, true);
-                            } else {
-                                selectedProductContainer.setChildrenAllowed(selected, false);
-                            }
-                            selectedProductContainer.setParent(selected, tempselection);
-                            break;
-                        }
-                    } else {
-                        selectedProductContainer.addBean(selected);
-                        if (productLevel != selected.getLevelNo()) {
-                            selectedProductContainer.setChildrenAllowed(selected, true);
-                        } else {
-                            selectedProductContainer.setChildrenAllowed(selected, false);
-                        }
-                        selectedProductContainer.setParent(selected, tempselection);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedProductContainer, reslistOne, productLevel);
         selectedProduct.setContainerDataSource(selectedProductContainer);
-        
+
         selectedProduct.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
-        
+
         selectedProduct.setColumnHeaders(new String[]{"Product Hierarchy Group Builder"});
-        
+
         for (LevelDTO ddo : selectedProductContainer.getItemIds()) {
             selectedProduct.setCollapsed(ddo, false);
         }

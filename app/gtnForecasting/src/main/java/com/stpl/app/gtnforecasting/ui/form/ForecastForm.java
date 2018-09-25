@@ -277,12 +277,9 @@ public class ForecastForm extends AbstractForm {
 			session.setDataAssumptionLogic(dataAssumption);
 			dataAssumption.getLatestFilesList();
 			dataAssumption.isSalesCalculatedAlready();
-			if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
-					|| Constant.VIEW.equalsIgnoreCase(session.getAction())) {
 				if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())) {
 					discountFlag = false;
 				}
-			}
 			this.salesProjectionResults = new NMSalesProjectionResults(session, screenName);
 			this.nmSalesProjection = new NMSalesProjection(session, screenName);
 			this.dataAssumptions = new DataAssumptions(session);
@@ -914,12 +911,11 @@ public class ForecastForm extends AbstractForm {
 
 			@Override
 			public void noMethod() {
-				if (!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION)) {
-                                            if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
-							|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
+				if (!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION) && 
+                                        (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
+							|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()))) {
 						checkCloseFlag(true);
 					}
-				}
 			}
 		}.getConfirmationMessage(msgTitle, msgContent);
 
@@ -1057,7 +1053,7 @@ public class ForecastForm extends AbstractForm {
 								ppaProjectionResults.getContent();
 								ppaProjectionResults.ppaProcedure();
 							}
-							if (WorkFlowNotesLookup.getSUBMIT_FLAG().equals("Success")) {
+							if (WorkFlowNotesLookup.getSUBMITFLAG().equals("Success")) {
 								submitProjection(popup.getNotes().getValue(), screenName, popup.getUploadedData());
 								if ((Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
 										|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()))
@@ -1071,7 +1067,7 @@ public class ForecastForm extends AbstractForm {
 									closeViewTray(viewWindow);
 									viewWindow.close();
 								}
-								WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
+								WorkFlowNotesLookup.setSUBMITFLAG("Failed");
 								CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
 							}
 						} catch (PortalException ex) {
@@ -1186,11 +1182,15 @@ public class ForecastForm extends AbstractForm {
 
 			VarianceCalculationLogic.submitWorkflow( processId, session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 			String autoApproval = DSCalculationLogic.getProcessVariableLog(processId,"Auto_Approval");
-			String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");;
+			String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");
 			if (!autoApproval.isEmpty() && !noOfUsers.isEmpty()) {
 
 				LOGGER.debug("autoApproval  = {} " , autoApproval);
 				LOGGER.debug("no of users = {} " , noOfUsers);
+                                
+                            session.setProjectionName(data.getProjectionName());
+                            session.setDescription(data.getProjectionDescription());
+                            dsLogic.updateProjectionNameAndProjectionDescription(session);
 				String workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
 				String approvedFlag;
 				logic.deleteTempBySession();
@@ -1502,7 +1502,7 @@ public class ForecastForm extends AbstractForm {
 				public void yesMethod() {
 					try {
 						if (!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-							callInsertProcedureOnGenerate(session, screenName);
+							callInsertProcedureOnGenerate(session);
 						}
 						init();
 						addContent();
@@ -1516,7 +1516,7 @@ public class ForecastForm extends AbstractForm {
 					try {                                                                                     
 						logic.removeTPOrCustomerFromProjection(session,dataSelectionDTO);
 						if (!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-							callInsertProcedureOnGenerate(session, screenName);
+							callInsertProcedureOnGenerate(session);
 						}
 						init();
 						addContent();
@@ -1528,7 +1528,7 @@ public class ForecastForm extends AbstractForm {
 					"F_" + screenName.replaceAll("\\s", StringUtils.EMPTY).toUpperCase(Locale.ENGLISH) + "_ACT_CHECK_MSG"));
 		} else {
 			if (!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-				callInsertProcedureOnGenerate(session, screenName);
+				callInsertProcedureOnGenerate(session);
 			}
 			init();
 			addContent();
@@ -1539,7 +1539,7 @@ public class ForecastForm extends AbstractForm {
 	 * Method calls the insert procedure while generating a projection based on
 	 * the forecast module.
 	 */
-	private void callInsertProcedureOnGenerate(final SessionDTO session, final String screenName) {
+	private void callInsertProcedureOnGenerate(final SessionDTO session) {
 		dsLogic.callInsertProcedure(session.getProjectionId(), session.getUserId(), session.getSessionId(),SalesUtils.MANDATED_PRO_NAME);
 	}
 
@@ -2059,21 +2059,6 @@ public class ForecastForm extends AbstractForm {
                 Constant.CUSTOM_VIEW_DISCOUNT_POPULATION_CALL,session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));  
         }
     }
-        
-        private void nmSalesInsertProcedure() {
-		session.addFutureMap(Constant.SALES_PROCEDURE_CALL,
-				new Future[] {
-						service.submit(commUtil.createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.SALES1)),
-						service.submit(commUtil.createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_ACTUAL_INSERT, dataSelectionDTO.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.SALES1)),
-						service.submit(commUtil.createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.SALES1)) });
-	}
-
 	private void nmPPAInitProcedure() {
 		Future ppaInit = service.submit(
 				commUtil.createRunnableForPPAInitProcedure(SalesUtils.PRC_NM_PPA_PROJ_INIT, session));
@@ -2097,30 +2082,6 @@ public class ForecastForm extends AbstractForm {
 	}
 		};
 		session.addFutureMap(Constant.CALL_PRC_CONTRACT_DETAILS_REBATE, new Future[] { service.submit(runnable) });
-	}
-
-	/**
-	 * To call the PPA insert procedure and calculation procedure calculation
-	 * procedure will be triggered once the insert procedure is done
-	 * 
-	 */
-	private void supplementDiscountProcedure() {
-		Future supplementDiscountInsert = service.submit(commUtil.createRunnable(
-				Constant.PROCEDURE_CALL, Constant.SUPPLEMENTAL_INSERT_PRC, session.getProjectionId(),
-				session.getMarketTypeValue(), session.getUserId(), session.getSessionId()));
-		session.addFutureMap(Constant.SUPPLEMENT_PROCEDURE_CALL, new Future[] { supplementDiscountInsert });
-	}
-
-	/**
-	 * To call the PPA insert procedure and calculation procedure calculation
-	 * procedure will be triggered once the insert procedure is done
-	 * 
-	 */
-	private void mDiscountProcedure() {
-		Future mDiscountInsert = service
-				.submit(commUtil.createRunnable(Constant.PROCEDURE_CALL, Constant.PRC_M_DISCOUNT_INSERT,
-						session.getProjectionId(), session.getUserId(), "SPAP", session.getSessionId()));
-		session.addFutureMap(Constant.M_DISCOUNT_PROCEDURE_CALL, new Future[] { mDiscountInsert });
 	}
 
 	private void checkCloseFlag(boolean flag) {

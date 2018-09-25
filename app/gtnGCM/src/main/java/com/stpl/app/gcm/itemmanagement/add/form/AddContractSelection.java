@@ -206,7 +206,6 @@ public class AddContractSelection extends CustomComponent {
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     private SelectionDTO selection = new SelectionDTO();
     private final BeanItemContainer<AbstractContractSearchDTO> itemContractContainer = new BeanItemContainer<>(AbstractContractSearchDTO.class);
-    private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
     private final AbstractComponentInfo component = new AbstractComponentInfo(Constants.RS, selection);
     private String massUpdateString = StringUtils.EMPTY;
     private boolean isFound = false;
@@ -1248,9 +1247,8 @@ public class AddContractSelection extends CustomComponent {
     }
 
     protected void resultsItemClick(final Object obj) {
-        if (obj == null) {
-            componentInfoDTO = null;
-        } else {
+         AbstractContractSearchDTO componentInfoDTO;
+        if (obj != null) {
             componentInfoDTO = (AbstractContractSearchDTO) obj;
             selection.setContractSid(componentInfoDTO.getContractSid());
             selection.setCompanySid(componentInfoDTO.getCompanySid());
@@ -1308,7 +1306,7 @@ public class AddContractSelection extends CustomComponent {
         Object value = null;
         Object baseLineValue = null;
         String columnName = StringUtils.EMPTY;
-        String baseLineColumnName = StringUtils.EMPTY;
+        String baseLineColumnName ;
         String textValue;
         String baseLineTextValue;
         HelperDTO tempDTO;

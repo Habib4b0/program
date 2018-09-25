@@ -348,9 +348,8 @@ public class CommonUtils {
      * @return startPeriod
      */
     public static final NativeSelect getStartPeriod() {
-        final NativeSelect startPeriod = new NativeSelect();
+        return new NativeSelect();
 
-        return startPeriod;
     }
 
     /**
@@ -359,9 +358,7 @@ public class CommonUtils {
      * @return endPeriod
      */
     public static final NativeSelect getEndPeriod() {
-        final NativeSelect endPeriod = new NativeSelect();
-
-        return endPeriod;
+        return new NativeSelect();
     }
 
     /**
@@ -490,7 +487,7 @@ public class CommonUtils {
         try {
             String path = controller.getClass().getCanonicalName();
             String finalPath = path.substring(0, path.lastIndexOf('.'));
-            finalPath = finalPath.replaceAll("\\.", "\\" + File.separator);
+            finalPath = finalPath.replaceAll(Constant.DOUBLE_SLASH_DOT, Constant.DOUBLE_SLASH + File.separator);
             finalPath += xmlClassResourceFileName;
             LOGGER.debug("Path to XML= {}" , finalPath);
             xml = Thread.currentThread().getContextClassLoader().getResource(finalPath).openStream();
@@ -604,9 +601,14 @@ public class CommonUtils {
     }
 
     public static int getProjections(Date startDate, Date endDate, String frequency) {
+        Calendar startDateProj = Calendar.getInstance();
+        startDateProj.setTime(startDate);
+        Calendar endDateCalProj = Calendar.getInstance();
+        endDateCalProj.setTime(endDate);
+        
         if (endDate.after(startDate)) {
             if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
-                return endDate.getYear() - startDate.getYear();
+               return endDateCalProj.get(Calendar.YEAR) - startDateProj.get(Calendar.YEAR);
             } else {
                 Calendar startCalendar = Calendar.getInstance();
                 startCalendar.setTime(startDate);
@@ -656,8 +658,7 @@ public class CommonUtils {
         // passing month-1 because 0-->jan, 1-->feb... 11-->dec
         calendar.set(year, month - 1, 1);
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
-        Date date = calendar.getTime();
-        return date;
+        return calendar.getTime();
     }
 
     static int getPeriodsPerYear(String frequency) {
@@ -692,10 +693,6 @@ public class CommonUtils {
         return ((monthNo - 1) / division) + 1;
     }
 
-    static int getPeriodFromDate(Date date, int division) {
-        return (date.getMonth() / division) + 1;
-    }
-
     public static int getStartMonth(int period, String frequency) {
 
         int month = 1;
@@ -721,18 +718,6 @@ public class CommonUtils {
             month = period;
         }
 
-        return month;
-    }
-
-    public static int getStartMonthForDate(int period, int year, String frequency, Date startDate) {
-        int startMonth = 0;
-        if ((startDate != null) && (startDate.getYear() == year)) {
-            startMonth = startDate.getMonth() + 1;
-        }
-        int month = getStartMonth(period, frequency);
-        if (startMonth != 0 && startMonth >= month) {
-            month = startMonth;
-        }
         return month;
     }
 
@@ -762,23 +747,11 @@ public class CommonUtils {
         return month;
     }
 
-    public static int getEndMonthForDate(int period, int year, String frequency, Date endDate) {
-        int endMonth = 0;
-        if ((endDate != null) && (endDate.getYear() == year)) {
-            endMonth = endDate.getMonth() + 1;
-        }
-        int month = getEndMonth(period, frequency);
-        if (endMonth != 0 && endMonth <= month) {
-            month = endMonth;
-        }
-        return month;
-    }
 
     static int getEndDay(int monthNo, int year) {
         Calendar ob = Calendar.getInstance();
         ob.set(year, monthNo - 1, 1);
-        int daysInMonth = ob.getActualMaximum(Calendar.DAY_OF_MONTH);
-        return daysInMonth;
+        return  ob.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     public static Map<String, Integer> getHistoryEndDetails(SessionDTO session, String frequency) {
@@ -852,7 +825,7 @@ public class CommonUtils {
 
         if (frequency.equals(QUARTERLY.getConstant())) {
             frequencyDivision = NumericConstants.FOUR;
-            int a[] = getQSPeriodDetails(projSelDTO, frequencyDivision);
+            int [] a = getQSPeriodDetails(projSelDTO, frequencyDivision);
             historyStartPeriod = a[1];
             historyEndPeriod = a[NumericConstants.TWO];
             forecastStartPeriod = a[NumericConstants.THREE];
@@ -861,7 +834,7 @@ public class CommonUtils {
             projectionEndPeriod = a[NumericConstants.SIX];
         } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequencyDivision = NumericConstants.TWO;
-            int a[] = getQSPeriodDetails(projSelDTO, frequencyDivision);
+            int [] a = getQSPeriodDetails(projSelDTO, frequencyDivision);
             historyStartPeriod = a[1];
             historyEndPeriod = a[NumericConstants.TWO];
             forecastStartPeriod = a[NumericConstants.THREE];
@@ -1051,8 +1024,8 @@ public class CommonUtils {
      * @param toAddQuote
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString, toAddQuote, false);
+    public static String collectionToStringMethod(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToStringMethod(collectionOfString, toAddQuote, false);
     }
 
     /**
@@ -1063,7 +1036,7 @@ public class CommonUtils {
      * @param toRemoveSpace
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToStringMethod(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = StringUtils.EMPTY;
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
@@ -1159,8 +1132,7 @@ public class CommonUtils {
     }
 
     public static Locale getLocale() {
-        Locale locale = VaadinPortletService.getCurrentPortletRequest().getLocale();
-        return locale;
+        return VaadinPortletService.getCurrentPortletRequest().getLocale();
     }
 
     public static void setPortalConfig(final PortletConfig portletConfig) {
@@ -1239,8 +1211,7 @@ public class CommonUtils {
     public static int getHistoryProjectionNum(String frequency, SessionDTO session) {
         Map<String, Integer> historyEndDetails = getHistoryEndDetails(session, frequency);
         Date dt = getDate(historyEndDetails.get(HISTORY_END_MONTH.getConstant()), historyEndDetails.get(HISTORY_END_YEAR.getConstant()));
-        int endValue = getProjections(session.getForecastDTO().getProjectionStartDate(), dt, frequency);
-        return endValue;
+        return getProjections(session.getForecastDTO().getProjectionStartDate(), dt, frequency);
     }
 
     public static List<String> loadHistory(String frequency, String period, SessionDTO session) {
@@ -1329,8 +1300,8 @@ public class CommonUtils {
         try {
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
-                Object array[] = (Object[]) userList.get(loop);
-                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
+                Object [] array = (Object[]) userList.get(loop);
+                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + array[1]);
             }
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -1362,8 +1333,8 @@ public class CommonUtils {
         try {
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
-                Object array[] = (Object[]) userList.get(loop);
-                userMap.put(String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]), String.valueOf(array[0]));
+                Object [] array = (Object[]) userList.get(loop);
+                userMap.put(String.valueOf(array[NumericConstants.TWO]) + ", " + array[1], String.valueOf(array[0]));
             }
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -1383,7 +1354,7 @@ public class CommonUtils {
         try {
             discountList = HelperTableLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = discountList.size(); loop < limit; loop++) {
-                Object array[] = (Object[]) discountList.get(loop);
+                Object [] array = (Object[]) discountList.get(loop);
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[1]));
             }
         } catch (SystemException ex) {
@@ -1909,8 +1880,7 @@ public class CommonUtils {
 
     private static String trimMonth(int startMonth) {
         String monthString = new DateFormatSymbols().getMonths()[startMonth - 1];
-        String month = monthString.substring(0, NumericConstants.THREE).toLowerCase(Locale.ENGLISH);
-        return month;
+        return monthString.substring(0, NumericConstants.THREE).toLowerCase(Locale.ENGLISH);
     }
 
     public static String forecastConfigDataHide(String frequency, List<String> forecastConfigList, String column, String dataObject) {

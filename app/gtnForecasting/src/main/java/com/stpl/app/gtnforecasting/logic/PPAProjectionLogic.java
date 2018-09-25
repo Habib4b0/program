@@ -115,7 +115,7 @@ public class PPAProjectionLogic {
         } else if (columnValue instanceof Date) {
             input.add("CONVERT(DATE, '" + CommonUtils.getDateTime(Constant.DATE_FORMAT_1, (Date) columnValue) + "')");
         } else {
-            input.add("'" + String.valueOf(columnValue) + "'");
+            input.add("'" + columnValue + "'");
         }
         input.add(selection.getRelationshipBuilderSid());
         input.add(projectionId);
@@ -130,10 +130,10 @@ public class PPAProjectionLogic {
         List input = null;
         if (priceCap instanceof Double) {
             input = getInputForMassUpdate(startQuater, endQuater, startYear, endYear, priceCap, selection);
-            PPAQuerys.PPAUpdate(input, "PPA.MAssUpdate-PriceCap");
+            PPAQuerys.ppaUpdate(input, "PPA.MAssUpdate-PriceCap");
         } else if (priceCap instanceof String) {
             input = getInputForMassUpdateGroup(priceCap, selection);
-            PPAQuerys.PPAUpdate(input, "PPA.MAssUpdate-Group");
+            PPAQuerys.ppaUpdate(input, "PPA.MAssUpdate-Group");
         }
     }
 
@@ -321,7 +321,7 @@ public class PPAProjectionLogic {
                     } else {
                         input = getInputForSaveCheckRecord(projectionId, dto, DASH, selection);
                     }
-                    PPAQuerys.PPAUpdate(input, "PPA.saveCheckRecord");
+                    PPAQuerys.ppaUpdate(input, "PPA.saveCheckRecord");
                 }
             }
 
@@ -343,7 +343,7 @@ public class PPAProjectionLogic {
         } else if (Constant.NULL.equalsIgnoreCase(String.valueOf(columnValue))) {
             input.add(Constant.NULL_CAPS);
         } else {
-            input.add("'" + String.valueOf(columnValue) + "'");
+            input.add("'" + columnValue + "'");
         }
         input.add(selection.getRelationshipBuilderSid());
         input.add(projectionId);
@@ -523,7 +523,7 @@ public class PPAProjectionLogic {
         }
         input.add(session.getProjectionId());
         input.add(group);
-        PPAQuerys.PPAUpdate(input, "PPA.saveAllCheckRecord");
+        PPAQuerys.ppaUpdate(input, "PPA.saveAllCheckRecord");
 
     }
 
@@ -677,8 +677,7 @@ public class PPAProjectionLogic {
         query = StringUtils.isEmpty(filterQuery) ? query.replace(Constant.FILTERR, StringUtils.EMPTY) : query.replace(Constant.FILTERR, filterQuery);
         List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (isCount) {
-            int count = (Integer) resultList.get(0);
-            return count;
+            return (Integer) resultList.get(0);
         } else {
             return convertFormulaList(resultList);
         }
@@ -757,8 +756,7 @@ public class PPAProjectionLogic {
         query = StringUtils.isEmpty(filterQuery) ? query.replace(Constant.FILTERR, StringUtils.EMPTY) : query.replace(Constant.FILTERR, filterQuery);
         List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (isCount) {
-            int count = (Integer) resultList.get(0);
-            return count;
+            return (Integer) resultList.get(0);
         } else {
             return convertFormulaDetailsList(resultList);
         }

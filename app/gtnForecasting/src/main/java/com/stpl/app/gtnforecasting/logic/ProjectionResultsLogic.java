@@ -320,8 +320,7 @@ public class ProjectionResultsLogic {
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsSalesQuery(projSelDTO);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query);
-        List<ProjectionResultsDTO> projDTOList = getCustomizedProjectionResultsSales(list, projSelDTO);
-        return projDTOList;
+        return getCustomizedProjectionResultsSales(list, projSelDTO);
     }
 
     public List<ProjectionResultsDTO> getProjectionPivot(ProjectionSelectionDTO projSelDTO) {
@@ -1132,7 +1131,7 @@ public class ProjectionResultsLogic {
         int neededRecord = offset;
         int mayBeAdded = 0;
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
-        String discList = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
+        String discList = CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false);
         String freq = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == 1) {
             freq = "ANNUAL";
@@ -1698,7 +1697,7 @@ public class ProjectionResultsLogic {
                 discountTypeColumnName = " J.RS_NAME as DISCOUNTS \n";
                 groupBy += ", J.RS_NAME";
             }
-            whereClause += " and B.RS_CONTRACT_SID in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ") \n";
+            whereClause += " and B.RS_CONTRACT_SID in (" + CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false) + ") \n";
         }
         selectClause += discountTypeColumnName + ", ";
 

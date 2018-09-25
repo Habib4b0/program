@@ -9926,3 +9926,275 @@ BEGIN
 		)
 END
 GO
+
+
+----------------------------------------------DTX_COMPANY_IDENTIFIER_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_COMPANY_IDENTIFIER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_COMPANY_IDENTIFIER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Company_Identifier_Intf.sh'
+		,'DTX_COMPANY_IDENTIFIER_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_COMPANY_IDENTIFIER_INTERFACE'
+		,'DTX_COMPANY_IDENTIFIER_INTERFACE SUCCESS'
+		,'FAILURE - DTX_COMPANY_IDENTIFIER_INTERFACE '
+		,'DTX_COMPANY_IDENTIFIER_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+----------------------------------------------DTX_CONTRACT_CFP_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_CONTRACT_CFP_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_CONTRACT_CFP_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Contract_CFP_Intf.sh'
+		,'DTX_CONTRACT_CFP_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_CONTRACT_CFP_INTERFACE'
+		,'DTX_CONTRACT_CFP_INTERFACE SUCCESS'
+		,'FAILURE - DTX_CONTRACT_CFP_INTERFACE '
+		,'DTX_CONTRACT_CFP_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+----------------------------------------------DTX_CONTRACT_HEADER_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_CONTRACT_HEADER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_CONTRACT_HEADER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Contract_Header_Intf.sh'
+		,'DTX_CONTRACT_HEADER_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_CONTRACT_HEADER_INTERFACE'
+		,'DTX_CONTRACT_HEADER_INTERFACE SUCCESS'
+		,'FAILURE - DTX_CONTRACT_HEADER_INTERFACE '
+		,'DTX_CONTRACT_HEADER_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+----------------------------------------------DTX_FORECAST_SALES_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_FORECAST_SALES_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_FORECAST_SALES_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Forecast_Sales_Intf.sh'
+		,'DTX_FORECAST_SALES_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_FORECAST_SALES_INTERFACE'
+		,'DTX_FORECAST_SALES_INTERFACE SUCCESS'
+		,'FAILURE - DTX_FORECAST_SALES_INTERFACE '
+		,'DTX_FORECAST_SALES_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+----------------------------------------------DTX_FORECAST_SALES_WAC_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_FORECAST_SALES_WAC_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_FORECAST_SALES_WAC_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Forecast_Sales_Wac_Intf.sh'
+		,'DTX_FORECAST_SALES_WAC_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_FORECAST_SALES_WAC_INTERFACE'
+		,'DTX_FORECAST_SALES_WAC_INTERFACE SUCCESS'
+		,'FAILURE - DTX_FORECAST_SALES_WAC_INTERFACE '
+		,'DTX_FORECAST_SALES_WAC_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+

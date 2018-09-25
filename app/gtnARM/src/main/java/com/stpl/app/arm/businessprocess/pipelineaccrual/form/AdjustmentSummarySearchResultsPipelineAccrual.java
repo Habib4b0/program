@@ -8,6 +8,7 @@ package com.stpl.app.arm.businessprocess.pipelineaccrual.form;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractPipelineSummaryResults;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.dto.PipelineAccrualSelectionDTO;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.logic.PASummaryLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMConstants;
@@ -30,17 +31,17 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
 
     @Override
     public Object[] getExcelHierarchy() {
-        Object[] value = null;
+        Object[] summPAvalue = null;
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "C", "T", "B", "I"};
+            summPAvalue = ARMUtils.getDCTBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
-            value = new Object[]{"T", "C", "B", "I"};
+            summPAvalue = ARMUtils.getTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomer())) {
-            value = new Object[]{"T", "B", "I"};
+            summPAvalue = ARMUtils.getTBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
-            value = new Object[]{"B", "I"};
+            summPAvalue = ARMUtils.getBI();
         }
-        return value;
+        return summPAvalue;
     }
 
     @Override

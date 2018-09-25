@@ -139,6 +139,11 @@ public final class GtnFrameworkCssConstants {
 
 	public static final String STPL_MARGIN_TOP_11 = "stpl-margin-top-11";
 
+	public static final String V_REPORT_LAYOUT ="v-report-layout";
+	
+	public static final String V_REPORT_COMPARSION_SEARCH_TOPLAYOUT = "v-report-comparsion-search-topLayout";
+	
+			
 	private GtnFrameworkCssConstants() {
 		super();
 	}

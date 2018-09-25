@@ -30,10 +30,10 @@ public class BSummaryPipelineResults extends AbstractBalanceSummaryResutls {
         try {
             Map properties = new HashMap();
             List<Object> header = getSummaryLogic().getRightTableHeaders(getSummarySelection());
-            List rightSingleVisibleColumn = (ArrayList) header.get(0);
-            List rightSingleVisibleHeader = (ArrayList) header.get(1);
-            List<String> rightDoubleVisibleColumn = (ArrayList) header.get(2);
-            List<String> rightDoubleVisibleHeader = (ArrayList) header.get(3);
+            List rightSingleVisibleColumn = (List) header.get(0);
+            List rightSingleVisibleHeader = (List) header.get(1);
+            List<String> rightDoubleVisibleColumn = (List) header.get(2);
+            List<String> rightDoubleVisibleHeader = (List) header.get(3);
             for (Object variableColumn : rightSingleVisibleColumn) {
                 properties.put(variableColumn, String.class);
             }
@@ -68,7 +68,7 @@ public class BSummaryPipelineResults extends AbstractBalanceSummaryResutls {
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        getSummarySelection().setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        getSummarySelection().setSummeryhierarchy(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override

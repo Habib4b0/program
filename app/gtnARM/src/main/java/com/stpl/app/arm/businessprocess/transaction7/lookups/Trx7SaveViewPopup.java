@@ -45,7 +45,7 @@ public class Trx7SaveViewPopup extends Window {
     private Button updateBtn;
     private final ExclusionLookupDTO saveViewDTO;
     private final Trx7ExclusionDetailsLogic arLogic = new Trx7ExclusionDetailsLogic();
-    public static final Logger LOGGER = LoggerFactory.getLogger(Trx7SaveViewPopup.class);
+    public static final Logger TR7_SAVE_VIEW_LOGGER = LoggerFactory.getLogger(Trx7SaveViewPopup.class);
 
     public Trx7SaveViewPopup(ExclusionLookupDTO saveViewDTO) {
         addStyleName("bootstrap");
@@ -56,7 +56,7 @@ public class Trx7SaveViewPopup extends Window {
         configureFields();
     }
 
-    public void configureFields() {
+    private void configureFields() {
         setDraggable(true);
         center();
         setModal(true);
@@ -106,22 +106,22 @@ public class Trx7SaveViewPopup extends Window {
             }
 
         } catch (Exception e) {
-            LOGGER.error("Error in addbuttonClick :", e);
+            TR7_SAVE_VIEW_LOGGER.error("Error in addbuttonClick :", e);
         }
     }
 
     @UiHandler("cancel")
-    public void cancelButtonClick(Button.ClickEvent event) {
+    public void cancelBtnClick(Button.ClickEvent event) {
         try {
             close();
         } catch (Exception e) {
-            LOGGER.error("Error in cancelButtonClick :", e);
+            TR7_SAVE_VIEW_LOGGER.error("Error in cancelButtonClick :", e);
         }
     }
 
     @UiHandler("update")
     public void updateButtonClick(Button.ClickEvent event) {
-        LOGGER.debug("Inside updateButtonClick Btn");
+        TR7_SAVE_VIEW_LOGGER.debug("Inside updateButtonClick Btn");
         int creatorAlert = 0;
         try {
             if ((!saveViewDTO.getViewType().equals(StringUtils.EMPTY) && ("publicView".equals(saveViewDTO.getViewType()))) && (!String.valueOf(saveViewDTO.getSessionUserID()).equals(saveViewDTO.getCreatedUser()))) {
@@ -141,7 +141,7 @@ public class Trx7SaveViewPopup extends Window {
 
             }
         } catch (Exception e) {
-            LOGGER.error("Error in updateButtonClick :", e);
+            TR7_SAVE_VIEW_LOGGER.error("Error in updateButtonClick :", e);
         }
     }
 
@@ -154,8 +154,8 @@ public class Trx7SaveViewPopup extends Window {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object tr7SaveViewObj) {
+        return super.equals(tr7SaveViewObj);
     }
 
     @Override
@@ -163,11 +163,11 @@ public class Trx7SaveViewPopup extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream tr7SaveViewObj) throws IOException {
+        tr7SaveViewObj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream tr7SaveViewObj) throws IOException, ClassNotFoundException {
+        tr7SaveViewObj.defaultReadObject();
     }
 }

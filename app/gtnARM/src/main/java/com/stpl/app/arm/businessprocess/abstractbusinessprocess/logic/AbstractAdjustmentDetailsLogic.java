@@ -9,25 +9,22 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.commontemplates.AdjustmentDetailsTableLogic;
 import com.stpl.app.arm.common.CommonFilterLogic;
+import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.supercode.Criteria;
 import com.stpl.app.arm.supercode.DataResult;
 import com.stpl.app.arm.supercode.SelectionDTO;
 import com.stpl.app.arm.utils.ARMUtils;
-import com.stpl.ifs.util.BCPExcelUtility;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.app.utils.xmlparser.SQlUtil;
+import com.stpl.ifs.ui.util.GtnWsCsvExportUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CommonUtil;
-import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.GlobalConstants;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.UI;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -168,8 +165,8 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
             sb = sb.replace("@SESSION_DECLARE", StringUtils.EMPTY)
                     .replace("@SESSION_INCLUDE", StringUtils.EMPTY)
                     .replace("@TABLE_1", isView ? CommonConstant.ARM_ADJUSTMENTS : selection.getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_ADJUSTMENTS))
-                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_BRACES)
-                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_BRACES)
+                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_PARANTHESIS)
+                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_PARANTHESIS)
                     .replace("@ACC_VAL1", account)
                     .replace("@ACCOUNT_CONDITION", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (SELECT ACC_ID FROM #ARM_ACC)")
                     .replace("@USER_REF", "" + selection.getSessionDTO().getUserId())
@@ -210,9 +207,9 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
                     .replace("@ADJUSTMENT_TYPE", String.valueOf(selection.getDataSelectionDTO().getAdjustmentId()))
                     .replace("@USER_REF", "" + selection.getSessionDTO().getUserId())
                     .replace("@SESSION_REF", "" + selection.getSessionDTO().getSessionId())
-                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_BRACES)
-                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_BRACES)
-                    .replace("@ACCOUNT", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (" + account + ARMUtils.CLOSE_BRACES)
+                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_PARANTHESIS)
+                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_PARANTHESIS)
+                    .replace("@ACCOUNT", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (" + account + ARMUtils.CLOSE_PARANTHESIS)
                     .replace(CONFIGTYPETEMPTABLE, selection.getSessionDTO().getCurrentTableNames().get(ST_ARM_ADJ_GTN_DETAIL_EXCEL))
                     .replace("?AMOUNTCONDITION", StringUtils.EMPTY.equals(getAmountFilterCondition(selection.getDetailamountFilter(), "TP.")) ? StringUtils.EMPTY : getAmountFilterCondition(selection.getDetailamountFilter(), "TP."));
         }
@@ -324,13 +321,9 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
         Map<String, String> selectMap;
         Map<String, String> joinsMap;
         Map<String, String> filterMap;
-        String fileName;
         String baseQuery = "SELECT @VARIABLES FROM @CONFIGTYPETEMPTABLE A \n @JOINS @PAGINATION";
         boolean isReserve = ARMConstants.getReserveDetails().equals(selection.getDetailLevel());
         String query = isReserve ? baseQuery : SQlUtil.getQuery("Adjustment GTN Details HelperInsert") + baseQuery;
-        File file;
-        String dirName = "ADJUSTMENT_DETAILS_DIR";
-        String outputFilePath = "AdjustmentDetails.csv";
         joinsMap = VariableConstants.loadJoinsForAdjustmentExcel();
         if (isReserve) {
             query = query.replace(CONFIGTYPETEMPTABLE, selection.getSessionDTO().getCurrentTableNames().get(ST_ARM_ADJ_RES_DETAIL_EXCEL));
@@ -342,6 +335,10 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
             filterMap = ARMUtils.loadViewFilterMapForAdjustmentDetailGTN();
         }
         StringBuilder variables = new StringBuilder();
+        String countQuery=new String(query);
+        countQuery=countQuery.replace("@VARIABLES", "Count(*)");
+        countQuery=countQuery.replace("@JOINS", "");
+        countQuery=countQuery.replace(PAGINATION, "");
         StringBuilder join = new StringBuilder();
         query = query.replace(PAGINATION, CommonFilterLogic.getInstance().orderByQueryGenerator(tableLogic.getSortByColumns(), ARMUtils.loadViewFilterMapForAdjustment(), orderBy).toString());
         for (String object : selection.getSavedetailvariables()) {
@@ -357,34 +354,17 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
         String var = variables.toString().substring(1);
         query = query.replace("@VARIABLES", var);
         query = query.replace("@JOINS", join.toString());
+        query   =  query +" "+" OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         long exportBeginTime = System.currentTimeMillis();
-        fileName = BCPExcelUtility.excelExportBcpUtility("ADJUSTMENT_DETAILS", visibleHeaders, query, outputFilePath);
+        SessionDTO sessionDto = selection.getSessionDTO();
+	String fileAbsolutePath = GtnWsCsvExportUtil.getExportFileName(
+		"ADJUSTMENT_DETAILS", countQuery, query,Arrays.asList(visibleHeaders), 
+                sessionDto.getUserId().toString(), sessionDto.getSessionId().toString(),1);
+	GtnWsCsvExportUtil.sendTheExcelToUser("ADJUSTMENT_DETAILS",
+						fileAbsolutePath, true, sessionDto.getUserId().toString(), sessionDto.getSessionId().toString());
         long exportEndTime = System.currentTimeMillis();
         LOGGER.info("BCP Export took {}", (exportEndTime - exportBeginTime) + " milliseconds");
-        file = new CommonUtil().getFileName(fileName);
-        List<String> fileList = (List) VaadinSession.getCurrent().getAttribute(dirName);
-        if (fileList == null) {
-            fileList = new ArrayList<>();
-        }
-        String tempFileName = file.getAbsolutePath();
-        tempFileName = tempFileName.substring(0, tempFileName.lastIndexOf(File.separator) + NumericConstants.ONE);
-        fileList.add(tempFileName);
-        VaadinSession.getCurrent().setAttribute(dirName, fileList);
-        ExcelExportforBB.sendConvertedFileToUser(UI.getCurrent(), file, outputFilePath);
-        deleteTempFolder(fileName);
-        LOGGER.info("--->Temp Folder Deleted....");
     }
 
-    private void deleteTempFolder(String fileName) {
-        File file = CommonUtil.getFilePath(fileName.substring(0, fileName.lastIndexOf('/')));
-        if (file.isDirectory()) {
-            File[] listFiles = file.listFiles();
-            for (File file1 : listFiles) {
-                boolean value = file1.delete();
-                LOGGER.debug("File Deleted {}", value);
-            }
-        }
-        boolean deleteValue = file.delete();
-        LOGGER.debug("Directory Deleted {}", deleteValue);
-    }
+    
 }

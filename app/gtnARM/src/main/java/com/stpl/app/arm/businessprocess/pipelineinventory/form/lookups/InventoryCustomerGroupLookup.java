@@ -126,7 +126,7 @@ public class InventoryCustomerGroupLookup extends Window {
         instance = this;
     }
 
-    public void init() {
+    private void init() {
         setClosable(true);
         setResizable(true);
         setModal(true);
@@ -472,7 +472,8 @@ public class InventoryCustomerGroupLookup extends Window {
                 LOGGER.debug("inside filterAdded Method");
 
             }
-             @Override
+
+            @Override
             public void filterRemoved(Object propertyId) {
                 LOGGER.debug("inside filterRemoved Method");
             }
@@ -767,8 +768,8 @@ public class InventoryCustomerGroupLookup extends Window {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object invCgobj) {
+        return super.equals(invCgobj);
     }
 
     @Override
@@ -776,11 +777,11 @@ public class InventoryCustomerGroupLookup extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream invCgobj) throws IOException {
+        invCgobj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream invCgobj) throws IOException, ClassNotFoundException {
+        invCgobj.defaultReadObject();
     }
 }

@@ -225,7 +225,6 @@ public abstract class AbstractContractSearch extends CustomComponent {
     private String transferSalesString = StringUtils.EMPTY;
     private boolean removeProjectionBooleanVal = false;
     private boolean isSubmit = false;
-    private AddItemContractFieldFactory fieldFactory;
     private final Map tempTableMap = new HashMap();
     private final Map startDateEndDateMap = new HashMap();
     private final Map fieldAndPropertyMap = new HashMap();
@@ -828,6 +827,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     public void createFieldFactory() {
+        AddItemContractFieldFactory fieldFactory;
         fieldFactory = new AddItemContractFieldFactory(selection, getContractSelectionTable(), fieldAndPropertyMap);
         getContractSelectionTable().setTableFieldFactory(fieldFactory);
     }
@@ -1241,7 +1241,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         HelperDTO tempDTO;
         Date tempDdate;
         Object baseLineValue = null;
-        String baseLineColumnName = StringUtils.EMPTY;
+        String baseLineColumnName ;
         String baseLineTextValue;
         for (Object object : itemId) {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) object;

@@ -479,7 +479,7 @@ public final class CommonUtil {
         List<Object> resultList = new ArrayList<>();
 
         try {
-            resultList = new AdminConsoleImpl().fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+            resultList = new AdminConsoleImpl().fetchFieldsForSecurity(moduleName, tabName, null);
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());
         }
@@ -517,7 +517,7 @@ public final class CommonUtil {
                         appPermission = false;
                     }
                 }
-                if (appPermission == false && labelStr != null) {
+                if (!appPermission  && labelStr != null) {
                         removeComponents(cssLayout, labelStr, fieldStr);
                 }
             }
@@ -584,7 +584,7 @@ public final class CommonUtil {
                         }
                     }
 
-                    if (appPerm == true) {
+                    if (appPerm) {
                         objResultList.add(obj[i]);
                         objResultHeaderList.add(header[i]);
                     }
@@ -656,7 +656,7 @@ public final class CommonUtil {
 
                 appPermission = ((AppPermission) fieldHM.get(fieldStr)).isSearchFlag();
 
-                if (appPermission == false && labelStr != null) {
+                if (!appPermission && labelStr != null) {
                         removeComponents(cssLayout, labelStr, fieldStr);
                     }
             }

@@ -85,7 +85,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 public class ApprovalTab extends CustomComponent {
 
-    private String projectionIdHidden = "";
     /**
      * Logger implementation for CffApprovalDetailsForm
      */
@@ -184,10 +183,7 @@ public class ApprovalTab extends CustomComponent {
     /**
      * Pagination Layout for Result Tables
      */
-    private HorizontalLayout resultPagination;
-    /**
-     * Result Layout
-     */
+    
     @UiField("resultLayout")
     private VerticalLayout resultLayout;
     /**
@@ -512,7 +508,7 @@ public class ApprovalTab extends CustomComponent {
                     return link;
                 }
             });
-            resultPagination = ResponsiveUtils.getResponsiveControls(resultTable.createControls());
+           HorizontalLayout resultPagination = ResponsiveUtils.getResponsiveControls(resultTable.createControls());
             resultLayout.addComponent(resultTable);
             resultLayout.addComponent(excelTable);
             resultLayout.addComponent(resultPagination);
@@ -569,6 +565,7 @@ public class ApprovalTab extends CustomComponent {
         String workflowStatus = null;
         String canApprove = "yes";
         String workflowId = null;
+        String projectionIdHidden = "";
         List<Integer> list;
         if (dto != null) {
 
@@ -608,10 +605,7 @@ public class ApprovalTab extends CustomComponent {
             furl += parameter;
             LOGGER.debug("Redirecting to URL Ready : --------------{}",furl);
             link.setResource(new ExternalResource(furl));
-        } else {
-            projectionIdHidden = null;
-
-        }
+        } 
 
     }
 

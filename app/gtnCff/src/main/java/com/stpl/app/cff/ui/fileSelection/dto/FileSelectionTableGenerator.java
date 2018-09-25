@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 public class FileSelectionTableGenerator extends DefaultFieldFactory {
 
     private final BeanItemContainer searchContainer;
-    private CustomTextField fileName;
     private final SessionDTO session;
     private final String businessUnit;
     private static final Logger LOGGER = LoggerFactory.getLogger(FileSelectionTableGenerator.class);
@@ -43,7 +42,7 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
     public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
 
         if (propertyId.equals("fileName")) {
-            fileName = new CustomTextField();
+            CustomTextField fileName = new CustomTextField();
             fileName.setImmediate(true);
             fileName.addStyleName(ConstantsUtils.SEARCH_ICON);
             if (!session.getAction().equals(Constants.ADD)) {

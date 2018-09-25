@@ -133,6 +133,7 @@ public class DataSelection extends AbstractDataSelection {
 			configureOnTabLoad(sessionDTO.getProjectionId(), sessionDTO);
 			initializeCompanyCombobox();
 			readModeOnly();
+                        customViewDdlb.select(sessionDTO.getCustomViewMasterSid());
 		}
 
 		configureBusinessUnitDdlb();
@@ -3362,7 +3363,8 @@ public class DataSelection extends AbstractDataSelection {
 			dataSelectionDTO.setDiscountSid(0);
 		}
                 sessionDTO.setCffEligibleDate(cffEligibleDate.getValue());
-                dataSelectionDTO.setCustomViewMasterSid(Integer.parseInt(String.valueOf(customViewDdlb.getValue())));
+            dataSelectionDTO.setCustomViewMasterSid(customViewDdlb.getValue()!=null ?Integer.parseInt(String.valueOf(customViewDdlb.getValue())):0);
+               
 		return dataSelectionDTO;
 	}
 

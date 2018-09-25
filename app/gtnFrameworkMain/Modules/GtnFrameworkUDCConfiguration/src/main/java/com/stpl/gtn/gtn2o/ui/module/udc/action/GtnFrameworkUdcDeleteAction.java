@@ -68,9 +68,7 @@ public class GtnFrameworkUdcDeleteAction
 				GtnWsUdcRequest udcRequest = new GtnWsUdcRequest();
 				udcRequest.setGtnWsUdcBean(udcBean);
 				gtnUIFrameworkDeleteWebserviceRequest.setGtnWsUdcRequest(udcRequest);
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsUdcConstants.GTN_UDC_SERVICE + GtnWsUdcConstants.GTN_UDC_DELETE_SERVICE,
-						gtnUIFrameworkDeleteWebserviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = getResponse(gtnUIFrameworkDeleteWebserviceRequest);
 				displayResponseStatus(response, componentId);
 
 				GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
@@ -79,6 +77,14 @@ public class GtnFrameworkUdcDeleteAction
 				checkConditionsPerformAction(componentId, categoryValue, isBrand, loadDataTableActionConfig);
 			}
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(
+			GtnUIFrameworkWebserviceRequest gtnUIFrameworkDeleteWebserviceRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsUdcConstants.GTN_UDC_SERVICE + GtnWsUdcConstants.GTN_UDC_DELETE_SERVICE,
+				gtnUIFrameworkDeleteWebserviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+	
 	}
 
 	private void checkConditionsPerformAction(String componentId, String categoryValue, boolean isBrand,

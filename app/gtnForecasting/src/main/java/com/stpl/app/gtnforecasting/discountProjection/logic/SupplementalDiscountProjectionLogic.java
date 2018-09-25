@@ -537,7 +537,7 @@ public class SupplementalDiscountProjectionLogic {
                 ccpDetailsId = StringUtils.EMPTY + checkedDto.getCcpDetailsSID();
 
             } else if (checkedDto.getCcpDetailIds().size() > 0 && !(Constant.PRODUCT_LABEL.equalsIgnoreCase(checkedDto.getLevelName()))) {
-                ccpDetailsId = CommonUtils.CollectionToString(checkedDto.getCcpDetailIds(), false);
+                ccpDetailsId = CommonUtils.collectionToStringMethod(checkedDto.getCcpDetailIds(), false);
             }
             if (!StringUtils.EMPTY.equals(ccpDetailsId) && !Constant.NULL.equals(ccpDetailsId)) {
                 queryToUpdateCheckRecord(checkValue, projSelDto.getSessionDTO(), ccpDetailsId);
@@ -587,9 +587,9 @@ public class SupplementalDiscountProjectionLogic {
         if (checkedDto.getSupplementalLevelNo() == 5) {
             ccpDetailsId = checkedDto.getCcpDetailsSID().toString();
         } else {
-            ccpDetailsId = CommonUtils.CollectionToString(checkedDto.getCcpDetailIds(), false);
+            ccpDetailsId = CommonUtils.collectionToStringMethod(checkedDto.getCcpDetailIds(), false);
         }
-        if (fieldSelection.equals(METHODOLOGY.getConstant().toUpperCase(Locale.ENGLISH))) {
+        if (String.valueOf(fieldSelection).equalsIgnoreCase(METHODOLOGY.getConstant())) {
             populateMethodologyWithFormulaDetails(checkedDto, value, session);
         } else {
             populateUpadteQuery(checkedDto, value, fieldSelection, session, ccpDetailsId);
@@ -631,7 +631,7 @@ public class SupplementalDiscountProjectionLogic {
         if (projSelDTO.getSupplementalLevelNo() == 4) {
             queryBuilder1.append(" WHERE SUPPROJ.CCP_DETAILS_SID = " ).append( dto.getCcpDetailsSID()).append( " AND PRD.PERIOD_SID=SUPPROJ.PERIOD_SID \n");
         } else {
-            ccpDetailsId = CommonUtils.CollectionToString(dto.getCcpDetailIds(), false);
+            ccpDetailsId = CommonUtils.collectionToStringMethod(dto.getCcpDetailIds(), false);
             queryBuilder1.append(" WHERE SUPPROJ.CCP_DETAILS_SID in (" ).append( ccpDetailsId ).append( ") AND PRD.PERIOD_SID=SUPPROJ.PERIOD_SID \n");
         }
         queryBuilder1.append(" group by PRD.QUARTER " ).append( groupByQuery ).append( " ,PRD.\"YEAR\" order by PRD.\"YEAR\" \n");
@@ -808,7 +808,7 @@ public class SupplementalDiscountProjectionLogic {
             projectionSelectionDTO.setSupplementalLevelName(saveDto.getLevelName());
             projectionSelectionDTO.setCustHierarchySid(session.getCustHierarchySid());
             projectionSelectionDTO.setProdHierarchySid(session.getProdHierarchySid());
-            manualSave(saveDto, CommonUtils.CollectionToString(saveDto.getCcpDetailIds(), false), propertyId, session, tableLogic);
+            manualSave(saveDto, CommonUtils.collectionToStringMethod(saveDto.getCcpDetailIds(), false), propertyId, session, tableLogic);
         } else {
             manualSave(saveDto, saveDto.getCcpDetailsSID().toString(), propertyId, session, tableLogic);
         }
@@ -1298,7 +1298,7 @@ public class SupplementalDiscountProjectionLogic {
                             }
                             insertDtoList.add(prclookUpDto);
                         } else {
-                            quarList.add(Constant.Q + String.valueOf(obj[0]) + " " + String.valueOf(obj[1]));
+                            quarList.add(Constant.Q + obj[0] + " " + obj[1]);
                         }
                     }
                     if (prcList.size() == quarList.size()) {
@@ -1394,7 +1394,7 @@ public class SupplementalDiscountProjectionLogic {
             StringBuilder queryBuilder = new StringBuilder();
             String projectionDetailsId = StringUtils.EMPTY;
             if (!projectionDetailsList.isEmpty()) {
-                projectionDetailsId = CommonUtils.CollectionToString(projectionDetailsList, false);
+                projectionDetailsId = CommonUtils.collectionToStringMethod(projectionDetailsList, false);
             }
             if (!StringUtils.EMPTY.equals(projectionDetailsId) && !Constant.NULL.equals(projectionDetailsId)) {
                 queryBuilder.append("Select Distinct CHECK_RECORD,CCP_DETAILS_SID from ST_M_SUPPLEMENTAL_DISC_MASTER where CCP_DETAILS_SID in(" 
@@ -1587,7 +1587,7 @@ public class SupplementalDiscountProjectionLogic {
         List<Object> methodologyCount = new ArrayList<>();
         try {
             StringBuilder queryToCheckNdc = new StringBuilder();
-            queryToCheckNdc.append("select DISTINCT " ).append( columnName ).append( " from ST_M_SUPPLEMENTAL_DISC_PROJ WHERE  CCP_DETAILS_SID IN ( " ).append( CommonUtils.CollectionToString(saveDto.getParentCcpDetailIdList(), false) ).append( " )\n"
+            queryToCheckNdc.append("select DISTINCT " ).append( columnName ).append( " from ST_M_SUPPLEMENTAL_DISC_PROJ WHERE  CCP_DETAILS_SID IN ( " ).append( CommonUtils.collectionToStringMethod(saveDto.getParentCcpDetailIdList(), false) ).append( " )\n"
                     ).append( " AND PERIOD_SID IN  (SELECT PERIOD_SID\n"
                     ).append( " FROM   \"PERIOD\"\n"
                     ).append( " WHERE  \"YEAR\" = " ).append( saveDto.getYear() ).append( " \n"

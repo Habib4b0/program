@@ -277,7 +277,7 @@ public class CommonUtils {
         List<CFFResultsDTO> cffResultsDTOs = new ArrayList<>();
         CFFResultsDTO cffResultsDTO;
         String s = "";
-        HashMap<Long, String> hm = getUserInfo();
+        Map<Long, String> hm = getUserInfo();
         for (final Object[] obj : resultsList) {
             cffResultsDTO = new CFFResultsDTO();
             cffResultsDTO.setWorkflowId(String.valueOf(obj[0]));
@@ -319,7 +319,7 @@ public class CommonUtils {
     public List<CFFResultsDTO> getCustomisedCFF(List<Object[]> list) {
         List<CFFResultsDTO> resultList = new ArrayList<>();
         CFFResultsDTO cffResultsDTO;
-        HashMap<Long, String> hm = getUserInfo();
+        Map<Long, String> hm = getUserInfo();
         String userName = "";
         int projectionId = 0;
         for (final Object[] obj : list) {
@@ -410,7 +410,7 @@ public class CommonUtils {
     public List<CFFResultsDTO> getCustomisedCFFDeatils(List<Object[]> list) {
         List<CFFResultsDTO> resultList = new ArrayList<>();
         CFFResultsDTO cffResultsDTO;
-        HashMap<Long, String> hm = getUserInfo();
+       Map<Long, String> hm = getUserInfo();
         String userName = "";
         for (final Object[] obj : list) {
 
@@ -461,7 +461,7 @@ public class CommonUtils {
      *
      * @return the user info
      */
-    public HashMap<Long, String> getUserInfo() {
+    public Map<Long, String> getUserInfo() {
 
         List<User> users = new ArrayList<>();
         DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
@@ -629,7 +629,7 @@ public class CommonUtils {
     public List<ApprovalDetailsDTO> getCustomisedApprovalDetails(List<CffApprovalDetails> approvalDetails) {
         List<ApprovalDetailsDTO> custoList = new ArrayList<>();
         ApprovalDetailsDTO dto;
-        HashMap<Long, String> userInfo = getUserInfo();
+        Map<Long, String> userInfo = getUserInfo();
         try {
             if (approvalDetails != null) {
 
@@ -655,12 +655,12 @@ public class CommonUtils {
      *
      * @return the approval details
      */
-    public HashMap<Integer, String> getApprovalDetails() {
+    public Map<Integer, String> getApprovalDetails() {
 
         DynamicQuery cffApprovalDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         String s = "";
-        HashMap<Long, String> userInfo = getUserInfo();
+        Map<Long, String> userInfo = getUserInfo();
         int cffMasterId = 0;
         try {
             resultsList = CffApprovalDetailsLocalServiceUtil.dynamicQuery(cffApprovalDetailsDynamicQuery);
@@ -675,7 +675,7 @@ public class CommonUtils {
                 approvalDetails.put(cffApprovalDetails.getCffMasterSid(), s);
             } else {
                 s = approvalDetails.get(cffMasterId);
-                s = s + "," + userInfo.get(DataTypeConverter.convertIntegerToLong(cffApprovalDetails.getApprovedBy()));
+                s = s.concat(",").concat(userInfo.get(DataTypeConverter.convertIntegerToLong(cffApprovalDetails.getApprovedBy())));
                 approvalDetails.put(cffApprovalDetails.getCffMasterSid(), s);
             }
 
@@ -785,7 +785,7 @@ public class CommonUtils {
 
     }
 
-    public static HashMap<String, String> loadDbColumnName() {
+    public static Map<String, String> loadDbColumnName() {
         cffColumnName.put("financialForecastId", "CFF_MASTER_SID");
         cffColumnName.put("financialForecastName", "CFF_NAME");
         cffColumnName.put("typeDesc", "CFF_TYPE");

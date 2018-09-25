@@ -632,7 +632,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
                     if ((GROWTH.getConstant()).equalsIgnoreCase(fmValue)) {
                         if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
-                            frequencyDdlb.select(ANNUAL.getConstant());;
+                            frequencyDdlb.select(ANNUAL.getConstant());
                             frequencyDdlb.setEnabled(false);
                             forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                         } else {
@@ -966,7 +966,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     if (baselineMethodology.isEnabled() && SINGLE_PERIOD.getConstant().equalsIgnoreCase(baselineMethodology.getValue().toString())) {
                         if (selecteditems == 1) {
                             if ((PRICE_TRENDING.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())))
-                                    && ((CommonUtil.isValueEligibleForLoading() && (priceTrendDdlb.getValue() == null || priceTrendDdlb.getValue() == SELECT_ONE.getConstant())))) {
+                                    && (CommonUtil.isValueEligibleForLoading() && (priceTrendDdlb.getValue() == null || priceTrendDdlb.getValue() == SELECT_ONE.getConstant()))) {
                                 AbstractNotificationUtils.getErrorNotification(Constant.NO_PRICE_TREND_SELECTED, Constant.PLEASE_SELECT_A_PRICE_TREND);
                                 return;
                             }
@@ -1166,11 +1166,15 @@ public class NationalAssumptions extends CustomComponent implements View {
         com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
-        int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
-        int endYear = endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+        Calendar calStartDatePopulate = Calendar.getInstance();
+        calStartDatePopulate.setTime(startDate);
+        Calendar calEndDatePopulate = Calendar.getInstance();
+        calEndDatePopulate.setTime(endDate);
+        int startYear = calStartDatePopulate.get(Calendar.YEAR);
+        int endYear = calEndDatePopulate.get(Calendar.YEAR);
         int years = (endYear - startYear) + 1;
         int lastPr = NumericConstants.FOUR;
-        int endMonth = endDate.getMonth() + 1;
+        int endMonth = calEndDatePopulate.get(Calendar.MONTH) + 1;
         int endPeriod = getQuator(endMonth);
 
         for (int i = 0; i < years; i++) {
@@ -1210,7 +1214,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         PriceTypeDTO priceTypeDTO = new PriceTypeDTO();
         priceTypeDTO.setPriceType(ObjectUtils.toString(priceTypeDdlb.getValue()));
 
-        priceTypeDTO.setBaselineMethodology((priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) || ((PER_OF_WAC.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))))) ? ((!Constant.ANNUAL_FSS.equals(priceTypeDdlb.getValue()) && (PER_OF_WAC.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())))) ? "" : "Mandated Calculation") : ObjectUtils
+        priceTypeDTO.setBaselineMethodology((priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) || (PER_OF_WAC.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())))) ? ((!Constant.ANNUAL_FSS.equals(priceTypeDdlb.getValue()) && (PER_OF_WAC.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())))) ? "" : "Mandated Calculation") : ObjectUtils
                 .toString(baselineMethodology.getValue()));
 
         String actualsPeriod1 = null;
@@ -1393,7 +1397,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     newNdcDto.setFssFlag(true);
                     String ndcDesc = String.valueOf(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO]);
                     if (StringUtils.isNotBlank(ndcDesc)) {
-                        ndcDesc = ndcDesc + ", " + String.valueOf(obj[NumericConstants.THREE]);
+                        ndcDesc = ndcDesc + ", " + obj[NumericConstants.THREE];
                     } else {
                         ndcDesc = String.valueOf(obj[NumericConstants.THREE]);
                     }
@@ -1418,7 +1422,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     newNdcDto.setFederalFlag(true);
                     String ndcDesc = String.valueOf(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO]);
                     if (StringUtils.isNotBlank(ndcDesc)) {
-                        ndcDesc = ndcDesc + ", " + String.valueOf(obj[1]);
+                        ndcDesc = ndcDesc + ", " + obj[1];
                     } else {
                         ndcDesc = String.valueOf(obj[1]);
                     }
@@ -1457,8 +1461,7 @@ public class NationalAssumptions extends CustomComponent implements View {
     public void getNDCSetup(String projectionId) throws NamingException, SQLException {
         callNDCPopupProcedure();
         String ndcNo = Arrays.toString(ndcList.toArray()).replace('[', ' ').replace(']', ' ');
-        if (StringUtils.isNotBlank(ndcNo)) {
-            if (logic.isAFSSPriceTypeAvailable(projectionId)) {
+            if (StringUtils.isNotBlank(ndcNo) && logic.isAFSSPriceTypeAvailable(projectionId)) {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
@@ -1471,7 +1474,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                     }
                 }.getConfirmationMessage("NDC Setup Required", "The following NDC’s " + ndcNo + " are not setup with AMP, CPI, AFSS, Non-FAMP or Best Price. Do you want to manually update these NDC’s?");
             }
-        }
     }
 
     private void loadNDCSetup() {

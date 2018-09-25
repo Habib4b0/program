@@ -290,12 +290,13 @@ public class CffApprovalDetailsForm extends CustomWindow {
 
                     if (tabPosition == NumericConstants.FOUR && Constants.ADD.equals(sessionDTO.getAction()) && !filterOptionLoaded) {
                         projectionVariance.loadAllDdbls();
-                        CustomMenuItem item=projectionVariance.getDeductionFilterValues().getChildren().get(1);
-                        if (item != null) {
-                            item.setChecked(true);
-                            projectionVariance.loadSelectedDeduction(item.getMenuItem());
+                        if (projectionVariance.getDeductionFilterValues().getChildren().size() > 1) {
+                            CustomMenuItem item = projectionVariance.getDeductionFilterValues().getChildren().get(1);
+                            if (item != null) {
+                                item.setChecked(true);
+                                projectionVariance.loadSelectedDeduction(item.getMenuItem());
+                            }
                         }
-                        
                         filterOptionLoaded=true;
                     }
 

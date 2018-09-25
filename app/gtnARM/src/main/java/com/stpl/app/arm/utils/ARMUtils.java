@@ -368,10 +368,10 @@ public class ARMUtils {
     public static final String YYYY_MM_DD = CommonConstant.YYYY_M_MDD;
     public static final String MM_DD_YYYY_HH_MM_SS = "MM/dd/yyyy hh:mm:ss";
     public static final String NULL = "null";
-    public static final String CHAR_ASTERISK = "*";
-    public static final String CHAR_PERCENT = "%";
-    public static final String CHAR_QUS = "?";
-    public static final String SPACE = " ";
+    public static final String CHAR_ASTERISK = ARMConstants.getAsterisk();
+    public static final String CHAR_PERCENT = ARMConstants.getPercent();
+    public static final String CHAR_QUS = ARMConstants.getQuestionMark();
+    public static final Character SPACE = ' ';
     public static final String HIPHEN = "-";
     public static final String LEVEL = "Level";
     public static final String PRIMARY = "Primary";
@@ -918,7 +918,7 @@ public class ARMUtils {
     public static final String CUSTOMERORPRODUCT = "Customer/Product";
     public static final String CUSTOMERORPRODUCT_COLUMN = "group";
     public static final String INDICATOR = "indicator";
-    public static final String DOT = ".";
+    public static final String DOT = ARMConstants.getDot();
     public static final String HIERARACHY_NO_PROPERTY = "hierarchyNo";
 
     public static Map listNameMapper() {
@@ -952,7 +952,7 @@ public class ARMUtils {
     public static final String UPDATE = "update";
     public static final String PROJECTION_ID = "projectionId";
     public static final String HIERARCHY_NO = "hierarchyNo";
-    public static final String COMMA = ",";
+    public static final String COMMA = ARMConstants.getComma();
     public static final String HORIZONTAL = "horizontal";
     public static final String FAIL = "fail";
     public static final String STRING_ONE = "1";
@@ -986,16 +986,17 @@ public class ARMUtils {
     public static final String VIEW_SMALL = "view";
     public static final String EDIT_SMALL = "edit";
     public static final String SUBMITTED = "Submitted";
-    private static final List<String> salesVariablesList = new ArrayList<>();
-    private static final List<String> trx7salesVariablesList = new ArrayList<>();
+    private final List<String> salesVariablesList = new ArrayList<>();
+    private final List<String> trx7salesVariablesList = new ArrayList<>();
     /**
      * The yes.
      */
     public static final String YES = "YES";
     public static final String REPORT_INDICATOR_YES = "Yes";
     public static final String REPORT_INDICATOR_NO = "No";
-    
-    public static final char CLOSE_BRACES = ')';
+
+    public static final char OPEN_PARANTHESIS = '(';
+    public static final char CLOSE_PARANTHESIS = ')';
     public static final char UNDERSCORE = '_';
     public static final char COMMA_CHAR = ',';
     public static final char SINGLE_QUOTES = '\'';
@@ -1049,7 +1050,7 @@ public class ARMUtils {
 
     }
 
-    public static List<String> getSalesVariables() {
+    public List<String> getSalesVariables() {
         if (salesVariablesList.isEmpty()) {
             salesVariablesList.addAll(Arrays.asList(VariableConstants.getVariableSalesVisibleColumn()));
             salesVariablesList.add(VariableConstants.GROUP);
@@ -1067,7 +1068,7 @@ public class ARMUtils {
 
     private static final Map<Integer, String> PIPELINE_SUMMARY_LEVEL = new HashMap();
     private static final Map<Integer, String> TRX7_SUMMARY_LEVEL = new HashMap();
-    private static final Map<String, Map<Integer, String>> ADJ_SUMMARY_LEVEL = new HashMap();
+    private Map<String, Map<Integer, String>> adjSummaryLevel = new HashMap();
     private static final Map<String, String> VIEW_NAME = new HashMap();
     private static final TreeMap<String, Integer> MASTERSIDS = new TreeMap<>();
     private static final TreeMap<String, Integer> MASTERSIDSFORTRX6 = new TreeMap<>();
@@ -1075,18 +1076,18 @@ public class ARMUtils {
     private static final Map<String, String> DEDUCTION_VALUES_LEVELS = new HashMap();
     private static final Map<String, String> DEDUCTION_VALUES_MULTIPLE_PERIOD = new HashMap();
     private static final Map<String, String> DBColumnMapInventoryTrx6 = new HashMap();
-    private static final Map<String, String> SUMMARY_VIEW_TYPE = new HashMap();
-    private static final Map<String, Map<Integer, String>> LEVEL_FILTER_NAME = new HashMap();
-    private static final Map<String, Map<Integer, String>> TRX8_RATES_LEVEL_FILTER_NAME = new HashMap();
-    private static final Map<String, Map<Integer, String>> TRX8_RESERVEDATA_LEVEL_FILTER_NAME = new HashMap();
-    private static final Map<String, Map<Integer, String>> TRX8_LEVEL_FILTER_NAME = new HashMap();
-    private static final Map<String, Map<Integer, String>> TRX7_LEVEL_FILTER_NAME = new HashMap();
-    private static final Map<String, Map<Integer, String>> PIPELINE_LEVEL_FILTER_NAME = new HashMap();
-    private static final Map<String, Map<Integer, String>> RETURNS_LEVEL_FILTER_NAME = new HashMap();
-    private static final Map<String, Map<Integer, String>> LEVEL_FILTER_NAME_MULTI_PERIOD = new HashMap();
-    private static final Map<String, String> LEVEL_EXCEL_QUERY_NAME = new HashMap();
-    private static final Map<String, String> DEDUCTION_LEVEL_QUERY_NAME = new HashMap();
-    private static final Map<String, String[]> LEVEL_MAP = new HashMap<>();
+    private final Map<String, String> summaryViewType = new HashMap();
+    private final Map<String, Map<Integer, String>> levelFilterName = new HashMap();
+    private final Map<String, Map<Integer, String>> trx8RatesLevelFilterName = new HashMap();
+    private final Map<String, Map<Integer, String>> trx8ReturnsReserveLevelFilterName = new HashMap();
+    private final Map<String, Map<Integer, String>> tr8LevelFilterName = new HashMap();
+    private final Map<String, Map<Integer, String>> trx7LevelFilterName = new HashMap();
+    private final Map<String, Map<Integer, String>> pipelineLevelFilterName = new HashMap();
+    private final Map<String, Map<Integer, String>> returnsLevelFilterName = new HashMap();
+    private final Map<String, Map<Integer, String>> levelFilterMultiPeriod = new HashMap();
+    private final Map<String, String> levelExcelQueryName = new HashMap();
+    private final Map<String, String> deductionLevelQueryName = new HashMap();
+    private final Map<String, String[]> levelMap = new HashMap<>();
     private static final Map<String, String> PROFILE_MAP = new HashMap<>();
 
     public static Map<Integer, String> getSummaryLevel() {
@@ -1193,9 +1194,9 @@ public class ARMUtils {
         return deductionLevelMap;
     }
 
-    public static Map<Integer, String> getADJSummaryLevel(String value) {
+    public Map<Integer, String> getADJSummaryLevel(String value) {
 
-        if (ADJ_SUMMARY_LEVEL.isEmpty()) {
+        if (adjSummaryLevel.isEmpty()) {
             Map<Integer, String> summaryLevelBrand = new HashMap();
             Map<Integer, String> summaryLevelCustomerded = new HashMap();
             Map<Integer, String> summaryLevelDedutionCustomer = new HashMap();
@@ -1220,17 +1221,17 @@ public class ARMUtils {
             summaryLevelDedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
             summaryLevelDedutionContract.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
 
-            ADJ_SUMMARY_LEVEL.put(ARMConstants.getDeductionProduct(), summaryLevelBrand);
-            ADJ_SUMMARY_LEVEL.put(ARMConstants.getCustomerDedection(), summaryLevelCustomerded);
-            ADJ_SUMMARY_LEVEL.put(ARMConstants.getDeductionCustomer(), summaryLevelDedutionCustomer);
-            ADJ_SUMMARY_LEVEL.put(ARMConstants.getDeductionCustomerContract(), summaryLevelDedutionContract);
+            adjSummaryLevel.put(ARMConstants.getDeductionProduct(), summaryLevelBrand);
+            adjSummaryLevel.put(ARMConstants.getCustomerDedection(), summaryLevelCustomerded);
+            adjSummaryLevel.put(ARMConstants.getDeductionCustomer(), summaryLevelDedutionCustomer);
+            adjSummaryLevel.put(ARMConstants.getDeductionCustomerContract(), summaryLevelDedutionContract);
         }
-        return ADJ_SUMMARY_LEVEL.get(value);
+        return adjSummaryLevel.get(value);
     }
 
-    public static Map<Integer, String> getLevelAndLevelFilterMultiPeriod(String value) {
+    public Map<Integer, String> getLevelAndLevelFilterMultiPeriod(String value) {
 
-        if (LEVEL_FILTER_NAME_MULTI_PERIOD.isEmpty()) {
+        if (levelFilterMultiPeriod.isEmpty()) {
             Map<Integer, String> demandSummaryLevelBrand = new HashMap();
             Map<Integer, String> demandSummaryLevelCustomerded = new HashMap();
             Map<Integer, String> demandSummaryLevelDedutionCustomer = new HashMap();
@@ -1261,53 +1262,53 @@ public class ARMUtils {
             trx6Levels.put(NumericConstants.TWO, levelVariablesVarables.BRAND.toString());
             trx6Levels.put(NumericConstants.THREE, levelVariablesVarables.ITEM.toString());
 
-            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getDeductionProduct(), demandSummaryLevelBrand);
-            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getCustomerDedection(), demandSummaryLevelCustomerded);
-            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getDeductionCustomer(), demandSummaryLevelDedutionCustomer);
-            LEVEL_FILTER_NAME_MULTI_PERIOD.put(ARMConstants.getDeductionCustomerContract(), demandSummaryLevelDedutionContract);
-            LEVEL_FILTER_NAME_MULTI_PERIOD.put("Trx6_Inventory", trx6Levels);
+            levelFilterMultiPeriod.put(ARMConstants.getDeductionProduct(), demandSummaryLevelBrand);
+            levelFilterMultiPeriod.put(ARMConstants.getCustomerDedection(), demandSummaryLevelCustomerded);
+            levelFilterMultiPeriod.put(ARMConstants.getDeductionCustomer(), demandSummaryLevelDedutionCustomer);
+            levelFilterMultiPeriod.put(ARMConstants.getDeductionCustomerContract(), demandSummaryLevelDedutionContract);
+            levelFilterMultiPeriod.put("Trx6_Inventory", trx6Levels);
         }
-        return LEVEL_FILTER_NAME_MULTI_PERIOD.get(value);
+        return levelFilterMultiPeriod.get(value);
     }
 
-    public static String getLevelExcelQueryName(String value) {
-        if (LEVEL_EXCEL_QUERY_NAME.isEmpty()) {
+    public String getLevelExcelQueryName(String value) {
+        if (levelExcelQueryName.isEmpty()) {
 
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.BRAND.toString().toUpperCase(Locale.ENGLISH), "B");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.ITEM.toString().toUpperCase(Locale.ENGLISH), "I");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.DEDUCTION.toString().toUpperCase(Locale.ENGLISH), "D");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.DEDUCTION_CATEGORY.toString().toUpperCase(Locale.ENGLISH), "DC");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.DEDUCTION_CATEGORY2.toString().toUpperCase(Locale.ENGLISH), "DC2");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.DEDUCTION_CATEGORY3.toString().toUpperCase(Locale.ENGLISH), "DC3");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.DEDUCTION_CATEGORY4.toString().toUpperCase(Locale.ENGLISH), "DC4");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.DEDUCTION_CATEGORY5.toString().toUpperCase(Locale.ENGLISH), "DC5");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.DEDUCTION_CATEGORY6.toString().toUpperCase(Locale.ENGLISH), "DC6");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.DEDUCTION_PROGRAM.toString().toUpperCase(Locale.ENGLISH), "DP");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.DEDUCTION_TYPE.toString().toUpperCase(Locale.ENGLISH), "DT");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.CUSTOMER.toString().toUpperCase(Locale.ENGLISH), "T");
-            LEVEL_EXCEL_QUERY_NAME.put(levelVariablesVarables.CONTRACT.toString().toUpperCase(Locale.ENGLISH), "C");
+            levelExcelQueryName.put(levelVariablesVarables.BRAND.toString().toUpperCase(Locale.ENGLISH), "B");
+            levelExcelQueryName.put(levelVariablesVarables.ITEM.toString().toUpperCase(Locale.ENGLISH), "I");
+            levelExcelQueryName.put(levelVariablesVarables.DEDUCTION.toString().toUpperCase(Locale.ENGLISH), "D");
+            levelExcelQueryName.put(levelVariablesVarables.DEDUCTION_CATEGORY.toString().toUpperCase(Locale.ENGLISH), "DC");
+            levelExcelQueryName.put(levelVariablesVarables.DEDUCTION_CATEGORY2.toString().toUpperCase(Locale.ENGLISH), "DC2");
+            levelExcelQueryName.put(levelVariablesVarables.DEDUCTION_CATEGORY3.toString().toUpperCase(Locale.ENGLISH), "DC3");
+            levelExcelQueryName.put(levelVariablesVarables.DEDUCTION_CATEGORY4.toString().toUpperCase(Locale.ENGLISH), "DC4");
+            levelExcelQueryName.put(levelVariablesVarables.DEDUCTION_CATEGORY5.toString().toUpperCase(Locale.ENGLISH), "DC5");
+            levelExcelQueryName.put(levelVariablesVarables.DEDUCTION_CATEGORY6.toString().toUpperCase(Locale.ENGLISH), "DC6");
+            levelExcelQueryName.put(levelVariablesVarables.DEDUCTION_PROGRAM.toString().toUpperCase(Locale.ENGLISH), "DP");
+            levelExcelQueryName.put(levelVariablesVarables.DEDUCTION_TYPE.toString().toUpperCase(Locale.ENGLISH), "DT");
+            levelExcelQueryName.put(levelVariablesVarables.CUSTOMER.toString().toUpperCase(Locale.ENGLISH), "T");
+            levelExcelQueryName.put(levelVariablesVarables.CONTRACT.toString().toUpperCase(Locale.ENGLISH), "C");
         }
-        return LEVEL_EXCEL_QUERY_NAME.get(value.toUpperCase(Locale.ENGLISH));
+        return levelExcelQueryName.get(value.toUpperCase(Locale.ENGLISH));
     }
 
-    public static String getDeductionLevelQueryName(String value) {
-        if (DEDUCTION_LEVEL_QUERY_NAME.isEmpty()) {
-            DEDUCTION_LEVEL_QUERY_NAME.put(ARMConstants.getDeduction(), ARMConstants.getDeduction());
-            DEDUCTION_LEVEL_QUERY_NAME.put(ARMConstants.getDeductionCategory(), ARMConstants.getDeductionCategory());
-            DEDUCTION_LEVEL_QUERY_NAME.put(ARMConstants.getDeductionCategory2(), ARMConstants.getDeductionCategory2());
-            DEDUCTION_LEVEL_QUERY_NAME.put(ARMConstants.getDeductionCategory3(), ARMConstants.getDeductionCategory3());
-            DEDUCTION_LEVEL_QUERY_NAME.put(ARMConstants.getDeductionCategory4(), ARMConstants.getDeductionCategory4());
-            DEDUCTION_LEVEL_QUERY_NAME.put(ARMConstants.getDeductionCategory5(), ARMConstants.getDeductionCategory5());
-            DEDUCTION_LEVEL_QUERY_NAME.put(ARMConstants.getDeductionCategory6(), ARMConstants.getDeductionCategory6());
-            DEDUCTION_LEVEL_QUERY_NAME.put(ARMConstants.getDeductionProgram(), ARMConstants.getDeductionProgram());
-            DEDUCTION_LEVEL_QUERY_NAME.put(ARMConstants.getDeductionType(), ARMConstants.getDeductionType());
+    public String getDeductionLevelQueryName(String value) {
+        if (deductionLevelQueryName.isEmpty()) {
+            deductionLevelQueryName.put(ARMConstants.getDeduction(), ARMConstants.getDeduction());
+            deductionLevelQueryName.put(ARMConstants.getDeductionCategory(), ARMConstants.getDeductionCategory());
+            deductionLevelQueryName.put(ARMConstants.getDeductionCategory2(), ARMConstants.getDeductionCategory2());
+            deductionLevelQueryName.put(ARMConstants.getDeductionCategory3(), ARMConstants.getDeductionCategory3());
+            deductionLevelQueryName.put(ARMConstants.getDeductionCategory4(), ARMConstants.getDeductionCategory4());
+            deductionLevelQueryName.put(ARMConstants.getDeductionCategory5(), ARMConstants.getDeductionCategory5());
+            deductionLevelQueryName.put(ARMConstants.getDeductionCategory6(), ARMConstants.getDeductionCategory6());
+            deductionLevelQueryName.put(ARMConstants.getDeductionProgram(), ARMConstants.getDeductionProgram());
+            deductionLevelQueryName.put(ARMConstants.getDeductionType(), ARMConstants.getDeductionType());
         }
-        return DEDUCTION_LEVEL_QUERY_NAME.get(value);
+        return deductionLevelQueryName.get(value);
     }
 
-    public static Map<Integer, String> getLevelAndLevelFilter(String value) {
+    public Map<Integer, String> getLevelAndLevelFilter(String value) {
 
-        if (LEVEL_FILTER_NAME.isEmpty()) {
+        if (levelFilterName.isEmpty()) {
             Map<Integer, String> salesSummaryLevelBrand = new HashMap();
             Map<Integer, String> salesSummaryLevelCustomerded = new HashMap();
             Map<Integer, String> salesSummaryLevelDedutionCustomer = new HashMap();
@@ -1316,7 +1317,6 @@ public class ARMUtils {
             Map<Integer, String> salesSummaryLevelnondedutionContract = new HashMap();
             Map<Integer, String> salesSummaryLevelDedutionContractCustomer = new HashMap();
             Map<Integer, String> salesSummaryLevelnondedutionContractCustomer = new HashMap();
-            Map<Integer, String> salesSummaryLevelRatesDedutionCustomer = new HashMap();
 
             salesSummaryLevelBrand.put(1, levelVariablesVarables.BRAND.toString());
             salesSummaryLevelBrand.put(NumericConstants.TWO, levelVariablesVarables.ITEM.toString());
@@ -1356,28 +1356,23 @@ public class ARMUtils {
             salesSummaryLevelnondedutionContract.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
             salesSummaryLevelnondedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
 
-            salesSummaryLevelRatesDedutionCustomer.put(NumericConstants.ONE, levelVariablesVarables.CUSTOMER.toString());
-            salesSummaryLevelRatesDedutionCustomer.put(NumericConstants.TWO, levelVariablesVarables.CONTRACT.toString());
-            salesSummaryLevelRatesDedutionCustomer.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
-            salesSummaryLevelRatesDedutionCustomer.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
-
-            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionProduct(), salesSummaryLevelBrand);
-            LEVEL_FILTER_NAME.put(ARMConstants.getCustomerDedection(), salesSummaryLevelCustomerded);
-            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer(), salesSummaryLevelDedutionCustomer);
-            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomerContract(), salesSummaryLevelDedutionContract);
-            LEVEL_FILTER_NAME.put(CommonConstant.DEDUCTION_CONTRACT, salesSummaryLeveldedutionContract);
-            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionContractCustomer(), salesSummaryLevelDedutionContractCustomer);
-            LEVEL_FILTER_NAME.put("non" + ARMConstants.getDeductionContractCustomer(), salesSummaryLevelnondedutionContractCustomer);
-            LEVEL_FILTER_NAME.put("non" + ARMConstants.getDeductionCustomerContract(), salesSummaryLevelnondedutionContract);
-            LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer() + "RATES", salesSummaryLevelDedutionCustomer);
+            levelFilterName.put(ARMConstants.getDeductionProduct(), salesSummaryLevelBrand);
+            levelFilterName.put(ARMConstants.getCustomerDedection(), salesSummaryLevelCustomerded);
+            levelFilterName.put(ARMConstants.getDeductionCustomer(), salesSummaryLevelDedutionCustomer);
+            levelFilterName.put(ARMConstants.getDeductionCustomerContract(), salesSummaryLevelDedutionContract);
+            levelFilterName.put(CommonConstant.DEDUCTION_CONTRACT, salesSummaryLeveldedutionContract);
+            levelFilterName.put(ARMConstants.getDeductionContractCustomer(), salesSummaryLevelDedutionContractCustomer);
+            levelFilterName.put("non" + ARMConstants.getDeductionContractCustomer(), salesSummaryLevelnondedutionContractCustomer);
+            levelFilterName.put("non" + ARMConstants.getDeductionCustomerContract(), salesSummaryLevelnondedutionContract);
+            levelFilterName.put(ARMConstants.getDeductionCustomer() + "RATES", salesSummaryLevelDedutionCustomer);
 
         }
-        return LEVEL_FILTER_NAME.get(value);
+        return levelFilterName.get(value);
     }
 
-    public static Map<Integer, String> getPipeLineLevelAndLevelFilter(String value) {
+    public Map<Integer, String> getPipeLineLevelAndLevelFilter(String value) {
 
-        if (PIPELINE_LEVEL_FILTER_NAME.isEmpty()) {
+        if (pipelineLevelFilterName.isEmpty()) {
             Map<Integer, String> pipelineSummaryLevelBrand = new HashMap();
             Map<Integer, String> pipelineSummaryLevelCustomerded = new HashMap();
             Map<Integer, String> pipelineSummaryLevelDedutionCustomer = new HashMap();
@@ -1414,19 +1409,19 @@ public class ARMUtils {
             pipelineSummaryLevelnondedutionContract.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
             pipelineSummaryLevelnondedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
 
-            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionProduct(), pipelineSummaryLevelBrand);
-            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getCustomerDedection(), pipelineSummaryLevelCustomerded);
-            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer(), pipelineSummaryLevelDedutionCustomer);
-            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomerContract(), pipelineSummaryLevelDedutionContract);
-            PIPELINE_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionContractCustomer(), pipelineSummaryLevelDedutionContractCustomer);
-            PIPELINE_LEVEL_FILTER_NAME.put("non" + ARMConstants.getDeductionCustomerContract(), pipelineSummaryLevelnondedutionContract);
+            pipelineLevelFilterName.put(ARMConstants.getDeductionProduct(), pipelineSummaryLevelBrand);
+            pipelineLevelFilterName.put(ARMConstants.getCustomerDedection(), pipelineSummaryLevelCustomerded);
+            pipelineLevelFilterName.put(ARMConstants.getDeductionCustomer(), pipelineSummaryLevelDedutionCustomer);
+            pipelineLevelFilterName.put(ARMConstants.getDeductionCustomerContract(), pipelineSummaryLevelDedutionContract);
+            pipelineLevelFilterName.put(ARMConstants.getDeductionContractCustomer(), pipelineSummaryLevelDedutionContractCustomer);
+            pipelineLevelFilterName.put("non" + ARMConstants.getDeductionCustomerContract(), pipelineSummaryLevelnondedutionContract);
         }
-        return PIPELINE_LEVEL_FILTER_NAME.get(value);
+        return pipelineLevelFilterName.get(value);
     }
 
-    public static Map<Integer, String> getReturnsLevelAndLevelFilter(String value) {
+    public Map<Integer, String> getReturnsLevelAndLevelFilter(String value) {
 
-        if (RETURNS_LEVEL_FILTER_NAME.isEmpty()) {
+        if (returnsLevelFilterName.isEmpty()) {
             Map<Integer, String> summaryLevelBrand = new HashMap();
             Map<Integer, String> summaryLevelDedutionCustomer = new HashMap();
             Map<Integer, String> summaryLevelDedutionContract = new HashMap();
@@ -1444,11 +1439,11 @@ public class ARMUtils {
             summaryLevelDedutionContract.put(NumericConstants.THREE, levelVariablesVarables.BRAND.toString());
             summaryLevelDedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.ITEM.toString());
 
-            RETURNS_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionProduct(), summaryLevelBrand);
-            RETURNS_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer(), summaryLevelDedutionCustomer);
-            RETURNS_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionContract(), summaryLevelDedutionContract);
+            returnsLevelFilterName.put(ARMConstants.getDeductionProduct(), summaryLevelBrand);
+            returnsLevelFilterName.put(ARMConstants.getDeductionCustomer(), summaryLevelDedutionCustomer);
+            returnsLevelFilterName.put(ARMConstants.getDeductionContract(), summaryLevelDedutionContract);
         }
-        return RETURNS_LEVEL_FILTER_NAME.get(value);
+        return returnsLevelFilterName.get(value);
     }
 
     public static TreeMap<String, Integer> getMasterIdsMap() {
@@ -1509,14 +1504,14 @@ public class ARMUtils {
         return DEDUCTION_VALUES_MULTIPLE_PERIOD;
     }
 
-    public static String getSummaryViewType(String value) {
-        SUMMARY_VIEW_TYPE.put(ARMConstants.getDeductionProduct(), "DEDUCTION_PRODUCT");
-        SUMMARY_VIEW_TYPE.put(ARMConstants.getCustomerDedection(), "CUSTOMER_DEDUCTION");
-        SUMMARY_VIEW_TYPE.put(ARMConstants.getDeductionCustomer(), "DEDUCTION_CUSTOMER");
-        SUMMARY_VIEW_TYPE.put(ARMConstants.getDeductionCustomerContract(), "DEDUCTION_CUSTOMER_CONTRACT");
-        SUMMARY_VIEW_TYPE.put(CommonConstant.DEDUCTION_CONTRACT, "DEDUCTION_CONTRACT");
+    public String getSummaryViewType(String value) {
+        summaryViewType.put(ARMConstants.getDeductionProduct(), "DEDUCTION_PRODUCT");
+        summaryViewType.put(ARMConstants.getCustomerDedection(), "CUSTOMER_DEDUCTION");
+        summaryViewType.put(ARMConstants.getDeductionCustomer(), "DEDUCTION_CUSTOMER");
+        summaryViewType.put(ARMConstants.getDeductionCustomerContract(), "DEDUCTION_CUSTOMER_CONTRACT");
+        summaryViewType.put(CommonConstant.DEDUCTION_CONTRACT, "DEDUCTION_CONTRACT");
 
-        return SUMMARY_VIEW_TYPE.get(value);
+        return summaryViewType.get(value);
     }
 
     public static Map<String, String> loadViewFilterMap() {
@@ -1544,19 +1539,19 @@ public class ARMUtils {
         return VIEW_FILTER_MAP;
     }
 
-    public static String[] getLevelMap(String levelName) {
-        if (LEVEL_MAP.isEmpty()) {
-            LEVEL_MAP.put(ARMConstants.getDeductionCategory(), new String[]{"A.RS_CATEGORY,H1.DESCRIPTION AS CATEGORY", CATEGORY});
-            LEVEL_MAP.put(ARMConstants.getDeductionType(), new String[]{"A.RS_TYPE,H2.DESCRIPTION AS TYPE", "TYPE"});
-            LEVEL_MAP.put(ARMConstants.getDeductionProgram(), new String[]{"A.REBATE_PROGRAM_TYPE,H3.DESCRIPTION AS PROGRAM_TYPE", "PROGRAM_TYPE"});
-            LEVEL_MAP.put(ARMConstants.getDeductionCategory2(), new String[]{"U.UDC2,H5.DESCRIPTION AS UDC", "UDC", "UDC2"});
-            LEVEL_MAP.put(ARMConstants.getDeductionCategory3(), new String[]{"U.UDC3,H6.DESCRIPTION AS UDC", "UDC", "UDC3"});
-            LEVEL_MAP.put(ARMConstants.getDeductionCategory4(), new String[]{"U.UDC4,H7.DESCRIPTION AS UDC", "UDC", "UDC4"});
-            LEVEL_MAP.put(ARMConstants.getDeductionCategory5(), new String[]{"U.UDC5,H8.DESCRIPTION AS UDC", "UDC", "UDC5"});
-            LEVEL_MAP.put(ARMConstants.getDeductionCategory6(), new String[]{"U.UDC6,H9.DESCRIPTION AS UDC", "UDC", "UDC6"});
-            LEVEL_MAP.put(ARMConstants.getDeduction(), new String[]{"A.RS_MODEL_SID,A.RS_ID + '- ' + A.RS_NAME AS RS_MODEL_ID", "RS_MODEL_ID"});
+    public String[] getLevelMap(String levelName) {
+        if (levelMap.isEmpty()) {
+            levelMap.put(ARMConstants.getDeductionCategory(), new String[]{"A.RS_CATEGORY,H1.DESCRIPTION AS CATEGORY", CATEGORY});
+            levelMap.put(ARMConstants.getDeductionType(), new String[]{"A.RS_TYPE,H2.DESCRIPTION AS TYPE", "TYPE"});
+            levelMap.put(ARMConstants.getDeductionProgram(), new String[]{"A.REBATE_PROGRAM_TYPE,H3.DESCRIPTION AS PROGRAM_TYPE", "PROGRAM_TYPE"});
+            levelMap.put(ARMConstants.getDeductionCategory2(), new String[]{"U.UDC2,H5.DESCRIPTION AS UDC", "UDC", "UDC2"});
+            levelMap.put(ARMConstants.getDeductionCategory3(), new String[]{"U.UDC3,H6.DESCRIPTION AS UDC", "UDC", "UDC3"});
+            levelMap.put(ARMConstants.getDeductionCategory4(), new String[]{"U.UDC4,H7.DESCRIPTION AS UDC", "UDC", "UDC4"});
+            levelMap.put(ARMConstants.getDeductionCategory5(), new String[]{"U.UDC5,H8.DESCRIPTION AS UDC", "UDC", "UDC5"});
+            levelMap.put(ARMConstants.getDeductionCategory6(), new String[]{"U.UDC6,H9.DESCRIPTION AS UDC", "UDC", "UDC6"});
+            levelMap.put(ARMConstants.getDeduction(), new String[]{"A.RS_MODEL_SID,A.RS_ID + '- ' + A.RS_NAME AS RS_MODEL_ID", "RS_MODEL_ID"});
         }
-        return LEVEL_MAP.get(levelName);
+        return levelMap.get(levelName);
     }
 
     public static Map<String, String> loadProfileFilterMap() {
@@ -1748,9 +1743,9 @@ public class ARMUtils {
         return SECOND_ROW_RATE_RIGHT_COLUMNS_FOR_TRX8.clone();
     }
 
-    public static Map<Integer, String> getTYrx7LevelAndLevelFilter(String value) {
+    public Map<Integer, String> getTYrx7LevelAndLevelFilter(String value) {
 
-        if (TRX7_LEVEL_FILTER_NAME.isEmpty()) {
+        if (trx7LevelFilterName.isEmpty()) {
             Map<Integer, String> summaryLevelBrand = new HashMap();
             Map<Integer, String> summaryLevelCustomerded = new HashMap();
             Map<Integer, String> summaryLevelDedutionCustomer = new HashMap();
@@ -1804,23 +1799,23 @@ public class ARMUtils {
             summaryLevelSalesDedutionContractCustomer.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
             summaryLevelSalesDedutionContractCustomer.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
 
-            TRX7_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionProduct(), summaryLevelBrand);
-            TRX7_LEVEL_FILTER_NAME.put(ARMConstants.getCustomerDedection(), summaryLevelCustomerded);
-            TRX7_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer(), summaryLevelDedutionCustomer);
-            TRX7_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomerContract(), summaryLevelDedutionContract);
-            TRX7_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionContractCustomer(), summaryLevelSalesDedutionContractCustomer);
-            TRX7_LEVEL_FILTER_NAME.put(CommonConstant.DEDUCTION_CONTRACT, summaryleveldedutionContract);
-            TRX7_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionProduct() + CommonConstant.SALES_HEADER, summaryLevelDedutionSales);//Added for GAL-1127
-            TRX7_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer() + "Sales", summaryLevelSalesDedutionCustomer); // Added for GAL-12573
-            TRX7_LEVEL_FILTER_NAME.put("non" + ARMConstants.getDeductionCustomerContract(), summarylevelnondedutionContract);
+            trx7LevelFilterName.put(ARMConstants.getDeductionProduct(), summaryLevelBrand);
+            trx7LevelFilterName.put(ARMConstants.getCustomerDedection(), summaryLevelCustomerded);
+            trx7LevelFilterName.put(ARMConstants.getDeductionCustomer(), summaryLevelDedutionCustomer);
+            trx7LevelFilterName.put(ARMConstants.getDeductionCustomerContract(), summaryLevelDedutionContract);
+            trx7LevelFilterName.put(ARMConstants.getDeductionContractCustomer(), summaryLevelSalesDedutionContractCustomer);
+            trx7LevelFilterName.put(CommonConstant.DEDUCTION_CONTRACT, summaryleveldedutionContract);
+            trx7LevelFilterName.put(ARMConstants.getDeductionProduct() + CommonConstant.SALES_HEADER, summaryLevelDedutionSales);//Added for GAL-1127
+            trx7LevelFilterName.put(ARMConstants.getDeductionCustomer() + "Sales", summaryLevelSalesDedutionCustomer); // Added for GAL-12573
+            trx7LevelFilterName.put("non" + ARMConstants.getDeductionCustomerContract(), summarylevelnondedutionContract);
 
         }
-        return TRX7_LEVEL_FILTER_NAME.get(value);
+        return trx7LevelFilterName.get(value);
     }
 
-    public static Map<Integer, String> getTYrx8LevelAndLevelFilter(String value) {
+    public Map<Integer, String> getTYrx8LevelAndLevelFilter(String value) {
 
-        if (TRX8_LEVEL_FILTER_NAME.isEmpty()) {
+        if (tr8LevelFilterName.isEmpty()) {
             Map<Integer, String> summaryLevelDeductionProduct = new HashMap();
             Map<Integer, String> summaryLevelDedutionCustomer = new HashMap();
             Map<Integer, String> summaryLevelDedutionContract = new HashMap();
@@ -1841,14 +1836,14 @@ public class ARMUtils {
             summaryLevelDedutionContract.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
             summaryLevelDedutionContract.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
 
-            TRX8_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionProduct(), summaryLevelDeductionProduct);
-            TRX8_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer(), summaryLevelDedutionCustomer);
-            TRX8_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionContract(), summaryLevelDedutionContract);
+            tr8LevelFilterName.put(ARMConstants.getDeductionProduct(), summaryLevelDeductionProduct);
+            tr8LevelFilterName.put(ARMConstants.getDeductionCustomer(), summaryLevelDedutionCustomer);
+            tr8LevelFilterName.put(ARMConstants.getDeductionContract(), summaryLevelDedutionContract);
         }
-        return TRX8_LEVEL_FILTER_NAME.get(value);
+        return tr8LevelFilterName.get(value);
     }
 
-    public static List<String> getTrx7SalesVariables() {
+    public List<String> getTrx7SalesVariables() {
         if (trx7salesVariablesList.isEmpty()) {
             trx7salesVariablesList.addAll(Arrays.asList(VariableConstants.getVariableSalesVisibleColumn()));
             trx7salesVariablesList.add(VariableConstants.GROUP);
@@ -2020,9 +2015,9 @@ public class ARMUtils {
         Trx8Constants.getRate(),
         Trx8Constants.getOverride()};
 
-    public static Map<Integer, String> getTrx8LevelAndLevelFilter(String value) {
+    public Map<Integer, String> getTrx8LevelAndLevelFilter(String value) {
 
-        if (TRX8_RATES_LEVEL_FILTER_NAME.isEmpty()) {
+        if (trx8RatesLevelFilterName.isEmpty()) {
             Map<Integer, String> rateDeductionProduct = new HashMap();
             Map<Integer, String> rateDeductionCustomer = new HashMap();
             Map<Integer, String> rateDeductionContract = new HashMap();
@@ -2043,16 +2038,16 @@ public class ARMUtils {
             rateDeductionContract.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
             rateDeductionContract.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
 
-            TRX8_RATES_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionProduct(), rateDeductionProduct);
-            TRX8_RATES_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionContract(), rateDeductionContract);
-            TRX8_RATES_LEVEL_FILTER_NAME.put(ARMConstants.getDeductionCustomer(), rateDeductionCustomer);
+            trx8RatesLevelFilterName.put(ARMConstants.getDeductionProduct(), rateDeductionProduct);
+            trx8RatesLevelFilterName.put(ARMConstants.getDeductionContract(), rateDeductionContract);
+            trx8RatesLevelFilterName.put(ARMConstants.getDeductionCustomer(), rateDeductionCustomer);
         }
-        return TRX8_RATES_LEVEL_FILTER_NAME.get(value);
+        return trx8RatesLevelFilterName.get(value);
     }
 
-    public static Map<Integer, String> getReserveDataLevelAndLevelFilter(String value) {
+    public Map<Integer, String> getReserveDataLevelAndLevelFilter(String value) {
 
-        if (TRX8_RESERVEDATA_LEVEL_FILTER_NAME.isEmpty()) {
+        if (trx8ReturnsReserveLevelFilterName.isEmpty()) {
             Map<Integer, String> reserveDataCustomerContract = new HashMap();
             Map<Integer, String> reserveDataContractCustomer = new HashMap();
 
@@ -2068,10 +2063,10 @@ public class ARMUtils {
             reserveDataContractCustomer.put(NumericConstants.FOUR, levelVariablesVarables.BRAND.toString());
             reserveDataContractCustomer.put(NumericConstants.FIVE, levelVariablesVarables.ITEM.toString());
 
-            TRX8_RESERVEDATA_LEVEL_FILTER_NAME.put("Contract Customer", reserveDataContractCustomer);
-            TRX8_RESERVEDATA_LEVEL_FILTER_NAME.put("Customer Contract", reserveDataCustomerContract);
+            trx8ReturnsReserveLevelFilterName.put("Contract Customer", reserveDataContractCustomer);
+            trx8ReturnsReserveLevelFilterName.put("Customer Contract", reserveDataCustomerContract);
         }
-        return TRX8_RESERVEDATA_LEVEL_FILTER_NAME.get(value);
+        return trx8ReturnsReserveLevelFilterName.get(value);
     }
 
     public static final String DATA_SELECTION_MESSAGE = "The month/year combination you selected in the ‘From’ drop down list box does not have interfaced Returns data.  Please select another month/year combination.";
@@ -3004,8 +2999,38 @@ public class ARMUtils {
         return map.get(key);
 
     }
+    private static final Object[] DCTBI = new Object[]{"D", "C", "T", "B", "I"};
+    private static final Object[] DTCBI = new Object[]{"D", "T", "C", "B", "I"};
+    private static final Object[] TCBI = new Object[]{"T", "C", "B", "I"};
+    private static final Object[] CTBI = new Object[]{"C", "T", "B", "I"};
+    private static final Object[] TBI = new Object[]{"T", "B", "I"};
+    private static final Object[] BI = new Object[]{"B", "I"};
 
     public static int getIntegerValue(String value) {
-        return Integer.valueOf(value);
+        return Integer.parseInt(value);
+    }
+
+    public static Object[] getDCTBI() {
+        return ARMUtils.DCTBI.clone();
+    }
+
+    public static Object[] getDTCBI() {
+        return ARMUtils.DTCBI.clone();
+    }
+
+    public static Object[] getTCBI() {
+        return ARMUtils.TCBI.clone();
+    }
+
+    public static Object[] getCTBI() {
+        return ARMUtils.CTBI.clone();
+    }
+
+    public static Object[] getTBI() {
+        return ARMUtils.TBI.clone();
+    }
+
+    public static Object[] getBI() {
+        return ARMUtils.BI.clone();
     }
 }

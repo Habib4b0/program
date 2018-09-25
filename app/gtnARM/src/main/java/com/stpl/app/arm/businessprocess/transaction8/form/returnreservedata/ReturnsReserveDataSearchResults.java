@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -102,16 +103,16 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
                 properties.put(prop, String.class);
             }
             excelBeanContainer.setColumnProperties(properties);
-            List<Object> visibleColumn = new ArrayList<>();
-            List<String> columnHeader = new ArrayList<>();
-            visibleColumn.addAll(Arrays.asList(table.getLeftFreezeAsTable().getVisibleColumns()));
-            visibleColumn.addAll(Arrays.asList(table.getRightFreezeAsTable().getVisibleColumns()));
-            List<String> headerList = Arrays.asList(table.getLeftFreezeAsTable().getColumnHeaders());
-            List<String> headerList2 = Arrays.asList(table.getRightFreezeAsTable().getColumnHeaders());
-            columnHeader.addAll(headerList);
-            columnHeader.addAll(headerList2);
-            excelTable.setVisibleColumns(visibleColumn.toArray());
-            excelTable.setColumnHeaders(columnHeader.toArray(new String[0]));
+            List<Object> excelVisibleColumn = new ArrayList<>();
+            List<String> excelColumnHeader = new ArrayList<>();
+            excelVisibleColumn.addAll(Arrays.asList(table.getLeftFreezeAsTable().getVisibleColumns()));
+            excelVisibleColumn.addAll(Arrays.asList(table.getRightFreezeAsTable().getVisibleColumns()));
+            List<String> excelHeaderList = Arrays.asList(table.getLeftFreezeAsTable().getColumnHeaders());
+            List<String> excelHeaderList2 = Arrays.asList(table.getRightFreezeAsTable().getColumnHeaders());
+            excelColumnHeader.addAll(excelHeaderList);
+            excelColumnHeader.addAll(excelHeaderList2);
+            excelTable.setVisibleColumns(excelVisibleColumn.toArray());
+            excelTable.setColumnHeaders(excelColumnHeader.toArray(new String[0]));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -141,7 +142,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        getSelection().setReturnReserveDataHierarchy(ARMUtils.getReserveDataLevelAndLevelFilter(viewType));
+        getSelection().setReturnReserveDataHierarchy(ARMUtils.getInstance().getReserveDataLevelAndLevelFilter(viewType));
     }
 
     @Override
@@ -299,9 +300,9 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
     public Object[] getExcelHierarchy() {
         Object[] value = null;
         if (customerProductView.getValue().equals(ARMUtils.CONTRACT_CUSTOMER)) {
-            value = new Object[]{"D", "C", "T", "B", "I"};
+            value = ARMUtils.getDCTBI();
         } else if (customerProductView.getValue().equals(ARMUtils.CUSTOMER_CONTRACT)) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         }
         return value;
     }

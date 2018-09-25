@@ -144,7 +144,6 @@ public class NMPVExcelLogic {
     private final Map<String, String> customViewRelationshipHierarchy = new HashMap();
     protected PVParameters parameterDto;
     private boolean discountFlag;
-    private boolean isCustomView;
     protected Map<String, String> discountNameMap = new HashMap<>();
     public static final String PROGRAM = "Program";
     public static final String PROGRAM_CAT = "Program Category";
@@ -184,7 +183,7 @@ public class NMPVExcelLogic {
         discountKeys.clear();
         isTotal = "Total".equalsIgnoreCase(selection.getLevel());
         discountFlag = !"Total Discount".equalsIgnoreCase(selection.getDiscountLevel());
-        isCustomView = selection.isIsCustomHierarchy();
+        boolean isCustomView = selection.isIsCustomHierarchy();
 
         if (isCustomView) {
             customViewRelationshipHierarchy.putAll(getGroupCustomViewNM());
@@ -1121,7 +1120,7 @@ public class NMPVExcelLogic {
         }
         projectionIdList.add(selection.getCurrentProjId());
         projectionIdList.addAll(selection.getProjIdList());
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionId = CommonUtils.collectionToStringMethod(projectionIdList, false);
                 String discountLevelValue = Constants.LabelConstants.TOTAL_DISCOUNT.toString().equalsIgnoreCase(selection.getDiscountLevel()) ? PROGRAM : selection.getDiscountLevel();
         String levelName = !selection.getDeductionLevelFilter().isEmpty() ? selection.getSelectedDeductionLevelName() : discountLevelValue;
         Object[] orderedArg = {projectionId, frequency, discountId.isEmpty() ? null : discountId, VARIANCE1, selection.getSessionDTO().getSessionId(), selection.getUserId(), PIVOT1, null, selection.getUomCode(), ALL.equals(selection.getSalesInclusion()) ? null : selection.getSalesInclusion(), ALL.equals(selection.getSession().getDeductionInclusion()) ? null : selection.getSession().getDeductionInclusion(),selection.isIsCustomHierarchy() ? "D" : hierarchyIndicator,levelName,selection.getCustomId()};
@@ -1151,7 +1150,7 @@ public class NMPVExcelLogic {
             List<Integer> projectionIdList = new ArrayList();
             projectionIdList.add(selection.getCurrentProjId());
             projectionIdList.addAll(selection.getProjIdList());
-            String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+            String projectionId = CommonUtils.collectionToStringMethod(projectionIdList, false);
             String levelName = !selection.getDeductionLevelFilter().isEmpty() ? selection.getSelectedDeductionLevelName() : parameterDto.getDiscountLevel();
             String sIds = selection.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(selection.getDeductionLevelFilter());
             Object[] orderedArg = {projectionId, parameterDto.getUserId(), parameterDto.getSessionId(), levelName,
@@ -2217,7 +2216,7 @@ public class NMPVExcelLogic {
             projectionIdList.add(String.valueOf(projId));
             pivotPriorProjIdList.add(projId);
         }
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionId = CommonUtils.collectionToStringMethod(projectionIdList, false);
         String discountLevelValue = Constants.LabelConstants.TOTAL_DISCOUNT.toString().equalsIgnoreCase(selection.getDiscountLevel()) ? PROGRAM : selection.getDiscountLevel();
         String levelName = !selection.getDeductionLevelFilter().isEmpty() ? selection.getSelectedDeductionLevelName() : discountLevelValue;
         Object[] orderedArg = {projectionId, frequency, discountId.isEmpty() ? null : discountId, VARIANCE1, selection.getSessionDTO().getSessionId(), selection.getUserId(), PIVOT1, null, selection.getUomCode(), ALL.equals(selection.getSalesInclusion()) ? null : selection.getSalesInclusion(), ALL.equals(selection.getSession().getDeductionInclusion()) ? null : selection.getSession().getDeductionInclusion(),selection.isIsCustomHierarchy() ? "D" : hierarchyIndicator,levelName,selection.getCustomId()};
@@ -2257,7 +2256,7 @@ public class NMPVExcelLogic {
         for (Integer projId : projSelDTO.getProjIdList()) {
             projectionIdList.add(String.valueOf(projId));
         }
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionId = CommonUtils.collectionToStringMethod(projectionIdList, false);
         List<Object[]> discountsList = null;
         Object sIds = projSelDTO.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter());
         String levelName = projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDiscountLevel() : projSelDTO.getSelectedDeductionLevelName();

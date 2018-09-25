@@ -251,14 +251,6 @@ public class PPAProjection extends CustomComponent implements View {
      */
     private final Resource excelExportImage = new ThemeResource(
             EXCEL_IMAGE_PATH.getConstant());
-    /**
-     * The map right visible columns.
-     */
-    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
-    /**
-     * The map left visible columns.
-     */
-    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
     public static final String FORMULA_SYSTEM_SID1 = "formulaSystemSID";
     private final StplSecurity stplSecurity = new StplSecurity();
     private final SessionDTO session;
@@ -270,7 +262,6 @@ public class PPAProjection extends CustomComponent implements View {
     private final IndexedContainer groupContainer = new IndexedContainer();
     private ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
     private final CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO leftdto;
     private ExtTreeContainer<PPAProjectionDTO> excelContainer = new ExtTreeContainer<>(PPAProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
     private ExtTreeContainer<PPAProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(
             PPAProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
@@ -1540,7 +1531,7 @@ public class PPAProjection extends CustomComponent implements View {
             excelTable.setColumnHeaders(leftHeaders);
         excelTable.setRefresh(true);
             String sheetName="PPA Projection year "+rightTable.getDoubleHeaderColumnHeaders()[sheetCount].replace("Q1", "");
-           ForecastUI.setEXCEL_CLOSE(true);
+           ForecastUI.setEXCELCLOSE(true);
             if (i == NumericConstants.FIVE) {
                 export = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName,"PPA Projection", "PPA_Projection.xls", false);
             }else{
@@ -1648,7 +1639,7 @@ public class PPAProjection extends CustomComponent implements View {
         fullHeader.getSingleHeaders().clear(); 
         fullHeader.getDoubleHeaders().clear();
         fullHeader.getDoubleColumns().clear();
-        leftdto = HeaderUtils.getPPAProjectionLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO leftdto = HeaderUtils.getPPAProjectionLeftTableColumns(fullHeader);
 
         if (generateFlag) {
             ridhtdto = HeaderUtils.getPPAOnLoadRightColumns(fullHeader);
@@ -1680,7 +1671,7 @@ public class PPAProjection extends CustomComponent implements View {
         rightTable.setVisibleColumns(ridhtdto.getSingleColumns().toArray());
         rightTable.setColumnHeaders(ridhtdto.getSingleHeaders().toArray(new String[ridhtdto.getSingleHeaders().size()]));
         rightTable.setColumnCollapsingAllowed(true);
-        mapLeftVisibleColumns = leftdto.getDoubleHeaderMaps();
+        Map<Object, Object[]> mapLeftVisibleColumns = leftdto.getDoubleHeaderMaps();
         alignCentre();
 
         resultsTable.setDoubleHeaderVisible(true);
@@ -1693,7 +1684,7 @@ public class PPAProjection extends CustomComponent implements View {
                 .setDoubleHeaderColumnHeaders(leftdto.getDoubleHeaders().toArray(new String[leftdto.getDoubleHeaders().size()]));
         rightTable.setDoubleHeaderVisibleColumns(ridhtdto.getDoubleColumns().toArray());
         rightTable.setDoubleHeaderColumnHeaders(ridhtdto.getDoubleHeaders().toArray(new String[ridhtdto.getDoubleHeaders().size()]));
-        mapRightVisibleColumns = ridhtdto.getDoubleHeaderMaps();
+        Map<Object, Object[]> mapRightVisibleColumns = ridhtdto.getDoubleHeaderMaps();
         rightTable.reConstruct(BooleanConstant.getTrueFlag());
         resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         leftTable.setColumnCheckBox(Constant.CHECK_RECORD + ".0", true);
@@ -2017,7 +2008,7 @@ public class PPAProjection extends CustomComponent implements View {
 
     private int expandCollapseCol(Object doubleHeaderColumn, boolean collapsed) {
         int size = selection.getPpaSelectedVariables().size();
-        String arr[] = rightTable.getHeaderMapFromDoubleHeader(doubleHeaderColumn.toString());
+        String [] arr = rightTable.getHeaderMapFromDoubleHeader(doubleHeaderColumn.toString());
         int width = 0;
         if (collapsed) {
             for (int i = 0; i < NumericConstants.THREE && i < size; i++) {

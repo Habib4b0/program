@@ -44,13 +44,15 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     private ExtTreeContainer<AdjustmentDTO> resultBeanContainertRX6 = new ExtTreeContainer<>(
             AdjustmentDTO.class, ExtContainer.DataStructureMode.LIST);
     private String[] tr6Righttablesingleheaders = {"Total Inventory", "Baseline Price", "Baseline Price Override"};
-    private Object[] tr6Doubleheadercolumns = {"rate"};
+    private Object[] tr6Doubleheadercolumns = {RATE};
     private Object[] tr6Columns = {"month"};
     private Object[] tr6LeftColumns = {"branditemno"};
     private Object[] tr6Singleheader = {"dateType", "price", "exclusionDetails"};
 
     private String[] tr6Doubleheader = {"Managed Care Base"};
     public static final Logger TR6_INVENTORY_LOGGER = LoggerFactory.getLogger(Trx6InventorySearchResults.class);
+    private static final String CHECK_RECORD = "checkRecord";
+    private static final String RATE = "rate";
 
     public Trx6InventorySearchResults(Trx6InventoryLogic logic, Trx6SelectionDTO selection) {
         super(logic, selection);
@@ -58,7 +60,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
 
     @Override
     public void setVisibleColumnsAndHeaders() {
-        configureOnInventorySearchResults();
+        configureOnTr6InventorySearchResults();
 
         getTableLogic().setContainerDataSource(resultBeanContainertRX6);
         leftTable = table.getLeftFreezeAsTable();
@@ -93,18 +95,19 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
         }
         rightTable.setDoubleHeaderVisibleColumns(tr6Doubleheadercolumns);
         rightTable.setDoubleHeaderColumnHeaders(tr6Doubleheader);
-        rightTable.setDoubleHeaderColumnWidth("rate", NumericConstants.FIVE_HUNDRED);
+        rightTable.setDoubleHeaderColumnWidth(RATE, NumericConstants.FIVE_HUNDRED);
 
-        leftTable.setColumnCheckBox("checkRecord", true, false);
+        leftTable.setColumnCheckBox(CHECK_RECORD, true, false);
         abstractSearchContent.setWidth("100%");
     }
 
-    private void configureOnInventorySearchResults() {
+    private void configureOnTr6InventorySearchResults() {
         panelCaption.setCaption("Inventory Results");
-        customerProductView.setVisible(false);
-        valueDdlb.setVisible(false);
-        cancelOverride.setVisible(false);
-        cpLabel.setVisible(false);
+        boolean visiblity = false;
+        customerProductView.setVisible(visiblity);
+        valueDdlb.setVisible(visiblity);
+        cancelOverride.setVisible(visiblity);
+        cpLabel.setVisible(visiblity);
 
         bbExport.setPrimaryStyleName("link");
         bbExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
@@ -114,8 +117,8 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     public void setExcelVisibleColumn() {
         Map properties = new HashMap();
         List<Object> header = getSummaryLogic().generateInventoryHeader(selection);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
-        List rightSingleVisibleHeader = (ArrayList) header.get(1);
+        List rightSingleVisibleColumn = (List) header.get(0);
+        List rightSingleVisibleHeader = (List) header.get(1);
         for (Object variableColumn : rightSingleVisibleColumn) {
             properties.put(variableColumn, String.class);
         }
@@ -156,12 +159,12 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
 
     public void generateButtonLogic(AbstractSelectionDTO selection) {
         List<Object> header = getSummaryLogic().generateInventoryHeader(selection);
-        List rightSingleVisibleColumn = (ArrayList) header.get(0);
+        List rightSingleVisibleColumn = (List) header.get(0);
         Map properties = new HashMap();
-        Object[] variableColumns = new String[rightSingleVisibleColumn.size()];
+        Object[] variableColumns = new Object[rightSingleVisibleColumn.size()];
         variableColumns = rightSingleVisibleColumn.toArray(variableColumns);
-        for (int i = 0; i < variableColumns.length; i++) {
-            properties.put(variableColumns[i], String.class);
+        for (Object variableColumn : variableColumns) {
+            properties.put(variableColumn, String.class);
         }
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainertRX6.setColumnProperties(properties);
@@ -206,7 +209,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     @Override
     public Object[] getExcelHierarchy() {
         TR6_INVENTORY_LOGGER.debug("Inside getExcelHierarchy");
-        return new Object[]{"T", "B", "I"};
+        return ARMUtils.getTBI();
     }
 
     @Override
@@ -248,7 +251,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     @Override
     public void setRespectiveHierarchy(String viewType) {
         TR6_INVENTORY_LOGGER.debug("Inside setRespectiveHierarchy");
-        getSelection().setSaleshierarchy(ARMUtils.getLevelAndLevelFilter(ARMConstants.getDeductionCustomer()));
+        getSelection().setSaleshierarchy(ARMUtils.getInstance().getLevelAndLevelFilter(ARMConstants.getDeductionCustomer()));
     }
 
     @Override
@@ -260,10 +263,11 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     @Override
     protected void excelExportLogic() {
         try {
+            boolean visiblity = false;
             tableLayout.addComponent(getExcelTable());
             getExcelTable().setContainerDataSource(getExcelContainer());
-            getExcelTable().setRefresh(false);
-            getExcelTable().setVisible(false);
+            getExcelTable().setRefresh(visiblity);
+            getExcelTable().setVisible(visiblity);
             setExcelVisibleColumn();
             List list = getExcelLogic().getExcelResultList(getSelection());
             List<Object> listData = new ArrayList<>();
@@ -271,10 +275,10 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
             listData.add(Boolean.FALSE);
             listData.add(getIsDemandSreen());
             listData.add(getInterval());
-            ExcelUtils.setExcelData(list, getExcelHierarchy(), getExcelExportVisibleColumn(), getExcelContainer(), discountColumnNeeded(), ARMConstants.getPipelineInventoryTrueUp(), listData);
-            ((CommonUI) getUI()).setExcelFlag(true);
+            ExcelUtils.setExcelData(list, getExcelHierarchy(), getExcelExportVisibleColumn(),  getExcelContainer(), discountColumnNeeded(), ARMConstants.getPipelineInventoryTrueUp(), listData);
+            ((CommonUI) getUI()).setExcelFlag(!visiblity);
             ExcelExport export = new ExcelExport(new ExtCustomTableHolder(getExcelTable()), getExcelFileName(), getExcelFileName(), getExcelFileName() + ".xls", false);
-            export.setUseTableFormatPropertyValue(true);
+            export.setUseTableFormatPropertyValue(!visiblity);
             export.export();
             getExcelContainer().removeAllItems();
             tableLayout.removeComponent(getExcelTable());

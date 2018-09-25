@@ -82,27 +82,26 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
     public static final String SPECIAL_CHAR = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*";
     private List<String> notesList = new ArrayList<>();
     private final SessionDTO sessionDTO;
-    protected static final Map<Integer, String> userMap = new ConcurrentHashMap<>();
+    protected final Map<Integer, String> userMap = new ConcurrentHashMap<>();
     private final NotesDTO binderDto = new NotesDTO();
     private final ErrorfulFieldGroup notesBinder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     private final ErrorLabel errorMsg = new ErrorLabel();
+    private Object[] visibleColumnsobj = new Object[]{"documentName", "dateAdded", "userName"};
+    private String[] columnHeadersobj = new String[]{"Document Name", "Date Added", "User Name"};
 
     public NotesTabForm(FieldGroup binder, String moduleName, SessionDTO sessionDTO, String adjustmentType) throws SystemException {
         super(binder, moduleName);
         getNotesBinder();
         configureField();
-        this.masterTableSid = masterTableSid;
         this.binder = (CustomFieldGroup) binder;
         this.sessionDTO = sessionDTO;
         this.adjustmentType = adjustmentType;
         userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         getUserName();
         userName = userMap.get(Integer.valueOf(userId));
-        Object[] obj = new Object[]{"documentName", "dateAdded", "userName"};
-        String[] objHeaders = new String[]{"Document Name", "Date Added", "User Name"};
         table.setContainerDataSource(attachmentsListBean);
-        table.setVisibleColumns(obj);
-        table.setColumnHeaders(objHeaders);
+        table.setVisibleColumns(visibleColumnsobj);
+        table.setColumnHeaders(columnHeadersobj);
         configureGeneratedColumn();
         if (!this.adjustmentType.isEmpty()) {
             addReasonCodeDdlb();
@@ -126,7 +125,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         newNote.setValidationVisible(true);
     }
 
-    public FieldGroup getNotesBinder() {
+    private FieldGroup getNotesBinder() {
         notesBinder.setErrorDisplay(errorMsg);
         notesBinder.bindMemberFields(this);
         notesBinder.setBuffered(true);
@@ -200,19 +199,19 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
                 CommonUIUtils.successNotification(file + " uploaded successfully");
                 fileUpload = new CommonUtil().getFileName(fileUploadPath + event.getFilename());
                 StringBuilder sb = new StringBuilder(event.getFilename());
-                int index = sb.lastIndexOf(".");
+                int index = sb.lastIndexOf(ARMUtils.DOT);
                 sb.replace(0, index, file);
                 Date date = new Date();
                 long value = date.getTime();
-                sb.insert(sb.lastIndexOf("."), ARMUtils.UNDERSCORE + value);
+                sb.insert(sb.lastIndexOf(ARMUtils.DOT), ARMUtils.UNDERSCORE + value);
                 NotesDTO attachmentDTO = new NotesDTO();
-                String name = file + sb.substring(sb.indexOf("."));
+                String name = file + sb.substring(sb.indexOf(ARMUtils.DOT));
                 attachmentDTO.setDocumentName(name);
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
                 TimeZone central = TimeZone.getTimeZone("CST");
                 format.setTimeZone(central);
                 attachmentDTO.setDateAdded(format.format(new Date()));
-                attachmentDTO.setUserId(Integer.valueOf(userId));
+                attachmentDTO.setUserId(ARMUtils.getIntegerValue(userId));
                 attachmentDTO.setUserName(CommonUtils.getUserNameById(userId));
                 attachmentDTO.setDocumentFullPath(fileUploadPath + name);
                 attachmentsListBean.addBean(attachmentDTO);
@@ -266,7 +265,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         String currentUsersName = tableBean.getUserName();
         if (currentUsersName.contains(",")) {
             String[] str = currentUsersName.split(",");
-            currentUsersName = str[1] + " " + str[0];
+            currentUsersName = str[1] + ARMUtils.SPACE + str[0];
         }
         if (tableBeanId == null || !table.isSelected(tableBeanId)) {
             AbstractNotificationUtils.getErrorNotification(CommonConstant.REMOVE_ATTACHMENT, "Please select an attachment to remove ");
@@ -402,7 +401,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         internalNotes.setReadOnly(true);
     }
 
-    public void configureGeneratedColumn() {
+    private void configureGeneratedColumn() {
 
         table.addGeneratedColumn("documentName", new ExtFilterTable.ColumnGenerator() {
 

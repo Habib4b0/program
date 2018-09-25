@@ -486,6 +486,9 @@ public class HomeController {
 	private static final String CONTRACT_CFP_MBR_INTERFACE = "ContractCfpMbrInterface";
 	private static final String PSTG_FORECAST_SALES_WAC_INTERFACE = "PstgForecastSalesWacInterface";
 	private static final String PSTG_GCC_PROD_HIERARCHY_INTERFACE = "PstgGccProdHierarchyInterface";
+	
+	private static final String ARM_LOAD_INTERFACE = "ArmLoadInterface";
+	
         
         private static final String DTX_UOM_INTERFACE = "DtxUOMInterface";
         private static final String DTX_CPI_INTERFACE = "DtxCPIInterface";
@@ -498,6 +501,11 @@ public class HomeController {
         private static final String DTX_CUSTOMER_GTS_FORECAST_INTERFACE = "DtxCustomerGtsForecastInterface";
         private static final String DTX_COMPANY_MASTER_INTERFACE = "DtxCompanyMasterInterface";
         private static final String DTX_COMPANY_TRADE_CLASS_INTERFACE = "DtxCompanyTradeClassInterface";
+        private static final String DTX_COMPANY_IDENTIFIER_INTERFACE = "DtxCompanyIdentifierInterface";
+        private static final String DTX_CONTRACT_CFP_INTERFACE = "DtxContractCFPInterface";
+        private static final String DTX_CONTRACT_HEADER_INTERFACE = "DtxContractHeaderInterface";
+        private static final String DTX_FORECAST_SALES_INTERFACE = "DtxForecastSalesInterface";
+        private static final String DTX_FORECAST_SALES_WAC_INTERFACE = "DtxForecastSalesWacInterface";
 
 	protected static Map<String, String[]> loaddata = new HashMap<>();
 
@@ -733,7 +741,11 @@ public class HomeController {
 					FilePathUtil.PSTG_FORECAST_SALES_WAC_INTERFACE });
 			loaddata.put(PSTG_GCC_PROD_HIERARCHY_INTERFACE, new String[] { Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE,
 					FilePathUtil.PSTG_GCC_PROD_HIERARCHY_INTERFACE });
-                        loaddata.put(DTX_UOM_INTERFACE,
+			   
+			            loaddata.put(ARM_LOAD_INTERFACE,
+					new String[] { Constants.ARM_LOAD_INTERFACE, FilePathUtil.ARM_LOAD_INTERFACE });
+			            
+			            loaddata.put(DTX_UOM_INTERFACE,
 					new String[] { Constants.DTX_UOM_INTERFACE, FilePathUtil.DTX_UOM_INTERFACE });
                         loaddata.put(DTX_CPI_INTERFACE,
 					new String[] { Constants.DTX_CPI_INTERFACE, FilePathUtil.DTX_CPI_INTERFACE });
@@ -755,6 +767,16 @@ public class HomeController {
                     new String[] { Constants.DTX_COMPANY_MASTER_INTERFACE, FilePathUtil.DTX_COMPANY_MASTER_INTERFACE });
                         loaddata.put(DTX_COMPANY_TRADE_CLASS_INTERFACE,
                     new String[] { Constants.DTX_COMPANY_TRADE_CLASS_INTERFACE, FilePathUtil.DTX_COMPANY_TRADE_CLASS_INTERFACE });
+                        loaddata.put(DTX_COMPANY_IDENTIFIER_INTERFACE,
+                    new String[] { Constants.DTX_COMPANY_IDENTIFIER_INTERFACE, FilePathUtil.DTX_COMPANY_IDENTIFIER_INTERFACE });
+                        loaddata.put(DTX_CONTRACT_CFP_INTERFACE,
+                    new String[] { Constants.DTX_CONTRACT_CFP_INTERFACE, FilePathUtil.DTX_CONTRACT_CFP_INTERFACE });
+                        loaddata.put(DTX_CONTRACT_HEADER_INTERFACE,
+                    new String[] { Constants.DTX_CONTRACT_HEADER_INTERFACE, FilePathUtil.DTX_CONTRACT_HEADER_INTERFACE });
+                        loaddata.put(DTX_FORECAST_SALES_INTERFACE,
+                    new String[] { Constants.DTX_FORECAST_SALES_INTERFACE, FilePathUtil.DTX_FORECAST_SALES_INTERFACE });
+                        loaddata.put(DTX_FORECAST_SALES_WAC_INTERFACE,
+                    new String[] { Constants.DTX_FORECAST_SALES_WAC_INTERFACE, FilePathUtil.DTX_FORECAST_SALES_WAC_INTERFACE });
                         		
 		}
 		return loaddata.get(keyValue);
@@ -778,13 +800,14 @@ public class HomeController {
 					ITEM_IDEN, ITEM_IDEN_HIS, ITEM_PRICING, ITEM_PRICING_HISTORY, COMPANY_BUID_INTERFACE,
 					COMPANY_BUNIT_INTERFACE, COMPANY_BUTYPE_INTERFACE, PRODUCT_PRODID_INTERFACE, PRODUCT_PROD_INTERFACE,
 					PRICING_INTERFACE, PRODUCT_PROD_BW_INTERFACE, PRODUCT_PROD_HIERARCHY_INTERFACE,DTX_ITEM_PRICING_INTERFACE,
-					DTX_ITEM_MASTER_INTERFACE,DTX_ITEM_IDENTIFIER_INTERFACE,DTX_COMPANY_MASTER_INTERFACE,DTX_COMPANY_TRADE_CLASS_INTERFACE);
+					DTX_ITEM_MASTER_INTERFACE,DTX_ITEM_IDENTIFIER_INTERFACE,DTX_COMPANY_MASTER_INTERFACE,DTX_COMPANY_TRADE_CLASS_INTERFACE,
+					DTX_COMPANY_IDENTIFIER_INTERFACE);
 
 			List<String> contract = Arrays.asList(CONTRACT_HEADER, CONTRACT_HIS, CFP, CFP_HISTORY, IFP, IFP_HISTORY,
 					PRICE_SCHEDULE, PRICE_SCHEDULE_HISTORY, REBATE_SCHEDULE, REBATE_SCHEDULE_HISTORY, REBATE_PLAN,
 					REBATE_PLAN_HISTORY, CONTRACT_CONT_INTERFACE, CONTRACT_CPGRP_INTERFACE, CONTRACT_CPPPO_INTERFACE,
 					CONTRACT_CPPT_INTERFACE, CONTRACT_CPGRP_PGMMKT_INTERFACE, CONTRACT_PRGMMKT_INTERFACE,
-					CONTRACT_CFP_MBR_INTERFACE);
+					CONTRACT_CFP_MBR_INTERFACE,DTX_CONTRACT_CFP_INTERFACE,DTX_CONTRACT_HEADER_INTERFACE);
 
 			List<String> transaction = Arrays.asList(ACTUALS, ACTUALS_HISTORY, ITEM_HIERARCHY, ITEM_HIERARCHY_HIS,
 					ITEM_HIER_DEF, ITEM_HIER_DEF_HIS, SALES_MASTER, SALES_MASTER_HISTORY, FORECAST, FORECAST_HIS,
@@ -803,7 +826,8 @@ public class HomeController {
 					CONSUMER_PRICE_INDEX_INTERFACE, PSTG_GL_COST_CENTER_INTERFACE, UNIT_OF_MEASURE_INTERFACE,
 					ACCRUALS_INTERFACE, PSTG_SALES_FORECAST_INTERFACE, PSTG_FORECAST_SALES_WAC_INTERFACE,
 					PSTG_GCC_PROD_HIERARCHY_INTERFACE,DTX_UOM_INTERFACE,DTX_CPI_INTERFACE,DTX_RETURN_RATE_INTERFACE,DTX_ACCRUAL_ACTUAL_INTERFACE,
-					DTX_CUSTOMER_GTS_ACTUAL_INTERFACE,DTX_CUSTOMER_GTS_FORECAST_INTERFACE
+					DTX_CUSTOMER_GTS_ACTUAL_INTERFACE,DTX_CUSTOMER_GTS_FORECAST_INTERFACE,DTX_FORECAST_SALES_INTERFACE
+					,DTX_FORECAST_SALES_WAC_INTERFACE,ARM_LOAD_INTERFACE
 			);
 
 			if (Constants.APP_KEY.equals(apikey)) {

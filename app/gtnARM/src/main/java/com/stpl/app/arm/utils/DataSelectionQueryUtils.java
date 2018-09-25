@@ -88,7 +88,7 @@ public class DataSelectionQueryUtils {
             customSql = SQlUtil.getQuery("getLevelsFromHierarchy");
             if (StringUtils.isNotEmpty(String.valueOf(parameters.get(CommonConstant.HIERARCHY_ID)))
                     && StringUtils.isNotBlank(String.valueOf(parameters.get(CommonConstant.HIERARCHY_ID)))) {
-                customSql = customSql.replace("?", String.valueOf(parameters.get(CommonConstant.HIERARCHY_ID)).trim());
+                customSql = customSql.replace(ARMUtils.CHAR_QUS, String.valueOf(parameters.get(CommonConstant.HIERARCHY_ID)).trim());
             }
             LOGGER.debug("customSql ---{}", customSql);
             List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
@@ -148,14 +148,14 @@ public class DataSelectionQueryUtils {
     }
 
     public static List getParentLevels(final int relationshipLevelSid, final Map<String, Object> parameters, String relationshipBuilderSid) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
 
         try {
             if (parameters.get(CommonConstant.INDICATOR) != null && !StringUtils.isBlank(String.valueOf(parameters.get(CommonConstant.INDICATOR)))
                     && !ARMUtils.NULL.equals(String.valueOf(parameters.get(CommonConstant.INDICATOR))) && "getParentLevelsWithHierarchyNo".equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
                 queryBuilder.append(SQlUtil.getQuery("getParentLevels"));
                 queryBuilder.replace(queryBuilder.indexOf(CommonConstant.RELATION_SID), CommonConstant.RELATION_SID.length() + queryBuilder.lastIndexOf(CommonConstant.RELATION_SID), relationshipBuilderSid);
-                queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNos")));
+                queryBuilder.replace(queryBuilder.indexOf(ARMUtils.CHAR_QUS), queryBuilder.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(parameters.get("hierarchyNos")));
             } else {
                 queryBuilder.append(SQlUtil.getQuery("getParentLevelsWithoutHier"));
                 queryBuilder.append(" RBLD.relationship_Level_Sid = '");
@@ -180,12 +180,12 @@ public class DataSelectionQueryUtils {
     }
 
     public static List getChildLevels(final Map<String, Object> parameters) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
         try {
             queryBuilder.append(SQlUtil.getQuery("getChildLevelsWithHierarchyNo"));
-            queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
-            queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
-            queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("lowestLevelNo")));
+            queryBuilder.replace(queryBuilder.indexOf(ARMUtils.CHAR_QUS), queryBuilder.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(parameters.get("hierarchyNo")));
+            queryBuilder.replace(queryBuilder.indexOf(ARMUtils.CHAR_QUS), queryBuilder.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(parameters.get("hierarchyNo")));
+            queryBuilder.replace(queryBuilder.indexOf(ARMUtils.CHAR_QUS), queryBuilder.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(parameters.get("lowestLevelNo")));
             LOGGER.debug("getChildLevels: {}", queryBuilder.toString());
             return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         } catch (Exception ex) {
@@ -197,7 +197,7 @@ public class DataSelectionQueryUtils {
 
     public static List executeQuery(final Map<String, Object> parameters) {
         LOGGER.debug("----inside executeQuery in finder Impl--------Indicator value---{}", parameters.get(CommonConstant.INDICATOR));
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(CommonConstant.HAS_TRADING_PARTNER));
             queryString.append(ARMUtils.SINGLE_QUOTES);
@@ -205,11 +205,11 @@ public class DataSelectionQueryUtils {
             queryString.append(ARMUtils.SINGLE_QUOTES);
         } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(CommonConstant.UNSAVED_PROJECTION_IDS));
-            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
+            queryString.replace(queryString.indexOf(ARMUtils.CHAR_QUS), queryString.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(parameters.get("deleteDate")));
         } else if (parameters.get(CommonConstant.INDICATOR) != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             LOGGER.debug("--inside getChildLevelRLSid---------------------------->>>>>>>>");
             if (parameters.get(CommonConstant.RL_SIDS) != null) {
-                List<String> rlSids = (ArrayList<String>) parameters.get(CommonConstant.RL_SIDS);
+                List<String> rlSids = (List<String>) parameters.get(CommonConstant.RL_SIDS);
                 if (rlSids != null && !rlSids.isEmpty()) {
                     queryString.append(SQlUtil.getQuery("getChildLevelRLSidRestricted"));
                     queryString.append(" WHERE (");
@@ -223,7 +223,7 @@ public class DataSelectionQueryUtils {
                     }
                     queryString.append(") AND HIERARCHY_NO NOT IN (");
                     queryString.append(CommonLogic.stringListToString(rlSids));
-                    queryString.append(ARMUtils.CLOSE_BRACES);
+                    queryString.append(ARMUtils.CLOSE_PARANTHESIS);
                     queryString.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
                     queryString.append(String.valueOf(parameters.get("tableName")));
 
@@ -233,11 +233,11 @@ public class DataSelectionQueryUtils {
                         queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
                     }
                     queryString.append(String.valueOf(parameters.get(CommonConstant.PROJECTION_ID)));
-                    queryString.append(ARMUtils.CLOSE_BRACES);
+                    queryString.append(ARMUtils.CLOSE_PARANTHESIS);
                 }
             }
         } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
-            List<String> rlSids = (ArrayList<String>) parameters.get(CommonConstant.RL_SIDS);
+            List<String> rlSids = (List<String>) parameters.get(CommonConstant.RL_SIDS);
             if (rlSids != null && !rlSids.isEmpty()) {
                 queryString.append(SQlUtil.getQuery(CommonConstant.CHILD_LEVEL_RL));
                 queryString.append(" and (");
@@ -252,7 +252,7 @@ public class DataSelectionQueryUtils {
                 queryString.append(") and HIERARCHY_NO not in (");
                 queryString.append(CommonLogic.stringListToString(rlSids));
                 if (parameters.get("availableHierNo") != null) {
-                    List<String> availableHierNo = (ArrayList<String>) parameters.get("availableHierNo");
+                    List<String> availableHierNo = (List<String>) parameters.get("availableHierNo");
                     queryString.append(", ");
                     queryString.append(CommonLogic.stringListToString(availableHierNo));
                 }
@@ -260,8 +260,8 @@ public class DataSelectionQueryUtils {
             }
         } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.REMOVABLE_CHILDREN.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(CommonConstant.REMOVABLE_CHILDREN));
-            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
-            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
+            queryString.replace(queryString.indexOf(ARMUtils.CHAR_QUS), queryString.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(parameters.get("removeLevels")));
+            queryString.replace(queryString.indexOf(ARMUtils.CHAR_QUS), queryString.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(parameters.get("removeLevels")));
         } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             String hNos = String.valueOf(parameters.get("hNos"));
             String projectionId = String.valueOf(parameters.get(CommonConstant.PROJECTION_ID));
@@ -321,7 +321,7 @@ public class DataSelectionQueryUtils {
                     customSql = SQlUtil.getQuery("FETCH_SAVED_PROJECTION");
                 }
                 connection = SysDataSourceConnection.getConnection();
-                customSql = customSql.replace("?", connection.getCatalog());
+                customSql = customSql.replace(ARMUtils.CHAR_QUS, connection.getCatalog());
 
                 customSql += " FVM.view_Type ='" + viewNameInputs.get(1) + "' ";
 
@@ -372,48 +372,48 @@ public class DataSelectionQueryUtils {
     }
 
     public static List loadCalculationViewSearch(List<String> viewNameInputs, String viewName, boolean isCount, Set<Container.Filter> filters, List<SortByColumn> sortByColumns, int start, int offset) {
-        String customSql = StringUtils.EMPTY;
+        String dsCustomSql = StringUtils.EMPTY;
         if (StringUtils.isNotBlank(viewNameInputs.get(1))) {
 
             if (isCount) {
-                customSql = SQlUtil.getQuery("countForCalculationView");
+                dsCustomSql = SQlUtil.getQuery("countForCalculationView");
             } else {
-                customSql = SQlUtil.getQuery("loadDataForCalculationView");
+                dsCustomSql = SQlUtil.getQuery("loadDataForCalculationView");
             }
             try (Connection connection = SysDataSourceConnection.getConnection()) {
-                customSql = customSql.replace("?", connection.getCatalog());
+                dsCustomSql = dsCustomSql.replace(ARMUtils.CHAR_QUS, connection.getCatalog());
 
-                customSql += "where FVM.view_Type ='" + viewNameInputs.get(1) + "' ";
+                dsCustomSql += "where FVM.view_Type ='" + viewNameInputs.get(1) + "' ";
 
                 if (StringUtils.isNotEmpty(viewName)
                         && StringUtils.isNotBlank(viewName)) {
-                    customSql += " AND FVM.view_Name LIKE '" + viewName + "' ";
+                    dsCustomSql += " AND FVM.view_Name LIKE '" + viewName + "' ";
                 }
                 if (viewNameInputs.get(1).equalsIgnoreCase("private") && StringUtils.isNotEmpty(viewNameInputs.get(3))
                         && StringUtils.isNotBlank(viewNameInputs.get(3))) {
-                    customSql += "AND FVM.created_By = " + viewNameInputs.get(3);
+                    dsCustomSql += "AND FVM.created_By = " + viewNameInputs.get(3);
                 }
 
-                Map<String, String> viewFilterMap = ARMUtils.loadViewFilterMap();
-                viewFilterMap.put(CommonConstant.CREATED_BY_STRING, "FVM.CREATED_BY");
-                String filterQuery = CommonFilterLogic.getInstance().filterQueryGenerator(filters, viewFilterMap).toString().replace("where", " AND");
+                Map<String, String> dsViewFilterMap = ARMUtils.loadViewFilterMap();
+                dsViewFilterMap.put(CommonConstant.CREATED_BY_STRING, "FVM.CREATED_BY");
+                String dsFilterQuery = CommonFilterLogic.getInstance().filterQueryGenerator(filters, dsViewFilterMap).toString().replace("where", " AND");
 
-                customSql += filterQuery;
+                dsCustomSql += dsFilterQuery;
                 if (isCount) {
-                    return HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+                    return HelperTableLocalServiceUtil.executeSelectQuery(dsCustomSql);
                 }
-                viewFilterMap.put(CommonConstant.CREATED_BY_STRING, "usr.firstName");
-                String orderBy = CommonFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, viewFilterMap, "FVM.CREATED_DATE").toString();
-                customSql += orderBy;
+                dsViewFilterMap.put(CommonConstant.CREATED_BY_STRING, "usr.firstName");
+                String orderBy = CommonFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, dsViewFilterMap, "FVM.CREATED_DATE").toString();
+                dsCustomSql += orderBy;
                 if (!isCount) {
-                    customSql += " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
+                    dsCustomSql += " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
                 }
-                LOGGER.debug("Custom SQL --{}", customSql);
-                List<Object[]> sqlList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+                LOGGER.debug("Custom SQL --{}", dsCustomSql);
+                List<Object[]> sqlList = HelperTableLocalServiceUtil.executeSelectQuery(dsCustomSql);
                 LOGGER.debug(CommonConstant.END_OF_FIND_VIEW_BY_NAME_METHOD);
                 return sqlList;
             } catch (Exception e) {
-                LOGGER.error("Error :{}", (e.getMessage() + " While Executing " + customSql));
+                LOGGER.error("Error :{}", (e.getMessage() + " While Executing " + dsCustomSql));
                 return Collections.emptyList();
             }
         }

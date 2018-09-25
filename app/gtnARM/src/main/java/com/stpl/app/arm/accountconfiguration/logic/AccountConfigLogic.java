@@ -495,8 +495,8 @@ public class AccountConfigLogic {
         }
         for (Object[] obj : resultsListValue) {
             if (obj[NumericConstants.TWO] != null) {
-                comboBox.addItem((int) obj[NumericConstants.ZERO]);
-                comboBox.setItemCaption((int) obj[NumericConstants.ZERO], (isIdAndNameRequired ? (obj[NumericConstants.ONE] + " - ") : "") + obj[NumericConstants.TWO] + "");
+                comboBox.addItem(Integer.valueOf(String.valueOf(obj[NumericConstants.ZERO])));
+                comboBox.setItemCaption(Integer.valueOf(String.valueOf(obj[NumericConstants.ZERO])), (isIdAndNameRequired ? (obj[NumericConstants.ONE] + " - ") : "") + obj[NumericConstants.TWO] + "");
             }
         }
         comboBox.setNullSelectionAllowed(true);
@@ -764,12 +764,12 @@ public class AccountConfigLogic {
             inputList.add(con.getCatalog());
         }
         if (binderDto.getAccountDdlb() != null) {
-            inputList.add(binderDto.getAccountDdlb().replace("*", "%"));
+            inputList.add(binderDto.getAccountDdlb().replace(ARMUtils.CHAR_ASTERISK, "%"));
         } else {
             inputList.add("%");
         }
         if (!binderDto.getCostCentre().isEmpty()) {
-            inputList.add(binderDto.getCostCentre().replace("*", "%"));
+            inputList.add(binderDto.getCostCentre().replace(ARMUtils.CHAR_ASTERISK, "%"));
         } else {
             inputList.add("%");
         }

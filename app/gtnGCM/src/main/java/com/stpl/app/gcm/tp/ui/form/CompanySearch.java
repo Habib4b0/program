@@ -548,8 +548,6 @@ public class CompanySearch extends VerticalLayout {
         companySearchResultsTable.setContainerDataSource(companyResultsContainer);
 
         String recordLockStatus = StringUtils.EMPTY;
-        Map<Integer, String> users;
-        String userid= "";
         if (ADD_TRADING_PARTNER.getConstant().equals(updateType)) {
             companySearchResultsTable.setVisibleColumns(Constants.getInstance().tpCompanySearchColumns);
             companySearchResultsTable.setColumnHeaders(Constants.getInstance().tpCompanySearchHeaders);
@@ -582,12 +580,6 @@ public class CompanySearch extends VerticalLayout {
                 CompanySearchLogic logic = new CompanySearchLogic();
                 logic.clearTempTable(searchSessionId);
                 createSearchSessionId();
-                users = getUserName();
-                for (Map.Entry<Integer, String> entry : users.entrySet()) {
-                    if (entry.getValue().contains("ETL")) {
-                        userid = entry.getKey().toString();
-                    }
-                }
                 logic.insertIntoTempTable(searchSessionId,  updateType);
                 tpDto.setReset(Boolean.FALSE);
                 companyLogic.loadSetData(tpDto, parentCompanyNo, parentCompanyName, recordLockStatus, searchSessionId);

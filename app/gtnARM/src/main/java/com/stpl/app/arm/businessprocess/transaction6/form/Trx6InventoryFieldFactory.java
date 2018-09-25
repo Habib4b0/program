@@ -7,7 +7,6 @@ package com.stpl.app.arm.businessprocess.transaction6.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
-import com.stpl.app.arm.businessprocess.pipelineinventory.dto.InventoryFieldFactory;
 import com.stpl.app.arm.businessprocess.transaction6.logic.Trx6InventoryLogic;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.utils.ARMUtils;
@@ -43,7 +42,7 @@ public class Trx6InventoryFieldFactory implements TableFieldFactory {
     private final Trx6InventoryLogic logic;
     private final int projectionId;
     private final AbstractSelectionDTO selection;
-    private static final Logger LOGGER = LoggerFactory.getLogger(InventoryFieldFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Trx6InventoryFieldFactory.class);
     private final ExecutorService service = ThreadPool.getInstance().getService();
     private DataFormatConverter curThree = new DataFormatConverter("#,##0.00", "");
     private DataFormatConverter curThreeDollar = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
@@ -56,37 +55,37 @@ public class Trx6InventoryFieldFactory implements TableFieldFactory {
 
     @Override
     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
-        AdjustmentDTO dto = (AdjustmentDTO) itemId;
-        if (!dto.getChildrenAllowed() && dto.getLevelNo() == NumericConstants.THREE && (propertyId.toString().contains(ARMUtils.Trx6_Variables.BASELINE_PRICE_OVERRIDE.getColumn())
+        AdjustmentDTO adjustmentDto = (AdjustmentDTO) itemId;
+        if (!adjustmentDto.getChildrenAllowed() && adjustmentDto.getLevelNo() == NumericConstants.THREE && (propertyId.toString().contains(ARMUtils.Trx6_Variables.BASELINE_PRICE_OVERRIDE.getColumn())
                 || propertyId.toString().contains(ARMUtils.Trx6_Variables.ADJUSTED_PRICE_OVERRIDE.getColumn())
                 || propertyId.toString().contains(ARMUtils.Trx6_Variables.INFLATION_FACTOR.getColumn()))) {
-            final TextField priceoverride = new TextField();
+            final TextField tr6Priceoverride = new TextField();
             Map map = new HashMap<>();
             map.put(ARMUtils.PROPERTY_ID, propertyId);
             map.put(ARMUtils.ITEM_ID, itemId);
-            priceoverride.setData(map);
-            priceoverride.setImmediate(true);
-            priceoverride.addStyleName("txtRightAlign");
+            tr6Priceoverride.setData(map);
+            tr6Priceoverride.setImmediate(true);
+            tr6Priceoverride.addStyleName("txtRightAlign");
             if (propertyId.toString().contains(ARMUtils.Trx6_Variables.ADJUSTED_PRICE_OVERRIDE.getColumn()) || propertyId.toString().contains(ARMUtils.Trx6_Variables.BASELINE_PRICE_OVERRIDE.getColumn())) {
-                priceoverride.setConverter(curThreeDollar);
+                tr6Priceoverride.setConverter(curThreeDollar);
             } else if (propertyId.toString().contains(ARMUtils.Trx6_Variables.INFLATION_FACTOR.getColumn())) {
-                priceoverride.setConverter(curThree);
+                tr6Priceoverride.setConverter(curThree);
             }
-            priceoverride.addFocusListener(new FocusListener() {
+            tr6Priceoverride.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(FocusEvent event) {
-                    priceoverride.addValueChangeListener(priceOverrideListener);
-                    priceoverride.removeFocusListener(this);
+                    tr6Priceoverride.addValueChangeListener(tr6PriceOverrideListener);
+                    tr6Priceoverride.removeFocusListener(this);
                 }
             });
-            return priceoverride;
+            return tr6Priceoverride;
         }
-        if (dto.getChildrenAllowed()) {
-            dto.addStringProperties("priceOverride.6", StringUtils.EMPTY);
+        if (adjustmentDto.getChildrenAllowed()) {
+            adjustmentDto.addStringProperties("priceOverride.6", StringUtils.EMPTY);
         }
         return null;
     }
-    private Property.ValueChangeListener priceOverrideListener = new Property.ValueChangeListener() {
+    private Property.ValueChangeListener tr6PriceOverrideListener = new Property.ValueChangeListener() {
 
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
@@ -117,39 +116,39 @@ public class Trx6InventoryFieldFactory implements TableFieldFactory {
                 input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
                 input.add(Integer.valueOf(dto.getBranditemmasterSid()));
                 input.add(projectionId);
-                service.submit(new UpdateOverride(input));
+                service.submit(new Tr6UpdateOverride(input));
             } catch (Exception e) {
                 LOGGER.error("Error in priceOverrideListener :", e);
             }
         }
     };
 
-    class UpdateOverride implements Runnable {
+    class Tr6UpdateOverride implements Runnable {
 
-        private List input;
-        private boolean updateSuccess;
+        private List tr6Input;
+        private boolean tr6UpdateSuccess;
 
-        public UpdateOverride(List input) {
-            this.input = CommonLogic.getInstance().getArrayListCloned(input);
+        public Tr6UpdateOverride(List input) {
+            this.tr6Input = CommonLogic.getInstance().getArrayListCloned(input);
 
         }
 
         @Override
         public void run() {
-            updateSuccess = logic.updatePriceOverride(input);
+            tr6UpdateSuccess = logic.updatePriceOverride(tr6Input);
         }
 
         public boolean isUpdateSuccess() {
-            return updateSuccess;
+            return tr6UpdateSuccess;
         }
 
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream ter6Objout) throws IOException {
+        ter6Objout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream ter6Objout) throws IOException, ClassNotFoundException {
+        ter6Objout.defaultReadObject();
     }
 }

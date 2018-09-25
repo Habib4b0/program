@@ -79,25 +79,25 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             startMonth = 1 + (NumericConstants.THREE * (startMonth - 1));
             endMonth = selection.getToDate().charAt(1) - NumericConstants.FORTY_EIGHT;
             endMonth = 1 + (NumericConstants.THREE * (endMonth - 1));
-            starttYear = Integer.valueOf(selection.getFromDate().substring(NumericConstants.THREE, NumericConstants.SEVEN));
-            endtYear = Integer.valueOf(selection.getToDate().substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate().substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate().substring(NumericConstants.THREE, NumericConstants.SEVEN));
         } else if (ARMUtils.frequencyVarables.SEMI_ANNUALLY.toString().equals(selection.getFrequency())) {
             startMonth = selection.getFromDate().charAt(1) - NumericConstants.FORTY_EIGHT;
             startMonth = 1 + (NumericConstants.SIX * (startMonth - 1));
             endMonth = selection.getToDate().charAt(1) - NumericConstants.FORTY_EIGHT;
             endMonth = 1 + (NumericConstants.SIX * (endMonth - 1));
-            starttYear = Integer.valueOf(selection.getFromDate().substring(NumericConstants.THREE, NumericConstants.SEVEN));
-            endtYear = Integer.valueOf(selection.getToDate().substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate().substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate().substring(NumericConstants.THREE, NumericConstants.SEVEN));
         } else if (ARMUtils.frequencyVarables.MONTHLY.toString().equals(selection.getFrequency())) {
             startMonth = ArrayUtils.indexOf(summaryMonths, selection.getFromDate().substring(0, NumericConstants.THREE));
             endMonth = ArrayUtils.indexOf(summaryMonths, selection.getToDate().substring(0, NumericConstants.THREE));
-            starttYear = Integer.valueOf(selection.getFromDate().substring(NumericConstants.FOUR, NumericConstants.EIGHT));
-            endtYear = Integer.valueOf(selection.getToDate().substring(NumericConstants.FOUR, NumericConstants.EIGHT));
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate().substring(NumericConstants.FOUR, NumericConstants.EIGHT));
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate().substring(NumericConstants.FOUR, NumericConstants.EIGHT));
         } else if (ARMUtils.frequencyVarables.ANNUALLY.toString().equals(selection.getFrequency())) {
             startMonth = 1;
             endMonth = NumericConstants.TWELVE;
-            starttYear = Integer.valueOf(selection.getFromDate());
-            endtYear = Integer.valueOf(selection.getToDate());
+            starttYear = ARMUtils.getIntegerValue(selection.getFromDate());
+            endtYear = ARMUtils.getIntegerValue(selection.getToDate());
         }
         summaryFrmDate.setDate(1);
         summaryToDate.setDate(NumericConstants.TWENTY_EIGHT);
@@ -133,15 +133,15 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
                 switch (frequencyDivision) {
                     case NumericConstants.THREE:
                         doubleColumn = ARMUtils.Q + tempPeriod + year;
-                        doubleHeaders.add(ARMUtils.Q + tempPeriod + " " + year);
+                        doubleHeaders.add(ARMUtils.Q + tempPeriod + ARMUtils.SPACE + year);
                         break;
                     case NumericConstants.SIX:
                         doubleColumn = ARMUtils.S + tempPeriod + year;
-                        doubleHeaders.add(ARMUtils.S + tempPeriod + " " + year);
+                        doubleHeaders.add(ARMUtils.S + tempPeriod + ARMUtils.SPACE + year);
                         break;
                     case 1:
                         doubleColumn = summaryMonths[tempPeriod - 1] + year;
-                        doubleHeaders.add(summaryMonths[tempPeriod - 1] + " " + year);
+                        doubleHeaders.add(summaryMonths[tempPeriod - 1] + ARMUtils.SPACE + year);
                         break;
                     case NumericConstants.TWELVE:
                         doubleColumn = String.valueOf(year);
@@ -346,7 +346,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     }
 
     private DataResult<T> getCustomizedData(SelectionDTO data, List<Object[]> list) {
-        SummarySelection selection = (SummarySelection) data;
+        SummarySelection selection =  (SummarySelection) data;
         String lastMasterSid = StringUtils.EMPTY;
         String mastersId;
         List finalList = new ArrayList();
@@ -441,7 +441,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             tempPeriods = tempPeriod;
             frontVal = q + (tempPeriods == 0 ? StringUtils.EMPTY : tempPeriods);
         }
-        return frontVal + year + selection.getSelectedAdjustmentTypeValues().get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+        return frontVal + year + selection.getSelectedAdjustmentTypeValues().get(j).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
     }
 
 }

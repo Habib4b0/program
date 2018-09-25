@@ -42,7 +42,7 @@ public class AbstractSearchTableLogic extends PageTableLogic {
         int count = 0;
         try {
             if (isFirstLoad) {
-                count = searchLogic.getCountBasedOnModules(binder,0, 0, true, this.getSortByColumns(), this.getFilters(), moduleName,searchType);
+                count = searchLogic.getCountBasedOnModules(binder,0, true, this.getSortByColumns(), this.getFilters(), moduleName);
             }
             isResultsEmpty = count == 0;            
             count = isReset ? 0 : count;
@@ -57,7 +57,7 @@ public class AbstractSearchTableLogic extends PageTableLogic {
         List list = new ArrayList();
         if (isFirstLoad) {
             try {
-                list = searchLogic.getSearchResultsBasedOnModules(binder,  start, offset, false, this.getSortByColumns(), this.getFilters(), moduleName,searchType);
+                list = searchLogic.getSearchResultsBasedOnModules(binder,  start, false, this.getSortByColumns(), this.getFilters(), moduleName);
             } catch (Exception ex) {
                LOGGER.error(ex.getMessage());
             }

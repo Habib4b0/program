@@ -89,10 +89,11 @@ public class SalesProjectionLogic {
     /**
      * to call the Adjustment procedure.
      *
-     * @param selections the selections
+     * @param inputs
      * @return true, if successful
+     * @throws java.sql.SQLException
      */
-    public boolean callAdjustmentProcedure(Object inputs[]) throws SystemException, SQLException {
+    public boolean callAdjustmentProcedure(Object[] inputs) throws SystemException, SQLException {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
@@ -132,10 +133,10 @@ public class SalesProjectionLogic {
     /**
      * Adjust SALES_SMALL projection.
      *
-     * @param selections the selections
+     * @param inputs
      * @return the list
      */
-    public List<SalesProjectionDTO> calculateSalesProjection(Object inputs[]) {
+    public List<SalesProjectionDTO> calculateSalesProjection(Object[] inputs) {
         try {
 
             saveCalculationSelections(inputs);
@@ -149,10 +150,10 @@ public class SalesProjectionLogic {
     /**
      * to call the Adjustment procedure.
      *
-     * @param selections the selections
+     * @param inputs
      * @return true, if successful
      */
-    public boolean callCalculationProcedure(Object inputs[]) throws SystemException, SQLException {
+    public boolean callCalculationProcedure(Object[] inputs) throws SystemException, SQLException {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
@@ -195,7 +196,7 @@ public class SalesProjectionLogic {
      * @param selections the selections
      * @return the list
      */
-    public List<SalesProjectionDTO> massUpdateSalesProjection(Object selections[]) {
+    public List<SalesProjectionDTO> massUpdateSalesProjection(Object[] selections) {
 
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
@@ -224,14 +225,16 @@ public class SalesProjectionLogic {
             tempDate = String.valueOf(list.get(0));
 
             Date currentDate = new Date();
+            Calendar calDate = Calendar.getInstance();
+            calDate.setTime(currentDate);
             tempDate = tempDate.substring(0, NumericConstants.TEN);
-            String temparry[] = tempDate.split("-");
+            String [] temparry = tempDate.split("-");
             int fromYear = Integer.parseInt(String.valueOf(temparry[0]));
             int fromQuator = getQuator(Integer.parseInt(String.valueOf(temparry[1])));
-            int toYear = currentDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
-            int toQuator = getQuator(currentDate.getMonth() + 1);
+            int toYear = calDate.get(Calendar.YEAR);
+            int toQuator = getQuator(calDate.get(Calendar.MONTH) + 1);
 
-            if (getQuator(currentDate.getMonth()) == 0) {
+            if (getQuator(calDate.get(Calendar.MONTH)) == 0) {
                 toYear = toYear - 1;
                 toQuator = NumericConstants.FOUR;
 
@@ -343,7 +346,7 @@ public class SalesProjectionLogic {
         return status;
     }
 
-    public Map<String, Map<Integer, Double>> getLivesForSelectedCustomers(Object inputs[]) {
+    public Map<String, Map<Integer, Double>> getLivesForSelectedCustomers(Object [] inputs) {
 
         List list;
         SessionDTO session = (SessionDTO) inputs[NumericConstants.TWO];
@@ -501,22 +504,15 @@ public class SalesProjectionLogic {
     }
 
     public List<SalesRowDto> loadSalesProjection() {
-        List<SalesRowDto> resultList = new ArrayList<>();
-     
-        return resultList;
+        return new ArrayList<>();
     }
 
     public boolean checkAll() {
-        boolean status = false;
-
-        return status;
+        return false;
     }
 
     public boolean checkSelected() {
-        boolean status = false;
-
-        return status;
-
+        return false;
     }
 
     public int savecheckedRecords(Object[] inputs) {
@@ -579,7 +575,7 @@ public class SalesProjectionLogic {
         return list;
     }
 
-    public List<SalesRowDto> getLevelFilterValues(Object input[]) {
+    public List<SalesRowDto> getLevelFilterValues(Object[] input) {
 
         List<SalesRowDto> levelList = new ArrayList<>();
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -593,7 +589,7 @@ public class SalesProjectionLogic {
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 dto = new SalesRowDto();
-                Object obj[] = (Object[]) list.get(i);
+                Object [] obj = (Object[]) list.get(i);
 
                 if (obj[0] != null) {
 
@@ -726,7 +722,7 @@ public class SalesProjectionLogic {
         return resultList;
     }
 
-    public List getProjectionDetailsSid(Object input[]) {
+    public List getProjectionDetailsSid(Object[] input) {
         List list = new ArrayList();
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
@@ -741,7 +737,7 @@ public class SalesProjectionLogic {
 
     public int getLevelIndex(int projectionId, String hierarchy, String hierarchyNo, String selectedHiearchyNo) {
         int count = 1;
-        Object input[] = new Object[NumericConstants.TEN];
+        Object [] input = new Object[NumericConstants.TEN];
         input[NumericConstants.EIGHT] = "getLevelIndex";
         input[0] = projectionId;
         input[1] = hierarchy;
@@ -919,7 +915,7 @@ public class SalesProjectionLogic {
         }
 
         for (int i = 0; i < list.size(); i++) {
-            Object obj[] = (Object[]) list.get(i);
+            Object [] obj= (Object[]) list.get(i);
 
             if (obj[0] != null && obj[1] != null) {
                 int value = Integer.parseInt(String.valueOf(obj[1]));

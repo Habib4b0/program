@@ -168,10 +168,6 @@ public class MedicaidUraWorkSheet extends Window {
     public static final String ADJUSTMENT_CPI = "Adjustment CPI";
     public static final String CPIU_LABEL = "CPI-U";
     /**
-     * The table control Layout.
-     */
-    private HorizontalLayout controlLayout;
-    /**
      * The TableVerticalLayout.
      */
     @UiField("tableVerticalLayout")
@@ -180,10 +176,7 @@ public class MedicaidUraWorkSheet extends Window {
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private MedicaidWorkSheetTableLogic tableLogic = new MedicaidWorkSheetTableLogic();
     private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
-    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     private final MedicaidURAResultsLogic medLogic = new MedicaidURAResultsLogic();
     private final ProjectionSelectionDTO projectionDTO;
     private LazyContainer ndcContainer;
@@ -191,7 +184,7 @@ public class MedicaidUraWorkSheet extends Window {
     private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
     private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
     private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    public static final String MODE = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private  final String MODE = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     private Property.ValueChangeListener valueChangeListener = null;
     private Property.ValueChangeListener valueChangeListenerTA = null;
     private boolean valueChange = false;
@@ -217,7 +210,8 @@ public class MedicaidUraWorkSheet extends Window {
     private final HelperDTO ndcResultdto;
     private final HelperDTO brandResultdto;
     private final SessionDTO sessionDTO;
-    private boolean isFirestTimeLoadAMP = true, isFirestTimeLoadCPI = true;
+    private boolean isFirestTimeLoadAMP = true;
+    private boolean isFirestTimeLoadCPI = true;
     private final Map<String, String> baseYear = new HashMap<>();
 
     /**
@@ -521,7 +515,7 @@ public class MedicaidUraWorkSheet extends Window {
      */
     private void addResultTable() {
         tableVerticalLayout.addComponent(periodTableId);
-        controlLayout = tableLogic.createControls();
+        HorizontalLayout controlLayout = tableLogic.createControls();
         controlLayout.setSizeUndefined();
         controlLayout.addStyleName(Constant.RESPONSIVE_PAGED_TABLE);
         tableLogic.sinkItemPerPageWithPageLength(false);
@@ -534,9 +528,9 @@ public class MedicaidUraWorkSheet extends Window {
     private void configureResultTable() {
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         fullHeader = new CustomTableHeaderDTO();
-        leftHeader = CommonUiUtils.getMedicaidWorkSheetLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getMedicaidWorkSheetRightTableColumns(projectionDTO, fullHeader);
-        resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        CustomTableHeaderDTO leftHeader = CommonUiUtils.getMedicaidWorkSheetLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO rightHeader = CommonUiUtils.getMedicaidWorkSheetRightTableColumns(projectionDTO, fullHeader);
+        ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
         tableLogic.setTreeNodeMultiClick(false);
@@ -1266,10 +1260,8 @@ public class MedicaidUraWorkSheet extends Window {
 
     public void removeBaseYear() {
         try {
-            if (!isSubmit()) {
-                if (!baseYear.isEmpty()) {
+            if (!isSubmit() && !baseYear.isEmpty()) {
                     queryUtil.saveBaseYear(baseYear, sessionDTO, projectionDTO.getNdc9(),StringUtils.EMPTY);
-                }
             }
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());

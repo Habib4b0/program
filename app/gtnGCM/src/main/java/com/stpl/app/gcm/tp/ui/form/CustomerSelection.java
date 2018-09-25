@@ -137,7 +137,6 @@ public class CustomerSelection extends VerticalLayout {
     private SessionDTO session;
 
     private final transient CompanySearchLogic logic = new CompanySearchLogic();
-    private transient List<IdDescriptionDTO> resultList;
     private final transient CompanySearchTableLogic selectedCustomersLogic = new CompanySearchTableLogic();
     private final transient CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     private final transient LinkedCompaniesTableLogic transferCustomerTableLogic = new LinkedCompaniesTableLogic();
@@ -189,7 +188,7 @@ public class CustomerSelection extends VerticalLayout {
             commonUtil.loadComboBox(companyCategoryDdlb, UiUtils.COMPANY_CATEGORY, false);
             commonUtil.loadComboBox(companyTypeDdlb, UiUtils.COMPANY_TYPE, false);
 
-            resultList = logic.loadIdentifierTypeDdlb();
+             List<IdDescriptionDTO> resultList = logic.loadIdentifierTypeDdlb();
             logic.setIdDescription(resultList, compIdentifierType);
             compIdentifierType.setNullSelectionAllowed(true);
             compIdentifierType.select(Constants.SELECT_ONE);
@@ -558,9 +557,7 @@ public class CustomerSelection extends VerticalLayout {
     public void searchBtnLogic(Button.ClickEvent event) {
         LOGGER.debug(" Entering searchBtnLogic");
         companyResultsContainer.removeAllItems();
-        Map<Integer, String> users;
         String recordLockStatus = "1";
-        String userid= "";
 
         if (StringUtils.isBlank(compId.getValue()) && StringUtils.isBlank(compName.getValue()) && StringUtils.isBlank(compNo.getValue())
                 && StringUtils.isBlank(companyIdentifier.getValue()) && StringUtils.isBlank(compParentNo.getValue()) && StringUtils.isBlank(compParentName.getValue())
@@ -575,12 +572,6 @@ public class CustomerSelection extends VerticalLayout {
                 String parentCompanyName = compParentName.getValue() != null ? compParentName.getValue() : StringUtils.EMPTY;
                 logic.clearTempTable(customerSearchSessionId);
                 customerSearchSessionId = createSearchSessionId();
-                users = getUserName();
-                for (Map.Entry<Integer, String> entry : users.entrySet()) {
-                    if (entry.getValue().contains("ETL")) {
-                        userid = entry.getKey().toString();
-                    }
-                }
                 logic.insertIntoTempTablecustomer(customerSearchSessionId,  PROJECTION_DETAILS_TRANSFER.getConstant());
                 tpDto.setReset(Boolean.FALSE);
                 tpDto.setCompanyRestrictionSessionId(linkedCustomersSessionId);

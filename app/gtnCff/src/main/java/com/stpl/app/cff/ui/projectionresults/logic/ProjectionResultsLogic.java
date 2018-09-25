@@ -460,7 +460,7 @@ public class ProjectionResultsLogic {
                     ccps = String.valueOf(obj[1]);
                     flag = false;
                 } else {
-                    ccps = ccps + "," + String.valueOf(obj[1]);
+                    ccps = ccps.concat(",").concat(String.valueOf(obj[1]));
                 }
             }
         }
@@ -1522,7 +1522,7 @@ public class ProjectionResultsLogic {
                                     ccps = String.valueOf(obj[1]);
                                     flag = false;
                                 } else {
-                                    ccps = ccps + "," + String.valueOf(obj[1]);
+                                    ccps = ccps.concat(",").concat(String.valueOf(obj[1]));
                                 }
                             }
                         }
@@ -4186,9 +4186,9 @@ public class ProjectionResultsLogic {
  {
      String column=StringUtils.EMPTY;        
      if(projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-                    column = "q" + String.valueOf(obj[NumericConstants.TWO]) + String.valueOf(obj[1]);
+                    column = "q" + (obj[NumericConstants.TWO]) + (obj[1]);
                 } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-                    column = "s" + String.valueOf(obj[NumericConstants.TWO]) + String.valueOf(obj[1]);
+                    column = "s" + (obj[NumericConstants.TWO]) + (obj[1]);
                 } else if (projSelDTO.getFrequencyDivision() == 1) {
                     column = String.valueOf(obj[1]);
                 } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
@@ -4229,7 +4229,7 @@ public class ProjectionResultsLogic {
                     ccps = String.valueOf(obj[1]);
                     flag = false;
                 } else {
-                    ccps = ccps + "," + String.valueOf(obj[1]);
+                    ccps = ccps.concat(",").concat(String.valueOf(obj[1]));
                 }
             }
         }

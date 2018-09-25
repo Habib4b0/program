@@ -152,8 +152,12 @@ public class NationalAssumptionLogic {
         com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
-        int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
-        int endYear = endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+        Calendar calStartDateNa = Calendar.getInstance();
+        calStartDateNa.setTime(startDate);
+        Calendar calEndDateNa = Calendar.getInstance();
+        calEndDateNa.setTime(endDate);
+        int startYear = calStartDateNa.get(Calendar.YEAR);
+        int endYear = calEndDateNa.get(Calendar.YEAR);
         Calendar now = CommonUtils.getCalendar();
         int currentYr = now.get(Calendar.YEAR);
         int histYear = currentYr - NumericConstants.THREE;
@@ -1134,8 +1138,7 @@ public class NationalAssumptionLogic {
     public List listCount(String ndc9, SessionDTO session) {
         String customSql = "Select *  FROM dbo.ST_MEDICAID_NEW_NDC WHERE NDC9 = '" + ndc9 + "'";
         
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
     }
 
     public void federalDeleteLogic(int itemMasterSid, SessionDTO session) {
@@ -1154,8 +1157,7 @@ public class NationalAssumptionLogic {
     public List federalListCount(int itemMasterSid, SessionDTO session) {
         String customSql = "DELETE FROM dbo.ST_FEDERAL_NEW_NDC WHERE ITEM_MASTER_SID = " + itemMasterSid;
         
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
     }
 
     public void federalMainDelete(int itemMasterSid) {
@@ -1364,8 +1366,7 @@ public class NationalAssumptionLogic {
     public int getCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int listCount = obj == null ? 0 : (Integer) obj;
-            return listCount;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }

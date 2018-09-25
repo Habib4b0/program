@@ -249,13 +249,13 @@ public final class AccrualRateProjectionLogic {
             Object[] object = (Object[]) list.get(i);
             if (StringUtils.isBlank(lastProduct) || lastProduct.equals(object[0])) {
                 lastProduct = String.valueOf(object[0]);
-                accrualRateProjectionDTO.setProduct(lastProduct+" , "+String.valueOf(object[NumericConstants.FIVE]));
+                accrualRateProjectionDTO.setProduct(lastProduct+" , "+object[NumericConstants.FIVE]);
             } else {
                 resultList.add(accrualRateProjectionDTO);
                 accrualRateProjectionDTO = new AccrualRateProjectionDTO();
                 j = 0;
                 lastProduct = String.valueOf(object[0]);
-                accrualRateProjectionDTO.setProduct(lastProduct+" , "+String.valueOf(object[NumericConstants.FIVE]));
+                accrualRateProjectionDTO.setProduct(lastProduct+" , "+object[NumericConstants.FIVE]);
             }
             String column = AccrualRateUtils.M + object[1] + AccrualRateUtils.DASH + object[NumericConstants.TWO] + AccrualRateUtils.DOT + j;
             if (availableVisibleColumns.contains(column)) {
@@ -282,13 +282,13 @@ public final class AccrualRateProjectionLogic {
             Object[] object = (Object[]) list.get(i);
             if (StringUtils.isBlank(lastProduct) || lastProduct.equals(object[NumericConstants.ONE])) {
                 lastProduct = String.valueOf(object[NumericConstants.ONE]);
-                accrualRateProjectionDTO.setGroup(lastProduct+" , "+String.valueOf(object[NumericConstants.FIFTEEN]));
+                accrualRateProjectionDTO.setGroup(lastProduct+" , "+object[NumericConstants.FIFTEEN]);
             } else {
                 resultList.add(accrualRateProjectionDTO);
                 accrualRateProjectionDTO = new AccrualRateProjectionDTO();
                 j = 0;
                 lastProduct = String.valueOf(object[NumericConstants.ONE]);
-                accrualRateProjectionDTO.setGroup(lastProduct+" , "+String.valueOf(object[NumericConstants.FIFTEEN]));
+                accrualRateProjectionDTO.setGroup(lastProduct+" , "+object[NumericConstants.FIFTEEN]);
             }
 
             String key = AccrualRateUtils.M + object[NumericConstants.TWO] + AccrualRateUtils.DASH + object[NumericConstants.THREE];
@@ -600,9 +600,9 @@ public final class AccrualRateProjectionLogic {
                 StringBuilder procedureBuilder = new StringBuilder("{CALL ");
                 procedureBuilder.append(procedureName).append(args);
                 statement = connection.prepareCall(procedureBuilder.toString());
-                LOGGER.debug("Procedure Name= {} " , procedureName);
+                LOGGER.info("Procedure Name= {} " , procedureName);
                 for (int i = 0; i < parameters.length; i++) {
-                    LOGGER.debug("Parameter= {},  ----={}  " , (i + 1), parameters[i]);
+                    LOGGER.info("Parameter= {},  ----={}  " , (i + 1), parameters[i]);
                     statement.setObject(i + 1, parameters[i]);
                 }
                 statement.execute();
@@ -699,15 +699,12 @@ public final class AccrualRateProjectionLogic {
                 sortOrder = sortByColumn.getType() != SortByColumn.Type.ASC;
                 orderByColumn = sortByColumn.getName();
                 if (null != orderByColumn) {
-                    switch (orderByColumn) {
-                        case AccrualRateUtils.COMPANY_ID:
-                            query.append(" ORDER BY A.COMPANY_ID ").append((!sortOrder) ? Constant.ASC_SPACE : Constant.DESC_SPACE);
-                            break;
-                        default:
-                            query.append(" ORDER BY A.COMPANY_ID  ASC ");
-                            break;
+                    if (AccrualRateUtils.COMPANY_ID.equals(orderByColumn)) {
+                        query.append(" ORDER BY A.COMPANY_ID ").append((!sortOrder) ? Constant.ASC_SPACE : Constant.DESC_SPACE);
+                    } else {
+                        query.append(" ORDER BY A.COMPANY_ID  ASC ");
                     }
-
+                      
                 }
             }
         }

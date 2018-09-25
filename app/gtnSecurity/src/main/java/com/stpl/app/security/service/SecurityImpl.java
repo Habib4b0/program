@@ -121,7 +121,7 @@ public class SecurityImpl {
         }
     }
     
-    public List fetchFieldsForSecurity(String moduleName, String tabName, Object obj1, Object obj2, Object obj3){
+    public List fetchFieldsForSecurity(String moduleName, String tabName){
         String query = "";
         try {
             query = "SELECT DISPLAY_NAME, PROPERTY_NAME ,CATEGORY_NAME FROM MODULE_PROPERTIES WHERE MODULE_NAME = '"+moduleName+"' "
@@ -161,7 +161,7 @@ public class SecurityImpl {
         } 
     }
     @SuppressWarnings("rawtypes")
-    public List findsubmodulePropertyDetails(String businessRoleName,String moduleName,String subModuleName){
+    public List findsubmodulePropertyDetails(String moduleName,String subModuleName){
         String sql = StringUtils.EMPTY;
         try {
             sql = SQLUtil.getQuery("findsubmodulePropertyDetails");
@@ -202,7 +202,7 @@ public class SecurityImpl {
         } 
     }
     @SuppressWarnings("rawtypes")
-    public List findSubModuleFieldDetails(String businessRoleName,String moduleName,String subModuleName){
+    public List findSubModuleFieldDetails(String moduleName,String subModuleName){
         String sql = StringUtils.EMPTY;
         try {
             sql = SQLUtil.getQuery("findsubmoduleFieldDetails");

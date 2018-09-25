@@ -37,18 +37,13 @@ public class AbstractSearchLogic {
         boolean isvalid = false;
         for (Object object : binder.getFields()) {
             if (object instanceof TextField && ((TextField) object).isVisible()) {
-                if (StringUtils.isNotBlank(((TextField) object).getValue())) {
+                if ((StringUtils.isNotBlank(((TextField) object).getValue())) || 
+                        (object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((ComboBox) object).getValue())) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(((ComboBox) object).getValue()))) ||
+                        (object instanceof PopupDateField && ((PopupDateField) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((PopupDateField) object).getValue())))) {
                     isvalid = true;
                     break;
                 }
-            } else if (object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((ComboBox) object).getValue())) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(((ComboBox) object).getValue()))) {
-                    isvalid = true;
-                    break;
-                }
-            else if (object instanceof PopupDateField && ((PopupDateField) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((PopupDateField) object).getValue()))) {
-                    isvalid = true;
-                    break;
-                }
+            } 
             }
         return isvalid;
     }
@@ -66,8 +61,7 @@ public class AbstractSearchLogic {
      * @param moduleName
      * @return
      */
-    public int getCountBasedOnModules(ErrorfulFieldGroup binder, int start, int offset, final boolean isCount, final List<SortByColumn> columns,
-            final Set<Container.Filter> filterSet, final String moduleName, final String searchCriteria) throws ParseException, PortalException {
+    public int getCountBasedOnModules(ErrorfulFieldGroup binder, int start, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws ParseException, PortalException {
         int count;
         switch (moduleName) {
             case ConstantsUtils.DEDUCTION_GROUPING:
@@ -93,8 +87,7 @@ public class AbstractSearchLogic {
      * @param moduleName
      * @return
      */
-    public List getSearchResultsBasedOnModules(ErrorfulFieldGroup binder, int start, int offset, final boolean isCount, final List<SortByColumn> columns,
-            final Set<Container.Filter> filterSet, final String moduleName, final String searchCriteria) throws ParseException, PortalException {
+    public List getSearchResultsBasedOnModules(ErrorfulFieldGroup binder, int start, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws ParseException, PortalException {
         List list;
         switch (moduleName) {
             case ConstantsUtils.DEDUCTION_GROUPING:

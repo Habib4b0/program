@@ -136,7 +136,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
         List<Object> defaultValue = salesLogic.getMonthYear();
         Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValue.get(1)));
         String month = SalesLogic.getMonthName(vvalue);
-        String str = month + " " + defaultValue.get(NumericConstants.TWO);
+        String str = month + ARMUtils.SPACE + defaultValue.get(NumericConstants.TWO);
         priceddlb = CommonUtils.getPeriodsByFrequency("M", salesSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
         salesPrice.removeAllItems();
         salesPrice.setContainerDataSource(new IndexedContainer(priceddlb));
@@ -193,7 +193,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
 
     }
 
-    public void reset() {
+    private void reset() {
         reset.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -207,7 +207,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
         });
     }
 
-    public void generate() {
+    private void generate() {
         generate.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -237,7 +237,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
     private void setDefaultValue() {
         try {
             List<String> defaultValue = salesLogic.getRateConfigSettings(new ArrayList<>(Arrays.asList(dataselection.getCompanyMasterSid(), dataselection.getBucompanyMasterSid(), dataselection.getAdjustmentId(),
-                    StringUtils.isNotBlank(salesSelection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(salesSelection.getDataSelectionDTO().getFromPeriodMonth().trim().split(" ")[0]) : 1)));
+                    StringUtils.isNotBlank(salesSelection.getDataSelectionDTO().getFromPeriodMonth()) ? CommonUtils.getMonthNo(salesSelection.getDataSelectionDTO().getFromPeriodMonth().trim().split(ARMUtils.SPACE.toString())[0]) : 1)));
             if (!defaultValue.isEmpty()) {
                 if (!"0".equals(defaultValue.get(NumericConstants.FOUR))) {
                     salesDateType.setValue(Integer.valueOf(defaultValue.get(NumericConstants.FOUR)));
@@ -288,7 +288,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             List<Object> defaultValue = salesLogic.getMonthYear();
             Integer vvalue = ARMUtils.getIntegerValue(String.valueOf(defaultValue.get(1)));
             String month = SalesLogic.getMonthName(vvalue);
-            String str = month + " " + defaultValue.get(NumericConstants.TWO);
+            String str = month + ARMUtils.SPACE + defaultValue.get(NumericConstants.TWO);
             priceddlb = CommonUtils.getPeriodsByFrequency("M", salesSelection.getDataSelectionDTO().getFromPeriodMonth(), str);
             salesPrice.removeAllItems();
             salesPrice.setContainerDataSource(new IndexedContainer(priceddlb));

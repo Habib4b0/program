@@ -949,10 +949,10 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             extraDot = ".";
         }
         String[] hierarchyNoArray = hierarchyNo.split("\\.");
-        String hierarchyNo1 = hierarchyNoArray[0];
+        StringBuilder hierarchyNo1 = new StringBuilder(hierarchyNoArray[0]);
         allLevelHierarchy.add(hierarchyNo1 + extraDot);
         for (int i = 1; i < hierarchyNoArray.length - 1; i++) {
-            hierarchyNo1 = hierarchyNo1 + "." + hierarchyNoArray[i];
+            hierarchyNo1.append(".").append(hierarchyNoArray[i]);
             allLevelHierarchy.add(hierarchyNo1 + extraDot);
         }
         if (!allLevelHierarchy.contains(hierarchyNo)) {
@@ -1105,7 +1105,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
-                    groupList.add("PPA-" + String.valueOf(list1));
+                    groupList.add("PPA-" + (list1));
                 }
             }
         } catch (Exception ex) {
@@ -2678,7 +2678,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
      public static void loadCustomMenuBar(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues)  {
         String newLevel;
         String oldLevel = StringUtils.EMPTY;
-        String listOfSids = StringUtils.EMPTY;
+        StringBuilder listOfSids = new StringBuilder();
         CustomMenuBar.CustomMenuItem[] customerlevelItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
         customerlevelItem[0] = filterValues.addItem(new MenuItemDTO(listOfLevelFilter.get(0)[0], listOfLevelFilter.get(0)[1].toString()), null);
         customerlevelItem[0].setCheckable(true);
@@ -2690,18 +2690,18 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             Object[] obj = listOfLevelFilter.get(i);
             newLevel = obj[0].toString();
             if (oldLevel.equals(newLevel)) {
-                listOfSids += "," + obj[1];
+                listOfSids.append(",").append(obj[1]);
                 oldLevel = newLevel;
             } else {
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
-                    listOfSids = "";
+                    listOfSids = new StringBuilder("");
                     customerlevelItem[i] = filterValues.addItem(dto, null);
                     customerlevelItem[i].setCheckable(true);
                     customerlevelItem[i].setItemClickable(true);
                     customerlevelItem[i].setItemClickNotClosable(true);
                 }
-                listOfSids += obj[1];
+                listOfSids.append(obj[1]);
                 oldLevel = newLevel;
             }
             if (i == listOfLevelFilter.size() - 1) {
@@ -3117,7 +3117,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     
      public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues)  {
         String oldLevel = StringUtils.EMPTY;
-        String listOfSids = StringUtils.EMPTY;
+        StringBuilder listOfSids = new StringBuilder();
         CustomMenuBar.CustomMenuItem[] customerlevelItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
         customerlevelItem[0] = filterValues.addItem(new MenuItemDTO(listOfLevelFilter.get(0)[0], listOfLevelFilter.get(0)[1].toString()), null);
         customerlevelItem[0].setCheckable(true);
@@ -3133,13 +3133,13 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
          
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
-                     listOfSids = "";
+                     listOfSids = new StringBuilder("");
                     customerlevelItem[i] = filterValues.addItem(dto, null);
                     customerlevelItem[i].setCheckable(true);
                     customerlevelItem[i].setItemClickable(true);
                     customerlevelItem[i].setItemClickNotClosable(true);
                 }
-                listOfSids += obj[2];
+                listOfSids.append(obj[2]);
                 oldLevel = newLevel;
         
             if (i == listOfLevelFilter.size() - 1) {

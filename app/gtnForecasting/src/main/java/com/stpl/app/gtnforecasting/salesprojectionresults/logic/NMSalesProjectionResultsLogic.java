@@ -686,7 +686,7 @@ public class NMSalesProjectionResultsLogic {
 		int neededRecord = offset;
 		int mayBeAdded = 0;
 		List<SalesProjectionResultsDTO> projDTOList = new ArrayList<>();
-		String discList = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
+		String discList = CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false);
 		String freq = StringUtils.EMPTY;
 		if (projSelDTO.getFrequencyDivision() == 1 || Constant.ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
 			freq = Constant.ANNUAL_CAPS;
@@ -752,7 +752,7 @@ public class NMSalesProjectionResultsLogic {
 		int neededRecord = offset;
 		int started = start;
 		int mayBeAdded = 0;
-		String discList = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
+		String discList = CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false);
 		String freq = StringUtils.EMPTY;
 		if (projSelDTO.getFrequencyDivision() == 1 || Constant.ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
 			freq = Constant.ANNUAL_CAPS;
@@ -1226,12 +1226,6 @@ public class NMSalesProjectionResultsLogic {
 		return frequencyNo;
 	}
 
-	public String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String ccp) {
-		String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp
-				+ ".RELATIONSHIP_LEVEL_SID and " + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
-		return ccpWhereCond;
-	}
-
 	public String getPeriodRestrictionQuery(ProjectionSelectionDTO projSelDTO) {
 		String endDate = String.format("%04d", projSelDTO.getEndYear()) + "-"
 				+ String.format("%02d", projSelDTO.getEndMonth()) + "-" + String.format("%02d", projSelDTO.getEndDay());
@@ -1246,12 +1240,6 @@ public class NMSalesProjectionResultsLogic {
 					+ "') ";
 		}
 		return periodFilter;
-	}
-
-	public String getUserSessionQueryCondition(int userId, int sessionId, String table) {
-		String user = Constant.AND_SMALL_SPACE + table + ".USER_ID=" + userId + Constant.AND_SMALL_SPACE + table
-				+ ".SESSION_ID=" + sessionId + " ";
-		return user;
 	}
 
 	public String getCCPQuery(ProjectionSelectionDTO projSelDTO) {
@@ -2105,7 +2093,6 @@ public class NMSalesProjectionResultsLogic {
 					projSelDTO.setLevelNo(0);
 					projSelDTO.setTreeLevelNo(0);
 					projSelDTO.setCustomLevelNo(0);
-					;
 				} else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
 					projSelDTO.setLevelNo(projSelDTO.getCustomerLevelNo() - 1);
 					projSelDTO.setTreeLevelNo(projSelDTO.getCustomerLevelNo() - 1);
@@ -2185,12 +2172,6 @@ public class NMSalesProjectionResultsLogic {
 			}
 		}
 		return count;
-	}
-
-	public int configureLevelsCountMandated(ProjectionSelectionDTO projSelDTO) {
-		return SPRCommonLogic.getLevelListCount(projSelDTO.getProjectionId(), projSelDTO.getHierarchyIndicator(),
-				projSelDTO.getLevelNo(), projSelDTO.getHierarchyNo(), projSelDTO.isIsFilter(),
-				projSelDTO.isFilterDdlb(), projSelDTO.getLevelName());
 	}
 
 	public List<SalesProjectionResultsDTO> getConfiguredSalesProjectionResultsMandated(Object parentId, int start,
@@ -2947,19 +2928,6 @@ public class NMSalesProjectionResultsLogic {
 		common.add(commonColumn);
 		common.add(commonHeader);
 		return common;
-	}
-
-	public String getCCPWhereConditionQueryMandated(String relationShipLevelDefination, String projectionDetails,
-			String ccp) {
-		String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp
-				+ ".RELATIONSHIP_LEVEL_SID and " + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
-		return ccpWhereCond;
-	}
-
-	public String getUserSessionQueryConditionMandated(String userId, String sessionId, String table) {
-		String user = Constant.AND_SMALL_SPACE + table + ".USER_ID=" + userId + Constant.AND_SMALL_SPACE + table
-				+ ".SESSION_ID=" + sessionId + " ";
-		return user;
 	}
 
 	public List<SalesProjectionResultsDTO> getCustomizedProjectionPivotMandated(List<Object[]> list,

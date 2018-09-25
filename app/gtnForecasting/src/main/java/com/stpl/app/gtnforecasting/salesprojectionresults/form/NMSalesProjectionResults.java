@@ -108,16 +108,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(
             String.class);
-    /**
-     * The map left visible columns.
-     */
-    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
-    /**
-     * The map right visible columns.
-     */
-    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
     private ExtFilterTreeTable leftTable;
-    private ExtFilterTreeTable rightTable;
     private final SessionDTO session;
     private List<Object> headerList;
     private List<CustomViewMaster> customViewList = new ArrayList<>();
@@ -403,7 +394,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         tableLogic.setContainerDataSource(resultBean);
 
         leftTable = resultsTable.getLeftFreezeAsTable();
-        rightTable = resultsTable.getRightFreezeAsTable();
+        ExtFilterTreeTable  rightTable = resultsTable.getRightFreezeAsTable();
         leftTable.markAsDirty();
         rightTable.markAsDirty();
         leftTable.setVisibleColumns(leftDTO.getSingleColumns().toArray());
@@ -413,7 +404,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         resultsTable.setHeight(Constant.SIX_FIFTY_PX);
         leftTable.setHeight(Constant.SIX_FIFTY_PX);
         rightTable.setHeight(Constant.SIX_FIFTY_PX);
-        mapLeftVisibleColumns = leftDTO.getDoubleHeaderMaps();
+        Map<Object, Object[]> mapLeftVisibleColumns = leftDTO.getDoubleHeaderMaps();
         rightTable.setVisibleColumns(rightDTO.getSingleColumns().toArray());
 
         rightTable.setColumnHeaders(rightDTO.getSingleHeaders().toArray(new String[rightDTO.getSingleHeaders().size()]));
@@ -428,7 +419,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         for (int i = 0; i < rightDTO.getDoubleColumns().size(); i++) {
             rightTable.setColumnAlignment(rightDTO.getDoubleColumns().get(i), ExtCustomTable.Align.CENTER);
         }
-        mapRightVisibleColumns = rightDTO.getDoubleHeaderMaps();
+        Map<Object, Object[]> mapRightVisibleColumns = rightDTO.getDoubleHeaderMaps();
         resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         rightTable
                 .addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
@@ -828,7 +819,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         levelFilterDdlbChangeOption(true);
         exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         exportPeriodViewTable.setDoubleHeaderVisible(true);
-        ForecastUI.setEXCEL_CLOSE(true);
+        ForecastUI.setEXCELCLOSE(true);
         ExcelExport exp = null;
         int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
         if (Constant.PERIOD.equals(String.valueOf(pivotView.getValue())) && (QUARTERLY.getConstant().equals(String.valueOf(frequency.getValue())) || MONTHLY.getConstant().equals(String.valueOf(frequency.getValue())))) {
@@ -845,7 +836,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 exportPeriodViewTable.setDoubleHeaderMap((Map<Object, Object[]>) projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.FIVE));
                 exportPeriodViewTable.setRefresh(true);
                 String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-                ForecastUI.setEXCEL_CLOSE(true);
+                ForecastUI.setEXCELCLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SALES_PROJECTION_RESULTS, "Sales_Projection_Results.xls", false);
                 } else {

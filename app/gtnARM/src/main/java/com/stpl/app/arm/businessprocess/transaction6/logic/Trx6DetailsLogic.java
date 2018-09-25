@@ -8,6 +8,7 @@ package com.stpl.app.arm.businessprocess.transaction6.logic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.QueryUtils;
 import static com.stpl.app.utils.VariableConstants.DASH;
 import com.stpl.app.utils.xmlparser.SQlUtil;
@@ -45,12 +46,12 @@ public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmen
         StringBuilder query;
         if (inflationSelection.isIsWorkFlow()) {
             query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(inflationSelection.getDataSelectionDTO().getProjectionId()));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
+            query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(inflationSelection.getDataSelectionDTO().getProjectionId()));
+            query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, isReserve ? "0" : "1");
         } else {
             query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
             for (Object temp : replaceList) {
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
+                query.replace(query.indexOf(ARMUtils.CHAR_QUS), query.indexOf(ARMUtils.CHAR_QUS) + 1, String.valueOf(temp));
             }
         }
         LOGGER.debug("Query --{}", query.toString());
@@ -59,8 +60,8 @@ public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmen
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                inflationValue = new StringBuilder(StringUtils.EMPTY);
-                property = new StringBuilder(StringUtils.EMPTY);
+                inflationValue = new StringBuilder();
+                property = new StringBuilder();
                 if (isValid(obj[0])) {
                     inflationValue = new StringBuilder(helperId.getDescriptionByID((Integer) (obj[0])));
                     property = new StringBuilder(String.valueOf(obj[0]));
@@ -117,7 +118,7 @@ public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmen
     protected String getAmountFilterCondition(List<String> inflationCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
         if (inflationCondition != null && !inflationCondition.isEmpty() && inflationCondition.size() < NumericConstants.THREE) {
-            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder grlStr = new StringBuilder();
             for (int i = 0; i < inflationCondition.size(); i++) {
                 String str = inflationCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
@@ -125,7 +126,7 @@ public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmen
                     grlStr.append(" OR ");
                 }
             }
-            conditionStr = "(" + grlStr.toString() + " ) AND ";
+            conditionStr = ARMUtils.OPEN_PARANTHESIS + grlStr.toString() + " ) AND ";
         }
         return conditionStr;
     }

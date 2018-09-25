@@ -5,8 +5,6 @@
  */
 package com.stpl.app.arm.dataselection.ui.form;
 
-import static com.stpl.app.arm.dataselection.ui.form.DataSelection.getBeanFromId;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -53,7 +51,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
     protected Label adjustmentTypeLabel;
     @UiField("descriptionLabel")
     protected Label descriptionLabel;
-    private DataSelectionDTO dataSelectionDTO;
+    private DataSelectionDTO bsrDataSelectionDTO;
     private DataSelectionLogic logic = new DataSelectionLogic();
     private static final Logger LOGGER = LoggerFactory.getLogger(BalanceSummaryReportDataSelectionTab.class);
     private String periodView = StringUtils.EMPTY;
@@ -73,12 +71,12 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
 
     public BalanceSummaryReportDataSelectionTab(DataSelectionDTO selection, SessionDTO sessionDTO, TabSheet tabSheet) {
         super();
-        this.dataSelectionDTO = selection;
+        this.bsrDataSelectionDTO = selection;
         this.tabSheet = tabSheet;
         init();
     }
 
-    public void init() {
+    private void init() {
         panel1.setCaption("Selection Criteria");
         configureDataSelection();
         loadValuesInDataSelection();
@@ -222,9 +220,9 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
     }
 
     private void loadValuesInDataSelection() {
-        selectedDeduction.setContainerDataSource(dataSelectionDTO.getSelectedDeductionContainer());
-        selectedCustomer.setContainerDataSource(dataSelectionDTO.getSelectedCustomerContainer());
-        selectedProduct.setContainerDataSource(dataSelectionDTO.getSelectedProductContainer());
+        selectedDeduction.setContainerDataSource(bsrDataSelectionDTO.getSelectedDeductionContainer());
+        selectedCustomer.setContainerDataSource(bsrDataSelectionDTO.getSelectedCustomerContainer());
+        selectedProduct.setContainerDataSource(bsrDataSelectionDTO.getSelectedProductContainer());
         Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
         selectedCustomer.setVisibleColumns(obj);
         String[] str = new String[]{"Selected Customers"};
@@ -236,34 +234,34 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
         CommonLogic.loadCompanyAndBusinessUnit(company, "getCompanyQueryForDS");
         CommonLogic.loadCompanyAndBusinessUnit(businessUnit, "getBusinessQueryForDS");
         loadSummaryType();
-        logic.loadCustomerRelation(customerRelation, dataSelectionDTO.getCustomerHierarchySid());
-        logic.loadProductRelation(productRelation, dataSelectionDTO.getProductHierarchySid(), dataSelectionDTO.getCompanyMasterSid());
-        logic.loadCustoProdLevels(customerLevel, dataSelectionDTO.getCustomerHierarchySid());
-        logic.loadCustoProdLevels(productLevel, dataSelectionDTO.getProductHierarchySid());
-        customerHierarchy.setValue(dataSelectionDTO.getCustomerHierarchyName());
-        customerRelation.select(dataSelectionDTO.getCustRelationshipBuilderSid());
-        customerLevel.select(dataSelectionDTO.getCustomerHierarchyLevel());
-        productHierarchy.setValue(dataSelectionDTO.getProductHierarchyName());
-        productRelation.select(dataSelectionDTO.getProdRelationshipBuilderSid());
-        productLevel.select(dataSelectionDTO.getProductHierarchyLevel());
-        deductionLevel.select(HelperListUtil.getInstance().getIdHelperDTOMap().get(dataSelectionDTO.getDeductionLevel()));
-        company.select(dataSelectionDTO.getCompanyMasterSid());
-        businessUnit.select(dataSelectionDTO.getBucompanyMasterSid());
+        logic.loadCustomerRelation(customerRelation, bsrDataSelectionDTO.getCustomerHierarchySid());
+        logic.loadProductRelation(productRelation, bsrDataSelectionDTO.getProductHierarchySid(), bsrDataSelectionDTO.getCompanyMasterSid());
+        logic.loadCustoProdLevels(customerLevel, bsrDataSelectionDTO.getCustomerHierarchySid());
+        logic.loadCustoProdLevels(productLevel, bsrDataSelectionDTO.getProductHierarchySid());
+        customerHierarchy.setValue(bsrDataSelectionDTO.getCustomerHierarchyName());
+        customerRelation.select(bsrDataSelectionDTO.getCustRelationshipBuilderSid());
+        customerLevel.select(bsrDataSelectionDTO.getCustomerHierarchyLevel());
+        productHierarchy.setValue(bsrDataSelectionDTO.getProductHierarchyName());
+        productRelation.select(bsrDataSelectionDTO.getProdRelationshipBuilderSid());
+        productLevel.select(bsrDataSelectionDTO.getProductHierarchyLevel());
+        deductionLevel.select(HelperListUtil.getInstance().getIdHelperDTOMap().get(bsrDataSelectionDTO.getDeductionLevel()));
+        company.select(bsrDataSelectionDTO.getCompanyMasterSid());
+        businessUnit.select(bsrDataSelectionDTO.getBucompanyMasterSid());
 
-        Collection<?> adjItems = (Collection<?>) dataSelectionDTO.getSummaryType();
+        Collection<?> adjItems = (Collection<?>) bsrDataSelectionDTO.getSummaryType();
         Object adjItemToAdd = null;
         for (Object adjItem : adjItems) {
             if (adjItem instanceof HelperDTO) {
                 HelperDTO hlpd = (HelperDTO) adjItem;
-                if (dataSelectionDTO.getAdjustmentId() == hlpd.getId()) {
+                if (bsrDataSelectionDTO.getAdjustmentId() == hlpd.getId()) {
                     adjItemToAdd = adjItem;
                 }
             }
         }
         summaryTypeDdlb.select(adjItemToAdd);
 
-        view.setValue(dataSelectionDTO.getViewName());
-        loadFromAndTo(dataSelectionDTO);
+        view.setValue(bsrDataSelectionDTO.getViewName());
+        loadFromAndTo(bsrDataSelectionDTO);
     }
 
     public void setReadOnlyMode() {
@@ -298,20 +296,20 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
         deleteViewBtn.setVisible(false);
     }
 
-    public void loadCustomerLevel() {
+    public void bsrLoadCustomerLevel() {
         try {
-            innerCustLevels = logic.loadCustomerForecastLevel(dataSelectionDTO.getCustomerHierarchySid(), dataSelectionDTO.getCustomerHierarchyName());
-        } catch (Exception ex) {
-            LOGGER.error("loadCustomerLevel", ex);
+            innerCustLevels = logic.loadCustomerForecastLevel(bsrDataSelectionDTO.getCustomerHierarchySid(), bsrDataSelectionDTO.getCustomerHierarchyName());
+        } catch (Exception e) {
+            LOGGER.error("loadCustomerLevel", e);
         }
 
     }
 
-    public void loadProductLevel() {
+    public void bsrLoadProductLevel() {
         try {
-            innerProdLevels = logic.loadCustomerForecastLevel(dataSelectionDTO.getProductHierarchySid(), dataSelectionDTO.getProductHierarchyName());
-        } catch (Exception ex) {
-            LOGGER.error("loadProductLevel", ex);
+            innerProdLevels = logic.loadCustomerForecastLevel(bsrDataSelectionDTO.getProductHierarchySid(), bsrDataSelectionDTO.getProductHierarchyName());
+        } catch (Exception e) {
+            LOGGER.error("loadProductLevel", e);
         }
     }
 
@@ -326,31 +324,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
 
         List<LevelDTO> reslistOne;
         reslistOne = dataSelectionLogic.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
-        for (LevelDTO selection : reslistOne) {
-            if (selection.getLevelNo() == 1) {
-                selectedCustomerContainer.removeAllItems();
-                selectedCustomerContainer.addItem(selection);
-                selectedCustomerContainer.setChildrenAllowed(selection, true);
-            } else {
-                for (Object tempselection : selectedCustomerContainer.getItemIds()) {
-                    if (selection.getParentNode().contains("~")) {
-                        String[] parentarr = selection.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempselection).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedCustomerContainer.addBean(selection);
-                            selectedCustomerContainer.setChildrenAllowed(selection, true);
-                            selectedCustomerContainer.setParent(selection, tempselection);
-                            break;
-                        }
-                    } else {
-                        selectedCustomerContainer.addBean(selection);
-                        selectedCustomerContainer.setChildrenAllowed(selection, true);
-                        selectedCustomerContainer.setParent(selection, tempselection);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedCustomerContainer, reslistOne, customerLevel);
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
         Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
         selectedCustomer.setVisibleColumns(obj);
@@ -372,39 +346,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
 
         List<LevelDTO> reslistOne;
         reslistOne = selectionLogic.getRelationShipValues(projectionId, "product", productLevel, productDescriptionMap);
-        for (LevelDTO selection : reslistOne) {
-            if (selection.getLevelNo() == 1) {
-                selectedProductContainer.removeAllItems();
-                selectedProductContainer.addItem(selection);
-                selectedProductContainer.setChildrenAllowed(selection, true);
-            } else {
-                for (Object tempselection : selectedProductContainer.getItemIds()) {
-                    if (selection.getParentNode().contains("~")) {
-                        String[] parentarr = selection.getParentNode().split("~");
-                        String parentName = parentarr[1];
-                        if (getBeanFromId(tempselection).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-                            selectedProductContainer.addBean(selection);
-                            if (productLevel != selection.getLevelNo()) {
-                                selectedProductContainer.setChildrenAllowed(selection, true);
-                            } else {
-                                selectedProductContainer.setChildrenAllowed(selection, false);
-                            }
-                            selectedProductContainer.setParent(selection, tempselection);
-                            break;
-                        }
-                    } else {
-                        selectedProductContainer.addBean(selection);
-                        if (productLevel != selection.getLevelNo()) {
-                            selectedProductContainer.setChildrenAllowed(selection, true);
-                        } else {
-                            selectedProductContainer.setChildrenAllowed(selection, false);
-                        }
-                        selectedProductContainer.setParent(selection, tempselection);
-                        break;
-                    }
-                }
-            }
-        }
+        createHierarchyBasedOnHierarchyNo(selectedProductContainer, reslistOne, productLevel);
         selectedProduct.setContainerDataSource(selectedProductContainer);
         Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
         selectedProduct.setVisibleColumns(obj);
@@ -511,7 +453,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
         int hash = 7;
         hash = 59 * hash + Objects.hashCode(this.adjustmentTypeLabel);
         hash = 59 * hash + Objects.hashCode(this.descriptionLabel);
-        hash = 59 * hash + Objects.hashCode(this.dataSelectionDTO);
+        hash = 59 * hash + Objects.hashCode(this.bsrDataSelectionDTO);
         hash = 59 * hash + Objects.hashCode(this.logic);
         hash = 59 * hash + Objects.hashCode(this.periodView);
         hash = 59 * hash + Objects.hashCode(this.fromFlag);
@@ -543,7 +485,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
         if (!Objects.equals(this.descriptionLabel, other.descriptionLabel)) {
             return false;
         }
-        if (!Objects.equals(this.dataSelectionDTO, other.dataSelectionDTO)) {
+        if (!Objects.equals(this.bsrDataSelectionDTO, other.bsrDataSelectionDTO)) {
             return false;
         }
         if (!Objects.equals(this.logic, other.logic)) {
@@ -567,9 +509,9 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
     private Property.ValueChangeListener toPeriodListener = new Property.ValueChangeListener() {
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
-            if (dataSelectionDTO != null && ((toPeriod.getValue() != null) && toPeriod.isEnabled())
+            if (bsrDataSelectionDTO != null && ((toPeriod.getValue() != null) && toPeriod.isEnabled())
                     && fromPeriod.getValue() != null && !"0".equals(String.valueOf(toPeriod.getValue()))
-                    && dataSelectionDTO.isAlterFlag()) {
+                    && bsrDataSelectionDTO.isAlterFlag()) {
                 notifier.getConfirmationMessage("Confirmation", "Time Period: From and/or Time Period: To values have changed.  Re-generate the Summary tab?");
             }
         }
@@ -585,10 +527,10 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
                         toPeriod.setEnabled(false);
                     }
 
-                    if (((toPeriod.getValue() != null) && toPeriod.isEnabled()) && dataSelectionDTO != null && fromPeriod.getValue() != null) {
+                    if (((toPeriod.getValue() != null) && toPeriod.isEnabled()) && bsrDataSelectionDTO != null && fromPeriod.getValue() != null) {
                         toPeriod.removeAllItems();
                         configurePeriodDropDown(toPeriod);
-                        if (dataSelectionDTO.isCheckFlag()) {
+                        if (bsrDataSelectionDTO.isCheckFlag()) {
                             initialFromandToLoad();
                         } else {
                             valueChangeMethod();
@@ -602,28 +544,28 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
 
         private void initialFromandToLoad() {
             Date fromDate;
-            fromDate = dataSelectionDTO.getStartDate();
+            fromDate = bsrDataSelectionDTO.getStartDate();
             if (fromPeriod.getValue().equals(NumericConstants.ZERO)) {
-                DataSelectionLogic.getPeriods(fromDate, dataSelectionDTO.getEndDate(), toPeriod);
+                DataSelectionLogic.getPeriods(fromDate, bsrDataSelectionDTO.getEndDate(), toPeriod);
                 toPeriod.select(0);
             } else {
-                DataSelectionLogic.getPeriods(fromDate, dataSelectionDTO.getEndDate(), toPeriod);
-                toPeriod.select(DataSelectionLogic.getPeriod(dataSelectionDTO.getDefaultToDate()));
+                DataSelectionLogic.getPeriods(fromDate, bsrDataSelectionDTO.getEndDate(), toPeriod);
+                toPeriod.select(DataSelectionLogic.getPeriod(bsrDataSelectionDTO.getDefaultToDate()));
             }
-            dataSelectionDTO.setCheckFlag(false);
+            bsrDataSelectionDTO.setCheckFlag(false);
 
         }
 
         private void valueChangeMethod() throws ParseException {
             Date fromDate;
             if (fromPeriod.getValue().equals(NumericConstants.ZERO)) {
-                fromDate = dataSelectionDTO.getStartDate();
-                DataSelectionLogic.getPeriods(fromDate, dataSelectionDTO.getEndDate(), toPeriod);
+                fromDate = bsrDataSelectionDTO.getStartDate();
+                DataSelectionLogic.getPeriods(fromDate, bsrDataSelectionDTO.getEndDate(), toPeriod);
                 toPeriod.select(0);
             } else {
                 fromDate = ARMUtils.getInstance().getDbDate().parse(String.valueOf(fromPeriod.getValue()));
-                DataSelectionLogic.getPeriods(fromDate, dataSelectionDTO.getEndDate(), toPeriod);
-                toPeriod.select(DataSelectionLogic.getPeriod(dataSelectionDTO.getEndDate()));
+                DataSelectionLogic.getPeriods(fromDate, bsrDataSelectionDTO.getEndDate(), toPeriod);
+                toPeriod.select(DataSelectionLogic.getPeriod(bsrDataSelectionDTO.getEndDate()));
             }
         }
     };
@@ -635,19 +577,19 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
         @Override
         public void noMethod() {
             LOGGER.debug("Entering No Method ");
-            dataSelectionDTO.setAlterFlag(false);
-            toPeriod.select(dataSelectionDTO.getToPeriod());
-            dataSelectionDTO.setAlterFlag(true);
+            bsrDataSelectionDTO.setAlterFlag(false);
+            toPeriod.select(bsrDataSelectionDTO.getToPeriod());
+            bsrDataSelectionDTO.setAlterFlag(true);
         }
 
         @Override
         public void yesMethod() {
             try {
-                dataSelectionDTO.setFromPeriod(String.valueOf(fromPeriod.getValue()));
-                dataSelectionDTO.setFromDate(CommonLogic.parseDate(String.valueOf(fromPeriod.getValue())));
-                dataSelectionDTO.setToPeriod(String.valueOf(toPeriod.getValue()));
-                dataSelectionDTO.setToDate(CommonLogic.parseDate(String.valueOf(toPeriod.getValue())));
-                logic.updateProjectionMaster(dataSelectionDTO.getFromDate(), dataSelectionDTO.getToDate(), dataSelectionDTO.getProjectionId());
+                bsrDataSelectionDTO.setFromPeriod(String.valueOf(fromPeriod.getValue()));
+                bsrDataSelectionDTO.setFromDate(CommonLogic.parseDate(String.valueOf(fromPeriod.getValue())));
+                bsrDataSelectionDTO.setToPeriod(String.valueOf(toPeriod.getValue()));
+                bsrDataSelectionDTO.setToDate(CommonLogic.parseDate(String.valueOf(toPeriod.getValue())));
+                logic.updateProjectionMaster(bsrDataSelectionDTO.getFromDate(), bsrDataSelectionDTO.getToDate(), bsrDataSelectionDTO.getProjectionId());
                 setFromFlag(Boolean.TRUE);
                 tabSheet.setSelectedTab(1);
                 setFromFlag(Boolean.FALSE);

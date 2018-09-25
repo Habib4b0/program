@@ -41,6 +41,7 @@ public class AddAdjustmentReserve extends AbstractReserve {
 
     public AddAdjustmentReserve(SessionDTO sessionDTO, ReserveSelection resSelection) {
         super("Adjustment & Reserve Configuration Details", sessionDTO, resSelection);
+        super.init();
         super.configureFields();
         this.selection = resSelection;
     }
@@ -247,8 +248,8 @@ public class AddAdjustmentReserve extends AbstractReserve {
                 deductionProgramDdlbRes.setItemCaption(0, GlobalConstants.getSelectOne());
                 for (Object ob : resList) {
                     if (ob != null) {
-                        deductionProgramDdlbRes.addItem((int) ob);
-                        deductionProgramDdlbRes.setItemCaption((int) ob, (helper.get((int) ob)).getDescription());
+                        deductionProgramDdlbRes.addItem((Integer) ob);
+                        deductionProgramDdlbRes.setItemCaption((Integer) ob, (helper.get((Integer) ob)).getDescription());
                     }
                 }
             }

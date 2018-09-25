@@ -138,7 +138,7 @@ public class WorkFlowNotesLookup extends Window {
         uploader.setEnabled(false);
         Receiver uploadReceiver = (Receiver) new FileUploader(StringUtils.EMPTY + "/" + userId);
         uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
-        fileUploadPath = FileUploader.FILE_PATH + StringUtils.EMPTY + "/" + userId + "/";
+        fileUploadPath = FileUploader.FILE_PATH + StringUtils.EMPTY + Constant.SLASH + userId + Constant.SLASH;
         uploadComponent.setButtonCaption(Constant.ADD);
         uploadComponent.setStyleName("uploadIdBB");
         cssLayout1.addComponent(addAttachmentLable);
@@ -265,7 +265,7 @@ public class WorkFlowNotesLookup extends Window {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                setSUBMIT_FLAG("Success");
+                setSUBMITFLAG("Success");
                 close();
             }
         });
@@ -459,11 +459,11 @@ public class WorkFlowNotesLookup extends Window {
         }
     }
 
-	public static String getSUBMIT_FLAG() {
+	public static String getSUBMITFLAG() {
 		return SUBMIT_FLAG;
 	}
 
-	public static void setSUBMIT_FLAG(String sumbitFlag) {
+	public static void setSUBMITFLAG(String sumbitFlag) {
 		SUBMIT_FLAG = sumbitFlag;
 	}
 }

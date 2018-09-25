@@ -57,8 +57,6 @@ public class MProjectionResultsLogic {
     private ProjectionResultsDTO supDisDolDto = null;
     private ProjectionResultsDTO manDisPerDto = null;
     private ProjectionResultsDTO manDisDolDto = null;
-    private ProjectionResultsDTO manRPUDto = null;
-    private ProjectionResultsDTO supRPUDto = null;
     private List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
     private List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
 
@@ -121,8 +119,7 @@ public class MProjectionResultsLogic {
                 + "WHERE PERIOD_DATE = @PROJECTION_DATE \n";
         query += sql + " \n" + getProjectionResultsNetSalesQueryForPR(projSelDTO);
         prMainQuery = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-        List<ProjectionResultsDTO> projDTOList = getCustomizedProjectionResultsSales(prMainQuery, projSelDTO);
-        return projDTOList;
+        return getCustomizedProjectionResultsSales(prMainQuery, projSelDTO);
     }
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsSales(List<Object> list, ProjectionSelectionDTO projSelDTO) {
@@ -905,16 +902,12 @@ public class MProjectionResultsLogic {
         String query = "";
         query = getNetSalesQuery(projSelDTO);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-        List<ProjectionResultsDTO> projDTOList = getCustomizedNetSales(list, projSelDTO);
-
-        return projDTOList;
+        return getCustomizedNetSales(list, projSelDTO);
     }
 
     public List<ProjectionResultsDTO> getNetSales(ProjectionSelectionDTO projSelDTO) {
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
-        List<ProjectionResultsDTO> projDTOList = getCustomizedNetSales(prMainQuery, projSelDTO);
-
-        return projDTOList;
+        return getCustomizedNetSales(prMainQuery, projSelDTO);
     }
 
     public List<ProjectionResultsDTO> getDiscountPer(ProjectionSelectionDTO projSelDTO) throws PortalException  {
@@ -1258,8 +1251,8 @@ public class MProjectionResultsLogic {
                 supDisDolDto = projectionTotalList.get(NumericConstants.FIFTEEN);
                 supDisPerDto = projectionTotalList.get(NumericConstants.SIXTEEN);
                 manDisPerDto = projectionTotalList.get(NumericConstants.SEVENTEEN);
-                supRPUDto = projectionTotalList.get(NumericConstants.NINETEEN);
-                manRPUDto = projectionTotalList.get(NumericConstants.EIGHTEEN);
+                ProjectionResultsDTO supRPUDto = projectionTotalList.get(NumericConstants.NINETEEN);
+                ProjectionResultsDTO manRPUDto = projectionTotalList.get(NumericConstants.EIGHTEEN);
 
                 if (projSelDTO.isIsChildTotal() && projSelDTO.getGroup().equals(TOTAL_DISCOUNT_PERC.getConstant())) {
 
@@ -2116,11 +2109,9 @@ public class MProjectionResultsLogic {
 
     public int configureLevelsCount(ProjectionSelectionDTO projSelDTO) {
         int count = NumericConstants.ZERO;
-        if (!projSelDTO.isIsFilter()) {
-            if (!projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
+            if (!projSelDTO.isIsFilter() && !projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
                 count = count + NumericConstants.ONE + projSelDTO.getPeriodList().size();
             }
-        }
         int levelCount;
                 CommonLogic commonLogic = new CommonLogic();
                 if (projSelDTO.isIsCustomHierarchy()) {
@@ -3231,8 +3222,7 @@ public class MProjectionResultsLogic {
         projSelDTO.setFuture(true);
         String futureQuery = getChildTotalDiscountQuery(projSelDTO);
          String ccpQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-        String customQuery = ccpQuery + " \n" + finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
-        return customQuery;
+        return ccpQuery + " \n" + finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
     }
 
     public String getTotalDiscountMainQuery(ProjectionSelectionDTO projSelDTO) {
@@ -3250,8 +3240,7 @@ public class MProjectionResultsLogic {
         projSelDTO.setFuture(true);
         String futureQuery = getChildTotalDiscountQuery(projSelDTO);
 
-        String customQuery = finalSelectClause + "  from  (\n " + historyQuery + "\n) HISTORY FULL  OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n " + finalWhereCond;
-        return customQuery;
+        return finalSelectClause + "  from  (\n " + historyQuery + "\n) HISTORY FULL  OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n " + finalWhereCond;
     }
 
     public String getProjectionResultsNetSalesQuery(ProjectionSelectionDTO projSelDTO) {
@@ -3616,33 +3605,9 @@ public class MProjectionResultsLogic {
                 + "FUTURE.SUP_PROJECTION_RATE as SUP_PROJECTION_RATE,\n"
                 + "FUTURE.SUP_PROJECTION_RPU as SUP_PROJECTION_RPU\n";
 
-        String customQuery = finalSelectClause + "from (\n" + historyQuery + "\n) HISTORY  FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE  \n" + finalWhereCond;
-        return customQuery;
+        return finalSelectClause + "from (\n" + historyQuery + "\n) HISTORY  FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE  \n" + finalWhereCond;
     }
 
-
-    public static List<String> getProgramCodeName(int projectionId) {
-        List<String> strList = new ArrayList<>();
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeNameQuery(projectionId));
-        if (list != null && !list.isEmpty()) {
-            strList = CommonUtils.objectListToStringList(list);
-        }
-        return strList;
-    }
-
-    private static String getProgramCodeNameQuery(int projectionId) {
-        String customSQL = "SELECT\n"
-                + "    CM.CONTRACT_NAME\n"
-                + "FROM\n"
-                + "    dbo.PROJECTION_MASTER pm\n"
-                + "    JOIN dbo.RELATIONSHIP_LEVEL_DEFINITION rl ON rl.RELATIONSHIP_BUILDER_SID = pm.CUST_RELATIONSHIP_BUILDER_SID\n"
-                + "    JOIN dbo.CONTRACT_MASTER CM ON CM.CONTRACT_MASTER_SID = rl.RELATIONSHIP_LEVEL_VALUES\n"
-                + "    Join PROJECTION_CUST_HIERARCHY PCM ON  pm.PROJECTION_MASTER_SID=PCM.PROJECTION_MASTER_SID AND PCM.RELATIONSHIP_LEVEL_SID=rl.RELATIONSHIP_LEVEL_SID\n"
-                + "WHERE\n"
-                + "    pm.PROJECTION_MASTER_SID = " + projectionId + "\n"
-                + "    AND rl.LEVEL_NAME = 'Contract'";
-        return customSQL;
-    }
 
     private int getProgramCodeCount(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException{
         CommonLogic commonLogic = new CommonLogic();
@@ -3671,7 +3636,7 @@ public class MProjectionResultsLogic {
 
     public String getNetSalesQuery(ProjectionSelectionDTO projSelDTO) {
          CommonLogic commonLogic = new CommonLogic();
-        String customerProductQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);;
+        String customerProductQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
 
         StringBuilder netSalesQuery = new StringBuilder();
         List<String> list = getCommonSelectPeriodNetSalesClause(Constant.TODIS_LABEL, "SALE", projSelDTO.getFrequencyDivision());

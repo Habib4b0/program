@@ -344,7 +344,6 @@ public abstract class AbstractReserve extends CustomWindow {
         super(caption);
         this.sessionDTO = sessionDTO;
         this.selection = selection;
-        init();
     }
 
     /**
@@ -395,7 +394,7 @@ public abstract class AbstractReserve extends CustomWindow {
      * Initialization Of the UI Components and Reading XML files and adding
      * corresponding styles to it
      */
-    private void init() {
+    protected void init() {
         center();
         setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         setPositionX(0);
@@ -895,7 +894,7 @@ public abstract class AbstractReserve extends CustomWindow {
             LOGGER.debug("massValueDdlbRes.getValue() = {}", massfieldDdlbRes.getValue());
             Object value = massValueDdlbRes.isVisible() ? massValueDdlbRes.getValue() : massValueRes.getValue();
             if (value != null) {
-                populateAction();
+                populateAction(value);
             } else {
                 AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage002());
             }
@@ -904,8 +903,8 @@ public abstract class AbstractReserve extends CustomWindow {
         }
     }
 
-    private void populateAction() throws Property.ReadOnlyException {
-        Object value = massValueRes.getValue();
+    private void populateAction(Object massValue) throws Property.ReadOnlyException {
+        Object value = massValue;
         List<AdjustmentReserveDTO> list = detailsTableContainer.getItemIds();
         setTableContainerProperties(list, value);
         if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue()) || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())

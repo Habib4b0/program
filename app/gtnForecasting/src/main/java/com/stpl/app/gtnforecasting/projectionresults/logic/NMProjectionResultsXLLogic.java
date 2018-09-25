@@ -129,7 +129,7 @@ public class NMProjectionResultsXLLogic {
             isTotal = true;
             getTotalRawData();
             getTotalPivotVariance(selection);
-            calculateAndCustomize_total_period(procRawListTotal);
+            calculateAndCustomizeTotalPeriod(procRawListTotal);
 
             isTotal = false;
             executeProcedurePRCPVSELECTION();
@@ -146,7 +146,7 @@ public class NMProjectionResultsXLLogic {
             isTotal = true;
 
 
-            calculateAndCustomize_total_pivot();
+            calculateAndCustomizeTotalPivot();
             isTotal = false;
             executeProcedurePRCPVSELECTION();
             if (discountFlag) {
@@ -154,7 +154,7 @@ public class NMProjectionResultsXLLogic {
                 parameterDto.setHierarchyNo("1");
                 executeProcedurePRCPVSELECTION();
             }
-                calculateAndCustomize_detail_pivot(procRawListDetail, procRawListDetailDiscount);
+                calculateAndCustomizeDetailPivot(procRawListDetail, procRawListDetailDiscount);
             }
         }
 
@@ -203,7 +203,7 @@ public class NMProjectionResultsXLLogic {
                     discountMap.put(discountName, listIndex++);        
                     addListdetaildiscount(key, obj);
                 } else {
-                    updateList_detail_discount(key, obj, newListIndex);
+                    updateListDetailDiscount(key, obj, newListIndex);
                 }
             }
         }
@@ -377,7 +377,7 @@ public class NMProjectionResultsXLLogic {
 
     public void getTotalRawData() {
         String frequency = selection.getFrequency();
-        String discountId = CommonUtils.CollectionToString(selection.getDiscountNoList(), false);
+        String discountId = CommonUtils.collectionToStringMethod(selection.getDiscountNoList(), false);
         List<Integer> projectionIdList = new ArrayList();
         procRawListTotal.clear();
         priorList.clear();
@@ -391,7 +391,7 @@ public class NMProjectionResultsXLLogic {
             frequency = Constant.ANNUAL_CAPS;
         }
         projectionIdList.add(selection.getProjectionId());
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionId = CommonUtils.collectionToStringMethod(projectionIdList, false);
         Object[] orderedArg = {projectionId, frequency, discountId, ASSUMPTIONS1, selection.getSessionDTO().getSessionId(), selection.getUserId()};
         List< Object[]> rawList = CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
         procRawListTotal.addAll(rawList);
@@ -417,7 +417,7 @@ public class NMProjectionResultsXLLogic {
         if (isRefresh) {
             List<Integer> projectionIdList = new ArrayList();
             projectionIdList.add(selection.getProjectionId());
-            String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+            String projectionId = CommonUtils.collectionToStringMethod(projectionIdList, false);
             Object[] orderedArg = {projectionId, parameterDto.getUserId(), parameterDto.getSessionId(), parameterDto.getFrequency(), parameterDto.getViewIndicator(),
                 parameterDto.getGroupFilter(), parameterDto.getGroupFilterValue(), parameterDto.getHierarchyNo(),
                 parameterDto.getLevelNo(), 0, parameterDto.getViewName(), parameterDto.getCustomViewMasterSid(),
@@ -436,7 +436,7 @@ public class NMProjectionResultsXLLogic {
         }
     }
 
-    private List<ProjectionResultsDTO> calculateAndCustomize_total_period(List<Object[]> rawList) {
+    private List<ProjectionResultsDTO> calculateAndCustomizeTotalPeriod(List<Object[]> rawList) {
 
         //To check condition total or details values
         List<ProjectionResultsDTO> pvList = new ArrayList();
@@ -451,9 +451,9 @@ public class NMProjectionResultsXLLogic {
         return pvList;
     }
 
-    private void calculateAndCustomize_total_pivot() {
+    private void calculateAndCustomizeTotalPivot() {
         String frequency = selection.getFrequency();
-        String discountId = CommonUtils.CollectionToString(selection.getDiscountNoList(), false);
+        String discountId = CommonUtils.collectionToStringMethod(selection.getDiscountNoList(), false);
         if (frequency.equals(Constant.QUARTERLY)) {
             frequency = QUARTERLY;
         } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
@@ -533,7 +533,7 @@ public class NMProjectionResultsXLLogic {
 
     }
 
-    private void calculateAndCustomize_detail_pivot(List<Object[]> rawList, List<Object[]> rawListDisc) {
+    private void calculateAndCustomizeDetailPivot(List<Object[]> rawList, List<Object[]> rawListDisc) {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key = "null".equals(String.valueOf(obj[NumericConstants.FIFTY_THREE])) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() : obj[BASECOLUMN_HIERARCHY_INDEX] + "$" + obj[NumericConstants.FIFTY_THREE];
@@ -887,7 +887,7 @@ public class NMProjectionResultsXLLogic {
         calculatediscount(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, key, obj, INDEX_DETAIL_DISCOUNT + NumericConstants.SEVEN, disPerExfac, RATE, true, 0);
     }
 
-    private void updateList_detail_discount(String key, final Object[] obj, int listIndex) {
+    private void updateListDetailDiscount(String key, final Object[] obj, int listIndex) {
         calculatediscount(VAR_DIS_AMOUNT, Constant.VALUE, key, obj, INDEX_DETAIL_DISCOUNT, null, AMOUNT, false, listIndex);
         //Discount %
         calculatediscount(VAR_DIS_PERCENT, Constant.VALUE, key, obj, INDEX_DETAIL_DISCOUNT + NumericConstants.TWO, null, RATE, false, listIndex);
@@ -929,7 +929,7 @@ public class NMProjectionResultsXLLogic {
 
     public List<Object[]> getTotalPivotVariance(ProjectionSelectionDTO selection) {
         String frequency = selection.getFrequency();
-        String discountId = CommonUtils.CollectionToString(selection.getDiscountNoList(), false);
+        String discountId = CommonUtils.collectionToStringMethod(selection.getDiscountNoList(), false);
         List<String> projectionIdList = new ArrayList<>();
         if (frequency.equals(Constant.QUARTERLY)) {
             frequency = QUARTERLY;
@@ -941,12 +941,9 @@ public class NMProjectionResultsXLLogic {
             frequency = Constant.ANNUAL_CAPS;
         }
         projectionIdList.add(String.valueOf(selection.getProjectionId()));
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
+        String projectionId = CommonUtils.collectionToStringMethod(projectionIdList, false);
          Object[] orderedArg = {projectionId, frequency, discountId, ASSUMPTIONS1, selection.getSessionDTO().getSessionId(), selection.getUserId(), "PIVOT"};
-        List< Object[]> gtsResult   = CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
-        
-        
-        return gtsResult;
+        return CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
     }
 
         private Map<String, String> getGroupcustomViewNM() {
@@ -988,7 +985,7 @@ public class NMProjectionResultsXLLogic {
                     discountMap.put(discountName, listIndex++);
                     addListdetaildiscount(key, obj);
                 } else {
-                    updateList_detail_discount(key, obj, newListIndex);
+                    updateListDetailDiscount(key, obj, newListIndex);
                 }
             }
         }

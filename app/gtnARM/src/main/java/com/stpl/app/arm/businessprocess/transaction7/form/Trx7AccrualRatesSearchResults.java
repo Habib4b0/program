@@ -6,7 +6,6 @@
 package com.stpl.app.arm.businessprocess.transaction7.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
-import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractPipelineRates;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractRatesSearchResults;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractBPLogic;
 import com.stpl.app.arm.businessprocess.transaction7.logic.Trx7PipelineAccrualRateLogic;
@@ -23,7 +22,7 @@ import java.util.Map;
  */
 public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
-    private static final org.slf4j.Logger TR7_RATES_LOGGER = org.slf4j.LoggerFactory.getLogger(AbstractPipelineRates.class);
+    private static final org.slf4j.Logger TR7_RATES_LOGGER = org.slf4j.LoggerFactory.getLogger(Trx7AccrualRatesSearchResults.class);
 
     public Trx7AccrualRatesSearchResults(AbstractBPLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
@@ -45,15 +44,15 @@ public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
         Map<Integer, String> hierarchy = getHierarchy();
         Object[] value = new Object[hierarchy.size()];
         if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
-            value = new Object[]{"D", "T", "C", "B", "I"};
+            value = ARMUtils.getDTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomer())) {
-            value = new Object[]{"T", "C", "B", "I"};
+            value = ARMUtils.getTCBI();
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
-            value = new Object[]{"B", "I"};
+            value = ARMUtils.getBI();
         } else if (selection.getRateDeductionView().equals(VariableConstants.DEDUCTION_CONTRACT)) {
-            value = new Object[]{"C", "T", "B", "I"};
+            value = ARMUtils.getCTBI();
         }
         return value;
     }
@@ -104,7 +103,7 @@ public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
         if (viewType.equals(ARMConstants.getDeductionCustomer())) {
             viewType = ARMConstants.getDeductionCustomer() + "Sales";
         }
-        getSelection().setRateshierarchy(ARMUtils.getTYrx7LevelAndLevelFilter(viewType));
+        getSelection().setRateshierarchy(ARMUtils.getInstance().getTYrx7LevelAndLevelFilter(viewType));
     }
 
     /*

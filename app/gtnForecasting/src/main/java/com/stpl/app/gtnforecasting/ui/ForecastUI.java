@@ -65,11 +65,6 @@ import de.steinwedel.messagebox.MessageBoxListener;
 
 public class ForecastUI extends UI {
 
-    /**
-     * Navigator to navigate through screens *.
-     */
-    private Navigator navigator;
-    
     protected String pageParameters = null;
     protected final StplSecurity stplSecurity = new StplSecurity();
     protected DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
@@ -311,7 +306,7 @@ public class ForecastUI extends UI {
             }
         }
 
-        navigator = new Navigator(this, this);
+        Navigator navigator = new Navigator(this, this);
         HelperListUtil.getInstance().loadValuesWithListName(getCommercialConstant());
         try {
 
@@ -350,8 +345,8 @@ public class ForecastUI extends UI {
      *
      */
     public static void makeSessionInValidate() {
-        if (isEXCEL_CLOSE()) { // Fix to avoid blank page issue while excel export
-            setEXCEL_CLOSE(false);
+        if (isEXCELCLOSE()) { // Fix to avoid blank page issue while excel export
+            setEXCELCLOSE(false);
         } else {
             UI.getCurrent().close();
         }
@@ -371,11 +366,11 @@ public class ForecastUI extends UI {
         });
     }
 
-	public static boolean isEXCEL_CLOSE() {
+	public static boolean isEXCELCLOSE() {
 		return EXCEL_CLOSE;
 	}
 
-	public static void setEXCEL_CLOSE(boolean excelClose) {
+	public static void setEXCELCLOSE(boolean excelClose) {
 		EXCEL_CLOSE = excelClose;
 	}
 

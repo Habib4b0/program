@@ -84,7 +84,7 @@ public class SalesProjectionResultsTree {
         query = query.replace("[?PROD_RELATIONSHIP_BUILDER_SID]", projSelDTO.getSessionDTO().getProdRelationshipBuilderSid());
         query = query.replace("[?Custom_View_Master_SID]", String.valueOf(projSelDTO.getCustomId()));
         if (!String.valueOf(projSelDTO.getGroupFilter()).isEmpty()) {
-            query = query.replace("[?UserGroup]", "and PPA.USER_GROUP like " + String.valueOf(projSelDTO.getGroupFilter()));
+            query = query.replace("[?UserGroup]", "and PPA.USER_GROUP like " + projSelDTO.getGroupFilter());
         } else {
             query = query.replace("[?UserGroup]", "and PPA.USER_GROUP like '%'");
         }
@@ -384,7 +384,7 @@ public class SalesProjectionResultsTree {
     }
 
     private Map<String, String> getSalesGoupCombination(ProjectionSelectionDTO projSelDTO) {
-        String sql = SQlUtil.getQuery("salesgroup-relation-query");;
+        String sql = SQlUtil.getQuery("salesgroup-relation-query");
         List<Object[]> dbData = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames()));
         Map<String, String> salesMap = new HashMap<>();
         for (Object[] objects : dbData) {
@@ -504,7 +504,7 @@ public class SalesProjectionResultsTree {
         }
 
         private void loadStaticData(ProjectionSelectionDTO projSelDTO) {
-            String discList = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
+            String discList = CommonUtils.collectionToStringMethod(projSelDTO.getDiscountNoList(), false);
             String freq = StringUtils.EMPTY;
             if (projSelDTO.getFrequencyDivision() == 1 || Constant.ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
                 freq = "ANNUAL";

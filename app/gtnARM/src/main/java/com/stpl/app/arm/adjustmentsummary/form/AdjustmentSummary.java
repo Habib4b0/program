@@ -258,7 +258,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
         }
     }
 
-    class AdjustmentSummaryCustomNotification extends AbstractNotificationUtils {
+    static class AdjustmentSummaryCustomNotification extends AbstractNotificationUtils {
 
         private String summaryButtonName;
 
@@ -408,7 +408,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
             int endYear = toPeriod.get(Calendar.YEAR);
             while (fromPeriod.before(toPeriod) || (startYear == endYear && startMonth <= endMonth)) {
                 String item = ARMUtils.getInstance().getDateFormatter().format(fromPeriod.getTime());
-                String caption = VariableConstants.getMONTHS()[fromPeriod.get(Calendar.MONTH)] + " " + fromPeriod.get(Calendar.YEAR);
+                String caption = VariableConstants.getMONTHS()[fromPeriod.get(Calendar.MONTH)] + ARMUtils.SPACE + fromPeriod.get(Calendar.YEAR);
                 fromDate.addItem(item);
                 fromDate.setItemCaption(item, caption);
                 toDate.addItem(item);

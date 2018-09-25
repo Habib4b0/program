@@ -150,7 +150,7 @@ public class GtnWsTransactionService {
 		return resultList;
 	}
 
-	private void appendWhereCondition(GtnWsSearchRequest gtnWsSearchRequest, Map<String, String> columnDataTypeMap,
+	public void appendWhereCondition(GtnWsSearchRequest gtnWsSearchRequest, Map<String, String> columnDataTypeMap,
 			Criteria criteria, ClassMetadata classMetadata, boolean isInvalid) throws ParseException {
 		for (GtnWebServiceSearchCriteria columns : gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList()) {
 			String type = columnDataTypeMap.get(columns.getFieldId());
@@ -221,7 +221,7 @@ public class GtnWsTransactionService {
 		}
 	}
 
-	private void andCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String value, String type,
+	public void andCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String value, String type,
 			String dateFormat) throws ParseException {
 		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
 			criteria.add(Restrictions.gt(columns.getFieldId(), Double.valueOf(columns.getFilterValue2())));
@@ -249,7 +249,7 @@ public class GtnWsTransactionService {
 
 	}
 
-	private void equalsCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String type, String value,
+	public void equalsCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String type, String value,
 			String dateFormat) throws ParseException {
 		if ("com.stpl.gtn.gtn2o.ws.entity.HelperTable".equalsIgnoreCase(type)) {
 			criteria.createAlias("c1." + columns.getFieldId(), columns.getFieldId(), JoinType.INNER_JOIN);
@@ -274,7 +274,7 @@ public class GtnWsTransactionService {
 		}
 	}
 
-	private void equalCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String type, String dateFormat,
+	public void equalCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String type, String dateFormat,
 			String value) throws ParseException {
 		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) && columns.isFilter()) {
 			Object doubleFilterValues = columns.getFilterValue1();
@@ -292,7 +292,7 @@ public class GtnWsTransactionService {
 		}
 	}
 
-	private void likeCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String value, boolean isUser,
+	public void likeCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String value, boolean isUser,
 			boolean isInvalidFilter, String type) {
 		String columnName = getColumnName(columns.getFieldId());
 		if (isUser) {
@@ -327,13 +327,13 @@ public class GtnWsTransactionService {
 		}
 	}
 
-    private void getDoubleFilterValue(GtnWebServiceSearchCriteria columns, Criteria criteria, String columnName) {
+    public void getDoubleFilterValue(GtnWebServiceSearchCriteria columns, Criteria criteria, String columnName) {
         Object doubleFilterValues = columns.getFilterValue1().contains("*") ? columns.getFilterValue1().replaceAll("\\*", "%") : "%" + columns.getFilterValue1() + "%";
         Type doubleFilterTypes = StandardBasicTypes.STRING;
         criteria.add(Restrictions.sqlRestriction(columnName + " like ?", doubleFilterValues, doubleFilterTypes));
     }
 
-	private void betweenConditon(Criteria criteria, GtnWebServiceSearchCriteria columns, String type, String dateFormat)
+	public void betweenConditon(Criteria criteria, GtnWebServiceSearchCriteria columns, String type, String dateFormat)
 			throws ParseException {
 		criteria.add(Restrictions.ge(columns.getFieldId(), getDateValue(type, columns.getFilterValue1(), dateFormat)));
 		criteria.add(Restrictions.le(columns.getFieldId(), getDateValue(type, columns.getFilterValue2(), dateFormat)));
@@ -346,7 +346,7 @@ public class GtnWsTransactionService {
 		return filterValue;
 	}
 
-	private void generateCountProjectionAndCriteria(GtnWsSearchRequest gtnWsSearchRequest,
+	public void generateCountProjectionAndCriteria(GtnWsSearchRequest gtnWsSearchRequest,
 			Map<String, String> columnDataTypeMap, Criteria criteria, ClassMetadata classMetadata) {
 		ProjectionList projectionList = Projections.projectionList();
 		for (Object columns : gtnWsSearchRequest.getSearchColumnNameList()) {
@@ -374,7 +374,7 @@ public class GtnWsTransactionService {
 		}
 	}
 
-	private String getExpressionType(GtnWebServiceSearchCriteria columns, String tableName) {
+	public String getExpressionType(GtnWebServiceSearchCriteria columns, String tableName) {
 		String expression = columns.getExpression();
 
 		if (tableName.contains(GtnFrameworkWebserviceConstant.GL_BALANCE)
@@ -432,7 +432,7 @@ public class GtnWsTransactionService {
 		return ob;
 	}
 
-	private Object[] getViewRecord(List<Object> resultList, GtnWsTransactionRequest gtnWsTransactionRequest) {
+	public Object[] getViewRecord(List<Object> resultList, GtnWsTransactionRequest gtnWsTransactionRequest) {
 		Object[] ob = null;
 		Iterator<Object> iterator = resultList.iterator();
 
@@ -483,7 +483,7 @@ public class GtnWsTransactionService {
 		}
 	}
 
-	private String getFilePath() throws GtnFrameworkGeneralException {
+	public String getFilePath() throws GtnFrameworkGeneralException {
 		StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH));
 		filePath.append('/');
 		filePath.append("exceltransaction");
@@ -607,7 +607,7 @@ public class GtnWsTransactionService {
 		return gtnUIFrameworkWebserviceResponse;
 	}
 
-	private Date getDateForSearch(Date ob) {
+	public Date getDateForSearch(Date ob) {
 		Calendar calender = Calendar.getInstance();
 		calender.setTime(ob);
 		int dateOfYear = calender.get(Calendar.DATE);
@@ -648,7 +648,7 @@ public class GtnWsTransactionService {
 
 	}
 
-	private boolean getValidOrInvalidModules(String searchModuleName) {
+	public boolean getValidOrInvalidModules(String searchModuleName) {
 		Boolean isInvalid = Boolean.FALSE;
 		if (searchModuleName.startsWith("Ivld")) {
 			isInvalid = Boolean.TRUE;
@@ -686,7 +686,7 @@ public class GtnWsTransactionService {
 		return columnMap.get(columnName);
 	}
 
-	private String replaceSingleQuote(String searchValue) {
+	public String replaceSingleQuote(String searchValue) {
 		int countOfSingleQuote = StringUtils.countMatches(searchValue, "'");
 		String tempStr = searchValue;
 		if (countOfSingleQuote > 0) {
@@ -698,4 +698,12 @@ public class GtnWsTransactionService {
 		}
 		return tempStr;
 	}
+
+    public GtnWsAllListConfig getGtnWebServiceAllListConfig() {
+        return gtnWebServiceAllListConfig;
+    }
+
+    public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
+        return gtnSqlQueryEngine;
+    }
 }

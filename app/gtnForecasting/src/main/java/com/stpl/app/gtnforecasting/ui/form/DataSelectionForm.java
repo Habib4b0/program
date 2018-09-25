@@ -3273,8 +3273,7 @@ public class DataSelectionForm extends ForecastDataSelection {
                                     Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
                                     tempSession.setDedRelationshipBuilderSid(obj[0].toString());
                                     }
-                                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)) {
-                                    if (dataLogic.isFileChanged(tempSession) == 0) {
+                                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName) && dataLogic.isFileChanged(tempSession) == 0) {
                                         MessageBox.showPlain(Icon.QUESTION, "New File is Activated in the File Management module",
                                                 "There is a new file " + "[ " + tempSession.getFileName() + " ]\n"
                                                 + " that has been activated. \n"
@@ -3286,7 +3285,6 @@ public class DataSelectionForm extends ForecastDataSelection {
                                                 return;
                                             }
                                         }, ButtonId.OK);
-                                    }
                                 }
                                 ForecastWindow forecastWindow = new ForecastWindow(dto.getProjectionName(), tempSession,
 							resultTable, scrName, this, dto);
@@ -4014,7 +4012,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			String selectedLevel = String.valueOf(event.getProperty().getValue());
 			setSelectedCustomerLevel(selectedLevel);
 
-			String val[] = selectedLevel.split(" ");
+			String [] val= selectedLevel.split(" ");
 			int forecastLevel = Integer.parseInt(val[1]);
 			customerInnerLevelContainer.removeAllItems();
 			selectedCustomer.removeAllItems();

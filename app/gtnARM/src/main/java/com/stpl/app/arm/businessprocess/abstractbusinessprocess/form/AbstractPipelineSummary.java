@@ -73,7 +73,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
     protected String[] variableHeaderDeduction;
     protected CustomMenuBar.CustomMenuItem customMenuItem;
     protected CustomMenuBar.CustomMenuItem deductionCustomMenuItem;
-    protected final AbstractPipelineSummaryResults summaryResults;
+    protected AbstractPipelineSummaryResults summaryResults;
     protected String[] variableVisibleColumns;
     protected String[] variableVisibleColumnsDeduction;
     protected final AbstractSelectionDTO selectionDto;
@@ -89,6 +89,10 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
     public AbstractPipelineSummary(AbstractSummaryLogic logic, AbstractSelectionDTO selectionDto) {
         this.logic = logic;
         this.selectionDto = selectionDto;
+        getSummaryResults();
+    }
+
+    private void getSummaryResults() {
         this.summaryResults = getResultsObject(this.logic, this.selectionDto);
     }
 
@@ -178,20 +182,20 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
             selectionDto.setSummarydeductionLevel((int) deductionLevelDdlb.getValue());
 
             selectionDto.setSummarydeductionLevelDes(String.valueOf(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue())));
-            List<String[]> listSize = selectionDto.getSummarydeductionVariables();
-            StringBuilder deductionValues = new StringBuilder();
-            if (!listSize.isEmpty()) {
-                for (int i = 0; i < listSize.size(); i++) {
-                    String value = listSize.get(i)[0];
-                    listSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
-                    if (i != listSize.size() - 1) {
-                        deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
+            List<String[]> pipelineListSize = selectionDto.getSummarydeductionVariables();
+            StringBuilder pipelineDeductionValues = new StringBuilder();
+            if (!pipelineListSize.isEmpty()) {
+                for (int i = 0; i < pipelineListSize.size(); i++) {
+                    String value = pipelineListSize.get(i)[0];
+                    pipelineListSize.get(i)[0] = value.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).trim();
+                    if (i != pipelineListSize.size() - 1) {
+                        pipelineDeductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                     } else {
-                        deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
+                        pipelineDeductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
                     }
                 }
             }
-            selectionDto.setSummarydeductionValues(deductionValues.toString());
+            selectionDto.setSummarydeductionValues(pipelineDeductionValues.toString());
 
             if (!logic.generateButtonCheck(selectionDto)) {
 
@@ -295,20 +299,20 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                 selectionDto.setSummaryvariables(CommonUtils.getCheckedValues(customMenuItem));
                 String dedLevel = helperId.getDescriptionByID(selectionDto.getSummarydeductionLevel());
                 selectionDto.setSummarydeductionLevelDes(dedLevel);
-                List<String[]> listSize = selectionDto.getSummarydeductionVariables();
-                StringBuilder deductionValues = new StringBuilder();
-                if (!listSize.isEmpty()) {
-                    for (int i = 0; i < listSize.size(); i++) {
-                        String value = listSize.get(i)[0];
-                        listSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
-                        if (i != listSize.size() - 1) {
-                            deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
+                List<String[]> listSizePipeline = selectionDto.getSummarydeductionVariables();
+                StringBuilder deductionValuesPipeline = new StringBuilder();
+                if (!listSizePipeline.isEmpty()) {
+                    for (int i = 0; i < listSizePipeline.size(); i++) {
+                        String value = listSizePipeline.get(i)[0];
+                        listSizePipeline.get(i)[0] = value.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).trim();
+                        if (i != listSizePipeline.size() - 1) {
+                            deductionValuesPipeline.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                         } else {
-                            deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
+                            deductionValuesPipeline.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
                         }
                     }
                 }
-                selectionDto.setSummarydeductionValues(deductionValues.toString());
+                selectionDto.setSummarydeductionValues(deductionValuesPipeline.toString());
                 String[] arry = (String[]) ArrayUtils.clone(variableVisibleColumnsDeduction);
                 selectionDto.setSummarydeductionLevel((int) deductionLevelDdlb.getValue());
                 glImpactDate.setValue(dateFormat.parse(selectionDto.getSummaryglDate()));
@@ -331,27 +335,27 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
         deductionLevelDdlb.setValue(selectionDto.getSummarydeductionLevel());
         List<Object[]> list = CommonLogic.loadPipelineAccrual(selectionDto.getProjectionMasterSid());
         for (int i = 0; i < list.size(); i++) {
-            Object[] obj = list.get(i);
-            if (VariableConstants.SUMMARY_DEDUCTION_VALUE.equals(String.valueOf(obj[0]))) {
-                String str1 = (String) obj[1];
-                String[] str2 = str1.split(",");
-                String str3 = null;
+            Object[] pipelineObj = list.get(i);
+            if (VariableConstants.SUMMARY_DEDUCTION_VALUE.equals(String.valueOf(pipelineObj[0]))) {
+                String piplinestr1 = (String) pipelineObj[1];
+                String[] str2 = piplinestr1.split(",");
+                String piplieneStr3 = null;
                 for (String strings : str2) {
-                    str3 = strings;
-                    CommonUtils.checkMenuBarItem(deductionCustomMenuItem, str3);
+                    piplieneStr3 = strings;
+                    CommonUtils.checkMenuBarItem(deductionCustomMenuItem, piplieneStr3);
                 }
-            } else if (VariableConstants.SUMMARY_VARIABLES.equals(String.valueOf(obj[0]))) {
-                String str1 = (String) obj[1];
-                String[] str2 = str1.split(",");
-                String str3 = null;
+            } else if (VariableConstants.SUMMARY_VARIABLES.equals(String.valueOf(pipelineObj[0]))) {
+                String piplinestr1 = (String) pipelineObj[1];
+                String[] str2 = piplinestr1.split(",");
+                String piplieneStr3 = null;
                 for (String strings : str2) {
-                    str3 = strings;
-                    CommonUtils.checkMenuBarItem(customMenuItem, str3);
+                    piplieneStr3 = strings;
+                    CommonUtils.checkMenuBarItem(customMenuItem, piplieneStr3);
                 }
 
-            } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
+            } else if (!CommonLogic.getInstance().getVariablesList().contains(pipelineObj[0])) {
                 try {
-                    BeanUtils.setProperty(selectionDto, String.valueOf(obj[0]), obj[1]);
+                    BeanUtils.setProperty(selectionDto, String.valueOf(pipelineObj[0]), pipelineObj[1]);
                 } catch (Exception ex) {
                     logger.error("Error in loadDetails :", ex);
 

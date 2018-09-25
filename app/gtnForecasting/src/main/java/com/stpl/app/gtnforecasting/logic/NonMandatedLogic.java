@@ -956,7 +956,7 @@ public class NonMandatedLogic {
 		}
 
 		resultList = dataSelection.searchDSProjections(parameters);
-		returnList = Converters.searchDsProjection(resultList,false,true);
+		returnList = Converters.searchDsProjection(resultList,true);
 		return returnList;
 	}
 
@@ -1519,10 +1519,7 @@ public class NonMandatedLogic {
 		}
 
 		resultList = dataSelection.searchDSProjections(parameters);
-                
-                boolean flagValue = CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(dataSelectionDTO.getModulName()) ? true : false;
-                
-		returnList = Converters.searchDsProjection(resultList, flagValue, true);
+		returnList = Converters.searchDsProjection(resultList,  true);
 		return returnList;
 	}
 
@@ -1607,7 +1604,7 @@ public class NonMandatedLogic {
 		if (Constant.EDIT.equalsIgnoreCase(inputDto.getAction())
 				|| Constant.VIEW.equalsIgnoreCase(inputDto.getAction())) {
 			SupplementalDiscountProjectionLogic logic = new SupplementalDiscountProjectionLogic();
-			String pojectionDetailsSids = CommonUtils.CollectionToString(logic.getProjectionDetailsSid(inputDto),
+			String pojectionDetailsSids = CommonUtils.collectionToStringMethod(logic.getProjectionDetailsSid(inputDto),
 					false);
 			logic.masterToTempCopy(inputDto, pojectionDetailsSids);
 		}

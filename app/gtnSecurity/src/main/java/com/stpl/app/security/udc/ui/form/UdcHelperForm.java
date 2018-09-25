@@ -4,7 +4,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.HelperTable;
-import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
+import com.stpl.app.security.businessrolemodulemaster.util.CommonUtils;
 import com.stpl.app.security.common.SessionDTO;
 import com.stpl.app.security.dao.UdcLogicDAO;
 import com.stpl.app.security.dao.impl.UdcLogicDAOImpl;
@@ -374,7 +374,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                             return;
                         }
                         if (category.getValue().equals(CommonUtils.BRAND)) {
-                            success = udcLogic.saveBrandMaster(brandBinder, masterSid);
+                            success = udcLogic.saveBrandMaster(brandBinder);
 
                         }else if (category.getValue().equals(CommonUtils.FILE_TYPE)) {
                             success = udcLogic.saveFileTypeHelperTable(binder);
@@ -605,7 +605,7 @@ public class UdcHelperForm extends CustomComponent implements View {
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
         List<Object> resultList = new ArrayList<>();
         try {
-            resultList = new SecurityImpl().fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+            resultList = new SecurityImpl().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }

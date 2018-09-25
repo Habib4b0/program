@@ -2196,8 +2196,7 @@ public class HeaderUtils {
     static int getEndDay(int monthNo, int year) {
         Calendar ob = Calendar.getInstance();
         ob.set(year, monthNo - 1, 1);
-        int daysInMonth = ob.getActualMaximum(Calendar.DAY_OF_MONTH);
-        return daysInMonth;
+        return ob.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     /**
@@ -3394,7 +3393,7 @@ public class HeaderUtils {
         if (projSelDTO.getDeductionLevelFilter().isEmpty()) {
             projSelDTO.setDeductionLevelCaptions(new DiscountProjectionLogic().getRsAllList(projSelDTO));
         }
-        discountNames = new ArrayList<>(projSelDTO.getDeductionLevelCaptions());;
+        discountNames = new ArrayList<>(projSelDTO.getDeductionLevelCaptions());
         CommonUtils.getHistoryAndProjectionDetails(projSelDTO);
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         int historyNum = projSelDTO.getHistoryNum();
@@ -4396,7 +4395,8 @@ public class HeaderUtils {
         List<String> doubleHeaderForExcel = new ArrayList<>();
         Map<Object, Object[]> doubleHeaderMap = new HashMap<>();
         List headerListForExcel;
-        int j = 0, k = 0;// Ends here
+        int j = 0;
+        int  k = 0;// Ends here
         String actualDiscount = "Actual Discount";
         Object actualdisColn = "actualdiscount";
         Object[] singleActualDiscount = {"actualdiscount"};

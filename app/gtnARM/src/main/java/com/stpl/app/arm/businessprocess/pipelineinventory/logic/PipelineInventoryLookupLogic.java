@@ -120,7 +120,7 @@ public class PipelineInventoryLookupLogic {
     }
 
     public static String astToPerConverter(final String inputString) {
-        return StringUtils.isBlank(inputString) || "null".equals(inputString) ? "%" : inputString.replace("*", "%");
+        return StringUtils.isBlank(inputString) || "null".equals(inputString) ? "%" : inputString.replace(ARMUtils.CHAR_ASTERISK, "%");
     }
 
     public static String convertNullToEmpty(Object value) {
@@ -136,7 +136,7 @@ public class PipelineInventoryLookupLogic {
     public void saveCustomerGroupValue(List<CustomerGroupDTO> saveList, int projectionId, AbstractSelectionDTO selectionDto) {
         LOGGER.debug("Inside saveCustomerGroupValue ");
         try {
-            StringBuilder saveQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder saveQuery = new StringBuilder();
             saveQuery.append(SQlUtil.getQuery("saveCustomerGroupInventDetails").replace("@PROJECTION_MASTER_SID", String.valueOf(projectionId)));
             for (CustomerGroupDTO dtoValue : saveList) {
                 String companyMasterSid = StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid();
@@ -147,7 +147,7 @@ public class PipelineInventoryLookupLogic {
                 if (dtoValue.getIndicator() != null) {
                     indicator = String.valueOf(dtoValue.getIndicator() ? 1 : 0);
                 }
-                saveQuery.append("(").append(projectionId).append(ARMUtils.COMMA_CHAR).append(include).append(ARMUtils.COMMA_CHAR).append(dtoValue.getIndicator() != null ? indicator : "null").append(ARMUtils.COMMA_CHAR).append(customerGroupSid).append(ARMUtils.COMMA_CHAR).append(companyMasterSid).append("),");
+                saveQuery.append(ARMUtils.OPEN_PARANTHESIS).append(projectionId).append(ARMUtils.COMMA_CHAR).append(include).append(ARMUtils.COMMA_CHAR).append(dtoValue.getIndicator() != null ? indicator : "null").append(ARMUtils.COMMA_CHAR).append(customerGroupSid).append(ARMUtils.COMMA_CHAR).append(companyMasterSid).append("),");
             }
             saveQuery.replace(saveQuery.length() - 1, saveQuery.length(), "");
             LOGGER.debug("saveQuery--{}", saveQuery);

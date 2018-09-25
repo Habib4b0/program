@@ -13,6 +13,7 @@ import java.util.Set;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -90,6 +91,13 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 			rbTableBaseComponent.getLogicFromPagedDataTable().addCurrentSearchCriteria(notInList);
 
 			rbTableBaseComponent.getLogicFromPagedDataTable().startSearchProcess(true);
+                        
+                        List<GtnWsRecordBean> dataRecordList=rbTableBaseComponent.getComponentData().getDataTableRecordList();
+                        if (dataRecordList == null) {
+                            rbTableBaseComponent.getComponentConfig().getGtnPagedTableConfig().getRecordTypeManageActionConfig().setEventParameter(levelBean);
+                            GtnUIFrameworkActionExecutor.executeSingleAction(rbTableBaseComponent.getComponentId(),
+                                    rbTableBaseComponent.getComponentConfig().getGtnPagedTableConfig().getRecordTypeManageActionConfig());
+                        }
 		} catch (Exception e) {
 			gtnLogger.error("Exception in loadFilteredResultLayout", e);
 		}

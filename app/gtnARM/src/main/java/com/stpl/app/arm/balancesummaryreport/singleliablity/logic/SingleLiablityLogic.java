@@ -42,7 +42,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
 
     private String[] columns = {"Fees Accrual", "Inflation Adjustment", "Credit Card Fees", "Other Fixed Dollar Fees",
         "Inventory Valuation", "Payment True-up", VariableConstants.PAYMENTS, "Period Balance"};
-    
+
     public static final Logger SINGLE_LIABLITY_LOGGER = LoggerFactory.getLogger(SingleLiablityLogic.class);
 
     public SingleLiablityLogic() {
@@ -166,7 +166,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
                 newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
                 if (!"0".equals(newC)) {
                     if (!"null".equals(newC)) {
-                        if (!oldC.equals(newC) && object.length > keyParam) {
+                        if (object.length > keyParam && !oldC.equals(newC)) {
                             keyParam++;
                             if ("null".equalsIgnoreCase(String.valueOf(resultSet[(j + 1) * NumericConstants.TWO]))) {
                                 j++;
@@ -176,7 +176,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
                         j = 1;
                         keyParam = 1;
                     }
-                    key = ExcelUtils.getKey(resultSet, keyParam).replace(" ", StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
+                    key = ExcelUtils.getKey(resultSet, keyParam).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
                     newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
                     oldC = newC;
                 }
@@ -210,10 +210,10 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
                     indicator = (Integer) resultSet[resultSet.length - 1];
                 }
                 total = indicator == 1 ? new Double[8] : total;
-                String headerKey = String.valueOf(result).replace(" ", "").replace("-", StringUtils.EMPTY);
+                String headerKey = String.valueOf(result).replace(ARMUtils.SPACE.toString(), "").replace("-", StringUtils.EMPTY);
                 for (int k = 0; k < visibleColumns.size(); k++) {
-                    column = visibleColumnsList.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
-                    headerKey = (column.contains(VariableConstants.BEGINNING_BALANCE) && indicator == 2) ? VariableConstants.BEGINNING_BALANCE : headerKey;
+                    column = visibleColumnsList.get(k).replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
+                    headerKey = (indicator == 2 && column.contains(VariableConstants.BEGINNING_BALANCE)) ? VariableConstants.BEGINNING_BALANCE : headerKey;
                     String gatheredColumn = StringUtils.EMPTY;
                     List<String> columnList = CommonLogic.getInstance().getSingleLiablityColumns();
                     List<String> totalColumnList = CommonLogic.getInstance().getTotalSingleLiablityColumns();

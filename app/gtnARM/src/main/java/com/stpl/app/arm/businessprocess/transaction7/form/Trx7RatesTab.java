@@ -89,24 +89,24 @@ public class Trx7RatesTab extends AbstractPipelineRates {
         selection.setRateDeductionLevel((Integer) deductionLevelDdlb.getValue());
         selection.setRateDeductionLevelName(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue()));
         selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, Boolean.TRUE));
-        List<String> listSize = new ArrayList(selection.getRateColumnList().get(0));
-        StringBuilder deductionValues = new StringBuilder(StringUtils.EMPTY);
-        if (!listSize.isEmpty()) {
-            for (int i = 0; i < listSize.size(); i++) {
-                String value = listSize.get(i);
-                if (value.contains(".")) {
+        List<String> tr7ListSize = new ArrayList(selection.getRateColumnList().get(0));
+        StringBuilder tr7DeductionValues = new StringBuilder();
+        if (!tr7ListSize.isEmpty()) {
+            for (int i = 0; i < tr7ListSize.size(); i++) {
+                String value = tr7ListSize.get(i);
+                if (value.contains(ARMUtils.DOT)) {
                     value = value.substring(0, value.lastIndexOf('.'));
                 }
-                listSize.set(i, value.replace(" ", StringUtils.EMPTY).trim());
-                if (i != listSize.size() - 1) {
-                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
+                tr7ListSize.set(i, value.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).trim());
+                if (i != tr7ListSize.size() - 1) {
+                    tr7DeductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                 } else {
-                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
+                    tr7DeductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
                 }
             }
         }
 
-        selection.setRateDeductionValue(deductionValues.toString());
+        selection.setRateDeductionValue(tr7DeductionValues.toString());
         selection.setRateBasisName(CommonConstant.CONTRACT_TERMS);
     }
 

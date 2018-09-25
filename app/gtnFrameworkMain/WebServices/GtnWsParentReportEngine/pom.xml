@@ -22,5 +22,7 @@
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>${javacomplier}</maven.compiler.source>
+		<maven.compiler.target>${javacomplier}</maven.compiler.target>
 	</properties>
 </project>

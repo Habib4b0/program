@@ -377,7 +377,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
         for (int i = 0; i < frequency.size(); i++) {
             String strings = (String) frequency.get(i);
             String[] stringArray = new String[NumericConstants.TWO];
-            stringArray[0] = strings.replace(" ", StringUtils.EMPTY);
+            stringArray[0] = strings.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY);
             stringArray[1] = strings;
             frequencyListValue.add(stringArray);
         }
@@ -402,7 +402,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
         if (!listSize.isEmpty()) {
             for (int i = 0; i < listSize.size(); i++) {
                 String value = listSize.get(i)[0];
-                listSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
+                listSize.get(i)[0] = value.replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY).trim();
                 if (i != listSize.size() - 1) {
                     deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                 } else {

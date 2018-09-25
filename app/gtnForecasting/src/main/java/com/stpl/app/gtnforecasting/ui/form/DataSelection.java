@@ -108,7 +108,6 @@ public class DataSelection extends ForecastDataSelection {
 	private boolean dedCustomChange = false;
 	private boolean reloadAfterUpdate = false;
 	private boolean valid = true;
-	private LazyContainer discountDdlbLazyContainer;
 	private final CompanyDdlbDto discountDdlbDefault = new CompanyDdlbDto(0, SELECT_ONE, true);
 	private CompanyDdlbDto discountDTO = null;
 	private final List<Integer> customerBeanList = new ArrayList<>();
@@ -1532,13 +1531,13 @@ public class DataSelection extends ForecastDataSelection {
 			projectionDetailsSid.addAll((List<Integer>) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil
 					.getQuery("getProjectionDetailsQuery").replace("@HIERARCHY_TABLE", "PROJECTION_CUST_HIERARCHY")
 					.replace("@PROJECTION_SID", String.valueOf(session.getProjectionId()))
-					.replace("@HIERARCHYNO", CommonUtils.CollectionToString(customerRemovedLevels, true))));
+					.replace("@HIERARCHYNO", CommonUtils.collectionToStringMethod(customerRemovedLevels, true))));
 		}
 		if (!productRemovedLevels.isEmpty()) {
 			projectionDetailsSid.addAll((List<Integer>) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil
 					.getQuery("getProjectionDetailsQuery").replace("@HIERARCHY_TABLE", "PROJECTION_PROD_HIERARCHY")
 					.replace("@PROJECTION_SID", String.valueOf(session.getProjectionId()))
-					.replace("@HIERARCHYNO", CommonUtils.CollectionToString(productRemovedLevels, true))));
+					.replace("@HIERARCHYNO", CommonUtils.collectionToStringMethod(productRemovedLevels, true))));
 		}
 		if (!customerRemovedLevels.isEmpty()) {
 			dsLogicProj.deleteTempOnUpdate("PROJECTION_CUST_HIERARCHY", session.getProjectionId(),
@@ -1569,7 +1568,7 @@ public class DataSelection extends ForecastDataSelection {
 				Constant.CUSTOMER1_SMALL, session.getProjectionId());
 
 		if (!projectionDetailsSid.isEmpty()) {
-			deleteProjectionDetailstable(CommonUtils.CollectionToString(projectionDetailsSid, true), propertyName);
+			deleteProjectionDetailstable(CommonUtils.collectionToStringMethod(projectionDetailsSid, true), propertyName);
 		}
 	}
 
@@ -4372,7 +4371,7 @@ public class DataSelection extends ForecastDataSelection {
 
 	private void loadDiscountDdlb(int discountSid, CompanyDdlbDto selectedDiscountDdlbDto) {
 		LOGGER.debug("Entering loadDiscountDDLB method");
-		discountDdlbLazyContainer = new LazyContainer(CompanyDdlbDto.class,
+		LazyContainer discountDdlbLazyContainer = new LazyContainer(CompanyDdlbDto.class,
 				new CompanyDdlbDao(Constant.DISCOUNT_SMALL, discountDdlbDefault, selectedDiscountDdlbDto),
 				new CompanyDdlbCriteria());
 		discount.setPageLength(NumericConstants.SEVEN);

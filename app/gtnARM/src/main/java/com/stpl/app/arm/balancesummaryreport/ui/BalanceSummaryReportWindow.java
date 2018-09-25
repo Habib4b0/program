@@ -247,7 +247,7 @@ public class BalanceSummaryReportWindow extends Window {
         tabSheet.setSelectedTab(position - 1);
     }
 
-    public void configurePermission() {
+    private void configurePermission() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent()
                 .getAttribute(ConstantsUtils.USER_ID));

@@ -88,7 +88,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
     private final Map<String, Object> excelParentRecords = new HashMap();
     public static final String SID = "SID";
     private final SessionDTO sessionDTO;
-    private boolean spFlag = true;
 
     public static final String SELECT_LEVEL_LABEL = "-Select Level-";
     public static final String SELECT_ALL_LABEL = "Select All";
@@ -195,7 +194,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             getExcelSalesCommercial();
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             excelTable.setDoubleHeaderVisible(false);
-            ForecastUI.setEXCEL_CLOSE(true);
+            ForecastUI.setEXCELCLOSE(true);
             ExcelExport exp = null;
             int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
             if ((QUARTERLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())) || MONTHLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())))) {
@@ -235,7 +234,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-                    ForecastUI.setEXCEL_CLOSE(true);
+                    ForecastUI.setEXCELCLOSE(true);
                      Map<String, String> formatterMap = new HashMap<>();
                      formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
                      formatterMap.put(UNIT_NO_DECIMAL, UNITS);
@@ -533,7 +532,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
     }
     public void checkSpFrequency(){
-        spFlag = true;
+        boolean spFlag = true;
         if(spFlag && (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue()))){            
             spFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
@@ -1071,7 +1070,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             levelFilterDdlbChangeOption(true);
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             excelTable.setDoubleHeaderVisible(false);
-            ForecastUI.setEXCEL_CLOSE(true);
+            ForecastUI.setEXCELCLOSE(true);
             ExcelExport exp = null;
             int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
             if ((QUARTERLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())) || MONTHLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())))) {
@@ -1093,7 +1092,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     }
                     
                     
-                    ForecastUI.setEXCEL_CLOSE(true);
+                    ForecastUI.setEXCELCLOSE(true);
                     Map<String, String> formatterMap = new HashMap<>();
                     formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
                     formatterMap.put(UNIT_NO_DECIMAL, UNITS);

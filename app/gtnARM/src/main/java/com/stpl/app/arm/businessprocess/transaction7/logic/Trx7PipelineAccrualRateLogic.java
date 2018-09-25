@@ -37,15 +37,15 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
     public static final Logger LOGGERFORRATESTAB = LoggerFactory.getLogger(Trx7PipelineAccrualRateLogic.class);
 
     @Override
-    public int getCount(Criteria criteria) {
-        return (int) getRateQuery((AbstractSelectionDTO) criteria.getSelectionDto(), criteria.getParent(), true, 0, 0, 0, 0);
+    public int getCount(Criteria tr7Criteria) {
+        return (int) getRateQuery((AbstractSelectionDTO) tr7Criteria.getSelectionDto(), tr7Criteria.getParent(), true, 0, 0, 0, 0);
     }
 
     @Override
-    public DataResult<T> getData(Criteria criteria) {
-        List result = (List) getRateQuery((AbstractSelectionDTO) criteria.getSelectionDto(), criteria.getParent(), false, criteria.getStart(), criteria.getOffset(), 0, 0);
+    public DataResult<T> getData(Criteria tr7Criteria) {
+        List tr7Result = (List) getRateQuery((AbstractSelectionDTO) tr7Criteria.getSelectionDto(), tr7Criteria.getParent(), false, tr7Criteria.getStart(), tr7Criteria.getOffset(), 0, 0);
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
-        dataResult.setDataResults(result);
+        dataResult.setDataResults(tr7Result);
         return dataResult;
     }
 
@@ -109,7 +109,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
                 dto.setLevelNo(selection.getLevelNo());
             }
             if (!ARMUtils.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
-                dto.addStringProperties(String.valueOf(obj[0]) + "." + columnList.indexOf(String.valueOf(obj[0])), decimalformat.format(Double.valueOf(obj[NumericConstants.TWO] == null ? "0" : String.valueOf(obj[NumericConstants.TWO]))) + "%");
+                dto.addStringProperties(String.valueOf(obj[0]) + ARMUtils.DOT + columnList.indexOf(String.valueOf(obj[0])), decimalformat.format(Double.valueOf(obj[NumericConstants.TWO] == null ? "0" : String.valueOf(obj[NumericConstants.TWO]))) + ARMUtils.CHAR_PERCENT);
             }
             lastValue = String.valueOf(obj[1]);
         }
@@ -144,7 +144,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
 
             if (isCount) {
                 List count = null;
-                if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+                if ((lastParent instanceof AdjustmentDTO)) {
                     AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                     count = QueryUtils.getItemData(getQueryInput(parentDTO, selection, input, queryName), queryName, CommonConstant.TRX7_CUSTOMERPRODUCTCOUNT);
 
@@ -161,7 +161,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
                 return count != null && !count.isEmpty() && count.get(0) != null ? count.get(0) : 0;
             } else {
                 List result;
-                if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+                if ((lastParent instanceof AdjustmentDTO)) {
                     AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                     getQueryInput(parentDTO, selection, input, queryName);
                     input.addAll(new ArrayList<>(Arrays.asList(isView ? CommonConstant.ARM_DISTRIBUTION_FEES_SALES : selection.getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_DISTRIBUTION_FEES_SALES), startindex, endindex)));
@@ -300,17 +300,17 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
             }
             Object[] value = null;
             if ("Deduction".equals(selection.getRateDeductionView()) && selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
-                value = new Object[]{"D", "T", "C", "B", "I"};
+                value = ARMUtils.getDTCBI();
             } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionContractCustomer())) {
-                value = new Object[]{"D", "C", "T", "B", "I"};
+                value = ARMUtils.getDCTBI();
             } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionCustomerContract())) {
-                value = new Object[]{"D", "T", "C", "B", "I"};
+                value = ARMUtils.getDTCBI();
             } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionCustomer())) {
-                value = new Object[]{"T", "C", "B", "I"};
+                value = ARMUtils.getTCBI();
             } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionProduct())) {
-                value = new Object[]{"B", "I"};
+                value = ARMUtils.getBI();
             } else if (selection.getRateDeductionView().equals(CommonConstant.DEDUCTION_CONTRACT)) {
-                value = new Object[]{"C", "T", "B", "I"};
+                value = ARMUtils.getCTBI();
             }
             query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
             query = query.replace("@DEDCONDITION", selection.getRateDeductionLevelName());

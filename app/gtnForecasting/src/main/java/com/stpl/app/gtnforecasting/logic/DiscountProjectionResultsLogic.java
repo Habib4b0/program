@@ -109,11 +109,10 @@ public class DiscountProjectionResultsLogic {
                 if (proDetailsSid != null && !proDetailsSid.isEmpty()) {
                   
                     String freq = projSelDTO.getFrequency();
-                    String order = projSelDTO.getProjectionOrder();
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
-                    List list = new NmDiscountImpl().getDiscountProjectionResults(proDetailsSid, freq, discountString,  Constant.PARENT, order, startAndEndPeriods, user, session,viewFlag);
+                    List list = new NmDiscountImpl().getDiscountProjectionResults(proDetailsSid, freq, discountString,  Constant.PARENT,  startAndEndPeriods, user, session,viewFlag);
                     DiscountProjectionResultsDTO discountDto = null;
                     if (list != null && !list.isEmpty()) {
                         if (freq.equals(QUARTERLY.getConstant())) {
@@ -241,11 +240,11 @@ public class DiscountProjectionResultsLogic {
                     int user = Integer.parseInt(userId);
                     int session = Integer.parseInt(sessionId);
                     String freq = String.valueOf(proSelDTO.getFrequency());
-                    String discountString = CommonUtils.CollectionToString(discountList, true);
+                    String discountString = CommonUtils.collectionToStringMethod(discountList, true);
                     if (discountString.equals(StringUtils.EMPTY)) {
                         discountString = ZERO_SYMBOL;
                     }
-                    List list = new NmDiscountImpl().getAllPesriodDiscount(projectionDetailsId, freq, discountString, StringUtils.EMPTY, startAndEndPeriods, user, session);
+                    List list = new NmDiscountImpl().getAllPesriodDiscount(projectionDetailsId, freq, discountString, startAndEndPeriods, user, session);
                     if (list != null && !list.isEmpty()) {
                         if (freq.equals(QUARTERLY.getConstant())) {
                             discountProjList = getDiscountListDto(proSelDTO, list, discountProjList, Constant.Q_SMALL, discountList);
@@ -302,17 +301,16 @@ public class DiscountProjectionResultsLogic {
                 proDetailsSid = ProjectionDetailsLocalServiceUtil.dynamicQuery(projectiondetailsDynamicQuery);
                 if (proDetailsSid != null && !proDetailsSid.isEmpty()) {
                     String freq = projSelDTO.getFrequency();
-                    String order = projSelDTO.getProjectionOrder();
                     String userId = String.valueOf(projSelDTO.getUserId());
                     String sessionId = String.valueOf(projSelDTO.getSessionId());
                     int user = Integer.parseInt(userId);
                     int session = Integer.parseInt(sessionId);
-                    String discountString = CommonUtils.CollectionToString(discountList, true);
+                    String discountString = CommonUtils.collectionToStringMethod(discountList, true);
 
                     if (discountString.equals(StringUtils.EMPTY)) {
                         discountString = ZERO_SYMBOL;
                     }
-                    List list = new NmDiscountImpl().getAllPesriodDiscount(proDetailsSid, freq, discountString, order, startAndEndPeriods, user, session);
+                    List list = new NmDiscountImpl().getAllPesriodDiscount(proDetailsSid, freq, discountString, startAndEndPeriods, user, session);
                     if (list != null && !list.isEmpty()) {
                         if (freq.equals(QUARTERLY.getConstant())) {
                             discountProjList = getDiscountListDto(projSelDTO, list, discountProjList, Constant.Q_SMALL, discountList);
@@ -2975,7 +2973,7 @@ public class DiscountProjectionResultsLogic {
                 String sessionId = String.valueOf(selection.get(Constant.SESSION_ID));
                 int user = Integer.parseInt(userId);
                 int session1 = Integer.parseInt(sessionId);
-                List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, startAndEndPeriods, user, session1,viewFlag);
+                List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, StringUtils.EMPTY, Constant.PARENT, startAndEndPeriods, user, session1,viewFlag);
                 if (list != null && !list.isEmpty()) {
                     if (frequency.equals(QUARTERLY.getConstant())) {
                         double actualSales = 0;
@@ -4217,7 +4215,7 @@ public class DiscountProjectionResultsLogic {
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
-                    List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, discountString, Constant.PARENT, StringUtils.EMPTY, yearList, user, session,viewFlag);
+                    List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, discountString, Constant.PARENT, yearList, user, session,viewFlag);
                     if (list != null && !list.isEmpty()) {
                         if (frequency.equals(QUARTERLY.getConstant())) {
                             dprDto = getValueForDTO(projSelDTO, list, dprDto, Constant.Q_SMALL);
@@ -4552,10 +4550,9 @@ public class DiscountProjectionResultsLogic {
 
 
     public String getTradingPartnerLevel(int projectionMasterId) {
-        String query = "SELECT distinct RLD1.level_no from  relationship_level_definition RLD1 JOIN PROJECTION_CUST_HIERARCHY PCH "
+        return "SELECT distinct RLD1.level_no from  relationship_level_definition RLD1 JOIN PROJECTION_CUST_HIERARCHY PCH "
                 + " ON PCH.relationship_level_sid = RLD1.relationship_level_sid  AND PCH.projection_master_sid =" + projectionMasterId + StringUtils.EMPTY
                 + " WHERE RLD1.level_Name='Trading Partner'";
-        return query;
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
@@ -4577,8 +4574,7 @@ public class DiscountProjectionResultsLogic {
         String year = value.substring(value.length() - NumericConstants.FOUR, value.length());
         String mon = value.replace(year, StringUtils.EMPTY);
         String month = monthMap.get(mon);
-        String commonColumn = month + year;
-        return commonColumn;
+        return month + year;
     }
 
     private void loadMap() {
