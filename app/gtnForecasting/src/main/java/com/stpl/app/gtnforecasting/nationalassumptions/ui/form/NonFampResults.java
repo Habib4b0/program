@@ -559,11 +559,11 @@ public class NonFampResults extends Window {
             com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
-            Calendar calStartDateResults = Calendar.getInstance();
-            calStartDateResults.setTime(startDate);
-            Calendar calEndDateResults = Calendar.getInstance();
-            calEndDateResults.setTime(endDate);
             if (startDate != null && endDate != null) {
+                Calendar calStartDateResults = Calendar.getInstance();
+                calStartDateResults.setTime(startDate);
+                Calendar calEndDateResults = Calendar.getInstance();
+                calEndDateResults.setTime(endDate);
                 projectionDTO.setEndYear(calEndDateResults.get(Calendar.YEAR));
                 projectionDTO.setEndMonth(calEndDateResults.get(Calendar.MONTH) + 1);
                 projectionDTO.setHistProjYear(calStartDateResults.get(Calendar.YEAR));

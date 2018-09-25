@@ -739,11 +739,11 @@ public class FcpResults extends CustomComponent implements View {
             com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
-            Calendar calStartDateFcp = Calendar.getInstance();
-            calStartDateFcp.setTime(startDate);
-            Calendar calEndDateFcp = Calendar.getInstance();
-            calEndDateFcp.setTime(endDate);
             if (startDate != null && endDate != null) {
+                Calendar calStartDateFcp = Calendar.getInstance();
+                calStartDateFcp.setTime(startDate);
+                Calendar calEndDateFcp = Calendar.getInstance();
+                calEndDateFcp.setTime(endDate);
                 projectionDTO.setEndYear(calEndDateFcp.get(Calendar.YEAR));
                 projectionDTO.setEndMonth(calEndDateFcp.get(Calendar.MONTH) + 1);
                 projectionDTO.setHistProjYear(calStartDateFcp.get(Calendar.YEAR));

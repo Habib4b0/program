@@ -184,14 +184,9 @@ public class CommonUtils {
         SessionDTO startAndTodate = CommonUtils.getSessionDto();
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
-        Calendar calStartDateCommon = Calendar.getInstance();
-        calStartDateCommon.setTime(startDate);
-        Calendar calEndDateCommon = Calendar.getInstance();
-        calEndDateCommon.setTime(endDate);
-       
         if (startDate != null) {
-            int startYear = calStartDateCommon.get(Calendar.YEAR);
-            int endYear = calEndDateCommon.get(Calendar.YEAR);
+            int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+            int endYear = endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
             Calendar now = CommonUtils.getCalendar();
             int currentYr = now.get(Calendar.YEAR);
             int histYear = currentYr - NumericConstants.THREE;
@@ -235,18 +230,14 @@ public class CommonUtils {
         SessionDTO startAndTodate = CommonUtils.getSessionDto();
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
-          Calendar calStartDateEP = Calendar.getInstance();
-          calStartDateEP.setTime(startDate);
-          Calendar calEndDateEP = Calendar.getInstance();
-          calEndDateEP.setTime(endDate);
           if (startDate != null) {
-              int startYear = calStartDateEP.get(Calendar.YEAR);
-              int endYear = calEndDateEP.get(Calendar.YEAR);
+              int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+              int endYear = endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
               int lastPr = NumericConstants.FOUR;
-              int endMonth = calEndDateEP.get(Calendar.MONTH) + 1;
+              int endMonth = endDate.getMonth() + 1;
               int endPeriod = getQuator(endMonth);
               int years = (endYear - startYear) + 1;
-              int startMonth = calStartDateEP.get(Calendar.MONTH) + 1;
+              int startMonth = startDate.getMonth() + 1;
               int startPeriod = getQuator(startMonth);
 
               select.addItem(Constant.SELECT_ONE);
@@ -458,12 +449,8 @@ public class CommonUtils {
     }
     public static int getProjections(Date startDate, Date endDate, String frequency) {
 
-        Calendar startDateCal = Calendar.getInstance();
-        startDateCal.setTime(startDate);
-        Calendar endDateCal = Calendar.getInstance();
-        endDateCal.setTime(endDate);
         if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
-            return endDateCal.get(Calendar.YEAR) - startDateCal.get(Calendar.YEAR);
+            return endDate.getYear() - startDate.getYear();
         } else {
             Calendar startCalendar = Calendar.getInstance();
             startCalendar.setTime(startDate);
