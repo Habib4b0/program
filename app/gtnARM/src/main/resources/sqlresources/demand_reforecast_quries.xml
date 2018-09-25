@@ -709,10 +709,10 @@ WHERE  ? LIKE '?'
         <query>
             <![CDATA[
               DECLARE @PROJECTION_MASTER_SID INT = ?, 
-                    @CONTRACT_MASTER_SID      varchar(6) = '?', 
-                    @COMPANY_MASTER_SID       varchar(6) = '?', 
-                    @BRAND_MASTER_SID         varchar(6) = '?', 
-                    @RS_MODEL_SID             varchar(6) = '?',
+                    @CONTRACT_MASTER_SID      NVARCHAR(MAX) = '?', 
+                    @COMPANY_MASTER_SID       NVARCHAR(MAX) = '?', 
+                    @BRAND_MASTER_SID         NVARCHAR(MAX) = '?', 
+                    @RS_MODEL_SID             NVARCHAR(MAX) = '?',
                     @ITEM_MASTER_SID          INT = ?, 
                     @OVERRIDE_VALUE           NUMERIC(22,6) = ? 
                     ,@FREQUENCY varchar(100) = '?'
