@@ -1166,15 +1166,11 @@ public class NationalAssumptions extends CustomComponent implements View {
         com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
-        Calendar calStartDatePopulate = Calendar.getInstance();
-        calStartDatePopulate.setTime(startDate);
-        Calendar calEndDatePopulate = Calendar.getInstance();
-        calEndDatePopulate.setTime(endDate);
-        int startYear = calStartDatePopulate.get(Calendar.YEAR);
-        int endYear = calEndDatePopulate.get(Calendar.YEAR);
+        int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+        int endYear = endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
         int years = (endYear - startYear) + 1;
         int lastPr = NumericConstants.FOUR;
-        int endMonth = calEndDatePopulate.get(Calendar.MONTH) + 1;
+        int endMonth = endDate.getMonth() + 1;
         int endPeriod = getQuator(endMonth);
 
         for (int i = 0; i < years; i++) {
