@@ -100,7 +100,7 @@ public class BrandContainer implements BeanDAO<BrandMasterDTO> {
     public int count(final BeanSearchCriteria search) {
         int count = 0;
         try {
-            count = brandLogic.brandCount(category);
+            count = brandLogic.brandCount();
         } catch (Exception ex) {
              LOGGER.error(ex.getMessage());
         }

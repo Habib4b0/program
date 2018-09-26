@@ -1448,37 +1448,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         return forecastConfig;
     }
 
-    public static int getProjections(Date endDate, String frequency) {
-
-        if (frequency.equals(Constant.ANNUALLY)) {
-            return endDate.getYear() - new Date().getYear();
-        } else {
-            Calendar startCalendar = new GregorianCalendar();
-            startCalendar.setTime(new Date());
-            Calendar endCalendar = new GregorianCalendar();
-            endCalendar.setTime(endDate);
-            int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
-            int diffMonth = diffYear * NumericConstants.TWELVE + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
-            if (frequency.equals(Constant.QUARTERLY)) {
-                if (diffMonth % NumericConstants.THREE == 0) {
-                    return diffMonth / NumericConstants.THREE;
-                } else {
-                    return (diffMonth / NumericConstants.THREE) + 1;
-                }
-
-            } else if (frequency.equals(Constant.SEMIANNUALLY)) {
-                if (diffMonth % NumericConstants.SIX == 0) {
-                    return diffMonth / NumericConstants.SIX;
-                } else {
-                    return (diffMonth / NumericConstants.SIX) + 1;
-                }
-            } else if (frequency.equals(Constant.MONTHLY)) {
-                return diffMonth;
-            }
-            return 0;
-        }
-    }
-
     public void fetchDiscountsFromSave() {
         Map<Object, Object> map = CommonLogic.getNMProjectionSelection(projectionId, TAB_DISCOUNT_PROJECTION.getConstant());
         try {
