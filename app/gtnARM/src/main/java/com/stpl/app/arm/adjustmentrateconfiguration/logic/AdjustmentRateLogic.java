@@ -485,7 +485,8 @@ public class AdjustmentRateLogic {
                 LookUpDTO exRateDTO = new LookUpDTO();
                 exRateDTO.setViewMasterSid((Integer)(obj[0]));
                 exRateDTO.setViewName(String.valueOf(obj[1]));
-                exRateDTO.setCreatedBy(StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TWO])) ? CommonUtils.getUserMap().get((Integer)(obj[NumericConstants.TWO])) : StringUtils.EMPTY);
+                exRateDTO.setCreatedBy(StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TWO])) ? 
+                        CommonUtils.getUserMap().get(Integer.valueOf((String)obj[NumericConstants.TWO])) : StringUtils.EMPTY);
                 exRateDTO.setCreatedDate(CommonUtils.convertStringToDate(String.valueOf(obj[NumericConstants.THREE])));
                 resultList.add(exRateDTO);
             }

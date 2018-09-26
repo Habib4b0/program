@@ -374,7 +374,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                             return;
                         }
                         if (category.getValue().equals(CommonUtils.BRAND)) {
-                            success = udcLogic.saveBrandMaster(brandBinder, masterSid);
+                            success = udcLogic.saveBrandMaster(brandBinder);
 
                         }else if (category.getValue().equals(CommonUtils.FILE_TYPE)) {
                             success = udcLogic.saveFileTypeHelperTable(binder);
@@ -605,7 +605,7 @@ public class UdcHelperForm extends CustomComponent implements View {
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
         List<Object> resultList = new ArrayList<>();
         try {
-            resultList = new SecurityImpl().fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+            resultList = new SecurityImpl().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }

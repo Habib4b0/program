@@ -24,7 +24,7 @@ public class GroupSearchLogic extends PageTableLogic{
     public static final String CUSTOMER_INDICATOR = "C";
     public static final String PRODUCT_INDICATOR = "P";
     private boolean loadData = false;
-    private List<String> itemsOrCompanySids;
+    private List<String> itemsOrCompanySidss;
     private String groupName;
     private String groupNo;
     private String groupIdentifier;
@@ -53,7 +53,7 @@ public class GroupSearchLogic extends PageTableLogic{
     public List loadData(int start, int offset) {
         List<GroupDTO> resultList = new ArrayList<>();
         try {
-            resultList = logic.searchGroup(groupName, groupNo, itemsOrCompanySids, "searchGroup", groupIdentifier, "find", start, offset, getFilters(), getSortByColumns());
+            resultList = logic.searchGroup(groupName, groupNo, "searchGroup", groupIdentifier, "find", start, offset, getFilters(), getSortByColumns());
         } catch (SystemException ex) {
             LOGGER.error(" in loadData= {}", ex);
         }
@@ -68,7 +68,7 @@ public class GroupSearchLogic extends PageTableLogic{
     }
 
     public boolean fireSetData(List<String> itemsOrCompanySids, String groupName, String groupNo, String groupIdentifier, boolean isReset) {
-        this.itemsOrCompanySids = itemsOrCompanySids == null ? itemsOrCompanySids : new ArrayList<>(itemsOrCompanySids);
+        this.itemsOrCompanySidss = itemsOrCompanySids == null ? itemsOrCompanySids : new ArrayList<>(itemsOrCompanySids);
         this.groupName = groupName;
         this.groupIdentifier = groupIdentifier;
         this.groupNo = groupNo;
@@ -76,6 +76,7 @@ public class GroupSearchLogic extends PageTableLogic{
         setRequiredCount(true);
         loadData = !isReset;
         setCurrentPage(1);
+        LOGGER.debug("itemsOrCompanySidss{}",itemsOrCompanySidss==null ? new ArrayList():itemsOrCompanySidss);
         return getRecordCount() != 0;
     }
 
@@ -89,6 +90,7 @@ public class GroupSearchLogic extends PageTableLogic{
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
+        LOGGER.debug("itemsOrCompanySidss{}",itemsOrCompanySidss==null ? new ArrayList():itemsOrCompanySidss);
         setRefresh(BooleanConstant.getFalseFlag());
     }
 
