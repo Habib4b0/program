@@ -103,7 +103,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     private boolean generated = false;
     private boolean firstGenerated = false;
     private boolean flag = false;
-    private final int tradingPartnerNo = 0;
+    private static final int TRADING_PARTNER_NO = 0;
     private final ForecastForm form;
     private boolean isTabVisible = true;
     private final Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
@@ -530,7 +530,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 levelDdlb.setEnabled(true);
                 levelFilterDdlb.setEnabled(true);
                 projectionDTO.setIsCustomHierarchy(false);
-                projectionDTO.setTpLevel(tradingPartnerNo);
+                projectionDTO.setTpLevel(TRADING_PARTNER_NO);
                 if (CUSTOMER.getConstant().equals(String.valueOf(viewOpg.getValue()))) {
                     projectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
                     projectionDTO.setRelationshipBuilderSid(projectionDTO.getCustRelationshipBuilderSid());

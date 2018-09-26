@@ -227,17 +227,17 @@ public class MedicaidURA extends CustomComponent implements View {
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAXSPLIT_POSITION_URA = 1000;
 
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float MINSPLIT_POSITION_URA = 200;
 
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION_URA = 300;
     private final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID);
     private final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     private final NationalAssumptionsForm form;
@@ -613,9 +613,9 @@ public class MedicaidURA extends CustomComponent implements View {
     private void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        periodTableId.setSplitPosition(SPLIT_POSITION_URA, Sizeable.Unit.PIXELS);
+        periodTableId.setMinSplitPosition(MINSPLIT_POSITION_URA, Sizeable.Unit.PIXELS);
+        periodTableId.setMaxSplitPosition(MAXSPLIT_POSITION_URA, Sizeable.Unit.PIXELS);
         periodTableId.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         periodTableId.addStyleName("table-header-center");
     }
