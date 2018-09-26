@@ -24,7 +24,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger;
 import com.stpl.gtn.gtn2o.ws.queryengine.constants.GtnWsQueryEngineConstants;
 
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
@@ -133,7 +132,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 				break;
 
 			case IN_LIST:
-				query.setParameterList("inParameter", (List<Object>) params[i]);
+				query.setParameterList(GtnFrameworkWebserviceConstant.IN_PARAMETER, (List<Object>) params[i]);
 				break;
 			case BIG_DECIMAL:
 				query.setBigDecimal(i, (BigDecimal) params[i]);
@@ -192,7 +191,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 				break;
 
 			case IN_LIST:
-				query.setParameterList("inParameter", (List<Object>) params[i]);
+				query.setParameterList(GtnFrameworkWebserviceConstant.IN_PARAMETER, (List<Object>) params[i]);
 				break;
 			case BIG_DECIMAL:
 				query.setBigDecimal(i, (BigDecimal) params[i]);
@@ -232,7 +231,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 				break;
 
 			case IN_LIST:
-				query = query.replace("inParameter", String.valueOf(params[i]));
+				query = query.replace(GtnFrameworkWebserviceConstant.IN_PARAMETER, String.valueOf(params[i]));
 				break;
 			case BIG_DECIMAL:
 				query = query.replace("?", String.valueOf(params[i]));

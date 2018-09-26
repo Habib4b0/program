@@ -75,10 +75,10 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
                 strQuery.append(" AND FV.created_By = ").append(userId);
             }
             GtnFrameworkDataType[] dataType = new GtnFrameworkDataType[count];
-            logger.info("Private and public view query" + query+strQuery);
+            logger.info("Private and public view query" + query + strQuery);
 
             GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-            queryExecutorBean.setSqlQuery(query + strQuery);
+            queryExecutorBean.setSqlQuery(query+strQuery);
             queryExecutorBean.setQueryType("SCALAR");
             queryExecutorBean.setParams(params);
             queryExecutorBean.setDataType(data.toArray(dataType));
@@ -119,7 +119,6 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 
     private List<Object[]> method(List<Object[]> resultList) throws JsonParseException, JsonMappingException, IOException {
         List<Object[]> list = new ArrayList<>();
-        int j = 0;
         GtnFrameworkForecastDataSelectionBean bean = new GtnFrameworkForecastDataSelectionBean();
         Object[] ob = new Object[18];
         for (int i = 0; i < resultList.size(); i++) {
@@ -148,6 +147,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         }
         return list;
     }
+
     private GtnFrameworkForecastDataSelectionBean convertJsonToObject(Class<GtnFrameworkForecastDataSelectionBean> dataSelectionBean,
             String viewData) throws JsonParseException, JsonMappingException, IOException {
 

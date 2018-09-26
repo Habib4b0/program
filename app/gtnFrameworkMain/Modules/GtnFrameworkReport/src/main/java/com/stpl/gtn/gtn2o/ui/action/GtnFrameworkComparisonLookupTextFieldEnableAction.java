@@ -58,9 +58,11 @@ public class GtnFrameworkComparisonLookupTextFieldEnableAction
 			new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 					GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE, componentId,
 					Arrays.asList(""));
-			
+
 		} catch (NullPointerException ex) {
-			logger.error("Overlooked at landing screen component - in GtnFrameworkComparisonLookupTextFieldEnableAction= {}", ex);
+			logger.error(
+					"Overlooked at landing screen component - in GtnFrameworkComparisonLookupTextFieldEnableAction= {} : "
+							+ ex.getMessage());
 		}
 	}
 

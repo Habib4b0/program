@@ -515,8 +515,7 @@ public class QueryUtils {
     public static int getCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
@@ -631,8 +630,7 @@ public class QueryUtils {
         query = customizeItemSearchQuery(query, parameters);
         query += " ORDER BY ITEM_NAME OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
         
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
 
     private String customizeItemSearchQuery(String query, final Map<String, Object> parameters) {

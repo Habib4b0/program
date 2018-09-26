@@ -109,7 +109,6 @@ public class DiscountProjectionResultsLogic {
                 if (proDetailsSid != null && !proDetailsSid.isEmpty()) {
                   
                     String freq = projSelDTO.getFrequency();
-                    String order = projSelDTO.getProjectionOrder();
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
@@ -302,7 +301,6 @@ public class DiscountProjectionResultsLogic {
                 proDetailsSid = ProjectionDetailsLocalServiceUtil.dynamicQuery(projectiondetailsDynamicQuery);
                 if (proDetailsSid != null && !proDetailsSid.isEmpty()) {
                     String freq = projSelDTO.getFrequency();
-                    String order = projSelDTO.getProjectionOrder();
                     String userId = String.valueOf(projSelDTO.getUserId());
                     String sessionId = String.valueOf(projSelDTO.getSessionId());
                     int user = Integer.parseInt(userId);

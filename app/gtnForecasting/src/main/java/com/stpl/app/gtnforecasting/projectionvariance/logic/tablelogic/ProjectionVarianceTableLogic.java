@@ -236,7 +236,6 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
         try {
             int count = 0;
-            List<Leveldto> levelList = null;
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(getScreenName())) {
                 count = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(parentId, projSelDTO, baseVariables, true);
                 LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());

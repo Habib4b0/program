@@ -763,6 +763,7 @@ public class CommonUtil {
         
     public static List<String> getFormattedDisplayName(String hierarchyNumber, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndexValue) {
         List<String> formattedNameList = new ArrayList();
+        LOGGER.debug(" session= {} " , session);
         try {
             List<Object> relationshipListValues = relationshipDetails.get(hierarchyNumber);
             if (displayFormatConditionCheck(relationshipListValues, displayFormatIndexValue)) {

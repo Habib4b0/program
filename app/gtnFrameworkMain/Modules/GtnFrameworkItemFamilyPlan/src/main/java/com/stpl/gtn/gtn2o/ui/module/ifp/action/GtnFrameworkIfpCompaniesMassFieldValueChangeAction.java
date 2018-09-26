@@ -38,8 +38,8 @@ public class GtnFrameworkIfpCompaniesMassFieldValueChangeAction
 		GtnUIFrameworkBaseComponent ifpCompaniesMassDateField = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(componentIdList.get(0));
 		GtnUIFrameworkBaseComponent ifpCompaniesmassDropDown = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(componentIdList.get(1));
-		if (isSelectOne) {
+				.getVaadinBaseComponent(componentIdList.get(1)); 
+		if (isSelectOne) { 
 			ifpCompaniesMassDateField.setVisible(false);
 			ifpCompaniesmassDropDown.setVisible(false);
 		} else {
