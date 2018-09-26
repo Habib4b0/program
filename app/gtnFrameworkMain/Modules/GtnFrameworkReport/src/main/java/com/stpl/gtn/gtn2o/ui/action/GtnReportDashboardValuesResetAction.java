@@ -94,6 +94,7 @@ public class GtnReportDashboardValuesResetAction
 		resetAction.addActionParameter(Arrays.asList("reportingDashboard_displaySelectionTabPeriodRangeFrom",
 				"reportingDashboard_displaySelectionTabPeriodRangeTo",
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariableCategory",
+				"reportOptionsTabUnitOfMeasure",
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterTabCustomerLevel",
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabProductLevel",
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabDeductionLevel",
@@ -104,7 +105,7 @@ public class GtnReportDashboardValuesResetAction
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabDeductionInclusion",
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabDisplayFormat"));
 		resetAction.addActionParameter(
-				Arrays.asList(new Object[] { "0", "0", "", "0", "0", "0", "", "", "", "", "", "" }));
+				Arrays.asList(new Object[] { "0", "0","","0","0", "0", "0", "", "", "", "", "", "" }));
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetAction);
 
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(
