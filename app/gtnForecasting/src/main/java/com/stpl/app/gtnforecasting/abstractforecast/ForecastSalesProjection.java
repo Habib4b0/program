@@ -133,7 +133,6 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
-import java.util.Calendar;
 import java.util.Locale;
 
 /**
@@ -2453,12 +2452,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         String selectedPeriods = StringUtils.EMPTY;
         Date currentDate = projectionDTO.getSessionDTO().getForecastDTO().getProjectionStartDate();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(currentDate);
-        int projStartMonth = cal.get(Calendar.MONTH) + 1;
+        int projStartMonth = currentDate.getMonth() + 1;
         int projStartQuarter = CommonUtils.getQuarter(projStartMonth);
         int projStartSemi = CommonUtils.getSemiAnnual(projStartMonth);
-        int projStartYear = cal.get(Calendar.YEAR);
+        int projStartYear = currentDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
         String selectedFreq = projectionDTO.getFrequency();
         for (Object key : rightHeader.getDoubleProjectedColumns()) {
             if (!String.valueOf(key).equals(Constant.GROUP)) {
@@ -2506,12 +2503,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected String getSelectedProjectionPeriods() {
         String selectedPeriods = StringUtils.EMPTY;
         Date currentDate = projectionDTO.getSessionDTO().getForecastDTO().getProjectionStartDate();
-        Calendar calDate = Calendar.getInstance();
-        calDate.setTime(currentDate);
-        int projStartMonth =  calDate.get(Calendar.MONTH) + 1;
+        int projStartMonth = currentDate.getMonth() + 1;
         int projStartQuarter = CommonUtils.getQuarter(projStartMonth);
         int projStartSemi = CommonUtils.getSemiAnnual(projStartMonth);
-        int projStartYear =  calDate.get(Calendar.YEAR);
+        int projStartYear = currentDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
         String selectedFreq = projectionDTO.getFrequency();
 
         for (Map.Entry<Object, Boolean> key : checkBoxMap.entrySet()) {

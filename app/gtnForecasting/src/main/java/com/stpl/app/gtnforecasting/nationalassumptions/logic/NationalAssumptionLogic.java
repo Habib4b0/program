@@ -152,12 +152,8 @@ public class NationalAssumptionLogic {
         com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
-        Calendar calStartDateNa = Calendar.getInstance();
-        calStartDateNa.setTime(startDate);
-        Calendar calEndDateNa = Calendar.getInstance();
-        calEndDateNa.setTime(endDate);
-        int startYear = calStartDateNa.get(Calendar.YEAR);
-        int endYear = calEndDateNa.get(Calendar.YEAR);
+        int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+        int endYear = endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
         Calendar now = CommonUtils.getCalendar();
         int currentYr = now.get(Calendar.YEAR);
         int histYear = currentYr - NumericConstants.THREE;

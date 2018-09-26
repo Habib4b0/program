@@ -2245,6 +2245,7 @@ public class DataSelection extends AbstractDataSelection {
                 switch (dsButtonName) {
                     case "deleteView":
                         if ((dataSelectionDTO.getProjectionId() != 0) && (logic.deleteViewLogic(dataSelectionDTO.getProjectionId()))) {
+                            resetFields();
                             UI.getCurrent().getNavigator().navigateTo(DataSelectionView.NAME);
                         }
                         break;
