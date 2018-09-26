@@ -83,24 +83,24 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		tabSheet.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(tabSheet);
 
-		GtnUIFrameworkTabConfig displaySelectionTabConfig = new GtnUIFrameworkTabConfig();
-		displaySelectionTabConfig.setComponentId(nameSpace + "_" + "displaySelectionTabConfig");
-		displaySelectionTabConfig.setTabCaption("Display Selection");
+		GtnUIFrameworkTabConfig displaySelectionTabConfigSalesProjection = new GtnUIFrameworkTabConfig();
+		displaySelectionTabConfigSalesProjection.setComponentId(nameSpace + "_" + "displaySelectionTabConfig");
+		displaySelectionTabConfigSalesProjection.setTabCaption("Display Selection");
 		List<GtnUIFrameworkComponentConfig> displaySelectionComponentList = new ArrayList<>();
-		displaySelectionTabConfig.setTabLayoutComponentConfigList(displaySelectionComponentList);
+		displaySelectionTabConfigSalesProjection.setTabLayoutComponentConfigList(displaySelectionComponentList);
 		addDisplaySelectionTab(displaySelectionComponentList, nameSpace);
 
-		GtnUIFrameworkTabConfig filterOptionTab = new GtnUIFrameworkTabConfig();
-		filterOptionTab.setComponentId(nameSpace + "_" + "filterTab");
-		filterOptionTab.setTabCaption("Filter Option");
+		GtnUIFrameworkTabConfig filterOptionTabSalesProjection = new GtnUIFrameworkTabConfig();
+		filterOptionTabSalesProjection.setComponentId(nameSpace + "_" + "filterTab");
+		filterOptionTabSalesProjection.setTabCaption("Filter Option");
 		List<GtnUIFrameworkComponentConfig> filterComponentList = new ArrayList<>();
-		filterOptionTab.setTabLayoutComponentConfigList(filterComponentList);
+		filterOptionTabSalesProjection.setTabLayoutComponentConfigList(filterComponentList);
 		addFilterTab(filterComponentList, nameSpace);
 
-		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigList = new ArrayList<>();
-		gtnTabSheetConfigList.add(displaySelectionTabConfig);
-		gtnTabSheetConfigList.add(filterOptionTab);
-		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigList);
+		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigListSalesProjection = new ArrayList<>();
+		gtnTabSheetConfigListSalesProjection.add(displaySelectionTabConfigSalesProjection);
+		gtnTabSheetConfigListSalesProjection.add(filterOptionTabSalesProjection);
+		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigListSalesProjection);
 
 	}
 
@@ -210,11 +210,11 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		adjustmentTabConfig.setTabLayoutComponentConfigList(adjustmentComponentList);
 		addAdjustmentTab(adjustmentComponentList, nameSpace);
 
-		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigList = new ArrayList<>();
-		gtnTabSheetConfigList.add(massUpdateTabConfig);
-		gtnTabSheetConfigList.add(forecastTabConfig);
-		gtnTabSheetConfigList.add(adjustmentTabConfig);
-		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigList);
+		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigListSalesProjection = new ArrayList<>();
+		gtnTabSheetConfigListSalesProjection.add(massUpdateTabConfig);
+		gtnTabSheetConfigListSalesProjection.add(forecastTabConfig);
+		gtnTabSheetConfigListSalesProjection.add(adjustmentTabConfig);
+		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigListSalesProjection);
 	}
 
 	private void addForecastTab(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
