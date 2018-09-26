@@ -124,17 +124,18 @@ public class DataSelectionLogic {
 	 */
 	public List<HierarchyLookupDTO> getHierarchyGroup(String hierarchyName, String hierarchyType,
 			final String customerOrProduct, final String action) throws ParseException {
-
+                        String hierarchyNameGroup = hierarchyName;
+                        String hierarchyTypeGroup = hierarchyType;
 		final List<HierarchyLookupDTO> resultList = new ArrayList<>();
 
-		if (hierarchyName.contains(String.valueOf(CommonUtils.CHAR_ASTERISK))) {
-			hierarchyName = hierarchyName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		if (hierarchyNameGroup.contains(String.valueOf(CommonUtils.CHAR_ASTERISK))) {
+			hierarchyNameGroup = hierarchyNameGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 		}
-		if (hierarchyType.contains(String.valueOf(CommonUtils.CHAR_ASTERISK))) {
-			hierarchyType = hierarchyType.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		if (hierarchyTypeGroup.contains(String.valueOf(CommonUtils.CHAR_ASTERISK))) {
+			hierarchyTypeGroup = hierarchyTypeGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 		}
 
-		final List result = dataSelectionDaoImpl.getHierarchyGroup(hierarchyName, hierarchyType, customerOrProduct, action);
+		final List result = dataSelectionDaoImpl.getHierarchyGroup(hierarchyNameGroup, hierarchyTypeGroup, customerOrProduct, action);
 
 		HierarchyLookupDTO hdto;
 		for (int i = 0; i < result.size(); i++) {
@@ -257,7 +258,7 @@ public class DataSelectionLogic {
 		parameters.put("screenName", screenName);
 		result = dataSelectionDaoImpl.getInnerLevel(parameters) != null
 				|| !dataSelectionDaoImpl.getInnerLevel(parameters).isEmpty() ? dataSelectionDaoImpl.getInnerLevel(parameters)
-						: Collections.EMPTY_LIST;
+						: Collections.emptyList();
 		for (int i = 0; i < result.size(); i++) {
 			levelInnerdto = new Leveldto();
 			final Object[] innerObject = (Object[]) result.get(i);
@@ -1717,10 +1718,12 @@ public class DataSelectionLogic {
 	public int searchGroupCount(String name, String no, String indicator, String groupIdentifier,
 			String action) throws SystemException {
 		List<Object> countList = null;
+                String nameGroup = name;
+                String noGroup = no;
 		int count = 0;
-		name = name.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-		no = no.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-		final Map<String, Object> parameters = prepareSearchGroup(name, no, null, indicator, action, groupIdentifier, 0,
+		nameGroup = nameGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		noGroup = noGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		final Map<String, Object> parameters = prepareSearchGroup(nameGroup, noGroup, null, indicator, action, groupIdentifier, 0,
 				0, null, null);
 		countList = dataSelectionDaoImpl.executeQueryforchannel(parameters);
 		if (countList != null && !countList.isEmpty()) {
