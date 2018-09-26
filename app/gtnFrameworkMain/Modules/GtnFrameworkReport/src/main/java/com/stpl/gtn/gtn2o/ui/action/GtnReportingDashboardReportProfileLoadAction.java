@@ -23,8 +23,6 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportingDashboardSaveProfileLookupBean;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.ComboBox;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class GtnReportingDashboardReportProfileLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
