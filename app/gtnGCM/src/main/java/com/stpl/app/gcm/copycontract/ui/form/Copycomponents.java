@@ -545,7 +545,7 @@ public class Copycomponents extends CustomComponent {
                         flag = true;
                     } else {
                         String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_ID).getValue());
-                        ids = ids + Constants.COMMA + cfpID;
+                        ids = ids.concat(Constants.COMMA).concat(cfpID);
                     }
                 }
             }
@@ -562,7 +562,7 @@ public class Copycomponents extends CustomComponent {
                             f = true;
                         } else {
                             String company = String.valueOf(item);
-                            value = value + Constants.COMMA + company;
+                            value = value.concat(Constants.COMMA).concat(company);
                         }
                     }
                 }
@@ -588,7 +588,7 @@ public class Copycomponents extends CustomComponent {
                         flag = true;
                     } else {
                         String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_ID_COL).getValue());
-                        ids = ids + Constants.COMMA + cfpID;
+                        ids = ids.concat(Constants.COMMA).concat(cfpID);
                     }
                 }
             }
@@ -615,7 +615,7 @@ public class Copycomponents extends CustomComponent {
                         flag = true;
                     } else {
                         String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.PS_ID).getValue());
-                        ids = ids + Constants.COMMA + cfpID;
+                        ids = ids.concat(Constants.COMMA).concat(cfpID);
                     }
                 }
             }
@@ -641,7 +641,7 @@ public class Copycomponents extends CustomComponent {
                         flag = true;
                     } else {
                         String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.RS_ID).getValue());
-                        ids = ids + Constants.COMMA + cfpID;
+                        ids = ids.concat(Constants.COMMA).concat(cfpID);
                     }
                 }
             }
@@ -890,7 +890,7 @@ public class Copycomponents extends CustomComponent {
                             flag = true;
                         } else {
                             String company = String.valueOf(item);
-                            value = value + Constants.COMMA + company;
+                            value = value.concat(Constants.COMMA).concat(company);
                         }
                     }
                 }
