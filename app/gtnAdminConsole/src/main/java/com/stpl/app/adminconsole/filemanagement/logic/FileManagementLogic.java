@@ -795,9 +795,9 @@ public class FileManagementLogic {
                                                 query.append(insertQueryForInventoryDetails());
                                                
 						if (beanItem.getYear() == null || ConstantsUtils.EMPTY.equals(beanItem.getYear())) {
-							query.append("0");
+							query.append('0');
 						} else {
-							query.append("'").append(beanItem.getYear()).append("' ");
+							query.append("  '").append(beanItem.getYear()).append("'  ");
 						}
 
 						query.append(StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getMonth())) ? "," + 0
