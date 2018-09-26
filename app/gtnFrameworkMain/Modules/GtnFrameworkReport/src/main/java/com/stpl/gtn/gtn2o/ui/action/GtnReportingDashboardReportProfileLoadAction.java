@@ -73,7 +73,7 @@ public class GtnReportingDashboardReportProfileLoadAction
 
 	private void loadDataToComponent(GtnReportingDashboardSaveProfileLookupBean reportProfileSaveLookupBean,
 			List<Object> actionParamList, String viewId) throws GtnFrameworkValidationFailedException {
-
+            try{
             GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(2).toString(), viewId)
 				.loadV8MultiSelectValue();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(2).toString(), viewId).updateSelection(
@@ -119,11 +119,9 @@ public class GtnReportingDashboardReportProfileLoadAction
 						Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabCustomerLevel()).isPresent()
 								? reportProfileSaveLookupBean.getFilterOptionsTabCustomerLevel()
 								: "0");
-            try {
-                GtnUIFrameworkActionExecutor.executeSingleAction(viewId, getFilterReloadAction(actionParamList.get(11).toString(),"C","reportingDashboardTab"));
-            } catch (GtnFrameworkGeneralException ex) {
-                Logger.getLogger(GtnReportingDashboardReportProfileLoadAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
+                GtnUIFrameworkActionExecutor.executeSingleAction(viewId, getFilterReloadAction(actionParamList.get(11).toString(),"C",GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_TAB));
+             
                 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(11).toString(), viewId).updateSelection(
 				Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabCustomerFilter()).isPresent()
@@ -137,11 +135,9 @@ public class GtnReportingDashboardReportProfileLoadAction
 						Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabProductLevel()).isPresent()
 								? reportProfileSaveLookupBean.getFilterOptionsTabProductLevel()
 								: "0");
-            try {
-                GtnUIFrameworkActionExecutor.executeSingleAction(viewId,getFilterReloadAction(actionParamList.get(13).toString(),"P","reportingDashboardTab"));
-            } catch (GtnFrameworkGeneralException ex) {
-                Logger.getLogger(GtnReportingDashboardReportProfileLoadAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           
+                GtnUIFrameworkActionExecutor.executeSingleAction(viewId,getFilterReloadAction(actionParamList.get(13).toString(),"P",GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_TAB));
+            
                
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(13).toString(), viewId).updateSelection(
 				Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabProductFilter()).isPresent()
@@ -155,13 +151,10 @@ public class GtnReportingDashboardReportProfileLoadAction
 						Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabDeductionLevel()).isPresent()
 								? reportProfileSaveLookupBean.getFilterOptionsTabDeductionLevel()
 								: "0");
-            try {
-                GtnUIFrameworkActionExecutor.executeSingleAction(viewId,getFilterReloadAction(actionParamList.get(15).toString(),"D","reportingDashboardTab"));
-            } catch (GtnFrameworkGeneralException ex) {
-                Logger.getLogger(GtnReportingDashboardReportProfileLoadAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           
+                GtnUIFrameworkActionExecutor.executeSingleAction(viewId,getFilterReloadAction(actionParamList.get(15).toString(),"D",GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_TAB));
+            
                 
-
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString(), viewId)
 				.updateSelection(Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabDeductionFilter())
 						.isPresent() ? reportProfileSaveLookupBean.getFilterOptionsTabDeductionFilter()
@@ -197,6 +190,11 @@ public class GtnReportingDashboardReportProfileLoadAction
 
 		loadDataToComponentExtended(reportProfileSaveLookupBean, actionParamList, viewId);
 	}
+        catch(Exception ex)
+        {
+            gtnLogger.info("Exception in Loading the Filter Values"+ex);
+        }
+        }
         
 	private void loadDataToComponentExtended(GtnReportingDashboardSaveProfileLookupBean reportProfileSaveLookupBean,
 			List<Object> actionParamList, String viewId) throws GtnFrameworkValidationFailedException {

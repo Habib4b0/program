@@ -615,7 +615,9 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String VIEW_TYPE = "viewType";
 
 	public static final String VIEW_NAME = "viewName";
-
+        
+        public static final String REPORTING_DASHBOARD_TAB = "reportingDashboardTab";
+        
 	public static final String REPORTING_DASHBOARD_TAB_REPORT_PROFILE_CONFIG = "reportingDashboardTab_reportProfileConfig";
 
 	public static final String REPORT_PROFILE_PAGED_TABLE_COMPONENT = "reportProfilePagedTableComponent";
