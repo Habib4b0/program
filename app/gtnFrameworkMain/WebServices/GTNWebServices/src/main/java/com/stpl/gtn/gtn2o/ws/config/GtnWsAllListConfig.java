@@ -250,7 +250,7 @@ public class GtnWsAllListConfig {
 			session = sessionFactory.openSession();
 			StringBuilder sqlQuery = new StringBuilder();
 			sqlQuery.append(
-					"SELECT LIST_NAME,HELPER_TABLE_SID,DESCRIPTION  FROM HELPER_TABLE ORDER BY LIST_NAME ASC,DESCRIPTION ASC;");
+					"SELECT LIST_NAME,HELPER_TABLE_SID,DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME IS NOT NULL ORDER BY LIST_NAME ASC,DESCRIPTION ASC;");
 			List<Object[]> resultList = null;
 
 			resultList = session.createSQLQuery(sqlQuery.toString()).list();
@@ -258,7 +258,7 @@ public class GtnWsAllListConfig {
 			for (int i = 0; i < resultList.size(); i++) {
 
 				Object[] currentRow = resultList.get(i);
-
+                            
 				if (comboBoxResponseMap.get(currentRow[0].toString()) == null) {
 					GtnUIFrameworkWebserviceComboBoxResponse response = new GtnUIFrameworkWebserviceComboBoxResponse();
 					response.setKey(currentRow[0].toString());
