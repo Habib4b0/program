@@ -171,7 +171,7 @@ public class Trx7PrivatePublicLookup extends Window {
                 availableResultsContainer.removeAllItems();
                 dtoValue.setViewTypeFlag("privateView".equalsIgnoreCase(viewType));
                 dtoValue.setCreatedBy(String.valueOf(userId));
-                dtoValue.setViewName(String.valueOf(viewNameEpl));
+                dtoValue.setViewName(viewNameEpl.getValue());
                 dtoValue.setViewType(viewType);
                 dtoValue.setDetailsValue(detailsName);
                 tableLogic.configureSearchData(dtoValue, true, viewCategory);
