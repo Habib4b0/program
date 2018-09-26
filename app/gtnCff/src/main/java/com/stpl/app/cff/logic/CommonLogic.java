@@ -47,6 +47,7 @@ import com.stpl.app.cff.dao.impl.CommonDAOImpl;
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
+import static com.stpl.app.cff.logic.CFFLogic.STRING_COMMA;
 import com.stpl.app.cff.queryUtils.CFFQueryUtils;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
@@ -642,6 +643,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
+                        LOGGER.info("orderedArgs {} -->{} ",procedureName, orderedArgs[i]);
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
                 statement.executeUpdate();
@@ -679,7 +681,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             @Override
             public void run() {
                 updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "PRODUCT");
-                Object[] productInput = {sessionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId(), 0};
+                Object[] productInput = {sessionDTO.getProjectionId()+ (sessionDTO.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + sessionDTO.getPriorProjectionId()), sessionDTO.getUserId(), sessionDTO.getSessionId(), 0};
                 callProcedureUpdate(PRC_CFF_FILES_DATA_INSERT, productInput);
             }
         });
@@ -687,7 +689,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             @Override
             public void run() {
                  updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "CUSTOMER");
-                Object[] customerInput = {sessionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId(), 1};
+                Object[] customerInput = {sessionDTO.getProjectionId()+ (sessionDTO.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + sessionDTO.getPriorProjectionId()), sessionDTO.getUserId(), sessionDTO.getSessionId(), 1};
                 callProcedureUpdate(PRC_CFF_FILES_DATA_INSERT, customerInput);
             }
         });
@@ -949,10 +951,10 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             extraDot = ".";
         }
         String[] hierarchyNoArray = hierarchyNo.split("\\.");
-        String hierarchyNo1 = hierarchyNoArray[0];
+        StringBuilder hierarchyNo1 = new StringBuilder(hierarchyNoArray[0]);
         allLevelHierarchy.add(hierarchyNo1 + extraDot);
         for (int i = 1; i < hierarchyNoArray.length - 1; i++) {
-            hierarchyNo1 = hierarchyNo1 + "." + hierarchyNoArray[i];
+            hierarchyNo1.append('.').append(hierarchyNoArray[i]);
             allLevelHierarchy.add(hierarchyNo1 + extraDot);
         }
         if (!allLevelHierarchy.contains(hierarchyNo)) {
@@ -2678,7 +2680,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
      public static void loadCustomMenuBar(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues)  {
         String newLevel;
         String oldLevel = StringUtils.EMPTY;
-        String listOfSids = StringUtils.EMPTY;
+        StringBuilder listOfSids = new StringBuilder();
         CustomMenuBar.CustomMenuItem[] customerlevelItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
         customerlevelItem[0] = filterValues.addItem(new MenuItemDTO(listOfLevelFilter.get(0)[0], listOfLevelFilter.get(0)[1].toString()), null);
         customerlevelItem[0].setCheckable(true);
@@ -2690,18 +2692,18 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             Object[] obj = listOfLevelFilter.get(i);
             newLevel = obj[0].toString();
             if (oldLevel.equals(newLevel)) {
-                listOfSids += "," + obj[1];
+                listOfSids.append(',').append(obj[1]);
                 oldLevel = newLevel;
             } else {
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
-                    listOfSids = "";
+                    listOfSids = new StringBuilder();
                     customerlevelItem[i] = filterValues.addItem(dto, null);
                     customerlevelItem[i].setCheckable(true);
                     customerlevelItem[i].setItemClickable(true);
                     customerlevelItem[i].setItemClickNotClosable(true);
                 }
-                listOfSids += obj[1];
+                listOfSids.append(obj[1]);
                 oldLevel = newLevel;
             }
             if (i == listOfLevelFilter.size() - 1) {
@@ -3117,7 +3119,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     
      public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues)  {
         String oldLevel = StringUtils.EMPTY;
-        String listOfSids = StringUtils.EMPTY;
+        StringBuilder listOfSids = new StringBuilder();
         CustomMenuBar.CustomMenuItem[] customerlevelItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
         customerlevelItem[0] = filterValues.addItem(new MenuItemDTO(listOfLevelFilter.get(0)[0], listOfLevelFilter.get(0)[1].toString()), null);
         customerlevelItem[0].setCheckable(true);
@@ -3133,13 +3135,13 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
          
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
-                     listOfSids = "";
+                     listOfSids = new StringBuilder();
                     customerlevelItem[i] = filterValues.addItem(dto, null);
                     customerlevelItem[i].setCheckable(true);
                     customerlevelItem[i].setItemClickable(true);
                     customerlevelItem[i].setItemClickNotClosable(true);
                 }
-                listOfSids += obj[2];
+                listOfSids.append(obj[2]);
                 oldLevel = newLevel;
         
             if (i == listOfLevelFilter.size() - 1) {

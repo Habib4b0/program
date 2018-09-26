@@ -1,9 +1,14 @@
 package com.stpl.gtn.gtn2o.ui.module.ifp.config;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.LinkedList;
 import java.util.List;
-import org.junit.*;
-import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 
 /**
@@ -11,26 +16,22 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 public class GtnFrameworkIfpInformationTabConfigTest {
 
 	@Test
-	public void testGtnFrameworkIfpInformationTabConfig_1()
+	public void testGtnFrameworkIfpInformationTabConfig()
 		throws Exception {
 		GtnFrameworkIfpInformationTabConfig result = new GtnFrameworkIfpInformationTabConfig();
 		assertNotNull(result);
-		// add additional test code here
 	}
 
 	@Test
-	public void testAddIFPInformationTab_1()
+	public void testAddIFPInformationTab()
 		throws Exception {
 		GtnFrameworkIfpInformationTabConfig fixture = new GtnFrameworkIfpInformationTabConfig();
 		List<GtnUIFrameworkComponentConfig> componentList = new LinkedList();
 
 		fixture.addIFPInformationTab(componentList);
-
-		// add additional test code here
 	}
 
 	@Before
@@ -45,7 +46,4 @@ public class GtnFrameworkIfpInformationTabConfigTest {
 		// Add additional tear down code here
 	}
 
-	public static void main(String[] args) {
-		new org.junit.runner.JUnitCore().run(GtnFrameworkIfpInformationTabConfigTest.class);
-	}
 }
