@@ -3609,29 +3609,6 @@ public class MProjectionResultsLogic {
     }
 
 
-    public static List<String> getProgramCodeName(int projectionId) {
-        List<String> strList = new ArrayList<>();
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeNameQuery(projectionId));
-        if (list != null && !list.isEmpty()) {
-            strList = CommonUtils.objectListToStringList(list);
-        }
-        return strList;
-    }
-
-    private static String getProgramCodeNameQuery(int projectionId) {
-        String customSQL = "SELECT\n"
-                + "    CM.CONTRACT_NAME\n"
-                + "FROM\n"
-                + "    dbo.PROJECTION_MASTER pm\n"
-                + "    JOIN dbo.RELATIONSHIP_LEVEL_DEFINITION rl ON rl.RELATIONSHIP_BUILDER_SID = pm.CUST_RELATIONSHIP_BUILDER_SID\n"
-                + "    JOIN dbo.CONTRACT_MASTER CM ON CM.CONTRACT_MASTER_SID = rl.RELATIONSHIP_LEVEL_VALUES\n"
-                + "    Join PROJECTION_CUST_HIERARCHY PCM ON  pm.PROJECTION_MASTER_SID=PCM.PROJECTION_MASTER_SID AND PCM.RELATIONSHIP_LEVEL_SID=rl.RELATIONSHIP_LEVEL_SID\n"
-                + "WHERE\n"
-                + "    pm.PROJECTION_MASTER_SID = " + projectionId + "\n"
-                + "    AND rl.LEVEL_NAME = 'Contract'";
-        return customSQL;
-    }
-
     private int getProgramCodeCount(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException{
         CommonLogic commonLogic = new CommonLogic();
         String sql = commonLogic.insertAvailableHierarchyNo(projectionSelectionDTO);

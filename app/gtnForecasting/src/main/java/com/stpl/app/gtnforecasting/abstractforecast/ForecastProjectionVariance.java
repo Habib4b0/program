@@ -589,7 +589,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     public void generate(Button.ClickEvent event)  {
         try {
             if (!sessionDTO.getDsFrequency().equals(frequency.getValue()) || !sessionDTO.getDataSelectionDeductionLevel().equals(String.valueOf(deductionlevelDdlb.getValue()))) {
-                sessionDTO.setFunctionMode(sessionDTO.getAction().toLowerCase(Locale.ENGLISH).equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+                sessionDTO.setFunctionMode(sessionDTO.getAction().equalsIgnoreCase(Constant.ADD_FULL_SMALL) ? "G" : "E");
                 sessionDTO.setDsFrequency(String.valueOf(frequency.getValue()));
                 sessionDTO.setDataSelectionDeductionLevel(String.valueOf(deductionlevelDdlb.getValue()));
                 new DataSelectionLogic().nmSalesViewsPopulationProcedure(sessionDTO);

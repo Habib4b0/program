@@ -470,7 +470,7 @@ public class CommonLogic {
     public static List<Leveldto> getConditionalLevelList(int projectionId, String tabName, int start, int offset, String hierarchyIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isExpand, boolean isCustom, int customId, String userGroup, int userId, int sessionId, String custRelSid, String prodRelSid, boolean isCount, boolean isLimit, List<String> discountList, ProjectionSelectionDTO projSelDTO) {
         List<Leveldto> listValue = new ArrayList<>();
         try {
-            String query = getLevelListQuery(projectionId, tabName, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, isExpand, isCount, start, offset, isLimit, isCustom, customId, userGroup, userId, sessionId, custRelSid, prodRelSid, discountList, projSelDTO);
+            String query = getLevelListQuery(projectionId, tabName, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, isExpand, isCount, start, offset, isLimit, isCustom, customId, userGroup,  sessionId, custRelSid, prodRelSid, discountList, projSelDTO);
             if (StringUtils.isNotBlank(query)) {
                 List<Object> list = (List<Object>) executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
                 if (list != null && !list.isEmpty()) {
@@ -490,7 +490,8 @@ public class CommonLogic {
     public static int getLevelListCount(int projectionId, String tabName, String hierarchyIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isCustom, int customId, String userGroup, int userId, int sessionId, String custRelSid, String prodRelSid, List<String> discountList, ProjectionSelectionDTO projSelDTO) {
         int count = 0;
         try {
-            String query = getLevelListQuery(projectionId, tabName, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, false, true, 0, 0, false, isCustom, customId, userGroup, userId, sessionId, custRelSid, prodRelSid, discountList, projSelDTO);
+            LOGGER.debug("{}", userId);
+            String query = getLevelListQuery(projectionId, tabName, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, false, true, 0, 0, false, isCustom, customId, userGroup, sessionId, custRelSid, prodRelSid, discountList, projSelDTO);
             List<Object> list = null;
             if (!query.equals(StringUtils.EMPTY)) {
                 list = (List<Object>) executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -507,7 +508,7 @@ public class CommonLogic {
 
     public static String getLevelListQuery(int projectionId, String tabName, String hierarchyIndicator, int levelNo, String hierarchyNo, String productHierarchyNo,
             String customerHierarchyNo, boolean isFilter, boolean isExpand, boolean isCount, int start, int offset, boolean isLimit, boolean isCustom, int customId,
-            String userGroup, int userId, int sessionId, String custRelSid, String prodRelSid, List<String> discountList, ProjectionSelectionDTO projSelDTO) {
+            String userGroup,  int sessionId, String custRelSid, String prodRelSid, List<String> discountList, ProjectionSelectionDTO projSelDTO) {
         String hierarchyIndic = hierarchyIndicator;
         if (isCustom) {
             String hierarchyIndicQuery = "select HIERARCHY_INDICATOR from dbo.CUSTOM_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID=" + customId + " and LEVEL_NO=" + levelNo;
@@ -665,7 +666,7 @@ public class CommonLogic {
     }
 
     public static String getHierarchyLevelsQuery(int projectionId, String hierarchyIndicator, int levelNo, String userGroup, int userId, int sessionId, String relationshipBuilderSid) {
-
+         LOGGER.debug(" userId= {} " , userId);
         String customSql;
         String tableName = getViewTableName(hierarchyIndicator);
         String mainSelect = "SELECT HLD.level_no, HLD.level_no as TREE_LEVEL_NO,'" + hierarchyIndicator + "' as HIERARCHY_INDICATOR,HLD.LEVEL_NAME,HLD.relationship_level_values,HLD.PARENT_NODE,HLD.HIERARCHY_NO ";
@@ -859,7 +860,7 @@ public class CommonLogic {
     }
 
     public static void callProcedureforUpdate(String procedureName, Object[] orderedArgs) {
-        LOGGER.debug("Procedure Name= {} " , procedureName);
+        LOGGER.info("Procedure Name= {} " , procedureName);
         GtnSqlUtil.procedureCallService(getQuery(procedureName, orderedArgs), orderedArgs);
 
     }

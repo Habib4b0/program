@@ -719,7 +719,8 @@ AS
                                      RS_MODEL_SID,
                                      PERIOD_SID,
                                      PROJECTION_AMOUNT,
-                                     SUM_PROJECTION*100 PROJECTION_RATE,
+                                     CASE WHEN CALCULATION_TYPE IS NULL THEN 0
+                                           ELSE  SUM_PROJECTION*100 END PROJECTION_RATE,
                                      PROJECTION_REBATE_PER_UNIT,
                                      NET_CALCULATED_SALES,
                                      NET_UNITS,

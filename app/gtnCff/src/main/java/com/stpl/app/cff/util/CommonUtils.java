@@ -675,7 +675,7 @@ public class CommonUtils {
                 approvalDetails.put(cffApprovalDetails.getCffMasterSid(), s);
             } else {
                 s = approvalDetails.get(cffMasterId);
-                s = s + "," + userInfo.get(DataTypeConverter.convertIntegerToLong(cffApprovalDetails.getApprovedBy()));
+                s = s.concat(",").concat(userInfo.get(DataTypeConverter.convertIntegerToLong(cffApprovalDetails.getApprovedBy())));
                 approvalDetails.put(cffApprovalDetails.getCffMasterSid(), s);
             }
 
