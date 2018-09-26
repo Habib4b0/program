@@ -48,7 +48,7 @@
 			<version>${gtnFrameworkComponentRepository.version}</version>
 			<scope>provided</scope>
 		</dependency>
-				<dependency>
+<!--				<dependency>
                     <groupId>com.stpl.app</groupId>
                     <artifactId>gtnforecasting</artifactId>
                     <version>1.0</version>
@@ -58,7 +58,7 @@
                     <artifactId>gtnUtility</artifactId>
                     <version>1.0</version>
                     <scope>provided</scope>
-                </dependency>
+                </dependency>-->
                 
 	</dependencies>
 

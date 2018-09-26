@@ -5,7 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.registry.action;
 
-import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -54,7 +53,7 @@ public class GtnFrameworkNewToOldArchitectureDeleteAction implements GtnUIFrameW
             GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
             inputBean.setUserId(userId);
             inputBean.setSessionId(sessionId);
-            ForecastUI ui = new ForecastUI();
+//            ForecastUI ui = new ForecastUI();
             String nameSpace = "Commercial Forecasting";
 //            ui.getForecastingToDelete(inputBean);
             GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();

@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
-import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -90,8 +89,8 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
                     gtnUIFrameWorkActionConfig.getActionParameterList(), selectedCustomerList, selectedProductList,
                     componentId,parametersForDataSelection);
 
-            ForecastUI ui = new ForecastUI();
-            ui.getContentForecasting(userId, uniqueId, parametersForDataSelection, dto);
+//            ForecastUI ui = new ForecastUI();
+//            ui.getContentForecasting(userId, uniqueId, parametersForDataSelection, dto);
 
         } catch (Exception ex) {
             logger.error("Error", ex);

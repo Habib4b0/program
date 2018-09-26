@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
-import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +43,7 @@ public class GtnFrameworkForecastEditAction
 			GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
 			inputBean.setUserId(userId);
 			inputBean.setSessionId(sessionId);
-			ForecastUI ui = new ForecastUI();
+//			ForecastUI ui = new ForecastUI();
 //			if (actionParamsList.get(2).equals("View")) {
 //				ui.getForecastingToView(inputBean, userId, sessionId);
 //			} else {
