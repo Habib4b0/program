@@ -58,7 +58,6 @@ import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -739,15 +738,11 @@ public class FcpResults extends CustomComponent implements View {
             com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
-            Calendar calStartDateFcp = Calendar.getInstance();
-            calStartDateFcp.setTime(startDate);
-            Calendar calEndDateFcp = Calendar.getInstance();
-            calEndDateFcp.setTime(endDate);
             if (startDate != null && endDate != null) {
-                projectionDTO.setEndYear(calEndDateFcp.get(Calendar.YEAR));
-                projectionDTO.setEndMonth(calEndDateFcp.get(Calendar.MONTH) + 1);
-                projectionDTO.setHistProjYear(calStartDateFcp.get(Calendar.YEAR));
-                projectionDTO.setHistProjMonth(calStartDateFcp.get(Calendar.MONTH) + 1);
+                projectionDTO.setEndYear(endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
+                projectionDTO.setEndMonth(endDate.getMonth() + 1);
+                projectionDTO.setHistProjYear(startDate.getYear() +  NumericConstants.ONE_NINE_ZERO_ZERO);
+                projectionDTO.setHistProjMonth(startDate.getMonth() + 1);
                 projectionDTO.setProjectionNum(CommonUtils.getProjections(new Date(), endDate, ANNUALLY.getConstant()));
             }
             tablePanel.setCaption(view.getValue().toString() + SPACE.getConstant() + PIVOT_VIEW.getConstant());
