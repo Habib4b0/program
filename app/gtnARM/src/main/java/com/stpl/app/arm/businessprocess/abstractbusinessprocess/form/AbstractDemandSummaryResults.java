@@ -188,7 +188,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     }
 
     public void generateButtonLogic(String[] columns) {
-        isGenarate = false;
+        isGenarate = true;
         tableColumns = CommonLogic.getInstance().getStringArrayCloned(columns);
         Map properties = new HashMap();
         String view = String.valueOf(customerProductView.getValue());

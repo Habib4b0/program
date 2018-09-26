@@ -85,7 +85,7 @@ public class CFFQueryUtils {
             return approvedDetailsSids;
         } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
     }
 
