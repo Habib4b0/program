@@ -1,9 +1,14 @@
 package com.stpl.gtn.gtn2o.ui.module.ifp.config;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.LinkedList;
 import java.util.List;
-import org.junit.*;
-import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 
 /**
@@ -11,11 +16,10 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 public class GtnFrameworkIfpItemsTabConfigTest {
 
 	@Test
-	public void testGtnFrameworkIfpItemsTabConfig_1()
+	public void testGtnFrameworkIfpItemsTabConfig()
 		throws Exception {
 		GtnFrameworkIfpItemsTabConfig result = new GtnFrameworkIfpItemsTabConfig();
 		assertNotNull(result);
@@ -23,14 +27,13 @@ public class GtnFrameworkIfpItemsTabConfigTest {
 	}
 
 	@Test
-	public void testAddItemsTab_1()
+	public void testAddItemsTab()
 		throws Exception {
+		
 		GtnFrameworkIfpItemsTabConfig fixture = new GtnFrameworkIfpItemsTabConfig();
 		List<GtnUIFrameworkComponentConfig> componentList = new LinkedList<GtnUIFrameworkComponentConfig>();
-
 		fixture.addItemsTab(componentList);
 
-		// add additional test code here
 	}
 
 	@Test
@@ -41,7 +44,6 @@ public class GtnFrameworkIfpItemsTabConfigTest {
 
 		List<GtnUIFrameworkComponentConfig> result = fixture.createTableFieldFactoryComponents(propertyIds);
 
-		// add additional test code here
 		assertNotNull(result);
 	}
 
@@ -77,7 +79,6 @@ public class GtnFrameworkIfpItemsTabConfigTest {
 
 		List<GtnUIFrameworkComponentConfig> result = fixture.createTableFieldFactoryComponents(propertyIds);
 
-		// add additional test code here
 		assertNotNull(result);
 	}
 
@@ -93,7 +94,4 @@ public class GtnFrameworkIfpItemsTabConfigTest {
 		// Add additional tear down code here
 	}
 
-	public static void main(String[] args) {
-		new org.junit.runner.JUnitCore().run(GtnFrameworkIfpItemsTabConfigTest.class);
-	}
 }

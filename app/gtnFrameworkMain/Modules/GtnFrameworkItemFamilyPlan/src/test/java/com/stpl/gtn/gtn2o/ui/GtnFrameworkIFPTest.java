@@ -6,7 +6,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -31,7 +30,6 @@ import com.vaadin.ui.UI;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = { UI.class, GtnUIFrameworkGlobalUI.class })
 public class GtnFrameworkIFPTest {
