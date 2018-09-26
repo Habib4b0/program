@@ -225,16 +225,14 @@ public class SalesProjectionLogic {
             tempDate = String.valueOf(list.get(0));
 
             Date currentDate = new Date();
-            Calendar calDate = Calendar.getInstance();
-            calDate.setTime(currentDate);
             tempDate = tempDate.substring(0, NumericConstants.TEN);
             String [] temparry = tempDate.split("-");
             int fromYear = Integer.parseInt(String.valueOf(temparry[0]));
             int fromQuator = getQuator(Integer.parseInt(String.valueOf(temparry[1])));
-            int toYear = calDate.get(Calendar.YEAR);
-            int toQuator = getQuator(calDate.get(Calendar.MONTH) + 1);
+            int toYear = currentDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+            int toQuator = getQuator(currentDate.getMonth() + 1);
 
-            if (getQuator(calDate.get(Calendar.MONTH)) == 0) {
+            if (getQuator(currentDate.getMonth()) == 0) {
                 toYear = toYear - 1;
                 toQuator = NumericConstants.FOUR;
 
