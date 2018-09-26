@@ -72,8 +72,6 @@ public class SQlUtil {
         return SQlUtil.getContext().getQueryMap().get(sqlId);
     }
     
-     public static String getQuery(Class clasName,String sqlId) {
-        return SQlUtil.getContext().getQueryMap().get(sqlId);
-    }
+     
 
 }

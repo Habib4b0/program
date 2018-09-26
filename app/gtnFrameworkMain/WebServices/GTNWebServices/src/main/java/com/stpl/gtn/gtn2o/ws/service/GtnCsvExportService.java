@@ -48,7 +48,7 @@ public class GtnCsvExportService {
                 + GtnFrameworkCommonStringConstants.CSV_EXTENSION;
 
         File tempFile = GtnFileNameUtils.getFile(csvExportPath + fileName);
-        try (FileWriter writer = new FileWriter(tempFile, true); PrintWriter printWriter = new PrintWriter(writer)) {
+        try (FileWriter writer = new FileWriter(tempFile, false); PrintWriter printWriter = new PrintWriter(writer)) {
             GtnCommonUtil.createHeaderRow(printWriter, csvExportBean.getHeaderList());
             int count = gtnSqlQueryEngine.executeCountQuery(csvExportBean.getCountQuery());
             int offset = GtnWsNumericConstants.BATCH_COUNT;
