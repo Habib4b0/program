@@ -1,19 +1,22 @@
 package com.stpl.gtn.gtn2o.ui.module.ifp.constants;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.List;
-import org.junit.*;
-import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author spandan.majumder
  * @version $Revision: 1.0 
  */
 
-@Ignore
 public class GtnFrameworkIfpStringContantsTest {
 
 	@Test
-	public void testGeIfpVisibleColumnForView_1()
+	public void testGeIfpVisibleColumnForView()
 		throws Exception {
 
 		Object[] result = GtnFrameworkIfpStringContants.geIfpVisibleColumnForView();
@@ -21,7 +24,7 @@ public class GtnFrameworkIfpStringContantsTest {
 	}
 
 	@Test
-	public void testGetCopyDisabledFields_1()
+	public void testGetCopyDisabledFields()
 		throws Exception {
 
 		Object[] result = GtnFrameworkIfpStringContants.getCopyDisabledFields();
@@ -29,7 +32,7 @@ public class GtnFrameworkIfpStringContantsTest {
 	}
 
 	@Test
-	public void testGetDateFieldPropertiesList_1()
+	public void testGetDateFieldPropertiesList()
 		throws Exception {
 
 		List<String> result = GtnFrameworkIfpStringContants.getDateFieldPropertiesList();
@@ -37,7 +40,7 @@ public class GtnFrameworkIfpStringContantsTest {
 	}
 
 	@Test
-	public void testGetIfpCustomPropertyIds_1()
+	public void testGetIfpCustomPropertyIds()
 		throws Exception {
 
 		String[] result = GtnFrameworkIfpStringContants.getIfpCustomPropertyIds();
@@ -45,7 +48,7 @@ public class GtnFrameworkIfpStringContantsTest {
 	}
 
 	@Test
-	public void testGetIfpListNameArray_1()
+	public void testGetIfpListNameArray()
 		throws Exception {
 
 		String[] result = GtnFrameworkIfpStringContants.getIfpListNameArray();
@@ -53,7 +56,7 @@ public class GtnFrameworkIfpStringContantsTest {
 	}
 
 	@Test
-	public void testGetIfpVisibleHeaderForView_1()
+	public void testGetIfpVisibleHeaderForView()
 		throws Exception {
 
 		String[] result = GtnFrameworkIfpStringContants.getIfpVisibleHeaderForView();
@@ -72,7 +75,4 @@ public class GtnFrameworkIfpStringContantsTest {
 		// Add additional tear down code here
 	}
 
-	public static void main(String[] args) {
-		new org.junit.runner.JUnitCore().run(GtnFrameworkIfpStringContantsTest.class);
-	}
 }
