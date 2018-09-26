@@ -47,10 +47,7 @@ public class GtnFrameworkEmailConfigSaveAction
 		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		request.setGtnWsGeneralRequest(generalRequest);
 		request.setMailConfigurationRequest(mcRequest);
-		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-				GtnWsEMailConfigurationConstants.MAIL_CONFIG_SAVE_ACTION_SAVE
-						+ GtnWsEMailConfigurationConstants.SAVE_MAIL_CONF,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = callMailConfigSaveAction(wsclient, request);
 
 		boolean successValue = response.getGtnWsMailConfigurationResponse().isSuccess();
 		if (successValue) {
@@ -65,9 +62,16 @@ public class GtnFrameworkEmailConfigSaveAction
 
 	}
 
+    public GtnUIFrameworkWebserviceResponse callMailConfigSaveAction(final GtnUIFrameworkWebServiceClient wsclient, final GtnUIFrameworkWebserviceRequest request) {
+        return wsclient.callGtnWebServiceUrl(
+                GtnWsEMailConfigurationConstants.MAIL_CONFIG_SAVE_ACTION_SAVE
+                        + GtnWsEMailConfigurationConstants.SAVE_MAIL_CONF,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());       
+    }
+
 	@Override
 	public GtnFrameworkEmailConfigSaveAction createInstance() {
-		return new GtnFrameworkEmailConfigSaveAction();
+		return this;
 	}
 
 }

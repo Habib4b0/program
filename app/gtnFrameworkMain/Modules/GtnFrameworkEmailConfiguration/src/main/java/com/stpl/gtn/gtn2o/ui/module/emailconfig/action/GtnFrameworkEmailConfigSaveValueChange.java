@@ -47,7 +47,7 @@ public class GtnFrameworkEmailConfigSaveValueChange
 		return configurationBean;
 	}
 
-	private void processNameOnChange(final List<Object> parameters, String componentId, List<String> fieldId) {
+	public void processNameOnChange(final List<Object> parameters, String componentId, List<String> fieldId) {
 		final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
@@ -58,10 +58,7 @@ public class GtnFrameworkEmailConfigSaveValueChange
 		request.setGtnWsGeneralRequest(generalRequest);
 		request.setMailConfigurationRequest(mcRequest);
 		if (!configurationBean.getEmailNotificationTabProcessName().isEmpty()) {
-			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-					GtnWsEMailConfigurationConstants.MAIL_CONFIG_SAVE_ACTION_SAVE
-							+ GtnWsEMailConfigurationConstants.MAIL_CONFIG_COMBOBOX_ONCHANGE,
-					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebserviceResponse response = callMailConfigSaveAction(wsclient, request);
 			GtnWsEMailConfigurationBean bean = response.getGtnWsMailConfigurationResponse().geteMailConfigurationBean();
 			List<Object[]> defaultValue = bean.getComboboxOnChangeDataLoad();
 
@@ -90,6 +87,13 @@ public class GtnFrameworkEmailConfigSaveValueChange
 		}
 	}
 
+    public GtnUIFrameworkWebserviceResponse callMailConfigSaveAction(final GtnUIFrameworkWebServiceClient wsclient, final GtnUIFrameworkWebserviceRequest request) {
+        return wsclient.callGtnWebServiceUrl(
+                GtnWsEMailConfigurationConstants.MAIL_CONFIG_SAVE_ACTION_SAVE
+                        + GtnWsEMailConfigurationConstants.MAIL_CONFIG_COMBOBOX_ONCHANGE,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());   
+    }
+
 	public String replaceComma(Object emailIds) {
 		String replaceComma;
 		replaceComma = (emailIds == null || emailIds.equals("") || emailIds.equals("null")) ? ""
@@ -98,7 +102,7 @@ public class GtnFrameworkEmailConfigSaveValueChange
 	}
 
 	public GtnFrameworkEmailConfigSaveValueChange createInstance() {
-		return new GtnFrameworkEmailConfigSaveValueChange();
+		return this;
 	}
 
 }
