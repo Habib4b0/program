@@ -412,6 +412,18 @@ public class PagedTreeGrid {
 
 	}
 
+	private DataSet loadData(int start, int limit, int levelNo, String hierarchyNo) {
+		List<GtnWsRecordBean> updatedrows = new ArrayList<>();
+		if (count != 0) {
+			GtnWsSearchRequest request = GridUtils.getWsRequest(start, limit, true, INPUT,
+					Arrays.asList(levelNo, hierarchyNo), tableConfig);
+			updatedrows = FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request,
+					getComponentIdInMap());
+
+		}
+		return new DataSet(tableColumns.stream().collect(Collectors.toList()), updatedrows);
+
+	}
 	public int getTotalCount() {
 		return getLevelCount(tableConfig.getLevelNo());
 	}
@@ -439,18 +451,7 @@ public class PagedTreeGrid {
 		return FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request, getComponentIdInMap());
 	}
 
-	private DataSet loadData(int start, int limit, int levelNo, String hierarchyNo) {
-		List<GtnWsRecordBean> updatedrows = new ArrayList<>();
-		if (count != 0) {
-			GtnWsSearchRequest request = GridUtils.getWsRequest(start, limit, true, INPUT,
-					Arrays.asList(levelNo, hierarchyNo), tableConfig);
-			updatedrows = FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request,
-					getComponentIdInMap());
 
-		}
-		return new DataSet(tableColumns.stream().collect(Collectors.toList()), updatedrows);
-
-	}
 
 	/**
 	 * reloads the current page
