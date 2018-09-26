@@ -72,7 +72,7 @@ public class GtnFrameworkEmailNotificationSaveAction
 		return bean;
 	}
 
-	private void saveMailNotification(final List<Object> parameters, String componentId)
+	public void saveMailNotification(final List<Object> parameters, String componentId)
 			throws GtnFrameworkGeneralException {
 		final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 
@@ -88,10 +88,7 @@ public class GtnFrameworkEmailNotificationSaveAction
 		mcRequest.setConfigurationBean(bean);
 		request.setGtnWsGeneralRequest(generalRequest);
 		request.setMailConfigurationRequest(mcRequest);
-		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-				GtnWsEMailConfigurationConstants.MAIL_CONFIG_SAVE_ACTION_SAVE
-						+ GtnWsEMailConfigurationConstants.SAVE_MAIL_NOTIFICATION,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = callMailConfigSaveAction(wsclient, request);
 		boolean successValue = response.getGtnWsMailConfigurationResponse().isNotificationSuccess();
 
 		if (successValue) {
@@ -113,6 +110,13 @@ public class GtnFrameworkEmailNotificationSaveAction
 		}
 	}
 
+    public GtnUIFrameworkWebserviceResponse callMailConfigSaveAction(final GtnUIFrameworkWebServiceClient wsclient, final GtnUIFrameworkWebserviceRequest request) {
+         return  wsclient.callGtnWebServiceUrl(
+                GtnWsEMailConfigurationConstants.MAIL_CONFIG_SAVE_ACTION_SAVE
+                        + GtnWsEMailConfigurationConstants.SAVE_MAIL_NOTIFICATION,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());      
+    }
+
 	public String emailIdCommaReplacedWithSpace(String inputMaildId) {
 		String replacedCommaWithSpaceString = "";
 		String[] tempInput = null;
@@ -132,7 +136,7 @@ public class GtnFrameworkEmailNotificationSaveAction
 
 	@Override
 	public GtnFrameworkEmailNotificationSaveAction createInstance() {
-		return new GtnFrameworkEmailNotificationSaveAction();
+		return this;
 	}
 
 }
