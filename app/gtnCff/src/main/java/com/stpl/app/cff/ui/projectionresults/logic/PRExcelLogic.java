@@ -573,19 +573,21 @@ public class PRExcelLogic {
     }
 
     public String getFormattedValue(DecimalFormat format, String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valueNull =value;
+        if (valueNull.contains(NULL.getConstant())) {
+            valueNull = ZERO;
         } else {
-            value = format.format(Double.valueOf(value));
+            valueNull = format.format(Double.valueOf(valueNull));
         }
-        return value;
+        return valueNull;
     }
 
     public String isNull(String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valueNull =value;
+        if (valueNull.contains(NULL.getConstant())) {
+            valueNull = ZERO;
         }
-        return value;
+        return valueNull;
     }
 
     public void getTotalRawData(boolean isPivot) {
@@ -1137,18 +1139,19 @@ public class PRExcelLogic {
     }
 
     public String getFormattedValuePer(DecimalFormat format, String value) {
-        if (value.contains("null")) {
-            value = "0";
+        String valueExcel = value;
+        if (valueExcel.contains("null")) {
+            valueExcel = "0";
         }
-        Double newValue = Double.valueOf(value);
+        Double newValue = Double.valueOf(valueExcel);
         if (format.toPattern().contains("%")) {
             newValue = newValue / NumericConstants.HUNDRED;
         }
-        value = format.format(newValue);
-        value = value.replace("$", "");
-        value = value + "%";
+        valueExcel = format.format(newValue);
+        valueExcel = valueExcel.replace("$", "");
+        valueExcel = valueExcel + "%";
 
-        return value;
+        return valueExcel;
     }
 
     private void calculateAndCustomizeVariable(List<Object[]> rawList, boolean isTotal) {
