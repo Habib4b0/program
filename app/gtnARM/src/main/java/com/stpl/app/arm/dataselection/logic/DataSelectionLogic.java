@@ -966,7 +966,6 @@ public class DataSelectionLogic {
         finalQuery = finalQuery.replace("$$$$VALUE$$$$", queryBuilder.toString());
         LOGGER.debug("finalQuery - -{}", finalQuery);
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
-        LOGGER.info(list.get(0) + "");
         return Integer.parseInt(list.get(0) + StringUtils.EMPTY);
     }
 

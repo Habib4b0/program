@@ -615,6 +615,10 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         for (Map.Entry<String, Object> me : procedureInputs.entrySet()) {
             return me.getKey().equals(feild);
         }
+        return getConstant();
+    }
+
+    private boolean getConstant() {
         return true;
     }
 

@@ -144,10 +144,6 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
         return summaryRestrictLeave;
     }
 
-    public void setRestrictLeave() {
-        this.summaryRestrictLeave = summaryRestrictLeave;
-    }
-
     public void setCheckLeave(boolean checkLeave) {
         this.summaryCheckLeave = checkLeave;
     }
