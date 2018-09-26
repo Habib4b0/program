@@ -601,14 +601,9 @@ public class CommonUtils {
     }
 
     public static int getProjections(Date startDate, Date endDate, String frequency) {
-        Calendar startDateProj = Calendar.getInstance();
-        startDateProj.setTime(startDate);
-        Calendar endDateCalProj = Calendar.getInstance();
-        endDateCalProj.setTime(endDate);
-        
         if (endDate.after(startDate)) {
             if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
-               return endDateCalProj.get(Calendar.YEAR) - startDateProj.get(Calendar.YEAR);
+                return endDate.getYear() - startDate.getYear();
             } else {
                 Calendar startCalendar = Calendar.getInstance();
                 startCalendar.setTime(startDate);
@@ -693,6 +688,10 @@ public class CommonUtils {
         return ((monthNo - 1) / division) + 1;
     }
 
+    static int getPeriodFromDate(Date date, int division) {
+        return (date.getMonth() / division) + 1;
+    }
+
     public static int getStartMonth(int period, String frequency) {
 
         int month = 1;
@@ -718,6 +717,18 @@ public class CommonUtils {
             month = period;
         }
 
+        return month;
+    }
+
+    public static int getStartMonthForDate(int period, int year, String frequency, Date startDate) {
+        int startMonth = 0;
+        if ((startDate != null) && (startDate.getYear() == year)) {
+            startMonth = startDate.getMonth() + 1;
+        }
+        int month = getStartMonth(period, frequency);
+        if (startMonth != 0 && startMonth >= month) {
+            month = startMonth;
+        }
         return month;
     }
 
@@ -747,6 +758,17 @@ public class CommonUtils {
         return month;
     }
 
+    public static int getEndMonthForDate(int period, int year, String frequency, Date endDate) {
+        int endMonth = 0;
+        if ((endDate != null) && (endDate.getYear() == year)) {
+            endMonth = endDate.getMonth() + 1;
+        }
+        int month = getEndMonth(period, frequency);
+        if (endMonth != 0 && endMonth <= month) {
+            month = endMonth;
+        }
+        return month;
+    }
 
     static int getEndDay(int monthNo, int year) {
         Calendar ob = Calendar.getInstance();
