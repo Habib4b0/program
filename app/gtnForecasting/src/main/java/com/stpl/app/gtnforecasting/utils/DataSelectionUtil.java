@@ -14,18 +14,13 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
+import com.stpl.app.model.ForecastConfig;
 import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_CONTRACT;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
 import static com.stpl.app.utils.Constants.LabelConstants.MODE_SEARCH;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
-import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -48,7 +43,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
@@ -540,73 +534,34 @@ public class DataSelectionUtil {
 	public static void configureTimeDdlb(ComboBox fromPeriod, ComboBox toPeriod, Date from, Date to, final String mode,
 			String screenName) {
 		try {
-			/*Date fromDate = null;
+			Date fromDate = null;
 			Date toDate = null;
 			DataSelectionLogic logic = new DataSelectionLogic();
 			ForecastConfig forecastConfig = logic.getTimePeriod(screenName);
 			if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION)) {
-				Date currentDate = new Date();
-				currentDate.setMonth(currentDate.getMonth() - NumericConstants.SIX);
+			    Date currentDate = new Date();
+                            Calendar startDateCal = Calendar.getInstance();
+                            startDateCal.setTime(currentDate);
+				currentDate.setMonth(startDateCal.get(Calendar.MONTH) - NumericConstants.SIX);
 				fromDate = currentDate;
 				currentDate = new Date();
-				currentDate.setMonth(currentDate.getMonth() + NumericConstants.THIRTY_SIX);
+				currentDate.setMonth(startDateCal.get(Calendar.MONTH) + NumericConstants.THIRTY_SIX);
 				toDate = currentDate;
 			} else {
 				if (forecastConfig != null) {
 					fromDate = forecastConfig.getFromDate();
 					toDate = forecastConfig.getToDate();
 				}
-			}*/
-
-			GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-			GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
-			GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
-
-			serviceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
-			serviceRegistryBean.setUrl("/gtnPeriodConfigurationController/loadDate");
-			serviceRegistryBean.setModuleName("periodConfiguration");
-			GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-			//generalRequest.setUserId(session.getUserId());
-			//generalRequest.setSessionId(String.valueOf(session.getSessionId()));
-			serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
-
-			request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
-			request.setGtnWsGeneralRequest(generalRequest);
-
-			GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-					"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request,
-					RelationShipFilterLogic.getGsnWsSecurityToken());
-
-			List<String> fromPeriodItemValueList = new ArrayList<>();
-                        List<String> toPeriodItemValueList = new ArrayList<>();
-                        if (MODE_SEARCH.getConstant().equalsIgnoreCase(mode)) {
-                        fromPeriodItemValueList.add(SELECT_ONE);
-                        toPeriodItemValueList.add(SELECT_ONE);
 			}
-                        fromPeriodItemValueList.addAll(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
-			List<String> fromPeriodItemCodeList = new ArrayList<>(
-					response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
 
-			toPeriodItemValueList.add(fromPeriodItemValueList.get(fromPeriodItemValueList.size() - 1));
-
-			List<String> toPeriodItemCodeList = new ArrayList<>();
-			toPeriodItemCodeList.add(fromPeriodItemCodeList.get(fromPeriodItemCodeList.size() - 1));
-			
 			List<String> timePeriodList = new ArrayList<>();
 			if (MODE_SEARCH.getConstant().equalsIgnoreCase(mode)) {
 				timePeriodList.add(SELECT_ONE);
 			}
-			//timePeriodList.addAll(getTimePeriodList(fromDate, toDate));
-			fromPeriod.setContainerDataSource(new IndexedContainer(fromPeriodItemValueList));
-			toPeriod.setContainerDataSource(new IndexedContainer(toPeriodItemValueList));
-			fromPeriod.select(fromPeriodItemValueList.get(0));
-                        if (MODE_SEARCH.getConstant().equalsIgnoreCase(mode)) {
-                        toPeriod.select(toPeriodItemValueList.get(0));
-                        }else{
-			toPeriod.select(toPeriodItemValueList.get(toPeriodItemValueList.size()-1));
-                        }
-			/*if (forecastConfig != null) {
+			timePeriodList.addAll(getTimePeriodList(fromDate, toDate));
+			fromPeriod.setContainerDataSource(new IndexedContainer(timePeriodList));
+			toPeriod.setContainerDataSource(new IndexedContainer(timePeriodList));
+			if (forecastConfig != null) {
 				if (Constant.MONTH1
 						.equals(HelperListUtil.getInstance().getDescriptionByID(forecastConfig.getHistFreq()))
 						|| !forecastConfig.getProcessMode()) {
@@ -635,7 +590,7 @@ public class DataSelectionUtil {
 					fromPeriod.select(fromValue);
 					toPeriod.select(toValue);
 				}
-			}*/
+			}
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}
@@ -715,15 +670,19 @@ public class DataSelectionUtil {
 
 	public static void setHistoryLimit(ForecastDTO forecastDTO) {
 		Date tempDate = new Date();
-		tempDate.setMonth(tempDate.getMonth() - 1);
-		forecastDTO.setHistoryEndYear(tempDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-		forecastDTO.setHistoryEndMonth(tempDate.getMonth() + 1);
+                Calendar tempDateCal = Calendar.getInstance();
+                tempDateCal.setTime(tempDate);
+		tempDate.setMonth(tempDateCal.get(Calendar.MONTH) - 1);
+		forecastDTO.setHistoryEndYear(tempDateCal.get(Calendar.YEAR));
+		forecastDTO.setHistoryEndMonth(tempDateCal.get(Calendar.MONTH) + 1);
 		forecastDTO.setHistoryEndDate(tempDate);
 		Date tempStartDate = new Date();
-		tempStartDate.setYear(tempStartDate.getYear() - NumericConstants.THREE);
+                Calendar tempStartDateCal = Calendar.getInstance();
+                tempStartDateCal.setTime(tempDate);
+		tempStartDate.setYear(tempStartDateCal.get(Calendar.YEAR) - NumericConstants.THREE);
 		tempStartDate.setMonth(0);
-		forecastDTO.setHistoryStartYear(tempStartDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-		forecastDTO.setHistoryStartMonth(tempStartDate.getMonth());
+		forecastDTO.setHistoryStartYear(tempStartDateCal.get(Calendar.YEAR));
+		forecastDTO.setHistoryStartMonth(tempStartDateCal.get(Calendar.MONTH));
 		forecastDTO.setHistoryStartDate(tempStartDate);
 
 	}
@@ -738,12 +697,14 @@ public class DataSelectionUtil {
 		DataSelectionLogic logic = new DataSelectionLogic();
 		logic.setForcastFileDate(dataSelectionDTO);
 		if (dataSelectionDTO.getFileEndMonth() != null && dataSelectionDTO.getFileEndYear() != null) {
-			Date tempDate = new Date();
+		       Date tempDate = new Date();
+                       Calendar tempCal = Calendar.getInstance();
+                       tempCal.setTime(tempDate);
 			tempDate.setMonth(dataSelectionDTO.getFileEndMonth() - 1);
 			tempDate.setYear(dataSelectionDTO.getFileEndYear() - NumericConstants.ONE_NINE_ZERO_ZERO);
 			if (tempDate.before(dataSelectionDTO.getToDate())) {
-				forecastDTO.setProjectionEndYear(tempDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-				forecastDTO.setProjectionEndMonth(tempDate.getMonth() + 1);
+				forecastDTO.setProjectionEndYear(tempCal.get(Calendar.YEAR));
+				forecastDTO.setProjectionEndMonth(tempCal.get(Calendar.MONTH) + 1);
 				forecastDTO.setProjectionEndDate(tempDate);
 				forecastDTO.setForecastEndYear(
 						dataSelectionDTO.getToDate().getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
@@ -762,8 +723,10 @@ public class DataSelectionUtil {
 
 			DataSelectionUtil.setHistoryLimit(forecastDTO);
 			Date tempForecastDate = new Date();
-			forecastDTO.setForecastStartYear(tempForecastDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-			forecastDTO.setForecastStartMonth(tempForecastDate.getMonth() + 1);
+                        Calendar tempCalDate = Calendar.getInstance();
+                        tempCalDate.setTime(tempDate);
+			forecastDTO.setForecastStartYear(tempCalDate.get(Calendar.YEAR));
+			forecastDTO.setForecastStartMonth(tempCalDate.get(Calendar.MONTH) + 1);
 			forecastDTO.setForecastStartDate(tempForecastDate);
 			if (dataSelectionDTO.getFromDate().before(forecastDTO.getHistoryStartDate())) {
 				forecastDTO.setProjectionStartYear(

@@ -32,7 +32,6 @@ import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionUtil;
-import com.stpl.app.gtnforecasting.ui.form.DataSelectionForm;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
@@ -56,7 +55,6 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 
 /**
  * UI class of Non-Mandated.
@@ -383,59 +381,6 @@ public class ForecastUI extends UI {
             levelCaption.put(String.valueOf(strings[0]), String.valueOf(strings[1]));
         }
      return levelCaption.get(String.valueOf(deductionValue));
-    }
-    
-    public void getContentForecasting(String userId,String sessionId,List<Object> actionParamList, GtnFrameworkForecastInputBean inputBean) {
-        LOGGER.info("getContentForecasting------------------------------------------");
-        sessionDto.setUserId(inputBean.getUserId());
-        sessionDto.setSessionId(inputBean.getSessionId());
-        
-        DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
-        dataSelectionDto.setFromPeriod((String)actionParamList.get(0));
-        dataSelectionDto.setToPeriod((String)actionParamList.get(1));
-        dataSelectionDto.setProjectionName((String)actionParamList.get(2));
-        dataSelectionDto.setDescription((String)actionParamList.get(3));
-        dataSelectionDto.setCustomerRelationShipVersionNo(Integer.parseInt((String)actionParamList.get(4)));
-        dataSelectionDto.setCustomerHierVersionNo(Integer.parseInt((String)actionParamList.get(5)));
-        dataSelectionDto.setProductRelationShipVersionNo(Integer.parseInt((String)actionParamList.get(6)));
-        dataSelectionDto.setProductHierVersionNo(Integer.parseInt((String)actionParamList.get(7)));
-        dataSelectionDto.setBusinessUnitSystemId(Integer.parseInt((String)actionParamList.get(8)));
-        dataSelectionDto.setDsCustomerHierarchyBean(inputBean.getCustomerHierarchyBean());
-        dataSelectionDto.setDsProductHierarchyBean(inputBean.getProductHierarchyBean());
-        dataSelectionDto.setCustomerHierarchyLevel((String)actionParamList.get(9));
-        dataSelectionDto.setCustomerHierarchyInnerLevel((String)actionParamList.get(10));
-         dataSelectionDto.setDsCustomerSelectedTableBean(inputBean.getSelectedCustomerList());
-         dataSelectionDto.setDsProductSelectedTableBean(inputBean.getSelectedProductList());
-         dataSelectionDto.setCompanySid(String.valueOf(inputBean.getCompany()));
-         dataSelectionDto.setInputBean(inputBean);
-        DataSelectionForm form = new DataSelectionForm(sessionDto,dataSelectionDto, inputBean);
-        form.generateButtonLogicNewArch(sessionDto,inputBean);
-    }
-    
-    public void getForecastingToEdit(GtnFrameworkForecastInputBean inputBean, String userId, String sessionId){
-        sessionDto.setUserId(inputBean.getUserId());
-        sessionDto.setSessionId(inputBean.getSessionId());
-        DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
-        inputBean.setUserId(userId);
-        DataSelectionForm form = new DataSelectionForm(sessionDto, dataSelectionDto, inputBean);
-        form.editButtonLogicNewArch(inputBean);
-    }
-    
-    public void getForecastingToView(GtnFrameworkForecastInputBean inputBean, String userId, String sessionId){
-        sessionDto.setUserId(inputBean.getUserId());
-        sessionDto.setSessionId(inputBean.getSessionId());
-        DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
-        inputBean.setUserId(userId);
-        DataSelectionForm form = new DataSelectionForm(sessionDto, dataSelectionDto, inputBean);
-        form.viewButtonLogicNewArch(inputBean);
-    }
-    
-    public void getForecastingToDelete(GtnFrameworkForecastInputBean inputBean){
-        sessionDto.setUserId(inputBean.getUserId());
-        sessionDto.setSessionId(inputBean.getSessionId());
-        DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
-        DataSelectionForm form = new DataSelectionForm(sessionDto, dataSelectionDto, inputBean);
-        form.deleteButtonLogicNewArch(inputBean);
     }
 
 }
