@@ -98,7 +98,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
             inflationMasterSids.put(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo), Integer.valueOf(dto.getBranditemmasterSid()));
             levelNo++;
         } else {
-            inflationMasterSids = ARMUtils.getMasterIdsMapForTrx6();
+            inflationMasterSids = (TreeMap<String, Integer>) ARMUtils.getMasterIdsMapForTrx6();
             levelNo = 1;
             if ("Brand".equals(inflationSelection.getSaleslevelFilterValue())) {
                 levelNo = NumericConstants.TWO;
@@ -133,7 +133,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
             masterSids.put(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo), Integer.valueOf(dto.getBranditemmasterSid()));
             levelNo++;
         } else {
-            masterSids = ARMUtils.getMasterIdsMapForTrx6();
+            masterSids = (TreeMap<String, Integer>) ARMUtils.getMasterIdsMapForTrx6();
             levelNo = 1;
             if ("Brand".equals(inflationSelection.getSaleslevelFilterValue())) {
                 levelNo = NumericConstants.TWO;
@@ -172,7 +172,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
             String item = obj[0] == null ? StringUtils.EMPTY : obj[0].toString();
             if (!item.equals(lastItem)) {
                 dto = new AdjustmentDTO();
-                dto.setMasterIds((TreeMap<String, Integer>) selection.getMasterSids().clone());
+                dto.setMasterIds((TreeMap<String, Integer>) (selection.getMasterSids().clone()));
                 dto.setLevelNo(selection.getLevelNo());
                 dto.setBranditemno(obj[1].toString());
                 dto.setBranditemname(obj[1].toString());

@@ -257,8 +257,8 @@ public class AdjustmentRateLogic {
         try {
             String viewSid;
             if (saveViewDTO.isViewStatus()) {
-                sbQuery.append("Delete ARM_VIEW_DETAILS where ARM_VIEW_MASTER_SID=").append(saveViewDTO.getViewMasterSid()).append(";");
-                sbQuery.append("Update  ARM_VIEW_MASTER set FIELD_NAME='").append(saveViewDTO.getFieldName()).append("' where ARM_VIEW_MASTER_SID=").append(saveViewDTO.getViewMasterSid()).append(";");
+                sbQuery.append("Delete ARM_VIEW_DETAILS where ARM_VIEW_MASTER_SID=").append(saveViewDTO.getViewMasterSid()).append(';');
+                sbQuery.append("Update  ARM_VIEW_MASTER set FIELD_NAME='").append(saveViewDTO.getFieldName()).append("' where ARM_VIEW_MASTER_SID=").append(saveViewDTO.getViewMasterSid()).append(';');
                 viewSid = saveViewDTO.getViewMasterSid();
             } else {
                 viewSid = isSaveView(saveViewDTO);

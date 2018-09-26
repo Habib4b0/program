@@ -103,12 +103,14 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
     private Map<Integer, Integer> bsrCustomerVersionMap = new HashMap<>();
     private Map<Integer, Integer> bsrProductVersionMap = new HashMap<>();
     private List<Integer> bsrProductHierarchyLevelDefnList = new ArrayList<>();
+    private Object[] ndcVisibleColumns = new Object[]{CommonConstant.DISPLAY_VALUE, "form", "strength"};
+    private String[] ndcHeaders = new String[]{ARMUtils.NDC, "Form", "Strength"};
 
     public BalanceSummaryReportDataSelection(String screenName, SessionDTO sessionDTO) {
         super();
         this.bsrSessionDTO = sessionDTO;
         this.screenName = screenName;
-        configureFields();
+        configureReportFields();
         securityForAllScreens();
     }
 
@@ -335,9 +337,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 availableProductContainer.addAll(bsrInnerLevelValues);
                 availableProduct.setContainerDataSource(availableProductContainer);
                 if (isNdc) {
-                    Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE, "form", "strength"};
+                    Object[] obj = ndcVisibleColumns;
                     availableProduct.setVisibleColumns(obj);
-                    String[] value = new String[]{ARMUtils.NDC, "Form", "Strength"};
+                    String[] value = ndcHeaders;
                     availableProduct.setColumnHeaders(value);
                 } else {
                     Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
@@ -2449,7 +2451,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         productLevel.select(null);
     }
 
-    private void configureFields() {
+    private void configureReportFields() {
         summaryTypeDdlb.focus();
         adjustmentType.setVisible(false);
         description.setVisible(false);
