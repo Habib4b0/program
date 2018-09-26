@@ -3964,7 +3964,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         projectionSelection.setdPVariablesList(l);
         try {
-            map.put(Constant.FREQUENCY, projectionSelection.getFrequency().isEmpty() ? Constant.QUARTERLY : projectionSelection.getFrequency());
+            map.put(Constant.FREQUENCY, session.getDsFrequency());
             map.put(Constant.HISTORY, projectionSelection.getHistory());
             map.put(Constant.PROJECTION_PERIOD_ORDER_LABEL, projectionSelection.getProjectionOrder());
             map.put(Constant.ACTUALS_PROJECTIONS, projectionSelection.getActualsOrProjections());
