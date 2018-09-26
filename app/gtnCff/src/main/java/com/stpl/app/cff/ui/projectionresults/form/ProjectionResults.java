@@ -710,27 +710,28 @@ public class ProjectionResults extends ForecastProjectionResults {
     }
 
     private String getParentKeyforCustom(ProjectionResultsDTO itemId, String key, String parentKey) {
+        String parentKeyCustom = parentKey;
         if (itemId.getParentHierarchyNo() == null) {
-            parentKey = key.substring(0, key.lastIndexOf('.'));
+            parentKeyCustom = key.substring(0, key.lastIndexOf('.'));
         } else {
-            parentKey = itemId.getParentHierarchyNo();
+            parentKeyCustom = itemId.getParentHierarchyNo();
             if (projectionSelectionDTO.isIsCustomHierarchy()) {
                 String var;
-                if (parentKey.contains("~")) {
-                    String[] str = parentKey.split("~");
+                if (parentKeyCustom.contains("~")) {
+                    String[] str = parentKeyCustom.split("~");
                     var = str[str.length - 1] + "$";
-                    parentKey = var + parentKey.substring(0, parentKey.lastIndexOf('~'));
+                    parentKeyCustom = var + parentKeyCustom.substring(0, parentKeyCustom.lastIndexOf('~'));
                 } else {
-                    parentKey = key.substring(key.lastIndexOf('$') + 1);
+                    parentKeyCustom = key.substring(key.lastIndexOf('$') + 1);
                 }
-            } else if (parentKey.contains("~")) {
-                parentKey = parentKey.substring(parentKey.lastIndexOf('~') + 1);
+            } else if (parentKeyCustom.contains("~")) {
+                parentKeyCustom = parentKeyCustom.substring(parentKeyCustom.lastIndexOf('~') + 1);
                 if (!projectionSelectionDTO.isIsCustomHierarchy() || !Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(projectionSelectionDTO.getPivotView())) {
-                    parentKey = parentKey.substring(parentKey.indexOf('-') + 1);
+                    parentKeyCustom = parentKeyCustom.substring(parentKeyCustom.indexOf('-') + 1);
                 }
             }
         }
-        return parentKey;
+        return parentKeyCustom;
     }
 
     public void configurePermission() {

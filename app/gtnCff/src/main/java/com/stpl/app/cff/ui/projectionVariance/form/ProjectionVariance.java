@@ -1121,10 +1121,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     
     
     public void resetForAdd()  {
-        pvSelectionDTO.setDeductionLevelFilter(Collections.EMPTY_LIST);
-        pvSelectionDTO.setDeductionLevelCaptions(Collections.EMPTY_LIST);
-        pvSelectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
-        pvSelectionDTO.setCustomerLevelFilter(Collections.EMPTY_LIST);
+        pvSelectionDTO.setDeductionLevelFilter(Collections.emptyList());
+        pvSelectionDTO.setDeductionLevelCaptions(Collections.emptyList());
+        pvSelectionDTO.setProductLevelFilter(Collections.emptyList());
+        pvSelectionDTO.setCustomerLevelFilter(Collections.emptyList());
         unCheckMultiSelect(productFilterValues);
         unCheckMultiSelect(customerFilterValues);
         unCheckMultiSelect(deductionFilterValues);

@@ -1066,7 +1066,8 @@ public class FileManagementLogic {
 			String query1 = "SELECT FM.FORECAST_NAME,FM.FORECAST_VER,FM.\"SOURCE\",FM.COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, Max(Cast(( Cast(fm.FORECAST_YEAR AS VARCHAR(4)) + '-' + Cast(fm.FORECAST_MONTH AS VARCHAR(2))+ '-01' ) AS DATE)) AS FT_MAX_DATE, "
 					+ " Month(Min(FT_MIN_DATE)) AS MIN_MONTH,Year(Min(FT_MIN_DATE)) AS MIN_YEAR,Month(Max(Cast(( Cast(fm.FORECAST_YEAR AS VARCHAR(4)) + '-' + Cast(fm.FORECAST_MONTH AS VARCHAR(2))+ '-01' ) AS DATE))) AS MAX_MONTH, ";
 
-			String query2 = "", query = "";
+			String query2 = "";
+                        String query = "";
 
 			LOGGER.debug("getResults started with P1:String fileType= {} and P2:String country= {} and P3:String fileName= {} and P4:String type= {} and P5:String version= {} and P6:String forecastYear= {} and P7:Date fromDate= {} and P8: Date toDate= {}", resultDTO.getFileType(), resultDTO.getCountry(), fileName, type, version, resultDTO.getForecastYear(), resultDTO.getFromPeriod(), resultDTO.getToPeriod());
 			StringBuilder condition = new StringBuilder();
@@ -2242,7 +2243,8 @@ public class FileManagementLogic {
 		sqlString = sqlString.concat(" AND INW.COUNTRY LIKE'").concat(detailsResultDTO.getCountry()).concat("%'");
 		if (detailsResultDTO.getVersion().contains("~")) {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
-			int x = 0, y = 0;
+			int x = 0;
+                        int y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace('.', '~');
@@ -2375,7 +2377,8 @@ public class FileManagementLogic {
 		sqlString = sqlString.concat(" AND INW.COUNTRY LIKE'").concat(detailsResultDTO.getCountry()).concat("%'");
 		if (detailsResultDTO.getVersion().contains("~")) {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
-			int x = 0, y = 0;
+			int x = 0;
+                        int y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace('.', '~');
