@@ -429,6 +429,14 @@ public final class Constants {
         public static final String DTX_CONTRACT_CPPPO_INTERFACE = "DTX_CONTRACT_CPPPO_INTERFACE";
         
         public static final String DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE = "DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE";
+        
+        public static final String DTX_CONTRACT_PRICE_SCHEDULE_INTERFACE = "DTX_CONTRACT_PRICE_SCHEDULE_INTERFACE";
+        
+        public static final String DTX_CONTRACT_CONT_INTERFACE = "DTX_CONTRACT_CONT_INTERFACE";
+        
+        public static final String DTX_CONTRACT_REBATE_PLAN_INTERFACE = "DTX_CONTRACT_REBATE_PLAN_INTERFACE";
+        
+        public static final String DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE = "DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE";
 
 	private Constants() {
 	}

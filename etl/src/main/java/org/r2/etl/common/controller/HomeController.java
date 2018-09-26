@@ -511,6 +511,10 @@ public class HomeController {
         private static final String DTX_CONTRACT_IFP_INTERFACE = "DtxContractIFPInterface";
         private static final String DTX_CONTRACT_CPPPO_INTERFACE = "DtxContractCPPPOInterface";
         private static final String DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE = "DtxContractCpgrpPgmMktInterface";
+        private static final String DTX_CONTRACT_PRICE_SCHEDULE_INTERFACE = "DtxContractPSInterface";
+        private static final String DTX_CONTRACT_CONT_INTERFACE = "DtxContractContInterface";
+        private static final String DTX_CONTRACT_REBATE_PLAN_INTERFACE = "DtxContractRebatePlanInterface";
+        private static final String DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE = "DtxContractRebateScheduleInterface";
 
 	protected static Map<String, String[]> loaddata = new HashMap<>();
 
@@ -789,9 +793,17 @@ public class HomeController {
                         loaddata.put(DTX_CONTRACT_CPGRP_INTERFACE,
                     new String[] { Constants.DTX_CONTRACT_CPGRP_INTERFACE, FilePathUtil.DTX_CONTRACT_CPGRP_INTERFACE });
                         loaddata.put(DTX_CONTRACT_CPPPO_INTERFACE,
-                   new String[] { Constants.DTX_CONTRACT_CPPPO_INTERFACE, FilePathUtil.DTX_CONTRACT_CPPPO_INTERFACE });
+                    new String[] { Constants.DTX_CONTRACT_CPPPO_INTERFACE, FilePathUtil.DTX_CONTRACT_CPPPO_INTERFACE });
                         loaddata.put(DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE,
-                   new String[] { Constants.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE, FilePathUtil.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE });
+                    new String[] { Constants.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE, FilePathUtil.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE });
+                        loaddata.put(DTX_CONTRACT_PRICE_SCHEDULE_INTERFACE,
+                    new String[] { Constants.DTX_CONTRACT_PRICE_SCHEDULE_INTERFACE, FilePathUtil.DTX_CONTRACT_PRICE_SCHEDULE_INTERFACE });
+                        loaddata.put(DTX_CONTRACT_CONT_INTERFACE,
+                    new String[] { Constants.DTX_CONTRACT_CONT_INTERFACE, FilePathUtil.DTX_CONTRACT_CONT_INTERFACE });
+                        loaddata.put(DTX_CONTRACT_REBATE_PLAN_INTERFACE,
+                    new String[] { Constants.DTX_CONTRACT_REBATE_PLAN_INTERFACE, FilePathUtil.DTX_CONTRACT_REBATE_PLAN_INTERFACE });
+                        loaddata.put(DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE,
+                    new String[] { Constants.DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE, FilePathUtil.DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE });
                         		
 		}
 		return loaddata.get(keyValue);
@@ -824,7 +836,8 @@ public class HomeController {
 					CONTRACT_CPPT_INTERFACE, CONTRACT_CPGRP_PGMMKT_INTERFACE, CONTRACT_PRGMMKT_INTERFACE,
 					CONTRACT_CFP_MBR_INTERFACE,DTX_CONTRACT_CFP_INTERFACE,DTX_CONTRACT_HEADER_INTERFACE,
 					DTX_CONTRACT_PRICE_PLAN_INTERFACE,DTX_CONTRACT_IFP_INTERFACE,DTX_CONTRACT_CPGRP_INTERFACE,
-					DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE,DTX_CONTRACT_CPPPO_INTERFACE);
+					DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE,DTX_CONTRACT_CPPPO_INTERFACE,DTX_CONTRACT_PRICE_SCHEDULE_INTERFACE
+					,DTX_CONTRACT_CONT_INTERFACE,DTX_CONTRACT_REBATE_PLAN_INTERFACE,DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE);
 
 			List<String> transaction = Arrays.asList(ACTUALS, ACTUALS_HISTORY, ITEM_HIERARCHY, ITEM_HIERARCHY_HIS,
 					ITEM_HIER_DEF, ITEM_HIER_DEF_HIS, SALES_MASTER, SALES_MASTER_HISTORY, FORECAST, FORECAST_HIS,
