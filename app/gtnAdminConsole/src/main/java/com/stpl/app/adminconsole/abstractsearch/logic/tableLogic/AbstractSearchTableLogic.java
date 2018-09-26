@@ -28,7 +28,6 @@ public class AbstractSearchTableLogic extends PageTableLogic {
     
     private final AbstractSearchLogic searchLogic = new AbstractSearchLogic();
     private String moduleName;
-    private String searchType;
     private ErrorfulFieldGroup binder;
     private boolean isFirstLoad = false;
     private boolean isResultsEmpty;
@@ -42,7 +41,7 @@ public class AbstractSearchTableLogic extends PageTableLogic {
         int count = 0;
         try {
             if (isFirstLoad) {
-                count = searchLogic.getCountBasedOnModules(binder,0, 0, true, this.getSortByColumns(), this.getFilters(), moduleName,searchType);
+                count = searchLogic.getCountBasedOnModules(binder,0, true, this.getSortByColumns(), this.getFilters(), moduleName);
             }
             isResultsEmpty = count == 0;            
             count = isReset ? 0 : count;
@@ -57,7 +56,7 @@ public class AbstractSearchTableLogic extends PageTableLogic {
         List list = new ArrayList();
         if (isFirstLoad) {
             try {
-                list = searchLogic.getSearchResultsBasedOnModules(binder,  start, offset, false, this.getSortByColumns(), this.getFilters(), moduleName,searchType);
+                list = searchLogic.getSearchResultsBasedOnModules(binder,  start, false, this.getSortByColumns(), this.getFilters(), moduleName);
             } catch (Exception ex) {
                LOGGER.error(ex.getMessage());
             }
@@ -72,14 +71,13 @@ public class AbstractSearchTableLogic extends PageTableLogic {
         return dto;
     }
 
-    public void configureSearchData(final ErrorfulFieldGroup binder, String moduleName, String searchType) {
+    public void configureSearchData(final ErrorfulFieldGroup binder, String moduleName) {
         isFirstLoad = true;
         isReset = false;
         this.clearAll();
         this.getFilters().clear();
         this.moduleName = moduleName;
         this.binder = binder;
-        this.searchType = searchType;
         this.setRequiredCount(true);
         this.setCurrentPage(1);
     }

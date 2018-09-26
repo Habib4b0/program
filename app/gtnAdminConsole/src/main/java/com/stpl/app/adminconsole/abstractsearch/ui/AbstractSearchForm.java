@@ -435,7 +435,7 @@ public class AbstractSearchForm extends CustomComponent {
             try {
                 binder.commit();
                 searchCriteria = ConstantsUtils.SEARCH;
-                tableLogic.configureSearchData(binder, this.moduleName, searchCriteria);
+                tableLogic.configureSearchData(binder, this.moduleName);
                 resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
                 resultTable.setImmediate(true);
                 resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -480,7 +480,7 @@ public class AbstractSearchForm extends CustomComponent {
             try {
                 binder.commit();
                 searchCriteria = "auditSearch";
-                tableLogic.configureSearchData(binder, this.moduleName, searchCriteria);
+                tableLogic.configureSearchData(binder, this.moduleName);
                 resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
                 resultTable.setImmediate(true);
                 resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -786,11 +786,11 @@ public class AbstractSearchForm extends CustomComponent {
     private void loadExcelTable(String moduleName, ErrorfulFieldGroup binder, String searchCriteria) throws  ParseException, PortalException {
         excelTableBean.removeAllItems();
         if (resultTable.size() != 0) {
-            int count = searchLogic.getCountBasedOnModules(binder, 0, 0, true, null, null, moduleName, searchCriteria);
+            int count = searchLogic.getCountBasedOnModules(binder, 0, true, null, null, moduleName);
             List resultList = new ArrayList();
 
             if (count != 0) {
-                resultList = searchLogic.getSearchResultsBasedOnModules(binder, 0, count, false, null, null, moduleName, searchCriteria);
+                resultList = searchLogic.getSearchResultsBasedOnModules(binder, 0, false, null, null, moduleName);
             }
             excelTableBean.addAll(resultList);
         }
