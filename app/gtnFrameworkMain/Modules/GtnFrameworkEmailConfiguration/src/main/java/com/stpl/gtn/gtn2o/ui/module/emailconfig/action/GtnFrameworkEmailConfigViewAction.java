@@ -41,6 +41,6 @@ public class GtnFrameworkEmailConfigViewAction
 
 	@Override
 	public GtnFrameworkEmailConfigViewAction createInstance() {
-		return new GtnFrameworkEmailConfigViewAction();
+		return this;
 	}
 }

@@ -131,15 +131,15 @@ public class PPADetailsLookup extends Window {
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAXSPLIT_POSITION_PPA_LOOKUP = 1000;
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 300;
+    private static final float MINSPLIT_POSITION_PPA_LOOKUP = 300;
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION_PPA_LOOKUP = 300;
     private final BeanItemContainer<PPADetailsDTO> resultsContainer = new BeanItemContainer<>(PPADetailsDTO.class);
     private final BeanItemContainer<PPADetailsDTO> excelResultsContainer = new BeanItemContainer<>(PPADetailsDTO.class);
     private final PPAHelperDTO itemDefaultValue = new PPAHelperDTO(0, Constant.SELECT_ONE, Constant.SELECT_ONE);
@@ -199,9 +199,9 @@ public class PPADetailsLookup extends Window {
         leftTable.setVisibleColumns(HeaderUtils.getPpaDetailsVisibleColLeft());
         rightTable.setColumnHeaders(HeaderUtils.getPpaDetailsVisibleHeaderRight());
         leftTable.setColumnHeaders(HeaderUtils.getPpaDetailsVisibleHeaderLeft());
-        resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        resultsTable.setSplitPosition(SPLIT_POSITION_PPA_LOOKUP, Sizeable.Unit.PIXELS);
+        resultsTable.setMinSplitPosition(MINSPLIT_POSITION_PPA_LOOKUP, Sizeable.Unit.PIXELS);
+        resultsTable.setMaxSplitPosition(MAXSPLIT_POSITION_PPA_LOOKUP, Sizeable.Unit.PIXELS);
         rightTable.setSortEnabled(false);
         for (Object visiblecolumn : rightTable.getVisibleColumns()) {
             rightTable.setColumnWidth(visiblecolumn, NumericConstants.TWO_ZERO_EIGHT);
