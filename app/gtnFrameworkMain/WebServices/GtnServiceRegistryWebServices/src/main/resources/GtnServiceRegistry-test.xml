@@ -22,7 +22,7 @@
 		class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnValidateWsServiceRegistryService" />
 	<bean id="gtnUIServiceRegistryService"
 		class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService" />
-	       <bean id="sqlService"
+	       <!<bean id="sqlService"
 		class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnWsSqlService" />
 		<bean id="sqlPropertyBean"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean"></bean>
