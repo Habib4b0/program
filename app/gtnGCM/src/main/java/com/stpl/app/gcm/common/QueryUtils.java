@@ -178,39 +178,38 @@ public class QueryUtils {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterString = "%" + stringFilter.getFilterString() + "%";
                         if (Constants.CONTRACT_HOLDER.equals(stringFilter.getPropertyId())) {
-                            query = query + " AND CM.COMPANY_NAME like '" + filterString + "'";
+                            query = query.concat(" AND CM.COMPANY_NAME like '").concat(filterString).concat("' ");
                         }
                         if (Constants.CONTRACT_NO.equals(stringFilter.getPropertyId())) {
-                            query = query + " AND CN.CONTRACT_NO like '" + filterString + "'";
+                            query = query.concat(" AND CN.CONTRACT_NO like '").concat(filterString).concat("' ");
                         }
                         if (Constants.CFP_NAME.equals(stringFilter.getPropertyId())) {
-                            query = query + " AND  CFC.CFP_NAME like '" + filterString + "'";
+                            query = query.concat(" AND  CFC.CFP_NAME like '").concat(filterString).concat("' ");
                         }
                         if (Constants.CONTRACT_NAME.equals(stringFilter.getPropertyId())) {
-                            query = query + " AND CN.CONTRACT_NAME like '" + filterString + "'";
+                            query = query.concat(" AND CN.CONTRACT_NAME like '" ).concat(filterString ).concat("' ");
                         }
                         if (Constants.MARKET_TYPE.equals(stringFilter.getPropertyId())) {
-                            query = query + " AND HT.DESCRIPTION like '" + filterString
-                                    + "' and HT.LIST_NAME = 'CONTRACT_TYPE'";
+                            query = query.concat(" AND HT.DESCRIPTION like '").concat(filterString).concat("' and HT.LIST_NAME = 'CONTRACT_TYPE'");
                         }
                         if (Constants.IFPNAME.equals(stringFilter.getPropertyId())) {
-                            query = query + " AND IFC.IFP_NAME like '" + filterString + "'";
+                            query = query.concat(" AND IFC.IFP_NAME like '" ).concat(filterString).concat("' ");
                         }
                         if (Constants.PSNAME.equals(stringFilter.getPropertyId())) {
-                            query = query + " AND PSC.PS_NAME like '" + filterString + "'";
+                            query = query.concat(" AND PSC.PS_NAME like '").concat(filterString).concat("' ");
                         }
                         if (Constants.RSNAME.equals(stringFilter.getPropertyId())) {
-                            query = query + " AND RSC.RS_NAME like '" + filterString + "'";
+                            query = query.concat(" AND RSC.RS_NAME like '").concat(filterString).concat("' ");
                         }
                     } else if (filter instanceof Between) {
                         Between stringFilter = (Between) filter;
                         Date filterString = (Date) stringFilter.getStartValue();
                         Date filterString1 = (Date) stringFilter.getEndValue();
                         if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
-                            query = query + " AND CN.START_DATE BETWEEN  '" + dbDate.format(filterString) + "' AND '" + dbDate.format(filterString1) + "'";
+                            query = query.concat(" AND CN.START_DATE BETWEEN  '").concat(dbDate.format(filterString)).concat("' AND '").concat(dbDate.format(filterString1)).concat("' ");
                         }
                         if (Constants.END_DATE.equals(stringFilter.getPropertyId())) {
-                            query = query + " AND CN.END_DATE = '" + dbDate.format(filterString) + "' AND '" + dbDate.format(filterString1) + "'";
+                            query = query.concat(" AND CN.END_DATE = '").concat(dbDate.format(filterString)).concat("' AND '").concat(dbDate.format(filterString1)).concat("' ");
                         }
                     } else if (filter instanceof Compare) {
                         Compare stringFilter = (Compare) filter;
@@ -225,11 +224,11 @@ public class QueryUtils {
                                 operator = "<=";
                             }
                             if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
-                                query = query + " AND CN.START_DATE " + operator + " '" + dbDate.format(value) + "'  ";
+                                query = query.concat(" AND CN.START_DATE ").concat(operator).concat(" '").concat(dbDate.format(value)).concat("'  ");
 
                             }
                             if (Constants.END_DATE.equals(stringFilter.getPropertyId())) {
-                                query = query + " AND CN.END_DATE " + operator + " '" + dbDate.format(value) + "'  ";
+                                query = query.concat(" AND CN.END_DATE ").concat(operator).concat(" '").concat(dbDate.format(value)).concat("'  ");
                             }
                         }
                 }

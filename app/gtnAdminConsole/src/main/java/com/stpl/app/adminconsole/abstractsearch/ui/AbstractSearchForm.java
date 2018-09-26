@@ -435,7 +435,7 @@ public class AbstractSearchForm extends CustomComponent {
             try {
                 binder.commit();
                 searchCriteria = ConstantsUtils.SEARCH;
-                tableLogic.configureSearchData(binder, this.moduleName, searchCriteria);
+                tableLogic.configureSearchData(binder, this.moduleName);
                 resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
                 resultTable.setImmediate(true);
                 resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -480,7 +480,7 @@ public class AbstractSearchForm extends CustomComponent {
             try {
                 binder.commit();
                 searchCriteria = "auditSearch";
-                tableLogic.configureSearchData(binder, this.moduleName, searchCriteria);
+                tableLogic.configureSearchData(binder, this.moduleName);
                 resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
                 resultTable.setImmediate(true);
                 resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
