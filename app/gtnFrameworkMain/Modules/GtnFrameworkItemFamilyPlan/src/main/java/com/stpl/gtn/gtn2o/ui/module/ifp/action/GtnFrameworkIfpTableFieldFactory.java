@@ -93,11 +93,10 @@ public class GtnFrameworkIfpTableFieldFactory
 	}
 
 	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest updateRequest) {
-		GtnUIFrameworkWebserviceResponse updateResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
 						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_COMPANIES_TAB_COLUMN_UPDATE_FIELD_SERVICE,
 				updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		return updateResponse;
 	}
 
 	public void checkBoxValueChangeLogic() {
@@ -117,11 +116,10 @@ public class GtnFrameworkIfpTableFieldFactory
 
 	public GtnUIFrameworkWebserviceResponse getCheckBoxValueChangeLogicResponse(
 			GtnUIFrameworkWebserviceRequest request) {
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
 						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_COMMON_VALIDATION_SERVICE,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		return response;
 	}
 
 }
