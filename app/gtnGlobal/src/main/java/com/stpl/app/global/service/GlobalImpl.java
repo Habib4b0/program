@@ -123,7 +123,7 @@ public class GlobalImpl {
         }
     }
     
-    public List fetchFieldsForSecurity(String moduleName, String tabName, Object obj1, Object obj2, Object obj3){
+    public List fetchFieldsForSecurity(String moduleName, String tabName){
         String query = "";
         try {
             query = "SELECT DISPLAY_NAME, PROPERTY_NAME ,CATEGORY_NAME FROM MODULE_PROPERTIES WHERE MODULE_NAME = '"+moduleName+"' "

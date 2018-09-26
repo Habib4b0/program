@@ -870,7 +870,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             saveDiscountProjectionListview();
                             Object[] orderedArg = {session.getProjectionId(), session.getUserId(),
                                 session.getSessionId()};
-                            CommonLogic.callProcedure("PRC_NM_DISCOUNT_REFRESH", orderedArg);
+                            CommonLogic.callProcedureforUpdate("PRC_NM_DISCOUNT_REFRESH", orderedArg);
                             String startPeriod = getPeriodSid(period, projectionSelection.getFrequency(), "Min");
                             String endPeriod = getPeriodSid(period, projectionSelection.getFrequency(), "Max");
                             new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3, startPeriod, endPeriod, "");
@@ -2646,11 +2646,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     private boolean fileAlertForPFDChanges() {
         try {
-            if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
-                return true;
-            } else if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) && session.isIsSalesCalculated()
-                    && session.getDiscountCanBeCalculated(
-                            commonLogic.getFileMethodologyName(session, String.valueOf(methodologyDdlb.getValue())))) {
+            if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())
+                    || (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) && session.isIsSalesCalculated()
+                    && session.getDiscountCanBeCalculated(commonLogic.getFileMethodologyName(session, String.valueOf(methodologyDdlb.getValue()))))) {
                 return true;
             } else {
                 return false;
@@ -4613,12 +4611,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 }
             } else {
                 String startValue = startPeriodForecastTab.getValue().toString();
-
-                if (Integer.parseInt(startValue) > Integer.parseInt(valueEnd)) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return Integer.parseInt(startValue) > Integer.parseInt(valueEnd);
             }
         } else {
             AbstractNotificationUtils.getErrorNotification(Constant.NO_START_PERIOD_SELECTED,
@@ -5015,7 +5008,8 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         if (checkedProjList != null) {
             int[] year = new int[checkedProjList.size()];
 
-            String tempYear = StringUtils.EMPTY, tempSubYear = StringUtils.EMPTY;
+            String tempYear = StringUtils.EMPTY;
+            String tempSubYear = StringUtils.EMPTY;
             for (int i = 0; i < checkedProjList.size(); i++) {
                 if (defval == NumericConstants.TWO || defval == NumericConstants.FOUR) {
                     tempYear = checkedProjList.get(i).trim().substring(NumericConstants.TWO);

@@ -39,7 +39,7 @@ public class GtnFrameworkEmailConfigBackAction implements GtnUIFrameWorkAction, 
 	}
 
 	@Override
-	public GtnFrameworkEmailConfigViewAction createInstance() {
-		return new GtnFrameworkEmailConfigViewAction();
+	public GtnFrameworkEmailConfigBackAction createInstance() {
+		return this;
 	}
 }

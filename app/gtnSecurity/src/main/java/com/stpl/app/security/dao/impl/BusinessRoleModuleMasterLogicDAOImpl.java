@@ -35,7 +35,7 @@ public class BusinessRoleModuleMasterLogicDAOImpl implements BusinessRoleModuleM
 
      @Override
     public List getSubModuleProperyList(String businessRoleName, String subModuleName, String moduleName) throws SystemException {
-        return new SecurityImpl().findsubmodulePropertyDetails(businessRoleName, moduleName, subModuleName);
+        return new SecurityImpl().findsubmodulePropertyDetails(moduleName, subModuleName);
     }
 
      @Override
@@ -45,7 +45,7 @@ public class BusinessRoleModuleMasterLogicDAOImpl implements BusinessRoleModuleM
 
      @Override
     public List findSubModuleFieldDetails(String businessRoleName, String subModuleName, String moduleName) throws SystemException {
-        return new SecurityImpl().findSubModuleFieldDetails(businessRoleName, moduleName, subModuleName);
+        return new SecurityImpl().findSubModuleFieldDetails(moduleName, subModuleName);
     }
 
      @Override

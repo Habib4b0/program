@@ -299,10 +299,9 @@ public class DataSelectionUtil {
 		String indicatorTable = Constant.TABLE1;
 		String indicatorColumn = Constant.COLUMN1;
 
-		int i, j, k;
-		i = 0;
-		j = 0;
-		k = 0;
+		int i = 0;
+		int j = 0;
+		int k = 0;
 		StringBuilder query = new StringBuilder();
 		if ("item".equalsIgnoreCase(tableIndicator)) {
 			query.append(" SELECT  distinct ccpd.");
@@ -540,11 +539,13 @@ public class DataSelectionUtil {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			ForecastConfig forecastConfig = logic.getTimePeriod(screenName);
 			if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION)) {
-				Date currentDate = new Date();
-				currentDate.setMonth(currentDate.getMonth() - NumericConstants.SIX);
+			    Date currentDate = new Date();
+                            Calendar startDateCal = Calendar.getInstance();
+                            startDateCal.setTime(currentDate);
+				currentDate.setMonth(startDateCal.get(Calendar.MONTH) - NumericConstants.SIX);
 				fromDate = currentDate;
 				currentDate = new Date();
-				currentDate.setMonth(currentDate.getMonth() + NumericConstants.THIRTY_SIX);
+				currentDate.setMonth(startDateCal.get(Calendar.MONTH) + NumericConstants.THIRTY_SIX);
 				toDate = currentDate;
 			} else {
 				if (forecastConfig != null) {
@@ -669,15 +670,19 @@ public class DataSelectionUtil {
 
 	public static void setHistoryLimit(ForecastDTO forecastDTO) {
 		Date tempDate = new Date();
-		tempDate.setMonth(tempDate.getMonth() - 1);
-		forecastDTO.setHistoryEndYear(tempDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-		forecastDTO.setHistoryEndMonth(tempDate.getMonth() + 1);
+                Calendar tempDateCal = Calendar.getInstance();
+                tempDateCal.setTime(tempDate);
+		tempDate.setMonth(tempDateCal.get(Calendar.MONTH) - 1);
+		forecastDTO.setHistoryEndYear(tempDateCal.get(Calendar.YEAR));
+		forecastDTO.setHistoryEndMonth(tempDateCal.get(Calendar.MONTH) + 1);
 		forecastDTO.setHistoryEndDate(tempDate);
 		Date tempStartDate = new Date();
-		tempStartDate.setYear(tempStartDate.getYear() - NumericConstants.THREE);
+                Calendar tempStartDateCal = Calendar.getInstance();
+                tempStartDateCal.setTime(tempDate);
+		tempStartDate.setYear(tempStartDateCal.get(Calendar.YEAR) - NumericConstants.THREE);
 		tempStartDate.setMonth(0);
-		forecastDTO.setHistoryStartYear(tempStartDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-		forecastDTO.setHistoryStartMonth(tempStartDate.getMonth());
+		forecastDTO.setHistoryStartYear(tempStartDateCal.get(Calendar.YEAR));
+		forecastDTO.setHistoryStartMonth(tempStartDateCal.get(Calendar.MONTH));
 		forecastDTO.setHistoryStartDate(tempStartDate);
 
 	}
@@ -692,12 +697,14 @@ public class DataSelectionUtil {
 		DataSelectionLogic logic = new DataSelectionLogic();
 		logic.setForcastFileDate(dataSelectionDTO);
 		if (dataSelectionDTO.getFileEndMonth() != null && dataSelectionDTO.getFileEndYear() != null) {
-			Date tempDate = new Date();
+		       Date tempDate = new Date();
+                       Calendar tempCal = Calendar.getInstance();
+                       tempCal.setTime(tempDate);
 			tempDate.setMonth(dataSelectionDTO.getFileEndMonth() - 1);
 			tempDate.setYear(dataSelectionDTO.getFileEndYear() - NumericConstants.ONE_NINE_ZERO_ZERO);
 			if (tempDate.before(dataSelectionDTO.getToDate())) {
-				forecastDTO.setProjectionEndYear(tempDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-				forecastDTO.setProjectionEndMonth(tempDate.getMonth() + 1);
+				forecastDTO.setProjectionEndYear(tempCal.get(Calendar.YEAR));
+				forecastDTO.setProjectionEndMonth(tempCal.get(Calendar.MONTH) + 1);
 				forecastDTO.setProjectionEndDate(tempDate);
 				forecastDTO.setForecastEndYear(
 						dataSelectionDTO.getToDate().getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
@@ -716,8 +723,10 @@ public class DataSelectionUtil {
 
 			DataSelectionUtil.setHistoryLimit(forecastDTO);
 			Date tempForecastDate = new Date();
-			forecastDTO.setForecastStartYear(tempForecastDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-			forecastDTO.setForecastStartMonth(tempForecastDate.getMonth() + 1);
+                        Calendar tempCalDate = Calendar.getInstance();
+                        tempCalDate.setTime(tempDate);
+			forecastDTO.setForecastStartYear(tempCalDate.get(Calendar.YEAR));
+			forecastDTO.setForecastStartMonth(tempCalDate.get(Calendar.MONTH) + 1);
 			forecastDTO.setForecastStartDate(tempForecastDate);
 			if (dataSelectionDTO.getFromDate().before(forecastDTO.getHistoryStartDate())) {
 				forecastDTO.setProjectionStartYear(
