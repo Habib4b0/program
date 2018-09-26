@@ -1418,7 +1418,7 @@ ORDER BY
                  SET @SQL+='SUM(NET_CALCULATED_SALES) AS NET_CALCULATED_SALES,
                                                  SUM(SALES_VARIANCE) AS SALES_VARIANCE,'
 
-                 SET @SQL+=' CAST(ROUND(COALESCE(SUM(NET_CALCULATED_SALES)/NULLIF(SUM(NET_SALES),0),0)*100,2) AS NUMERIC(22,3)) AS SALES_VARIANCE_PERCENT
+                 SET @SQL+=' CAST(ROUND(COALESCE(SUM(NET_CALCULATED_SALES)/NULLIF(SUM(NET_SALES),0),0)*100,3) AS NUMERIC(22,3)) AS SALES_VARIANCE_PERCENT
                                         FROM   CTE 
                          GROUP  BY '+@VAR_ADD+')'
                  SET @I+=1
@@ -2085,7 +2085,7 @@ WHERE  t1.id <> 1
                  SET @SQL+='SUM(NET_CALCULATED_SALES) AS NET_CALCULATED_SALES,
                                                  SUM(SALES_VARIANCE) AS SALES_VARIANCE,'
 
-                 SET @SQL+=' CAST(ROUND(COALESCE(SUM(NET_CALCULATED_SALES)/NULLIF(SUM(NET_SALES),0),0)*100,2) AS NUMERIC(22,3)) AS SALES_VARIANCE_PERCENT
+                 SET @SQL+=' CAST(ROUND(COALESCE(SUM(NET_CALCULATED_SALES)/NULLIF(SUM(NET_SALES),0),0)*100,3) AS NUMERIC(22,3)) AS SALES_VARIANCE_PERCENT
                                         FROM   CTE 
                          GROUP  BY '+@VAR_ADD+')'
                  SET @I+=1
