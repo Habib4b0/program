@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.registry.action.pagedtreetable;
 
-import com.stpl.gtn.gtn2o.registry.action.GtnCustomerAvailableTableLoadAction;
 import java.util.Set;
 
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
@@ -25,8 +24,6 @@ import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
