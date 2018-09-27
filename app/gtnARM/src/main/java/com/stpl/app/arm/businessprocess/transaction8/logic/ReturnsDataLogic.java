@@ -91,10 +91,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
             if (rdResultList == null) {
                 throw new NullPointerException("The given input resultList is null");
             }
-            if (rdVaribales == null) {
-                throw new NullPointerException("The given input varibales List is null");
-            }
-            if (!rdResultList.isEmpty()) {
+            if (rdVaribales != null && !rdResultList.isEmpty()) {
                 if (rdVaribales.size() != rdResultList.get(0).length) {
                     throw new IllegalArgumentException(rdVaribales.size() + "The given parameters and variables size doesn't match : variables = "
                             + rdVaribales.size() + "and resultList  = " + rdResultList.get(0).length);
