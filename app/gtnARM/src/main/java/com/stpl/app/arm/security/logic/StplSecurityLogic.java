@@ -7,6 +7,7 @@ package com.stpl.app.arm.security.logic;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.xmlparser.SQlUtil;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -46,7 +47,7 @@ public class StplSecurityLogic {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -92,7 +93,7 @@ public class StplSecurityLogic {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
 }

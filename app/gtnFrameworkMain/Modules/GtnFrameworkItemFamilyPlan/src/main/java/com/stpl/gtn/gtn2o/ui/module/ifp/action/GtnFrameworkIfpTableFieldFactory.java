@@ -39,7 +39,7 @@ public class GtnFrameworkIfpTableFieldFactory
 				.getVaadinFieldFactoryComponentData(componentId);
 		GtnUIFrameworkActionParameter actionParam = componentData.getActionParameter();
 		String typeString = GtnFrameworkIfpStringContants.CHECK_RECORD_ID.equals(actionParam.getPropertyId())
-				? Boolean.class.getName() 
+				? Boolean.class.getName()
 				: Integer.class.getName();
 		String dataType = GtnFrameworkIfpStringContants.getDateFieldPropertiesList()
 				.contains(actionParam.getPropertyId()) ? Date.class.getName() : typeString;
@@ -67,7 +67,7 @@ public class GtnFrameworkIfpTableFieldFactory
 		fp.setUpdateBean(bean);
 		bean.setColumnName(column);
 		bean.setValue(value);
-		bean.setClassType(type); 
+		bean.setClassType(type);
 		bean.setImtdIfpDetailsSid(imtdCfpDetailsSid);
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
 		generalWSRequest.setUserId(
@@ -78,11 +78,11 @@ public class GtnFrameworkIfpTableFieldFactory
 		GtnWsIfpRequest cfpRequest = new GtnWsIfpRequest();
 		cfpRequest.setGtnIFamilyPlan(fp);
 		updateRequest.setGtnWsIfpRequest(cfpRequest);
- 
+
 		updateRequest.setGtnWsGeneralRequest(generalWSRequest);
 
 		GtnUIFrameworkWebserviceResponse updateResponse = getResponse(updateRequest);
-		
+
 		if (updateResponse.getEditRecord() != null) {
 			Object obj = updateResponse.getEditRecord().get("count");
 			if (obj != null) {
@@ -110,7 +110,7 @@ public class GtnFrameworkIfpTableFieldFactory
 		GtnUIFrameworkWebserviceResponse response = getCheckBoxValueChangeLogicResponse(request);
 		GtnIFamilyPlanValidationBean validationBean = response.getGtnWsIfpReponse().getGtnIFamilyPlanValidationBean();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemsTabResultDataTable").setPagedTableHeaderCheckBox(
-				validationBean.getCheckedCount() == validationBean.getCount(), 
+				validationBean.getCheckedCount() == validationBean.getCount(),
 				GtnFrameworkIfpStringContants.CHECK_RECORD_ID);
 	}
 

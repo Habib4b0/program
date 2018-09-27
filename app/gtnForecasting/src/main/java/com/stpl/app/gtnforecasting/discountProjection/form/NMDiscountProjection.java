@@ -110,7 +110,6 @@ import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DefaultFieldFactory;
 import com.vaadin.v7.ui.Field;
@@ -148,8 +147,6 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
 import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.slf4j.Logger;
@@ -933,7 +930,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             final String tableHierarchyNo = tableLogic.getTreeLevelonCurrentPage(obj[0]);
             DiscountProjectionDTO dto = (DiscountProjectionDTO) obj[0];
             Boolean checkValue = ((ExtCustomCheckBox) ((AbstractComponent) event.getComponent())).getValue();
-            if (isGroupUpdatedManually) {
+             if (isGroupUpdatedManually) {
                 NotificationUtils.getAlertNotification(Constant.GROUP_FILTER_CONFLICT,
                         Constant.GROUP_VALUE_VERIFICATION);
                 tableLogic.getContainerDataSource().getContainerProperty(obj[0], Constant.CHECKRECORD).setValue(BooleanConstant.getFalseFlag());
@@ -1701,6 +1698,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
         }
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
+        resultsTable.getLeftFreezeAsTable().getColumnIdToFilterMap().clear();
         LOGGER.debug("Ending configureLeftTable");
     }
 
@@ -3615,6 +3613,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             adjPeriodValueChangeLogic(SELECT.getConstant());
             adjperiods.select(SELECT);
             adjprograms.select(SELECT);
+            resultsTable.getLeftFreezeAsTable().getColumnIdToFilterMap().clear();
         }
         LOGGER.debug("Ending generateListView ");
 

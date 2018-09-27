@@ -12,6 +12,7 @@ import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
 import com.stpl.app.arm.dataselection.ui.form.BalanceSummaryReportDataSelectionTab;
 import com.stpl.app.arm.supercode.SelectionDTO;
 import com.stpl.ifs.util.constants.GlobalConstants;
+import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Karthikeyan.S
  */
-public abstract class AbstractSelectionDTO implements SelectionDTO {
+public abstract class AbstractSelectionDTO implements SelectionDTO, Serializable {
 
     /*----------------------------------Variables used in Summary----------------------------------------------------*/
     private int summaryfrequency = 0;
@@ -52,19 +53,19 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
     private int projectionMasterSid = 0;
     private int companyMasterSid = 0;
 
-    private DataSelectionDTO dataSelectionDTO;
+    private transient DataSelectionDTO dataSelectionDTO;
 
-    private SessionDTO sessionDTO;
+    private transient SessionDTO sessionDTO;
 
-    protected List<String> selectedAdjustmentType;
+    protected transient List<String> selectedAdjustmentType;
 
     protected String detailLevel = StringUtils.EMPTY;
 
-    protected List<String> detailreserveAcount;
+    protected transient List<String> detailreserveAcount;
 
     private List<String> detailamountFilter;
 
-    protected List<String> detailvariables;
+    protected transient List<String> detailvariables;
 
     private List<String> savedetailvariables;
 
@@ -72,7 +73,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
 
     protected String summaryglDate = StringUtils.EMPTY;
 
-    private final Map<String, Object> procedureInputs = new HashMap<>();
+    private transient Map<String, Object> procedureInputs = new HashMap<>();
     private String fromDate;
     private String toDate;
     private String fromDateFilter;
@@ -80,7 +81,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
     private String dataSelectionFromDate;
     private String dataSelectionToDate;
     private int summaryPeriods;
-    private List<Object> periodSidList = new ArrayList<>();
+    private transient List<Object> periodSidList = new ArrayList<>();
 
     private int summaryvalueSid = 0;
     private String deductionLevelValue = StringUtils.EMPTY;
@@ -120,7 +121,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
 
     private String ratePeriodValue = StringUtils.EMPTY;
 
-    private List<List> rateColumnList = new ArrayList<>();
+    private transient List<List> rateColumnList = new ArrayList<>();
 
     private String rateLevelName = StringUtils.EMPTY;
 
@@ -155,7 +156,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
 
     private String inventoryOptionGroup = StringUtils.EMPTY;
 
-    private Object[] excelHierarchy;
+    private transient Object[] excelHierarchy;
 
     private TreeMap<String, Integer> masterSids;
 
@@ -175,7 +176,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
 
     private List<String> returnsdataSelectedvariables;
 
-    private List<List> returnReserveDataVariables;
+    private transient List<List> returnReserveDataVariables;
 
     private Date originalSaleLimiter;
 
@@ -197,7 +198,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
 
     private int returnReserveDatalevelFilterNo = 0;
 
-    private BalanceSummaryReportDataSelectionTab balanceSummaryDataSelectionTab;
+    private transient BalanceSummaryReportDataSelectionTab balanceSummaryDataSelectionTab;
 
     private boolean submittedFlag;
 
@@ -615,6 +616,10 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         for (Map.Entry<String, Object> me : procedureInputs.entrySet()) {
             return me.getKey().equals(feild);
         }
+        return getConstant();
+    }
+
+    private boolean getConstant() {
         return true;
     }
 

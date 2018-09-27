@@ -147,7 +147,8 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
      * @return
      */
     @Override
-    protected Object getRateQuery(Criteria criteria, boolean isCount, int start, int offset) {
+    protected Object getRateQuery(Criteria criteria, boolean isCount, int start, int end) {
+        int offset = end;
         AbstractSelectionDTO selection = (AbstractSelectionDTO) criteria.getSelectionDto();
         Object lastParent = criteria.getParent();
         List ratesInput = new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId()));
