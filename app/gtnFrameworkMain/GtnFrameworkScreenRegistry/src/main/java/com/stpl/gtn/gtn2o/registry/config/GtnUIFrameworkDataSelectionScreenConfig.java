@@ -599,7 +599,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		generateAction.addActionParameter("Commercial Forecasting_prodforecastLevel");
 		generateAction.addActionParameter("Commercial_Forecasting_productRelationshipVersion");
 		generateAction.addActionParameter("Commercial Forecasting_productGroup");
-		generateAction.addActionParameter("Commercial Forecasting_company");
+		generateAction.addActionParameter("Commercial Forecasting_Company");
 		generateAction.addActionParameter("Commercial Forecasting_businessUnit");
 		generateAction.addActionParameter("Commercial Forecasting_from");
 		generateAction.addActionParameter("Commercial Forecasting_productLevel");
@@ -719,9 +719,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameWorkActionConfig saveViewDataSelectionValidationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
 		saveViewDataSelectionValidationActionConfig.setFieldValues(Arrays.asList(
-				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.COMPANY,
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-						+GtnFrameworkForecastingStringConstants.BUSINESS_UNIT,
+						+GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_NAME,
 			    nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
@@ -765,9 +765,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameWorkActionConfig saveViewAction = new GtnUIFrameWorkActionConfig();
 		saveViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		saveViewAction.setActionParameterList(Arrays.asList(GtnFrameworkSaveViewAction.class.getName(),
-				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.COMPANY,
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-						+GtnFrameworkForecastingStringConstants.BUSINESS_UNIT,
+				+GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_NAME,
 			    nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
