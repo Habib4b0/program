@@ -2916,7 +2916,7 @@ public class ARMUtils {
     public static final String YYYY_M_MDD_H_HMMSS_S = "yyyy-MM-dd HH:mm:ss.S";
     public static final String DOUBLE_HIPHEN = "--";
 
-    public static Map<String, String> getAdjustmentSummaryVisibleToDBColumnMapForFilter() {
+    public static synchronized Map<String, String> getAdjustmentSummaryVisibleToDBColumnMapForFilter() {
         if (adjustmentSummaryVisibleToDBColumnMapForFilter == null) {
             adjustmentSummaryVisibleToDBColumnMapForFilter = new HashMap<>();
             adjustmentSummaryVisibleToDBColumnMapForFilter.put(ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), CommonConstant.CHECK_RECORD_VALUE);
@@ -2937,7 +2937,7 @@ public class ARMUtils {
         return adjustmentSummaryVisibleToDBColumnMapForFilter;
     }
 
-    public static Map<String, String> getDescriptionForFilter() {
+    public static synchronized Map<String, String> getDescriptionForFilter() {
         if (descriptionForFilter == null) {
             descriptionForFilter = new HashMap<>();
             descriptionForFilter.put(ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.getConstant(), "ADJUSTMENT_LEVEL");
@@ -2956,7 +2956,7 @@ public class ARMUtils {
         return descriptionForFilter;
     }
 
-    public static Map<String, String> getTextFieldDescription() {
+    public static synchronized Map<String, String> getTextFieldDescription() {
         if (textFieldDescription == null) {
             textFieldDescription = new HashMap<>();
             textFieldDescription.put(ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT.getConstant(), ACCOUNT);

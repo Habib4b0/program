@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -205,7 +206,7 @@ public class BPIWorkFlowGeneratorXML {
      * @param modName
      * @return
      */
-    private String updateBPICounterXML(HashMap hmBPIConterAndUpdateValues,
+    private String updateBPICounterXML(Map hmBPIConterAndUpdateValues,
             String fileWithPath, String modName) {
 
         String updateDate = hmBPIConterAndUpdateValues.get("dateToUpdate")
@@ -275,8 +276,7 @@ public class BPIWorkFlowGeneratorXML {
                 if (updateflag) {
                     Transformer xformer = TransformerFactory.newInstance()
                             .newTransformer();
-                    xformer.transform(new DOMSource(doc), new StreamResult(
-                            new CommonUtil().getFileName(fileWithPath)));
+                    xformer.transform(new DOMSource(doc), new StreamResult(file));
                 }
 
             }
