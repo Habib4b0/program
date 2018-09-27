@@ -23,8 +23,8 @@ public class CustomViewSearch extends GtnCommonWebServiceImplClass implements Se
     }
 
     @Override
-    public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,
-            String query) {
+    public GtnUIFrameworkWebserviceResponse getSearchResults(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,
+            String query, GtnSearchwebServiceSqlService gtnSearchSqlService) {
         GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
         GtnFrameworkForecastInputBean inputBean = gtnUiFrameworkWebservicerequest.getGtnGeneralSearchRequest()
                 .getInputBean();
@@ -57,10 +57,4 @@ public class CustomViewSearch extends GtnCommonWebServiceImplClass implements Se
     public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
         // Default Method
     }
-
-    @Override
-    public GtnUIFrameworkWebserviceResponse getSearchResults(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query, GtnSearchwebServiceSqlService gtnSearchSqlService) {
-       return null;
-    }
-
 }
