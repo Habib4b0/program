@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.registry.config;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import static org.junit.Assert.assertFalse;
 
 import java.lang.reflect.InvocationTargetException;
@@ -43,7 +44,7 @@ public class GtnUIFrameworkDataSelectionScreenConfigTest {
 	public void testPublicMethod()
 	{
         GtnUIFrameworkDataSelectionScreenConfig instance = new GtnUIFrameworkDataSelectionScreenConfig();
-        instance.getDataSelectionView("Commercial Forecasting");
+        instance.getDataSelectionView(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING);
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import java.util.List;
 
 
@@ -12,11 +14,9 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.newarch.GtnWsForecastNewArchRequest;
@@ -59,7 +59,7 @@ public class GtnFrameworkForecastDataSelectionViewAddAction
 
 		        serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
 		        serviceRegistryBean.setUrl("/gtnForecastSaveView");
-		        serviceRegistryBean.setModuleName("generalSearch");
+		        serviceRegistryBean.setModuleName(GtnFrameworkForecastingStringConstants.GENERAL_SEARCH);
 		        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
 		        generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		        generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
@@ -69,7 +69,7 @@ public class GtnFrameworkForecastDataSelectionViewAddAction
 		        webServiceRequest.setGtnWsGeneralRequest(generalRequest);
 
 		        GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-		                "/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", webServiceRequest,
+		                GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, webServiceRequest,
 		                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			
 			GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();

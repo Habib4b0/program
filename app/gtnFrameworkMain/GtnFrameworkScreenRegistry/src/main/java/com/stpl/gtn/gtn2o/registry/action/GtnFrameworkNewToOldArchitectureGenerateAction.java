@@ -1,6 +1,8 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -43,27 +45,27 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
             String description = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_projectionDescription").getV8StringFromField();
 
             GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent("forecastLandingScreen_customerHierarchy", componentId).getComponentData().getCustomData();
+                    .getVaadinBaseComponent(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP, componentId).getComponentData().getCustomData();
 
-            String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_customerRelationshipVersion", componentId).getCaptionFromV8ComboBox());
+            String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION, componentId).getCaptionFromV8ComboBox());
             String hierarchyVersionNo = recordBean.getPropertyValueByIndex(6).toString();
 
             GtnWsRecordBean recordBeanProduct = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent("Commercial Forecasting_prodhierarchyName", componentId).getComponentData()
+                    .getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME, componentId).getComponentData()
                     .getCustomData();
             String productRelationVersionNo = String.valueOf((GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent("Commercial_Forecasting_productRelationshipVersion", componentId).getCaptionFromV8ComboBox()));
+                    .getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION, componentId).getCaptionFromV8ComboBox()));
             String productHierarchyVersionNo = recordBeanProduct.getPropertyValueByIndex(6).toString();
 
             String businessUnit = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_businessUnit").getCaptionFromV8ComboBox();
 
-            String customerForecastLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_customerSelectionForecastLevel").getCaptionFromV8ComboBox();
+            String customerForecastLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL).getCaptionFromV8ComboBox();
 
-            String customerLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_customerSelectionLevel").getCaptionFromV8ComboBox();
+            String customerLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL).getCaptionFromV8ComboBox();
 
-            String productForecastLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_prodforecastLevel").getCaptionFromV8ComboBox();
+            String productForecastLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODFORECASTLEVEL).getCaptionFromV8ComboBox();
 
-            String productLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_productLevel").getCaptionFromV8ComboBox();
+            String productLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL).getCaptionFromV8ComboBox();
             
             List<Object> parametersForDataSelection = new ArrayList<>();
             parametersForDataSelection.add(fromPeriod);

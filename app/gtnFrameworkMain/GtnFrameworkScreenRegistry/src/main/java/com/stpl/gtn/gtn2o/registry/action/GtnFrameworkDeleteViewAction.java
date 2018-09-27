@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
@@ -57,7 +59,7 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 		request.setGtnWsGeneralRequest(generalRequest);
 		
 		GtnUIFrameworkWebserviceResponse response =  new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl
-			("/deleteView","generalSearch",
+			("/deleteView",GtnFrameworkForecastingStringConstants.GENERAL_SEARCH,
 						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
 		logger.info("Number of rows affected-------->" + response.getGtnFrameworkForecastDataSelectionBean().getResultCount());
@@ -72,21 +74,21 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 						
 							GtnFrameworkScreenRegistryResetAction.class.getName(),
 							"Commercial Forecasting_privateViewLookup",
-							"Commercial Forecasting" + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
-							"Commercial Forecasting" + "_" + "projectionName",
-							"Commercial Forecasting" + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
-							"Commercial Forecasting" + "_" + "projectionDescription",
-							"Commercial Forecasting" + "_" + "publicView",
-							"forecastLandingScreen_customerHierarchy",
-							"Commercial_Forecasting_customerSelectionRelationship",
-							"Commercial_Forecasting_customerSelectionForecastLevel",
-							"Commercial Forecasting" + "_" + "customerGroup",
-							"Commercial Forecasting" + "_" + "customerDualListBox",
-							"Commercial Forecasting" + "_" + "prodhierarchyName",
-							"Commercial Forecasting" + "_" + "prodrelationship",
-							"Commercial Forecasting" + "_" + "prodforecastLevel",
-							"Commercial Forecasting" + "_" + "productDualListBox", "Commercial Forecasting" + "_" + "productGroup",
-							"Commercial Forecasting" + "_" + "profileMode"
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING + "_" + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_NAME,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING + "_" + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING + "_" + GtnFrameworkForecastingStringConstants.PUBLIC_VIEW,
+							GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP,
+							GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERDUALLISTBOX,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONSHIP,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODFORECASTLEVEL,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX, GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP,
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING + "_" + GtnFrameworkForecastingStringConstants.PROFILE_MODE
 
 					));
 			

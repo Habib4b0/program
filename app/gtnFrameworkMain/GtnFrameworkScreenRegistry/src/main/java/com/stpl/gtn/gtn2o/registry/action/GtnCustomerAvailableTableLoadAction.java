@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -84,7 +86,7 @@ public class GtnCustomerAvailableTableLoadAction
 			queryParameters.add(hierarchyVersionNo);
 			queryParameters.add(selectedLevelNo);
 			queryParameters.add(forecastEligibleDate);
-			queryParameters.add(Boolean.FALSE);
+			queryParameters.add(false);
 
 			AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
 					.getVaadinComponent(String.valueOf(actionParamList.get(6)), componentId);
@@ -191,7 +193,7 @@ public class GtnCustomerAvailableTableLoadAction
 
 		serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
 		serviceRegistryBean.setUrl(webserviceUrl);
-		serviceRegistryBean.setModuleName("hierarchyRelationship");
+		serviceRegistryBean.setModuleName(GtnFrameworkForecastingStringConstants.HIERARCHY_RELATIONSHIP);
 		serviceRegistryWsRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
 		return serviceRegistryWsRequest;
 	}
@@ -199,7 +201,7 @@ public class GtnCustomerAvailableTableLoadAction
 	private GtnUIFrameworkWebserviceResponse callGtnService(
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
+				GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY,
 				gtnUIFrameworkWebserviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 

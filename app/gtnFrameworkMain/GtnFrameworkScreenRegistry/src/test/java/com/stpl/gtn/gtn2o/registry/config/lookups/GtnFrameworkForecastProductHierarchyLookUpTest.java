@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.registry.config.lookups;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import static org.junit.Assert.assertFalse;
 
 import java.lang.reflect.InvocationTargetException;
@@ -26,7 +27,7 @@ public class GtnFrameworkForecastProductHierarchyLookUpTest {
 	@Test
     public void testMainScreenConfigPrivateMethod2() {
 		GtnFrameworkForecastProductHierarchyLookUp instance = new GtnFrameworkForecastProductHierarchyLookUp();
-       assertFalse( instance.getProdHierarchyLookUpView("Commercial Forecasting")==null);
+       assertFalse( instance.getProdHierarchyLookUpView(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING)==null);
     }
 
 
