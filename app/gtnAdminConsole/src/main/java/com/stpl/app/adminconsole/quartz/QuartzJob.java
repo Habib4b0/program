@@ -29,7 +29,7 @@ public class QuartzJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("Executing Quartz Job "+context.getJobDetail().getKey().getName());
+        LOGGER.info("Executing Quartz Job {} ",context.getJobDetail().getKey().getName());
         Object profileObj = context.getJobDetail().getJobDataMap().get(ACTION_JOB_DATA_MAP_KEY);
         ProcessSchedulerLogic logic = new ProcessSchedulerLogic();
         if (profileObj instanceof WorkflowProfile) {
@@ -111,7 +111,7 @@ public class QuartzJob implements Job {
             }
         }
         try {
-        	System.out.println("Ending Quartz Job "+context.getJobDetail().getKey().getName() + " Next Fire Time ");
+        	LOGGER.info("Ending Quartz Job {}",context.getJobDetail().getKey().getName());
             QuartzListener.printJobsForJobKey(context.getJobDetail().getKey());
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

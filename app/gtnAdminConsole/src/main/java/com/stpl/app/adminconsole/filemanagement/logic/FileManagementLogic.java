@@ -1382,9 +1382,8 @@ public class FileManagementLogic {
 										StringConstantUtils.LIKE_SPACE).concat(filterString).concat("'");
 							}
 						} else {
-							condition = condition + StringConstantUtils.AND_SPACE
-									+ resultsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-									+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+							condition = condition.concat(StringConstantUtils.AND_SPACE).concat(resultsColumn.get(String.valueOf(stringFilter.getPropertyId()))).concat(StringConstantUtils.LIKE_SPACE).concat(filterString).concat("'");
+									
 						}
 
 					} else if (filter instanceof Between) {
@@ -1393,24 +1392,20 @@ public class FileManagementLogic {
 						Date filterString1 = (Date) stringFilter.getEndValue();
 						if (StringConstantUtils.FROM_DATE.equals(stringFilter.getPropertyId())) {
 							if (!dateWhereCondition.isEmpty()) {
-								dateWhereCondition = dateWhereCondition + " AND FT_MIN_DATE >= '"
-										+ dateFormat.format(filterString) + "' ";
+								dateWhereCondition = dateWhereCondition.concat(" AND FT_MIN_DATE >= '").concat(dateFormat.format(filterString).concat("' "));
 							} else {
-								dateWhereCondition = dateWhereCondition + " WHERE FT_MIN_DATE >= '"
-										+ dateFormat.format(filterString) + "' ";
+								dateWhereCondition = dateWhereCondition.concat(" WHERE FT_MIN_DATE >= '").concat(dateFormat.format(filterString)).concat("' ");
 							}
-							dateWhereCondition = dateWhereCondition + " AND FT_MIN_DATE <= '"
-									+ dateFormat.format(filterString1) + "' ";
+							dateWhereCondition = dateWhereCondition.concat(" AND FT_MIN_DATE <= '").concat(dateFormat.format(filterString1)).concat("' ");
 						}
 						if (StringConstantUtils.TO_DATE.equals(stringFilter.getPropertyId())) {
 							if (!dateWhereCondition.isEmpty()) {
-								dateWhereCondition = dateWhereCondition + " AND FT_MAX_DATE >= '" + filterString + "' ";
+								dateWhereCondition = dateWhereCondition.concat(" AND FT_MAX_DATE >= '").concat(String.valueOf(filterString)).concat("' ");
 							} else {
-								dateWhereCondition = dateWhereCondition + " WHERE FT_MAX_DATE >= '" + filterString
-										+ "' ";
+								dateWhereCondition = dateWhereCondition.concat(" WHERE FT_MAX_DATE >= '").concat(String.valueOf(filterString)).concat("' ");
 							}
 
-							dateWhereCondition = dateWhereCondition + " AND FT_MAX_DATE <= '" + filterString1 + "' ";
+							dateWhereCondition = dateWhereCondition.concat(" AND FT_MAX_DATE <= '").concat(String.valueOf(filterString)).concat("' ");
 						}
 
 					}
