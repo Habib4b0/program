@@ -72,7 +72,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -389,19 +388,17 @@ public class BussinessProcessForm extends Window {
      */
     private void submitProjection(final String notesVal, final String screenName, final List<NotesDTO> getUploadedData) {
 
-        Map<String, Object> params = new HashMap<>();
         try {
-            params.put(ARMUtils.PROJECTION_ID, dataselectionDTO.getProjectionId());
             String workflowStatus = getWorkflowStatus(dataselectionDTO.getProjectionId());
             if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
                 GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(sessionDTO, userId);
                 List<String> roleList = new ArrayList<>();
-                Long processInstanceId = Long.parseLong(String.valueOf(response.getProcessInstanceId()));
+                Long processInstanceId = Long.valueOf(String.valueOf(response.getProcessInstanceId()));
                 sessionDTO.setProcessId(processInstanceId);
 
                 if (response.isHasPermission()) {
                     DSCalculationLogic.startAndCompleteTask(sessionDTO, userId);
-                    submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
+                    submitProjToWorkflow(notesVal, screenName, getUploadedData);
 
                 } else {
                     StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
@@ -412,14 +409,14 @@ public class BussinessProcessForm extends Window {
 
                 }
             } else {
-                submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
+                submitProjToWorkflow(notesVal, screenName, getUploadedData);
             }
         } catch (NumberFormatException e) {
             LOGGER.error("Error in submitProjection", e);
         }
     }
 
-    private void submitProjToWorkflow(Map<String, Object> params, final String notes, final String screenName, final List<NotesDTO> getUploadedData) {
+    private void submitProjToWorkflow(final String notes, final String screenName, final List<NotesDTO> getUploadedData) {
 
         try {
 
@@ -843,8 +840,8 @@ public class BussinessProcessForm extends Window {
                             try {
                                 if (WorkFlowNotesLookup.getSubmitFlag().equals(CommonConstant.SUCCESS)) {
                                     int projectionId = sessionDTO.getProjectionId();
-                                    String CancelUserId = String.valueOf(sessionDTO.getUserId());
-                                    int userIdInt = Integer.parseInt(CancelUserId);
+                                    String cancelUserId = String.valueOf(sessionDTO.getUserId());
+                                    int userIdInt = Integer.parseInt(cancelUserId);
                                     int workflowId = sessionDTO.getWorkflowId();
                                     WorkflowLogic wfLogic = new WorkflowLogic();
                                     WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getCancelledStatus(), popup.getNotes().getValue(), sessionDTO.getApprovalLevel());

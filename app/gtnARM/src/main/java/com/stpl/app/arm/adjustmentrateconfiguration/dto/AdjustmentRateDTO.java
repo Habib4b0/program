@@ -5,9 +5,6 @@
  */
 package com.stpl.app.arm.adjustmentrateconfiguration.dto;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +34,7 @@ public class AdjustmentRateDTO implements Serializable {
     private Boolean checkRecord = Boolean.FALSE;
     private int inventoryDetails = 0;
     private int viewMasterSid;
-    private final Map<String, Object> components = new HashMap<>();
+    private transient Map<String, Object> components = new HashMap<>();
     private String invenCust = StringUtils.EMPTY;
 
     // excel  
@@ -116,10 +113,7 @@ public class AdjustmentRateDTO implements Serializable {
         if (this.rateFrequency == 0) {
             return false;
         }
-        if (this.ratePeriod == 0) {
-            return false;
-        }
-        return true;
+        return this.ratePeriod != 0;
     }
 
     public boolean validateInventory() {
@@ -132,10 +126,7 @@ public class AdjustmentRateDTO implements Serializable {
         if (this.rateFrequency == 0) {
             return false;
         }
-        if (this.ratePeriod == 0) {
-            return false;
-        }
-        return true;
+        return this.ratePeriod != 0;
     }
 
     public int getRateConfigDetailsSid() {
@@ -416,13 +407,5 @@ public class AdjustmentRateDTO implements Serializable {
 
     public void setexcelviewMasterSid(Integer excelviewMasterSid) {
         this.excelviewMasterSid = excelviewMasterSid;
-    }
-
-    private void writeObject(ObjectOutputStream adjRateDtoout) throws IOException {
-        adjRateDtoout.defaultWriteObject();
-    }
-
-    private void readObject(ObjectInputStream adjRateDtoout) throws IOException, ClassNotFoundException {
-        adjRateDtoout.defaultReadObject();
     }
 }
