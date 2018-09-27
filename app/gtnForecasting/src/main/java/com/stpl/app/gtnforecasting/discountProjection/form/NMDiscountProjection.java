@@ -1701,6 +1701,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
         }
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
+        resultsTable.getLeftFreezeAsTable().getColumnIdToFilterMap().clear();
         LOGGER.debug("Ending configureLeftTable");
     }
 
