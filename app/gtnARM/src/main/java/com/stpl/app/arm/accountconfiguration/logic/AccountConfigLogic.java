@@ -599,7 +599,7 @@ public class AccountConfigLogic {
     }
 
     private Map<String, String> loadFilterQueryMap() {
-        Map<String, String> filterQueryMap = new HashMap<>();
+        Map<String, String> filterQueryMap = new HashMap<>(NumericConstants.EIGHTEEN);
         filterQueryMap.put(VariableConstants.COMPANY_NO_HELPER_DTO, "COMPANY_ID_WITH_NAME");
         filterQueryMap.put(CommonConstant.COMPANY_NO, VariableConstants.COMP_COMPANY_MASTER_SID);
         filterQueryMap.put(VariableConstants.BUSINESS_NO_HELPER_DTO, "BU_ID_WITH_NAME");
@@ -623,7 +623,7 @@ public class AccountConfigLogic {
     }
 
     private Map<String, String> loadSortedQueryMap() {
-        Map<String, String> orderByQueryMap = new HashMap<>();
+        Map<String, String> orderByQueryMap = new HashMap<>(NumericConstants.EIGHTEEN);
         orderByQueryMap.put(VariableConstants.COMPANY_NO_HELPER_DTO, CommonConstant.COMP_COMPANY_NO);
         orderByQueryMap.put(CommonConstant.COMPANY_NO, CommonConstant.COMP_COMPANY_NO);
         orderByQueryMap.put(VariableConstants.COMPANY_ID_WITH_NAME, CommonConstant.COMP_COMPANY_NO);
@@ -722,7 +722,7 @@ public class AccountConfigLogic {
     }
 
     private Map<String, String> loadFilterQueryMapForLoad() {
-        Map<String, String> filterLoadDataMap = new HashMap<>();
+        Map<String, String> filterLoadDataMap = new HashMap<>(NumericConstants.EIGHTEEN);
         filterLoadDataMap.put(VariableConstants.COMPANY_NO_HELPER_DTO, "(comp.COMPANY_ID + ' - ' + comp.COMPANY_NAME)");
         filterLoadDataMap.put(CommonConstant.COMPANY_NO, VariableConstants.COMP_COMPANY_MASTER_SID);
         filterLoadDataMap.put(VariableConstants.BUSINESS_NO_HELPER_DTO, "(bu.COMPANY_ID + ' - ' + bu.COMPANY_NAME)");

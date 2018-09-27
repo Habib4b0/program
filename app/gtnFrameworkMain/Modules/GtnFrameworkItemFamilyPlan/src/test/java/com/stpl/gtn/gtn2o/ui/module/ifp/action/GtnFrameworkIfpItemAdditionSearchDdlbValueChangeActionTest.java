@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -28,13 +27,12 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = { GtnUIFrameworkGlobalUI.class})
 public class GtnFrameworkIfpItemAdditionSearchDdlbValueChangeActionTest {
 
 	@Test
-	public void testConfigureParams_1()
+	public void testConfigureParams()
 		throws Exception {
 		GtnFrameworkIfpItemAdditionSearchDdlbValueChangeAction fixture = new GtnFrameworkIfpItemAdditionSearchDdlbValueChangeAction();
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
@@ -43,7 +41,7 @@ public class GtnFrameworkIfpItemAdditionSearchDdlbValueChangeActionTest {
 	}
 
 	@Test
-	public void testCreateInstance_1()
+	public void testCreateInstance()
 		throws Exception {
 		GtnFrameworkIfpItemAdditionSearchDdlbValueChangeAction fixture = new GtnFrameworkIfpItemAdditionSearchDdlbValueChangeAction();
 
@@ -52,7 +50,7 @@ public class GtnFrameworkIfpItemAdditionSearchDdlbValueChangeActionTest {
 	}
 
 	@Test
-	public void testGtnFrameworkIfpItemAdditionSearchDdlbValueChangeAction()
+	public void testGtnFrameworkIfpItemAdditionSearchDdlbValueChange_doAction()
 		throws Exception {
 		
 		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);

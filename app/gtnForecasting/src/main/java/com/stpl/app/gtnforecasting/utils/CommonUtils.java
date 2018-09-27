@@ -269,39 +269,6 @@ public class CommonUtils {
 
     public static final String ALL_BTN1 = "allBtn";
 
-    /**
-     * The Constant NONMANDATED.
-     */
-    /**
-     * The Constant HISTORY LOOKUP CONTRACT COLUMNS.
-     */
-    public final Object[] historyLookupContractColumnsMandated = new Object[]{"customer", "contractNumber", "contractName"};
-
-    /**
-     * The Constant HISTORY LOOKUP CONTRACT HEADERS.
-     */
-    public final String[] historyLookupContractHeadersMandated = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
-
-    /**
-     * The Constant HISTORY LOOKUP CONTRACT COLUMNS.
-     */
-    public final Object[] historyLookupContractColumnsNonMandated = new Object[]{"customer", "contractNumber", "contractName"};
-
-    /**
-     * The Constant HISTORY LOOKUP CONTRACT HEADERS.
-     */
-    public final String[] historyLookupContractHeaderNonMandated = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
-
-    /**
-     * The Constant HISTORY LOOKUP BRAND COLUMNS.
-     */
-    public final Object[] historyLookupBrandColumns = new Object[]{Constant.BRAND};
-
-    /**
-     * The Constant HISTORY LOOKUP BRAND HEADERS.
-     */
-    public final String[] historyLookupBrandHeaders = new String[]{"Brand Name"};
-
     public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
     public static final String BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION = "AccrualRateProjection";
     public static final String BUSINESS_PROCESS_INDICATOR_NON_MANDATED = "NM";
@@ -601,14 +568,9 @@ public class CommonUtils {
     }
 
     public static int getProjections(Date startDate, Date endDate, String frequency) {
-        Calendar startDateProj = Calendar.getInstance();
-        startDateProj.setTime(startDate);
-        Calendar endDateCalProj = Calendar.getInstance();
-        endDateCalProj.setTime(endDate);
-        
         if (endDate.after(startDate)) {
             if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
-               return endDateCalProj.get(Calendar.YEAR) - startDateProj.get(Calendar.YEAR);
+                return endDate.getYear() - startDate.getYear();
             } else {
                 Calendar startCalendar = Calendar.getInstance();
                 startCalendar.setTime(startDate);
@@ -693,6 +655,10 @@ public class CommonUtils {
         return ((monthNo - 1) / division) + 1;
     }
 
+    static int getPeriodFromDate(Date date, int division) {
+        return (date.getMonth() / division) + 1;
+    }
+
     public static int getStartMonth(int period, String frequency) {
 
         int month = 1;
@@ -718,6 +684,18 @@ public class CommonUtils {
             month = period;
         }
 
+        return month;
+    }
+
+    public static int getStartMonthForDate(int period, int year, String frequency, Date startDate) {
+        int startMonth = 0;
+        if ((startDate != null) && (startDate.getYear() == year)) {
+            startMonth = startDate.getMonth() + 1;
+        }
+        int month = getStartMonth(period, frequency);
+        if (startMonth != 0 && startMonth >= month) {
+            month = startMonth;
+        }
         return month;
     }
 
@@ -747,6 +725,17 @@ public class CommonUtils {
         return month;
     }
 
+    public static int getEndMonthForDate(int period, int year, String frequency, Date endDate) {
+        int endMonth = 0;
+        if ((endDate != null) && (endDate.getYear() == year)) {
+            endMonth = endDate.getMonth() + 1;
+        }
+        int month = getEndMonth(period, frequency);
+        if (endMonth != 0 && endMonth <= month) {
+            month = endMonth;
+        }
+        return month;
+    }
 
     static int getEndDay(int monthNo, int year) {
         Calendar ob = Calendar.getInstance();

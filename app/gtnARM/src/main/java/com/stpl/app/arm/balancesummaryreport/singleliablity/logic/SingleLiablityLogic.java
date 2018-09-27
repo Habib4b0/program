@@ -127,7 +127,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
                 singleLiablityAdjustmentdto = new AdjustmentDTO();
                 finalList.add(singleLiablityAdjustmentdto);
                 singleLiablityAdjustmentdto.setBranditemmasterSid(mastersId);
-                singleLiablityAdjustmentdto.setMasterIds(selection.getMasterSids());
+                singleLiablityAdjustmentdto.setMasterIds((TreeMap<String, Integer>) selection.getMasterSids());
                 singleLiablityAdjustmentdto.setLevelNo(selection.getLevelNo());
                 singleLiablityAdjustmentdto.setGroup(String.valueOf(list1[0]));
                 singleLiablityAdjustmentdto.setChildrenAllowed((!CommonConstant.TOTAL.equalsIgnoreCase(singleLiablityAdjustmentdto.getGroup()) && selection.getSummarylevelFilterNo() == 0) ? isChild : false);
@@ -265,7 +265,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
             List<Object> inputs = new ArrayList<>();
             inputs.add(singleLiablitySelection.getDataSelectionDTO().getProjectionId());
             inputs.add(singleLiablitySelection.getFrequency());
-            singleLiablitySelection.setMasterSids(ARMUtils.getMasterIdsMap());
+            singleLiablitySelection.setMasterSids((TreeMap<String, Integer>) ARMUtils.getMasterIdsMap());
             String nextLevel = getNextLevelSingleLiablity(dto, singleLiablitySelection);
             inputs.add(nextLevel);
             inputs.add(singleLiablitySelection.getFromDate());

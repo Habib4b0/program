@@ -282,7 +282,7 @@ public class CommonUtils {
 
         @Override
         public int compare(HelperDTO o1, HelperDTO o2) {
-            return Integer.valueOf(o1.getId()).compareTo(o2.getId());
+            return Integer.compare(o1.getId(), o2.getId());
         }
     }
 
@@ -395,7 +395,7 @@ public class CommonUtils {
             @Override
             public void unload(BeforeUnload.UnloadEvent event) {
                 if (uI.isExcelFlag()) { // Fix to avoid blank page issue while excel export
-                    uI.setExcelFlag(Boolean.FALSE);
+                    uI.setExcelFlag(false);
                 } else {
                     uI.close();
                 }
@@ -962,13 +962,13 @@ public class CommonUtils {
      * @param count
      * @return
      */
-    public static CustomComboBox loadPriceComboBox(final CustomComboBox select, List priceList, int count) {
+    public static CustomComboBox loadPriceComboBox(final CustomComboBox select, List priceList, int priceCount) {
         try {
             select.removeAllItems();
             select.setImmediate(true);
             select.setNullSelectionAllowed(false);
             select.addItem(GlobalConstants.getSelectOne());
-
+            int count = priceCount;
             priceList.clear();
 
             List<Object[]> list = QueryUtils.getItemData(Collections.emptyList(), "getMonthYear", null);
@@ -1088,8 +1088,8 @@ public class CommonUtils {
 
             rateBasisSelect.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
             List<HelperDTO> list = HelperListUtil.getInstance().getListNameMap().get(listName);
-            Collections.sort(list, sorter);
             if (list != null && !list.isEmpty()) {
+                Collections.sort(list, sorter);
                 for (HelperDTO helperDTO : list) {
                     if (getCondition(adjustmentType, helperDTO)) {
                         rateBasisSelect.addItem(helperDTO.getId());

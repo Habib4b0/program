@@ -234,7 +234,7 @@ public class CommonLogic {
 
         @Override
         public int compare(HelperDTO o1, HelperDTO o2) {
-            return Integer.valueOf(o1.getId()).compareTo(o2.getId());
+            return Integer.compare(o1.getId(), o2.getId());
         }
     }
 
@@ -450,7 +450,7 @@ public class CommonLogic {
     }
 
     public static List<String> getTempTableList() {
-        List<String> tempTables = new ArrayList<>();
+        List<String> tempTables = new ArrayList<>(NumericConstants.TWENTY_ONE);
         tempTables.add("ST_NM_SALES_PROJECTION");
         tempTables.add("ST_NM_ACTUAL_SALES");
         tempTables.add("ST_NM_SALES_PROJECTION_MASTER");
@@ -781,7 +781,7 @@ public class CommonLogic {
             pipeLineList.add(VariableConstants.RATE_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getRateDeductionValue()) || !StringUtils.isBlank(dto.getRateDeductionValue())) {
-            pipeLineAccrualMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
+            pipeLineAccrualMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace(ARMUtils.SINGLE_QUOTES, ARMUtils.EMPTY_CHARACTER)));
             pipeLineList.add(VariableConstants.RATE_DEDUCTION_VALUE);
         }
         if (dto.getRateBasisValue() != 0) {
@@ -804,7 +804,7 @@ public class CommonLogic {
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getSummarydeductionValues()) || !StringUtils.isBlank(dto.getSummarydeductionValues())) {
-            pipeLineAccrualMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
+            pipeLineAccrualMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES, ARMUtils.EMPTY_CHARACTER)));
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_VALUE);
         }
 
@@ -975,7 +975,7 @@ public class CommonLogic {
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getSummarydeductionValues()) || !StringUtils.isBlank(dto.getSummarydeductionValues())) {
-            demandPaymentsMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
+            demandPaymentsMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES, ARMUtils.EMPTY_CHARACTER)));
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_VALUE);
         }
         if (dto.getSummaryvariables() != null && !dto.getSummaryvariables().isEmpty()) {
@@ -1096,7 +1096,7 @@ public class CommonLogic {
             pipeLineList.add(VariableConstants.RATE_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getRateDeductionValue()) || !StringUtils.isBlank(dto.getRateDeductionValue())) {
-            pipeLineinventoryMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
+            pipeLineinventoryMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace(ARMUtils.SINGLE_QUOTES, ARMUtils.EMPTY_CHARACTER)));
             pipeLineList.add(VariableConstants.RATE_DEDUCTION_VALUE);
         }
         if (dto.getRateBasisValue() != 0) {
@@ -1121,7 +1121,7 @@ public class CommonLogic {
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getSummarydeductionValues()) && !StringUtils.isBlank(dto.getSummarydeductionValues()) && dto.getSummarydeductionValues() != null) {
-            pipeLineinventoryMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
+            pipeLineinventoryMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES, ARMUtils.EMPTY_CHARACTER)));
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_VALUE);
         }
 
@@ -1458,7 +1458,7 @@ public class CommonLogic {
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getSummarydeductionValues()) && !StringUtils.isBlank(dto.getSummarydeductionValues()) && dto.getSummarydeductionValues() != null) {
-            inflationAdjMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
+            inflationAdjMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES, ARMUtils.EMPTY_CHARACTER)));
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_VALUE);
         }
 
@@ -1597,7 +1597,7 @@ public class CommonLogic {
             returnReserveList.add(VariableConstants.RATE_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getRateDeductionValue()) || !StringUtils.isBlank(dto.getRateDeductionValue())) {
-            returnReserveMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
+            returnReserveMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace(ARMUtils.SINGLE_QUOTES, ARMUtils.EMPTY_CHARACTER)));
             returnReserveList.add(VariableConstants.RATE_DEDUCTION_VALUE);
         }
 //-----------------------------------RETURN RESERVE DATA--------------------------------------
@@ -1631,7 +1631,7 @@ public class CommonLogic {
             returnReserveList.add(VariableConstants.SUMMARY_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getSummarydeductionValues()) || !StringUtils.isBlank(dto.getSummarydeductionValues())) {
-            returnReserveMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
+            returnReserveMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES, ARMUtils.EMPTY_CHARACTER)));
             returnReserveList.add(VariableConstants.SUMMARY_DEDUCTION_VALUE);
         }
 
@@ -1866,7 +1866,7 @@ public class CommonLogic {
 
     public static int getSummaryPeriods(String fromPeriod, String toPeriod, String frequency) {
         if (ARMConstants.getAnnually().equals(frequency)) {
-            return (Integer.valueOf(toPeriod) - Integer.parseInt(fromPeriod)) + 1;
+            return (Integer.parseInt(toPeriod) - Integer.parseInt(fromPeriod)) + 1;
         } else {
             List inputs = new ArrayList();
             String column = ARMConstants.getSemiAnnually().equals(frequency) ? "SEMI_ANNUAL" : frequency.replace("ly", StringUtils.EMPTY);

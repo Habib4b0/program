@@ -1,0 +1,3737 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>DTX_PSTG_CONTRACT_RS_INTERFACE</name>
+    <description/>
+    <extended_description/>
+    <trans_version/>
+    <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
+    <directory>&#x2f;</directory>
+    <parameters>
+    </parameters>
+    <log>
+<trans-log-table><connection/>
+<schema/>
+<table/>
+<size_limit_lines/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
+<perf-log-table><connection/>
+<schema/>
+<table/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>SEQ_NR</id><enabled>Y</enabled><name>SEQ_NR</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>INPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>INPUT_BUFFER_ROWS</name></field><field><id>OUTPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>OUTPUT_BUFFER_ROWS</name></field></perf-log-table>
+<channel-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>LOGGING_OBJECT_TYPE</id><enabled>Y</enabled><name>LOGGING_OBJECT_TYPE</name></field><field><id>OBJECT_NAME</id><enabled>Y</enabled><name>OBJECT_NAME</name></field><field><id>OBJECT_COPY</id><enabled>Y</enabled><name>OBJECT_COPY</name></field><field><id>REPOSITORY_DIRECTORY</id><enabled>Y</enabled><name>REPOSITORY_DIRECTORY</name></field><field><id>FILENAME</id><enabled>Y</enabled><name>FILENAME</name></field><field><id>OBJECT_ID</id><enabled>Y</enabled><name>OBJECT_ID</name></field><field><id>OBJECT_REVISION</id><enabled>Y</enabled><name>OBJECT_REVISION</name></field><field><id>PARENT_CHANNEL_ID</id><enabled>Y</enabled><name>PARENT_CHANNEL_ID</name></field><field><id>ROOT_CHANNEL_ID</id><enabled>Y</enabled><name>ROOT_CHANNEL_ID</name></field></channel-log-table>
+<step-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
+    </log>
+    <maxdate>
+      <connection/>
+      <table/>
+      <field/>
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file/>
+    <capture_step_performance>N</capture_step_performance>
+    <step_performance_capturing_delay>1000</step_performance_capturing_delay>
+    <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+  <created_user>-</created_user>
+  <created_date>2018&#x2f;08&#x2f;21 16&#x3a;34&#x3a;13.176</created_date>
+  <modified_user>-</modified_user>
+  <modified_date>2018&#x2f;08&#x2f;21 16&#x3a;34&#x3a;13.176</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
+  </info>
+  <notepads>
+  </notepads>
+  <connection>
+    <name>STAGING_DB</name>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
+    <port>1433</port>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <order>
+  <hop> <from>Add Created_By</from><to>Table output</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Modified Value</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants </from><to>Modified Batch_Id Value</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>
+  <hop> <from>CSV file input</from><to>Get System Info</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database join</from><to>Add constants </to><enabled>Y</enabled> </hop>
+  <hop> <from>Get System Info</from><to>Add Created_By</to><enabled>Y</enabled> </hop>
+  <hop> <from>Modified Batch_Id Value</from><to>Validate Required field</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table output</from><to>Database join</to><enabled>Y</enabled> </hop>
+  <hop> <from>Validate Required field</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Validate Required field</from><to>Add constants 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Modified Value</from><to>Modified Rebate Pgm Typ</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2 2</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>LENGTH VALIDATION</from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Modified Rebate Pgm Typ</from><to>LENGTH VALIDATION</to><enabled>Y</enabled> </hop>
+  <hop> <from>LENGTH VALIDATION</from><to>Select values</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values</from><to>VIEW TABLE</to><enabled>Y</enabled> </hop>
+  </order>
+  <step>
+    <name>Add Created_By</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>CREATED_BY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>REVITAS</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>544</xloc>
+      <yloc>134</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>REBATE_SCHEDULE_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>REBATE_SCHEDULE_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>REBATE_SCHEDULE_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>REBATE_PROGRAM_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>REBATE_SCHEDULE_CATEGORY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>REBATE_SCHEDULE_STATUS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>PAYMENT_METHOD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>PAYMENT_FREQUENCY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>REBATE_FREQUENCY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>CALENDAR</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Standard</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>REBATE_PLAN_LEVEL</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>IDENTIFIER_CODE_QUALIFIER</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>ITEM_FAMILY_PLAN_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>PRICE_SCHEDULE_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>REBATE_PLAN_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>SOURCE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>RAVITAS</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>MODIFIED_BY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>RAVITAS</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>COMPANY_FAMILY_PLAN_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>TIER_FORMULA_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>PAYMENT_LEVEL</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>CUSTOMER</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>CALCULATION_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>ITEM_REBATE_START_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>REBATE_SCHEDULE_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>NOT AVAILABLE</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>DEDUCTION_INCLUSION</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Y</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>IS_COMPLETE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Y</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>395</xloc>
+      <yloc>454</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants </name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>BATCH_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>date</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ADD_CHG_DEL_INDICATOR</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>A</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>543</xloc>
+      <yloc>321</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>REASON_FOR _FAILURE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>REQUIRED FIELD MISSING</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ERROR_CODE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E01</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>654</xloc>
+      <yloc>505</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>REASON_FOR _FAILURE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>LENGTH IS MORE</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ERROR_CODE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E01</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>578</xloc>
+      <yloc>651</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>CSV file input</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <filename>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;Encrypted_File_Name&#x7d;_DECRYPT.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>&#x24;&#x7b;DELIMITER&#x7d;</separator>
+    <enclosure>&#x22;</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <encoding/>
+    <fields>
+      <field>
+        <name>AWARDTYP_CD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CONT_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPGRP_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPTTYP_CD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_BASIS_DISCPCT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_BASIS_PRICE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_BASIS_PRICE_NBP</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_CBK_RATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_DEAD_NET_MULTIPLIER</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_DFLT_CONT_PRICE1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_DFLT_CONT_PRICE2</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_DFLT_CONT_PRICE3</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_DFLT_FLG_IMPRPU</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_DFLT_REBPCT1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_DFLT_REBPCT2</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_DFLT_REBPCT3</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_DT_END</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_DT_PRICEPROT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_DT_START</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_FLG_HOLD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_FLG_SYSCALC</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_MOD_SEQ</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_NUM_PRIOR</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PBASISCD_NUM_NBP</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT01</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT02</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT03</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT04</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT05</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT06</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT07</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT08</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT09</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT10</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT11</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT12</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT13</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT14</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT15</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT16</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT17</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT18</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT19</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PERCENT20</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_POINT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PPROT_PCT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PREPAY_PCT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PREV_ADJ_TOT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PRICE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_PRICE_CAPPCT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_REIMB</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_STEP_TIER</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CPPT_SVCFEE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CSF_CPPG_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>FLG_NOTE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>FORMULAID_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>INDXTYP_CD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>LASTMOD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PBASISCD_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PBASIS_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PPDIFFTYP_CD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PRCTYP_CD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PRODELIG_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PROD_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PROD_NUM_FLATPROD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>REASON_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>REVISION</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>STATUS_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>UOM_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>USERID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PRC_RBT_PLN_TYP</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PT_PG_PRD_MIN_START</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PBASISCD_DESC</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PROD_UOM_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PROD_DESC</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>FORMULA_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PT_STATUS_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PT_STATUS_ABBR</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PT_STATUS_DESC</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>GLX_ITM_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>539</xloc>
+      <yloc>37</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Database join</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING_DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT DISTINCT&#xd;&#xa;     cpgrp.cpgrp_num AS cpgrpNum,&#xd;&#xa;     cpgrp.cpgrp_desc AS cpgrpDesc,&#xd;&#xa;     cpgrp.PG_PMT_RBT_FRQ,&#xd;&#xa;     mkt.mkt,&#xd;&#xa;     cn.MKTTYP_ID &#xd;&#xa;FROM PSTG_CPGRP_INTERFACE cpgrp&#xd;&#xa;     INNER JOIN  PSTG_CONTRACT_RS_INTERFACE RS ON RS.CPGRP_NUM&#x3d;cpgrp.cpgrp_num&#xd;&#xa;     INNER JOIN  PSTG_CONT_INTERFACE cn ON cn.cont_num&#x3d;cpgrp.cont_num&#xd;&#xa;     LEFT join PSTG_CONTRACT_CPGRP_PGM_MTK_INTERFACE mkt on RS.CPGRP_NUM&#x3d;mkt.cpgrp_num&#xd;&#xa;WHERE cpgrp.cpgrp_num&#x3d;&#x3f;&#xd;&#xa;&#xd;&#xa;    </sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+      <field>
+        <name>CPGRP_NUM</name>
+        <type>String</type>
+      </field>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>546</xloc>
+      <yloc>218</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Get System Info</name>
+    <type>SystemInfo</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>MODIFIED_DATE</name>
+        <type>system date &#x28;fixed&#x29;</type>
+        </field>
+      <field>
+        <name>CREATED_DATE</name>
+        <type>system date &#x28;fixed&#x29;</type>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>394</xloc>
+      <yloc>104</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING_DB</connection>
+    <schema>dbo</schema>
+    <table>IVLD_PSTG_CONTRACT_RS_INTERFACE</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>AWARDTYP_CD</column_name>
+          <stream_name>AWARDTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>CONT_NUM</column_name>
+          <stream_name>CONT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>CPGRP_NUM</column_name>
+          <stream_name>CPGRP_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>CPPTTYP_CD</column_name>
+          <stream_name>CPPTTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_BASIS_DISCPCT</column_name>
+          <stream_name>CPPT_BASIS_DISCPCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_BASIS_PRICE</column_name>
+          <stream_name>CPPT_BASIS_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_BASIS_PRICE_NBP</column_name>
+          <stream_name>CPPT_BASIS_PRICE_NBP</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_CBK_RATE</column_name>
+          <stream_name>CPPT_CBK_RATE</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DEAD_NET_MULTIPLIER</column_name>
+          <stream_name>CPPT_DEAD_NET_MULTIPLIER</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_CONT_PRICE1</column_name>
+          <stream_name>CPPT_DFLT_CONT_PRICE1</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_CONT_PRICE2</column_name>
+          <stream_name>CPPT_DFLT_CONT_PRICE2</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_CONT_PRICE3</column_name>
+          <stream_name>CPPT_DFLT_CONT_PRICE3</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_FLG_IMPRPU</column_name>
+          <stream_name>CPPT_DFLT_FLG_IMPRPU</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_REBPCT1</column_name>
+          <stream_name>CPPT_DFLT_REBPCT1</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_REBPCT2</column_name>
+          <stream_name>CPPT_DFLT_REBPCT2</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_REBPCT3</column_name>
+          <stream_name>CPPT_DFLT_REBPCT3</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DT_END</column_name>
+          <stream_name>CPPT_DT_END</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DT_PRICEPROT</column_name>
+          <stream_name>CPPT_DT_PRICEPROT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DT_START</column_name>
+          <stream_name>CPPT_DT_START</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_FLG_HOLD</column_name>
+          <stream_name>CPPT_FLG_HOLD</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_FLG_SYSCALC</column_name>
+          <stream_name>CPPT_FLG_SYSCALC</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_MOD_SEQ</column_name>
+          <stream_name>CPPT_MOD_SEQ</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_NUM</column_name>
+          <stream_name>CPPT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_NUM_PRIOR</column_name>
+          <stream_name>CPPT_NUM_PRIOR</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PBASISCD_NUM_NBP</column_name>
+          <stream_name>CPPT_PBASISCD_NUM_NBP</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT</column_name>
+          <stream_name>CPPT_PERCENT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT01</column_name>
+          <stream_name>CPPT_PERCENT01</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT02</column_name>
+          <stream_name>CPPT_PERCENT02</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT03</column_name>
+          <stream_name>CPPT_PERCENT03</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT04</column_name>
+          <stream_name>CPPT_PERCENT04</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT05</column_name>
+          <stream_name>CPPT_PERCENT05</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT06</column_name>
+          <stream_name>CPPT_PERCENT06</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT07</column_name>
+          <stream_name>CPPT_PERCENT07</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT08</column_name>
+          <stream_name>CPPT_PERCENT08</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT09</column_name>
+          <stream_name>CPPT_PERCENT09</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT10</column_name>
+          <stream_name>CPPT_PERCENT10</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT11</column_name>
+          <stream_name>CPPT_PERCENT11</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT12</column_name>
+          <stream_name>CPPT_PERCENT12</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT13</column_name>
+          <stream_name>CPPT_PERCENT13</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT14</column_name>
+          <stream_name>CPPT_PERCENT14</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT15</column_name>
+          <stream_name>CPPT_PERCENT15</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT16</column_name>
+          <stream_name>CPPT_PERCENT16</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT17</column_name>
+          <stream_name>CPPT_PERCENT17</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT18</column_name>
+          <stream_name>CPPT_PERCENT18</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT19</column_name>
+          <stream_name>CPPT_PERCENT19</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT20</column_name>
+          <stream_name>CPPT_PERCENT20</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_POINT</column_name>
+          <stream_name>CPPT_POINT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PPROT_PCT</column_name>
+          <stream_name>CPPT_PPROT_PCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PREPAY_PCT</column_name>
+          <stream_name>CPPT_PREPAY_PCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PREV_ADJ_TOT</column_name>
+          <stream_name>CPPT_PREV_ADJ_TOT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PRICE</column_name>
+          <stream_name>CPPT_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PRICE_CAPPCT</column_name>
+          <stream_name>CPPT_PRICE_CAPPCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_REIMB</column_name>
+          <stream_name>CPPT_REIMB</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_STEP_TIER</column_name>
+          <stream_name>CPPT_STEP_TIER</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_SVCFEE</column_name>
+          <stream_name>CPPT_SVCFEE</stream_name>
+        </field>
+        <field>
+          <column_name>CSF_CPPG_NUM</column_name>
+          <stream_name>CSF_CPPG_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>FLG_NOTE</column_name>
+          <stream_name>FLG_NOTE</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULAID_NUM</column_name>
+          <stream_name>FORMULAID_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>INDXTYP_CD</column_name>
+          <stream_name>INDXTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>LASTMOD</column_name>
+          <stream_name>LASTMOD</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_NUM</column_name>
+          <stream_name>PBASISCD_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PBASIS_NUM</column_name>
+          <stream_name>PBASIS_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PPDIFFTYP_CD</column_name>
+          <stream_name>PPDIFFTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>PRCTYP_CD</column_name>
+          <stream_name>PRCTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>PRODELIG_NUM</column_name>
+          <stream_name>PRODELIG_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_NUM</column_name>
+          <stream_name>PROD_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_NUM_FLATPROD</column_name>
+          <stream_name>PROD_NUM_FLATPROD</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_NUM</column_name>
+          <stream_name>REASON_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>REVISION</column_name>
+          <stream_name>REVISION</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS_NUM</column_name>
+          <stream_name>STATUS_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>UOM_NUM</column_name>
+          <stream_name>UOM_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>USERID</column_name>
+          <stream_name>USERID</stream_name>
+        </field>
+        <field>
+          <column_name>PRC_RBT_PLN_TYP</column_name>
+          <stream_name>PRC_RBT_PLN_TYP</stream_name>
+        </field>
+        <field>
+          <column_name>PT_PG_PRD_MIN_START</column_name>
+          <stream_name>PT_PG_PRD_MIN_START</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_DESC</column_name>
+          <stream_name>PBASISCD_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_UOM_NUM</column_name>
+          <stream_name>PROD_UOM_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_DESC</column_name>
+          <stream_name>PROD_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_NAME</column_name>
+          <stream_name>FORMULA_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>PT_STATUS_NUM</column_name>
+          <stream_name>PT_STATUS_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PT_STATUS_ABBR</column_name>
+          <stream_name>PT_STATUS_ABBR</stream_name>
+        </field>
+        <field>
+          <column_name>PT_STATUS_DESC</column_name>
+          <stream_name>PT_STATUS_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>GLX_ITM_NO</column_name>
+          <stream_name>GLX_ITM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>PSTG_CONTRACT_RS_INTERFACE_SID</column_name>
+          <stream_name>PSTG_CONTRACT_RS_INTERFACE_SID</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_FIELD</column_name>
+          <stream_name>ERROR_FIELD</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>REASON_FOR _FAILURE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>676</xloc>
+      <yloc>656</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING_DB</connection>
+    <schema>dbo</schema>
+    <table>IVLD_PSTG_CONTRACT_RS_INTERFACE</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>AWARDTYP_CD</column_name>
+          <stream_name>AWARDTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>CONT_NUM</column_name>
+          <stream_name>CONT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>CPGRP_NUM</column_name>
+          <stream_name>CPGRP_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>CPPTTYP_CD</column_name>
+          <stream_name>CPPTTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_BASIS_DISCPCT</column_name>
+          <stream_name>CPPT_BASIS_DISCPCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_BASIS_PRICE</column_name>
+          <stream_name>CPPT_BASIS_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_BASIS_PRICE_NBP</column_name>
+          <stream_name>CPPT_BASIS_PRICE_NBP</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_CBK_RATE</column_name>
+          <stream_name>CPPT_CBK_RATE</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DEAD_NET_MULTIPLIER</column_name>
+          <stream_name>CPPT_DEAD_NET_MULTIPLIER</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_CONT_PRICE1</column_name>
+          <stream_name>CPPT_DFLT_CONT_PRICE1</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_CONT_PRICE2</column_name>
+          <stream_name>CPPT_DFLT_CONT_PRICE2</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_CONT_PRICE3</column_name>
+          <stream_name>CPPT_DFLT_CONT_PRICE3</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_FLG_IMPRPU</column_name>
+          <stream_name>CPPT_DFLT_FLG_IMPRPU</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_REBPCT1</column_name>
+          <stream_name>CPPT_DFLT_REBPCT1</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_REBPCT2</column_name>
+          <stream_name>CPPT_DFLT_REBPCT2</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_REBPCT3</column_name>
+          <stream_name>CPPT_DFLT_REBPCT3</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DT_END</column_name>
+          <stream_name>CPPT_DT_END</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DT_PRICEPROT</column_name>
+          <stream_name>CPPT_DT_PRICEPROT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DT_START</column_name>
+          <stream_name>CPPT_DT_START</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_FLG_HOLD</column_name>
+          <stream_name>CPPT_FLG_HOLD</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_FLG_SYSCALC</column_name>
+          <stream_name>CPPT_FLG_SYSCALC</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_MOD_SEQ</column_name>
+          <stream_name>CPPT_MOD_SEQ</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_NUM</column_name>
+          <stream_name>CPPT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_NUM_PRIOR</column_name>
+          <stream_name>CPPT_NUM_PRIOR</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PBASISCD_NUM_NBP</column_name>
+          <stream_name>CPPT_PBASISCD_NUM_NBP</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT</column_name>
+          <stream_name>CPPT_PERCENT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT01</column_name>
+          <stream_name>CPPT_PERCENT01</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT02</column_name>
+          <stream_name>CPPT_PERCENT02</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT03</column_name>
+          <stream_name>CPPT_PERCENT03</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT04</column_name>
+          <stream_name>CPPT_PERCENT04</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT05</column_name>
+          <stream_name>CPPT_PERCENT05</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT06</column_name>
+          <stream_name>CPPT_PERCENT06</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT07</column_name>
+          <stream_name>CPPT_PERCENT07</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT08</column_name>
+          <stream_name>CPPT_PERCENT08</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT09</column_name>
+          <stream_name>CPPT_PERCENT09</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT10</column_name>
+          <stream_name>CPPT_PERCENT10</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT11</column_name>
+          <stream_name>CPPT_PERCENT11</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT12</column_name>
+          <stream_name>CPPT_PERCENT12</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT13</column_name>
+          <stream_name>CPPT_PERCENT13</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT14</column_name>
+          <stream_name>CPPT_PERCENT14</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT15</column_name>
+          <stream_name>CPPT_PERCENT15</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT16</column_name>
+          <stream_name>CPPT_PERCENT16</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT17</column_name>
+          <stream_name>CPPT_PERCENT17</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT18</column_name>
+          <stream_name>CPPT_PERCENT18</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT19</column_name>
+          <stream_name>CPPT_PERCENT19</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT20</column_name>
+          <stream_name>CPPT_PERCENT20</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_POINT</column_name>
+          <stream_name>CPPT_POINT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PPROT_PCT</column_name>
+          <stream_name>CPPT_PPROT_PCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PREPAY_PCT</column_name>
+          <stream_name>CPPT_PREPAY_PCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PREV_ADJ_TOT</column_name>
+          <stream_name>CPPT_PREV_ADJ_TOT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PRICE</column_name>
+          <stream_name>CPPT_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PRICE_CAPPCT</column_name>
+          <stream_name>CPPT_PRICE_CAPPCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_REIMB</column_name>
+          <stream_name>CPPT_REIMB</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_STEP_TIER</column_name>
+          <stream_name>CPPT_STEP_TIER</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_SVCFEE</column_name>
+          <stream_name>CPPT_SVCFEE</stream_name>
+        </field>
+        <field>
+          <column_name>CSF_CPPG_NUM</column_name>
+          <stream_name>CSF_CPPG_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>FLG_NOTE</column_name>
+          <stream_name>FLG_NOTE</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULAID_NUM</column_name>
+          <stream_name>FORMULAID_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>INDXTYP_CD</column_name>
+          <stream_name>INDXTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>LASTMOD</column_name>
+          <stream_name>LASTMOD</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_NUM</column_name>
+          <stream_name>PBASISCD_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PBASIS_NUM</column_name>
+          <stream_name>PBASIS_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PPDIFFTYP_CD</column_name>
+          <stream_name>PPDIFFTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>PRCTYP_CD</column_name>
+          <stream_name>PRCTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>PRODELIG_NUM</column_name>
+          <stream_name>PRODELIG_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_NUM</column_name>
+          <stream_name>PROD_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_NUM_FLATPROD</column_name>
+          <stream_name>PROD_NUM_FLATPROD</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_NUM</column_name>
+          <stream_name>REASON_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>REVISION</column_name>
+          <stream_name>REVISION</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS_NUM</column_name>
+          <stream_name>STATUS_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>UOM_NUM</column_name>
+          <stream_name>UOM_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>USERID</column_name>
+          <stream_name>USERID</stream_name>
+        </field>
+        <field>
+          <column_name>PRC_RBT_PLN_TYP</column_name>
+          <stream_name>PRC_RBT_PLN_TYP</stream_name>
+        </field>
+        <field>
+          <column_name>PT_PG_PRD_MIN_START</column_name>
+          <stream_name>PT_PG_PRD_MIN_START</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_DESC</column_name>
+          <stream_name>PBASISCD_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_UOM_NUM</column_name>
+          <stream_name>PROD_UOM_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_DESC</column_name>
+          <stream_name>PROD_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_NAME</column_name>
+          <stream_name>FORMULA_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>PT_STATUS_NUM</column_name>
+          <stream_name>PT_STATUS_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PT_STATUS_ABBR</column_name>
+          <stream_name>PT_STATUS_ABBR</stream_name>
+        </field>
+        <field>
+          <column_name>PT_STATUS_DESC</column_name>
+          <stream_name>PT_STATUS_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>GLX_ITM_NO</column_name>
+          <stream_name>GLX_ITM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>PSTG_CONTRACT_RS_INTERFACE_SID</column_name>
+          <stream_name>PSTG_CONTRACT_RS_INTERFACE_SID</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_FIELD</column_name>
+          <stream_name>ERROR_FIELD</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>REASON_FOR _FAILURE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>597</xloc>
+      <yloc>733</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>LENGTH VALIDATION</name>
+    <type>Validator</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<validate_all>Y</validate_all>
+<concat_errors>Y</concat_errors>
+<concat_separator>,</concat_separator>
+       <validator_field><name>REBATE_PLAN_ID</name>
+<validation_name>REBATE_PLAN_ID</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIELD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>REBATE_SCHEDULE_ID</name>
+<validation_name>REBATE_SCHEDULE_ID</validation_name>
+<max_length>38</max_length>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIELD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>REBATE_SCHEDULE_NAME</name>
+<validation_name>REBATE_SCHEDULE_NAME</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIELD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>PROD_DESC</name>
+<validation_name>PROD_DESC</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>LENGTH IS MORE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>462</xloc>
+      <yloc>641</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Modified Batch_Id Value</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;&#xd;&#xa;var datevalue&#x3d;new Date&#x28;&#x29;&#x3b;&#xd;&#xa;var sdf &#x3d; new java.text.SimpleDateFormat&#x28;&#x22;yyyymmdd_hhmmss&#x22;&#x29;&#x3b;&#xd;&#xa;var BATCH_ID &#x3d; &#x22;RP_&#x22;&#x2b;sdf.format&#x28;datevalue&#x29;&#x3b; </jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>BATCH_ID</name>
+        <rename>BATCH_ID</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>383</xloc>
+      <yloc>298</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Modified Rebate Pgm Typ</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;&#xd;&#xa;if&#x28;MKTTYP_ID&#x3d;&#x3d; null &#x7c;&#x7c; mkt&#x3d;&#x3d;null&#x29;&#xd;&#xa;&#x7b;&#xd;&#xa; REBATE_PROGRAM_TYPE&#x3d;&#x22;NO_RBT_PGM_TYP&#x22;&#x3b;&#xd;&#xa;&#x7d;&#xd;&#xa;else if&#x28;&#x28;MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;PURCHASE BASEE CONTRACT&#x22; &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;GOVERNMENT CHARGEBACK&#x22; &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;PHS CHARGEBACK&#x22;&#x29; &#x26;&#x26;&#xd;&#xa; &#x28;mkt.toUpperCase&#x28;&#x29; &#x21;&#x3d; &#x22;BONA FIDE&#x28;ADMIN FEE&#x29;&#x22; &#x7c;&#x7c; mkt.toUpperCase&#x28;&#x29; &#x21;&#x3d; &#x22;NON BONA FIDE&#x28;ADMIN FEE&#x29;&#x22;&#x29;&#x29;&#xd;&#xa;&#x7b;&#xd;&#xa;     REBATE_PROGRAM_TYPE&#x3d;&#x22;CHARGEBACK&#x22;&#x3b;&#xd;&#xa;&#x7d;&#xd;&#xa;else if&#x28;&#x28;MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;PURCHASE BASEE REBATE&#x22; &#x29; &#x26;&#x26;&#xd;&#xa; &#x28;mkt.toUpperCase&#x28;&#x29; &#x3d;&#x3d; &#x22;BONA FIDE&#x28;ADMIN FEE&#x29;&#x22; &#x7c;&#x7c; mkt.toUpperCase&#x28;&#x29; &#x3d;&#x3d; &#x22;NON BONA FIDE&#x28;ADMIN FEE&#x29;&#x22;&#x29;&#x29;&#xd;&#xa;&#x7b;&#xd;&#xa;     REBATE_PROGRAM_TYPE&#x3d;&#x22;DIR_PURCH_ADMIN&#x22;&#x3b;&#xd;&#xa;&#x7d;&#xd;&#xa;else if&#x28;&#x28;MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;PURCHASE BASEE REBATE&#x22; &#x29; &#x26;&#x26;&#xd;&#xa; &#x28;mkt.toUpperCase&#x28;&#x29; &#x3d;&#x3d; &#x22;PBC FLATE REBATE&#x22; &#x7c;&#x7c; mkt.toUpperCase&#x28;&#x29; &#x3d;&#x3d; &#x22;PBC PERFORMANCE REBATE&#x22; &#x7c;&#x7c; mkt.toUpperCase&#x28;&#x29; &#x3d;&#x3d; &#x22;PBC REBATE&#x28;DIRECT SALES&#x29;&#x22;&#x29;&#x29;&#xd;&#xa;&#x7b;&#xd;&#xa;     REBATE_PROGRAM_TYPE&#x3d;&#x22;DIR_PURCH_REB&#x22;&#x3b;&#xd;&#xa;&#x7d;&#xd;&#xa;else if&#x28;MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;WHOLESALER DSA&#x22; &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;DSA&#x22;&#x29;&#xd;&#xa; &#x7b;&#xd;&#xa;     REBATE_PROGRAM_TYPE&#x3d;&#x22;DSA FEES&#x22;&#x3b;&#xd;&#xa;&#x7d;&#xd;&#xa;else if&#x28;MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;MEDI&#x22; &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;CREBMMCO&#x22;&#xd;&#xa;  &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;MMCO&#x22; &#xd;&#xa;  &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;MMCO COMM REBATE&#x22;&#xd;&#xa;  &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;SPAP&#x22;&#xd;&#xa;  &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;ADAP&#x22;&#xd;&#xa;  &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;SUPP&#x22;&#xd;&#xa;  &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;J-CODE&#x22;&#x29;&#xd;&#xa; &#x7b;&#xd;&#xa;     REBATE_PROGRAM_TYPE&#x3d;&#x22;MEDICAID_REB&#x22;&#x3b;&#xd;&#xa;&#x7d;&#xd;&#xa;else if&#x28;&#x28;MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;COMMERCIAL REBATE&#x22; &#x29; &#x26;&#x26;&#xd;&#xa; &#x28;mkt.toUpperCase&#x28;&#x29; &#x3d;&#x3d; &#x22;BONA FIDE&#x28;ADMIN FEE&#x29;&#x22; &#x7c;&#x7c; mkt.toUpperCase&#x28;&#x29; &#x3d;&#x3d; &#x22;NON BONA FIDE&#x28;ADMIN FEE&#x29;&#x22;&#x29;&#x29;&#xd;&#xa;&#x7b;&#xd;&#xa;     REBATE_PROGRAM_TYPE&#x3d;&#x22;MGC_ADMIN&#x22;&#x3b;&#xd;&#xa;&#x7d;&#xd;&#xa;else&#xd;&#xa;&#x7b;&#xd;&#xa;    REBATE_PROGRAM_TYPE&#x3d;&#x22;NO_RBT_PGM_TYP&#x22;&#x3b;&#xd;&#xa;&#x7d;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>REBATE_PROGRAM_TYPE</name>
+        <rename>REBATE_PROGRAM_TYPE</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>411</xloc>
+      <yloc>544</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Modified Value</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;&#xd;&#xa;REBATE_SCHEDULE_ID&#x3d;cpgrpNum.concat&#x28;&#x22;-RBS&#x22;&#x29;&#x3b;&#xd;&#xa;REBATE_SCHEDULE_NO&#x3d;cpgrpNum.concat&#x28;&#x22;-RBS&#x22;&#x29;&#x3b;&#xd;&#xa;REBATE_SCHEDULE_NAME&#x3d;cpgrpDesc.concat&#x28;&#x22;-Rebate Schedule&#x22;&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;&#x2f;&#x2f;Rebate Schedule Category&#xd;&#xa;&#xd;&#xa;if&#x28;MKTTYP_ID&#x3d;&#x3d; null &#x7c;&#x7c; mkt&#x3d;&#x3d;null&#x29;&#xd;&#xa;&#x7b;&#xd;&#xa; REBATE_SCHEDULE_CATEGORY&#x3d;&#x22;REIMB&#x22;&#xd;&#xa;&#x7d;&#xd;&#xa;else if&#x28;&#x28;MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;PURCHASE BASEE CONTRACT&#x22; &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;GOVERNMENT CHARGEBACK&#x22; &#x7c;&#x7c; MKTTYP_ID.toUpperCase&#x28;&#x29;&#x3d;&#x3d;&#x22;PHS CHARGEBACK&#x22;&#x29; &#x26;&#x26;&#xd;&#xa; &#x28;mkt.toUpperCase&#x28;&#x29; &#x21;&#x3d; &#x22;BONA FIDE&#x28;ADMIN FEE&#x29;&#x22; &#x7c;&#x7c; mkt.toUpperCase&#x28;&#x29; &#x21;&#x3d; &#x22;NON BONA FIDE&#x28;ADMIN FEE&#x29;&#x22;&#x29;&#x29;&#xd;&#xa;&#x7b;&#xd;&#xa;     REBATE_SCHEDULE_CATEGORY&#x3d;&#x22;OI&#x22;&#xd;&#xa;&#x7d;&#xd;&#xa;else&#xd;&#xa;&#x7b;&#xd;&#xa;  REBATE_SCHEDULE_CATEGORY&#x3d;&#x22;REIMB&#x22;&#xd;&#xa;&#x7d;&#xd;&#xa;&#xd;&#xa;&#x2f;&#x2f;Rebate plan ID&#xd;&#xa;&#xd;&#xa;if&#x28;FORMULAID_NUM &#x21;&#x3d; null&#x29;&#xd;&#xa;&#x7b;&#xd;&#xa;  REBATE_PLAN_ID&#x3d;FORMULAID_NUM&#x3b;&#xd;&#xa;&#x7d;&#xd;&#xa;else&#xd;&#xa;&#x7b;&#xd;&#xa;  REBATE_PLAN_ID&#x3d;cpgrpNum.concat&#x28;PROD_NUM,CPPT_DT_START,&#x22;-&#x22;,CPPT_DT_END,&#x22;-RBP&#x22;&#x29;&#x3b;&#xd;&#xa;&#x7d;&#xd;&#xa;&#xd;&#xa;&#x2f;&#x2f;Calculation type&#xd;&#xa;&#xd;&#xa;var len&#x3d;cpgrpNum.length&#x3b;&#xd;&#xa;&#xd;&#xa;CALCULATION_TYPE&#x3d;&#x28;cpgrpNum.slice&#x28;len-2,len&#x29;&#x3d;&#x3d;&#x22;PP&#x22;&#x29;&#x3f;&#x22;PRICE PROTECTION&#x22; &#x3a;&#x22;REBATE PLAN&#x22;&#x3b;  &#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;ITEM_REBATE_START_DATE&#x3d;CPPT_DT_START&#x3b;&#xd;&#xa;&#xd;&#xa;&#x2f;&#x2f; Payment and Rebate frequency.........&#xd;&#xa;&#xd;&#xa;switch&#x28;PG_PMT_RBT_FRQ&#x29;&#x7b;&#xd;&#xa;  case &#x22;B_AS_SUB&#x22;&#x3a;&#xd;&#xa;         PAYMENT_FREQUENCY&#x3d;&#x22;Quarterly&#x22;&#x3b;&#xd;&#xa;         REBATE_FREQUENCY&#x3d;&#x22;Quarterly&#x22;&#x3b;&#xd;&#xa;         break&#x3b;&#xd;&#xa;  case &#x22;D_MONTHLY&#x22;&#x3a;&#xd;&#xa;         PAYMENT_FREQUENCY&#x3d;&#x22;MONTHLY&#x22;&#x3b;&#xd;&#xa;         REBATE_FREQUENCY&#x3d;&#x22;MONTHLY&#x22;&#x3b;&#xd;&#xa;         break&#x3b;&#xd;&#xa;  case &#x22;G_ANNUAL&#x22;&#x3a;&#xd;&#xa;         PAYMENT_FREQUENCY&#x3d;&#x22;Annual&#x22;&#x3b;&#xd;&#xa;         REBATE_FREQUENCY&#x3d;&#x22;Annual&#x22;&#x3b;&#xd;&#xa;         break&#x3b;&#xd;&#xa;  case &#x22;E_QTR&#x22;&#x3a;&#xd;&#xa;         PAYMENT_FREQUENCY&#x3d;&#x22;Quarterly&#x22;&#x3b;&#xd;&#xa;         REBATE_FREQUENCY&#x3d;&#x22;Quarterly&#x22;&#x3b;&#xd;&#xa;         break&#x3b;&#xd;&#xa;  default &#x3a;&#xd;&#xa;         PAYMENT_FREQUENCY&#x3d;&#x22;Quarterly&#x22;&#x3b;&#xd;&#xa;         REBATE_FREQUENCY&#x3d;&#x22;Quarterly&#x22;&#x3b;&#xd;&#xa;         &#xd;&#xa;&#x7d;&#xd;&#xa;&#xd;&#xa;&#x2f;&#x2f;CFP ,IFP nad PS_ID........&#xd;&#xa;&#xd;&#xa;COMPANY_FAMILY_PLAN_ID&#x3d;cpgrpNum.concat&#x28;&#x22;-CFP&#x22;&#x29;&#x3b;&#xd;&#xa;ITEM_FAMILY_PLAN_ID&#x3d;cpgrpNum.concat&#x28;&#x22;-IFP&#x22;&#x29;&#x3b;&#xd;&#xa;PRICE_SCHEDULE_ID&#x3d;cpgrpNum.concat&#x28;&#x22;-PSC&#x22;&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>REBATE_SCHEDULE_ID</name>
+        <rename>REBATE_SCHEDULE_ID</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>REBATE_SCHEDULE_NO</name>
+        <rename>REBATE_SCHEDULE_NO</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>REBATE_SCHEDULE_NAME</name>
+        <rename>REBATE_SCHEDULE_NAME</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>REBATE_SCHEDULE_CATEGORY</name>
+        <rename>REBATE_SCHEDULE_CATEGORY</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>REBATE_PLAN_ID</name>
+        <rename>REBATE_PLAN_ID</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>ITEM_FAMILY_PLAN_ID</name>
+        <rename>ITEM_FAMILY_PLAN_ID</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>CALCULATION_TYPE</name>
+        <rename>CALCULATION_TYPE</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>ITEM_REBATE_START_DATE</name>
+        <rename>ITEM_REBATE_START_DATE</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>PAYMENT_FREQUENCY</name>
+        <rename>PAYMENT_FREQUENCY</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>REBATE_FREQUENCY</name>
+        <rename>REBATE_FREQUENCY</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>COMPANY_FAMILY_PLAN_ID</name>
+        <rename>COMPANY_FAMILY_PLAN_ID</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>PRICE_SCHEDULE_ID</name>
+        <rename>PRICE_SCHEDULE_ID</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>267</xloc>
+      <yloc>524</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>AWARDTYP_CD</name>
+      </remove>      <remove>        <name>CPGRP_NUM</name>
+      </remove>      <remove>        <name>CPPTTYP_CD</name>
+      </remove>      <remove>        <name>CPPT_BASIS_DISCPCT</name>
+      </remove>      <remove>        <name>CPPT_BASIS_PRICE</name>
+      </remove>      <remove>        <name>CPPT_BASIS_PRICE_NBP</name>
+      </remove>      <remove>        <name>CPPT_CBK_RATE</name>
+      </remove>      <remove>        <name>CPPT_DEAD_NET_MULTIPLIER</name>
+      </remove>      <remove>        <name>CPPT_DFLT_CONT_PRICE1</name>
+      </remove>      <remove>        <name>CPPT_DFLT_CONT_PRICE2</name>
+      </remove>      <remove>        <name>CPPT_DFLT_CONT_PRICE3</name>
+      </remove>      <remove>        <name>CPPT_DFLT_FLG_IMPRPU</name>
+      </remove>      <remove>        <name>CPPT_DFLT_REBPCT1</name>
+      </remove>      <remove>        <name>CPPT_DFLT_REBPCT2</name>
+      </remove>      <remove>        <name>CPPT_DFLT_REBPCT3</name>
+      </remove>      <remove>        <name>CPPT_DT_END</name>
+      </remove>      <remove>        <name>CPPT_DT_PRICEPROT</name>
+      </remove>      <remove>        <name>CPPT_FLG_HOLD</name>
+      </remove>      <remove>        <name>CPPT_FLG_SYSCALC</name>
+      </remove>      <remove>        <name>CPPT_MOD_SEQ</name>
+      </remove>      <remove>        <name>CPPT_NUM</name>
+      </remove>      <remove>        <name>CPPT_NUM_PRIOR</name>
+      </remove>      <remove>        <name>CPPT_PBASISCD_NUM_NBP</name>
+      </remove>      <remove>        <name>CPPT_PERCENT</name>
+      </remove>      <remove>        <name>CPPT_PERCENT01</name>
+      </remove>      <remove>        <name>CPPT_PERCENT02</name>
+      </remove>      <remove>        <name>CPPT_PERCENT03</name>
+      </remove>      <remove>        <name>CPPT_PERCENT04</name>
+      </remove>      <remove>        <name>CPPT_PERCENT05</name>
+      </remove>      <remove>        <name>CPPT_PERCENT06</name>
+      </remove>      <remove>        <name>CPPT_PERCENT07</name>
+      </remove>      <remove>        <name>CPPT_PERCENT08</name>
+      </remove>      <remove>        <name>CPPT_PERCENT09</name>
+      </remove>      <remove>        <name>CPPT_PERCENT10</name>
+      </remove>      <remove>        <name>CPPT_PERCENT11</name>
+      </remove>      <remove>        <name>CPPT_PERCENT12</name>
+      </remove>      <remove>        <name>CPPT_PERCENT13</name>
+      </remove>      <remove>        <name>CPPT_PERCENT14</name>
+      </remove>      <remove>        <name>CPPT_PERCENT15</name>
+      </remove>      <remove>        <name>CPPT_PERCENT16</name>
+      </remove>      <remove>        <name>CPPT_PERCENT17</name>
+      </remove>      <remove>        <name>CPPT_PERCENT18</name>
+      </remove>      <remove>        <name>CPPT_PERCENT19</name>
+      </remove>      <remove>        <name>CPPT_PERCENT20</name>
+      </remove>      <remove>        <name>CPPT_POINT</name>
+      </remove>      <remove>        <name>CPPT_PPROT_PCT</name>
+      </remove>      <remove>        <name>CPPT_PREPAY_PCT</name>
+      </remove>      <remove>        <name>CPPT_PREV_ADJ_TOT</name>
+      </remove>      <remove>        <name>CPPT_PRICE</name>
+      </remove>      <remove>        <name>CPPT_PRICE_CAPPCT</name>
+      </remove>      <remove>        <name>CPPT_STEP_TIER</name>
+      </remove>      <remove>        <name>CPPT_SVCFEE</name>
+      </remove>      <remove>        <name>CSF_CPPG_NUM</name>
+      </remove>      <remove>        <name>FLG_NOTE</name>
+      </remove>      <remove>        <name>FORMULAID_NUM</name>
+      </remove>      <remove>        <name>INDXTYP_CD</name>
+      </remove>      <remove>        <name>LASTMOD</name>
+      </remove>      <remove>        <name>PBASISCD_NUM</name>
+      </remove>      <remove>        <name>PBASIS_NUM</name>
+      </remove>      <remove>        <name>PPDIFFTYP_CD</name>
+      </remove>      <remove>        <name>PRCTYP_CD</name>
+      </remove>      <remove>        <name>PRODELIG_NUM</name>
+      </remove>      <remove>        <name>PROD_NUM_FLATPROD</name>
+      </remove>      <remove>        <name>REASON_NUM</name>
+      </remove>      <remove>        <name>REVISION</name>
+      </remove>      <remove>        <name>STATUS_NUM</name>
+      </remove>      <remove>        <name>UOM_NUM</name>
+      </remove>      <remove>        <name>USERID</name>
+      </remove>      <remove>        <name>PRC_RBT_PLN_TYP</name>
+      </remove>      <remove>        <name>PBASISCD_DESC</name>
+      </remove>      <remove>        <name>PROD_UOM_NUM</name>
+      </remove>      <remove>        <name>FORMULA_NAME</name>
+      </remove>      <remove>        <name>PT_STATUS_NUM</name>
+      </remove>      <remove>        <name>PT_STATUS_ABBR</name>
+      </remove>      <remove>        <name>cpgrpNum</name>
+      </remove>      <remove>        <name>cpgrpDesc</name>
+      </remove>      <remove>        <name>PG_PMT_RBT_FRQ</name>
+      </remove>      <remove>        <name>mkt</name>
+      </remove>      <remove>        <name>MKTTYP_ID</name>
+      </remove>      <meta>        <name>PROD_NUM</name>
+        <rename>ITEM_ID</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>GLX_ITM_NO</name>
+        <rename>ITEM_NO</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>PROD_DESC</name>
+        <rename>ITEM_NAME</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>PT_STATUS_DESC</name>
+        <rename>ATTACHED_STATUS</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>PT_PG_PRD_MIN_START</name>
+        <rename>ATTACHED_DATE</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>CPPT_DT_START</name>
+        <rename>ITEM_START_DATE</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>CONT_NUM</name>
+        <rename>CONTRACT_ID</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>CPPT_REIMB</name>
+        <rename>REBATE_AMOUNT</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>290</xloc>
+      <yloc>671</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Table output</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING_DB</connection>
+    <schema>dbo</schema>
+    <table>PSTG_CONTRACT_RS_INTERFACE</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>Y</return_keys>
+    <return_field>PSTG_CONTRACT_RS_INTERFACE_SID</return_field>
+    <fields>
+        <field>
+          <column_name>AWARDTYP_CD</column_name>
+          <stream_name>AWARDTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>CONT_NUM</column_name>
+          <stream_name>CONT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>CPGRP_NUM</column_name>
+          <stream_name>CPGRP_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>CPPTTYP_CD</column_name>
+          <stream_name>CPPTTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_BASIS_DISCPCT</column_name>
+          <stream_name>CPPT_BASIS_DISCPCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_BASIS_PRICE</column_name>
+          <stream_name>CPPT_BASIS_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_BASIS_PRICE_NBP</column_name>
+          <stream_name>CPPT_BASIS_PRICE_NBP</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_CBK_RATE</column_name>
+          <stream_name>CPPT_CBK_RATE</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DEAD_NET_MULTIPLIER</column_name>
+          <stream_name>CPPT_DEAD_NET_MULTIPLIER</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_CONT_PRICE1</column_name>
+          <stream_name>CPPT_DFLT_CONT_PRICE1</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_CONT_PRICE2</column_name>
+          <stream_name>CPPT_DFLT_CONT_PRICE2</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_CONT_PRICE3</column_name>
+          <stream_name>CPPT_DFLT_CONT_PRICE3</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_FLG_IMPRPU</column_name>
+          <stream_name>CPPT_DFLT_FLG_IMPRPU</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_REBPCT1</column_name>
+          <stream_name>CPPT_DFLT_REBPCT1</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_REBPCT2</column_name>
+          <stream_name>CPPT_DFLT_REBPCT2</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DFLT_REBPCT3</column_name>
+          <stream_name>CPPT_DFLT_REBPCT3</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DT_END</column_name>
+          <stream_name>CPPT_DT_END</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DT_PRICEPROT</column_name>
+          <stream_name>CPPT_DT_PRICEPROT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_DT_START</column_name>
+          <stream_name>CPPT_DT_START</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_FLG_HOLD</column_name>
+          <stream_name>CPPT_FLG_HOLD</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_FLG_SYSCALC</column_name>
+          <stream_name>CPPT_FLG_SYSCALC</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_MOD_SEQ</column_name>
+          <stream_name>CPPT_MOD_SEQ</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_NUM</column_name>
+          <stream_name>CPPT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_NUM_PRIOR</column_name>
+          <stream_name>CPPT_NUM_PRIOR</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PBASISCD_NUM_NBP</column_name>
+          <stream_name>CPPT_PBASISCD_NUM_NBP</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT</column_name>
+          <stream_name>CPPT_PERCENT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT01</column_name>
+          <stream_name>CPPT_PERCENT01</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT02</column_name>
+          <stream_name>CPPT_PERCENT02</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT03</column_name>
+          <stream_name>CPPT_PERCENT03</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT04</column_name>
+          <stream_name>CPPT_PERCENT04</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT05</column_name>
+          <stream_name>CPPT_PERCENT05</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT06</column_name>
+          <stream_name>CPPT_PERCENT06</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT07</column_name>
+          <stream_name>CPPT_PERCENT07</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT08</column_name>
+          <stream_name>CPPT_PERCENT08</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT09</column_name>
+          <stream_name>CPPT_PERCENT09</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT10</column_name>
+          <stream_name>CPPT_PERCENT10</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT11</column_name>
+          <stream_name>CPPT_PERCENT11</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT12</column_name>
+          <stream_name>CPPT_PERCENT12</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT13</column_name>
+          <stream_name>CPPT_PERCENT13</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT14</column_name>
+          <stream_name>CPPT_PERCENT14</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT15</column_name>
+          <stream_name>CPPT_PERCENT15</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT16</column_name>
+          <stream_name>CPPT_PERCENT16</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT17</column_name>
+          <stream_name>CPPT_PERCENT17</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT18</column_name>
+          <stream_name>CPPT_PERCENT18</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT19</column_name>
+          <stream_name>CPPT_PERCENT19</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PERCENT20</column_name>
+          <stream_name>CPPT_PERCENT20</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_POINT</column_name>
+          <stream_name>CPPT_POINT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PPROT_PCT</column_name>
+          <stream_name>CPPT_PPROT_PCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PREPAY_PCT</column_name>
+          <stream_name>CPPT_PREPAY_PCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PREV_ADJ_TOT</column_name>
+          <stream_name>CPPT_PREV_ADJ_TOT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PRICE</column_name>
+          <stream_name>CPPT_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_PRICE_CAPPCT</column_name>
+          <stream_name>CPPT_PRICE_CAPPCT</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_REIMB</column_name>
+          <stream_name>CPPT_REIMB</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_STEP_TIER</column_name>
+          <stream_name>CPPT_STEP_TIER</stream_name>
+        </field>
+        <field>
+          <column_name>CPPT_SVCFEE</column_name>
+          <stream_name>CPPT_SVCFEE</stream_name>
+        </field>
+        <field>
+          <column_name>CSF_CPPG_NUM</column_name>
+          <stream_name>CSF_CPPG_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>FLG_NOTE</column_name>
+          <stream_name>FLG_NOTE</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULAID_NUM</column_name>
+          <stream_name>FORMULAID_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>INDXTYP_CD</column_name>
+          <stream_name>INDXTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>LASTMOD</column_name>
+          <stream_name>LASTMOD</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_NUM</column_name>
+          <stream_name>PBASISCD_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PBASIS_NUM</column_name>
+          <stream_name>PBASIS_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PPDIFFTYP_CD</column_name>
+          <stream_name>PPDIFFTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>PRCTYP_CD</column_name>
+          <stream_name>PRCTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>PRODELIG_NUM</column_name>
+          <stream_name>PRODELIG_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_NUM</column_name>
+          <stream_name>PROD_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_NUM_FLATPROD</column_name>
+          <stream_name>PROD_NUM_FLATPROD</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_NUM</column_name>
+          <stream_name>REASON_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>REVISION</column_name>
+          <stream_name>REVISION</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS_NUM</column_name>
+          <stream_name>STATUS_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>UOM_NUM</column_name>
+          <stream_name>UOM_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>USERID</column_name>
+          <stream_name>USERID</stream_name>
+        </field>
+        <field>
+          <column_name>PRC_RBT_PLN_TYP</column_name>
+          <stream_name>PRC_RBT_PLN_TYP</stream_name>
+        </field>
+        <field>
+          <column_name>PT_PG_PRD_MIN_START</column_name>
+          <stream_name>PT_PG_PRD_MIN_START</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_DESC</column_name>
+          <stream_name>PBASISCD_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_UOM_NUM</column_name>
+          <stream_name>PROD_UOM_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PROD_DESC</column_name>
+          <stream_name>PROD_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_NAME</column_name>
+          <stream_name>FORMULA_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>PT_STATUS_NUM</column_name>
+          <stream_name>PT_STATUS_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PT_STATUS_ABBR</column_name>
+          <stream_name>PT_STATUS_ABBR</stream_name>
+        </field>
+        <field>
+          <column_name>PT_STATUS_DESC</column_name>
+          <stream_name>PT_STATUS_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>GLX_ITM_NO</column_name>
+          <stream_name>GLX_ITM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>396</xloc>
+      <yloc>201</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>VIEW TABLE</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING_DB</connection>
+    <schema>dbo</schema>
+    <table>VLD_PSTG_CONTRACT_RS_INTERFACE</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_START_DATE</column_name>
+          <stream_name>ITEM_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_AMOUNT</column_name>
+          <stream_name>REBATE_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_DATE</column_name>
+          <stream_name>ATTACHED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_STATUS</column_name>
+          <stream_name>ATTACHED_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_ID</column_name>
+          <stream_name>REBATE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_NO</column_name>
+          <stream_name>REBATE_SCHEDULE_NO</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_NAME</column_name>
+          <stream_name>REBATE_SCHEDULE_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PROGRAM_TYPE</column_name>
+          <stream_name>REBATE_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_CATEGORY</column_name>
+          <stream_name>REBATE_SCHEDULE_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_STATUS</column_name>
+          <stream_name>REBATE_SCHEDULE_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_METHOD</column_name>
+          <stream_name>PAYMENT_METHOD</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_FREQUENCY</column_name>
+          <stream_name>PAYMENT_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_FREQUENCY</column_name>
+          <stream_name>REBATE_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>CALENDAR</column_name>
+          <stream_name>CALENDAR</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_LEVEL</column_name>
+          <stream_name>REBATE_PLAN_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_FAMILY_PLAN_ID</column_name>
+          <stream_name>ITEM_FAMILY_PLAN_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_ID</column_name>
+          <stream_name>PRICE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_ID</column_name>
+          <stream_name>REBATE_PLAN_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_FAMILY_PLAN_ID</column_name>
+          <stream_name>COMPANY_FAMILY_PLAN_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_LEVEL</column_name>
+          <stream_name>PAYMENT_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>CALCULATION_TYPE</column_name>
+          <stream_name>CALCULATION_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_REBATE_START_DATE</column_name>
+          <stream_name>ITEM_REBATE_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_TYPE</column_name>
+          <stream_name>REBATE_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>DEDUCTION_INCLUSION</column_name>
+          <stream_name>DEDUCTION_INCLUSION</stream_name>
+        </field>
+        <field>
+          <column_name>IS_COMPLETE</column_name>
+          <stream_name>IS_COMPLETE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_INTERFACE_ID</column_name>
+          <stream_name>PSTG_CONTRACT_RS_INTERFACE_SID</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>482</xloc>
+      <yloc>745</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Validate Required field</name>
+    <type>Validator</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<validate_all>Y</validate_all>
+<concat_errors>Y</concat_errors>
+<concat_separator>,</concat_separator>
+       <validator_field><name>cpgrpNum</name>
+<validation_name>cpgrpNum</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIELD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>cpgrpDesc</name>
+<validation_name>cpgrpDesc</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIELD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>CPPT_DT_START</name>
+<validation_name>CPPT_DT_START</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIELD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>CONT_NUM</name>
+<validation_name>CONT_NUM</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIELD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>PT_STATUS_DESC</name>
+<validation_name>PT_STATUS_DESC</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIELD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ADD_CHG_DEL_INDICATOR</name>
+<validation_name>ADD_CHG_DEL_INDICATOR</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIELD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BATCH_ID</name>
+<validation_name>BATCH_ID</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIELD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>PROD_NUM</name>
+<validation_name>PROD_NUM</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIRLD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>PT_PG_PRD_MIN_START</name>
+<validation_name>PT_PG_PRD_MIN_START</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>REQUIRED FIELD MISSING</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>545</xloc>
+      <yloc>418</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step_error_handling>
+      <error>
+        <source_step>LENGTH VALIDATION</source_step>
+        <target_step>Add constants 2 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename>ERROR_FIELD</fields_valuename>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>Validate Required field</source_step>
+        <target_step>Add constants 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename>ERROR_FIELD</fields_valuename>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+  </step_error_handling>
+   <slave-step-copy-partition-distribution>
+</slave-step-copy-partition-distribution>
+   <slave_transformation>N</slave_transformation>
+
+</transformation>
