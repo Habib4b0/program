@@ -435,15 +435,15 @@ public class ProjectionOptionsPrivateViewLookup
 				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
                 if(namespace.equals("Private"))
                 {
-		actionParameter.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		actionParameter.add(GtnFrameworkCommonConstants.COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
                 actionParameter.add(Arrays.asList("viewName"));
                 actionParameter.add(Arrays.asList("Commercial Forecasting_privateViewLookup"));
                 }
                 if(namespace.equals("Public"))
                 {
-                actionParameter.add(GtnFrameworkCommonConstants.PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
+                actionParameter.add(GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
                 actionParameter.add(Arrays.asList("viewName"));
-                actionParameter.add(Arrays.asList(GtnFrameworkCommonConstants.PUBLIC_VIEW_SEARCH_LOOKUP_VIEW));
+                actionParameter.add(Arrays.asList(GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW));
                 }
 		
 		privateViewSelectAction.setActionParameterList(actionParameter);
@@ -451,7 +451,7 @@ public class ProjectionOptionsPrivateViewLookup
 
 		GtnUIFrameWorkActionConfig privateViewClosepopup = new GtnUIFrameWorkActionConfig();
 		privateViewClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		privateViewClosepopup.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		privateViewClosepopup.addActionParameter(GtnFrameworkCommonConstants.COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
 		actionConfigList.add(privateViewClosepopup);
 
 		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();

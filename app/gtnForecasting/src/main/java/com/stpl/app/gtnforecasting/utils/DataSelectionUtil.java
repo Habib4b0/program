@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
+import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.form.DataSelectionIndex;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
@@ -48,7 +49,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;

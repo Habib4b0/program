@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.action.ComparisonProjectionResultFilterAction;
 import com.stpl.gtn.gtn2o.ui.action.ForecastEligibilityDateValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCVSaveValidationAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCheckTreeStructureChangeAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkComparisonLookupTextFieldEnableAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkConfirmSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCustomTreeConfirmedSaveAction;
@@ -325,8 +326,10 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new ComparisonProjectionResultFilterAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonProjectionBeforeCloseAction.class.getName(),
 				new GtnReportComparisonProjectionBeforeCloseAction());
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkDataAssumptionFilterAction.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkDataAssumptionFilterAction.class.getName(),
 				new GtnFrameworkDataAssumptionFilterAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCheckTreeStructureChangeAction.class.getName(),
+				new GtnFrameworkCheckTreeStructureChangeAction());
 
 	}
 

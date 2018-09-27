@@ -118,7 +118,6 @@ public class DataSelection extends ForecastDataSelection {
 	private boolean dedCustomChange = false;
 	private boolean reloadAfterUpdate = false;
 	private boolean valid = true;
-	private LazyContainer discountDdlbLazyContainer;
 	private final CompanyDdlbDto discountDdlbDefault = new CompanyDdlbDto(0, SELECT_ONE, true);
 	private CompanyDdlbDto discountDTO = null;
 	private final List<Integer> customerBeanList = new ArrayList<>();
@@ -4781,7 +4780,7 @@ public class DataSelection extends ForecastDataSelection {
 
 	private void loadDiscountDdlb(int discountSid, CompanyDdlbDto selectedDiscountDdlbDto) {
 		LOGGER.debug("Entering loadDiscountDDLB method");
-		discountDdlbLazyContainer = new LazyContainer(CompanyDdlbDto.class,
+		LazyContainer discountDdlbLazyContainer = new LazyContainer(CompanyDdlbDto.class,
 				new CompanyDdlbDao(Constant.DISCOUNT_SMALL, discountDdlbDefault, selectedDiscountDdlbDto),
 				new CompanyDdlbCriteria());
 		discount.setPageLength(NumericConstants.SEVEN);

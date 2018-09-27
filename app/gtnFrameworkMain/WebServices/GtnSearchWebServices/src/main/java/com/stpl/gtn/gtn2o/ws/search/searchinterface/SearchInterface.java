@@ -7,6 +7,7 @@ package com.stpl.gtn.gtn2o.ws.search.searchinterface;
 
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 
 /**
  *
@@ -16,5 +17,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 public interface SearchInterface {
     public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,
                                                                                                            String query);
+    public GtnUIFrameworkWebserviceResponse getSearchResults(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,
+                                                                                                           String query,GtnSearchwebServiceSqlService gtnSearchSqlService);
     
 }
