@@ -1586,7 +1586,7 @@ public class CommonLogic {
         String hierarchyNum = hierarchyArray[0];
         allHierarchy.add(hierarchyNum + extraDot);
         for (int i = 1; i < hierarchyArray.length - 1; i++) {
-            hierarchyNum = hierarchyNum + "." + hierarchyArray[i];
+            hierarchyNum = hierarchyNum.concat(".").concat(hierarchyArray[i]);
             allHierarchy.add(hierarchyNum + extraDot);
         }
         if (!allHierarchy.contains(hierarchyNo)) {
@@ -4205,7 +4205,7 @@ public class CommonLogic {
             Object[] obj = listOfLevelFilter.get(i);
             newLevel = obj[0].toString();
             if (oldLevel.equals(newLevel)) {
-                listOfSids += "," + obj[1];
+                listOfSids = listOfSids.concat(",").concat(String.valueOf(obj[1]));
                 oldLevel = newLevel;
             } else {
                 if (i != 1) {
@@ -4216,7 +4216,7 @@ public class CommonLogic {
                     customerlevelCustomItem[i].setItemClickable(true);
                     customerlevelCustomItem[i].setItemClickNotClosable(true);
                 }
-                listOfSids += obj[1];
+                listOfSids = listOfSids.concat(String.valueOf(obj[1]));
                 oldLevel = newLevel;
             }
             if (i == listOfLevelFilter.size() - 1) {
@@ -4906,7 +4906,7 @@ public class CommonLogic {
                     customerlevelCustomItem[i].setItemClickable(true);
                     customerlevelCustomItem[i].setItemClickNotClosable(true);
                 }
-                listOfSids += obj[2];
+                listOfSids = listOfSids.concat(String.valueOf(obj[2]));
                 oldLevel = newLevel;
            
             if (i == listOfLevelFilter.size() - 1) {

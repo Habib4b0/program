@@ -48,14 +48,14 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
         List<Object> paramList = gtnUIFrameWorkActionConfig.getActionParameterList();
         String[] fields = (String[]) paramList.get(1);
         GtnUIFrameworkBaseComponent treeTable = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(paramList.get(3).toString());
-        
+         
         GtnUIFrameworkGlobalUI.validateFields(fields, chErrorMsg);
         if (chErrorMsg.length() > 0) {
             String msg = GtnFrameworkCVConstants.GTN_CUSTOM_VIEW_MANDATORY_FIELDS_VALIDATION
                     + " <br> " + chErrorMsg.toString();
 
             throw new GtnFrameworkValidationFailedException(msg, componentId);
-        }
+        } 
         GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
         if (treeTable.getItemsFromDataTable().isEmpty()) {
             GtnUIFrameworkGlobalUI.showMessageBox("Error", GtnUIFrameworkActionType.ALERT_ACTION,

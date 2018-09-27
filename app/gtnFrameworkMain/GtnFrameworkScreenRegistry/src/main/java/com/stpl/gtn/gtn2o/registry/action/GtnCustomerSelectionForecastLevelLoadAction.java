@@ -31,12 +31,12 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 			List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
 
 			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent((String) params.get(1)).getComponentData().getCustomData();
+					.getVaadinBaseComponent((String) params.get(1),componentId).getComponentData().getCustomData();
 
 			Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean
 					.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
 			int relationshipBuilderSid = Integer.valueOf(String.valueOf(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(params.get(3).toString()).getCaptionFromV8ComboBox()));
+					.getVaadinBaseComponent(params.get(3).toString(),componentId).getCaptionFromV8ComboBox()));
 			if (relationshipBuilderSid != 0) {
 				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = relationshipMap
 						.get(String.valueOf(recordBean.getPropertyValueByIndex(7)));
@@ -57,7 +57,7 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 					}
 				}
 
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(4))
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(4),componentId)
 						.loadItemsToCombobox(relationshipCaptionList, relationshipIdList);
 
 				Map<Integer, String> hierarchyMap = (Map<Integer, String>) recordBean
@@ -71,7 +71,7 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 					hierarchyLevelIdList.add(hierarchyLevelEntry.getKey());
 				}
 
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2))
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2),componentId)
 						.loadItemsToCombobox(hierarchyLevelCaptionList, hierarchyLevelIdList);
 			}
 		} catch (Exception ex) {

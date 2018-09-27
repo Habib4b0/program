@@ -570,7 +570,7 @@ public class TransferComponents extends CustomComponent implements View {
                         flag = true;
                     } else {
                         String cfpId = String.valueOf(transferCompContainer1.getContainerProperty(item, Constants.PS_CONT_SID).getValue());
-                        ids = ids + "," + cfpId;
+                        ids = ids.concat(",").concat(cfpId);
                     }
                 }
             }
@@ -635,7 +635,7 @@ public class TransferComponents extends CustomComponent implements View {
                         flag = true;
                     } else {
                         String cfpId = String.valueOf(transferCompContainer1.getContainerProperty(item, Constants.RS_CONT_SID).getValue());
-                        ids = ids + "," + cfpId;
+                        ids = ids.concat(",").concat(cfpId);
                     }
                 }
             }

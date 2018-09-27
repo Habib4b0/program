@@ -105,6 +105,10 @@ public class DataSelection extends AbstractDataSelection {
         super();
         this.sessionDTO = sessionDTO;
         this.screenName = screenName;
+        dsInit();
+    }
+
+    private void dsInit() {
         securityForAllScreens();
         configureFields();
     }

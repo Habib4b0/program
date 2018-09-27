@@ -805,7 +805,7 @@ public class LoadTabLogic {
             if (compSid.equals(StringUtils.EMPTY)) {
                 compSid = sid;
             } else {
-                compSid = compSid + "," + sid;
+                compSid = compSid.concat(",").concat(sid);
             }
         }
         List input = new ArrayList();
@@ -824,7 +824,7 @@ public class LoadTabLogic {
             if (compSid.equals(StringUtils.EMPTY)) {
                 compSid = sid;
             } else {
-                compSid = compSid + "," + sid;
+                compSid = compSid.concat(",").concat(sid);
             }
         }
 

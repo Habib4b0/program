@@ -91,7 +91,7 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
     public DataResult<T> customizier(List<String> varibales, List<Object[]> resultList) {
         List customizedList = new ArrayList();
         AdjustmentDTO obj;
-        int variableSize = varibales.size();
+        int variableSize = getVariableSize(varibales);
         try {
             if (resultList == null) {
                 throw new NullPointerException("The given input resultList is null");
@@ -124,16 +124,16 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                                 } else if (objects[j] != null) {
                                     if (objects[j].toString().matches("^(-?0[.]\\d+)$|^(-?[1-9]+\\d*([.]\\d+)?)$|^0$")) { // Allows only Numbers in it
                                         String value;
-                                       if (varibales.get(j).contains("salesVariancePer") || varibales.get(j).contains(ARMConstants.getRate())
+                                        if (varibales.get(j).contains("salesVariancePer") || varibales.get(j).contains(ARMConstants.getRate())
                                                 || varibales.get(j).contains("deductionRate")) {
                                             value = getFormattedValue(PER_THREE, String.valueOf(objects[j]));
-                                        }else  if (varibales.get(j).contains(ARMConstants.getAmount())
+                                        } else if (varibales.get(j).contains(ARMConstants.getAmount())
                                                 || varibales.get(j).contains("deductionAmount") || varibales.get(j).contains("price")
                                                 || varibales.get(j).contains("priceOverride") || varibales.get(j).contains("totalSales")
                                                 || varibales.get(j).contains("excludedSales") || varibales.get(j).contains("netSales")
                                                 || varibales.get(j).contains("netCalculatedSales") || varibales.get(j).contains("salesVariance")) {
                                             value = getFormattedValue(CUR_TWO, String.valueOf(objects[j]));
-                                        }  else if (varibales.get(j).contains("totalUnits") || varibales.get(j).contains("excludedUnits") || varibales.get(j).contains("netUnits")) {
+                                        } else if (varibales.get(j).contains("totalUnits") || varibales.get(j).contains("excludedUnits") || varibales.get(j).contains("netUnits")) {
                                             value = getFormattedValue(NUM_ZERO, String.valueOf(objects[j]));
                                         } else if (varibales.get(j).contains("debit") || varibales.get(j).contains("credit")) {
                                             value = getFormattedValue(CUR_SIX, String.valueOf(objects[j]));
@@ -164,6 +164,10 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(customizedList);
         return dataResult;
+    }
+
+    private int getVariableSize(List<String> varibales) {
+        return varibales != null ? varibales.size() : 0;
     }
 
     private void setHelperSidColumn(ExtListDTO obj, Object objects, String variables) {
@@ -206,7 +210,7 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                 }
             } else if (value instanceof List) {
                 if (oldValue != null) {
-                    allowed = getAllowed(value, oldValue, allowed);
+                    allowed = getAllowed((List<String>) value, (List<String>) oldValue, allowed);
                 } else {
                     allowed = true;
                 }
@@ -215,10 +219,10 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
         return allowed;
     }
 
-    private boolean getAllowed(Object value, Object oldValue, boolean a) {
+    private boolean getAllowed(List<String> value, List<String> oldValue, boolean a) {
         boolean allowed = a;
-        List<String> valList = (List<String>) value;
-        List<String> oldValList = (List<String>) oldValue;
+        List<String> valList = new ArrayList<>(value);
+        List<String> oldValList = new ArrayList<>(oldValue);
         if (valList.size() != oldValList.size()) {
             allowed = true;
         } else {
