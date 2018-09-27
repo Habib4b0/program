@@ -141,7 +141,7 @@
   <hop> <from>Invalid Delete</from><to>INVALID TABLE 4</to><enabled>Y</enabled> </hop>
   <hop> <from>AUDIT INSERT WAIT</from><to>Audit Status</to><enabled>N</enabled> </hop>
   <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Reason 2</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 2</from><to>INVALID TABLE 7</to><enabled>Y</enabled> </hop>
   <hop> <from>AUDIT INSERT WAIT 2</from><to>Audit Status 2</to><enabled>N</enabled> </hop>
   <hop> <from>Audit Status 2</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
   <hop> <from>GET CFP CONTRACT SID</from><to>IFP_MODEL CHECK</to><enabled>Y</enabled> </hop>
@@ -189,7 +189,6 @@
   <hop> <from>PRICE_TOLERANCE_TYPE</from><to>PRICE_TOLERANCE_FREQUENCY</to><enabled>N</enabled> </hop>
   <hop> <from>ITEM_PRICING_QUALIFIER LOOKUP</from><to>PRICE_SCHEDULE_STATUS</to><enabled>N</enabled> </hop>
   <hop> <from>PS CONTRACT DETAILS</from><to>Update</to><enabled>Y</enabled> </hop>
-  <hop> <from>Update</from><to>Invalid Reason 2</to><enabled>N</enabled> </hop>
   <hop> <from>PRICE_TOLERANCE_INTERVAL</from><to>PS_ATT_STATUS </to><enabled>N</enabled> </hop>
   <hop> <from>PS_ATT_STATUS </from><to>Dummy &#x28;do nothing&#x29;</to><enabled>N</enabled> </hop>
   <hop> <from>PRICE_SCHEDULE_DESIGNATION</from><to>TRADE_CLASS</to><enabled>N</enabled> </hop>
@@ -213,7 +212,7 @@
   <hop> <from>Invalid Reason 2 2</from><to>INVALID TABLE 7 2</to><enabled>N</enabled> </hop>
   <hop> <from>PS CONT DET</from><to>Invalid Reason 2 2</to><enabled>N</enabled> </hop>
   <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLICATION </to><enabled>N</enabled> </hop>
-  <hop> <from>Inbound Status 2</from><to>Filter rows</to><enabled>N</enabled> </hop>
+  <hop> <from>Inbound Status 2</from><to>Filter rows</to><enabled>Y</enabled> </hop>
   <hop> <from>Switch &#x2f; Case</from><to>Add constants 3</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 3</from><to>DELETE SORT</to><enabled>Y</enabled> </hop>
   <hop> <from>DELETE SORT</from><to>DELETE BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>
@@ -271,12 +270,13 @@
   <hop> <from>NET_RESET_PRICE_FORMULA</from><to>NET_PRICE_TYPE_FORMULA CHECK</to><enabled>Y</enabled> </hop>
   <hop> <from>NET_BASE_PRICE_FORMULA</from><to>SUBSEQUENT_PERIOD_PRICE_TYPE CHECK</to><enabled>Y</enabled> </hop>
   <hop> <from>SUBSEQUENT_PERIOD_PRICE_TYPE</from><to>NET_SUB_PERIOD_PRICE_FORMULA CHK</to><enabled>Y</enabled> </hop>
-  <hop> <from>Update</from><to>Dummy &#x28;do nothing&#x29; 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>PS CONT DET</from><to>Dummy &#x28;do nothing&#x29; 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Inbound Status 2</from><to>PS_MOD DUP CHECK</to><enabled>Y</enabled> </hop>
-  <hop> <from>PS_MOD DUP CHECK</from><to>Filter rows</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Reason 2 3</from><to>INVALID TABLE DUP</to><enabled>Y</enabled> </hop>
-  <hop> <from>PS_MOD DUP CHECK</from><to>Invalid Reason 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update</from><to>Errored out in ps_cont_det</to><enabled>N</enabled> </hop>
+  <hop> <from>PS CONT DET</from><to>Errored out in ps_cont_det</to><enabled>N</enabled> </hop>
+  <hop> <from>Inbound Status 2</from><to>PS_MOD DUP CHECK</to><enabled>N</enabled> </hop>
+  <hop> <from>PS_MOD DUP CHECK</from><to>Filter rows</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 2 3</from><to>INVALID TABLE DUP</to><enabled>N</enabled> </hop>
+  <hop> <from>PS_MOD DUP CHECK</from><to>Invalid Reason 2 3</to><enabled>N</enabled> </hop>
+  <hop> <from>Update</from><to>Invalid Reason 2</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>ADD Audit update</name>
@@ -1219,6 +1219,25 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1086</xloc>
       <yloc>117</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Errored out in ps_cont_det</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1691</xloc>
+      <yloc>2682</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -7671,6 +7690,324 @@
     </step>
 
   <step>
+    <name>INVALID TABLE DUP</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_PRICE_SCHEDULE</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_DATE</column_name>
+          <stream_name>ATTACHED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_STATUS</column_name>
+          <stream_name>ATTACHED_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_PRICE</column_name>
+          <stream_name>BASE_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_ID</column_name>
+          <stream_name>CFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_PRICE</column_name>
+          <stream_name>CONTRACT_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_PRICE_END_DATE</column_name>
+          <stream_name>CONTRACT_PRICE_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_PRICE_START_DATE</column_name>
+          <stream_name>CONTRACT_PRICE_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERRO_CODE_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_ID</column_name>
+          <stream_name>IFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_PRICE_SCHEDULE_ID</column_name>
+          <stream_name>PARENT_PRICE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_PRICE_SCHEDULE_NAME</column_name>
+          <stream_name>PARENT_PRICES_CHEDULE_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE</column_name>
+          <stream_name>PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PLAN_ID</column_name>
+          <stream_name>PRICE_PLAN_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PLAN_NAME</column_name>
+          <stream_name>PRICE_PLAN_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_END_DATE</column_name>
+          <stream_name>PRICE_PROTECTION_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_START_DATE</column_name>
+          <stream_name>PRICE_PROTECTION_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_REVISION</column_name>
+          <stream_name>PRICE_REVISION</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_CATEGORY</column_name>
+          <stream_name>PRICE_SCHEDULE_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_DESIGNATION</column_name>
+          <stream_name>PRICE_SCHEDULE_DESIGNATION</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_END_DATE</column_name>
+          <stream_name>PRICE_SCHEDULE_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_ID</column_name>
+          <stream_name>PRICE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_INTFID</column_name>
+          <stream_name>PRICE_SCHEDULE_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_NAME</column_name>
+          <stream_name>PRICE_SCHEDULE_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_NO</column_name>
+          <stream_name>PRICE_SCHEDULE_NO</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_START_DATE</column_name>
+          <stream_name>PRICE_SCHEDULE_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_STATUS</column_name>
+          <stream_name>PRICE_SCHEDULE_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_TYPE</column_name>
+          <stream_name>PRICE_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_TOLERANCE</column_name>
+          <stream_name>PRICE_TOLERANCE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_TOLERANCE_FREQUENCY</column_name>
+          <stream_name>PRICE_TOLERANCE_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_TOLERANCE_INTERVAL</column_name>
+          <stream_name>PRICE_TOLERANCE_INTERVAL</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_TOLERANCE_TYPE</column_name>
+          <stream_name>PRICE_TOLERANCE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_TYPE</column_name>
+          <stream_name>PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>REVISION_DATE</column_name>
+          <stream_name>REVISION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>SUGGESTED_PRICE</column_name>
+          <stream_name>SUGGESTED_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>TRADE_CLASS</column_name>
+          <stream_name>TRADE_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_STATUS</column_name>
+          <stream_name>PRICE_PROTECTION_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_PRICE_TYPE</column_name>
+          <stream_name>PRICE_PROTECTION_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NEP</column_name>
+          <stream_name>NEP</stream_name>
+        </field>
+        <field>
+          <column_name>NEP_FORMULA</column_name>
+          <stream_name>NEP_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_PRICE_TYPE</column_name>
+          <stream_name>BASE_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE</column_name>
+          <stream_name>NET_BASE_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE_FORMULA</column_name>
+          <stream_name>NET_BASE_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>SUBSEQUENT_PERIOD_PRICE_TYPE</column_name>
+          <stream_name>SUBSEQUENT_PERIOD_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_INCREMENTAL_CHANGE</column_name>
+          <stream_name>MAX_INCREMENTAL_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_ELIGIBLE</column_name>
+          <stream_name>RESET_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_TYPE</column_name>
+          <stream_name>RESET_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_DATE</column_name>
+          <stream_name>RESET_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_INTERVAL</column_name>
+          <stream_name>RESET_INTERVAL</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_FREQUENCY</column_name>
+          <stream_name>RESET_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_PRICE_TYPE</column_name>
+          <stream_name>RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_TYPE</column_name>
+          <stream_name>NET_RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_FORMULA</column_name>
+          <stream_name>NET_RESET_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE</column_name>
+          <stream_name>NET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE_FORMULA</column_name>
+          <stream_name>NET_PRICE_TYPE_FORMULA</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1499</xloc>
+      <yloc>720</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>ITEM_MASTER</name>
     <type>DBLookup</type>
     <description/>
@@ -8242,6 +8579,51 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1319</xloc>
       <yloc>2589</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 2 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ERRO_CODE_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1382</xloc>
+      <yloc>644</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -10631,6 +11013,48 @@
     </step>
 
   <step>
+    <name>PS_MOD DUP CHECK</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>PS_MODEL</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>PRICE_SCHEDULE_ID</name>
+        <field>PS_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>PS_MODEL_SID</name>
+        <rename>PS_MODEL_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1244</xloc>
+      <yloc>583</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Price Type</name>
     <type>TableOutput</type>
     <description/>
@@ -11861,430 +12285,6 @@
       </GUI>
     </step>
 
-  <step>
-    <name>Dummy &#x28;do nothing&#x29; 3</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1691</xloc>
-      <yloc>2682</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>PS_MOD DUP CHECK</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <cache>Y</cache>
-    <cache_load_all>Y</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>PS_MODEL</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>PRICE_SCHEDULE_ID</name>
-        <field>PS_ID</field>
-        <condition>LIKE</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>PS_MODEL_SID</name>
-        <rename>PS_MODEL_SID</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1244</xloc>
-      <yloc>583</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>INVALID TABLE DUP</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <schema/>
-    <table>IVLD_PRICE_SCHEDULE</table>
-    <commit>10000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>N</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>ATTACHED_DATE</column_name>
-          <stream_name>ATTACHED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>ATTACHED_STATUS</column_name>
-          <stream_name>ATTACHED_STATUS</stream_name>
-        </field>
-        <field>
-          <column_name>BASE_PRICE</column_name>
-          <stream_name>BASE_PRICE</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_ID</column_name>
-          <stream_name>CFP_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_ID</column_name>
-          <stream_name>CONTRACT_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_PRICE</column_name>
-          <stream_name>CONTRACT_PRICE</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_PRICE_END_DATE</column_name>
-          <stream_name>CONTRACT_PRICE_END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_PRICE_START_DATE</column_name>
-          <stream_name>CONTRACT_PRICE_START_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>CREATED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>ERROR_CODE</column_name>
-          <stream_name>ERRO_CODE_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>IDENTIFIER_CODE_QUALIFIER</column_name>
-          <stream_name>IDENTIFIER_CODE_QUALIFIER</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_ID</column_name>
-          <stream_name>IFP_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_ID</column_name>
-          <stream_name>ITEM_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_NAME</column_name>
-          <stream_name>ITEM_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_NO</column_name>
-          <stream_name>ITEM_NO</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_BY</column_name>
-          <stream_name>MODIFIED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_DATE</column_name>
-          <stream_name>MODIFIED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>PARENT_PRICE_SCHEDULE_ID</column_name>
-          <stream_name>PARENT_PRICE_SCHEDULE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>PARENT_PRICE_SCHEDULE_NAME</column_name>
-          <stream_name>PARENT_PRICES_CHEDULE_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE</column_name>
-          <stream_name>PRICE</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_PLAN_ID</column_name>
-          <stream_name>PRICE_PLAN_ID</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_PLAN_NAME</column_name>
-          <stream_name>PRICE_PLAN_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_PROTECTION_END_DATE</column_name>
-          <stream_name>PRICE_PROTECTION_END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_PROTECTION_START_DATE</column_name>
-          <stream_name>PRICE_PROTECTION_START_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_REVISION</column_name>
-          <stream_name>PRICE_REVISION</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_CATEGORY</column_name>
-          <stream_name>PRICE_SCHEDULE_CATEGORY</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_DESIGNATION</column_name>
-          <stream_name>PRICE_SCHEDULE_DESIGNATION</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_END_DATE</column_name>
-          <stream_name>PRICE_SCHEDULE_END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_ID</column_name>
-          <stream_name>PRICE_SCHEDULE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_INTFID</column_name>
-          <stream_name>PRICE_SCHEDULE_INTFID</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_NAME</column_name>
-          <stream_name>PRICE_SCHEDULE_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_NO</column_name>
-          <stream_name>PRICE_SCHEDULE_NO</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_START_DATE</column_name>
-          <stream_name>PRICE_SCHEDULE_START_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_STATUS</column_name>
-          <stream_name>PRICE_SCHEDULE_STATUS</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_TYPE</column_name>
-          <stream_name>PRICE_SCHEDULE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_TOLERANCE</column_name>
-          <stream_name>PRICE_TOLERANCE</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_TOLERANCE_FREQUENCY</column_name>
-          <stream_name>PRICE_TOLERANCE_FREQUENCY</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_TOLERANCE_INTERVAL</column_name>
-          <stream_name>PRICE_TOLERANCE_INTERVAL</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_TOLERANCE_TYPE</column_name>
-          <stream_name>PRICE_TOLERANCE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_TYPE</column_name>
-          <stream_name>PRICE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>REASON_FOR_FAILURE</column_name>
-          <stream_name>Reason_For_Failure</stream_name>
-        </field>
-        <field>
-          <column_name>REVISION_DATE</column_name>
-          <stream_name>REVISION_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
-        </field>
-        <field>
-          <column_name>SUGGESTED_PRICE</column_name>
-          <stream_name>SUGGESTED_PRICE</stream_name>
-        </field>
-        <field>
-          <column_name>TRADE_CLASS</column_name>
-          <stream_name>TRADE_CLASS</stream_name>
-        </field>
-        <field>
-          <column_name>INTERNAL_NOTES</column_name>
-          <stream_name>INTERNAL_NOTES</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_PROTECTION_STATUS</column_name>
-          <stream_name>PRICE_PROTECTION_STATUS</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_PROTECTION_PRICE_TYPE</column_name>
-          <stream_name>PRICE_PROTECTION_PRICE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>NEP</column_name>
-          <stream_name>NEP</stream_name>
-        </field>
-        <field>
-          <column_name>NEP_FORMULA</column_name>
-          <stream_name>NEP_FORMULA</stream_name>
-        </field>
-        <field>
-          <column_name>BASE_PRICE_TYPE</column_name>
-          <stream_name>BASE_PRICE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>NET_BASE_PRICE</column_name>
-          <stream_name>NET_BASE_PRICE</stream_name>
-        </field>
-        <field>
-          <column_name>NET_BASE_PRICE_FORMULA</column_name>
-          <stream_name>NET_BASE_PRICE_FORMULA</stream_name>
-        </field>
-        <field>
-          <column_name>SUBSEQUENT_PERIOD_PRICE_TYPE</column_name>
-          <stream_name>SUBSEQUENT_PERIOD_PRICE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>NET_SUBSEQUENT_PERIOD_PRICE</column_name>
-          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE</stream_name>
-        </field>
-        <field>
-          <column_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</column_name>
-          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</stream_name>
-        </field>
-        <field>
-          <column_name>MAX_INCREMENTAL_CHANGE</column_name>
-          <stream_name>MAX_INCREMENTAL_CHANGE</stream_name>
-        </field>
-        <field>
-          <column_name>RESET_ELIGIBLE</column_name>
-          <stream_name>RESET_ELIGIBLE</stream_name>
-        </field>
-        <field>
-          <column_name>RESET_TYPE</column_name>
-          <stream_name>RESET_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>RESET_DATE</column_name>
-          <stream_name>RESET_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>RESET_INTERVAL</column_name>
-          <stream_name>RESET_INTERVAL</stream_name>
-        </field>
-        <field>
-          <column_name>RESET_FREQUENCY</column_name>
-          <stream_name>RESET_FREQUENCY</stream_name>
-        </field>
-        <field>
-          <column_name>RESET_PRICE_TYPE</column_name>
-          <stream_name>RESET_PRICE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>NET_RESET_PRICE_TYPE</column_name>
-          <stream_name>NET_RESET_PRICE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>NET_RESET_PRICE_FORMULA</column_name>
-          <stream_name>NET_RESET_PRICE_FORMULA</stream_name>
-        </field>
-        <field>
-          <column_name>NET_PRICE_TYPE</column_name>
-          <stream_name>NET_PRICE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>NET_PRICE_TYPE_FORMULA</column_name>
-          <stream_name>NET_PRICE_TYPE_FORMULA</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1499</xloc>
-      <yloc>720</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Invalid Reason 2 3</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>Reason_For_Failure</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>Duplicate Record</nullif>
-        <length>40</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>ERRO_CODE_NAME</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>E04</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1382</xloc>
-      <yloc>644</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
   <step_error_handling>
       <error>
         <source_step>ADD BATCH DUPLICATION </source_step>
@@ -12468,7 +12468,7 @@
       </error>
       <error>
         <source_step>PS CONT DET</source_step>
-        <target_step>Dummy &#x28;do nothing&#x29; 3</target_step>
+        <target_step>Errored out in ps_cont_det</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -12539,6 +12539,18 @@
         <min_pct_rows/>
       </error>
       <error>
+        <source_step>PS_MOD DUP CHECK</source_step>
+        <target_step>Filter rows</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
         <source_step>RESET_PRICE_TYPE</source_step>
         <target_step>Invalid Reason 3 2 6</target_step>
         <is_enabled>Y</is_enabled>
@@ -12564,19 +12576,7 @@
       </error>
       <error>
         <source_step>Update</source_step>
-        <target_step>Dummy &#x28;do nothing&#x29; 3</target_step>
-        <is_enabled>Y</is_enabled>
-        <nr_valuename/>
-        <descriptions_valuename/>
-        <fields_valuename/>
-        <codes_valuename/>
-        <max_errors/>
-        <max_pct_errors/>
-        <min_pct_rows/>
-      </error>
-      <error>
-        <source_step>PS_MOD DUP CHECK</source_step>
-        <target_step>Filter rows</target_step>
+        <target_step>Invalid Reason 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>

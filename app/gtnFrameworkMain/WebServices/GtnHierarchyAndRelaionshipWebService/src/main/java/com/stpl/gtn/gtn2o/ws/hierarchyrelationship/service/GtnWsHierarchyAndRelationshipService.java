@@ -1,12 +1,15 @@
 package com.stpl.gtn.gtn2o.ws.hierarchyrelationship.service;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,20 +26,13 @@ import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.bean.GtnWsHierarchyDefinition
 import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.sqlservice.GtnWsHierarchyAndRelationshipSqlService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Service
 public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImplClass {
 
-	long staticTime = System.currentTimeMillis();
-	ExecutorService service = Executors.newCachedThreadPool();
+	private long staticTime = System.currentTimeMillis();
+	private ExecutorService service = Executors.newCachedThreadPool();
 
 	@Autowired
 	private GtnWsHierarchyAndRelationshipSqlService gtnWsHierarchyAndRelationshipSqlService;
@@ -84,15 +80,14 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		return response.getQueryResponseBean().getResultList();
 	}
 
-	public Map<String, GtnWsHierarchyDefinitionBean> resultCustomization(List<Object[]> resultList)
-			throws NullPointerException, ParseException {
+	public Map<String, GtnWsHierarchyDefinitionBean> resultCustomization(List<Object[]> resultList) {
 		Map<Integer, List<GtnWsRelationshipBuilderBean>> relationMap = new HashMap<>();
 		Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = new HashMap<>();
 		int hierachySid = 0;
 		int relationSid = 0;
-		GtnWsHierarchyDefinitionBean bean = null;
-		Map<Integer, String> levelValues = null;
-		List<GtnWsRelationshipBuilderBean> relationValues = null;
+		GtnWsHierarchyDefinitionBean bean;
+		Map<Integer, String> levelValues = new HashMap<>();
+		List<GtnWsRelationshipBuilderBean> relationValues = new ArrayList<>();
 		for (Object[] object : resultList) {
 			if (hierachySid != (Integer) object[7]) {
 				bean = new GtnWsHierarchyDefinitionBean();
@@ -136,17 +131,14 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 			List<GtnWebServiceSearchCriteria> webSearchCriteriaList = gtnUIFrameworkWebserviceRequest
 					.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList();
 			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = hierarchyRelationship.getHierarchyMap();
-			GtnWsHierarchyDefinitionBean hierarchyDefinitionBean = new GtnWsHierarchyDefinitionBean();
 			String hierarchyName = webSearchCriteriaList.get(webSearchCriteriaList.size() - 2).getFilterValue1();
 
-			getHierarchyListUsingGenericSearch(hierarchyList, webSearchCriteriaList, hierarchyMap, hierarchyName,
-					hierarchyDefinitionBean);
+			getHierarchyListUsingGenericSearch(hierarchyList, webSearchCriteriaList, hierarchyMap, hierarchyName);
 
 			getHierarchyListUsingStartsAndEndsWithSearch(hierarchyList, webSearchCriteriaList, hierarchyMap,
-					hierarchyName, hierarchyDefinitionBean);
+					hierarchyName);
 
-			getHierarchyListUsingHierarchyNameSearch(hierarchyList, webSearchCriteriaList, hierarchyMap, hierarchyName,
-					hierarchyDefinitionBean);
+			getHierarchyListUsingHierarchyNameSearch(hierarchyList, webSearchCriteriaList, hierarchyMap, hierarchyName);
 		} catch (Exception exception) {
 			logger.error("Exception in HierarchyList return", exception);
 		}
@@ -156,39 +148,41 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 
 	private void getHierarchyListUsingHierarchyNameSearch(List<Object[]> hierarchyList,
 			List<GtnWebServiceSearchCriteria> webSearchCriteriaList,
-			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName,
-			GtnWsHierarchyDefinitionBean hierarchyDefBean) throws IllegalAccessException {
+			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName)
+			throws IllegalAccessException {
+		GtnWsHierarchyDefinitionBean hierarchyDefinitionBean;
 		if (!hierarchyName.contains("*")) {
 			TreeMap<String, GtnWsHierarchyDefinitionBean> hierarchyCaseInsensitiveMap = new TreeMap<>(
 					String.CASE_INSENSITIVE_ORDER);
 			hierarchyCaseInsensitiveMap.putAll(hierarchyMap);
 
-			hierarchyDefBean = hierarchyCaseInsensitiveMap
+			hierarchyDefinitionBean = hierarchyCaseInsensitiveMap
 					.get(webSearchCriteriaList.get(webSearchCriteriaList.size() - 2).getFilterValue1());
-			getHierarchyListFromHierarchyMap(hierarchyList, webSearchCriteriaList, hierarchyDefBean);
+			getHierarchyListFromHierarchyMap(hierarchyList, webSearchCriteriaList, hierarchyDefinitionBean);
 		}
 	}
 
 	private void getHierarchyListUsingStartsAndEndsWithSearch(List<Object[]> hierarchyList,
 			List<GtnWebServiceSearchCriteria> webSearchCriteriaList,
-			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName,
-			GtnWsHierarchyDefinitionBean hierarchyDefBean) throws IllegalAccessException {
+			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName)
+			throws IllegalAccessException {
+		GtnWsHierarchyDefinitionBean hierarchyDefinitionBean;
 		if (hierarchyName.contains("*") && hierarchyName.length() > 1) {
 			for (Map.Entry<String, GtnWsHierarchyDefinitionBean> mapEntry : hierarchyMap.entrySet()) {
 
-				hierarchyDefBean = hierarchyMap.get(mapEntry.getKey());
+				hierarchyDefinitionBean = hierarchyMap.get(mapEntry.getKey());
 				int indexOfSymbol = hierarchyName.indexOf('*');
 				String[] hierarchyNameSplit = hierarchyName.split("\\*");
 
 				if (hierarchyNameSplit.length > 1) {
 					getHierarchyListFromBothStartsAndEndsWithSearch(hierarchyList, webSearchCriteriaList,
-							hierarchyDefBean, hierarchyNameSplit);
+							hierarchyDefinitionBean, hierarchyNameSplit);
 				} else if (indexOfSymbol == hierarchyName.length() - 1) {
-					getHierarchyListFromBothStartsWithSearch(hierarchyList, webSearchCriteriaList, hierarchyDefBean,
-							hierarchyNameSplit);
+					getHierarchyListFromBothStartsWithSearch(hierarchyList, webSearchCriteriaList,
+							hierarchyDefinitionBean, hierarchyNameSplit);
 				} else {
-					getHierarchyListFromBothEndsWithSearch(hierarchyList, webSearchCriteriaList, hierarchyDefBean,
-							hierarchyNameSplit);
+					getHierarchyListFromBothEndsWithSearch(hierarchyList, webSearchCriteriaList,
+							hierarchyDefinitionBean, hierarchyNameSplit);
 				}
 
 			}
@@ -230,13 +224,14 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 
 	private void getHierarchyListUsingGenericSearch(List<Object[]> hierarchyList,
 			List<GtnWebServiceSearchCriteria> webSearchCriteriaList,
-			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName,
-			GtnWsHierarchyDefinitionBean hierarchyDefBean) throws IllegalAccessException {
+			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName)
+			throws IllegalAccessException {
+		GtnWsHierarchyDefinitionBean hierarchyDefinitionBean;
 		if (hierarchyName.equals("*") && hierarchyName.length() == 1) {
 
 			for (Map.Entry<String, GtnWsHierarchyDefinitionBean> mapEntry : hierarchyMap.entrySet()) {
-				hierarchyDefBean = hierarchyMap.get(mapEntry.getKey());
-				getHierarchyListFromHierarchyMap(hierarchyList, webSearchCriteriaList, hierarchyDefBean);
+				hierarchyDefinitionBean = hierarchyMap.get(mapEntry.getKey());
+				getHierarchyListFromHierarchyMap(hierarchyList, webSearchCriteriaList, hierarchyDefinitionBean);
 			}
 		}
 	}

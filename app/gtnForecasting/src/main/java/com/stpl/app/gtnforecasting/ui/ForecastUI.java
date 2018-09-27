@@ -67,11 +67,6 @@ import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 
 public class ForecastUI extends UI {
 
-    /**
-     * Navigator to navigate through screens *.
-     */
-    private Navigator navigator;
-    
     protected String pageParameters = null;
     protected final StplSecurity stplSecurity = new StplSecurity();
     protected DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
@@ -313,7 +308,7 @@ public class ForecastUI extends UI {
             }
         }
 
-        navigator = new Navigator(this, this);
+        Navigator navigator = new Navigator(this, this);
         HelperListUtil.getInstance().loadValuesWithListName(getCommercialConstant());
         try {
 

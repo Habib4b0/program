@@ -178,7 +178,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
         int index = getItemIndex(count + levelIndex + levelValue);
         int start = getStartIndex(count + levelIndex, index);
         int end = getPageLength();
-        return  new LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
+        return new LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
     }
 
     public int getPageForItem(int pos) {
@@ -190,7 +190,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
     }
 
     public int getStartIndex(int count, int index) {
-        return  count - index;
+        return count - index;
     }
 
     public void loadExpandData(int levelNo) {
@@ -236,7 +236,6 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
         try {
             int count = 0;
-            List<Leveldto> levelList = null;
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(getScreenName())) {
                 count = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(parentId, projSelDTO, baseVariables, true);
                 LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());

@@ -35,23 +35,6 @@ public class CommonQueryUtils {
     }
     
     /**
-     * Query to Declare the Temp CCP Table
-     * @return 
-     */
-    public String getCCPTempTableQuery() {
-        String tableQuery = "DECLARE @CCP TABLE\n"
-                + "  (\n"
-                + "     RELATIONSHIP_LEVEL_SID INT,\n"
-                + "     PROJECTION_DETAILS_SID INT,\n"
-                + "     CCP_DETAILS_SID        INT,\n"
-                + "     HIERARCHY_NO           VARCHAR(50)\n"
-                + "  ) \n"
-                + " INSERT INTO @CCP\n"
-                + "            (RELATIONSHIP_LEVEL_SID,PROJECTION_DETAILS_SID,CCP_DETAILS_SID,HIERARCHY_NO) \n";
-        return tableQuery;
-    }
-
-    /**
      * Method returns the Table based on Hierarchy Indicator.
      *
      * @param hierarchyIndicator

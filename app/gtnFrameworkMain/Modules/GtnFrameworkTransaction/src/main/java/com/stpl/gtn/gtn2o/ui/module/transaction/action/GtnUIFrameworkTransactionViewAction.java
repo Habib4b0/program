@@ -63,15 +63,16 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		String inventoryLevelColumnValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 		List<String> inventoryType = new ArrayList<>();
 
-		
+		try
+                {
 		if (wsViewName.contains("InventoryWdActualProjMas")) {
-			List<String> viewColumnList = (List<String>) actionParamList.get(1);
+			List<String> viewColumnList = (List<String>) actionParamList.get(5);
 			List<Object> columnList = (List<Object>) actionParamList.get(4);
-                     if(columnList.contains("")){
-                           columnList.remove("");
-                      }
-                        columnList.remove("invalidDateFrom");
-                        columnList.remove("invalidDateTo");
+                   if(columnList.contains("")){
+                         columnList.remove("");
+                    }
+                      columnList.remove("invalidDateFrom");
+                       columnList.remove("invalidDateTo");
                         List<String> defaultViewColumnList = (List<String>) actionParamList.get(5);
 			defaultViewColumnList.remove("transactionViewLayoutcheckRecord");
 			GtnUIFrameworkGlobalUI.setVisibleFlagForComponent(false, defaultViewColumnList, componentId);
@@ -120,6 +121,11 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			componentList = (List<Object>) actionParamList.get(1);
 
 		}
+                }
+                catch(Exception e)
+                {
+                    throw new GtnFrameworkGeneralException("Error in Transaction viewAction,null pointer", e);
+                }
 		List<GtnWSTransactionColumnBean> viewDateModeComponents = (List<GtnWSTransactionColumnBean>) actionParamList
 				.get(9);
 		
@@ -149,7 +155,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			throw new GtnFrameworkGeneralException("Error in doAction", e);
 		}
                 }
-                
+
 	private void loadDataFromService(List<Object> componentList, String tableName, List<String> helpercomponentList,
 			int systemId, String demandTypeColumnName, String demandTypeColumnValue,
 			GtnUIFrameworkTransactionComponentTypeListBean gtnUIFrameworkTransactionComponentTypeListBean)
