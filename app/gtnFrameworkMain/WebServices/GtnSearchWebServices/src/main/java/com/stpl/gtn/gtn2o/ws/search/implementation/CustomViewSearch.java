@@ -8,7 +8,6 @@ import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
