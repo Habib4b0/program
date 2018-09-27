@@ -1,8 +1,13 @@
 package com.stpl.gtn.gtn2o.ui.module.ifp.config;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.List;
-import org.junit.*;
-import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 
 /**
@@ -10,11 +15,10 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 public class GtnFrameworkIfpLandingScreenConfigTest {
 
 	@Test
-	public void testGtnFrameworkIfpLandingScreenConfig_1()
+	public void testGtnFrameworkIfpLandingScreenConfig()
 		throws Exception {
 		GtnFrameworkIfpLandingScreenConfig result = new GtnFrameworkIfpLandingScreenConfig();
 		assertNotNull(result);
@@ -22,26 +26,28 @@ public class GtnFrameworkIfpLandingScreenConfigTest {
 	}
 
 	@Test
-	public void testGetDefaultFieldValueList_1()
+	public void testGetDefaultFieldValueList()
 		throws Exception {
 		GtnFrameworkIfpLandingScreenConfig fixture = new GtnFrameworkIfpLandingScreenConfig();
 
 		List<Object> result = fixture.getDefaultFieldValueList();
 
-		// add additional test code here
 		assertNotNull(result);
 	}
 
 	@Test
-	public void testGetEnableCopyFieldValues_1()
+	public void testGetEnableCopyFieldValues()
 		throws Exception {
-
+		
+		Object[] enableCopyField = new Object[] {"1", "2"};
+		GtnFrameworkIfpLandingScreenConfig.setEnableCopyFieldValues(enableCopyField);
+		
 		Object[] result = GtnFrameworkIfpLandingScreenConfig.getEnableCopyFieldValues();
 		assertNotNull(result);
 	}
 
 	@Test
-	public void testGetSearchView_1()
+	public void testGetSearchView()
 		throws Exception {
 		GtnFrameworkIfpLandingScreenConfig fixture = new GtnFrameworkIfpLandingScreenConfig();
 
@@ -50,7 +56,7 @@ public class GtnFrameworkIfpLandingScreenConfigTest {
 	}
 
 	@Test
-	public void testGetVisibleIfpCopyFields_1()
+	public void testGetVisibleIfpCopyFields()
 		throws Exception {
 
 		String[] result = GtnFrameworkIfpLandingScreenConfig.getVisibleIfpCopyFields();
@@ -58,14 +64,14 @@ public class GtnFrameworkIfpLandingScreenConfigTest {
 	}
 
 	@Test
-	public void testSetEnableCopyFieldValues_1()
+	public void testSetEnableCopyFieldValues()
 		throws Exception {
 		Object[] enableCopyField = new Object[] {};
 		GtnFrameworkIfpLandingScreenConfig.setEnableCopyFieldValues(enableCopyField);
 	}
 
 	@Test
-	public void testSetVisibleIfpCopyFields_1()
+	public void testSetVisibleIfpCopyFields()
 		throws Exception {
 		String[] visibleCopyFields = new String[] {};
 		GtnFrameworkIfpLandingScreenConfig.setVisibleIfpCopyFields(visibleCopyFields);
@@ -83,7 +89,4 @@ public class GtnFrameworkIfpLandingScreenConfigTest {
 		// Add additional tear down code here
 	}
 
-	public static void main(String[] args) {
-		new org.junit.runner.JUnitCore().run(GtnFrameworkIfpLandingScreenConfigTest.class);
-	}
 }

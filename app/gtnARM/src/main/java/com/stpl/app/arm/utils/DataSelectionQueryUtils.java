@@ -405,9 +405,7 @@ public class DataSelectionQueryUtils {
                 dsViewFilterMap.put(CommonConstant.CREATED_BY_STRING, "usr.firstName");
                 String orderBy = CommonFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, dsViewFilterMap, "FVM.CREATED_DATE").toString();
                 dsCustomSql += orderBy;
-                if (!isCount) {
-                    dsCustomSql += " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
-                }
+                dsCustomSql += " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
                 LOGGER.debug("Custom SQL --{}", dsCustomSql);
                 List<Object[]> sqlList = HelperTableLocalServiceUtil.executeSelectQuery(dsCustomSql);
                 LOGGER.debug(CommonConstant.END_OF_FIND_VIEW_BY_NAME_METHOD);

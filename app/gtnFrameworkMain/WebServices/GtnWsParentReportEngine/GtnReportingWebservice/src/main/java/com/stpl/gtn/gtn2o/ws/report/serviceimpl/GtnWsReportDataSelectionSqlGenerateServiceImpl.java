@@ -270,14 +270,15 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			List<Object[]> customviewData = getCustomViewType(
 					gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean().getCustomViewMasterSid());
 			if (values == null) {
-				return gtnWsReportCustomCCPListDetails.stream()
-						.filter(row -> (filteredHierarchy.isEmpty() || filteredHierarchy.contains(row.getHierarchyNo()))
-								&& filterCustomViewVariable(customviewData,
-										reportDashboardBean.getSelectedVariableType(), row))
-						.map(row -> convertToRecordbean(gtnWsRequest, row,
-								gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
-								gtnWsReportCustomCCPListDetails.indexOf(row), reportDashboardBean.getDisplayFormat(),
-								customviewData))
+				return gtnWsReportCustomCCPListDetails.stream().filter(row -> (filteredHierarchy.isEmpty() || filteredHierarchy.contains(row.getHierarchyNo()))
+						&& filterCustomViewVariable(customviewData,
+								reportDashboardBean.getSelectedVariableType(), row))
+						.map(row -> aggregate(
+								convertToRecordbean(gtnWsRequest, row,
+										gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
+										gtnWsReportCustomCCPListDetails.indexOf(row),
+										reportDashboardBean.getDisplayFormat(), customviewData),
+								row, customviewData, gtnWsRequest))
 						.collect(Collectors.toList());
 			}
 
