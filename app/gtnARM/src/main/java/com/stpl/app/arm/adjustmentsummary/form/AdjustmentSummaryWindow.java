@@ -114,9 +114,7 @@ public class AdjustmentSummaryWindow extends Window {
             tabChangeLitener();
         } catch (NullPointerException ex) {
             LOGGER.error("Error in ", ex);
-        } catch (Exception ex) {
-            LOGGER.error("Error in ", ex);
-        }
+        } 
 
     }
 

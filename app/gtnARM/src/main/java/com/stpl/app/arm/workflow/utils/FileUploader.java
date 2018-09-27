@@ -26,7 +26,6 @@ public class FileUploader implements Upload.Receiver, FinishedListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUploader.class);
     private FileOutputStream outputStream;
-    private File file;
     public static final String FILE_PATH = "../../../../var/Attachments/";
     private String moduleName = StringUtils.EMPTY;
 
@@ -51,7 +50,7 @@ public class FileUploader implements Upload.Receiver, FinishedListener {
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
-                file = new CommonUtil().getFileName(dir, filename);
+                File file = new CommonUtil().getFileName(dir, filename);
                 if (file.exists()) {
                     boolean val = file.delete();
                     LOGGER.debug("FILE DELETED {}", val);
