@@ -295,4 +295,3 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
     }
 
 }
->>>>>>> bfaecbfe2f11e5c87dc26dba023bcf8898fb29f2
