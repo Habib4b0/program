@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
@@ -27,6 +28,8 @@ import java.util.List;
 public class GtnFrameworkForecastCustomViewLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastCustomViewLoadAction.class);
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -37,56 +40,66 @@ public class GtnFrameworkForecastCustomViewLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		String customerRelationValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_customerSelectionRelationship")
-				.getCaptionFromV8ComboBox();
-		String customerRelationVersion = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("Commercial_Forecasting_customerRelationshipVersion").getCaptionFromV8ComboBox();
-		String productRelationValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_prodrelationship")
-				.getCaptionFromV8ComboBox();
-		String productRelationVersion = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("Commercial_Forecasting_productRelationshipVersion").getCaptionFromV8ComboBox();
-		GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
-		inputBean.setCustomerRelationSid(Integer.valueOf(customerRelationValue));
-		inputBean.setProductRelationSid(Integer.valueOf(productRelationValue));
-		inputBean.setCustomerRelationVersionNo(Integer.valueOf(customerRelationVersion));
-		inputBean.setProductRelationVersionNo(Integer.valueOf(productRelationVersion));
+		try {
+			String customerRelationValue = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("Commercial_Forecasting_customerSelectionRelationship")
+					.getCaptionFromV8ComboBox();
+			String customerRelationVersion = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("Commercial_Forecasting_customerRelationshipVersion")
+					.getCaptionFromV8ComboBox();
+			String productRelationValue = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("Commercial Forecasting_prodrelationship").getCaptionFromV8ComboBox();
+			String productRelationVersion = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("Commercial_Forecasting_productRelationshipVersion")
+					.getCaptionFromV8ComboBox();
+			if (customerRelationValue != "" || !customerRelationValue.isEmpty() && productRelationValue != ""
+					|| !productRelationValue.isEmpty()) {
+				GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
+				inputBean.setCustomerRelationSid(Integer.valueOf(customerRelationValue));
+				inputBean.setProductRelationSid(Integer.valueOf(productRelationValue));
+				inputBean.setCustomerRelationVersionNo(Integer.valueOf(customerRelationVersion));
+				inputBean.setProductRelationVersionNo(Integer.valueOf(productRelationVersion));
 
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
-		GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
-		GtnGeneralSearchRequest searchRequest = new GtnGeneralSearchRequest();
-		searchRequest.setInputBean(inputBean);
+				GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+				GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+				GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+				GtnGeneralSearchRequest searchRequest = new GtnGeneralSearchRequest();
+				searchRequest.setInputBean(inputBean);
 
-		serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
-		serviceRegistryBean.setUrl("/gtnSearch");
-		serviceRegistryBean.setModuleName("generalSearch");
-		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
-		serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+				serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
+				serviceRegistryBean.setUrl("/gtnSearch");
+				serviceRegistryBean.setModuleName("generalSearch");
+				GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+				generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+				generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
+				serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
 
-		GtnWsSearchRequest webserviceSearchRequest = new GtnWsSearchRequest();
-		webserviceSearchRequest.setSearchQueryName(actionParamsList.get(5).toString());
+				GtnWsSearchRequest webserviceSearchRequest = new GtnWsSearchRequest();
+				webserviceSearchRequest.setSearchQueryName(actionParamsList.get(5).toString());
 
-		request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
-		request.setGtnWsGeneralRequest(generalRequest);
-		request.setGtnGeneralSearchRequest(searchRequest);
-		request.setGtnWsSearchRequest(webserviceSearchRequest);
+				request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+				request.setGtnWsGeneralRequest(generalRequest);
+				request.setGtnGeneralSearchRequest(searchRequest);
+				request.setGtnWsSearchRequest(webserviceSearchRequest);
 
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		if (response.getGtnUIFrameworkWebserviceComboBoxResponse() != null) {
-			List<String> valueList = new ArrayList<>(
-					response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
-			List<String> responseIdList = new ArrayList<>(
-					response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
-			List<Integer> idList = new ArrayList<>();
-			for (String string : responseIdList) {
-				idList.add(Integer.valueOf(string));
+				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+						"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request,
+						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				if (response.getGtnUIFrameworkWebserviceComboBoxResponse() != null) {
+					List<String> valueList = new ArrayList<>(
+							response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
+					List<String> responseIdList = new ArrayList<>(
+							response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
+					List<Integer> idList = new ArrayList<>();
+					for (String string : responseIdList) {
+						idList.add(Integer.valueOf(string));
+					}
+					GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(6).toString())
+							.loadItemsToCombobox(valueList, idList);
+				}
 			}
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(6).toString())
-					.loadItemsToCombobox(valueList, idList);
+		} catch (GtnFrameworkGeneralException ex) {
+			gtnLogger.error(ex.getMessage());
 		}
 	}
 

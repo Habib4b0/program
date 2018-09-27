@@ -1,6 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.periodconf.controller;
 
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,12 +55,12 @@ public class GtnWsPeriodConfigurationController extends GtnServiceRegistryImplCl
 	}
 
 	@RequestMapping(value = "/loadRefreshDate", method = RequestMethod.GET)
-	public void loadRefreshDateGet() {
+	public void loadRefreshDateGet() throws IOException {
 		loadRefreshDate();
 	}
 		
 	@RequestMapping(value = "/loadRefreshDate", method = RequestMethod.POST)
-	public void loadRefreshDate() {
+	public void loadRefreshDate() throws IOException {
 		logger.info("Reloading From To Results after Forecast Configuration Change");
 		periodConfigurationService.loadDate();
 	}

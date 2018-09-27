@@ -557,6 +557,9 @@ public class PagedGrid {
 				GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
 				action.addActionParameter(event.getValue());
 				action.addActionParameter(event.getComponent().getId());
+                                if(tableConfig.getGridHeaderCustomParameter()!=null){
+                                    action.addActionParameter(tableConfig.getGridHeaderCustomParameter());
+                                }
 				gtnlogger.info("component......." + componentConfig.getComponentId());
 				classLoader(action, classPath, componentConfig.getComponentId());
 			} else {
@@ -584,6 +587,9 @@ public class PagedGrid {
 				GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
 				action.addActionParameter(event.getValue());
 				action.addActionParameter(event.getComponent().getId());
+                                if(tableConfig.getGridHeaderCustomParameter()!=null){
+                                    action.addActionParameter(tableConfig.getGridHeaderCustomParameter());
+                                }
 				classLoader(action, classPath, componentConfig.getComponentId());
 			} else {
 				tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());

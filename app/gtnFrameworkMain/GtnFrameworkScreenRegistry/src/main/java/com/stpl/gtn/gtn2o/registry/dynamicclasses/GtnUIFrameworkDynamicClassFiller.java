@@ -27,6 +27,7 @@ import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPagedTree
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPagedTreeTableGetCountAction;
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkReturnCheckAllAction;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastEligibleDateLoadAction;
+import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastFilterAction;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnFrameworkForecastCustomViewLoadAction;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
@@ -96,8 +97,11 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 				new GtnFrameworkForecastEditAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastCustomViewLoadAction.class.getName(),
 				new GtnFrameworkForecastCustomViewLoadAction());
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName(),
-                                new GtnFrameworkNewToOldArchitectureDeleteAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName(),
+				new GtnFrameworkNewToOldArchitectureDeleteAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastDateValueChangeAction.class.getName(),
+				new GtnFrameworkForecastDateValueChangeAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnForecastFilterAction.class.getName(), new GtnForecastFilterAction());
 	}
 
 }

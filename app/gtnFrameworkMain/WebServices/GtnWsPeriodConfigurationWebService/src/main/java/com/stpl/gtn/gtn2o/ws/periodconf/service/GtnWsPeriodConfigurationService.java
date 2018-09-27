@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.periodconf.service;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -9,9 +10,13 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
@@ -22,11 +27,8 @@ import com.stpl.gtn.gtn2o.ws.periodconf.constants.GtnWsPeriodConfigurationConsta
 import com.stpl.gtn.gtn2o.ws.periodconf.model.PeriodConfData;
 import com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Service
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
@@ -76,7 +78,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		return gtnQueryEngineWebServiceRequest;
 	}
 
-	public String readProperty(String lookUpValue) {
+	public String readProperty(String lookUpValue) throws IOException {
 		String loadDateQuery = gtnWsPeriodConfSqlService.getQuery(lookUpValue);
 		logger.debug("LoadDate Query:" + loadDateQuery);
 		return loadDateQuery;
@@ -93,7 +95,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 				gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
 	}
 
-	public void populateallBusinessProcessTypeResultObject(List<Object[]> resultDataSet) {
+	public void populateallBusinessProcessTypeResultObject(List<Object[]> resultDataSet) throws IOException {
 		for (Object[] resultList : resultDataSet) {
 			PeriodConfData periodconfdata = new PeriodConfData();
 			periodconfdata.setFromDate(new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT)
@@ -112,7 +114,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		}
 	}
 
-	public void loadDate() {
+	public void loadDate() throws IOException {
 		logger.debug("Entering into webservice loadDate  WS->SR->QE->SR->WS");
 		String lookUpValue = "loadDate";
 		GtnQueryEngineWebServiceResponse response = callQueryEngine(createQuery(readProperty(lookUpValue)));
@@ -131,22 +133,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		return result;
 	}
 
-	@Override
-	public GtnUIFrameworkWebserviceRequest registerWs() {
-		logger.info("Building request to register Webservice in Service Registry");
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
-
-		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-		getEndPointServiceURL(webServiceRegistryBean);
-		logger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
-		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
-		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
-		addSecurityToken(request);
-		return request;
-	}
-
-	private List<Object[]> getQuarter(String startDate, String endDate) {
+	private List<Object[]> getQuarter(String startDate, String endDate) throws IOException {
 		List<Object[]> quarters = new ArrayList<>();
 		DateFormat df = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_DATE_FORMAT);
 		DateFormat dfpsid = new SimpleDateFormat(GtnWsPeriodConfigurationConstants.GTN_PERIOD_SID_DATE_FORMAT);
