@@ -192,7 +192,7 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
 		dto.setToPeriod(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(17).toString())
 				.getStringCaptionFromV8ComboBox());
         dto.setCustomerHierarchySid(
-                checkDDLBValues(Integer.valueOf(String.valueOf(customerRecordBean.getPropertyValueByIndex(7)))));
+                checkDDLBValues(Integer.parseInt(String.valueOf(customerRecordBean.getPropertyValueByIndex(7)))));
         dto.setCustomerHierarchyVersion(
                 checkDDLBValues(Integer.parseInt(String.valueOf(customerRecordBean.getPropertyValueByIndex(6)))));
         dto.setCustomerRelationSid(checkDDLBValues(Integer.parseInt(String.valueOf(
