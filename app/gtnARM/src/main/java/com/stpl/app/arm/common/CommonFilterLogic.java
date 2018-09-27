@@ -148,28 +148,28 @@ public class CommonFilterLogic {
                         }
                         if (Compare.Operation.LESS.toString().equals(operation.name())) {
                             int val = (Integer) stringFilter.getValue();
-                            StringBuilder tempStart;
+                            StringBuilder tempStartforLessOper;
                             String value = String.valueOf(val);
                             if (val > 0) {
                                 if (sql.length() == 0) {
-                                    tempStart = new StringBuilder("where ( ( * < '?' or * = '0')");
+                                    tempStartforLessOper = new StringBuilder("where ( ( * < '?' or * = '0')");
                                 } else {
-                                    tempStart = new StringBuilder("AND ( * <'?' or * = '0')");
+                                    tempStartforLessOper = new StringBuilder("AND ( * <'?' or * = '0')");
                                 }
-                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
-                                sql.append(tempStart);
+                                tempStartforLessOper.replace(tempStartforLessOper.indexOf(ARMUtils.CHAR_ASTERISK), tempStartforLessOper.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStartforLessOper.replace(tempStartforLessOper.indexOf(ARMUtils.CHAR_ASTERISK), tempStartforLessOper.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStartforLessOper.replace(tempStartforLessOper.indexOf(ARMUtils.CHAR_QUS), tempStartforLessOper.indexOf(ARMUtils.CHAR_QUS) + 1, value);
+                                sql.append(tempStartforLessOper);
                             } else {
                                 if (sql.length() == 0) {
-                                    tempStart = new StringBuilder("where ( ( * < '?')");
+                                    tempStartforLessOper = new StringBuilder("where ( ( * < '?')");
                                 } else {
-                                    tempStart = new StringBuilder("AND ( * <'?')");
+                                    tempStartforLessOper = new StringBuilder("AND ( * <'?')");
                                 }
-                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_ASTERISK), tempStart.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf(ARMUtils.CHAR_QUS), tempStart.indexOf(ARMUtils.CHAR_QUS) + 1, value);
-                                sql.append(tempStart);
+                                tempStartforLessOper.replace(tempStartforLessOper.indexOf(ARMUtils.CHAR_ASTERISK), tempStartforLessOper.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStartforLessOper.replace(tempStartforLessOper.indexOf(ARMUtils.CHAR_ASTERISK), tempStartforLessOper.indexOf(ARMUtils.CHAR_ASTERISK) + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStartforLessOper.replace(tempStartforLessOper.indexOf(ARMUtils.CHAR_QUS), tempStartforLessOper.indexOf(ARMUtils.CHAR_QUS) + 1, value);
+                                sql.append(tempStartforLessOper);
                             }
                         }
                         if (stringFilter.getValue() instanceof Date) {

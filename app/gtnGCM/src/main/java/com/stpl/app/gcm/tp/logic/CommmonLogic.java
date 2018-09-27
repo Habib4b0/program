@@ -2206,7 +2206,7 @@ public class CommmonLogic {
             if (compSid.equals(StringUtils.EMPTY)) {
                 compSid = sid;
             } else {
-                compSid = compSid + "," + sid;
+                compSid = compSid.concat(",").concat(sid);
             }
         }
         String query = " SELECT ";

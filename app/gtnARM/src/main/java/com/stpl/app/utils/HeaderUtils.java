@@ -6,6 +6,7 @@
 package com.stpl.app.utils;
 
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ public class HeaderUtils {
     }
 
     public static Map<String, List<Object>> configureBalanceSummaryTableheader(String reportType) {
-        List<Object> reportTypeHeaderDetails = new ArrayList<>();
+        List<Object> reportTypeHeaderDetails = new ArrayList<>(NumericConstants.FIVE);
 
         if ("Pipeline Balance Summary".equals(reportType)) {
 

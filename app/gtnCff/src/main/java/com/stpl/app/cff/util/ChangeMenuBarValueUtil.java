@@ -44,12 +44,13 @@ public class ChangeMenuBarValueUtil {
     }
 
     private static String getCheckedRecordResult(String defaultValue, List<Object> recordList) {
+        String defaultVal = defaultValue;
         if (recordList.size() == 1) {
-            defaultValue = (String) recordList.get(0);
+            defaultVal = (String) recordList.get(0);
         } else if (recordList.size() > 1) {
-            defaultValue = "Multiple";
+            defaultVal = "Multiple";
         }
-        return defaultValue;
+        return defaultVal;
     }
 
     public static String getInclusionMenuItemToDisplay(CustomMenuBar.CustomMenuItem salesInclusionValues) {

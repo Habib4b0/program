@@ -1066,7 +1066,8 @@ public class FileManagementLogic {
 			String query1 = "SELECT FM.FORECAST_NAME,FM.FORECAST_VER,FM.\"SOURCE\",FM.COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, Max(Cast(( Cast(fm.FORECAST_YEAR AS VARCHAR(4)) + '-' + Cast(fm.FORECAST_MONTH AS VARCHAR(2))+ '-01' ) AS DATE)) AS FT_MAX_DATE, "
 					+ " Month(Min(FT_MIN_DATE)) AS MIN_MONTH,Year(Min(FT_MIN_DATE)) AS MIN_YEAR,Month(Max(Cast(( Cast(fm.FORECAST_YEAR AS VARCHAR(4)) + '-' + Cast(fm.FORECAST_MONTH AS VARCHAR(2))+ '-01' ) AS DATE))) AS MAX_MONTH, ";
 
-			String query2 = "", query = "";
+			String query2 = "";
+                        String query = "";
 
 			LOGGER.debug("getResults started with P1:String fileType= {} and P2:String country= {} and P3:String fileName= {} and P4:String type= {} and P5:String version= {} and P6:String forecastYear= {} and P7:Date fromDate= {} and P8: Date toDate= {}", resultDTO.getFileType(), resultDTO.getCountry(), fileName, type, version, resultDTO.getForecastYear(), resultDTO.getFromPeriod(), resultDTO.getToPeriod());
 			StringBuilder condition = new StringBuilder();
@@ -1139,24 +1140,27 @@ public class FileManagementLogic {
 						+ "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE  AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "
 						+ resultDTO.getCompany() + " " + " WHERE  ";
 				condition.append("FM.COUNTRY LIKE '").append(resultDTO.getCountry()).append("%'");
-				condition.append(" AND FM.BUSINESS_UNIT = '").append(resultDTO.getBusinessUnit()).append("'");
+				condition.append(" AND FM.BUSINESS_UNIT = '").append(resultDTO.getBusinessUnit()).append("' ");
 			} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(resultDTO.getFileType())
 					&& ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
-				query = "SELECT FM.FORECAST_NAME,FM.FORECAST_VER,FM.\"SOURCE\",FM.COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, \n"
-						+ "Max(Cast(( Cast(fm.\"YEAR\" AS VARCHAR(4)) + '-' + Cast(fm.\"MONTH\" AS VARCHAR(2))+ '-01' ) AS DATE)) AS FT_MAX_DATE,  \n"
-						+ "Month(Min(FT_MIN_DATE)) AS MIN_MONTH,Year(Min(FT_MIN_DATE)) AS MIN_YEAR,\n"
-						+ "Month(Max(Cast(( Cast(fm.\"YEAR\" AS VARCHAR(4)) + '-' + Cast(fm.\"MONTH\" AS VARCHAR(2))+ '-01' ) AS DATE))) AS MAX_MONTH,  \n"
-						+ "Year(Max(Cast(( Cast(fm.\"YEAR\" AS VARCHAR(4)) + '-'+ Cast(fm.\"MONTH\" AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR \n"
-						+ "FROM  INVENTORY_WD_PROJ_DT FM  \n"
-						+ "CROSS APPLY(SELECT Min(Cast(( Cast(\"YEAR\" AS VARCHAR(4)) + '-'+ Cast(\"MONTH\" AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE \n"
-						+ "FROM INVENTORY_WD_PROJ_DT   \n"
-						+ "WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS \n"
-						+ "    JOIN ITEM_MASTER  IM ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID AND IM.INBOUND_STATUS <> 'D'\n"
-						+ "    JOIN GL_COST_CENTER_MASTER  GLC ON IM.NDC8 = GLC.NDC8 \n"
-						+ "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "
-						+ resultDTO.getCompany() + " " + " WHERE    ";
-				condition = new StringBuilder("FM.COUNTRY LIKE '" + resultDTO.getCountry() + "%'");
-				condition.append(" AND FM.BUSINESS_UNIT='").append(resultDTO.getBusinessUnit()).append("' ");
+				                        query = "SELECT FM.FORECAST_NAME,FM.FORECAST_VER,FM.\"SOURCE\",FM.COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, \n"
+                                    + "Max(Cast(( Cast(fm.\"YEAR\" AS VARCHAR(4)) + '-' + Cast(fm.\"MONTH\" AS VARCHAR(2))+ '-01' ) AS DATE)) AS FT_MAX_DATE,  \n"
+                                    + "Month(Min(FT_MIN_DATE)) AS MIN_MONTH,Year(Min(FT_MIN_DATE)) AS MIN_YEAR,\n"
+                                    + "Month(Max(Cast(( Cast(fm.\"YEAR\" AS VARCHAR(4)) + '-' + Cast(fm.\"MONTH\" AS VARCHAR(2))+ '-01' ) AS DATE))) AS MAX_MONTH,  \n"
+                                    + "Year(Max(Cast(( Cast(fm.\"YEAR\" AS VARCHAR(4)) + '-'+ Cast(fm.\"MONTH\" AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR \n"
+                                    + "FROM  INVENTORY_WD_PROJ_DT FM  \n"
+                                    + "CROSS APPLY(SELECT Min(Cast(( Cast(\"YEAR\" AS VARCHAR(4)) + '-'+ Cast(\"MONTH\" AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE \n"
+                                    + "FROM INVENTORY_WD_PROJ_DT   \n"
+                                    + "WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS \n"
+                                    + "    JOIN ITEM_MASTER  IM ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID AND IM.INBOUND_STATUS <> 'D'\n"
+                                    + "    JOIN GL_COST_CENTER_MASTER  GLC ON IM.NDC8 = GLC.NDC8 \n"
+                                    + "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "
+                                    + resultDTO.getCompany() + " " + " WHERE    ";
+                            condition = new StringBuilder();
+                            condition.append("FM.COUNTRY LIKE '");
+                            condition.append(resultDTO.getCountry());
+                            condition.append("%'");
+                            condition.append(" AND FM.BUSINESS_UNIT='").append(resultDTO.getBusinessUnit()).append("' ");
 			} else if (ConstantsUtils.CUSTOMERGTS.equals(resultDTO.getFileType())
 					&& ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
 				query2 = " Year(Max(Cast(( Cast(fm.FORECAST_YEAR AS VARCHAR(4)) + '-'+ Cast(fm.FORECAST_MONTH AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR FROM  CUSTOMER_GTS_FORECAST FM "
@@ -1167,8 +1171,11 @@ public class FileManagementLogic {
 						+ "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "
 						+ resultDTO.getCompany() + " " + " WHERE    ";
 				query = query1 + query2;
-				condition = new StringBuilder("FM.COUNTRY='" + resultDTO.getCountry() + "'");
-				condition.append(" AND  FM.BUSINESS_UNIT = '").append(resultDTO.getBusinessUnit()).append("' ");
+				condition = new StringBuilder();
+                                condition.append("FM.COUNTRY='");
+                                condition.append(resultDTO.getCountry());
+				condition.append("' ");
+                                condition.append(" AND  FM.BUSINESS_UNIT = '").append(resultDTO.getBusinessUnit()).append("' ");
 			}
 
 			if (!ConstantsUtils.EMPTY.equals(fileName)) {
@@ -2242,7 +2249,8 @@ public class FileManagementLogic {
 		sqlString = sqlString.concat(" AND INW.COUNTRY LIKE'").concat(detailsResultDTO.getCountry()).concat("%'");
 		if (detailsResultDTO.getVersion().contains("~")) {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
-			int x = 0, y = 0;
+			int x = 0;
+                        int y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace('.', '~');
@@ -2375,7 +2383,8 @@ public class FileManagementLogic {
 		sqlString = sqlString.concat(" AND INW.COUNTRY LIKE'").concat(detailsResultDTO.getCountry()).concat("%'");
 		if (detailsResultDTO.getVersion().contains("~")) {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
-			int x = 0, y = 0;
+			int x = 0;
+                        int y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace('.', '~');

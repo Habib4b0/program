@@ -1890,13 +1890,13 @@ public class CommonLogic {
             for (Object item : list) {
                 if (!flag) {
                     String company = String.valueOf(item);
-                    company = "'" + company + "'";
+                    company = company.concat(" '").concat(company).concat("' ");
                     value = company;
                     flag = true;
                 } else {
                     String company = String.valueOf(item);
-                    company = "'" + company + "'";
-                    value = value + Constants.COMMA + company;
+                    company = company.concat(" '").concat(company).concat("' ");
+                    value = value.concat(Constants.COMMA).concat(company);
                 }
             }
         }
