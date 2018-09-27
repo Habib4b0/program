@@ -22,11 +22,11 @@ public class GtnFrameworkWsSqlQueryEngineService extends GtnServiceRegistryImplC
 		super(GtnFrameworkWsSqlQueryEngineService.class);
 	}
 
-	public GtnFrameworkWsSqlQueryEngine getGtnSqlQueryEngine() {
+	public synchronized GtnFrameworkWsSqlQueryEngine getGtnSqlQueryEngine() {
 		return gtnSqlQueryEngine;
 	}
 
-	public void setGtnSqlQueryEngine(GtnFrameworkWsSqlQueryEngine gtnSqlQueryEngine) {
+	public synchronized  void setGtnSqlQueryEngine(GtnFrameworkWsSqlQueryEngine gtnSqlQueryEngine) {
 		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
 	}
 

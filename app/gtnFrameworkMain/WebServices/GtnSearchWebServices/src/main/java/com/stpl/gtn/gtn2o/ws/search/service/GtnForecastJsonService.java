@@ -6,6 +6,9 @@ import java.io.IOException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import org.apache.commons.io.FilenameUtils;
+
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,9 +42,10 @@ public class GtnForecastJsonService {
 
 	public Object convertJsonToObject(String filePath, Class<?> classObj) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
+		File file = new File(FilenameUtils.getName(filePath));
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-		return mapper.readValue(new File(filePath), classObj);
+		return mapper.readValue(file, classObj);
 	}
 
 
