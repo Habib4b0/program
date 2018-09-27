@@ -3338,6 +3338,7 @@ public class MProjectionResultsLogic {
     public String getProjectionResultsCOGSQuery(ProjectionSelectionDTO projSelDTO) {
         String groupBy = StringUtils.EMPTY;
         String value = StringUtils.EMPTY;
+        String query = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             value = Constant.IQUARTER;
             groupBy = "AND SALE.PERIODS = COGS.QUARTER";
@@ -3352,7 +3353,7 @@ public class MProjectionResultsLogic {
             value = ", I.MONTH";
             groupBy += "AND SALE.PERIODS = COGS.MONTH";
         }
-        String query = " SELECT ITEM_PRICE = COALESCE(AVG(ITEM_PRICE), 0)\n"
+         query = query + " SELECT ITEM_PRICE = COALESCE(AVG(ITEM_PRICE), 0)\n"
                 + "            , I.YEAR\n"
                 + "            " + value + "\n"
                 + "     FROM [DBO].[UDF_ITEM_PRICING](@ITEMID, 'COGS', @START_PERIOD_SID, @END_PERIOD_SID, 'UN') U\n"
@@ -3460,9 +3461,9 @@ public class MProjectionResultsLogic {
         }
         customSQL1 += " CCP.HIERARCHY_NO,\n"
                 + "          p.\"YEAR\"\n";
-          
-          String ccpQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-        String sql = ccpQuery + " \n" + "   select "
+          String sql = StringUtils.EMPTY;
+          String ccpQuery =  commonLogic.insertAvailableHierarchyNo(projSelDTO);
+          sql = sql + ccpQuery + " \n" + "   select "
                 + " Isnull(HISTORY.PROGRAM_CODE,FUTURE.PROGRAM_CODE) as PROGRAM_CODE \n"
                 + ",Isnull(HISTORY.HIERARCHY_NO,FUTURE.HIERARCHY_NO) \n"
                 + ",Isnull(HISTORY.YEARS,FUTURE.YEARS) as YEARS \n"

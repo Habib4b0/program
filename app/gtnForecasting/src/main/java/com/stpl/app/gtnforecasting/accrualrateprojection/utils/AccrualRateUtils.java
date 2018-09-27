@@ -445,8 +445,7 @@ public class AccrualRateUtils {
     public static int getMonthDifference(final Calendar calendar) {
         Calendar currentCalendar = Calendar.getInstance();
         int diffYear = calendar.get(Calendar.YEAR) - currentCalendar.get(Calendar.YEAR);
-        int diffMonth = diffYear * NumericConstants.TWELVE + calendar.get(Calendar.MONTH) - currentCalendar.get(Calendar.MONTH);
-        return diffMonth;
+        return diffYear * NumericConstants.TWELVE + calendar.get(Calendar.MONTH) - currentCalendar.get(Calendar.MONTH);
     }
 
     private AccrualRateUtils() {

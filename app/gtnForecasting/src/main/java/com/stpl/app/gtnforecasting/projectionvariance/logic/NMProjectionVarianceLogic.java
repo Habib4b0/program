@@ -1427,7 +1427,7 @@ public class NMProjectionVarianceLogic {
 						rsIds = String.valueOf(obj);
 						flag = false;
 					} else {
-						rsIds = rsIds + "," + obj;
+						rsIds = rsIds.concat(",").concat(String.valueOf(obj));
 					}
 				}
 			}
@@ -1438,7 +1438,7 @@ public class NMProjectionVarianceLogic {
 	}
 
 	String getRSIdsCustom(PVSelectionDTO pvsdto) {
-		String rsIds = StringUtils.EMPTY;
+		String rsIdsCustom = StringUtils.EMPTY;
 		try {
 			String ccpQuery = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
 			ccpQuery = ccpQuery.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(pvsdto.getCustomId()));
@@ -1452,17 +1452,17 @@ public class NMProjectionVarianceLogic {
 				for (int i = 0; i < size; i++) {
 					Object obj = list.get(i);
 					if (flag) {
-						rsIds = String.valueOf(obj);
+						rsIdsCustom = String.valueOf(obj);
 						flag = false;
 					} else {
-						rsIds = rsIds + "," + obj;
+                                            rsIdsCustom = rsIdsCustom.concat(",").concat(String.valueOf(obj));
 					}
 				}
 			}
 		} catch (Exception e) {
                     LOGGER.error(e.getMessage());
 		}
-		return rsIds;
+		return rsIdsCustom;
 	}
 
 	/**
@@ -2585,7 +2585,7 @@ public class NMProjectionVarianceLogic {
 							value = getFormattedValue(Constant.AMOUNT, value);
 						} else if (projSelDTO.getSales().contains(Constant.RATE)) {
 							value = getFormattedValue(Constant.RATE_PER_THREE, value);
-							value = value + PERCENT;
+							value = value.concat(PERCENT.getConstant());
 						}
 						projDTO.addStringProperties(column1, value);
 						columnList.remove(column1);
@@ -2599,7 +2599,7 @@ public class NMProjectionVarianceLogic {
 								priorVal = getFormattedValue(Constant.AMOUNT, priorVal);
 							} else if (projSelDTO.getSales().contains(Constant.RATE)) {
 								priorVal = getFormattedValue(Constant.RATE_PER_THREE, priorVal);
-								priorVal = priorVal + PERCENT;
+								priorVal = priorVal.concat(PERCENT.getConstant());
 							}
 							projDTO.addStringProperties(column1, priorVal);
 							columnList.remove(column1);
@@ -3214,9 +3214,8 @@ public class NMProjectionVarianceLogic {
 			currentHierarchyIndicator = projSelDTO.getHierarchyIndicator();
 		}
 
-		String joinQuery = getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), currentHierarchyIndicator,
+		return getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), currentHierarchyIndicator,
 				projSelDTO);
-		return joinQuery;
 	}
 
 	public String getHierarchyJoinQuery(boolean isCustomHierarchy, String hierarchyIndicator,
