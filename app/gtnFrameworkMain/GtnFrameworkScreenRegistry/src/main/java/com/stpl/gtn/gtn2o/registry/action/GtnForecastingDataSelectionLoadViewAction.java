@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
@@ -28,12 +29,11 @@ import com.vaadin.ui.TreeGrid;
 public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass
 
 {
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnForecastingDataSelectionLoadViewAction.class);
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnForecastingDataSelectionLoadViewAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		return;
 	}
 
 	@Override
@@ -66,12 +66,12 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getBusinessUnit());
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "projectionName", componentId)
+					nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_NAME, componentId)
 			.loadV8FieldValue(dataSelectionBean.getProjectionName());
 			
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "projectionDescription", componentId)
+					nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION, componentId)
 			.loadV8FieldValue(dataSelectionBean.getProjectionDescription());
 			
 			GtnWsRecordBean customerRecordBean = dataSelectionBean.getCustomerHierarchyRecordBean();
@@ -80,53 +80,51 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			
 			GtnUIFrameworkComponentData customerHierarchyData = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							"forecastLandingScreen_customerHierarchy", componentId)
+							GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP, componentId)
 					.getComponentData();
 			customerHierarchyData.setCustomData(customerRecordBean);
 
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							"forecastLandingScreen_customerHierarchy", componentId)
+							GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP, componentId)
 					.setV8PopupFieldValue(customerRecordBean.getPropertyValueByIndex(0));
 			
-			List<GtnUIFrameWorkActionConfig> customerActionConfigList = new ArrayList<>();
 			GtnUIFrameWorkActionConfig customerActionConfig = new GtnUIFrameWorkActionConfig();
-			customerActionConfigList.add(customerActionConfig);
 			customerActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			customerActionConfig.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
-			customerActionConfig.addActionParameter("forecastLandingScreen_customerHierarchy");
-			customerActionConfig.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
+			customerActionConfig.addActionParameter(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
+			customerActionConfig.addActionParameter(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL);
 			customerActionConfig.addActionParameter(dataSelectionBean.getCustomerRelationshipBuilderSid());
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId,customerActionConfig); 
 			
 			
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					"Commercial_Forecasting_customerRelationshipVersion", componentId)
+					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomerRelationshipVersionNo());
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					"Commercial_Forecasting_customerSelectionForecastLevel", componentId)
+					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomerHierarchyLevel().toString());
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					"Commercial_Forecasting_customerSelectionLevel", componentId)
+					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomerHierarchyInnerLevel());
 
 			GtnUIFrameworkComponentData customerGroupData = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							"Commercial Forecasting_customerGroup", componentId)
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP, componentId)
 					.getComponentData();
 			customerGroupData.setCustomData(customerGroup);
 			if(customerGroup != null)
 			{
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					"Commercial Forecasting_customerGroup", componentId)
+					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP, componentId)
 			.setV8PopupFieldValue(customerGroup.getPropertyValueByIndex(0));
 			}
 			
-			String customerTableId ="Commercial Forecasting_customerDualListBox";
+			String customerTableId =GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERDUALLISTBOX;
 			GtnUIFrameworkBaseComponent abstractComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(customerTableId, componentId);
 			GtnUIFrameworkComponentData dualListBoxData = (GtnUIFrameworkComponentData) abstractComponent.getData();
@@ -146,13 +144,13 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			
 			GtnUIFrameworkComponentData productHierarchyData = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							"Commercial Forecasting_prodhierarchyName", componentId)
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME, componentId)
 					.getComponentData();
 			productHierarchyData.setCustomData(productRecordBean);
 
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							"Commercial Forecasting_prodhierarchyName", componentId)
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME, componentId)
 					.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 			
 			List<GtnUIFrameWorkActionConfig> productActionConfigList = new ArrayList<>();
@@ -160,29 +158,29 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			productActionConfigList.add(productActionConfig);
 			productActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			productActionConfig.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
-			productActionConfig.addActionParameter("Commercial Forecasting_prodhierarchyName");
-			productActionConfig.addActionParameter("Commercial Forecasting_prodrelationship");
+			productActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME);
+			productActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONSHIP);
 			productActionConfig.addActionParameter(dataSelectionBean.getProductRelationshipBuilderSid());
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId,productActionConfig); 
 			
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					"Commercial_Forecasting_productRelationshipVersion", componentId)
+					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getProductRelationshipVersionNo());
 			
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					"Commercial Forecasting_prodforecastLevel", componentId)
+					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODFORECASTLEVEL, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getProductHierarchyLevel().toString());
 			
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					"Commercial Forecasting_productLevel", componentId)
+					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getProductHierarchyInnerLevel());
 			
 			GtnUIFrameworkComponentData productGroupData = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							"Commercial Forecasting_productGroup", componentId)
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP, componentId)
 					.getComponentData();
 			productGroupData.setCustomData(productGroup);
 			
@@ -190,12 +188,12 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			{
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					"Commercial Forecasting_productGroup", componentId)
+					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP, componentId)
 			.setV8PopupFieldValue(productGroup.getPropertyValueByIndex(0));
 			
 			}
 			
-			String productTableId ="Commercial Forecasting_productDualListBox";
+			String productTableId =GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX;
 			GtnUIFrameworkBaseComponent productAbstractComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(productTableId, componentId);
 			GtnUIFrameworkComponentData productDualListBoxData = (GtnUIFrameworkComponentData) productAbstractComponent.getData();

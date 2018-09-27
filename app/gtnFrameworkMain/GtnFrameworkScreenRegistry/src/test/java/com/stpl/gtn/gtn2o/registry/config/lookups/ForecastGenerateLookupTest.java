@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.junit.Test;
 
 import com.stpl.gtn.gtn2o.registry.config.projectionvariance.CommercialForecastingProjectionVarianceDisplaySelectionFilterOptionTab;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 
 
@@ -28,7 +29,7 @@ public class ForecastGenerateLookupTest {
 	@Test
     public void testMainScreenConfigPrivateMethod2() {
         ForecastGenerateLookup instance = new ForecastGenerateLookup();
-       assertFalse( instance.getGtnForecastGenerateLookUpView("Commercial Forecasting")==null);
+       assertFalse( instance.getGtnForecastGenerateLookUpView(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING)==null);
     }
 
 

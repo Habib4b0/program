@@ -28,17 +28,21 @@ public class GtnForecastEligibleDateLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_LOADELIGIBLEDATE_SERVICE,
-				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		Date date = response.getGtnUIFrameworkWebserviceDateResponse().getResultValue();
-		Optional.ofNullable(date).ifPresent(d -> {
-			LocalDateTime local = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-			LocalDate localDate = local.toLocalDate();
+		GtnUIFrameworkWebserviceRequest reportForecastEligibleDateRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnUIFrameworkWebserviceResponse reportForecastEligibleDateResponse = new GtnUIFrameworkWebServiceClient()
+				.callGtnWebServiceUrl(
+						GtnWsReportConstants.GTN_REPORT_SERVICE
+								+ GtnWsReportConstants.GTN_REPORT_LOADELIGIBLEDATE_SERVICE,
+						"report", reportForecastEligibleDateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		Date reportForecastEligibleDateDate = reportForecastEligibleDateResponse
+				.getGtnUIFrameworkWebserviceDateResponse().getResultValue();
+		Optional.ofNullable(reportForecastEligibleDateDate).ifPresent(d -> {
+			LocalDateTime localDate = reportForecastEligibleDateDate.toInstant().atZone(ZoneId.systemDefault())
+					.toLocalDateTime();
+			LocalDate reportForecastEligibleDateLocalDate = localDate.toLocalDate();
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString())
-					.loadV8DateValue(localDate);
+					.loadV8DateValue(reportForecastEligibleDateLocalDate);
 		});
 	}
 
