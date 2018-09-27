@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
 import java.util.List;
 
-
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
@@ -10,8 +9,6 @@ import com.stpl.dependency.singleton.bean.GtnFrameworkSingletonObjectBean;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
-import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImplClass {
