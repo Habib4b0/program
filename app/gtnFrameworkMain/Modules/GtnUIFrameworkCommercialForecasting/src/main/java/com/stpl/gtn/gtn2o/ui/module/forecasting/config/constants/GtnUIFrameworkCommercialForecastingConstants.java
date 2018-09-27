@@ -18,4 +18,5 @@ public class GtnUIFrameworkCommercialForecastingConstants {
     public static final String PRODUCT_GROUP="Product";
     public static final String PRIVATE="Private";
     public static final String PUBLIC="Public";
+    public static final String COMMERCIAL_FORECASTING_LANDING_SCREEEN="Commercial Forecasting";
 }

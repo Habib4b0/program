@@ -19,9 +19,9 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class GtnLandingScreenFromAndToPeriodLoadAction
-        implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnLandingScreenFromAndToPeriodLoadAction.class);
+	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnLandingScreenFromAndToPeriodLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -72,16 +72,26 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 		List<Integer> toPeriodItemCodeList = new ArrayList<>();
 		toPeriodItemCodeList.add(fromPeriodItemCodeList.get(fromPeriodItemCodeList.size() - 1));
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
-				.loadItemsToCombobox(fromPeriodItemValueList, fromPeriodItemCodeList);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
-				.addAllItemsToComboBox(toPeriodItemValueList, toPeriodItemCodeList);
+		if (actionParamList.get(4).toString().contains("DataSelection")) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString(), componentId)
+					.loadItemsToCombobox(fromPeriodItemValueList, fromPeriodItemCodeList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString(), componentId)
+					.addAllItemsToComboBox(toPeriodItemValueList, toPeriodItemCodeList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString(),componentId)
+					.loadV8ComboBoxComponentValue(fromPeriodItemCodeList.get(0));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString(),componentId)
+					.loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(toPeriodItemCodeList.size() - 1));
+		} else {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
+					.loadItemsToCombobox(fromPeriodItemValueList, fromPeriodItemCodeList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
+					.addAllItemsToComboBox(toPeriodItemValueList, toPeriodItemCodeList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
+					.loadV8ComboBoxComponentValue(fromPeriodItemCodeList.get(0));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
+					.loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(toPeriodItemCodeList.size() - 1));
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
-				.loadV8ComboBoxComponentValue(fromPeriodItemCodeList.get(0));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
-				.loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(toPeriodItemCodeList.size()-1));
-
+		}
 	}
 
 	@Override

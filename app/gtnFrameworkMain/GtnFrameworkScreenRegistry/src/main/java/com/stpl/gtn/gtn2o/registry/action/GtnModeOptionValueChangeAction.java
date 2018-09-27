@@ -23,20 +23,26 @@ public class GtnModeOptionValueChangeAction implements GtnUIFrameWorkAction, Gtn
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
         List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
-        GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(1)));
+        if(!actionParamList.get(2).toString().contains("DataSelection")){
+        setEnableAndDisableComponents(componentId, actionParamList);
+        }
+    }
+
+	private void setEnableAndDisableComponents(String componentId, List<Object> actionParamList) {
+		GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(1)),componentId);
         String modeValue = baseComponent.getV8StringFromField();
         boolean add = "Add".equals(modeValue);
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(2))).setEnable(add);
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(3))).setEnable(!add);
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4))).setEnable(!add);
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(5))).setEnable(add);
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(6))).setEnable(!add);
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(7))).setEnable(!add);
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(8))).setEnable(!add);
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(9))).setEnable(!add);
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(10))).setEnable(!add);
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(11))).setEnable(!add);
-    }
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(2)),componentId).setEnable(add);
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(3)),componentId).setEnable(!add);
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)),componentId).setEnable(!add);
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(5)),componentId).setEnable(add);
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(6)),componentId).setEnable(!add);
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(7)),componentId).setEnable(!add);
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(8)),componentId).setEnable(!add);
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(9)),componentId).setEnable(!add);
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(10)),componentId).setEnable(!add);
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(11)),componentId).setEnable(!add);
+	}
     
     @Override
     public GtnUIFrameWorkAction createInstance() {

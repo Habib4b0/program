@@ -76,6 +76,10 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private String publicViewName;
 	private List<Object> customDataList;
 	
+	private Integer deductionLevel;
+	private GtnWsRecordBean customerGroup;
+	private GtnWsRecordBean productGroup;
+	
 	public String getProjectionName() {
 		return projectionName;
 	}
@@ -552,6 +556,30 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setPublicViewName(this.publicViewName);
 		DataSelectionCopyBean.setCustomDataList(this.customDataList);
 		return DataSelectionCopyBean;
+	}
+
+	public Integer getDeductionLevel() {
+		return deductionLevel;
+	}
+
+	public void setDeductionLevel(Integer deductionLevel) {
+		this.deductionLevel = deductionLevel;
+	}
+
+	public GtnWsRecordBean getCustomerGroup() {
+		return customerGroup;
+	}
+
+	public void setCustomerGroup(GtnWsRecordBean customerGroup) {
+		this.customerGroup = customerGroup;
+	}
+
+	public GtnWsRecordBean getProductGroup() {
+		return productGroup;
+	}
+
+	public void setProductGroup(GtnWsRecordBean productGroup) {
+		this.productGroup = productGroup;
 	}
 
 	

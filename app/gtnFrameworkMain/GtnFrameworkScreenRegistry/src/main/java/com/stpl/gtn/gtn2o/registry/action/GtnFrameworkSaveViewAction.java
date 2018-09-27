@@ -22,7 +22,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
-
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.TreeGrid;
 
@@ -40,163 +39,134 @@ public class GtnFrameworkSaveViewAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		try
-		{
-		Date date = null;
-		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		GtnFrameworkForecastDataSelectionBean dataSelectionBean = new GtnFrameworkForecastDataSelectionBean();
-		
-		String company = Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getCaptionFromV8ComboBox())
-				.orElseGet(String::new);
-		dataSelectionBean.setCompany(company == "0" ? 0 : Integer.parseInt(company));
-		
-		String businessUnit = Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getCaptionFromV8ComboBox())
-				.orElseGet(String::new);
-		dataSelectionBean.setBusinessUnit(businessUnit == "0" ? 0 : Integer.parseInt(businessUnit));
-		String projectionName = Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(3).toString()).getV8StringFromField())
-				.orElseGet(String::new);
-		String companyName = Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getStringCaptionFromV8ComboBox())
-				.orElseGet(String::new);
-		dataSelectionBean.setCompanyName(companyName);
-		String businessUnitName = Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getStringCaptionFromV8ComboBox())
-				.orElseGet(String::new);
-		dataSelectionBean.setBusinessUnitName(businessUnitName);
-		String fromPeriodForecast = Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(5).toString()).getStringCaptionFromV8ComboBox())
-				.orElseGet(String::new);
-		dataSelectionBean.setFromPeriodForecastName(fromPeriodForecast);
-		String toPeriodForecast = Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(6).toString()).getStringCaptionFromV8ComboBox())
-				.orElseGet(String::new);
-		dataSelectionBean.setToPeriodForecastName(toPeriodForecast);
-		dataSelectionBean.setProjectionName(projectionName == null ? "" : projectionName);
-		String projectionDescription = Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(4).toString()).getV8StringFromField())
-				.orElseGet(String::new);
-		dataSelectionBean.setProjectionDescription(projectionDescription == null ? "" : projectionDescription);
-		
-		dataSelectionBean.setFromPeriodForecast(checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(5).toString()).getCaptionFromV8ComboBox())));
-		dataSelectionBean.setToPeriod(checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(6).toString()).getCaptionFromV8ComboBox())));
-		GtnWsRecordBean customerHierarchyBean = null;
-		if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(7).toString()).getComponentData()
-				.getCustomData() != null)
-			customerHierarchyBean = ((GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(actionParamsList.get(7).toString()).getComponentData().getCustomData());
-		dataSelectionBean.setCustomerHierarchyRecordBean(customerHierarchyBean);
-		dataSelectionBean.setCustomerRelationshipBuilderSid((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(8).toString()).getCaptionFromV8ComboBox()))));
+		try {
+			Date date = null;
+			List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
+			GtnFrameworkForecastDataSelectionBean dataSelectionBean = new GtnFrameworkForecastDataSelectionBean();
 
-		dataSelectionBean.setCustomerHierarchyLevel((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(9).toString()).getCaptionFromV8ComboBox()))));
-		dataSelectionBean.setCustomerHierarchyInnerLevel((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(10).toString()).getCaptionFromV8ComboBox()))));
-		dataSelectionBean.setCustomerRelationshipVersionNo((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(11).toString()).getCaptionFromV8ComboBox()))));
-		LocalDate forecastEligibleDate = (LocalDate) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(12).toString()).getFieldValue();
-		if (forecastEligibleDate != null) {
-			date = Date.from(forecastEligibleDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		}
-		dataSelectionBean.setForecastEligibleDate(date);
-		
-		
-		List<GtnWsRecordBean> selectedCustomerList = getSelectedList(actionParamsList.get(13).toString(), componentId);
-		
+			String company = Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(1).toString()).getCaptionFromV8ComboBox())
+					.orElseGet(String::new);
+			dataSelectionBean.setCompany(company == "0" ? 0 : Integer.parseInt(company));
 
-		dataSelectionBean.setSelectedCustomerHierarchyList(selectedCustomerList);
-		
-		
+			String businessUnit = Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(2).toString()).getCaptionFromV8ComboBox())
+					.orElseGet(String::new);
+			dataSelectionBean.setBusinessUnit(businessUnit == "0" ? 0 : Integer.parseInt(businessUnit));
+			String projectionName = Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(3).toString()).getV8StringFromField())
+					.orElseGet(String::new);
+			String companyName = Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(1).toString()).getStringCaptionFromV8ComboBox())
+					.orElseGet(String::new);
+			dataSelectionBean.setCompanyName(companyName);
+			String businessUnitName = Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(2).toString()).getStringCaptionFromV8ComboBox())
+					.orElseGet(String::new);
+			dataSelectionBean.setBusinessUnitName(businessUnitName);
+			String fromPeriodForecast = Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(5).toString()).getStringCaptionFromV8ComboBox())
+					.orElseGet(String::new);
+			dataSelectionBean.setFromPeriodForecastName(fromPeriodForecast);
+			String toPeriodForecast = Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(6).toString()).getStringCaptionFromV8ComboBox())
+					.orElseGet(String::new);
+			dataSelectionBean.setToPeriodForecastName(toPeriodForecast);
+			dataSelectionBean.setProjectionName(projectionName == null ? "" : projectionName);
+			String projectionDescription = Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(4).toString()).getV8StringFromField())
+					.orElseGet(String::new);
+			dataSelectionBean.setProjectionDescription(projectionDescription == null ? "" : projectionDescription);
 
-		GtnWsRecordBean productHierarchyBean = null;
-		if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(14).toString()).getComponentData()
-				.getCustomData() != null)
-			productHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(actionParamsList.get(14).toString()).getComponentData().getCustomData();
-		dataSelectionBean.setProductHierarchyRecordBean(productHierarchyBean);
-		dataSelectionBean.setProductRelationshipBuilderSid((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(15).toString()).getCaptionFromV8ComboBox()))));
-		dataSelectionBean.setProductRelationshipVersionNo((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(16).toString()).getCaptionFromV8ComboBox()))));
-		dataSelectionBean.setProductHierarchyLevel((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(17).toString()).getCaptionFromV8ComboBox()))));
-        dataSelectionBean.setProductHierarchyInnerLevel((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(18).toString()).getCaptionFromV8ComboBox()))));
-		List<GtnWsRecordBean> selectedProductList = getSelectedList(actionParamsList.get(19).toString(), componentId);
-		dataSelectionBean.setSelectedProductHierarchyList(selectedProductList);
-		dataSelectionBean.setFrequency((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(20).toString()).getCaptionFromV8ComboBox()))));
-		String privateViewName = Optional
-				.ofNullable(String.valueOf(GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent("Commercial Forecasting_privateViewLookup").getV8PopupFieldValue()))
-				.orElseGet(String::new);
-		dataSelectionBean.setPrivateViewName(StringUtils.isBlank(privateViewName) ? null : privateViewName);
-		String publicViewName = Optional
-				.ofNullable(String.valueOf(GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent("Commercial Forecasting_publicView").getV8PopupFieldValue()))
-				.orElseGet(String::new);
-		dataSelectionBean.setPublicViewName(StringUtils.isBlank(publicViewName) ? null : publicViewName);
+			dataSelectionBean.setFromPeriodForecast(checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(5).toString()).getCaptionFromV8ComboBox())));
+			dataSelectionBean.setToPeriod(checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(6).toString()).getCaptionFromV8ComboBox())));
+			GtnWsRecordBean customerHierarchyBean = null;
+			if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(7).toString()).getComponentData()
+					.getCustomData() != null)
+				customerHierarchyBean = ((GtnWsRecordBean) GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(actionParamsList.get(7).toString()).getComponentData().getCustomData());
+			dataSelectionBean.setCustomerHierarchyRecordBean(customerHierarchyBean);
+			dataSelectionBean
+					.setCustomerRelationshipBuilderSid((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+							.getVaadinBaseComponent(actionParamsList.get(8).toString()).getCaptionFromV8ComboBox()))));
 
-		
-		GtnUIFrameWorkActionConfig popupAction = new GtnUIFrameWorkActionConfig();
-		popupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		List<Object> params = new ArrayList<>();
-	
-		params.add("forecastDsSaveViewLookUp");
-		params.add("Save View");
-		params.add(null);
-		params.add(null);
-		params.add(null);
-		params.add(dataSelectionBean);
-		popupAction.setActionParameterList(params);
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, popupAction);
-		gtnLogger.info("privateViewName--------->" + privateViewName);
-		gtnLogger.info("publicViewName----------->" + publicViewName);
-//		if (!"".equals(privateViewName) || !"".equals(publicViewName)) {
-//			String viewName = !"".equals(privateViewName) ? privateViewName : "";
-//			viewName = !"".equals(viewName) ? viewName : publicViewName;
-//			dataSelectionBean.setViewId(getViewId(privateViewName));
-//			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("forecastDsSaveViewLookUp_saveViewName", componentId)
-//					.loadV8FieldValue(viewName);
-//			GtnUIFrameWorkActionConfig updateEnableAction = new GtnUIFrameWorkActionConfig();
-//			updateEnableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-//			updateEnableAction.addActionParameter("forecastDsSaveViewLookUp_saveViewUpdate");
-//			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateEnableAction);
-//
-//			GtnUIFrameWorkActionConfig updateDisableAction = new GtnUIFrameWorkActionConfig();
-//			updateDisableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-//			updateDisableAction.addActionParameter("forecastDsSaveViewLookUp_saveViewAdd");
-//			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateDisableAction);
-//		}
-		}
-		catch(Exception e)
-		{
+			dataSelectionBean.setCustomerHierarchyLevel((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(9).toString()).getCaptionFromV8ComboBox()))));
+			dataSelectionBean.setCustomerHierarchyInnerLevel((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(10).toString()).getCaptionFromV8ComboBox()))));
+			dataSelectionBean
+					.setCustomerRelationshipVersionNo((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+							.getVaadinBaseComponent(actionParamsList.get(11).toString()).getCaptionFromV8ComboBox()))));
+			LocalDate forecastEligibleDate = (LocalDate) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(12).toString()).getFieldValue();
+			if (forecastEligibleDate != null) {
+				date = Date.from(forecastEligibleDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			}
+			dataSelectionBean.setForecastEligibleDate(date);
+
+			List<GtnWsRecordBean> selectedCustomerList = getSelectedList(actionParamsList.get(13).toString(),
+					componentId);
+
+			dataSelectionBean.setSelectedCustomerHierarchyList(selectedCustomerList);
+
+			GtnWsRecordBean productHierarchyBean = null;
+			if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(14).toString()).getComponentData()
+					.getCustomData() != null)
+				productHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(actionParamsList.get(14).toString()).getComponentData().getCustomData();
+			dataSelectionBean.setProductHierarchyRecordBean(productHierarchyBean);
+			dataSelectionBean
+					.setProductRelationshipBuilderSid((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+							.getVaadinBaseComponent(actionParamsList.get(15).toString()).getCaptionFromV8ComboBox()))));
+			dataSelectionBean.setProductRelationshipVersionNo((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(16).toString()).getCaptionFromV8ComboBox()))));
+			dataSelectionBean.setProductHierarchyLevel((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(17).toString()).getCaptionFromV8ComboBox()))));
+			dataSelectionBean.setProductHierarchyInnerLevel((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(18).toString()).getCaptionFromV8ComboBox()))));
+			List<GtnWsRecordBean> selectedProductList = getSelectedList(actionParamsList.get(19).toString(),
+					componentId);
+			dataSelectionBean.setSelectedProductHierarchyList(selectedProductList);
+			dataSelectionBean.setFrequency((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(20).toString()).getCaptionFromV8ComboBox()))));
+			String privateViewName = Optional
+					.ofNullable(String.valueOf(GtnUIFrameworkGlobalUI
+							.getVaadinBaseComponent("Commercial Forecasting_privateViewLookup").getV8PopupFieldValue()))
+					.orElseGet(String::new);
+			dataSelectionBean.setPrivateViewName(StringUtils.isBlank(privateViewName) ? null : privateViewName);
+			String publicViewName = Optional
+					.ofNullable(String.valueOf(GtnUIFrameworkGlobalUI
+							.getVaadinBaseComponent("Commercial Forecasting_publicView").getV8PopupFieldValue()))
+					.orElseGet(String::new);
+			dataSelectionBean.setPublicViewName(StringUtils.isBlank(publicViewName) ? null : publicViewName);
+
+			GtnUIFrameWorkActionConfig popupAction = new GtnUIFrameWorkActionConfig();
+			popupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+			List<Object> params = new ArrayList<>();
+
+			params.add("forecastDsSaveViewLookUp");
+			params.add("Save View");
+			params.add(null);
+			params.add(null);
+			params.add(null);
+			params.add(dataSelectionBean);
+			popupAction.setActionParameterList(params);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, popupAction);
+			gtnLogger.info("privateViewName--------->" + privateViewName);
+			gtnLogger.info("publicViewName----------->" + publicViewName);
+		} catch (Exception e) {
 			gtnLogger.error("Exception", e);
 		}
-		
+
 	}
 
+	@SuppressWarnings("rawtypes")
 	private Integer checkIfNotNull(Optional input) {
 		return input.isPresent() && !"".equals(input.get().toString()) ? Integer.valueOf(input.get().toString()) : null;
 	}
 
-	private int getViewId(String privateViewName) {
-		GtnWsRecordBean viewRecord;
-		if (!"".equals(privateViewName))
-			viewRecord = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("Commercial Forecasting_privateViewLookup").getComponentData().getCustomData();
-		else
-			viewRecord = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("Commercial Forecasting_publicView").getComponentData().getCustomData();
-		return Integer
-				.parseInt(String.valueOf(viewRecord.getPropertyValueByIndex(viewRecord.getProperties().size() - 2)));
-	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
 		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI

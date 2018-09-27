@@ -126,7 +126,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				"Version", "Active From", "From Period", "To Period"));
 		dataAssumptionsPagedTableConfig.setTableColumnMappingId(new Object[] { "file", "company", "businessUnit",
 				"type", "version", "activeFrom", "fromPeriod", "toPeriod" });
-		dataAssumptionsPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
+		//dataAssumptionsPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		dataAssumptionsResultsTable.setGtnPagedTableConfig(dataAssumptionsPagedTableConfig);
 	}
 
