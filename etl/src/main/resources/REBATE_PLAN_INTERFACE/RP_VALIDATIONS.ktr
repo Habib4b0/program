@@ -181,7 +181,7 @@
   <hop> <from>Add constants 3</from><to>DELETE BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>
   <hop> <from>Database lookup 3 2</from><to>Table output</to><enabled>N</enabled> </hop>
   <hop> <from>Table output</from><to>Invalid Indicator D 2 3</to><enabled>N</enabled> </hop>
-  <hop> <from>ADD BATCH DUPLCIATION </from><to>Sort rows 2</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION </from><to>Sort rows 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Sort rows 2</from><to>Dummy &#x28;do nothing&#x29; 3 2</to><enabled>Y</enabled> </hop>
   <hop> <from>REBATE_PLAN_MASTER lookup 2</from><to>Filter rows 2</to><enabled>N</enabled> </hop>
   <hop> <from>REBATE_PLAN_MASTER lookup 2</from><to>Filter rows</to><enabled>N</enabled> </hop>
@@ -203,10 +203,10 @@
   <hop> <from>Database lookup 3 2 2</from><to>Invalid Indicator D 2 3</to><enabled>N</enabled> </hop>
   <hop> <from>Database lookup 3 2 2</from><to>Invalid Indicator D 2 3</to><enabled>Y</enabled> </hop>
   <hop> <from>Database lookup 3 2 2</from><to>Update 3 3 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>RP DUP CHECK</from><to>Invalid Indicator D 2 3 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Indicator D 2 3 2</from><to>A-INVALID1 DUP</to><enabled>Y</enabled> </hop>
-  <hop> <from>ADD BATCH DUPLCIATION </from><to>RP DUP CHECK</to><enabled>Y</enabled> </hop>
-  <hop> <from>RP DUP CHECK</from><to>Sort rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>RP DUP CHECK</from><to>Invalid Indicator D 2 3 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Indicator D 2 3 2</from><to>A-INVALID1 DUP</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION </from><to>RP DUP CHECK</to><enabled>N</enabled> </hop>
+  <hop> <from>RP DUP CHECK</from><to>Sort rows 2</to><enabled>N</enabled> </hop>
   </order>
   <step>
     <name>A-INVALID1</name>
@@ -1149,240 +1149,6 @@
     </step>
 
   <step>
-    <name>A-INVALID1 DUP</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <schema>dbo</schema>
-    <table>IVLD_REBATE_PLAN</table>
-    <commit>10000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>N</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>REBATE_PLAN_INTFID</column_name>
-          <stream_name>REBATE_PLAN_INTFID</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PLAN_ID</column_name>
-          <stream_name>REBATE_PLAN_ID</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PLAN_NO</column_name>
-          <stream_name>REBATE_PLAN_NO</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PLAN_NAME</column_name>
-          <stream_name>REBATE_PLAN_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PLAN_STATUS</column_name>
-          <stream_name>REBATE_PLAN_STATUS</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PLAN_TYPE</column_name>
-          <stream_name>REBATE_PLAN_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>INTERNAL_NOTES</column_name>
-          <stream_name>INTERNAL_NOTES</stream_name>
-        </field>
-        <field>
-          <column_name>FORMULA_TYPE</column_name>
-          <stream_name>FORMULA_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>BOGO_ELIGIBLE</column_name>
-          <stream_name>BOGO_ELIGIBLE</stream_name>
-        </field>
-        <field>
-          <column_name>SELF_GROWTH_INDICATOR</column_name>
-          <stream_name>SELF_GROWTH_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>SELF_GROWTH_REFERENCE</column_name>
-          <stream_name>SELF_GROWTH_REFERENCE</stream_name>
-        </field>
-        <field>
-          <column_name>SELF_GROWTH_FROM</column_name>
-          <stream_name>SELF_GROWTH_FROM</stream_name>
-        </field>
-        <field>
-          <column_name>SELF_GROWTH_TO</column_name>
-          <stream_name>SELF_GROWTH_TO</stream_name>
-        </field>
-        <field>
-          <column_name>MARKET_SHARE_INDICATOR</column_name>
-          <stream_name>MARKET_SHARE_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>MARKET_SHARE_REFERENCE</column_name>
-          <stream_name>MARKET_SHARE_REFERENCE</stream_name>
-        </field>
-        <field>
-          <column_name>MARKET_SHARE_TO</column_name>
-          <stream_name>MARKET_SHARE_TO</stream_name>
-        </field>
-        <field>
-          <column_name>TIER_FORMULA_ID</column_name>
-          <stream_name>TIER_FORMULA_ID</stream_name>
-        </field>
-        <field>
-          <column_name>TIER_FORMULA_NO</column_name>
-          <stream_name>TIER_FORMULA_NO</stream_name>
-        </field>
-        <field>
-          <column_name>TIER_FORMULA_NAME</column_name>
-          <stream_name>TIER_FORMULA_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_STRUCTURE</column_name>
-          <stream_name>REBATE_STRUCTURE</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_RANGE_BASED_ON</column_name>
-          <stream_name>REBATE_RANGE_BASED_ON</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_BASED_ON</column_name>
-          <stream_name>REBATE_BASED_ON</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_RULE</column_name>
-          <stream_name>REBATE_RULE</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PLAN_TIER_ID</column_name>
-          <stream_name>REBATE_PLAN_TIER_ID</stream_name>
-        </field>
-        <field>
-          <column_name>TIER_FROM</column_name>
-          <stream_name>TIER_FROM</stream_name>
-        </field>
-        <field>
-          <column_name>TIER_TO</column_name>
-          <stream_name>TIER_TO</stream_name>
-        </field>
-        <field>
-          <column_name>TIER_LEVEL</column_name>
-          <stream_name>TIER_LEVEL</stream_name>
-        </field>
-        <field>
-          <column_name>TIER_OPERATOR</column_name>
-          <stream_name>TIER_OPERATOR</stream_name>
-        </field>
-        <field>
-          <column_name>TIER_VALUE</column_name>
-          <stream_name>TIER_VALUE</stream_name>
-        </field>
-        <field>
-          <column_name>FREE_AMOUNT</column_name>
-          <stream_name>FREE_AMOUNT</stream_name>
-        </field>
-        <field>
-          <column_name>TIER_TOLERANCE</column_name>
-          <stream_name>TIER_TOLERANCE</stream_name>
-        </field>
-        <field>
-          <column_name>SECONDARY_REBATE_PLAN_ID</column_name>
-          <stream_name>SECONDARY_REBATE_PLAN_ID</stream_name>
-        </field>
-        <field>
-          <column_name>SECONDARY_REBATE_PLAN_NO</column_name>
-          <stream_name>SECONDARY_REBATE_PLAN_NO</stream_name>
-        </field>
-        <field>
-          <column_name>SECONDARY_REBATE_PLAN_NAME</column_name>
-          <stream_name>SECONDARY_REBATE_PLAN_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_ID</column_name>
-          <stream_name>CONTRACT_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_ID</column_name>
-          <stream_name>CFP_ID</stream_name>
-        </field>
-        <field>
-          <column_name>MFP_ID</column_name>
-          <stream_name>MFP_ID</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_ID</column_name>
-          <stream_name>IFP_ID</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_ID</column_name>
-          <stream_name>PRICE_SCHEDULE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_ID</column_name>
-          <stream_name>REBATE_SCHEDULE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>CREATED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_BY</column_name>
-          <stream_name>MODIFIED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_DATE</column_name>
-          <stream_name>MODIFIED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
-        </field>
-        <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
-        </field>
-        <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>REASON_FOR_FAILURE</column_name>
-          <stream_name>Reason_For_Failure</stream_name>
-        </field>
-        <field>
-          <column_name>MARKET_SHARE_FROM</column_name>
-          <stream_name>MARKET_SHAR_EFROM</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>291</xloc>
-      <yloc>927</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>A-INVALID1 2 3</name>
     <type>TableOutput</type>
     <description/>
@@ -1846,6 +1612,240 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1300</xloc>
       <yloc>2376</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>A-INVALID1 DUP</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema>dbo</schema>
+    <table>IVLD_REBATE_PLAN</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>REBATE_PLAN_INTFID</column_name>
+          <stream_name>REBATE_PLAN_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_ID</column_name>
+          <stream_name>REBATE_PLAN_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_NO</column_name>
+          <stream_name>REBATE_PLAN_NO</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_NAME</column_name>
+          <stream_name>REBATE_PLAN_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_STATUS</column_name>
+          <stream_name>REBATE_PLAN_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_TYPE</column_name>
+          <stream_name>REBATE_PLAN_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_TYPE</column_name>
+          <stream_name>FORMULA_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>BOGO_ELIGIBLE</column_name>
+          <stream_name>BOGO_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>SELF_GROWTH_INDICATOR</column_name>
+          <stream_name>SELF_GROWTH_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>SELF_GROWTH_REFERENCE</column_name>
+          <stream_name>SELF_GROWTH_REFERENCE</stream_name>
+        </field>
+        <field>
+          <column_name>SELF_GROWTH_FROM</column_name>
+          <stream_name>SELF_GROWTH_FROM</stream_name>
+        </field>
+        <field>
+          <column_name>SELF_GROWTH_TO</column_name>
+          <stream_name>SELF_GROWTH_TO</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_INDICATOR</column_name>
+          <stream_name>MARKET_SHARE_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_REFERENCE</column_name>
+          <stream_name>MARKET_SHARE_REFERENCE</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_TO</column_name>
+          <stream_name>MARKET_SHARE_TO</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_FORMULA_ID</column_name>
+          <stream_name>TIER_FORMULA_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_FORMULA_NO</column_name>
+          <stream_name>TIER_FORMULA_NO</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_FORMULA_NAME</column_name>
+          <stream_name>TIER_FORMULA_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_STRUCTURE</column_name>
+          <stream_name>REBATE_STRUCTURE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_RANGE_BASED_ON</column_name>
+          <stream_name>REBATE_RANGE_BASED_ON</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_BASED_ON</column_name>
+          <stream_name>REBATE_BASED_ON</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_RULE</column_name>
+          <stream_name>REBATE_RULE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_TIER_ID</column_name>
+          <stream_name>REBATE_PLAN_TIER_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_FROM</column_name>
+          <stream_name>TIER_FROM</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_TO</column_name>
+          <stream_name>TIER_TO</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_LEVEL</column_name>
+          <stream_name>TIER_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_OPERATOR</column_name>
+          <stream_name>TIER_OPERATOR</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_VALUE</column_name>
+          <stream_name>TIER_VALUE</stream_name>
+        </field>
+        <field>
+          <column_name>FREE_AMOUNT</column_name>
+          <stream_name>FREE_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_TOLERANCE</column_name>
+          <stream_name>TIER_TOLERANCE</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_REBATE_PLAN_ID</column_name>
+          <stream_name>SECONDARY_REBATE_PLAN_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_REBATE_PLAN_NO</column_name>
+          <stream_name>SECONDARY_REBATE_PLAN_NO</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_REBATE_PLAN_NAME</column_name>
+          <stream_name>SECONDARY_REBATE_PLAN_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_ID</column_name>
+          <stream_name>CFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>MFP_ID</column_name>
+          <stream_name>MFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_ID</column_name>
+          <stream_name>IFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_ID</column_name>
+          <stream_name>PRICE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_ID</column_name>
+          <stream_name>REBATE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_FROM</column_name>
+          <stream_name>MARKET_SHAR_EFROM</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>291</xloc>
+      <yloc>927</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2872,60 +2872,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1061</xloc>
       <yloc>1866</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>RP DUP CHECK</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <cache>Y</cache>
-    <cache_load_all>Y</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema>dbo</schema>
-      <table>REBATE_PLAN_TIER</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>REBATE_PLAN_TIER_ID</name>
-        <field>REBATE_PLAN_TIER_ID</field>
-        <condition>LIKE</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>REBATE_PLAN_MASTER_SID</name>
-        <field>REBATE_PLAN_MASTER_SID</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>Inbound_Status</name>
-        <field>INBOUND_STATUS</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>REBATE_PLAN_TIER_SID</name>
-        <rename>REBATE_PLAN_TIER_SID</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>315</xloc>
-      <yloc>687</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4313,6 +4259,60 @@
     </step>
 
   <step>
+    <name>RP DUP CHECK</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>dbo</schema>
+      <table>REBATE_PLAN_TIER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>REBATE_PLAN_TIER_ID</name>
+        <field>REBATE_PLAN_TIER_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>REBATE_PLAN_MASTER_SID</name>
+        <field>REBATE_PLAN_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>Inbound_Status</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>REBATE_PLAN_TIER_SID</name>
+        <rename>REBATE_PLAN_TIER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>315</xloc>
+      <yloc>687</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>RP_BASED_ON</name>
     <type>DBLookup</type>
     <description/>
@@ -5514,18 +5514,6 @@
         <min_pct_rows/>
       </error>
       <error>
-        <source_step>RP DUP CHECK</source_step>
-        <target_step>Sort rows 2</target_step>
-        <is_enabled>Y</is_enabled>
-        <nr_valuename/>
-        <descriptions_valuename/>
-        <fields_valuename/>
-        <codes_valuename/>
-        <max_errors/>
-        <max_pct_errors/>
-        <min_pct_rows/>
-      </error>
-      <error>
         <source_step>REBATE_PLAN_MASTER lookup</source_step>
         <target_step>REBATE_PLAN_MASTER_Insert</target_step>
         <is_enabled>Y</is_enabled>
@@ -5564,6 +5552,18 @@
       <error>
         <source_step>REBATE_PLAN_MASTER_update</source_step>
         <target_step>Invalid Indicator D 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>RP DUP CHECK</source_step>
+        <target_step>Sort rows 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>

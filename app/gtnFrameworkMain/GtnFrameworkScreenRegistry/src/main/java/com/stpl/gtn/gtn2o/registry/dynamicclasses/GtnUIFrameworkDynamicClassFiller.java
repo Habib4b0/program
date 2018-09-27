@@ -50,16 +50,11 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 				new GtnFrameworkFSPagedTreeTableGetBulkDataAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReturnCheckAllAction.class.getName(),
 				new GtnFrameworkReturnCheckAllAction());
-
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkFSPagedTreeTableFillCountDataAction.class.getName(),
 				new GtnFrameworkFSPagedTreeTableFillCountDataAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
 				GtnFrameworkFSPTTCompRightHeaderFormHeaderAndConfigAction.class.getName(),
 				new GtnFrameworkFSPTTCompRightHeaderFormHeaderAndConfigAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnRelationshipVersionLoadAction.class.getName(),
-				new GtnRelationshipVersionLoadAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnForecastLevelLoadAction.class.getName(),
-				new GtnForecastLevelLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnForecastEligibleDateLoadAction.class.getName(),
 				new GtnForecastEligibleDateLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnLandingScreenFromAndToPeriodLoadAction.class.getName(),

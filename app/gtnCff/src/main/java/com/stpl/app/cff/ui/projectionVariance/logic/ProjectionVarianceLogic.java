@@ -2505,7 +2505,7 @@ public class ProjectionVarianceLogic {
                             value = getFormattedValue(AMOUNT, value);
                         } else if (projSelDTO.getSales().contains("RATE")) {
                             value = getFormattedValue(RATE_PER_THREE, value);
-                            value = value + PERCENT;
+                            value = value.concat(PERCENT.toString());
                         }
                         projDTO.addStringProperties(column1, value);
                         columnList.remove(column1);
@@ -2518,7 +2518,7 @@ public class ProjectionVarianceLogic {
                                 priorVal = getFormattedValue(AMOUNT, priorVal);
                             } else if (projSelDTO.getSales().contains("RATE")) {
                                 priorVal = getFormattedValue(RATE_PER_THREE, priorVal);
-                                priorVal = priorVal + PERCENT;
+                                priorVal = priorVal.concat(String.valueOf(PERCENT));
                             }
                             projDTO.addStringProperties(column1, priorVal);
                             columnList.remove(column1);
@@ -2609,19 +2609,21 @@ public class ProjectionVarianceLogic {
     }
 
     public String getFormattedValue(DecimalFormat format, String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = format.format(Double.valueOf(ZERO));
+        String valueFor = value;
+        if (valueFor.contains(NULL.getConstant())) {
+            valueFor = format.format(Double.valueOf(ZERO));
         } else {
-            value = format.format(Double.valueOf(value));
+            valueFor = format.format(Double.valueOf(valueFor));
         }
-        return value;
+        return valueFor;
     }
 
     public String isNull(String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valNull = value;
+        if (valNull.contains(NULL.getConstant())) {
+            valNull = ZERO;
         }
-        return value;
+        return valNull;
     }
 
     public void saveNMPVSelection(Map map, int projectionID, String screenName) {
@@ -2883,21 +2885,21 @@ public class ProjectionVarianceLogic {
     String getCCPIds(PVSelectionDTO projSelDTO) {
         String query = getCCPQueryForCff(projSelDTO);
         List list = projSelDTO.isIsCustomHierarchy() ? Collections.emptyList() : HelperTableLocalServiceUtil.executeSelectQuery(query);
-        String ccps = StringUtils.EMPTY;
+        StringBuilder ccps = new StringBuilder();
         boolean flag = true;
         if (list != null) {
             int size = list.size();
             for (int i = 0; i < size; i++) {
                 Object[] obj = (Object[]) list.get(i);
                 if (flag) {
-                    ccps = String.valueOf(obj[0]);
+                    ccps.append(String.valueOf(obj[0]));
                     flag = false;
                 } else {
-                    ccps = ccps + "," + (obj[0]);
+                    ccps.append(", ").append(obj[0]);
             }
         }
     }
-        return ccps;
+        return ccps.toString();
     }
     
     public String getCCPQueryForCff(ProjectionSelectionDTO projSelDTO) {
@@ -3023,11 +3025,12 @@ public class ProjectionVarianceLogic {
     }
 
     private String getCommonColumn(String column, int frequencyDivision) {
-         if (frequencyDivision == NumericConstants.FOUR) {
+        int frequencyPv = frequencyDivision;
+         if (frequencyPv == NumericConstants.FOUR) {
             column = column.replace('q', 'Q');
-        } else if (frequencyDivision == NumericConstants.TWO) {
+        } else if (frequencyPv == NumericConstants.TWO) {
             column = column.replace('s', 'S');
-        } else if (frequencyDivision == NumericConstants.TWELVE) {
+        } else if (frequencyPv == NumericConstants.TWELVE) {
             column = column.toLowerCase(Locale.ENGLISH);
         }
         return column;

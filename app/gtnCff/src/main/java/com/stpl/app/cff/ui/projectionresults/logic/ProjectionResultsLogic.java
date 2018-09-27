@@ -460,7 +460,7 @@ public class ProjectionResultsLogic {
                     ccps = String.valueOf(obj[1]);
                     flag = false;
                 } else {
-                    ccps = ccps + "," +(obj[1]);
+                    ccps = ccps.concat(",").concat(String.valueOf(obj[1]));
                 }
             }
         }
@@ -537,15 +537,16 @@ public class ProjectionResultsLogic {
     }
 
     public String getFormattedValue(DecimalFormat format, String value) {
-        if (value.contains("null")) {
-            value = "0";
+        String val = value;
+        if (val.contains("null")) {
+            val = "0";
         } 
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(val);
             if (format.toPattern().contains("%")) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = format.format(newValue);
-                return value;
+            val = format.format(newValue);
+                return val;
     }
 
     public void getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
@@ -1522,7 +1523,7 @@ public class ProjectionResultsLogic {
                                     ccps = String.valueOf(obj[1]);
                                     flag = false;
                                 } else {
-                                    ccps = ccps + "," +(obj[1]);
+                                    ccps = ccps.concat(",").concat(String.valueOf(obj[1]));
                                 }
                             }
                         }
@@ -3043,16 +3044,17 @@ public class ProjectionResultsLogic {
     }
 
     public String getFormatTwoDecimalValue(DecimalFormat format, String value, String appendChar) {
-        if (value.contains("null")) {
-            value = "0";
+        String valuePR =value;
+        if (valuePR.contains("null")) {
+            valuePR = "0";
         }
         if (CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(format.format(Double.valueOf(value)));
+            valuePR = appendChar.concat(format.format(Double.valueOf(valuePR)));
         } else {
-            value = format.format(Double.valueOf(value)).concat(appendChar);
+            valuePR = format.format(Double.valueOf(valuePR)).concat(appendChar);
         }
 
-        return value;
+        return valuePR;
     }
 
 
@@ -4229,7 +4231,7 @@ public class ProjectionResultsLogic {
                     ccps = String.valueOf(obj[1]);
                     flag = false;
                 } else {
-                    ccps = ccps + "," + (obj[1]);
+                    ccps = ccps.concat(",").concat(String.valueOf(obj[1]));
                 }
             }
         }

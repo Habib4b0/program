@@ -638,12 +638,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
                         nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
                         nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
                         "forecastLandingScreen_customerHierarchy",
-                        nameSpace + "_" + "prodhierarchyName"
+                        nameSpace + "_" + "prodhierarchyName",
+                        nameSpace + "_" + "customerGroup",
+                        nameSpace+"_"+"from",nameSpace+"_"+"to"
                         }));
-//                List<String> list=Arrays.asList(nameSpace + "_" + "to",nameSpace + "_" + "from");
-////                list.add(nameSpace + "_" + "to");
-////                list.add(nameSpace + "_" + "from");
-//                loadDataSearchTableActionConfig.setFieldDescription(list);
                 actionConfigListSearch.add(loadDataSearchTableActionConfig);
                 searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
 		searchBtn.setEnable(false);
