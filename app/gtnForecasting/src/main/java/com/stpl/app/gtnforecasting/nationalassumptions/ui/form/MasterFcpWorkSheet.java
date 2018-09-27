@@ -159,17 +159,17 @@ public class MasterFcpWorkSheet extends Window {
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAXSPLIT_POSITION = 1000;
 
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float MINSPLIT_POSITION = 200;
 
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION = 300;
 
    
     /**
@@ -600,9 +600,9 @@ public class MasterFcpWorkSheet extends Window {
     private void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        periodTableId.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        periodTableId.setMinSplitPosition(MINSPLIT_POSITION, Sizeable.Unit.PIXELS);
+        periodTableId.setMaxSplitPosition(MAXSPLIT_POSITION, Sizeable.Unit.PIXELS);
         periodTableId.addStyleName("valo-theme-extfiltertable");
         periodTableId.addStyleName("table-header-center");
     }

@@ -556,7 +556,7 @@ public class ExcelUtils {
                 newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
                 if (!"0".equals(newC)) {
                     if (!newC.equals("null")) {
-                        if (!summaryOldC.equals(newC) && object.length > summaryKeyParam) {
+                        if (object.length > summaryKeyParam && !summaryOldC.equals(newC)) {
 
                             summaryKeyParam++;
                             if (String.valueOf(resultSet[(j + 1) * NumericConstants.TWO]).equalsIgnoreCase("null")) {
@@ -638,7 +638,7 @@ public class ExcelUtils {
     }
 
     private static void setTotalValue(String newC, Object value, AdjustmentDTO dto, boolean isTrx3) {
-        if ("0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN() && isTrx3 ? true : String.valueOf(value).matches("^[\\d.]+$")) {
+        if (value != null && "0".equals(newC) && !Double.valueOf(String.valueOf(value)).isNaN() && isTrx3 ? true : String.valueOf(value).matches("^[\\d.]+$")) {
             dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.parseDouble(String.valueOf(value)));
         }
     }
@@ -653,7 +653,7 @@ public class ExcelUtils {
 
         @Override
         public int compare(ExcelSorterDTO o1, ExcelSorterDTO o2) {
-            return o1.getKey() == o2.getKey() ? o1.getValue().compareTo(o2.getValue()) : ((Integer) o1.getKey()).compareTo((Integer) o2.getKey());
+            return o1.getKey() == o2.getKey() ? o1.getValue().compareTo(o2.getValue()) : Integer.compare(o1.getKey(), o2.getKey());
         }
 
     }

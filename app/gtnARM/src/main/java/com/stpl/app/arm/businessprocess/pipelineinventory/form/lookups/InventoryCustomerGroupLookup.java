@@ -560,7 +560,7 @@ public class InventoryCustomerGroupLookup extends Window {
             for (CustomerGroupDTO dtoValue : list) {
                 if (dtoValue.isInclude()) {
                     ret = true;
-                    if ((Boolean) "null".equalsIgnoreCase(String.valueOf(dtoValue.getIndicator()))) {
+                    if ("null".equalsIgnoreCase(String.valueOf(dtoValue.getIndicator()))) {
                         ret = false;
                         break;
                     }

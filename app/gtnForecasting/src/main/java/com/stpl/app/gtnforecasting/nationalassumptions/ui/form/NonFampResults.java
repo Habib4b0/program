@@ -160,17 +160,17 @@ public class NonFampResults extends Window {
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAXSPLIT_POSITION_NON = 1000;
 
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float MINSPLIT_POSITION_NON = 200;
 
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION_NON = 300;
 
     /**
      * The TableVerticalLayout.
@@ -436,9 +436,9 @@ public class NonFampResults extends Window {
     private void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        periodTableId.setSplitPosition(SPLIT_POSITION_NON, Sizeable.Unit.PIXELS);
+        periodTableId.setMinSplitPosition(MINSPLIT_POSITION_NON, Sizeable.Unit.PIXELS);
+        periodTableId.setMaxSplitPosition(MAXSPLIT_POSITION_NON, Sizeable.Unit.PIXELS);
         periodTableId.addStyleName("valo-theme-extfiltertable");
         periodTableId.addStyleName("table-header-center");
     }

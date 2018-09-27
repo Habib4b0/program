@@ -5,7 +5,6 @@
  */
 package com.stpl.app.arm.accountconfiguration.dto;
 
-import com.stpl.app.arm.accountconfiguration.logic.AccountConfigLogic;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.ui.AbstractField;
@@ -25,7 +24,6 @@ import org.slf4j.LoggerFactory;
  */
 public class SearchResultsTableGenerator implements ExtFilterGenerator {
 
-    private AccountConfigLogic logic = AccountConfigLogic.getInstance();
     /**
      * The Constant LOGGER.
      */
