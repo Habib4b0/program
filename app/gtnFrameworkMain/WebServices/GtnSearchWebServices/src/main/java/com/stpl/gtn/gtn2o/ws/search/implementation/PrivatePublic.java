@@ -67,7 +67,6 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
                 param.add(viewType.replaceAll("\\*", "%"));
                 data.add(GtnFrameworkDataType.STRING);
                 count++;
-//                count = getQuery(strQuery, queryMap, webSearchCriteriaList, param, viewType, data, count);
             }
 
             if (viewName != null && !viewName.equals("*")) {
@@ -75,7 +74,6 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
                 param.add(viewType.replaceAll("\\*", "%"));
                 data.add(GtnFrameworkDataType.STRING);
                 count++;
-//                count = getQuery(strQuery, queryMap, webSearchCriteriaList, param, viewName, data, count);
             }
             String userId = gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId();
             Object[] params = new Object[count];
