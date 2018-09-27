@@ -29,7 +29,7 @@ public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements Sear
 
 
     @Override
-    public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query) {
+    public GtnUIFrameworkWebserviceResponse getSearchResults(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query, GtnSearchwebServiceSqlService gtnSearchSqlService) {
         GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
         try {
             logger.debug("Businnes unit query:" + query);
@@ -59,10 +59,4 @@ public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements Sear
     public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
         // Default Method
     }
-
-    @Override
-    public GtnUIFrameworkWebserviceResponse getSearchResults(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query, GtnSearchwebServiceSqlService gtnSearchSqlService) {
-       return null;
-    }
-
 }
