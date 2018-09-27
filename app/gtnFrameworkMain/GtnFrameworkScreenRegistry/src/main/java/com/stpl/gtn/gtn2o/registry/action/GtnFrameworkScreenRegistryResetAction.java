@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,7 +127,7 @@ public class GtnFrameworkScreenRegistryResetAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(16).toString(), componentId)
 					.setV8PopupFieldValue("");
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent("Commercial Forecasting_productLevel", componentId)
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL, componentId)
 					.loadV8ComboBoxComponentValue(0);
 
 			GtnUIFrameworkComponentData componentData1 = GtnUIFrameworkGlobalUI

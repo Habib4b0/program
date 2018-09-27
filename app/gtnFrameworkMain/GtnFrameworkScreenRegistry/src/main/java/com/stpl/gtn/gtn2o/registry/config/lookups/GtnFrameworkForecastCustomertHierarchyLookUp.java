@@ -277,7 +277,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		tableStyle.add("table-header-normal");
 		customerHierarchyPagedTableComponent.setComponentWidth("100%");
 		customerHierarchyPagedTableComponent.setComponentStyle(tableStyle);
-		customerHierarchyPagedTableComponent.setModuleName("serviceRegistry");
+		customerHierarchyPagedTableComponent.setModuleName(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY);
 
 		componentList.add(customerHierarchyPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig customerHierarchyPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
@@ -334,7 +334,6 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 				.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		forecastCustomerHierarchySelectButton.setAddToParent(true);
-//		forecastCustomerHierarchySelectButton.addDependentComponent("Commercial_Forecasting_customerSelectionRelationship");
 		
 		componentList.add(forecastCustomerHierarchySelectButton);
 
@@ -360,7 +359,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		forecastingCustomerHierarchyRelationshipLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		forecastingCustomerHierarchyRelationshipLoadAction.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
 		forecastingCustomerHierarchyRelationshipLoadAction.addActionParameter(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
-		forecastingCustomerHierarchyRelationshipLoadAction.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
+		forecastingCustomerHierarchyRelationshipLoadAction.addActionParameter(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL);
 		actionConfigList.add(forecastingCustomerHierarchyRelationshipLoadAction);
 		
 		forecastCustomerHierarchySelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);

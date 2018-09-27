@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
@@ -270,7 +271,7 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 		tableStyle.add("table-header-normal");
 		customerProductGroupPagedTableComponent.setComponentWidth("100%");
 		customerProductGroupPagedTableComponent.setComponentStyle(tableStyle);
-		customerProductGroupPagedTableComponent.setModuleName("serviceRegistry");
+		customerProductGroupPagedTableComponent.setModuleName(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY);
 
 		componentList.add(customerProductGroupPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig customerProductGroupPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
@@ -330,7 +331,6 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 				.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		forecastCustomerProductGroupSelectButton.setAddToParent(true);
-//		forecastCustomerHierarchySelectButton.addDependentComponent("Commercial_Forecasting_customerSelectionRelationship");
 		
 		componentList.add(forecastCustomerProductGroupSelectButton);
 
@@ -341,9 +341,9 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 		List<Object> customerAndProductGroupActionParameter = new ArrayList<>();
 		customerAndProductGroupActionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkForecastingStringConstants.CUSTOMER_AND_PRODUCT_GROUP_SEARCH_RESULT_TABLE);
-		customerAndProductGroupActionParameter.add(namespace.contains("Customer")?"Commercial Forecasting_customerGroup":"Commercial Forecasting_productGroup");
+		customerAndProductGroupActionParameter.add(namespace.contains("Customer")?GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP:GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP);
 		customerAndProductGroupActionParameter.add(Arrays.asList(namespace.contains("Customer")?"customerGroupName":"productGroupName"));
-		customerAndProductGroupActionParameter.add(Arrays.asList(namespace.contains("Customer")?"Commercial Forecasting_customerGroup":"Commercial Forecasting_productGroup"));
+		customerAndProductGroupActionParameter.add(Arrays.asList(namespace.contains("Customer")?GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP:GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP));
 		forecastCustomerProductGroupSelectAction.setActionParameterList(customerAndProductGroupActionParameter);
 		customerAndProductGroupActionConfigList.add(forecastCustomerProductGroupSelectAction);
 		
