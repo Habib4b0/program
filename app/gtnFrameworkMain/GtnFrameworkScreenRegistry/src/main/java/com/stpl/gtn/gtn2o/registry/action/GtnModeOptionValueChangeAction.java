@@ -25,7 +25,7 @@ import java.util.List;
  * @author Lokeshwari.Kumarasam
  */
 public class GtnModeOptionValueChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
-	 GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnModeOptionValueChangeAction.class);
+	 private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnModeOptionValueChangeAction.class);
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
