@@ -97,6 +97,7 @@ public class AccountConfigFieldFactory implements TableFieldFactory {
                     logic.loadAccount(accountCombo, company, businessUnit);
                     dto.setCompanyName(dto.getCompanyNoHelperDto() != null ? dto.getCompanyNoHelperDto().getDescription() : StringUtils.EMPTY);
                     container.getContainerProperty(itemId, "companyName").setValue(dto.getCompanyNoHelperDto() != null ? dto.getCompanyNoHelperDto().getDescription() : StringUtils.EMPTY);
+                    logic.updateTableValues(0, "ACCOUNT", dto, selection);
                 } else if ("businessNoHelperDto".equals(propertyId)) {
                     int company = dto.getCompanyNoHelperDto() != null ? dto.getCompanyNoHelperDto().getId() : NumericConstants.ZERO;
                     int businessUnit = dto.getBusinessNoHelperDto() != null ? dto.getBusinessNoHelperDto().getId() : NumericConstants.ZERO;
@@ -105,6 +106,7 @@ public class AccountConfigFieldFactory implements TableFieldFactory {
                     logic.loadAccount(accountCombo, company, businessUnit);
                     dto.setBusinessUnitName(dto.getBusinessNoHelperDto() != null ? dto.getBusinessNoHelperDto().getDescription() : StringUtils.EMPTY);
                     container.getContainerProperty(itemId, "businessUnitName").setValue(dto.getBusinessNoHelperDto() != null ? dto.getBusinessNoHelperDto().getDescription() : StringUtils.EMPTY);
+                    logic.updateTableValues(0, "ACCOUNT", dto, selection);
                 }
             }
             value=value==null?0:value;
