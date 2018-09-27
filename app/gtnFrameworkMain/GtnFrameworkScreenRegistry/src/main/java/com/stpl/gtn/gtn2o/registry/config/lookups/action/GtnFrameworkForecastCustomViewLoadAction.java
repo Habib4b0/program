@@ -5,12 +5,15 @@
  */
 package com.stpl.gtn.gtn2o.registry.config.lookups.action;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -37,19 +40,19 @@ public class GtnFrameworkForecastCustomViewLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		String customerRelationValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_customerSelectionRelationship")
+		String customerRelationValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL)
 				.getCaptionFromV8ComboBox();
 		String customerRelationVersion = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("Commercial_Forecasting_customerRelationshipVersion").getCaptionFromV8ComboBox();
-		String productRelationValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_prodrelationship")
+				.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION).getCaptionFromV8ComboBox();
+		String productRelationValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONSHIP)
 				.getCaptionFromV8ComboBox();
 		String productRelationVersion = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("Commercial_Forecasting_productRelationshipVersion").getCaptionFromV8ComboBox();
+				.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION).getCaptionFromV8ComboBox();
 		GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
-		inputBean.setCustomerRelationSid(Integer.parseInt(customerRelationValue));
-		inputBean.setProductRelationSid(Integer.parseInt(productRelationValue));
-		inputBean.setCustomerRelationVersionNo(Integer.parseInt(customerRelationVersion));
-		inputBean.setProductRelationVersionNo(Integer.parseInt(productRelationVersion));
+		inputBean.setCustomerRelationSid(Integer.valueOf(customerRelationValue));
+		inputBean.setProductRelationSid(Integer.valueOf(productRelationValue));
+		inputBean.setCustomerRelationVersionNo(Integer.valueOf(customerRelationVersion));
+		inputBean.setProductRelationVersionNo(Integer.valueOf(productRelationVersion));
 
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
@@ -58,8 +61,8 @@ public class GtnFrameworkForecastCustomViewLoadAction
 		searchRequest.setInputBean(inputBean);
 
 		serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
-		serviceRegistryBean.setUrl("/gtnSearch");
-		serviceRegistryBean.setModuleName("generalSearch");
+		serviceRegistryBean.setUrl(GtnFrameworkScreenRegisteryConstants.SEARCH_RESULTS_URL);
+		serviceRegistryBean.setModuleName(GtnFrameworkForecastingStringConstants.GENERAL_SEARCH);
 		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
 		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
@@ -74,7 +77,7 @@ public class GtnFrameworkForecastCustomViewLoadAction
 		request.setGtnWsSearchRequest(webserviceSearchRequest);
 
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request,
+				GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		if (response.getGtnUIFrameworkWebserviceComboBoxResponse() != null) {
 			List<String> valueList = new ArrayList<>(

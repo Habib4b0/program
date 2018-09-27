@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadA
 import com.stpl.gtn.gtn2o.registry.action.GtnForecastingProductAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnFrameworkForecastCustomViewLoadAction;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -114,12 +115,12 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		forecastingProductHierarchyForecastLevelLoadAction
 				.addActionParameter(GtnCustomerSelectionForecastLevelLoadAction.class.getName());
 		forecastingProductHierarchyForecastLevelLoadAction
-				.addActionParameter("Commercial Forecasting_prodhierarchyName");
+				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME);
 		forecastingProductHierarchyForecastLevelLoadAction
-				.addActionParameter("Commercial Forecasting_prodforecastLevel");
+				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODFORECASTLEVEL);
 		forecastingProductHierarchyForecastLevelLoadAction.addActionParameter(nameSpace + "_" + "prodrelationship");
 		forecastingProductHierarchyForecastLevelLoadAction
-				.addActionParameter("Commercial_Forecasting_productRelationshipVersion");
+				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION);
 		actionConfigList.add(forecastingProductHierarchyForecastLevelLoadAction);
 		actionConfigList.add(valueChangeAction);
 		relationship.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -130,7 +131,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		productSelectionRelationshipVersionLayout.setVisible(false);
 
 		GtnUIFrameworkComponentConfig productRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
-				"Commercial_Forecasting_productRelationshipVersion", true,
+				GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION, true,
 				productSelectionRelationshipVersionLayout.getComponentId(),
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		productRelationshipVersion.setComponentName("ProductRelationshipVersion");
@@ -164,9 +165,9 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		GtnUIFrameWorkActionConfig innerProductLevelLoadAction = new GtnUIFrameWorkActionConfig();
 		innerProductLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		innerProductLevelLoadAction.addActionParameter(GtnFrameworkForecastInnerLevelLoadAction.class.getName());
-		innerProductLevelLoadAction.addActionParameter("Commercial Forecasting_prodhierarchyName");
-		innerProductLevelLoadAction.addActionParameter("Commercial Forecasting_prodforecastLevel");
-		innerProductLevelLoadAction.addActionParameter("Commercial Forecasting_productLevel");
+		innerProductLevelLoadAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME);
+		innerProductLevelLoadAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODFORECASTLEVEL);
+		innerProductLevelLoadAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL);
 		forecastLevel.addGtnUIFrameWorkActionConfig(innerProductLevelLoadAction);
 		componentList.add(forecastLevel);
 	}
@@ -297,9 +298,9 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		loadAvailabletableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadAvailabletableActionConfig
 				.setActionParameterList(Arrays.asList(GtnForecastingProductAvailableTableLoadAction.class.getName(),
-						"Commercial Forecasting_prodhierarchyName", "Commercial Forecasting_prodrelationship",
-						"Commercial_Forecasting_productRelationshipVersion", "Commercial Forecasting_productLevel",
-						"Commercial Forecasting_businessUnit", "Commercial_Forecasting_customerRelationshipVersion",
+						GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME, GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONSHIP,
+						GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION, GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL,
+						"Commercial Forecasting_businessUnit", GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION,
 						nameSpace + "_" + "productDualListBox"));
 		actionConfigList.add(loadAvailabletableActionConfig);
 
@@ -333,7 +334,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 		productSelectionDualListBoxConfig.setRightVisibleHeaders(new String[] { "Product Hierarchy Group Builder" });
 		productSelectionDualListBoxConfig.setRightVisibleColumns(new Object[] { "levelValue" });
-		productSelectionDualListBoxConfig.setModuleType("hierarchyRelationship");
+		productSelectionDualListBoxConfig.setModuleType(GtnFrameworkForecastingStringConstants.HIERARCHY_RELATIONSHIP);
 		productSelectionDualListBoxConfig.setRecordHeader(Arrays.asList("parent_relationrelationship_level_values",
 				"parent_relationlevel_no", "parent_relationparent_node", "parent_relationrelationship_level_sid",
 				"parent_relationhierarchy_no", "parent_relationrelationship_builder_sid", "levelValue", "levelNo",
