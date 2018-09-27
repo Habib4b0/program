@@ -280,8 +280,8 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 	{
 		
 		GtnFrameworkWsSqlQueryEngineController gtnFrameworkWsSqlQueryEngineController = new GtnFrameworkWsSqlQueryEngineController();
-		int b=gtnFrameworkWsSqlQueryEngineController.test(34);
-		assertEquals(b,34);
+		boolean b=gtnFrameworkWsSqlQueryEngineController.test();
+		assertEquals(b,true);
 		
 		
 	}

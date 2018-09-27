@@ -1,4 +1,3 @@
-
 package com.stpl.gtn.gtn2o.ws.queryengine.engine;
 
 import java.math.BigDecimal;
@@ -107,42 +106,42 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 
 	@SuppressWarnings("unchecked")
 	public Query generateSQLQuery(Session session, String sqlQuery, Object[] params, GtnFrameworkDataType[] type) {
-		Query query = session.createSQLQuery(sqlQuery);
+		Query queryForGenerate = session.createSQLQuery(sqlQuery);
 		debugQuery(sqlQuery, params, type);
 		for (int i = 0; i < params.length; i++) {
 
 			switch (type[i]) {
 			case STRING:
-				query.setString(i, (String) params[i]);
+				queryForGenerate.setString(i, (String) params[i]);
 				break;
 			case DATE:
-				query.setDate(i, (Date) params[i]);
+				queryForGenerate.setDate(i, (Date) params[i]);
 				break;
 			case INTEGER:
-				query.setInteger(i, (int) params[i]);
+				queryForGenerate.setInteger(i, (int) params[i]);
 				break;
 			case LIST:
-				query.setParameter(i, params[i]);
+				queryForGenerate.setParameter(i, params[i]);
 				break;
 			case DOUBLE:
-				query.setDouble(i, (double) params[i]);
+				queryForGenerate.setDouble(i, (double) params[i]);
 				break;
 			case NULL_ALLOWED:
-				query.setParameter(i, params[i]);
+				queryForGenerate.setParameter(i, params[i]);
 				break;
 
 			case IN_LIST:
-				query.setParameterList(GtnFrameworkWebserviceConstant.IN_PARAMETER, (List<Object>) params[i]);
+				queryForGenerate.setParameterList(GtnFrameworkWebserviceConstant.IN_PARAMETER, (List<Object>) params[i]);
 				break;
 			case BIG_DECIMAL:
-				query.setBigDecimal(i, (BigDecimal) params[i]);
+				queryForGenerate.setBigDecimal(i, (BigDecimal) params[i]);
 				break;
 
 			default:
-				query.setParameter(i, params[i]);
+				queryForGenerate.setParameter(i, params[i]);
 			}
 		}
-		return query;
+		return queryForGenerate;
 	}
 	
 	public List<Object[]> executeScalarResults(String sqlquery,Map<String, GtnFrameworkDataType> inputMap ,Object[] params, GtnFrameworkDataType[] type) {
@@ -231,7 +230,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 				break;
 
 			case IN_LIST:
-				query = query.replace(GtnFrameworkWebserviceConstant.IN_PARAMETER, String.valueOf(params[i]));
+				query = query.replace(GtnWsQueryEngineConstants.IN_PARAMETER, String.valueOf(params[i]));
 				break;
 			case BIG_DECIMAL:
 				query = query.replace("?", String.valueOf(params[i]));
@@ -304,26 +303,26 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		return updateOrDeletedRecordCount;
 	}
 
-	public int executeCountQuery(String sqlQuery) throws GtnFrameworkGeneralException {
-		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
+	public int executeCountQuery(String sqlQueryWithoutParams) throws GtnFrameworkGeneralException {
+		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQueryWithoutParams);
 		int count = 0;
 		try (Session session = sessionFactory.openSession()) {
-			long startTime = queryLogger.startQueryLog(sqlQuery);
+			long startTime = queryLogger.startQueryLog(sqlQueryWithoutParams);
 			logger.debug(GtnWsQueryEngineConstants.START
 					+ new SimpleDateFormat(GtnWsQueryEngineConstants.TIME).format(new Date(startTime)));
-			Query query = session.createSQLQuery(sqlQuery);
-			List<?> queryValueList = query.list();
-			if (queryValueList != null && !queryValueList.isEmpty()) {
-				count = (Integer) queryValueList.get(0);
+			Query query = session.createSQLQuery(sqlQueryWithoutParams);
+			List<?> queryValueListForCount = query.list();
+			if (queryValueListForCount != null && !queryValueListForCount.isEmpty()) {
+				count = (Integer) queryValueListForCount.get(0);
 			}
-			queryLogger.endQueryLog(startTime, sqlQuery);
+			queryLogger.endQueryLog(startTime, sqlQueryWithoutParams);
 			logger.debug(GtnWsQueryEngineConstants.END + new SimpleDateFormat(GtnWsQueryEngineConstants.TIME)
 					.format(new Date(System.currentTimeMillis())));
 			logger.info(GtnWsQueryEngineConstants.TOTAL + (double) (System.currentTimeMillis() - startTime) / 1000
 					+ "secs");
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
-			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
+			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQueryWithoutParams,
 					ex);
 		}
 		return count;
@@ -367,4 +366,3 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 }
 
 
-   

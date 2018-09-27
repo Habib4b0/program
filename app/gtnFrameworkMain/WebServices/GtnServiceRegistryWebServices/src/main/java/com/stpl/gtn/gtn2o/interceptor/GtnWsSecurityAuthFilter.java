@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
+import com.stpl.gtn.gtn2o.ws.interceptor.MyRequestWrapper;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.manager.GtnWsSecurityManager;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;

@@ -5,8 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ws.search.implementation;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
@@ -21,6 +19,9 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
+import java.io.IOException;
+import java.util.ArrayList;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import java.util.Map;
  * @author anandh.karuppusamy
  */
 public class PrivatePublic extends GtnCommonWebServiceImplClass implements SearchInterface {
+
 
     public PrivatePublic() {
         super(PrivatePublic.class);
@@ -109,6 +111,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         return response;
     }
 
+
     private int getQuery(StringBuilder strQuery, Map<String, String> queryMap, List<GtnWebServiceSearchCriteria> webSearchCriteriaList, List<Object> param, String viewType, List<GtnFrameworkDataType> data, int count) {
         strQuery.append(queryMap.get(webSearchCriteriaList.get(1).getFieldId()));
         param.add(viewType.replaceAll("\\*", "%"));
@@ -117,9 +120,9 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         return count;
     }
 
-    private List<Object[]> method(List<Object[]> resultList) throws JsonParseException, JsonMappingException, IOException {
+    private List<Object[]> method(List<Object[]> resultList) throws IOException {
         List<Object[]> list = new ArrayList<>();
-        GtnFrameworkForecastDataSelectionBean bean = new GtnFrameworkForecastDataSelectionBean();
+        GtnFrameworkForecastDataSelectionBean bean;
         Object[] ob = new Object[18];
         for (int i = 0; i < resultList.size(); i++) {
             Object[] obj = resultList.get(i);
