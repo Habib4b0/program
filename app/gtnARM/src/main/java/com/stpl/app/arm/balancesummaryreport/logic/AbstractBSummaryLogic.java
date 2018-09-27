@@ -273,7 +273,8 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
     }
 
     private boolean isHeaderIsAvail(Date frmDate, Date toDate, List<String> selectedAdjustmentType) {
-        return (!selectedAdjustmentType.isEmpty() && (toDate.equals(frmDate) || toDate.after(frmDate)));
+        int val = toDate.compareTo(frmDate);
+        return (!selectedAdjustmentType.isEmpty() && (val >= 0));
     }
 
     private List<String> removeTotalAndCumulative(List<String> selectedVariables) {
@@ -303,7 +304,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             List<Object> inputs = new ArrayList<>();
             inputs.add(selection.getDataSelectionDTO().getProjectionId());
             inputs.add(selection.getFrequency());
-            selection.setMasterSids(ARMUtils.getMasterIdsMap());
+            selection.setMasterSids((TreeMap<String, Integer>) ARMUtils.getMasterIdsMap());
             String nextLevel = getNextLevel(dto, selection);
             inputs.add(nextLevel);
             inputs.add(selection.getDataSelectionFromDate());
@@ -549,7 +550,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
 
     protected String[] getKey(Object[] resultSet, int keyParam) {
         StringBuilder keys = new StringBuilder();
-        keys.append(resultSet[0].toString()).append(ARMUtils.DOT);
+        keys.append(resultSet[0]).append(ARMUtils.DOT);
         String group = resultSet[1].toString();
         for (int i = 2; i < keyParam; i += 2) {
             if (resultSet[i] != null) {
@@ -561,7 +562,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
     }
 
     public Double getNullTotal(Double total) {
-        return total == null ? 0.00 : total;
+        return total == null ? Double.valueOf(0.00) : total;
     }
 
     public String getNullTotalExcel(Double total) {

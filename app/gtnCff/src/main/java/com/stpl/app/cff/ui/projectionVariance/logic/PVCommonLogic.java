@@ -223,10 +223,11 @@ public class PVCommonLogic {
     }
 
     public static String isNull(String value) {
-        if (value.contains(NULL.getConstant()) || value.isEmpty() ){
-            value = ZERO;
+        String valueCommon = value;
+        if (valueCommon.contains(NULL.getConstant()) || valueCommon.isEmpty() ){
+            valueCommon = ZERO;
         }
-        return value;
+        return valueCommon;
     }
     public static String getDoubleValue(Object value) {
         String result=String.valueOf(value);

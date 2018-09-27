@@ -111,7 +111,8 @@ public class Trx7AdjustmentSummarySearchResultsPipelineAccrual extends AbstractP
     }
 
     @Override
-    public void setRespectiveHierarchy(String viewType) {
+    public void setRespectiveHierarchy(String view) {
+        String viewType = view;
         if (viewType.equals(ARMConstants.getDeductionCustomerContract()) && !getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
             viewType = "non" + ARMConstants.getDeductionCustomerContract();
         }
