@@ -54,6 +54,8 @@ public class CustomExcelNM extends ExcelExport {
     public static final String GROWTH = "Growth";
     public static final String GROWTH_SUM = "GrowthSum";
     public static final String CHILD_COUNT = "ChildCount";
+    private static final String DP_LEVEL_NUMBER = "dfLevelNumber";
+    private static final String DP_LEVEL_NAME = "dfLevelName";
     
     
     public CustomExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter,boolean isRate,boolean isRPU,boolean isCustom) {
@@ -124,14 +126,14 @@ public class CustomExcelNM extends ExcelExport {
     }
 
     private void valueForcells(Double d, Object propId, final Object rootItemId, Cell sheetCell) {
-        Double cellValue = d;
+        Double cellValue = d;  
         boolean isGrowth = propId.toString().endsWith(GROWTH) || propId.toString().endsWith(GROWTH_SUM);
-        if (!isCustom  && ((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId) || isGrowth) {
+        if (!(DP_LEVEL_NUMBER.equals(propId) || DP_LEVEL_NAME.equals(propId)) && (!isCustom  && ((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId) || isGrowth)) {
             cellValue = cellValue / NumericConstants.HUNDRED;
         }
         sheetCell.setCellValue(cellValue);
     }
-
+   
     private void nonFormatterCustomExcel(Property prop, Object value, Cell sheetCell) {
         if (prop != null && value != null) {
             nonFormatter(value, prop, sheetCell);

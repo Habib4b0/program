@@ -8,9 +8,6 @@ package com.stpl.app.arm.adjustmentrateconfiguration.dto;
 import com.stpl.app.arm.businessprocess.pipelineinventory.dto.CustomerGroupDTO;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +32,7 @@ public class ExclusionLookupDTO implements Serializable, Comparable<ExclusionLoo
     private String createdUser = StringUtils.EMPTY;
     private boolean viewStatus = false;
     private String viewMasterSid = StringUtils.EMPTY;
-    private List<CustomerGroupDTO> custGrpList = new ArrayList();
+    private transient List<CustomerGroupDTO> custGrpList = new ArrayList();
     private boolean screenFlag = false;
     private Integer sessionUserID = 0;
 
@@ -92,10 +89,7 @@ public class ExclusionLookupDTO implements Serializable, Comparable<ExclusionLoo
         if (!Objects.equals(this.fieldName, other.fieldName)) {
             return false;
         }
-        if (!Objects.equals(this.fieldList, other.fieldList)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.fieldList, other.fieldList);
     }
 
     public String getValues() {
@@ -217,13 +211,4 @@ public class ExclusionLookupDTO implements Serializable, Comparable<ExclusionLoo
     public void setSessionUserID(Integer sessionUserID) {
         this.sessionUserID = sessionUserID;
     }
-
-    private void writeObject(ObjectOutputStream exclDtoout) throws IOException {
-        exclDtoout.defaultWriteObject();
-    }
-
-    private void readObject(ObjectInputStream exclDtoout) throws IOException, ClassNotFoundException {
-        exclDtoout.defaultReadObject();
-    }
-
 }
