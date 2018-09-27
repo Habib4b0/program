@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -276,7 +277,7 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		searchResultConfig.setComponentWidth("100%");
 		searchResultConfig.setComponentHight("450px");
 		searchResultConfig.setComponentStyle(tableStyle);
-		searchResultConfig.setModuleName("serviceRegistry");
+		searchResultConfig.setModuleName(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY);
 		componentList.add(searchResultConfig);
 		GtnUIFrameworkPagedTableConfig productHierarchyPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 
@@ -368,9 +369,9 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		forecastCustomerHierarchySelectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add("Commercial_Forecasting_productHierarchySearchResultTable");
-		actionParameter.add("Commercial Forecasting_prodhierarchyName");
+		actionParameter.add(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME);
 		actionParameter.add(Arrays.asList("hierachyName"));
-		actionParameter.add(Arrays.asList("Commercial Forecasting_prodhierarchyName"));
+		actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME));
 		forecastCustomerHierarchySelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(forecastCustomerHierarchySelectAction);
 
@@ -384,9 +385,9 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		forecastingCustomerHierarchyRelationshipLoadAction
 				.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
 		forecastingCustomerHierarchyRelationshipLoadAction
-				.addActionParameter("Commercial Forecasting_prodhierarchyName");
+				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME);
 		forecastingCustomerHierarchyRelationshipLoadAction
-				.addActionParameter("Commercial Forecasting_prodrelationship");
+				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONSHIP);
 		actionConfigList.add(forecastingCustomerHierarchyRelationshipLoadAction);
 
 		selectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
