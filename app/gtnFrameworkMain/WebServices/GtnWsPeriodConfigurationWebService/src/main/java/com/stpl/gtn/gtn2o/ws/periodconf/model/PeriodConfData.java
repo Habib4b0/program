@@ -39,11 +39,14 @@ public class PeriodConfData {
 	}
 
 	public List<Object[]> getQuaterInfo() {
-		return quaterInfo;
+		 List<Object[]> quaterInfoCopy = new ArrayList<>();
+		 quaterInfoCopy.addAll(quaterInfo);
+		 return quaterInfoCopy;
 	}
 
 	public void setQuaterInfo(List<Object[]> quaterInfo) {
-		this.quaterInfo = quaterInfo;
+		List<Object[]> quaterInfoCopy = new ArrayList<>(quaterInfo);
+		this.quaterInfo = quaterInfoCopy;
 	}
 
 }

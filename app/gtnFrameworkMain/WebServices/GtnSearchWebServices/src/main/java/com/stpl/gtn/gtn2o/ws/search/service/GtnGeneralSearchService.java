@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -45,8 +46,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
-    long staticTime = System.currentTimeMillis();
-    ExecutorService service = Executors.newCachedThreadPool();
+   private long staticTime = System.currentTimeMillis();
+  private ExecutorService service = Executors.newCachedThreadPool();
 
     private GtnGeneralSearchService() {
         super(GtnGeneralSearchService.class);
@@ -294,3 +295,4 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
     }
 
 }
+>>>>>>> bfaecbfe2f11e5c87dc26dba023bcf8898fb29f2

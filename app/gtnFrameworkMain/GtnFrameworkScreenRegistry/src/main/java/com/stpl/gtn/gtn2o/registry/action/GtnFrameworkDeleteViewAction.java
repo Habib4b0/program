@@ -85,7 +85,8 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 							"Commercial Forecasting" + "_" + "prodhierarchyName",
 							"Commercial Forecasting" + "_" + "prodrelationship",
 							"Commercial Forecasting" + "_" + "prodforecastLevel",
-							"Commercial Forecasting" + "_" + "productDualListBox", "Commercial Forecasting" + "_" + "productGroup",
+							"Commercial Forecasting" + "_" + "productDualListBox",
+							"Commercial Forecasting" + "_" + "productGroup",
 							"Commercial Forecasting" + "_" + "profileMode"
 
 					));
