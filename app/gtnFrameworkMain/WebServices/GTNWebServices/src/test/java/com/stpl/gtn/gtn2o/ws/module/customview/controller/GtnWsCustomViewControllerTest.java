@@ -43,6 +43,11 @@ import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
+
+/**
+*
+* @author Praveen.Kumar
+*/
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
 public class GtnWsCustomViewControllerTest {
@@ -156,12 +161,6 @@ public class GtnWsCustomViewControllerTest {
 
 		customerRb.setVersionNo(1);
 		gtnWsCustomViewRequest.setCustomViewType("val");
-
-//		GtnForecastHierarchyInputBean gtnForecastHierarchyInputBean=new GtnForecastHierarchyInputBean();
-//		gtnForecastHierarchyInputBean.setSelectedProductRelationShipBuilderVersionNo(1);
-//		gtnForecastHierarchyInputBean.setSelectedProductRelationShipBuilderSid(2);
-//		gtnForecastHierarchyInputBean.setSelectedCustomerRelationShipBuilderSid(3);
-//		gtnForecastHierarchyInputBean.setSelectedProductRelationShipBuilderSid(4);
 		
 		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList=new ArrayList<>();
 		hierarchyLevelDefinitionList.add(new HierarchyLevelDefinitionBean());
