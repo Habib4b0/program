@@ -253,6 +253,10 @@ public class ForecastUI extends UI {
                                     dsLogic.getLevelValueDetails(sessionDto, dto.getProdRelationshipBuilderSid(), false));
                             Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
                             sessionDto.setDedRelationshipBuilderSid(obj[0].toString());
+                            List<Integer> versionNoList = nmLogic.getDeductionVersionNoList(sessionDto.getDedRelationshipBuilderSid());
+                            if (versionNoList != null && !versionNoList.isEmpty()) {
+                            sessionDto.setDeductionRelationVersion((int) versionNoList.get(0));
+                            }
                             List<Object[]> dataList=new CommonLogic().getCustomViewSids(Integer.parseInt(projectionId));
                             
                             sessionDto.setCustomRelationShipSid(dataList!=null && !dataList.isEmpty()&&  dataList.get(0)[0]!=null? Integer.parseInt(String.valueOf(dataList.get(0)[0])) : 0);

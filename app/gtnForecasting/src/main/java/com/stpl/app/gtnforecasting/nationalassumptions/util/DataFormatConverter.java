@@ -31,7 +31,7 @@ public class DataFormatConverter implements Converter<String, String> {
     private String indicator = null;
     public static final String INDICATOR_PERCENT = "%";
     public static final String INDICATOR_DOLLAR = "$";
-    private final String numericDashRegex = "[^\\d.-]";
+    private static final String NUMERIC_DASH_REGEX = "[^\\d.-]";
 
     public DataFormatConverter(String format) {
         this.format = format;
@@ -59,7 +59,7 @@ public class DataFormatConverter implements Converter<String, String> {
         valueNew = valueNew.trim();
         String parsedValue = StringUtils.EMPTY;
         try {
-            parsedValue = valueNew.replaceAll(numericDashRegex, StringUtils.EMPTY);
+            parsedValue = valueNew.replaceAll(NUMERIC_DASH_REGEX, StringUtils.EMPTY);
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());
         }
@@ -84,10 +84,10 @@ public class DataFormatConverter implements Converter<String, String> {
         try {
             String stringValue = StringUtils.EMPTY;
             String tempValue;
-            tempValue = newValue.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
+            tempValue = newValue.trim().replaceAll(NUMERIC_DASH_REGEX, StringUtils.EMPTY);
             DecimalFormat df = getFormatter();
             if (!StringUtils.EMPTY.equals(tempValue) && !Constants.NULL.equals(tempValue)) {
-                newValue = newValue.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
+                newValue = newValue.trim().replaceAll(NUMERIC_DASH_REGEX, StringUtils.EMPTY);
 
                 if (df != null) {
                     if (StringUtils.isNotBlank(newValue)) {
@@ -96,13 +96,13 @@ public class DataFormatConverter implements Converter<String, String> {
                     }
 
                 } else {
-                    stringValue = newValue.replaceAll(numericDashRegex, StringUtils.EMPTY);
+                    stringValue = newValue.replaceAll(NUMERIC_DASH_REGEX, StringUtils.EMPTY);
                 }
                 if (indicator != null && !StringUtils.EMPTY.equals(indicator) && !Constants.NULL.equals(indicator) && INDICATOR_PERCENT.equals(indicator)) {
                     stringValue += INDICATOR_PERCENT;
                 }
             } else {
-                stringValue = newValue.replaceAll(numericDashRegex, StringUtils.EMPTY);
+                stringValue = newValue.replaceAll(NUMERIC_DASH_REGEX, StringUtils.EMPTY);
             }
             return stringValue;
         } catch (Exception ex) {

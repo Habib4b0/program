@@ -1447,7 +1447,9 @@ public class HeaderUtils {
         List<String> doubleHeaderForExcel = new ArrayList<>();
         Map<Object, Object[]> doubleHeaderMap = new HashMap<>();
         List headerListForExcel;
-        int tempYear, j = 0, k = 0;
+        int tempYear;
+        int j = 0; 
+        int k = 0;
         if (pivotView.contains(VARIABLE.getConstant())) {
 
             configurePivotHeaderForNonMandated(projSelDTO, projections, tableHeaderDTO, fullHeaderDTO);

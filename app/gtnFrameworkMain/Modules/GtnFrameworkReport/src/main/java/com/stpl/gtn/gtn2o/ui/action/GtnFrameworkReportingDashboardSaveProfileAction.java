@@ -68,8 +68,7 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 					.getVaadinBaseComponent(actionParamList.get(6).toString(), componentId).getCaptionFromV8ComboBox();
 			reportingDashboardSaveProfileLookupBean.setDisplaySelectionTabCustomViewCombobox(
 					Optional.ofNullable(displaySelectionTabCustomViewCombobox).isPresent()
-							? displaySelectionTabCustomViewCombobox
-							: "0");
+							? displaySelectionTabCustomViewCombobox : "0");
 
 			List<Object> displaySelectionTabVariableCategory = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(actionParamList.get(7).toString(), componentId)
@@ -198,14 +197,19 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 					.getVaadinBaseComponent("reportDashboardSaveProfile_reportDashboardSaveProfileSaveViewUpdate")
 					.setEnable(false);
 
-			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboardTab_reportProfileConfig", componentId).getComponentData()
-					.getCustomData();
+			GtnWsRecordBean recordBean = Optional.ofNullable(GtnUIFrameworkGlobalUI
+							.getVaadinBaseComponent("reportingDashboardTab_reportProfileConfig", componentId)
+							.getComponentData().getCustomData()).isPresent()
+					
+							? (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+									.getVaadinBaseComponent("reportingDashboardTab_reportProfileConfig", componentId)
+									.getComponentData().getCustomData()
+							: null;
 			if (recordBean != null) {
 
 				reportingDashboardSaveProfileLookupBean.setRecordBean(recordBean);
 				reportingDashboardSaveProfileLookupBean
-						.setReportProfileViewId(Integer.valueOf(String.valueOf(recordBean.getPropertyValueByIndex(4))));
+					.setReportProfileViewId(Integer.valueOf(String.valueOf(recordBean.getPropertyValueByIndex(4))));					
 				GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent("reportDashboardSaveProfile_ReportDashboardSaveProfileNameTextField")
 						.loadV8FieldValue(recordBean.getPropertyValueByIndex(0));
