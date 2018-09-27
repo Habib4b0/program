@@ -433,21 +433,31 @@ public class ProjectionOptionsPrivateViewLookup
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
-		actionParameter.add(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
-		actionParameter.add(Arrays.asList("viewName"));
-		actionParameter.add(Arrays.asList("Commercial Forecasting_privateViewLookup"));
+                if(namespace.equals("Private"))
+                {
+		actionParameter.add(GtnFrameworkCommonConstants.COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+                actionParameter.add(Arrays.asList("viewName"));
+                actionParameter.add(Arrays.asList("Commercial Forecasting_privateViewLookup"));
+                }
+                if(namespace.equals("Public"))
+                {
+                actionParameter.add(GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
+                actionParameter.add(Arrays.asList("viewName"));
+                actionParameter.add(Arrays.asList(GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW));
+                }
+		
 		privateViewSelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(privateViewSelectAction);
 
 		GtnUIFrameWorkActionConfig privateViewClosepopup = new GtnUIFrameWorkActionConfig();
 		privateViewClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		privateViewClosepopup.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		privateViewClosepopup.addActionParameter(GtnFrameworkCommonConstants.COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
 		actionConfigList.add(privateViewClosepopup);
 
 		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
 		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadViewAction.addActionParameter( GtnForecastingDataSelectionLoadViewAction.class.getName());
-		loadViewAction.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		loadViewAction.addActionParameter("Commercial Forecasting_privateViewLookup");
 		loadViewAction.addActionParameter("Commercial Forecasting");
 		actionConfigList.add(loadViewAction);
 

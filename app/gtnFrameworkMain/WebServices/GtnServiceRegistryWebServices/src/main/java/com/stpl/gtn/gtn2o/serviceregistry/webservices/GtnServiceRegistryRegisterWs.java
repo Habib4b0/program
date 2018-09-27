@@ -51,13 +51,13 @@ public class GtnServiceRegistryRegisterWs extends GtnCommonWebServiceImplClass {
 
 	}
 
-	@Override
-	public GtnUIFrameworkWebserviceRequest registerWs() {
-		return null;
-	}
-
     @Override
     public void initCallOnFailure() {
         // Default Method
 }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        // Default Method
+    }
 }

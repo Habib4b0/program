@@ -19,20 +19,17 @@ import com.stpl.gtn.gtn2o.ws.periodconf.constants.GtnWsPeriodConfigurationConsta
 import com.stpl.gtn.gtn2o.ws.periodconf.model.PeriodConfData;
 import com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
-    private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
+	private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
     private long staticTime = System.currentTimeMillis();
     private ExecutorService service = Executors.newCachedThreadPool();
 
@@ -42,21 +39,16 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 
     @Autowired
     private GtnWsPeriodConfSqlService gtnWsPeriodConfSqlService;
-
+    
     private GtnWsPeriodConfigurationService() {
-        super(GtnWsPeriodConfigurationService.class);
+    	super(GtnWsPeriodConfigurationService.class);
     }
-
+    
     public void init() {
         try {
             logger.info("Entering into init method");
             GtnUIFrameworkWebserviceRequest request = registerWs();
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.postForObject(
-                    getWebServiceEndpointBasedOnModule(
-                            GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REGISTERWEBSERVICE,
-                            GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
-                    request, GtnUIFrameworkWebserviceResponse.class);
+            callServiceRegistry(request);
             logger.info("Webservice Registered");
             this.loadDate();
         } catch (Exception e) {
@@ -64,6 +56,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
                 logger.error("Exception in Period Webservice Registry" + e.getMessage());
                 GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
                 service.submit(call.createRunnable(this, staticTime));
+               
             }
         }
     }
@@ -84,13 +77,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
     }
 
     public GtnQueryEngineWebServiceResponse callQueryEngine(GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest) {
-        RestTemplate restTemplate = new RestTemplate();
-        addSecurityToken(gtnQueryEngineWebServiceRequest);
-        return restTemplate.postForObject(
-                getWebServiceEndpointBasedOnModule(
-                        GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REDIRECTTOQUERYENGINE,
-                        GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
-                gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+        return callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
     }
 
     public void populateallBusinessProcessTypeResultObject(List<Object[]> resultDataSet) {
@@ -132,21 +119,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
     }
 
     @Override
-    public GtnUIFrameworkWebserviceRequest registerWs() {
-        logger.info("Building request to register Webservice in Service Registry");
-        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-        GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
-
-        GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-        getEndPointUrl(webServiceRegistryBean);
-        logger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
-        gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
-        request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
-        addSecurityToken(request);
-        return request;
-    }
-
-    private void getEndPointUrl(GtnWsServiceRegistryBean webServiceRegistryBean) {
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
         webServiceRegistryBean.setWebserviceEndPointUrl(
                 GtnFrameworkPropertyManager.getProperty("gtn.webservices.periodConfiguration.endPointUrl"));
         webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
@@ -176,7 +149,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
                 scal.add(Calendar.MONTH, 3);
             }
         } catch (ParseException e) {
-            logger.error("Error in generating quarter information:" + e.toString());
+            logger.error("Error in generating quarter information:" + e);
         }
         return quarters;
     }
@@ -185,5 +158,6 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
     public void initCallOnFailure() {
         init();
     }
-
+    
+    
 }

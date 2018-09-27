@@ -13,4 +13,5 @@ public class GtnWsQueryEngineConstants
     public static final String START="Starting time to Execute Query :";
     public static final String END ="End time to execute Query:";
     public static final String TOTAL="Time taken to execute Query:";
+	public static final CharSequence IN_PARAMETER = "inParameter";
 }

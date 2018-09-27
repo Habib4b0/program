@@ -39,7 +39,7 @@ public class GtnFrameworkIfpItemsTabTableCheckAction implements GtnUIFrameWorkAc
 		GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(false);
 		columnCheckLogic(gtnUIFrameWorkActionConfig, componentId);
 
-	}
+	} 
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
@@ -74,7 +74,7 @@ public class GtnFrameworkIfpItemsTabTableCheckAction implements GtnUIFrameWorkAc
 			logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 
 		} catch (GtnFrameworkValidationFailedException e) {
-			gtnLogger.error(e.getMessage(), e);
+			gtnLogger.error(e.getMessage(), e); 
 		} finally {
 			GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(true);
 		}

@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ws.search.controller;
 
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
+import com.stpl.gtn.gtn2o.ws.constants.GtnSearchWebServiceConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.service.GtnGeneralSearchService;
@@ -28,7 +29,7 @@ public class GtnSearchController extends GtnServiceRegistryImplClass {
 
 
 	@Autowired
-	GtnGeneralSearchService gtnGeneralSearch;
+	private GtnGeneralSearchService gtnGeneralSearch;
 
 	@GetMapping(value = "/searchTest")
 	public boolean test() {
@@ -38,7 +39,7 @@ public class GtnSearchController extends GtnServiceRegistryImplClass {
 	@PostMapping(value = "/gtnSearch")
 	public GtnUIFrameworkWebserviceResponse gtnGeneralSearch(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
-		logger.info("entering into general search controller");
+		logger.info(GtnSearchWebServiceConstants.ENTER_LOG);
 		GtnUIFrameworkWebserviceResponse response;
 		response = gtnGeneralSearch.commonMethod(gtnUiFrameworkWebservicerequest);
 		return response;
@@ -55,9 +56,18 @@ public class GtnSearchController extends GtnServiceRegistryImplClass {
 	@PostMapping(value = "/gtnForecastSaveView")
 	public GtnUIFrameworkWebserviceResponse gtnForecastSaveView(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
-		logger.info("entering into general search controller");
+		logger.info(GtnSearchWebServiceConstants.ENTER_LOG);
 		GtnUIFrameworkWebserviceResponse response;
 		response = gtnGeneralSearch.saveView(gtnUiFrameworkWebservicerequest);
+		return response;
+	}
+	
+	@PostMapping(value = "/deleteView")
+	public GtnUIFrameworkWebserviceResponse gtnForecastDeleteView(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
+		logger.info(GtnSearchWebServiceConstants.ENTER_LOG);
+		GtnUIFrameworkWebserviceResponse response;
+		response = gtnGeneralSearch.deleteView(gtnUiFrameworkWebservicerequest);
 		return response;
 	}
 }

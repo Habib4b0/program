@@ -30,22 +30,29 @@ public class GtnFrameworkIfpItemsDeleteAction implements GtnUIFrameWorkAction, G
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(false);
+		GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(false); 
 		GtnUIFrameworkWebserviceRequest gtnRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnUIFrameworkGlobalUI.addSessionProperty("ifpModelSid", 0);
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
-		generalWSRequest.setUserId(
+		generalWSRequest.setUserId(  
 				String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.USER_ID)));
 		generalWSRequest.setSessionId(String
 				.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.SESSION_ID)));
 		gtnRequest.setGtnWsGeneralRequest(generalWSRequest);
 
-		new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE + GtnWsIFamilyPlanContants.GTN_WS_IFP_TEMP_DELETE_SERVICE,
-				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		getResponse(gtnRequest);
 
 		GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(true);
 
+	}
+
+	/**
+	 * @param gtnRequest
+	 */
+	public void getResponse(GtnUIFrameworkWebserviceRequest gtnRequest) {
+		new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE + GtnWsIFamilyPlanContants.GTN_WS_IFP_TEMP_DELETE_SERVICE,
+				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

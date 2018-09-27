@@ -56,7 +56,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
         String queryName = "tx8ReturnReserveDataMain";
         if (isCount) {
             List count;
-            if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+            if ((lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                 count = QueryUtils.getItemData(getQueryInput(parentDTO, selection, input, tableName), queryName, "tx8ReturnReserveDataCount");
 
@@ -68,7 +68,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
             return count != null && !count.isEmpty() && count.get(0) != null ? count.get(0) : 0;
         } else {
             List result;
-            if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+            if ((lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                 getQueryInput(parentDTO, selection, input, tableName);
                 input.addAll(new ArrayList<>(Arrays.asList(startindex, endindex)));

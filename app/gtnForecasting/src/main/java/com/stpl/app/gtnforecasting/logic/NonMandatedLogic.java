@@ -1519,7 +1519,7 @@ public class NonMandatedLogic {
 		}
 
 		resultList = dataSelection.searchDSProjections(parameters);
-		returnList = Converters.searchDsProjection(resultList,  true);
+		returnList = Converters.searchDsProjection(resultList, true);
 		return returnList;
 	}
 

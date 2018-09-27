@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkFromAndToLoadBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -66,11 +67,11 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 			fromPeriodItemCodeList.add(Integer.valueOf(integer));
 		}
 
-		List<String> toPeriodItemValueList = new ArrayList<>();
-		toPeriodItemValueList.add(fromPeriodItemValueList.get(fromPeriodItemValueList.size() - 1));
+		List<String> toPeriodItemValueList = new ArrayList<>(fromPeriodItemValueList);
+		
 
-		List<Integer> toPeriodItemCodeList = new ArrayList<>();
-		toPeriodItemCodeList.add(fromPeriodItemCodeList.get(fromPeriodItemCodeList.size() - 1));
+		List<Integer> toPeriodItemCodeList = new ArrayList<>(fromPeriodItemCodeList);
+		
 
 		if (actionParamList.get(4).toString().contains("DataSelection")) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString(), componentId)
@@ -92,6 +93,12 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 					.loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(toPeriodItemCodeList.size() - 1));
 
 		}
+	
+		GtnFrameworkFromAndToLoadBean bean =    GtnFrameworkFromAndToLoadBean.getInstance(); 
+		bean.setFromPeriodItemCodeList(fromPeriodItemCodeList);
+		bean.setFromPeriodItemValueList(fromPeriodItemValueList);
+		bean.setToPeriodItemCodeList(toPeriodItemCodeList);
+		bean.setToPeriodItemValueList(toPeriodItemValueList);
 	}
 
 	@Override

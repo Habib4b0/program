@@ -242,7 +242,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>D&#x3a;&#x5c;SCM_CODE&#x5c;GAL-13626_GTS&#x5c;etl&#x5c;src&#x5c;main&#x5c;resources&#x5c;DTX_CUSTOMER_GTS_FORECAST_INTERFACE&#x5c;DTX_PSTG_CUSTOMER_GTS_FORECAST_INTERFACE.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;DTX_PSTG_CUSTOMER_GTS_FORECAST_INTERFACE.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>

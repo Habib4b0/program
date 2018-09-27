@@ -163,7 +163,7 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
         LOGGER.debug("queryName => {}", queryName);
         if (isCount) {
             List count = null;
-            if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+            if ((lastParent instanceof AdjustmentDTO)) {
                 AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                 count = QueryUtils.getItemData(getQueryInput(parentDTO, selection, ratesInput, queryName), queryName, CommonConstant.CUSTOMERPRODUCTCOUNT);
 
@@ -191,7 +191,7 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
             List result;
             List<AdjustmentDTO> resultDTO = new ArrayList();
             if (offset != 0) {
-                if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
+                if ((lastParent instanceof AdjustmentDTO)) {
                     AdjustmentDTO parentDTO = (AdjustmentDTO) lastParent;
                     getQueryInput(parentDTO, selection, ratesInput, queryName);
                     ratesInput.addAll(new ArrayList<>(Arrays.asList(startindex, endindex)));

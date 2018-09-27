@@ -93,7 +93,7 @@ public class AdjustmentRateUI extends UI {
         }
     }
 
-    class HelperListLoadJob implements Runnable {
+    static class HelperListLoadJob implements Runnable {
 
         private final String moduleName;
 

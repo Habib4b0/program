@@ -799,7 +799,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         filePath = GtnFileUtil.getFile(basepath + File.separator + "Attachments" + File.separator + moduleName);
         wordFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportWord.DOC_EXT);
         pdfFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
-        fileUploadPath = FileUploader.FILE_PATH + moduleName + "/" + userId + "/";
+        fileUploadPath = FileUploader.FILE_PATH + moduleName + Constant.SLASH + userId + Constant.SLASH;
     }
   
 }

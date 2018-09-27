@@ -2,7 +2,6 @@ package com.stpl.app.gtnforecasting.dao;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import java.util.List;
 
@@ -31,24 +30,6 @@ public interface ProjectionVarianceDAO {
 	    		final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel)
 	    				throws PortalException;
 	
-	 /**
- 	 * Generate projection variance.
- 	 *
- 	 * @param projectionId the projection id
- 	 * @param indicator the indicator
- 	 * @param comparisonProjections the comparison projections
- 	 * @param frequency the frequency
- 	 * @param level the level
- 	 * @param discountLevel the discount level
- 	 * @return the list
- 	 * @throws SystemException the system exception
- 	 * @throws PortalException the portal exception
- 	 * @throws Exception the exception
- 	 */
- 	public List generateProjectionVariance(final int projectionId, final String indicator,
-	    		final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel,int levelNo,String sales, List<Integer> periods,ProjectionSelectionDTO projSelDTO) 
-	    				throws PortalException;
-	 
 
 	 /**
 	 * Generate Pivot projection variance.
@@ -102,32 +83,4 @@ public interface ProjectionVarianceDAO {
 	  */
 	 public void saveProjectionVarianceView(final String indicator, final int projectionId);
  	
-	/**Get the Projection Results Sales
-     * 
-     * @param projectionId
-     * @param frequency
-     * @param periods
-     * @param actualsOrProjections
-     * @param parentName
-     * @param year
-     * @param levelNo
-     * @param sales
-     * @return 
-     */
-    List getPVResultsSales(int projectionId, String frequency,List<Integer> periods, String actualsOrProjections,String parentName, String year, int levelNo, String sales); 
-	
-     /**Get the Projection Results Discount
-     * 
-     * @param projectionId
-     * @param frequency
-     * @param periods
-     * @param discountTotal
-     * @param parentName
-     * @param discountList
-     * @param year
-     * @param levelNo
-     * @param sales
-     * @return 
-     */
-    List getPVResultsDiscount(int projectionId, String frequency,List<Integer> periods, String discountTotal,String parentName, List<String> discountList, String year, int levelNo, String sales);
 }

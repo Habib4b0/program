@@ -18,8 +18,7 @@
 		class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService" />
 	<bean id="gtnServiceRegistryRegisterWs"
 		class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryRegisterWs" />
-	<!-- <bean id="sqlPropertyBean" class="org.springframework.beans.factory.config.PropertiesFactoryBean"> 
-		<property name="locations" value="classpath:/sqlresource/sqlQueries.xml" 
-		/> </bean> -->
+	
+	
 
 </beans>        

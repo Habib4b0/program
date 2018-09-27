@@ -101,6 +101,7 @@ public class GtnWsReportDataSelectionBean {
 	}
 
 	private Integer customViewMasterSid;
+	private boolean isCustomViewStructureChanged = false;
 
 	public Integer getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
@@ -455,6 +456,14 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setCustomDataList(List<Object> customDataList) {
 		this.customDataList = customDataList != null ? new ArrayList<>(customDataList) : customDataList;
+	}
+
+	public boolean isCustomViewStructureChanged() {
+		return isCustomViewStructureChanged;
+	}
+
+	public void setCustomViewStructureChanged(boolean isCustomViewStructureChanged) {
+		this.isCustomViewStructureChanged = isCustomViewStructureChanged;
 	}
 
 	public GtnWsReportDataSelectionBean reportDataSelectionBeanCopy() {

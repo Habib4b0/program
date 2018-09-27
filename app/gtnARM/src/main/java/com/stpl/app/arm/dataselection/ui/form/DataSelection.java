@@ -2245,6 +2245,7 @@ public class DataSelection extends AbstractDataSelection {
                 switch (dsButtonName) {
                     case "deleteView":
                         if ((dataSelectionDTO.getProjectionId() != 0) && (logic.deleteViewLogic(dataSelectionDTO.getProjectionId()))) {
+                            resetFields();
                             UI.getCurrent().getNavigator().navigateTo(DataSelectionView.NAME);
                         }
                         break;
@@ -2787,7 +2788,7 @@ public class DataSelection extends AbstractDataSelection {
         return description.getValue().length() <= 200;
     }
 
-    public void securityForAllScreens() {
+    private void securityForAllScreens() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent()
                 .getAttribute(com.stpl.app.utils.ConstantsUtils.USER_ID));

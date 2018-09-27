@@ -13,7 +13,7 @@ import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.sqlservice.GtnWsHierarchyAndRelationshipSqlService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 @Service(value = "gtnFrameworkAutomaticRelationUpdateService")
 public class GtnFrameworkAutomaticRelationUpdateService extends GtnCommonWebServiceImplClass {
@@ -67,14 +67,14 @@ public class GtnFrameworkAutomaticRelationUpdateService extends GtnCommonWebServ
 		return objects[index] == null ? index : Integer.parseInt(objects[index].toString());
 	}
 
-	@Override
-	public GtnUIFrameworkWebserviceRequest registerWs() {
-		return null;
-	}
-
     @Override
     public void initCallOnFailure() {
         // Default Method
+    }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+         // Default Method
     }
 
 }

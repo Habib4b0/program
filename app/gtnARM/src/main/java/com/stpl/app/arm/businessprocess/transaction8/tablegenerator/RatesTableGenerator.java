@@ -70,7 +70,7 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
     @Override
     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
         AdjustmentDTO dto = (AdjustmentDTO) itemId;
-        if (logic.getCondition(dto, propertyId, selection) && isFieldRequired && Arrays.asList(visibleColumns).contains(propertyId) && !propertyId.toString().startsWith("total")) {
+        if (isFieldRequired && logic.getCondition(dto, propertyId, selection) && Arrays.asList(visibleColumns).contains(propertyId) && !propertyId.toString().startsWith("total")) {
             List items = new ArrayList();
             items.add(itemId);
             items.add(propertyId);
@@ -104,17 +104,18 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
                 Object propertyId = ((List) ((TextField) event.getProperty()).getData()).get(1);
                 int id = selection.getRateColumnList().get(NumericConstants.ZERO).indexOf(propertyId);
                 int rsSid = id == -1 ? NumericConstants.ZERO : (Integer) selection.getRateColumnList().get(NumericConstants.TWO).get(id);
-               if (selection.getRateLevelName().equalsIgnoreCase("Product")) {
+                if (selection.getRateLevelName().equalsIgnoreCase("Product")) {
                     String rsId = String.valueOf(rsSid);
-                    if(propertyId.toString().contains("override")){
-                      rsId = "%";   
+                    if (propertyId.toString().contains("override")) {
+                        rsId = "%";
                     }
                     selection.setRatesOverrideFlag(NumericConstants.ONE);
-                    valueChangeLogic(dto, val,Boolean.FALSE,rsId);
+                    valueChangeLogic(dto, val, Boolean.FALSE, rsId);
                 } else if (rsSid == dto.getDeductionSID() || staticFlag) {
                     selection.setRatesOverrideFlag(NumericConstants.ONE);
-                    valueChangeLogic(dto, val, Boolean.TRUE,"0");
+                    valueChangeLogic(dto, val, Boolean.TRUE, "0");
                 }
+                Thread.sleep(500);
                 refreshTable(tableLogic);
             } catch (Exception e) {
                 LOGGER.error("Error in overrideListener :", e);
@@ -122,7 +123,7 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
         }
     };
 
-    protected void valueChangeLogic(AdjustmentDTO dto, Object val, Boolean flag,String rsSid) {
+    protected void valueChangeLogic(AdjustmentDTO dto, Object val, Boolean flag, String rsSid) {
         final ExecutorService service = ThreadPool.getInstance().getService();
         Double value = 0.0;
         boolean isEmptied = false;
@@ -144,15 +145,16 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
 
         input.add(dto.getBranditemmasterSid());
         input.add(isEmptied ? "NULL" : value.toString());
-        getinputs(flag,dto,rsSid,input);
+        getinputs(flag, dto, rsSid, input);
         checkLeave = true;
-         if(flag){
+        if (flag) {
             service.submit(new UpdateOverride(input));
-        }else{
-          service.submit(new UpdateOverrideLevelFilter(input));  
+        } else {
+            service.submit(new UpdateOverrideLevelFilter(input));
         }
     }
-     private void getinputs(Boolean flag, AdjustmentDTO dto, String rsSid,List input) {
+
+    private void getinputs(Boolean flag, AdjustmentDTO dto, String rsSid, List input) {
         if (flag) {
             input.add(dto.getContractSID() == 0 ? "%" : dto.getContractSID());
             input.add(dto.getCustomerSID() == 0 ? "%" : dto.getCustomerSID());
@@ -210,7 +212,8 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
         }
 
     }
-     class UpdateOverrideLevelFilter implements Runnable {
+
+    class UpdateOverrideLevelFilter implements Runnable {
 
         private List input;
         private boolean updateSuccess;

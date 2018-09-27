@@ -45,6 +45,10 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private Integer fromPeriodForecast;
 	private Integer toPeriod;
 	private GtnWsRecordBean customerHierarchyRecordBean;
+	private GtnWsRecordBean customerGroup;
+	private GtnWsRecordBean productGroup;
+	
+
 	private List<GtnWsRecordBean> availableCustomerHierarchyList;
 	private List<GtnWsRecordBean> availableProductHierarchyList;
 	private GtnWsRecordBean productHierarchyRecordBean;
@@ -77,9 +81,8 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private List<Object> customDataList;
 	
 	private Integer deductionLevel;
-	private GtnWsRecordBean customerGroup;
-	private GtnWsRecordBean productGroup;
-	
+
+	private int resultCount;
 	public String getProjectionName() {
 		return projectionName;
 	}
@@ -276,6 +279,13 @@ public class GtnFrameworkForecastDataSelectionBean {
 		return customerHierarchyRecordBean;
 	}
 
+	public void setCustomerGroup(GtnWsRecordBean customerGroup) {
+		this.customerGroup = customerGroup;
+	}
+	public GtnWsRecordBean getCustomerGroup() {
+		return customerGroup;
+	}
+
 	public void setCustomerHierarchyRecordBean(GtnWsRecordBean customerHierarchyRecordBean) {
 		this.customerHierarchyRecordBean = customerHierarchyRecordBean;
 	}
@@ -305,6 +315,13 @@ public class GtnFrameworkForecastDataSelectionBean {
 
 	public GtnWsRecordBean getProductHierarchyRecordBean() {
 		return productHierarchyRecordBean;
+	}
+	public GtnWsRecordBean getProductGroup() {
+		return productGroup;
+	}
+
+	public void setProductGroup(GtnWsRecordBean productGroup) {
+		this.productGroup = productGroup;
 	}
 
 	public void setProductHierarchyRecordBean(GtnWsRecordBean productHierarchyRecordBean) {
@@ -535,6 +552,9 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setProductHierarchyRecordBean(this.productHierarchyRecordBean);
 		DataSelectionCopyBean.setSelectedCustomerHierarchyList(this.selectedCustomerHierarchyList);
 		DataSelectionCopyBean.setSelectedProductHierarchyList(this.selectedProductHierarchyList);
+		DataSelectionCopyBean.setCustomerGroup(this.customerGroup);
+		DataSelectionCopyBean.setProductGroup(productGroup);
+		DataSelectionCopyBean.setDeductionLevel(this.deductionLevel);
 
 		DataSelectionCopyBean.setFromPeriod(this.fromPeriod);
 		DataSelectionCopyBean.setFromPeriodForecastName(this.fromPeriodForecastName);
@@ -566,23 +586,14 @@ public class GtnFrameworkForecastDataSelectionBean {
 		this.deductionLevel = deductionLevel;
 	}
 
-	public GtnWsRecordBean getCustomerGroup() {
-		return customerGroup;
+
+	public int getResultCount() {
+		return resultCount;
 	}
 
-	public void setCustomerGroup(GtnWsRecordBean customerGroup) {
-		this.customerGroup = customerGroup;
-	}
-
-	public GtnWsRecordBean getProductGroup() {
-		return productGroup;
-	}
-
-	public void setProductGroup(GtnWsRecordBean productGroup) {
-		this.productGroup = productGroup;
+	public void setResultCount(int resultCount) {
+		this.resultCount = resultCount;
 	}
 
 	
-	
-
 }

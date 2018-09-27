@@ -11,7 +11,7 @@ import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.stereotype.Service;
 
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 @Service
 public class GtnWsHierarchyAndRelationshipSqlService extends GtnCommonWebServiceImplClass {
@@ -32,12 +32,6 @@ public class GtnWsHierarchyAndRelationshipSqlService extends GtnCommonWebService
 		}
 		return StringUtils.EMPTY;
 	}
-
-	@Override
-	public GtnUIFrameworkWebserviceRequest registerWs() {
-		return null;
-	}
-
 	public String getQuery(List input, String queryName) {
 		StringBuilder sql = new StringBuilder();
 		try {
@@ -79,5 +73,10 @@ public class GtnWsHierarchyAndRelationshipSqlService extends GtnCommonWebService
     public void initCallOnFailure() {
         // Default Method
 }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        // Default Method
+    }
 
 }

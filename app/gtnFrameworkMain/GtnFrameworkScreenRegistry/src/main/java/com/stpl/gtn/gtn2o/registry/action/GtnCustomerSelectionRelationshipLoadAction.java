@@ -54,6 +54,7 @@ public class GtnCustomerSelectionRelationshipLoadAction
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(params.get(2).toString(),componentId).loadV8ComboBoxComponentValue(params.size()>3?Integer.valueOf(params.get(3).toString()):0);
 
+
 		} catch (Exception ex) {
 			logger.error("Error", ex);
 		}

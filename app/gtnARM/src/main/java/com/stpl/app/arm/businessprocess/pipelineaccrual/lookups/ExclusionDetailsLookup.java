@@ -95,6 +95,8 @@ public class ExclusionDetailsLookup extends Window {
     private ExtFilterTable availableCustomers;
     @UiField("selectedCustomer")
     private ExtFilterTable selectedCustomer;
+    @UiField("deleteViewBtn")
+    private Button deleteViewBtn;
     private PrivatePublicLookup viewLookUp;
     private ExclusionDetailsLogic arLogic = new ExclusionDetailsLogic();
     private SessionDTO sessionDTO;
@@ -142,6 +144,7 @@ public class ExclusionDetailsLookup extends Window {
         fieldName.addItem(ARMConstants.getAccountName());
         fieldName.addItem(ARMConstants.getContractId());
         fieldName.select(ARMConstants.getAccountId());
+        deleteViewBtn.setEnabled(false);
         rightAligned.addStyleName("layout-rightpadding");
         getIntialLoad();
         setFieldValues();
@@ -189,6 +192,7 @@ public class ExclusionDetailsLookup extends Window {
                             publicView.setValue(StringUtils.EMPTY);
                             publicOrPrivateView.setImmediate(true);
                             publicOrPrivateView.setValue(viewLookUp.getDtoValue().getViewName());
+                            deleteViewBtn.setEnabled(true);
                             setViewDTO(viewLookUp.getDtoValue());
                             fieldName.select(viewLookUp.getDtoValue().getFieldName());
                             selectedResultsContainer.removeAllItems();
@@ -239,6 +243,7 @@ public class ExclusionDetailsLookup extends Window {
                         getFieldValue();
                         privateView.setValue(StringUtils.EMPTY);
                         publicView.setValue(StringUtils.EMPTY);
+                        deleteViewBtn.setEnabled(false);
                         break;
                     default:
                 }
@@ -394,7 +399,6 @@ public class ExclusionDetailsLookup extends Window {
                 saveViewDTO.setCreatedBy(viewDTO.getCreatedBy());
                 saveViewDTO.setCreatedUser(viewDTO.getCreatedUser());
                 saveViewDTO.setSessionUserID(sessionDTO.getUserId());
-                getSelectedIdValues();
             } else {
                 saveViewDTO.setFieldName(String.valueOf(fieldName.getValue()));
                 saveViewDTO.setViewName(StringUtils.EMPTY);
@@ -404,7 +408,6 @@ public class ExclusionDetailsLookup extends Window {
                 saveViewDTO.setCreatedBy(viewDTO.getCreatedBy());
                 saveViewDTO.setCreatedUser(viewDTO.getCreatedUser());
                 saveViewDTO.setSessionUserID(sessionDTO.getUserId());
-                getSelectedIdValues();
 
             }
             saveViewDTO.setFieldList(selectedResultsContainer.getItemIds());
@@ -443,15 +446,6 @@ public class ExclusionDetailsLookup extends Window {
         setFieldValuesOnInitialLoad(list);
         arLogic.saveORUpdateExclusionDetailsLookUp(dataSelection.getProjectionId(), list, accountId.toString(), accountName.toString(), accountContractId.toString(), sessionDTO); // Ends here for GAL-7235
         selectedResultsContainer.addAll(dataSelection.getProjectionId() != 0 ? arLogic.getIntialLoadValue(dataSelection.getProjectionId()) : dumbyResultsContainer);
-    }
-
-    public void getSelectedIdValues() {
-        if (!selectedResultsContainer.getItemIds().isEmpty()) {
-            List<String> companyIdList = new ArrayList();
-            for (ExclusionLookupDTO dtoValue : selectedResultsContainer.getItemIds()) {
-                companyIdList.add(dtoValue.getValues());
-            }
-        }
     }
 
     public ViewLookupDTO getViewDTO() {

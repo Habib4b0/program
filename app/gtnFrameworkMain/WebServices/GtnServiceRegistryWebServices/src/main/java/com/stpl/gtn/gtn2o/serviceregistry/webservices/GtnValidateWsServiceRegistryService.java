@@ -54,7 +54,6 @@ public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImpl
 		GtnQueryEngineWebServiceResponse response = gtnCommonWebServiceImplClass
 				.callQueryEngineWithoutSecurityToken("/executeQuery", queryEngineWebServiceRequest);
 		List<Object[]> resultList = response.getQueryResponseBean().getResultList();
-		logger.debug("Response:" + resultList.get(0));
 		return resultList;
 	}
 
@@ -71,21 +70,15 @@ public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImpl
 		return false;
 	}
 
-	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
-		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
-				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
-				+ url;
-
-	}
-
-	@Override
-	public GtnUIFrameworkWebserviceRequest registerWs() {
-		return null;
-	}
 
     @Override
     public void initCallOnFailure() {
         // Default Method
 }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        // Default Method
+    }
 
 }
