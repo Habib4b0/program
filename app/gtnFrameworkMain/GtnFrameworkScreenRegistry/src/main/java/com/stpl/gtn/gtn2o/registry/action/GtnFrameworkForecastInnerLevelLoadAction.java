@@ -23,7 +23,7 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		int selectedLevelNo = Integer.valueOf(GtnUIFrameworkGlobalUI
+		int selectedLevelNo = Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getCaptionFromV8ComboBox());
 
 		GtnWsRecordBean hierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
