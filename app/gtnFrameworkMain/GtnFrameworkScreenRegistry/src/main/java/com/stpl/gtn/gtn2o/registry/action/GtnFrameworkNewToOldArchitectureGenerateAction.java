@@ -26,7 +26,7 @@ import com.vaadin.ui.TreeGrid;
 public class GtnFrameworkNewToOldArchitectureGenerateAction
         implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkNewToOldArchitectureGenerateAction.class);
+    private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkNewToOldArchitectureGenerateAction.class);
 
     @SuppressWarnings("unchecked")
     @Override
