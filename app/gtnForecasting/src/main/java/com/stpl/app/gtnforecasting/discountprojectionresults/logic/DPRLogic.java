@@ -834,20 +834,19 @@ public class DPRLogic {
         return levelCount;
     }
 
-    public List<DiscountProjectionResultsDTO> getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
+    public List<DiscountProjectionResultsDTO> getProjectionTotal(Object[] orderedArgsTotal, ProjectionSelectionDTO projSelDTO) {
         List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
         List<Object[]> gtsList;
-        Object[] orderedArgsDpr = orderedArgs;
         boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
         // Procedure called only in  Tab Change
-        if (projSelDTO.getSessionDTO().isDprRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgsDpr, dprOrderedArgs)) {
+        if (projSelDTO.getSessionDTO().isDprRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgsTotal, dprOrderedArgs)) {
             if (viewFlag) {
-                orderedArgsDpr = ArrayUtils.removeElement(orderedArgsDpr, projSelDTO.getUserId());
-                orderedArgsDpr = ArrayUtils.removeElement(orderedArgsDpr, projSelDTO.getSessionDTO().getSessionId());
+                orderedArgsTotal = ArrayUtils.removeElement(orderedArgsTotal, projSelDTO.getUserId());
+                orderedArgsTotal = ArrayUtils.removeElement(orderedArgsTotal, projSelDTO.getSessionDTO().getSessionId());
             }
-            gtsList = CommonLogic.callProcedure(viewFlag ? "PRC_M_DISCOUNT_PROJ_TOTAL_VIEW" : "PRC_M_DISCOUNT_PROJ_TOTAL", orderedArgsDpr);
-            dprOrderedArgs = new Object[orderedArgsDpr.length];
-            System.arraycopy(orderedArgsDpr, 0, dprOrderedArgs, 0, orderedArgsDpr.length);
+            gtsList = CommonLogic.callProcedure(viewFlag ? "PRC_M_DISCOUNT_PROJ_TOTAL_VIEW" : "PRC_M_DISCOUNT_PROJ_TOTAL", orderedArgsTotal);
+            dprOrderedArgs = new Object[orderedArgsTotal.length];
+            System.arraycopy(orderedArgsTotal, 0, dprOrderedArgs, 0, orderedArgsTotal.length);
             totalPrcResultList.clear();
             totalPrcResultList.addAll(gtsList);
         } else {
