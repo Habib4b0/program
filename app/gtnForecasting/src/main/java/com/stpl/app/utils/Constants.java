@@ -437,7 +437,8 @@ public class Constants {
         MONTHS("Months"),
         QUARTERS("Quarters"),
         DEFAULT_JAVA_DATE_FORMAT("EEE MMM dd HH:mm:ss z yyyy"),
-        DEFAULT_SQL_DATE_FORMAT("yyyy-MM-dd HH:mm:ss.SSS");
+        DEFAULT_SQL_DATE_FORMAT("yyyy-MM-dd HH:mm:ss.SSS"),
+    	JAVA_DATE_FORMAT("yyyy-MM-dd");
         private final String frequencyValue;
 
         private FrequencyConstants(String frequencyValue) {

@@ -58,9 +58,7 @@ public class GtnFrameworkCVDeleteAction implements GtnUIFrameWorkAction, GtnUIFr
 			cvRequest.setCustomViewDescription(custViewDesc);
 			cvRequest.setCustomViewType(custViewType);
 			request.setGtnWsCustomViewRequest(cvRequest);
-			GtnUIFrameworkWebserviceResponse newResponse = wsclient.callGtnWebServiceUrl(
-					GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE + GtnWsCustomViewConstants.CUSTOM_VIEW_DELETE,
-					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebserviceResponse newResponse = getResponse(wsclient, request);
 			GtnWsCustomViewResponse rbNewResponse = newResponse.getGtnWsCustomViewResponse();
 			if (rbNewResponse.isSuccess()) {
 				GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.NOTIFICATION_ACTION,
@@ -78,6 +76,13 @@ public class GtnFrameworkCVDeleteAction implements GtnUIFrameWorkAction, GtnUIFr
 		} catch (Exception ex) {
 			LOGGER.error("message", ex);
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(final GtnUIFrameworkWebServiceClient wsclient,
+			final GtnUIFrameworkWebserviceRequest request) {
+		return wsclient.callGtnWebServiceUrl(
+				GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE + GtnWsCustomViewConstants.CUSTOM_VIEW_DELETE, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

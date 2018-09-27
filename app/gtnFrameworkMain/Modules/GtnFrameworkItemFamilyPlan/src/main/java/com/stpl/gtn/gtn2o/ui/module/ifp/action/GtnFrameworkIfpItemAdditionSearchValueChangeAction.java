@@ -46,8 +46,7 @@ public class GtnFrameworkIfpItemAdditionSearchValueChangeAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemAdditionTabValueDropDownLayout").setVisible(false);
 		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemAdditionSearchValueLayout").setVisible(isTextField);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemAdditionTabValueDropDownLayout")
-					.setVisible(!isTextField);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemAdditionTabValueDropDownLayout").setVisible(!isTextField);
 		}
 
 		if (dropDown.isVisible() && !isSelectOne) {
