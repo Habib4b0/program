@@ -12,11 +12,9 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.newarch.GtnWsForecastNewArchRequest;
