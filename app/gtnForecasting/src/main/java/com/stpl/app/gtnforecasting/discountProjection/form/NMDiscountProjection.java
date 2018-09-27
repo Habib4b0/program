@@ -110,7 +110,6 @@ import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DefaultFieldFactory;
 import com.vaadin.v7.ui.Field;
@@ -148,8 +147,6 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
 import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.slf4j.Logger;
@@ -1648,6 +1645,51 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         leftTable.setColumnCheckBoxDisable(Constant.CHECKRECORD,
                 ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
 
+        resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
+        resultsTable.getLeftFreezeAsTable().setFilterGenerator(new ExtFilterGenerator() {
+
+            @Override
+            public Container.Filter generateFilter(Object propertyId, Object value) {
+                return null;
+            }
+
+            @Override
+            public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
+                return null;
+            }
+
+            @Override
+            public AbstractField<?> getCustomFilterComponent(Object propertyId) {
+                if (Constant.GROUP.equals(propertyId)) {
+                    ComboBox tableGroupFilter = new ComboBox();
+                    tableGroupFilter.addValueChangeListener(tableGroupFilterDdlbValueChange);
+                    tableGroupFilter.setContainerDataSource(tableGroupDdlbBean);
+                    tableGroupFilter.setNullSelectionAllowed(true);
+                    tableGroupFilter.setNullSelectionItemId(Constant.SHOW_ALL_GROUPS);
+                    tableGroupFilter.select(Constant.SHOW_ALL_GROUPS);
+                    tableGroupFilter.setWidth("100%");
+                    return tableGroupFilter;
+                }
+
+                return null;
+            }
+
+            @Override
+            public void filterRemoved(Object propertyId) {
+                return;
+            }
+
+            @Override
+            public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
+            }
+
+            @Override
+            public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
+                return null;
+            }
+        });
+
         addFieldFactoryAndListenersForLeftTable();
         for (Object obj : leftHeader.getSingleColumns()) {
             if (String.valueOf(obj).contains(Constant.GROUP)) {
@@ -1656,6 +1698,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
         }
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
+        resultsTable.getLeftFreezeAsTable().getColumnIdToFilterMap().clear();
         LOGGER.debug("Ending configureLeftTable");
     }
 

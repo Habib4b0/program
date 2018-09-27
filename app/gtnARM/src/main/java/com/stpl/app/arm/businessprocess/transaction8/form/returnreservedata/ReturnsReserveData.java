@@ -170,10 +170,14 @@ public class ReturnsReserveData extends VerticalLayout {
         List<Object[]> listSize = QueryUtils.getItemData(input, "loadDeductionValue", null);
         String deductionValue = StringUtils.EMPTY;
         for (Object[] objects : listSize) {
-            deductionValue = deductionValue + ARMUtils.COMMA + objects[NumericConstants.TWO];
+            deductionValue = getDeductionValue(deductionValue, objects);
         }
         deductionValue = deductionValue.substring(1);
         selection.setReturnReserveDeductionValue(deductionValue);
+    }
+
+    private static String getDeductionValue(String deductionValue, Object[] objects) {
+        return deductionValue + ARMUtils.COMMA + objects[NumericConstants.TWO];
     }
 
     @Override

@@ -638,7 +638,7 @@ public class ExcelUtils {
     }
 
     private static void setTotalValue(String newC, Object value, AdjustmentDTO dto, boolean isTrx3) {
-        if (value != null && "0".equals(newC) && !Double.valueOf(String.valueOf(value)).isNaN() && isTrx3 ? true : String.valueOf(value).matches("^[\\d.]+$")) {
+        if (isTrx3 ? true : String.valueOf(value).matches("^[\\d.]+$") && value != null && !Double.valueOf(String.valueOf(value)).isNaN() && "0".equals(newC)) {
             dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.parseDouble(String.valueOf(value)));
         }
     }
