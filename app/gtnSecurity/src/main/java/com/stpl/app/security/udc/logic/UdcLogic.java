@@ -201,7 +201,7 @@ public class UdcLogic {
 
     }
 
-    public String saveBrandMaster(ErrorfulFieldGroup brandForm, int masterSid) {
+    public String saveBrandMaster(ErrorfulFieldGroup brandForm) {
         BrandMaster brandTable = BrandMasterLocalServiceUtil.createBrandMaster(0);
         Date date = new Date();
         try {
@@ -290,7 +290,7 @@ public class UdcLogic {
      * @param categoryValue
      * @return
      */
-    public int brandCount(String categoryValue) {
+    public int brandCount() {
         String query = " select count(*) from brand_master where inbound_status <> 'D'";
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return Integer.parseInt(String.valueOf(list.get(0)));

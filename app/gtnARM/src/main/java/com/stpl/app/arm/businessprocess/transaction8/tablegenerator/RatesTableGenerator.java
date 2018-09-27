@@ -48,8 +48,8 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
     private final AbstractSelectionDTO selection;
     private static final Logger LOGGER = LoggerFactory.getLogger(RatesTableGenerator.class);
 
-    private final DataFormatConverter CUR_ZERO = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
-    private final DataFormatConverter CUR_THREE = new DataFormatConverter(ARMConstants.getThreeDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
+    private final DataFormatConverter curZero = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
+    private final DataFormatConverter curThree = new DataFormatConverter(ARMConstants.getThreeDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
     private boolean checkLeave = false;
     private boolean restrictLeave = false;
     private final boolean isFieldRequired;
@@ -78,7 +78,7 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
             final TextField override = new TextField();
             override.setData(items);
             override.addStyleName("align-right");
-            override.setConverter(staticFlag ? CUR_ZERO : CUR_THREE);
+            override.setConverter(staticFlag ? curZero : curThree);
             override.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(FocusEvent event) {
@@ -115,6 +115,7 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
                     selection.setRatesOverrideFlag(NumericConstants.ONE);
                     valueChangeLogic(dto, val, Boolean.TRUE, "0");
                 }
+                Thread.sleep(500);
                 refreshTable(tableLogic);
             } catch (Exception e) {
                 LOGGER.error("Error in overrideListener :", e);
@@ -181,10 +182,6 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
     @Override
     public boolean isRestrict() {
         return restrictLeave;
-    }
-
-    public void setRestrictLeave() {
-        this.restrictLeave = restrictLeave;
     }
 
     public void setCheckLeave(boolean checkLeave) {

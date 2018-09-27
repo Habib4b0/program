@@ -78,7 +78,8 @@ public class QueryUtils {
         return list;
     }
 
-    public static List getItemData(StringBuilder sql, String viewControl, String pageControl, List input, boolean isTotal) {
+    public static List getItemData(StringBuilder queryBuilder, String viewControl, String pageControl, List input, boolean isTotal) {
+        StringBuilder sql = queryBuilder;
         List list = Collections.emptyList();
         try {
             String query = sql.toString();
@@ -391,7 +392,7 @@ public class QueryUtils {
                 }
             }
             LOGGER.debug("queryString {}", queryString.toString());
-            count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
+            count = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
         } catch (Exception e) {
             LOGGER.error("Error in updateDataFromMap :", e);
         }

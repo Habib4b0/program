@@ -220,27 +220,27 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     public void saveView(final List<Leveldto> selectedCustomersList, final List<Leveldto> selectedProductsList,
             final String actionFlag, int projectionIdValue) throws PortalException {
         try {
-
+            int projectionIdVal = projectionIdValue;
             LOGGER.debug("Entering saveView method");
             DataSelectionLogic dsLogic = new DataSelectionLogic();
             int viewIdValue = 0;
             if ("Update".equalsIgnoreCase(actionFlag)) {
-                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, BooleanConstant.getTrueFlag(), projectionIdValue,sessionDTO);
-                dsLogic.updateCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdValue);
-                dsLogic.updateProductHierarchyLogic(selectedProductsList, productListEndSids, projectionIdValue,dataselectionDtoToSave);
-                dsLogic.updateCcpLogicView(customerHierarchyEndLevels, productHierarchyEndLevelsHierNos, "customer", projectionIdValue);
+                projectionIdVal = cffLogic.saveCFFMaster(dataselectionDtoToSave, BooleanConstant.getTrueFlag(), projectionIdVal,sessionDTO);
+                dsLogic.updateCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdVal);
+                dsLogic.updateProductHierarchyLogic(selectedProductsList, productListEndSids, projectionIdVal,dataselectionDtoToSave);
+                dsLogic.updateCcpLogicView(customerHierarchyEndLevels, productHierarchyEndLevelsHierNos, "customer", projectionIdVal);
             } else {
-                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, BooleanConstant.getFalseFlag(), projectionIdValue,sessionDTO);
-                dsLogic.saveCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdValue, null, "save");
-                dsLogic.saveProductHierarchyLogic(selectedProductsList, productListEndSids, projectionIdValue, null, "save",dataselectionDtoToSave);
-                dsLogic.saveCcp(customerHierarchyEndLevels, productHierarchyEndLevelsHierNos, "customer", String.valueOf(projectionIdValue));
+                projectionIdVal = cffLogic.saveCFFMaster(dataselectionDtoToSave, BooleanConstant.getFalseFlag(), projectionIdVal,sessionDTO);
+                dsLogic.saveCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdVal, null, "save");
+                dsLogic.saveProductHierarchyLogic(selectedProductsList, productListEndSids, projectionIdVal, null, "save",dataselectionDtoToSave);
+                dsLogic.saveCcp(customerHierarchyEndLevels, productHierarchyEndLevelsHierNos, "customer", String.valueOf(projectionIdVal));
 
             }
             viewBinder.commit();
-            if (projectionIdValue != 0) {
-                viewIdValue = viewLogic.saveForecastViewMaster(saveViewDTO, projectionIdValue);
+            if (projectionIdVal != 0) {
+                viewIdValue = viewLogic.saveForecastViewMaster(saveViewDTO, projectionIdVal);
                 viewId.setValue(String.valueOf(viewIdValue));
-                setProjectionId(projectionIdValue);
+                setProjectionId(projectionIdVal);
                 if (viewIdValue != 0 && !Constants.FAIL.equals(String.valueOf(saveViewDTO.getViewId()))) {
                         if ("save".equals(actionFlag)) {
                             if (Constants.PRIVATE.equals(viewType.getValue())) {

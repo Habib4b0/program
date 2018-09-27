@@ -338,8 +338,8 @@ public class ExclusionDetailsLookup extends Window {
             availableTable.setSortEnabled(true);
             availableTable.markAsDirty();
             avalableTableLogic.setContainerDataSource(availableresultBeanContainer);
-            availableTable.setVisibleColumns(AccrualRateUtils.getInstance().availableValuesVisibleColumns);
-            availableTable.setColumnHeaders(AccrualRateUtils.getInstance().availableValuesVisibleHeaders);
+            availableTable.setVisibleColumns("companyId");
+            availableTable.setColumnHeaders("Available Values");
         } catch (Exception e) {
            LOGGER.error(e.getMessage());
         }
@@ -357,8 +357,8 @@ public class ExclusionDetailsLookup extends Window {
         excludedFieldsTable.setSelectable(true);
         excludedFieldsTable.markAsDirty();
         exclusionDetailsTableLogic.setContainerDataSource(excludedresultBeanContainer);
-        excludedFieldsTable.setVisibleColumns(AccrualRateUtils.getInstance().excludedValuesVisibleColumns);
-        excludedFieldsTable.setColumnHeaders(AccrualRateUtils.getInstance().excludedValuesVisibleHeaders);
+        excludedFieldsTable.setVisibleColumns("excludedField", Constant.COMPANY_NAME);
+        excludedFieldsTable.setColumnHeaders("Excluded Field", " Value");
 
         LOGGER.debug("configureExcludedTable ends");
 

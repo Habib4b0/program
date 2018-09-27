@@ -104,10 +104,7 @@ public class AdjustmentRateSelection implements Serializable {
         if (this.bucompanyMasterSid != other.bucompanyMasterSid) {
             return false;
         }
-        if (this.rateConfigMasterSid != other.rateConfigMasterSid) {
-            return false;
-        }
-        return true;
+        return this.rateConfigMasterSid == other.rateConfigMasterSid;
     }
 
     public void setInternal(AdjustmentRateSelection val) {

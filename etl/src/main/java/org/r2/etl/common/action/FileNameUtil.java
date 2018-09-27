@@ -114,6 +114,9 @@ public class FileNameUtil {
 			map.put(Constants.PSTG_FORECAST_SALES_WAC_INTERFACE, Constants.PSTG_FORECAST_SALES_WAC_INTERFACE);
 			map.put(Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE, Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE);
                         
+			
+			map.put(Constants.ARM_LOAD_INTERFACE, Constants.ARM_LOAD_INTERFACE);
+			
                         map.put(Constants.DTX_UOM_INTERFACE, Constants.DTX_UOM_INTERFACE);
                         map.put(Constants.DTX_CPI_INTERFACE, Constants.DTX_CPI_INTERFACE);
                         map.put(Constants.DTX_RETURN_RATE_INTERFACE, Constants.DTX_RETURN_RATE_INTERFACE);
@@ -130,6 +133,16 @@ public class FileNameUtil {
                         map.put(Constants.DTX_CONTRACT_HEADER_INTERFACE, Constants.DTX_CONTRACT_HEADER_INTERFACE);
                         map.put(Constants.DTX_FORECAST_SALES_INTERFACE, Constants.DTX_FORECAST_SALES_INTERFACE);
                         map.put(Constants.DTX_FORECAST_SALES_WAC_INTERFACE, Constants.DTX_FORECAST_SALES_WAC_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_PRICE_PLAN_INTERFACE, Constants.DTX_CONTRACT_PRICE_PLAN_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_IFP_INTERFACE, Constants.DTX_CONTRACT_IFP_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_CPGRP_INTERFACE, Constants.DTX_CONTRACT_CPGRP_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_CPPPO_INTERFACE, Constants.DTX_CONTRACT_CPPPO_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE, Constants.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_PRICE_SCHEDULE_INTERFACE, Constants.DTX_CONTRACT_PRICE_SCHEDULE_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_CONT_INTERFACE, Constants.DTX_CONTRACT_CONT_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_REBATE_PLAN_INTERFACE, Constants.DTX_CONTRACT_REBATE_PLAN_INTERFACE);
+                        map.put(Constants.DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE, Constants.DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE);
+                        
 
 		}
 		return map;
@@ -277,6 +290,10 @@ public class FileNameUtil {
 					Constants.PSTG_FORECAST_SALES_WAC_INTERFACE);
 			interfaceNameMap.put(Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE,
 					Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE);
+			
+			interfaceNameMap.put(Constants.ARM_LOAD_INTERFACE,
+					Constants.ARM_LOAD_INTERFACE);
+			
                         interfaceNameMap.put(Constants.DTX_UOM_INTERFACE,
 					Constants.DTX_UOM_INTERFACE);
                         interfaceNameMap.put(Constants.DTX_CPI_INTERFACE,
@@ -309,6 +326,25 @@ public class FileNameUtil {
                     Constants.DTX_FORECAST_SALES_INTERFACE);
                         interfaceNameMap.put(Constants.DTX_FORECAST_SALES_WAC_INTERFACE,
                     Constants.DTX_FORECAST_SALES_WAC_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_PRICE_PLAN_INTERFACE,
+                    Constants.DTX_CONTRACT_PRICE_PLAN_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_IFP_INTERFACE,
+                    Constants.DTX_CONTRACT_IFP_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_CPGRP_INTERFACE,
+                    Constants.DTX_CONTRACT_CPGRP_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_CPPPO_INTERFACE,
+                    Constants.DTX_CONTRACT_CPPPO_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE,
+                    Constants.DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_PRICE_SCHEDULE_INTERFACE,
+                    Constants.DTX_CONTRACT_PRICE_SCHEDULE_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_CONT_INTERFACE,
+                    Constants.DTX_CONTRACT_CONT_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_REBATE_PLAN_INTERFACE,
+                    Constants.DTX_CONTRACT_REBATE_PLAN_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE,
+                    Constants.DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE);
+                        
 		}
 		return interfaceNameMap;
 	}
