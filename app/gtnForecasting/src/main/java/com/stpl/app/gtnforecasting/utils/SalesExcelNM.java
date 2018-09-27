@@ -341,7 +341,7 @@ public class SalesExcelNM extends ExcelExport{
         List<String> str=new ArrayList<>();
         String s="";
         for (int i = 0; i < value.length; i++) {
-            s = s + "," + value[i];
+            s = s.concat(",").concat(value[i]);
             if ((i+1) % 30 == 0 && i != 0) {
                 str.add(s);
                 s="";
@@ -357,9 +357,9 @@ public class SalesExcelNM extends ExcelExport{
              string = string.replaceFirst(",", "");
              
              if(isappend){
-                 formula = "SUM("+string+")";
+                 formula = "SUM(".concat(string).concat(")");
              }else{
-                 formula += "+SUM("+string+")";
+                 formula += "SUM(".concat(string).concat(")");
              }
              isappend= false;
          }
@@ -369,31 +369,31 @@ public class SalesExcelNM extends ExcelExport{
     public String getAppendedFormulaForPG_AG_Sum(String[] value){
         boolean isappend = true;
          List<String> str=new ArrayList<>();
-         String s="";
+         String strVal="";
          for (int i = 0; i < value.length; i++) {
-             s = s + "," + value[i];
+             strVal = strVal.concat(",").concat(value[i]);
              if ((i+1) % 30 == 0 && i != 0) {
-                 str.add(s);
-                 s="";
+                 str.add(strVal);
+                 strVal="";
              }
          }
-         if(!s.equals("")){
-         str.add(s);
+         if(!strVal.equals("")){
+         str.add(strVal);
          }
-         String formula ="";
+         String formulaVal ="";
           for (int j = 0; j < str.size(); j++) {
               
               String string = str.get(j);
               string = string.replaceFirst(",", "");
               
-              if(isappend){
-                  formula = "SUM("+string+")";
-              }else{
-                  formula += "+SUM("+string+")";
+              if (isappend) {
+                  formulaVal = "SUM(".concat(string).concat(")");
+              } else {
+                  formulaVal += "SUM(".concat(string).concat(")");
               }
               isappend= false;
           }
-          return formula;
+          return formulaVal;
      }
     
 }

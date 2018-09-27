@@ -268,6 +268,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
                 defaultVisibleColumn.add(visibleColumn);
                 map.put(column1, visibleColumn);
             }
+            index++;
         }
         finalList.add(singleVisibleColumn);
         finalList.add(singleVisibleHeader);
