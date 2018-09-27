@@ -107,6 +107,7 @@ public class AccountConfigFieldFactory implements TableFieldFactory {
                     container.getContainerProperty(itemId, "businessUnitName").setValue(dto.getBusinessNoHelperDto() != null ? dto.getBusinessNoHelperDto().getDescription() : StringUtils.EMPTY);
                 }
             }
+            value=value==null?0:value;
             logic.updateTableValues(value, updateFieldFactoryValues.get(propertyId), dto, selection);
 
         }
