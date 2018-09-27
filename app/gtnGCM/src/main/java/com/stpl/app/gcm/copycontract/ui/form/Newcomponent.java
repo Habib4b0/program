@@ -1179,7 +1179,7 @@ public class Newcomponent extends CustomComponent {
                 ids = idvalue;
                 flag = true;
             } else {
-                ids = ids + "," + idvalue;
+                ids = ids.concat(",").concat(idvalue);
             }
         }
         return ids;

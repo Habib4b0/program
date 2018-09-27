@@ -1138,7 +1138,7 @@ public class NewComponents extends CustomComponent implements View {
                 ids = idvalue;
                 flag = true;
             } else {
-                ids = ids + "," + idvalue;
+                ids = ids.concat(",").concat(idvalue);
             }
         }
         return ids;
@@ -1884,7 +1884,7 @@ public class NewComponents extends CustomComponent implements View {
                             if (detList != null && !detList.isEmpty()) {
                                 Object[] obje = (Object[]) detList.get(0);
                                 String query1 = "INSERT INTO dbo.PS_DETAILS(PS_MODEL_SID,IFP_MODEL_SID,ITEM_MASTER_SID,CONTRACT_PRICE_START_DATE,CONTRACT_PRICE_END_DATE,\"SOURCE\",INBOUND_STATUS,CREATED_DATE,MODIFIED_DATE,RECORD_LOCK_STATUS,CREATED_BY,MODIFIED_BY,PRICE) VALUES";
-                                query1 += "(?PS_MODEL_ID,?IFP_MODEL_ID,?ITEM_MASTER_ID,?START_DATE,?END_DATE,'GCM','A','?CREATED_DATE','?MODIFIED_DATE',?RECORD_LOCK_STATUS,?USER_ID,?USER_ID,?PRICE)";
+                                query1= query1.concat( "(?PS_MODEL_ID,?IFP_MODEL_ID,?ITEM_MASTER_ID,?START_DATE,?END_DATE,'GCM','A','?CREATED_DATE','?MODIFIED_DATE',?RECORD_LOCK_STATUS,?USER_ID,?USER_ID,?PRICE)");
                                 query1 = query1.replaceAll("\\?PS_MODEL_ID", String.valueOf(psModel.getPsModelSid()));
                                 query1 = query1.replaceAll("\\?IFP_MODEL_ID", "1");
                                 query1 = query1.replaceAll("\\?ITEM_MASTER_ID", String.valueOf(itemMasterId));

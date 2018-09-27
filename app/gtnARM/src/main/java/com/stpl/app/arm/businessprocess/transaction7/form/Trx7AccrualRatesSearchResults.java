@@ -99,7 +99,8 @@ public class Trx7AccrualRatesSearchResults extends AbstractRatesSearchResults {
     }
 
     @Override
-    public void setRespectiveHierarchy(String viewType) {
+    public void setRespectiveHierarchy(String view) {
+        String viewType = view;
         if (viewType.equals(ARMConstants.getDeductionCustomer())) {
             viewType = ARMConstants.getDeductionCustomer() + "Sales";
         }

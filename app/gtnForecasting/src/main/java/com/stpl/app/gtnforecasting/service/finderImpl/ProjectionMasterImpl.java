@@ -337,7 +337,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             }
 
             if ((parameters.get(Constant.IS_ORDERED) == null || Constant.FALSE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.IS_ORDERED)))) && (parameters.get(Constant.LAZY_LOAD_RESULTS) != null)) {
-                queryString.append(" ORDER BY PM.CREATED_DATE DESC ");
+                queryString.append(" ORDER BY PM.MODIFIED_DATE DESC ");
             } else if (parameters.get(Constant.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(Constant.IS_ORDERED)))) {
                 if (parameters.get(Constant.ORDER_BY_PROJECTION_NAME) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BY_PROJECTION_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BY_PROJECTION_NAME)))) {
                     queryString.append(" ORDER BY PM.PROJECTION_NAME ");

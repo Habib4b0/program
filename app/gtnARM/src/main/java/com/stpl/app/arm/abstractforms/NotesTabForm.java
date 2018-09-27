@@ -89,11 +89,11 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
     private Object[] visibleColumnsobj = new Object[]{"documentName", "dateAdded", "userName"};
     private String[] columnHeadersobj = new String[]{"Document Name", "Date Added", "User Name"};
 
-    public NotesTabForm(FieldGroup binder, String moduleName, SessionDTO sessionDTO, String adjustmentType) throws SystemException {
+    public NotesTabForm(CustomFieldGroup binder, String moduleName, SessionDTO sessionDTO, String adjustmentType) throws SystemException {
         super(binder, moduleName);
         getNotesBinder();
         configureField();
-        this.binder = (CustomFieldGroup) binder;
+        this.binder = binder;
         this.sessionDTO = sessionDTO;
         this.adjustmentType = adjustmentType;
         userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
@@ -103,6 +103,10 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         table.setVisibleColumns(visibleColumnsobj);
         table.setColumnHeaders(columnHeadersobj);
         configureGeneratedColumn();
+        init();
+    }
+
+    private void init() {
         if (!this.adjustmentType.isEmpty()) {
             addReasonCodeDdlb();
         }

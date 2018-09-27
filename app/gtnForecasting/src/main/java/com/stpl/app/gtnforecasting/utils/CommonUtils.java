@@ -269,39 +269,6 @@ public class CommonUtils {
 
     public static final String ALL_BTN1 = "allBtn";
 
-    /**
-     * The Constant NONMANDATED.
-     */
-    /**
-     * The Constant HISTORY LOOKUP CONTRACT COLUMNS.
-     */
-    public final Object[] historyLookupContractColumnsMandated = new Object[]{"customer", "contractNumber", "contractName"};
-
-    /**
-     * The Constant HISTORY LOOKUP CONTRACT HEADERS.
-     */
-    public final String[] historyLookupContractHeadersMandated = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
-
-    /**
-     * The Constant HISTORY LOOKUP CONTRACT COLUMNS.
-     */
-    public final Object[] historyLookupContractColumnsNonMandated = new Object[]{"customer", "contractNumber", "contractName"};
-
-    /**
-     * The Constant HISTORY LOOKUP CONTRACT HEADERS.
-     */
-    public final String[] historyLookupContractHeaderNonMandated = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
-
-    /**
-     * The Constant HISTORY LOOKUP BRAND COLUMNS.
-     */
-    public final Object[] historyLookupBrandColumns = new Object[]{Constant.BRAND};
-
-    /**
-     * The Constant HISTORY LOOKUP BRAND HEADERS.
-     */
-    public final String[] historyLookupBrandHeaders = new String[]{"Brand Name"};
-
     public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
     public static final String BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION = "AccrualRateProjection";
     public static final String BUSINESS_PROCESS_INDICATOR_NON_MANDATED = "NM";
