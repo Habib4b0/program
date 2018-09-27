@@ -679,8 +679,9 @@ public class AdjustmentRateForm extends CustomComponent {
 
     private Object getValue(Object val, AdjustmentRateDTO adjustmentRateDTO) throws Property.ReadOnlyException {
         if (VariableConstants.RATE_FREQUENCY.equals((String) fieldDdlbRate.getValue())) {
-            if ((int) val > 0) {
-                CommonUtils.loadRatePeriodComboBox((CustomComboBox) adjustmentRateDTO.getComponent(VariableConstants.RATE_PERIOD), findFrequency(val == null ? 0 : (int) val), listNameMapper.get(VariableConstants.RATE_PERIOD));
+            int value = val == null ? 0 : (int) val;
+            if (value > 0) {
+                CommonUtils.loadRatePeriodComboBox((CustomComboBox) adjustmentRateDTO.getComponent(VariableConstants.RATE_PERIOD), findFrequency(value), listNameMapper.get(VariableConstants.RATE_PERIOD));
             }
         } else if (VariableConstants.EXCLUSION_DETAILS.equals((String) fieldDdlbRate.getValue()) || VariableConstants.INVENTORYCAL_CULATION.equals((String) fieldDdlbRate.getValue())) {
             LookUpDTO viewSidDTO = (LookUpDTO) valueTxt.getData();

@@ -237,15 +237,15 @@ public class PPAProjection extends CustomComponent implements View {
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAXSPLIT_POSITION_PPA = 1000;
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 280;
+    private static final float MINSPLIT_POSITION_PPA = 280;
     /**
      * The split position.
      */
-    private final float splitPosition = 400;
+    private static final float SPLIT_POSITION_PPA = 400;
     /**
      * The excel export image.
      */
@@ -756,9 +756,9 @@ public class PPAProjection extends CustomComponent implements View {
         resultsTable.markAsDirty();
         resultsTable.setFilterBarVisible(true);
         resultsTable.setSelectable(true);
-        resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        resultsTable.setSplitPosition(SPLIT_POSITION_PPA, Sizeable.Unit.PIXELS);
+        resultsTable.setMinSplitPosition(MINSPLIT_POSITION_PPA, Sizeable.Unit.PIXELS);
+        resultsTable.setMaxSplitPosition(MAXSPLIT_POSITION_PPA, Sizeable.Unit.PIXELS);
         resultsTable.setPageLength(NumericConstants.TWENTY);
         leftTable = resultsTable
                 .getLeftFreezeAsTable();

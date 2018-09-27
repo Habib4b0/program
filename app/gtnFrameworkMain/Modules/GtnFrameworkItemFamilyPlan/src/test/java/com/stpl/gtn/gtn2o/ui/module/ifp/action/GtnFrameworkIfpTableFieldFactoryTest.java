@@ -6,9 +6,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;

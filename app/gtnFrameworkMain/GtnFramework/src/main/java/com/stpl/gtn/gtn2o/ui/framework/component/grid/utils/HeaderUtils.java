@@ -64,6 +64,7 @@ public class HeaderUtils {
 			addDoubleHeader(currentSingleColumns, pagedTreeGrid);
 		}
 		addTripleHeader(currentSingleColumns, pagedTreeGrid);
+		refreshDataGrid(pagedTreeGrid);
 	}
 
 	private static List<Object> addSingleHeader(PagedTreeGrid pagedTreeGrid, int columnStart, int columnEnd) {
@@ -96,11 +97,15 @@ public class HeaderUtils {
 			pagedTreeGrid.getGrid().setWidth(pagedTreeGrid.getComponentConfig().getComponentWidth());
 			pagedTreeGrid.getGrid().setHeight(pagedTreeGrid.getComponentConfig().getComponentHight());
 			parent.replaceComponent(parent.getComponent(0), pagedTreeGrid.getGrid());
-			pagedTreeGrid.setColumnLazyLoading(true);
-			pagedTreeGrid.initialConfig(pagedTreeGrid.getComponentIdInMap());
-			pagedTreeGrid.setColumnLazyLoading(false);
+			
 
 		}
+	}
+
+	private static void refreshDataGrid(PagedTreeGrid pagedTreeGrid) {
+		pagedTreeGrid.setColumnLazyLoading(true);
+		pagedTreeGrid.initialConfig(pagedTreeGrid.getComponentIdInMap());
+		pagedTreeGrid.setColumnLazyLoading(false);
 	}
 
 	public static void addDoubleHeader(List<Object> currentSingleColumns, PagedTreeGrid pagedTreeGrid) {
@@ -197,7 +202,8 @@ public class HeaderUtils {
 	}
 
 	private static boolean arrayContains(Object[] input, String value) {
-		return Arrays.stream(input).filter(e -> value.contains(e.toString())).count() > 0;
+		return Arrays.stream(input).filter(e ->
+		value.contains(e.toString()) ||( value.contains("Total") && e.toString().contains(value))).count() > 0;
 	}
 
 	// CheckBox in DoubleColumnHeader

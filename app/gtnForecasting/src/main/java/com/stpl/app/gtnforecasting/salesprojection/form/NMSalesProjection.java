@@ -493,6 +493,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 addResultTable();
                 CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
                 generateLogic();
+                resultsTable.getLeftFreezeAsTable().getColumnIdToFilterMap().clear();
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

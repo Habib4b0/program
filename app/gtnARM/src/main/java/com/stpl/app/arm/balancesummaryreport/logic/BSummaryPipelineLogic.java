@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -82,7 +83,7 @@ public class BSummaryPipelineLogic extends AbstractBSummaryLogic {
                 pipelineDto = new AdjustmentDTO();
                 finalList.add(pipelineDto);
                 pipelineDto.setBranditemmasterSid(mastersId);
-                pipelineDto.setMasterIds(bsrPipelineSelection.getMasterSids());
+                pipelineDto.setMasterIds((TreeMap<String, Integer>) bsrPipelineSelection.getMasterSids());
                 pipelineDto.setLevelNo(bsrPipelineSelection.getLevelNo());
                 pipelineDto.setGroup(String.valueOf(list1[0]));
                 pipelineDto.setChildrenAllowed((!ARMUtils.TOTAL.equalsIgnoreCase(pipelineDto.getGroup()) && bsrPipelineSelection.getSummarylevelFilterNo() == 0) ? isChild : false);

@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,7 +108,7 @@ public class ReturnReserveLogic extends AbstractBSummaryLogic {
                 dto = new AdjustmentDTO();
                 finalList.add(dto);
                 dto.setBranditemmasterSid(mastersId);
-                dto.setMasterIds(selection.getMasterSids());
+                dto.setMasterIds((TreeMap<String, Integer>) selection.getMasterSids());
                 dto.setLevelNo(selection.getLevelNo());
                 dto.setGroup(String.valueOf(list1[0]));
 
