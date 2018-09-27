@@ -933,7 +933,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             final String tableHierarchyNo = tableLogic.getTreeLevelonCurrentPage(obj[0]);
             DiscountProjectionDTO dto = (DiscountProjectionDTO) obj[0];
             Boolean checkValue = ((ExtCustomCheckBox) ((AbstractComponent) event.getComponent())).getValue();
-            if (isGroupUpdatedManually) {
+             if (isGroupUpdatedManually) {
                 NotificationUtils.getAlertNotification(Constant.GROUP_FILTER_CONFLICT,
                         Constant.GROUP_VALUE_VERIFICATION);
                 tableLogic.getContainerDataSource().getContainerProperty(obj[0], Constant.CHECKRECORD).setValue(BooleanConstant.getFalseFlag());
@@ -1525,6 +1525,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
             if (view.getValue() != null) {
                 if (CUSTOM.getConstant().equals(String.valueOf(view.getValue()))) {
+                     ((TextField)resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY)).setValue(StringUtils.EMPTY);
                     hierarchyIndicator = CommonUtil.isValueEligibleForLoading()
                             ? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY : "CP";
                     loadCustomDDLB();
@@ -1547,6 +1548,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         resultsTable.getRightFreezeAsTable().setTripleHeaderVisible(false);
                     }
                 } else if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
+                     ((TextField)resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY)).setValue(StringUtils.EMPTY);
                     currentHierarchy = session.getCustomerHierarchyList();
                     hierarchyIndicator = "C";
                     levelDdlb.setEnabled(true);
@@ -1570,6 +1572,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     resultsTable.getLeftFreezeAsTable().setDoubleHeaderVisible(true);
                     resultsTable.setTripleHeaderVisible(true);
                 } else if (PRODUCT.getConstant().equals(String.valueOf(view.getValue()))) {
+                     ((TextField)resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY)).setValue(StringUtils.EMPTY);
                     currentHierarchy = session.getProductHierarchyList();
                     hierarchyIndicator = Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY;
                     levelDdlb.setEnabled(true);
@@ -1644,51 +1647,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         leftTable.setColumnCheckBox(Constant.CHECKRECORD, true);
         leftTable.setColumnCheckBoxDisable(Constant.CHECKRECORD,
                 ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
-
-        resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
-        resultsTable.getLeftFreezeAsTable().setFilterGenerator(new ExtFilterGenerator() {
-
-            @Override
-            public Container.Filter generateFilter(Object propertyId, Object value) {
-                return null;
-            }
-
-            @Override
-            public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
-                return null;
-            }
-
-            @Override
-            public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                if (Constant.GROUP.equals(propertyId)) {
-                    ComboBox tableGroupFilter = new ComboBox();
-                    tableGroupFilter.addValueChangeListener(tableGroupFilterDdlbValueChange);
-                    tableGroupFilter.setContainerDataSource(tableGroupDdlbBean);
-                    tableGroupFilter.setNullSelectionAllowed(true);
-                    tableGroupFilter.setNullSelectionItemId(Constant.SHOW_ALL_GROUPS);
-                    tableGroupFilter.select(Constant.SHOW_ALL_GROUPS);
-                    tableGroupFilter.setWidth("100%");
-                    return tableGroupFilter;
-                }
-
-                return null;
-            }
-
-            @Override
-            public void filterRemoved(Object propertyId) {
-                return;
-            }
-
-            @Override
-            public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-                return;
-            }
-
-            @Override
-            public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
-                return null;
-            }
-        });
 
         addFieldFactoryAndListenersForLeftTable();
         for (Object obj : leftHeader.getSingleColumns()) {
@@ -3553,7 +3511,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     && generateCustomerToBeLoaded.size() == projectionSelection.getCustomerLevelFilter().size());
             boolean productFlag = (generateProductToBeLoaded.containsAll(projectionSelection.getProductLevelFilter())
                     && generateProductToBeLoaded.size() == projectionSelection.getProductLevelFilter().size());
-
+            
             if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
                 LOGGER.info("generateBtn :Inside Filter Option");
                 session.setFunctionMode("F");
@@ -3612,6 +3570,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             adjPeriodValueChangeLogic(SELECT.getConstant());
             adjperiods.select(SELECT);
             adjprograms.select(SELECT);
+            resultsTable.getLeftFreezeAsTable().getColumnIdToFilterMap().clear();
         }
         LOGGER.debug("Ending generateListView ");
 
@@ -3964,7 +3923,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         projectionSelection.setdPVariablesList(l);
         try {
-            map.put(Constant.FREQUENCY, projectionSelection.getFrequency().isEmpty() ? Constant.QUARTERLY : projectionSelection.getFrequency());
+            map.put(Constant.FREQUENCY, session.getDsFrequency());
             map.put(Constant.HISTORY, projectionSelection.getHistory());
             map.put(Constant.PROJECTION_PERIOD_ORDER_LABEL, projectionSelection.getProjectionOrder());
             map.put(Constant.ACTUALS_PROJECTIONS, projectionSelection.getActualsOrProjections());

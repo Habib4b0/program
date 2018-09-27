@@ -354,11 +354,11 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
             loadDetails();
             String rateBasis = StringUtils.EMPTY;
             if (!"".equals(selection.getRateBasis())) {
-                rateBasisDdlb.setValue(Integer.parseInt(selection.getRateBasis()));
+                rateBasisDdlb.setValue(Integer.valueOf(selection.getRateBasis()));
                 rateBasis = helperId.getDescriptionByID(Integer.parseInt(selection.getRateBasis()));
             }
             if (!"".equals(selection.getRateFrequency())) {
-                rateFrequencyDdlb.setValue(Integer.parseInt(selection.getRateFrequency()));
+                rateFrequencyDdlb.setValue(Integer.valueOf(selection.getRateFrequency()));
             }
             if (!StringUtils.EMPTY.equals(selection.getRateFrequency())) {
                 ratePeriodDdlb.setValue(selection.getRatePeriod());

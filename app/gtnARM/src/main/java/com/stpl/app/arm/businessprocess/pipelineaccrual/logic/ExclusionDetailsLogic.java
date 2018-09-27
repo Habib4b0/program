@@ -175,9 +175,9 @@ public class ExclusionDetailsLogic {
             if (saveViewDTO.isScreenFlag()) {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (CustomerGroupDTO dtoValue : saveViewDTO.getCustGrpList()) {
-                        sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(viewSid).append(ARMUtils.COMMA).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null + "," : dtoValue.getCompanyMasterSid() + ",").append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null + ARMUtils.COMMA : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA).append(dtoValue.isInclude() == true ? 1 : 0).append(",");
+                        sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(viewSid).append(ARMUtils.COMMA).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null + "," : dtoValue.getCompanyMasterSid() + ",").append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null + ARMUtils.COMMA : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA).append(dtoValue.isInclude() ? 1 : 0).append(',');
                         if (dtoValue.getIndicator() != null) {
-                            if (dtoValue.getIndicator() == true) {
+                            if (dtoValue.getIndicator()) {
                                 sbQuery.append(1);
                             } else {
                                 sbQuery.append(0);
@@ -388,7 +388,7 @@ public class ExclusionDetailsLogic {
                     }
 
                 } else if (exclFilter instanceof Between) {
-                    getBetweenFilter(exclFilter, detailsColumn, exclQuery);
+                    getBetweenFilter((Between) exclFilter, detailsColumn, exclQuery);
                 }
             }
         }
@@ -403,8 +403,8 @@ public class ExclusionDetailsLogic {
         return retValue;
     }
 
-    private void getBetweenFilter(Container.Filter exclFilter, HashMap<String, String> detailsColumn, StringBuilder exclQuery) {
-        Between betweenexclFilter = (Between) exclFilter;
+    private void getBetweenFilter(Between exclFilter, HashMap<String, String> detailsColumn, StringBuilder exclQuery) {
+        Between betweenexclFilter = exclFilter;
         StringBuilder dateStar = new StringBuilder("AND ( * >='?')");
         StringBuilder dateEnd = new StringBuilder("AND ( * <='?')");
         if (!detailsColumn.get(betweenexclFilter.getPropertyId().toString()).isEmpty()) {
@@ -450,7 +450,7 @@ public class ExclusionDetailsLogic {
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
                 Object[] array = (Object[]) userList.get(loop);
-                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
+                userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + array[1]);
             }
         } catch (Exception ex) {
             LOGGER.error("Error in getAllUsers :", ex);

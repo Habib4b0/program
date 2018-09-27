@@ -76,10 +76,10 @@ public class GtnFrameworkIfpSaveAction
 			if (systemId != null && systemId > 0) {
 				cfpBean.getIfpInfo().setIfpSid(systemId);
 			}
-                        String getMode =(String)GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-                        if ("Copy".equals(getMode)) {
-                            cfpBean.getIfpInfo().setIfpSid(null);
-                        }
+            String getMode =(String)GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+            if ("Copy".equals(getMode)) {
+                cfpBean.getIfpInfo().setIfpSid(null);
+            }
 			cfpRequest.setGtnIFamilyPlan(cfpBean);
 			request.setGtnWsIfpRequest(cfpRequest);
 			GtnUIFrameworkWebserviceResponse reponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
@@ -110,8 +110,10 @@ public class GtnFrameworkIfpSaveAction
 			component.setCaption("UPDATE");
 			component = GtnUIFrameworkGlobalUI.getVaadinComponent("ifpAddDeleteButton");
                         component.setVisible(true);
+                        if(reponse != null){
 			GtnUIFrameworkGlobalUI.addSessionProperty("ifpModelSid",
 					reponse.getGtnWsIfpReponse().getGtnIFamilyPlan().getIfpInfo().getIfpSid());
+                        }
 			final Notification notif = new Notification(
 					GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpInformationTabIFPName").getStringFromField()
 							+ " has been successfully saved",
@@ -120,7 +122,10 @@ public class GtnFrameworkIfpSaveAction
 			notif.setPosition(Position.TOP_CENTER);
 			notif.setStyleName(GtnFrameworkCssConstants.MY_STYLE);
 			notif.setDelayMsec(3000);
-			notif.show(Page.getCurrent());
+			if(Page.getCurrent() != null)
+			{
+				notif.show(Page.getCurrent());
+			}
                         
                          if ("Copy".equals(getMode)) {
                         Component deleteComponentId = GtnUIFrameworkGlobalUI.getVaadinComponent("ifpAddDeleteButton");

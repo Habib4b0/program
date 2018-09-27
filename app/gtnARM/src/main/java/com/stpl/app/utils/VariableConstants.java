@@ -423,7 +423,7 @@ public class VariableConstants {
 
     }
 
-    public static enum SalesVariables {
+    public enum SalesVariables {
 
         TOTAL_UNITS("Total Units"),
         TOTAL_SALES("Total Sales"),
@@ -453,7 +453,7 @@ public class VariableConstants {
 
     }
 
-    public static enum PipelineInventoryVariables {
+    public enum PipelineInventoryVariables {
 
         TOTAL_UNITS("Total Inventory"),
         TOTAL_SALES("Weeks On Hand"),
