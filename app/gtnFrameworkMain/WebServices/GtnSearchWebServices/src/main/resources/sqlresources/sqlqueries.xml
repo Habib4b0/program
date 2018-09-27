@@ -6,8 +6,6 @@
 	<entry key="privatePublic">
 		<![CDATA[
 		          SELECT FV.VIEW_ID,FV.VIEW_NAME,FV.VIEW_TYPE,FV.CREATED_BY,FV.CREATED_DATE,FV.MODIFIED_BY,FV.MODIFIED_DATE,FV.VIEW_DATA FROM FORECASTING_VIEWS FV
-		          WHERE  FV.VIEW_TYPE LIKE ?  AND FV.VIEW_NAME LIKE ? 
-                       
 		]]>
 	</entry>
 	<entry key="BusinessUnitGLcomp">
@@ -232,7 +230,7 @@ where
             ]]>
 
 	</entry>
-
+        
 	<entry key="CustomerGroup">
 			<![CDATA[
 					  
@@ -251,9 +249,7 @@ where
 		IGD.COMPANY_GROUP_SID = IG.COMPANY_GROUP_SID
 	INNER JOIN COMPANY_MASTER CM ON
 		IGD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
-	WHERE
-		IG.COMPANY_GROUP_NO LIKE ?
-		AND IG.COMPANY_GROUP_NAME LIKE ?
+	@Condition
 ),
 COUNT_CTE AS(
 	SELECT
@@ -451,6 +447,39 @@ ORDER BY IG.ITEM_GROUP_SID ASC
         <entry key="deleteValidation">
 		<![CDATA[
 			SELECT COUNT(*) FROM FORECASTING_VIEWS WHERE VIEW_ID = ? AND CREATED_BY = ?
+		]]>
+	</entry>
+        
+        
+        <entry key="privatePublicParameters">
+		<![CDATA[
+		         FV.VIEW_TYPE LIKE ? , AND FV.VIEW_NAME LIKE ?
+		]]>
+	</entry>
+        
+        <entry key="projectionSearchParams">
+
+            <![CDATA[            
+                      PM.projection_Name like ? ,  PM.projection_description like ? ,  PM.COMPANY_MASTER_SID like ? ,  PM.BUSINESS_UNIT like ? 
+                    ,  HDC.HIERARCHY_NAME like ? ,  HDP.HIERARCHY_NAME like ? ,  CG.COMPANY_GROUP_NAME like ? ,  IG.ITEM_GROUP_NAME like ? ,  P.PERIOD_SID >= ? 
+                    ,  PD.PERIOD_SID <= ? ,  PM.projection_Name like ? ,  PM.projection_description like ? ,  HDC.HIERARCHY_NAME like ? ,  PM.CUSTOMER_HIERARCHY_LEVEL like ? 
+                    ,  HDP.HIERARCHY_NAME like ? ,  PM.PRODUCT_HIERARCHY_LEVEL like ? ,  concat(U.firstName,+','+U.lastName) like ? ,  PM.CREATED_DATE like ? ,  PM.MODIFIED_DATE like ?
+                    ,  CM.COMPANY_NAME like ? ,  CM1.COMPANY_NAME like ?
+            ]]>
+
+	</entry>
+       
+        <entry key="custGrpSearchParams">
+
+            <![CDATA[            
+                   IG.COMPANY_GROUP_NO LIKE ? , IG.COMPANY_GROUP_NAME LIKE ?
+            ]]>
+
+	</entry>
+        
+         <entry key="CustomerGroupParameters">
+		<![CDATA[
+		          IG.COMPANY_GROUP_NAME LIKE ? , IG.COMPANY_GROUP_NO LIKE ?
 		]]>
 	</entry>
 
