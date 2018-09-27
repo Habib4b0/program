@@ -1648,6 +1648,51 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         leftTable.setColumnCheckBoxDisable(Constant.CHECKRECORD,
                 ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
 
+        resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
+        resultsTable.getLeftFreezeAsTable().setFilterGenerator(new ExtFilterGenerator() {
+
+            @Override
+            public Container.Filter generateFilter(Object propertyId, Object value) {
+                return null;
+            }
+
+            @Override
+            public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
+                return null;
+            }
+
+            @Override
+            public AbstractField<?> getCustomFilterComponent(Object propertyId) {
+                if (Constant.GROUP.equals(propertyId)) {
+                    ComboBox tableGroupFilter = new ComboBox();
+                    tableGroupFilter.addValueChangeListener(tableGroupFilterDdlbValueChange);
+                    tableGroupFilter.setContainerDataSource(tableGroupDdlbBean);
+                    tableGroupFilter.setNullSelectionAllowed(true);
+                    tableGroupFilter.setNullSelectionItemId(Constant.SHOW_ALL_GROUPS);
+                    tableGroupFilter.select(Constant.SHOW_ALL_GROUPS);
+                    tableGroupFilter.setWidth("100%");
+                    return tableGroupFilter;
+                }
+
+                return null;
+            }
+
+            @Override
+            public void filterRemoved(Object propertyId) {
+                return;
+            }
+
+            @Override
+            public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
+            }
+
+            @Override
+            public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
+                return null;
+            }
+        });
+
         addFieldFactoryAndListenersForLeftTable();
         for (Object obj : leftHeader.getSingleColumns()) {
             if (String.valueOf(obj).contains(Constant.GROUP)) {
