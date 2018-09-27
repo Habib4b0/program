@@ -79,7 +79,7 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
  * are from Property files in GALGTNProperties.'Res'is appended in each of the
  * fields to represent unique combination of property Id.
  *
- * @author 
+ * @author
  */
 public class AdjustmentReserveSearchForm extends CustomComponent {
 
@@ -232,7 +232,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
             @Override
             public Container.Filter generateFilter(Object reserveSearchpropertyId, Field<?> originatingField) {
                 String value = null;
-                if ((originatingField instanceof ComboBox) && ((originatingField instanceof ComboBox) && (originatingField.getValue() != null))) {
+                if ((originatingField instanceof ComboBox) && (originatingField.getValue() != null)) {
                     return new SimpleStringFilter(reserveSearchpropertyId, String.valueOf(originatingField.getValue()), false, false);
                 }
                 return generateFilter(reserveSearchpropertyId, value);
