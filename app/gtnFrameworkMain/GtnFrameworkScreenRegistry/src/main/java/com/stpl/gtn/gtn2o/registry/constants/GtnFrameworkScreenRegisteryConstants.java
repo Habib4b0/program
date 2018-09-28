@@ -46,4 +46,8 @@ public class GtnFrameworkScreenRegisteryConstants {
 	public static final String CREATED_BY = "createdBy";
 	public static final String CREATED_DATE = "createdDate";
 	public static final String MODIFIED_DATE = "modifiedDate";
+	public static final String SELECTONE = "-Select One-";
+	public static final String BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS = "buttonCustomStyleForLessSpaceBetweenButtons";
+	public static final String DO_NOT_ADD_BUTTON_CUSTOM_STYLE = "doNotAddButtonCustomStyle";
+	public static final String UNDERSCORE = "_";
 }

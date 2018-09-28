@@ -85,6 +85,7 @@ public class GtnUIFrameworkPagedTableConfig {
     private List<String> additionalSearchCriteriaListValues;
     private String pagedTableWsUrl;
     private String registeredWebContext;
+    private String gridHeaderCustomParameter;
     
     private boolean filteron = false;
 
@@ -694,5 +695,14 @@ public class GtnUIFrameworkPagedTableConfig {
 	public void setRegisteredWebContext(String registeredWebContext) {
 		this.registeredWebContext = registeredWebContext;
 	}
-    
+
+    public String getGridHeaderCustomParameter() {
+        return gridHeaderCustomParameter;
+    }
+
+    public void setGridHeaderCustomParameter(String gridHeaderCustomParameter) {
+        this.gridHeaderCustomParameter = gridHeaderCustomParameter;
+    }
+        
+        
 }

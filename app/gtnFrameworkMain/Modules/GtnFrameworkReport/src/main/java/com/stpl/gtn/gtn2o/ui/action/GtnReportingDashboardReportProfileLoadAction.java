@@ -112,13 +112,13 @@ public class GtnReportingDashboardReportProfileLoadAction
 
 			setPeriodRangeFromAndTo(reportProfileSaveLookupBean, actionParamList, viewId);
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(11).toString(), viewId)
-					.loadV8MultiSelectValue();
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(10).toString(), viewId)
 					.loadV8ComboBoxComponentValue(
 							Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabCustomerLevel())
 									.isPresent() ? reportProfileSaveLookupBean.getFilterOptionsTabCustomerLevel()
 											: "0");
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(11).toString(), viewId)
+					.loadV8MultiSelectValue();
 
 			GtnUIFrameworkActionExecutor.executeSingleAction(viewId,
 					getreportDashboardReportProfileFilterReloadAction(actionParamList.get(11).toString(), "C",
@@ -129,12 +129,13 @@ public class GtnReportingDashboardReportProfileLoadAction
 							? reportProfileSaveLookupBean.getFilterOptionsTabCustomerFilter()
 							: new ArrayList<>());
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(13).toString(), viewId)
-					.loadV8MultiSelectValue();
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(12).toString(), viewId)
 					.loadV8ComboBoxComponentValue(
 							Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabProductLevel())
 									.isPresent() ? reportProfileSaveLookupBean.getFilterOptionsTabProductLevel() : "0");
+
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(13).toString(), viewId)
+					.loadV8MultiSelectValue();
 
 			GtnUIFrameworkActionExecutor.executeSingleAction(viewId,
 					getreportDashboardReportProfileFilterReloadAction(actionParamList.get(13).toString(), "P",
@@ -145,13 +146,14 @@ public class GtnReportingDashboardReportProfileLoadAction
 							.isPresent() ? reportProfileSaveLookupBean.getFilterOptionsTabProductFilter()
 									: new ArrayList<>());
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString(), viewId)
-					.loadV8MultiSelectValue();
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(14).toString(), viewId)
 					.loadV8ComboBoxComponentValue(
 							Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabDeductionLevel())
 									.isPresent() ? reportProfileSaveLookupBean.getFilterOptionsTabDeductionLevel()
 											: "0");
+
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString(), viewId)
+					.loadV8MultiSelectValue();
 
 			GtnUIFrameworkActionExecutor.executeSingleAction(viewId,
 					getreportDashboardReportProfileFilterReloadAction(actionParamList.get(15).toString(), "D",
@@ -223,7 +225,10 @@ public class GtnReportingDashboardReportProfileLoadAction
 								.isPresent() ? reportProfileSaveLookupBean.getDisplaySelectionComparisonLookupBeanList()
 										: new ArrayList<>());
 
-		if (Optional.ofNullable(getDisplayValue(reportProfileSaveLookupBean)).isPresent()) {
+		if (getDisplayValue(reportProfileSaveLookupBean) == null) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(24).toString(), viewId)
+					.setV8PopupFieldValue(" ");
+		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(24).toString(), viewId)
 					.setV8PopupFieldValue(getDisplayValue(reportProfileSaveLookupBean));
 		}
@@ -240,25 +245,32 @@ public class GtnReportingDashboardReportProfileLoadAction
 										: new ArrayList<>());
 	}
 
-	private GtnUIFrameWorkActionConfig getreportDashboardReportProfileFilterReloadAction(String componentId, String indicator, String nameSpace) {
+	private GtnUIFrameWorkActionConfig getreportDashboardReportProfileFilterReloadAction(String componentId,
+			String indicator, String nameSpace) {
 		GtnUIFrameWorkActionConfig reportDashboardReportProfileReloadFilterAction = new GtnUIFrameWorkActionConfig();
 		reportDashboardReportProfileReloadFilterAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		reportDashboardReportProfileReloadFilterAction.addActionParameter(GtnReportFilterReloadAction.class.getName());
 		reportDashboardReportProfileReloadFilterAction.addActionParameter(componentId);
 		reportDashboardReportProfileReloadFilterAction.addActionParameter(indicator);
 
-		reportDashboardReportProfileReloadFilterAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_FILTER_TAB_CUSTOMER_LEVEL);
-		reportDashboardReportProfileReloadFilterAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_LEVEL);
-		reportDashboardReportProfileReloadFilterAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL);
-		reportDashboardReportProfileReloadFilterAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
-		reportDashboardReportProfileReloadFilterAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
-		reportDashboardReportProfileReloadFilterAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
+		reportDashboardReportProfileReloadFilterAction
+				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_FILTER_TAB_CUSTOMER_LEVEL);
+		reportDashboardReportProfileReloadFilterAction
+				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_LEVEL);
+		reportDashboardReportProfileReloadFilterAction
+				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL);
+		reportDashboardReportProfileReloadFilterAction
+				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
+		reportDashboardReportProfileReloadFilterAction
+				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
+		reportDashboardReportProfileReloadFilterAction
+				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
 
 		return reportDashboardReportProfileReloadFilterAction;
 	}
