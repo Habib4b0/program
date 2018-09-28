@@ -539,8 +539,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     pvSelectionDTO.setPeriodList(pivotList);
                 }
             }
-            if ("Variable".equals(pivotView.getValue().toString())) {
-                    if (!discountLevel.getValue().equals(StringConstantsUtil.TOTAL_DISCOUNT)) {
+                    if (("Variable".equals(pivotView.getValue().toString())) && (!discountLevel.getValue().equals(StringConstantsUtil.TOTAL_DISCOUNT))) {
                         resultsTable.getRightFreezeAsTable().setColumnCollapsingAllowed(true);
                         for (String object : pvSelectionDTO.getHeaderMap().keySet()) {
                             LOGGER.debug("Key= {} and Value= {}", object, pvSelectionDTO.getHeaderMap().get(object));
@@ -562,7 +561,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                             }
                         });
                     }
-            }
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage());
         }

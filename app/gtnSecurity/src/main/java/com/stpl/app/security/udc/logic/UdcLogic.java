@@ -232,7 +232,7 @@ public class UdcLogic {
                         + "' AND INBOUND_STATUS IN ('D') "
                         + " AND RECORD_LOCK_STATUS = '0'";
                 List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (!list.isEmpty() && list.size() > 0) {
+                if (!list.isEmpty()) {
                     for (Object object : list) {
                         Object[] row = (Object[]) object;
                         BrandMaster brand = dao.getBrandMaster(row[0] != null ? Integer.parseInt(String.valueOf(row[0])) : 0);
@@ -246,7 +246,7 @@ public class UdcLogic {
                 } else {
                     String saveQuery = " select BRAND_MASTER_SID, BRAND_ID,BRAND_NAME,DISPLAY_BRAND FROM BRAND_MASTER WHERE BRAND_ID='" + brandId +"' AND INBOUND_STATUS <> ('D')";
                     List savedList = (List) HelperTableLocalServiceUtil.executeSelectQuery(saveQuery);
-                    if (!savedList.isEmpty() && savedList.size() > 0) {
+                    if (!savedList.isEmpty()) {
                         NotificationUtils.getWarningNotification("Duplicate", "Brand ID is already exist");
                         return "";
                     } else {

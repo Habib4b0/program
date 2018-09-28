@@ -496,7 +496,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						sessionDto.setDedRelationshipBuilderSid(resultList[NumericConstants.TWENTY_FOUR] != null
 								? resultList[NumericConstants.TWENTY_FOUR].toString() : "0");
 					}
-					final String marketType = dataLogic.getHelperValue("" + projectionIdValue);
+					final String marketType = dataLogic.getHelperValue("" + Integer.toString(projectionIdValue));
 					sessionDto.setMarketTypeValue(marketType);
 					sessionDto.setProductLevelNumber(resultList[NumericConstants.FIVE] != null
 							? resultList[NumericConstants.FIVE].toString() : "0");
