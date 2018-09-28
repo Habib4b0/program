@@ -360,7 +360,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig company = new GtnUIFrameworkComponentConfig();
 		company.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		company.setComponentId(nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
-		company.setComponentName("Company");
+		company.setComponentName(GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
 		company.setAddToParent(true);
 		company.setParentComponentId(nameSpace + "_" + "companyLayout");
 		company.setCustomReference(GtnFrameworkScreenRegisteryConstants.INTEGER_ID);
@@ -487,45 +487,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionDescription.setAddToParent(true);
 		projectionDescription.setParentComponentId(nameSpace + "_" + "projectionDescriptionLayout");
 		componentList.add(projectionDescription);
-	}
-
-	private void addTimePeriod(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
-		GtnUIFrameworkLayoutConfig timePeriodOuterLayout = new GtnUIFrameworkLayoutConfig();
-		timePeriodOuterLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		GtnUIFrameworkComponentConfig timePeriodOuterLayoutConfig = new GtnUIFrameworkComponentConfig();
-		timePeriodOuterLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		timePeriodOuterLayoutConfig.setComponentId(nameSpace + "_" + "timePeriodOuterLayout");
-		timePeriodOuterLayoutConfig.setAddToParent(true);
-		timePeriodOuterLayoutConfig.setSpacing(true);
-		timePeriodOuterLayoutConfig.setParentComponentId(nameSpace + "_" + "fromToLayout");
-		timePeriodOuterLayoutConfig.setGtnLayoutConfig(timePeriodOuterLayout);
-		componentList.add(timePeriodOuterLayoutConfig);
-
-		GtnUIFrameworkComponentConfig timePeriodPanel = new GtnUIFrameworkComponentConfig();
-		timePeriodPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		timePeriodPanel.setComponentName("Time Period");
-		timePeriodPanel.setComponentId(nameSpace + "_" + "timePeriodPanel");
-		timePeriodPanel.setAddToParent(true);
-		timePeriodPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		timePeriodPanel.setSpacing(true);
-		timePeriodPanel.setParentComponentId(nameSpace + "_" + "timePeriodOuterLayout");
-		componentList.add(timePeriodPanel);
-
-		GtnUIFrameworkLayoutConfig timePeriodInnerLayout = new GtnUIFrameworkLayoutConfig();
-		timePeriodInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
-		GtnUIFrameworkComponentConfig timePeriodInnerLayoutConfig = new GtnUIFrameworkComponentConfig();
-		timePeriodInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		timePeriodInnerLayoutConfig.setComponentId(nameSpace + "_" + "timePeriodInnerLayout");
-		timePeriodInnerLayoutConfig.setSpacing(true);
-		timePeriodInnerLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		timePeriodInnerLayoutConfig.setAddToParent(true);
-		timePeriodInnerLayoutConfig.setGtnLayoutConfig(timePeriodInnerLayout);
-		timePeriodInnerLayoutConfig.setParentComponentId(nameSpace + "_" + "timePeriodPanel");
-		timePeriodInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
-		componentList.add(timePeriodInnerLayoutConfig);
-		addFromPeriod(componentList, timePeriodInnerLayoutConfig.getComponentId(), nameSpace);
-		addToPeriod(componentList, timePeriodInnerLayoutConfig.getComponentId(), nameSpace);
-
 	}
 
 	private void addFromPeriod(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
