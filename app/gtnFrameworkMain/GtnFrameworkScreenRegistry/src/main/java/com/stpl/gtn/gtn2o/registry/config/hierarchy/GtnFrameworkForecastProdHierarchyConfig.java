@@ -246,8 +246,8 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		loadCustomViewAction.addActionParameter(nameSpace + "_" + "customerRelationshipVersion");
 		loadCustomViewAction.addActionParameter("salesCustomView");
 		loadCustomViewAction.addActionParameter(nameSpace + "_" + "salesCustomView");
-		// salesCustomView.setReloadActionConfig(loadCustomViewAction);
-		// salesCustomView.setReloadLogicActionClassName(GtnFrameworkForecastCustomViewLoadAction.class.getName());
+		salesCustomView.setReloadActionConfig(loadCustomViewAction);
+		salesCustomView.setReloadLogicActionClassName(GtnFrameworkForecastCustomViewLoadAction.class.getName());
 		salesCustomView.setGtnComboboxConfig(salesCustomViewConfig);
 
 	}
@@ -277,8 +277,8 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		loadCustomViewAction.addActionParameter(nameSpace + "_" + "customerRelationshipVersion");
 		loadCustomViewAction.addActionParameter("deductionCustomView");
 		loadCustomViewAction.addActionParameter(nameSpace + "_" + "deductionCustomView");
-		// deductionCustomView.setReloadActionConfig(loadCustomViewAction);
-		// deductionCustomView.setReloadLogicActionClassName(GtnFrameworkForecastCustomViewLoadAction.class.getName());
+		deductionCustomView.setReloadActionConfig(loadCustomViewAction);
+		deductionCustomView.setReloadLogicActionClassName(GtnFrameworkForecastCustomViewLoadAction.class.getName());
 		deductionCustomView.setGtnComboboxConfig(salesCustomViewConfig);
 	}
 

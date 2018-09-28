@@ -23,38 +23,40 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
  *
  * @author Lokeshwari.Kumarasam
  */
-public class GtnModeOptionValueChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
-	 private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnModeOptionValueChangeAction.class);
+public class GtnModeOptionValueChangeAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnModeOptionValueChangeAction.class);
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
-        if(!actionParamList.get(2).toString().contains("DataSelection")){
-        setEnableAndDisableComponents(componentId, actionParamList);
-        }
-    }
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
+		if (!actionParamList.get(2).toString().contains("DataSelection")) {
+			setEnableAndDisableComponents(componentId, actionParamList);
+		}
+	}
 
 	private void setEnableAndDisableComponents(String componentId, List<Object> actionParamList) {
-		try{
-		GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(1)),componentId);
-        String modeValue = baseComponent.getV8StringFromField();
-        boolean add = "Add".equals(modeValue);
+		try {
+			GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(String.valueOf(actionParamList.get(1)), componentId);
+			String modeValue = baseComponent.getV8StringFromField();
+			boolean add = "Add".equals(modeValue);
 
-        valueChangeForFrom("Commercial Forecasting_from", add);
-        valueChangeForTo("Commercial Forecasting_to", add);
-       GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(2))).setEnable(add);
-       GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(3))).setEnable(!add);
-       GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4))).setEnable(!add);
-       GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(5))).setEnable(add);
-       GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(6))).setEnable(!add);
-       GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(7))).setEnable(!add);
-       GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(8))).setEnable(!add);
-       GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(9))).setEnable(!add);
-       GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(10))).setEnable(!add);
-       GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(11))).setEnable(!add);
-		}
-		catch(Exception ex){
-			logger.error("Error in",ex);
+			valueChangeForFrom("Commercial Forecasting_from", add);
+			valueChangeForTo("Commercial Forecasting_to", add);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(2))).setEnable(add);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(3))).setEnable(!add);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4))).setEnable(!add);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(5))).setEnable(add);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(6))).setEnable(!add);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(7))).setEnable(!add);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(8))).setEnable(!add);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(9))).setEnable(!add);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(10))).setEnable(!add);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(11))).setEnable(!add);
+		} catch (Exception ex) {
+			logger.error("Error in", ex);
 		}
 	}
 

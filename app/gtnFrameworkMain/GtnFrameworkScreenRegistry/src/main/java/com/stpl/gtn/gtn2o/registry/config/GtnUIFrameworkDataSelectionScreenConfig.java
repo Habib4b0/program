@@ -390,10 +390,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		frequency.setAddToParent(true);
 		frequency.setParentComponentId(nameSpace + "_" + "frequencyLayout");
 		frequency.setCustomReference(GtnFrameworkScreenRegisteryConstants.INTEGER_ID);
-
 		GtnUIFrameworkComboBoxConfig frequencyConfig = new GtnUIFrameworkComboBoxConfig();
 		frequencyConfig.setLoadingUrl(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL);
-
 		frequencyConfig.setHasDefaultValue(true);
 		frequencyConfig.setDefaultDesc("Quarterly");
 		frequencyConfig.setComboBoxType("frequency");
@@ -490,46 +488,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionDescription.setParentComponentId(nameSpace + "_" + "projectionDescriptionLayout");
 		componentList.add(projectionDescription);
 	}
-
-	private void addTimePeriod(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
-		GtnUIFrameworkLayoutConfig timePeriodOuterLayout = new GtnUIFrameworkLayoutConfig();
-		timePeriodOuterLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		GtnUIFrameworkComponentConfig timePeriodOuterLayoutConfig = new GtnUIFrameworkComponentConfig();
-		timePeriodOuterLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		timePeriodOuterLayoutConfig.setComponentId(nameSpace + "_" + "timePeriodOuterLayout");
-		timePeriodOuterLayoutConfig.setAddToParent(true);
-		timePeriodOuterLayoutConfig.setSpacing(true);
-		timePeriodOuterLayoutConfig.setParentComponentId(nameSpace + "_" + "fromToLayout");
-		timePeriodOuterLayoutConfig.setGtnLayoutConfig(timePeriodOuterLayout);
-		componentList.add(timePeriodOuterLayoutConfig);
-
-		GtnUIFrameworkComponentConfig timePeriodPanel = new GtnUIFrameworkComponentConfig();
-		timePeriodPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		timePeriodPanel.setComponentName("Time Period");
-		timePeriodPanel.setComponentId(nameSpace + "_" + "timePeriodPanel");
-		timePeriodPanel.setAddToParent(true);
-		timePeriodPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		timePeriodPanel.setSpacing(true);
-		timePeriodPanel.setParentComponentId(nameSpace + "_" + "timePeriodOuterLayout");
-		componentList.add(timePeriodPanel);
-
-		GtnUIFrameworkLayoutConfig timePeriodInnerLayout = new GtnUIFrameworkLayoutConfig();
-		timePeriodInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
-		GtnUIFrameworkComponentConfig timePeriodInnerLayoutConfig = new GtnUIFrameworkComponentConfig();
-		timePeriodInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		timePeriodInnerLayoutConfig.setComponentId(nameSpace + "_" + "timePeriodInnerLayout");
-		timePeriodInnerLayoutConfig.setSpacing(true);
-		timePeriodInnerLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		timePeriodInnerLayoutConfig.setAddToParent(true);
-		timePeriodInnerLayoutConfig.setGtnLayoutConfig(timePeriodInnerLayout);
-		timePeriodInnerLayoutConfig.setParentComponentId(nameSpace + "_" + "timePeriodPanel");
-		timePeriodInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
-		componentList.add(timePeriodInnerLayoutConfig);
-		addFromPeriod(componentList, timePeriodInnerLayoutConfig.getComponentId(), nameSpace);
-		addToPeriod(componentList, timePeriodInnerLayoutConfig.getComponentId(), nameSpace);
-
-	}
-
 
 	private void addFromPeriod(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
@@ -688,7 +646,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		newArchGenerateAction.addActionParameter(nameSpace + "_customerRelationshipVersion");
 		newArchGenerateAction.addActionParameter(nameSpace + "_productRelationshipVersion");
 		actionList.add(newArchGenerateAction);
-		actionList.add(newArchGenerateAction);
 
 		GtnUIFrameWorkActionConfig generateAction = new GtnUIFrameWorkActionConfig();
 		generateAction.addActionParameter(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName());
@@ -727,7 +684,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_DEDUCTIONLEVEL);
 		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_FREQUENCY);
 
-
 		generateBtn.addGtnUIFrameWorkActionConfig(generateAction);
 	}
 
@@ -749,7 +705,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		loadDataSearchTableActionConfig.setFieldValues(Arrays.asList(
 				new String[] { nameSpace + "_" + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_NAME,
 						nameSpace + "_" + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION,
-
 						nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
 						nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
 						nameSpace + "_customerHierarchy", nameSpace + "_" + "prodhierarchyName",
@@ -831,19 +786,21 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION,
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "from",
-
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "to", nameSpace + "_customerHierarchy",
 				nameSpace + "_customerSelectionRelationship", nameSpace + "_customerSelectionForecastLevel",
 
 				nameSpace + "_customerSelectionLevel", nameSpace + "_customerRelationshipVersion",
-				nameSpace + "_customerSelectionForecastEligibilityDate", "Commercial Forecasting_customerDualListBox",
-				"Commercial Forecasting_prodhierarchyName", "Commercial Forecasting_prodrelationship",
+				nameSpace + "_customerSelectionForecastEligibilityDate", nameSpace + "_customerDualListBox",
+				nameSpace + "_prodhierarchyName", nameSpace + "_prodrelationship",
 
-				nameSpace + "_productRelationshipVersion", "Commercial Forecasting_prodforecastLevel",
+				nameSpace + "_productRelationshipVersion", nameSpace + "_prodforecastLevel",
+				GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL,
 
-				"Commercial Forecasting_productLevel", "Commercial Forecasting_productDualListBox",
-				"Commercial Forecasting_frequency", "Commercial Forecasting_productGroup",
-				"Commercial Forecasting_customerGroup"));
+				GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL,
+				GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX,
+				GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_FREQUENCY,
+				GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP,
+				GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP));
 
 		GtnUIFrameWorkActionConfig saveViewDataSelectionAlertActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
@@ -868,7 +825,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION,
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "from",
-
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "to", nameSpace + "_customerHierarchy",
 				nameSpace + "_customerSelectionRelationship", nameSpace + "_customerSelectionForecastLevel",
 
@@ -910,7 +866,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteViewAction.addActionParameter(GtnFrameworkDeleteViewAction.class.getName());
 		deleteViewAction.addActionParameter(nameSpace + "_" + "privateViewLookup");
 		deleteViewAction.addActionParameter(nameSpace + "_" + GtnFrameworkForecastingStringConstants.PUBLIC_VIEW);
-
 		deleteViewAction.addActionParameter(nameSpace);
 		onSuccessDeleteActionConfigList.add(deleteViewAction);
 
@@ -1103,7 +1058,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		forecastViewAction
 				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_DEDUCTIONLEVEL);
 		forecastViewAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_FREQUENCY);
-
 		viewBtn.addGtnUIFrameWorkActionConfig(forecastViewAction);
 	}
 
