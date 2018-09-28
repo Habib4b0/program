@@ -10,6 +10,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDT
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.ARMCheckUtils;
+import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.vaadin.ui.Component;
 
@@ -38,6 +39,7 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
 
     @Override
     protected void valueChangeLogic(AdjustmentDTO dto, Object val, Object propertyId, Component uiContext) {
+        ThreadPool service = ThreadPool.getInstance();
         ExtCustomTable table = (ExtCustomTable) uiContext;
         int singleVisibleColumn = ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())
                 ? 0 : Integer.parseInt(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
@@ -62,7 +64,7 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
             }
             String period = getPeriod(doubleVisibleHeader);
             List input = getParameterList(dto, isEmptied, value, period);
-            service.submit(new SummaryUpdateOverride(input));
+            service.submitRunnable(new SummaryUpdateOverride(input));
         }
     }
 
