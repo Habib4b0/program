@@ -16,6 +16,11 @@ import com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/GtnWsPeriodConfTest.xml" })
 public class GtnWsPeriodConfSqlServiceTest {
+	
+	public GtnWsPeriodConfSqlServiceTest()
+	{
+		//nothing is here
+	}
 
 	@Rule
 	public final ExpectedException thrown = ExpectedException.none();
