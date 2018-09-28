@@ -50,8 +50,7 @@ public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImpl
 		GtnCommonWebServiceImplClass gtnCommonWebServiceImplClass = new GtnValidateWsServiceRegistryService();
 		GtnQueryEngineWebServiceResponse response = gtnCommonWebServiceImplClass
 				.callQueryEngineWithoutSecurityToken("/executeQuery", queryEngineWebServiceRequest);
-		List<Object[]> resultList = response.getQueryResponseBean().getResultList();
-		return resultList;
+      return response.getQueryResponseBean().getResultList();
 	}
 
 	private boolean isRegisteredWs(GtnWsServiceRegistryBean serviceRegistryBean, List<Object[]> resultList) {

@@ -5,6 +5,15 @@
  */
 package com.stpl.gtn.gtn2o.ws.search.implementation;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
@@ -19,17 +28,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
-import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
-import java.io.IOException;
-import java.util.ArrayList;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -120,7 +120,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         return count;
     }
 
-    private List<Object[]> method(List<Object[]> resultList) throws IOException {
+    private List<Object[]> method(List<Object[]> resultList) throws  JsonMappingException,IOException {
         List<Object[]> list = new ArrayList<>();
         GtnFrameworkForecastDataSelectionBean bean;
         Object[] ob = new Object[18];
@@ -152,7 +152,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
     }
 
     private GtnFrameworkForecastDataSelectionBean convertJsonToObject(Class<GtnFrameworkForecastDataSelectionBean> dataSelectionBean,
-            String viewData) throws JsonParseException, JsonMappingException, IOException {
+            String viewData) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(viewData, dataSelectionBean);
