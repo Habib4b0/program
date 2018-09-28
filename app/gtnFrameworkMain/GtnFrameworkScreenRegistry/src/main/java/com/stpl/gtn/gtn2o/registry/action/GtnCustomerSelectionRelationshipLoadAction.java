@@ -29,7 +29,7 @@ public class GtnCustomerSelectionRelationshipLoadAction
 			List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
 
 			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent((String) params.get(1)).getComponentData().getCustomData();
+					.getVaadinBaseComponent((String) params.get(1), componentId).getComponentData().getCustomData();
 			if (recordBean != null) {
 				Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean
 						.getPropertyValueByIndex(recordBean.getProperties().size() - 1);

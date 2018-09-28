@@ -32,7 +32,7 @@ public class GtnModeOptionValueChangeAction
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(1)));
+				.getVaadinBaseComponent(String.valueOf(actionParamList.get(1)), componentId);
 		String modeValue = baseComponent.getV8StringFromField();
 		boolean add = "Add".equals(modeValue);
 		valueChangeForFrom("Commercial Forecasting_from", add);
