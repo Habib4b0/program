@@ -24,7 +24,7 @@ public class GtnFrameworkScreenRegisteryConstants {
         public static final String PRODUCT_HIERARCHY_ADD_PROD_SEL_LAYOUT_CSS="productSelectionCssLayout";
         public static final String PRODUCT_HIERARCHY_ADD_RELATIONSHIP="CompanyMasterGLcomp";
         public static final String PRODUCT_HIERARCHY_ADD_CUST_SEL_INNER_LAYOUT="productSelectionInnerLayout";
-        public static final String FORECAST_CUST_HIER_LOOKUP_CONTROL_POP="forecastLandingScreen_customerHierarchy"; 
+        public static final String FORECAST_CUST_HIER_LOOKUP_CONTROL_POP="_customerHierarchy"; 
         public static final String FORECAST_PROD_HIER_LOOKUP_SEARCH_CRI_LAY="forecastProductHierarchyLookupSearchCriteriaLayout";
         public static final String HIERARCHY_NAME="hierachyName";
         public static final String HIGHEST_LEVEL="highestLevel";
@@ -32,7 +32,8 @@ public class GtnFrameworkScreenRegisteryConstants {
     	public static final String GTN_VALIDATION_MSG_RESET = "Are you sure you want to reset the page to default/previous values?";
     	public static final String DEDUCTION_LEVEL_ID="deduction_level";
     	public static final String DEDUCTION_LEVEL_NAME="Deduction Level";
-    	public static final String INTEGER_ID="integerId";
+    	public static final String LANDING_SCREN_NAMESPACE = "Commercial Forecasting";
+        public static final String INTEGER_ID="integerId";
     	public static final String SERVICE_REGISTRY="serviceRegistry";
     	public static final String SEARCH_RESULTS_URL="/gtnSearch";
     	public static final String SERVICE_REGISTRY_URL="/gtnServiceRegistry/serviceRegistryUIControllerMappingWs";

@@ -13,7 +13,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkFromAndToLoadBean;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
@@ -21,9 +20,8 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class GtnLandingScreenFromAndToPeriodLoadAction
-        implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnLandingScreenFromAndToPeriodLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -74,16 +72,27 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 		List<Integer> toPeriodItemCodeList = new ArrayList<>(fromPeriodItemCodeList);
 		
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
-				.loadItemsToCombobox(fromPeriodItemValueList, fromPeriodItemCodeList);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
-				.addAllItemsToComboBox(toPeriodItemValueList, toPeriodItemCodeList);
+		if (actionParamList.get(4).toString().contains("DataSelection")) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString(), componentId)
+					.loadItemsToCombobox(fromPeriodItemValueList, fromPeriodItemCodeList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString(), componentId)
+					.addAllItemsToComboBox(toPeriodItemValueList, toPeriodItemCodeList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString(),componentId)
+					.loadV8ComboBoxComponentValue(fromPeriodItemCodeList.get(0));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString(),componentId)
+					.loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(toPeriodItemCodeList.size() - 1));
+		} else {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
+					.loadItemsToCombobox(fromPeriodItemValueList, fromPeriodItemCodeList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
+					.addAllItemsToComboBox(toPeriodItemValueList, toPeriodItemCodeList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
+					.loadV8ComboBoxComponentValue(fromPeriodItemCodeList.get(0));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
+					.loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(toPeriodItemCodeList.size() - 1));
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
-				.loadV8ComboBoxComponentValue(fromPeriodItemCodeList.get(0));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
-				.loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(fromPeriodItemValueList.size()-1));
-
+		}
+	
 		GtnFrameworkFromAndToLoadBean bean =    GtnFrameworkFromAndToLoadBean.getInstance(); 
 		bean.setFromPeriodItemCodeList(fromPeriodItemCodeList);
 		bean.setFromPeriodItemValueList(fromPeriodItemValueList);

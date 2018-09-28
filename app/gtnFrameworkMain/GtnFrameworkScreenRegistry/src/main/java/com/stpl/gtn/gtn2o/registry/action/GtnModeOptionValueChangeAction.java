@@ -30,9 +30,17 @@ public class GtnModeOptionValueChangeAction implements GtnUIFrameWorkAction, Gtn
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
         List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
-        GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(1)));
+        if(!actionParamList.get(2).toString().contains("DataSelection")){
+        setEnableAndDisableComponents(componentId, actionParamList);
+        }
+    }
+
+	private void setEnableAndDisableComponents(String componentId, List<Object> actionParamList) {
+		try{
+		GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(1)),componentId);
         String modeValue = baseComponent.getV8StringFromField();
         boolean add = "Add".equals(modeValue);
+
         valueChangeForFrom("Commercial Forecasting_from", add);
         valueChangeForTo("Commercial Forecasting_to", add);
        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(2))).setEnable(add);
@@ -45,6 +53,10 @@ public class GtnModeOptionValueChangeAction implements GtnUIFrameWorkAction, Gtn
        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(9))).setEnable(!add);
        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(10))).setEnable(!add);
        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(11))).setEnable(!add);
+		}
+		catch(Exception ex){
+			logger.error("Error in",ex);
+		}
     }
 
     private void valueChangeForTo(String string, boolean add) throws GtnFrameworkValidationFailedException {

@@ -323,32 +323,32 @@ public class CustomExcelNM extends ExcelExport {
     public String getAppendedFormula(String[] value) {
         boolean isappend = true;
         List<String> str = new ArrayList<>();
-        String s = "";
+        String strExcel = "";
         for (int i = 0; i < value.length; i++) {
-            s = s + "," + value[i];
+             strExcel = strExcel.concat(",").concat(value[i]);
             if ((i + 1) % 30 == 0 && i != 0) {
-                str.add(s);
-                s="";
+                str.add(strExcel);
+                strExcel="";
             }
         }
-        if(!s.equals("")){
-        str.add(s);
+        if(!strExcel.equals("")){
+        str.add(strExcel);
         }
-        String formula ="";
+        String formulaExcel ="";
          for (int j = 0; j < str.size(); j++) {
              
              String string = str.get(j);
              string = string.replaceFirst(",", "");
              
-             if(isappend){
-                 formula = "SUM("+string+")";
-             }else{
-                 formula += "+SUM("+string+")";
-             }
+             if (isappend) {
+                  formulaExcel = "SUM(".concat(string).concat(")");
+              } else {
+                  formulaExcel += "SUM(".concat(string).concat(")");
+              } 
              isappend= false;
              
          }
-         return formula;
+         return formulaExcel;
     }
 
 }

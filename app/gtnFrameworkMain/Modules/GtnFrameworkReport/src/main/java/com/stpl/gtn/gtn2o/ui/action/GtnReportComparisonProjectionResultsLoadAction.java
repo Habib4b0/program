@@ -97,7 +97,7 @@ public class GtnReportComparisonProjectionResultsLoadAction
 				recordBeanList.add(recordBean);
 			}
 		});
-
+		grid.clearSortOrder();
 		grid.setItems(recordBeanList);
 	}
 
