@@ -31,10 +31,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
-/**
- * @author Spandan.Majumder
- * @version $Revision: 1.0 $
- */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
 public class GtnWsIfpAddServiceTest {

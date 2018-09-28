@@ -33,14 +33,6 @@ import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanInformationBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 
-/**
- * The class <code>GtnWsIfpSaveServiceTest</code> contains tests for the class
- * <code>{@link GtnWsIfpSaveService}</code>.
- *
- * 
- * @author Spandan.Majumder
- * @version $Revision: 1.0 $
- */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })

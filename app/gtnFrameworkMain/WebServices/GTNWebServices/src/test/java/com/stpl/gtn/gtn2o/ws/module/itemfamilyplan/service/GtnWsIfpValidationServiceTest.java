@@ -29,14 +29,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
-/**
- * The class <code>GtnWsIfpValidationServiceTest</code> contains tests for the
- * class <code>{@link GtnWsIfpValidationService}</code>.
- *
- * 
- * @author KARTHIK.RAJA
- * @version $Revision: 1.0 $
- */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
