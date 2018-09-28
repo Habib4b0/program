@@ -84,18 +84,14 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
     }
 
     public DataResult<T> customizier(List<String> rdVaribales, List<Object[]> rdResultList) {
-        RD_LOGIC_LOGGER.debug("--Inside customizier --{}", (rdVaribales.size() + "--resultList--" + rdResultList.size()));
         List customizedList = new ArrayList();
         AdjustmentDTO obj;
-        int variableSize = rdVaribales.size();
+        int variableSize = rdVaribales == null ? 0 : rdVaribales.size();
         try {
             if (rdResultList == null) {
                 throw new NullPointerException("The given input resultList is null");
             }
-            if (rdVaribales == null) {
-                throw new NullPointerException("The given input varibales List is null");
-            }
-            if (!rdResultList.isEmpty()) {
+            if (rdVaribales != null && !rdResultList.isEmpty()) {
                 if (rdVaribales.size() != rdResultList.get(0).length) {
                     throw new IllegalArgumentException(rdVaribales.size() + "The given parameters and variables size doesn't match : variables = "
                             + rdVaribales.size() + "and resultList  = " + rdResultList.get(0).length);

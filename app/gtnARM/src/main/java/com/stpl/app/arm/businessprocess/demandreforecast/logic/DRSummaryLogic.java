@@ -208,8 +208,10 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 }
             }
             lastBrand = brand;
-            reforecastDto.setUserId(reforecastSelection.getSessionDTO().getUserId());
-            reforecastDto.setSessionId(reforecastSelection.getSessionDTO().getSessionId());
+            if (reforecastDto != null) {
+                reforecastDto.setUserId(reforecastSelection.getSessionDTO().getUserId());
+                reforecastDto.setSessionId(reforecastSelection.getSessionDTO().getSessionId());
+            }
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(resultList);

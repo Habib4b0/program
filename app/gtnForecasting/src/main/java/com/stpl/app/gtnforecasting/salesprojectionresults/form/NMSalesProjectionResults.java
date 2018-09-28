@@ -137,17 +137,17 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAXSPLIT_POSITION_NM = 1000;
 
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float MINSPLIT_POSITION_NM = 200;
 
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION_NM = 300;
     /**
      * The table control Layout.
      */
@@ -961,9 +961,9 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         resultsTable.markAsDirty();
         resultsTable.setSelectable(false);
         resultsTable.setPageLength(NumericConstants.NINETEEN);
-        resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        resultsTable.setSplitPosition(SPLIT_POSITION_NM, Sizeable.Unit.PIXELS);
+        resultsTable.setMinSplitPosition(MINSPLIT_POSITION_NM, Sizeable.Unit.PIXELS);
+        resultsTable.setMaxSplitPosition(MAXSPLIT_POSITION_NM, Sizeable.Unit.PIXELS);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
     }
 

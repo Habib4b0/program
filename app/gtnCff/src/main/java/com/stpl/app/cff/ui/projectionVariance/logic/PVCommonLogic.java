@@ -164,7 +164,7 @@ public class PVCommonLogic {
         String currValue = StringUtils.EMPTY;
         for (Object[] row : rows) {
             int projectionId = Integer.parseInt(String.valueOf(row[0]));
-            boolean isActual = Integer.parseInt(String.valueOf(row[row.length - 1])) == 0;
+            boolean isActual = String.valueOf(row[row.length - 1]).equals(ZERO);
             if (projectionId == currentProjectionId) {
                 if (isActual) {
                     actValue = getDoubleValue(row[index]);
@@ -223,10 +223,11 @@ public class PVCommonLogic {
     }
 
     public static String isNull(String value) {
-        if (value.contains(NULL.getConstant()) || value.isEmpty() ){
-            value = ZERO;
+        String valueCommon = value;
+        if (valueCommon.contains(NULL.getConstant()) || valueCommon.isEmpty() ){
+            valueCommon = ZERO;
         }
-        return value;
+        return valueCommon;
     }
     public static String getDoubleValue(Object value) {
         String result=String.valueOf(value);

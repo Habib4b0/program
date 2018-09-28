@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 
@@ -476,7 +477,7 @@ public class ARMUtils {
         return dbVariableColumnMap;
     }
 
-    public static enum ADJUSTMENT_RESERVE_CONSTANTS {
+    public enum ADJUSTMENT_RESERVE_CONSTANTS {
 
         CHECK_RECORD(CommonConstant.CHECK_RECORD),
         ADJUSTMENT_TYPE(CommonConstant.ADJUSTMENT_TYPE_VISIBLE_COLUMN),
@@ -641,7 +642,7 @@ public class ARMUtils {
         }
     }
 
-    public static enum SalesVariables {
+    public enum SalesVariables {
 
         TOTAL_UNITS("Total Units"),
         TOTAL_SALES("Total Sales"),
@@ -674,7 +675,7 @@ public class ARMUtils {
 
     }
 
-    public static enum ADJUSTMENT_CONFIG_CONSTANTS {
+    public enum ADJUSTMENT_CONFIG_CONSTANTS {
 
         TRANSACTION_NAME("transactionName", "TRANSACTION_NAME"),
         TRANSACTION_DESC("transactionDesc", "TRANSACTION_DESC"),
@@ -1002,7 +1003,7 @@ public class ARMUtils {
     public static final char SINGLE_QUOTES = '\'';
     public static final char EMPTY_CHARACTER = '\0';
 
-    public static enum frequencyVarables {
+    public enum frequencyVarables {
 
         MONTHLY("Monthly"),
         QUARTERLY("Quarterly"),
@@ -1021,7 +1022,7 @@ public class ARMUtils {
 
     }
 
-    public static enum levelVariablesVarables {
+    public enum levelVariablesVarables {
 
         CUSTOMER(CommonConstant.CUSTOMER),
         CONTRACT(CommonConstant.CONTRACT),
@@ -1446,7 +1447,7 @@ public class ARMUtils {
         return returnsLevelFilterName.get(value);
     }
 
-    public static TreeMap<String, Integer> getMasterIdsMap() {
+    public static SortedMap<String, Integer> getMasterIdsMap() {
         MASTERSIDS.put(levelVariablesVarables.DEDUCTION.toString(), null);
         MASTERSIDS.put(levelVariablesVarables.CONTRACT.toString(), null);
         MASTERSIDS.put(levelVariablesVarables.CUSTOMER.toString(), null);
@@ -1455,7 +1456,7 @@ public class ARMUtils {
         return MASTERSIDS;
     }
 
-    public static TreeMap<String, Integer> getMasterIdsMapForTrx6() {
+    public static SortedMap<String, Integer> getMasterIdsMapForTrx6() {
         MASTERSIDSFORTRX6.put(levelVariablesVarables.CUSTOMER.toString(), null);
         MASTERSIDSFORTRX6.put(levelVariablesVarables.BRAND.toString(), null);
         MASTERSIDSFORTRX6.put(levelVariablesVarables.ITEM.toString(), null);
@@ -1581,7 +1582,7 @@ public class ARMUtils {
         return DEDUCTION_LEVEL_MAP;
     }
 
-    public static enum Trx6_Variables {
+    public enum Trx6_Variables {
 
         TOTAL_INVENTORY("Total Inventory", "TotalInventory"),
         BASELINE_PRICE(CommonConstant.BASELINE_PRICE_HEADER, "BaselinePrice"),
@@ -1621,7 +1622,7 @@ public class ARMUtils {
 
     private static final String[] VARIABLE_VISIBLE_COLUMN_TRX6 = new String[]{CommonConstant.CURRENT_BALANCE, CommonConstant.CALCULATED_ADJUSTMENT, CommonConstant.ADJUSTMENT_RATIO, CommonConstant.VARIANCE};
 
-    public static enum Trx6_Inventory_Variables {
+    public enum Trx6_Inventory_Variables {
 
         CURRENT_BALANCE(CommonConstant.CURRENT_BALANCE, "Current Balance "),
         CALCULATED_ADJUSTMENT(CommonConstant.CALCULATED_ADJUSTMENT, "Calculated Adjustment"),
@@ -2915,7 +2916,7 @@ public class ARMUtils {
     public static final String YYYY_M_MDD_H_HMMSS_S = "yyyy-MM-dd HH:mm:ss.S";
     public static final String DOUBLE_HIPHEN = "--";
 
-    public static Map<String, String> getAdjustmentSummaryVisibleToDBColumnMapForFilter() {
+    public static synchronized Map<String, String> getAdjustmentSummaryVisibleToDBColumnMapForFilter() {
         if (adjustmentSummaryVisibleToDBColumnMapForFilter == null) {
             adjustmentSummaryVisibleToDBColumnMapForFilter = new HashMap<>();
             adjustmentSummaryVisibleToDBColumnMapForFilter.put(ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), CommonConstant.CHECK_RECORD_VALUE);
@@ -2936,7 +2937,7 @@ public class ARMUtils {
         return adjustmentSummaryVisibleToDBColumnMapForFilter;
     }
 
-    public static Map<String, String> getDescriptionForFilter() {
+    public static synchronized Map<String, String> getDescriptionForFilter() {
         if (descriptionForFilter == null) {
             descriptionForFilter = new HashMap<>();
             descriptionForFilter.put(ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.getConstant(), "ADJUSTMENT_LEVEL");
@@ -2955,7 +2956,7 @@ public class ARMUtils {
         return descriptionForFilter;
     }
 
-    public static Map<String, String> getTextFieldDescription() {
+    public static synchronized Map<String, String> getTextFieldDescription() {
         if (textFieldDescription == null) {
             textFieldDescription = new HashMap<>();
             textFieldDescription.put(ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT.getConstant(), ACCOUNT);

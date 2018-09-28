@@ -105,6 +105,10 @@ public class DataSelection extends AbstractDataSelection {
         super();
         this.sessionDTO = sessionDTO;
         this.screenName = screenName;
+        dsInit();
+    }
+
+    private void dsInit() {
         securityForAllScreens();
         configureFields();
     }
@@ -2360,6 +2364,7 @@ public class DataSelection extends AbstractDataSelection {
                         HelperDTO hlpd = (HelperDTO) adjItem;
                         if (dto.getAdjustmentId() == hlpd.getId()) {
                             adjItemToAdd = adjItem;
+                            break;
                         }
                     }
                 }

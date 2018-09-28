@@ -50,9 +50,7 @@ public class GtnFrameworkIfpDeleteAction implements GtnUIFrameWorkAction, GtnUIF
 		ifpRequst.setGtnIFamilyPlan(bean);
 		gtnRequest.setGtnWsIfpRequest(ifpRequst);
 
-		GtnUIFrameworkWebserviceResponse reponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE + GtnWsIFamilyPlanContants.GTN_WS_IFP_DELETE_SERVICE,
-				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse reponse = getResponse(gtnRequest);
 		if (!reponse.getGtnWsGeneralResponse().isSucess()) {
 			Object msg = GtnFrameworkIfpStringContants.GTN_IFP_VALIDATION_MSG_DELETE;
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
@@ -72,6 +70,16 @@ public class GtnFrameworkIfpDeleteAction implements GtnUIFrameWorkAction, GtnUIF
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationAction);
 		}
 
+	}
+
+	/**
+	 * @param gtnRequest
+	 * @return
+	 */
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest gtnRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE + GtnWsIFamilyPlanContants.GTN_WS_IFP_DELETE_SERVICE,
+				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

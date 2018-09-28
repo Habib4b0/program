@@ -154,17 +154,17 @@ public class MedicaidUraWorkSheet extends Window {
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAXSPLIT_POSITION_URA_WORKSHEET = 1000;
 
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float MINSPLIT_POSITION_URA_WORKSHEET = 200;
 
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION_URA_WORKSHEET = 300;
     public static final String ADJUSTMENT_CPI = "Adjustment CPI";
     public static final String CPIU_LABEL = "CPI-U";
     /**
@@ -184,7 +184,7 @@ public class MedicaidUraWorkSheet extends Window {
     private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
     private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
     private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    private  final String MODE = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private  final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     private Property.ValueChangeListener valueChangeListener = null;
     private Property.ValueChangeListener valueChangeListenerTA = null;
     private boolean valueChange = false;
@@ -329,7 +329,7 @@ public class MedicaidUraWorkSheet extends Window {
                 }
             }
         });
-        if (Constant.VIEW.equalsIgnoreCase(MODE)) {
+        if (Constant.VIEW.equalsIgnoreCase(mode)) {
             disableFieldsOnView();
         }
         final StplSecurity stplSecurity = new StplSecurity();
@@ -456,7 +456,7 @@ public class MedicaidUraWorkSheet extends Window {
      */
     @UiHandler("close")
     public void close(Button.ClickEvent event) {
-        if (!Constant.VIEW.equalsIgnoreCase(MODE)) {
+        if (!Constant.VIEW.equalsIgnoreCase(mode)) {
             if (submitFlag) {
                 new AbstractNotificationUtils() {
                     @Override
@@ -503,9 +503,9 @@ public class MedicaidUraWorkSheet extends Window {
     private void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        periodTableId.setSplitPosition(SPLIT_POSITION_URA_WORKSHEET, Sizeable.Unit.PIXELS);
+        periodTableId.setMinSplitPosition(MINSPLIT_POSITION_URA_WORKSHEET, Sizeable.Unit.PIXELS);
+        periodTableId.setMaxSplitPosition(MAXSPLIT_POSITION_URA_WORKSHEET, Sizeable.Unit.PIXELS);
         periodTableId.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         periodTableId.addStyleName("table-header-center");
     }
@@ -717,7 +717,7 @@ public class MedicaidUraWorkSheet extends Window {
                             }
 
                         });
-                        if (Constant.VIEW.equalsIgnoreCase(MODE)) {
+                        if (Constant.VIEW.equalsIgnoreCase(mode)) {
                             notesField.setEnable(false);
                         }
 
@@ -868,7 +868,7 @@ public class MedicaidUraWorkSheet extends Window {
 
                         });
                         notesField.addToolTip(description);
-                        if (Constant.VIEW.equalsIgnoreCase(MODE)) {
+                        if (Constant.VIEW.equalsIgnoreCase(mode)) {
                             notesField.setEnable(false);
                         }
                                 if (projectionDTO.getNewFormulation() != null && !projectionDTO.getNewFormulation().isEmpty() && !"null".equals(projectionDTO.getNewFormulation())) {

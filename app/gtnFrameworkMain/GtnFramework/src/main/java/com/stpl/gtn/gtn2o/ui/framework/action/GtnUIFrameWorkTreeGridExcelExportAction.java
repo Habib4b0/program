@@ -287,7 +287,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 			for (int j = 0; j < propertyIds.size(); j++) {
 				String propertyId = String.valueOf(propertyIds.get(j));
 				Object value = resultDTO.getPropertyValue(propertyId);
-				putValueInCell(row, value, j, defaultDataCellStyle);
+				putValueInCell(row,value,j,defaultDataCellStyle);
 			}
 			row.setHeight((short) 400);
 		}
