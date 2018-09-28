@@ -395,19 +395,6 @@ public class GtnFrameworkSalesProjectionTabConfig {
 
 	}
 
-	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>(
-				propertyIds.length);
-		for (int i = 0; i < propertyIds.length; i++) {
-			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
-			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
-			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
-
-		}
-		return customFilterConfigMap;
-	}
-
 	private void addUpdatePreviousNextCloseSubmitButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentComponentId, String nameSpace) {
 		UpdatePreviousNextCloseSubmitButton salesProjectionButtonLayout = new UpdatePreviousNextCloseSubmitButton();
