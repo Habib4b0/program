@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.service.GtnForecastJsonService;
+import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class SaveViewExecution extends GtnCommonWebServiceImplClass implements SearchInterface {
@@ -92,6 +93,13 @@ public class SaveViewExecution extends GtnCommonWebServiceImplClass implements S
 	@Override
 	public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
 		return;
+	}
+
+	@Override
+	public GtnUIFrameworkWebserviceResponse getSearchResults(
+			GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query,
+			GtnSearchwebServiceSqlService gtnSearchSqlService) {
+		return null;
 	}
 
 }

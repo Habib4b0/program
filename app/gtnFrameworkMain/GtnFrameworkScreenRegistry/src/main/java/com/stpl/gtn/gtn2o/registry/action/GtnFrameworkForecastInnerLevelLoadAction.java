@@ -44,10 +44,10 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
 					.loadItemsToCombobox(hierarchyCaptionList, hierarchyIdList);
 
-		}
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
+					.loadV8ComboBoxComponentValue(0);
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
-				.loadV8ComboBoxComponentValue(0);
+		}
 
 	}
 
