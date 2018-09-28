@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -52,14 +51,11 @@ public class GtnFrameworkNewToOldArchitectureDeleteAction
 		String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
 		String sessionId = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId"));
 
-
         try {
             GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
             inputBean.setUserId(userId);
             inputBean.setSessionId(sessionId);
-//            ForecastUI ui = new ForecastUI();
             String nameSpace = GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING;
-//            ui.getForecastingToDelete(inputBean);
             GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
             loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
             loadDataSearchTableActionConfig.setActionParameterList(

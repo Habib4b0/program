@@ -35,7 +35,7 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 
 			Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean
 					.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
-			int relationshipBuilderSid = Integer.valueOf(String.valueOf(GtnUIFrameworkGlobalUI
+			int relationshipBuilderSid = Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(params.get(3).toString(),componentId).getCaptionFromV8ComboBox()));
 
 			if (relationshipBuilderSid != 0) {

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
@@ -291,7 +292,7 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 		tableStyle.add("table-header-normal");
 		customerProductGroupPagedTableComponent.setComponentWidth("100%");
 		customerProductGroupPagedTableComponent.setComponentStyle(tableStyle);
-		customerProductGroupPagedTableComponent.setModuleName("serviceRegistry");
+		customerProductGroupPagedTableComponent.setModuleName(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY);
 
 		componentList.add(customerProductGroupPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig customerProductGroupPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
