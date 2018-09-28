@@ -439,7 +439,7 @@ public final class GtnFrameworkForecastingStringConstants {
         
         public static final String COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX = "Commercial Forecasting_productDualListBox";
         
-        public static final String COMMERCIAL_FORECASTING_CUSTRELATIONVERSION = "Commercial_Forecasting_customerRelationshipVersion";
+        public static final String COMMERCIAL_FORECASTING_CUSTRELATIONVERSION = "Commercial Forecasting_customerRelationshipVersion";
         
         public static final String COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL = "Commercial_Forecasting_customerSelectionForecastLevel";
         
@@ -451,7 +451,7 @@ public final class GtnFrameworkForecastingStringConstants {
         
         public static final String COMMERCIAL_FORECASTING_PRODFORECASTLEVEL = "Commercial Forecasting_prodforecastLevel";
         
-        public static final String COMMERCIAL_FORECASTING_PRODRELATIONVERSION = "Commercial_Forecasting_productRelationshipVersion";
+        public static final String COMMERCIAL_FORECASTING_PRODRELATIONVERSION = "Commercial Forecasting_productRelationshipVersion";
         
         public static final String COMMERCIAL_FORECASTING_PRODUCTGROUP = "Commercial Forecasting_productGroup";
         

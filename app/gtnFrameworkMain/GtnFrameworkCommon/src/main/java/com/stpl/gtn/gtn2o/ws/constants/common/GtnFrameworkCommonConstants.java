@@ -1295,7 +1295,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String SCREEN_REGISTRY_FILTERCOMBOBOX = "filterComboBox";
 	public static final String SCREEN_REGISTRY_CUSTOMER_SELECTION_LAYOUT = "customerSelectionLayout";
 	public static final String SCREEN_REGISTRY_CUSTOMER_SELECTION_CSS_LAYOUT = "customerSelectionCssLayout";
-	public static final String SCREEN_REGISTRY_CF_CUST_SEL_REL = "Commercial_Forecasting_customerSelectionRelationship";
+	public static final String SCREEN_REGISTRY_CF_CUST_SEL_REL = "Commercial Forecasting_customerSelectionRelationship";
 	public static final String SCREEN_REGISTRY_CUSTOMER_SELECTION_INNER_LAYOUT = "customerSelectionInnerLayout";
 	public static final String SERVICE_REGISTRY_PRODUCT_SELECTION_INNER_LAYOUT = "productSelectionInnerLayout";
 	public static final String SERVICE_REGISTRY_PRODUCT_SELECTION_CSS_LAYOUT = "productSelectionCssLayout";
