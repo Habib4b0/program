@@ -43,7 +43,7 @@ public class GtnFrameworkIfpMoveLeftAction
 		Set<GtnWsRecordBean> dtoSet = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFPRIGHT_RESULT_TABLE)
 				.getValueFromMultiSelectPagedDataTable();
-		if (dtoSet == null) {
+		if (dtoSet == null || dtoSet.isEmpty()) {
 			throw new GtnFrameworkValidationFailedException("Please select an item to remove", componentId);
 		}
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);

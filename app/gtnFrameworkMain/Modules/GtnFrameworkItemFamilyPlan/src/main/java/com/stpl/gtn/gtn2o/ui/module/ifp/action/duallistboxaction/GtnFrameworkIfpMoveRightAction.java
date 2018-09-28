@@ -50,7 +50,7 @@ public class GtnFrameworkIfpMoveRightAction
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpleftResultTable").getExtPagedTableSize();
 
-		if (dtoSet == null) {
+		if (dtoSet == null || dtoSet.isEmpty()) {
 			throw new GtnFrameworkValidationFailedException("Please select an item to move", componentId);
 		}
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
