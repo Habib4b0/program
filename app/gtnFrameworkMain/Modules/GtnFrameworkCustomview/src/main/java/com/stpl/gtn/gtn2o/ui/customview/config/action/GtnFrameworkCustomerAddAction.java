@@ -24,7 +24,7 @@ import java.util.Optional;
  * @author Lokeshwari.Kumarasam
  */
 public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCustomerAddAction.class);
+   
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
