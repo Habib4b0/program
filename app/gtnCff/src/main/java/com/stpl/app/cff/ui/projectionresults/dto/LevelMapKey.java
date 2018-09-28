@@ -66,10 +66,7 @@ public class LevelMapKey implements Serializable, Comparable<LevelMapKey>,Clonea
         if (!Objects.equals(this.levelNo, other.levelNo)) {
             return false;
         }
-        if (!Objects.equals(this.levelValuesSid, other.levelValuesSid)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.levelValuesSid, other.levelValuesSid);
     }
 
     @Override

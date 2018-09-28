@@ -201,10 +201,7 @@ public class PVParameters implements Serializable, Cloneable {
         if (!Objects.equals(this.discountId, other.discountId)) {
             return false;
         }
-        if (this.customViewMasterSid != other.customViewMasterSid) {
-            return false;
-        }
-        return true;
+        return this.customViewMasterSid == other.customViewMasterSid;
     }
 
 
