@@ -45,7 +45,6 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 		GtnFrameworkForecastDataSelectionBean gtnFrameworkForecastDataSelectionBean = new GtnFrameworkForecastDataSelectionBean();
 		gtnFrameworkForecastDataSelectionBean.setViewId(viewId);
 		gtnFrameworkForecastDataSelectionBean.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		logger.info("View id----" + viewId +"-----user id------" + GtnUIFrameworkGlobalUI.getCurrentUser().toString());
 	
 		
 		GtnWsForecastNewArchRequest gtnWsForecastNewArchRequest = new GtnWsForecastNewArchRequest();

@@ -51,7 +51,6 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 			logger.error("Error in ", ex);
 			return;
 		}
-		//ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
@@ -131,12 +130,12 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 
 		String privateView = String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(26).toString(), componentId).getV8PopupFieldValue());
-		if (privateView != "") {
+		if (!"".equals(privateView)) {
 			dto.setPrivateViewName(privateView);
 		}
 		String publicViewName = String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(27).toString(), componentId).getV8PopupFieldValue());
-		if (publicViewName != "") {
+		if (!"".equals(publicViewName)) {
 			dto.setPublicViewName(publicViewName);
 		}
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
@@ -167,8 +166,6 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 				.getVaadinBaseComponent(actionParamList.get(15).toString()).getIntegerFromV8ComboBox()));
 		dto.setCustomerHierarchySid(checkDDLBValuesWrapper(Integer.valueOf(String
 				.valueOf(customerRecordBean.getPropertyValueByIndex(7)))));
-//		dto.setCustomerHierarchyVersionNo(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
-//				.getVaadinBaseComponent(actionParamList.get(5).toString()).getStringCaptionFromV8ComboBox())));
 		dto.setCustomerRelationshipBuilderSid(checkDDLBValues(Integer.parseInt(String.valueOf(
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getCaptionFromV8ComboBox()))));
 		dto.setCustomerRelationshipVersionNo(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
@@ -177,8 +174,6 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 				.getVaadinBaseComponent(actionParamList.get(20).toString()).getCaptionFromV8ComboBox()))));
 		dto.setProductHierarchySid(checkDDLBValuesWrapper(Integer.valueOf(String
 				.valueOf(productRecordBean.getPropertyValueByIndex(7)))));
-//		dto.setProductHierarchyVersionNo(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
-//				.getVaadinBaseComponent(actionParamList.get(11).toString()).getStringCaptionFromV8ComboBox())));
 		dto.setProductRelationshipBuilderSid(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(9).toString()).getCaptionFromV8ComboBox()))));
 		dto.setProductRelationshipVersionNo(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI

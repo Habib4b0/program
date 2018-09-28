@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
 import java.util.List;
 
-
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
@@ -51,8 +50,10 @@ public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImpl
 		GtnCommonWebServiceImplClass gtnCommonWebServiceImplClass = new GtnValidateWsServiceRegistryService();
 		GtnQueryEngineWebServiceResponse response = gtnCommonWebServiceImplClass
 				.callQueryEngineWithoutSecurityToken("/executeQuery", queryEngineWebServiceRequest);
+
 		return response.getQueryResponseBean().getResultList();
 		
+
 	}
 
 	private boolean isRegisteredWs(GtnWsServiceRegistryBean serviceRegistryBean, List<Object[]> resultList) {

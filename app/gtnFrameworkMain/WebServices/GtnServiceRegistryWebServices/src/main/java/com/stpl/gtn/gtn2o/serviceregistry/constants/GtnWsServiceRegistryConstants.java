@@ -12,9 +12,10 @@ public class GtnWsServiceRegistryConstants {
 	public static final String PORT="http://localhost:8090";
 	public static final String PERIOD_CONF="/GtnWsPeriodConfigurationWebService";
 	public static final String REGISTER_WEBSERVICE="Webservice to Register:";
-	public static final String USER_ID="20156";
+    public static final String USER_ID="20156";
 	public static final String SESSION_ID="20156";
 	public static final String PERIOD_CONF_URL="/gtnPeriodConfigurationController/loadDate";
+
 	
 	
 }

@@ -25,8 +25,6 @@ public class GtnFrameworkForecastingDStabLoadAction implements GtnUIFrameWorkAct
 			throws GtnFrameworkGeneralException {
 		try{
 		
-		List<Object> paramsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		
 		GtnFrameworkForecastDataSelectionBean forecastDsBean = (GtnFrameworkForecastDataSelectionBean)GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentData().getSharedPopupData();
 		
 		GtnWsRecordBean customerRecordBean = forecastDsBean.getCustomerHierarchyRecordBean();

@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -45,7 +44,6 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(actionParamList.get(1).toString(), componentId).getComponentData()
 					.getCustomData();
-			//String viewData = (String) recordBean.getPropertyValueByIndex(5);
 			String nameSpace = actionParamList.get(2).toString();
 			ObjectMapper mapper = new ObjectMapper();
 
@@ -153,9 +151,7 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME, componentId)
 					.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 			
-			List<GtnUIFrameWorkActionConfig> productActionConfigList = new ArrayList<>();
 			GtnUIFrameWorkActionConfig productActionConfig = new GtnUIFrameWorkActionConfig();
-			productActionConfigList.add(productActionConfig);
 			productActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			productActionConfig.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
 			productActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME);

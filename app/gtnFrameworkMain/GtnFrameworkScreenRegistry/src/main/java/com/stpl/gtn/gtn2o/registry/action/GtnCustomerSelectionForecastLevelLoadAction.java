@@ -35,7 +35,7 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 
 			Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean
 					.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
-			int relationshipBuilderSid = Integer.valueOf(String.valueOf(GtnUIFrameworkGlobalUI
+			int relationshipBuilderSid = Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(params.get(3).toString(),componentId).getCaptionFromV8ComboBox()));
 
 			if (relationshipBuilderSid != 0) {
@@ -74,6 +74,8 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2),componentId)
 						.loadItemsToCombobox(hierarchyLevelCaptionList, hierarchyLevelIdList);
+
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(params.get(2).toString(), componentId).loadV8ComboBoxComponentValue(0);
 			}
 		} catch (Exception ex) {
 			logger.error("Error", ex);

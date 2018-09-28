@@ -1,12 +1,15 @@
 package com.stpl.gtn.gtn2o.ws.hierarchyrelationship.service;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,39 +27,37 @@ import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.bean.GtnWsRelationshipBuilder
 import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.sqlservice.GtnWsHierarchyAndRelationshipSqlService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Service
 public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImplClass {
 
-   private long staticTime = System.currentTimeMillis();
-   private  ExecutorService service = Executors.newCachedThreadPool();
+	private long staticTime = System.currentTimeMillis();
+	private ExecutorService service = Executors.newCachedThreadPool();
 
-    @Autowired
-    private GtnWsHierarchyAndRelationshipSqlService gtnWsHierarchyAndRelationshipSqlService;
+	@Autowired
+	private GtnWsHierarchyAndRelationshipSqlService gtnWsHierarchyAndRelationshipSqlService;
 
-    private GtnFrameworkSingletonObjectBean hierarchyRelationship = GtnFrameworkSingletonObjectBean.getInstance();
+	private GtnFrameworkSingletonObjectBean hierarchyRelationship = GtnFrameworkSingletonObjectBean.getInstance();
 
-    private GtnWsHierarchyAndRelationshipService() {
-        super(GtnWsHierarchyAndRelationshipService.class);
-    }
+	private GtnWsHierarchyAndRelationshipService() {
+		super(GtnWsHierarchyAndRelationshipService.class);
+	}
 
-    public void init() {
-        try {
-            GtnUIFrameworkWebserviceRequest request = registerWs();
-            callServiceRegistry(request);
-            logger.info("Webservice Registered");
-            List<Object[]> resultList = loadHierarchyRelationshipResults();
-            Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = resultCustomization(resultList);
-            hierarchyRelationship.setHierarchyMap(hierarchyMap);
-        } catch (Exception e) {
-            if (e.getMessage().contains("404 Not Found")) {
-                logger.error("Exception in GtnWsHierarchyAndRelationshipService" + e.getMessage());
-                GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
-                service.submit(call.createRunnable(this, staticTime));
-            }
-        }
+	public void init() {
+		try {
+			GtnUIFrameworkWebserviceRequest request = registerWs();
+			callServiceRegistry(request);
+			logger.info("Webservice Registered");
+			List<Object[]> resultList = loadHierarchyRelationshipResults();
+			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = resultCustomization(resultList);
+			hierarchyRelationship.setHierarchyMap(hierarchyMap);
+		} catch (Exception e) {
+			if (e.getMessage().contains("404 Not Found")) {
+				logger.error("Exception in GtnWsHierarchyAndRelationshipService" + e.getMessage());
+				GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
+				service.submit(call.createRunnable(this, staticTime));
+			}
+		}
 	}
 
 	public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
@@ -79,8 +80,7 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		return response.getQueryResponseBean().getResultList();
 	}
 
-	public Map<String, GtnWsHierarchyDefinitionBean> resultCustomization(List<Object[]> resultList)
-			 {
+	public Map<String, GtnWsHierarchyDefinitionBean> resultCustomization(List<Object[]> resultList) {
 		Map<Integer, List<GtnWsRelationshipBuilderBean>> relationMap = new HashMap<>();
 		Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = new HashMap<>();
 		int hierachySid = 0;
@@ -96,6 +96,11 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 				bean.setHierarchyDefSid(hierachySid);
 				bean.setHighLevel((int) object[1]);
 				bean.setLowestLevel((int) object[2]);
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+				String createdDate = formatter.format(object[3]);
+				bean.setCreatedDate(createdDate);
+				String modifiedDate = formatter.format(object[4]);
+				bean.setModifiedDate(modifiedDate);
 				bean.setLevelName((String) object[5]);
 				bean.setHierarchyVersion((int) object[6]);
 				bean.setHierarchyCategory((String) object[8]);
@@ -143,7 +148,8 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 
 	private void getHierarchyListUsingHierarchyNameSearch(List<Object[]> hierarchyList,
 			List<GtnWebServiceSearchCriteria> webSearchCriteriaList,
-			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName) throws IllegalAccessException {
+			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName)
+			throws IllegalAccessException {
 		GtnWsHierarchyDefinitionBean hierarchyDefinitionBean;
 		if (!hierarchyName.contains("*")) {
 			TreeMap<String, GtnWsHierarchyDefinitionBean> hierarchyCaseInsensitiveMap = new TreeMap<>(
@@ -158,7 +164,8 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 
 	private void getHierarchyListUsingStartsAndEndsWithSearch(List<Object[]> hierarchyList,
 			List<GtnWebServiceSearchCriteria> webSearchCriteriaList,
-			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName) throws IllegalAccessException {
+			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName)
+			throws IllegalAccessException {
 		GtnWsHierarchyDefinitionBean hierarchyDefinitionBean;
 		if (hierarchyName.contains("*") && hierarchyName.length() > 1) {
 			for (Map.Entry<String, GtnWsHierarchyDefinitionBean> mapEntry : hierarchyMap.entrySet()) {
@@ -171,11 +178,11 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 					getHierarchyListFromBothStartsAndEndsWithSearch(hierarchyList, webSearchCriteriaList,
 							hierarchyDefinitionBean, hierarchyNameSplit);
 				} else if (indexOfSymbol == hierarchyName.length() - 1) {
-					getHierarchyListFromBothStartsWithSearch(hierarchyList, webSearchCriteriaList, hierarchyDefinitionBean,
-							hierarchyNameSplit);
+					getHierarchyListFromBothStartsWithSearch(hierarchyList, webSearchCriteriaList,
+							hierarchyDefinitionBean, hierarchyNameSplit);
 				} else {
-					getHierarchyListFromBothEndsWithSearch(hierarchyList, webSearchCriteriaList, hierarchyDefinitionBean,
-							hierarchyNameSplit);
+					getHierarchyListFromBothEndsWithSearch(hierarchyList, webSearchCriteriaList,
+							hierarchyDefinitionBean, hierarchyNameSplit);
 				}
 
 			}
@@ -217,7 +224,8 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 
 	private void getHierarchyListUsingGenericSearch(List<Object[]> hierarchyList,
 			List<GtnWebServiceSearchCriteria> webSearchCriteriaList,
-			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName) throws IllegalAccessException {
+			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap, String hierarchyName)
+			throws IllegalAccessException {
 		GtnWsHierarchyDefinitionBean hierarchyDefinitionBean;
 		if (hierarchyName.equals("*") && hierarchyName.length() == 1) {
 
@@ -249,8 +257,8 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		}
 	}
 
-    @Override
-    public void initCallOnFailure() {
-        init();
-}
+	@Override
+	public void initCallOnFailure() {
+		init();
+	}
 }
