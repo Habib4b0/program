@@ -75,7 +75,7 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2),componentId)
 						.loadItemsToCombobox(hierarchyLevelCaptionList, hierarchyLevelIdList);
 
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(params.get(2).toString()).loadV8ComboBoxComponentValue(0);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(params.get(2).toString(), componentId).loadV8ComboBoxComponentValue(0);
 			}
 		} catch (Exception ex) {
 			logger.error("Error", ex);

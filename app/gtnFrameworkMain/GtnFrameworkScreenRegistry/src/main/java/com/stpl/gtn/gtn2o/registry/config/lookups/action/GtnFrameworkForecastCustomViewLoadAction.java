@@ -42,18 +42,23 @@ public class GtnFrameworkForecastCustomViewLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		try{
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		String customerRelationValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL)
-				.getCaptionFromV8ComboBox();
-		String customerRelationVersion = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION).getCaptionFromV8ComboBox();
-		String productRelationValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONSHIP)
-				.getCaptionFromV8ComboBox();
-		String productRelationVersion = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION).getCaptionFromV8ComboBox();
-		
-
+		try {
+			String customerRelationValue = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL)
+					.getCaptionFromV8ComboBox();
+			String customerRelationVersion = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION)
+					.getCaptionFromV8ComboBox();
+			String productRelationValue = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONSHIP)
+					.getCaptionFromV8ComboBox();
+			String productRelationVersion = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION)
+					.getCaptionFromV8ComboBox();
 			if (customerRelationValue != "" || !customerRelationValue.isEmpty() && productRelationValue != ""
 					|| !productRelationValue.isEmpty()) {
 				GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
@@ -68,14 +73,13 @@ public class GtnFrameworkForecastCustomViewLoadAction
 				GtnGeneralSearchRequest searchRequest = new GtnGeneralSearchRequest();
 				searchRequest.setInputBean(inputBean);
 
-		serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
-		serviceRegistryBean.setUrl(GtnFrameworkScreenRegisteryConstants.SEARCH_RESULTS_URL);
-		serviceRegistryBean.setModuleName(GtnFrameworkForecastingStringConstants.GENERAL_SEARCH);
-		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
-		serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
-
+				serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
+				serviceRegistryBean.setUrl(GtnFrameworkScreenRegisteryConstants.SEARCH_RESULTS_URL);
+				serviceRegistryBean.setModuleName(GtnFrameworkForecastingStringConstants.GENERAL_SEARCH);
+				GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+				generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+				generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
+				serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
 
 				GtnWsSearchRequest webserviceSearchRequest = new GtnWsSearchRequest();
 				webserviceSearchRequest.setSearchQueryName(actionParamsList.get(5).toString());
@@ -85,23 +89,24 @@ public class GtnFrameworkForecastCustomViewLoadAction
 				request.setGtnGeneralSearchRequest(searchRequest);
 				request.setGtnWsSearchRequest(webserviceSearchRequest);
 
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		if (response.getGtnUIFrameworkWebserviceComboBoxResponse() != null) {
-			List<String> valueList = new ArrayList<>(
-					response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
-			List<String> responseIdList = new ArrayList<>(
-					response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
-			List<Integer> idList = new ArrayList<>();
-			for (String string : responseIdList) {
-				idList.add(Integer.valueOf(string));
-
+				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+						GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL,
+						GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
+						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				if (response.getGtnUIFrameworkWebserviceComboBoxResponse() != null) {
+					List<String> valueList = new ArrayList<>(
+							response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
+					List<String> responseIdList = new ArrayList<>(
+							response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
+					List<Integer> idList = new ArrayList<>();
+					for (String string : responseIdList) {
+						idList.add(Integer.valueOf(string));
 					}
 					GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(6).toString())
 							.loadItemsToCombobox(valueList, idList);
 				}
 			}
+		
 		} catch (GtnFrameworkGeneralException ex) {
 			gtnLogger.error(ex.getMessage());
 		}

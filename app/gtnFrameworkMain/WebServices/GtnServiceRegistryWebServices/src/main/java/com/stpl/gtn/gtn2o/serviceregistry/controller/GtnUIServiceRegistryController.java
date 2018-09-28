@@ -28,7 +28,7 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 	public GtnUIServiceRegistryController() {
 		super(GtnUIServiceRegistryController.class);
 	}
-	
+
 	@Autowired
 	private GtnValidateWsServiceRegistryController gtnValidateWsServiceRegistryController;
 
@@ -106,14 +106,13 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 
 	}
 
-	
-    @Override
-    public void initCallOnFailure() {
-        // Default Method
-    }
+	@Override
+	public void initCallOnFailure() {
+		// Default Method
+	}
 
-    @Override
-    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
-       // Default Method
-    }
+	@Override
+	public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+		// Default Method
+	}
 }

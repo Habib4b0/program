@@ -24,13 +24,12 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		int selectedLevelNo = Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString(),componentId).getCaptionFromV8ComboBox());
+				.getVaadinBaseComponent(actionParamsList.get(2).toString(), componentId).getCaptionFromV8ComboBox());
 		if (selectedLevelNo != 0) {
-		
-		
 
-		GtnWsRecordBean hierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(1).toString(),componentId).getComponentData().getCustomData();
+			GtnWsRecordBean hierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(1).toString(), componentId).getComponentData()
+					.getCustomData();
 			List<String> hierarchyCaptionList = new ArrayList<>();
 			List<Integer> hierarchyIdList = new ArrayList<>();
 

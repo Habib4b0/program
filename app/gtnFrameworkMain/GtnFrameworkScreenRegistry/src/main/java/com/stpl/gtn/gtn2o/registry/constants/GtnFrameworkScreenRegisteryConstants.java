@@ -33,6 +33,10 @@ public class GtnFrameworkScreenRegisteryConstants {
 	public static final String GTN_VALIDATION_MSG_RESET = "Are you sure you want to reset the page to default/previous values?";
 	public static final String DEDUCTION_LEVEL_ID = "deduction_level";
 	public static final String DEDUCTION_LEVEL_NAME = "Deduction Level";
+	public static final String SELECTONE = "-Select One-";
+	public static final String BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS = "buttonCustomStyleForLessSpaceBetweenButtons";
+	public static final String DO_NOT_ADD_BUTTON_CUSTOM_STYLE = "doNotAddButtonCustomStyle";
+	public static final String UNDERSCORE = "_";
 	public static final String INTEGER_ID = "integerId";
 	public static final String SERVICE_REGISTRY = "serviceRegistry";
 	public static final String SEARCH_RESULTS_URL = "/gtnSearch";
@@ -46,8 +50,4 @@ public class GtnFrameworkScreenRegisteryConstants {
 	public static final String CREATED_BY = "createdBy";
 	public static final String CREATED_DATE = "createdDate";
 	public static final String MODIFIED_DATE = "modifiedDate";
-	public static final String SELECTONE = "-Select One-";
-	public static final String BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS = "buttonCustomStyleForLessSpaceBetweenButtons";
-	public static final String DO_NOT_ADD_BUTTON_CUSTOM_STYLE = "doNotAddButtonCustomStyle";
-	public static final String UNDERSCORE = "_";
 }
