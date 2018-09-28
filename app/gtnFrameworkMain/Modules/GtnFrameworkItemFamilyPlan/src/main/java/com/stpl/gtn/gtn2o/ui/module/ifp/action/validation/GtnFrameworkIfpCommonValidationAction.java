@@ -49,10 +49,7 @@ public class GtnFrameworkIfpCommonValidationAction
 				.getDateFromDateField();
 		Date ifpEndDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpInformationIFPEndDate")
 				.getDateFromDateField();
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
-						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_COMMON_VALIDATION_SERVICE,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = getCommonValidationResponse(request);
 		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 		alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 		Object msg;
@@ -109,6 +106,13 @@ public class GtnFrameworkIfpCommonValidationAction
 		}
 
 
+	}
+
+	public GtnUIFrameworkWebserviceResponse getCommonValidationResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
+						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_COMMON_VALIDATION_SERVICE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	public void validateDateEqualOrGreater(Date ifpStartDate, Date ifpEndDate, String componentId)
