@@ -26,7 +26,7 @@ import com.vaadin.ui.TreeGrid;
 
 public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass{
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastingCCPTableLoadAction.class);
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastingCCPTableLoadAction.class);
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
