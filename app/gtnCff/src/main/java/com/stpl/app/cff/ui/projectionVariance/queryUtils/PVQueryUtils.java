@@ -279,19 +279,19 @@ public class PVQueryUtils {
                 selectClause = selectClause.concat(", P").concat(String.valueOf(i)).concat(".").concat(projectedReturns).concat(" AS  P").concat(String.valueOf(i)).concat("_").concat(projectedReturns).concat(" ");
                 selectClause = selectClause.concat(", P").concat(String.valueOf(i)).concat(".").concat(projectionPPA).concat(" AS  P").concat(String.valueOf(i)).concat("_").concat(projectionPPA).concat(" ");
             } else if (projSelDTO.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
-                selectClause += ", (IsNull (C." + projectedSales + ", 0) - IsNull(P" + i + "." + projectedSales + ", 0))  AS  P" + i + "_" + projectedSales + " ";
-                selectClause += ",  (IsNull(C." + projectedReturns + ", 0)  - IsNull(P" + i + "." + projectedReturns + ", 0))  AS P" + i + "_" + projectedReturns + " ";
-                selectClause += ",  (IsNull(C." + projectionPPA + ", 0 )- IsNull(P" + i + "." + projectionPPA + ", 0))  AS P" + i + "_" + projectionPPA + " ";
+                selectClause = selectClause.concat(", (IsNull (C.").concat(projectedSales).concat(", 0) - IsNull(P").concat(String.valueOf(i)).concat("." + projectedSales).concat(", 0))  AS  P").concat(String.valueOf(i)).concat("_").concat(projectedSales).concat(" ");
+                selectClause = selectClause.concat(",  (IsNull(C.").concat(projectedReturns).concat(", 0)  - IsNull(P").concat(String.valueOf(i)).concat(".").concat(projectedReturns).concat(", 0))  AS P").concat(String.valueOf(i)).concat("_").concat(projectedReturns).concat(" ");
+                selectClause = selectClause.concat(",  (IsNull(C.").concat(projectionPPA).concat(", 0 )- IsNull(P").concat(String.valueOf(i)).concat(".").concat(projectionPPA).concat(", 0))  AS P").concat(String.valueOf(i)).concat("_").concat(projectionPPA).concat(" ");
             } else {
-                selectClause += CASE_WHEN_P + i + "." + projectedSales + " = 0 THEN 0\n"
-                        + " ELSE  (IsNull(C." + projectedSales + ", 0)  - IsNull(P" + i + "." + projectedSales + ", 0))  / P" + i + "." + projectedSales + " \n"
-                        + " END  AS P" + i + "_" + projectedSales + " ";
-                selectClause += CASE_WHEN_P + i + "." + projectedSales + " = 0  THEN 0\n"
-                        + " ELSE  (IsNull(C." + projectedReturns + ", 0) -  IsNull(P" + i + "." + projectedReturns + ", 0))  / P" + i + "." + projectedSales + " \n"
-                        + " END   AS P" + i + "_" + projectedReturns + " ";
-                selectClause += CASE_WHEN_P + i + "." + projectionPPA + " = 0  THEN 0\n"
-                        + " ELSE (IsNull(C." + projectionPPA + ", 0) -  IsNull(P" + i + "." + projectionPPA + ", 0)) / P" + i + "." + projectionPPA + " \n"
-                        + " END   AS P" + i + "_" + projectionPPA + " ";
+                selectClause = selectClause.concat(CASE_WHEN_P).concat(String.valueOf(i)).concat(".").concat(projectedSales).concat(" = 0 THEN 0\n")
+                        .concat(" ELSE  (IsNull(C.").concat(projectedSales).concat(", 0)  - IsNull(P").concat(String.valueOf(i)).concat(".").concat(projectedSales).concat(", 0))  / P").concat(String.valueOf(i)).concat(".").concat(projectedSales).concat(" \n")
+                        .concat(" END  AS P").concat(String.valueOf(i)).concat("_").concat(projectedSales).concat(" ");
+                selectClause = selectClause.concat(CASE_WHEN_P).concat(String.valueOf(i)).concat(".").concat(projectedSales).concat(" = 0  THEN 0\n")
+                        .concat(" ELSE  (IsNull(C.").concat(projectedReturns).concat(", 0) -  IsNull(P").concat(String.valueOf(i)).concat(".").concat(projectedReturns).concat(", 0))  / P").concat(String.valueOf(i)).concat(".").concat(projectedSales).concat(" \n")
+                        .concat(" END   AS P" ).concat(String.valueOf(i)).concat("_").concat(projectedReturns).concat(" ");
+                selectClause = selectClause.concat(CASE_WHEN_P).concat(String.valueOf(i)).concat(".").concat(projectionPPA).concat(" = 0  THEN 0\n")
+                        .concat(" ELSE (IsNull(C.").concat(projectionPPA).concat(", 0) -  IsNull(P").concat(String.valueOf(i)).concat(".").concat(projectionPPA).concat(", 0)) / P").concat(String.valueOf(i)).concat(".").concat(projectionPPA).concat(" \n")
+                        .concat(" END   AS P").concat(String.valueOf(i)).concat("_").concat(projectionPPA).concat(" ");
             }
         }
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
@@ -322,7 +322,7 @@ public class PVQueryUtils {
 
         customQuery = selectClause + getPivotMainSelectClause("C");
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
-            customQuery += ", " + getPivotMainSelectClause("P" + i);
+            customQuery = customQuery.concat(", ").concat(getPivotMainSelectClause("P" + i));
         }
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
         projSelDTO.setCurrentOrPrior("C");
@@ -332,7 +332,7 @@ public class PVQueryUtils {
         projSelDTO.setIsPrior(true);
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             projSelDTO.setProjectionId(projSelDTO.getProjIdList().get(i));
-            customQuery += " LEFT  JOIN  (\n" + getProjectionResultsPivotQuery(projSelDTO, BooleanConstant.getTrueFlag()) + "\n) " + "P" + i + " \n" + getPivotMainWhereCond("P" + i);
+            customQuery = customQuery.concat(" LEFT  JOIN  (\n").concat(getProjectionResultsPivotQuery(projSelDTO, BooleanConstant.getTrueFlag())).concat("\n) ").concat("P").concat(String.valueOf(i)).concat(" \n").concat(getPivotMainWhereCond("P").concat(String.valueOf(i)));
         }
         customQuery += "  order by " + orderBy;
         projSelDTO.setIsPrior(false);

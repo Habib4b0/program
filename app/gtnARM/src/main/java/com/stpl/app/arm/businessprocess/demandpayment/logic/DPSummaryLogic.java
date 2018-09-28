@@ -222,8 +222,10 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
 
             }
             lastBrand = brand;
-            dto.setUserId(selection.getSessionDTO().getUserId());
-            dto.setSessionId(selection.getSessionDTO().getSessionId());
+            if (dto != null) {
+                dto.setUserId(selection.getSessionDTO().getUserId());
+                dto.setSessionId(selection.getSessionDTO().getSessionId());
+            }
         }
         OriginalDataResult<T> paymentDataResult = new OriginalDataResult<>();
         paymentDataResult.setDataResults(resultList);
