@@ -329,7 +329,7 @@ public class MedicaidUraWorkSheet extends Window {
                 }
             }
         });
-        if (Constant.VIEW.equalsIgnoreCase(MODE)) {
+        if (Constant.VIEW.equalsIgnoreCase(mode)) {
             disableFieldsOnView();
         }
         final StplSecurity stplSecurity = new StplSecurity();
@@ -456,7 +456,7 @@ public class MedicaidUraWorkSheet extends Window {
      */
     @UiHandler("close")
     public void close(Button.ClickEvent event) {
-        if (!Constant.VIEW.equalsIgnoreCase(MODE)) {
+        if (!Constant.VIEW.equalsIgnoreCase(mode)) {
             if (submitFlag) {
                 new AbstractNotificationUtils() {
                     @Override
@@ -717,7 +717,7 @@ public class MedicaidUraWorkSheet extends Window {
                             }
 
                         });
-                        if (Constant.VIEW.equalsIgnoreCase(MODE)) {
+                        if (Constant.VIEW.equalsIgnoreCase(mode)) {
                             notesField.setEnable(false);
                         }
 
@@ -868,7 +868,7 @@ public class MedicaidUraWorkSheet extends Window {
 
                         });
                         notesField.addToolTip(description);
-                        if (Constant.VIEW.equalsIgnoreCase(MODE)) {
+                        if (Constant.VIEW.equalsIgnoreCase(mode)) {
                             notesField.setEnable(false);
                         }
                                 if (projectionDTO.getNewFormulation() != null && !projectionDTO.getNewFormulation().isEmpty() && !"null".equals(projectionDTO.getNewFormulation())) {

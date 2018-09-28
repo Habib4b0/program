@@ -11,6 +11,8 @@ import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDataSelectionViewU
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDateValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastEditAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastingCCPTableLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastingDStabLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureDeleteAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkSaveViewAction;
@@ -102,6 +104,10 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 				new GtnFrameworkForecastDateValueChangeAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnForecastFilterAction.class.getName(),
 				new GtnForecastFilterAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastingCCPTableLoadAction.class.getName(),
+				new GtnFrameworkForecastingCCPTableLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkForecastingDStabLoadAction.class.getName(),
+				new GtnFrameworkForecastingDStabLoadAction());
 	}
 
 }

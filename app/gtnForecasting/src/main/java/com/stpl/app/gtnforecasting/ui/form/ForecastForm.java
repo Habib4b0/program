@@ -1953,15 +1953,17 @@ public class ForecastForm extends AbstractForm {
 
 	private String dataInsertProcedureCall() {
 		String sessionId = "'" + session.getSessionId() + "'";
-		String query = SQlUtil.getQuery("Product_customer_files_insert")
+                String queryProc = StringUtils.EMPTY;
+		queryProc = queryProc + SQlUtil.getQuery("Product_customer_files_insert")
 				.replace("?PROJECTION_ID", String.valueOf(session.getProjectionId()))
 				.replace("?USER_ID", String.valueOf(session.getUserId())).replace("?SESSION_ID", sessionId);
-		return query;
+		return queryProc;
 	}
 
 	private String dataInsertProcedureCallForView() {
 		String sessionId = "'" + session.getSessionId() + "'";
-		String query = SQlUtil.getQuery("Product_customer_files_insert_view")
+                String query = StringUtils.EMPTY;
+		query =  query +  SQlUtil.getQuery("Product_customer_files_insert_view")
 				.replace("?PROJECTION_ID", String.valueOf(session.getProjectionId()))
 				.replace("?USER_ID", String.valueOf(session.getUserId())).replace("?SESSION_ID", sessionId);
 		return query;

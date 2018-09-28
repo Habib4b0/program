@@ -60,22 +60,19 @@ public class GtnModeOptionValueChangeAction
 				itemId.add(0, 0);
 				itemCaption.add(0, "-Select one-");
 
-
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).addAllItemsToComboBox(itemCaption, itemId);
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).loadV8ComboBoxComponentValue(itemId.get(0));
 
-         }else {
-         	 if(itemCaption.contains("-Select one-")) {
+			} else {
+				if (itemCaption.contains("-Select one-")) {
 					itemCaption.remove(0);
 					itemId.remove(0);
-
 
 				}
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).addAllItemsToComboBox(itemCaption, itemId);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).loadV8ComboBoxComponentValue(itemId.get(0));
 
-    	
 			}
 		} catch (GtnFrameworkValidationFailedException e) {
 			logger.info("Exception in mode value change action" + e);
@@ -98,13 +95,13 @@ public class GtnModeOptionValueChangeAction
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).loadV8ComboBoxComponentValue(itemIdFrom.get(0));
 
-            }else {
-            	 if(itemCaption.contains("-Select one-")) {
+			} else {
+				if (itemCaption.contains("-Select one-")) {
 					itemCaption.remove(0);
 					itemIdFrom.remove(0);
 
 				}
-            	 GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).addAllItemsToComboBox(itemCaption, itemIdFrom);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).addAllItemsToComboBox(itemCaption, itemIdFrom);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).loadV8ComboBoxComponentValue(itemIdFrom.get(0));
 
 			}

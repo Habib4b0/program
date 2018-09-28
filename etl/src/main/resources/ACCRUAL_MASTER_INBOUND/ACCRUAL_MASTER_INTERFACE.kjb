@@ -1294,15 +1294,6 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Simple evaluation 2 4 2 2 2</from>
-      <to>GETTING_FILE_NAME</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>GETTING_FILE_NAME</from>
       <to>CHECKING FILE 2</to>
       <from_nr>0</from_nr>
@@ -1723,6 +1714,15 @@
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 2</from>
+      <to>GETTING_FILE_NAME</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
   </hops>

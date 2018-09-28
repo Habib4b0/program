@@ -60,4 +60,9 @@ public class GtnCustomerSelectionRelationshipLoadAction
 		}
 	}
 
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
+
 }

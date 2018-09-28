@@ -36,4 +36,5 @@ public class GtnFrameworkScreenRegisteryConstants {
 	public static final String BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS = "buttonCustomStyleForLessSpaceBetweenButtons";
 	public static final String DO_NOT_ADD_BUTTON_CUSTOM_STYLE = "doNotAddButtonCustomStyle";
 	public static final String UNDERSCORE = "_";
+	public static final String LANDING_SCREN_NAMESPACE = "Commercial Forecasting";
 }

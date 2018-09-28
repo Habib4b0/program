@@ -4919,10 +4919,11 @@ public class DataSelection extends ForecastDataSelection {
 
 	private String dataInsertProcedureCall() {
 		String sessionId = "'" + session.getSessionId() + "'";
-		String query = SQlUtil.getQuery("Product_customer_files_insert")
+                String queryCall = StringUtils.EMPTY;
+		queryCall = queryCall + SQlUtil.getQuery("Product_customer_files_insert")
 				.replace("?PROJECTION_ID", String.valueOf(session.getProjectionId()))
 				.replace("?USER_ID", String.valueOf(session.getUserId())).replace("?SESSION_ID", sessionId);
-		return query;
+		return queryCall;
 	}
 
 	@Override

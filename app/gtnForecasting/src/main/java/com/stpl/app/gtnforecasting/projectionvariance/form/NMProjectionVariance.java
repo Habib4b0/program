@@ -1876,6 +1876,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
                     generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
                     generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
+                }
                 security();
                 flag = false;
             } catch (SystemException ex) {

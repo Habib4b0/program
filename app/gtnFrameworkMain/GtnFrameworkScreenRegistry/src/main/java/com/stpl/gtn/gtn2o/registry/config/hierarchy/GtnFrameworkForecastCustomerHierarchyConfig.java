@@ -7,12 +7,14 @@ import java.util.List;
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDateValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateFieldConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkV8DualListBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
@@ -73,7 +75,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameworkComponentConfig hierarchyName = new GtnUIFrameworkComponentConfig();
 		hierarchyName.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		hierarchyName.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
-		hierarchyName.setComponentId("forecastLandingScreen_customerHierarchy");
+		hierarchyName.setComponentId(nameSpace + "_customerHierarchy");
 		hierarchyName.setComponentName("Hierarchy");
 		hierarchyName.setAddToParent(Boolean.TRUE);
 		hierarchyName.setParentComponentId(nameSpace + "_" + "hierarchyLayout");
@@ -97,7 +99,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameworkComponentConfig relationship = new GtnUIFrameworkComponentConfig();
 		relationship.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		relationship.setComponentName("Relationship");
-		relationship.setComponentId("Commercial_Forecasting_customerSelectionRelationship");
+		relationship.setComponentId(nameSpace + "_customerSelectionRelationship");
 		relationship.setAddToParent(Boolean.TRUE);
 		relationship.setParentComponentId(nameSpace + "_" + "relationshipLayout");
 		relationship.setVaadinComponentPlaceHolder(GtnFrameworkScreenRegisteryConstants.SELECTONE);
@@ -112,14 +114,13 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		forecastingCustomerHierarchyForecastLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		forecastingCustomerHierarchyForecastLevelLoadAction
 				.addActionParameter(GtnCustomerSelectionForecastLevelLoadAction.class.getName());
+		forecastingCustomerHierarchyForecastLevelLoadAction.addActionParameter(nameSpace + "_customerHierarchy");
 		forecastingCustomerHierarchyForecastLevelLoadAction
-				.addActionParameter("forecastLandingScreen_customerHierarchy");
+				.addActionParameter(nameSpace + "_customerSelectionForecastLevel");
 		forecastingCustomerHierarchyForecastLevelLoadAction
-				.addActionParameter("Commercial_Forecasting_customerSelectionForecastLevel");
+				.addActionParameter(nameSpace + "_customerSelectionRelationship");
 		forecastingCustomerHierarchyForecastLevelLoadAction
-				.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
-		forecastingCustomerHierarchyForecastLevelLoadAction
-				.addActionParameter("Commercial_Forecasting_customerRelationshipVersion");
+				.addActionParameter(nameSpace + "_customerRelationshipVersion");
 		actionConfigList.add(forecastingCustomerHierarchyForecastLevelLoadAction);
 
 		relationship.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -130,7 +131,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		customerSelectionRelationshipVersionLayout.setVisible(false);
 
 		GtnUIFrameworkComponentConfig customerRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
-				"Commercial_Forecasting_customerRelationshipVersion", true,
+				nameSpace + "_customerRelationshipVersion", true,
 				customerSelectionRelationshipVersionLayout.getComponentId(),
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerRelationshipVersion.setComponentName("CustomerRelationshipVersion");
@@ -153,7 +154,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig forecastLevel = new GtnUIFrameworkComponentConfig();
 		forecastLevel.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		forecastLevel.setComponentId("Commercial_Forecasting_customerSelectionForecastLevel");
+		forecastLevel.setComponentId(nameSpace + "_customerSelectionForecastLevel");
 		forecastLevel.setComponentName("Forecast Level");
 		forecastLevel.setAddToParent(Boolean.TRUE);
 		forecastLevel.setParentComponentId(nameSpace + "_" + "forecastLevelLayout");
@@ -168,11 +169,10 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameWorkActionConfig innerLevelLoadAction = new GtnUIFrameWorkActionConfig();
 		innerLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		innerLevelLoadAction.addActionParameter(GtnFrameworkForecastInnerLevelLoadAction.class.getName());
-		innerLevelLoadAction.addActionParameter("forecastLandingScreen_customerHierarchy");
-		innerLevelLoadAction.addActionParameter("Commercial_Forecasting_customerSelectionForecastLevel");
-		innerLevelLoadAction.addActionParameter("Commercial_Forecasting_customerSelectionLevel");
-		actionConfigList.add(innerLevelLoadAction);
-		forecastLevel.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		innerLevelLoadAction.addActionParameter(nameSpace + "_customerHierarchy");
+		innerLevelLoadAction.addActionParameter(nameSpace + "_customerSelectionForecastLevel");
+		innerLevelLoadAction.addActionParameter(nameSpace + "_customerSelectionLevel");
+		forecastLevel.addGtnUIFrameWorkActionConfig(innerLevelLoadAction);
 		componentList.add(forecastLevel);
 	}
 
@@ -208,13 +208,22 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig forecastEligibleDate = new GtnUIFrameworkComponentConfig();
 		forecastEligibleDate.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
-		forecastEligibleDate.setComponentId("Commercial_Forecasting_customerSelectionForecastEligibilityDate");
+		forecastEligibleDate.setComponentId(nameSpace + "_customerSelectionForecastEligibilityDate");
 		forecastEligibleDate.setComponentName("Forecast Eligible Date");
 		forecastEligibleDate.setAddToParent(Boolean.TRUE);
 		forecastEligibleDate.setParentComponentId(nameSpace + "_" + "forecastEligibleDateLayout");
 		forecastEligibleDate.setComponentHight("20px");
 		componentList.add(forecastEligibleDate);
 
+		List<GtnUIFrameWorkActionConfig> levelactionConfigList = availableLoadActionList(nameSpace);
+
+		GtnUIFrameWorkActionConfig dateValueChangeAction = new GtnUIFrameWorkActionConfig();
+		dateValueChangeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		dateValueChangeAction.addActionParameter(GtnFrameworkForecastDateValueChangeAction.class.getName());
+		dateValueChangeAction.addActionParameter(levelactionConfigList);
+
+		GtnUIFrameworkDateFieldConfig dateFieldConfig = new GtnUIFrameworkDateFieldConfig();
+		dateFieldConfig.addValueChangeActionConfig(dateValueChangeAction);
 	}
 
 	private void addCustomerSelectionInnerPanel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -245,7 +254,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig level = new GtnUIFrameworkComponentConfig();
 		level.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		level.setComponentId("Commercial_Forecasting_customerSelectionLevel");
+		level.setComponentId(nameSpace + "_customerSelectionLevel");
 		level.setComponentName("Level");
 		level.setAddToParent(Boolean.TRUE);
 		level.setParentComponentId(nameSpace + "_" + "levelLayout");
@@ -306,18 +315,17 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameWorkActionConfig levelValueChangeAction = new GtnUIFrameWorkActionConfig();
 		levelValueChangeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		levelValueChangeAction.addActionParameter(GtnCustomerAvailableTableLoadAction.class.getName());
-		levelValueChangeAction.addActionParameter("forecastLandingScreen_customerHierarchy");
-		levelValueChangeAction.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
-		levelValueChangeAction.addActionParameter("Commercial_Forecasting_customerRelationshipVersion");
-		levelValueChangeAction.addActionParameter("Commercial_Forecasting_customerSelectionLevel");
-		levelValueChangeAction.addActionParameter("Commercial_Forecasting_customerSelectionForecastEligibilityDate");
-		levelValueChangeAction.addActionParameter("Commercial Forecasting_customerDualListBox");
-		levelValueChangeAction.addActionParameter(nameSpace + "_" + "customerGroup");
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerHierarchy");
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerSelectionRelationship");
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerRelationshipVersion");
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerSelectionLevel");
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerSelectionForecastEligibilityDate");
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerDualListBox");
 		actionConfigList.add(levelValueChangeAction);
 
 		GtnUIFrameWorkActionConfig loadDualListBoxLeftTableAction = new GtnUIFrameWorkActionConfig();
 		loadDualListBoxLeftTableAction.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_LEFT_TABLE_LOADACTION);
-		loadDualListBoxLeftTableAction.addActionParameter("Commercial Forecasting_customerDualListBox");
+		loadDualListBoxLeftTableAction.addActionParameter(nameSpace + "_customerDualListBox");
 		actionConfigList.add(loadDualListBoxLeftTableAction);
 
 		return actionConfigList;

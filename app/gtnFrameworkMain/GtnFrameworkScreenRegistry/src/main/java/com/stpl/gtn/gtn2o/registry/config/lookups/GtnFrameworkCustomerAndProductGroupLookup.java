@@ -220,7 +220,6 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 		List<GtnUIFrameWorkActionConfig> customerAndProductGroupResetActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customerAndProductGroupResetActionConfig = new GtnUIFrameWorkActionConfig();
 		customerAndProductGroupResetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
-
 		List<Object> params = new ArrayList<>();
 		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION);
 		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION_MESSAGE);
@@ -360,7 +359,6 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 				.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		forecastCustomerProductGroupSelectButton.setAddToParent(true);
-		// forecastCustomerHierarchySelectButton.addDependentComponent("Commercial_Forecasting_customerSelectionRelationship");
 
 		componentList.add(forecastCustomerProductGroupSelectButton);
 

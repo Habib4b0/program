@@ -119,13 +119,11 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		forecastingProductHierarchyForecastLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		forecastingProductHierarchyForecastLevelLoadAction
 				.addActionParameter(GtnCustomerSelectionForecastLevelLoadAction.class.getName());
-		forecastingProductHierarchyForecastLevelLoadAction
-				.addActionParameter("Commercial Forecasting_prodhierarchyName");
-		forecastingProductHierarchyForecastLevelLoadAction
-				.addActionParameter("Commercial Forecasting_prodforecastLevel");
+		forecastingProductHierarchyForecastLevelLoadAction.addActionParameter(nameSpace + "_prodhierarchyName");
+		forecastingProductHierarchyForecastLevelLoadAction.addActionParameter(nameSpace + "_prodforecastLevel");
 		forecastingProductHierarchyForecastLevelLoadAction.addActionParameter(nameSpace + "_" + "prodrelationship");
 		forecastingProductHierarchyForecastLevelLoadAction
-				.addActionParameter("Commercial_Forecasting_productRelationshipVersion");
+				.addActionParameter(nameSpace + "_productRelationshipVersion");
 		actionConfigList.add(forecastingProductHierarchyForecastLevelLoadAction);
 		actionConfigList.add(valueChangeAction);
 		relationship.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -136,7 +134,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		productSelectionRelationshipVersionLayout.setVisible(false);
 
 		GtnUIFrameworkComponentConfig productRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
-				"Commercial_Forecasting_productRelationshipVersion", true,
+				nameSpace + "_productRelationshipVersion", true,
 				productSelectionRelationshipVersionLayout.getComponentId(),
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		productRelationshipVersion.setComponentName("ProductRelationshipVersion");
@@ -173,11 +171,10 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		GtnUIFrameWorkActionConfig innerProductLevelLoadAction = new GtnUIFrameWorkActionConfig();
 		innerProductLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		innerProductLevelLoadAction.addActionParameter(GtnFrameworkForecastInnerLevelLoadAction.class.getName());
-		innerProductLevelLoadAction.addActionParameter("Commercial Forecasting_prodhierarchyName");
-		innerProductLevelLoadAction.addActionParameter("Commercial Forecasting_prodforecastLevel");
-		innerProductLevelLoadAction.addActionParameter("Commercial Forecasting_productLevel");
-		actionConfigList.add(innerProductLevelLoadAction);
-		forecastLevel.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		innerProductLevelLoadAction.addActionParameter(nameSpace + "_prodhierarchyName");
+		innerProductLevelLoadAction.addActionParameter(nameSpace + "_prodforecastLevel");
+		innerProductLevelLoadAction.addActionParameter(nameSpace + "_productLevel");
+		forecastLevel.addGtnUIFrameWorkActionConfig(innerProductLevelLoadAction);
 		componentList.add(forecastLevel);
 	}
 
@@ -210,7 +207,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 				nameSpace + "_" + "productSelectionLayout");
 		customViewLayout.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
 		componentList.add(customViewLayout);
-		
+
 		addSalesCustomView(componentList, nameSpace);
 		addDeductionCustomView(componentList, nameSpace);
 	}
@@ -240,8 +237,8 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		loadCustomViewAction.addActionParameter(nameSpace + "_" + "customerRelationshipVersion");
 		loadCustomViewAction.addActionParameter("salesCustomView");
 		loadCustomViewAction.addActionParameter(nameSpace + "_" + "salesCustomView");
-		salesCustomView.setReloadActionConfig(loadCustomViewAction);
-		salesCustomView.setReloadLogicActionClassName(GtnFrameworkForecastCustomViewLoadAction.class.getName());
+		// salesCustomView.setReloadActionConfig(loadCustomViewAction);
+		// salesCustomView.setReloadLogicActionClassName(GtnFrameworkForecastCustomViewLoadAction.class.getName());
 		salesCustomView.setGtnComboboxConfig(salesCustomViewConfig);
 
 	}
@@ -271,8 +268,8 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		loadCustomViewAction.addActionParameter(nameSpace + "_" + "customerRelationshipVersion");
 		loadCustomViewAction.addActionParameter("deductionCustomView");
 		loadCustomViewAction.addActionParameter(nameSpace + "_" + "deductionCustomView");
-		deductionCustomView.setReloadActionConfig(loadCustomViewAction);
-		deductionCustomView.setReloadLogicActionClassName(GtnFrameworkForecastCustomViewLoadAction.class.getName());
+		// deductionCustomView.setReloadActionConfig(loadCustomViewAction);
+		// deductionCustomView.setReloadLogicActionClassName(GtnFrameworkForecastCustomViewLoadAction.class.getName());
 		deductionCustomView.setGtnComboboxConfig(salesCustomViewConfig);
 	}
 
@@ -317,12 +314,11 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 		GtnUIFrameWorkActionConfig loadAvailabletableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadAvailabletableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		loadAvailabletableActionConfig
-				.setActionParameterList(Arrays.asList(GtnForecastingProductAvailableTableLoadAction.class.getName(),
-						"Commercial Forecasting_prodhierarchyName", "Commercial Forecasting_prodrelationship",
-						"Commercial_Forecasting_productRelationshipVersion", "Commercial Forecasting_productLevel",
-						"Commercial Forecasting_businessUnit", "Commercial_Forecasting_customerRelationshipVersion",
-						nameSpace + "_" + "productDualListBox"));
+		loadAvailabletableActionConfig.setActionParameterList(Arrays.asList(
+				GtnForecastingProductAvailableTableLoadAction.class.getName(), nameSpace + "_prodhierarchyName",
+				nameSpace + "_prodrelationship", nameSpace + "_productRelationshipVersion", nameSpace + "_productLevel",
+				nameSpace + "_businessUnit", nameSpace + "_customerRelationshipVersion",
+				nameSpace + "_" + "productDualListBox"));
 		actionConfigList.add(loadAvailabletableActionConfig);
 
 		GtnUIFrameWorkActionConfig loadDualListBoxLeftTableAction = new GtnUIFrameWorkActionConfig();
