@@ -255,6 +255,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
                 HelperDTO hlpd = (HelperDTO) adjItem;
                 if (bsrDataSelectionDTO.getAdjustmentId() == hlpd.getId()) {
                     adjItemToAdd = adjItem;
+                    break;
                 }
             }
         }

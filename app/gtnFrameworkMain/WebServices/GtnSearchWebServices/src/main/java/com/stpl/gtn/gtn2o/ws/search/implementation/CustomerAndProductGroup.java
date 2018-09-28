@@ -40,6 +40,7 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
             GtnSerachResponse searchResponse = new GtnSerachResponse();
             List<GtnWebServiceSearchCriteria> list = gtnUiFrameworkWebservicerequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList();
             StringBuilder stringQuery = new StringBuilder();
+            String cpgQuery;
             getQueryMap(gtnSearchSqlService, list);
             int count = 0;
             List<Object> param = new ArrayList();
@@ -66,10 +67,10 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
             Object[] params = new Object[count];
             params = param.toArray(params);
             GtnFrameworkDataType[] dataType = new GtnFrameworkDataType[count];
-            query = query.replace("@Condition", stringQuery);
-            logger.debug("Customer And Product Group query" + (query));
+            cpgQuery = query.replace("@Condition", stringQuery);
+            logger.debug("Customer And Product Group query" + (cpgQuery));
             CallQueryEngineSearchWs callQueryEngine = new CallQueryEngineSearchWs();
-            GtnQueryEngineWebServiceResponse responseForCustAndProd = callQueryEngine.commonCallWithParams(query, "SELECTWITHPARAMS", params, data.toArray(dataType));
+            GtnQueryEngineWebServiceResponse responseForCustAndProd = callQueryEngine.commonCallWithParams(cpgQuery, "SELECTWITHPARAMS", params, data.toArray(dataType));
             List<Object[]> resultList = responseForCustAndProd.getQueryResponseBean().getResultList();
             GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
             dataTable.addData(resultList);

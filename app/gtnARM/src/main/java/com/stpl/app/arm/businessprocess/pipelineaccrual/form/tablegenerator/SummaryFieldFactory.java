@@ -29,7 +29,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.slf4j.Logger;
@@ -44,7 +43,6 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
     protected final AbstractSummaryLogic logic;
     private final AbstractSelectionDTO selection;
     public static final Logger LOGGER = LoggerFactory.getLogger(SummaryFieldFactory.class);
-    public final ExecutorService service = ThreadPool.getInstance().getService();
     private Boolean isFieldRequire;
     private final DataFormatConverter curZero = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_DOLLAR);
     private boolean summaryCheckLeave = false;
@@ -101,6 +99,7 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
     };
 
     protected void valueChangeLogic(AdjustmentDTO dto, Object val, Object propertyId, Component uiContext) {
+        ThreadPool service = ThreadPool.getInstance();
         ExtCustomTable table = (ExtCustomTable) uiContext;
         int singleVisibleColumn = Integer.parseInt(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
         if (ARMCheckUtils.isSingleVisibleColumnPresentInDto(singleVisibleColumn, dto)
@@ -130,7 +129,7 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
             input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
             input.addAll(logic.getTableInput(selection.getSessionDTO()));
             summaryCheckLeave = true;
-            service.submit(new SummaryUpdateOverride(input));
+            service.submitRunnable(new SummaryUpdateOverride(input));
         }
     }
 
