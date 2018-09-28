@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -25,7 +27,7 @@ import com.vaadin.ui.TreeGrid;
 public class GtnFrameworkNewToOldArchitectureGenerateAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkNewToOldArchitectureGenerateAction.class);
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkNewToOldArchitectureGenerateAction.class);
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -43,28 +45,44 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
             String description = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_projectionDescription").getV8StringFromField();
 
 			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("forecastLandingScreen_customerHierarchy", componentId).getComponentData()
-					.getCustomData();
+					.getVaadinBaseComponent(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP,
+							componentId)
+					.getComponentData().getCustomData();
 
-            String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION, componentId).getCaptionFromV8ComboBox());
+			String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION, componentId)
+					.getCaptionFromV8ComboBox());
 			String hierarchyVersionNo = recordBean.getPropertyValueByIndex(6).toString();
 
 			GtnWsRecordBean recordBeanProduct = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME, componentId).getComponentData()
-					.getCustomData();
-			String productRelationVersionNo = String.valueOf((GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION, componentId).getCaptionFromV8ComboBox()));
+					.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME,
+							componentId)
+					.getComponentData().getCustomData();
+			String productRelationVersionNo = String.valueOf((GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION, componentId)
+					.getCaptionFromV8ComboBox()));
 			String productHierarchyVersionNo = recordBeanProduct.getPropertyValueByIndex(6).toString();
 
             String businessUnit = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_businessUnit").getCaptionFromV8ComboBox();
 
-            String customerForecastLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL).getCaptionFromV8ComboBox();
+			String customerForecastLevel = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL)
+					.getCaptionFromV8ComboBox();
 
-            String customerLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL).getCaptionFromV8ComboBox();
+			String customerLevel = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL)
+					.getCaptionFromV8ComboBox();
 
-            String productForecastLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODFORECASTLEVEL).getCaptionFromV8ComboBox();
+			String productForecastLevel = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODFORECASTLEVEL)
+					.getCaptionFromV8ComboBox();
 
-            String productLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL).getCaptionFromV8ComboBox();
+			String productLevel = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL)
+					.getCaptionFromV8ComboBox();
 
 			List<Object> parametersForDataSelection = new ArrayList<>();
 			parametersForDataSelection.add(fromPeriod);
