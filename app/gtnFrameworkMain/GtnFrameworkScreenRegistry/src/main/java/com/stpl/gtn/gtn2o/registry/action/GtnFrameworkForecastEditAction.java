@@ -43,12 +43,6 @@ public class GtnFrameworkForecastEditAction
 			GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
 			inputBean.setUserId(userId);
 			inputBean.setSessionId(sessionId);
-			ForecastUI ui = new ForecastUI();
-			if (actionParamsList.get(2).equals("View")) {
-				ui.getForecastingToView(inputBean, userId, sessionId);
-			} else {
-				ui.getForecastingToEdit(inputBean, userId, sessionId);
-			}
 		} catch (ParseException ex) {
 			Logger.getLogger(GtnFrameworkForecastEditAction.class.getName()).log(Level.SEVERE, null, ex);
 		}

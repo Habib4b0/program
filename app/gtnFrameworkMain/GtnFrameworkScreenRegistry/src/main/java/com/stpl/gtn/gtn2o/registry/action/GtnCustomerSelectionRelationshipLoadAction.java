@@ -49,10 +49,8 @@ public class GtnCustomerSelectionRelationshipLoadAction
 					relationshipIdList.add(relationshipBuilderBean.getRelationshipBuilderSid());
 				}
 
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2))
-						.loadItemsToCombobox(relationshipCaptionList, relationshipIdList);
 
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(params.get(2).toString()).loadV8ComboBoxComponentValue(
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(params.get(2).toString(),componentId).loadV8ComboBoxComponentValue(
 						params.size() > 3 ? Integer.valueOf(params.get(3).toString()) : 0);
 			}
 		} catch (Exception ex) {
