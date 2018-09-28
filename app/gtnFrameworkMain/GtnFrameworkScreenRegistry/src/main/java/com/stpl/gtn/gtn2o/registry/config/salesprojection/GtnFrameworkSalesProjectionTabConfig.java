@@ -389,12 +389,9 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		salesProjectionTreeTableConfig.setRightHeaderCustomClassLoadUrl(
 				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION);
 
-		//salesProjectionTreeTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
-
 		salesProjectionTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
 
 		salesProjectionResultTableComponentConfig.setGtnPagedTreeTableConfig(salesProjectionTreeTableConfig);
-		//componentList.add(salesProjectionResultTableComponentConfig);
 
 	}
 
