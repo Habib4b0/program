@@ -8,6 +8,7 @@ import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.util.CommonUtils;
 import static com.stpl.app.cff.util.CommonUtils.BOTH;
 import static com.stpl.app.cff.util.Constants.LabelConstants.*;
+import com.stpl.app.cff.util.ConstantsUtil;
 import static com.stpl.app.cff.util.HeaderUtils.getCommonColumnHeader;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -469,7 +470,7 @@ public class ProjectionResultsLogic {
         String dateQuery = CommonLogic.getHistoryPeriodDate(freq, histNum);
         List dateList = HelperTableLocalServiceUtil.executeSelectQuery(dateQuery);
         String fromDate = StringUtils.EMPTY;
-        if (dateList != null && dateList.size() > 0) {
+        if (dateList != null && !dateList.isEmpty()) {
             Object obj = dateList.get(0);
             fromDate = String.valueOf(obj);
         }
@@ -1540,7 +1541,7 @@ public class ProjectionResultsLogic {
                             l++;
                         }
                         
-                        if (!projSelDTO.hasNonFetchableIndex("" + l)) {
+                        if (!projSelDTO.hasNonFetchableIndex("" + Integer.toString(l))) {
                             
                             projDTOList.add(projectionDtoList.get(k));
                         }

@@ -94,7 +94,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
             modeSelectRadio.setEnabled(true);
 
             List<String> forecastDetails = CommonLogic.getLatestApprovedProjection();
-            if(forecastDetails.size()!=0){
+            if(!forecastDetails.isEmpty()){
             sessionDTO.setProjectionId(Integer.valueOf(forecastDetails.get(0)));
             sessionDTO.setForecastingType(forecastDetails.get(1));
             }

@@ -2734,7 +2734,7 @@ public class PVExcelLogic {
                 }
             } else {
                 Object[] emptyArray = Collections.nCopies(obj.length, 0).toArray(new Object[0]);
-                if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
+                if (String.valueOf(obj[obj.length - 1]).equals(ZERO)) {
                     actual = list.get(0);
                     proj = emptyArray;
                 } else {
