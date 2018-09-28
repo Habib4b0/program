@@ -110,12 +110,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig projectionOptionsMainLayoutConfig = new GtnUIFrameworkComponentConfig();
 		projectionOptionsMainLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		projectionOptionsMainLayoutConfig.setComponentId(nameSpace + "_" + "projectionOptionsMainLayout");
-
-		projectionOptionsMainLayoutConfig.setAddToParent(Boolean.TRUE);
+		projectionOptionsMainLayoutConfig.setAddToParent(true);
 		projectionOptionsMainLayoutConfig.addComponentStyle("v-report-overflow-auto");
 		projectionOptionsMainLayoutConfig.setParentComponentId(nameSpace + "_" + "projectionOptions");
-		projectionOptionsMainLayoutConfig.setSpacing(Boolean.TRUE);
-
+		projectionOptionsMainLayoutConfig.setSpacing(true);
 		projectionOptionsMainLayoutConfig.setGtnLayoutConfig(projectionOptionsMainLayout);
 		componentList.add(projectionOptionsMainLayoutConfig);
 
@@ -129,10 +127,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig projectionOptionInnerLayoutConfig = new GtnUIFrameworkComponentConfig();
 		projectionOptionInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		projectionOptionInnerLayoutConfig.setComponentId(nameSpace + "_" + "projectionOptionsInnerLayout");
-
-		projectionOptionInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_8);
-		projectionOptionInnerLayoutConfig.setAddToParent(Boolean.TRUE);
-		projectionOptionInnerLayoutConfig.setSpacing(Boolean.TRUE);
+		projectionOptionInnerLayoutConfig.setAddToParent(true);
+		projectionOptionInnerLayoutConfig.setSpacing(true);
 		projectionOptionInnerLayoutConfig.setParentComponentId(parentComponentId);
 		projectionOptionInnerLayoutConfig.setGtnLayoutConfig(projectionOptionInnerLayout);
 		componentList.add(projectionOptionInnerLayoutConfig);
@@ -178,8 +174,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		fromToLayoutConfig.setComponentId(nameSpace + "_" + "fromToLayout");
 
 		fromToLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		fromToLayoutConfig.setAddToParent(Boolean.TRUE);
-		fromToLayoutConfig.setSpacing(Boolean.TRUE);
+		fromToLayoutConfig.setAddToParent(true);
+		fromToLayoutConfig.setSpacing(true);
 		fromToLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
 		fromToLayoutConfig
 				.setParentComponentId(nameSpace + GtnFrameworkScreenRegisteryConstants.UNDERSCORE + "timePeriod");
@@ -366,8 +362,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		company.setComponentId(nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
 		company.setComponentName(GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
 		company.setAddToParent(true);
-
-		company.setAddToParent(Boolean.TRUE);
 		company.setParentComponentId(nameSpace + "_" + "companyLayout");
 		company.setCustomReference(GtnFrameworkScreenRegisteryConstants.INTEGER_ID);
 
@@ -399,10 +393,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 		GtnUIFrameworkComboBoxConfig frequencyConfig = new GtnUIFrameworkComboBoxConfig();
 		frequencyConfig.setLoadingUrl(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL);
-
-		frequency.setAddToParent(Boolean.TRUE);
-		frequency.setParentComponentId(nameSpace + "_" + "frequencyLayout");
-		frequency.setCustomReference("integerId");
 
 		frequencyConfig.setHasDefaultValue(true);
 		frequencyConfig.setDefaultDesc("Quarterly");

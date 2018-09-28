@@ -34,12 +34,10 @@ public class GtnCustomerSelectionRelationshipLoadAction
 				Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean
 						.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
 				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = relationshipMap
-						.get(String.valueOf(recordBean.getPropertyValueByIndex(7)));
+						.get(Integer.valueOf(String.valueOf(recordBean.getPropertyValueByIndex(7))));
 				List<String> relationshipCaptionList = new ArrayList<>();
 				List<Integer> relationshipIdList = new ArrayList<>();
-
 				ObjectMapper mapper = new ObjectMapper();
-
 				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList = mapper.convertValue(
 						relationshipBuilderBeanListMapper, new TypeReference<List<GtnWsRelationshipBuilderBean>>() {
 						});

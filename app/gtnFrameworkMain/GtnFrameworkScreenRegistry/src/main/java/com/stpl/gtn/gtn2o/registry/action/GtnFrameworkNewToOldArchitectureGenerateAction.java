@@ -209,7 +209,7 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
 		dto.setToPeriod(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(17).toString())
 				.getStringCaptionFromV8ComboBox());
 		dto.setCustomerHierarchySid(
-                checkDDLBValues(Integer.parseInt(String.valueOf(customerRecordBean.getPropertyValueByIndex(7)))));
+				checkDDLBValues(Integer.parseInt(String.valueOf(customerRecordBean.getPropertyValueByIndex(7)))));
 		dto.setCustomerHierarchyVersion(
 				checkDDLBValues(Integer.parseInt(String.valueOf(customerRecordBean.getPropertyValueByIndex(6)))));
 		dto.setCustomerRelationSid(checkDDLBValues(Integer.parseInt(String.valueOf(
@@ -219,7 +219,7 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
 		dto.setCustomerHierarchyLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(6).toString()).getCaptionFromV8ComboBox()))));
 		dto.setProductHierarchySid(
-				checkDDLBValues(Integer.valueOf(String.valueOf(productRecordBean.getPropertyValueByIndex(7)))));
+				checkDDLBValues(Integer.parseInt(String.valueOf(productRecordBean.getPropertyValueByIndex(7)))));
 		dto.setProductHierarchyVersion(
 				checkDDLBValues(Integer.parseInt(String.valueOf(productRecordBean.getPropertyValueByIndex(6)))));
 		dto.setProductRelationSid(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
