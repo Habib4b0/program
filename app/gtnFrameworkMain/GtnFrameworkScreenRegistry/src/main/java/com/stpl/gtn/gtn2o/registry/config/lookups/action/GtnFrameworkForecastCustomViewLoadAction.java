@@ -62,10 +62,10 @@ public class GtnFrameworkForecastCustomViewLoadAction
 			if (customerRelationValue != "" || !customerRelationValue.isEmpty() && productRelationValue != ""
 					|| !productRelationValue.isEmpty()) {
 				GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
-				inputBean.setCustomerRelationSid(Integer.valueOf(customerRelationValue));
-				inputBean.setProductRelationSid(Integer.valueOf(productRelationValue));
-				inputBean.setCustomerRelationVersionNo(Integer.valueOf(customerRelationVersion));
-				inputBean.setProductRelationVersionNo(Integer.valueOf(productRelationVersion));
+				inputBean.setCustomerRelationSid(Integer.parseInt(customerRelationValue));
+				inputBean.setProductRelationSid(Integer.parseInt(productRelationValue));
+				inputBean.setCustomerRelationVersionNo(Integer.parseInt(customerRelationVersion));
+				inputBean.setProductRelationVersionNo(Integer.parseInt(productRelationVersion));
 
 				GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 				GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
