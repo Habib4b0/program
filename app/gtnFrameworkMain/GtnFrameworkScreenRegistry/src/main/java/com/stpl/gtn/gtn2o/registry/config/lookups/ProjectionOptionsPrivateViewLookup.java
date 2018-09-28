@@ -332,7 +332,7 @@ public class ProjectionOptionsPrivateViewLookup
 				"Description","Time Period:From",
 				"Time Period:To", "Customer Hierarchy", "Customer Level","Customer Group","Company","Brand Type","Product Hierarchy","Product Level","Product Group","Created Date","Modified Date","Created By","Business Unit"));
 		privateViewPagedTableConfig.setTableColumnMappingId(
-				new Object[] { "viewName", "description", "fromDate","toDate","customerHierarchy","customerLevel","customerGroup","company","brandType","productHierarchy","productLevel","productGroup","createdDate","modifiedDate",
+				new Object[] { GtnFrameworkForecastingStringConstants.VIEW_NAME, "description", "fromDate","toDate","customerHierarchy","customerLevel","customerGroup","company","brandType","productHierarchy","productLevel","productGroup","createdDate","modifiedDate",
 						"createdBy","businessUnit"});
 		privateViewPagedTableConfig.setQueryName("privatePublic");
                 List<String> additionalSearchCriteria = new ArrayList<>();
@@ -364,7 +364,7 @@ public class ProjectionOptionsPrivateViewLookup
 	}
 	
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		String[] columnPropertyIds = { "viewName", "description", "fromDate","toDate","customerHierarchy","customerLevel","customerGroup","company","brandType","productHierarchy","productLevel","productGroup","createdDate","modifiedDate","createdBy","businessUnit"};
+		String[] columnPropertyIds = { GtnFrameworkForecastingStringConstants.VIEW_NAME, "description", "fromDate","toDate","customerHierarchy","customerLevel","customerGroup","company","brandType","productHierarchy","productLevel","productGroup","createdDate","modifiedDate","createdBy","businessUnit"};
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> privateViewCustomFilterConfigMap = new HashMap<>(
 				columnPropertyIds.length);
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
@@ -437,13 +437,13 @@ public class ProjectionOptionsPrivateViewLookup
                 if(namespace.equals("Private"))
                 {
 		actionParameter.add(GtnFrameworkCommonConstants.COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
-                actionParameter.add(Arrays.asList("viewName"));
+                actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.VIEW_NAME));
                 actionParameter.add(Arrays.asList("Commercial Forecasting_privateViewLookup"));
                 }
                 if(namespace.equals("Public"))
                 {
                 actionParameter.add(GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
-                actionParameter.add(Arrays.asList("viewName"));
+                actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.VIEW_NAME));
                 actionParameter.add(Arrays.asList(GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW));
                 }
 		
