@@ -31,6 +31,7 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
+import com.stpl.ifs.util.constants.ARMConstants;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.v7.data.util.BeanItem;
@@ -151,7 +152,7 @@ public class WorkFlowNotesLookup extends Window {
         uploader.setEnabled(false);
         uploadReceiver = new FileUploader(StringUtils.EMPTY + "/" + userId);
         uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
-        fileUploadPath = FileUploader.FILE_PATH + StringUtils.EMPTY + "/" + userId + "/";
+        fileUploadPath = FileUploader.FILE_PATH + StringUtils.EMPTY + ARMConstants.getForwardSlash() + userId + ARMConstants.getForwardSlash();
         uploadComponent.setButtonCaption(ARMUtils.ADD);
         uploadComponent.setStyleName("uploadIdBB");
         cssLayout1.addComponent(addAttachmentLable);
@@ -207,7 +208,7 @@ public class WorkFlowNotesLookup extends Window {
                         fileNameField.setValue(StringUtils.EMPTY);
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("Error in call :" , ex);
+                    LOGGER.error("Error in call :", ex);
                 }
                 uploader.focus();
             }
@@ -346,7 +347,7 @@ public class WorkFlowNotesLookup extends Window {
                 fileNameField.setValue(StringUtils.EMPTY);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in uploadComponentSucceededLogic :" , ex);
+            LOGGER.error("Error in uploadComponentSucceededLogic :", ex);
         }
 
     }
@@ -381,7 +382,7 @@ public class WorkFlowNotesLookup extends Window {
                 fileNameField.setValue(StringUtils.EMPTY);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in uploadComponentStartedLogic :" , ex);
+            LOGGER.error("Error in uploadComponentStartedLogic :", ex);
         }
 
     }
@@ -466,7 +467,7 @@ public class WorkFlowNotesLookup extends Window {
                 Page.getCurrent().open(res, "_blank", true);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in downloadFile :" , ex);
+            LOGGER.error("Error in downloadFile :", ex);
         }
     }
 

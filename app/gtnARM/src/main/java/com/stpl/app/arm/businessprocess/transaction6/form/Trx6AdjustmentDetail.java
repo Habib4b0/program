@@ -119,5 +119,15 @@ public class Trx6AdjustmentDetail extends AbstractAdjustmentDetails {
         generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
 
     }
+    
+    @Override
+    public boolean equals(Object infAdjDetobj) {
+        return super.equals(infAdjDetobj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
 }
