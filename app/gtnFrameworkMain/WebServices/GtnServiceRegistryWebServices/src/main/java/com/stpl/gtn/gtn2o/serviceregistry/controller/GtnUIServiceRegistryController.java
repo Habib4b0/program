@@ -3,7 +3,6 @@ package com.stpl.gtn.gtn2o.serviceregistry.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

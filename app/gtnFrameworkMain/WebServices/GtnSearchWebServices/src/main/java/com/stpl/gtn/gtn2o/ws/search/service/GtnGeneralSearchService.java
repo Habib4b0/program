@@ -177,7 +177,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
                     .getViewType();
             String viewName = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
                     .getViewName();
-            Integer userId = Integer.parseInt(gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId());
+            Integer userId = Integer.valueOf(gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId());
 
             GtnFrameworkForecastDataSelectionBean dataSelectionBean = gtnUiFrameworkWebservicerequest
                     .getGtnWsForecastNewArchRequest().getDataSelectionBean();
