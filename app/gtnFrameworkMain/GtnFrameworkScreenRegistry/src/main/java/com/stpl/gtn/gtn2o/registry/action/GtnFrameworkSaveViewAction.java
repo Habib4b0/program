@@ -166,22 +166,6 @@ public class GtnFrameworkSaveViewAction
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, popupAction);
 		gtnLogger.info("privateViewName--------->" + privateViewName);
 		gtnLogger.info("publicViewName----------->" + publicViewName);
-//		if (!"".equals(privateViewName) || !"".equals(publicViewName)) {
-//			String viewName = !"".equals(privateViewName) ? privateViewName : "";
-//			viewName = !"".equals(viewName) ? viewName : publicViewName;
-//			dataSelectionBean.setViewId(getViewId(privateViewName));
-//			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("forecastDsSaveViewLookUp_saveViewName", componentId)
-//					.loadV8FieldValue(viewName);
-//			GtnUIFrameWorkActionConfig updateEnableAction = new GtnUIFrameWorkActionConfig();
-//			updateEnableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-//			updateEnableAction.addActionParameter("forecastDsSaveViewLookUp_saveViewUpdate");
-//			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateEnableAction);
-//
-//			GtnUIFrameWorkActionConfig updateDisableAction = new GtnUIFrameWorkActionConfig();
-//			updateDisableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-//			updateDisableAction.addActionParameter("forecastDsSaveViewLookUp_saveViewAdd");
-//			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateDisableAction);
-//		}
 		}
 		catch(Exception e)
 		{
