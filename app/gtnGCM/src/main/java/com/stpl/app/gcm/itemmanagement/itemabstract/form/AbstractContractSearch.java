@@ -1190,10 +1190,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     public boolean getBooleanValue(List list) {
-        if (list == null || list.isEmpty()) {
-            return false;
-        }
-        return true;
+        return !(list == null || list.isEmpty());
     }
 
     private boolean isPresent() {
@@ -1506,10 +1503,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
     public boolean singleContractCheck(String queryName, List input) {
         List<Object[]> contractList = ItemQueries.getItemData(input, queryName, null);
-        if (AbstractLogic.getCount(contractList) == 1) {
-            return true;
-        }
-        return false;
+        return AbstractLogic.getCount(contractList) == 1;
 
     }
 
@@ -1533,11 +1527,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     public boolean selectingOneContract(String queryName, List input) {
 
         List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
-        if (AbstractLogic.getCount(list) == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return AbstractLogic.getCount(list) != 0;
     }
 
     public String getContractItemName() {

@@ -507,10 +507,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
         input.add(selectionDto.getSessionId());
         input.add(ConstantsUtil.CURRENT_COONTRACT);
         List list = ItemQueries.getItemData(input, "Mass Update checkreord check", null);
-        if (list == null || list.isEmpty()) {
-            return false;
-        }
-        return true;
+        return !(list == null || list.isEmpty());
     }
 
     @Override
