@@ -6,11 +6,12 @@
 package com.stpl.app.arm.dataselection.dto;
 
 import com.stpl.ifs.ui.util.NumericConstants;
+import java.util.Objects;
 import org.apache.commons.lang.StringUtils;
 
 /**
  *
- * @author 
+ * @author
  */
 public class LevelDTO implements Comparable<LevelDTO> {
 
@@ -335,6 +336,16 @@ public class LevelDTO implements Comparable<LevelDTO> {
 
     public void setHierarchyVersionNo(int hierarchyVersionNo) {
         this.hierarchyVersionNo = hierarchyVersionNo;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object levelObj) {
+        return super.equals(levelObj);
     }
 
 }

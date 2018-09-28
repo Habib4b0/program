@@ -9,7 +9,6 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
 import com.stpl.app.arm.common.CommonLogic;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +22,7 @@ public class SummarySelection extends AbstractSelectionDTO implements Serializab
     private List<String> deductionVariablesName;
     private List<Integer> deductionVariableIds;
     private String frequency;
-    private HashMap<Object, String> headerVisibleColumnMap;
+    private transient Map<Object, String> headerVisibleColumnMap;
     private Map<Integer, String> summaryLevel;
 
     private int levelNo;
@@ -58,11 +57,11 @@ public class SummarySelection extends AbstractSelectionDTO implements Serializab
         this.deductionVariableIds = CommonLogic.getInstance().getArrayListCloned(deductionVariableIds);
     }
 
-    public HashMap<Object, String> getHeaderVisibleColumnMap() {
+    public Map<Object, String> getHeaderVisibleColumnMap() {
         return headerVisibleColumnMap;
     }
 
-    public void setHeaderVisibleColumnMap(HashMap<Object, String> headerVisibleColumnMap) {
+    public void setHeaderVisibleColumnMap(Map<Object, String> headerVisibleColumnMap) {
         this.headerVisibleColumnMap = headerVisibleColumnMap;
     }
 
