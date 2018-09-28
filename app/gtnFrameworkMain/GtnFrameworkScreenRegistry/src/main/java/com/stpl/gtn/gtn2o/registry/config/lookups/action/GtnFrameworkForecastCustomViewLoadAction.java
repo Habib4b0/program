@@ -106,7 +106,7 @@ public class GtnFrameworkForecastCustomViewLoadAction
 							.loadItemsToCombobox(valueList, idList);
 				}
 			}
-		
+
 		} catch (GtnFrameworkGeneralException ex) {
 			gtnLogger.error(ex.getMessage());
 		}

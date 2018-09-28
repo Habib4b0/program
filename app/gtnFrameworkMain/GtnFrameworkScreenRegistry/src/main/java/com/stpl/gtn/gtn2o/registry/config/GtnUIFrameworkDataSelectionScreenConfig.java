@@ -474,7 +474,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionDescription.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		projectionDescription.setComponentId(
 				nameSpace + "_" + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION);
-		projectionDescription.setComponentName("Projection Description");
+		projectionDescription.setComponentName("Description");
 		projectionDescription.setAddToParent(true);
 		projectionDescription.setParentComponentId(nameSpace + "_" + "projectionDescriptionLayout");
 		componentList.add(projectionDescription);

@@ -20,23 +20,24 @@ public class GtnFrameworkCommercialForecastingConfig {
 		List<GtnUIFrameworkViewConfig> viewList = new ArrayList<>();
 		viewList.add(new GtnFrameworkForecastingLandingScreenConfig().getSearchView());
 		viewList.add(new ForecastGenerateLookup()
-                        .getGtnForecastGenerateLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING));
+				.getGtnForecastGenerateLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING));
 		viewList.add(new GtnFrameworkForecastProductHierarchyLookUp()
-                        .getProdHierarchyLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING));
-		viewList.add(new GtnFrameworkForecastCustomertHierarchyLookUp()
-                        .getCustHierarchyLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING_LANDING_SCREEEN));
+				.getProdHierarchyLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING));
+		viewList.add(new GtnFrameworkForecastCustomertHierarchyLookUp().getCustHierarchyLookUpView(
+				GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING_LANDING_SCREEEN));
 
 		viewList.add(new GtnFrameworkCustomerAndProductGroupLookup()
-                . getCustProdGroupLookUpView(GtnUIFrameworkCommercialForecastingConstants.CUSTOMER_GROUP));
+				.getCustProdGroupLookUpView(GtnUIFrameworkCommercialForecastingConstants.CUSTOMER_GROUP));
 		viewList.add(new GtnFrameworkCustomerAndProductGroupLookup()
-                . getCustProdGroupLookUpView(GtnUIFrameworkCommercialForecastingConstants.PRODUCT_GROUP));
-	
-                viewList.add(new GtnFrameworkForecastDataSelectionSaveViewLookup()
-                        . getSaveViewLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING));
-                viewList.add(new ProjectionOptionsPrivateViewLookup(). getPrivateViewLookUpView(GtnUIFrameworkCommercialForecastingConstants.PRIVATE));
-                viewList.add(new ProjectionOptionsPrivateViewLookup()
-                . getPrivateViewLookUpView(GtnUIFrameworkCommercialForecastingConstants.PUBLIC));
-		
+				.getCustProdGroupLookUpView(GtnUIFrameworkCommercialForecastingConstants.PRODUCT_GROUP));
+
+		viewList.add(new GtnFrameworkForecastDataSelectionSaveViewLookup()
+				.getSaveViewLookUpView(GtnUIFrameworkCommercialForecastingConstants.COMMERCIAL_FORECASTING));
+		viewList.add(new ProjectionOptionsPrivateViewLookup()
+				.getPrivateViewLookUpView(GtnUIFrameworkCommercialForecastingConstants.PRIVATE));
+		viewList.add(new ProjectionOptionsPrivateViewLookup()
+				.getPrivateViewLookUpView(GtnUIFrameworkCommercialForecastingConstants.PUBLIC));
+
 		rootConfig.setGtnViewConfigList(viewList);
 		return rootConfig;
 	}
