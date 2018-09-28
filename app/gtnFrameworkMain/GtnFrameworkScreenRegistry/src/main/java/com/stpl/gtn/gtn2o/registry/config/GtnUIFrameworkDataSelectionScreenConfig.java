@@ -172,6 +172,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig fromToLayoutConfig = new GtnUIFrameworkComponentConfig();
 		fromToLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		fromToLayoutConfig.setComponentId(nameSpace + "_" + "fromToLayout");
+
 		fromToLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		fromToLayoutConfig.setAddToParent(true);
 		fromToLayoutConfig.setSpacing(true);
@@ -196,6 +197,15 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionSelectionLayoutConfig.setParentComponentId(parentComponentId);
 		projectionSelectionLayoutConfig.setGtnLayoutConfig(projectionSelectionLayout);
 		componentList.add(projectionSelectionLayoutConfig);
+
+		addPrivateViewLookup(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
+		addCompany(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
+		addProjectionName(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
+		addPublicViewLookup(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
+		addBusinessUnit(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
+		addProjectionDescription(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
+		addFrequency(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
+		addDeductionLevel(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 
 		addPrivateCompanyLayout(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addPublicBusinessUnitLayout(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
@@ -380,11 +390,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		frequency.setAddToParent(true);
 		frequency.setParentComponentId(nameSpace + "_" + "frequencyLayout");
 		frequency.setCustomReference(GtnFrameworkScreenRegisteryConstants.INTEGER_ID);
-
 		GtnUIFrameworkComboBoxConfig frequencyConfig = new GtnUIFrameworkComboBoxConfig();
+		frequencyConfig.setLoadingUrl(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL);
 		frequencyConfig.setHasDefaultValue(true);
 		frequencyConfig.setDefaultDesc("Quarterly");
-		frequencyConfig.setLoadingUrl(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL);
 		frequencyConfig.setComboBoxType("frequency");
 		frequencyConfig.setActualWsUrl(GtnFrameworkScreenRegisteryConstants.SEARCH_RESULTS_URL);
 		frequencyConfig.setModuleName(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY);
@@ -478,6 +487,45 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionDescription.setAddToParent(true);
 		projectionDescription.setParentComponentId(nameSpace + "_" + "projectionDescriptionLayout");
 		componentList.add(projectionDescription);
+	}
+
+	private void addTimePeriod(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		GtnUIFrameworkLayoutConfig timePeriodOuterLayout = new GtnUIFrameworkLayoutConfig();
+		timePeriodOuterLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		GtnUIFrameworkComponentConfig timePeriodOuterLayoutConfig = new GtnUIFrameworkComponentConfig();
+		timePeriodOuterLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		timePeriodOuterLayoutConfig.setComponentId(nameSpace + "_" + "timePeriodOuterLayout");
+		timePeriodOuterLayoutConfig.setAddToParent(true);
+		timePeriodOuterLayoutConfig.setSpacing(true);
+		timePeriodOuterLayoutConfig.setParentComponentId(nameSpace + "_" + "fromToLayout");
+		timePeriodOuterLayoutConfig.setGtnLayoutConfig(timePeriodOuterLayout);
+		componentList.add(timePeriodOuterLayoutConfig);
+
+		GtnUIFrameworkComponentConfig timePeriodPanel = new GtnUIFrameworkComponentConfig();
+		timePeriodPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
+		timePeriodPanel.setComponentName("Time Period");
+		timePeriodPanel.setComponentId(nameSpace + "_" + "timePeriodPanel");
+		timePeriodPanel.setAddToParent(true);
+		timePeriodPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		timePeriodPanel.setSpacing(true);
+		timePeriodPanel.setParentComponentId(nameSpace + "_" + "timePeriodOuterLayout");
+		componentList.add(timePeriodPanel);
+
+		GtnUIFrameworkLayoutConfig timePeriodInnerLayout = new GtnUIFrameworkLayoutConfig();
+		timePeriodInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		GtnUIFrameworkComponentConfig timePeriodInnerLayoutConfig = new GtnUIFrameworkComponentConfig();
+		timePeriodInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		timePeriodInnerLayoutConfig.setComponentId(nameSpace + "_" + "timePeriodInnerLayout");
+		timePeriodInnerLayoutConfig.setSpacing(true);
+		timePeriodInnerLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		timePeriodInnerLayoutConfig.setAddToParent(true);
+		timePeriodInnerLayoutConfig.setGtnLayoutConfig(timePeriodInnerLayout);
+		timePeriodInnerLayoutConfig.setParentComponentId(nameSpace + "_" + "timePeriodPanel");
+		timePeriodInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
+		componentList.add(timePeriodInnerLayoutConfig);
+		addFromPeriod(componentList, timePeriodInnerLayoutConfig.getComponentId(), nameSpace);
+		addToPeriod(componentList, timePeriodInnerLayoutConfig.getComponentId(), nameSpace);
+
 	}
 
 	private void addFromPeriod(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -630,6 +678,12 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		newArchGenerateAction.addActionParameter(nameSpace + "_productLevel");
 		newArchGenerateAction.addActionParameter(nameSpace + "_customerGroup");
 		newArchGenerateAction.addActionParameter(nameSpace + "_productGroup");
+		newArchGenerateAction.addActionParameter("Commercial Forecasting_salesCustomView");
+		newArchGenerateAction.addActionParameter("Commercial Forecasting_deductionCustomView");
+		newArchGenerateAction.addActionParameter("Commercial Forecasting_privateViewLookup");
+		newArchGenerateAction.addActionParameter("Commercial Forecasting_publicView");
+		newArchGenerateAction.addActionParameter(nameSpace + "_customerRelationshipVersion");
+		newArchGenerateAction.addActionParameter(nameSpace + "_productRelationshipVersion");
 		actionList.add(newArchGenerateAction);
 
 		GtnUIFrameWorkActionConfig generateAction = new GtnUIFrameWorkActionConfig();
@@ -668,15 +722,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		generateAction.addActionParameter("Commercial Forecasting_publicView");
 		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_DEDUCTIONLEVEL);
 		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_FREQUENCY);
-		generateAction.addActionParameter("Commercial Forecasting_salesCustomView");
-		generateAction.addActionParameter("Commercial Forecasting_deductionCustomView");
-		generateAction.addActionParameter("Commercial Forecasting_privateViewLookup");
-		generateAction.addActionParameter("Commercial Forecasting_publicView");
-		generateAction.addActionParameter(nameSpace + "_customerRelationshipVersion");
-		generateAction.addActionParameter(nameSpace + "_productRelationshipVersion");
-		actionList.add(generateAction);
-		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
 
+		generateBtn.addGtnUIFrameWorkActionConfig(generateAction);
 	}
 
 	private void addSearchBtn(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,

@@ -37,135 +37,141 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
  */
 public class PrivatePublic extends GtnCommonWebServiceImplClass implements SearchInterface {
 
-	public PrivatePublic() {
-		super(PrivatePublic.class);
-	}
 
-	@Override
-	public GtnUIFrameworkWebserviceResponse getSearchResults(
-			GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query,
-			GtnSearchwebServiceSqlService gtnSearchSqlService) {
-		List<String> inputList = GtnFrameworkServiceBean.VIEW_LIST;
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		try {
+    public PrivatePublic() {
+        super(PrivatePublic.class);
+    }
 
-			List<GtnWebServiceSearchCriteria> webSearchCriteriaList = gtnUiFrameworkWebservicerequest
-					.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList();
-			String viewType = webSearchCriteriaList.get(1).getFilterValue1();
-			String viewName = webSearchCriteriaList.get(0).getFilterValue1();
+    @Override
+    public GtnUIFrameworkWebserviceResponse getSearchResults(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query, GtnSearchwebServiceSqlService gtnSearchSqlService) {
+        List<String> inputList = GtnFrameworkServiceBean.VIEW_LIST;
+        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+        try {
 
-			StringBuilder strQuery = new StringBuilder();
-			Map<String, String> queryMap = new HashMap<>();
-			String[] paramsArray = gtnSearchSqlService.getQuery("privatePublicParameters").split(",");
-			queryMap.put(webSearchCriteriaList.get(1).getFieldId(), paramsArray[0]);
-			queryMap.put(webSearchCriteriaList.get(0).getFieldId(), paramsArray[1]);
-			List<Object> param = new ArrayList<>();
-			int count = 0;
-			List<GtnFrameworkDataType> data = new ArrayList<>();
+            List<GtnWebServiceSearchCriteria> webSearchCriteriaList = gtnUiFrameworkWebservicerequest
+                    .getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList();
+            String viewType = webSearchCriteriaList.get(1).getFilterValue1();
+            String viewName = webSearchCriteriaList.get(0).getFilterValue1();
 
-			if (viewType != null && !viewType.equals("*")) {
-				strQuery.append(" WHERE ");
-				strQuery.append(queryMap.get(webSearchCriteriaList.get(1).getFieldId()));
-				param.add(viewType.replaceAll("\\*", "%"));
-				data.add(GtnFrameworkDataType.STRING);
-				count++;
-			}
+            StringBuilder strQuery = new StringBuilder();
+            Map<String, String> queryMap = new HashMap();
+            String[] paramsArray = gtnSearchSqlService.getQuery("privatePublicParameters").split(",");
+            queryMap.put(webSearchCriteriaList.get(1).getFieldId(), paramsArray[0]);
+            queryMap.put(webSearchCriteriaList.get(0).getFieldId(), paramsArray[1]);
+            List<Object> param = new ArrayList();
+            int count = 0;
+            List<GtnFrameworkDataType> data = new ArrayList();
 
-			if (viewName != null && !viewName.equals("*")) {
-				strQuery.append(queryMap.get(webSearchCriteriaList.get(0).getFieldId()));
-				param.add(viewType.replaceAll("\\*", "%"));
-				data.add(GtnFrameworkDataType.STRING);
-				count++;
-			}
-			String userId = gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId();
-			Object[] params = new Object[count];
-			params = param.toArray(params);
-			if (("private").equalsIgnoreCase(viewType)) {
-				strQuery.append(" AND FV.created_By = ").append(userId);
-			}
-			GtnFrameworkDataType[] dataType = new GtnFrameworkDataType[count];
-			logger.info("Private and public view query" + query + strQuery);
+            if (viewType != null && !viewType.equals("*")) {
+                strQuery.append(" WHERE ");
+                strQuery.append(queryMap.get(webSearchCriteriaList.get(1).getFieldId()));
+                param.add(viewType.replaceAll("\\*", "%"));
+                data.add(GtnFrameworkDataType.STRING);
+                count++;
+            }
 
-			GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-			queryExecutorBean.setSqlQuery(query + strQuery);
-			queryExecutorBean.setQueryType("SCALAR");
-			queryExecutorBean.setParams(params);
-			queryExecutorBean.setDataType(data.toArray(dataType));
-			Map<String, GtnFrameworkDataType> inputMap = new LinkedHashMap<>();
-			inputMap.put(inputList.get(0), GtnFrameworkDataType.STRING);
-			inputMap.put(inputList.get(1), GtnFrameworkDataType.STRING);
-			inputMap.put(inputList.get(2), GtnFrameworkDataType.STRING);
-			inputMap.put(inputList.get(3), GtnFrameworkDataType.DATE);
-			inputMap.put(inputList.get(4), GtnFrameworkDataType.STRING);
-			inputMap.put(inputList.get(5), GtnFrameworkDataType.DATE);
-			inputMap.put(inputList.get(6), GtnFrameworkDataType.STRING);
-			inputMap.put(inputList.get(7), GtnFrameworkDataType.INTEGER);
-			queryExecutorBean.setInputMap(inputMap);
-			GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
-			gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-			logger.info("calling query engine via service registry");
-			GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(
-					gtnQueryEngineWebServiceRequest);
-			List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
+            if (viewName != null && !viewName.equals("*")) {
+            	strQuery.append(queryMap.get(webSearchCriteriaList.get(0).getFieldId()));
+                param.add(viewType.replaceAll("\\*", "%"));
+                data.add(GtnFrameworkDataType.STRING);
+                count++;
+            }
+            String userId = gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId();
+            Object[] params = new Object[count];
+            params = param.toArray(params);
+            if (("private").equalsIgnoreCase(viewType)) {
+                strQuery.append(" AND FV.created_By = ").append(userId);
+            }
+            GtnFrameworkDataType[] dataType = new GtnFrameworkDataType[count];
+            logger.info("Private and public view query" + query + strQuery);
 
-			GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
-			GtnSerachResponse searchResponse = new GtnSerachResponse();
-			dataTable.addData(method(resultList));
-			searchResponse.setResultSet(dataTable);
-			response.setGtnSerachResponse(searchResponse);
-		} catch (Exception e) {
-			logger.error("Exception in loading private and public views" + e);
-		}
-		return response;
-	}
+            GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+            queryExecutorBean.setSqlQuery(query+strQuery);
+            queryExecutorBean.setQueryType("SCALAR");
+            queryExecutorBean.setParams(params);
+            queryExecutorBean.setDataType(data.toArray(dataType));
+            Map<String, GtnFrameworkDataType> inputMap = new LinkedHashMap<>();
+            inputMap.put(inputList.get(0), GtnFrameworkDataType.STRING);
+            inputMap.put(inputList.get(1), GtnFrameworkDataType.STRING);
+            inputMap.put(inputList.get(2), GtnFrameworkDataType.STRING);
+            inputMap.put(inputList.get(3), GtnFrameworkDataType.DATE);
+            inputMap.put(inputList.get(4), GtnFrameworkDataType.STRING);
+            inputMap.put(inputList.get(5), GtnFrameworkDataType.DATE);
+            inputMap.put(inputList.get(6), GtnFrameworkDataType.STRING);
+            inputMap.put(inputList.get(7), GtnFrameworkDataType.INTEGER);
+            queryExecutorBean.setInputMap(inputMap);
+            GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
+            gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
+            logger.info("calling query engine via service registry");
+            GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
+            List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
 
-	private List<Object[]> method(List<Object[]> resultList) throws IOException {
-		List<Object[]> list = new ArrayList<>();
-		GtnFrameworkForecastDataSelectionBean bean;
-		Object[] ob = new Object[18];
-		for (int i = 0; i < resultList.size(); i++) {
-			Object[] obj = resultList.get(i);
-			bean = convertJsonToObject(GtnFrameworkForecastDataSelectionBean.class,
-					((String) obj[6]).replaceAll("\\\\", "'"));
-			ob[0] = obj[0];
-			ob[1] = bean.getProjectionDescription();
-			ob[2] = bean.getFromPeriodForecastName();
-			ob[3] = bean.getToPeriodForecastName();
-			ob[4] = bean.getCustomerHierarchyRecordBean().getPropertyValueByIndex(0);
-			ob[5] = bean.getCustomerHierarchyLevel();
-			ob[6] = "";
-			ob[7] = bean.getCompanyName();
-			ob[8] = "Contracted";
-			ob[9] = bean.getProductHierarchyRecordBean().getPropertyValueByIndex(0);
-			ob[10] = bean.getProductHierarchyLevel();
-			ob[11] = "";
-			ob[12] = obj[3];
-			ob[13] = obj[5];
-			ob[14] = obj[4];
-			ob[15] = bean.getBusinessUnitName();
-			ob[16] = obj[7];
-			ob[17] = bean;
-			list.add(ob);
-		}
-		return list;
-	}
+            GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+            GtnSerachResponse searchResponse = new GtnSerachResponse();
+            dataTable.addData(method(resultList));
+            searchResponse.setResultSet(dataTable);
+            response.setGtnSerachResponse(searchResponse);
+        } catch (Exception e) {
+            logger.error("Exception in loading private and public views" + e);
+        }
+        return response;
+    }
 
-	private GtnFrameworkForecastDataSelectionBean convertJsonToObject(
-			Class<GtnFrameworkForecastDataSelectionBean> dataSelectionBean, String viewData)
-			throws JsonParseException, JsonMappingException, IOException {
 
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.readValue(viewData, dataSelectionBean);
-	}
+    private int getQuery(StringBuilder strQuery, Map<String, String> queryMap, List<GtnWebServiceSearchCriteria> webSearchCriteriaList, List<Object> param, String viewType, List<GtnFrameworkDataType> data, int count) {
+        strQuery.append(queryMap.get(webSearchCriteriaList.get(1).getFieldId()));
+        param.add(viewType.replaceAll("\\*", "%"));
+        data.add(GtnFrameworkDataType.STRING);
+        count++;
+        return count;
+    }
 
-	@Override
-	public void initCallOnFailure() {
-		return;
-	}
+    private List<Object[]> method(List<Object[]> resultList) throws IOException {
+        List<Object[]> list = new ArrayList<>();
+        GtnFrameworkForecastDataSelectionBean bean;
+        Object[] ob = new Object[18];
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] obj = resultList.get(i);
+            bean = convertJsonToObject(GtnFrameworkForecastDataSelectionBean.class,
+                    ((String) obj[6]).replaceAll("\\\\", "'"));
+            ob[0] = obj[0];
+            ob[1] = bean.getProjectionDescription();
+            ob[2] = bean.getFromPeriodForecastName();
+            ob[3] = bean.getToPeriodForecastName();
+            ob[4] = bean.getCustomerHierarchyRecordBean().getPropertyValueByIndex(0);
+            ob[5] = bean.getCustomerHierarchyLevel();
+            ob[6] = "";
+            ob[7] = bean.getCompanyName();
+            ob[8] = "Contracted";
+            ob[9] = bean.getProductHierarchyRecordBean().getPropertyValueByIndex(0);
+            ob[10] = bean.getProductHierarchyLevel();
+            ob[11] = "";
+            ob[12] = obj[3];
+            ob[13] = obj[5];
+            ob[14] = obj[4];
+            ob[15] = bean.getBusinessUnitName();
+            ob[16] = obj[7];
+            ob[17] = bean;
+            list.add(ob);
+        }
+        return list;
+    }
 
-	@Override
-	public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
-		return;
-	}
+    private GtnFrameworkForecastDataSelectionBean convertJsonToObject(Class<GtnFrameworkForecastDataSelectionBean> dataSelectionBean,
+            String viewData) throws JsonParseException, JsonMappingException, IOException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(viewData, dataSelectionBean);
+    }
+
+    @Override
+    public void initCallOnFailure() {
+        // Default Method
+    }
+
+    @Override
+    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+        // Default Method
+    }
 
 }
