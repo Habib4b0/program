@@ -198,15 +198,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionSelectionLayoutConfig.setGtnLayoutConfig(projectionSelectionLayout);
 		componentList.add(projectionSelectionLayoutConfig);
 
-		addPrivateViewLookup(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
-		addCompany(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
-		addProjectionName(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
-		addPublicViewLookup(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
-		addBusinessUnit(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
-		addProjectionDescription(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
-		addFrequency(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
-		addDeductionLevel(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
-
 		addPrivateCompanyLayout(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addPublicBusinessUnitLayout(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
 		addFrequencyDeductionLayout(componentList, projectionSelectionLayoutConfig.getComponentId(), nameSpace);
