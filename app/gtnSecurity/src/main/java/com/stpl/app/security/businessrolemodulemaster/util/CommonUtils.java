@@ -135,7 +135,7 @@ public class CommonUtils {
 	}
 	public static final String convertIntToString(int aMask){
 		String returnValue;		
-		returnValue=""+aMask;		
+		returnValue=""+ Integer.toString(aMask);		
 		return returnValue;
 	}
 	public static final String convertDoubleToString(Double aMask){
