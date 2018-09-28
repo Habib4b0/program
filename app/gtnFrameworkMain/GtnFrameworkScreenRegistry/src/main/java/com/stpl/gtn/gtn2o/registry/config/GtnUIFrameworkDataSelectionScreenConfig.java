@@ -8,10 +8,7 @@ import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkDeleteViewAction;
-import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastEditAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastingCCPTableLoadAction;
-import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureDeleteAction;
-import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkScreenRegistryResetAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
@@ -637,45 +634,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		newArchGenerateAction.addActionParameter(nameSpace + "_customerRelationshipVersion");
 		newArchGenerateAction.addActionParameter(nameSpace + "_productRelationshipVersion");
 		actionList.add(newArchGenerateAction);
-
-		GtnUIFrameWorkActionConfig generateAction = new GtnUIFrameWorkActionConfig();
-		generateAction.addActionParameter(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName());
-		generateAction
-				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERDUALLISTBOX);
-		generateAction
-				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX);
-		generateAction.addActionParameter(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
-		generateAction.addActionParameter(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL);
-		generateAction
-				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION);
-		generateAction.addActionParameter(
-				GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL);
-		generateAction.addActionParameter(
-				GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTELIGIBILITYDATE);
-		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME);
-		generateAction
-				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONSHIP);
-		generateAction
-				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODFORECASTLEVEL);
-		generateAction
-				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION);
-		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP);
-		generateAction.addActionParameter("Commercial Forecasting_Company");
-		generateAction.addActionParameter("Commercial Forecasting_businessUnit");
-		generateAction.addActionParameter("Commercial Forecasting_from");
-		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL);
-		generateAction.addActionParameter("Commercial Forecasting_to");
-		generateAction.addActionParameter("Commercial Forecasting_projectionName");
-		generateAction.addActionParameter("Commercial Forecasting_projectionDescription");
-		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP);
-		generateAction
-				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL);
-		generateAction.addActionParameter("Commercial Forecasting_privateViewLookup");
-		generateAction.addActionParameter("Commercial Forecasting_publicView");
-		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_DEDUCTIONLEVEL);
-		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_FREQUENCY);
-
-		generateBtn.addGtnUIFrameWorkActionConfig(generateAction);
 	}
 
 	private void addSearchBtn(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -1015,18 +973,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		editBtn.setAddToParent(true);
 		editBtn.setEnable(false);
 		componentList.add(editBtn);
-
-		GtnUIFrameWorkActionConfig forecastEditAction = new GtnUIFrameWorkActionConfig();
-		forecastEditAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		forecastEditAction.addActionParameter(GtnFrameworkForecastEditAction.class.getName());
-		forecastEditAction
-				.addActionParameter(nameSpace + "_" + GtnFrameworkForecastingStringConstants.PROJECTION_RESULTS_TABLE);
-		forecastEditAction.addActionParameter("Edit");
-		forecastEditAction
-				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_DEDUCTIONLEVEL);
-		forecastEditAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_FREQUENCY);
-		editBtn.addGtnUIFrameWorkActionConfig(forecastEditAction);
-
 	}
 
 	private void addViewBtn(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -1039,17 +985,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		viewBtn.setAddToParent(true);
 		viewBtn.setEnable(false);
 		componentList.add(viewBtn);
-
-		GtnUIFrameWorkActionConfig forecastViewAction = new GtnUIFrameWorkActionConfig();
-		forecastViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		forecastViewAction.addActionParameter(GtnFrameworkForecastEditAction.class.getName());
-		forecastViewAction
-				.addActionParameter(nameSpace + "_" + GtnFrameworkForecastingStringConstants.PROJECTION_RESULTS_TABLE);
-		forecastViewAction.addActionParameter("View");
-		forecastViewAction
-				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_DEDUCTIONLEVEL);
-		forecastViewAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_FREQUENCY);
-		viewBtn.addGtnUIFrameWorkActionConfig(forecastViewAction);
 	}
 
 	private void addDeleteBtn(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -1070,12 +1005,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		List<GtnUIFrameWorkActionConfig> onSuccessDeleteActionConfigList = new ArrayList<>();
 		confirmDeleteAction.addActionParameter(onSuccessDeleteActionConfigList);
 
-		GtnUIFrameWorkActionConfig deleteAction = new GtnUIFrameWorkActionConfig();
-		deleteAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		deleteAction.addActionParameter(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName());
-		deleteAction
-				.addActionParameter(nameSpace + "_" + GtnFrameworkForecastingStringConstants.PROJECTION_RESULTS_TABLE);
-		onSuccessDeleteActionConfigList.add(deleteAction);
 		deleteBtn.addGtnUIFrameWorkActionConfig(confirmDeleteAction);
 	}
 

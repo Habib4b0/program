@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;

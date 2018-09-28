@@ -327,7 +327,6 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 
 		discountProjectionResultTableComponentConfig
 				.setGtnPagedTreeTableConfig(discountProjectionGtnPagedTreeTableConfig);
-		//componentList.add(discountProjectionResultTableComponentConfig);
 
 	}
 
