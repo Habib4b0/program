@@ -23,46 +23,49 @@ import java.util.List;
  */
 public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements SearchInterface {
 
-    public ComboBoxSearch() {
-        super(ComboBoxSearch.class);
-    }
+	public ComboBoxSearch() {
+		super(ComboBoxSearch.class);
+	}
 
+	@Override
+	public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,
+			String query) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		try {
+			logger.debug("Businnes unit query:" + query);
+			GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+			queryExecutorBean.setSqlQuery(query);
+			queryExecutorBean.setQueryType("SELECT");
+			GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
+			gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
+			logger.info("calling query engine via service registry");
+			GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(
+					gtnQueryEngineWebServiceRequest);
+			List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
+			GtnUIFrameworkWebserviceComboBoxResponse comboxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
+			comboxResponse.setComboBoxList(resultList);
+			response.setGtnUIFrameworkWebserviceComboBoxResponse(comboxResponse);
+		} catch (Exception e) {
+			logger.error("Exception in loading business units" + e);
+		}
+		return response;
+	}
 
-    @Override
-    public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query) {
-        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-        try {
-            logger.debug("Businnes unit query:" + query);
-            GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-            queryExecutorBean.setSqlQuery(query);
-            queryExecutorBean.setQueryType("SELECT");
-            GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
-            gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-            logger.info("calling query engine via service registry");
-            GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
-            List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
-            GtnUIFrameworkWebserviceComboBoxResponse comboxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
-            comboxResponse.setComboBoxList(resultList);
-            response.setGtnUIFrameworkWebserviceComboBoxResponse(comboxResponse);
-        } catch (Exception e) {
-            logger.error("Exception in loading business units" + e);
-        }
-        return response;
-    }
+	@Override
+	public void initCallOnFailure() {
+		return;
+	}
 
-    @Override
-    public void initCallOnFailure() {
-        // Default Method
-    }
-    
-    @Override
-    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
-        // Default Method
-    }
+	@Override
+	public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+		return;
+	}
 
-    @Override
-    public GtnUIFrameworkWebserviceResponse getSearchResults(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query, GtnSearchwebServiceSqlService gtnSearchSqlService) {
-       return null;
-    }
+	@Override
+	public GtnUIFrameworkWebserviceResponse getSearchResults(
+			GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query,
+			GtnSearchwebServiceSqlService gtnSearchSqlService) {
+		return null;
+	}
 
 }

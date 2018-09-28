@@ -9,8 +9,8 @@ public class GtnWsHierarchyDefinitionBean {
 	private String hierarchyName;
 	private int highLevel;
 	private int lowestLevel;
-	private LocalDate createdDate;
-	private LocalDate modifiedDate;
+	private String createdDate;
+	private String modifiedDate;
 	private String levelName;
 	private int hierarchyVersion;
 	private int hierarchyDefSid;
@@ -103,20 +103,21 @@ public class GtnWsHierarchyDefinitionBean {
 		this.hierarchyVersion = hierarchyVersion;
 	}
 
-	public LocalDate getCreatedDate() {
-		return createdDate;
-	}
+    public String getCreatedDate() {
+        return createdDate;
+    }
 
-	public void setCreatedDate(LocalDate createdDate) {
-		this.createdDate = createdDate;
-	}
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
 
-	public LocalDate getModifiedDate() {
-		return modifiedDate;
-	}
+    public String getModifiedDate() {
+        return modifiedDate;
+    }
 
-	public void setModifiedDate(LocalDate modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
+    public void setModifiedDate(String modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
 
+        
 }

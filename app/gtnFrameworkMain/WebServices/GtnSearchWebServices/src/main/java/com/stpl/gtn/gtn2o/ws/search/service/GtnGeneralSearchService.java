@@ -1,15 +1,14 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.stpl.gtn.gtn2o.ws.search.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
@@ -34,11 +33,6 @@ import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  *
@@ -59,8 +53,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
     @Autowired
     private GtnForecastJsonService gtnForecastJsonService;
 
-    private static final Map<String, SearchInterface> keyMap = new HashMap();
-    private Map<String, String> queryMap = new HashMap();
+    private static final Map<String, SearchInterface> keyMap = new HashMap<>();
+    private Map<String, String> queryMap = new HashMap<>();
 
     public void init() {
         try {
@@ -97,7 +91,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         String query = gtnSearchSqlService.getQuery(key);
         SearchInterface searchInterface = keyMap.get(key);
         GtnUIFrameworkWebserviceResponse response;
-        response = searchInterface.getSearchResults(gtnUiFrameworkWebservicerequest, query, gtnSearchSqlService);
+        response = searchInterface.getSearch(gtnUiFrameworkWebservicerequest, query);
         return response;
     }
 
@@ -110,8 +104,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
                 .getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList();
         StringBuilder stringQuery = new StringBuilder();
         stringQuery.append(query);
-        List<Object> params = new ArrayList();
-        List<GtnFrameworkDataType> data = new ArrayList();
+        List<Object> params = new ArrayList<>();
+        List<GtnFrameworkDataType> data = new ArrayList<>();
         Map<String, String> map = getQueryMap();
         for (int i = 0; i < webSearchCriteriaList.size(); i++) {
             if (webSearchCriteriaList.get(i).getFilterValue1() != null
@@ -146,8 +140,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         String queryCount = gtnSearchSqlService.getQuery("projectionSearchCount");
         StringBuilder stringQueryCount = new StringBuilder();
         stringQueryCount.append(queryCount);
-        List<Object> paramsCount = new ArrayList();
-        List<GtnFrameworkDataType> dataCount = new ArrayList();
+        List<Object> paramsCount = new ArrayList<>();
+        List<GtnFrameworkDataType> dataCount = new ArrayList<>();
         for (int i = 0; i < webSearchCriteriaListCount.size(); i++) {
             if (webSearchCriteriaListCount.get(i).getFilterValue1() != null
                     && !webSearchCriteriaListCount.get(i).getFilterValue1().equals("0")) {
