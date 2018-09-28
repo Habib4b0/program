@@ -111,8 +111,8 @@ public class HeaderUtils {
         String commonColumn = "";
         String commonHeader = "";
         if (frequencyDivision == 1) {
-            commonColumn = "" + year;
-            commonHeader = "" + year;
+            commonColumn = "" + Integer.toString(year);
+            commonHeader = "" + Integer.toString(year);
         } else if (frequencyDivision == NumericConstants.FOUR) {
             commonColumn = "q" + period + "" + year;
             commonHeader = "Q" + period + " " + year;
@@ -248,12 +248,12 @@ public class HeaderUtils {
                 commonColumn = "s" + squr + "" + syear;
                 commonHeader = "S" + squr + " " + syear;
             } else if (freq.contains(Constants.ANNUALLY)) {
-                commonColumn = "" + syear;
-                commonHeader = "" + syear;
+                commonColumn = "" + Integer.toString(syear);
+                commonHeader = "" + Integer.toString(syear);
             } else if (freq.contains(Constants.MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
-                commonColumn = monthName + syear;
-                commonHeader = monthName + " " + syear;
+                commonColumn = monthName + Integer.toString(syear);
+                commonHeader = monthName + " " + Integer.toString(syear);
             }
 
             if (isSalesFlag) {
@@ -290,8 +290,8 @@ public class HeaderUtils {
                 commonColumn = "S" + squr + "" + syear;
                 commonHeader = "S" + squr + " " + syear;
             } else if (freq.contains(Constants.ANNUALLY)) {
-                commonColumn = "" + syear;
-                commonHeader = "" + syear;
+                commonColumn = "" + Integer.toString(syear);
+                commonHeader = "" + Integer.toString(syear);
             } else if (freq.contains(Constants.MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
                 commonColumn = monthName + syear;
@@ -386,8 +386,8 @@ public class HeaderUtils {
                 commonColumn = "s" + squr + "" + syear;
                 commonHeader = "S" + squr + " " + syear;
             } else if (freq.contains(Constants.ANNUALLY)) {
-                commonColumn = "" + syear;
-                commonHeader = "" + syear;
+                commonColumn = "" + Integer.toString(syear);
+                commonHeader = "" + Integer.toString(syear);
             } else if (freq.contains(Constants.MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
                 commonColumn = monthName + syear;
@@ -435,8 +435,8 @@ public class HeaderUtils {
                 commonColumn = "s" + squr + "" + syear;
                 commonHeader = "S" + squr + " " + syear;
             } else if (freq.contains(Constants.ANNUALLY)) {
-                commonColumn = "" + syear;
-                commonHeader = "" + syear;
+                commonColumn = "" + Integer.toString(syear);
+                commonHeader = "" + Integer.toString(syear);
             } else if (freq.contains(Constants.MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
                 commonColumn = monthName + syear;
