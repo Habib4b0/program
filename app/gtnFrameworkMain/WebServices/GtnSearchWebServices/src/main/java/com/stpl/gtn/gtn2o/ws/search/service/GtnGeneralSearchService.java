@@ -91,7 +91,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         String query = gtnSearchSqlService.getQuery(key);
         SearchInterface searchInterface = keyMap.get(key);
         GtnUIFrameworkWebserviceResponse response;
-        response = searchInterface.getSearch(gtnUiFrameworkWebservicerequest, query);
+        response = searchInterface.getSearchResults(gtnUiFrameworkWebservicerequest, query, gtnSearchSqlService);
         return response;
     }
 

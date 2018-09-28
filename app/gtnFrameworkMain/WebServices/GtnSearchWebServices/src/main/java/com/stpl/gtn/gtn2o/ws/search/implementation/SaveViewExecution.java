@@ -35,8 +35,19 @@ public class SaveViewExecution extends GtnCommonWebServiceImplClass implements S
 	}
 
 	@Override
-	public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,
-			String query) {
+	public void initCallOnFailure() {
+		return;
+	}
+
+	@Override
+	public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+		return;
+	}
+
+	@Override
+	public GtnUIFrameworkWebserviceResponse getSearchResults(
+			GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query,
+			GtnSearchwebServiceSqlService gtnSearchSqlService) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		try {
 
@@ -83,23 +94,6 @@ public class SaveViewExecution extends GtnCommonWebServiceImplClass implements S
 			logger.error("Exception in save view" + e);
 		}
 		return response;
-	}
-
-	@Override
-	public void initCallOnFailure() {
-		return;
-	}
-
-	@Override
-	public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
-		return;
-	}
-
-	@Override
-	public GtnUIFrameworkWebserviceResponse getSearchResults(
-			GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query,
-			GtnSearchwebServiceSqlService gtnSearchSqlService) {
-		return null;
 	}
 
 }
