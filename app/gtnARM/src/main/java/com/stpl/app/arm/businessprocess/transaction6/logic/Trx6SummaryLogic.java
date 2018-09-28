@@ -215,10 +215,9 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.FOUR] == null ? StringUtils.EMPTY : ARMUtils.getFormattedValue(get[NumericConstants.FOUR].toString().trim(), ARMUtils.TWO_DECIMAL_PERCENT) + "%");
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.FIVE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.FIVE].toString().trim())));
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null || dto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.SIX].toString().trim())));
-                    //if (hasOverride) {
                         dto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR
                                 + decimalformat.format(Double.valueOf(get[NumericConstants.SEVEN].toString().trim())));
-                   // }
+
                     dto.addStringProperties("total", !isTotal && get[NumericConstants.EIGHT] != null ? DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.EIGHT].toString().trim())) : StringUtils.EMPTY);
                 }
                 lastBrand = brand;
