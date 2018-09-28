@@ -355,7 +355,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 	private boolean aggregateNeededToBeDone(String indicator, boolean isColumn, String variableChild) {
-		return isColumn || "V".equals(indicator) || isHierachyNoWithVariables(variableChild);
+		return isColumn || "V".equals(indicator) || !StringUtils.isBlank(variableChild);
 	}
 
 	private boolean aggregationCheck(String indicator, GtnWsRecordBean bean, Object object, String levelName) {
@@ -364,12 +364,6 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 				|| object.toString().contains("PER") || object.toString().contains("RATE")
 				|| object.toString().contains("GTN")
 				|| bean.getStringProperty(levelName).contains(GtnWsQueryConstants.WEIGHTED);
-	}
-
-	private boolean isHierachyNoWithVariables(String variableChild) {
-		return (variableChild.equals(GtnWsQueryConstants.CONTRACT_UNITS))
-				|| (variableChild.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
-				|| (variableChild.equals(GtnWsQueryConstants.WEIGHTED_GTN_CONTRIBUTION));
 	}
 
 	private GtnWsRecordBean convertToRecordbean(GtnUIFrameworkWebserviceRequest gtnWsRequest,
