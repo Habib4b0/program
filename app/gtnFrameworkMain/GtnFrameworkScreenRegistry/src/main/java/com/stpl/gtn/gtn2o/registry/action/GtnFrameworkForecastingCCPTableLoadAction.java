@@ -31,7 +31,6 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		try{
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
 		List<GtnWsRecordBean> selectedCustomerList = null;
@@ -64,11 +63,6 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
-
-		}
-		catch(Exception e){
-			logger.error("Error in ", e);
-		}
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId)
