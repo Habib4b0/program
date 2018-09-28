@@ -1104,10 +1104,10 @@ public class PVQueryUtils {
 
         if (projSelDTO.getHierarchyIndicator().equals("C")) {
 
-            customerLevelNo = "" + projSelDTO.getTreeLevelNo();
+            customerLevelNo = "" + Integer.toString(projSelDTO.getTreeLevelNo());
         } else if (projSelDTO.getHierarchyIndicator().equals("P")) {
 
-            productLevelNo = "" + projSelDTO.getTreeLevelNo();
+            productLevelNo = "" + Integer.toString(projSelDTO.getTreeLevelNo());
         }
         String ccpQuery = " SELECT distinct HLD" + projSelDTO.getHierarchyIndicator() + ".RELATIONSHIP_LEVEL_SID, CCPMAP" + projSelDTO.getHierarchyIndicator() + ".CCP_DETAILS_SID, HLD" + projSelDTO.getHierarchyIndicator() + ".HIERARCHY_NO FROM \n"
                 + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
