@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkFromAndToLoadBean;
@@ -70,14 +71,14 @@ public class GtnModeOptionValueChangeAction
 			itemCaption.addAll(bean.getToPeriodItemValueList());
 			if (!add) {
 				itemId.add(0, 0);
-				itemCaption.add(0, GtnFrameworkScreenRegisteryConstants.SELECT_ONE);
+				itemCaption.add(0, GtnFrameworkForecastConstantCommon.SELECT_ONE);
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).addAllItemsToComboBox(itemCaption, itemId);
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).loadV8ComboBoxComponentValue(itemId.get(0));
 
 			} else {
-				if (itemCaption.contains(GtnFrameworkScreenRegisteryConstants.SELECT_ONE)) {
+				if (itemCaption.contains(GtnFrameworkForecastConstantCommon.SELECT_ONE)) {
 					itemCaption.remove(0);
 					itemId.remove(0);
 
@@ -101,14 +102,14 @@ public class GtnModeOptionValueChangeAction
 			itemCaption.addAll(bean.getFromPeriodItemValueList());
 			if (!add) {
 				itemIdFrom.add(0, 0);
-				itemCaption.add(0, GtnFrameworkScreenRegisteryConstants.SELECT_ONE);
+				itemCaption.add(0, GtnFrameworkForecastConstantCommon.SELECT_ONE);
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).addAllItemsToComboBox(itemCaption, itemIdFrom);
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).loadV8ComboBoxComponentValue(itemIdFrom.get(0));
 
 			} else {
-				if (itemCaption.contains(GtnFrameworkScreenRegisteryConstants.SELECT_ONE)) {
+				if (itemCaption.contains(GtnFrameworkForecastConstantCommon.SELECT_ONE)) {
 					itemCaption.remove(0);
 					itemIdFrom.remove(0);
 

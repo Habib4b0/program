@@ -48,13 +48,17 @@ public class GtnCustomerSelectionRelationshipLoadAction
 					relationshipCaptionList.add(relationshipBuilderBean.getRelationshipName());
 					relationshipIdList.add(relationshipBuilderBean.getRelationshipBuilderSid());
 				}
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2), componentId)
+						.loadItemsToCombobox(relationshipCaptionList, relationshipIdList);
 
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(params.get(2).toString(),componentId).loadV8ComboBoxComponentValue(
-						params.size() > 3 ? Integer.parseInt(params.get(3).toString()) : 0);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(params.get(2).toString(), componentId)
+						.loadV8ComboBoxComponentValue(
+								params.size() > 3 ? Integer.parseInt(String.valueOf(params.get(3))) : 0);
 			}
 		} catch (Exception ex) {
 			logger.error("Error", ex);
 		}
+		
 	}
 
 	@Override

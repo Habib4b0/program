@@ -26,15 +26,31 @@ import com.vaadin.ui.TreeGrid;
 
 public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass{
 
-	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastingCCPTableLoadAction.class);
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastingCCPTableLoadAction.class);
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		try{
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
-		GtnFrameworkForecastDataSelectionBean dataSelectionDto = getDataSelectionBean(actionParamList,componentId);
+		List<GtnWsRecordBean> selectedCustomerList = null;
+		List<GtnWsRecordBean> selectedProductList = null;
+		GtnFrameworkForecastDataSelectionBean dataSelectionDto = null;
+		try {
+			selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
+			selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
+			dataSelectionDto = getDataSelectionDto(actionParamList, selectedCustomerList, selectedProductList,
+					componentId);
+		} catch (Exception ex) {
+			GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+			alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+			alertAction.addActionParameter("Error");
+			alertAction.addActionParameter("Not all required fields have been populated. Please try again.");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
+			logger.error("Error in ", ex);
+			return;
+		}
+
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> params = new ArrayList<>();
@@ -47,11 +63,6 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
-
-		}
-		catch(Exception e){
-			logger.error("Error in ", e);
-		}
 	}
 
 	private GtnFrameworkForecastDataSelectionBean getDataSelectionBean(List<Object> actionParamList, String componentId)  {
@@ -143,12 +154,12 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 
 		String privateView = String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(26).toString(), componentId).getV8PopupFieldValue());
-		if (privateView != "") {
+		if (!"".equals(privateView)) {
 			dto.setPrivateViewName(privateView);
 		}
 		String publicViewName = String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(27).toString(), componentId).getV8PopupFieldValue());
-		if (publicViewName != "") {
+		if (!"".equals(publicViewName)) {
 			dto.setPublicViewName(publicViewName);
 		}
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);

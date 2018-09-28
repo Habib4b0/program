@@ -424,6 +424,24 @@ IF NOT EXISTS(SELECT 1
 
 GO
 
+----------------------unique key-----------------------------------
+IF EXISTS (SELECT NAME
+           FROM   SYS.TABLES
+           WHERE  NAME = 'PROJECTION_DETAILS')
+  BEGIN
+      IF NOT EXISTS (SELECT 1
+                     FROM   SYS.KEY_CONSTRAINTS
+                     WHERE  TYPE_DESC = 'UNIQUE_CONSTRAINT'
+                            AND PARENT_OBJECT_ID = Object_id('PROJECTION_DETAILS')
+                            AND NAME = 'UQ_PROJECTION_DETAILS_PROJECTION_MASTER_SID_CCP_DETAILS_SID')
+        BEGIN
+            ALTER TABLE PROJECTION_DETAILS
+              ADD CONSTRAINT UQ_PROJECTION_DETAILS_PROJECTION_MASTER_SID_CCP_DETAILS_SID UNIQUE(PROJECTION_MASTER_SID, CCP_DETAILS_SID)
+        END
+  END
+
+GO
+
 --------------------- TRIGGER ------------------------
 ---Keeping the drop script, if incase we missed to remove this trigger from any environment 
 

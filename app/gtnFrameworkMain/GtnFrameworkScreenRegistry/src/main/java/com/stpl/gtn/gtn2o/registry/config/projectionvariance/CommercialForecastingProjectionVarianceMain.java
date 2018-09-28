@@ -209,8 +209,6 @@ public class CommercialForecastingProjectionVarianceMain {
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		projectionpivoteViewResultTableComponentConfig
 				.setGtnPagedTreeTableConfig(projectionVarianceProjectPivotViewGtnPagedTreeTableConfig);
-
-
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {

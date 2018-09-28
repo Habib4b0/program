@@ -25,7 +25,6 @@ import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -102,7 +101,7 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
                 .getVaadinBaseComponent(paramList.get(3).toString());
         if (cvTreeBaseComponent != null) {
             List<GtnWsRecordBean> treeNodeList = cvTreeBaseComponent.getItemsFromDataTable();
-            List<String> cvList=Arrays.asList(GtnFrameworkCVConstants.CV_TREENODE_LIST);
+            List<String> cvList=GtnFrameworkCVConstants.CV_TREENODE_LIST;
             if(cvRequest.getCustomViewType().equals("Sales"))
             {
                 for (GtnWsRecordBean bean : treeNodeList) {

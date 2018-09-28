@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.registry.action;
 
 
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -27,7 +28,6 @@ public class GtnFrameworkForecastingDStabLoadAction implements GtnUIFrameWorkAct
 			throws GtnFrameworkGeneralException {
 		try{
 		
-		
 		GtnFrameworkForecastDataSelectionBean forecastDsBean = (GtnFrameworkForecastDataSelectionBean)GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentData().getSharedPopupData();
 		
 		GtnWsRecordBean customerRecordBean = forecastDsBean.getCustomerHierarchyRecordBean();
@@ -44,14 +44,14 @@ public class GtnFrameworkForecastingDStabLoadAction implements GtnUIFrameWorkAct
 		
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFDataSelection_projectionDescription", componentId).loadV8FieldValue(forecastDsBean.getProjectionDescription());
 		
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkScreenRegisteryConstants.CF_DATESELECTION_CUSTOMER_HIERARCHY, componentId).setV8PopupFieldValue(customerRecordBean.getPropertyValueByIndex(0));
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.CF_DATASELECTION_CUSTOMERHIERARCHY, componentId).setV8PopupFieldValue(customerRecordBean.getPropertyValueByIndex(0));
 		
-		GtnUIFrameworkComponentData customerHierarchyData = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkScreenRegisteryConstants.CF_DATESELECTION_CUSTOMER_HIERARCHY, componentId).getComponentData();
+		GtnUIFrameworkComponentData customerHierarchyData = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.CF_DATASELECTION_CUSTOMERHIERARCHY, componentId).getComponentData();
 		customerHierarchyData.setCustomData(customerRecordBean);
 
 		GtnUIFrameWorkActionConfig relationshiploadAction = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		relationshiploadAction.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
-		relationshiploadAction.addActionParameter(GtnFrameworkScreenRegisteryConstants.CF_DATESELECTION_CUSTOMER_HIERARCHY);
+		relationshiploadAction.addActionParameter(GtnFrameworkForecastingStringConstants.CF_DATASELECTION_CUSTOMERHIERARCHY);
 		relationshiploadAction.addActionParameter("CFDataSelection_customerSelectionRelationship");
 		relationshiploadAction.addActionParameter(forecastDsBean.getCustomerRelationshipBuilderSid());
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, relationshiploadAction);
@@ -79,14 +79,14 @@ public class GtnFrameworkForecastingDStabLoadAction implements GtnUIFrameWorkAct
 			rightTable.getDataProvider().refreshAll();
 			rightTable.markAsDirty();
 			
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkScreenRegisteryConstants.CF_DATA_SELECTION_PROD_HIER_NAME, componentId).setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.CF_DATASELECTION_PROD_HIERARCHY_NAME, componentId).setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 			
-			GtnUIFrameworkComponentData productHierarchyData = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkScreenRegisteryConstants.CF_DATA_SELECTION_PROD_HIER_NAME, componentId).getComponentData();
+			GtnUIFrameworkComponentData productHierarchyData = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.CF_DATASELECTION_PROD_HIERARCHY_NAME, componentId).getComponentData();
 			productHierarchyData.setCustomData(productRecordBean);
 
 			GtnUIFrameWorkActionConfig productRelationshiploadAction = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			productRelationshiploadAction.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
-			productRelationshiploadAction.addActionParameter(GtnFrameworkScreenRegisteryConstants.CF_DATA_SELECTION_PROD_HIER_NAME);
+			productRelationshiploadAction.addActionParameter(GtnFrameworkForecastingStringConstants.CF_DATASELECTION_PROD_HIERARCHY_NAME);
 			productRelationshiploadAction.addActionParameter("CFDataSelection_prodrelationship");
 			productRelationshiploadAction.addActionParameter(forecastDsBean.getProductRelationshipBuilderSid());
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, productRelationshiploadAction);

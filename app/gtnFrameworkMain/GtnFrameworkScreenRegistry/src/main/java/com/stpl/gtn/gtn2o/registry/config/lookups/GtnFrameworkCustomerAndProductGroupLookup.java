@@ -303,13 +303,13 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 		customerProductGroupPagedTableConfig.setSelectable(true);
 		customerProductGroupPagedTableConfig.setSinkItemPerPageWithPageLength(false);
 
-		customerProductGroupPagedTableConfig.setTableColumnDataType(namespace.contains(GtnFrameworkScreenRegisteryConstants.CUSTOMER)
+		customerProductGroupPagedTableConfig.setTableColumnDataType(namespace.contains(GtnFrameworkForecastingStringConstants.CUSTOMER)
 				? GtnFrameworkForecastingStringConstants.getForecastCustomerGroupTableColumnsDataType()
 				: GtnFrameworkForecastingStringConstants.getForecastProductGroupTableColumnsDataType());
-		customerProductGroupPagedTableConfig.setColumnHeaders(Arrays.asList(namespace.contains(GtnFrameworkScreenRegisteryConstants.CUSTOMER)
+		customerProductGroupPagedTableConfig.setColumnHeaders(Arrays.asList(namespace.contains(GtnFrameworkForecastingStringConstants.CUSTOMER)
 				? GtnFrameworkForecastingStringConstants.getForecastCustomerGroupTableColumnsVisibleHeader()
 				: GtnFrameworkForecastingStringConstants.getForecastProductGroupTableColumnsVisibleHeader()));
-		customerProductGroupPagedTableConfig.setTableColumnMappingId(namespace.contains(GtnFrameworkScreenRegisteryConstants.CUSTOMER)
+		customerProductGroupPagedTableConfig.setTableColumnMappingId(namespace.contains(GtnFrameworkForecastingStringConstants.CUSTOMER)
 				? GtnFrameworkForecastingStringConstants.getForecastCustomerGroupTableColumnsMappingId()
 				: GtnFrameworkForecastingStringConstants.getForecastProductGroupTableColumnsMappingId());
 
@@ -370,11 +370,11 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 		List<Object> customerAndProductGroupActionParameter = new ArrayList<>();
 		customerAndProductGroupActionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkForecastingStringConstants.CUSTOMER_AND_PRODUCT_GROUP_SEARCH_RESULT_TABLE);
-		customerAndProductGroupActionParameter.add(namespace.contains(GtnFrameworkScreenRegisteryConstants.CUSTOMER)
+		customerAndProductGroupActionParameter.add(namespace.contains(GtnFrameworkForecastingStringConstants.CUSTOMER)
 				? "Commercial Forecasting_customerGroup" : "Commercial Forecasting_productGroup");
 		customerAndProductGroupActionParameter
-				.add(Arrays.asList(namespace.contains(GtnFrameworkScreenRegisteryConstants.CUSTOMER) ? "customerGroupName" : "productGroupName"));
-		customerAndProductGroupActionParameter.add(Arrays.asList(namespace.contains(GtnFrameworkScreenRegisteryConstants.CUSTOMER)
+				.add(Arrays.asList(namespace.contains(GtnFrameworkForecastingStringConstants.CUSTOMER) ? "customerGroupName" : "productGroupName"));
+		customerAndProductGroupActionParameter.add(Arrays.asList(namespace.contains(GtnFrameworkForecastingStringConstants.CUSTOMER)
 				? "Commercial Forecasting_customerGroup" : "Commercial Forecasting_productGroup"));
 		forecastCustomerProductGroupSelectAction.setActionParameterList(customerAndProductGroupActionParameter);
 		customerAndProductGroupActionConfigList.add(forecastCustomerProductGroupSelectAction);
