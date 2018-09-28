@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastNewArchitectureConstants;
 
@@ -218,8 +219,7 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 
 		List<GtnUIFrameWorkActionConfig> customerAndProductGroupResetActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customerAndProductGroupResetActionConfig = new GtnUIFrameWorkActionConfig();
-		customerAndProductGroupResetActionConfig.setActionType(GtnUIFrameworkActionType.RESET_ACTION);
-
+		customerAndProductGroupResetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
 		List<Object> params = new ArrayList<>();
 		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION);
 		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION_MESSAGE);
@@ -228,7 +228,8 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 						+ GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_PRODUCT_GROUP_NAME_TEXTBOX,
 				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_PRODUCT_GROUP_NO_TEXTBOX));
-		params.add(Arrays.asList(new Object[] { "", "" }));
+		params.add(Arrays.asList(new Object[] { GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY }));
 		customerAndProductGroupResetActionConfig.setActionParameterList(params);
 		customerAndProductGroupResetActionConfigList.add(customerAndProductGroupResetActionConfig);
 		forecastCustomerProductGroupResetButton
@@ -317,7 +318,7 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 				.setAdditionalSearchCriteriaListValues(customerProductGroupAdditionalSearchCriteria);
 		GtnFrameworkAlertUtil customerProductGroupAlertActionUtil = new GtnFrameworkAlertUtil();
 		GtnUIFrameWorkActionConfig alertAction = customerProductGroupAlertActionUtil
-				.throwAlertUtil("/loadHierarchyResults");
+				.throwAlertUtil(GtnFrameworkForecastNewArchitectureConstants.CUSTOMER_AND_PRODUCT_GROUP_RESULTS_URL);
 		customerProductGroupPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
 
 		customerProductGroupPagedTableConfig.setQueryName(namespace + "Group");
@@ -410,7 +411,7 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 
 		List<GtnUIFrameWorkActionConfig> customerAndProductGroupconfList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customerAndProductGroupResetActionConfig = new GtnUIFrameWorkActionConfig();
-		customerAndProductGroupResetActionConfig.setActionType(GtnUIFrameworkActionType.RESET_ACTION);
+		customerAndProductGroupResetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
 
 		List<Object> customerAndProductGroupParamList = new ArrayList<>();
 		customerAndProductGroupParamList.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION);
@@ -418,7 +419,8 @@ public class GtnFrameworkCustomerAndProductGroupLookup {
 
 		customerAndProductGroupParamList.add(Arrays.asList(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkForecastingStringConstants.CUSTOMER_AND_PRODUCT_GROUP_SEARCH_RESULT_TABLE));
-		customerAndProductGroupParamList.add(Arrays.asList(new Object[] { "" }));
+		customerAndProductGroupParamList
+				.add(Arrays.asList(new Object[] { GtnFrameworkCommonStringConstants.STRING_EMPTY }));
 
 		customerAndProductGroupResetActionConfig.setActionParameterList(customerAndProductGroupParamList);
 		customerAndProductGroupconfList.add(customerAndProductGroupResetActionConfig);

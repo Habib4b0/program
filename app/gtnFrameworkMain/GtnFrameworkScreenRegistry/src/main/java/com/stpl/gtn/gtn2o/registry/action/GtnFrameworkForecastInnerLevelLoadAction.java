@@ -24,24 +24,27 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		Integer selectedLevelNo = Integer.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString(),componentId).getCaptionFromV8ComboBox());
+				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getCaptionFromV8ComboBox());
+		if (selectedLevelNo != 0) {
+			GtnWsRecordBean hierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(1).toString()).getComponentData().getCustomData();
+			List<String> hierarchyCaptionList = new ArrayList<>();
+			List<Integer> hierarchyIdList = new ArrayList<>();
 
-		GtnWsRecordBean hierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(1).toString(),componentId).getComponentData().getCustomData();
+			Map<Integer, String> hierarchyLevelMap = (Map<Integer, String>) hierarchyBean
+					.getPropertyValueByIndex(hierarchyBean.getProperties().size() - 2);
+			gtnLogger.info("keySet--->" + hierarchyLevelMap.keySet());
+			Object[] keySet = hierarchyLevelMap.keySet().toArray();
+			for (int i = 0; i < selectedLevelNo; i++) {
+				formHierarchyInnerLevelValues(i, hierarchyLevelMap.get(keySet[i]), hierarchyCaptionList,
+						hierarchyIdList);
+			}
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
+					.loadItemsToCombobox(hierarchyCaptionList, hierarchyIdList);
 
-		List<String> hierarchyCaptionList = new ArrayList<>();
-		List<Integer> hierarchyIdList = new ArrayList<>();
-
-		Map<Integer, String> hierarchyLevelMap = (Map<Integer, String>) hierarchyBean
-				.getPropertyValueByIndex(hierarchyBean.getProperties().size() - 2);
-		gtnLogger.info("keySet--->" + hierarchyLevelMap.keySet());
-		Object[] keySet = hierarchyLevelMap.keySet().toArray();
-		for (int i = 0; i < selectedLevelNo; i++) {
-			formHierarchyInnerLevelValues(i, hierarchyLevelMap.get(keySet[i]), hierarchyCaptionList, hierarchyIdList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
+					.loadV8ComboBoxComponentValue(0);
 		}
-
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString(),componentId)
-				.loadItemsToCombobox(hierarchyCaptionList, hierarchyIdList);
 
 	}
 
