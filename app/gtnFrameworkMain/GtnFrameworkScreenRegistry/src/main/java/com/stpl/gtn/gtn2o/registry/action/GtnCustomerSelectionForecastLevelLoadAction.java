@@ -20,7 +20,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 public class GtnCustomerSelectionForecastLevelLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -35,11 +35,11 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 
 			Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean
 					.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
-			int relationshipBuilderSid = Integer.valueOf(String.valueOf(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(params.get(3).toString(),componentId).getCaptionFromV8ComboBox()));
+			Integer relationshipBuilderSid = Integer.valueOf(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(params.get(3).toString(),componentId).getCaptionFromV8ComboBox());
 			if (relationshipBuilderSid != 0) {
 				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = relationshipMap
-						.get(String.valueOf(recordBean.getPropertyValueByIndex(7)));
+						.get(recordBean.getPropertyValueByIndex(7));
 				List<String> relationshipCaptionList = new ArrayList<>();
 				List<Integer> relationshipIdList = new ArrayList<>();
 

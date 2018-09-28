@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public class GtnCustomerAvailableTableLoadAction
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		return;
+		//no need to implement
 
 	}
 
@@ -113,11 +114,13 @@ public class GtnCustomerAvailableTableLoadAction
 		request.setGtnWsForecastRequest(forecastRequest);
 		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
 		GtnUIFrameworkWebserviceResponse relationResponse = callGtnService(request);
-		if (relationResponse == null) {
+		GtnWsForecastResponse foreCastResponse = new GtnWsForecastResponse();
+		if (relationResponse != null) {
+			 foreCastResponse = relationResponse.getGtnWsForecastResponse();
+		}else {
 			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
 			alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP);
 		}
-		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
 
@@ -133,11 +136,14 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnServiceRegistryWsRequest serviceRegistryWsRequest = buildServiceRequest("/loadLevelValueMapResults");
 		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
 		GtnUIFrameworkWebserviceResponse response = callGtnService(request);
-		if (response == null) {
+		Map<String, String> returnMap = new HashMap<>();
+		if (response != null) {
+			returnMap= response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
+		}else {
 			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
 			alertAction.throwAlertUtil("", "/loadLevelValueMapResults");
 		}
-		return response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
+		return returnMap;
 	}
 
 	private List<GtnReportHierarchyLevelBean> getHierarchyLevelDefinition(Integer hierarchyDefSid,
@@ -152,11 +158,14 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnServiceRegistryWsRequest serviceRegistryWsRequest = buildServiceRequest("/getHierarchyLevelValues");
 		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
 		GtnUIFrameworkWebserviceResponse response = callGtnService(request);
-		if (response == null) {
+		List<GtnReportHierarchyLevelBean> returnList = new ArrayList<>();
+		if (response != null) {
+			returnList = response.getGtnWsForecastResponse().getInputBean().getLevelList();
+		}else {
 			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
 			alertAction.throwAlertUtil("", "/getHierarchyLevelValues");
 		}
-		return response.getGtnWsForecastResponse().getInputBean().getLevelList();
+		return returnList;
 	}
 
 	private String loadAvailableCustomerLevelQuery(GtnReportHierarchyLevelBean selectedHierarchyLevelBean,
@@ -178,11 +187,14 @@ public class GtnCustomerAvailableTableLoadAction
 				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL);
 		request.setGtnServiceRegistryWsRequest(serviceRegistryWsRequest);
 		GtnUIFrameworkWebserviceResponse response = callGtnService(request);
-		if (response == null) {
+		String returnString = "";
+		if (response != null) {
+			returnString = response.getGtnWsForecastResponse().getInputBean().getHieraryQuery();
+		}else {
 			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
 			alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL);
 		}
-		return response.getGtnWsForecastResponse().getInputBean().getHieraryQuery();
+		return returnString;
 	}
 
 	private GtnServiceRegistryWsRequest buildServiceRequest(String webserviceUrl) {

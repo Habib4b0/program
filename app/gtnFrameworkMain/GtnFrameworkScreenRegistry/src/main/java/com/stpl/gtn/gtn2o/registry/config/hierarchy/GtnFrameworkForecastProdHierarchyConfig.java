@@ -70,7 +70,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		hierarchyName.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		hierarchyName.setComponentId(nameSpace + "_" + "prodhierarchyName");
 		hierarchyName.setComponentName("Hierarchy");
-		hierarchyName.setAddToParent(Boolean.TRUE);
+		hierarchyName.setAddToParent(true);
 		hierarchyName.setParentComponentId(nameSpace + "_" + "producthierarchyLayout");
 
 		GtnUIFrameWorkActionConfig hierarchyPopupAction = new GtnUIFrameWorkActionConfig();
@@ -93,7 +93,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		relationship.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		relationship.setComponentId(nameSpace + "_" + "prodrelationship");
 		relationship.setComponentName("Relationship");
-		relationship.setAddToParent(Boolean.TRUE);
+		relationship.setAddToParent(true);
 		relationship.setParentComponentId(nameSpace + "_" + "prodrelationshipLayout");
 		relationship.setVaadinComponentPlaceHolder("-Select One-");
 		relationship.addDependentComponent(nameSpace + "_" + "salesCustomView");
@@ -154,7 +154,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		forecastLevel.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		forecastLevel.setComponentId(nameSpace + "_" + "prodforecastLevel");
 		forecastLevel.setComponentName("Forecast Level");
-		forecastLevel.setAddToParent(Boolean.TRUE);
+		forecastLevel.setAddToParent(true);
 		forecastLevel.setParentComponentId(nameSpace + "_" + "prodforecastLevelLayout");
 		forecastLevel.setVaadinComponentPlaceHolder("-Select One-");
 
@@ -180,7 +180,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		productGroup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		productGroup.setComponentId(nameSpace + "_" + "productGroup");
 		productGroup.setComponentName("Product Group");
-		productGroup.setAddToParent(Boolean.TRUE);
+		productGroup.setAddToParent(true);
 		productGroup.setParentComponentId(nameSpace + "_" + "productGroupLayout");
 		componentList.add(productGroup);
 
@@ -203,7 +203,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		salesCustomView.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		salesCustomView.setComponentId(nameSpace + "_" + "salesCustomView");
 		salesCustomView.setComponentName("Sales Custom View");
-		salesCustomView.setAddToParent(Boolean.TRUE);
+		salesCustomView.setAddToParent(true);
 		salesCustomView.setParentComponentId(nameSpace + "_" + "salesCustomViewLayout");
 		salesCustomView.setVaadinComponentPlaceHolder("-Select One-");
 		componentList.add(salesCustomView);
@@ -234,7 +234,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		deductionCustomView.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		deductionCustomView.setComponentId(nameSpace + "_" + "deductionCustomView");
 		deductionCustomView.setComponentName("Deduction Custom View");
-		deductionCustomView.setAddToParent(Boolean.TRUE);
+		deductionCustomView.setAddToParent(true);
 		deductionCustomView.setParentComponentId(nameSpace + "_" + "deductionViewLayout");
 		deductionCustomView.setVaadinComponentPlaceHolder("-Select One-");
 		componentList.add(deductionCustomView);
@@ -284,7 +284,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		level.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		level.setComponentId(nameSpace + "_" + "productLevel");
 		level.setComponentName("Level");
-		level.setAddToParent(Boolean.TRUE);
+		level.setAddToParent(true);
 		level.setParentComponentId(nameSpace + "_" + "productlevelLayout");
 		level.setVaadinComponentPlaceHolder("-Select One-");
 
