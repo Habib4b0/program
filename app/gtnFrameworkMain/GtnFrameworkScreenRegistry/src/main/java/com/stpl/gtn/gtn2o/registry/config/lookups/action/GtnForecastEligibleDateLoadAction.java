@@ -39,13 +39,13 @@ public class GtnForecastEligibleDateLoadAction
 	}
 
 	private LocalDate convertQuarterToDate(String fromPeriod) {
-		fromPeriod = fromPeriod.replace(" ", "");
+		String fromPeriodReplaced = fromPeriod.replace(" ", "");
 		Pattern patternOne = Pattern.compile("\\bQ..[0-9]{4}\\b");
 		LocalDate localDate = null;
-		if (patternOne.matcher(fromPeriod).find()) {
+		if (patternOne.matcher(fromPeriodReplaced).find()) {
 			int[] arr = { 0, 1, 4, 7, 10 };
 			localDate = LocalDate.parse(
-					"01/" + arr[Character.getNumericValue(fromPeriod.charAt(1))] + "/" + fromPeriod.substring(3),
+					"01/" + arr[Character.getNumericValue(fromPeriodReplaced.charAt(1))] + "/" + fromPeriodReplaced.substring(3),
 					DateTimeFormatter.ofPattern("dd/M/yyyy"));
 		}
 		return localDate;

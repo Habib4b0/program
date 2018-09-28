@@ -26,7 +26,7 @@ import com.vaadin.ui.TreeGrid;
 
 public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass{
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastingCCPTableLoadAction.class);
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastingCCPTableLoadAction.class);
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -34,25 +34,7 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 		try{
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
-		List<GtnWsRecordBean> selectedCustomerList = null;
-		List<GtnWsRecordBean> selectedProductList = null;
-		GtnFrameworkForecastDataSelectionBean dataSelectionDto = null;
-		try {
-			selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
-			selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
-			dataSelectionDto = getDataSelectionDto(actionParamList, selectedCustomerList, selectedProductList,
-					componentId);
-		} catch (Exception ex) {
-			GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
-			alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			alertAction.addActionParameter("Error");
-			alertAction.addActionParameter("Not all required fields have been populated. Please try again.");
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
-			logger.error("Error in ", ex);
-			return;
-		}
-		//ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
-
+		GtnFrameworkForecastDataSelectionBean dataSelectionDto = getDataSelectionBean(actionParamList,componentId);
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> params = new ArrayList<>();
@@ -72,25 +54,55 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 		}
 	}
 
+	private GtnFrameworkForecastDataSelectionBean getDataSelectionBean(List<Object> actionParamList, String componentId)  {
+		List<GtnWsRecordBean> selectedCustomerList = null;
+		List<GtnWsRecordBean> selectedProductList = null;
+		GtnFrameworkForecastDataSelectionBean dataSelectionDto = null;
+		try {
+			selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
+			selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
+			dataSelectionDto = getDataSelectionDto(actionParamList, selectedCustomerList, selectedProductList,
+					componentId);
+		} catch (Exception ex) {
+			GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+			alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+			alertAction.addActionParameter("Error");
+			alertAction.addActionParameter("Not all required fields have been populated. Please try again.");
+			methodForSingleExcecution(componentId, alertAction);
+			logger.error("Error in ", ex);
+		}
+		return dataSelectionDto;
+		
+	}
+
+	private void methodForSingleExcecution(String componentId, GtnUIFrameWorkActionConfig alertAction) {
+		try {
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
+		} catch (GtnFrameworkGeneralException e) {
+			logger.info("Exception " + e);
+		}
+		
+	}
+
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId)
 			throws GtnFrameworkValidationFailedException {
-		GtnUIFrameworkComponentData selectedTableComponentData = GtnUIFrameworkGlobalUI
+		GtnUIFrameworkComponentData tableComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(tableComponentId, componentId);
-		GtnFrameworkV8DualListBoxBean selectedDualListBoxBean = (GtnFrameworkV8DualListBoxBean) selectedTableComponentData
+		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) tableComponentData
 				.getCustomData();
-		TreeGrid<GtnWsRecordBean> selectedRightTable = selectedDualListBoxBean.getRightTable();
-		selectedRightTable.expand(selectedRightTable.getTreeData().getRootItems());
-		List<GtnWsRecordBean> selectedValues = selectedRightTable.getTreeData().getRootItems();
+		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
+		rightTable.expand(rightTable.getTreeData().getRootItems());
+		List<GtnWsRecordBean> selectedValues = rightTable.getTreeData().getRootItems();
 		if (selectedValues == null || selectedValues.isEmpty()) {
 			throw new GtnFrameworkValidationFailedException("Selected Table is Empty");
 		}
-		List<GtnWsRecordBean> selectedRecordList = new ArrayList<>(10);
+		List<GtnWsRecordBean> recordList = new ArrayList<>(10);
 		for (GtnWsRecordBean gtnWsRecordBean : selectedValues) {
 
-			selectedRecordList.add(gtnWsRecordBean);
-			addSelectedValues(selectedRightTable, gtnWsRecordBean, selectedRecordList);
+			recordList.add(gtnWsRecordBean);
+			addSelectedValues(rightTable, gtnWsRecordBean, recordList);
 		}
-		return selectedRecordList;
+		return recordList;
 	}
 	
 	private GtnFrameworkForecastDataSelectionBean getDataSelectionDto(List<Object> actionParamList,
@@ -167,8 +179,6 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 				.getVaadinBaseComponent(actionParamList.get(15).toString()).getIntegerFromV8ComboBox()));
 		dto.setCustomerHierarchySid(checkDDLBValuesWrapper(Integer.valueOf(String
 				.valueOf(customerRecordBean.getPropertyValueByIndex(7)))));
-//		dto.setCustomerHierarchyVersionNo(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
-//				.getVaadinBaseComponent(actionParamList.get(5).toString()).getStringCaptionFromV8ComboBox())));
 		dto.setCustomerRelationshipBuilderSid(checkDDLBValues(Integer.parseInt(String.valueOf(
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getCaptionFromV8ComboBox()))));
 		dto.setCustomerRelationshipVersionNo(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
@@ -177,8 +187,6 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 				.getVaadinBaseComponent(actionParamList.get(20).toString()).getCaptionFromV8ComboBox()))));
 		dto.setProductHierarchySid(checkDDLBValuesWrapper(Integer.valueOf(String
 				.valueOf(productRecordBean.getPropertyValueByIndex(7)))));
-//		dto.setProductHierarchyVersionNo(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
-//				.getVaadinBaseComponent(actionParamList.get(11).toString()).getStringCaptionFromV8ComboBox())));
 		dto.setProductRelationshipBuilderSid(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(9).toString()).getCaptionFromV8ComboBox()))));
 		dto.setProductRelationshipVersionNo(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI

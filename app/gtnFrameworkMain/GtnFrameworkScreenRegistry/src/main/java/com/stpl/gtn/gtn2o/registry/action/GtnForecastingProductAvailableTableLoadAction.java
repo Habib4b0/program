@@ -76,7 +76,7 @@ public class GtnForecastingProductAvailableTableLoadAction
 				queryParameters.add(hierarchyVersionNo);
 				queryParameters.add(selectedLevel);
 				queryParameters.add(businessUnit);
-				queryParameters.add(true);
+				queryParameters.add(Boolean.TRUE);
 				AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
 						.getVaadinComponent(actionParamList.get(7).toString(), componentId);
 				GtnUIFrameworkComponentData dualListBoxComponentData = (GtnUIFrameworkComponentData) dualListBoxComponent

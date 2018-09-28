@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -35,8 +34,6 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
 			throws GtnFrameworkGeneralException {
 		try {
 			logger.info("doAction----------------------------------------------");
-			final String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
-			String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_").substring(0, 12);
 			List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
             String fromPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial Forecasting_from").getStringCaptionFromV8ComboBox();
@@ -102,19 +99,20 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
 			List<GtnWsRecordBean> selectedCustomerList = null;
 			List<GtnWsRecordBean> selectedProductList = null;
 
-			selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
-			selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
+			selectedCustomerList = getSelectedListToLoad(actionParamList.get(1).toString(), componentId);
+			selectedProductList = getSelectedListToLoad(actionParamList.get(2).toString(), componentId);
 
 			GtnFrameworkForecastInputBean dto = getForecastDataSelectionDto(
 					gtnUIFrameWorkActionConfig.getActionParameterList(), selectedCustomerList, selectedProductList,
 					componentId, parametersForDataSelection);
+			logger.debug("Bean Results" + dto);
 
 		} catch (Exception ex) {
 			logger.error("Error", ex);
 		}
 	}
 
-	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId)
+	private List<GtnWsRecordBean> getSelectedListToLoad(String tableComponentId, String componentId)
 			throws GtnFrameworkValidationFailedException {
 		GtnUIFrameworkComponentData selectedTableComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(tableComponentId, componentId);
@@ -145,7 +143,7 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
 
 	private GtnFrameworkForecastInputBean getForecastDataSelectionDto(List<Object> actionParamList,
 			List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList, String componentId,
-			List<Object> parametersForDataSelection) throws Exception {
+			List<Object> parametersForDataSelection) throws GtnFrameworkGeneralException {
 
 		GtnFrameworkForecastInputBean dto = new GtnFrameworkForecastInputBean();
 		Date forecastEligibleDate = null;
@@ -195,7 +193,7 @@ public class GtnFrameworkNewToOldArchitectureGenerateAction
 
 	private void generateButtonMandatoryCheck(GtnFrameworkForecastInputBean dto, List<Object> actionParamList,
 			GtnWsRecordBean customerRecordBean, GtnWsRecordBean productRecordBean, String relationshipComponentId)
-			throws NumberFormatException, GtnFrameworkValidationFailedException {
+			throws GtnFrameworkValidationFailedException {
 		GtnWsRecordBean customerGroupRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(20).toString()).getComponentData().getCustomData();
 		GtnWsRecordBean productGroupRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI

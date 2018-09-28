@@ -8,6 +8,7 @@ package com.stpl.gtn.gtn2o.registry.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -69,14 +70,14 @@ public class GtnModeOptionValueChangeAction
 			itemCaption.addAll(bean.getToPeriodItemValueList());
 			if (!add) {
 				itemId.add(0, 0);
-				itemCaption.add(0, "-Select one-");
+				itemCaption.add(0, GtnFrameworkScreenRegisteryConstants.SELECT_ONE);
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).addAllItemsToComboBox(itemCaption, itemId);
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).loadV8ComboBoxComponentValue(itemId.get(0));
 
 			} else {
-				if (itemCaption.contains("-Select one-")) {
+				if (itemCaption.contains(GtnFrameworkScreenRegisteryConstants.SELECT_ONE)) {
 					itemCaption.remove(0);
 					itemId.remove(0);
 
@@ -100,14 +101,14 @@ public class GtnModeOptionValueChangeAction
 			itemCaption.addAll(bean.getFromPeriodItemValueList());
 			if (!add) {
 				itemIdFrom.add(0, 0);
-				itemCaption.add(0, "-Select one-");
+				itemCaption.add(0, GtnFrameworkScreenRegisteryConstants.SELECT_ONE);
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).addAllItemsToComboBox(itemCaption, itemIdFrom);
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).loadV8ComboBoxComponentValue(itemIdFrom.get(0));
 
 			} else {
-				if (itemCaption.contains("-Select one-")) {
+				if (itemCaption.contains(GtnFrameworkScreenRegisteryConstants.SELECT_ONE)) {
 					itemCaption.remove(0);
 					itemIdFrom.remove(0);
 

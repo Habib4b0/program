@@ -41,6 +41,15 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 	private final GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider
 			.getInstance();
+	private static final String[] PROPERTY_IDS = { GtnFrameworkScreenRegisteryConstants.PROJECTION_NAME,
+			GtnFrameworkScreenRegisteryConstants.DESCRIPTION,
+			GtnFrameworkScreenRegisteryConstants.CUSTOMER_HIERARCHY,
+			GtnFrameworkScreenRegisteryConstants.CUSTOMER_LEVEL,
+			GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY,
+			GtnFrameworkScreenRegisteryConstants.PRODUCT_LEVEL, GtnFrameworkScreenRegisteryConstants.CREATED_BY,
+			GtnFrameworkScreenRegisteryConstants.CREATED_DATE, GtnFrameworkScreenRegisteryConstants.MODIFIED_DATE,
+			GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
+			GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID };
 
 	public GtnUIFrameworkComponentConfig getHorizontalLayoutConfig(String compId, String parentLayout) {
 		GtnUIFrameworkComponentConfig profOptionLayoutConf = new GtnUIFrameworkComponentConfig();
@@ -616,17 +625,17 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		newArchGenerateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 
 		newArchGenerateAction.addActionParameter(GtnFrameworkForecastingCCPTableLoadAction.class.getName());
-		newArchGenerateAction.addActionParameter(nameSpace + "_customerDualListBox");
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_DUAL_LIST_BOX);
 		newArchGenerateAction.addActionParameter(nameSpace + "_productDualListBox");
-		newArchGenerateAction.addActionParameter(nameSpace + "_customerHierarchy");
-		newArchGenerateAction.addActionParameter(nameSpace + "_customerSelectionRelationship");
-		newArchGenerateAction.addActionParameter(nameSpace + "_customerSelectionRelationship");//
-		newArchGenerateAction.addActionParameter(nameSpace + "_customerSelectionForecastLevel");
-		newArchGenerateAction.addActionParameter(nameSpace + "_customerSelectionForecastEligibilityDate");
-		newArchGenerateAction.addActionParameter(nameSpace + "_prodhierarchyName");
-		newArchGenerateAction.addActionParameter(nameSpace + "_prodrelationship");
-		newArchGenerateAction.addActionParameter(nameSpace + "_prodforecastLevel");
-		newArchGenerateAction.addActionParameter(nameSpace + "_customerSelectionRelationship");//
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.UNDERSCORE+GtnFrameworkScreenRegisteryConstants.CUSTOMER_HIERARCHY);
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_RELATIONSHIP_WITH_UNDERSCORE);
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_RELATIONSHIP_WITH_UNDERSCORE);//
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_FORECASTLEVEL_WITH_UNDERSCORE);
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_FORECAST_ELIGIBILITYDATE_WITH_UNDERSCORE);
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_NAME_WITH_UNDERSCORE);
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_RELATIONSHIP_WITH_UNDERSCORE);
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_FORECAST_LEVEL_WITH_UNDERSCORE);
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_RELATIONSHIP_WITH_UNDERSCORE);//
 		newArchGenerateAction.addActionParameter("Commercial Forecasting_company");
 		newArchGenerateAction.addActionParameter(nameSpace + "_businessUnit");
 		newArchGenerateAction.addActionParameter(nameSpace + "_from");
@@ -635,16 +644,16 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		newArchGenerateAction.addActionParameter("Commercial Forecasting_projectionDescription");
 		newArchGenerateAction.addActionParameter(nameSpace + "_frequency");
 		newArchGenerateAction.addActionParameter(nameSpace + "_deductionLevel");
-		newArchGenerateAction.addActionParameter(nameSpace + "_customerSelectionLevel");
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_LEVEL_WITH_UNDERSCORE);
 		newArchGenerateAction.addActionParameter(nameSpace + "_productLevel");
 		newArchGenerateAction.addActionParameter(nameSpace + "_customerGroup");
 		newArchGenerateAction.addActionParameter(nameSpace + "_productGroup");
 		newArchGenerateAction.addActionParameter("Commercial Forecasting_salesCustomView");
 		newArchGenerateAction.addActionParameter("Commercial Forecasting_deductionCustomView");
-		newArchGenerateAction.addActionParameter("Commercial Forecasting_privateViewLookup");
+		newArchGenerateAction.addActionParameter(GtnFrameworkScreenRegisteryConstants.COMMERCIAL_FORE_PRIVATE_LOOKUP);
 		newArchGenerateAction.addActionParameter("Commercial Forecasting_publicView");
-		newArchGenerateAction.addActionParameter(nameSpace + "_customerRelationshipVersion");
-		newArchGenerateAction.addActionParameter(nameSpace + "_productRelationshipVersion");
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_RELATIONSHIP_VERSION);
+		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_RELATIONSHIP_VERSION);
 		actionList.add(newArchGenerateAction);
 
 		GtnUIFrameWorkActionConfig generateAction = new GtnUIFrameWorkActionConfig();
@@ -679,7 +688,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP);
 		generateAction
 				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL);
-		generateAction.addActionParameter("Commercial Forecasting_privateViewLookup");
+		generateAction.addActionParameter(GtnFrameworkScreenRegisteryConstants.COMMERCIAL_FORE_PRIVATE_LOOKUP);
 		generateAction.addActionParameter("Commercial Forecasting_publicView");
 		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_DEDUCTIONLEVEL);
 		generateAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_FREQUENCY);
@@ -707,7 +716,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 						nameSpace + "_" + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION,
 						nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
 						nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
-						nameSpace + "_customerHierarchy", nameSpace + "_" + "prodhierarchyName",
+						nameSpace + GtnFrameworkScreenRegisteryConstants.UNDERSCORE+GtnFrameworkScreenRegisteryConstants.CUSTOMER_HIERARCHY, nameSpace + "_" + "prodhierarchyName",
 						nameSpace + "_" + "customerGroup", nameSpace + "_" + "from", nameSpace + "_" + "to" }));
 		actionConfigListSearch.add(loadDataSearchTableActionConfig);
 		searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
@@ -747,13 +756,13 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 	private List<Object> getParameters(String nameSpace) {
 
 		return Arrays.asList(GtnFrameworkScreenRegistryResetAction.class.getName(),
-				"Commercial Forecasting_privateViewLookup",
+				GtnFrameworkScreenRegisteryConstants.COMMERCIAL_FORE_PRIVATE_LOOKUP,
 				nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
 				nameSpace + "_" + "projectionName",
 				nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
 				nameSpace + "_" + "projectionDescription", nameSpace + "_" + "publicView",
-				nameSpace + "_customerHierarchy", nameSpace + "_customerSelectionRelationship",
-				nameSpace + "_customerSelectionForecastLevel", nameSpace + "_" + "customerGroup",
+				nameSpace + GtnFrameworkScreenRegisteryConstants.UNDERSCORE+GtnFrameworkScreenRegisteryConstants.CUSTOMER_HIERARCHY, nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_RELATIONSHIP_WITH_UNDERSCORE,
+				nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_FORECASTLEVEL_WITH_UNDERSCORE, nameSpace + "_" + "customerGroup",
 				nameSpace + "_" + "customerDualListBox", nameSpace + "_" + "prodhierarchyName",
 				nameSpace + "_" + "prodrelationship", nameSpace + "_" + "prodforecastLevel",
 				nameSpace + "_" + "productDualListBox", nameSpace + "_" + "productGroup",
@@ -786,14 +795,14 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION,
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "from",
-				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "to", nameSpace + "_customerHierarchy",
-				nameSpace + "_customerSelectionRelationship", nameSpace + "_customerSelectionForecastLevel",
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "to", nameSpace + GtnFrameworkScreenRegisteryConstants.UNDERSCORE+GtnFrameworkScreenRegisteryConstants.CUSTOMER_HIERARCHY,
+				nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_RELATIONSHIP_WITH_UNDERSCORE, nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_FORECASTLEVEL_WITH_UNDERSCORE,
 
-				nameSpace + "_customerSelectionLevel", nameSpace + "_customerRelationshipVersion",
-				nameSpace + "_customerSelectionForecastEligibilityDate", nameSpace + "_customerDualListBox",
-				nameSpace + "_prodhierarchyName", nameSpace + "_prodrelationship",
+				nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_LEVEL_WITH_UNDERSCORE, nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_RELATIONSHIP_VERSION,
+				nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_FORECAST_ELIGIBILITYDATE_WITH_UNDERSCORE, nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_DUAL_LIST_BOX,
+				nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_NAME_WITH_UNDERSCORE, nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_RELATIONSHIP_WITH_UNDERSCORE,
 
-				nameSpace + "_productRelationshipVersion", nameSpace + "_prodforecastLevel",
+				nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_RELATIONSHIP_VERSION, nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_FORECAST_LEVEL_WITH_UNDERSCORE,
 				GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL,
 
 				GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL,
@@ -825,14 +834,14 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION,
 				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "from",
-				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "to", nameSpace + "_customerHierarchy",
-				nameSpace + "_customerSelectionRelationship", nameSpace + "_customerSelectionForecastLevel",
+				nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "to", nameSpace + GtnFrameworkScreenRegisteryConstants.UNDERSCORE+GtnFrameworkScreenRegisteryConstants.CUSTOMER_HIERARCHY,
+				nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_RELATIONSHIP_WITH_UNDERSCORE, nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_FORECASTLEVEL_WITH_UNDERSCORE,
 
-				nameSpace + "_customerSelectionLevel", nameSpace + "_customerRelationshipVersion",
-				nameSpace + "_customerSelectionForecastEligibilityDate", nameSpace + "_customerDualListBox",
-				nameSpace + "_prodhierarchyName", nameSpace + "_prodrelationship",
+				nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_LEVEL_WITH_UNDERSCORE, nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_RELATIONSHIP_VERSION,
+				nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_FORECAST_ELIGIBILITYDATE_WITH_UNDERSCORE, nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_DUAL_LIST_BOX,
+				nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_NAME_WITH_UNDERSCORE, nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_RELATIONSHIP_WITH_UNDERSCORE,
 
-				nameSpace + "_productRelationshipVersion", nameSpace + "_prodforecastLevel",
+				nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_RELATIONSHIP_VERSION, nameSpace + GtnFrameworkScreenRegisteryConstants.PRODUCT_FORECAST_LEVEL_WITH_UNDERSCORE,
 
 				nameSpace + "_productLevel", nameSpace + "_productDualListBox", nameSpace + "_frequency",
 
@@ -949,15 +958,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { GtnFrameworkScreenRegisteryConstants.PROJECTION_NAME,
-				GtnFrameworkScreenRegisteryConstants.DESCRIPTION,
-				GtnFrameworkScreenRegisteryConstants.CUSTOMER_HIERARCHY,
-				GtnFrameworkScreenRegisteryConstants.CUSTOMER_LEVEL,
-				GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY,
-				GtnFrameworkScreenRegisteryConstants.PRODUCT_LEVEL, GtnFrameworkScreenRegisteryConstants.CREATED_BY,
-				GtnFrameworkScreenRegisteryConstants.CREATED_DATE, GtnFrameworkScreenRegisteryConstants.MODIFIED_DATE,
-				GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
-				GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID };
+		
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
@@ -965,10 +966,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				GtnUIFrameworkComponentType.DATEFIELDVAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8 };
 
-		for (int i = 0; i < propertyIds.length; i++) {
+		for (int i = 0; i < PROPERTY_IDS.length; i++) {
 
 			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
+			pagedTableCustomFilterConfig.setPropertId(PROPERTY_IDS[i]);
 			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
 			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
 
@@ -1093,7 +1094,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		loadDateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadDateAction.addActionParameter(GtnForecastEligibleDateLoadAction.class.getName());
 		loadDateAction.addActionParameter(nameSpace + "_" + "from");
-		loadDateAction.addActionParameter(nameSpace + "_customerSelectionForecastEligibilityDate");
+		loadDateAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.CUSTOMER_SELECTION_FORECAST_ELIGIBILITYDATE_WITH_UNDERSCORE);
 		return loadDateAction;
 	}
 

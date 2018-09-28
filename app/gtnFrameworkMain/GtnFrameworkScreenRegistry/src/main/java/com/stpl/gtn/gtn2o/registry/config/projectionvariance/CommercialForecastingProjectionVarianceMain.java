@@ -210,7 +210,6 @@ public class CommercialForecastingProjectionVarianceMain {
 		projectionpivoteViewResultTableComponentConfig
 				.setGtnPagedTreeTableConfig(projectionVarianceProjectPivotViewGtnPagedTreeTableConfig);
 
-		//componentList.add(projectionpivoteViewResultTableComponentConfig);
 
 	}
 

@@ -2,16 +2,13 @@ package com.stpl.gtn.gtn2o.registry.config.dataassumptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.config.common.UpdatePreviousNextCloseSubmitButton;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -22,13 +19,6 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkDataAssumptionsTabConfig.class);
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
-	private String[] propertyIds = { "file", "company", "businessUnit", "type", "version", "activeFrom", "fromPeriod",
-			"toPeriod" };
-	private GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-			GtnUIFrameworkComponentType.CALENDAR_FIELD, GtnUIFrameworkComponentType.CALENDAR_FIELD,
-			GtnUIFrameworkComponentType.CALENDAR_FIELD };
 
 	public void addDataAssumptionsTabComponents(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		addDataAssumptionsRootLayout(componentList, nameSpace);
@@ -126,22 +116,8 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				"Version", "Active From", "From Period", "To Period"));
 		dataAssumptionsPagedTableConfig.setTableColumnMappingId(new Object[] { "file", "company", "businessUnit",
 				"type", "version", "activeFrom", "fromPeriod", "toPeriod" });
-		//dataAssumptionsPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		dataAssumptionsResultsTable.setGtnPagedTableConfig(dataAssumptionsPagedTableConfig);
 	}
-
-	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>(
-				propertyIds.length);
-		for (int i = 0; i < propertyIds.length; i++) {
-			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
-			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
-			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
-		}
-		return customFilterConfigMap;
-	}
-
 	private void addDataAssumptionsExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentComponentId, String nameSpace) {
 		gtnLogger.info("started executing addDataAssumptionsExcelButtonComponent()");

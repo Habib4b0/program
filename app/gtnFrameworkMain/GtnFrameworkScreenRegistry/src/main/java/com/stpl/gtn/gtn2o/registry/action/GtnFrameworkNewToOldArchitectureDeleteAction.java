@@ -52,7 +52,7 @@ public class GtnFrameworkNewToOldArchitectureDeleteAction
 		String sessionId = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId"));
 
         try {
-            GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
+            GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow);
             inputBean.setUserId(userId);
             inputBean.setSessionId(sessionId);
             String nameSpace = GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING;
@@ -76,8 +76,7 @@ public class GtnFrameworkNewToOldArchitectureDeleteAction
 
 	}
 
-	private GtnFrameworkForecastInputBean formForecastInputBean(GtnWsRecordBean selectedRow,
-			List<Object> actionParamsList) throws ParseException {
+	private GtnFrameworkForecastInputBean formForecastInputBean(GtnWsRecordBean selectedRow) throws ParseException {
 		GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
 		try {
 			inputBean.setProjectionName((String) selectedRow.getPropertyValueByIndex(0));
