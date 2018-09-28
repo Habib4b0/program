@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
+import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
 import com.stpl.gtn.gtn2o.serviceregistry.controller.GtnUIServiceRegistryController;
 import com.stpl.gtn.gtn2o.serviceregistry.controller.GtnValidateWsServiceRegistryController;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryAuthorizationService;
@@ -30,7 +31,13 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/resources/GtnServiceRegistry-test.xml" })
-public class GtnServiceRegistryRegisterWsTest {
+public class GtnServiceRegistryRegisterWsTest 
+{
+	 
+	public GtnServiceRegistryRegisterWsTest()
+	{
+		//nothing is here
+	}
 
 	private GtnFrameworkDependencyLogger gtnLogger = GtnFrameworkDependencyLogger
 			.getGTNLogger(GtnServiceRegistryRegisterWsTest.class);
@@ -85,9 +92,9 @@ public class GtnServiceRegistryRegisterWsTest {
 		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
 
 		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-		webServiceRegistryBean.setWebserviceEndPointUrl("http://localhost:8090");
-		webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
-		gtnLogger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
+		webServiceRegistryBean.setWebserviceEndPointUrl(GtnWsServiceRegistryConstants.PORT);
+		webServiceRegistryBean.setRegisteredWebContext(GtnWsServiceRegistryConstants.PERIOD_CONF);
+		gtnLogger.info(GtnWsServiceRegistryConstants.REGISTER_WEBSERVICE + webServiceRegistryBean.getRegisteredWebContext());
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
 		gtnUIServiceRegistryController.registerWebServices(request);		
@@ -100,16 +107,16 @@ public class GtnServiceRegistryRegisterWsTest {
 		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
 
 		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-		webServiceRegistryBean.setWebserviceEndPointUrl("http://localhost:8090");
-		webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
-		gtnLogger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
+		webServiceRegistryBean.setWebserviceEndPointUrl(GtnWsServiceRegistryConstants.PORT);
+		webServiceRegistryBean.setRegisteredWebContext(GtnWsServiceRegistryConstants.PERIOD_CONF);
+		gtnLogger.info(GtnWsServiceRegistryConstants.REGISTER_WEBSERVICE + webServiceRegistryBean.getRegisteredWebContext());
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
 		
 
 		GtnWsGeneralRequest  gtnWsGeneralRequest = new GtnWsGeneralRequest();
-		gtnWsGeneralRequest.setSessionId("20156");
-		gtnWsGeneralRequest.setUserId("20156");
+		gtnWsGeneralRequest.setSessionId(GtnWsServiceRegistryConstants.SESSION_ID);
+		gtnWsGeneralRequest.setUserId(GtnWsServiceRegistryConstants.USER_ID);
 		
 		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
 		
@@ -122,18 +129,18 @@ public class GtnServiceRegistryRegisterWsTest {
 		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
 
 		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-		webServiceRegistryBean.setWebserviceEndPointUrl("http://localhost:8090");
-		webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
-		webServiceRegistryBean.setUrl("/gtnPeriodConfigurationController/loadDate");
+		webServiceRegistryBean.setWebserviceEndPointUrl(GtnWsServiceRegistryConstants.PORT);
+		webServiceRegistryBean.setRegisteredWebContext(GtnWsServiceRegistryConstants.PERIOD_CONF);
+		webServiceRegistryBean.setUrl(GtnWsServiceRegistryConstants.PERIOD_CONF_URL);
 		webServiceRegistryBean.setModuleName("periodConfiguration");
-		gtnLogger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
+		gtnLogger.info(GtnWsServiceRegistryConstants.REGISTER_WEBSERVICE + webServiceRegistryBean.getRegisteredWebContext());
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
 		
 
 		GtnWsGeneralRequest  gtnWsGeneralRequest = new GtnWsGeneralRequest();
-		gtnWsGeneralRequest.setSessionId("20156");
-		gtnWsGeneralRequest.setUserId("20156");
+		gtnWsGeneralRequest.setSessionId(GtnWsServiceRegistryConstants.SESSION_ID);
+		gtnWsGeneralRequest.setUserId(GtnWsServiceRegistryConstants.USER_ID);
 		
 		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
 		
@@ -160,17 +167,17 @@ public class GtnServiceRegistryRegisterWsTest {
 		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
 		
 		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-		webServiceRegistryBean.setWebserviceEndPointUrl("http://localhost:8090");
-		webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
-		webServiceRegistryBean.setUrl("/gtnPeriodConfigurationController/loadDate");
+		webServiceRegistryBean.setWebserviceEndPointUrl(GtnWsServiceRegistryConstants.PORT);
+		webServiceRegistryBean.setRegisteredWebContext(GtnWsServiceRegistryConstants.PERIOD_CONF);
+		webServiceRegistryBean.setUrl(GtnWsServiceRegistryConstants.PERIOD_CONF_URL);
 		webServiceRegistryBean.setModuleName("periodConfiguration");
-		gtnLogger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
+		gtnLogger.info(GtnWsServiceRegistryConstants.REGISTER_WEBSERVICE+ webServiceRegistryBean.getRegisteredWebContext());
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
 	
 		GtnWsGeneralRequest  gtnWsGeneralRequest = new GtnWsGeneralRequest();
-		gtnWsGeneralRequest.setSessionId("20156");
-		gtnWsGeneralRequest.setUserId("20156");
+		gtnWsGeneralRequest.setSessionId(GtnWsServiceRegistryConstants.SESSION_ID);
+		gtnWsGeneralRequest.setUserId(GtnWsServiceRegistryConstants.USER_ID);
 		
 		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
 		gtnUIFrameworkWebserviceRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
@@ -190,17 +197,17 @@ public class GtnServiceRegistryRegisterWsTest {
 		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
 
 		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
-		webServiceRegistryBean.setWebserviceEndPointUrl("http://localhost:8090");
-		webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
-		webServiceRegistryBean.setUrl("/gtnPeriodConfigurationControllerss/loadDate");
-		gtnLogger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
+		webServiceRegistryBean.setWebserviceEndPointUrl(GtnWsServiceRegistryConstants.PORT);
+		webServiceRegistryBean.setRegisteredWebContext(GtnWsServiceRegistryConstants.PERIOD_CONF);
+		webServiceRegistryBean.setUrl(GtnWsServiceRegistryConstants.PERIOD_CONF_URL);
+		gtnLogger.info(GtnWsServiceRegistryConstants.REGISTER_WEBSERVICE + webServiceRegistryBean.getRegisteredWebContext());
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
 		
 
 		GtnWsGeneralRequest  gtnWsGeneralRequest = new GtnWsGeneralRequest();
-		gtnWsGeneralRequest.setSessionId("20156");
-		gtnWsGeneralRequest.setUserId("20156");
+		gtnWsGeneralRequest.setSessionId(GtnWsServiceRegistryConstants.SESSION_ID);
+		gtnWsGeneralRequest.setUserId(GtnWsServiceRegistryConstants.USER_ID);
 		
 		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
 		
