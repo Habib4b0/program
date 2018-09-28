@@ -156,6 +156,7 @@ public class BeforeUnload extends AbstractExtension {
 	public static BeforeUnload closeBeforeUnload(UI currentUI) {
 		BeforeUnload ob = get(currentUI);
 		ob.setUI(currentUI);
+		currentUI.getReconnectDialogConfiguration().setReconnectAttempts(10);
 		return ob;
 	}
 }

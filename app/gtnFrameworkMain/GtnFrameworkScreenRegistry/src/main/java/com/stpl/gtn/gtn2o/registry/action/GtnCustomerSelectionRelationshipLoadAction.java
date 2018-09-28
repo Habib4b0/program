@@ -29,7 +29,7 @@ public class GtnCustomerSelectionRelationshipLoadAction
 			List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
 
 			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent((String) params.get(1)).getComponentData().getCustomData();
+					.getVaadinBaseComponent((String) params.get(1),componentId).getComponentData().getCustomData();
 
 			Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean
 					.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
@@ -49,14 +49,20 @@ public class GtnCustomerSelectionRelationshipLoadAction
 				relationshipIdList.add(relationshipBuilderBean.getRelationshipBuilderSid());
 			}
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2))
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2),componentId)
 					.loadItemsToCombobox(relationshipCaptionList, relationshipIdList);
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(params.get(2).toString()).loadV8ComboBoxComponentValue(params.size()>3?Integer.valueOf(params.get(3).toString()):0);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(params.get(2).toString(),componentId).loadV8ComboBoxComponentValue(params.size()>3?Integer.valueOf(params.get(3).toString()):0);
+
 
 		} catch (Exception ex) {
 			logger.error("Error", ex);
 		}
+	}
+	
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
 	}
 
 }

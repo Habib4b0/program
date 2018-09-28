@@ -117,8 +117,6 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
                     BeanUtils.setProperty(selectionDTO, String.valueOf(object[0]), object[1]);
                 } catch (IllegalAccessException | InvocationTargetException ex) {
                     LOGGER.error("Error in loadDetails :", ex);
-                } catch (Exception ex) {
-                    LOGGER.error("Error in loadDetails :", ex);
                 }
 
             }

@@ -277,7 +277,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     if (!selectionDTO.getSessionDTO().isWorkFlow()) {
                         frequency = selectionDTO.getSummarydemandfrequency();
                     } else if (frequency.matches("^[-+]?\\d+(\\.\\d+)?$")) {
-                        frequency = HelperListUtil.getInstance().getIdDescMap().get(selectionDTO.getSummarydemandfrequency());
+                        frequency = HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(selectionDTO.getSummarydemandfrequency()));
                     } else {
                         frequency = selectionDTO.getSummarydemandfrequency();
                     }

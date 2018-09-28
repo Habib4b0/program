@@ -154,7 +154,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The move back.
      */
-    private final String moveBack = "../";
+    private static final String MOVE_BACK = "../";
 
     /**
      * The user id.
@@ -223,7 +223,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The file path.
      */
-    private final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME);
+    private final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + MOVE_BACK + MOVE_BACK + MOVE_BACK + File.separator + DOCUMENTS + File.separator + MODULE_NAME);
 
     private static final String[] ADD_ATTACHMENT_FORMAT = {"doc", "docx", "ppt", "xls", "xlsx", "pdf", "txt", "csv", "jpeg"};
     /**
@@ -352,7 +352,7 @@ public class AdditionalInformation extends CustomComponent {
                         attachDto.setDateAdded(dateTimeFormat.format(new Date()));
                         attachDto.setDocumentName(AdditionalInfoLogic.configureDownloader(event.getFilename(), filePath.getAbsolutePath()));
                         attachDto.setUserName(CommonUtils.getUserNameById(userId));
-                        attachDto.setDocumentFullPath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId
+                        attachDto.setDocumentFullPath(basepath + File.separator + MOVE_BACK + MOVE_BACK + MOVE_BACK + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId
                                 + File.separator + event.getFilename());
                         attachmentsListBean.addBean(attachDto);
                         newFileDto.add(attachDto);
@@ -391,7 +391,7 @@ public class AdditionalInformation extends CustomComponent {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 LOGGER.debug("uploader.addValueChangeListener started");
-                File[] listOfFiles = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId)
+                File[] listOfFiles = CommonUtil.getFilePath(basepath + File.separator + MOVE_BACK + MOVE_BACK + MOVE_BACK + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId)
                         .listFiles();
                 boolean fileExist = false;
                 for (File file : listOfFiles) {
@@ -526,7 +526,7 @@ public class AdditionalInformation extends CustomComponent {
                             dto.setDocumentFullPath(tableBean.getDocumentFullPath());
                             removedDetailsList.add(dto);
 
-                            File file = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId
+                            File file = CommonUtil.getFilePath(basepath + File.separator + MOVE_BACK + MOVE_BACK + MOVE_BACK + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId
                                     + File.separator + tableBean.getDocumentName());
                             isFileExists=file.delete();
                             LOGGER.info("File deleted successfully= {}",isFileExists);

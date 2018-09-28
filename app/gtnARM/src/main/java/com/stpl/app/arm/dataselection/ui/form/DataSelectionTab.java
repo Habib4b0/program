@@ -56,10 +56,10 @@ public class DataSelectionTab extends AbstractDataSelection {
         super();
         this.selection = selection;
         this.sessionDTO = sessionDTO;
-        init();
+        dsTabInit();
     }
 
-    private void init() {
+    private void dsTabInit() {
         panel1.setCaption("Adjustment Options");
         if (sessionDTO.isWorkFlow()) {
             configureDataSelection();
@@ -383,10 +383,10 @@ public class DataSelectionTab extends AbstractDataSelection {
      * @throws java.lang.Exception
      */
     public void initializeCustomerHierarchy(final int projectionId, int customerLevel) {
-        DataSelectionLogic CustHierarchyLogic = new DataSelectionLogic();
+        DataSelectionLogic custHierarchyLogic = new DataSelectionLogic();
 
         List<LevelDTO> reslistOne;
-        reslistOne = CustHierarchyLogic.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
+        reslistOne = custHierarchyLogic.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
         createHierarchyBasedOnHierarchyNo(selectedCustomerContainer, reslistOne, customerLevel);
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
 

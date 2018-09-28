@@ -575,7 +575,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportingDSComparisonPopupConfig.addActionParameter("dataSelectionComparisonLookupView");
 		reportingDSComparisonPopupConfig.addActionParameter("Comparison Lookup");
 		reportingDSComparisonPopupConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
-		reportingDSComparisonPopupConfig.addActionParameter(null);
+		reportingDSComparisonPopupConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		dsComparisonPopupActionList.add(reportingDSComparisonPopupConfig);
 
 		GtnUIFrameWorkActionConfig selectedGridLoadAction = new GtnUIFrameWorkActionConfig();

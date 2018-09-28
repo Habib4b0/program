@@ -79,6 +79,9 @@ public class GtnFrameworkForecastDataSelectionBean {
 	private String privateViewName;
 	private String publicViewName;
 	private List<Object> customDataList;
+	
+	private Integer deductionLevel;
+
 	private int resultCount;
 	public String getProjectionName() {
 		return projectionName;
@@ -549,6 +552,9 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setProductHierarchyRecordBean(this.productHierarchyRecordBean);
 		DataSelectionCopyBean.setSelectedCustomerHierarchyList(this.selectedCustomerHierarchyList);
 		DataSelectionCopyBean.setSelectedProductHierarchyList(this.selectedProductHierarchyList);
+		DataSelectionCopyBean.setCustomerGroup(this.customerGroup);
+		DataSelectionCopyBean.setProductGroup(productGroup);
+		DataSelectionCopyBean.setDeductionLevel(this.deductionLevel);
 
 		DataSelectionCopyBean.setFromPeriod(this.fromPeriod);
 		DataSelectionCopyBean.setFromPeriodForecastName(this.fromPeriodForecastName);
@@ -571,6 +577,15 @@ public class GtnFrameworkForecastDataSelectionBean {
 		DataSelectionCopyBean.setCustomDataList(this.customDataList);
 		return DataSelectionCopyBean;
 	}
+
+	public Integer getDeductionLevel() {
+		return deductionLevel;
+	}
+
+	public void setDeductionLevel(Integer deductionLevel) {
+		this.deductionLevel = deductionLevel;
+	}
+
 
 	public int getResultCount() {
 		return resultCount;

@@ -22,7 +22,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
-
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.TreeGrid;
 
@@ -40,6 +39,7 @@ public class GtnFrameworkSaveViewAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+
 		try
 		{
 		Date date = null;
@@ -187,24 +187,14 @@ public class GtnFrameworkSaveViewAction
 		{
 			gtnLogger.error("Exception", e);
 		}
-		
+
 	}
 
+	@SuppressWarnings("rawtypes")
 	private Integer checkIfNotNull(Optional input) {
 		return input.isPresent() && !"".equals(input.get().toString()) ? Integer.valueOf(input.get().toString()) : null;
 	}
 
-	private int getViewId(String privateViewName) {
-		GtnWsRecordBean viewRecord;
-		if (!"".equals(privateViewName))
-			viewRecord = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("Commercial Forecasting_privateViewLookup").getComponentData().getCustomData();
-		else
-			viewRecord = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("Commercial Forecasting_publicView").getComponentData().getCustomData();
-		return Integer
-				.parseInt(String.valueOf(viewRecord.getPropertyValueByIndex(viewRecord.getProperties().size() - 2)));
-	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
 		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
