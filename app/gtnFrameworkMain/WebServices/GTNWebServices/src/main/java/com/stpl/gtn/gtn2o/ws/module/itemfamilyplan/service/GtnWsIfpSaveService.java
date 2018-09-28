@@ -197,7 +197,7 @@ public class GtnWsIfpSaveService {
 		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(deleteQuery);
 	}
 
-	private int notesTabInsert(GtnIFamilyPlanBean ifpBean) throws GtnFrameworkGeneralException {
+	public int notesTabInsert(GtnIFamilyPlanBean ifpBean) throws GtnFrameworkGeneralException {
 		logger.info("Enter Ifp notesTabInsert");
 		List<NotesTabBean> notesTabRequestList = ifpBean.getNotesTabList();
 		if (notesTabRequestList != null && !notesTabRequestList.isEmpty()) {
@@ -205,7 +205,7 @@ public class GtnWsIfpSaveService {
 					GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_INSERT + "VALUES ");
 			int i = 0;
 			for (NotesTabBean notesTabRequest : notesTabRequestList) {
-				if (i == 0) {
+				if (i == 0) { 
 					cmNotesTabQuery.append(" (").append(ifpBean.getIfpInfo().getIfpSid()).append(",'")
 							.append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
@@ -224,7 +224,7 @@ public class GtnWsIfpSaveService {
 		return 0;
 	}
 
-	private void notesTabAttachmentForIfp(GtnIFamilyPlanBean ifpBean) throws GtnFrameworkGeneralException {
+	public void notesTabAttachmentForIfp(GtnIFamilyPlanBean ifpBean) throws GtnFrameworkGeneralException {
 		logger.info("Enter ifp notesTabAttachment");
 		Session session = getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -254,7 +254,7 @@ public class GtnWsIfpSaveService {
 		}
 	}
 
-	private static byte[] readBytesFromFileForIFP(String filePath) throws IOException {
+	public static byte[] readBytesFromFileForIFP(String filePath) throws IOException {
 		File inputFile = GtnFileNameUtils.getFile(filePath);
         FileInputStream inputStreamIfp= GtnFileNameUtils.getFileInputStreamFile(inputFile);
         byte[] fileBytes = new byte[(int) inputFile.length()];
