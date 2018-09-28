@@ -23,11 +23,12 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		int selectedLevelNo = Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getCaptionFromV8ComboBox());
+		int selectedLevelNo = Integer.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(2).toString(),componentId).getCaptionFromV8ComboBox());
+
 
 		GtnWsRecordBean hierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getComponentData().getCustomData();
+				.getVaadinBaseComponent(actionParamsList.get(1).toString(),componentId).getComponentData().getCustomData();
 
 		List<String> hierarchyCaptionList = new ArrayList<>();
 		List<Integer> hierarchyIdList = new ArrayList<>();
@@ -40,7 +41,7 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 			formHierarchyInnerLevelValues(i, hierarchyLevelMap.get(keySet[i]), hierarchyCaptionList, hierarchyIdList);
 		}
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString(),componentId)
 				.loadItemsToCombobox(hierarchyCaptionList, hierarchyIdList);
 
 	}

@@ -1,8 +1,12 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -15,10 +19,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.AbstractComponent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class GtnFrameworkForecastEditAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -43,12 +43,12 @@ public class GtnFrameworkForecastEditAction
 			GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
 			inputBean.setUserId(userId);
 			inputBean.setSessionId(sessionId);
-//			ForecastUI ui = new ForecastUI();
-//			if (actionParamsList.get(2).equals("View")) {
-//				ui.getForecastingToView(inputBean, userId, sessionId);
-//			} else {
-//				ui.getForecastingToEdit(inputBean, userId, sessionId);
-//			}
+			ForecastUI ui = new ForecastUI();
+			if (actionParamsList.get(2).equals("View")) {
+				ui.getForecastingToView(inputBean, userId, sessionId);
+			} else {
+				ui.getForecastingToEdit(inputBean, userId, sessionId);
+			}
 		} catch (ParseException ex) {
 			Logger.getLogger(GtnFrameworkForecastEditAction.class.getName()).log(Level.SEVERE, null, ex);
 		}

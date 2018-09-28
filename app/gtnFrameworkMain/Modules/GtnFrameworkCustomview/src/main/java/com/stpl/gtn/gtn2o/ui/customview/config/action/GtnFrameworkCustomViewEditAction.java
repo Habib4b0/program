@@ -55,12 +55,7 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
             
             GtnUIFrameworkGlobalUI.addSessionProperty("mode", parameters.get(2));
             
-            GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
-            navigationActionConfig.addActionParameter("V002");
-            GtnUIFrameWorkAction navigationAction = GtnUIFrameworkActionType.NAVIGATION_ACTION
-                    .getGtnUIFrameWorkAction();
-            navigationAction.configureParams(navigationActionConfig);
-            navigationAction.doAction(componentId, navigationActionConfig);
+            executeNavigateAction(componentId); 
             GtnWsRecordBean customViewBean = (GtnWsRecordBean) value;
             int customSid = (int)customViewBean.getPropertyValue("customViewMasterSId");
             
@@ -72,6 +67,15 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
             gtnLogger.error("Exception in GtnUIFrameworkEditButtonAction", e);
         }
     }
+
+	public void executeNavigateAction(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
+		navigationActionConfig.addActionParameter("V002");
+		GtnUIFrameWorkAction navigationAction = GtnUIFrameworkActionType.NAVIGATION_ACTION
+		        .getGtnUIFrameWorkAction();
+		navigationAction.configureParams(navigationActionConfig);
+		navigationAction.doAction(componentId, navigationActionConfig);
+	}
 
     private void setValuesToFields(GtnWsRecordBean customViewBean, String nameSpacePrefix, int customSid, List<Object> parameters) throws GtnFrameworkGeneralException {
         String viewName = String.valueOf(customViewBean.getPropertyValue(GtnFrameworkCommonConstants.TREE_VIEW_NAME));
@@ -138,10 +142,7 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
         cvRequest.setCustomViewType("");
         generalRequest.setGtnWsCustomViewRequest(cvRequest);
 
-        GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-                GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE
-                + GtnWsCustomViewConstants.CUSTOM_VIEW_GET_TREE_DATA,
-                generalRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        GtnUIFrameworkWebserviceResponse response = getResponse(wsclient, generalRequest);
         GtnWsCustomViewResponse cvResponse = response.getGtnWsCustomViewResponse();
        
          GtnUIFrameworkBaseComponent tableTreeComponent=GtnUIFrameworkGlobalUI
@@ -167,6 +168,15 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
        
     
     }
+
+	public GtnUIFrameworkWebserviceResponse getResponse(final GtnUIFrameworkWebServiceClient wsclient,
+			final GtnUIFrameworkWebserviceRequest generalRequest) {
+		return wsclient.callGtnWebServiceUrl(
+                GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE
+                + GtnWsCustomViewConstants.CUSTOM_VIEW_GET_TREE_DATA,
+                generalRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
+	}
 
     @Override
     public GtnUIFrameWorkAction createInstance() {

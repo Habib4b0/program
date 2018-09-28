@@ -2433,11 +2433,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             if ((condition) && (key.getValue())) {
                 if (!selectedPeriods.equals(StringUtils.EMPTY)) {
-                    selectedPeriods = selectedPeriods + ",";
+                    selectedPeriods = selectedPeriods.concat(",");
                 }
-                String value = (String) key.getKey();
-                value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
-                selectedPeriods = selectedPeriods + value;
+                String valueSelectedPeriods = (String) key.getKey();
+                valueSelectedPeriods = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : valueSelectedPeriods.replace('-', ' ');
+                selectedPeriods = selectedPeriods.concat(valueSelectedPeriods);
             }
         }
         return selectedPeriods.toUpperCase(Locale.ENGLISH);
@@ -2484,11 +2484,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
                 if (condition) {
                     if (!selectedPeriods.equals(StringUtils.EMPTY)) {
-                        selectedPeriods = selectedPeriods + ",";
+                        selectedPeriods = selectedPeriods.concat(",");
                     }
-                    String value = (String) key;
-                    value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
-                    selectedPeriods = selectedPeriods + value;
+                    String valueAllPeriods = (String) key;
+                    valueAllPeriods = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : valueAllPeriods.replace('-', ' ');
+                    selectedPeriods = selectedPeriods.concat(valueAllPeriods);
                 }
             }
         }
@@ -2536,11 +2536,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             if ((condition) && (key.getValue())) {
                 if (!selectedPeriods.equals(StringUtils.EMPTY)) {
-                    selectedPeriods = selectedPeriods + ",";
+                    selectedPeriods = selectedPeriods.concat(",");
                 }
-                String value = (String) key.getKey();
-                value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
-                selectedPeriods = selectedPeriods + value;
+                String valueProjectionPeriod = (String) key.getKey();
+                valueProjectionPeriod = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : valueProjectionPeriod.replace('-', ' ');
+                selectedPeriods = selectedPeriods.concat(valueProjectionPeriod);
             }
         }
         return selectedPeriods.toUpperCase(Locale.ENGLISH);

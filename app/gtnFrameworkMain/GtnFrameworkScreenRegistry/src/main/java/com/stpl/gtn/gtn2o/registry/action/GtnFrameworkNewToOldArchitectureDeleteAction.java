@@ -5,6 +5,13 @@
  */
 package com.stpl.gtn.gtn2o.registry.action;
 
+import java.text.ParseException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -20,35 +27,31 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.AbstractComponent;
-import java.text.ParseException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Porchelvi.Gunasekara
  */
-public class GtnFrameworkNewToOldArchitectureDeleteAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+public class GtnFrameworkNewToOldArchitectureDeleteAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastInnerLevelLoadAction.class);
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastInnerLevelLoadAction.class);
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-            throws GtnFrameworkGeneralException {
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
 
-        List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-        String gridComponentId = actionParamsList.get(1).toString();
+		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
+		String gridComponentId = actionParamsList.get(1).toString();
 
-        AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(gridComponentId, componentId);
-        GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) abstractComponent.getData();
-        Set<GtnWsRecordBean> rows = componentData.getPagedGrid().getValue();
-        GtnWsRecordBean selectedRow = rows.isEmpty() ? null : rows.iterator().next();
+		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(gridComponentId, componentId);
+		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) abstractComponent.getData();
+		Set<GtnWsRecordBean> rows = componentData.getPagedGrid().getValue();
+		GtnWsRecordBean selectedRow = rows.isEmpty() ? null : rows.iterator().next();
 
-        String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
-        String sessionId = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId"));
+		String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
+		String sessionId = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId"));
+
 
         try {
             GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
@@ -71,22 +74,23 @@ public class GtnFrameworkNewToOldArchitectureDeleteAction implements GtnUIFrameW
             }));
             GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataSearchTableActionConfig);
 
-        } catch (Exception ex) {
-            Logger.getLogger(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName()).log(Level.SEVERE, null, ex);
-        }
+		} catch (Exception ex) {
+			Logger.getLogger(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
-    }
+	}
 
-    private GtnFrameworkForecastInputBean formForecastInputBean(GtnWsRecordBean selectedRow, List<Object> actionParamsList) throws ParseException {
-        GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
-        try {
-            inputBean.setProjectionName((String) selectedRow.getPropertyValueByIndex(0));
-            inputBean.setProjectionMasterSid((int) selectedRow.getPropertyValueByIndex(12));
+	private GtnFrameworkForecastInputBean formForecastInputBean(GtnWsRecordBean selectedRow,
+			List<Object> actionParamsList) throws ParseException {
+		GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
+		try {
+			inputBean.setProjectionName((String) selectedRow.getPropertyValueByIndex(0));
+			inputBean.setProjectionMasterSid((int) selectedRow.getPropertyValueByIndex(12));
 
-        } catch (Exception ex) {
-            gtnLogger.info(ex.getMessage());
-        }
-        return inputBean;
-    }
+		} catch (Exception ex) {
+			gtnLogger.info(ex.getMessage());
+		}
+		return inputBean;
+	}
 
 }

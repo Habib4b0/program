@@ -48,10 +48,7 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnU
         cvRequest.setCvSysId(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("customSid"))));
         }
         request.setGtnWsCustomViewRequest(cvRequest);
-        GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-                GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE
-                + GtnWsCustomViewConstants.CUSTOM_VIEW_SAVE_LOGIC,
-                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        GtnUIFrameworkWebserviceResponse response = getResponse(wsclient, request);
         GtnWsCustomViewResponse cvResponse = response.getGtnWsCustomViewResponse();
         if (cvResponse.isSuccess()) {
             final Notification notif = new Notification(cvRequest.getCustomViewName() + " has been successfully saved",
@@ -67,6 +64,14 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnU
         LOGGER.error("message",ex);
     }
     }
+
+	public GtnUIFrameworkWebserviceResponse getResponse(final GtnUIFrameworkWebServiceClient wsclient,
+			final GtnUIFrameworkWebserviceRequest request) {
+		return wsclient.callGtnWebServiceUrl(
+				GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE + GtnWsCustomViewConstants.CUSTOM_VIEW_SAVE_LOGIC,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
+	}
 
     @Override
     public GtnUIFrameWorkAction createInstance() {

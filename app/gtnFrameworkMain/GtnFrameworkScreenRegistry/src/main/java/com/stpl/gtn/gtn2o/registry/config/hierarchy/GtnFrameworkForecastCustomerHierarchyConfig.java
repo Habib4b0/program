@@ -9,8 +9,6 @@ import com.stpl.gtn.gtn2o.registry.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastDateValueChangeAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
-import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
-import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -21,11 +19,10 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 
 public class GtnFrameworkForecastCustomerHierarchyConfig {
-	private final GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
+	GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public List<GtnUIFrameworkComponentConfig> getCustomerSelectionLayoutCompoents(String nameSpace) {
 
@@ -70,9 +67,9 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig hierarchyName = new GtnUIFrameworkComponentConfig();
 		hierarchyName.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
-		hierarchyName.setComponentId(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
+		hierarchyName.setComponentId(nameSpace + "_customerHierarchy");
 		hierarchyName.setComponentName("Hierarchy");
-		hierarchyName.setAddToParent(true);
+		hierarchyName.setAddToParent(Boolean.TRUE);
 		hierarchyName.setParentComponentId(nameSpace + "_" + "hierarchyLayout");
 
 		GtnUIFrameWorkActionConfig forecastCustomerSelectionHierarchypopupAction = new GtnUIFrameWorkActionConfig();
@@ -94,8 +91,8 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameworkComponentConfig relationship = new GtnUIFrameworkComponentConfig();
 		relationship.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		relationship.setComponentName("Relationship");
-		relationship.setComponentId(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL);
-		relationship.setAddToParent(true);
+		relationship.setComponentId(nameSpace + "_customerSelectionRelationship");
+		relationship.setAddToParent(Boolean.TRUE);
 		relationship.setParentComponentId(nameSpace + "_" + "relationshipLayout");
 		relationship.setVaadinComponentPlaceHolder("-Select One-");
 
@@ -108,14 +105,13 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		forecastingCustomerHierarchyForecastLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		forecastingCustomerHierarchyForecastLevelLoadAction
 				.addActionParameter(GtnCustomerSelectionForecastLevelLoadAction.class.getName());
+		forecastingCustomerHierarchyForecastLevelLoadAction.addActionParameter(nameSpace + "_customerHierarchy");
 		forecastingCustomerHierarchyForecastLevelLoadAction
-				.addActionParameter(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
+				.addActionParameter(nameSpace + "_customerSelectionForecastLevel");
 		forecastingCustomerHierarchyForecastLevelLoadAction
-				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL);
+				.addActionParameter(nameSpace + "_customerSelectionRelationship");
 		forecastingCustomerHierarchyForecastLevelLoadAction
-				.addActionParameter(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL);
-		forecastingCustomerHierarchyForecastLevelLoadAction
-				.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION);
+				.addActionParameter(nameSpace + "_customerRelationshipVersion");
 		actionConfigList.add(forecastingCustomerHierarchyForecastLevelLoadAction);
 
 		relationship.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -123,10 +119,10 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameworkComponentConfig customerSelectionRelationshipVersionLayout = configProvider
 				.getHorizontalLayoutConfig("customerSelectionRelationshipVersionLayout", true,
 						relationshipLayout.getComponentId());
-		 customerSelectionRelationshipVersionLayout.setVisible(false);
+		customerSelectionRelationshipVersionLayout.setVisible(false);
 
 		GtnUIFrameworkComponentConfig customerRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
-				GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION, true,
+				nameSpace + "_customerRelationshipVersion", true,
 				customerSelectionRelationshipVersionLayout.getComponentId(),
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerRelationshipVersion.setComponentName("CustomerRelationshipVersion");
@@ -149,12 +145,11 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig forecastLevel = new GtnUIFrameworkComponentConfig();
 		forecastLevel.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		forecastLevel.setComponentId(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL);
+		forecastLevel.setComponentId(nameSpace + "_customerSelectionForecastLevel");
 		forecastLevel.setComponentName("Forecast Level");
-		forecastLevel.setAddToParent(true);
+		forecastLevel.setAddToParent(Boolean.TRUE);
 		forecastLevel.setParentComponentId(nameSpace + "_" + "forecastLevelLayout");
 		forecastLevel.setVaadinComponentPlaceHolder("-Select One-");
-		
 
 		GtnUIFrameworkComboBoxConfig forecastLevelConfig = new GtnUIFrameworkComboBoxConfig();
 		forecastLevel.setGtnComboboxConfig(forecastLevelConfig);
@@ -162,9 +157,9 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameWorkActionConfig innerLevelLoadAction = new GtnUIFrameWorkActionConfig();
 		innerLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		innerLevelLoadAction.addActionParameter(GtnFrameworkForecastInnerLevelLoadAction.class.getName());
-		innerLevelLoadAction.addActionParameter(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
-		innerLevelLoadAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL);
-		innerLevelLoadAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL);
+		innerLevelLoadAction.addActionParameter(nameSpace + "_customerHierarchy");
+		innerLevelLoadAction.addActionParameter(nameSpace + "_customerSelectionForecastLevel");
+		innerLevelLoadAction.addActionParameter(nameSpace + "_customerSelectionLevel");
 		forecastLevel.addGtnUIFrameWorkActionConfig(innerLevelLoadAction);
 		componentList.add(forecastLevel);
 	}
@@ -178,16 +173,17 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		customerGroup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		customerGroup.setComponentId(nameSpace + "_" + "customerGroup");
 		customerGroup.setComponentName("Customer Group");
-		customerGroup.setAddToParent(true);
+		customerGroup.setAddToParent(Boolean.TRUE);
 		customerGroup.setParentComponentId(nameSpace + "_" + "customerGroupLayout");
 		componentList.add(customerGroup);
-		
-		GtnUIFrameWorkActionConfig customerGroupActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.POPUP_ACTION);
+
+		GtnUIFrameWorkActionConfig customerGroupActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.POPUP_ACTION);
 		customerGroupActionConfig.addActionParameter("CustomerGroupLookupView");
 		customerGroupActionConfig.addActionParameter("Customer Group Lookup");
 		customerGroupActionConfig.addActionParameter("720");
 		customerGroupActionConfig.addActionParameter("875");
-		
+
 		customerGroup.addGtnUIFrameWorkActionConfig(customerGroupActionConfig);
 	}
 
@@ -198,16 +194,16 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig forecastEligibleDate = new GtnUIFrameworkComponentConfig();
 		forecastEligibleDate.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
-		forecastEligibleDate.setComponentId(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTELIGIBILITYDATE);
+		forecastEligibleDate.setComponentId(nameSpace + "_customerSelectionForecastEligibilityDate");
 		forecastEligibleDate.setComponentName("Forecast Eligible Date");
-		forecastEligibleDate.setAddToParent(true);
+		forecastEligibleDate.setAddToParent(Boolean.TRUE);
 		forecastEligibleDate.setParentComponentId(nameSpace + "_" + "forecastEligibleDateLayout");
 		forecastEligibleDate.addComponentStyle("datefieldcentered");
 		forecastEligibleDate.setComponentHight("20px");
 		componentList.add(forecastEligibleDate);
 
-		List<GtnUIFrameWorkActionConfig> levelactionConfigList = availableLoadActionList();
-		
+		List<GtnUIFrameWorkActionConfig> levelactionConfigList = availableLoadActionList(nameSpace);
+
 		GtnUIFrameWorkActionConfig dateValueChangeAction = new GtnUIFrameWorkActionConfig();
 		dateValueChangeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		dateValueChangeAction.addActionParameter(GtnFrameworkForecastDateValueChangeAction.class.getName());
@@ -215,7 +211,6 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkDateFieldConfig dateFieldConfig = new GtnUIFrameworkDateFieldConfig();
 		dateFieldConfig.addValueChangeActionConfig(dateValueChangeAction);
-//		forecastEligibleDate.setGtnDateFieldConfig(dateFieldConfig);
 	}
 
 	private void addCustomerSelectionInnerPanel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -246,16 +241,16 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig level = new GtnUIFrameworkComponentConfig();
 		level.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		level.setComponentId(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL);
+		level.setComponentId(nameSpace + "_customerSelectionLevel");
 		level.setComponentName("Level");
-		level.setAddToParent(true);
+		level.setAddToParent(Boolean.TRUE);
 		level.setParentComponentId(nameSpace + "_" + "levelLayout");
-                level.setVaadinComponentPlaceHolder("-Select One-");
+		level.setVaadinComponentPlaceHolder("-Select One-");
 
 		GtnUIFrameworkComboBoxConfig levelConfig = new GtnUIFrameworkComboBoxConfig();
 		level.setGtnComboboxConfig(levelConfig);
 
-		List<GtnUIFrameWorkActionConfig> actionConfigList = availableLoadActionList();
+		List<GtnUIFrameWorkActionConfig> actionConfigList = availableLoadActionList(nameSpace);
 
 		level.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -292,7 +287,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 				Arrays.asList("levelNo", "relationshipLevelValues", "parentNode", "levelName", "levelValuReference",
 						"tableName", "fieldName", "relationshipLevelSid", "hierarchyNo", "relationshipBuilderSid",
 						"hierarchyLevelDefSid", "hierarchyDefSid", "versionNo", "levelValue"));
-		customerSelectionDualListBoxConfig.setModuleType(GtnFrameworkForecastingStringConstants.HIERARCHY_RELATIONSHIP);
+		customerSelectionDualListBoxConfig.setModuleType("hierarchyRelationship");
 		customerSelectionDualListBoxConfig.setLeftTableURL("/loadAvailableTable");
 		customerSelectionDualListBoxConfig.setMoveRightURL("/loadCustomerSelectedTable");
 		customerSelectionDualListBoxConfig.setMoveAllDataURL("/loadBulkCustomerSelectedTable");
@@ -300,23 +295,23 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		customerSelectionDualListBoxComponent.setGtnUIFrameworkV8DualListBoxConfig(customerSelectionDualListBoxConfig);
 	}
 
-	private List<GtnUIFrameWorkActionConfig> availableLoadActionList() {
+	private List<GtnUIFrameWorkActionConfig> availableLoadActionList(String nameSpace) {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig levelValueChangeAction = new GtnUIFrameWorkActionConfig();
 		levelValueChangeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		levelValueChangeAction.addActionParameter(GtnCustomerAvailableTableLoadAction.class.getName());
-		levelValueChangeAction.addActionParameter(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
-		levelValueChangeAction.addActionParameter(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL);
-		levelValueChangeAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION);
-		levelValueChangeAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL);
-		levelValueChangeAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTELIGIBILITYDATE);
-		levelValueChangeAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERDUALLISTBOX);
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerHierarchy");
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerSelectionRelationship");
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerRelationshipVersion");
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerSelectionLevel");
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerSelectionForecastEligibilityDate");
+		levelValueChangeAction.addActionParameter(nameSpace + "_customerDualListBox");
 		actionConfigList.add(levelValueChangeAction);
 
 		GtnUIFrameWorkActionConfig loadDualListBoxLeftTableAction = new GtnUIFrameWorkActionConfig();
 		loadDualListBoxLeftTableAction.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_LEFT_TABLE_LOADACTION);
-		loadDualListBoxLeftTableAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERDUALLISTBOX);
+		loadDualListBoxLeftTableAction.addActionParameter(nameSpace + "_customerDualListBox");
 		actionConfigList.add(loadDualListBoxLeftTableAction);
 
 		return actionConfigList;
