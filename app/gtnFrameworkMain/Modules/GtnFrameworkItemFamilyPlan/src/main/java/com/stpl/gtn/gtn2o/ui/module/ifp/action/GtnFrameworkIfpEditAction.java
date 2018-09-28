@@ -52,7 +52,7 @@ public class GtnFrameworkIfpEditAction
 
 		try {
 			List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
-			String tableId = (String) actionParamList.get(1);
+			String tableId = (String) actionParamList.get(1); 
 			String propertyId = (String) actionParamList.get(2);
 			boolean isEditable = (boolean) actionParamList.get(4);
 			String tableComponentId = (String) actionParamList.get(3);
@@ -87,19 +87,18 @@ public class GtnFrameworkIfpEditAction
 					.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.SESSION_ID)));
 			gtnRequest.setGtnWsGeneralRequest(generalWSRequest);
 
-			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-					GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
-							+ GtnWsIFamilyPlanContants.GTN_WS_IFP_FETCH_INFORMATION_SERVICE,
-					gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			setValueToComponents(response.getGtnWsIfpReponse().getGtnIFamilyPlan(), componentId, isEditable);
-			GtnUIFrameWorkActionConfig ifpEditNotesTabLoadAction = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.LOAD_NOTES_TAB);
-			ifpEditNotesTabLoadAction
-					.addActionParameter(response.getGtnWsIfpReponse().getGtnIFamilyPlan().getNotesTabList());
-			ifpEditNotesTabLoadAction.addActionParameter(
-					response.getGtnWsIfpReponse().getGtnIFamilyPlan().getIfpInfo().getInternalNotes());
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, ifpEditNotesTabLoadAction);
-
+			GtnUIFrameworkWebserviceResponse response = getEditResponse(gtnRequest);
+			if (response != null)   
+			{
+				setValueToComponents(response.getGtnWsIfpReponse().getGtnIFamilyPlan(), componentId, isEditable);
+				GtnUIFrameWorkActionConfig ifpEditNotesTabLoadAction = new GtnUIFrameWorkActionConfig(
+						GtnUIFrameworkActionType.LOAD_NOTES_TAB);
+				ifpEditNotesTabLoadAction
+						.addActionParameter(response.getGtnWsIfpReponse().getGtnIFamilyPlan().getNotesTabList());
+				ifpEditNotesTabLoadAction.addActionParameter(
+						response.getGtnWsIfpReponse().getGtnIFamilyPlan().getIfpInfo().getInternalNotes());
+				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, ifpEditNotesTabLoadAction);
+			}
 			GtnUIFrameworkPagedTableLogic ifpCaTabRightTablelogic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(tableComponentId).getLogicFromPagedDataTable();
 			ifpCaTabRightTablelogic.startSearchProcess(null, true);
@@ -117,6 +116,13 @@ public class GtnFrameworkIfpEditAction
 		} finally {
 			GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(true);
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getEditResponse(GtnUIFrameworkWebserviceRequest gtnRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
+						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_FETCH_INFORMATION_SERVICE,
+				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	private void setTableHeaderAndVisibleColumn(boolean isEditable) {
