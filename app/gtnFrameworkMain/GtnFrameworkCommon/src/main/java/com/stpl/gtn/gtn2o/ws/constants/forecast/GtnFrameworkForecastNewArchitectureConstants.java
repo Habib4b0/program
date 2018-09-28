@@ -14,6 +14,6 @@ public class GtnFrameworkForecastNewArchitectureConstants {
 	
 	public static final String CUSTOMER_AND_PRODUCT_GROUP_RESULTS_SERVICE_REGISTRY_URL = "/gtnServiceRegistry/serviceRegistryUIControllerMappingWs";
 	public static final String CUSTOMER_AND_PRODUCT_GROUP_RESULTS_URL = "/gtnSearch";
-	public static final String CUSTOMER_AND_PRODUCT_GROUP_RESULTS_REGISTERED_WEB_CONTEXT = "/GtnSearchWebWebService";
+	public static final String CUSTOMER_AND_PRODUCT_GROUP_RESULTS_REGISTERED_WEB_CONTEXT = "/GtnSearchWebService";
 	public static final String CUSTOMER_AND_PRODUCT_GROUP_RESULTS_END_POINT_URL_NAME = "generalSearch";
 }

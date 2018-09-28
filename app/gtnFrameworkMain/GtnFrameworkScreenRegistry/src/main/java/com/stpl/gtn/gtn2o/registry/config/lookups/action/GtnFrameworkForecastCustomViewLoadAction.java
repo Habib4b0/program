@@ -5,6 +5,9 @@
  */
 package com.stpl.gtn.gtn2o.registry.config.lookups.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -16,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
@@ -24,11 +28,10 @@ import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GtnFrameworkForecastCustomViewLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastCustomViewLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -39,6 +42,7 @@ public class GtnFrameworkForecastCustomViewLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		try{
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String customerRelationValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL)
 				.getCaptionFromV8ComboBox();
@@ -48,17 +52,21 @@ public class GtnFrameworkForecastCustomViewLoadAction
 				.getCaptionFromV8ComboBox();
 		String productRelationVersion = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION).getCaptionFromV8ComboBox();
-		GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
-		inputBean.setCustomerRelationSid(Integer.valueOf(customerRelationValue));
-		inputBean.setProductRelationSid(Integer.valueOf(productRelationValue));
-		inputBean.setCustomerRelationVersionNo(Integer.valueOf(customerRelationVersion));
-		inputBean.setProductRelationVersionNo(Integer.valueOf(productRelationVersion));
+		
 
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
-		GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
-		GtnGeneralSearchRequest searchRequest = new GtnGeneralSearchRequest();
-		searchRequest.setInputBean(inputBean);
+			if (customerRelationValue != "" || !customerRelationValue.isEmpty() && productRelationValue != ""
+					|| !productRelationValue.isEmpty()) {
+				GtnFrameworkForecastInputBean inputBean = new GtnFrameworkForecastInputBean();
+				inputBean.setCustomerRelationSid(Integer.valueOf(customerRelationValue));
+				inputBean.setProductRelationSid(Integer.valueOf(productRelationValue));
+				inputBean.setCustomerRelationVersionNo(Integer.valueOf(customerRelationVersion));
+				inputBean.setProductRelationVersionNo(Integer.valueOf(productRelationVersion));
+
+				GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+				GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+				GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+				GtnGeneralSearchRequest searchRequest = new GtnGeneralSearchRequest();
+				searchRequest.setInputBean(inputBean);
 
 		serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
 		serviceRegistryBean.setUrl(GtnFrameworkScreenRegisteryConstants.SEARCH_RESULTS_URL);
@@ -68,13 +76,14 @@ public class GtnFrameworkForecastCustomViewLoadAction
 		generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
 		serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
 
-		GtnWsSearchRequest webserviceSearchRequest = new GtnWsSearchRequest();
-		webserviceSearchRequest.setSearchQueryName(actionParamsList.get(5).toString());
 
-		request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
-		request.setGtnWsGeneralRequest(generalRequest);
-		request.setGtnGeneralSearchRequest(searchRequest);
-		request.setGtnWsSearchRequest(webserviceSearchRequest);
+				GtnWsSearchRequest webserviceSearchRequest = new GtnWsSearchRequest();
+				webserviceSearchRequest.setSearchQueryName(actionParamsList.get(5).toString());
+
+				request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+				request.setGtnWsGeneralRequest(generalRequest);
+				request.setGtnGeneralSearchRequest(searchRequest);
+				request.setGtnWsSearchRequest(webserviceSearchRequest);
 
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
@@ -87,9 +96,14 @@ public class GtnFrameworkForecastCustomViewLoadAction
 			List<Integer> idList = new ArrayList<>();
 			for (String string : responseIdList) {
 				idList.add(Integer.valueOf(string));
+
+					}
+					GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(6).toString())
+							.loadItemsToCombobox(valueList, idList);
+				}
 			}
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(6).toString())
-					.loadItemsToCombobox(valueList, idList);
+		} catch (GtnFrameworkGeneralException ex) {
+			gtnLogger.error(ex.getMessage());
 		}
 	}
 
