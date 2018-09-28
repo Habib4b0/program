@@ -231,6 +231,7 @@ public class ExclusionDetailsLookup extends Window {
                     case "reset":
                         getIntialLoad();
                         getFieldValue();
+                        deleteViewBtn.setEnabled(false);
                         break;
                     case "delete":
                         // delete logic

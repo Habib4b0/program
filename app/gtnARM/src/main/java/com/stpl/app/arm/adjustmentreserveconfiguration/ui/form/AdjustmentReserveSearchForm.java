@@ -18,7 +18,6 @@ import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.arm.utils.ReserveSelection;
-import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
@@ -66,7 +65,6 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.concurrent.ExecutorService;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 
 /**
@@ -183,7 +181,6 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
     private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     private static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentReserveSearchForm.class);
     private ReserveSelection resSelection;
-    private final ExecutorService service = ThreadPool.getInstance().getService();
     private Boolean isValueChangeAllowed;
 
     /**

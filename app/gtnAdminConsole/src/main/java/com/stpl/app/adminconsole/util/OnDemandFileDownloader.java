@@ -45,11 +45,11 @@ public class OnDemandFileDownloader extends FileDownloader {
     public boolean handleConnectorRequest(VaadinRequest request, VaadinResponse response, String path)
             throws IOException {
         
-        System.out.println("this.getResource(\"dl\");----" + getResource().getFilename());
+        LOGGER.info("this.getResource(\"dl\");----{}",getResource().getFilename());
         StreamResource resource = getResource();
         resource.setFilename(onDemandStreamResource.getFilename());
-        System.out.println("Current Buffer size :"+resource.getBufferSize());
-        System.out.println("Setting new Buffer size :"+BUFFER_SIZE);
+        LOGGER.info("Current Buffer size :{}",resource.getBufferSize());
+        LOGGER.info("Setting new Buffer size :{}",BUFFER_SIZE);
         boolean falg=super.handleConnectorRequest(request, response, path);
         try{
             falg = super.handleConnectorRequest(request, response, path);

@@ -933,7 +933,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             final String tableHierarchyNo = tableLogic.getTreeLevelonCurrentPage(obj[0]);
             DiscountProjectionDTO dto = (DiscountProjectionDTO) obj[0];
             Boolean checkValue = ((ExtCustomCheckBox) ((AbstractComponent) event.getComponent())).getValue();
-            if (isGroupUpdatedManually) {
+             if (isGroupUpdatedManually) {
                 NotificationUtils.getAlertNotification(Constant.GROUP_FILTER_CONFLICT,
                         Constant.GROUP_VALUE_VERIFICATION);
                 tableLogic.getContainerDataSource().getContainerProperty(obj[0], Constant.CHECKRECORD).setValue(BooleanConstant.getFalseFlag());
@@ -1701,6 +1701,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
         }
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
+        resultsTable.getLeftFreezeAsTable().getColumnIdToFilterMap().clear();
         LOGGER.debug("Ending configureLeftTable");
     }
 
@@ -3615,6 +3616,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             adjPeriodValueChangeLogic(SELECT.getConstant());
             adjperiods.select(SELECT);
             adjprograms.select(SELECT);
+            resultsTable.getLeftFreezeAsTable().getColumnIdToFilterMap().clear();
         }
         LOGGER.debug("Ending generateListView ");
 

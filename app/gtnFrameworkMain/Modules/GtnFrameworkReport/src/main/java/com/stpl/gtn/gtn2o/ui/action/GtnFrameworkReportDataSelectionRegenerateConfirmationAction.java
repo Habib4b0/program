@@ -480,7 +480,8 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 							componentId)
 					.getComponentData();
 			comparisonData.setCustomData(dataSelectionBean.getComparisonProjectionBeanList());
-			if (dataSelectionBean.getComparisonProjectionBeanList() != null) {
+			if (dataSelectionBean.getComparisonProjectionBeanList() != null
+					&& !dataSelectionBean.getComparisonProjectionBeanList().isEmpty()) {
 				String displayValue = getDisplayValue(dataSelectionBean.getComparisonProjectionBeanList());
 				GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_COMPARISON_LOOKUP,

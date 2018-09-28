@@ -2605,7 +2605,7 @@ public class SalesLogic {
                             actualAmount = Double.parseDouble(enteredValue) / (salesDTO.getReturnDetailsSid().split(",").length);
                             amountValue = String.valueOf(actualAmount / frequencyValue);
                         }
-                        bulkQuery += query.replace(Constant.USER_ENTERED_PROPERTY_VALUE, Constant.PROJECTED_RETURN_AMOUNT).replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
+                        bulkQuery = bulkQuery.concat(query.replace(Constant.USER_ENTERED_PROPERTY_VALUE, Constant.PROJECTED_RETURN_AMOUNT).replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue));
                     }
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 }
@@ -3768,7 +3768,7 @@ public class SalesLogic {
         Map<String, Double> calculatedAmount = new HashMap<>();
         boolean enteredLevel = true;
         double amount;
-        String bulkQuery = StringUtils.EMPTY;
+        String bulkQuerySales = StringUtils.EMPTY;
         Map<String, String> returnsDetailsMap = new TreeMap<>(projectionSelectionDTO.getSessionDTO().getReturnsDetailsMap());
         for (Map.Entry<String, String> entry : returnsDetailsMap.entrySet()) {
             if (entry.getKey().contains(hierarchyNo)) {
@@ -3785,11 +3785,11 @@ public class SalesLogic {
                 if (entry.getValue().split(",").length == 1) {
                     LOGGER.debug("Amount Value ->= {} " , amount);
                     LOGGER.debug("Units Value ->= {} " , unitsMap.get(entry.getValue()));
-                    bulkQuery += updateQuery(query, amount / unitsMap.get(entry.getValue()), entry.getValue());
+                    bulkQuerySales = bulkQuerySales.concat(updateQuery(query, amount / unitsMap.get(entry.getValue()), entry.getValue()));
                 }
             }
         }
-        return bulkQuery;
+        return bulkQuerySales;
     }
 
     public List<Integer> headerCheckALLQuery(SessionDTO sessionDTO, int checkValue, boolean isUpdate) {

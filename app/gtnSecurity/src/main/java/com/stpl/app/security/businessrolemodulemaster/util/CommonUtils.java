@@ -189,7 +189,7 @@ public class CommonUtils {
 	         				subqueryNocount = 1;
 	         				}
 	         				else{
-	         					memberIdquery = memberIdquery + " or "+requiredColumnName+IN_BRACES+arrayToString2(memberIdArraytemp,",")+")";
+	         					memberIdquery = memberIdquery.concat(" or ").concat(requiredColumnName).concat(IN_BRACES).concat(arrayToString2(memberIdArraytemp,",")).concat(")");
 
 	         				}
 	         				a=0;
@@ -263,7 +263,7 @@ public class CommonUtils {
 		         				subqueryNocount = 1;
 		         				}
 		         				else{
-		         					memberIdquery = memberIdquery + " and "+requiredColumnName+NOT_IN+arrayToString(memberIdArraytemp,",")+")";
+		         					memberIdquery = memberIdquery.concat(" and ").concat(requiredColumnName).concat(NOT_IN).concat(arrayToString(memberIdArraytemp,",")).concat(")");
 
 		         				}
 		         				a=0;
@@ -334,7 +334,7 @@ public class CommonUtils {
 		            		if(i == 0 ){
 		            			result = a[i];
 		            		}else{
-		            			result = result + separator + a[i];
+		            			result = result.concat(separator).concat(a[i]);
 		            		}
 		            	}
 		            }

@@ -408,7 +408,10 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             values = value;
         }
         if (logic.isCheckedAtleastOneItem(selection.getTempTableName())) {
-            logic.massUpdateValue(values, selection, updateFieldFactoryValues.get(massfieldDdlb.getValue().toString()));
+            String columnName= updateFieldFactoryValues.get(massfieldDdlb.getValue().toString());
+            logic.massUpdateValue(values, selection, columnName);
+            if ("GL_COMPANY_MASTER_SID".equals(columnName) || "BU_COMPANY_MASTER_SID".equals(columnName) )
+                logic.massUpdateValue(0, selection, "ACCOUNT");
         } else {
             AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, "No Items are selected");
         }
