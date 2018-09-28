@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -51,21 +52,27 @@ public class GtnFrameworkNewToOldArchitectureDeleteAction
 		String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
 		String sessionId = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId"));
 
-		try {
-			GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
-			inputBean.setUserId(userId);
-			inputBean.setSessionId(sessionId);
-			String nameSpace = "Commercial Forecasting";
-			GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
-			loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
-			loadDataSearchTableActionConfig
-					.setActionParameterList(Arrays.asList(new Object[] { nameSpace + "_" + "projectionResultsTable" }));
-			loadDataSearchTableActionConfig.setFieldValues(Arrays.asList(
-					new String[] { nameSpace + "_" + "projectionName", nameSpace + "_" + "projectionDescription",
-							nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
-							nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
-							"forecastLandingScreen_customerHierarchy", nameSpace + "_" + "prodhierarchyName" }));
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataSearchTableActionConfig);
+
+        try {
+            GtnFrameworkForecastInputBean inputBean = formForecastInputBean(selectedRow, actionParamsList);
+            inputBean.setUserId(userId);
+            inputBean.setSessionId(sessionId);
+//            ForecastUI ui = new ForecastUI();
+            String nameSpace = GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING;
+//            ui.getForecastingToDelete(inputBean);
+            GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
+            loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
+            loadDataSearchTableActionConfig.setActionParameterList(
+                    Arrays.asList(new Object[]{nameSpace + "_" + GtnFrameworkForecastingStringConstants.PROJECTION_RESULTS_TABLE}));
+            loadDataSearchTableActionConfig.setFieldValues(
+                    Arrays.asList(new String[]{nameSpace + "_" + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_NAME,
+                nameSpace + "_" + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION,
+                nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
+                nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
+                GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP,
+                nameSpace + "_" + "prodhierarchyName"
+            }));
+            GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataSearchTableActionConfig);
 
 		} catch (Exception ex) {
 			Logger.getLogger(GtnFrameworkNewToOldArchitectureDeleteAction.class.getName()).log(Level.SEVERE, null, ex);

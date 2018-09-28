@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
@@ -28,7 +27,7 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 	public GtnUIServiceRegistryController() {
 		super(GtnUIServiceRegistryController.class);
 	}
-	
+
 	@Autowired
 	private GtnValidateWsServiceRegistryController gtnValidateWsServiceRegistryController;
 
@@ -106,14 +105,13 @@ public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass
 
 	}
 
-	
-    @Override
-    public void initCallOnFailure() {
-        // Default Method
-    }
+	@Override
+	public void initCallOnFailure() {
+		// Default Method
+	}
 
-    @Override
-    public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
-       // Default Method
-    }
+	@Override
+	public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
+		// Default Method
+	}
 }

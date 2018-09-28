@@ -432,7 +432,49 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String VARIABLE_POSITION_OPTION_GROUP = "custom_Variable_OptionGroup";
 
 	public static final String VARIABLE_TYPE_OPTION_GROUP = "custom_Variable_Type_OptionGroup";
-
+	
+        public static final String PUBLIC_VIEW = "publicView";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTOMERDUALLISTBOX = "Commercial Forecasting_customerDualListBox";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX = "Commercial Forecasting_productDualListBox";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTRELATIONVERSION = "Commercial_Forecasting_customerRelationshipVersion";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL = "Commercial_Forecasting_customerSelectionForecastLevel";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTELIGIBILITYDATE = "Commercial_Forecasting_customerSelectionForecastEligibilityDate";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODHIERNAME = "Commercial Forecasting_prodhierarchyName";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODRELATIONSHIP = "Commercial Forecasting_prodrelationship";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODFORECASTLEVEL = "Commercial Forecasting_prodforecastLevel";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODRELATIONVERSION = "Commercial_Forecasting_productRelationshipVersion";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODUCTGROUP = "Commercial Forecasting_productGroup";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODUCTLEVEL = "Commercial Forecasting_productLevel";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTGROUP = "Commercial Forecasting_customerGroup";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL = "Commercial_Forecasting_customerSelectionLevel";
+        
+        public static final String COMMERCIAL_FORECASTING_DEDUCTIONLEVEL = "Commercial Forecasting_deductionLevel";
+        
+        public static final String COMMERCIAL_FORECASTING_FREQUENCY = "Commercial Forecasting_frequency";
+        
+        public static final String PROJECTION_RESULTS_TABLE = "projectionResultsTable";
+        
+        public static final String COMMERCIAL_FORECASTING = "Commercial Forecasting";
+        
+        public static final String GENERAL_SEARCH = "generalSearch";
+        
+        public static final String PROFILE_MODE = "profileMode";
+        
+        public static final String HIERARCHY_RELATIONSHIP = "hierarchyRelationship";
+        
 	private static final List<String> FORECAST_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
 
@@ -458,7 +500,7 @@ public final class GtnFrameworkForecastingStringConstants {
 	private static final String[] FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_VISIBLE_HEADER = new String[] {
 			"Product Group Name","Product Group No","Company","Segment Group","Segment" };
 	
-
+	
 	private static final Object[] FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_MAPPING_ID = new Object[] {
 			"productGroupName","productGroupNo","companyProduct","segmentGroupProduct","segmentProduct"
 	};

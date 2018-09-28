@@ -9,24 +9,18 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
-import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.form.DataSelectionIndex;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
+import com.stpl.app.model.ForecastConfig;
 import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_CONTRACT;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
 import static com.stpl.app.utils.Constants.LabelConstants.MODE_SEARCH;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
-import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -541,7 +535,7 @@ public class DataSelectionUtil {
 	public static void configureTimeDdlb(ComboBox fromPeriod, ComboBox toPeriod, Date from, Date to, final String mode,
 			String screenName) {
 		try {
-			/*Date fromDate = null;
+			Date fromDate = null;
 			Date toDate = null;
 			DataSelectionLogic logic = new DataSelectionLogic();
 			ForecastConfig forecastConfig = logic.getTimePeriod(screenName);
@@ -557,57 +551,16 @@ public class DataSelectionUtil {
 					fromDate = forecastConfig.getFromDate();
 					toDate = forecastConfig.getToDate();
 				}
-			}*/
-
-			GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-			GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
-			GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
-
-			serviceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
-			serviceRegistryBean.setUrl("/gtnPeriodConfigurationController/loadDate");
-			serviceRegistryBean.setModuleName("periodConfiguration");
-			GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-			//generalRequest.setUserId(session.getUserId());
-			//generalRequest.setSessionId(String.valueOf(session.getSessionId()));
-			serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
-
-			request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
-			request.setGtnWsGeneralRequest(generalRequest);
-
-			GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-					"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request,
-					RelationShipFilterLogic.getGsnWsSecurityToken());
-
-			List<String> fromPeriodItemValueList = new ArrayList<>();
-                        List<String> toPeriodItemValueList = new ArrayList<>();
-                        if (MODE_SEARCH.getConstant().equalsIgnoreCase(mode)) {
-                        fromPeriodItemValueList.add(SELECT_ONE);
-                        toPeriodItemValueList.add(SELECT_ONE);
 			}
-                        fromPeriodItemValueList.addAll(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
-			List<String> fromPeriodItemCodeList = new ArrayList<>(
-					response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
 
-			toPeriodItemValueList.add(fromPeriodItemValueList.get(fromPeriodItemValueList.size() - 1));
-
-			List<String> toPeriodItemCodeList = new ArrayList<>();
-			toPeriodItemCodeList.add(fromPeriodItemCodeList.get(fromPeriodItemCodeList.size() - 1));
-			
 			List<String> timePeriodList = new ArrayList<>();
 			if (MODE_SEARCH.getConstant().equalsIgnoreCase(mode)) {
 				timePeriodList.add(SELECT_ONE);
 			}
-			//timePeriodList.addAll(getTimePeriodList(fromDate, toDate));
-			fromPeriod.setContainerDataSource(new IndexedContainer(fromPeriodItemValueList));
-			toPeriod.setContainerDataSource(new IndexedContainer(toPeriodItemValueList));
-			fromPeriod.select(fromPeriodItemValueList.get(0));
-                        if (MODE_SEARCH.getConstant().equalsIgnoreCase(mode)) {
-                        toPeriod.select(toPeriodItemValueList.get(0));
-                        }else{
-			toPeriod.select(toPeriodItemValueList.get(toPeriodItemValueList.size()-1));
-                        }
-			/*if (forecastConfig != null) {
+			timePeriodList.addAll(getTimePeriodList(fromDate, toDate));
+			fromPeriod.setContainerDataSource(new IndexedContainer(timePeriodList));
+			toPeriod.setContainerDataSource(new IndexedContainer(timePeriodList));
+			if (forecastConfig != null) {
 				if (Constant.MONTH1
 						.equals(HelperListUtil.getInstance().getDescriptionByID(forecastConfig.getHistFreq()))
 						|| !forecastConfig.getProcessMode()) {
@@ -636,7 +589,7 @@ public class DataSelectionUtil {
 					fromPeriod.select(fromValue);
 					toPeriod.select(toValue);
 				}
-			}*/
+			}
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}

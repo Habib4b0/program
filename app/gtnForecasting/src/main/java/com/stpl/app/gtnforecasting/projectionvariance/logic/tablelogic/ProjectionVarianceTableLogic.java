@@ -178,7 +178,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
         int index = getItemIndex(count + levelIndex + levelValue);
         int start = getStartIndex(count + levelIndex, index);
         int end = getPageLength();
-        return new LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
+        return  new LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
     }
 
     public int getPageForItem(int pos) {
@@ -190,7 +190,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
     }
 
     public int getStartIndex(int count, int index) {
-        return count - index;
+        return  count - index;
     }
 
     public void loadExpandData(int levelNo) {

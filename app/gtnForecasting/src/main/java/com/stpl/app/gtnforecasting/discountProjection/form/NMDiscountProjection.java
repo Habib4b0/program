@@ -415,7 +415,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
 
         }
-//        securityForButton();
+        securityForButton();
         addPropertyValueChangeListeners(frequencyDdlb,view,adjprograms, adjperiods, massCheck, startPeriod,
                 levelFilterDdlb);
     }

@@ -98,9 +98,6 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
         // Default Method
     }
 
-    @Override
-    public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query) {
-        return null;
-    }
+ 
 
 }
