@@ -17,7 +17,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 public class GtnForecastEligibleDateLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)

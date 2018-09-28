@@ -20,7 +20,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 public class GtnCustomerSelectionForecastLevelLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -37,6 +37,7 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 					.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
 			int relationshipBuilderSid = Integer.valueOf(String.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(params.get(3).toString(),componentId).getCaptionFromV8ComboBox()));
+
 			if (relationshipBuilderSid != 0) {
 				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = relationshipMap
 						.get(String.valueOf(recordBean.getPropertyValueByIndex(7)));

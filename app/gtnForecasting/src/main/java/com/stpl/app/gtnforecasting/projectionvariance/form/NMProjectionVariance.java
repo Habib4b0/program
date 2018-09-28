@@ -1879,7 +1879,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 }
                 security();
                 flag = false;
-            } catch (SystemException ex) {
+            } catch (PortalException | SystemException ex) {
                 LoggerFactory.getLogger(NMProjectionVariance.class.getName()).error(StringUtils.EMPTY, ex);
             }
         }

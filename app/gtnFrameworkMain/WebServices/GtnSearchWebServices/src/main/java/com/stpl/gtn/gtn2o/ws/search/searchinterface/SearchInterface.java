@@ -15,8 +15,6 @@ import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
  */
 
 public interface SearchInterface {
-    public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,
-                                                                                                           String query);
     public GtnUIFrameworkWebserviceResponse getSearchResults(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,
                                                                                                            String query,GtnSearchwebServiceSqlService gtnSearchSqlService);
     

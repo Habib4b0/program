@@ -5,8 +5,6 @@
  */
 package com.stpl.ifs.ui.forecastds.dto;
 
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastInputBean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -223,65 +221,6 @@ public class DataSelectionDTO implements Serializable {
         private int dataSelectionDeductionLevelSid;
         private int customViewMasterSid;
 
-        private GtnWsRecordBean dsCustomerHierarchyBean;
-
-        private List<GtnWsRecordBean> dsCustomerSelectedTableBean;
-
-        private List<GtnWsRecordBean> dsProductSelectedTableBean;
-
-        private String CustomerOrProduct = "";
-
-        private GtnFrameworkForecastInputBean inputBean;
-
-    public GtnFrameworkForecastInputBean getInputBean() {
-        return inputBean;
-    }
-
-    public void setInputBean(GtnFrameworkForecastInputBean inputBean) {
-        this.inputBean = inputBean;
-    }
-    public String getCustomerOrProduct() {
-        return CustomerOrProduct;
-    }
-
-    public void setCustomerOrProduct(String CustomerOrProduct) {
-        this.CustomerOrProduct = CustomerOrProduct;
-    }
-    public List<GtnWsRecordBean> getDsCustomerSelectedTableBean() {
-        return dsCustomerSelectedTableBean;
-    }
-
-    public void setDsCustomerSelectedTableBean(List<GtnWsRecordBean> dsCustomerSelectedTableBean) {
-        this.dsCustomerSelectedTableBean = dsCustomerSelectedTableBean;
-    }
-        
-    public GtnWsRecordBean getDsCustomerHierarchyBean() {
-        return dsCustomerHierarchyBean;
-    }
-
-    public void setDsCustomerHierarchyBean(GtnWsRecordBean dsCustomerHierarchyBean) {
-        this.dsCustomerHierarchyBean = dsCustomerHierarchyBean;
-    }
-
-    public GtnWsRecordBean getDsProductHierarchyBean() {
-        return dsProductHierarchyBean;
-    }
-
-    public void setDsProductHierarchyBean(GtnWsRecordBean dsProductHierarchyBean) {
-        this.dsProductHierarchyBean = dsProductHierarchyBean;
-    }
-    
-    
-    public List<GtnWsRecordBean> getDsProductSelectedTableBean() {
-        return dsProductSelectedTableBean;
-    }
-
-    public void setDsProductSelectedTableBean(List<GtnWsRecordBean> dsProductSelectedTableBean) {
-        this.dsProductSelectedTableBean = dsProductSelectedTableBean;
-    }
-        
-        private GtnWsRecordBean dsProductHierarchyBean;
-        
 	public Integer getFileEndMonth() {
 		return fileEndMonth;
 	}

@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 public class GtnLandingScreenFromAndToPeriodLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnLandingScreenFromAndToPeriodLoadAction.class);
+    private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnLandingScreenFromAndToPeriodLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -53,7 +54,7 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 		request.setGtnWsGeneralRequest(generalRequest);
 
 		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-				"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request,
+				GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		if (response == null) {
 			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();

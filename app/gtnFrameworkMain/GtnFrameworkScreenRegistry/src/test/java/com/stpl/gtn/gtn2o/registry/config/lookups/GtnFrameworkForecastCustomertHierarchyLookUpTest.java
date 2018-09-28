@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
-import com.stpl.gtn.gtn2o.registry.config.projectionvariance.CommercialForecastingProjectionVarianceDisplaySelectionFilterOptionTab;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 
 public class GtnFrameworkForecastCustomertHierarchyLookUpTest {
@@ -28,7 +28,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUpTest {
 	@Test
     public void testMainScreenConfigPrivateMethod2() {
 		GtnFrameworkForecastCustomertHierarchyLookUp instance = new GtnFrameworkForecastCustomertHierarchyLookUp();
-       assertFalse( instance.getCustHierarchyLookUpView("Commercial Forecasting")==null);
+       assertFalse( instance.getCustHierarchyLookUpView(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING)==null);
     }
 
 

@@ -5,6 +5,8 @@
  */
 package com.stpl.gtn.gtn2o.ws.search.implementation;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
@@ -19,9 +21,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
-import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
-import java.io.IOException;
-import java.util.ArrayList;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import java.io.IOException;
@@ -64,11 +63,17 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 
             if (viewType != null && !viewType.equals("*")) {
                 strQuery.append(" WHERE ");
-                count = getQuery(strQuery, queryMap, webSearchCriteriaList, param, viewType, data, count);
+                strQuery.append(queryMap.get(webSearchCriteriaList.get(1).getFieldId()));
+                param.add(viewType.replaceAll("\\*", "%"));
+                data.add(GtnFrameworkDataType.STRING);
+                count++;
             }
 
             if (viewName != null && !viewName.equals("*")) {
-                count = getQuery(strQuery, queryMap, webSearchCriteriaList, param, viewName, data, count);
+            	strQuery.append(queryMap.get(webSearchCriteriaList.get(0).getFieldId()));
+                param.add(viewType.replaceAll("\\*", "%"));
+                data.add(GtnFrameworkDataType.STRING);
+                count++;
             }
             String userId = gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId();
             Object[] params = new Object[count];
@@ -166,11 +171,6 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
     @Override
     public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
         // Default Method
-    }
-
-    @Override
-    public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest, String query) {
-        return null;
     }
 
 }

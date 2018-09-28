@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadA
 import com.stpl.gtn.gtn2o.registry.action.GtnForecastingProductAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnFrameworkForecastCustomViewLoadAction;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -22,7 +23,7 @@ import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 
 public class GtnFrameworkForecastProdHierarchyConfig {
 
-	GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
+	private final GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public List<GtnUIFrameworkComponentConfig> getProductSelectionLayoutComponents(String nameSpace) {
 
@@ -70,7 +71,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		hierarchyName.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		hierarchyName.setComponentId(nameSpace + "_" + "prodhierarchyName");
 		hierarchyName.setComponentName("Hierarchy");
-		hierarchyName.setAddToParent(Boolean.TRUE);
+		hierarchyName.setAddToParent(true);
 		hierarchyName.setParentComponentId(nameSpace + "_" + "producthierarchyLayout");
 
 		GtnUIFrameWorkActionConfig hierarchyPopupAction = new GtnUIFrameWorkActionConfig();
@@ -93,7 +94,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		relationship.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		relationship.setComponentId(nameSpace + "_" + "prodrelationship");
 		relationship.setComponentName("Relationship");
-		relationship.setAddToParent(Boolean.TRUE);
+		relationship.setAddToParent(true);
 		relationship.setParentComponentId(nameSpace + "_" + "prodrelationshipLayout");
 		relationship.setVaadinComponentPlaceHolder("-Select One-");
 		relationship.addDependentComponent(nameSpace + "_" + "salesCustomView");
@@ -120,6 +121,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		forecastingProductHierarchyForecastLevelLoadAction.addActionParameter(nameSpace + "_" + "prodrelationship");
 		forecastingProductHierarchyForecastLevelLoadAction
 				.addActionParameter(nameSpace+"_productRelationshipVersion");
+
 		actionConfigList.add(forecastingProductHierarchyForecastLevelLoadAction);
 		actionConfigList.add(valueChangeAction);
 		relationship.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -131,6 +133,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig productRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+"_productRelationshipVersion", true,
+
 				productSelectionRelationshipVersionLayout.getComponentId(),
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		productRelationshipVersion.setComponentName("ProductRelationshipVersion");
@@ -154,7 +157,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		forecastLevel.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		forecastLevel.setComponentId(nameSpace + "_" + "prodforecastLevel");
 		forecastLevel.setComponentName("Forecast Level");
-		forecastLevel.setAddToParent(Boolean.TRUE);
+		forecastLevel.setAddToParent(true);
 		forecastLevel.setParentComponentId(nameSpace + "_" + "prodforecastLevelLayout");
 		forecastLevel.setVaadinComponentPlaceHolder("-Select One-");
 
@@ -167,6 +170,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		innerProductLevelLoadAction.addActionParameter(nameSpace+"_prodhierarchyName");
 		innerProductLevelLoadAction.addActionParameter(nameSpace+"_prodforecastLevel");
 		innerProductLevelLoadAction.addActionParameter(nameSpace+"_productLevel");
+
 		forecastLevel.addGtnUIFrameWorkActionConfig(innerProductLevelLoadAction);
 		componentList.add(forecastLevel);
 	}
@@ -180,7 +184,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		productGroup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		productGroup.setComponentId(nameSpace + "_" + "productGroup");
 		productGroup.setComponentName("Product Group");
-		productGroup.setAddToParent(Boolean.TRUE);
+		productGroup.setAddToParent(true);
 		productGroup.setParentComponentId(nameSpace + "_" + "productGroupLayout");
 		componentList.add(productGroup);
 
@@ -203,7 +207,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		salesCustomView.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		salesCustomView.setComponentId(nameSpace + "_" + "salesCustomView");
 		salesCustomView.setComponentName("Sales Custom View");
-		salesCustomView.setAddToParent(Boolean.TRUE);
+		salesCustomView.setAddToParent(true);
 		salesCustomView.setParentComponentId(nameSpace + "_" + "salesCustomViewLayout");
 		salesCustomView.setVaadinComponentPlaceHolder("-Select One-");
 		componentList.add(salesCustomView);
@@ -234,7 +238,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		deductionCustomView.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		deductionCustomView.setComponentId(nameSpace + "_" + "deductionCustomView");
 		deductionCustomView.setComponentName("Deduction Custom View");
-		deductionCustomView.setAddToParent(Boolean.TRUE);
+		deductionCustomView.setAddToParent(true);
 		deductionCustomView.setParentComponentId(nameSpace + "_" + "deductionViewLayout");
 		deductionCustomView.setVaadinComponentPlaceHolder("-Select One-");
 		componentList.add(deductionCustomView);
@@ -284,7 +288,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		level.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		level.setComponentId(nameSpace + "_" + "productLevel");
 		level.setComponentName("Level");
-		level.setAddToParent(Boolean.TRUE);
+		level.setAddToParent(true);
 		level.setParentComponentId(nameSpace + "_" + "productlevelLayout");
 		level.setVaadinComponentPlaceHolder("-Select One-");
 
@@ -297,9 +301,11 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		loadAvailabletableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadAvailabletableActionConfig
 				.setActionParameterList(Arrays.asList(GtnForecastingProductAvailableTableLoadAction.class.getName(),
+
 						nameSpace+"_prodhierarchyName", nameSpace+"_prodrelationship",
 						nameSpace+"_productRelationshipVersion", nameSpace+"_productLevel",
 						nameSpace+"_businessUnit", nameSpace+"_customerRelationshipVersion",
+
 						nameSpace + "_" + "productDualListBox"));
 		actionConfigList.add(loadAvailabletableActionConfig);
 
@@ -333,7 +339,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 		productSelectionDualListBoxConfig.setRightVisibleHeaders(new String[] { "Product Hierarchy Group Builder" });
 		productSelectionDualListBoxConfig.setRightVisibleColumns(new Object[] { "levelValue" });
-		productSelectionDualListBoxConfig.setModuleType("hierarchyRelationship");
+		productSelectionDualListBoxConfig.setModuleType(GtnFrameworkForecastingStringConstants.HIERARCHY_RELATIONSHIP);
 		productSelectionDualListBoxConfig.setRecordHeader(Arrays.asList("parent_relationrelationship_level_values",
 				"parent_relationlevel_no", "parent_relationparent_node", "parent_relationrelationship_level_sid",
 				"parent_relationhierarchy_no", "parent_relationrelationship_builder_sid", "levelValue", "levelNo",

@@ -159,7 +159,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         generateBtnLogic(null);
         configureGroupDDLB();
         super.configureGraph();
-//        securityForButton();
+        securityForButton();
     }
     
     public void setFrequency(SessionDTO session)
@@ -707,7 +707,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 ? 1 : Integer.parseInt(projectionDTO.getSessionDTO().getProductLevelNumber()));
         projectionDTO.setProjectionId(projectionDTO.getSessionDTO().getProjectionId());
         projectionDTO.setUserId(Integer.parseInt(projectionDTO.getSessionDTO().getUserId()));
-        projectionDTO.setSessionId(Integer.valueOf(projectionDTO.getSessionDTO().getSessionId()));
+        projectionDTO.setSessionId(Integer.parseInt(projectionDTO.getSessionDTO().getSessionId()));
         checkFrequencyChange();
         projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         projectionDTO.setProjectionOrder(String.valueOf(proPeriodOrd.getValue()));

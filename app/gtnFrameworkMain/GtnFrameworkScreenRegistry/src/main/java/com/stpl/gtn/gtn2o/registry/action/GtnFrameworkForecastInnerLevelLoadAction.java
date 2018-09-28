@@ -26,6 +26,7 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 		int selectedLevelNo = Integer.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(2).toString(),componentId).getCaptionFromV8ComboBox());
 
+
 		GtnWsRecordBean hierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(1).toString(),componentId).getComponentData().getCustomData();
 

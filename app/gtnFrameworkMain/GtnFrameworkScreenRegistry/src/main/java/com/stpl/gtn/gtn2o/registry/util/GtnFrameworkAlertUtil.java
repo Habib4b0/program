@@ -9,7 +9,6 @@ import com.stpl.gtn.gtn2o.registry.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

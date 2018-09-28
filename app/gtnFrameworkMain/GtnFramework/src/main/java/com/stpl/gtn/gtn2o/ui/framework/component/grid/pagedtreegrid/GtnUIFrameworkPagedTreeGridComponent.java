@@ -155,8 +155,8 @@ public class GtnUIFrameworkPagedTreeGridComponent
 			gtnlogger.error("Error in loading headers ", e);
 		}
 		grid.setTableConfig(config);
-		grid.setColumnPageNumber(0);
 		grid.initializeGrid(componentData.getViewId() + "_" + componentId);
+                grid.setColumnPageNumber(0);
 		return;
 
 	}

@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.registry.action.GtnForecastingDataSelectionLoadViewAct
 import com.stpl.gtn.gtn2o.registry.action.GtnSelectButtonEnableAction;
 import com.stpl.gtn.gtn2o.registry.config.GtnUIFrameworkDataSelectionScreenConfig;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -299,7 +300,7 @@ public class ProjectionOptionsPrivateViewLookup
 		tableStyle.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
 		tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
 		privateViewPagedTableComponent.setComponentStyle(tableStyle);
-		privateViewPagedTableComponent.setModuleName("serviceRegistry");
+		privateViewPagedTableComponent.setModuleName(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY);
 		componentList.add(privateViewPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig privateViewPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 		privateViewPagedTableConfig.setEditable(false);
@@ -312,11 +313,11 @@ public class ProjectionOptionsPrivateViewLookup
 		alertAction.addActionParameter("Invalid Search");
 		alertAction.addActionParameter("There are no Views that match the search criteria.  Please try again.");
 		privateViewPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
-		privateViewPagedTableConfig.setCountUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
-		privateViewPagedTableConfig.setResultSetUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
-                privateViewPagedTableConfig.setPagedTableWsUrl("/gtnSearch");
+		privateViewPagedTableConfig.setCountUrl(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL);
+		privateViewPagedTableConfig.setResultSetUrl(GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL);
+                privateViewPagedTableConfig.setPagedTableWsUrl(GtnFrameworkScreenRegisteryConstants.SEARCH_RESULTS_URL);
                 privateViewPagedTableConfig.setRegisteredWebContext("/GtnSearchWebService");
-                privateViewPagedTableConfig.setModuleName("generalSearch");
+                privateViewPagedTableConfig.setModuleName(GtnFrameworkForecastingStringConstants.GENERAL_SEARCH);
 		privateViewPagedTableConfig.setTableColumnDataType(new Class<?>[] {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
@@ -458,7 +459,7 @@ public class ProjectionOptionsPrivateViewLookup
 		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadViewAction.addActionParameter( GtnForecastingDataSelectionLoadViewAction.class.getName());
 		loadViewAction.addActionParameter("Commercial Forecasting_privateViewLookup");
-		loadViewAction.addActionParameter("Commercial Forecasting");
+		loadViewAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING);
 		actionConfigList.add(loadViewAction);
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
