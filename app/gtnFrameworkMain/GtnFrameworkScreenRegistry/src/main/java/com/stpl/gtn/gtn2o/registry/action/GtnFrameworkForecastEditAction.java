@@ -34,8 +34,11 @@ public class GtnFrameworkForecastEditAction
 		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(gridComponentId, componentId);
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) abstractComponent.getData();
 		Set<GtnWsRecordBean> rows = componentData.getPagedGrid().getValue();
-		GtnWsRecordBean selectedRow = rows.isEmpty() ? null : rows.iterator().next();
-
+		GtnWsRecordBean selectedRow = new GtnWsRecordBean();
+		if(!rows.isEmpty())
+		{
+			selectedRow = rows.iterator().next();
+		}
 		String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
 		String sessionId = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId"));
 

@@ -57,7 +57,6 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(actionParamList.get(1).toString(), componentId).getComponentData()
 					.getCustomData();
-			//String viewData = (String) recordBean.getPropertyValueByIndex(5);
 			String nameSpace = actionParamList.get(2).toString();
 			ObjectMapper mapper = new ObjectMapper();
 
@@ -99,9 +98,7 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 							"forecastLandingScreen_customerHierarchy", componentId)
 					.setV8PopupFieldValue(customerRecordBean.getPropertyValueByIndex(0));
 			
-			List<GtnUIFrameWorkActionConfig> customerActionConfigList = new ArrayList<>();
 			GtnUIFrameWorkActionConfig customerActionConfig = new GtnUIFrameWorkActionConfig();
-			customerActionConfigList.add(customerActionConfig);
 			customerActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			customerActionConfig.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
 			customerActionConfig.addActionParameter("forecastLandingScreen_customerHierarchy");
@@ -162,9 +159,7 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 							"Commercial Forecasting_prodhierarchyName", componentId)
 					.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 			
-			List<GtnUIFrameWorkActionConfig> productActionConfigList = new ArrayList<>();
 			GtnUIFrameWorkActionConfig productActionConfig = new GtnUIFrameWorkActionConfig();
-			productActionConfigList.add(productActionConfig);
 			productActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			productActionConfig.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
 			productActionConfig.addActionParameter("Commercial Forecasting_prodhierarchyName");
