@@ -218,8 +218,10 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 }
             }
             lastBrand = brand;
-            dto.setUserId(selection.getSessionDTO().getUserId());
-            dto.setSessionId(selection.getSessionDTO().getSessionId());
+            if (dto != null) {
+                dto.setUserId(selection.getSessionDTO().getUserId());
+                dto.setSessionId(selection.getSessionDTO().getSessionId());
+            }
         }
         LOGGER.debug("index-------{}", index);
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
