@@ -132,6 +132,8 @@ public class WorkFlowNotesLookup extends Window {
         addStyleName(ARMUtils.BOOTSTRAP_UI);
         addStyleName(ARMUtils.BOOTSTRAP);
         addStyleName(ARMUtils.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
+        setWidth(585,Unit.PIXELS);
+        setHeight(808,Unit.PIXELS);
         setCaption(ARMUtils.NOTES);
         center();
         setClosable(true);
