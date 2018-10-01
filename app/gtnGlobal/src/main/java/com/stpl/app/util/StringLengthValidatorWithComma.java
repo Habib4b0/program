@@ -84,11 +84,8 @@ public class StringLengthValidatorWithComma extends AbstractStringValidator {
         }
         value=value.replace(",", "");
         final int len = value.length();
-        if ((minLength != null && minLength > -1 && len < minLength)
-                || (maxLength != null && maxLength > -1 && len > maxLength)) {
-            return false;
-        }
-        return true;
+        return !((minLength != null && minLength > -1 && len < minLength)
+                || (maxLength != null && maxLength > -1 && len > maxLength));
     }
 
     /**

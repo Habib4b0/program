@@ -28,6 +28,14 @@ import com.stpl.app.gtnforecasting.ui.ForecastEditWindow;
 import com.stpl.app.gtnforecasting.ui.ForecastMainView;
 import com.stpl.app.gtnforecasting.ui.ForecastWindow;
 import com.stpl.app.gtnforecasting.ui.NonMandatedViewWindow;
+import com.stpl.app.gtnforecasting.ui.form.checkprocedurecompletion.CheckCustomCompletion;
+import com.stpl.app.gtnforecasting.ui.form.checkprocedurecompletion.CheckCustomerCompletion;
+import com.stpl.app.gtnforecasting.ui.form.checkprocedurecompletion.CheckProductCompletion;
+import com.stpl.app.gtnforecasting.ui.form.checkprocedurecompletion.CompletionCheckOnTabChange;
+import com.stpl.app.gtnforecasting.ui.form.checkprocedurecompletion.WaitForCustomerProcedureCompletion;
+import com.stpl.app.gtnforecasting.ui.form.checkprocedurecompletion.WaitForProcedureCallCustom;
+import com.stpl.app.gtnforecasting.ui.form.checkprocedurecompletion.WaitForProcedureCallCustomer;
+import com.stpl.app.gtnforecasting.ui.form.checkprocedurecompletion.WaitForProcedureCallProduct;
 import com.stpl.app.gtnforecasting.ui.form.lookups.WorkFlowNotesLookup;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
@@ -454,12 +462,30 @@ public class ForecastForm extends AbstractForm {
                                 }
                                 
                                 if (!discountUpsFlag && tabPosition == NumericConstants.FOUR){
-                                      CommonLogic.viewProceduresCompletionCheckDiscount(session);
+                                    
+                                    List<CompletionCheckOnTabChange> checkCompleted = new ArrayList<>();
+                                    checkCompleted.add(new CheckCustomerCompletion(session));
+                                    checkCompleted.add(new CheckProductCompletion(session));
+                                    checkCompleted.add(new CheckCustomCompletion(session));
+                                    for (CompletionCheckOnTabChange checkCompleted1 : checkCompleted) {
+                                        checkCompleted1.checkProcedureCompletion();
+                                    }
+                                    
+                                    List<WaitForCustomerProcedureCompletion> checkWaitCompleted = new ArrayList<>();
+                                    session.setFunctionMode("UPS");
+
+                                    checkWaitCompleted.add(new WaitForProcedureCallCustomer(session));
+                                    checkWaitCompleted.add(new WaitForProcedureCallProduct(session));
+                                    checkWaitCompleted.add(new WaitForProcedureCallCustom(session));
+                                    
+                                    for (WaitForCustomerProcedureCompletion checkCompleted1 : checkWaitCompleted) {
+                                        checkCompleted1.waitforStatusTableCOmpletion();
+                                    }
+                                    
                                     if (!session.getAction().equalsIgnoreCase(Constant.VIEW)) {
                                     callContractDetailsPrcForDiscount();
-                                    } 
-                                    session.setFunctionMode("UPS");
-                                    nmDiscountViewsPopulationProcedure();
+                                    }
+                                    
                                      discountProjection.getContent();                                     
                                      discountUpsFlag=true;
                                 }
@@ -2055,12 +2081,12 @@ public class ForecastForm extends AbstractForm {
                 Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL,session.getFunctionMode(), Constant.DISCOUNT3, "P", "null", "null", session));
         service.submit(commUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOM_VIEW_DISCOUNT_POPULATION_CALL,session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));
-        }
+            }
         else{
         service.submit(commUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOM_VIEW_DISCOUNT_POPULATION_CALL,session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));  
+            }
         }
-    }
 	private void nmPPAInitProcedure() {
 		Future ppaInit = service.submit(
 				commUtil.createRunnableForPPAInitProcedure(SalesUtils.PRC_NM_PPA_PROJ_INIT, session));

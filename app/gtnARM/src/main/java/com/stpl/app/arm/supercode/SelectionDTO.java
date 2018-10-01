@@ -116,8 +116,6 @@ public interface SelectionDTO {
 
     public void setProcedureInputs(String feild, Object value);
 
-    public boolean isFieldInput(String feild);
-
     public List<String[]> getSalesVariables();
 
     public String[] getVariableVisibleColumns();

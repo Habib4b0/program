@@ -31,7 +31,8 @@ public class SelectionCriteria implements Criteria {
     private int start = 0;
     private int offset = 0;
     private Object parent = null;
-    private int currentPage, lastPage;
+    private int currentPage;
+    private int lastPage;
     private int siblingCount;
 
     public SelectionCriteria() {
