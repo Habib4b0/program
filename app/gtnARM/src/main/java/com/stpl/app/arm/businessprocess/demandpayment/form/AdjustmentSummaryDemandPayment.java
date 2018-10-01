@@ -169,4 +169,13 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
 
     }
 
+    @Override
+    public boolean equals(Object paymentAdjDetobj) {
+        return super.equals(paymentAdjDetobj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

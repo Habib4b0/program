@@ -69,7 +69,7 @@ public class GtnWsIfpAddCotroller {
 			ifpSearchResponse.getGtnWsGeneralResponse().setSucess(true);
 			logger.info("Enter itemAdditionSearch");
 			GtnSerachResponse gtnSerachResponse = new GtnSerachResponse();
-			String query = ifpWebservice.ifpLeftTableSearchQuery(ifpSearchRequest);
+			String query = ifpWebservice.ifpLeftTableSearchQuery(ifpSearchRequest); 
 			List<?> resultList = gtnSqlQueryEngine.executeSelectQuery(query);
 			if (ifpSearchRequest.getGtnWsSearchRequest().isCount()) {
 				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));

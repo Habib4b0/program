@@ -36,6 +36,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.app.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import java.util.Locale;
 
@@ -99,12 +100,12 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             starttYear = ARMUtils.getIntegerValue(selection.getFromDate());
             endtYear = ARMUtils.getIntegerValue(selection.getToDate());
         }
-        summaryFrmDate.setDate(1);
-        summaryToDate.setDate(NumericConstants.TWENTY_EIGHT);
-        summaryFrmDate.setMonth(startMonth - 1);
-        summaryToDate.setMonth(endMonth - 1);
-        summaryFrmDate.setYear(starttYear - NumericConstants.ONE_NINE_ZERO_ZERO);
-        summaryToDate.setYear(endtYear - NumericConstants.ONE_NINE_ZERO_ZERO);
+        summaryFrmDate = CommonUtil.setDate(1, summaryFrmDate);
+        summaryToDate = CommonUtil.setDate(NumericConstants.TWENTY_EIGHT, summaryToDate);
+        summaryFrmDate = CommonUtil.setMonth(startMonth - 1, summaryFrmDate);
+        summaryToDate = CommonUtil.setMonth(endMonth - 1, summaryToDate);
+        summaryFrmDate = CommonUtil.setYear(starttYear - NumericConstants.ONE_NINE_ZERO_ZERO, summaryFrmDate);
+        summaryToDate = CommonUtil.setYear(endtYear - NumericConstants.ONE_NINE_ZERO_ZERO, summaryToDate);
         int totalMonth = getMonthsDifference(summaryFrmDate, summaryToDate);
         if (isHeaderIsAvail(summaryFrmDate, summaryToDate, totalMonth, selection.getSelectedAdjustmentTypeValues())) {
             List summaryFinalList;
@@ -121,7 +122,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             List tempList = new ArrayList<>();
             String column = null;
             String doubleColumn = null;
-            int year = summaryFrmDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+            int year = CommonUtil.getYear(summaryFrmDate) + NumericConstants.ONE_NINE_ZERO_ZERO;
             int tempPeriod = (startMonth / frequencyDivision) + 1;
             HashMap<Object, String> headerVlaueMap = new HashMap<>();
             List adjustMentIds = selection.getSelectedAdjustmentType();
@@ -213,8 +214,8 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     }
 
     public static final int getMonthsDifference(Date date1, Date date2) {
-        int m1 = date1.getYear() * NumericConstants.TWELVE + date1.getMonth();
-        int m2 = date2.getYear() * NumericConstants.TWELVE + date2.getMonth();
+        int m1 = CommonUtil.getYear(date1) * NumericConstants.TWELVE + CommonUtil.getMonth(date1);
+        int m2 = CommonUtil.getYear(date2) * NumericConstants.TWELVE + CommonUtil.getMonth(date2);
         return m2 - m1;
     }
 
@@ -260,7 +261,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             TreeMap<String, Integer> masterSids;
             AdjustmentDTO val = (AdjustmentDTO) dto;
             int levelNo = val.getLevelNo();
-            masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
+            masterSids = new TreeMap<>(val.getMasterIds());
             masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
             selection.setMasterSids(masterSids);
             if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(++levelNo))) {

@@ -294,7 +294,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
             TreeMap<String, Integer> masterSids;
             AdjustmentDTO val = (AdjustmentDTO) dto;
             int levelNo = val.getLevelNo();
-            masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
+            masterSids = new TreeMap<>(val.getMasterIds());
             masterSids.put(singleLiablitySelection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
             singleLiablitySelection.setMasterSids(masterSids);
             if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(singleLiablitySelection.getSummaryLevel().get(++levelNo))) {

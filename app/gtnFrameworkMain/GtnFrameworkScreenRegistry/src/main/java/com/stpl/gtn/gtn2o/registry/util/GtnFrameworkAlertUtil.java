@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class GtnFrameworkAlertUtil {
 
-    public GtnUIFrameWorkActionConfig throwAlertUtil(String componentId, String url) {
+    public GtnUIFrameWorkActionConfig throwAlertUtilAction(String url) {
         GtnUIFrameWorkActionConfig alert = new GtnUIFrameWorkActionConfig();
         alert.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
         alert.addActionParameter("Error");

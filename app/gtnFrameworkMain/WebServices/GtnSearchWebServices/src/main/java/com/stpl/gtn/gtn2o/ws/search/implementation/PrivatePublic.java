@@ -29,6 +29,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -71,7 +72,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 
             if (viewName != null && !viewName.equals("*")) {
             	strQuery.append(queryMap.get(webSearchCriteriaList.get(0).getFieldId()));
-                param.add(viewType.replaceAll("\\*", "%"));
+                param.add(viewType != null ? viewType.replaceAll("\\*", "%") : StringUtils.EMPTY);
                 data.add(GtnFrameworkDataType.STRING);
                 count++;
             }
@@ -114,15 +115,6 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
             logger.error("Exception in loading private and public views" + e);
         }
         return response;
-    }
-
-
-    private int getQuery(StringBuilder strQuery, Map<String, String> queryMap, List<GtnWebServiceSearchCriteria> webSearchCriteriaList, List<Object> param, String viewType, List<GtnFrameworkDataType> data, int count) {
-        strQuery.append(queryMap.get(webSearchCriteriaList.get(1).getFieldId()));
-        param.add(viewType.replaceAll("\\*", "%"));
-        data.add(GtnFrameworkDataType.STRING);
-        count++;
-        return count;
     }
 
     private List<Object[]> method(List<Object[]> resultList) throws IOException {

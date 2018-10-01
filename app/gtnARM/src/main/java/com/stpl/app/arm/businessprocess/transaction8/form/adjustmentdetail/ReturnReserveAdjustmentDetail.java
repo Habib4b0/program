@@ -28,11 +28,11 @@ import org.slf4j.LoggerFactory;
  * @author
  */
 public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
-    
+
     public static final Logger RR_ADJ_LOGGER = LoggerFactory.getLogger(ReturnReserveAdjustmentDetail.class);
-    
+
     private AbstractSelectionDTO rrSelectionDto;
-    
+
     public ReturnReserveAdjustmentDetail(AbstractSelectionDTO selectionDto) {
         super(new RRDetailsLogic(), selectionDto);
         this.rrSelectionDto = selectionDto;
@@ -52,7 +52,7 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
         rrSelectionDto.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
     }
-    
+
     @Override
     protected void generateBtn() {
         try {
@@ -67,7 +67,7 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
             RR_ADJ_LOGGER.error("Error in generateBtn :", ex);
         }
     }
-    
+
     @Override
     protected void loadReserveAccount() {
         List<List> list = logic.getReserveAccountDetails(rrSelectionDto, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
@@ -77,7 +77,7 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
             CommonUtils.checkAllMenuBarItem(reserveMenuItem);
         }
     }
-    
+
     @Override
     protected void loadVariable() {
         RR_ADJ_LOGGER.debug("Inside loadVariable");
@@ -99,13 +99,13 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
             }
         }
     }
-    
+
     @Override
     public Focusable getDefaultFocusComponent() {
         RR_ADJ_LOGGER.debug("Inside getDefaultFocusComponent");
         return level;
     }
-    
+
     @Override
     protected void columnAlignmentChanges() {
         for (Object obj : resultsTable.getVisibleColumns()) {
@@ -114,10 +114,18 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
             }
         }
     }
-    
+
     public void configurePermission(String userId, StplSecurity stplSecurity) {
         RR_ADJ_LOGGER.debug("inside configurePermission Method{}", userId + stplSecurity);
-        
     }
-    
+
+    @Override
+    public boolean equals(Object retresAdjDetobj) {
+        return super.equals(retresAdjDetobj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
