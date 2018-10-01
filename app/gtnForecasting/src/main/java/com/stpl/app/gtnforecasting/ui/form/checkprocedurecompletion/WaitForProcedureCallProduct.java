@@ -19,7 +19,7 @@ import java.util.concurrent.Future;
 public class WaitForProcedureCallProduct implements WaitForCustomerProcedureCompletion {
 
     private final SessionDTO session;
-    public ThreadPool waitCustomThreadPool = ThreadPool.getInstance();
+    private ThreadPool waitCustomThreadPool = ThreadPool.getInstance();
 
     public WaitForProcedureCallProduct(SessionDTO session) {
         this.session = session;
