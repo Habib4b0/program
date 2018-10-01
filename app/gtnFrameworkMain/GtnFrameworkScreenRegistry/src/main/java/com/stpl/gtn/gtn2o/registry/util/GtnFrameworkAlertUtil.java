@@ -30,7 +30,6 @@ public class GtnFrameworkAlertUtil {
         } catch (GtnFrameworkGeneralException ex) {
             Logger.getLogger(GtnCustomerAvailableTableLoadAction.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Logger.getLogger(GtnCustomerAvailableTableLoadAction.class.getName()).log(Level.WARNING, null, componentId);
         return alert;
 
     }
