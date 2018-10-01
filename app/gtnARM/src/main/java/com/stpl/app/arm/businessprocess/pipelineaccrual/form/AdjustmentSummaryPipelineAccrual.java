@@ -15,7 +15,6 @@ import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.VariableConstants;
-import com.stpl.app.utils.VariableConstants.PipelineSummaryVariables;
 import com.vaadin.navigator.ViewChangeListener;
 import java.util.Map;
 
@@ -50,7 +49,7 @@ public class AdjustmentSummaryPipelineAccrual extends AbstractPipelineSummary {
     protected void configureSummary() {
         variableHeader = new String[]{VariableConstants.PipelineSummaryVariables.CPIPELINEACRUAL.toString(), VariableConstants.PipelineSummaryVariables.PPIPELINEACRUAL.toString(),
             VariableConstants.PipelineSummaryVariables.VARIANCE.toString()};
-        variableHeaderDeduction = PipelineSummaryVariables.names();
+        variableHeaderDeduction = VariableConstants.PipelineSummaryVariables.names();
         variableVisibleColumnsDeduction = VariableConstants.getVariableVisibleColumnDedution();
         variableVisibleColumns = VariableConstants.getVariableVisibleColumn();
     }

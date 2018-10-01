@@ -61,7 +61,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
      *
      */
     @UiField("privateView")
-    private CustomTextField privateView;
+    private CustomTextField tr7PrivateView;
     /**
      * Allows the user to select a previously saved Exclusion Details view. All
      * publicly saved views by any user will be available in the drop down. The
@@ -70,16 +70,16 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
      *
      */
     @UiField("publicView")
-    private CustomTextField publicView;
+    private CustomTextField tr7PublicView;
     /**
      * Allows the user to select a specific field value based on the Actual
      * Customer/Product GTS data set.
      */
     @UiField("feildName")
-    private ComboBox fieldName;
+    private ComboBox tr7FieldName;
 
     @UiField("deleteViewBtn")
-    private Button deleteViewBtn;
+    private Button tr7DeleteViewBtn;
 
     private final BeanItemContainer<ExclusionLookupDTO> availableResultsContainer = new BeanItemContainer<>(ExclusionLookupDTO.class);
     private final BeanItemContainer<ExclusionLookupDTO> selectedResultsContainer = new BeanItemContainer<>(ExclusionLookupDTO.class);
@@ -91,19 +91,19 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
      *
      */
     @UiField("availableCustomers")
-    private ExtFilterTable availableCustomers;
+    private ExtFilterTable tr7AvailableCustomers;
     @UiField("selectedCustomer")
-    private ExtFilterTable selectedCustomer;
-    private Trx7PrivatePublicLookup viewLookUp;
-    private Trx7ExclusionDetailsLogic arLogic = new Trx7ExclusionDetailsLogic();
-    private int projectionSid = 0;
-    private SessionDTO sessionDTO;
-    private DataSelectionDTO dataSelectionDTO;
+    private ExtFilterTable tr7SelectedCustomer;
+    private Trx7PrivatePublicLookup tr7ViewLookUp;
+    private Trx7ExclusionDetailsLogic tr7ArLogic = new Trx7ExclusionDetailsLogic();
+    private int tr7ProjectionSid = 0;
+    private SessionDTO tr7SessionDTO;
+    private DataSelectionDTO tr7DataSelectionDTO;
     private String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
-    private ViewLookupDTO viewDTO = new ViewLookupDTO();
-    private StringBuilder accountId = new StringBuilder();
-    private StringBuilder accountName = new StringBuilder();
-    private StringBuilder accountContractId = new StringBuilder();
+    private ViewLookupDTO tr7ViewDTO = new ViewLookupDTO();
+    private StringBuilder tr7AccountId = new StringBuilder();
+    private StringBuilder tr7AccountName = new StringBuilder();
+    private StringBuilder tr87AccountContractId = new StringBuilder();
 
     /**
      * The Logger for Adjustment Rate UI the logger usually logs into a file
@@ -113,9 +113,9 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
 
     public Trx7ExclusionDetailsLookup(int projectionSid, SessionDTO sessionDTO, DataSelectionDTO dataSelectionDTO) {
         super();
-        this.projectionSid = projectionSid;
-        this.sessionDTO = sessionDTO;
-        this.dataSelectionDTO = dataSelectionDTO;
+        this.tr7ProjectionSid = projectionSid;
+        this.tr7SessionDTO = sessionDTO;
+        this.tr7DataSelectionDTO = dataSelectionDTO;
         addStyleName("bootstrap");
         addStyleName("bootstrap-bb");
         setContent(Clara.create(getClass().getResourceAsStream("/adjustment_rate_config/exclusion_details_lookup.xml"), this));
@@ -124,81 +124,81 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     }
 
     private void configureFields() {
-        privateView.setStyleName("searchicon");
-        publicView.setStyleName("searchicon");
+        tr7PrivateView.setStyleName("searchicon");
+        tr7PublicView.setStyleName("searchicon");
         setCaption("Exclusion Details Look up");
         setDraggable(true);
         center();
         setModal(true);
         setResizable(false);
         configureTable();
-        privateView.setDescription("Private");
-        publicView.setDescription("Public");
-        privateView.addClickListener(viewListener);
-        publicView.addClickListener(viewListener);
-        fieldName.setImmediate(true);
-        fieldName.setNullSelectionAllowed(false);
-        fieldName.addItem(ARMConstants.getAccountId());
-        fieldName.addItem(ARMConstants.getAccountName());
-        fieldName.addItem(ARMConstants.getContractId());
-        fieldName.select(ARMConstants.getAccountId());
-        deleteViewBtn.setEnabled(false);
+        tr7PrivateView.setDescription("Private");
+        tr7PublicView.setDescription("Public");
+        tr7PrivateView.addClickListener(viewListener);
+        tr7PublicView.addClickListener(viewListener);
+        tr7FieldName.setImmediate(true);
+        tr7FieldName.setNullSelectionAllowed(false);
+        tr7FieldName.addItem(ARMConstants.getAccountId());
+        tr7FieldName.addItem(ARMConstants.getAccountName());
+        tr7FieldName.addItem(ARMConstants.getContractId());
+        tr7FieldName.select(ARMConstants.getAccountId());
+        tr7DeleteViewBtn.setEnabled(false);
         getIntialLoad();
         setFieldValues();
         getFieldValue();
-        fieldName.addValueChangeListener(new Property.ValueChangeListener() {
+        tr7FieldName.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 getFieldValue();
             }
         });
-        fieldName.focus();
+        tr7FieldName.focus();
     }
 
     private void configureTable() {
-        availableCustomers.setContainerDataSource(availableResultsContainer);
-        availableCustomers.setVisibleColumns(ARMUtils.getExclusionLookupAvialableColumns());
-        availableCustomers.setColumnHeaders(ARMUtils.getExclusionLookupAvialableHeaders());
-        selectedCustomer.setContainerDataSource(selectedResultsContainer);
-        selectedCustomer.setVisibleColumns(ARMUtils.getExclusionLookupSelectedColumns());
-        selectedCustomer.setColumnHeaders(ARMUtils.getExclusionLookupSelectedHeaders());
-        availableCustomers.setFilterBarVisible(true);
-        availableCustomers.setFilterDecorator(new ExtDemoFilterDecorator());
-        selectedCustomer.setFilterBarVisible(true);
-        selectedCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
+        tr7AvailableCustomers.setContainerDataSource(availableResultsContainer);
+        tr7AvailableCustomers.setVisibleColumns(ARMUtils.getExclusionLookupAvialableColumns());
+        tr7AvailableCustomers.setColumnHeaders(ARMUtils.getExclusionLookupAvialableHeaders());
+        tr7SelectedCustomer.setContainerDataSource(selectedResultsContainer);
+        tr7SelectedCustomer.setVisibleColumns(ARMUtils.getExclusionLookupSelectedColumns());
+        tr7SelectedCustomer.setColumnHeaders(ARMUtils.getExclusionLookupSelectedHeaders());
+        tr7AvailableCustomers.setFilterBarVisible(true);
+        tr7AvailableCustomers.setFilterDecorator(new ExtDemoFilterDecorator());
+        tr7SelectedCustomer.setFilterBarVisible(true);
+        tr7SelectedCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
     }
     private CustomTextField.ClickListener viewListener = new CustomTextField.ClickListener() {
         @Override
         public void click(CustomTextField.ClickEvent event) {
             try {
                 int userIdValue = userId.equals(StringUtils.EMPTY) ? 0 : Integer.parseInt(userId.replaceAll("\\D+", StringUtils.EMPTY));
-                if (viewLookUp == null) {
-                    viewLookUp = new Trx7PrivatePublicLookup(event.getComponent().getCaption(), userIdValue, StringUtils.EMPTY, event.getComponent().getId(), "");
+                if (tr7ViewLookUp == null) {
+                    tr7ViewLookUp = new Trx7PrivatePublicLookup(event.getComponent().getCaption(), userIdValue, StringUtils.EMPTY, event.getComponent().getId(), "");
                 } else {
-                    viewLookUp.reloadScreen(event.getComponent().getCaption(), userIdValue, StringUtils.EMPTY, event.getComponent().getId());
+                    tr7ViewLookUp.reloadScreen(event.getComponent().getCaption(), userIdValue, StringUtils.EMPTY, event.getComponent().getId());
                 }
-                getUI().addWindow(viewLookUp);
+                getUI().addWindow(tr7ViewLookUp);
 
-                viewLookUp.addCloseListener(new CloseListener() {
+                tr7ViewLookUp.addCloseListener(new CloseListener() {
 
                     @Override
                     public void windowClose(CloseEvent e) {
-                        if (viewLookUp.isSelectFlag()) {
-                            privateView.setValue(StringUtils.EMPTY);
-                            publicView.setValue(StringUtils.EMPTY);
-                            if ("publicView".equalsIgnoreCase(viewLookUp.getDtoValue().getViewType())) {
-                                publicView.setValue(viewLookUp.getDtoValue().getViewName());
-                                publicView.setImmediate(true);
-                                deleteViewBtn.setEnabled(true);
+                        if (tr7ViewLookUp.isSelectFlag()) {
+                            tr7PrivateView.setValue(StringUtils.EMPTY);
+                            tr7PublicView.setValue(StringUtils.EMPTY);
+                            if ("publicView".equalsIgnoreCase(tr7ViewLookUp.getDtoValue().getViewType())) {
+                                tr7PublicView.setValue(tr7ViewLookUp.getDtoValue().getViewName());
+                                tr7PublicView.setImmediate(true);
+                                tr7DeleteViewBtn.setEnabled(true);
                             } else {
-                                privateView.setValue(viewLookUp.getDtoValue().getViewName());
-                                publicView.setImmediate(true);
-                                deleteViewBtn.setEnabled(true);
+                                tr7PrivateView.setValue(tr7ViewLookUp.getDtoValue().getViewName());
+                                tr7PublicView.setImmediate(true);
+                                tr7DeleteViewBtn.setEnabled(true);
                             }
-                            setViewDTO(viewLookUp.getDtoValue());
-                            fieldName.select(viewLookUp.getDtoValue().getFieldName());
+                            setViewDTO(tr7ViewLookUp.getDtoValue());
+                            tr7FieldName.select(tr7ViewLookUp.getDtoValue().getFieldName());
                             selectedResultsContainer.removeAllItems();
-                            selectedResultsContainer.addAll(arLogic.getCompanySid(viewLookUp.getDtoValue().getViewSid()));
+                            selectedResultsContainer.addAll(tr7ArLogic.getCompanySid(tr7ViewLookUp.getDtoValue().getViewSid()));
                         }
                     }
                 });
@@ -236,20 +236,20 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
                         break;
                     case "delete":
                         // delete logic
-                        String createdById = viewDTO.getCreatedBy();
+                        String createdById = tr7ViewDTO.getCreatedBy();
                         String userIdString = CommonUtils.getUserNameById(userId);
 
                         if (createdById.equals(userIdString)) {
-                            arLogic.deleteViewLogic(viewDTO.getViewSid());
-                            availableCustomers.removeAllItems();
+                            tr7ArLogic.deleteViewLogic(tr7ViewDTO.getViewSid());
+                            tr7AvailableCustomers.removeAllItems();
                             availableResultsContainer.removeAllItems();
-                            selectedCustomer.removeAllItems();
+                            tr7SelectedCustomer.removeAllItems();
                             selectedResultsContainer.removeAllItems();
-                            fieldName.setValue(ARMConstants.getAccountId());
+                            tr7FieldName.setValue(ARMConstants.getAccountId());
                             getFieldValue();
-                            privateView.setValue(StringUtils.EMPTY);
-                            publicView.setValue(StringUtils.EMPTY);
-                            deleteViewBtn.setEnabled(false);
+                            tr7PrivateView.setValue(StringUtils.EMPTY);
+                            tr7PublicView.setValue(StringUtils.EMPTY);
+                            tr7DeleteViewBtn.setEnabled(false);
                         } else {
                             AbstractNotificationUtils.getErrorNotification("Error", "You can only delete views that you have created.");
                         }
@@ -271,16 +271,16 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     public void moveLeftButtonClick(Button.ClickEvent event) {
         try {
 //            this.close();Please select at least one Customer value to exclude. 
-            if (availableCustomers.getValue() == null) {
+            if (tr7AvailableCustomers.getValue() == null) {
                 AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getMoveLeftRightMessage_exclusion());
                 return;
             }
-            if (availableCustomers.getValue() != null) {
-                selectedResultsContainer.addBean((ExclusionLookupDTO) availableCustomers.getValue());
-                availableResultsContainer.removeItem((ExclusionLookupDTO) availableCustomers.getValue());
+            if (tr7AvailableCustomers.getValue() != null) {
+                selectedResultsContainer.addBean((ExclusionLookupDTO) tr7AvailableCustomers.getValue());
+                availableResultsContainer.removeItem((ExclusionLookupDTO) tr7AvailableCustomers.getValue());
                 setFieldValues();
             }
-            availableCustomers.setValue(null);
+            tr7AvailableCustomers.setValue(null);
         } catch (Exception e) {
             LOGGER.error("Error in moveLeftButtonClick :", e);
         }
@@ -291,17 +291,17 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
 
         try {
 //            this.close();Please select at least one Customer value to exclude. 
-            if (selectedCustomer.getValue() == null) {
+            if (tr7SelectedCustomer.getValue() == null) {
                 AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getMoveLeftRightMessage_exclusion());
                 return;
             }
-            if (selectedCustomer.getValue() != null) {
-                availableResultsContainer.addBean((ExclusionLookupDTO) selectedCustomer.getValue());
-                selectedResultsContainer.removeItem(selectedCustomer.getValue());
+            if (tr7SelectedCustomer.getValue() != null) {
+                availableResultsContainer.addBean((ExclusionLookupDTO) tr7SelectedCustomer.getValue());
+                selectedResultsContainer.removeItem(tr7SelectedCustomer.getValue());
                 setFieldValues();
                 getFieldValue();
             }
-            selectedCustomer.setValue(null);
+            tr7SelectedCustomer.setValue(null);
         } catch (Exception e) {
             LOGGER.error("Error in moveRightButtonClick :", e);
         }
@@ -312,11 +312,11 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
         LOGGER.debug("Inside moveAllBtn :");
         try {
 //            this.close();Please select at least one Customer value to exclude. 
-            if (availableCustomers.getItemIds().isEmpty()) {
+            if (tr7AvailableCustomers.getItemIds().isEmpty()) {
 
                 return;
             }
-            if (!availableCustomers.getItemIds().isEmpty()) {
+            if (!tr7AvailableCustomers.getItemIds().isEmpty()) {
                 List<String> fieldList = new ArrayList<>();
                 for (ExclusionLookupDTO dto : availableResultsContainer.getItemIds()) {
                     fieldList.add(dto.getValues());
@@ -334,13 +334,13 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     public void submitButtonClick(Button.ClickEvent event) {
         try {
 //            this.close();Please select at least one Customer value to exclude. 
-            if (selectedCustomer.getItemIds().isEmpty()) {
+            if (tr7SelectedCustomer.getItemIds().isEmpty()) {
                 AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getSubmitMessage_exclusion());
                 return;
             }
             if (!selectedResultsContainer.getItemIds().isEmpty()) {
                 setFieldValues();
-                arLogic.saveORUpdateExclusionDetailsLookUp(projectionSid, selectedResultsContainer.getItemIds(), accountId.toString(), accountName.toString(), accountContractId.toString(), sessionDTO);
+                tr7ArLogic.saveORUpdateExclusionDetailsLookUp(tr7ProjectionSid, selectedResultsContainer.getItemIds(), tr7AccountId.toString(), tr7AccountName.toString(), tr87AccountContractId.toString(), tr7SessionDTO);
                 this.close();
             }
         } catch (Exception e) {
@@ -380,9 +380,9 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     public void getFieldValue() {
         try {
             List<ExclusionLookupDTO> fieldValueList;
-            String accountNames = ARMConstants.getAccountName().equalsIgnoreCase(String.valueOf(fieldName.getValue())) ? accountName.toString() : accountContractId.toString();
-            fieldValueList = arLogic.getFieldListValue(String.valueOf(fieldName.getValue()),
-                    ARMConstants.getAccountId().equalsIgnoreCase(String.valueOf(fieldName.getValue())) ? accountId.toString() : accountNames);
+            String accountNames = ARMConstants.getAccountName().equalsIgnoreCase(String.valueOf(tr7FieldName.getValue())) ? tr7AccountName.toString() : tr87AccountContractId.toString();
+            fieldValueList = tr7ArLogic.getFieldListValue(String.valueOf(tr7FieldName.getValue()),
+                    ARMConstants.getAccountId().equalsIgnoreCase(String.valueOf(tr7FieldName.getValue())) ? tr7AccountId.toString() : accountNames);
             availableResultsContainer.removeAllItems();
             if (!fieldValueList.isEmpty()) {
                 availableResultsContainer.addAll(fieldValueList);
@@ -396,23 +396,23 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     public void saveViewButtonClick(Button.ClickEvent event) {
         try {
             ExclusionLookupDTO saveViewDTO = new ExclusionLookupDTO();
-            if (!StringUtils.EMPTY.equalsIgnoreCase(publicView.getValue()) || !StringUtils.EMPTY.equalsIgnoreCase(privateView.getValue())) {
-                saveViewDTO.setFieldName(viewDTO.getFieldName());
-                saveViewDTO.setViewName(viewDTO.getViewName());
-                saveViewDTO.setViewType(viewDTO.getViewType());
-                saveViewDTO.setViewMasterSid(viewDTO.getViewSid());
+            if (!StringUtils.EMPTY.equalsIgnoreCase(tr7PublicView.getValue()) || !StringUtils.EMPTY.equalsIgnoreCase(tr7PrivateView.getValue())) {
+                saveViewDTO.setFieldName(tr7ViewDTO.getFieldName());
+                saveViewDTO.setViewName(tr7ViewDTO.getViewName());
+                saveViewDTO.setViewType(tr7ViewDTO.getViewType());
+                saveViewDTO.setViewMasterSid(tr7ViewDTO.getViewSid());
                 saveViewDTO.setUserID(userId.equals(StringUtils.EMPTY) ? 0 : Integer.parseInt(userId.replaceAll("\\D+", StringUtils.EMPTY)));
                 saveViewDTO.setViewStatus(true);
-                saveViewDTO.setCreatedBy(viewDTO.getCreatedBy());
-                saveViewDTO.setCreatedUser(viewDTO.getCreatedUser());
+                saveViewDTO.setCreatedBy(tr7ViewDTO.getCreatedBy());
+                saveViewDTO.setCreatedUser(tr7ViewDTO.getCreatedUser());
             } else {
-                saveViewDTO.setFieldName(String.valueOf(fieldName.getValue()));
+                saveViewDTO.setFieldName(String.valueOf(tr7FieldName.getValue()));
                 saveViewDTO.setViewName(StringUtils.EMPTY);
                 saveViewDTO.setViewType(StringUtils.EMPTY);
                 saveViewDTO.setUserID(userId.equals(StringUtils.EMPTY) ? 0 : Integer.parseInt(userId.replaceAll("\\D+", StringUtils.EMPTY)));
                 saveViewDTO.setViewStatus(false);
-                saveViewDTO.setCreatedBy(viewDTO.getCreatedBy());
-                saveViewDTO.setCreatedUser(viewDTO.getCreatedUser());
+                saveViewDTO.setCreatedBy(tr7ViewDTO.getCreatedBy());
+                saveViewDTO.setCreatedUser(tr7ViewDTO.getCreatedUser());
             }
             saveViewDTO.setFieldList(selectedResultsContainer.getItemIds());
             Trx7SaveViewPopup viewPopup = new Trx7SaveViewPopup(saveViewDTO);
@@ -425,56 +425,56 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
 
     public void getIntialLoad() {
 
-        fieldName.select(ARMConstants.getAccountId());
+        tr7FieldName.select(ARMConstants.getAccountId());
         selectedResultsContainer.removeAllItems();
         availableResultsContainer.removeAllItems();
         List<ExclusionLookupDTO> dumbyResultsContainer = Collections.emptyList();
-        selectedResultsContainer.addAll(projectionSid != 0 ? arLogic.getIntialLoadValue(projectionSid) : dumbyResultsContainer);
-        int returnValue = arLogic.loadViewRateConfig(dataSelectionDTO);
+        selectedResultsContainer.addAll(tr7ProjectionSid != 0 ? tr7ArLogic.getIntialLoadValue(tr7ProjectionSid) : dumbyResultsContainer);
+        int returnValue = tr7ArLogic.loadViewRateConfig(tr7DataSelectionDTO);
         if (returnValue != 0) {
-            ViewLookupDTO dto = arLogic.loadViewViewName(returnValue);
+            ViewLookupDTO dto = tr7ArLogic.loadViewViewName(returnValue);
             setViewDTO(dto);
             if ("Public".equals(dto.getViewType()) || "publicView".equals(dto.getViewType())) {
-                publicView.setValue(dto.getViewName());
+                tr7PublicView.setValue(dto.getViewName());
             } else {
-                privateView.setValue(dto.getViewName());
+                tr7PrivateView.setValue(dto.getViewName());
             }
-            selectedResultsContainer.addAll(arLogic.getCompanySid(dto.getViewSid()));
+            selectedResultsContainer.addAll(tr7ArLogic.getCompanySid(dto.getViewSid()));
 
         } else {
-            publicView.setValue(StringUtils.EMPTY);
-            privateView.setValue(StringUtils.EMPTY);
-            fieldName.select(ARMConstants.getAccountId());
+            tr7PublicView.setValue(StringUtils.EMPTY);
+            tr7PrivateView.setValue(StringUtils.EMPTY);
+            tr7FieldName.select(ARMConstants.getAccountId());
         }
     }
 
     public ViewLookupDTO getViewDTO() {
-        return viewDTO;
+        return tr7ViewDTO;
     }
 
     public void setViewDTO(ViewLookupDTO viewDTO) {
-        this.viewDTO = viewDTO;
+        this.tr7ViewDTO = viewDTO;
     }
 
     public void setFieldValues() {
-        accountId = new StringBuilder();
-        accountName = new StringBuilder();
-        accountContractId = new StringBuilder();
+        tr7AccountId = new StringBuilder();
+        tr7AccountName = new StringBuilder();
+        tr87AccountContractId = new StringBuilder();
         for (ExclusionLookupDTO dto : selectedResultsContainer.getItemIds()) {
             if (ARMConstants.getAccountId().equalsIgnoreCase(dto.getExcludedField())) {
-                accountId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
+                tr7AccountId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
             } else if (ARMConstants.getAccountName().equalsIgnoreCase(dto.getExcludedField())) {
-                accountName.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
+                tr7AccountName.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
             } else if (ARMConstants.getContractId().equalsIgnoreCase(dto.getExcludedField())) {
-                accountContractId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
+                tr87AccountContractId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
             }
         }
-        accountId.replace(accountId.length() > 0 ? (accountId.length() - 1) : 0, accountId.length(), "");
-        accountName.replace(accountName.length() > 0 ? (accountName.length() - 1) : 0, accountName.length(), "");
-        accountContractId.replace(accountContractId.length() > 0 ? (accountContractId.length() - 1) : 0, accountContractId.length(), "");
-        check(accountId);
-        check(accountName);
-        check(accountContractId);
+        tr7AccountId.replace(tr7AccountId.length() > 0 ? (tr7AccountId.length() - 1) : 0, tr7AccountId.length(), "");
+        tr7AccountName.replace(tr7AccountName.length() > 0 ? (tr7AccountName.length() - 1) : 0, tr7AccountName.length(), "");
+        tr87AccountContractId.replace(tr87AccountContractId.length() > 0 ? (tr87AccountContractId.length() - 1) : 0, tr87AccountContractId.length(), "");
+        check(tr7AccountId);
+        check(tr7AccountName);
+        check(tr87AccountContractId);
     }
 
     public void check(StringBuilder sb) {

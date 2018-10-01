@@ -38,7 +38,7 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
+import static com.stpl.app.arm.utils.ResponsiveUtils.getResponsiveControls;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.PropertyFormatCustomTreeTable;
