@@ -461,7 +461,12 @@ public class ExclusionDetailsLookup extends Window {
         accountId = new StringBuilder();
         accountName = new StringBuilder();
         accountContractId = new StringBuilder();
-        for (ExclusionLookupDTO dto : selectedResultsContainer.getItemIds()) {
+        List<ExclusionLookupDTO> list = selectedResultsContainer.getItemIds();
+        setFields(list);
+    }
+
+    private void setFields(List<ExclusionLookupDTO> list) {
+        for (ExclusionLookupDTO dto : list) {
             if (ARMConstants.getAccountId().equalsIgnoreCase(dto.getExcludedField())) {
                 accountId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
             } else if (ARMConstants.getAccountName().equalsIgnoreCase(dto.getExcludedField())) {
@@ -488,21 +493,7 @@ public class ExclusionDetailsLookup extends Window {
         accountId = new StringBuilder();
         accountName = new StringBuilder();
         accountContractId = new StringBuilder();
-        for (ExclusionLookupDTO dto : list) {
-            if (ARMConstants.getAccountId().equalsIgnoreCase(dto.getExcludedField())) {
-                accountId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
-            } else if (ARMConstants.getAccountName().equalsIgnoreCase(dto.getExcludedField())) {
-                accountName.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
-            } else if (ARMConstants.getContractId().equalsIgnoreCase(dto.getExcludedField())) {
-                accountContractId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
-            }
-        }
-        accountId.replace(accountId.length() > 0 ? (accountId.length() - 1) : 0, accountId.length(), "");
-        accountName.replace(accountName.length() > 0 ? (accountName.length() - 1) : 0, accountName.length(), "");
-        accountContractId.replace(accountContractId.length() > 0 ? (accountContractId.length() - 1) : 0, accountContractId.length(), "");
-        check(accountId);
-        check(accountName);
-        check(accountContractId);
+        setFields(list);
     }
 
     @Override
