@@ -1035,7 +1035,7 @@ public class DataSelectionLogic {
         sqlQuery = sqlQuery.replace("[$PROJECTION_MASTER_SID]", projectionId);
         LOGGER.debug(CommonConstant.SQL_QUERY, sqlQuery);
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
-        list = list == null ? Collections.EMPTY_LIST : list;
+        list = list == null ? Collections.emptyList() : list;
         return customizeViewDetails(list);
     }
 

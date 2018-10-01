@@ -51,7 +51,7 @@ public class AdjustmentDetailsPayment extends AbstractAdjustmentDetails {
         paymentsSelection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
 
-        paymentsSelection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) :  new ArrayList());
+        paymentsSelection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : new ArrayList());
         creditFlag = logic.cerditDebitEqualCheck(paymentsSelection);
     }
 
@@ -112,6 +112,16 @@ public class AdjustmentDetailsPayment extends AbstractAdjustmentDetails {
         reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", paymentsFunctionHM));
         generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", paymentsFunctionHM));
 
+    }
+
+    @Override
+    public boolean equals(Object paydAdjDetobj) {
+        return super.equals(paydAdjDetobj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

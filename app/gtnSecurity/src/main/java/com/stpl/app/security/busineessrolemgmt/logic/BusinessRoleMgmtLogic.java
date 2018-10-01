@@ -130,7 +130,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
 					.add(RestrictionsFactoryUtil.eq(CommonUtils.BUSINESS_ROLE_NAME, businessroleName));
 			@SuppressWarnings("unchecked")
 			List<BusinessroleMaster> list = dao.getBusinessroleMasterList(businessroleMasterDynamicQuery);
-			if (list != null && list.size() > 0) {
+			if (list != null && !(list.isEmpty())) {
 				return "already exists";
 			}
 			String auditMessage = businessroleMaster.toString() + " Created " ;

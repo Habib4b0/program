@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.arm.businessprocess.transaction8.logic.tableLogic;
+package com.stpl.app.arm.businessprocess.transaction8.logic.tablelogic;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;

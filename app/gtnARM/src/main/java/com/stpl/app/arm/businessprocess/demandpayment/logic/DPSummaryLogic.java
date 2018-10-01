@@ -261,7 +261,7 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             AdjustmentDTO paymentsVal = (AdjustmentDTO) paymentsDto;
             int levelNo = paymentsVal.getLevelNo();
             LOGGER.debug("levelNo----{}", levelNo);
-            masterSids = paymentsVal.getMasterIds();
+            masterSids = (TreeMap<String, Integer>) paymentsVal.getMasterIds();
 
             if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
                 if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
