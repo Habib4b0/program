@@ -10694,6 +10694,62 @@ END
 GO
 
 
+----------------------------------------------DTX_GL_COST_CENTER_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_GL_COST_CENTER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_GL_COST_CENTER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_GL_Cost_Center_Intf.sh'
+		,'DTX_GL_COST_CENTER_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_GL_COST_CENTER_INTERFACE'
+		,'DTX_GL_COST_CENTER_INTERFACE SUCCESS'
+		,'FAILURE - DTX_GL_COST_CENTER_INTERFACE '
+		,'DTX_GL_COST_CENTER_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+
+
 
 
 
