@@ -9,5 +9,5 @@ package com.stpl.app.arm.dao.impl;
  *
  * @author Asha.Ravi
  */
-public class WorkFlowLogicDaoImpl {
+public interface WorkFlowLogicDaoImpl {
 }

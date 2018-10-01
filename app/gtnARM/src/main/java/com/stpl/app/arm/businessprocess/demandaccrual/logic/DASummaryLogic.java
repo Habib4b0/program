@@ -260,7 +260,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 AdjustmentDTO accrualVal = (AdjustmentDTO) accrualDto;
                 int levelNo = accrualVal.getLevelNo();
                 LOGGER.debug("levelNo----{}", levelNo);
-                masterSids = accrualVal.getMasterIds();
+                masterSids = (TreeMap<String, Integer>) accrualVal.getMasterIds();
 
                 if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
                     if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
