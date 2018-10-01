@@ -364,14 +364,12 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                         flag = true;
 
                     }
-                    if (sessionDTO.getMode().equalsIgnoreCase("Add")) {
-                        if (deductiondetails.getResultBeanContainer().size() == 0) {
+                        if (sessionDTO.getMode().equalsIgnoreCase("Add") && deductiondetails.getResultBeanContainer().size() == 0) {
                             if (flag) {
                                 errorMessage.append(ConstantsUtils.BREAK);
                             }
                             errorMessage.append("Please Generate ListView In Deduction Details Tab");
                             flag = true;
-                        }
                     }
                     if (!sessionDTO.getMode().equalsIgnoreCase("Edit")) {
                         if (deductionCalendarLogic.deductionNoAndNameDuplicateCheck(deductionCalendarDTO.getDeductionCalendarNo(), BooleanConstant.getFalseFlag(), sessionDTO)) {

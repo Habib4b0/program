@@ -137,17 +137,17 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The max split position.
      */
-    private final float MAXSPLIT_POSITION_NM = 1000;
+    private static final float MAXSPLIT_POSITION_NM = 1000;
 
     /**
      * The min split position.
      */
-    private final float MINSPLIT_POSITION_NM = 200;
+    private static final float MINSPLIT_POSITION_NM = 200;
 
     /**
      * The split position.
      */
-    private final float SPLIT_POSITION_NM = 300;
+    private static final float SPLIT_POSITION_NM = 300;
     /**
      * The table control Layout.
      */

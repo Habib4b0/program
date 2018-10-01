@@ -222,8 +222,10 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
 
             }
             lastBrand = brand;
-            dto.setUserId(selection.getSessionDTO().getUserId());
-            dto.setSessionId(selection.getSessionDTO().getSessionId());
+            if (dto != null) {
+                dto.setUserId(selection.getSessionDTO().getUserId());
+                dto.setSessionId(selection.getSessionDTO().getSessionId());
+            }
         }
         OriginalDataResult<T> paymentDataResult = new OriginalDataResult<>();
         paymentDataResult.setDataResults(resultList);
@@ -259,7 +261,7 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             AdjustmentDTO paymentsVal = (AdjustmentDTO) paymentsDto;
             int levelNo = paymentsVal.getLevelNo();
             LOGGER.debug("levelNo----{}", levelNo);
-            masterSids = paymentsVal.getMasterIds();
+            masterSids = (TreeMap<String, Integer>) paymentsVal.getMasterIds();
 
             if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
                 if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {

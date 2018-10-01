@@ -4,6 +4,41 @@
  */
 package com.stpl.app.gtnforecasting.projectionvariance.logic;
 
+import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
+import static com.stpl.app.utils.Constants.CommonConstants.NULL;
+import static com.stpl.app.utils.Constants.CommonConstants.VALUE;
+import static com.stpl.app.utils.Constants.CommonConstants.VARIANCE;
+import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_JAVA_DATE_FORMAT;
+import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_SQL_DATE_FORMAT;
+import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM;
+import static com.stpl.app.utils.Constants.LabelConstants.PERCENT;
+import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
+import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
+import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
+import static com.stpl.app.utils.Constants.LabelConstants.TOTAL;
+import static com.stpl.app.utils.Constants.LabelConstants.TOTAL_DISCOUNT;
+import static com.stpl.app.utils.Constants.FrequencyConstants.JAVA_DATE_FORMAT;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
+import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -29,19 +64,6 @@ import com.stpl.app.model.NmProjectionSelection;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
 import com.stpl.app.utils.Constants;
-import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
-import static com.stpl.app.utils.Constants.CommonConstants.NULL;
-import static com.stpl.app.utils.Constants.CommonConstants.VALUE;
-import static com.stpl.app.utils.Constants.CommonConstants.VARIANCE;
-import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_JAVA_DATE_FORMAT;
-import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_SQL_DATE_FORMAT;
-import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM;
-import static com.stpl.app.utils.Constants.LabelConstants.PERCENT;
-import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
-import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
-import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
-import static com.stpl.app.utils.Constants.LabelConstants.TOTAL;
-import static com.stpl.app.utils.Constants.LabelConstants.TOTAL_DISCOUNT;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
@@ -52,24 +74,6 @@ import com.vaadin.v7.data.Container.Filter;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -108,6 +112,8 @@ public class NMProjectionVarianceLogic {
         protected static final String DF_LEVEL_NAME = "dfLevelName";
         protected static final String DF_LEVEL_NUMBER= "dfLevelNumber";
         protected static final String LEVEL_NAME = "Level Name";
+
+	
 
 	public NMProjectionVarianceLogic() {
 		super();
@@ -1427,7 +1433,7 @@ public class NMProjectionVarianceLogic {
 						rsIds = String.valueOf(obj);
 						flag = false;
 					} else {
-						rsIds = rsIds + "," + obj;
+						rsIds = rsIds.concat(",").concat(String.valueOf(obj));
 					}
 				}
 			}
@@ -1438,7 +1444,7 @@ public class NMProjectionVarianceLogic {
 	}
 
 	String getRSIdsCustom(PVSelectionDTO pvsdto) {
-		String rsIds = StringUtils.EMPTY;
+		String rsIdsCustom = StringUtils.EMPTY;
 		try {
 			String ccpQuery = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
 			ccpQuery = ccpQuery.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(pvsdto.getCustomId()));
@@ -1452,17 +1458,17 @@ public class NMProjectionVarianceLogic {
 				for (int i = 0; i < size; i++) {
 					Object obj = list.get(i);
 					if (flag) {
-						rsIds = String.valueOf(obj);
+						rsIdsCustom = String.valueOf(obj);
 						flag = false;
 					} else {
-						rsIds = rsIds + "," + obj;
+                                            rsIdsCustom = rsIdsCustom.concat(",").concat(String.valueOf(obj));
 					}
 				}
 			}
 		} catch (Exception e) {
                     LOGGER.error(e.getMessage());
 		}
-		return rsIds;
+		return rsIdsCustom;
 	}
 
 	/**
@@ -2585,7 +2591,7 @@ public class NMProjectionVarianceLogic {
 							value = getFormattedValue(Constant.AMOUNT, value);
 						} else if (projSelDTO.getSales().contains(Constant.RATE)) {
 							value = getFormattedValue(Constant.RATE_PER_THREE, value);
-							value = value + PERCENT;
+							value = value.concat(PERCENT.getConstant());
 						}
 						projDTO.addStringProperties(column1, value);
 						columnList.remove(column1);
@@ -2599,7 +2605,7 @@ public class NMProjectionVarianceLogic {
 								priorVal = getFormattedValue(Constant.AMOUNT, priorVal);
 							} else if (projSelDTO.getSales().contains(Constant.RATE)) {
 								priorVal = getFormattedValue(Constant.RATE_PER_THREE, priorVal);
-								priorVal = priorVal + PERCENT;
+								priorVal = priorVal.concat(PERCENT.getConstant());
 							}
 							projDTO.addStringProperties(column1, priorVal);
 							columnList.remove(column1);
@@ -2725,10 +2731,10 @@ public class NMProjectionVarianceLogic {
 					Date endValue = (Date) betweenFilter.getEndValue();
 					parameters.put(Constant.FILTER_BETWEEN + betweenFilter.getPropertyId() + Constant.TILT_FROM,
 							CommonLogic.convertStringToDate(String.valueOf(startValue),
-									DEFAULT_JAVA_DATE_FORMAT.getConstant(), DEFAULT_SQL_DATE_FORMAT.getConstant()));
+									JAVA_DATE_FORMAT.getConstant(), DEFAULT_SQL_DATE_FORMAT.getConstant()));
 					parameters.put(Constant.FILTER_BETWEEN + betweenFilter.getPropertyId() + "~to",
 							CommonLogic.convertStringToDate(String.valueOf(endValue),
-									DEFAULT_JAVA_DATE_FORMAT.getConstant(), DEFAULT_SQL_DATE_FORMAT.getConstant()));
+									JAVA_DATE_FORMAT.getConstant(), DEFAULT_SQL_DATE_FORMAT.getConstant()));
 				} else if (filterSet instanceof Compare) {
 					Compare compare = (Compare) filterSet;
 					Compare.Operation operation = compare.getOperation();
@@ -2777,10 +2783,10 @@ public class NMProjectionVarianceLogic {
 					Date endValue = (Date) betweenFilter.getEndValue();
 					parameters.put(Constant.FILTER_BETWEEN + betweenFilter.getPropertyId() + Constant.TILT_FROM,
 							CommonLogic.convertStringToDate(String.valueOf(startValue),
-									DEFAULT_JAVA_DATE_FORMAT.getConstant(), DEFAULT_SQL_DATE_FORMAT.getConstant()));
+									JAVA_DATE_FORMAT.getConstant(), DEFAULT_SQL_DATE_FORMAT.getConstant()));
 					parameters.put(Constant.FILTER_BETWEEN + betweenFilter.getPropertyId() + "~to",
 							CommonLogic.convertStringToDate(String.valueOf(endValue),
-									DEFAULT_JAVA_DATE_FORMAT.getConstant(), DEFAULT_SQL_DATE_FORMAT.getConstant()));
+									JAVA_DATE_FORMAT.getConstant(), DEFAULT_SQL_DATE_FORMAT.getConstant()));
 				} else if (filterSet instanceof Compare) {
 					Compare compare = (Compare) filterSet;
 					Compare.Operation operation = compare.getOperation();
@@ -3214,9 +3220,8 @@ public class NMProjectionVarianceLogic {
 			currentHierarchyIndicator = projSelDTO.getHierarchyIndicator();
 		}
 
-		String joinQuery = getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), currentHierarchyIndicator,
+		return getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), currentHierarchyIndicator,
 				projSelDTO);
-		return joinQuery;
 	}
 
 	public String getHierarchyJoinQuery(boolean isCustomHierarchy, String hierarchyIndicator,

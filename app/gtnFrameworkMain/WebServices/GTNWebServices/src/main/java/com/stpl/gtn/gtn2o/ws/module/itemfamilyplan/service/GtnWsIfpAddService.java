@@ -56,18 +56,20 @@ public class GtnWsIfpAddService {
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
-
+	
 	public String ifpLeftTableSearchQuery(GtnUIFrameworkWebserviceRequest ifpLeftTableRequest) {
 
 		boolean isCount = ifpLeftTableRequest.getGtnWsSearchRequest().isCount();
 		StringBuilder ifpLeftTableSql = new StringBuilder();
+		String searchFilter = generateFilterRelatedWhereClauseIMAdditionTab(
+				ifpLeftTableRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
+		
 		if (isCount) {
 			ifpLeftTableSql.append(gtnWsSqlService.getQuery("getItemAdditionSearchCountQuery"));
 		} else {
 			ifpLeftTableSql.append(gtnWsSqlService.getQuery("getItemAdditionSearchResultsQuery"));
 		}
-		String searchFilter = generateFilterRelatedWhereClauseIMAdditionTab(
-				ifpLeftTableRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
+		
 		if (!searchFilter.isEmpty()) {
 			ifpLeftTableSql.append(searchFilter);
 		}
@@ -83,13 +85,16 @@ public class GtnWsIfpAddService {
 		boolean isCount = ifpRightTableRequest.getGtnWsSearchRequest().isCount();
 		StringBuilder ifpRightTableSql = new StringBuilder();
 		GtnWsGeneralRequest generalWSRequest = ifpRightTableRequest.getGtnWsGeneralRequest();
+		
+		String searchFilter = generateFilterRelatedWhereClauseIMAdditionTab(
+				ifpRightTableRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
+		
 		if (isCount) {
 			ifpRightTableSql.append(gtnWsSqlService.getQuery("getIFPItemAdditionRightTableCountQuery"));
 		} else {
 			ifpRightTableSql.append(gtnWsSqlService.getQuery("getIFPItemAdditionRightTableSearchQuery"));
 		}
-		String searchFilter = generateFilterRelatedWhereClauseIMAdditionTab(
-				ifpRightTableRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
+		
 		String userId = generalWSRequest.getUserId();
 		String sessionId = generalWSRequest.getSessionId();
 		if (userId != null && sessionId != null) {
