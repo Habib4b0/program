@@ -214,6 +214,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
         tableLogic.setContainerDataSource(resultBeanContainer);
         resultBeanContainer.setRecordHeader(Arrays.asList(visibleColumns));
         resultBeanContainer.setColumnProperties(properties);
+        resultBeanContainer.setIndexable(true);
         leftTable.setVisibleColumns(VariableConstants.GROUP_RETURNS);
         leftTable.setColumnHeaders(CommonConstant.CUSTOMER_PRODUCT);
         rightTable.setVisibleColumns(visibleColumns);

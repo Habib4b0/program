@@ -175,6 +175,7 @@ public class ReturnsData extends CustomComponent {
         }
         resultsContainer.setColumnProperties(properties);
         resultsContainer.setRecordHeader(Arrays.asList(visibleColumns));
+        resultsContainer.setIndexable(true);
         resultsTable.setVisibleColumns(visibleColumns);
         resultsTable.setColumnHeaders(visibleHeaders);
         resultsTable.setSizeFull();
