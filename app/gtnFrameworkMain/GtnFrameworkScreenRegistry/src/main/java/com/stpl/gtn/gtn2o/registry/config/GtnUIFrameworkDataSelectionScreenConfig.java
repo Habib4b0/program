@@ -643,6 +643,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkForecastingStringConstants.CUSTOMER_RELATION_VERSION);
 		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkForecastingStringConstants.PROD_RELATION_VERSION);
 		actionList.add(newArchGenerateAction);
+		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
 	}
 
 	private void addSearchBtn(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,

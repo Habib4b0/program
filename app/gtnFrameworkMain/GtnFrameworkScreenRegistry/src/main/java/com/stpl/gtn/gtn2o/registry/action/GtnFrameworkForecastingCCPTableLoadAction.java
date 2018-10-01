@@ -64,37 +64,6 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
 	}
-
-	private GtnFrameworkForecastDataSelectionBean getDataSelectionBean(List<Object> actionParamList, String componentId)  {
-		List<GtnWsRecordBean> selectedCustomerList = null;
-		List<GtnWsRecordBean> selectedProductList = null;
-		GtnFrameworkForecastDataSelectionBean dataSelectionDto = null;
-		try {
-			selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
-			selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
-			dataSelectionDto = getDataSelectionDto(actionParamList, selectedCustomerList, selectedProductList,
-					componentId);
-		} catch (Exception ex) {
-			GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
-			alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			alertAction.addActionParameter("Error");
-			alertAction.addActionParameter("Not all required fields have been populated. Please try again.");
-			methodForSingleExcecution(componentId, alertAction);
-			logger.error("Error in ", ex);
-		}
-		return dataSelectionDto;
-		
-	}
-
-	private void methodForSingleExcecution(String componentId, GtnUIFrameWorkActionConfig alertAction) {
-		try {
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
-		} catch (GtnFrameworkGeneralException e) {
-			logger.info("Exception " + e);
-		}
-		
-	}
-
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId)
 			throws GtnFrameworkValidationFailedException {
 		GtnUIFrameworkComponentData tableComponentData = GtnUIFrameworkGlobalUI
