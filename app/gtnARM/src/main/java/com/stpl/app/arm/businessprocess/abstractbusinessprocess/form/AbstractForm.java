@@ -9,6 +9,6 @@ package com.stpl.app.arm.businessprocess.abstractbusinessprocess.form;
  *
  * @author srithar
  */
-public class AbstractForm {
+public interface AbstractForm {
 
 }

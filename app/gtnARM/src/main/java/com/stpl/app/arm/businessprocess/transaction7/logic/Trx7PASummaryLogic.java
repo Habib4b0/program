@@ -307,7 +307,7 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
         if (dto instanceof AdjustmentDTO) {
             AdjustmentDTO val = (AdjustmentDTO) dto;
             int levelNo = val.getLevelNo();
-            distributionMasterSids = val.getMasterIds();
+            distributionMasterSids = new TreeMap<>(val.getMasterIds());
             if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
                 if (selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
                     currentViewType = ARMUtils.getDemandSummaryLevelsinglePeriod().get(levelNo);
