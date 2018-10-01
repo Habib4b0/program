@@ -16,10 +16,12 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnFrameworkForecastingDStabLoadAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastingDStabLoadAction.class);
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -131,7 +133,7 @@ public class GtnFrameworkForecastingDStabLoadAction implements GtnUIFrameWorkAct
 
 		}
 		catch(Exception ex){
-			ex.printStackTrace();
+			logger.info("Exception" + ex);
 		}
 		
 	}

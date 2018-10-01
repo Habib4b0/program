@@ -33,6 +33,7 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		//no need to implement
 	}
 
 	@Override

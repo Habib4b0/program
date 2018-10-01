@@ -64,26 +64,25 @@ public class GtnFrameworkForecastingCCPTableLoadAction implements GtnUIFrameWork
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
 	}
-
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId)
 			throws GtnFrameworkValidationFailedException {
-		GtnUIFrameworkComponentData selectedTableComponentData = GtnUIFrameworkGlobalUI
+		GtnUIFrameworkComponentData tableComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(tableComponentId, componentId);
-		GtnFrameworkV8DualListBoxBean selectedDualListBoxBean = (GtnFrameworkV8DualListBoxBean) selectedTableComponentData
+		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) tableComponentData
 				.getCustomData();
-		TreeGrid<GtnWsRecordBean> selectedRightTable = selectedDualListBoxBean.getRightTable();
-		selectedRightTable.expand(selectedRightTable.getTreeData().getRootItems());
-		List<GtnWsRecordBean> selectedValues = selectedRightTable.getTreeData().getRootItems();
+		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
+		rightTable.expand(rightTable.getTreeData().getRootItems());
+		List<GtnWsRecordBean> selectedValues = rightTable.getTreeData().getRootItems();
 		if (selectedValues == null || selectedValues.isEmpty()) {
 			throw new GtnFrameworkValidationFailedException("Selected Table is Empty");
 		}
-		List<GtnWsRecordBean> selectedRecordList = new ArrayList<>(10);
+		List<GtnWsRecordBean> recordList = new ArrayList<>(10);
 		for (GtnWsRecordBean gtnWsRecordBean : selectedValues) {
 
-			selectedRecordList.add(gtnWsRecordBean);
-			addSelectedValues(selectedRightTable, gtnWsRecordBean, selectedRecordList);
+			recordList.add(gtnWsRecordBean);
+			addSelectedValues(rightTable, gtnWsRecordBean, recordList);
 		}
-		return selectedRecordList;
+		return recordList;
 	}
 	
 	private GtnFrameworkForecastDataSelectionBean getDataSelectionDto(List<Object> actionParamList,
