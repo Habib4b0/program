@@ -461,8 +461,7 @@ public class ExclusionDetailsLookup extends Window {
         accountId = new StringBuilder();
         accountName = new StringBuilder();
         accountContractId = new StringBuilder();
-        List<ExclusionLookupDTO> list = selectedResultsContainer.getItemIds();
-        setFields(list);
+        setFields(selectedResultsContainer.getItemIds());
     }
 
     private void setFields(List<ExclusionLookupDTO> list) {
