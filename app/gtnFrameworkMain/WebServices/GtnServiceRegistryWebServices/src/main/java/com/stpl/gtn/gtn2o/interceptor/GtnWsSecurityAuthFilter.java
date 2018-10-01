@@ -33,20 +33,20 @@ public class GtnWsSecurityAuthFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
 
-		HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+		HttpServletRequest httpServletRequestOnServiceReg = (HttpServletRequest) servletRequest;
 
 		if ((GtnFrameworkPropertyManager.getProperty("gtn.security.enabled") != null
 				&& GtnFrameworkPropertyManager.getProperty("gtn.security.enabled").equalsIgnoreCase("no"))
-				|| httpServletRequest.getRequestURI().equals("/GTNWebServices/test")) {
-			filterChain.doFilter(httpServletRequest, servletResponse);
+				|| httpServletRequestOnServiceReg.getRequestURI().equals("/GTNWebServices/test")) {
+			filterChain.doFilter(httpServletRequestOnServiceReg, servletResponse);
 			return;
 		}
-		MyRequestWrapper wrapper = new MyRequestWrapper(httpServletRequest);
+		MyRequestWrapper wrapper = new MyRequestWrapper(httpServletRequestOnServiceReg);
 		String requestBody = wrapper.getBody();
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		if (!"".equals(requestBody)) {
-			String path = ((HttpServletRequest) httpServletRequest).getRequestURI();
+			String path = ((HttpServletRequest) httpServletRequestOnServiceReg).getRequestURI();
 			boolean result;
 			if (path.contains("serviceRegistryWebservicesForRedirectToQueryEngine")) {
 				result = doValidationForQueryRequest(objectMapper, requestBody);
@@ -60,7 +60,7 @@ public class GtnWsSecurityAuthFilter implements Filter {
 			}
 		}
 
-		if (httpServletRequest.getMethod().equals("GET")) {
+		if (httpServletRequestOnServiceReg.getMethod().equals("GET")) {
 			servletResponse.setContentType("text/html");
 			servletResponse.getWriter().println(
 					"<html><head><title>GtnWebservices</title></head><body><b>GTN Webservices : You are not authorised</b></body></html>");
@@ -68,9 +68,9 @@ public class GtnWsSecurityAuthFilter implements Filter {
 			return;
 		}
 
-		GtnUIFrameworkWebserviceResponse wsresponse = new GtnUIFrameworkWebserviceResponse();
-		wsresponse.setResponseStatus("AUTH_FAILURE");
-		String responseString = objectMapper.writeValueAsString(wsresponse);
+		GtnUIFrameworkWebserviceResponse serviceRegReesponse = new GtnUIFrameworkWebserviceResponse();
+		serviceRegReesponse.setResponseStatus("AUTH_FAILURE");
+		String responseString = objectMapper.writeValueAsString(serviceRegReesponse);
 		logger.info("Error response " + responseString);
 		servletResponse.setContentType("application/json");
 		servletResponse.getWriter().println(responseString);
@@ -80,9 +80,9 @@ public class GtnWsSecurityAuthFilter implements Filter {
 	}
 
 	private boolean doValidationForQueryRequest(ObjectMapper objectMapper, String requestBody) {
-		GtnQueryEngineWebServiceRequest gtnUIFrameworkWebserviceRequest = null;
+		GtnQueryEngineWebServiceRequest queryEngineRequest = null;
 		try {
-			gtnUIFrameworkWebserviceRequest = objectMapper.readValue(requestBody,
+			queryEngineRequest = objectMapper.readValue(requestBody,
 					GtnQueryEngineWebServiceRequest.class);
 		} catch (IOException e) {
 			logger.error("Unable to read request body ", e);
@@ -90,39 +90,39 @@ public class GtnWsSecurityAuthFilter implements Filter {
 		GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
 		boolean result;
 		String resultString;
-		if (gtnUIFrameworkWebserviceRequest == null) {
+		if (queryEngineRequest == null) {
 			result = false;
 			resultString = "Token verification failed";
 		} else {
-			result = gtnWsSecurityManager.verifyToken(gtnUIFrameworkWebserviceRequest.getUserId(),
-					gtnUIFrameworkWebserviceRequest.getSessionId(), gtnUIFrameworkWebserviceRequest.getToken());
+			result = gtnWsSecurityManager.verifyToken(queryEngineRequest.getUserId(),
+					queryEngineRequest.getSessionId(), queryEngineRequest.getToken());
 			resultString = result ? "Token Verifed Sucessfully"
-					: "  Token verification failed  : " + gtnUIFrameworkWebserviceRequest.getUserId();
+					: "  Token verification failed  : " + queryEngineRequest.getUserId();
 		}
 		logger.info(resultString);
 		return result;
 	}
 
 	private boolean doValidationForGeneralRequest(ObjectMapper objectMapper, String requestBody) {
-		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = null;
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserReqOnServiceReg = null;
 		try {
-			gtnUIFrameworkWebserviceRequest = objectMapper.readValue(requestBody,
+			gtnUIFrameworkWebserReqOnServiceReg = objectMapper.readValue(requestBody,
 					GtnUIFrameworkWebserviceRequest.class);
 		} catch (IOException e) {
 			logger.error("Unable to read request body ", e);
 		}
-		GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
-		GtnWsGeneralRequest gtnWsGeneralRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+		GtnWsSecurityManager secManagerOnServiceReg = new GtnWsSecurityManager();
+		GtnWsGeneralRequest generalRequestOnServiceReg = gtnUIFrameworkWebserReqOnServiceReg.getGtnWsGeneralRequest();
 		boolean result;
 		String resultString;
-		if (gtnWsGeneralRequest == null) {
+		if (generalRequestOnServiceReg == null) {
 			result = false;
 			resultString = "Token verification failed";
 		} else {
-			result = gtnWsSecurityManager.verifyToken(gtnWsGeneralRequest.getUserId(),
-					gtnWsGeneralRequest.getSessionId(), gtnWsGeneralRequest.getToken());
+			result = secManagerOnServiceReg.verifyToken(generalRequestOnServiceReg.getUserId(),
+					generalRequestOnServiceReg.getSessionId(), generalRequestOnServiceReg.getToken());
 			resultString = result ? "Token Verifed Sucessfully"
-					: "  Token verification failed  : " + gtnWsGeneralRequest.getUserId();
+					: "  Token verification failed  : " + generalRequestOnServiceReg.getUserId();
 		}
 		logger.info(resultString);
 		return result;
