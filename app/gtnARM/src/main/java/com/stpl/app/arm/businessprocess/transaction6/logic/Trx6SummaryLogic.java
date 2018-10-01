@@ -171,8 +171,6 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
     private DataResult<T> cutomize(List<Object[]> data, SelectionDTO tx6Selection, TreeMap<String, Integer> masterSids) {
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         try {
-            List<String> columnList = getColumns(tx6Selection.getSummaryvariables());
-            boolean hasOverride = columnList.contains("override");
             List resultList = new ArrayList();
             List<String> variables = tx6Selection.getSummarycolumnList();
             Map<String, Integer> indexMap = new HashMap();
@@ -209,17 +207,17 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                     dto = clearVariables(variables, dto);
                 }
                 index = indexMap.get(get[0].toString().replace(ARMUtils.SPACE.toString(), StringUtils.EMPTY)) * NumericConstants.SIX;
-                if (dto != null) {
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.TWO].toString().trim())));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.THREE].toString().trim())));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.FOUR] == null ? StringUtils.EMPTY : ARMUtils.getFormattedValue(get[NumericConstants.FOUR].toString().trim(), ARMUtils.TWO_DECIMAL_PERCENT) + "%");
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.FIVE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.FIVE].toString().trim())));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null || dto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.SIX].toString().trim())));
-                        dto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR
-                                + decimalformat.format(Double.valueOf(get[NumericConstants.SEVEN].toString().trim())));
-
-                    dto.addStringProperties("total", !isTotal && get[NumericConstants.EIGHT] != null ? DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.EIGHT].toString().trim())) : StringUtils.EMPTY);
-                }
+        if (dto != null) {
+            dto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.TWO].toString().trim())));
+            dto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.THREE].toString().trim())));
+            dto.addStringProperties(variables.get(index++), get[NumericConstants.FOUR] == null ? StringUtils.EMPTY : ARMUtils.getFormattedValue(get[NumericConstants.FOUR].toString().trim(), ARMUtils.TWO_DECIMAL_PERCENT) + "%");
+            dto.addStringProperties(variables.get(index++), get[NumericConstants.FIVE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.FIVE].toString().trim())));
+            dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null || dto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.SIX].toString().trim())));
+            dto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR
+                    + decimalformat.format(Double.valueOf(get[NumericConstants.SEVEN].toString().trim())));
+            
+            dto.addStringProperties("total", !isTotal && get[NumericConstants.EIGHT] != null ? DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.EIGHT].toString().trim())) : StringUtils.EMPTY);
+        }
                 lastBrand = brand;
                 LOGGERFORTX6SUMMARYLOGIC.debug("index-------{}", index);
             }
