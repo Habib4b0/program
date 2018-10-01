@@ -10,7 +10,7 @@ import com.stpl.app.arm.adjustmentconfiguration.logic.AdjustmentConfigLogic;
 import com.stpl.app.arm.adjustmentconfiguration.logic.HistAdjustmentTableLogic;
 import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentReserveDTO;
 import com.stpl.app.arm.utils.ARMUtils;
-import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
+import static com.stpl.app.arm.utils.ResponsiveUtils.getResponsiveControls;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.vaadin.v7.data.Container;
