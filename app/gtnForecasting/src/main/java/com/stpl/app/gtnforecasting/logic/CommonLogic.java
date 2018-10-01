@@ -4140,7 +4140,7 @@ public class CommonLogic {
     public static void updateForFilter(ProjectionSelectionDTO projectionDTO,String indicator,boolean isVariance) {
         String uomQuery = StringUtils.EMPTY;
         String updateAllQuery = SALES.equals(indicator) ? "UPDATE ST_NM_SALES_PROJECTION_MASTER SET FILTER_CCP=null ;":"UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET FILTER_CCP=null ;";
-        updateAllQuery = isVariance ? "UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET PV_FILTERS=null;" : updateAllQuery;
+        updateAllQuery = isVariance ? "UPDATE ST_CCP_PV_FILTERS SET PV_FILTERS=null;" : updateAllQuery;
         boolean isCustomer=false;
         boolean isProduct=false;
         boolean isDeduction=false;
@@ -4176,7 +4176,7 @@ public class CommonLogic {
            
         }else{
             if (isVariance && Constant.DEDUCTION.equals(indicator)) {
-                uomQuery = " UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET PV_FILTERS=1 ";
+                uomQuery = " UPDATE ST_CCP_PV_FILTERS SET PV_FILTERS=1 ";
             } else if (SALES.equals(indicator)) {
                 uomQuery = "UPDATE ST_NM_SALES_PROJECTION_MASTER SET FILTER_CCP=1 ";
             } else if (Constant.DEDUCTION.equals(indicator)) {

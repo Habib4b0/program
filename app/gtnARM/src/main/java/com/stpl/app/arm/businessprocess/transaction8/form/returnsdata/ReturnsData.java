@@ -8,7 +8,7 @@ package com.stpl.app.arm.businessprocess.transaction8.form.returnsdata;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.transaction8.dto.RRSelectionDTO;
 import com.stpl.app.arm.businessprocess.transaction8.logic.ReturnsDataLogic;
-import com.stpl.app.arm.businessprocess.transaction8.logic.tableLogic.ReturnsDataTableLogic;
+import com.stpl.app.arm.businessprocess.transaction8.logic.tablelogic.ReturnsDataTableLogic;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.supercode.SelectionCriteria;
 import com.stpl.app.arm.utils.ARMUtils;

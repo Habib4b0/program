@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.gtnforecasting.ui.form.checkProcedureCompletion;
+package com.stpl.app.gtnforecasting.ui.form.checkprocedurecompletion;
 
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import static com.stpl.app.gtnforecasting.ui.form.checkProcedureCompletion.WaitForCustomerProcedureCompletion.service;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.util.service.thread.ThreadPool;
 import java.util.concurrent.Future;
 
 /**
@@ -18,7 +18,8 @@ import java.util.concurrent.Future;
  */
 public class WaitForProcedureCallProduct implements WaitForCustomerProcedureCompletion {
 
-    SessionDTO session;
+    private final SessionDTO session;
+    private ThreadPool waitCustomThreadPool = ThreadPool.getInstance();
 
     public WaitForProcedureCallProduct(SessionDTO session) {
         this.session = session;
@@ -27,7 +28,7 @@ public class WaitForProcedureCallProduct implements WaitForCustomerProcedureComp
     @Override
     public void waitforStatusTableCOmpletion() {
         session.addFutureMap(Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL,
-                new Future[]{service.submit(createRunnable(Constant.PRC_VIEWS_CALL,
+                new Future[]{waitCustomThreadPool.submitRunnable(createRunnable(Constant.PRC_VIEWS_CALL,
                                     Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "P", "null", "null", session))});
     }
 
