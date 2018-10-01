@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
+import java.util.SortedMap;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -158,7 +158,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO, Serializable
 
     private transient Object[] excelHierarchy;
 
-    private TreeMap<String, Integer> masterSids;
+    private SortedMap<String, Integer> masterSids;
 
     private Integer userId;
 
@@ -612,18 +612,6 @@ public abstract class AbstractSelectionDTO implements SelectionDTO, Serializable
     }
 
     @Override
-    public boolean isFieldInput(String feild) {
-        for (Map.Entry<String, Object> me : procedureInputs.entrySet()) {
-            return me.getKey().equals(feild);
-        }
-        return getConstant();
-    }
-
-    private boolean getConstant() {
-        return true;
-    }
-
-    @Override
     public List<String[]> getSalesVariables() {
         return CommonLogic.getInstance().getArrayListCloned(salesVariables);
     }
@@ -756,11 +744,11 @@ public abstract class AbstractSelectionDTO implements SelectionDTO, Serializable
     }
 
     @Override
-    public TreeMap<String, Integer> getMasterSids() {
+    public SortedMap<String, Integer> getMasterSids() {
         return masterSids;
     }
 
-    public void setMasterSids(TreeMap<String, Integer> masterSids) {
+    public void setMasterSids(SortedMap<String, Integer> masterSids) {
         this.masterSids = masterSids;
     }
 

@@ -1332,11 +1332,9 @@ public class NewDiscountTab extends CustomComponent {
                 Collection itemList = componentDetailsSelectedItem.getItemIds();
                 for (Object obj : itemList) {
                     ContractsDetailsDto dto = (ContractsDetailsDto) obj;
-                    if (dto.getCheckRecord()) {
-                        if ((dto.getStatus() == null || dto.getStatus() == "" || dto.getsDate() == null)) {
+                        if ((dto.getCheckRecord()) && (dto.getStatus() == null || dto.getStatus() == "" || dto.getsDate() == null)) {
                             AbstractNotificationUtils.getErrorNotification(Constants.ADD_TO_TREE, Constants.PLEASE_ENSURE_ALL_MANDATORY_FIELDS);
                             return;
-                        }
                     }
                 }
                 if (compType.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {

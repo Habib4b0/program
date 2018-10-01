@@ -61,7 +61,8 @@ public class GtnFrameworkIfpItemsTabPopulateAction
 
 			if ("IFP Status".equals(ifpItemsTabMassField)) {
 				validateIfpStatus(componentId, ifpItemsTabMassDropDown, alertActionConfig);
-			} else {
+			} 
+			else {
 				validateEmptyDateMassUpdate(componentId, ifpItemsTabMassField, ifpItemsTabMassDateFeild,
 						alertActionConfig);
 			}

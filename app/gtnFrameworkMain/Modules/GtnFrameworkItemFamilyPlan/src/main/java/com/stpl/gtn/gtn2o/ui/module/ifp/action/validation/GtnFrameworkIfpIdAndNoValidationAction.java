@@ -68,27 +68,31 @@ public class GtnFrameworkIfpIdAndNoValidationAction
 		ifpBean.setIfpInfo(ifpInfpBean);
 		ifpRequest.setGtnIFamilyPlan(ifpBean);
 		request.setGtnWsIfpRequest(ifpRequest);
-                String checkMode =(String)GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-                if(!"Edit".equals(checkMode)){
-		GtnUIFrameworkWebserviceResponse reponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+		String checkMode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+		if (!"Edit".equals(checkMode)) {
+			GtnUIFrameworkWebserviceResponse reponse = getIfpAndNoValidationResponse(request);
+			boolean isIfpId = (boolean) reponse.getEditRecord().get("ifpId");
+			boolean isIfpNo = (boolean) reponse.getEditRecord().get("ifpNo");
+
+			if (isIfpId || isIfpNo) {
+				String msg = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+				if (isIfpId && isIfpNo) {
+					msg = GtnFrameworkIfpStringContants.GTN_IFP_VALIDATION_MSG_IFP_IDANDNO;
+				} else if (isIfpId) {
+					msg = GtnFrameworkIfpStringContants.GTN_IFP_VALIDATION_MSG_IFP_ID;
+				} else {
+					msg += GtnFrameworkIfpStringContants.GTN_IFP_VALIDATION_MSG_IFP_NO;
+				}
+				throw new GtnFrameworkValidationFailedException(msg, componentId);
+			}
+		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getIfpAndNoValidationResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
 						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_IFPID_IFPNO_VALIDATION_SERVICE,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		boolean isIfpId = (boolean) reponse.getEditRecord().get("ifpId");
-		boolean isIfpNo = (boolean) reponse.getEditRecord().get("ifpNo");
-
-		if (isIfpId || isIfpNo) {
-			String msg = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-			if (isIfpId && isIfpNo) {
-				msg = GtnFrameworkIfpStringContants.GTN_IFP_VALIDATION_MSG_IFP_IDANDNO;
-			} else if (isIfpId) {
-				msg = GtnFrameworkIfpStringContants.GTN_IFP_VALIDATION_MSG_IFP_ID;
-			} else {
-				msg += GtnFrameworkIfpStringContants.GTN_IFP_VALIDATION_MSG_IFP_NO;
-			}
-			throw new GtnFrameworkValidationFailedException(msg, componentId);
-		}
-                }
 	}
 
 	@Override

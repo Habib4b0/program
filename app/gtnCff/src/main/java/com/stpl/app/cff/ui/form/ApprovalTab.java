@@ -458,10 +458,6 @@ public class ApprovalTab extends CustomComponent {
                     return new SimpleDateFormat("MM/dd/yyyy, HH/mm/ss");
                 }
             });
-            /* if ((status.getValue().equalsIgnoreCase(Constants.PENDING)) || (status.getValue().equalsIgnoreCase(Constants.CANCELLED))
-                    || (status.getValue().equalsIgnoreCase(Constants.REJECTED))) {
-                approvalDetailsTable.removeAllItems();
-            }*/
             approvalPagination = ResponsiveUtils.getResponsiveControls(approvalDetailsTable.createControls());
             approvalLayout.addComponent(approvalDetailsTable);
             approvalLayout.addComponent(approvalPagination);
