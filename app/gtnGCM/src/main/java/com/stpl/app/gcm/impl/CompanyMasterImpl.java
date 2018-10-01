@@ -849,14 +849,11 @@ public class CompanyMasterImpl {
 
             if ((parameters.get(IS_ORDERED) == null || "false".equalsIgnoreCase(String.valueOf(parameters.get(IS_ORDERED)))) && (parameters.get(LAZY_LOAD_RESULTS) != null)) {
                 queryString.append(" ORDER BY CM.CREATED_DATE DESC ");
-            } else if (parameters.get(IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(IS_ORDERED)))) {
-                if (parameters.get(ORDER_BY_COMP_NAME) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(ORDER_BY_COMP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(ORDER_BY_COMP_NAME)))) {
+            } else if (parameters.get(IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(IS_ORDERED))) && parameters.get(ORDER_BY_COMP_NAME) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(ORDER_BY_COMP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(ORDER_BY_COMP_NAME)))) {
                     queryString.append(" ORDER BY CM.COMPANY_NAME ");
                     queryString.append(String.valueOf(parameters.get(ORDER_BY_COMP_NAME)));
-                }
             }
-            if (parameters.get(LAZY_LOAD_RESULTS) != null) {
-                if (parameters.get(START_INDEX) != null && parameters.get(OFFSET) != null) {
+            if (parameters.get(LAZY_LOAD_RESULTS) != null && parameters.get(START_INDEX) != null && parameters.get(OFFSET) != null) {
                     int startIndex = Integer.parseInt(String.valueOf(parameters.get(START_INDEX)));
                     int offset = Integer.parseInt(String.valueOf(parameters.get(OFFSET)));
                     queryString.append(" OFFSET ");
@@ -864,7 +861,6 @@ public class CompanyMasterImpl {
                     queryString.append(ROWS_FETCH_NEXT);
                     queryString.append(offset);
                     queryString.append(ROWS_ONLY);
-                }
             }
             LOGGER.debug("queryString-------------->{}" , queryString);
             
@@ -1097,11 +1093,9 @@ public class CompanyMasterImpl {
             }
             if ((parameters.get(IS_ORDERED) == null || StringUtils.isEmpty(String.valueOf(parameters.get(IS_ORDERED))) || StringUtils.isEmpty(String.valueOf(parameters.get(ORDER_BY_COMP_NAME))) || "false".equalsIgnoreCase(String.valueOf(parameters.get(IS_ORDERED)))) && (parameters.get(LAZY_LOAD_RESULTS) != null)) {
                 queryString.append(" ORDER BY CM.CREATED_DATE DESC ");
-            } else if (parameters.get(IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(IS_ORDERED)))) {
-                if (parameters.get(ORDER_BY_COMP_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(ORDER_BY_COMP_NAME)))) {
+            } else if (parameters.get(IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(IS_ORDERED))) && parameters.get(ORDER_BY_COMP_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(ORDER_BY_COMP_NAME)))) {
                     queryString.append(" ORDER BY ").append(String.valueOf(parameters.get(ORDER_BY_COMP_NAME))).append(' ');
                     queryString.append(String.valueOf(parameters.get("orderBy")));
-                }
             }
             if (parameters.get(LAZY_LOAD_RESULTS) != null) {
 

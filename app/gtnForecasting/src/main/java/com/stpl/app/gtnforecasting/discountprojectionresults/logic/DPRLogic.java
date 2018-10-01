@@ -834,19 +834,19 @@ public class DPRLogic {
         return levelCount;
     }
 
-    public List<DiscountProjectionResultsDTO> getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
+    public List<DiscountProjectionResultsDTO> getProjectionTotal(Object[] orderedArgsTotal, ProjectionSelectionDTO projSelDTO) {
         List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
         List<Object[]> gtsList;
         boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
         // Procedure called only in  Tab Change
-        if (projSelDTO.getSessionDTO().isDprRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, dprOrderedArgs)) {
+        if (projSelDTO.getSessionDTO().isDprRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgsTotal, dprOrderedArgs)) {
             if (viewFlag) {
-                orderedArgs = ArrayUtils.removeElement(orderedArgs, projSelDTO.getUserId());
-                orderedArgs = ArrayUtils.removeElement(orderedArgs, projSelDTO.getSessionDTO().getSessionId());
+                orderedArgsTotal = ArrayUtils.removeElement(orderedArgsTotal, projSelDTO.getUserId());
+                orderedArgsTotal = ArrayUtils.removeElement(orderedArgsTotal, projSelDTO.getSessionDTO().getSessionId());
             }
-            gtsList = CommonLogic.callProcedure(viewFlag ? "PRC_M_DISCOUNT_PROJ_TOTAL_VIEW" : "PRC_M_DISCOUNT_PROJ_TOTAL", orderedArgs);
-            dprOrderedArgs = new Object[orderedArgs.length];
-            System.arraycopy(orderedArgs, 0, dprOrderedArgs, 0, orderedArgs.length);
+            gtsList = CommonLogic.callProcedure(viewFlag ? "PRC_M_DISCOUNT_PROJ_TOTAL_VIEW" : "PRC_M_DISCOUNT_PROJ_TOTAL", orderedArgsTotal);
+            dprOrderedArgs = new Object[orderedArgsTotal.length];
+            System.arraycopy(orderedArgsTotal, 0, dprOrderedArgs, 0, orderedArgsTotal.length);
             totalPrcResultList.clear();
             totalPrcResultList.addAll(gtsList);
         } else {

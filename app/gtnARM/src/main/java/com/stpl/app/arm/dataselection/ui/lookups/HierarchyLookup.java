@@ -70,8 +70,6 @@ public class HierarchyLookup extends Window {
 
     private CustomTextField.ClickEvent ctfEvent;
 
-    private String customerProductHier;
-
     private String lookupName;
 
     private HierarchyLookupDTO hierarchyDto = new HierarchyLookupDTO();
@@ -164,7 +162,7 @@ public class HierarchyLookup extends Window {
     }
 
     public void captionOnValueChange(CustomTextField.ClickEvent event) {
-        customerProductHier = event.getComponent().getId().trim();
+        String customerProductHier = event.getComponent().getId().trim();
         selectButtonDS.setEnabled(false);
         if (customerProductHier.equals("productHierarchy")) {
             setCaption("Product Hierarchy Lookup");

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -474,6 +475,54 @@ public class DataSelectionTab extends AbstractDataSelection {
             toPeriod.removeAllItems();
         }
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.adjustmentTypeLabel);
+        hash = 23 * hash + Objects.hashCode(this.descriptionLabel);
+        hash = 23 * hash + Objects.hashCode(this.selection);
+        hash = 23 * hash + Objects.hashCode(this.logic);
+        hash = 23 * hash + Objects.hashCode(this.rsContractSidList);
+        hash = 23 * hash + Objects.hashCode(this.hierarchyKeys);
+        hash = 23 * hash + Objects.hashCode(this.sessionDTO);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DataSelectionTab other = (DataSelectionTab) obj;
+        if (!Objects.equals(this.adjustmentTypeLabel, other.adjustmentTypeLabel)) {
+            return false;
+        }
+        if (!Objects.equals(this.descriptionLabel, other.descriptionLabel)) {
+            return false;
+        }
+        if (!Objects.equals(this.selection, other.selection)) {
+            return false;
+        }
+        if (!Objects.equals(this.logic, other.logic)) {
+            return false;
+        }
+        if (!Objects.equals(this.rsContractSidList, other.rsContractSidList)) {
+            return false;
+        }
+        if (!Objects.equals(this.hierarchyKeys, other.hierarchyKeys)) {
+            return false;
+        }
+        return Objects.equals(this.sessionDTO, other.sessionDTO);
+    }
+    
+    
 
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();

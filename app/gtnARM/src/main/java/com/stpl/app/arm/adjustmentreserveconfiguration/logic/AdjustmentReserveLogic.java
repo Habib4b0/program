@@ -508,7 +508,7 @@ public class AdjustmentReserveLogic {
 
     public boolean madatoryCheckCreditDebit(ReserveSelection selection, String reserveQuery) {
 
-        Boolean reserveInput = null;
+        boolean reserveInput = false;
         if (selection.getReserveMasterSid() != 0) {
             List input = getReserveInput(selection);
             reserveInput = CommonLogic.getCountValue(QueryUtils.getItemData(input, reserveQuery, null));
@@ -518,7 +518,7 @@ public class AdjustmentReserveLogic {
 
     public boolean equalCheckCreditDebit(ReserveSelection selection, String reserveQuery) {
 
-        Boolean reserveInput = null;
+        boolean reserveInput = false;
         if (selection.getReserveMasterSid() != 0) {
             List input = getReserveInput(selection);
             reserveInput = CommonLogic.getduplicateCount(QueryUtils.getItemData(input, reserveQuery, null));

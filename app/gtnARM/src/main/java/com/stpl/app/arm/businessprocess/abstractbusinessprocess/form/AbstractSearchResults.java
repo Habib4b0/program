@@ -108,9 +108,9 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected ExtPagedTreeTable leftTable;
     protected ExtPagedTreeTable rightTable;
     protected PropertyFormatCustomTreeTable excelTable;
-    private final float maxSplitPosition = 1000;
-    private final float minSplitPosition = 200;
-    private final float splitPosition = 300;
+    private static final float MAX_SPLIT_POSITION = 1000;
+    private static final float MIN_SPLIT_POSITION = 200;
+    private static final float SPLIT_POSITION = 300;
     protected final LogicAble logic;
     protected final T selection;
     protected ExtTreeContainer<AdjustmentDTO> resultBeanContainer = new ExtTreeContainer<>(
@@ -158,9 +158,9 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected void initializeResultTable() {
         table.markAsDirty();
         table.setSelectable(false);
-        table.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        table.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        table.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        table.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        table.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        table.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         table.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         table.addStyleName(ARMUtils.CENTER_CHECK);
     }

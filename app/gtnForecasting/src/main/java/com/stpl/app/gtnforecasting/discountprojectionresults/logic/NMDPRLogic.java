@@ -1092,10 +1092,11 @@ public class NMDPRLogic {
      *
      */
     public DiscountProjectionResultsDTO getChildNodeValues(DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO)  {
+        DiscountProjectionResultsDTO dtoDpr =dto;
         int projectionMasterId = projSelDTO.getProjectionId();
-        dto.setIsParent(Constant.STRING_ONE);
-        dto.setParent(1);
-        String hierachyNumber = String.valueOf(dto.getHierarchyNo());
+        dtoDpr.setIsParent(Constant.STRING_ONE);
+        dtoDpr.setParent(1);
+        String hierachyNumber = String.valueOf(dtoDpr.getHierarchyNo());
         hierachyNumber = hierachyNumber + PERCENTAGE;
         String selectedView = projSelDTO.getView();
         List ccpId = null;
@@ -1105,13 +1106,13 @@ public class NMDPRLogic {
          * MultiKey to put input . if input is same then fetch from map else
          * fetch from db and put
          */
-        MultiKey key = new MultiKey(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
+        MultiKey key = new MultiKey(projectionMasterId, hierachyNumber, String.valueOf(dtoDpr.getTreeLevelNo()));
         if (CUSTOMER.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_CUST_HIERARCHY;
             if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
-                query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionMasterId)).replaceAll(Constant.HIERNO, hierachyNumber).replaceAll(Constant.LEVELNO_QUESTION, String.valueOf(dto.getTreeLevelNo()));
+                query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionMasterId)).replaceAll(Constant.HIERNO, hierachyNumber).replaceAll(Constant.LEVELNO_QUESTION, String.valueOf(dtoDpr.getTreeLevelNo()));
                 ccpId = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 customerccpId.put(key, ccpId);
             } else {
@@ -1123,7 +1124,7 @@ public class NMDPRLogic {
             if (projSelDTO.isIsGenerate() || !productccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
-                query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionMasterId)).replaceAll(Constant.HIERNO, hierachyNumber).replaceAll(Constant.LEVELNO_QUESTION, String.valueOf(dto.getTreeLevelNo()));
+                query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionMasterId)).replaceAll(Constant.HIERNO, hierachyNumber).replaceAll(Constant.LEVELNO_QUESTION, String.valueOf(dtoDpr.getTreeLevelNo()));
                 ccpId = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 productccpId.put(key, ccpId);
             } else {
@@ -1142,12 +1143,12 @@ public class NMDPRLogic {
             projSelDTO.setCcpCount(ccpId.size());
             String order = projSelDTO.getProjectionOrder();
             List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, ccpTableName, 
-                    BooleanConstant.getFalseFlag(), hierachyNumber, String.valueOf(dto.getTreeLevelNo()), BooleanConstant.getFalseFlag());
+                    BooleanConstant.getFalseFlag(), hierachyNumber, String.valueOf(dtoDpr.getTreeLevelNo()), BooleanConstant.getFalseFlag());
             if (list != null && !list.isEmpty()) {
-                dto = getCustomizedTotal(list, projSelDTO, false, dto).get(0);
+                dtoDpr = getCustomizedTotal(list, projSelDTO, false, dtoDpr).get(0);
             }
         }
-        return dto;
+        return dtoDpr;
     }
 
     /**
