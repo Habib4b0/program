@@ -43,6 +43,7 @@ import com.vaadin.ui.UI;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Objects;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -166,7 +167,7 @@ public class BusinessProcessUI extends CommonUI {
             try {
                 CommonLogic.getDataSelectionForWorkFlow(dataSelectionDto);
             } catch (Exception ex) {
-                LOGGERVALUE.error("Error in getDataSelectionForWorkFlow :" , ex);
+                LOGGERVALUE.error("Error in getDataSelectionForWorkFlow :", ex);
             }
             sessionDTO.setWorkflowId(Integer.parseInt(workflowId));
             sessionDTO.setWorkflowUserType(userType);
@@ -196,7 +197,7 @@ public class BusinessProcessUI extends CommonUI {
                 dataSelectionDto.setAdjustmentId(Integer.parseInt(String.valueOf(id.get(0))));
                 editWindow = new BussinessProcessForm(adjType.replace("~", ARMUtils.SPACE.toString()), dataSelectionDto, sessionDTO);
             } catch (Exception ex) {
-                LOGGERVALUE.error("Error in editWindow :" , ex);
+                LOGGERVALUE.error("Error in editWindow :", ex);
             }
         }
         Navigator navigator = new Navigator(this, this);
@@ -204,7 +205,7 @@ public class BusinessProcessUI extends CommonUI {
             try {
                 navigator.addView(ArmWorkflowView.NAME, new ArmWorkflowView(editWindow));
             } catch (Exception ex) {
-                LOGGERVALUE.error("Error in navigator addview :" , ex);
+                LOGGERVALUE.error("Error in navigator addview :", ex);
             }
         }
         HelperListUtil.getInstance().loadValuesWithListName("DATA_SELECTION");
@@ -251,6 +252,28 @@ public class BusinessProcessUI extends CommonUI {
             LOGGERVALUE.info("Intailizing BPM Engine:");
         }
 
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.dataSelectionDto);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final BusinessProcessUI other = (BusinessProcessUI) obj;
+        return Objects.equals(this.dataSelectionDto, other.dataSelectionDto);
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

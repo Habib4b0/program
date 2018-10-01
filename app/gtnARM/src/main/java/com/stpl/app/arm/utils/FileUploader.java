@@ -93,7 +93,7 @@ public class FileUploader implements Upload.Receiver {
             LOGGER.error("Error in receiveUpload :", e);
             return NULL_OUTPUT_STREAM;
         } catch (Exception ex) {
-            LOGGER.error("Error in receiveUpload :" , ex);
+            LOGGER.error("Error in receiveUpload :", ex);
             return NULL_OUTPUT_STREAM;
         }
         LOGGER.debug("End of receiveUpload method");
@@ -188,7 +188,7 @@ public class FileUploader implements Upload.Receiver {
     public static String getFilePath() {
         String path = "";
         String jbossHome = System.getProperty("jboss.home.dir");
-        String ftppath[] = jbossHome.split("jboss-7.1.1");
+        String[] ftppath = jbossHome.split("jboss-7.1.1");
         path = ftppath[0];
         return path;
     }

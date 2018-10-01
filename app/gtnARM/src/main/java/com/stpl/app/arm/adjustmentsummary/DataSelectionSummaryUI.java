@@ -94,17 +94,17 @@ public class DataSelectionSummaryUI extends CommonUI {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object dsSummaryUiObj) {
+        if (this == dsSummaryUiObj) {
             return true;
         }
-        if (obj == null) {
+        if (dsSummaryUiObj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != dsSummaryUiObj.getClass()) {
             return false;
         }
-        final DataSelectionSummaryUI other = (DataSelectionSummaryUI) obj;
+        final DataSelectionSummaryUI other = (DataSelectionSummaryUI) dsSummaryUiObj;
         if (!Objects.equals(this.navigator, other.navigator)) {
             return false;
         }
