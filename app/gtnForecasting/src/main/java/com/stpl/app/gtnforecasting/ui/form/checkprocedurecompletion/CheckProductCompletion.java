@@ -18,7 +18,7 @@ import java.util.concurrent.Future;
 public class CheckProductCompletion implements CompletionCheckOnTabChange {
 
     private final SessionDTO session;
-    public ThreadPool productThreadPool = ThreadPool.getInstance();
+    private ThreadPool productThreadPool = ThreadPool.getInstance();
 
     public CheckProductCompletion(SessionDTO session) {
         this.session = session;
