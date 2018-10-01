@@ -15,12 +15,15 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/resources/GtnServiceRegistry-test.xml" })
-public class GtnValidateWsServiceRegistryServiceTest {
-	
-	public  GtnValidateWsServiceRegistryServiceTest() 
+
+public class GtnValidateWsServiceRegistryServiceTest
+{
+	public GtnValidateWsServiceRegistryServiceTest()
 	{
-        //nothing is here		
+		//nothing is here
 	}
+	
+
 
 	private GtnFrameworkDependencyLogger gtnLogger = GtnFrameworkDependencyLogger
 			.getGTNLogger(GtnValidateWsServiceRegistryServiceTest.class);
