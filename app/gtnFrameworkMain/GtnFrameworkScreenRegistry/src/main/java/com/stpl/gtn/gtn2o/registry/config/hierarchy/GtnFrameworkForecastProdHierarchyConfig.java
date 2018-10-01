@@ -182,8 +182,8 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		innerProductLevelLoadAction.addActionParameter(nameSpace+"_prodforecastLevel");
 		innerProductLevelLoadAction.addActionParameter(nameSpace+"_productLevel");
 
-
-		forecastLevel.addGtnUIFrameWorkActionConfig(innerProductLevelLoadAction);
+		actionConfigList.add(innerProductLevelLoadAction);
+		forecastLevel.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(forecastLevel);
 	}
 

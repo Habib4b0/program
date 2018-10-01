@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.periodconf.controller.GtnWsPeriodConfigurationController;
 import com.stpl.gtn.gtn2o.ws.periodconf.service.GtnWsPeriodConfigurationService;
 import com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService;
@@ -24,7 +25,12 @@ import com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService;
 @ContextConfiguration(locations = { "file:src/test/resources/GtnWsPeriodConfTest.xml" })
 public class GtnWsPeriodConfSqlServiceTest {
 	
+
+	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsPeriodConfSqlServiceTest.class);
+	
+
 	public GtnWsPeriodConfSqlServiceTest()
+
 	{
 		//nothing is here
 	}
@@ -37,6 +43,8 @@ public class GtnWsPeriodConfSqlServiceTest {
 
 	@Autowired
 	private GtnWsPeriodConfigurationController gtnWsPeriodConfigurationController;
+	
+	
 
 	@Autowired
 	private GtnWsPeriodConfigurationService gtnWsPeriodConfigurationService;
@@ -50,7 +58,12 @@ public class GtnWsPeriodConfSqlServiceTest {
 	@Test
 	public void getQuery() throws IOException {
 		String actualSqlQuery = periodConfSqlService.getQuery("loadDate");
-		String expectedSqlQuery = "SELECT FORECAST_CONFIG.FROM_DATE AS FROM_DATE, FORECAST_CONFIG.TO_DATE  as TO_DATE, HELPER_TABLE.DESCRIPTION FROM FORECAST_CONFIG JOIN HELPER_TABLE ON FORECAST_CONFIG.BUSINESS_PROCESS_TYPE=HELPER_TABLE.HELPER_TABLE_SID WHERE FORECAST_CONFIG.ACTIVE_END_DATE IS NULL";
+
+		String expectedSqlQuery = "SELECT FORECAST_CONFIG.FROM_DATE AS FROM_DATE, FORECAST_CONFIG.TO_DATE  as TO_DATE, HELPER_TABLE.DESCRIPTION FROM FORECAST_CONFIG JOIN HELPER_TABLE ON FORECAST_CONFIG.BUSINESS_PROCESS_TYPE=HELPER_TABLE.HELPER_TABLE_SID WHERE FORECAST_CONFIG.ACTIVE_END_DATE IS NULL"; 
+		logger.info("************"+expectedSqlQuery);
+		logger.info("************"+actualSqlQuery.trim());
+		logger.info("Result:"+actualSqlQuery.trim().equalsIgnoreCase(expectedSqlQuery));
+
 		assertTrue(actualSqlQuery.trim().equalsIgnoreCase(expectedSqlQuery));
 	}
 

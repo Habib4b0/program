@@ -173,7 +173,8 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		innerLevelLoadAction.addActionParameter(nameSpace + GtnFrameworkForecastingStringConstants.CUSTOMER_HIERARCHY);
 		innerLevelLoadAction.addActionParameter(nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE_CUSTOMER_SELECTION_FORECAST_LEVEL);
 		innerLevelLoadAction.addActionParameter(nameSpace + GtnFrameworkForecastingStringConstants.UNDERSCORE_CUSTOMER_SELECTION_LEVEL);
-		forecastLevel.addGtnUIFrameWorkActionConfig(innerLevelLoadAction);
+		actionConfigList.add(innerLevelLoadAction);
+		forecastLevel.setGtnUIFrameWorkBlurActionConfigList(actionConfigList);
 		componentList.add(forecastLevel);
 	}
 

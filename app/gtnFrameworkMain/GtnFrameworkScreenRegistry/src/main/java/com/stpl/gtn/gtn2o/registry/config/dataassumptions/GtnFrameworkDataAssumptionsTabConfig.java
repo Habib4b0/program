@@ -19,13 +19,6 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkDataAssumptionsTabConfig.class);
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
-	private String[] propertyIds = { "file", "company", "businessUnit", "type", "version", "activeFrom", "fromPeriod",
-			"toPeriod" };
-	private GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-			GtnUIFrameworkComponentType.CALENDAR_FIELD, GtnUIFrameworkComponentType.CALENDAR_FIELD,
-			GtnUIFrameworkComponentType.CALENDAR_FIELD };
 
 	public void addDataAssumptionsTabComponents(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		addDataAssumptionsRootLayout(componentList, nameSpace);
@@ -125,7 +118,6 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				"type", "version", "activeFrom", "fromPeriod", "toPeriod" });
 		dataAssumptionsResultsTable.setGtnPagedTableConfig(dataAssumptionsPagedTableConfig);
 	}
-
 	private void addDataAssumptionsExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentComponentId, String nameSpace) {
 		gtnLogger.info("started executing addDataAssumptionsExcelButtonComponent()");

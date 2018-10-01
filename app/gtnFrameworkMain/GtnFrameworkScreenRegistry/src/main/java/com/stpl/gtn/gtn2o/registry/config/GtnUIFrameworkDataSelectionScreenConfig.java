@@ -38,6 +38,15 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 	private final GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider
 			.getInstance();
+	private static final String[] PROPERTY_IDS = { GtnFrameworkScreenRegisteryConstants.PROJECTION_NAME,
+			GtnFrameworkScreenRegisteryConstants.DESCRIPTION,
+			GtnFrameworkScreenRegisteryConstants.CUSTOMER_HIERARCHY,
+			GtnFrameworkScreenRegisteryConstants.CUSTOMER_LEVEL,
+			GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY,
+			GtnFrameworkScreenRegisteryConstants.PRODUCT_LEVEL, GtnFrameworkScreenRegisteryConstants.CREATED_BY,
+			GtnFrameworkScreenRegisteryConstants.CREATED_DATE, GtnFrameworkScreenRegisteryConstants.MODIFIED_DATE,
+			GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
+			GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID };
 
 	public GtnUIFrameworkComponentConfig getHorizontalLayoutConfig(String compId, String parentLayout) {
 		GtnUIFrameworkComponentConfig profOptionLayoutConf = new GtnUIFrameworkComponentConfig();
@@ -629,11 +638,12 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		newArchGenerateAction.addActionParameter(nameSpace + "_productGroup");
 		newArchGenerateAction.addActionParameter("Commercial Forecasting_salesCustomView");
 		newArchGenerateAction.addActionParameter("Commercial Forecasting_deductionCustomView");
-		newArchGenerateAction.addActionParameter("Commercial Forecasting_privateViewLookup");
+		newArchGenerateAction.addActionParameter(GtnFrameworkScreenRegisteryConstants.COMMERCIAL_FORE_PRIVATE_LOOKUP);
 		newArchGenerateAction.addActionParameter("Commercial Forecasting_publicView");
 		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkForecastingStringConstants.CUSTOMER_RELATION_VERSION);
 		newArchGenerateAction.addActionParameter(nameSpace + GtnFrameworkForecastingStringConstants.PROD_RELATION_VERSION);
 		actionList.add(newArchGenerateAction);
+		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
 	}
 
 	private void addSearchBtn(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -696,7 +706,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 	private List<Object> getParameters(String nameSpace) {
 
 		return Arrays.asList(GtnFrameworkScreenRegistryResetAction.class.getName(),
-				"Commercial Forecasting_privateViewLookup",
+				GtnFrameworkScreenRegisteryConstants.COMMERCIAL_FORE_PRIVATE_LOOKUP,
 				nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
 				nameSpace + "_" + "projectionName",
 				nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
@@ -898,15 +908,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { GtnFrameworkScreenRegisteryConstants.PROJECTION_NAME,
-				GtnFrameworkScreenRegisteryConstants.DESCRIPTION,
-				GtnFrameworkScreenRegisteryConstants.CUSTOMER_HIERARCHY,
-				GtnFrameworkScreenRegisteryConstants.CUSTOMER_LEVEL,
-				GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY,
-				GtnFrameworkScreenRegisteryConstants.PRODUCT_LEVEL, GtnFrameworkScreenRegisteryConstants.CREATED_BY,
-				GtnFrameworkScreenRegisteryConstants.CREATED_DATE, GtnFrameworkScreenRegisteryConstants.MODIFIED_DATE,
-				GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
-				GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID };
+		
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
@@ -914,10 +916,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				GtnUIFrameworkComponentType.DATEFIELDVAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8 };
 
-		for (int i = 0; i < propertyIds.length; i++) {
+		for (int i = 0; i < PROPERTY_IDS.length; i++) {
 
 			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
+			pagedTableCustomFilterConfig.setPropertId(PROPERTY_IDS[i]);
 			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
 			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
 
