@@ -10295,7 +10295,7 @@ BEGIN
 		,1
 		,1
 		,1
-        ,'Dtx_Conrtact_CPGRP_Intf.sh'
+        ,'Dtx_Contract_CPGRP_Intf.sh'
 		,'DTX_CONTRACT_CPGRP_INTERFACE'
 		,'N'
 		,'SUCCESS - DTX_CONTRACT_CPGRP_INTERFACE'
@@ -10307,6 +10307,23 @@ BEGIN
 		)
 END
 GO
+
+IF EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_CONTRACT_CPGRP_INTERFACE'
+		and SCRIPT_NAME='Dtx_Conrtact_CPGRP_Intf.sh'
+		)
+BEGIN
+ 
+ UPDATE WORKFLOW_PROFILE
+        SET SCRIPT_NAME = 'Dtx_Contract_CPGRP_Intf.sh'
+        WHERE PROCESS_NAME = 'DTX_CONTRACT_CPGRP_INTERFACE'
+		and SCRIPT_NAME='Dtx_Conrtact_CPGRP_Intf.sh'
+END
+
+GO
+
 
 
 ----------------------------------------------DTX_CONTRACT_PRICE_PLAN_INTERFACE----------------------------------------------------------
