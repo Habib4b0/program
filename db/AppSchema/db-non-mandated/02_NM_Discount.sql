@@ -1689,3 +1689,18 @@ IF EXISTS (SELECT 1
   END
 
 GO
+-----------------------pv table_name
+  IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME ='CCP_PV_FILTERS'
+                      AND TABLE_SCHEMA = 'DBO')
+					  BEGIN
+			  CREATE TABLE CCP_PV_FILTERS
+                   (
+				   CCP_DETAILS_SID     INT,
+				   RS_CONTRACT_SID     INT,
+				   PV_FILTERS		   BIT
+
+				   )
+       END
+          GO
