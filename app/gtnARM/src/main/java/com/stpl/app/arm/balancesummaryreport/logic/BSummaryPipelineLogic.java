@@ -70,7 +70,6 @@ public class BSummaryPipelineLogic extends AbstractBSummaryLogic {
         List<Object[]> listObj = new ArrayList<>(list);
         SummarySelection bsrPipelineSelection = (SummarySelection) data;
         String lastMasterSid = StringUtils.EMPTY;
-        String total;
         String mastersId;
         List finalList = new ArrayList();
         Map<Object, String> headerValueMap = bsrPipelineSelection.getHeaderVisibleColumnMap();

@@ -678,7 +678,6 @@ public class QueryUtils {
     public List fetchFieldsForSecurity(String moduleName, String tabName) {
         String query = "SELECT DISPLAY_NAME, PROPERTY_NAME ,CATEGORY_NAME FROM MODULE_PROPERTIES WHERE MODULE_NAME = '" + moduleName + "' "
                 + " AND TAB_NAME = '" + tabName + "' AND CATEGORY_NAME NOT IN ('Button','Tab') ";
-        List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 }

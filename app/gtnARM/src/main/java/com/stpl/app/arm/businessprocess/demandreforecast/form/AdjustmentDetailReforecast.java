@@ -37,7 +37,7 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
     public static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentDetailReforecast.class);
 
     private boolean creditFlag;
-    
+
     private final AbstractSelectionDTO reforecastSelection;
 
     public AdjustmentDetailReforecast(AbstractSelectionDTO selectionDto) {
@@ -171,5 +171,15 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
         reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", functionHM));
         generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
 
+    }
+
+    @Override
+    public boolean equals(Object refAdjDetobj) {
+        return super.equals(refAdjDetobj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

@@ -247,7 +247,7 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             AdjustmentDTO val = (AdjustmentDTO) dto;
             int levelNo = val.getLevelNo();
             LOGGER.debug("levelNo----{}", levelNo);
-            masterSids = val.getMasterIds();
+            masterSids = (TreeMap<String, Integer>) val.getMasterIds();
             if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
                 if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
                     currentViewType = ARMUtils.getDemandSummaryLevelsinglePeriod().get(levelNo);

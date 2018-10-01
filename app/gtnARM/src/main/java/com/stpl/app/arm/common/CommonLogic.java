@@ -30,6 +30,7 @@ import com.stpl.app.utils.VariableConstants;
 import com.stpl.app.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.ARMConstants;
@@ -1356,13 +1357,13 @@ public class CommonLogic {
         int months = inputPeriod % NumericConstants.TWELVE;
         int year = inputPeriod / NumericConstants.TWELVE;
         Date date = new Date();
-        date.setYear(date.getYear() + year);
+        date = CommonUtil.setYear(CommonUtil.getYear(date) + year, date);
 
-        date.setMonth(date.getMonth() + months);
+        date = CommonUtil.setMonth(CommonUtil.getMonth(date) + months, date);
         if (isFrom) {
-            date.setDate(Integer.parseInt(ARMConstants.getOctalValue()));
+            date = CommonUtil.setDate(Integer.parseInt(ARMConstants.getOctalValue()), date);
         } else {
-            date.setMonth(date.getMonth() + 1);
+            date = CommonUtil.setMonth(CommonUtil.getMonth(date) + 1, date);
             date.setDate(Integer.parseInt(ARMConstants.getOctalValue()));
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
