@@ -9,6 +9,10 @@ public class WorkflowPersistance {
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(WorkflowPersistance.class);
 
+    private WorkflowPersistance() {
+        super();
+    }
+
     public static boolean insertWFInstanceInfo(int projectionId, long processInstanceId) {
         try {
 

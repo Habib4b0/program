@@ -10,7 +10,7 @@ import com.stpl.app.arm.supercode.InterFaceDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.SortedMap;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtListDTO;
 
@@ -58,7 +58,7 @@ public class AdjustmentDTO extends ExtListDTO implements InterFaceDTO {
     private Integer deductionSID = 0;
     private Integer customerSID;
     private Integer contractSID = 0;
-    private TreeMap<String, Integer> masterIds;
+    private SortedMap<String, Integer> masterIds;
     private String treeLevelNo = StringUtils.EMPTY;
     private Integer visibleColumnIndex = 0;
 
@@ -436,11 +436,11 @@ public class AdjustmentDTO extends ExtListDTO implements InterFaceDTO {
         this.contractSID = contractSID;
     }
 
-    public TreeMap<String, Integer> getMasterIds() {
+    public SortedMap<String, Integer> getMasterIds() {
         return masterIds;
     }
 
-    public void setMasterIds(TreeMap<String, Integer> masterIds) {
+    public void setMasterIds(SortedMap<String, Integer> masterIds) {
         this.masterIds = masterIds;
     }
 

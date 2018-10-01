@@ -30,6 +30,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
+import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -144,7 +145,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         filePath = new CommonUtil().getFileName(basepath + File.separator + "Documents" + File.separator + moduleName);
         wordFile = new CommonUtil().getFileName(filePath + File.separator + fileName + ExportWord.DOC_EXT);
         pdfFile = new CommonUtil().getFileName(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
-        fileUploadPath = FileUploader.FILE_PATH + moduleName + "/";
+        fileUploadPath = FileUploader.FILE_PATH + moduleName + ARMConstants.getForwardSlash();
     }
 
     @Override

@@ -172,7 +172,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
         TreeMap<String, Integer> masterSids;
         AdjustmentDTO val = (AdjustmentDTO) dto;
         int levelNo = val.getLevelNo();
-        masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
+        masterSids = new TreeMap<>(val.getMasterIds());
         masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
         selection.setMasterSids(masterSids);
         if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(++levelNo))) {

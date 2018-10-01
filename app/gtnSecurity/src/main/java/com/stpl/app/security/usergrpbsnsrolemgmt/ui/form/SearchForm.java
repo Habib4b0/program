@@ -159,7 +159,7 @@ public class SearchForm extends CustomComponent {
 					Collection selectedList = (Collection) ugTobrSelect.getValue();
 					List list = new ArrayList();
 					list.addAll(selectedList);
-					if(list.size()>0){
+					if(!list.isEmpty()){
 					usrDTO.setSelectedBusinessRole(list);
 					boolean check = businessRoleModuleLogic.saveLogic(usrDTO);
 					

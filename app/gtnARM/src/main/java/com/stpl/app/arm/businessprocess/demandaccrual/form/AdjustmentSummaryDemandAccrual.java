@@ -167,4 +167,14 @@ public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelecti
 
     }
 
+    @Override
+    public boolean equals(Object accrualAdjDetobj) {
+        return super.equals(accrualAdjDetobj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
 }

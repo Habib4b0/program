@@ -9,6 +9,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.vaadin.ui.Component;
 
@@ -29,7 +30,7 @@ import org.slf4j.LoggerFactory;
 public class Trx7DemandSummaryFieldFactory extends Trx7SummaryFieldFactory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Trx7DemandSummaryFieldFactory.class);
-    private AbstractSelectionDTO selection;
+    private final AbstractSelectionDTO selection;
 
     public Trx7DemandSummaryFieldFactory(AbstractSummaryLogic logic, AbstractSelectionDTO selection, Boolean isFieldRequire) {
         super(logic, selection, isFieldRequire);
@@ -38,6 +39,7 @@ public class Trx7DemandSummaryFieldFactory extends Trx7SummaryFieldFactory {
 
     @Override
     protected void valueChangeLogic(AdjustmentDTO dto, Object val, Object propertyId, Component uiContext) {
+        ThreadPool service = ThreadPool.getInstance();
         ExtPagedTable table = (ExtPagedTable) uiContext;
         String doubleVisibleHeader = table.getDoubleHeaderColumnHeader(table.getDoubleHeaderForSingleHeader(propertyId.toString()));
         Double value = null;
@@ -71,7 +73,7 @@ public class Trx7DemandSummaryFieldFactory extends Trx7SummaryFieldFactory {
         input.add(selection.getSummarydemandfrequency().substring(0, 1));
         input.add(period);
 
-        service.submit(new Tr7SummaryUpdateOverride(input));
+        service.submitRunnable(new Tr7SummaryUpdateOverride(input));
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
