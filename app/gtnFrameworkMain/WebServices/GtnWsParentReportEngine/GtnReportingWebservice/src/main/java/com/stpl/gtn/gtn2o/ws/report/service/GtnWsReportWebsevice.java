@@ -181,7 +181,7 @@ public class GtnWsReportWebsevice {
 		try (Session session = sessionFactory.openSession()) {
 			String viewQueryStr = viewQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT,
 					setFilterForHierarchy(gtnUIFrameworkWebserviceRequest));
-			SQLQuery query = session.createSQLQuery(viewQueryStr).addScalar("VIEW_NAME", new StringType())
+			SQLQuery query = gtnSqlQueryEngine.getQuery(session, viewQueryStr).addScalar("VIEW_NAME", new StringType())
 					.addScalar("CREATED_DATE", new DateType()).addScalar("MODIFIED_DATE", new DateType())
 					.addScalar("CREATED_BY", new StringType()).addScalar("VIEW_ID", new IntegerType())
 					.addScalar("VIEW_DATA", new StringType());
@@ -197,7 +197,7 @@ public class GtnWsReportWebsevice {
 		try (Session session = sessionFactory.openSession()) {
 			String viewQueryStr = viewQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT,
 					setFilterForHierarchy(gtnUIFrameworkWebserviceRequest));
-			SQLQuery query = session.createSQLQuery(viewQueryStr);
+			SQLQuery query = gtnSqlQueryEngine.getQuery(session, viewQueryStr);
 			return query.list();
 		} catch (Exception ex) {
 			gtnLogger.error(ex.getMessage(), ex);

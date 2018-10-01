@@ -744,7 +744,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			recordBean.addProperties(key,
 					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 		} // Not to show 0 in top level
-		else if (!"V".equals(indicator) && (isTotalSpecialCondition && variableChild.equals(""))) {
+		else if ((isTotalSpecialCondition && variableChild.equals("")) && !"V".equals(indicator)) {
 			recordBean.addProperties(key, "");
 		} else {
 
@@ -840,7 +840,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 		}
 		// Not to show 0 in top level
-		else if (!"V".equals(variableIndicator) && (isTotalSpecialCondition && variableChild.equals(""))) {
+		else if ((isTotalSpecialCondition && variableChild.equals("")) && !"V".equals(variableIndicator)) {
 			gtnWsRecordBean.addProperties(mapKey, "");
 		}
 
