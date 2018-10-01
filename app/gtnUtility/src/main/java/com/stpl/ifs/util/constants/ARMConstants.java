@@ -814,5 +814,8 @@ public class ARMConstants {
     public static String getPercent() {
         return properties.getProperty("PERCENT");
     }
+    public static String getForwardSlash() {
+        return properties.getProperty("FORWARD_SLASH");
+    }
 
 }
