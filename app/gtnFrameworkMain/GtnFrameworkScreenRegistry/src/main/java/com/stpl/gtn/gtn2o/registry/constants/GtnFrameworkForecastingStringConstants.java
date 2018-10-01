@@ -564,15 +564,15 @@ public final class GtnFrameworkForecastingStringConstants {
 
 
 	public static String[] getForecastProductGroupTableColumnsVisibleHeader() {
-		return FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_VISIBLE_HEADER;
+		return FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_VISIBLE_HEADER.clone();
 	}
 
 	public static Object[] getForecastProductGroupTableColumnsMappingId() {
-		return FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_MAPPING_ID;
+		return FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_MAPPING_ID.clone();
 	}
 
 	public static Class<?>[] getForecastProductGroupTableColumnsDataType() {
-		return FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_DATA_TYPE;
+		return FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_DATA_TYPE.clone();
 	}
 
 }
