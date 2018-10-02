@@ -4566,7 +4566,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             Map<String, List<String>> checkDoubleHeader = d.getValue();
             for (Map.Entry<String, List<String>> entry : checkDoubleHeader.entrySet()) {
                 List a = entry.getValue();
-                if (checkedList.size() > 0 && a.size() > 0 && !isOne) {
+                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;
                 } else {
@@ -4622,7 +4622,11 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 }
             } else {
                 String startValue = startPeriodForecastTab.getValue().toString();
-                return Integer.parseInt(startValue) > Integer.parseInt(valueEnd);
+                  if (Integer.parseInt(startValue) > Integer.parseInt(valueEnd)) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         } else {
             AbstractNotificationUtils.getErrorNotification(Constant.NO_START_PERIOD_SELECTED,
