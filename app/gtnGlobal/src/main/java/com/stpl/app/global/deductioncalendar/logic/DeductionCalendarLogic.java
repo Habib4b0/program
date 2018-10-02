@@ -264,8 +264,8 @@ public class DeductionCalendarLogic {
         }
     }
 
-    public String getDeductionCalendarQuery(Map<String, String> searchCriteria, int start, int offset, String column, String orderBy, Map<String, Object> parameters, boolean isCount) {
-
+    public String getDeductionCalendarQuery(Map<String, String> searchCriteria, int start, int offset, String column, String orderByPar, Map<String, Object> parameters, boolean isCount) {
+        String orderBy = orderByPar;
         if (orderBy == null) {
             orderBy = "ASC";
         }
@@ -430,7 +430,8 @@ public class DeductionCalendarLogic {
         }
     }
 
-    private String replaceForWildCardSearch(String input) {
+    private String replaceForWildCardSearch(String inputPar) {
+        String input = inputPar;
         if (StringUtils.isNotBlank(input)) {
             input = input.replace(GlobalConstants.getPercent(), GlobalConstants.getPercentForEscape());
             input = input.replace(CommonUIUtils.CHAR_ASTERISK, CommonUIUtils.CHAR_PERCENT);
@@ -539,7 +540,8 @@ public class DeductionCalendarLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyBrandCount(String filterText) throws PortalException {
+    public static int getLazyBrandCount(String filterTextPar) throws PortalException {
+        String filterText = filterTextPar;
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyBrandCount method with filterText {}" , filterText);
         List<Object[]> qualifierList;
@@ -558,12 +560,12 @@ public class DeductionCalendarLogic {
      *
      * @param start
      * @param end
-     * @param filterText
      * @return
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<com.stpl.app.util.HelperDTO> getLazyBrandResults(final int start, final int end, String filterText, final com.stpl.app.util.HelperDTO brand, boolean isFilter) throws PortalException {
+    public static List<com.stpl.app.util.HelperDTO> getLazyBrandResults(final int start, final int end, String filterTextPar, final com.stpl.app.util.HelperDTO brand, boolean isFilter) throws PortalException {
+        String filterText = filterTextPar;
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyBrandCount method with filterText {}" , filterText);
         List<Object[]> qualifierList;
@@ -624,7 +626,8 @@ public class DeductionCalendarLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyItemQualifierNameCount(String filterText, boolean isEditList) throws PortalException {
+    public static int getLazyItemQualifierNameCount(String filterTextPar, boolean isEditList) throws PortalException {
+        String filterText = filterTextPar;
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText {}" , filterText);
         final DynamicQuery ifpDynamicQuery = ItemQualifierLocalServiceUtil.dynamicQuery();
@@ -712,7 +715,8 @@ public class DeductionCalendarLogic {
         LOGGER.debug("return CompanyQualifier size - {}" , list.size());
         return list;
     }
-    public static int getLazyManufactureIdCount(String filter) throws PortalException {
+    public static int getLazyManufactureIdCount(String filterPar) throws PortalException {
+        String filter = filterPar;
         filter = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText : {}" , filter);
         List<Object[]> qualifierList;
