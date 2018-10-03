@@ -127,9 +127,7 @@ public class GtnFrameworkSaveButtonAction
 					.setComponentEnable(false);
 			monitorRequest.setProcessMonitorBean(monitorBean);
 			request.setProcessMonitorRequest(monitorRequest);
-			new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-					GtnWsProcessMonitorConstants.GTN_PROCESS_MONITOR_SERVICE_SCREEN + serviceUrl, request,
-					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			callProcessMonitorServiceScreen(serviceUrl, request);
 
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 			alertActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
@@ -147,6 +145,12 @@ public class GtnFrameworkSaveButtonAction
 		}
 
 	}
+
+    public void callProcessMonitorServiceScreen(String serviceUrl, GtnUIFrameworkWebserviceRequest request) {
+        new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsProcessMonitorConstants.GTN_PROCESS_MONITOR_SERVICE_SCREEN + serviceUrl, request,
+                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
