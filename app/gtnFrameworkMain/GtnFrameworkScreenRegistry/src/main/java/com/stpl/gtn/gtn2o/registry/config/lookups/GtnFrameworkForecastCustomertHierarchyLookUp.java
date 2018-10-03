@@ -10,7 +10,6 @@ import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAc
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastFilterAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
-import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -255,6 +254,15 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_NAME_TEXTBOX }));
 		actionConfigList.add(loadDataTableActionConfig);
+
+		GtnUIFrameWorkActionConfig tableAlertAction = new GtnUIFrameWorkActionConfig();
+		tableAlertAction.setActionType(GtnUIFrameworkActionType.V8_GRID_ALERT_ACTION);
+		tableAlertAction.addActionParameter(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+				+ GtnFrameworkForecastingStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE);
+		tableAlertAction.addActionParameter("No Results Found");
+		tableAlertAction.addActionParameter("There are no Hierarchies that match the search criteria.");
+		actionConfigList.add(tableAlertAction);
+
 		forecastCustomerHierarchySearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		componentList.add(forecastCustomerHierarchySearchButton);
@@ -375,9 +383,6 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		List<String> additionalSearchCriteria = new ArrayList<>();
 		additionalSearchCriteria.add("Customer Hierarchy");
 		customerHierarchyPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
-		GtnFrameworkAlertUtil alertActionUtil = new GtnFrameworkAlertUtil();
-		GtnUIFrameWorkActionConfig alertAction = alertActionUtil.throwAlertUtil("/loadHierarchyResults");
-		customerHierarchyPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
 
 		customerHierarchyPagedTableConfig
 				.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);

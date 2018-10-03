@@ -142,6 +142,7 @@ public final class GtnFrameworkCssConstants {
 	public static final String V_REPORT_LAYOUT ="v-report-layout";
 	
 	public static final String V_REPORT_COMPARSION_SEARCH_TOPLAYOUT = "v-report-comparsion-search-topLayout";
+	public static final String PIXEL_950 = "950px";
 	
 			
 	private GtnFrameworkCssConstants() {

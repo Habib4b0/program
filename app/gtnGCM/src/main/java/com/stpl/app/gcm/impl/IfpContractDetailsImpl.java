@@ -56,8 +56,9 @@ public class IfpContractDetailsImpl {
 
     }
     
-    public List findIFP(final Object field, final Object value, final List<Integer> future,Map<String, Object> filterMap, int start, int end, String column, String orderBy){
+    public List findIFP(final Object field, final Object value, final List<Integer> future,Map<String, Object> filterMap, int start, int end, String column, String orderByPar){
         StringBuilder sql = new StringBuilder();
+        String orderBy = orderByPar;
         try {
             
             if(orderBy == null) {
