@@ -72,7 +72,7 @@ public class CFFQueryUtils {
         List<Integer> approvedDetailsSids = new ArrayList();
         try {
             String approveQuery = SQlUtil.getQuery("getApprovedProjMasterSids");
-            approveQuery = approveQuery.replace("@PROJECTION_MASTER_SID", "" + projectionId);
+            approveQuery = approveQuery.replace("@PROJECTION_MASTER_SID", "" + Integer.toString(projectionId));
             List<Object[]> list = (List<Object[]>) DAO.executeSelectQuery(approveQuery);
             for (Object[] approveList : list) {
                 approvedDetailsSids.add(Integer.valueOf(StringUtils.EMPTY + approveList[0]));
@@ -85,7 +85,7 @@ public class CFFQueryUtils {
             return approvedDetailsSids;
         } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
     }
 

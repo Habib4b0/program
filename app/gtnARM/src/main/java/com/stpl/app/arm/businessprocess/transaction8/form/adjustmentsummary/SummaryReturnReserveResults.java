@@ -132,6 +132,7 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
         rightTable.setContainerDataSource(tableLogic.getContainerDataSource());
         resultBeanContainer.setRecordHeader(rightSingleVisibleColumn);
         resultBeanContainer.setColumnProperties(properties);
+        resultBeanContainer.setIndexable(true);
         rightTable.setContainerDataSource(tableLogic.getContainerDataSource());
         rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(NumericConstants.TWO)).toArray(),

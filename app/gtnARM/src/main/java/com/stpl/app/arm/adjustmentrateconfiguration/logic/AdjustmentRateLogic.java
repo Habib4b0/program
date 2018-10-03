@@ -257,8 +257,8 @@ public class AdjustmentRateLogic {
         try {
             String viewSid;
             if (saveViewDTO.isViewStatus()) {
-                sbQuery.append("Delete ARM_VIEW_DETAILS where ARM_VIEW_MASTER_SID=").append(saveViewDTO.getViewMasterSid()).append(";");
-                sbQuery.append("Update  ARM_VIEW_MASTER set FIELD_NAME='").append(saveViewDTO.getFieldName()).append("' where ARM_VIEW_MASTER_SID=").append(saveViewDTO.getViewMasterSid()).append(";");
+                sbQuery.append("Delete ARM_VIEW_DETAILS where ARM_VIEW_MASTER_SID=").append(saveViewDTO.getViewMasterSid()).append(';');
+                sbQuery.append("Update  ARM_VIEW_MASTER set FIELD_NAME='").append(saveViewDTO.getFieldName()).append("' where ARM_VIEW_MASTER_SID=").append(saveViewDTO.getViewMasterSid()).append(';');
                 viewSid = saveViewDTO.getViewMasterSid();
             } else {
                 viewSid = isSaveView(saveViewDTO);
@@ -485,7 +485,8 @@ public class AdjustmentRateLogic {
                 LookUpDTO exRateDTO = new LookUpDTO();
                 exRateDTO.setViewMasterSid((Integer)(obj[0]));
                 exRateDTO.setViewName(String.valueOf(obj[1]));
-                exRateDTO.setCreatedBy(StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TWO])) ? CommonUtils.getUserMap().get((Integer)(obj[NumericConstants.TWO])) : StringUtils.EMPTY);
+                exRateDTO.setCreatedBy(StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TWO])) ? 
+                        CommonUtils.getUserMap().get(Integer.valueOf((String)obj[NumericConstants.TWO])) : StringUtils.EMPTY);
                 exRateDTO.setCreatedDate(CommonUtils.convertStringToDate(String.valueOf(obj[NumericConstants.THREE])));
                 resultList.add(exRateDTO);
             }

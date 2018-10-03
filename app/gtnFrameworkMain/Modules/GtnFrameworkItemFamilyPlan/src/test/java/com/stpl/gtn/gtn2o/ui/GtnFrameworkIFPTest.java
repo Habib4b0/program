@@ -6,7 +6,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -31,15 +30,12 @@ import com.vaadin.ui.UI;
  * @version $Revision: 1.0 
  */
 
-@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = { UI.class, GtnUIFrameworkGlobalUI.class })
 public class GtnFrameworkIFPTest {
 	
-	private transient GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkIFPTest.class); 
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkIFPTest.class); 
 	
-	@Mock
-	GtnUIFrameworkEngine gtnUIFrameworkEngine;
 	@InjectMocks
 	GtnFrameworkIFP gtnFrameworkIFPInstance;
 	
@@ -57,6 +53,7 @@ public class GtnFrameworkIFPTest {
 
             @Override
             protected void init(VaadinRequest request) {
+            	// Init method
             }
         };
         PowerMockito.mockStatic(UI.class, GtnUIFrameworkGlobalUI.class);

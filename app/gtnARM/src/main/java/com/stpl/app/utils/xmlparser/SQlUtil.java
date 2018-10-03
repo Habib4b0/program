@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SQlUtil {
 
-    private final Map<String, String> QUERY_MAP = new HashMap<>();
+    private final Map<String, String> queryMap = new HashMap<>();
     private static SQlUtil sqlUtil = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(SQlUtil.class);
 
@@ -40,7 +40,7 @@ public class SQlUtil {
 
     }
 
-    private static SQlUtil getContext() {
+    private static synchronized SQlUtil getContext() {
         if (sqlUtil == null) {
             sqlUtil = new SQlUtil();
         }
@@ -60,26 +60,22 @@ public class SQlUtil {
                 Sql que = (Sql) jaxbUnmarshaller.unmarshal(tempUrl);
                 List<SqlEntity> list = que.getSqlEntity();
                 for (SqlEntity ans : list) {
-                    if (QUERY_MAP.get(ans.getSqlID()) != null && ans.getSqlID() != null && ans.getSqlID().isEmpty()) {
+                    if (queryMap.get(ans.getSqlID()) != null && ans.getSqlID() != null && ans.getSqlID().isEmpty()) {
                         LOGGER.error("Duplicate sql tag id found -= {} ", ans.getSqlID());
                     }
-                    QUERY_MAP.put(ans.getSqlID(), ans.getSqlQuery());
+                    queryMap.put(ans.getSqlID(), ans.getSqlQuery());
                 }
             }
         }
 
     }
 
-    private Map<String, String> getQUERY_MAP() {
-        return QUERY_MAP;
+    private Map<String, String> getQueryMap() {
+        return queryMap;
     }
 
     public static String getQuery(String sqlId) {
-        return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
-    }
-
-    public static String getQuery(Class clasName, String sqlId) {
-        return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
+        return SQlUtil.getContext().getQueryMap().get(sqlId);
     }
 
 }

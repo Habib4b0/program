@@ -8,6 +8,7 @@ import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.util.CommonUtils;
 import static com.stpl.app.cff.util.CommonUtils.BOTH;
 import static com.stpl.app.cff.util.Constants.LabelConstants.*;
+import com.stpl.app.cff.util.ConstantsUtil;
 import static com.stpl.app.cff.util.HeaderUtils.getCommonColumnHeader;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -469,7 +470,7 @@ public class ProjectionResultsLogic {
         String dateQuery = CommonLogic.getHistoryPeriodDate(freq, histNum);
         List dateList = HelperTableLocalServiceUtil.executeSelectQuery(dateQuery);
         String fromDate = StringUtils.EMPTY;
-        if (dateList != null && dateList.size() > 0) {
+        if (dateList != null && !dateList.isEmpty()) {
             Object obj = dateList.get(0);
             fromDate = String.valueOf(obj);
         }
@@ -537,15 +538,16 @@ public class ProjectionResultsLogic {
     }
 
     public String getFormattedValue(DecimalFormat format, String value) {
-        if (value.contains("null")) {
-            value = "0";
+        String val = value;
+        if (val.contains("null")) {
+            val = "0";
         } 
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(val);
             if (format.toPattern().contains("%")) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = format.format(newValue);
-                return value;
+            val = format.format(newValue);
+                return val;
     }
 
     public void getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
@@ -1539,7 +1541,7 @@ public class ProjectionResultsLogic {
                             l++;
                         }
                         
-                        if (!projSelDTO.hasNonFetchableIndex("" + l)) {
+                        if (!projSelDTO.hasNonFetchableIndex("" + Integer.toString(l))) {
                             
                             projDTOList.add(projectionDtoList.get(k));
                         }
@@ -3043,16 +3045,17 @@ public class ProjectionResultsLogic {
     }
 
     public String getFormatTwoDecimalValue(DecimalFormat format, String value, String appendChar) {
-        if (value.contains("null")) {
-            value = "0";
+        String valuePR =value;
+        if (valuePR.contains("null")) {
+            valuePR = "0";
         }
         if (CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(format.format(Double.valueOf(value)));
+            valuePR = appendChar.concat(format.format(Double.valueOf(valuePR)));
         } else {
-            value = format.format(Double.valueOf(value)).concat(appendChar);
+            valuePR = format.format(Double.valueOf(valuePR)).concat(appendChar);
         }
 
-        return value;
+        return valuePR;
     }
 
 

@@ -233,9 +233,9 @@ public class Trx7ExclusionDetailsLogic {
             if (tr7ExclSaveViewDTO.isScreenFlag()) {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (CustomerGroupDTO dtoValue : tr7ExclSaveViewDTO.getCustGrpList()) {
-                        sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(viewSid).append(ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid() + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA_CHAR).append(dtoValue.isInclude() == true ? 1 : 0).append(ARMUtils.COMMA_CHAR);
+                        sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(viewSid).append(ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid() + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA_CHAR).append(dtoValue.isInclude() ? 1 : 0).append(ARMUtils.COMMA_CHAR);
                         if (dtoValue.getIndicator() != null) {
-                            if (dtoValue.getIndicator() == true) {
+                            if (dtoValue.getIndicator()) {
                                 sbQuery.append(1);
                             } else {
                                 sbQuery.append(0);

@@ -47,6 +47,7 @@ import com.stpl.app.cff.dao.impl.CommonDAOImpl;
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
+import static com.stpl.app.cff.logic.CFFLogic.STRING_COMMA;
 import com.stpl.app.cff.queryUtils.CFFQueryUtils;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
@@ -300,11 +301,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 
     public static boolean isValidViewName(int projectionId, String viewName, int customId) {
         List<CustomViewMaster> list = getCustomViewforViewName(projectionId, viewName, customId);
-        if (list != null && !list.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(list != null && !list.isEmpty());
 
     }
 
@@ -642,6 +639,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
+                        LOGGER.info("orderedArgs {} -->{} ",procedureName, orderedArgs[i]);
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
                 statement.executeUpdate();
@@ -679,7 +677,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             @Override
             public void run() {
                 updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "PRODUCT");
-                Object[] productInput = {sessionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId(), 0};
+                Object[] productInput = {sessionDTO.getProjectionId()+ (sessionDTO.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + sessionDTO.getPriorProjectionId()), sessionDTO.getUserId(), sessionDTO.getSessionId(), 0};
                 callProcedureUpdate(PRC_CFF_FILES_DATA_INSERT, productInput);
             }
         });
@@ -687,7 +685,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             @Override
             public void run() {
                  updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "CUSTOMER");
-                Object[] customerInput = {sessionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId(), 1};
+                Object[] customerInput = {sessionDTO.getProjectionId()+ (sessionDTO.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + sessionDTO.getPriorProjectionId()), sessionDTO.getUserId(), sessionDTO.getSessionId(), 1};
                 callProcedureUpdate(PRC_CFF_FILES_DATA_INSERT, customerInput);
             }
         });
@@ -952,7 +950,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         StringBuilder hierarchyNo1 = new StringBuilder(hierarchyNoArray[0]);
         allLevelHierarchy.add(hierarchyNo1 + extraDot);
         for (int i = 1; i < hierarchyNoArray.length - 1; i++) {
-            hierarchyNo1.append(".").append(hierarchyNoArray[i]);
+            hierarchyNo1.append('.').append(hierarchyNoArray[i]);
             allLevelHierarchy.add(hierarchyNo1 + extraDot);
         }
         if (!allLevelHierarchy.contains(hierarchyNo)) {
@@ -1008,24 +1006,25 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 
     public static String getGroupFilterQuery(String userGroup, int userId, int sessionId, boolean isPrior) {
         String query = "";
-        if (!userGroup.isEmpty()) {
-            if (userGroup.startsWith("All")) {
-                if (userGroup.contains("Discount")) {
-                    userGroup = " like '%' ";
-                    query = getGroupFilterDiscountQuery(userGroup, userId, sessionId, isPrior);
-                } else if (userGroup.contains("PPA")) {
-                    userGroup = " like '%' ";
-                    query = getGroupFilterPPAQuery(userGroup, userId, sessionId, isPrior);
+        String userGroupFilter = userGroup;
+        if (!userGroupFilter.isEmpty()) {
+            if (userGroupFilter.startsWith("All")) {
+                if (userGroupFilter.contains("Discount")) {
+                    userGroupFilter = " like '%' ";
+                    query = getGroupFilterDiscountQuery(userGroupFilter, userId, sessionId, isPrior);
+                } else if (userGroupFilter.contains("PPA")) {
+                    userGroupFilter = " like '%' ";
+                    query = getGroupFilterPPAQuery(userGroupFilter, userId, sessionId, isPrior);
                 }
-            } else if (userGroup.startsWith(StringConstantsUtil.DISCOUNT_HYPEN)) {
-                userGroup = " = '" + userGroup.replace(StringConstantsUtil.DISCOUNT_HYPEN, "") + "' ";
-                query = getGroupFilterDiscountQuery(userGroup, userId, sessionId, isPrior);
-            } else if (userGroup.startsWith("PPA-")) {
-                userGroup = " = '" + userGroup.replace("PPA-", "") + "' ";
-                query = getGroupFilterPPAQuery(userGroup, userId, sessionId, isPrior);
-            } else if (userGroup.startsWith(StringConstantsUtil.SALES_HYPEN)) {
-                userGroup = " = '" + userGroup.replace(StringConstantsUtil.SALES_HYPEN, "") + "' ";
-                query = getGroupFilterSalesQuery(userGroup, userId, sessionId, isPrior);
+            } else if (userGroupFilter.startsWith(StringConstantsUtil.DISCOUNT_HYPEN)) {
+                userGroupFilter = " = '" + userGroupFilter.replace(StringConstantsUtil.DISCOUNT_HYPEN, "") + "' ";
+                query = getGroupFilterDiscountQuery(userGroupFilter, userId, sessionId, isPrior);
+            } else if (userGroupFilter.startsWith("PPA-")) {
+                userGroupFilter = " = '" + userGroupFilter.replace("PPA-", "") + "' ";
+                query = getGroupFilterPPAQuery(userGroupFilter, userId, sessionId, isPrior);
+            } else if (userGroupFilter.startsWith(StringConstantsUtil.SALES_HYPEN)) {
+                userGroupFilter = " = '" + userGroupFilter.replace(StringConstantsUtil.SALES_HYPEN, "") + "' ";
+                query = getGroupFilterSalesQuery(userGroupFilter, userId, sessionId, isPrior);
             }
         }
         return query;
@@ -1327,34 +1326,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             str = "AND RLD1.LEVEL_NO = " + levelNo;
         }
         return str;
-    }
-
-    public static String getGroupFilterQueryMandated(String userGroup, int userId, int sessionId) {
-        String query = "";
-        if (!userGroup.isEmpty()) {
-            if (userGroup.startsWith("All")) {
-                if (userGroup.contains("Discount")) {
-                    userGroup = "  like '%' ";
-                    query = getGroupFilterDiscountQuery(userGroup, userId, sessionId);
-                } else if (userGroup.contains("PPA")) {
-                    userGroup = " like  '%' ";
-                    query = getGroupFilterPPAQuery(userGroup, userId, sessionId);
-                } else if (userGroup.contains("Sales")) {
-                    userGroup = " like  '%' ";
-                    query = getGroupFilterSalesQuery(userGroup, userId, sessionId);
-                }
-            } else if (userGroup.startsWith(StringConstantsUtil.DISCOUNT_HYPEN)) {
-                userGroup = " = '" + userGroup.replace(StringConstantsUtil.DISCOUNT_HYPEN, "") + "' ";
-                query = getGroupFilterDiscountQuery(userGroup, userId, sessionId);
-            } else if (userGroup.startsWith("PPA-")) {
-                userGroup = " = '" + userGroup.replace("PPA-", "") + "' ";
-                query = getGroupFilterPPAQuery(userGroup, userId, sessionId);
-            } else if (userGroup.startsWith(StringConstantsUtil.SALES_HYPEN)) {
-                userGroup = " = '" + userGroup.replace(StringConstantsUtil.SALES_HYPEN, "") + "' ";
-                query = getGroupFilterSalesQuery(userGroup, userId, sessionId);
-            }
-        }
-        return query;
     }
 
     public static String getGroupFilterDiscountQuery(String userGroup, int userId, int sessionId) {
@@ -2690,12 +2661,12 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             Object[] obj = listOfLevelFilter.get(i);
             newLevel = obj[0].toString();
             if (oldLevel.equals(newLevel)) {
-                listOfSids.append(",").append(obj[1]);
+                listOfSids.append(',').append(obj[1]);
                 oldLevel = newLevel;
             } else {
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
-                    listOfSids = new StringBuilder("");
+                    listOfSids = new StringBuilder();
                     customerlevelItem[i] = filterValues.addItem(dto, null);
                     customerlevelItem[i].setCheckable(true);
                     customerlevelItem[i].setItemClickable(true);
@@ -3133,7 +3104,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
          
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
-                     listOfSids = new StringBuilder("");
+                     listOfSids = new StringBuilder();
                     customerlevelItem[i] = filterValues.addItem(dto, null);
                     customerlevelItem[i].setCheckable(true);
                     customerlevelItem[i].setItemClickable(true);

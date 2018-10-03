@@ -112,7 +112,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
             List<Object> inputs = new ArrayList<>();
             inputs.add(demandSelection.getDataSelectionDTO().getProjectionId());
             inputs.add(demandSelection.getFrequency());
-            demandSelection.setMasterSids(ARMUtils.getMasterIdsMap());
+            demandSelection.setMasterSids((TreeMap<String, Integer>) ARMUtils.getMasterIdsMap());
             inputs = BSummaryDemandLogic.this.getNextLevelDemand(inputs, dto, demandSelection);
             inputs.add(demandSelection.getFromDate());
             inputs.add(demandSelection.getToDate());
@@ -172,7 +172,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
         TreeMap<String, Integer> masterSids;
         AdjustmentDTO val = (AdjustmentDTO) dto;
         int levelNo = val.getLevelNo();
-        masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
+        masterSids = new TreeMap<>(val.getMasterIds());
         masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
         selection.setMasterSids(masterSids);
         if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(++levelNo))) {
@@ -205,7 +205,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
                 dto = new AdjustmentDTO();
                 finalList.add(dto);
                 dto.setBranditemmasterSid(mastersId);
-                dto.setMasterIds(selection.getMasterSids());
+                dto.setMasterIds((TreeMap<String, Integer>) selection.getMasterSids());
                 dto.setLevelNo(selection.getLevelNo());
                 dto.setGroup(String.valueOf(list1[0]));
                 dto.setChildrenAllowed((!CommonConstant.TOTAL.equalsIgnoreCase(dto.getGroup()) && selection.getSummarylevelFilterNo() == 0) ? isChild : false);

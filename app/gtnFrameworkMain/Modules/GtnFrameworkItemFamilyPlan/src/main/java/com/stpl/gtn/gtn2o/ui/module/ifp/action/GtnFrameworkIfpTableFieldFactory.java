@@ -81,10 +81,8 @@ public class GtnFrameworkIfpTableFieldFactory
 
 		updateRequest.setGtnWsGeneralRequest(generalWSRequest);
 
-		GtnUIFrameworkWebserviceResponse updateResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
-						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_COMPANIES_TAB_COLUMN_UPDATE_FIELD_SERVICE,
-				updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse updateResponse = getResponse(updateRequest);
+
 		if (updateResponse.getEditRecord() != null) {
 			Object obj = updateResponse.getEditRecord().get("count");
 			if (obj != null) {
@@ -92,6 +90,13 @@ public class GtnFrameworkIfpTableFieldFactory
 			}
 		}
 		return 0;
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest updateRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
+						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_COMPANIES_TAB_COLUMN_UPDATE_FIELD_SERVICE,
+				updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	public void checkBoxValueChangeLogic() {
@@ -102,14 +107,19 @@ public class GtnFrameworkIfpTableFieldFactory
 		gtnWsGeneralRequest.setSessionId(String
 				.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.SESSION_ID)));
 		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
-						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_COMMON_VALIDATION_SERVICE,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = getCheckBoxValueChangeLogicResponse(request);
 		GtnIFamilyPlanValidationBean validationBean = response.getGtnWsIfpReponse().getGtnIFamilyPlanValidationBean();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemsTabResultDataTable").setPagedTableHeaderCheckBox(
 				validationBean.getCheckedCount() == validationBean.getCount(),
 				GtnFrameworkIfpStringContants.CHECK_RECORD_ID);
+	}
+
+	public GtnUIFrameworkWebserviceResponse getCheckBoxValueChangeLogicResponse(
+			GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
+						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_COMMON_VALIDATION_SERVICE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 }

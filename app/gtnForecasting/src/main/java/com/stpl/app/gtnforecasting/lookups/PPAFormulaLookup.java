@@ -10,7 +10,6 @@ import com.stpl.app.gtnforecasting.logic.tablelogic.FormulaTableLogic;
 import com.stpl.app.gtnforecasting.ppaprojection.dto.FilterGenerator;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUIUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.CustomFieldGroup;
@@ -97,13 +96,20 @@ public class PPAFormulaLookup extends Window {
     private RSFormulaDTO rsFormulaDTO = new RSFormulaDTO();
 
     private CustomFieldGroup binder;
-    private final CommonUIUtils commonUIUtils = new CommonUIUtils();
 
     private boolean isSelected;
 
     private String propertyId;
 
     private boolean validatePPA = false;
+    
+    public final Object[] formulaLookup = new Object[]{
+        Constant.FORMULA_TYPE, "formulaID", "formulaNo", "formulaName", "version"};
+    public final String[] formulaLookupHeader = new String[]{
+        "Formula Type", "Formula ID", "Formula No", "Formula Name", "Version"};
+    public final Object[] ruleDetailsColumns = new Object[]{
+        Constant.DEDUCTION_TYPE, Constant.DEDUCTION_SUB_TYPE, Constant.DEDUCTION_CATEGORY, Constant.INDICATOR};
+    public final String[] ruleDetailsHeaders = new String[]{"Deduction Type", "Deduction Sub Type", "Deduction Category", "+/- Indicator"};
 
     /**
      * Default Constructor to load the formula for Mass Update
@@ -150,8 +156,8 @@ public class PPAFormulaLookup extends Window {
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
-        resultsTable.setVisibleColumns(commonUIUtils.formulaLookup);
-        resultsTable.setColumnHeaders(commonUIUtils.formulaLookupHeader);
+        resultsTable.setVisibleColumns(formulaLookup);
+        resultsTable.setColumnHeaders(formulaLookupHeader);
         resultsTable.setFilterBarVisible(true);
         resultsTable.addStyleName(Constant.FILTERBAR);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -169,8 +175,8 @@ public class PPAFormulaLookup extends Window {
         detailstableLogic.sinkItemPerPageWithPageLength(false);
         detailsTable.setImmediate(true);
         detailsTable.setSizeFull();
-        detailsTable.setVisibleColumns(commonUIUtils.ruleDetailsColumns);
-        detailsTable.setColumnHeaders(commonUIUtils.ruleDetailsHeaders);
+        detailsTable.setVisibleColumns(ruleDetailsColumns);
+        detailsTable.setColumnHeaders(ruleDetailsHeaders);
         detailsTable.setFilterBarVisible(true);
         detailsTable.addStyleName(Constant.FILTERBAR);
         detailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -346,8 +352,8 @@ public class PPAFormulaLookup extends Window {
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(commonUIUtils.formulaLookup);
-        resultsTable.setColumnHeaders(commonUIUtils.formulaLookupHeader);
+        resultsTable.setVisibleColumns(formulaLookup);
+        resultsTable.setColumnHeaders(formulaLookupHeader);
     }
 
     /**

@@ -933,7 +933,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             final String tableHierarchyNo = tableLogic.getTreeLevelonCurrentPage(obj[0]);
             DiscountProjectionDTO dto = (DiscountProjectionDTO) obj[0];
             Boolean checkValue = ((ExtCustomCheckBox) ((AbstractComponent) event.getComponent())).getValue();
-            if (isGroupUpdatedManually) {
+             if (isGroupUpdatedManually) {
                 NotificationUtils.getAlertNotification(Constant.GROUP_FILTER_CONFLICT,
                         Constant.GROUP_VALUE_VERIFICATION);
                 tableLogic.getContainerDataSource().getContainerProperty(obj[0], Constant.CHECKRECORD).setValue(BooleanConstant.getFalseFlag());
@@ -1525,6 +1525,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
             if (view.getValue() != null) {
                 if (CUSTOM.getConstant().equals(String.valueOf(view.getValue()))) {
+                    if((resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY))!=null){
+                     ((TextField)resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY)).setValue(StringUtils.EMPTY);
+                    }
                     hierarchyIndicator = CommonUtil.isValueEligibleForLoading()
                             ? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY : "CP";
                     loadCustomDDLB();
@@ -1547,6 +1550,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         resultsTable.getRightFreezeAsTable().setTripleHeaderVisible(false);
                     }
                 } else if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
+                    if((resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY))!=null){
+                     ((TextField)resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY)).setValue(StringUtils.EMPTY);
+                    }
                     currentHierarchy = session.getCustomerHierarchyList();
                     hierarchyIndicator = "C";
                     levelDdlb.setEnabled(true);
@@ -1570,6 +1576,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     resultsTable.getLeftFreezeAsTable().setDoubleHeaderVisible(true);
                     resultsTable.setTripleHeaderVisible(true);
                 } else if (PRODUCT.getConstant().equals(String.valueOf(view.getValue()))) {
+                    if((resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY))!=null){
+                     ((TextField)resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY)).setValue(StringUtils.EMPTY);
+                    }
                     currentHierarchy = session.getProductHierarchyList();
                     hierarchyIndicator = Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY;
                     levelDdlb.setEnabled(true);
@@ -1698,6 +1707,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
         }
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
+        resultsTable.getLeftFreezeAsTable().getColumnIdToFilterMap().clear();
         LOGGER.debug("Ending configureLeftTable");
     }
 
@@ -3553,7 +3563,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     && generateCustomerToBeLoaded.size() == projectionSelection.getCustomerLevelFilter().size());
             boolean productFlag = (generateProductToBeLoaded.containsAll(projectionSelection.getProductLevelFilter())
                     && generateProductToBeLoaded.size() == projectionSelection.getProductLevelFilter().size());
-
+            
             if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
                 LOGGER.info("generateBtn :Inside Filter Option");
                 session.setFunctionMode("F");
@@ -3612,6 +3622,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             adjPeriodValueChangeLogic(SELECT.getConstant());
             adjperiods.select(SELECT);
             adjprograms.select(SELECT);
+            resultsTable.getLeftFreezeAsTable().getColumnIdToFilterMap().clear();
         }
         LOGGER.debug("Ending generateListView ");
 
@@ -3964,7 +3975,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         projectionSelection.setdPVariablesList(l);
         try {
-            map.put(Constant.FREQUENCY, projectionSelection.getFrequency().isEmpty() ? Constant.QUARTERLY : projectionSelection.getFrequency());
+            map.put(Constant.FREQUENCY, session.getDsFrequency());
             map.put(Constant.HISTORY, projectionSelection.getHistory());
             map.put(Constant.PROJECTION_PERIOD_ORDER_LABEL, projectionSelection.getProjectionOrder());
             map.put(Constant.ACTUALS_PROJECTIONS, projectionSelection.getActualsOrProjections());
@@ -4555,7 +4566,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             Map<String, List<String>> checkDoubleHeader = d.getValue();
             for (Map.Entry<String, List<String>> entry : checkDoubleHeader.entrySet()) {
                 List a = entry.getValue();
-                if (checkedList.size() > 0 && a.size() > 0 && !isOne) {
+                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;
                 } else {
@@ -4611,7 +4622,11 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 }
             } else {
                 String startValue = startPeriodForecastTab.getValue().toString();
-                return Integer.parseInt(startValue) > Integer.parseInt(valueEnd);
+                  if (Integer.parseInt(startValue) > Integer.parseInt(valueEnd)) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         } else {
             AbstractNotificationUtils.getErrorNotification(Constant.NO_START_PERIOD_SELECTED,

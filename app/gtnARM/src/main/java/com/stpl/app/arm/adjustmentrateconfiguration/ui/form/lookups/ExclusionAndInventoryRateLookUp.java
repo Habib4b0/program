@@ -9,7 +9,7 @@ import com.stpl.app.arm.adjustmentrateconfiguration.dto.LookUpDTO;
 import com.stpl.app.arm.adjustmentrateconfiguration.logic.tablelogic.ExclustionLookupTableLogic;
 import com.stpl.app.arm.dataselection.dto.ViewFilterGenerator;
 import com.stpl.app.arm.utils.ARMUtils;
-import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
+import static com.stpl.app.arm.utils.ResponsiveUtils.getResponsiveControls;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
@@ -93,7 +93,7 @@ public class ExclusionAndInventoryRateLookUp extends Window {
         setClosable(true);
         center();
         setModal(true);
-        setCaption("Exclusion Details");
+        setCaption("");
         setWidth("1200px");
         setHeight("700px");
     }

@@ -582,13 +582,18 @@ public class SalesLogic {
         boolean isSalesInclusionNotSelected = projSelDTO.getSessionDTO().getSalesInclusion().equals(ALL);
         sql = sql.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
         sql = sql.replace("@HIERARCHY", Constant.CUSTOMER_SMALL.equals(projSelDTO.getViewOption()) ?"CUST_HIERARCHY_NO":"PROD_HIERARCHY_NO");
-        sql = sql.replace(SALESINCLUSION, isSalesInclusionNotSelected ? StringUtils.EMPTY : " AND STC.SALES_INCLUSION = " + projSelDTO.getSessionDTO().getSalesInclusion());
+        sql = sql.replace(SALESINCLUSION, isSalesInclusionNotSelected ? StringUtils.EMPTY : getSalesInclusionColumn(projSelDTO) + projSelDTO.getSessionDTO().getSalesInclusion());
         sql = sql.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #ST_NM_SALES_PROJECTION_MASTER ");
         sql = sql.replace("@CONDITION",isSalesInclusionNotSelected ? StringUtils.EMPTY :" WHERE SALES_INCLUSION= " + oppositeSalesInc);      
         String query = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list;
     }
+    
+    public String getSalesInclusionColumn(ProjectionSelectionDTO projSelDTO) {
+        return Constant.CUSTOMER_SMALL.equals(projSelDTO.getViewOption()) ? " AND STC.SALES_INCLUSION = " : " AND SH.SALES_INCLUSION = ";
+    }
+    
     public List<Object[]> getSalesResultsExcelCustom(ProjectionSelectionDTO projSelDTO) {
         String sql = "";
         char oppositeSalesInc = projSelDTO.getSessionDTO().getSalesInclusion().equals("1") ? '0' : '1';
@@ -2605,7 +2610,7 @@ public class SalesLogic {
                             actualAmount = Double.parseDouble(enteredValue) / (salesDTO.getReturnDetailsSid().split(",").length);
                             amountValue = String.valueOf(actualAmount / frequencyValue);
                         }
-                        bulkQuery += query.replace(Constant.USER_ENTERED_PROPERTY_VALUE, Constant.PROJECTED_RETURN_AMOUNT).replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
+                        bulkQuery = bulkQuery.concat(query.replace(Constant.USER_ENTERED_PROPERTY_VALUE, Constant.PROJECTED_RETURN_AMOUNT).replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue));
                     }
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 }
@@ -3768,7 +3773,7 @@ public class SalesLogic {
         Map<String, Double> calculatedAmount = new HashMap<>();
         boolean enteredLevel = true;
         double amount;
-        String bulkQuery = StringUtils.EMPTY;
+        String bulkQuerySales = StringUtils.EMPTY;
         Map<String, String> returnsDetailsMap = new TreeMap<>(projectionSelectionDTO.getSessionDTO().getReturnsDetailsMap());
         for (Map.Entry<String, String> entry : returnsDetailsMap.entrySet()) {
             if (entry.getKey().contains(hierarchyNo)) {
@@ -3785,11 +3790,11 @@ public class SalesLogic {
                 if (entry.getValue().split(",").length == 1) {
                     LOGGER.debug("Amount Value ->= {} " , amount);
                     LOGGER.debug("Units Value ->= {} " , unitsMap.get(entry.getValue()));
-                    bulkQuery += updateQuery(query, amount / unitsMap.get(entry.getValue()), entry.getValue());
+                    bulkQuerySales = bulkQuerySales.concat(updateQuery(query, amount / unitsMap.get(entry.getValue()), entry.getValue()));
                 }
             }
         }
-        return bulkQuery;
+        return bulkQuerySales;
     }
 
     public List<Integer> headerCheckALLQuery(SessionDTO sessionDTO, int checkValue, boolean isUpdate) {

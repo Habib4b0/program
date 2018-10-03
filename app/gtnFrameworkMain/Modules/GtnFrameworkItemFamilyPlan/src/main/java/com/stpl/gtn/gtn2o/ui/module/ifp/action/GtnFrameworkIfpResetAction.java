@@ -134,10 +134,7 @@ public class GtnFrameworkIfpResetAction
 				ifpRequest.setGtnIFamilyPlan(ifpBean);
 				ifpInfoBean.setIfpSid(cfpModelSid);
 				gtnRequest.setGtnWsIfpRequest(ifpRequest);                              
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
-								+ GtnWsIFamilyPlanContants.GTN_WS_IFP_FETCH_INFORMATION_SERVICE,
-						gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = getResetResponse(gtnRequest);
 				switch (position) {
 				case 0:
 					setValueToComponents(response.getGtnWsIfpReponse().getGtnIFamilyPlan(), componentId);
@@ -201,6 +198,17 @@ public class GtnFrameworkIfpResetAction
 			gtnLogger.info("Exit GtnFrameworkCfpResetAction doAction ");
 		}
 
+	}
+
+	/**
+	 * @param gtnRequest
+	 * @return
+	 */
+	public GtnUIFrameworkWebserviceResponse getResetResponse(GtnUIFrameworkWebserviceRequest gtnRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
+						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_FETCH_INFORMATION_SERVICE,
+				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

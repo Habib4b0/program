@@ -36,6 +36,7 @@ public class ExcelUtils {
 
     public static void setExcelData(final List resultList, final Object[] object, final List<String> visibleColumns, ExtTreeContainer<AdjustmentDTO> excelBeanContainer, final int discountColumnNeeded, final String module, List<Object> listData) throws IllegalAccessException, InvocationTargetException {
         int interval = (int) listData.get(3);
+        excelBeanContainer.removeAllItems();
         if (module.equals(ARMConstants.getPipelineInventoryTrueUp())) {
             setExcelHierarchyData(inventoryCustomizer(resultList, object, visibleColumns, true, interval, discountColumnNeeded), excelBeanContainer);
         } else if (module.equals(ARMConstants.getTransaction8())) {
@@ -556,7 +557,7 @@ public class ExcelUtils {
                 newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
                 if (!"0".equals(newC)) {
                     if (!newC.equals("null")) {
-                        if (!summaryOldC.equals(newC) && object.length > summaryKeyParam) {
+                        if (object.length > summaryKeyParam && !summaryOldC.equals(newC)) {
 
                             summaryKeyParam++;
                             if (String.valueOf(resultSet[(j + 1) * NumericConstants.TWO]).equalsIgnoreCase("null")) {
@@ -638,7 +639,7 @@ public class ExcelUtils {
     }
 
     private static void setTotalValue(String newC, Object value, AdjustmentDTO dto, boolean isTrx3) {
-        if ("0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN() && isTrx3 ? true : String.valueOf(value).matches("^[\\d.]+$")) {
+        if (isTrx3 ? true : String.valueOf(value).matches("^[\\d.]+$") && value != null && !Double.valueOf(String.valueOf(value)).isNaN() && "0".equals(newC)) {
             dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.parseDouble(String.valueOf(value)));
         }
     }
@@ -653,7 +654,7 @@ public class ExcelUtils {
 
         @Override
         public int compare(ExcelSorterDTO o1, ExcelSorterDTO o2) {
-            return o1.getKey() == o2.getKey() ? o1.getValue().compareTo(o2.getValue()) : ((Integer) o1.getKey()).compareTo((Integer) o2.getKey());
+            return o1.getKey() == o2.getKey() ? o1.getValue().compareTo(o2.getValue()) : Integer.compare(o1.getKey(), o2.getKey());
         }
 
     }

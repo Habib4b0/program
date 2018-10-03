@@ -89,11 +89,11 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
     private Object[] visibleColumnsobj = new Object[]{"documentName", "dateAdded", "userName"};
     private String[] columnHeadersobj = new String[]{"Document Name", "Date Added", "User Name"};
 
-    public NotesTabForm(FieldGroup binder, String moduleName, SessionDTO sessionDTO, String adjustmentType) throws SystemException {
+    public NotesTabForm(CustomFieldGroup binder, String moduleName, SessionDTO sessionDTO, String adjustmentType) throws SystemException {
         super(binder, moduleName);
         getNotesBinder();
         configureField();
-        this.binder = (CustomFieldGroup) binder;
+        this.binder = binder;
         this.sessionDTO = sessionDTO;
         this.adjustmentType = adjustmentType;
         userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
@@ -103,6 +103,10 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         table.setVisibleColumns(visibleColumnsobj);
         table.setColumnHeaders(columnHeadersobj);
         configureGeneratedColumn();
+        init();
+    }
+
+    private void init() {
         if (!this.adjustmentType.isEmpty()) {
             addReasonCodeDdlb();
         }
@@ -140,7 +144,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         filePath = new CommonUtil().getFileName(basepath + File.separator + "Documents" + File.separator + moduleName);
         wordFile = new CommonUtil().getFileName(filePath + File.separator + fileName + ExportWord.DOC_EXT);
         pdfFile = new CommonUtil().getFileName(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
-        fileUploadPath = FileUploader.FILE_PATH + moduleName + "/";
+        fileUploadPath = FileUploader.FILE_PATH+"/" + moduleName + "/";
     }
 
     @Override
@@ -262,14 +266,18 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
 
     @Override
     public void removeButtonLogic(Button.ClickEvent event) {
+        if (tableBean == null || tableBeanId == null || !table.isSelected(tableBeanId)) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.REMOVE_ATTACHMENT, "Please select an attachment to remove ");
+            return;
+        }
+        
         String currentUsersName = tableBean.getUserName();
         if (currentUsersName.contains(",")) {
             String[] str = currentUsersName.split(",");
             currentUsersName = str[1] + ARMUtils.SPACE + str[0];
         }
-        if (tableBeanId == null || !table.isSelected(tableBeanId)) {
-            AbstractNotificationUtils.getErrorNotification(CommonConstant.REMOVE_ATTACHMENT, "Please select an attachment to remove ");
-        } else if (!currentUsersName.trim().equalsIgnoreCase(userName.trim())) {
+        
+        if (!currentUsersName.trim().equalsIgnoreCase(userName.trim())) {
             AbstractNotificationUtils.getInfoNotification(CommonConstant.REMOVE_ATTACHMENT, "You can only remove attachments that you have uploaded.");
         } else {
             AbstractNotificationUtils removeNotification = new AbstractNotificationUtils() {

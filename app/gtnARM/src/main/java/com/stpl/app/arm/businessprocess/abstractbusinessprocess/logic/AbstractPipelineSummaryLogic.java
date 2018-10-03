@@ -114,7 +114,7 @@ public abstract class AbstractPipelineSummaryLogic<T extends AdjustmentDTO> exte
         if (dto instanceof AdjustmentDTO) {
             AdjustmentDTO val = (AdjustmentDTO) dto;
             int levelNo = val.getLevelNo();
-            masterSids = val.getMasterIds();
+            masterSids = (TreeMap<String, Integer>) val.getMasterIds();
             if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
                 if (selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
                     currentViewType = ARMUtils.getDemandSummaryLevelsinglePeriod().get(levelNo);

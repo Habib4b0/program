@@ -25,7 +25,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.GlobalConstants;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -335,10 +334,10 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
             filterMap = ARMUtils.loadViewFilterMapForAdjustmentDetailGTN();
         }
         StringBuilder variables = new StringBuilder();
-        String countQuery=new String(query);
-        countQuery=countQuery.replace("@VARIABLES", "Count(*)");
-        countQuery=countQuery.replace("@JOINS", "");
-        countQuery=countQuery.replace(PAGINATION, "");
+        String countQuery = query;
+        countQuery = countQuery.replace("@VARIABLES", "Count(*)");
+        countQuery = countQuery.replace("@JOINS", "");
+        countQuery = countQuery.replace(PAGINATION, "");
         StringBuilder join = new StringBuilder();
         query = query.replace(PAGINATION, CommonFilterLogic.getInstance().orderByQueryGenerator(tableLogic.getSortByColumns(), ARMUtils.loadViewFilterMapForAdjustment(), orderBy).toString());
         for (String object : selection.getSavedetailvariables()) {
@@ -346,7 +345,7 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
                     || "deductionRate.44".equals(object)) {
                 variables.append(", \n").append(selectMap.get(object)).append(" AS ").append(filterMap.get(object));
             } else {
-                variables.append(", \n" + "QUOTENAME( CHAR(9) + ").append(selectMap.get(object)).append("+ CHAR(9),CHAR(34))" + " AS ").append(filterMap.get(object));
+                variables.append(", \n" + " CHAR(9) + ").append(selectMap.get(object)).append("+ CHAR(9) " + " AS ").append(filterMap.get(object));
                 String val = joinsMap.get(object);
                 join.append(val != null || !"null".equals(String.valueOf(val).trim()) ? "\n" + val : StringUtils.EMPTY);
             }
@@ -354,17 +353,16 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
         String var = variables.toString().substring(1);
         query = query.replace("@VARIABLES", var);
         query = query.replace("@JOINS", join.toString());
-        query   =  query +" "+" OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        query = query + " " + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         long exportBeginTime = System.currentTimeMillis();
         SessionDTO sessionDto = selection.getSessionDTO();
-	String fileAbsolutePath = GtnWsCsvExportUtil.getExportFileName(
-		"ADJUSTMENT_DETAILS", countQuery, query,Arrays.asList(visibleHeaders), 
-                sessionDto.getUserId().toString(), sessionDto.getSessionId().toString(),1);
-	GtnWsCsvExportUtil.sendTheExcelToUser("ADJUSTMENT_DETAILS",
-						fileAbsolutePath, true, sessionDto.getUserId().toString(), sessionDto.getSessionId().toString());
+        String fileAbsolutePath = GtnWsCsvExportUtil.getExportFileName(
+                "ADJUSTMENT_DETAILS", countQuery, query, Arrays.asList(visibleHeaders),
+                sessionDto.getUserId().toString(), sessionDto.getSessionId().toString(), 1);
+        GtnWsCsvExportUtil.sendTheExcelToUser("ADJUSTMENT_DETAILS",
+                fileAbsolutePath, true, sessionDto.getUserId().toString(), sessionDto.getSessionId().toString());
         long exportEndTime = System.currentTimeMillis();
         LOGGER.info("BCP Export took {}", (exportEndTime - exportBeginTime) + " milliseconds");
     }
 
-    
 }

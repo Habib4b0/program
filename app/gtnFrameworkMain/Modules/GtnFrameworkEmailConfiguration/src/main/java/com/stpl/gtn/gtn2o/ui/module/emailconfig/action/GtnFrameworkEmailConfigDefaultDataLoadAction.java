@@ -42,10 +42,7 @@ public class GtnFrameworkEmailConfigDefaultDataLoadAction
 			GtnWsMailConfigurationRequest mcRequest = new GtnWsMailConfigurationRequest();
 
 			request.setMailConfigurationRequest(mcRequest);
-			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-					GtnWsEMailConfigurationConstants.MAIL_CONFIG_SAVE_ACTION_SAVE
-							+ GtnWsEMailConfigurationConstants.GET_DEFAULT_VALUE,
-					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebserviceResponse response = callMailConfigSaveAction(wsclient, request);
 			GtnWsEMailConfigurationBean bean = response.getGtnWsMailConfigurationResponse().geteMailConfigurationBean();
 			List<Object[]> defaultValue = bean.getDefaultDataLoad();
 
@@ -68,6 +65,13 @@ public class GtnFrameworkEmailConfigDefaultDataLoadAction
 			logger.error("The error is " + ex);
 		}
 	}
+
+    public GtnUIFrameworkWebserviceResponse callMailConfigSaveAction(final GtnUIFrameworkWebServiceClient wsclient, final GtnUIFrameworkWebserviceRequest request) {
+         return  wsclient.callGtnWebServiceUrl(
+                GtnWsEMailConfigurationConstants.MAIL_CONFIG_SAVE_ACTION_SAVE
+                        + GtnWsEMailConfigurationConstants.GET_DEFAULT_VALUE,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());       
+    }
 
 	@Override
 	public GtnFrameworkEmailConfigDefaultDataLoadAction createInstance() {

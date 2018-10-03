@@ -95,6 +95,8 @@ public class ExclusionDetailsLookup extends Window {
     private ExtFilterTable availableCustomers;
     @UiField("selectedCustomer")
     private ExtFilterTable selectedCustomer;
+    @UiField("deleteViewBtn")
+    private Button deleteViewBtn;
     private PrivatePublicLookup viewLookUp;
     private ExclusionDetailsLogic arLogic = new ExclusionDetailsLogic();
     private SessionDTO sessionDTO;
@@ -142,6 +144,7 @@ public class ExclusionDetailsLookup extends Window {
         fieldName.addItem(ARMConstants.getAccountName());
         fieldName.addItem(ARMConstants.getContractId());
         fieldName.select(ARMConstants.getAccountId());
+        deleteViewBtn.setEnabled(false);
         rightAligned.addStyleName("layout-rightpadding");
         getIntialLoad();
         setFieldValues();
@@ -189,6 +192,7 @@ public class ExclusionDetailsLookup extends Window {
                             publicView.setValue(StringUtils.EMPTY);
                             publicOrPrivateView.setImmediate(true);
                             publicOrPrivateView.setValue(viewLookUp.getDtoValue().getViewName());
+                            deleteViewBtn.setEnabled(true);
                             setViewDTO(viewLookUp.getDtoValue());
                             fieldName.select(viewLookUp.getDtoValue().getFieldName());
                             selectedResultsContainer.removeAllItems();
@@ -227,6 +231,7 @@ public class ExclusionDetailsLookup extends Window {
                     case "reset":
                         getIntialLoad();
                         getFieldValue();
+                        deleteViewBtn.setEnabled(false);
                         break;
                     case "delete":
                         // delete logic
@@ -239,6 +244,7 @@ public class ExclusionDetailsLookup extends Window {
                         getFieldValue();
                         privateView.setValue(StringUtils.EMPTY);
                         publicView.setValue(StringUtils.EMPTY);
+                        deleteViewBtn.setEnabled(false);
                         break;
                     default:
                 }
@@ -455,7 +461,11 @@ public class ExclusionDetailsLookup extends Window {
         accountId = new StringBuilder();
         accountName = new StringBuilder();
         accountContractId = new StringBuilder();
-        for (ExclusionLookupDTO dto : selectedResultsContainer.getItemIds()) {
+        setFields(selectedResultsContainer.getItemIds());
+    }
+
+    private void setFields(List<ExclusionLookupDTO> list) {
+        for (ExclusionLookupDTO dto : list) {
             if (ARMConstants.getAccountId().equalsIgnoreCase(dto.getExcludedField())) {
                 accountId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
             } else if (ARMConstants.getAccountName().equalsIgnoreCase(dto.getExcludedField())) {
@@ -482,21 +492,7 @@ public class ExclusionDetailsLookup extends Window {
         accountId = new StringBuilder();
         accountName = new StringBuilder();
         accountContractId = new StringBuilder();
-        for (ExclusionLookupDTO dto : list) {
-            if (ARMConstants.getAccountId().equalsIgnoreCase(dto.getExcludedField())) {
-                accountId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
-            } else if (ARMConstants.getAccountName().equalsIgnoreCase(dto.getExcludedField())) {
-                accountName.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
-            } else if (ARMConstants.getContractId().equalsIgnoreCase(dto.getExcludedField())) {
-                accountContractId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
-            }
-        }
-        accountId.replace(accountId.length() > 0 ? (accountId.length() - 1) : 0, accountId.length(), "");
-        accountName.replace(accountName.length() > 0 ? (accountName.length() - 1) : 0, accountName.length(), "");
-        accountContractId.replace(accountContractId.length() > 0 ? (accountContractId.length() - 1) : 0, accountContractId.length(), "");
-        check(accountId);
-        check(accountName);
-        check(accountContractId);
+        setFields(list);
     }
 
     @Override
