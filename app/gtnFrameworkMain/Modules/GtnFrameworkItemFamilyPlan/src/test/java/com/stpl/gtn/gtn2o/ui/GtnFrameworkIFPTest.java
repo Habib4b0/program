@@ -34,10 +34,8 @@ import com.vaadin.ui.UI;
 @PrepareForTest(value = { UI.class, GtnUIFrameworkGlobalUI.class })
 public class GtnFrameworkIFPTest {
 	
-	private transient GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkIFPTest.class); 
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkIFPTest.class); 
 	
-	@Mock
-	GtnUIFrameworkEngine gtnUIFrameworkEngine;
 	@InjectMocks
 	GtnFrameworkIFP gtnFrameworkIFPInstance;
 	
@@ -55,6 +53,7 @@ public class GtnFrameworkIFPTest {
 
             @Override
             protected void init(VaadinRequest request) {
+            	// Init method
             }
         };
         PowerMockito.mockStatic(UI.class, GtnUIFrameworkGlobalUI.class);

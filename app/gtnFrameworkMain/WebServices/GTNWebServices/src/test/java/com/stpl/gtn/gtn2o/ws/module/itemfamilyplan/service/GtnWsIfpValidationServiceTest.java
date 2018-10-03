@@ -194,6 +194,29 @@ public class GtnWsIfpValidationServiceTest {
 
 		fixture.ifpIdAndIfpNoValidation(gtnWsRequest);
 	}
+	
+	@Test
+	public void testIfpIdAndIfpNoValidation_catchBlock() throws Exception {
+		
+		try{
+			fixture.ifpIdAndIfpNoValidation(null);
+		}catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testifpCommonValidation_catchBlock() throws Exception {
+
+		try{
+			fixture.ifpCommonValidation(null);
+		}catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+
+	}
 
 	/**
 	 * Run the GtnWsIfpValidationService() constructor test.
