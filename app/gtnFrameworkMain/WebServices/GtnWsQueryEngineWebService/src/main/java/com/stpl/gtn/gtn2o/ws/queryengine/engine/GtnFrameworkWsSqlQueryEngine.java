@@ -60,7 +60,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			logger.debug(GtnWsQueryEngineConstants.START
 					+ new SimpleDateFormat(GtnWsQueryEngineConstants.TIME).format(new Date(startTime)));
-			Query query = session.createSQLQuery(sqlQuery);
+			Query query = getQuery(session, sqlQuery);
 			list = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
 			logger.debug(GtnWsQueryEngineConstants.END
@@ -106,7 +106,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 
 	@SuppressWarnings("unchecked")
 	public Query generateSQLQuery(Session session, String sqlQuery, Object[] params, GtnFrameworkDataType[] type) {
-		Query queryForGenerate = session.createSQLQuery(sqlQuery);
+		Query queryForGenerate = getQuery(session, sqlQuery);
 		debugQuery(sqlQuery, params, type);
 		for (int i = 0; i < params.length; i++) {
 
@@ -149,7 +149,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		
 		Session session = sessionFactory.openSession();
 
-		SQLQuery query=session.createSQLQuery(sqlquery) ;
+		SQLQuery query=getQuery(session, sqlquery) ;
 		
 		for(Map.Entry<String, GtnFrameworkDataType> mapEntry : inputMap.entrySet()) {
 			GtnFrameworkDataType dataType = mapEntry.getValue();
@@ -284,7 +284,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 			logger.debug(GtnWsQueryEngineConstants.START
 					+ new SimpleDateFormat(GtnWsQueryEngineConstants.TIME).format(new Date(startTime)));
 			tr.begin();
-			Query query = session.createSQLQuery(sqlQuery);
+			Query query = getQuery(session, sqlQuery);
 			updateOrDeletedRecordCount = query.executeUpdate();
 			tr.commit();
 			queryLogger.endQueryLog(startTime, sqlQuery);
@@ -310,7 +310,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 			long startTime = queryLogger.startQueryLog(sqlQueryWithoutParams);
 			logger.debug(GtnWsQueryEngineConstants.START
 					+ new SimpleDateFormat(GtnWsQueryEngineConstants.TIME).format(new Date(startTime)));
-			Query query = session.createSQLQuery(sqlQueryWithoutParams);
+			Query query = getQuery(session, sqlQueryWithoutParams);
 			List<?> queryValueListForCount = query.list();
 			if (queryValueListForCount != null && !queryValueListForCount.isEmpty()) {
 				count = (Integer) queryValueListForCount.get(0);
@@ -362,6 +362,10 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
     @Override
     public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
          // Default Method
+    }
+    
+    public SQLQuery getQuery (Session session, String query) {
+        return session.createSQLQuery(query);
     }
 }
 

@@ -96,7 +96,7 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 			}
 		}else {
 			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
-			alertAction.throwAlertUtil("", actionParamList.get(2).toString());
+			alertAction.throwAlertUtilAction(actionParamList.get(2).toString());
 		}
 
 		

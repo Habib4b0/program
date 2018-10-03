@@ -30,15 +30,15 @@ public class GtnFrameworkForecastDataSelectionViewUpdateAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		GtnFrameworkForecastDataSelectionBean DataSelectionBean = (GtnFrameworkForecastDataSelectionBean) GtnUIFrameworkGlobalUI
+		GtnFrameworkForecastDataSelectionBean dataSelectionBean = (GtnFrameworkForecastDataSelectionBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getComponentData().getSharedPopupData();
-		DataSelectionBean.setViewName(String.valueOf(GtnUIFrameworkGlobalUI
+		dataSelectionBean.setViewName(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(2).toString(), componentId).getV8StringFromField()));
-		DataSelectionBean.setViewType(String.valueOf(GtnUIFrameworkGlobalUI
+		dataSelectionBean.setViewType(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(3).toString(), componentId).getV8StringFromField()));
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsForecastNewArchRequest forecastRequest = new GtnWsForecastNewArchRequest();
-		forecastRequest.setDataSelectionBean(DataSelectionBean);
+		forecastRequest.setDataSelectionBean(dataSelectionBean);
 		request.setGtnWsForecastNewArchRequest(forecastRequest);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_WS_REPORT_UPDATEVIEW_SERVICE,
@@ -47,11 +47,11 @@ public class GtnFrameworkForecastDataSelectionViewUpdateAction
 		infoAction.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 		if (response.getGtnWsGeneralResponse().isSucess()) {
 			infoAction.addActionParameter("Information");
-			infoAction.addActionParameter("You have successfully updated " + DataSelectionBean.getViewType()
-					+ " View " + DataSelectionBean.getViewName());
+			infoAction.addActionParameter("You have successfully updated " + dataSelectionBean.getViewType()
+					+ " View " + dataSelectionBean.getViewName());
 		} else {
 			infoAction.addActionParameter("Cannot update public view");
-			infoAction.addActionParameter("You cannot update " +DataSelectionBean.getViewType()+" View " + "("+DataSelectionBean.getViewName()+")"
+			infoAction.addActionParameter("You cannot update " +dataSelectionBean.getViewType()+" View " + "("+dataSelectionBean.getViewName()+")"
 					+ " because it was created by another user. \n" + "You can choose to save a new profile under a different profile name." );
 		}
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, infoAction);

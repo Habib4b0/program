@@ -383,7 +383,7 @@ public class CommonUtils {
         }
         String ret = "";
         if (frequencyDivision == 1) {
-            ret = "" + startYear;
+            ret = "" + Integer.toString(startYear);
         } else if (frequencyDivision == NumericConstants.FOUR) {
             ret = "Q" + startFreq + " " + startYear;
         } else if (frequencyDivision == NumericConstants.TWO) {
@@ -431,10 +431,7 @@ public class CommonUtils {
         query.add(RestrictionsFactoryUtil.eq("name", "ETL"));
         query.add(RestrictionsFactoryUtil.in("roleId", roleList));
         List<Role> userList = RoleLocalServiceUtil.dynamicQuery(query);
-        if (!userList.isEmpty()) {
-            return true;
-        }
-        return false;
+        return !userList.isEmpty();
     }
 
     public void textValidation(Object obj, Object key) {

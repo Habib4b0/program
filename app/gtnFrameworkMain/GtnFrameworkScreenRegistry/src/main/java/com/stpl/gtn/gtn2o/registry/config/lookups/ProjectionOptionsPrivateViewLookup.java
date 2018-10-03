@@ -35,6 +35,13 @@ public class ProjectionOptionsPrivateViewLookup
 
 {
 	private GtnUIFrameworkDataSelectionScreenConfig privatePublicViewConfig = new GtnUIFrameworkDataSelectionScreenConfig();
+	private static final String[] COLUMN_PROPERTY_IDS = { GtnFrameworkScreenRegisteryConstants.VIEW_NAME, GtnFrameworkScreenRegisteryConstants.DESCRIPTION,
+			GtnFrameworkScreenRegisteryConstants.FROM_DATE,GtnFrameworkScreenRegisteryConstants.TO_DATE,
+			GtnFrameworkScreenRegisteryConstants.CUSTOMER_HIERARCHY,GtnFrameworkScreenRegisteryConstants.CUSTOMER_LEVEL,
+			GtnFrameworkScreenRegisteryConstants.CUSTOMER_GROUP,GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,GtnFrameworkScreenRegisteryConstants.BRAND_TYPE,
+			GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY,GtnFrameworkScreenRegisteryConstants.PRODUCT_LEVEL,GtnFrameworkScreenRegisteryConstants.PRODUCT_GROUP,
+			GtnFrameworkScreenRegisteryConstants.CREATED_DATE,GtnFrameworkScreenRegisteryConstants.MODIFIED_DATE,GtnFrameworkScreenRegisteryConstants.CREATED_BY,
+			GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID};
 
 	public GtnUIFrameworkViewConfig getPrivateViewLookUpView(String namespace) {
 
@@ -332,7 +339,7 @@ public class ProjectionOptionsPrivateViewLookup
 				"Description","Time Period:From",
 				"Time Period:To", "Customer Hierarchy", "Customer Level","Customer Group","Company","Brand Type","Product Hierarchy","Product Level","Product Group","Created Date","Modified Date","Created By","Business Unit"));
 		privateViewPagedTableConfig.setTableColumnMappingId(
-				new Object[] { "viewName", "description", "fromDate","toDate","customerHierarchy","customerLevel","customerGroup","company","brandType","productHierarchy","productLevel","productGroup","createdDate","modifiedDate",
+				new Object[] { GtnFrameworkForecastingStringConstants.VIEW_NAME, "description", "fromDate","toDate","customerHierarchy","customerLevel","customerGroup","company","brandType","productHierarchy","productLevel","productGroup","createdDate","modifiedDate",
 						"createdBy","businessUnit"});
 		privateViewPagedTableConfig.setQueryName("privatePublic");
                 List<String> additionalSearchCriteria = new ArrayList<>();
@@ -364,9 +371,8 @@ public class ProjectionOptionsPrivateViewLookup
 	}
 	
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		String[] columnPropertyIds = { "viewName", "description", "fromDate","toDate","customerHierarchy","customerLevel","customerGroup","company","brandType","productHierarchy","productLevel","productGroup","createdDate","modifiedDate","createdBy","businessUnit"};
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> privateViewCustomFilterConfigMap = new HashMap<>(
-				columnPropertyIds.length);
+				COLUMN_PROPERTY_IDS.length);
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
@@ -376,12 +382,12 @@ public class ProjectionOptionsPrivateViewLookup
 		String[] custComboboxIds = new String[1];
 		String[] custComboBoxType =  new String[1];
 		int startIndex = 0;
-		for (int i = 0; i < columnPropertyIds.length; i++) {
+		for (int i = 0; i < COLUMN_PROPERTY_IDS.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig privateViewHierarchyFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			privateViewHierarchyFilterConfig.setPropertId(columnPropertyIds[i]);
+			privateViewHierarchyFilterConfig.setPropertId(COLUMN_PROPERTY_IDS[i]);
 			privateViewHierarchyFilterConfig.setGtnComponentType(componentType[i]);
 			if ((startIndex < custComboboxIds.length)
-					&& columnPropertyIds[i].equals(custComboboxIds[startIndex])) {
+					&& COLUMN_PROPERTY_IDS[i].equals(custComboboxIds[startIndex])) {
 				GtnUIFrameworkComponentConfig privateViewSearchFilterConfig = new GtnUIFrameworkComponentConfig();
 				privateViewSearchFilterConfig.setComponentId("customFilterComboBox");
 				privateViewSearchFilterConfig.setComponentName("customFilterComboBox");
@@ -437,13 +443,13 @@ public class ProjectionOptionsPrivateViewLookup
                 if(namespace.equals("Private"))
                 {
 		actionParameter.add(GtnFrameworkCommonConstants.COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
-                actionParameter.add(Arrays.asList("viewName"));
+                actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.VIEW_NAME));
                 actionParameter.add(Arrays.asList("Commercial Forecasting_privateViewLookup"));
                 }
                 if(namespace.equals("Public"))
                 {
                 actionParameter.add(GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
-                actionParameter.add(Arrays.asList("viewName"));
+                actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.VIEW_NAME));
                 actionParameter.add(Arrays.asList(GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW));
                 }
 		

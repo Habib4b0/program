@@ -34,8 +34,8 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
 	private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
-	long staticTime = System.currentTimeMillis();
-	ExecutorService service = Executors.newCachedThreadPool();
+	private long staticTime = System.currentTimeMillis();
+	private ExecutorService service = Executors.newCachedThreadPool();
 
 	public List<Object[]> getPeriodResults(String businessProcessType) {
 		return loadDateBusinessType(businessProcessType);
@@ -162,13 +162,13 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 				scal.add(Calendar.MONTH, 3);
 			}
 		} catch (ParseException e) {
-			logger.error("Error in generating quarter information:" + e.toString());
+			logger.error("Error in generating quarter information: {}", e);
 		}
 		return quarters;
 	}
 
 	public Runnable createRunnable(final Object... inputs) {
-		Runnable runnable = new Runnable() {
+		return new Runnable() {
 			@Override
 			public void run() {
 				GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure1 = (GtnUIFrameworkWebServiceClientCallOnFailure) inputs[0];
@@ -176,7 +176,6 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 				gtnWebServiceClientCallOnFailure1.callGtnWebServiceUrlOnFailure();
 			}
 		};
-		return runnable;
 	}
 
 	@Override

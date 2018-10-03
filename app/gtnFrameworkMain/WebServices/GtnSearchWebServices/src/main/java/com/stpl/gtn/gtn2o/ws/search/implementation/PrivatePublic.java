@@ -12,7 +12,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
@@ -30,6 +29,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -72,7 +72,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 
             if (viewName != null && !viewName.equals("*")) {
             	strQuery.append(queryMap.get(webSearchCriteriaList.get(0).getFieldId()));
-                param.add(viewType.replaceAll("\\*", "%"));
+                param.add(viewType != null ? viewType.replaceAll("\\*", "%") : StringUtils.EMPTY);
                 data.add(GtnFrameworkDataType.STRING);
                 count++;
             }
@@ -117,15 +117,6 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         return response;
     }
 
-
-    private int getQuery(StringBuilder strQuery, Map<String, String> queryMap, List<GtnWebServiceSearchCriteria> webSearchCriteriaList, List<Object> param, String viewType, List<GtnFrameworkDataType> data, int count) {
-        strQuery.append(queryMap.get(webSearchCriteriaList.get(1).getFieldId()));
-        param.add(viewType.replaceAll("\\*", "%"));
-        data.add(GtnFrameworkDataType.STRING);
-        count++;
-        return count;
-    }
-
     private List<Object[]> method(List<Object[]> resultList) throws IOException {
         List<Object[]> list = new ArrayList<>();
         GtnFrameworkForecastDataSelectionBean bean;
@@ -158,7 +149,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
     }
 
     private GtnFrameworkForecastDataSelectionBean convertJsonToObject(Class<GtnFrameworkForecastDataSelectionBean> dataSelectionBean,
-            String viewData) throws JsonParseException, JsonMappingException, IOException {
+            String viewData) throws  JsonMappingException, IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(viewData, dataSelectionBean);

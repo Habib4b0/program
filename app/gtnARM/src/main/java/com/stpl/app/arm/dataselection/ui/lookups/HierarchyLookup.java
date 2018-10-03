@@ -33,7 +33,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.vaadin.v7.data.validator.StringLengthValidator;
-import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
+import static com.stpl.app.arm.utils.ResponsiveUtils.getResponsiveControls;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.data.Property;
@@ -69,8 +69,6 @@ public class HierarchyLookup extends Window {
     private DataSelectionLogic logic = new DataSelectionLogic();
 
     private CustomTextField.ClickEvent ctfEvent;
-
-    private String customerProductHier;
 
     private String lookupName;
 
@@ -164,7 +162,7 @@ public class HierarchyLookup extends Window {
     }
 
     public void captionOnValueChange(CustomTextField.ClickEvent event) {
-        customerProductHier = event.getComponent().getId().trim();
+        String customerProductHier = event.getComponent().getId().trim();
         selectButtonDS.setEnabled(false);
         if (customerProductHier.equals("productHierarchy")) {
             setCaption("Product Hierarchy Lookup");

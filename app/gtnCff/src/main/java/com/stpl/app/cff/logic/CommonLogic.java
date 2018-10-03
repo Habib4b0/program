@@ -301,11 +301,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 
     public static boolean isValidViewName(int projectionId, String viewName, int customId) {
         List<CustomViewMaster> list = getCustomViewforViewName(projectionId, viewName, customId);
-        if (list != null && !list.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(list != null && !list.isEmpty());
 
     }
 
