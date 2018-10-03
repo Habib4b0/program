@@ -249,6 +249,10 @@ public class Converters {
             dataSelectionDTO.setCustomRelationShipSid(getCustomRelationShipSid(objects));
             dataSelectionDTO.setCustomDeductionRelationShipSid(getCustomDeductionRelationShipSid(objects));
 
+            if (objects.length > NumericConstants.THIRTY_FIVE) {
+                dataSelectionDTO.setDeductionLevel(String.valueOf(objects[NumericConstants.THIRTY_FIVE]));
+                dataSelectionDTO.setDeductionValue(String.valueOf(objects[NumericConstants.THIRTY_SIX]));
+            }
             dataSelectionDTOs.add(dataSelectionDTO);
         }
 
@@ -312,7 +316,7 @@ public class Converters {
         }
 
         dataSelectionDTO.setModifiedBy(String.valueOf(objects[NumericConstants.TWENTY_TWO]));
-        dataSelectionDTO.setSaveFlag(CommonConstants.NULL.getConstant().equals(String.valueOf(objects[NumericConstants.TWENTY_THREE])) ? false : Boolean.parseBoolean(String.valueOf(objects[NumericConstants.TWENTY_THREE])));
+        dataSelectionDTO.setSaveFlag(Boolean.parseBoolean(String.valueOf(objects[NumericConstants.TWENTY_THREE])));
 
         dataSelectionDTO.setCustomerHierarchyInnerLevel(String.valueOf(objects[NumericConstants.TWENTY_FIVE]));
         dataSelectionDTO.setProductHierarchyInnerLevel(String.valueOf(objects[NumericConstants.TWENTY_SIX]));

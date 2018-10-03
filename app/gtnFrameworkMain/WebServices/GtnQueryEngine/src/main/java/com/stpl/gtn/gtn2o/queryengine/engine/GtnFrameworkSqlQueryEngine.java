@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -73,7 +74,7 @@ public class GtnFrameworkSqlQueryEngine {
 		List list = null;
 		try (Session session = getSessionFactory().openSession()) {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			Query query = session.createSQLQuery(sqlQuery);
+			Query query = getQuery(session, sqlQuery);
 			list = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
 		} catch (Exception ex) {
@@ -90,7 +91,7 @@ public class GtnFrameworkSqlQueryEngine {
 		List<Object[]> list = null;
 		try (Session session = getSessionFactory().openSession()) {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			Query query = session.createSQLQuery(sqlQuery);
+			Query query = getQuery(session, sqlQuery);
 			list = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
 			createQueryFile(filename, sqlQuery);
@@ -129,7 +130,7 @@ public class GtnFrameworkSqlQueryEngine {
 		List queyValuelist = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			Query query = session.createSQLQuery(sqlQuery);
+			Query query = getQuery(session, sqlQuery);
 			query.setParameterList(queryParameterListids, queryParameterList);
 			queyValuelist = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
@@ -186,7 +187,7 @@ public class GtnFrameworkSqlQueryEngine {
 
 	@SuppressWarnings("unchecked")
 	public Query generateSQLQuery(Session session, String sqlQuery, Object[] params, GtnFrameworkDataType[] type) {
-		Query query = session.createSQLQuery(sqlQuery);
+		Query query = getQuery(session, sqlQuery);
 		debugQuery(sqlQuery, params, type);
 		for (int i = 0; i < params.length; i++) {
 
@@ -293,7 +294,7 @@ public class GtnFrameworkSqlQueryEngine {
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			trx.begin();
-			Query query = session.createSQLQuery(sqlQuery);
+			Query query = getQuery(session, sqlQuery);
 			updateOrDeletedRecordCount = query.executeUpdate();
 			trx.commit();
 			queryLogger.endQueryLog(startTime, sqlQuery);
@@ -429,7 +430,7 @@ public class GtnFrameworkSqlQueryEngine {
 		List queryValueList = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			Query query = session.createSQLQuery(sqlQuery);
+			Query query = getQuery(session, sqlQuery);
 			for (int i = 0; i < paramList.size(); i++) {
 				query.setParameter(i, paramList.get(i));
 			}
@@ -450,7 +451,7 @@ public class GtnFrameworkSqlQueryEngine {
 		List<?> queryValueList = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			Query query = session.createSQLQuery(sqlQuery);
+			Query query = getQuery(session, sqlQuery);
 			queryValueList = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
 		} catch (Exception ex) {
@@ -466,7 +467,7 @@ public class GtnFrameworkSqlQueryEngine {
 		int count = 0;
 		try (Session session = sessionFactory.openSession()) {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			Query query = session.createSQLQuery(sqlQuery);
+			Query query = getQuery(session, sqlQuery);
 			List<?> queryValueList = query.list();
 			if (queryValueList != null && !queryValueList.isEmpty()) {
 				count = (Integer) queryValueList.get(0);
@@ -494,6 +495,10 @@ public class GtnFrameworkSqlQueryEngine {
 		executeInsertOrUpdateQuery(procedureCall, params, type);
 		long endTime = System.currentTimeMillis();
 		logger.info("Procedure Execution Time = = = " + (endTime - startTime));
+	}
+
+	public SQLQuery getQuery(Session session, String query) {
+		return session.createSQLQuery(query);
 	}
 
 }
