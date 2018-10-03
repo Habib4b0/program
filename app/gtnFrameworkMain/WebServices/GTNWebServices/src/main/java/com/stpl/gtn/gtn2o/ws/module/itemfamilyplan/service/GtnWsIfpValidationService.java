@@ -65,7 +65,7 @@ public class GtnWsIfpValidationService {
 			List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(ifpValidationQuery, params, dataType);
 			for (Object[] objects : resultList) {
 				String id = String.valueOf(objects[0]);
-				String value = String.valueOf(objects[1]);
+				String value = String.valueOf(objects[1]); 
 				switch (id) {
 				case "ITEMS_COUNT":
 					ifpValidationBean.setCount(Integer.parseInt(value));
