@@ -713,10 +713,7 @@ public class ItemManagementIndex extends CustomComponent {
         input.add(selecteditemList.size());
         List list = ItemQueries.getItemData(input, "Checking the items in one contract", null);
 
-        if (list == null || list.isEmpty()) {
-            return false;
-    }
-        return true;
+        return !(list == null || list.isEmpty());
     }
 
     /**

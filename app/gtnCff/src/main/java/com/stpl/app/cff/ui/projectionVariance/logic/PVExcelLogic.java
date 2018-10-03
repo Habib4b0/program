@@ -246,12 +246,13 @@ public class PVExcelLogic {
     }
 
 	public String getFormattedValue(DecimalFormat format, String value) {
-        if (value.contains(Constants.NULL)) {
-            value = ZERO;
+            String valueExcel = value;
+        if (valueExcel.contains(Constants.NULL)) {
+            valueExcel = ZERO;
         } else {
-			value = format.format(Double.valueOf(value));
+			valueExcel = format.format(Double.valueOf(valueExcel));
         }
-        return value;
+        return valueExcel;
     }
 
     public String isNull(String value) {
@@ -280,21 +281,22 @@ public class PVExcelLogic {
     }
 
     public String checkFrequency(String frequency) {
-        switch (frequency) {
+        String frequencyCheck = frequency;
+        switch (frequencyCheck) {
             case StringConstantsUtil.QUARTERLY_FREQ:
-                frequency = StringConstantsUtil.QUARTERLY_LABEL;
+                frequencyCheck = StringConstantsUtil.QUARTERLY_LABEL;
                 break;
             case StringConstantsUtil.SEMI_ANNUALLY_FREQ:
-                frequency = StringConstantsUtil.SEMI_ANNUAL_LABEL;
+                frequencyCheck = StringConstantsUtil.SEMI_ANNUAL_LABEL;
                 break;
             case StringConstantsUtil.MONTHLY_FREQ:
-                frequency = StringConstantsUtil.MONTHLY_LABEL;
+                frequencyCheck = StringConstantsUtil.MONTHLY_LABEL;
                 break;
             default:
-                frequency = StringConstantsUtil.ANNUAL_LABEL;
+                frequencyCheck = StringConstantsUtil.ANNUAL_LABEL;
                 break;
         }
-        return frequency;
+        return frequencyCheck;
     }
 
     public void getTotalRawDataPivot() {
@@ -2732,7 +2734,7 @@ public class PVExcelLogic {
                 }
             } else {
                 Object[] emptyArray = Collections.nCopies(obj.length, 0).toArray(new Object[0]);
-                if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
+                if (String.valueOf(obj[obj.length - 1]).equals(ZERO)) {
                     actual = list.get(0);
                     proj = emptyArray;
                 } else {

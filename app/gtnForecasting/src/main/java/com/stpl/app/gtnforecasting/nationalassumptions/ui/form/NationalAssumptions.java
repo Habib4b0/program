@@ -1166,15 +1166,11 @@ public class NationalAssumptions extends CustomComponent implements View {
         com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
-        Calendar calStartDatePopulate = Calendar.getInstance();
-        calStartDatePopulate.setTime(startDate);
-        Calendar calEndDatePopulate = Calendar.getInstance();
-        calEndDatePopulate.setTime(endDate);
-        int startYear = calStartDatePopulate.get(Calendar.YEAR);
-        int endYear = calEndDatePopulate.get(Calendar.YEAR);
+        int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+        int endYear = endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
         int years = (endYear - startYear) + 1;
         int lastPr = NumericConstants.FOUR;
-        int endMonth = calEndDatePopulate.get(Calendar.MONTH) + 1;
+        int endMonth = endDate.getMonth() + 1;
         int endPeriod = getQuator(endMonth);
 
         for (int i = 0; i < years; i++) {
@@ -1397,7 +1393,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     newNdcDto.setFssFlag(true);
                     String ndcDesc = String.valueOf(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO]);
                     if (StringUtils.isNotBlank(ndcDesc)) {
-                        ndcDesc = ndcDesc + ", " + obj[NumericConstants.THREE];
+                         ndcDesc = ndcDesc.concat(", ").concat(String.valueOf(obj[NumericConstants.THREE]));
                     } else {
                         ndcDesc = String.valueOf(obj[NumericConstants.THREE]);
                     }
@@ -1422,7 +1418,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     newNdcDto.setFederalFlag(true);
                     String ndcDesc = String.valueOf(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO]);
                     if (StringUtils.isNotBlank(ndcDesc)) {
-                        ndcDesc = ndcDesc + ", " + obj[1];
+                        ndcDesc = ndcDesc.concat(", ").concat(String.valueOf(obj[1]));
                     } else {
                         ndcDesc = String.valueOf(obj[1]);
                     }

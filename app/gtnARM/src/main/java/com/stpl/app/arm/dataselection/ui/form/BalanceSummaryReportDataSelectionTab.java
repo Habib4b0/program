@@ -73,10 +73,10 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
         super();
         this.bsrDataSelectionDTO = selection;
         this.tabSheet = tabSheet;
-        init();
+        reportTabInit();
     }
 
-    private void init() {
+    private void reportTabInit() {
         panel1.setCaption("Selection Criteria");
         configureDataSelection();
         loadValuesInDataSelection();
@@ -255,6 +255,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
                 HelperDTO hlpd = (HelperDTO) adjItem;
                 if (bsrDataSelectionDTO.getAdjustmentId() == hlpd.getId()) {
                     adjItemToAdd = adjItem;
+                    break;
                 }
             }
         }

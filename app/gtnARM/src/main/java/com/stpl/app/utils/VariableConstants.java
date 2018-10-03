@@ -288,14 +288,14 @@ public class VariableConstants {
      */
     public enum PipelineSummaryVariables {
 
-        CPIPELINEACRUAL(ARMConstants.getCPipelineAccrual()),
-        PPIPELINEACRUAL(ARMConstants.getPPipelineAccrual()),
-        VARIANCE(ARMConstants.getVariance()),
-        OVERRIDE(ARMConstants.getOverride()),
-        ADJUSTMENT(ARMConstants.getAdjustment());
+        CPIPELINEACRUAL(CURRENT_PIPELINE_ACCRUAL),
+        PPIPELINEACRUAL(PROJECTED_PIPELINE_ACCRUAL),
+        VARIANCE(VARIANCE_STR),
+        OVERRIDE(OVERRIDE_STR),
+        ADJUSTMENT(ADJUSTMENT_STR);
         private final String constant;
 
-        PipelineSummaryVariables(String constant) {
+        private PipelineSummaryVariables(String constant) {
             this.constant = constant;
         }
 
@@ -315,15 +315,15 @@ public class VariableConstants {
      */
     public enum PISummaryVariables {
 
-        CPIPELINEACCRUAL(ARMConstants.getCPipelineAccrual()),
-        PPIPELINEACCRUAL(ARMConstants.getPPipelineAccrual()),
-        VARIANCE(ARMConstants.getVariance()),
-        PIPELINERATIO(ARMConstants.getPipelineRatio()),
-        OVERRIDE(ARMConstants.getOverride()),
-        ADJUSTMENT(ARMConstants.getAdjustment());
+        CPIPELINEACCRUAL(CURRENT_PIPELINE_ACCRUAL),
+        PPIPELINEACCRUAL(PROJECTED_PIPELINE_ACCRUAL),
+        VARIANCE(VARIANCE_STR),
+        PIPELINERATIO(PIPELINE_RATIO),
+        OVERRIDE(OVERRIDE_STR),
+        ADJUSTMENT(ADJUSTMENT_STR);
         private String constant;
 
-        PISummaryVariables(String constant) {
+        private PISummaryVariables(String constant) {
             this.constant = constant;
         }
 
@@ -340,15 +340,15 @@ public class VariableConstants {
 
     public enum PISummaryDeductionVariables {
 
-        CPIPELINEACCRUAL(ARMConstants.getCPipelineAccrual()),
-        PPIPELINEACCRUAL(ARMConstants.getPPipelineAccrual()),
-        PIPELINERATIO(ARMConstants.getPipelineRatio()),
-        VARIANCE(ARMConstants.getVariance()),
-        OVERRIDE(ARMConstants.getOverride()),
-        ADJUSTMENT(ARMConstants.getAdjustment());
+        CPIPELINEACCRUAL(CURRENT_PIPELINE_ACCRUAL),
+        PPIPELINEACCRUAL(PROJECTED_PIPELINE_ACCRUAL),
+        PIPELINERATIO(PIPELINE_RATIO),
+        VARIANCE(VARIANCE_STR),
+        OVERRIDE(OVERRIDE_STR),
+        ADJUSTMENT(ADJUSTMENT_STR);
         private String constant;
 
-        PISummaryDeductionVariables(String constant) {
+        private PISummaryDeductionVariables(String constant) {
             this.constant = constant;
         }
 
@@ -368,16 +368,16 @@ public class VariableConstants {
      */
     public enum DemandSummaryVariables {
 
-        DEMANDACCRUAL(ARMConstants.getDemandAccrualConstant()),
-        DEMANDACCRUALREFORECAST(ARMConstants.getDemandAccrualReforecast()),
-        TOTALDEMANDACCRUAL(ARMConstants.getTotalDemandAccrual()),
-        PROJECTEDTOTALDEMANDACCRUAL(ARMConstants.getProjectedTotalDemandAccrual()),
-        DEMANDACCRUALRATIO(ARMConstants.getDemandAccrualRatio()),
-        VARIANCE(ARMConstants.getVariance()),
-        OVERRIDE(ARMConstants.getOverride()),
-        ADJUSTMENT(ARMConstants.getAdjustment());
+        DEMANDACCRUAL(DEMAND_ACCRUAL_STR),
+        DEMANDACCRUALREFORECAST(DEMAND_ACCRUAL_REFORECAST),
+        TOTALDEMANDACCRUAL(TOTAL_DEMAND_ACCRUAL_STR),
+        PROJECTEDTOTALDEMANDACCRUAL(PROJECTED_TOTAL_DEMAND_ACCRUAL_STR),
+        DEMANDACCRUALRATIO(DEMAND_ACCRUAL_RATIO),
+        VARIANCE(VARIANCE_STR),
+        OVERRIDE(OVERRIDE_STR),
+        ADJUSTMENT(ADJUSTMENT_STR);
 
-        protected String constant;
+        private String constant;
 
         private DemandSummaryVariables(String constant) {
             this.constant = constant;
@@ -396,19 +396,19 @@ public class VariableConstants {
 
     public enum DemandPaymentSummaryVariables {
 
-        DEMANDACCRUAL(ARMConstants.getDemandAccrualConstant()),
-        DEMANDACCRUALREFORECAST(ARMConstants.getDemandAccrualReforecast()),
-        DEMANDACCRUALRECON(ARMConstants.getDemandPaymentReconVariable()),
-        TOTALDEMANDACCRUAL(ARMConstants.getTotalDemandAccrual()),
-        ACTUALPAYMENTS(ARMConstants.getActualPayments()),
-        PAYMENTRATIO(ARMConstants.getPaymentRatio()),
-        VARIANCE(ARMConstants.getVariance()),
-        OVERRIDE(ARMConstants.getOverride()),
-        ADJUSTMENT(ARMConstants.getAdjustment());
+        DEMANDACCRUAL(DEMAND_ACCRUAL_STR),
+        DEMANDACCRUALREFORECAST(DEMAND_ACCRUAL_REFORECAST),
+        DEMANDACCRUALRECON(DEMAND_ACCRUAL_RECON),
+        TOTALDEMANDACCRUAL(TOTAL_DEMAND_ACCRUAL_STR),
+        ACTUALPAYMENTS(ACTUAL_PAYMENTS_STR),
+        PAYMENTRATIO(PAYMENT_RATIO_STR),
+        VARIANCE(VARIANCE_STR),
+        OVERRIDE(OVERRIDE_STR),
+        ADJUSTMENT(ADJUSTMENT_STR);
 
         private String constant;
 
-        DemandPaymentSummaryVariables(String constant) {
+        private DemandPaymentSummaryVariables(String constant) {
             this.constant = constant;
         }
 
@@ -423,7 +423,7 @@ public class VariableConstants {
 
     }
 
-    public static enum SalesVariables {
+    public enum SalesVariables {
 
         TOTAL_UNITS("Total Units"),
         TOTAL_SALES("Total Sales"),
@@ -453,7 +453,7 @@ public class VariableConstants {
 
     }
 
-    public static enum PipelineInventoryVariables {
+    public enum PipelineInventoryVariables {
 
         TOTAL_UNITS("Total Inventory"),
         TOTAL_SALES("Weeks On Hand"),
@@ -547,14 +547,35 @@ public class VariableConstants {
     public static final String COMPANY_SID = "compSids";
     public static final String BRNAD_ID = "brandSids";
 
+    private static final String CURRENT_PIPELINE_ACCRUAL = ARMConstants.getCPipelineAccrual();
+    private static final String PROJECTED_PIPELINE_ACCRUAL = ARMConstants.getPPipelineAccrual();
+    private static final String PIPELINE_RATIO = ARMConstants.getPipelineRatio();
+    private static final String VARIANCE_STR = ARMConstants.getVariance();
+    private static final String OVERRIDE_STR = ARMConstants.getOverride();
+    private static final String ADJUSTMENT_STR = ARMConstants.getAdjustment();
+    private static final String DEMAND_ACCRUAL_STR = ARMConstants.getDemandAccrualConstant();
+    private static final String DEMAND_ACCRUAL_REFORECAST = ARMConstants.getDemandAccrualReforecast();
+    private static final String TOTAL_DEMAND_ACCRUAL_STR = ARMConstants.getTotalDemandAccrual();
+    private static final String PROJECTED_TOTAL_DEMAND_ACCRUAL_STR = ARMConstants.getProjectedTotalDemandAccrual();
+    private static final String DEMAND_ACCRUAL_RATIO = ARMConstants.getDemandAccrualRatio();
+    private static final String DEMAND_ACCRUAL_RECON = ARMConstants.getDemandPaymentReconVariable();
+    private static final String ACTUAL_PAYMENTS_STR = ARMConstants.getActualPayments();
+    private static final String PAYMENT_RATIO_STR = ARMConstants.getPaymentRatio();
+    private static final String TR7_CURRENT_BALANCE = ARMConstants.getTrx7CurrentBalance();
+    private static final String TR7_CALCULATED_ADJUSTMENT = ARMConstants.getTrx7CalculatedAdjustment();
+    private static final String TR7_ADJUSTMENT_RATIO = ARMConstants.getTrx7AdjustmentRatio();
+    private static final String TR7_VARIANCE = ARMConstants.getTrx7Variance();
+    private static final String TR7_OVERRIDE = ARMConstants.getTrx7Override();
+    private static final String TR7_ADJUSTMENT = ARMConstants.getTrx7Adjustment();
+
     public enum Trx7SummaryVariables {
 
-        CURRENTBALANCE(ARMConstants.getTrx7CurrentBalance()),
-        CALCULATEDADJUSTMENT(ARMConstants.getTrx7CalculatedAdjustment()),
-        ADJUSTEMNTRATIO(ARMConstants.getTrx7AdjustmentRatio()),
-        VARIANCE(ARMConstants.getTrx7Variance()),
-        OVERRIDE(ARMConstants.getTrx7Override()),
-        ADJUSTMENT(ARMConstants.getTrx7Adjustment());
+        CURRENTBALANCE(TR7_CURRENT_BALANCE),
+        CALCULATEDADJUSTMENT(TR7_CALCULATED_ADJUSTMENT),
+        ADJUSTEMNTRATIO(TR7_ADJUSTMENT_RATIO),
+        VARIANCE(TR7_VARIANCE),
+        OVERRIDE(TR7_OVERRIDE),
+        ADJUSTMENT(TR7_ADJUSTMENT);
         private String constant;
 
         Trx7SummaryVariables(String constant) {

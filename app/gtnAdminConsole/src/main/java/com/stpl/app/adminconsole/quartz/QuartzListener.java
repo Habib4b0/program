@@ -145,15 +145,13 @@ public class QuartzListener implements ServletContextListener {
 				if (i == 0) {
 						Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
 								.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
-						System.out
-								.println("- " + profile.getProcessDisplayName() + " Scheduling trigger " + cronString);
+						LOGGER.info("ProfileName{},Scheduling trigger{}",profile.getProcessDisplayName(),cronString);
 						scheduler.scheduleJob(job, trigger);
 						i++;
 				} else {
 						Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
 								.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
-						System.out
-								.println("- " + profile.getProcessDisplayName() + " Scheduling trigger " + cronString);
+						LOGGER.info("profileName{},Scheduling trigger{} ",profile.getProcessDisplayName(),cronString);
 						scheduler.scheduleJob(trigger);
 					i++;
 				}
@@ -339,9 +337,8 @@ public class QuartzListener implements ServletContextListener {
 
 						for (Trigger trigger : triggers) {
 							Date nextFireTime = trigger.getNextFireTime();
-							System.out.println("[jobName] : " + jobName + " [groupName] : " + jobGroup + " - "
-									+ nextFireTime + " - First Fire time -" + trigger.getStartTime()
-									+ " -Final Fire Time- " + trigger.getEndTime());
+							LOGGER.info("jobName:{}, groupName:{}, First Fire time:{}, Final Fire Time:{}",jobName, jobGroup, nextFireTime, trigger.getEndTime());
+									
 						}
 					}
 

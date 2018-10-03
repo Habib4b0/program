@@ -59,7 +59,6 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -161,17 +160,17 @@ public class NonFampResults extends Window {
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAXSPLIT_POSITION_NON = 1000;
 
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float MINSPLIT_POSITION_NON = 200;
 
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION_NON = 300;
 
     /**
      * The TableVerticalLayout.
@@ -437,9 +436,9 @@ public class NonFampResults extends Window {
     private void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        periodTableId.setSplitPosition(SPLIT_POSITION_NON, Sizeable.Unit.PIXELS);
+        periodTableId.setMinSplitPosition(MINSPLIT_POSITION_NON, Sizeable.Unit.PIXELS);
+        periodTableId.setMaxSplitPosition(MAXSPLIT_POSITION_NON, Sizeable.Unit.PIXELS);
         periodTableId.addStyleName("valo-theme-extfiltertable");
         periodTableId.addStyleName("table-header-center");
     }
@@ -560,14 +559,10 @@ public class NonFampResults extends Window {
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
             if (startDate != null && endDate != null) {
-                Calendar calStartDateResults = Calendar.getInstance();
-                calStartDateResults.setTime(startDate);
-                Calendar calEndDateResults = Calendar.getInstance();
-                calEndDateResults.setTime(endDate);
-                projectionDTO.setEndYear(calEndDateResults.get(Calendar.YEAR));
-                projectionDTO.setEndMonth(calEndDateResults.get(Calendar.MONTH) + 1);
-                projectionDTO.setHistProjYear(calStartDateResults.get(Calendar.YEAR));
-                projectionDTO.setHistProjMonth(calStartDateResults.get(Calendar.MONTH) + 1);
+                projectionDTO.setEndYear(endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
+                projectionDTO.setEndMonth(endDate.getMonth() + 1);
+                projectionDTO.setHistProjYear(startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
+                projectionDTO.setHistProjMonth(startDate.getMonth() + 1);
                 projectionDTO.setProjectionNum(CommonUtils.getProjections(new Date(), endDate, QUARTERLY.getConstant()));
             }
         }

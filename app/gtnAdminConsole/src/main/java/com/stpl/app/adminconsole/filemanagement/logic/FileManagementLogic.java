@@ -791,49 +791,50 @@ public class FileManagementLogic {
 						inventoryWdProjMas.setModifiedDate(date);
 						InventoryWdProjMasLocalServiceUtil.addInventoryWdProjMas(inventoryWdProjMas);
 					} else if (fileType.getDescription().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-						String query = insertQueryForInventoryDetails();
+						StringBuilder query = new StringBuilder();
+                                                query.append(insertQueryForInventoryDetails());
                                                
 						if (beanItem.getYear() == null || ConstantsUtils.EMPTY.equals(beanItem.getYear())) {
-							query += "0";
+							query.append('0');
 						} else {
-							query += "'" + beanItem.getYear() + "'";
+							query.append("  '").append(beanItem.getYear()).append("'  ");
 						}
 
-						query += StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getMonth())) ? "," + 0
-								: buildQuery(beanItem.getMonth());
-						query += buildQuery(beanItem.getDay());
-						query += buildQuery(beanItem.getWeek());
-						query += StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getCompanyId())) ? "," + 0
-								: buildQuery(beanItem.getCompanyId());
-						query += buildQuery(beanItem.getIdentifierCodeQualifier());
-						query += buildQuery(beanItem.getCompanyIdentifier());
-						query += StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getItemId())) ? "," + 0
-								: buildQuery(beanItem.getItemId());
-						query += buildQuery(beanItem.getItemIdentifierCodeQualifier());
-						query += StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getItemIdentifier()))
-								? ",'" + 0 + "'" : buildQuery(beanItem.getItemIdentifier());
-						query += StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getUnitsWithdrawn())) ? "," + 0
-								: buildQuery(beanItem.getUnitsWithdrawn());
-						query += buildQuery(beanItem.getAmountWithdrawn());
-						query += buildQuery(beanItem.getPrice());
-						query += ",'" + convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
-								DEFAULT_SQL_DATE_FORMAT) + "'";
-						query += ",'" + convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
-								DEFAULT_SQL_DATE_FORMAT) + "'";
-						query += StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getBatchId())) ? ",'" + 0 + "'"
-								: buildQuery(beanItem.getBatchId());
-						query += ",'" + source + "'";
-						query += ",'" + forecastName + "'";
-						query += ",'" + version + "'";
-						query += ",'" + country + "'";
-						query += StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getOrganizationKey()))
-								? ",'" + 0 + "'" : buildQuery(beanItem.getOrganizationKey());
-						query += StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getCompanyId())) ? ",'" + 0 + "'"
-								: buildQuery(beanItem.getCompanyId());
-						query += StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getItemId())) ? ",'" + 0 + "'"
-								: buildQuery(beanItem.getItemId());
-						query += ");";
-						HelperTableLocalServiceUtil.executeUpdateQuery(query);
+						query.append(StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getMonth())) ? "," + 0
+								: buildQuery(beanItem.getMonth()));
+						query.append(buildQuery(beanItem.getDay()));
+						query.append(buildQuery(beanItem.getWeek()));
+						query.append(StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getCompanyId())) ? "," + 0
+								: buildQuery(beanItem.getCompanyId()));
+						query.append(buildQuery(beanItem.getIdentifierCodeQualifier()));
+						query.append(buildQuery(beanItem.getCompanyIdentifier()));
+						query.append(StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getItemId())) ? "," + 0
+								: buildQuery(beanItem.getItemId()));
+						query.append(buildQuery(beanItem.getItemIdentifierCodeQualifier()));
+						query.append(StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getItemIdentifier()))
+								? ",'" + 0 + "'" : buildQuery(beanItem.getItemIdentifier()));
+						query.append(StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getUnitsWithdrawn())) ? "," + 0
+								: buildQuery(beanItem.getUnitsWithdrawn()));
+						query.append(buildQuery(beanItem.getAmountWithdrawn()));
+						query.append(buildQuery(beanItem.getPrice()));
+						query.append(",'").append(convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
+								DEFAULT_SQL_DATE_FORMAT)).append("' ");
+						query.append(",'").append(convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
+								DEFAULT_SQL_DATE_FORMAT)).append("' ");
+						query.append(StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getBatchId())) ? ",'" + 0 + "'"
+								: buildQuery(beanItem.getBatchId()));
+						query.append(",'").append(source).append("' ");
+						query.append(",'").append(forecastName).append("' ");
+						query.append(",'").append(version).append("' ");
+						query.append(",'").append(country).append("' ");
+						query.append(StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getOrganizationKey()))
+								? ",'" + 0 + "'" : buildQuery(beanItem.getOrganizationKey()));
+						query.append(StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getCompanyId())) ? ",'" + 0 + "'"
+								: buildQuery(beanItem.getCompanyId()));
+						query.append(StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getItemId())) ? ",'" + 0 + "'"
+								: buildQuery(beanItem.getItemId()));
+						query.append(");");
+						HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 						flag = true;
 
 					} else if (fileType.getDescription().equals(ConstantsUtils.CUSTOMERGTS)) {
@@ -1376,14 +1377,13 @@ public class FileManagementLogic {
 							if (stringFilter.getFilterString() != null && !stringFilter.getFilterString().isEmpty()
 									&& !stringFilter.getFilterString().equalsIgnoreCase("null")
 									&& !stringFilter.getFilterString().equalsIgnoreCase("0")) {
-								condition = condition + StringConstantUtils.AND_SPACE
-										+ resultsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-										+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+								condition = condition.concat(StringConstantUtils.AND_SPACE)
+										.concat(resultsColumn.get(String.valueOf(stringFilter.getPropertyId()))).concat(
+										StringConstantUtils.LIKE_SPACE).concat(filterString).concat("'");
 							}
 						} else {
-							condition = condition + StringConstantUtils.AND_SPACE
-									+ resultsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-									+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+							condition = condition.concat(StringConstantUtils.AND_SPACE).concat(resultsColumn.get(String.valueOf(stringFilter.getPropertyId()))).concat(StringConstantUtils.LIKE_SPACE).concat(filterString).concat("'");
+									
 						}
 
 					} else if (filter instanceof Between) {
@@ -1392,24 +1392,20 @@ public class FileManagementLogic {
 						Date filterString1 = (Date) stringFilter.getEndValue();
 						if (StringConstantUtils.FROM_DATE.equals(stringFilter.getPropertyId())) {
 							if (!dateWhereCondition.isEmpty()) {
-								dateWhereCondition = dateWhereCondition + " AND FT_MIN_DATE >= '"
-										+ dateFormat.format(filterString) + "' ";
+								dateWhereCondition = dateWhereCondition.concat(" AND FT_MIN_DATE >= '").concat(dateFormat.format(filterString).concat("' "));
 							} else {
-								dateWhereCondition = dateWhereCondition + " WHERE FT_MIN_DATE >= '"
-										+ dateFormat.format(filterString) + "' ";
+								dateWhereCondition = dateWhereCondition.concat(" WHERE FT_MIN_DATE >= '").concat(dateFormat.format(filterString)).concat("' ");
 							}
-							dateWhereCondition = dateWhereCondition + " AND FT_MIN_DATE <= '"
-									+ dateFormat.format(filterString1) + "' ";
+							dateWhereCondition = dateWhereCondition.concat(" AND FT_MIN_DATE <= '").concat(dateFormat.format(filterString1)).concat("' ");
 						}
 						if (StringConstantUtils.TO_DATE.equals(stringFilter.getPropertyId())) {
 							if (!dateWhereCondition.isEmpty()) {
-								dateWhereCondition = dateWhereCondition + " AND FT_MAX_DATE >= '" + filterString + "' ";
+								dateWhereCondition = dateWhereCondition.concat(" AND FT_MAX_DATE >= '").concat(String.valueOf(filterString)).concat("' ");
 							} else {
-								dateWhereCondition = dateWhereCondition + " WHERE FT_MAX_DATE >= '" + filterString
-										+ "' ";
+								dateWhereCondition = dateWhereCondition.concat(" WHERE FT_MAX_DATE >= '").concat(String.valueOf(filterString)).concat("' ");
 							}
 
-							dateWhereCondition = dateWhereCondition + " AND FT_MAX_DATE <= '" + filterString1 + "' ";
+							dateWhereCondition = dateWhereCondition.concat(" AND FT_MAX_DATE <= '").concat(String.valueOf(filterString)).concat("' ");
 						}
 
 					}

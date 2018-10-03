@@ -135,22 +135,30 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     @UiField("tableVerticalLayout")
     protected VerticalLayout tableVerticalLayout;
 
-    protected ExtTreeContainer<ProjectionResultsDTO> resultBeanContainer, excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
+    protected ExtTreeContainer<ProjectionResultsDTO> excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
+    protected ExtTreeContainer<ProjectionResultsDTO> resultBeanContainer = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
     protected ResultsTableLogic tableLogic = new ResultsTableLogic();
     protected FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
-    protected boolean generated, firstGenerated = false;
+    protected boolean firstGenerated = false;
+    protected boolean generated = false;
     private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private final Resource graphImage = new ThemeResource("../../icons/chart.png");
     protected HorizontalLayout controlLayout;
     protected ProjectionSelectionDTO projectionSelectionDTO = new ProjectionSelectionDTO();
     protected SessionDTO sessionDTO;
     protected String screenName;
-    protected int projectionId = 0, customId = 0, customIdToSelect = 0;
+    protected int projectionId = 0;
+    protected int customId = 0;
+    protected int customIdToSelect = 0;
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
     private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
-    protected CustomTableHeaderDTO leftHeader, rightHeader, fullHeader = new CustomTableHeaderDTO();
+    protected CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    protected CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    protected CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     protected List<CffCustomViewMaster> customViewList = new ArrayList<>();
-    protected final float maxSplitPosition = 1000, minSplitPosition = NumericConstants.TWO_HUNDRED, splitPosition = 300;
+    protected final float maxSplitPosition = 1000;
+    protected final float minSplitPosition = NumericConstants.TWO_HUNDRED;
+    protected final float splitPosition = 300;
     protected ExtCustomTreeTable exceltable;
     private final int tradingPartnerNo = 0;
 

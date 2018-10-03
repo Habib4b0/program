@@ -48,10 +48,7 @@ public class GtnFrameworkIfpAddAction
 		generalWSRequest.setSessionId(String
 				.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.SESSION_ID)));
 		gtnRequest.setGtnWsGeneralRequest(generalWSRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE_USER_NAME,
-				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = getWSResponse(gtnRequest);
 		String userName = response.getGtnWsGeneralResponse().getUserName();
 		GtnUIFrameworkGlobalUI.addSessionProperty("userName", userName);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpInformationTabCreatedBy", componentId)
@@ -62,6 +59,17 @@ public class GtnFrameworkIfpAddAction
 							GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
 									+ GtnWsIFamilyPlanContants.GTN_WS_IFP_TEMP_DELETE_SERVICE ,
 							gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+	}
+
+	/**
+	 * @param gtnRequest
+	 * @return
+	 */
+	public GtnUIFrameworkWebserviceResponse getWSResponse(GtnUIFrameworkWebserviceRequest gtnRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+						+ GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE_USER_NAME,
+				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

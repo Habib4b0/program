@@ -301,11 +301,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 
     public static boolean isValidViewName(int projectionId, String viewName, int customId) {
         List<CustomViewMaster> list = getCustomViewforViewName(projectionId, viewName, customId);
-        if (list != null && !list.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(list != null && !list.isEmpty());
 
     }
 
@@ -1010,24 +1006,25 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 
     public static String getGroupFilterQuery(String userGroup, int userId, int sessionId, boolean isPrior) {
         String query = "";
-        if (!userGroup.isEmpty()) {
-            if (userGroup.startsWith("All")) {
-                if (userGroup.contains("Discount")) {
-                    userGroup = " like '%' ";
-                    query = getGroupFilterDiscountQuery(userGroup, userId, sessionId, isPrior);
-                } else if (userGroup.contains("PPA")) {
-                    userGroup = " like '%' ";
-                    query = getGroupFilterPPAQuery(userGroup, userId, sessionId, isPrior);
+        String userGroupFilter = userGroup;
+        if (!userGroupFilter.isEmpty()) {
+            if (userGroupFilter.startsWith("All")) {
+                if (userGroupFilter.contains("Discount")) {
+                    userGroupFilter = " like '%' ";
+                    query = getGroupFilterDiscountQuery(userGroupFilter, userId, sessionId, isPrior);
+                } else if (userGroupFilter.contains("PPA")) {
+                    userGroupFilter = " like '%' ";
+                    query = getGroupFilterPPAQuery(userGroupFilter, userId, sessionId, isPrior);
                 }
-            } else if (userGroup.startsWith(StringConstantsUtil.DISCOUNT_HYPEN)) {
-                userGroup = " = '" + userGroup.replace(StringConstantsUtil.DISCOUNT_HYPEN, "") + "' ";
-                query = getGroupFilterDiscountQuery(userGroup, userId, sessionId, isPrior);
-            } else if (userGroup.startsWith("PPA-")) {
-                userGroup = " = '" + userGroup.replace("PPA-", "") + "' ";
-                query = getGroupFilterPPAQuery(userGroup, userId, sessionId, isPrior);
-            } else if (userGroup.startsWith(StringConstantsUtil.SALES_HYPEN)) {
-                userGroup = " = '" + userGroup.replace(StringConstantsUtil.SALES_HYPEN, "") + "' ";
-                query = getGroupFilterSalesQuery(userGroup, userId, sessionId, isPrior);
+            } else if (userGroupFilter.startsWith(StringConstantsUtil.DISCOUNT_HYPEN)) {
+                userGroupFilter = " = '" + userGroupFilter.replace(StringConstantsUtil.DISCOUNT_HYPEN, "") + "' ";
+                query = getGroupFilterDiscountQuery(userGroupFilter, userId, sessionId, isPrior);
+            } else if (userGroupFilter.startsWith("PPA-")) {
+                userGroupFilter = " = '" + userGroupFilter.replace("PPA-", "") + "' ";
+                query = getGroupFilterPPAQuery(userGroupFilter, userId, sessionId, isPrior);
+            } else if (userGroupFilter.startsWith(StringConstantsUtil.SALES_HYPEN)) {
+                userGroupFilter = " = '" + userGroupFilter.replace(StringConstantsUtil.SALES_HYPEN, "") + "' ";
+                query = getGroupFilterSalesQuery(userGroupFilter, userId, sessionId, isPrior);
             }
         }
         return query;
@@ -1329,34 +1326,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             str = "AND RLD1.LEVEL_NO = " + levelNo;
         }
         return str;
-    }
-
-    public static String getGroupFilterQueryMandated(String userGroup, int userId, int sessionId) {
-        String query = "";
-        if (!userGroup.isEmpty()) {
-            if (userGroup.startsWith("All")) {
-                if (userGroup.contains("Discount")) {
-                    userGroup = "  like '%' ";
-                    query = getGroupFilterDiscountQuery(userGroup, userId, sessionId);
-                } else if (userGroup.contains("PPA")) {
-                    userGroup = " like  '%' ";
-                    query = getGroupFilterPPAQuery(userGroup, userId, sessionId);
-                } else if (userGroup.contains("Sales")) {
-                    userGroup = " like  '%' ";
-                    query = getGroupFilterSalesQuery(userGroup, userId, sessionId);
-                }
-            } else if (userGroup.startsWith(StringConstantsUtil.DISCOUNT_HYPEN)) {
-                userGroup = " = '" + userGroup.replace(StringConstantsUtil.DISCOUNT_HYPEN, "") + "' ";
-                query = getGroupFilterDiscountQuery(userGroup, userId, sessionId);
-            } else if (userGroup.startsWith("PPA-")) {
-                userGroup = " = '" + userGroup.replace("PPA-", "") + "' ";
-                query = getGroupFilterPPAQuery(userGroup, userId, sessionId);
-            } else if (userGroup.startsWith(StringConstantsUtil.SALES_HYPEN)) {
-                userGroup = " = '" + userGroup.replace(StringConstantsUtil.SALES_HYPEN, "") + "' ";
-                query = getGroupFilterSalesQuery(userGroup, userId, sessionId);
-            }
-        }
-        return query;
     }
 
     public static String getGroupFilterDiscountQuery(String userGroup, int userId, int sessionId) {

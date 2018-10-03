@@ -2474,7 +2474,7 @@
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;&#x2f;&#x2f;var ndc11&#x3d;NDC11&#x3b;&#xd;&#xa;NDC9&#x3d;NDC9.replace&#x28;&#x2f;-&#x2f;g,&#x22;&#x22;&#x29;&#x3b;&#xd;&#xa;</jsScript_script>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;&#x2f;&#x2f;var ndc11&#x3d;NDC11&#x3b;&#xd;&#xa;var ndc&#x3d;NDC9.replace&#x28;&#x2f;-&#x2f;g,&#x22;&#x22;&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;NDC9&#x3d;ndc&#x3b;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>NDC9</name>
         <rename>NDC9</rename>
         <type>String</type>

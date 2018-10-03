@@ -11,7 +11,7 @@ import com.stpl.app.arm.dataselection.logic.tablelogic.PrivatePublicViewtableLog
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.utils.CommonUtils;
-import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
+import static com.stpl.app.arm.utils.ResponsiveUtils.getResponsiveControls;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.vaadin.v7.data.util.BeanItemContainer;

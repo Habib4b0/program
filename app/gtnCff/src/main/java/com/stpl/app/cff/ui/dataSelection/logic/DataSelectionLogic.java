@@ -124,17 +124,18 @@ public class DataSelectionLogic {
 	 */
 	public List<HierarchyLookupDTO> getHierarchyGroup(String hierarchyName, String hierarchyType,
 			final String customerOrProduct, final String action) throws ParseException {
-
+                        String hierarchyNameGroup = hierarchyName;
+                        String hierarchyTypeGroup = hierarchyType;
 		final List<HierarchyLookupDTO> resultList = new ArrayList<>();
 
-		if (hierarchyName.contains(String.valueOf(CommonUtils.CHAR_ASTERISK))) {
-			hierarchyName = hierarchyName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		if (hierarchyNameGroup.contains(String.valueOf(CommonUtils.CHAR_ASTERISK))) {
+			hierarchyNameGroup = hierarchyNameGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 		}
-		if (hierarchyType.contains(String.valueOf(CommonUtils.CHAR_ASTERISK))) {
-			hierarchyType = hierarchyType.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		if (hierarchyTypeGroup.contains(String.valueOf(CommonUtils.CHAR_ASTERISK))) {
+			hierarchyTypeGroup = hierarchyTypeGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 		}
 
-		final List result = dataSelectionDaoImpl.getHierarchyGroup(hierarchyName, hierarchyType, customerOrProduct, action);
+		final List result = dataSelectionDaoImpl.getHierarchyGroup(hierarchyNameGroup, hierarchyTypeGroup, customerOrProduct, action);
 
 		HierarchyLookupDTO hdto;
 		for (int i = 0; i < result.size(); i++) {
@@ -257,7 +258,7 @@ public class DataSelectionLogic {
 		parameters.put("screenName", screenName);
 		result = dataSelectionDaoImpl.getInnerLevel(parameters) != null
 				|| !dataSelectionDaoImpl.getInnerLevel(parameters).isEmpty() ? dataSelectionDaoImpl.getInnerLevel(parameters)
-						: Collections.EMPTY_LIST;
+						: Collections.emptyList();
 		for (int i = 0; i < result.size(); i++) {
 			levelInnerdto = new Leveldto();
 			final Object[] innerObject = (Object[]) result.get(i);
@@ -912,14 +913,14 @@ public class DataSelectionLogic {
 			int companySId = 0;
 			companySId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
 			final DynamicQuery dynamicLimitQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
-			filterText = StringUtils.trimToEmpty(filterText) + "%";
+			String filterTextt = StringUtils.trimToEmpty(filterText) + "%";
 			dynamicLimitQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID,
 					UiUtils.convertStringListToIngeter(companyDdlbSids)));
 			final ProjectionList productIdProjectionList = ProjectionFactoryUtil.projectionList();
 			productIdProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.COMPANY_MASTER_SID));
 			productIdProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.COMPANY_NAME_PROPERTY));
 			dynamicLimitQuery.setProjection(ProjectionFactoryUtil.distinct(productIdProjectionList));
-			dynamicLimitQuery.add(RestrictionsFactoryUtil.ilike(StringConstantsUtil.COMPANY_NAME_PROPERTY, filterText));
+			dynamicLimitQuery.add(RestrictionsFactoryUtil.ilike(StringConstantsUtil.COMPANY_NAME_PROPERTY, filterTextt));
 			dynamicLimitQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.COMPANY_TYPE_PROPERTY, companySId));
 			dynamicLimitQuery.setLimit(startIndex, endIndex);
 			final List<Object[]> returnlist = dataSelectionDaoImpl.getCompanies(dynamicLimitQuery);
@@ -969,14 +970,14 @@ public class DataSelectionLogic {
 			int companyId = 0;
 			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
 			final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
-			filterText = StringUtils.trimToEmpty(filterText) + "%";
+			String filterTextt = StringUtils.trimToEmpty(filterText) + "%";
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID,
 					UiUtils.convertStringListToIngeter(companySids)));
 			final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 			productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.COMPANY_MASTER_SID));
 			productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.COMPANY_NAME_PROPERTY));
 			dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
-			dynamicQuery.add(RestrictionsFactoryUtil.ilike(StringConstantsUtil.COMPANY_NAME_PROPERTY, filterText));
+			dynamicQuery.add(RestrictionsFactoryUtil.ilike(StringConstantsUtil.COMPANY_NAME_PROPERTY, filterTextt));
 			dynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.COMPANY_TYPE_PROPERTY, companyId));
 			dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
 			count = dataSelectionDaoImpl.getCompaniesCount(dynamicQuery);
@@ -1060,13 +1061,14 @@ public class DataSelectionLogic {
 
 	public ForecastConfig getTimePeriod(String screenName) throws SystemException {
 		List<ForecastConfig> resultList = null;
+                String screenNameLocal = screenName ;
 		final DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-			screenName = "Commercial";
+			screenNameLocal = "Commercial";
 		} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-			screenName = "Government";
+			screenNameLocal = "Government";
 		}
-		dynamicQuery.add(RestrictionsFactoryUtil.eq("businessProcessType", screenName));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("businessProcessType", screenNameLocal));
 		dynamicQuery.addOrder(OrderFactoryUtil.desc("versionNo"));
 		resultList = dataSelectionDaoImpl.getForecastConfig(dynamicQuery);
 		ForecastConfig forecastConfig = null;
@@ -1211,7 +1213,8 @@ public class DataSelectionLogic {
 		return returnList;
 	}
 
-	private DynamicQuery getRelationshipSidDynamicQuery(String filterText, final int hierarchyDefinitionSid) {
+	private DynamicQuery getRelationshipSidDynamicQuery(String filterText1, final int hierarchyDefinitionSid) {
+                String filterText =  filterText1;
 		final DynamicQuery dynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
 		filterText = StringUtils.trimToEmpty(filterText) + "%";
 		dynamicQuery
@@ -1565,8 +1568,9 @@ public class DataSelectionLogic {
 		}
 	}
 
-	public int getDiscountCount(String filterText) {
+	public int getDiscountCount(String filterText1) {
 		try {
+                        String filterText =  filterText1;
 			final DynamicQuery query = HelperTableLocalServiceUtil.dynamicQuery();
 			filterText = StringUtils.trimToEmpty(filterText) + "%";
 			final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
@@ -1594,7 +1598,7 @@ public class DataSelectionLogic {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<CompanyDdlbDto> getDiscounts(int startIndex, int endIndex, String filterText,
+	public List<CompanyDdlbDto> getDiscounts(int startIndex, int endIndex, String filterText1,
 			CompanyDdlbDto discountDdlbDefault, CompanyDdlbDto selectedDiscount) throws SystemException {
 		final List<CompanyDdlbDto> discounts = new ArrayList<>();
 		final int startValue = startIndex;
@@ -1604,6 +1608,7 @@ public class DataSelectionLogic {
 		}
 		CompanyDdlbDto discountDdlbDto;
 		final DynamicQuery query = HelperTableLocalServiceUtil.dynamicQuery();
+                String filterText =  filterText1;
 		filterText = StringUtils.trimToEmpty(filterText) + "%";
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 		productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.HELPER_TABLE_SID));
@@ -1681,9 +1686,8 @@ public class DataSelectionLogic {
 	/**
 	 * Gets the Product group.
 	 *
-	 * @param name
-	 * @param sids
-	 * @param no
+     * @param name1
+     * @param no1
 	 * @param action
 	 * @param groupIdentifier
 	 * @param indicator
@@ -1694,10 +1698,12 @@ public class DataSelectionLogic {
 	 * @return the Product group result list
 	 * @throws java.lang.Exception
 	 */
-	public List<GroupDTO> searchGroup(String name, String no, String indicator, String groupIdentifier, String action, int start, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws SystemException {
+	public List<GroupDTO> searchGroup(String name1, String no1, String indicator, String groupIdentifier, String action, int start, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws SystemException {
 		List resultList = null;
 		List<GroupDTO> returnList = null;
+                String name =  name1;
 		name = name.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+                String no =  no1;
 		no = no.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 		final Map<String, Object> parameters = prepareSearchGroup(name, no, null, indicator, action, groupIdentifier,
 				start, offset, filters, sortByColumns);
@@ -1717,10 +1723,12 @@ public class DataSelectionLogic {
 	public int searchGroupCount(String name, String no, String indicator, String groupIdentifier,
 			String action) throws SystemException {
 		List<Object> countList = null;
+                String nameGroup = name;
+                String noGroup = no;
 		int count = 0;
-		name = name.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-		no = no.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-		final Map<String, Object> parameters = prepareSearchGroup(name, no, null, indicator, action, groupIdentifier, 0,
+		nameGroup = nameGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		noGroup = noGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		final Map<String, Object> parameters = prepareSearchGroup(nameGroup, noGroup, null, indicator, action, groupIdentifier, 0,
 				0, null, null);
 		countList = dataSelectionDaoImpl.executeQueryforchannel(parameters);
 		if (countList != null && !countList.isEmpty()) {
