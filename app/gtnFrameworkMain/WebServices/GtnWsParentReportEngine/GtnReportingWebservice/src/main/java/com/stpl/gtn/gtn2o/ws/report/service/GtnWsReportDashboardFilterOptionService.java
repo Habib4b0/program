@@ -167,7 +167,7 @@ public class GtnWsReportDashboardFilterOptionService {
 			queryString.insert(query.lastIndexOf(GtnWsQueryConstants.WHERE), reportSqlService
 					.getQuery(GtnWsQueryConstants.DEDUCTION_DYNAMIC_FILTER)
 					+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
-					+ dedQuery.get(0));
+					+ dedQuery.get(2) + dedQuery.get(0));
 			queryString.append(" and ").append(dedQuery.get(1)).append(STRING_OPEN_BRACES)
 					.append(filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", ""))
 					.append(STRING_CLOSE_BRACES);
@@ -180,12 +180,18 @@ public class GtnWsReportDashboardFilterOptionService {
 		List<String> clause = new ArrayList<>();
 		String discountJoinClause = getDiscountJoinQuery(deductionLevel);
 		String discountWhereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
-		if (deductionLevel == 10) {
-			discountJoinClause = "";
-			discountWhereClause = "rcd.RS_CONTRACT_SID in";
+		String discountUdcJoinClause = " JOIN UDCS  UDC ON UDC.MASTER_SID=RC.RS_CONTRACT_SID AND UDC.MASTER_TYPE='RS_CONTRACT' ";
+		if (deductionLevel == 1 || deductionLevel == 2 || deductionLevel == 3 || deductionLevel == 10) {
+			if (deductionLevel == 10) {
+				discountJoinClause = "";
+				discountWhereClause = "rcd.RS_CONTRACT_SID in";
+			}
+			discountUdcJoinClause = "";
 		}
+
 		clause.add(discountJoinClause);
 		clause.add(discountWhereClause);
+		clause.add(discountUdcJoinClause);
 		return clause;
 	}
 
@@ -207,7 +213,7 @@ public class GtnWsReportDashboardFilterOptionService {
 			queryString.insert(query.lastIndexOf(GtnWsQueryConstants.WHERE), reportSqlService
 					.getQuery(GtnWsQueryConstants.DEDUCTION_DYNAMIC_FILTER)
 					+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
-					+ dedQuery.get(0));
+					+ dedQuery.get(2) + dedQuery.get(0));
 			queryString.append(" and ");
 			queryString.append(dedQuery.get(1)).append(STRING_OPEN_BRACES)
 					.append(filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", ""))
@@ -428,7 +434,7 @@ public class GtnWsReportDashboardFilterOptionService {
 					.getQuery(GtnWsQueryConstants.DEDUCTION_DYNAMIC_FILTER)
 					+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID \n"
 					+ " JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
-					+ dedQuery.get(0));
+					+ dedQuery.get(2) + dedQuery.get(0));
 			queryString.append(" cm.inbound_status <> 'D' and \n" + " com.inbound_status <> 'D' and \n"
 					+ " im.inbound_status <> 'D' and \n" + "rc.inbound_status <> 'D' and \n"
 					+ "rcd.inbound_status <> 'D' and \n");

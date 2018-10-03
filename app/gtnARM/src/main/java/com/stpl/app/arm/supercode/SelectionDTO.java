@@ -9,7 +9,7 @@ import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.SortedMap;
 
 /**
  *
@@ -116,8 +116,6 @@ public interface SelectionDTO {
 
     public void setProcedureInputs(String feild, Object value);
 
-    public boolean isFieldInput(String feild);
-
     public List<String[]> getSalesVariables();
 
     public String[] getVariableVisibleColumns();
@@ -158,7 +156,7 @@ public interface SelectionDTO {
 
     public void setSessionId(Integer sessionId);
 
-    public TreeMap<String, Integer> getMasterSids();
+    public SortedMap<String, Integer> getMasterSids();
 
     SessionDTO getSessionDTO();
 

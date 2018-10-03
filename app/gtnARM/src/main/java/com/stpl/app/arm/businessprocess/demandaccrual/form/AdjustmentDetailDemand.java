@@ -199,4 +199,14 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
         generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
 
     }
+
+    @Override
+    public boolean equals(Object demandAdjDetobj) {
+        return super.equals(demandAdjDetobj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

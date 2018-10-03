@@ -94,11 +94,11 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
             AdjustmentDTO dto = (AdjustmentDTO) inflationParentId;
             levelNo = dto.getLevelNo();
 
-            inflationMasterSids = (TreeMap<String, Integer>) dto.getMasterIds().clone();
+            inflationMasterSids = new TreeMap<>(dto.getMasterIds());
             inflationMasterSids.put(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo), Integer.valueOf(dto.getBranditemmasterSid()));
             levelNo++;
         } else {
-            inflationMasterSids = ARMUtils.getMasterIdsMapForTrx6();
+            inflationMasterSids = (TreeMap<String, Integer>) ARMUtils.getMasterIdsMapForTrx6();
             levelNo = 1;
             if ("Brand".equals(inflationSelection.getSaleslevelFilterValue())) {
                 levelNo = NumericConstants.TWO;
@@ -129,11 +129,11 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
         if (inflationParentId instanceof AdjustmentDTO) {
             AdjustmentDTO dto = (AdjustmentDTO) inflationParentId;
             levelNo = dto.getLevelNo();
-            masterSids = (TreeMap<String, Integer>) dto.getMasterIds().clone();
+            masterSids = new TreeMap<>(dto.getMasterIds());
             masterSids.put(ARMUtils.getInstance().getLevelAndLevelFilterMultiPeriod(CommonConstant.TRX6_INVENTORY).get(levelNo), Integer.valueOf(dto.getBranditemmasterSid()));
             levelNo++;
         } else {
-            masterSids = ARMUtils.getMasterIdsMapForTrx6();
+            masterSids = (TreeMap<String, Integer>) ARMUtils.getMasterIdsMapForTrx6();
             levelNo = 1;
             if ("Brand".equals(inflationSelection.getSaleslevelFilterValue())) {
                 levelNo = NumericConstants.TWO;
@@ -172,12 +172,12 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
             String item = obj[0] == null ? StringUtils.EMPTY : obj[0].toString();
             if (!item.equals(lastItem)) {
                 dto = new AdjustmentDTO();
-                dto.setMasterIds((TreeMap<String, Integer>) selection.getMasterSids().clone());
+                dto.setMasterIds(new TreeMap<>(selection.getMasterSids()));
                 dto.setLevelNo(selection.getLevelNo());
                 dto.setBranditemno(obj[1].toString());
                 dto.setBranditemname(obj[1].toString());
                 dto.setBranditemmasterSid(item);
-                dto.setChildrenAllowed(obj[NumericConstants.FOURTEEN] == null ? false : ((Integer) obj[NumericConstants.FOURTEEN] != 0));
+                dto.setChildrenAllowed(!String.valueOf(obj[NumericConstants.FOURTEEN]).equals(0));
                 dto.addStringProperties(fixedColumnList.get(ARMUtils.Trx6_Variables.TOTAL_INVENTORY.getColumn()), obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : ARMUtils.getFormattedValue(obj[NumericConstants.TWO].toString(), ARMUtils.ZERO_DECIMAL));
                 dto.addStringProperties(fixedColumnList.get(ARMUtils.Trx6_Variables.BASELINE_PRICE.getColumn()), obj[NumericConstants.THREE] == null ? StringUtils.EMPTY : ARMUtils.getFormattedValue(obj[NumericConstants.THREE].toString(), ARMUtils.TWO_DECIMAL_CURRENCY));
                 dto.addStringProperties(fixedColumnList.get(ARMUtils.Trx6_Variables.BASELINE_PRICE_OVERRIDE.getColumn()), obj[NumericConstants.FOUR] == null ? StringUtils.EMPTY : ARMUtils.getFormattedValue(obj[NumericConstants.FOUR].toString(), ARMUtils.TWO_DECIMAL_CURRENCY));
@@ -268,6 +268,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
                 defaultVisibleColumn.add(visibleColumn);
                 map.put(column1, visibleColumn);
             }
+            index++;
         }
         finalList.add(singleVisibleColumn);
         finalList.add(singleVisibleHeader);

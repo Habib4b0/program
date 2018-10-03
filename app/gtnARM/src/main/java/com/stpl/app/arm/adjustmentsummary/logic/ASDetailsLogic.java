@@ -86,7 +86,7 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                         if (i == 0) {
                             adjustmentDetailSelection = new StringBuilder(adjDetail.get(i).toString());
                         } else {
-                            adjustmentDetailSelection.append(ARMUtils.COMMA_CHAR).append(adjDetail.get(i).toString());
+                            adjustmentDetailSelection.append(ARMUtils.COMMA_CHAR).append(adjDetail.get(i));
                         }
                     }
                 }
@@ -162,7 +162,7 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 if (i == 0) {
                     adjustmentDetailSelection = new StringBuilder(adjDetail.get(i).toString());
                 } else {
-                    adjustmentDetailSelection.append(ARMUtils.COMMA_CHAR).append(adjDetail.get(i).toString());
+                    adjustmentDetailSelection.append(ARMUtils.COMMA_CHAR).append(adjDetail.get(i));
                 }
             }
             replaceList.add(isReserveValue);
