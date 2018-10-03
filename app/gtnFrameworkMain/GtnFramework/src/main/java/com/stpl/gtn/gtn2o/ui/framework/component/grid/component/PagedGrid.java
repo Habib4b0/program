@@ -120,14 +120,17 @@ public class PagedGrid {
 		}
 		gtnlogger.info("count------" + count);
 		gtnlogger.info("pageLength------" + pageLength);
+		gtnlogger.info("getCount()------->" + getCount());
 		dataSet = loadData((pageNumber * pageLength), pageLength);
 
 		if (dataSet.getRows() != null) {
 
 			grid.setItems(dataSet.getRows());
-			int countLabel = getCount() % pageLength == 0 ? getCount() / pageLength : getCount() / pageLength + 1;
-			if (pageCountLabel != null) {
-				pageCountLabel.setValue(String.valueOf(countLabel == 0 ? 1 : countLabel));
+			if (count != 0) {
+				int countLabel = getCount() % pageLength == 0 ? getCount() / pageLength : getCount() / pageLength + 1;
+				if (pageCountLabel != null) {
+					pageCountLabel.setValue(String.valueOf(countLabel == 0 ? 1 : countLabel));
+				}
 			}
 		}
 	}
