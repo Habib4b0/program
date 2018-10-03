@@ -40,8 +40,6 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
  */
 @Service
 public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
-   private long staticTime = System.currentTimeMillis();
-  private ExecutorService service = Executors.newCachedThreadPool();
 
     private GtnGeneralSearchService() {
         super(GtnGeneralSearchService.class);
@@ -63,11 +61,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             callServiceRegistry(request);
             logger.info("search webservices registered");
         } catch (Exception e) {
-            if (e.getMessage().contains("404 Not Found")) {
-                logger.error("Exception in searchWebservice" + e.getMessage());
-                GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
-                service.submit(call.createRunnable(this, staticTime));
-            }
+            logger.error("Exception in searchWebservice" + e.getMessage());
         }
 
     }

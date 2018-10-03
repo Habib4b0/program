@@ -39,6 +39,7 @@ public class GtnUIFrameworkWebServiceClientCallOnFailure {
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(GtnUIFrameworkWebServiceClient.class.getName()).log(Level.SEVERE, null, ex);
+            Thread.currentThread().interrupt();
         }
     }
 
