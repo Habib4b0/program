@@ -93,7 +93,7 @@ public class ExclusionAndInventoryRateLookUp extends Window {
         setClosable(true);
         center();
         setModal(true);
-        setCaption("Exclusion Details");
+        setCaption("");
         setWidth("1200px");
         setHeight("700px");
     }

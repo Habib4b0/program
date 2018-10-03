@@ -59,7 +59,6 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -560,14 +559,10 @@ public class NonFampResults extends Window {
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
             if (startDate != null && endDate != null) {
-                Calendar calStartDateResults = Calendar.getInstance();
-                calStartDateResults.setTime(startDate);
-                Calendar calEndDateResults = Calendar.getInstance();
-                calEndDateResults.setTime(endDate);
-                projectionDTO.setEndYear(calEndDateResults.get(Calendar.YEAR));
-                projectionDTO.setEndMonth(calEndDateResults.get(Calendar.MONTH) + 1);
-                projectionDTO.setHistProjYear(calStartDateResults.get(Calendar.YEAR));
-                projectionDTO.setHistProjMonth(calStartDateResults.get(Calendar.MONTH) + 1);
+                projectionDTO.setEndYear(endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
+                projectionDTO.setEndMonth(endDate.getMonth() + 1);
+                projectionDTO.setHistProjYear(startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
+                projectionDTO.setHistProjMonth(startDate.getMonth() + 1);
                 projectionDTO.setProjectionNum(CommonUtils.getProjections(new Date(), endDate, QUARTERLY.getConstant()));
             }
         }
