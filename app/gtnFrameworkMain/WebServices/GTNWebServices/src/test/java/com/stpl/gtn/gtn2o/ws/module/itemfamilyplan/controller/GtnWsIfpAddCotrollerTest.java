@@ -1,7 +1,14 @@
 package com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.controller;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.doReturn;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -9,352 +16,416 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig;
+import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.entity.itemfamilyplan.IfpModel;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanBean;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanCommonUpdateBean;
-import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanInformationBean;
 import com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service.GtnWsIfpAddService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 /**
  * @author spandan.majumder
- * @version $Revision: 1.0 
+ * @version $Revision: 1.0
  */
 public class GtnWsIfpAddCotrollerTest {
-	
+
 	@InjectMocks
 	@Autowired
 	GtnWsIfpAddCotroller fixture;
-	
+
 	@Spy
 	@Autowired
 	private GtnWsIfpAddService ifpAddWebservice;
-	
+
 	@Mock
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
-	
+
+	@Mock
+	@Autowired
+	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+
+	// @Spy
+	// @Autowired
+	// private GtnWsAllListConfig gtnWebServiceAllListConfig;
+	//
+	//
+
 	@Spy
 	@Autowired
-	private GtnWsAllListConfig gtnWebServiceAllListConfig;
-	
-//	@Spy
-//	@Autowired
-//	private GtnWsSqlService gtnWsSqlService;
+	private GtnWsSqlService gtnWsSqlService;
 
-	
 	@Before
-	public void setup()
-	{
+	public void setup() {
 		MockitoAnnotations.initMocks(this);
 	}
-	
+
 	@Test
-	public void testCheckAll_checkAllItems_returns1()
-		throws Exception {
-		
+	public void testCheckAll_checkAllItems_returns1() throws Exception {
+
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-		
+
 		doReturn(1).when(ifpAddWebservice).checkAllItems(gtnWsRequest);
-		
+
 		GtnUIFrameworkWebserviceResponse result = fixture.checkAll(gtnWsRequest);
 		assertNotNull(result);
 	}
-	
+
 	@Test
-	public void testCheckAll_checkAllItems_returns0()
-		throws Exception {
-		
+	public void testCheckAll_checkAllItems_returns0() throws Exception {
+
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-		
+
 		doReturn(0).when(ifpAddWebservice).checkAllItems(gtnWsRequest);
-		
+
 		GtnUIFrameworkWebserviceResponse result = fixture.checkAll(gtnWsRequest);
 		assertNotNull(result);
 	}
-	
+
 	@Test
-	public void testdeleteIfp()
-		throws Exception {
-		
+	public void testdeleteIfp() throws Exception {
+
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-		
+
 		doReturn(true).when(ifpAddWebservice).deleteIfpModel(gtnWsRequest);
-		
+
 		GtnUIFrameworkWebserviceResponse result = fixture.deleteIfp(gtnWsRequest);
 		assertNotNull(result);
 	}
-	
+
 	@Test
-	public void testgetIfpItemsTabDelete()
-		throws Exception {
-		
+	public void testgetIfpItemsTabDelete() throws Exception {
+
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-		
+
 		doReturn(1).when(ifpAddWebservice).getIfpTabDeleteQuery(gtnWsRequest);
-		
+
 		GtnUIFrameworkWebserviceResponse result = fixture.getIfpItemsTabDelete(gtnWsRequest);
 		assertNotNull(result);
 	}
-	
+
 	@Test
-	public void testfetchIfpInformation()
-		throws Exception {
-		
+	public void testfetchIfpInformation() throws Exception {
+
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-  
+
 		SessionFactory sessionFactory = Mockito.mock(SessionFactory.class);
 		Session session = Mockito.mock(Session.class);
 		Transaction transaction = Mockito.mock(Transaction.class);
-		
+
 		doReturn(sessionFactory).when(ifpAddWebservice).getSessionFactory();
 		doReturn(session).when(sessionFactory).openSession();
 		doReturn(transaction).when(session).beginTransaction();
-		
+
 		IfpModel ifpModel = Mockito.mock(IfpModel.class);
 		doReturn(ifpModel).when(session).get(IfpModel.class, 20516);
-		
 
 		doReturn(1).when(ifpAddWebservice).updateIfpCompaniesTabQuery(gtnWsRequest);
-		
+
 		GtnUIFrameworkWebserviceResponse result = fixture.fetchIfpInformation(gtnWsRequest);
 		assertNotNull(result);
 	}
+
+	@Test
+	public void testItemAdditionMoveLeft_1() throws Exception {
+
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
+
+		updateBean.setItemMasterSid(20516);
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
+
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+
+		doReturn(1).when(gtnSqlQueryEngine).executeInsertOrUpdateQuery(Mockito.anyString(), Mockito.any(Object[].class),
+				Mockito.anyObject());
+
+		GtnUIFrameworkWebserviceResponse result = fixture.itemAdditionMoveLeft(gtnWsRequest);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testItemAdditionMoveRight_1() throws Exception {
+
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
+
+		updateBean.setItemMasterSid(20516);
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
+
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+
+		doReturn(1).when(gtnSqlQueryEngine).executeInsertOrUpdateQuery(Mockito.anyString(), Mockito.any(Object[].class),
+				Mockito.anyObject());
+
+		GtnUIFrameworkWebserviceResponse result = fixture.itemAdditionMoveRight(gtnWsRequest);
+		assertNotNull(result);
+	}
 	
-//	@Test
-//	public void testItemAdditionMoveRight()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
-//		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
-//		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
-//		
-//		updateBean.setItemMasterSid(20516);
-//		gtnIFamilyPlan.setUpdateBean(updateBean);
-//		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
-//		
-//		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
-//		gtnWsGeneralRequest.setUserId("20516");
-//		gtnWsGeneralRequest.setSessionId("20516");
-//		
-//		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
-//		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
-//		
-//		gtnWsSqlService.getQuery("getIFPItemAdditionMoveRightQuery");
-//		
-//		//doReturn(true).when(ifpAddWebservice).deleteIfpModel(gtnWsRequest);
-//		
-//		GtnUIFrameworkWebserviceResponse result = fixture.itemAdditionMoveRight(gtnWsRequest);
-//		assertNotNull(result);
-//	}
+	@Test
+	public void testItemAdditionMoveAllLeft_1() throws Exception {
 
+		ifpAddWebservice.setGtnWsSqlService(gtnWsSqlService);
+		
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 
-//	@Test
-//	public void testCheckAll_1()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		
-//		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
-//		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
-//		
-//		GtnIFamilyPlanInformationBean ifpInfo = new GtnIFamilyPlanInformationBean();
-//		ifpInfo.setIfpId("20516");
-//		ifpInfo.setIfpNo("20516");
-//		ifpInfo.setIfpSid(20516);
-//		
-//		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
-//		updateBean.setClassType("java.util.Integer");
-//		updateBean.setColumnName("itemFamilyPlanStatus");
-//		updateBean.setValue(1);
-//		updateBean.setImtdIfpDetailsSid("20516");
-//		
-//		gtnIFamilyPlan.setIfpInfo(ifpInfo);
-//		gtnIFamilyPlan.setUpdateBean(updateBean);
-//		
-//		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
-//		gtnWsGeneralRequest.setUserId("20516");
-//		gtnWsGeneralRequest.setSessionId("20516");
-//
-//		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
-//		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
-//		
-//		doReturn(1).when(ifpAddWebservice).checkAllItems(gtnWsRequest);
-//		
-//		GtnUIFrameworkWebserviceResponse result = fixture.checkAll(gtnWsRequest);
-//		assertNotNull(result);
-//	}
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
 
+		GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+		
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+		gtnWebServiceSearchCriteriaList.add(criteria);
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		
+		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+		gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		doReturn(1).when(gtnSqlQueryEngine).executeInsertOrUpdateQuery(Mockito.anyString(), Mockito.any(Object[].class),
+				Mockito.anyObject());
+
+		try{
+			fixture.itemAdditionMoveAllLeft(gtnWsRequest);
+			
+		}catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
+	}
 	
-//	@Test
-//	public void testCompaniesResultTableData_1()
-//		throws Exception {
-//		GtnWsIfpAddCotroller fixture = new GtnWsIfpAddCotroller();
-//		fixture.setSessionFactory(new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()))))));
-//		GtnUIFrameworkWebserviceRequest ifpItemsTabRequest = new GtnUIFrameworkWebserviceRequest();
-//		ifpItemsTabRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//		ifpItemsTabRequest.setGtnWsSearchRequest(new GtnWsSearchRequest());
-//		GtnUIFrameworkWebserviceResponse result = fixture.companiesResultTableData(ifpItemsTabRequest);
-//		assertNotNull(result);
-//	}
-//
-//	@Test
-//	public void testFetchIfpInformation_1()
-//		throws Exception {
-//		GtnWsIfpAddCotroller fixture = new GtnWsIfpAddCotroller();
-//		fixture.setSessionFactory(new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()))))));
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//
-//		GtnUIFrameworkWebserviceResponse result = fixture.fetchIfpInformation(gtnWsRequest);
-//
-//		// add additional test code here
-//		assertNotNull(result);
-//	}
-//
-//	
-//	@Test
-//	public void testGetIfpItemsTabDelete_1()
-//		throws Exception {
-//		GtnWsIfpAddCotroller fixture = new GtnWsIfpAddCotroller();
-//		fixture.setSessionFactory(new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()))))));
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//
-//		GtnUIFrameworkWebserviceResponse result = fixture.getIfpItemsTabDelete(gtnWsRequest);
-//
-//		// add additional test code here
-//		assertNotNull(result);
-//	}
-//
-//	
-//	@Test
-//	public void testGetSessionFactory_1()
-//		throws Exception {
-//		GtnWsIfpAddCotroller fixture = new GtnWsIfpAddCotroller();
-//		fixture.setSessionFactory(new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()))))));
-//
-//		SessionFactory result = fixture.getSessionFactory();
-//
-//		// add additional test code here
-//		assertNotNull(result);
-//	}
-//
-//	@Test
-//	public void testIfpSearch_1()
-//		throws Exception {
-//		GtnWsIfpAddCotroller fixture = new GtnWsIfpAddCotroller();
-//		fixture.setSessionFactory(new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()))))));
-//		GtnUIFrameworkWebserviceRequest ifpSearchRequest = new GtnUIFrameworkWebserviceRequest();
-//		ifpSearchRequest.setGtnWsSearchRequest(new GtnWsSearchRequest());
-//
-//		GtnUIFrameworkWebserviceResponse result = fixture.ifpSearch(ifpSearchRequest);
-//
-//		// add additional test code here
-//		assertNotNull(result);
-//	}
-//
-//	@Test
-//	public void testItemAdditionMoveAllLeft_1()
-//		throws Exception {
-//		GtnWsIfpAddCotroller fixture = new GtnWsIfpAddCotroller();
-//		fixture.setSessionFactory(new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()))))));
-//		GtnUIFrameworkWebserviceRequest ifpMoveAllLeftRequest = new GtnUIFrameworkWebserviceRequest();
-//		ifpMoveAllLeftRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		GtnUIFrameworkWebserviceResponse result = fixture.itemAdditionMoveAllLeft(ifpMoveAllLeftRequest);
-//
-//		// add additional test code here
-//		assertNotNull(result);
-//	}
-//
-//	/**
-//	 * Run the GtnUIFrameworkWebserviceResponse itemAdditionMoveAllLeft(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	 * @generatedBy CodePro at 10/1/18 10:42 AM
-//	 */
-//	@Test
-//	public void testItemAdditionMoveAllLeft_2()
-//		throws Exception {
-//		GtnWsIfpAddCotroller fixture = new GtnWsIfpAddCotroller();
-//		fixture.setSessionFactory(new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()))))));
-//		GtnUIFrameworkWebserviceRequest ifpMoveAllLeftRequest = new GtnUIFrameworkWebserviceRequest();
-//		ifpMoveAllLeftRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		GtnUIFrameworkWebserviceResponse result = fixture.itemAdditionMoveAllLeft(ifpMoveAllLeftRequest);
-//
-//		// add additional test code here
-//		assertNotNull(result);
-//	}
-//
-//	@Test
-//	public void testItemAdditionMoveAllRight_1()
-//		throws Exception {
-//		GtnWsIfpAddCotroller fixture = new GtnWsIfpAddCotroller();
-//		fixture.setSessionFactory(new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()))))));
-//		GtnUIFrameworkWebserviceRequest ifpMoveAllRightRequest = new GtnUIFrameworkWebserviceRequest();
-//		ifpMoveAllRightRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		GtnUIFrameworkWebserviceResponse result = fixture.itemAdditionMoveAllRight(ifpMoveAllRightRequest);
-//
-//		// add additional test code here
-//		assertNotNull(result);
-//	}
-//
-//	@Test
-//	public void testItemAdditionRightTableSearch_1()
-//		throws Exception {
-//		GtnWsIfpAddCotroller fixture = new GtnWsIfpAddCotroller();
-//		fixture.setSessionFactory(new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()))))));
-//		GtnUIFrameworkWebserviceRequest itemAdditionRightRequest = new GtnUIFrameworkWebserviceRequest();
-//		itemAdditionRightRequest.setGtnWsSearchRequest(new GtnWsSearchRequest());
-//
-//		GtnUIFrameworkWebserviceResponse result = fixture.itemAdditionRightTableSearch(itemAdditionRightRequest);
-//
-//		// add additional test code here
-//		assertNotNull(result);
-//	}
-//
-//	@Test
-//	public void testItemsColumnUpdate_1()
-//		throws Exception {
-//		GtnWsIfpAddCotroller fixture = new GtnWsIfpAddCotroller();
-//		fixture.setSessionFactory(new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()))))));
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		gtnWsRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		GtnUIFrameworkWebserviceResponse result = fixture.itemsColumnUpdate(gtnWsRequest);
-//
-//		assertNotNull(result);
-//	}
-//
-//	@Test
-//	public void testSetSessionFactory_1()
-//		throws Exception {
-//		GtnWsIfpAddCotroller fixture = new GtnWsIfpAddCotroller();
-//		fixture.setSessionFactory(new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()))))));
-//		SessionFactory sessionFactory = new SessionFactoryDelegatingImpl(new SessionFactoryImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver()), new SessionFactoryOptionsImpl(new SessionFactoryBuilderImpl(new InFlightMetadataCollectorImpl(new org.hibernate.boot.internal.MetadataBuilderImpl.MetadataBuildingOptionsImpl((StandardServiceRegistry) null), new TypeResolver())))));
-//
-//		fixture.setSessionFactory(sessionFactory);
-//
-//	}
+	@Test
+	public void testItemAdditionMoveAllRight_1() throws Exception {
+
+		ifpAddWebservice.setGtnWsSqlService(gtnWsSqlService);
+		
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
+
+		GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+		
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+		gtnWebServiceSearchCriteriaList.add(criteria);
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		
+		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+		gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		doReturn(1).when(gtnSqlQueryEngine).executeInsertOrUpdateQuery(Mockito.anyString(), Mockito.any(Object[].class),
+				Mockito.anyObject());
+
+		try{
+			fixture.itemAdditionMoveAllRight(gtnWsRequest);
+			
+		}catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void testItemsColumnUpdate_1() throws Exception {
+
+		ifpAddWebservice.setGtnWsSqlService(gtnWsSqlService);
+		
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
+
+		updateBean.setColumnName("else");
+		updateBean.setValue(2);
+		updateBean.setImtdIfpDetailsSid("111");
+		
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
+
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+
+		doReturn(1).when(gtnSqlQueryEngine).executeInsertOrUpdateQuery(Mockito.anyString(), Mockito.any(Object[].class),
+				Mockito.anyObject());
+
+		GtnUIFrameworkWebserviceResponse result = fixture.itemsColumnUpdate(gtnWsRequest);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testCompaniesResultTableData_1() throws Exception {
+		
+		ifpAddWebservice.setGtnWsSqlService(gtnWsSqlService);
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
+
+		updateBean.setItemMasterSid(20516);
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
+
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+
+		doReturn(1).when(gtnSqlQueryEngine).executeInsertOrUpdateQuery(Mockito.anyString(), Mockito.any(Object[].class),
+				Mockito.anyObject());
+
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setCount(false);
+
+		GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+		criteria.setFieldId("ifpItemsTabRecordType");
+		criteria.setFilterValue1("CurrentHistoryFuture");
+		criteria.setFilterValue1("2");
+
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<GtnWebServiceSearchCriteria>();
+		gtnWebServiceSearchCriteriaList.add(criteria);
+
+		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+
+		GtnSerachResponse gtnSerachResponse = Mockito.mock(GtnSerachResponse.class);
+		gtnSerachResponse.setCount(2);
+
+		GtnUIFrameworkWebserviceResponse result = fixture.companiesResultTableData(gtnWsRequest);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testItemAdditionRightTableSearch_1() throws Exception {
+
+		ifpAddWebservice.setGtnWsSqlService(gtnWsSqlService);
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
+
+		updateBean.setItemMasterSid(20516);
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
+
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+
+		List<?> resultList = new ArrayList<>();
+		doReturn(resultList).when(gtnSqlQueryEngine).executeSelectQuery(Mockito.anyString());
+
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setCount(false);
+
+		GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+		criteria.setFieldId("ifpItemsTabRecordType");
+		criteria.setFilterValue1("CurrentHistoryFuture");
+		criteria.setFilterValue1("2");
+
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<GtnWebServiceSearchCriteria>();
+		gtnWebServiceSearchCriteriaList.add(criteria);
+
+		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+
+		GtnSerachResponse gtnSerachResponse = Mockito.mock(GtnSerachResponse.class);
+		gtnSerachResponse.setCount(2);
+
+		try {
+			fixture.itemAdditionRightTableSearch(gtnWsRequest);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+	
+	@Test
+	public void testIfpSearch_1() throws Exception {
+
+		ifpAddWebservice.setGtnWsSqlService(gtnWsSqlService);
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
+
+		updateBean.setItemMasterSid(20516);
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
+
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+
+		List<?> resultList = new ArrayList<>();
+		doReturn(resultList).when(gtnSqlQueryEngine).executeSelectQuery(Mockito.anyString());
+
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setCount(false);
+
+		GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+		criteria.setFieldId("ifpItemsTabRecordType");
+		criteria.setFilterValue1("CurrentHistoryFuture");
+		criteria.setFilterValue1("2");
+
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<GtnWebServiceSearchCriteria>();
+		gtnWebServiceSearchCriteriaList.add(criteria);
+
+		gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+
+		GtnSerachResponse gtnSerachResponse = Mockito.mock(GtnSerachResponse.class);
+		gtnSerachResponse.setCount(2);
+
+		try {
+			fixture.ifpSearch(gtnWsRequest);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
 }
