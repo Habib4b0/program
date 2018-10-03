@@ -1137,7 +1137,7 @@ public class SessionDTO implements Serializable {
         if (futureList.containsKey(key)) {
             return futureList.get(key);
         } else {
-            return null;
+            return new Future[0];
         }
     }
 
