@@ -46,7 +46,7 @@ public class ResultsTableLogic extends PageTreeTableLogic {
                 List<ProjectionResultsDTO> list = loadDataByForecastName(getLastParent(), start, offset);
                 int i = start;
                 for (ProjectionResultsDTO dto : list) {                    
-                    while (projSelDTO.hasNonFetchableIndex("" + i)) {
+                    while (projSelDTO.hasNonFetchableIndex("" + Integer.toString(i))) {
                         i++;
                     }
                     map.put(i, dto);

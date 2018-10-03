@@ -941,8 +941,8 @@ public class NewDiscountTab extends CustomComponent {
             newDiscountTabDto.setSearchField(compType + "-" + searchField);
             if (searchValue.isVisible()) {
                 newDiscountTabDto.setSearchFieldValue(searchValue.getValue());
-            } else if (Constants.getInstance().ifpSearch[NumericConstants.TEN].equals(searchField) || Constants.getInstance().ifpSearch[NumericConstants.ELEVEN].equals(searchField) || Constants.getInstance().ifpSearch[NumericConstants.TWELVE].equals(searchField)
-                    || Constants.getInstance().ifpSearch[NumericConstants.THIRTEEN].equals(searchField) || Constants.getInstance().cfpSearch[NumericConstants.ELEVEN].equals(searchField)) {
+            } else if (Constants.getIfpSearch()[NumericConstants.TEN].equals(searchField) || Constants.getIfpSearch()[NumericConstants.ELEVEN].equals(searchField) || Constants.getIfpSearch()[NumericConstants.TWELVE].equals(searchField)
+                    || Constants.getIfpSearch()[NumericConstants.THIRTEEN].equals(searchField) || Constants.getCfpSearch()[NumericConstants.ELEVEN].equals(searchField)) {
                 Object ddlb = searchValueStatusDdlb.getValue();
                 newDiscountTabDto.setSearchFieldValue(searchValueStatusDdlb.getItemCaption(ddlb));
             } else if (searchField.contains("Date")) {
@@ -1332,11 +1332,9 @@ public class NewDiscountTab extends CustomComponent {
                 Collection itemList = componentDetailsSelectedItem.getItemIds();
                 for (Object obj : itemList) {
                     ContractsDetailsDto dto = (ContractsDetailsDto) obj;
-                    if (dto.getCheckRecord()) {
-                        if ((dto.getStatus() == null || dto.getStatus() == "" || dto.getsDate() == null)) {
+                        if ((dto.getCheckRecord()) && (dto.getStatus() == null || dto.getStatus() == "" || dto.getsDate() == null)) {
                             AbstractNotificationUtils.getErrorNotification(Constants.ADD_TO_TREE, Constants.PLEASE_ENSURE_ALL_MANDATORY_FIELDS);
                             return;
-                        }
                     }
                 }
                 if (compType.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {

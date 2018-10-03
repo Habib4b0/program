@@ -40,11 +40,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
 
-    private Object[] visibleColumns;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ReturnsReserveDataSearchResults.class);
-
-    private String[] visibleHeaders;
 
     public ReturnsReserveDataSearchResults(RRDataLogic logic, AbstractSelectionDTO selection) {
         super(logic, selection);
@@ -199,6 +195,8 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
     }
 
     private void loadTableHeader(List<List> returnReserveDataColumnList) {
+        Object[] visibleColumns;
+        String[] visibleHeaders;
         Map properties = new HashMap();
         if (returnReserveDataColumnList != null && !returnReserveDataColumnList.isEmpty()) {
             visibleColumns = (returnReserveDataColumnList.get(NumericConstants.THREE)).toArray();
@@ -214,6 +212,7 @@ public class ReturnsReserveDataSearchResults extends AbstractSearchResults {
         tableLogic.setContainerDataSource(resultBeanContainer);
         resultBeanContainer.setRecordHeader(Arrays.asList(visibleColumns));
         resultBeanContainer.setColumnProperties(properties);
+        resultBeanContainer.setIndexable(true);
         leftTable.setVisibleColumns(VariableConstants.GROUP_RETURNS);
         leftTable.setColumnHeaders(CommonConstant.CUSTOMER_PRODUCT);
         rightTable.setVisibleColumns(visibleColumns);

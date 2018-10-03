@@ -62,8 +62,8 @@ public class PVCommonLogic {
              DecimalFormat format, int index, Object[] actual,Object[] proj, boolean isPer,boolean isExcel) {
         try {
             String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[isExcel ? (actual.length - NumericConstants.THREE):(actual.length -  NumericConstants.TWO)])));
-            String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + proj[index])));
-            String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[index])));
+            String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[index])));
+            String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + proj[index])));
 
             addPeriodProperties(variableCategory, currentValue, format, commonColumn, pvsdto, pvDTO, isPer, actualValue, accrualValue);
 
@@ -76,8 +76,8 @@ public class PVCommonLogic {
              DecimalFormat format, int index, Object[] actual,Object[] proj, boolean isPer) {
         try {
             String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[actual.length - NumericConstants.THREE])));
-            String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + proj[index])));
-            String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[index])));
+            String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[index])));
+            String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + proj[index])));
 
             addPeriodProperties(variableCategory, currentValue, format, commonColumn, pvsdto, pvDTO, isPer, actualValue, accrualValue);
 
@@ -164,7 +164,7 @@ public class PVCommonLogic {
         String currValue = StringUtils.EMPTY;
         for (Object[] row : rows) {
             int projectionId = Integer.parseInt(String.valueOf(row[0]));
-            boolean isActual = Integer.parseInt(String.valueOf(row[row.length - 1])) == 0;
+            boolean isActual = String.valueOf(row[row.length - 1]).equals(ZERO);
             if (projectionId == currentProjectionId) {
                 if (isActual) {
                     actValue = getDoubleValue(row[index]);

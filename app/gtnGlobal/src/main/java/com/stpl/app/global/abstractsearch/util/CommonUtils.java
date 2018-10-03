@@ -213,10 +213,7 @@ public class CommonUtils {
         query.add(RestrictionsFactoryUtil.eq("name", "ETL"));
         query.add(RestrictionsFactoryUtil.in("roleId", roleList));
         List<Role> userList = RoleLocalServiceUtil.dynamicQuery(query);
-        if (!userList.isEmpty()) {
-            return true;
-        }
-        return false;
+        return !userList.isEmpty();
     }
   public ComboBox loadComboBoxForFilters(final ComboBox select,
             String listName,boolean isFilter) throws PortalException  {

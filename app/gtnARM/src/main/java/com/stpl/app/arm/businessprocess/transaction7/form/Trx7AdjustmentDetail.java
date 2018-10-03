@@ -119,7 +119,16 @@ public class Trx7AdjustmentDetail extends AbstractAdjustmentDetails {
         Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction7", "Adjustment Details");
         reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", functionHM));
         generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
+    }
 
+    @Override
+    public boolean equals(Object dfAdjDetobj) {
+        return super.equals(dfAdjDetobj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

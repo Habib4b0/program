@@ -25,7 +25,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.slf4j.Logger;
@@ -40,7 +39,6 @@ public class Trx7SummaryFieldFactory implements TableFieldFactory {
     protected final AbstractSummaryLogic logic;
     private final AbstractSelectionDTO selection;
     private static final Logger LOGGER = LoggerFactory.getLogger(Trx7SummaryFieldFactory.class);
-    public final ExecutorService service = ThreadPool.getInstance().getService();
     private Boolean isFieldRequire;
 
     public Trx7SummaryFieldFactory(AbstractSummaryLogic logic, AbstractSelectionDTO selection, Boolean isFieldRequire) {
@@ -88,6 +86,7 @@ public class Trx7SummaryFieldFactory implements TableFieldFactory {
     };
 
     protected void valueChangeLogic(AdjustmentDTO dto, Object val, Object propertyId, Component uiContext) {
+        ThreadPool service = ThreadPool.getInstance();
         Double value = 0.0;
         try {
             value = Double.valueOf(val == null ? "0" : val.toString().trim().replaceAll("[^\\-\\d.]", StringUtils.EMPTY));
@@ -105,7 +104,7 @@ public class Trx7SummaryFieldFactory implements TableFieldFactory {
         input.add(dto.getMasterSids()[NumericConstants.TWO] == null ? "%" : dto.getMasterSids()[NumericConstants.TWO]);
         input.add(dto.getMasterSids()[NumericConstants.THREE] == null ? "%" : dto.getMasterSids()[NumericConstants.THREE]);
         input.addAll(logic.getTableInput(selection.getSessionDTO()));
-        service.submit(new Tr7SummaryUpdateOverride(input));
+        service.submitRunnable(new Tr7SummaryUpdateOverride(input));
     }
 
     class Tr7SummaryUpdateOverride implements Runnable {

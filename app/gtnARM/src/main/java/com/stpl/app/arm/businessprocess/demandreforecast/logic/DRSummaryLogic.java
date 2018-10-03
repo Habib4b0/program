@@ -208,8 +208,10 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 }
             }
             lastBrand = brand;
-            reforecastDto.setUserId(reforecastSelection.getSessionDTO().getUserId());
-            reforecastDto.setSessionId(reforecastSelection.getSessionDTO().getSessionId());
+            if (reforecastDto != null) {
+                reforecastDto.setUserId(reforecastSelection.getSessionDTO().getUserId());
+                reforecastDto.setSessionId(reforecastSelection.getSessionDTO().getSessionId());
+            }
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(resultList);
@@ -245,7 +247,7 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             AdjustmentDTO val = (AdjustmentDTO) dto;
             int levelNo = val.getLevelNo();
             LOGGER.debug("levelNo----{}", levelNo);
-            masterSids = val.getMasterIds();
+            masterSids = (TreeMap<String, Integer>) val.getMasterIds();
             if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
                 if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
                     currentViewType = ARMUtils.getDemandSummaryLevelsinglePeriod().get(levelNo);

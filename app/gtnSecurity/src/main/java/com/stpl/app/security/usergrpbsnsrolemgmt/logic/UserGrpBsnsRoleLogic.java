@@ -55,7 +55,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
 				UsergroupBusinessrole ugbrmObj = (UsergroupBusinessrole) iterate1.next();
 				brmIdList.add(ugbrmObj.getBusinessroleMasterSid());
 			}
-			if (ugbrm.size() > 0) {
+			if (!ugbrm.isEmpty()) {
 				DynamicQuery brmDynamicQuery = BusinessroleMasterLocalServiceUtil.dynamicQuery();
 				brmDynamicQuery.add(RestrictionsFactoryUtil.in(CommonUtils.BUSINESS_ROLE_MASTERSID, brmIdList));
 				List<BusinessroleMaster> brm = dao.getBusinessroleMaster(brmDynamicQuery);
@@ -141,7 +141,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
 				checkDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtils.USERGROUP_ID, selUsrGrpId));
 				checkDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtils.BUSINESS_ROLE_MASTERSID, brId));
 				List<UsergroupBusinessrole> checkUG = dao.getBsnsRoles(checkDynamicQuery);
-				if (checkUG.size() > 0) {
+				if (!checkUG.isEmpty()) {
 					usrBrMaster = checkUG.get(0);
 					usrBrMaster.setModifiedDate(date);
 					usrBrMaster.setCreatedBy(0);

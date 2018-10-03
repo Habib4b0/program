@@ -133,11 +133,7 @@ public class ProjNameConfigLogic {
             }           
         }
           LOGGER.debug("duplicateCheck method ended ");
-         if(count > 0){
-             return false;
-         }else{
-             return true;
-         }        
+        return count <= 0;        
         
     }
 }

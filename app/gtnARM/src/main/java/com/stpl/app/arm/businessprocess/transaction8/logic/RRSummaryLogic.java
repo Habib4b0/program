@@ -264,7 +264,7 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         if (dto instanceof AdjustmentDTO) {
             AdjustmentDTO val = (AdjustmentDTO) dto;
             int levelNo = val.getLevelNo();
-            masterSids = val.getMasterIds();
+            masterSids = new TreeMap<>(val.getMasterIds());
             if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
                 Map<Integer, String> map = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? ARMUtils.getDemandSummaryLevelsinglePeriod() : ARMUtils.getPipelineSummaryLevelSinglePeriod();
                 currentViewType = map.get(levelNo);

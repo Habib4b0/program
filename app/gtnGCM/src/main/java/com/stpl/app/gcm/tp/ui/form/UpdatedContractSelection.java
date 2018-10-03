@@ -1023,7 +1023,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         List<String> checkData = contractSelectionLogic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.CHECK);
 
         if (contractSelectionLogic.isAnyDataSubmitted(session.getUserId(), session.getSessionId(), session.getModuleName(), screenName)) {
-            if (checkData.size() <= 0 || checkData.get(0).equals(Constants.ZEROSTRING)) {
+            if (checkData.isEmpty() || checkData.get(0).equals(Constants.ZEROSTRING)) {
                 changeTab();
             } else {
                 submitAndNextLogic(true);
@@ -1899,11 +1899,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         int diffMonth = diffYear * NumericConstants.TWELVE + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
         timeGap = diffMonth - NumericConstants.TWO;
         LOGGER.debug("Exiting isTimeGapPresent");
-        if (timeGap > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return timeGap > 0;
 
     }
 
@@ -1954,10 +1950,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         input.add(session.getSessionId());
         input.add(screenName);
         List<Object[]> contractList = ItemQueries.getItemData(input, queryName, null);
-        if (AbstractLogic.getCount(contractList) == 1) {
-            return true;
-        }
-        return false;
+        return AbstractLogic.getCount(contractList) == 1;
     }
 
     private void configureSecurityPermissionsAddTransfer() {

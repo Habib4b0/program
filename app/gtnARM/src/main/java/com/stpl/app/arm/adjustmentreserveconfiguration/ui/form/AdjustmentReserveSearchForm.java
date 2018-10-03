@@ -18,7 +18,6 @@ import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.arm.utils.ReserveSelection;
-import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
@@ -55,7 +54,7 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
+import static com.stpl.app.arm.utils.ResponsiveUtils.getResponsiveControls;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.GlobalConstants;
@@ -66,7 +65,6 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.concurrent.ExecutorService;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 
 /**
@@ -183,7 +181,6 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
     private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     private static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentReserveSearchForm.class);
     private ReserveSelection resSelection;
-    private final ExecutorService service = ThreadPool.getInstance().getService();
     private Boolean isValueChangeAllowed;
 
     /**

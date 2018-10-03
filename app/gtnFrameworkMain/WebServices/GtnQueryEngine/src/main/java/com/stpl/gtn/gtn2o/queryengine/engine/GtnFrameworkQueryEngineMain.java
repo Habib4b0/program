@@ -16,6 +16,8 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 public class GtnFrameworkQueryEngineMain {
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkQueryEngineMain.class);
 
+	private GtnFrameworkSqlQueryEngine queryEngine = new GtnFrameworkSqlQueryEngine();
+
 	public void executeQuery(Session session, GtnFrameworkQueryEngineMainConfig mainConfig) {
 
 		GtnFrameworkQueryEngineConfig rootConfig = mainConfig.getRootEngineConfig();
@@ -38,7 +40,7 @@ public class GtnFrameworkQueryEngineMain {
 
 	private void executeQueryIndividual(Session session, GtnFrameworkQueryConfig currentQuery,
 			GtnFrameworkQueryEngineMainConfig mainConfig) {
-		Query sqlQuery = session.createSQLQuery(currentQuery.getQuery());
+		Query sqlQuery = queryEngine.getQuery(session, currentQuery.getQuery());
 		String[] dataTypeArray = currentQuery.getDataTypeArray();
 		if (dataTypeArray != null) {
 			for (int i = 0; i < dataTypeArray.length; i++) {
@@ -109,7 +111,7 @@ public class GtnFrameworkQueryEngineMain {
 
 		sqlQuery.executeUpdate();
 		if (queryConfig.getResultStoragePositionArray() != null) {
-			Query query = session.createSQLQuery("SELECT @@IDENTITY");
+			Query query = queryEngine.getQuery(session, "SELECT @@IDENTITY");
 			Object id = query.uniqueResult();
 			int pos = queryConfig.getResultStoragePositionArray()[0];
 			mainConfig.getQueryMemoryArray()[pos] = ((BigDecimal) id).intValue();

@@ -515,6 +515,7 @@ public class HomeController {
         private static final String DTX_CONTRACT_CONT_INTERFACE = "DtxContractContInterface";
         private static final String DTX_CONTRACT_REBATE_PLAN_INTERFACE = "DtxContractRebatePlanInterface";
         private static final String DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE = "DtxContractRebateScheduleInterface";
+        private static final String DTX_GL_COST_CENTER_INTERFACE = "DtxGlCostCenterInterface";
 
 	protected static Map<String, String[]> loaddata = new HashMap<>();
 
@@ -804,6 +805,8 @@ public class HomeController {
                     new String[] { Constants.DTX_CONTRACT_REBATE_PLAN_INTERFACE, FilePathUtil.DTX_CONTRACT_REBATE_PLAN_INTERFACE });
                         loaddata.put(DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE,
                     new String[] { Constants.DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE, FilePathUtil.DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE });
+                        loaddata.put(DTX_GL_COST_CENTER_INTERFACE,
+                    new String[] { Constants.DTX_GL_COST_CENTER_INTERFACE, FilePathUtil.DTX_GL_COST_CENTER_INTERFACE });
                         		
 		}
 		return loaddata.get(keyValue);
@@ -857,7 +860,7 @@ public class HomeController {
 					ACCRUALS_INTERFACE, PSTG_SALES_FORECAST_INTERFACE, PSTG_FORECAST_SALES_WAC_INTERFACE,
 					PSTG_GCC_PROD_HIERARCHY_INTERFACE,DTX_UOM_INTERFACE,DTX_CPI_INTERFACE,DTX_RETURN_RATE_INTERFACE,DTX_ACCRUAL_ACTUAL_INTERFACE,
 					DTX_CUSTOMER_GTS_ACTUAL_INTERFACE,DTX_CUSTOMER_GTS_FORECAST_INTERFACE,DTX_FORECAST_SALES_INTERFACE
-					,DTX_FORECAST_SALES_WAC_INTERFACE,ARM_LOAD_INTERFACE
+					,DTX_FORECAST_SALES_WAC_INTERFACE,ARM_LOAD_INTERFACE,DTX_GL_COST_CENTER_INTERFACE
 			);
 
 			if (Constants.APP_KEY.equals(apikey)) {
