@@ -208,7 +208,11 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
                 }
                 input.add(parentDTO.getCustomerSID() == 0 ? "%" : parentDTO.getCustomerSID());
                 if (CommonConstant.CUSTOMERCONTRACTVIEW.equals(queryName) || CommonConstant.CUSTOMERCONTRACTEDIT.equals(queryName)) {
-                    input.add("%");
+                     if (!ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
+                        input.add("%");
+                    } else {
+                        input.add(parentDTO.getContractSID());
+                    }
                 }
                 input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionValue())));
                 break;
