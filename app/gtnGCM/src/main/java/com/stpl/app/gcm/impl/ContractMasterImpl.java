@@ -60,8 +60,10 @@ public class ContractMasterImpl {
 
     }
 
-    public List getTradingPartnerList(String companyId, String companyNo, String companyName, int companyStatus, int companyType, Map<String, Object> filterMap, int start, int offset, String column, String orederBy) {
+    public List getTradingPartnerList(String companyIdPar, String companyNo, String companyName, int companyStatus, int companyType, Map<String, Object> filterMap, int start, int offset, String column, String orederBy1) {
         String sql = StringUtils.EMPTY;
+        String companyId = companyIdPar;
+        String orederBy = orederBy1;
         try {
 
             if (!StringUtils.isNotBlank(companyId)) {
