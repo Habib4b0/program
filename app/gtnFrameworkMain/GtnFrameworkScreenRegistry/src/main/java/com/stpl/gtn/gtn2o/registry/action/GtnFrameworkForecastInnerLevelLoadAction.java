@@ -23,8 +23,9 @@ public class GtnFrameworkForecastInnerLevelLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		int selectedLevelNo = Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString(), componentId).getCaptionFromV8ComboBox());
+		String selectedLevelValue = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(2).toString(), componentId).getCaptionFromV8ComboBox();
+		int selectedLevelNo = selectedLevelValue == "" ? 0 : Integer.parseInt(selectedLevelValue);
 		if (selectedLevelNo != 0) {
 			GtnWsRecordBean hierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(actionParamsList.get(1).toString(), componentId).getComponentData()

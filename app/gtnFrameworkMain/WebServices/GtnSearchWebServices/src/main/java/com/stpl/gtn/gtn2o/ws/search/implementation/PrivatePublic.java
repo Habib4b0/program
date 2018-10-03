@@ -29,7 +29,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
-import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -54,13 +53,13 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
             String viewName = webSearchCriteriaList.get(0).getFilterValue1();
 
             StringBuilder strQuery = new StringBuilder();
-            Map<String, String> queryMap = new HashMap();
+            Map<String, String> queryMap = new HashMap<>();
             String[] paramsArray = gtnSearchSqlService.getQuery("privatePublicParameters").split(",");
             queryMap.put(webSearchCriteriaList.get(1).getFieldId(), paramsArray[0]);
             queryMap.put(webSearchCriteriaList.get(0).getFieldId(), paramsArray[1]);
-            List<Object> param = new ArrayList();
+            List<Object> param = new ArrayList<>();
             int count = 0;
-            List<GtnFrameworkDataType> data = new ArrayList();
+            List<GtnFrameworkDataType> data = new ArrayList<>();
 
             if (viewType != null && !viewType.equals("*")) {
                 strQuery.append(" WHERE ");
@@ -72,7 +71,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 
             if (viewName != null && !viewName.equals("*")) {
             	strQuery.append(queryMap.get(webSearchCriteriaList.get(0).getFieldId()));
-                param.add(viewType != null ? viewType.replaceAll("\\*", "%") : StringUtils.EMPTY);
+                param.add(viewName.replaceAll("\\*", "%"));
                 data.add(GtnFrameworkDataType.STRING);
                 count++;
             }
@@ -157,12 +156,12 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
 
     @Override
     public void initCallOnFailure() {
-        // Default Method
+        return;
     }
 
     @Override
     public void getEndPointServiceURL(GtnWsServiceRegistryBean webServiceRegistryBean) {
-        // Default Method
+        return;
     }
 
 }
