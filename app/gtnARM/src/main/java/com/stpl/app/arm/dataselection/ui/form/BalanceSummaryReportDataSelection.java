@@ -2313,6 +2313,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         HelperDTO hlpd = (HelperDTO) adjItem;
                         if (dto.getAdjustmentId() == hlpd.getId()) {
                             adjItemToAdd = adjItem;
+                            break;
                         }
                     }
                 }

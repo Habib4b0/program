@@ -5,6 +5,10 @@
  */
 package com.stpl.gtn.gtn2o.ui.customview.config.action;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import com.stpl.gtn.gtn2o.ui.customview.constants.GtnFrameworkCVConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -14,17 +18,12 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 /**
  *
  * @author Lokeshwari.Kumarasam
  */
 public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCustomerAddAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -56,9 +55,11 @@ public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnU
 		Object customerLevelValue = table.getValueFromComponent();
 		Object treeValue = cvTreeBaseComponent.getValueFromComponent();
 		String prodOrDedHierarchy = table.getComponentId().contains(GtnFrameworkCVConstants.PRODUCT_LEVEL)
-				? "Product Hierarchy" : "Deduction Hierarchy";
+				? "Product Hierarchy"
+				: "Deduction Hierarchy";
 		String hierarchyName = table.getComponentId().contains(GtnFrameworkCVConstants.CUSTOMER_LEVEL)
-				? "Customer Hierarchy" : prodOrDedHierarchy;
+				? "Customer Hierarchy"
+				: prodOrDedHierarchy;
 		if (customerLevelValue == null) {
 			GtnUIFrameworkGlobalUI.showMessageBox(GtnFrameworkCVConstants.NO_LEVEL_SELECTED,
 					GtnUIFrameworkActionType.ALERT_ACTION, GtnFrameworkCVConstants.NO_LEVEL_SELECTED,

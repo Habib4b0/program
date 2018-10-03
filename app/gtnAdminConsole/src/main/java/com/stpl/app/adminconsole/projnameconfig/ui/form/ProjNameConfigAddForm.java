@@ -608,7 +608,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
             for (final Iterator<?> it = selectedResultsBean.getItemIds().iterator(); it.hasNext();) {
                 final Object idValue = it.next();
                 final ProjectionNameDTO availableContract = getBeanFromId(idValue);
-                nameTemplate += "~" + "<" + availableContract.getAvailableAttributes() + ">";
+                nameTemplate = nameTemplate.concat("~").concat("<").concat(availableContract.getAvailableAttributes()).concat(">");
             }
         }
 
@@ -659,7 +659,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
             for (final Iterator<?> it = selectedResultsBean.getItemIds().iterator(); it.hasNext();) {
                 final Object idValue = it.next();
                 final ProjectionNameDTO availableContract = getBeanFromId(idValue);
-                nameTemplate += "~" + "<" + availableContract.getAvailableAttributes() + ">";
+                nameTemplate = nameTemplate.concat("~").concat("<").concat(availableContract.getAvailableAttributes()).concat(">");
             }
             finalName.setValue(nameTemplate);
             remove.setVisible(true);

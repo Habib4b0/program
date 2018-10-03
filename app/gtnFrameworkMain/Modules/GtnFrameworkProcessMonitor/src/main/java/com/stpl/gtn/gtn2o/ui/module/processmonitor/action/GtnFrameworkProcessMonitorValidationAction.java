@@ -143,10 +143,7 @@ public class GtnFrameworkProcessMonitorValidationAction
 			monitorBean.setComponent(component.getCaption());
 			cfpRequest.setProcessMonitorBean(monitorBean);
 			request.setProcessMonitorRequest(cfpRequest);
-			GtnUIFrameworkWebserviceResponse reponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-					GtnWsProcessMonitorConstants.GTN_PROCESS_MONITOR_SERVICE_SCREEN
-							+ GtnWsProcessMonitorConstants.GTN_WS_PROCESS_MONITOR_DUPLICATE_PROCESS_NAME_SERVICE,
-					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebserviceResponse reponse = callProcessMonitorServiceScreen(request);
 			GtnWsProcessMonitorBean processMonitorBean = reponse.getGtnWsProcessMonitorResponse().getMonitorBean();
 			if (processMonitorBean.isErrorMessage()) {
 				String msg = GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_DUPLICATE_PROCESS_NAME;
@@ -158,6 +155,13 @@ public class GtnFrameworkProcessMonitorValidationAction
 
 		}
 	}
+
+    public GtnUIFrameworkWebserviceResponse callProcessMonitorServiceScreen(GtnUIFrameworkWebserviceRequest request) {
+        return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsProcessMonitorConstants.GTN_PROCESS_MONITOR_SERVICE_SCREEN
+                        + GtnWsProcessMonitorConstants.GTN_WS_PROCESS_MONITOR_DUPLICATE_PROCESS_NAME_SERVICE,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+    }
 
 	public void processTypeAutomatic(String componentId) throws GtnFrameworkGeneralException {
 		String processType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("processType").getCaptionFromComboBox();

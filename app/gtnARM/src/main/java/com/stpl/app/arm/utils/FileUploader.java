@@ -5,7 +5,6 @@
  */
 package com.stpl.app.arm.utils;
 
-import com.stpl.app.utils.ArmFileNameUtils;
 import com.vaadin.v7.ui.Upload;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -74,12 +73,12 @@ public class FileUploader implements Upload.Receiver {
     public OutputStream receiveUpload(final String filename, final String mimeType) {
         LOGGER.debug("Entering receiveUpload method ");
         try {
-            final File dir = new File(FilenameUtils.getName(FILE_PATH + moduleName));
+            final File dir = new File(FILE_PATH + moduleName+"/");
             if (!dir.exists()) {
                 dir.mkdirs();
             }
             if (StringUtils.isNotBlank(filename) && isUpload()) {
-                file = new File(ArmFileNameUtils.getFile(dir, filename), FilenameUtils.getName(filename));
+                file = new File(dir, FilenameUtils.getName(filename));
                 if (file.exists()) {
                     boolean val = file.delete();
                     LOGGER.debug("FILE DELETED {}", val);
@@ -92,7 +91,7 @@ public class FileUploader implements Upload.Receiver {
         } catch (final java.io.FileNotFoundException e) {
             LOGGER.error("Error in receiveUpload :", e);
             return NULL_OUTPUT_STREAM;
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             LOGGER.error("Error in receiveUpload :" , ex);
             return NULL_OUTPUT_STREAM;
         }
@@ -186,11 +185,7 @@ public class FileUploader implements Upload.Receiver {
     }
 
     public static String getFilePath() {
-        String path = "";
-        String jbossHome = System.getProperty("jboss.home.dir");
-        String ftppath[] = jbossHome.split("jboss-7.1.1");
-        path = ftppath[0];
-        return path;
+        return System.getProperty("gtn.app.data.path")+"/Attachments/";
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

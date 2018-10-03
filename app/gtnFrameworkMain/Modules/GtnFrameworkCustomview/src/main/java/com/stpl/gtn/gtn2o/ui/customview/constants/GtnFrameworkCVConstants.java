@@ -5,6 +5,10 @@
  */
 package com.stpl.gtn.gtn2o.ui.customview.constants;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 
 /**
@@ -98,5 +102,7 @@ public class GtnFrameworkCVConstants {
 	public static String[] getCvListNameArrays() {
 		return CV_LIST_NAME_ARRAY.clone();
 	}
-        public static final String[] CV_TREENODE_LIST={"Schedule Category","Schedule Type","Program Type","UDC 1","UDC 2","UDC 3","UDC 4","UDC 5","UDC 6","Schedule ID"};
+
+	public static final List<String> CV_TREENODE_LIST = Collections.unmodifiableList(Arrays.asList("Schedule Category",
+			"Schedule Type", "Program Type", "UDC 1", "UDC 2", "UDC 3", "UDC 4", "UDC 5", "UDC 6", "Schedule ID"));
 }

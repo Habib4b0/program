@@ -561,13 +561,9 @@ public class processSchedulerForm extends CustomComponent {
                 || startDate.getValue() == null || endDate.getValue() == null
                 || frequencyRadio.getValue() == null)) {
             return false;
-        } else if (("Interval".equals(String.valueOf(frequencyRadio.getValue()))) && ("".equals(processName.getValue()) || status.getValue() == null
+        } else return !(("Interval".equals(String.valueOf(frequencyRadio.getValue()))) && ("".equals(processName.getValue()) || status.getValue() == null
                 || startDate.getValue() == null || endDate.getValue() == null
-                || frequencyRadio.getValue() == null )) {
-            return false;
-        } else {
-            return true;
-        }
+                || frequencyRadio.getValue() == null ));
     }
 
     private void getFieldValue(ProcessSchedulerDTO dto) {

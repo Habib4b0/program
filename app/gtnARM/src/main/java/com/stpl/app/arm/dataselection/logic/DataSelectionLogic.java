@@ -1035,7 +1035,7 @@ public class DataSelectionLogic {
         sqlQuery = sqlQuery.replace("[$PROJECTION_MASTER_SID]", projectionId);
         LOGGER.debug(CommonConstant.SQL_QUERY, sqlQuery);
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
-        list = list == null ? Collections.EMPTY_LIST : list;
+        list = list == null ? Collections.emptyList() : list;
         return customizeViewDetails(list);
     }
 
@@ -1236,7 +1236,7 @@ public class DataSelectionLogic {
                     String desc = valArry[1];
                     String mapKey = parentKey + "~" + desc;
                     Integer keyBegins = columnIncrementer.get(parentKey);
-                    keyBegins = keyBegins == null ? 1 : keyBegins;
+                    keyBegins = keyBegins == null ? Integer.valueOf(1) : keyBegins;
                     String currentColumnPrevKey = parentLevelKeys.get(mapKey);
                     String currentKey;
                     if (currentColumnPrevKey == null) {
@@ -1462,18 +1462,26 @@ public class DataSelectionLogic {
         List<Object[]> glList = QueryUtils.getItemData(input, "glImpactdateList", null);
         openCloseGLCompAndBU(glList);
         for (Object close : closedinput) {
-            if (!openinput.contains(close)) {
-                newClose.add(close);
+            if (!getCondition(close, openinput)) {
+                addList(close);
             } else {
                 int openOccurrences = Collections.frequency(openinput, close);
                 int closedOccurrences = Collections.frequency(closedinput, close);
                 LOGGER.debug("openOccurrences{}", openOccurrences);
                 LOGGER.debug("closedOccurrences{}", closedOccurrences);
                 if (openOccurrences > closedOccurrences) {
-                    newClose.add(close);
+                    addList(close);
                 }
             }
         }
+    }
+
+    private boolean getCondition(Object close, List opinput) {
+        return opinput.contains(close);
+    }
+
+    private void addList(Object close) {
+        newClose.add(close);
     }
 
     public void openCloseGLCompAndBU(List<Object[]> list) {
