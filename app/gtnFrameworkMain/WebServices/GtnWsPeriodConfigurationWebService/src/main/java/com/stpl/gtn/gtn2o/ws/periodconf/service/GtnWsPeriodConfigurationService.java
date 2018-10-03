@@ -60,6 +60,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 					request, GtnUIFrameworkWebserviceResponse.class);
 			logger.info("Webservice Registered");
 			this.loadDate();
+                        service.shutdown();
 		} catch (Exception e) {
 			if (e.getMessage().contains("404 Not Found")) {
 				logger.error("Exception in Period Webservice Registry" + e.getMessage());

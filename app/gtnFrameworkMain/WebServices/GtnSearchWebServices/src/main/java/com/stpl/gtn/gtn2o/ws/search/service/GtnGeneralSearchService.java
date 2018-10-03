@@ -61,6 +61,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             logger.info("Entering into init method of searchWebservice");
             GtnUIFrameworkWebserviceRequest request = registerWs();
             callServiceRegistry(request);
+            service.shutdown();
             logger.info("search webservices registered");
         } catch (Exception e) {
             if (e.getMessage().contains("404 Not Found")) {

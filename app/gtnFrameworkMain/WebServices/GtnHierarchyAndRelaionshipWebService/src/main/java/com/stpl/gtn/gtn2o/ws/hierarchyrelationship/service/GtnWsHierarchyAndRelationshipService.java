@@ -51,6 +51,7 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 			List<Object[]> resultList = loadHierarchyRelationshipResults();
 			Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = resultCustomization(resultList);
 			hierarchyRelationship.setHierarchyMap(hierarchyMap);
+                        service.shutdown();
 		} catch (Exception e) {
 			if (e.getMessage().contains("404 Not Found")) {
 				logger.error("Exception in GtnWsHierarchyAndRelationshipService" + e.getMessage());
