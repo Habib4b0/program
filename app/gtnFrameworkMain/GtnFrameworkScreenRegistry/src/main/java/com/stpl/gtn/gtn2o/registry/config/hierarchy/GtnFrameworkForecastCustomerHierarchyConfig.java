@@ -24,7 +24,8 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 
 public class GtnFrameworkForecastCustomerHierarchyConfig {
-	private final GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
+	private final GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider
+			.getInstance();
 
 	public List<GtnUIFrameworkComponentConfig> getCustomerSelectionLayoutCompoents(String nameSpace) {
 
@@ -99,7 +100,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig relationship = new GtnUIFrameworkComponentConfig();
 		relationship.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		relationship.setComponentName("Relationship");
+		relationship.setComponentName("Relationship:");
 		relationship.setComponentId(nameSpace + "_customerSelectionRelationship");
 		relationship.setAddToParent(true);
 		relationship.setParentComponentId(nameSpace + "_" + "relationshipLayout");
@@ -109,13 +110,13 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		relationship.setGtnComboboxConfig(relationshipConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		actionConfigList.add(dualListResetAction(nameSpace));
 
 		GtnUIFrameWorkActionConfig forecastingCustomerHierarchyForecastLevelLoadAction = new GtnUIFrameWorkActionConfig();
 		forecastingCustomerHierarchyForecastLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		forecastingCustomerHierarchyForecastLevelLoadAction
 				.addActionParameter(GtnCustomerSelectionForecastLevelLoadAction.class.getName());
-		forecastingCustomerHierarchyForecastLevelLoadAction.addActionParameter(nameSpace + GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
+		forecastingCustomerHierarchyForecastLevelLoadAction.addActionParameter(
+				nameSpace + GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
 		forecastingCustomerHierarchyForecastLevelLoadAction
 				.addActionParameter(nameSpace + "_customerSelectionForecastLevel");
 		forecastingCustomerHierarchyForecastLevelLoadAction
@@ -123,6 +124,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		forecastingCustomerHierarchyForecastLevelLoadAction
 				.addActionParameter(nameSpace + "_customerRelationshipVersion");
 		actionConfigList.add(forecastingCustomerHierarchyForecastLevelLoadAction);
+		actionConfigList.add(dualListResetAction(nameSpace));
 
 		relationship.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -165,15 +167,23 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		forecastLevel.setGtnComboboxConfig(forecastLevelConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		actionConfigList.add(dualListResetAction(nameSpace));
-
+		
 		GtnUIFrameWorkActionConfig innerLevelLoadAction = new GtnUIFrameWorkActionConfig();
 		innerLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		innerLevelLoadAction.addActionParameter(GtnFrameworkForecastInnerLevelLoadAction.class.getName());
 		innerLevelLoadAction.addActionParameter(nameSpace + "_customerHierarchy");
 		innerLevelLoadAction.addActionParameter(nameSpace + "_customerSelectionForecastLevel");
 		innerLevelLoadAction.addActionParameter(nameSpace + "_customerSelectionLevel");
-		forecastLevel.addGtnUIFrameWorkActionConfig(innerLevelLoadAction);
+
+		GtnUIFrameWorkActionConfig dualListBoxResetAction = new GtnUIFrameWorkActionConfig();
+		dualListBoxResetAction.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_RESET_ACTION);
+		dualListBoxResetAction.addActionParameter(nameSpace + "_" + "customerDualListBox");
+		dualListBoxResetAction.addActionParameter(nameSpace + "_customerSelectionForecastLevel");
+		dualListBoxResetAction.addActionParameter(nameSpace + "_customerSelectionRelationship");
+		actionConfigList.add(dualListBoxResetAction);
+		dualListBoxResetAction.addActionParameter(innerLevelLoadAction);
+		dualListBoxResetAction.addActionParameter(dualListResetAction(nameSpace));
+		forecastLevel.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(forecastLevel);
 	}
 
@@ -231,6 +241,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameworkComponentConfig customerSelectionInnerPanel = configProvider.getPanelConfig(
 				nameSpace + "_" + "customerSelectionInnerPanel", true, nameSpace + "_" + "customerSelectionLayout");
 		customerSelectionInnerPanel.setSpacing(true);
+		customerSelectionInnerPanel.setComponentWidth(GtnFrameworkCssConstants.PIXEL_950);
 		componentList.add(customerSelectionInnerPanel);
 
 		GtnUIFrameworkComponentConfig customerSelectionInnerLayout = configProvider.getVerticalLayoutConfig(
@@ -242,7 +253,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameworkComponentConfig customerSelectionInnerCssLayout = configProvider.getCssLayoutConfig(
 				nameSpace + "_" + "customerSelectionInnerCssLayout", true,
 				nameSpace + "_" + "customerSelectionInnerLayout");
-		customerSelectionInnerCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
+		customerSelectionInnerCssLayout.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
 		componentList.add(customerSelectionInnerCssLayout);
 		addLevelComponent(componentList, nameSpace);
 		addDualListBoxComponent(componentList, nameSpace);
@@ -256,7 +267,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameworkComponentConfig level = new GtnUIFrameworkComponentConfig();
 		level.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		level.setComponentId(nameSpace + "_customerSelectionLevel");
-		level.setComponentName("Level");
+		level.setComponentName("Level:");
 		level.setAddToParent(true);
 		level.setParentComponentId(nameSpace + "_" + "levelLayout");
 		level.setVaadinComponentPlaceHolder(GtnFrameworkScreenRegisteryConstants.SELECTONE);

@@ -18,7 +18,7 @@ import com.vaadin.ui.TreeGrid;
 public class GtnUIFrameworkV8DualListBoxResetAction implements GtnUIFrameWorkAction {
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkV8DualListBoxResetAction.class);
-        private static final String SELECT_ONE = "-Select one-";
+	private static final String SELECT_ONE = "-Select one-";
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -56,7 +56,9 @@ public class GtnUIFrameworkV8DualListBoxResetAction implements GtnUIFrameWorkAct
 			resetActionConfig.addActionParameter(actionParamList.get(0));
 			onSuccessActionConfigList.add(resetActionConfig);
 			onSuccessActionConfigList.add((GtnUIFrameWorkActionConfig) actionParamList.get(3));
-			onSuccessActionConfigList.add((GtnUIFrameWorkActionConfig) actionParamList.get(4));
+			if (actionParamList.size() > 3) {
+				onSuccessActionConfigList.add((GtnUIFrameWorkActionConfig) actionParamList.get(4));
+			}
 			confirmationActionConfig.addActionParameter(onSuccessActionConfigList);
 
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmationActionConfig);

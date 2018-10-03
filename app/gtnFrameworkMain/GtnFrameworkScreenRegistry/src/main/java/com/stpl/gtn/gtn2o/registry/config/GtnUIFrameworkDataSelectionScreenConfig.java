@@ -248,7 +248,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig deductionComponent = new GtnUIFrameworkComponentConfig();
 		deductionComponent.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		deductionComponent.setComponentId(nameSpace + "_" + "deductionLevel");
-		deductionComponent.setComponentName("Deduction Level");
+		deductionComponent.setComponentName("Deduction Level:");
 		deductionComponent.setAddToParent(true);
 		deductionComponent.setParentComponentId(nameSpace + "_" + "deductionLayout");
 		deductionComponent.setCustomReference(GtnFrameworkScreenRegisteryConstants.INTEGER_ID);
@@ -321,7 +321,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig privateViewLookup = new GtnUIFrameworkComponentConfig();
 		privateViewLookup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		privateViewLookup.setComponentId(nameSpace + "_" + "privateViewLookup");
-		privateViewLookup.setComponentName("Private Views");
+		privateViewLookup.setComponentName("Private Views:   ");
 		privateViewLookup.setAddToParent(true);
 		privateViewLookup.setParentComponentId(nameSpace + "_" + "privateViewLookupLayout");
 		componentList.add(privateViewLookup);
@@ -348,8 +348,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig company = new GtnUIFrameworkComponentConfig();
 		company.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		company.setComponentId(nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
-		company.setComponentName(GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
+		company.setComponentName(GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID + ":    ");
 		company.setAddToParent(true);
+		company.addComponentStyle("stpl-margin-left-30");
 		company.setParentComponentId(nameSpace + "_" + "companyLayout");
 		company.setCustomReference(GtnFrameworkScreenRegisteryConstants.INTEGER_ID);
 
@@ -374,8 +375,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig frequency = new GtnUIFrameworkComponentConfig();
 		frequency.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		frequency.setComponentId(nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_FREQUENCY_COMBOX_ID);
-		frequency.setComponentName(GtnFrameworkScreenRegisteryConstants.ADD_FREQUENCY_COMBOX_NAME);
+		frequency.setComponentName(GtnFrameworkScreenRegisteryConstants.ADD_FREQUENCY_COMBOX_NAME + ":");
 		frequency.setAddToParent(true);
+		frequency.addComponentStyle("stpl-margin-left-15");
 		frequency.setParentComponentId(nameSpace + "_" + "frequencyLayout");
 		frequency.setCustomReference(GtnFrameworkScreenRegisteryConstants.INTEGER_ID);
 		GtnUIFrameworkComboBoxConfig frequencyConfig = new GtnUIFrameworkComboBoxConfig();
@@ -401,7 +403,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionName.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		projectionName
 				.setComponentId(nameSpace + "_" + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_NAME);
-		projectionName.setComponentName("Projection Name");
+		projectionName.setComponentName("Projection Name:");
 		projectionName.setAddToParent(true);
 		projectionName.setParentComponentId(nameSpace + "_" + "projectionNameLayout");
 		componentList.add(projectionName);
@@ -416,8 +418,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig publicViewLookup = new GtnUIFrameworkComponentConfig();
 		publicViewLookup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		publicViewLookup.setComponentId(nameSpace + "_" + GtnFrameworkForecastingStringConstants.PUBLIC_VIEW);
-		publicViewLookup.setComponentName("Public Views");
+		publicViewLookup.setComponentName("Public Views:");
 		publicViewLookup.setAddToParent(true);
+		publicViewLookup.addComponentStyle("stpl-margin-left-5");
 		publicViewLookup.setParentComponentId(nameSpace + "_" + "publicViewLayout");
 		componentList.add(publicViewLookup);
 
@@ -444,8 +447,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		businessUnit
 				.setComponentId(nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID);
-		businessUnit.setComponentName("Business Unit");
+		businessUnit.setComponentName("Business Unit:  ");
 		businessUnit.setAddToParent(true);
+		businessUnit.addComponentStyle("stpl-margin-left-7");
 		businessUnit.setParentComponentId(nameSpace + "_" + "businessUnitLayout");
 		businessUnit.setCustomReference(GtnFrameworkScreenRegisteryConstants.INTEGER_ID);
 
@@ -471,8 +475,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionDescription.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		projectionDescription.setComponentId(
 				nameSpace + "_" + GtnFrameworkForecastingStringConstants.FORECAST_PROJECTION_DESCRIPTION);
-		projectionDescription.setComponentName("Description");
+		projectionDescription.setComponentName("Description:");
 		projectionDescription.setAddToParent(true);
+		projectionDescription.addComponentStyle("stpl-margin-left-30");
 		projectionDescription.setParentComponentId(nameSpace + "_" + "projectionDescriptionLayout");
 		componentList.add(projectionDescription);
 	}
@@ -487,7 +492,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig fromPeriod = new GtnUIFrameworkComponentConfig();
 		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		fromPeriod.setComponentId(nameSpace + "_" + "from");
-		fromPeriod.setComponentName("From ");
+		fromPeriod.setComponentName("From:");
 		fromPeriod.setAddToParent(true);
 		fromPeriod.setParentComponentId(nameSpace + "_" + "fromPeriodLayout");
 		fromPeriod.setCustomReference(GtnFrameworkScreenRegisteryConstants.INTEGER_ID);
@@ -519,7 +524,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComponentConfig toPeriod = new GtnUIFrameworkComponentConfig();
 		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		toPeriod.setComponentId(nameSpace + "_" + "to");
-		toPeriod.setComponentName("To ");
+		toPeriod.setComponentName("To:");
 		toPeriod.setAddToParent(true);
 		toPeriod.setParentComponentId(nameSpace + "_" + "toPeriodLayout");
 		toPeriod.setEnable(false);
