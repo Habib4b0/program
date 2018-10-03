@@ -14,6 +14,8 @@ import com.stpl.app.arm.businessprocess.transaction6.logic.Trx6InventoryLogic;
 import com.stpl.app.arm.supercode.CommonUI;
 import com.stpl.app.arm.supercode.ExcelInterface;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
+import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.utils.ExcelUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -24,6 +26,7 @@ import com.stpl.ifs.util.constants.ARMMessages;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -151,10 +154,19 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
             } else {
                 getSummaryLogic().updateForCalculte(input, getSelection().getSessionDTO().getCurrentTableNames().get("ST_ARM_INFLATION_INVENTORY_ADJ"));
             }
+            updateAdjustmentDetails(getSelection().getSessionDTO().getCurrentTableNames());
+
         } catch (Exception e) {
             TR6_INVENTORY_LOGGER.error("Error in calculateLogic :", e);
         }
         return false;
+    }
+
+    private void updateAdjustmentDetails(Map<String, String> currentTableNames) {
+        List input = new ArrayList<>();
+        input.add(currentTableNames.get(CommonConstant.ST_ARM_INFLATION_INVENTORY_ADJ));
+        input.add(currentTableNames.get("ST_ARM_ADJUSTMENTS"));
+        QueryUtils.itemUpdate(input, "update_transaction6_adjustments_based_on_overridecolumn");
     }
 
     public void generateButtonLogic(AbstractSelectionDTO selection) {
@@ -275,14 +287,14 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
             listData.add(Boolean.FALSE);
             listData.add(getIsDemandSreen());
             listData.add(getInterval());
-            ExcelUtils.setExcelData(list, getExcelHierarchy(), getExcelExportVisibleColumn(),  getExcelContainer(), discountColumnNeeded(), ARMConstants.getPipelineInventoryTrueUp(), listData);
+            ExcelUtils.setExcelData(list, getExcelHierarchy(), getExcelExportVisibleColumn(), getExcelContainer(), discountColumnNeeded(), ARMConstants.getPipelineInventoryTrueUp(), listData);
             ((CommonUI) getUI()).setExcelFlag(!visiblity);
             ExcelExport export = new ExcelExport(new ExtCustomTableHolder(getExcelTable()), getExcelFileName(), getExcelFileName(), getExcelFileName() + ".xls", false);
             export.setUseTableFormatPropertyValue(!visiblity);
             export.export();
             getExcelContainer().removeAllItems();
             tableLayout.removeComponent(getExcelTable());
-        } catch (Exception ex) {
+        } catch (IllegalAccessException | InvocationTargetException ex) {
             TR6_INVENTORY_LOGGER.error("Error in excelExportLogic :", ex);
         }
     }

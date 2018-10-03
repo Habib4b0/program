@@ -111,7 +111,7 @@ public class GtnWsIfpSaveServiceTest {
 		doReturn(ht).when(fix).getHelperTable(Mockito.any(Integer.class), Mockito.any(Session.class));
 		Session s = Mockito.mock(Session.class);
 		Transaction tran = Mockito.mock(Transaction.class);
-
+  
 		doReturn(s).when(sessionFactory).openSession();
 		doReturn(1).when(s).save(Mockito.any(IfpModel.class));
 		doReturn(tran).when(s).beginTransaction();

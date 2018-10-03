@@ -1525,7 +1525,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
             if (view.getValue() != null) {
                 if (CUSTOM.getConstant().equals(String.valueOf(view.getValue()))) {
+                    if((resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY))!=null){
                      ((TextField)resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY)).setValue(StringUtils.EMPTY);
+                    }
                     hierarchyIndicator = CommonUtil.isValueEligibleForLoading()
                             ? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY : "CP";
                     loadCustomDDLB();
@@ -1548,7 +1550,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         resultsTable.getRightFreezeAsTable().setTripleHeaderVisible(false);
                     }
                 } else if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
+                    if((resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY))!=null){
                      ((TextField)resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY)).setValue(StringUtils.EMPTY);
+                    }
                     currentHierarchy = session.getCustomerHierarchyList();
                     hierarchyIndicator = "C";
                     levelDdlb.setEnabled(true);
@@ -1572,7 +1576,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     resultsTable.getLeftFreezeAsTable().setDoubleHeaderVisible(true);
                     resultsTable.setTripleHeaderVisible(true);
                 } else if (PRODUCT.getConstant().equals(String.valueOf(view.getValue()))) {
+                    if((resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY))!=null){
                      ((TextField)resultsTable.getLeftFreezeAsTable().getFilterField(LEVEL_NAME_PROPERTY)).setValue(StringUtils.EMPTY);
+                    }
                     currentHierarchy = session.getProductHierarchyList();
                     hierarchyIndicator = Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY;
                     levelDdlb.setEnabled(true);
@@ -4560,7 +4566,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             Map<String, List<String>> checkDoubleHeader = d.getValue();
             for (Map.Entry<String, List<String>> entry : checkDoubleHeader.entrySet()) {
                 List a = entry.getValue();
-                if (checkedList.size() > 0 && a.size() > 0 && !isOne) {
+                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;
                 } else {
@@ -4616,7 +4622,11 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 }
             } else {
                 String startValue = startPeriodForecastTab.getValue().toString();
-                return Integer.parseInt(startValue) > Integer.parseInt(valueEnd);
+                  if (Integer.parseInt(startValue) > Integer.parseInt(valueEnd)) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         } else {
             AbstractNotificationUtils.getErrorNotification(Constant.NO_START_PERIOD_SELECTED,

@@ -424,8 +424,6 @@ public final class Constants {
         
         public static final String DTX_CONTRACT_IFP_INTERFACE = "DTX_CONTRACT_IFP_INTERFACE";
         
-        public static final String DTX_CONTRACT_CPGRP_INTERFACE = "DTX_CONTRACT_CPGRP_INTERFACE";
-        
         public static final String DTX_CONTRACT_CPPPO_INTERFACE = "DTX_CONTRACT_CPPPO_INTERFACE";
         
         public static final String DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE = "DTX_CONTRACT_CPGRP_PGM_MKT_INTERFACE";
@@ -438,6 +436,10 @@ public final class Constants {
         
         public static final String DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE = "DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE";
 
+        public static final String DTX_CONTRACT_CPGRP_INTERFACE = "DTX_CONTRACT_CPGRP_INTERFACE";
+        
+        public static final String DTX_GL_COST_CENTER_INTERFACE = "DTX_GL_COST_CENTER_INTERFACE";
+        
 	private Constants() {
 	}
 }
