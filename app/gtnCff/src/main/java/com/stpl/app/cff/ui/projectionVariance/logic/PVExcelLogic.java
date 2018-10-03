@@ -255,7 +255,8 @@ public class PVExcelLogic {
         return valueExcel;
     }
 
-    public String isNull(String value) {
+    public String isNull(String valueParam) {
+        String value = valueParam;
         if (value.contains(Constants.NULL)) {
             value = ZERO;
         }
@@ -3435,9 +3436,10 @@ public class PVExcelLogic {
         }
     }
 
-    private void customHierarchyAndTPKeys(Object[] obj, String key, List<ProjectionVarianceDTO> pvList) {
+    private void customHierarchyAndTPKeys(Object[] obj, String keyParam, List<ProjectionVarianceDTO> pvList) {
         String parentKey = obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString();
         String newKey;
+        String key = keyParam;
         if (parentKey == null) {
             hierarchyKeys.add(key);
             resultMap.put(key, pvList);

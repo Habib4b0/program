@@ -295,7 +295,8 @@ public class PVCommonLogic {
         return (double) Math.round(x * fraction) / fraction;
     }
 
-    public static String getFormattedValue(DecimalFormat format, String value) {
+    public static String getFormattedValue(DecimalFormat format, String valueParam) {
+        String value = valueParam;
         if (value.contains(NULL.getConstant())|| value.isEmpty()) {
             value = ZERO;
         } else {
