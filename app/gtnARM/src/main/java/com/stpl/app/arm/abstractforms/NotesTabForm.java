@@ -30,7 +30,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
-import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -145,7 +144,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         filePath = new CommonUtil().getFileName(basepath + File.separator + "Documents" + File.separator + moduleName);
         wordFile = new CommonUtil().getFileName(filePath + File.separator + fileName + ExportWord.DOC_EXT);
         pdfFile = new CommonUtil().getFileName(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
-        fileUploadPath = FileUploader.FILE_PATH + moduleName + ARMConstants.getForwardSlash();
+        fileUploadPath = FileUploader.FILE_PATH+"/" + moduleName + "/";
     }
 
     @Override
@@ -267,14 +266,18 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
 
     @Override
     public void removeButtonLogic(Button.ClickEvent event) {
+        if (tableBean == null || tableBeanId == null || !table.isSelected(tableBeanId)) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.REMOVE_ATTACHMENT, "Please select an attachment to remove ");
+            return;
+        }
+        
         String currentUsersName = tableBean.getUserName();
         if (currentUsersName.contains(",")) {
             String[] str = currentUsersName.split(",");
             currentUsersName = str[1] + ARMUtils.SPACE + str[0];
         }
-        if (tableBeanId == null || !table.isSelected(tableBeanId)) {
-            AbstractNotificationUtils.getErrorNotification(CommonConstant.REMOVE_ATTACHMENT, "Please select an attachment to remove ");
-        } else if (!currentUsersName.trim().equalsIgnoreCase(userName.trim())) {
+        
+        if (!currentUsersName.trim().equalsIgnoreCase(userName.trim())) {
             AbstractNotificationUtils.getInfoNotification(CommonConstant.REMOVE_ATTACHMENT, "You can only remove attachments that you have uploaded.");
         } else {
             AbstractNotificationUtils removeNotification = new AbstractNotificationUtils() {
