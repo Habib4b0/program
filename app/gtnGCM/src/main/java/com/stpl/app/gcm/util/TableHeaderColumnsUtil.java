@@ -57,7 +57,7 @@ public class TableHeaderColumnsUtil {
         */
     }
 
-    public static TableHeaderColumnsUtil getInstance() {
+    public static synchronized TableHeaderColumnsUtil getInstance() {
         if (object == null) {
             object = new TableHeaderColumnsUtil();
         }

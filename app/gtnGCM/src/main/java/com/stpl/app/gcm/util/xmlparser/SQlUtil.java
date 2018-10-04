@@ -38,7 +38,7 @@ public class SQlUtil {
 
     }
 
-    private static SQlUtil getContext() {
+    private static synchronized SQlUtil getContext() {
         if (sqlUtil == null) {
             sqlUtil = new SQlUtil();
         }

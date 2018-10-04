@@ -281,8 +281,9 @@ LEVEL_NAME,RANK_VIEW)
                                         WHEN @VIEW='DEDUCTION' THEN 1
                                        END,
           LEVEL_NAME= CASE
+                      WHEN @VIEW='DEDUCTION' THEN R.RS_NAME
                       WHEN @VIEW='PRODUCT' THEN IM.ITEM_NAME
-                       WHEN @VIEW='BRAND' THEN BM.BRAND_NAME
+                      WHEN @VIEW='BRAND' THEN BM.BRAND_NAME
                                        WHEN @VIEW='CUSTOMER' THEN  CM.COMPANY_NAME
                                        WHEN @VIEW='CONTRACT' THEN CON.[CONTRACT_NAME]
                                        END,
