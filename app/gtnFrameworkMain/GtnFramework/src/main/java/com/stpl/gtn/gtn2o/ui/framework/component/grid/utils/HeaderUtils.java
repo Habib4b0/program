@@ -128,19 +128,19 @@ public class HeaderUtils {
 		Iterator<String> douleHeaders = pagedTreeGrid.getTableConfig().getRightTableDoubleVisibleHeaders().iterator();
 		pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderVisibleColumns().stream().distinct()
 				.forEach(property -> {
-					Object[] joinList = pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(property);
+						Object[] joinList = pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(property);
 					String[] stringArray = getSingleColumnsMapping(currentSingleColumns, joinList)
 							.toArray(new String[0]);
 					if (stringArray.length > 1) {
 						String header = douleHeaders.next();
-						if (property.toString().contains(pagedTreeGrid.getTableConfig().getAggregationColumnHeader())) {
+						if (pagedTreeGrid.getTableConfig().getAggregationColumnHeader()!=null && property.toString().contains(pagedTreeGrid.getTableConfig().getAggregationColumnHeader())) {
 							groupingHeader.getCell(stringArray[stringArray.length - 1]).setText(header);
 						} else {
 							groupingHeader.join(stringArray).setText(header);
 						}
 					} else if (stringArray.length > 0) {
 						groupingHeader.getCell(stringArray[0]).setText(douleHeaders.next());
-					}
+				}
 				});
 	}
 

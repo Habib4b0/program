@@ -359,7 +359,7 @@ public class SalesExcelNM extends ExcelExport{
              if(isappend){
                  formula = "SUM(".concat(string).concat(")");
              }else{
-                 formula += "SUM(".concat(string).concat(")");
+                 formula += "+SUM(".concat(string).concat(")");
              }
              isappend= false;
          }
@@ -389,7 +389,7 @@ public class SalesExcelNM extends ExcelExport{
               if (isappend) {
                   formulaVal = "SUM(".concat(string).concat(")");
               } else {
-                  formulaVal += "SUM(".concat(string).concat(")");
+                  formulaVal += "+SUM(".concat(string).concat(")");
               }
               isappend= false;
           }

@@ -119,7 +119,12 @@ END
 SELECT @FIRST_PROJ_SID = PM.CFF_MASTER_SID
 FROM #CFF_PROJECTION_MASTER PM
 WHERE ID = 1
-
+	
+declare @END_SALES_SID int = (
+		SELECT PERIOD_SID
+		FROM PERIOD
+		WHERE PERIOD_DATE = DATEADD(MM, - 3, DATEADD(QQ, DATEDIFF(QQ, 0, GETDATE()), 0))
+		)	
 --------------------TAKING TABLES BASED ON VIEW STARTS HERE
  IF @indicator = 'c'
             BEGIN
@@ -290,12 +295,13 @@ SELECT CF.CFF_MASTER_SID
 FROM (select * from ', @CFF_PRODUCT ,' where EX_FACTORY_SALES_ACTUALS is not null)  CF
 JOIN #PERIOD p ON CF.CFF_MASTER_SID =  ', @FIRST_PROJ_SID ,'
 	AND P.PERIOD_SID = CF.PERIOD_SID
-	AND p.year <= year(getdate())
+
 JOIN (
 	SELECT DISTINCT ITEM_MASTER_SID
 		,ROW_ID
 	FROM ',@CUSTOMER_DETAILS_TEMP,'
 	) PRO ON CF.ITEM_MASTER_SID = PRO.ITEM_MASTER_SID
+	where p.period_sid<',@END_SALES_SID,'
 GROUP BY cf.CFF_MASTER_SID
 	,PRO.ROW_ID
 	,YEAR
@@ -331,7 +337,11 @@ DISCOUNT_TYPE tinyint,rs_contract_Sid int, sales numeric(22,6),units numeric(22,
 		ND.YEAR,INDICATOR,DISCOUNT_TYPE,nd.rs_contract_Sid')
 
 		EXEC Sp_executesql @sql
-
+declare @ACTUALS_END_SID int = (
+		SELECT top 1 PERIOD
+		FROM #PERIOD
+		WHERE PERIOD_SID = @END_SALES_SID
+		)	
 		if OBJECT_ID('tempdb..#trail') is not null
 	drop table #trail
 	select CFF_MASTER_SID,HIERARCHY_NO HIERARCHY_NO,period,year,row_id ,SELECTED_LEVEL,DESCRIPTION
@@ -354,7 +364,7 @@ DISCOUNT_TYPE tinyint,rs_contract_Sid int, sales numeric(22,6),units numeric(22,
 	((ND.DISCOUNT) + isnull((MD.DISCOUNT),0) + isnull((SPD.DISCOUNT),0)) / NULLIF((nd.UNITS), 0) AS TOTAL_RPU,
 	(((ND.DISCOUNT) + isnull((MD.DISCOUNT),0) + isnull((SPD.DISCOUNT),0)) / NULLIF((p.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY,
 	(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL,
-	0 AS INDICATOR,
+	1 AS INDICATOR,
 	t.DESCRIPTION
 	 from #trail t left join #PRODUCT_FILE_DATA p on p.CFF_MASTER_SID=t.CFF_MASTER_SID and p.ROW_ID=t.row_id
 	and p.PERIOD=t.PERIOD
@@ -378,7 +388,7 @@ DISCOUNT_TYPE tinyint,rs_contract_Sid int, sales numeric(22,6),units numeric(22,
 	and spd.INDICATOR=0
 	and spd.rs_contract_Sid=t.SELECTED_LEVEL
 	and spd.DISCOUNT_TYPE=2
-	where t.CFF_MASTER_SID=@FIRST_PROJ_SID
+	where t.CFF_MASTER_SID=@FIRST_PROJ_SID and t.PERIOD<@ACTUALS_END_SID and t.YEAR<=year(getdate())
 	union all
 	select t.CFF_MASTER_SID,
 	t.HIERARCHY_NO,
@@ -394,7 +404,7 @@ DISCOUNT_TYPE tinyint,rs_contract_Sid int, sales numeric(22,6),units numeric(22,
 	((ND.DISCOUNT) + isnull((MD.DISCOUNT),0) + isnull((SPD.DISCOUNT),0)) / NULLIF((nd.UNITS), 0) AS TOTAL_RPU,
 	(((ND.DISCOUNT) + isnull((MD.DISCOUNT),0) + isnull((SPD.DISCOUNT),0)) / NULLIF((p.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY,
 	(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL,
-	1 AS INDICATOR,
+	0 AS INDICATOR,
 	t.DESCRIPTION
 	 from #trail t left join #PRODUCT_FILE_DATA p on p.CFF_MASTER_SID=t.CFF_MASTER_SID and p.ROW_ID=t.row_id
 	and p.PERIOD=t.PERIOD
