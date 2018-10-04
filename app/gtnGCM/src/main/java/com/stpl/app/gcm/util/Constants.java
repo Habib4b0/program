@@ -1397,7 +1397,7 @@ public class Constants {
         return object;
     }
     
-    public static String getADDBY() {
+    public static synchronized String getADDBY() {
 		return addby;
 	}
 
