@@ -85,10 +85,11 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
     }
     
     private boolean getlevel(GtnWebServiceSearchCriteria searchCriteria, boolean level) {
-        if (searchCriteria.getFieldId().toString().contains(PRODUCT)) {
-            level = false;
+        boolean levelValue = level;
+        if (searchCriteria.getFieldId().contains(PRODUCT)) {
+            levelValue = false;
         }
-        return level;
+        return levelValue;
     }
 
     private void getQueryMap(GtnSearchwebServiceSqlService gtnSearchSqlService, List<GtnWebServiceSearchCriteria> list) {
