@@ -11,7 +11,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,10 +32,10 @@ import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanInformationBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
 public class GtnWsIfpSaveServiceTest {
+
 	@InjectMocks
 	@Autowired
 	GtnWsIfpSaveService fixture;
@@ -49,13 +48,11 @@ public class GtnWsIfpSaveServiceTest {
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
-	/**
-	 * Run the GtnWsIfpSaveService() constructor test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
+	@Before
+	public void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
+	}
+
 	@Test
 	public void testGtnWsIfpSaveService_1() throws Exception {
 
@@ -111,7 +108,7 @@ public class GtnWsIfpSaveServiceTest {
 		doReturn(ht).when(fix).getHelperTable(Mockito.any(Integer.class), Mockito.any(Session.class));
 		Session s = Mockito.mock(Session.class);
 		Transaction tran = Mockito.mock(Transaction.class);
-  
+
 		doReturn(s).when(sessionFactory).openSession();
 		doReturn(1).when(s).save(Mockito.any(IfpModel.class));
 		doReturn(tran).when(s).beginTransaction();
@@ -271,58 +268,6 @@ public class GtnWsIfpSaveServiceTest {
 
 	}
 
-	// @Test
-	// public void testnotesTabAttachmentForIfp()
-	// throws Exception {
-	//
-	// GtnWsIfpSaveService gtnWsIfpSaveService = new GtnWsIfpSaveService();
-	//
-	// Session session = Mockito.mock(Session.class);
-	// Transaction transaction = Mockito.mock(Transaction.class);
-	//
-	//// doReturn(sessionFactory).when(gtnWsIfpSaveService).getSessionFactory();
-	// doReturn(session).when(sessionFactory).openSession();
-	// doReturn(transaction).when(session).beginTransaction();
-	//
-	// NotesTabBean ifpNotesBean = new NotesTabBean();
-	// ifpNotesBean.setCreatedBy(1);
-	// ifpNotesBean.setFilePath("filepath");
-	// ifpNotesBean.setMasterTableName("master");
-	//
-	// List<NotesTabBean> notesTabBeansList = new ArrayList<NotesTabBean>();
-	// notesTabBeansList.add(ifpNotesBean);
-	//
-	// GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
-	// GtnIFamilyPlanInformationBean ifpInfo = new
-	// GtnIFamilyPlanInformationBean();
-	// ifpInfo.setCreatedBy("createBy");
-	// ifpInfo.setCreatedDate(new Date());
-	// ifpInfo.setIfpCategory(1);
-	// ifpInfo.setIfpDesignation(2);
-	// ifpInfo.setIfpEndDate(new Date());
-	// ifpInfo.setIfpId("id");
-	// ifpInfo.setIfpName("name");
-	// ifpInfo.setIfpNo("no");
-	// ifpInfo.setIfpSid(3);
-	// ifpInfo.setIfpStartDate(new Date());
-	// ifpInfo.setIfpStatus(4);
-	// ifpInfo.setIfpType(5);
-	// ifpInfo.setInternalNotes("note");
-	// ifpInfo.setModifiedBy("modifiedBy");
-	// ifpInfo.setModifiedDate(new Date());
-	// ifpInfo.setParentIfpId("pid");
-	// ifpInfo.setRecordLockStatus(false);
-	//
-	// gtnIFamilyPlan.setIfpInfo(ifpInfo);
-	// gtnIFamilyPlan.setNotesTabList(notesTabBeansList);
-	//
-	// List<Object[]> queryInputList1 = new ArrayList<>();
-	// doReturn(queryInputList1).when(gtnSqlQueryEngine).executeSelectQuery(Mockito.anyString());
-	//
-	// gtnWsIfpSaveService.notesTabAttachmentForIfp(gtnIFamilyPlan);
-	//
-	// }
-
 	@Test
 	public void testSaveNotesTabDetails_1() throws Exception {
 		GtnIFamilyPlanBean ruleInfoBean = new GtnIFamilyPlanBean();
@@ -427,32 +372,6 @@ public class GtnWsIfpSaveServiceTest {
 		fixture.updateFieldsQuery(gtnWsRequest);
 
 		assertNotNull(result);
-	}
-
-	/**
-	 * Perform pre-test initialization.
-	 *
-	 * @throws Exception
-	 *             if the initialization fails for some reason
-	 *
-	 * 
-	 */
-	@Before
-	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
-	}
-
-	/**
-	 * Perform post-test clean-up.
-	 *
-	 * @throws Exception
-	 *             if the clean-up fails for some reason
-	 *
-	 * 
-	 */
-	@After
-	public void tearDown() throws Exception {
-
 	}
 
 }

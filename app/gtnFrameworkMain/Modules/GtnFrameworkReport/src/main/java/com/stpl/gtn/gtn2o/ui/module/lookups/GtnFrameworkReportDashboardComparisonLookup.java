@@ -115,7 +115,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		componentList.add(resultsPanel);
 
 		GtnUIFrameworkComponentConfig resultsMainLayout = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkReportStringConstants.RESULTS_MAIN_LAYOUT_CONFIG, true, "resultsMainLayout");
+				GtnFrameworkReportStringConstants.REPORT_RESULTS_MAIN_LAYOUT_CONFIG, true, "resultsMainLayout");
 		resultsMainLayout.setComponentWidth("100%");
 
 		List<String> resultsMainLayoutStyles = new ArrayList<>();
@@ -130,7 +130,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 
 	private void addResultPanel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig resultsPanel = configProvider.getPanelConfig("resultPanel", true,
-				GtnFrameworkReportStringConstants.RESULTS_MAIN_LAYOUT_CONFIG);
+				GtnFrameworkReportStringConstants.REPORT_RESULTS_MAIN_LAYOUT_CONFIG);
 		resultsPanel.setComponentName(GtnFrameworkCommonConstants.RESULTS);
 		resultsPanel.setAuthorizationIncluded(true);
 		resultsPanel.setComponentWidth("100%");
@@ -230,7 +230,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		GtnUIFrameworkComponentConfig workflowStatusLayoutConfig = new GtnUIFrameworkComponentConfig();
 		workflowStatusLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		workflowStatusLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		workflowStatusLayoutConfig.setAddToParent(true);
 		workflowStatusLayoutConfig.setSpacing(true);
 		workflowStatusLayoutConfig.addComponentStyle("stpl-margin-top-15");
@@ -246,7 +246,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		dashboardWorkflowStatus.setComponentName("Workflow Status: ");
 		dashboardWorkflowStatus.setAddToParent(true);
 		dashboardWorkflowStatus.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		dashboardWorkflowStatus.setCustomReference("integerId");
 		dashboardWorkflowStatus.setComponentWsFieldId("workflowStatus");
 
@@ -266,7 +266,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		GtnUIFrameworkComponentConfig reportDashboardBusinessUnitLayoutConfig = new GtnUIFrameworkComponentConfig();
 		reportDashboardBusinessUnitLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportDashboardBusinessUnitLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.BUSINESS_UNIT_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_BUSINESS_UNIT_LAYOUT);
 		reportDashboardBusinessUnitLayoutConfig.setAddToParent(true);
 		reportDashboardBusinessUnitLayoutConfig.setSpacing(true);
 		reportDashboardBusinessUnitLayoutConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
@@ -283,7 +283,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		reportDashboardMarketType.setComponentName("Market Type: ");
 		reportDashboardMarketType.setAddToParent(true);
 		reportDashboardMarketType.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.BUSINESS_UNIT_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_BUSINESS_UNIT_LAYOUT);
 		reportDashboardMarketType.setComponentWsFieldId(GtnFrameworkReportStringConstants.MARKET_TYPE);
 
 		componentList.add(reportDashboardMarketType);
@@ -318,7 +318,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		GtnUIFrameworkComponentConfig projectionNameLayoutConfig = new GtnUIFrameworkComponentConfig();
 		projectionNameLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		projectionNameLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		projectionNameLayoutConfig.setAddToParent(true);
 		projectionNameLayoutConfig.setSpacing(true);
 		projectionNameLayoutConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
@@ -334,7 +334,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		reportDashboardprojectionName.setComponentName("Projection Name: ");
 		reportDashboardprojectionName.setAddToParent(true);
 		reportDashboardprojectionName.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		reportDashboardprojectionName.setComponentWsFieldId(GtnFrameworkReportStringConstants.PROJECTION_NAME);
 
 		componentList.add(reportDashboardprojectionName);
@@ -395,7 +395,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		GtnUIFrameworkComponentConfig projectionDescriptionLayoutConfig = new GtnUIFrameworkComponentConfig();
 		projectionDescriptionLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		projectionDescriptionLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		projectionDescriptionLayoutConfig.setAddToParent(true);
 		projectionDescriptionLayoutConfig.setSpacing(true);
 		projectionDescriptionLayoutConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
@@ -411,7 +411,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		projectionDescription.setComponentName("Description: ");
 		projectionDescription.setAddToParent(true);
 		projectionDescription.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		projectionDescription.setComponentWsFieldId(GtnFrameworkReportStringConstants.DESCRIPTION2);
 
 		componentList.add(projectionDescription);
@@ -802,7 +802,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 
 	private void addActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig actionBtnLayout = configProvider
-				.getCssLayoutConfig(GtnFrameworkReportStringConstants.ACTION_BUTTON_LAYOUT, false, null);
+				.getCssLayoutConfig(GtnFrameworkReportStringConstants.REPORT_ACTION_BUTTON_LAYOUT, false, null);
 		actionBtnLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(actionBtnLayout);
 		addSubmitButtonComponent(componentList, nameSpace);

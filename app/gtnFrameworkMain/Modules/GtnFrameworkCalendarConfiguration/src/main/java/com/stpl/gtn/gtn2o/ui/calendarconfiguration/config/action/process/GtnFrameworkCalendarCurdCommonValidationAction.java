@@ -62,16 +62,21 @@ public class GtnFrameworkCalendarCurdCommonValidationAction implements GtnUIFram
 		GtnUIFrameworkWebServiceClient webServiceClient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest wsRequest = new GtnUIFrameworkWebserviceRequest();
 		wsRequest.setCalendarConfigurationRequest(calendarConfigurationRequest);
-		GtnUIFrameworkWebserviceResponse wsResponse = webServiceClient.callGtnWebServiceUrl(
-				GtnWsCalendarConfigurationConstants.GTN_CALENDAR_CONFIGURATION_SERVICE
-						+ GtnWsCalendarConfigurationConstants.LOAD_CALENDAR_CONFIGURATION_CALENDAR_NAME,
-				wsRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse wsResponse = getResponse(webServiceClient, wsRequest);
 		GtnWsCalendarConfigurationResponse calendarConfigurationResponse = wsResponse.getCalendarConfigurationResponse();
 		boolean calendarNameAlreadyExists = calendarConfigurationResponse.isCalendarNameExists();
 		if (calendarNameAlreadyExists) {
 			throw new GtnFrameworkValidationFailedException(GtnFrameworkCalendarConfigurationContants.CALENDAR_NAME_EXISTS, componentId);
 		}
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebServiceClient webServiceClient,
+			GtnUIFrameworkWebserviceRequest wsRequest) {
+		return webServiceClient.callGtnWebServiceUrl(
+				GtnWsCalendarConfigurationConstants.GTN_CALENDAR_CONFIGURATION_SERVICE
+						+ GtnWsCalendarConfigurationConstants.LOAD_CALENDAR_CONFIGURATION_CALENDAR_NAME,
+				wsRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

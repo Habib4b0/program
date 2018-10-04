@@ -4,7 +4,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.ProjectionVarianceDAO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
-import com.stpl.app.gtnforecasting.service.finderImpl.ProjectionCustHierarchyImpl;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,33 +50,6 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
             throws PortalException{
 
         return Collections.emptyList();
-    }
-
-    /**
-     * Search for projections in comparison lookup.
-     *
-     * @param workflowStatus the workflow status
-     * @param marketType the market type
-     * @param brand the brand
-     * @param projName the proj name
-     * @param contHldr the cont hldr
-     * @param ndcNo the ndc no
-     * @param ndcName the ndc name
-     * @param desc the desc
-     * @param contract the contract
-     * @param from the from
-     * @param to the to
-     * @return the list
-     * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
-     */
-    @Override
-    public List searchForProjections(String workflowStatus, String marketType, String brand,
-            String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
-            String from, String to) throws PortalException{
-
-        return new ProjectionCustHierarchyImpl().getComparisonSearch(workflowStatus, marketType, brand, projName, contHldr, ndcNo, ndcName, desc, contract, from, to);
     }
 
     /**

@@ -22,8 +22,6 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Constants {
 
-    public final String[] reasonCodes = {"Added new Trading Partner", "Added to Formulary", "Class limitation", "Decrease in Membership", "Deleted Trading Partner Other", "Increase in Membership", "New Contract Discount Rates", "Other", "Removed from Formulary"};
-
     /**
      * Enum for label constants
      */
@@ -1348,13 +1346,6 @@ public class Constants {
         }
     }
     
-     /**
-     * The Constant Avilable Customer Header.
-     */
-    public final String[] availableItemsHeaders = new String[]{
-        "", "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand Name", "Item No", "Item Name","Item Identifier Type","Item Identifier"};
-    public final Object[] availableItemsVisibleColumns = new Object[]{
-        Constant.CHECK, "businessUnitNo", "businessUnitName", "theraputicClass", Constant.BRAND, Constant.ITEM_NO, "itemName","itemIdentifierType","itemIdentifier"};
     public static final String HIERVER = "@HIERVER";
 
     public static final String PROGRAM = "Program";
