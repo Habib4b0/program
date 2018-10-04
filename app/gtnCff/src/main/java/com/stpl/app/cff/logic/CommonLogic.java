@@ -439,7 +439,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return levelHierarchy;
     }
 
-    public static List<Object> getParentLevelNoAndHierarchyNo(int levelNo, String hierarchyNos) {
+    public static List<Object> getParentLevelNoAndHierarchyNo(int levelNoParaml, String hierarchyNos) {
+        int levelNo =levelNoParaml;
         List<Object> levelHierarchy = new ArrayList<>();
         String hierarchyNo = getParentHierarchyNo(hierarchyNos);
         levelNo--;
@@ -2685,7 +2686,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         }
     }
      
-     public static void loadUnitOfMeasureDdlb(ComboBox unitOfMeasureDdlb,SessionDTO session) {
+     public static void loadUnitOfMeasureDdlb(ComboBox unitOfMeasureDdlbParam,SessionDTO session) {
+         ComboBox unitOfMeasureDdlb = unitOfMeasureDdlbParam;
         unitOfMeasureDdlb.setNullSelectionAllowed(true);
         unitOfMeasureDdlb =new CommonLogic().loadItemUomConversionDdlb(session,unitOfMeasureDdlb);
         unitOfMeasureDdlb.setNullSelectionItemId(EACH);
