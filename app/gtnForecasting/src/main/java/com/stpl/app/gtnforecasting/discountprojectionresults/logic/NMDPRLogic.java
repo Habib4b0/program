@@ -33,14 +33,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,11 +49,6 @@ import org.slf4j.LoggerFactory;
  */
 public class NMDPRLogic {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4428373722392530081L;
-    
     private static final DecimalFormat DOLLAR = new DecimalFormat("#,##0");
     private static final DecimalFormat DOLLAR_RPU = new DecimalFormat("#,##0.00");
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.000");
@@ -67,19 +60,10 @@ public class NMDPRLogic {
     private static final String ACTUALRPU = "ActualsRPU";
     private static final String PROJECTEDRPU = "ProjectedRPU";
     private static final String NULL = "null";
-    private static final String Q_SMALL = "q";
     private static final String PERCENTAGE = Constant.PERCENT;
     private static final String DOLLAR_SYMBOL = "$";
     private static final String ZERO = "0";
-    private static final String ONE = "1";
-    private static final String TWO = "2";
-    private static final String THREE = "3";
-    private static final String FOUR = "4";
-    private final Map<String, String> valueMap = new HashMap<>();
-    private final List<Integer> startAndEndPeriods = new ArrayList<>();
     private static final CommonDAO commonDao = new CommonDAOImpl();
-    protected Map<MultiKey, List> customerccpId = new HashMap<>();
-    protected Map<MultiKey, List> productccpId = new HashMap<>();
     protected DPRQueryBuilder queryBuilder = new DPRQueryBuilder();
     private static final Logger LOGGER = LoggerFactory.getLogger(NMDPRLogic.class);
     public static final String PROJECTION_CUST_HIERARCHY = "PROJECTION_CUST_HIERARCHY";
