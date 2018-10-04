@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 public class HeaderUtils {
  private static final Logger LOGGER = LoggerFactory.getLogger(HeaderUtils.class);
     
-    public HeaderUtils()
+    private HeaderUtils()
     {
         LOGGER.debug("HeaderUtils");
     }

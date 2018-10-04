@@ -5,9 +5,16 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LevelDtoToRelationShipBeanConverter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LevelDtoToRelationShipBeanConverter.class);
 
+    private LevelDtoToRelationShipBeanConverter() {
+        LOGGER.debug("LevelDtoToRelationShipBeanConverter");
+    }
+        
 	public static List<GtnFrameworkRelationshipLevelDefintionBean> convetToRelationBean(
 			List<Leveldto> selectedCustomerContractList) {
 		List<GtnFrameworkRelationshipLevelDefintionBean> finalList = new ArrayList<>();
