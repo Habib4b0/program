@@ -101,7 +101,7 @@ public class GtnFrameworkQueryEngineMain {
 
 		for (int i = 0; i < firstRow.length; i++) {
 			int currentResultPosition = resultPositionArray[i];
-			mainConfig.getQueryMemoryArray()[currentResultPosition] = firstRow[i];
+			mainConfig.updateQueryMemoryArray(firstRow[i], currentResultPosition);
 		}
 
 	}
@@ -114,7 +114,7 @@ public class GtnFrameworkQueryEngineMain {
 			Query query = queryEngine.getQuery(session, "SELECT @@IDENTITY");
 			Object id = query.uniqueResult();
 			int pos = queryConfig.getResultStoragePositionArray()[0];
-			mainConfig.getQueryMemoryArray()[pos] = ((BigDecimal) id).intValue();
+			mainConfig.updateQueryMemoryArray(((BigDecimal) id).intValue(), pos);
 		}
 
 	}

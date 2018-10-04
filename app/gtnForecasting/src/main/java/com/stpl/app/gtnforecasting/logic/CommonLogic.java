@@ -3848,7 +3848,7 @@ public class CommonLogic {
             } else if (tabName.toLowerCase(Locale.ENGLISH).contains("alternate_history")) {
                 sql += SQlUtil.getQuery("alternate-join-count");
             } else if (tabName.toLowerCase(Locale.ENGLISH).contains("variance")) {
-                  sql += SQlUtil.getQuery("discount-join");
+                  sql += SQlUtil.getQuery("variance-join");
             }
         } else if (tabName.toLowerCase(Locale.ENGLISH).contains("m_discount")) {
             sql += SQlUtil.getQuery("discount-join-mandated");
@@ -4038,7 +4038,7 @@ public class CommonLogic {
     public static void updateForFilter(ProjectionSelectionDTO projectionDTO,String indicator,boolean isVariance) {
         String uomQuery = StringUtils.EMPTY;
         String updateAllQuery = SALES.equals(indicator) ? "UPDATE ST_NM_SALES_PROJECTION_MASTER SET FILTER_CCP=null ;":"UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET FILTER_CCP=null ;";
-        updateAllQuery = isVariance ? "UPDATE ST_CCP_PV_FILTERS SET PV_FILTERS=null;" : updateAllQuery;
+        updateAllQuery = isVariance ? "UPDATE ST_CCP_PV_FILTERS SET PV_FILTERS=1;" : updateAllQuery;
         boolean isCustomer=false;
         boolean isProduct=false;
         boolean isDeduction=false;
@@ -4058,18 +4058,21 @@ public class CommonLogic {
          }
         
         if (!uomQuery.isEmpty()) {
-            uomQuery += !isVariance?SQlUtil.getQuery("update-Filter-CCP"):SQlUtil.getQuery("update-Filter-CCP").replace("FILTER_CCP", "PV_FILTERS");
+            uomQuery += !isVariance?SQlUtil.getQuery("update-Filter-CCP"):" UPDATE ST_CCP_PV_FILTERS SET PV_FILTERS = 0 "+SQlUtil.getQuery("update-Filter-CCP").replace("SPM", "PV").replace("FILTER_CCP", "PV_FILTERS");
             if (isCustomer) {
                 uomQuery += " JOIN #CUSTOMER CUS ON ST.CUST_HIERARCHY_NO LIKE CUS.HIERARCHY_NO + '%' ";
             }
             if (isProduct) {
                 uomQuery += " JOIN #PRODUCT PRO ON ST.PROD_HIERARCHY_NO LIKE PRO.HIERARCHY_NO + '%' ";
             }
-            
-            uomQuery += SALES.equals(indicator) ? "JOIN ST_NM_SALES_PROJECTION_MASTER SPM ON SPM.CCP_DETAILS_SID = ST.CCP_DETAILS_SID " : " JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM ON SPM.CCP_DETAILS_SID = ST.CCP_DETAILS_SID ";
+            if(!isVariance){
+            uomQuery += SALES.equals(indicator)  ? "JOIN ST_NM_SALES_PROJECTION_MASTER SPM ON SPM.CCP_DETAILS_SID = ST.CCP_DETAILS_SID " : " JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM ON SPM.CCP_DETAILS_SID = ST.CCP_DETAILS_SID";
+            }
+            uomQuery+=isVariance? " JOIN dbo.ST_CCP_PV_FILTERS PV ON PV.CCP_DETAILS_SID = ST.CCP_DETAILS_SID":"";
             
             if (isDeduction) {
-                uomQuery += " JOIN  #HIER_DEDUCTION_PROD PRO1 ON SPM.DEDUCTION_HIERARCHY_NO LIKE PRO1.HIERARCHY_NO + '%' ";
+                uomQuery +=isVariance? " JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM ON SPM.CCP_DETAILS_SID = ST.CCP_DETAILS_SID and SPM.RS_CONTRACT_SID = PV.RS_CONTRACT_SID  JOIN  #HIER_DEDUCTION_PROD PRO1 ON SPM.DEDUCTION_HIERARCHY_NO LIKE PRO1.HIERARCHY_NO + '%' " : " JOIN  #HIER_DEDUCTION_PROD PRO1 ON SPM.DEDUCTION_HIERARCHY_NO LIKE PRO1.HIERARCHY_NO + '%' ";
+//                        "JOIN  #HIER_DEDUCTION_PROD PRO1 ON SPM.DEDUCTION_HIERARCHY_NO LIKE PRO1.HIERARCHY_NO + '%' ";
             }
            
         }else{
