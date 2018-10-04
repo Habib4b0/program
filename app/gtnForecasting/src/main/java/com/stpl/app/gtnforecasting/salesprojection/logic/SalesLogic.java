@@ -2921,6 +2921,7 @@ public class SalesLogic {
         LOGGER.info("Session ID ----  = {}" , projectionSelectionDTO.getSessionDTO().getSessionId());
         LOGGER.info("Frequency ----   = {}" , projectionSelectionDTO.getFrequency());
         LOGGER.info("ScreenName ----  = {}" , projectionSelectionDTO.getScreenName());
+        LOGGER.info("ActualOrProjection ----  = {}" , projectionSelectionDTO.isBaselineType());
         LOGGER.info("calcbased ----   = {}" , calcBased);
         LOGGER.info("fstartid ----    = {}" , start);
         LOGGER.info("fendid ----      = {}" , end);
@@ -4396,7 +4397,7 @@ public class SalesLogic {
     private void getStatement(Connection connection, String prcSalesProjectionTemp, ProjectionSelectionDTO projectionSelectionDTO, String start, String end, String calcBased, String allocationBasis, String indicator) {
         StringBuilder procedure = new StringBuilder("{call ");
         if (indicator.equals("NM")) {
-            procedure.append(prcSalesProjectionTemp).append(" (?,?,?,?,?,?,?,?,?)}");
+            procedure.append(prcSalesProjectionTemp).append(" (?,?,?,?,?,?,?,?,?,?)}");
         } else {
             procedure.append(prcSalesProjectionTemp).append(" (?,?,?,?,?,?,?,?)}");
         }
@@ -4411,7 +4412,9 @@ public class SalesLogic {
             statement.setObject(NumericConstants.EIGHT, allocationBasis);
             if (indicator.equals("NM")) {
                 statement.setObject(NumericConstants.NINE, projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
+                statement.setObject(NumericConstants.TEN, projectionSelectionDTO.isBaselineType()?0:1);
             }
+           
             statement.execute();
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());

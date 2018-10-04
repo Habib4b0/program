@@ -23,7 +23,9 @@ import org.apache.commons.lang.StringUtils;
  * @author abhiram
  */
 public class ProjectionSelectionDTO {
+    private boolean baselineType;
 
+    
     private int projectionId;
     private int userId;
     private int sessionId;
@@ -2421,6 +2423,12 @@ public class ProjectionSelectionDTO {
     public void setViewOption(String viewOption) {
         this.viewOption = viewOption;
     }
+    public boolean isBaselineType() {
+        return baselineType;
+    }
 
+    public void setBaselineType(boolean baselineType) {
+        this.baselineType = baselineType;
+    }
 
     }
