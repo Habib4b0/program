@@ -37,6 +37,12 @@ public class SchedulerCSVEport {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerCSVEport.class);
 	private static boolean isFileCreated;
 
+    private SchedulerCSVEport() {
+        LOGGER.debug("SchedulerCSVEport");
+    }
+
+        
+        
 	/**
 	 * This method is used to create a worksheet and logic for writing into the
 	 * file
