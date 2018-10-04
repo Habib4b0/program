@@ -319,7 +319,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					String indicator = hierachyBean.getData()[5].toString();
 					String customViewTypeInBackend = String.valueOf(customviewData.get(0));
 					String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
-					String varChild = getvariableChild(hierachyBean);
+
+					String variableChar = GtnWsQueryConstants.getVariableFromHierarchy(hierachyBean.getHierarchyNo());
+					String varChild = getchildOfVariable(variableChar);
 
 					if (aggregateNeededToBeDone(indicator, customViewTypeDataArray[2].equals(COLUMNS), varChild)) {
 						if (aggregationCheck(indicator, bean, object, levelName)) {
@@ -417,46 +419,11 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
 				.getCurrencyConversion();
 
-		String variableChild = getvariableChild(bean);
+		String variableCharacter = GtnWsQueryConstants.getVariableFromHierarchy(bean.getHierarchyNo());
+		String variableChild = getchildOfVariable(variableCharacter);
 
 		setDataConversionFormat(dataForHierarchy, currencyConversionType, recordBean, bean, levelName, variableChild);
 		return recordBean;
-	}
-
-	private String getvariableChild(GtnWsReportCustomCCPListDetails bean) {
-
-		String variableChild = "";
-		if (bean.getHierarchyNo().contains(".A.")) {
-			variableChild = getchildOfVariable("A");
-		} else if (bean.getHierarchyNo().contains(".B.")) {
-			variableChild = getchildOfVariable("B");
-		} else if (bean.getHierarchyNo().contains(".C.")) {
-			variableChild = getchildOfVariable("C");
-		} else if (bean.getHierarchyNo().contains(".D.")) {
-			variableChild = getchildOfVariable("D");
-		} else if (bean.getHierarchyNo().contains(".E.")) {
-			variableChild = getchildOfVariable("E");
-		} else if (bean.getHierarchyNo().contains(".F.")) {
-			variableChild = getchildOfVariable("F");
-		} else if (bean.getHierarchyNo().contains(".G.")) {
-			variableChild = getchildOfVariable("G");
-		} else if (bean.getHierarchyNo().contains(".H.")) {
-			variableChild = getchildOfVariable("H");
-		} else if (bean.getHierarchyNo().contains(".I.")) {
-			variableChild = getchildOfVariable("I");
-		} else if (bean.getHierarchyNo().contains(".J.")) {
-			variableChild = getchildOfVariable("J");
-		} else if (bean.getHierarchyNo().contains(".K.")) {
-			variableChild = getchildOfVariable("K");
-		} else if (bean.getHierarchyNo().contains(".L.")) {
-			variableChild = getchildOfVariable("L");
-		} else if (bean.getHierarchyNo().contains(".M.")) {
-			variableChild = getchildOfVariable("M");
-		} else if (bean.getHierarchyNo().contains(".N.")) {
-			variableChild = getchildOfVariable("N");
-		}
-
-		return variableChild;
 	}
 
 	private void setDataConversionFormat(Map<String, Double> dataForHierarchy, String currencyConversionType,
