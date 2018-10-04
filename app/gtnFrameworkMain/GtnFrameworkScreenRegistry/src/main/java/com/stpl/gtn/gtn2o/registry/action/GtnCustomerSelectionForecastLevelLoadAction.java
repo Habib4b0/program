@@ -86,7 +86,7 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 	public List<GtnWsRelationshipBuilderBean> getList(GtnWsRecordBean recordBean,
 			Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap) {
 		return relationshipMap
-				.get(recordBean.getStringPropertyByIndex(7));
+				.get(Integer.valueOf(recordBean.getStringPropertyByIndex(7)));
 	
 	}
 

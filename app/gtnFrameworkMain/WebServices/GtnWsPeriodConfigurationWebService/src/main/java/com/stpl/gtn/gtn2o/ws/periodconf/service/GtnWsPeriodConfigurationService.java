@@ -10,32 +10,25 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
-import com.stpl.dependency.webservice.concurrency.GtnWebserviceFailureRunnable;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.periodconf.constants.GtnWsPeriodConfigurationConstants;
 import com.stpl.gtn.gtn2o.ws.periodconf.model.PeriodConfData;
 import com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 @Service
 public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClass {
 
 	private List<PeriodConfData> allBusinessProcessTypeResultObject = new ArrayList<>();
-	private long staticTime = System.currentTimeMillis();
-	private ExecutorService service = Executors.newCachedThreadPool();
 
 	public List<Object[]> getPeriodResults(String businessProcessType) {
 		return loadDateBusinessType(businessProcessType);
@@ -52,20 +45,11 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		try {
 			logger.info("Entering into init method");
 			GtnUIFrameworkWebserviceRequest request = registerWs();
-			RestTemplate restTemplate = new RestTemplate();
-			restTemplate.postForObject(
-					getWebServiceEndpointBasedOnModule(
-							GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REGISTERWEBSERVICE,
-							GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
-					request, GtnUIFrameworkWebserviceResponse.class);
+			callServiceRegistry(request);
 			logger.info("Webservice Registered");
 			this.loadDate();
 		} catch (Exception e) {
-			if (e.getMessage().contains("404 Not Found")) {
-				logger.error("Exception in Period Webservice Registry" + e.getMessage());
-				GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
-				service.submit(call.createRunnable(this, staticTime));
-			}
+                    logger.error("Exception in Period Webservice Registry" + e.getMessage());
 		}
 	}
 
@@ -86,13 +70,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 
 	public GtnQueryEngineWebServiceResponse callQueryEngine(
 			GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest) {
-		RestTemplate restTemplate = new RestTemplate();
-		addSecurityToken(gtnQueryEngineWebServiceRequest);
-		return restTemplate.postForObject(
-				getWebServiceEndpointBasedOnModule(
-						GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY_REDIRECTTOQUERYENGINE,
-						GtnWsPeriodConfigurationConstants.GTN_SERVICEREGISTTRY),
-				gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+		return callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
 	}
 
 	public void populateallBusinessProcessTypeResultObject(List<Object[]> resultDataSet) throws IOException {
@@ -167,20 +145,10 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		return quarters;
 	}
 
-	public Runnable createRunnable(final Object... inputs) {
-		return new Runnable() {
-			@Override
-			public void run() {
-				GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure1 = (GtnUIFrameworkWebServiceClientCallOnFailure) inputs[0];
-				gtnWebServiceClientCallOnFailure1.setStaticTime(staticTime);
-				gtnWebServiceClientCallOnFailure1.callGtnWebServiceUrlOnFailure();
-			}
-		};
-	}
 
 	@Override
 	public void initCallOnFailure() {
-		return;
+		init();
 	}
 
 	@Override
