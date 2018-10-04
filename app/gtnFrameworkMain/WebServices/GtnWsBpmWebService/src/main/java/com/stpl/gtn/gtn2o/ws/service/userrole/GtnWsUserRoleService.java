@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,7 @@ public class GtnWsUserRoleService {
 		try {
 			session = sysSessionFactory.openSession();
 			user = (User) session.get(User.class, userId);
+			session.flush();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -80,6 +82,7 @@ public class GtnWsUserRoleService {
 			userRoleQuery.append(userId);
 			Query query = session.createSQLQuery(userRoleQuery.toString());
 			results = query.list();
+			session.flush();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -108,6 +111,7 @@ public class GtnWsUserRoleService {
 			session = sysSessionFactory.openSession();
 			Criteria cr = session.createCriteria(User.class);
 			results = cr.list();
+			session.flush();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -126,6 +130,7 @@ public class GtnWsUserRoleService {
 			session = sysSessionFactory.openSession();
 			Criteria cr = session.createCriteria(Role.class);
 			roles = cr.list();
+			session.flush();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {

@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ComplianceDeductionFilterGenerator implements ExtFilterGenerator {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(ComplianceDeductionFilterGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComplianceDeductionFilterGenerator.class);
 
     private final CommonUtil commonUtil = CommonUtil.getInstance();
 

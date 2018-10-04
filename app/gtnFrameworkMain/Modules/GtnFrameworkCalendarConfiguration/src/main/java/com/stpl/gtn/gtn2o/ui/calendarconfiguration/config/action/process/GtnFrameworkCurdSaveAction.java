@@ -92,14 +92,19 @@ public class GtnFrameworkCurdSaveAction implements GtnUIFrameWorkAction, GtnUIFr
 			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 			request.setCalendarConfigurationRequest(ccRequest);
-			responce = wsclient.callGtnWebServiceUrl(
-					GtnWsCalendarConfigurationConstants.GTN_CALENDAR_CONFIGURATION_SERVICE
-							+ GtnWsCalendarConfigurationConstants.SAVE_CALENDAR_CONFIGURATION,
-					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			responce = getResponse(wsclient, request);
 		} catch (Exception e) {
 			gtnLogger.error("Exception in saveCalendarConfig", e);
 		}
 		return responce != null ? responce.getCalendarConfigurationResponse() : null;
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebServiceClient wsclient,
+			GtnUIFrameworkWebserviceRequest request) {
+		return wsclient.callGtnWebServiceUrl(
+				GtnWsCalendarConfigurationConstants.GTN_CALENDAR_CONFIGURATION_SERVICE
+						+ GtnWsCalendarConfigurationConstants.SAVE_CALENDAR_CONFIGURATION,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override
