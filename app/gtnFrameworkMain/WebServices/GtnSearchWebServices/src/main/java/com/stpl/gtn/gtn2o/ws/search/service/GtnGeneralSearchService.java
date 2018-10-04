@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +12,6 @@ import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
-import com.stpl.dependency.webservice.concurrency.GtnWebserviceFailureRunnable;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
@@ -40,8 +37,6 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
  */
 @Service
 public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
-   private long staticTime = System.currentTimeMillis();
-  private ExecutorService service = Executors.newCachedThreadPool();
 
     private GtnGeneralSearchService() {
         super(GtnGeneralSearchService.class);
@@ -63,11 +58,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             callServiceRegistry(request);
             logger.info("search webservices registered");
         } catch (Exception e) {
-            if (e.getMessage().contains("404 Not Found")) {
-                logger.error("Exception in searchWebservice" + e.getMessage());
-                GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
-                service.submit(call.createRunnable(this, staticTime));
-            }
+            logger.error("Exception in searchWebservice" + e.getMessage());
         }
 
     }

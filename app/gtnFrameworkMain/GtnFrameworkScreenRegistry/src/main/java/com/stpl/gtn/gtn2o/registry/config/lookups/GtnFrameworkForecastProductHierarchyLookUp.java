@@ -10,7 +10,6 @@ import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAc
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastFilterAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
-import com.stpl.gtn.gtn2o.registry.util.GtnFrameworkAlertUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -27,7 +26,6 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastNewArchitectureConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnFrameworkForecastProductHierarchyLookUp {
@@ -249,8 +247,16 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.HIERARCHY_NAME));
 		loadDataTableActionConfig.setActionParameterList(actionParams);
-
 		actionConfigList.add(loadDataTableActionConfig);
+
+		GtnUIFrameWorkActionConfig productGridAlertAction = new GtnUIFrameWorkActionConfig();
+		productGridAlertAction.setActionType(GtnUIFrameworkActionType.V8_GRID_ALERT_ACTION);
+		productGridAlertAction.addActionParameter(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
+		productGridAlertAction.addActionParameter("No Results Found");
+		productGridAlertAction.addActionParameter("There are no Hierarchies that match the search criteria.");
+		actionConfigList.add(productGridAlertAction);
+
 		productHierarchySearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		componentList.add(productHierarchySearchButton);
@@ -365,12 +371,6 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SELECT_BUTTON);
 		itemClickActionConfigList.add(selectBtnEnableAction);
 		productHierarchyPagedTableConfig.setItemClickActionConfigList(itemClickActionConfigList);
-
-		GtnFrameworkAlertUtil alertActionUtil = new GtnFrameworkAlertUtil();
-		GtnUIFrameWorkActionConfig alertAction = alertActionUtil
-				.throwAlertUtil(GtnWsForecastConstants.GTN_FORECAST_SERVICE
-						+ GtnWsForecastConstants.GTN_FORECAST_PRODUCTHIERARCHY_SEARCHSERVICE);
-		productHierarchyPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
 
 		productHierarchyPagedTableConfig
 				.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);

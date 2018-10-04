@@ -3,6 +3,7 @@ package com.stpl.dependency.webservice;
 import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
+import com.stpl.dependency.webservice.concurrency.GtnWebserviceFailureRunnable;
 import com.stpl.dependency.webservice.constants.GtnWsFrameworkDependencyConstatnts;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
@@ -12,12 +13,16 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.web.client.RestTemplate;
 
 public abstract class GtnCommonWebServiceImplClass {
 
     public GtnFrameworkDependencyLogger logger;
+    private final long staticTime = System.currentTimeMillis();
+    private final ExecutorService service = Executors.newCachedThreadPool();
 
     public GtnCommonWebServiceImplClass(Class<?> className) {
         logger = GtnFrameworkDependencyLogger.getGTNLogger(className);
@@ -94,8 +99,14 @@ public abstract class GtnCommonWebServiceImplClass {
             restTemplate.postForObject(
                     getWebServiceEndpointBasedOnModule(GtnWsFrameworkDependencyConstatnts.GTN_SERVICEREGISTTRY_REGISTERWEBSERVICE, GtnWsFrameworkDependencyConstatnts.GTN_SERVICEREGISTTRY),
                     request, GtnUIFrameworkWebserviceResponse.class);
+            service.shutdown();
         } catch (Exception e) {
             logger.error("Exception in web service call", e);
+            if (e.getMessage().contains("404 Not Found")) {
+                logger.error("Exception in searchWebservice" + e.getMessage());
+                GtnWebserviceFailureRunnable call = new GtnWebserviceFailureRunnable();
+                service.submit(call.createRunnable(this, staticTime));
+            }
         }
 
     }
