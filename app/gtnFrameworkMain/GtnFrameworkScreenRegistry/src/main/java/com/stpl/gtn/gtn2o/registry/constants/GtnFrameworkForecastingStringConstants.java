@@ -435,32 +435,34 @@ public final class GtnFrameworkForecastingStringConstants {
 	
         public static final String PUBLIC_VIEW = "publicView";
         
-        public static final String COMMERCIAL_FORECASTING_CUSTOMERDUALLISTBOX = "Commercial Forecasting_customerDualListBox";
+        public static final String COMMERCIAL_FORECASTING_CUSTOMERDUALLISTBOX = "_customerDualListBox";
         public static final String CUSTOMERDUALLISTBOX = "_customerDualListBox";
         
-        public static final String COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX = "Commercial Forecasting_productDualListBox";
+        public static final String COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX = "_productDualListBox";
         
-        public static final String COMMERCIAL_FORECASTING_CUSTRELATIONVERSION = "Commercial Forecasting_customerRelationshipVersion";
+        public static final String FREQUENCY = "_frequency";
         
-        public static final String COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL = "Commercial_Forecasting_customerSelectionForecastLevel";
+        public static final String COMMERCIAL_FORECASTING_CUSTRELATIONVERSION = "_customerRelationshipVersion";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL = "_customerSelectionForecastLevel";
         
         public static final String CUSTOMER_SELECTION_FORECASTELIGIBILITY_DATE = "_customerSelectionForecastEligibilityDate";
         
-        public static final String COMMERCIAL_FORECASTING_PRODHIERNAME = "Commercial Forecasting_prodhierarchyName";
+        public static final String COMMERCIAL_FORECASTING_PRODHIERNAME = "_prodhierarchyName";
         
-        public static final String COMMERCIAL_FORECASTING_PRODRELATIONSHIP = "Commercial Forecasting_prodrelationship";
+        public static final String COMMERCIAL_FORECASTING_PRODRELATIONSHIP = "_prodrelationship";
         
-        public static final String COMMERCIAL_FORECASTING_PRODFORECASTLEVEL = "Commercial Forecasting_prodforecastLevel";
+        public static final String COMMERCIAL_FORECASTING_PRODFORECASTLEVEL = "_prodforecastLevel";
         
-        public static final String COMMERCIAL_FORECASTING_PRODRELATIONVERSION = "Commercial Forecasting_productRelationshipVersion";
+        public static final String COMMERCIAL_FORECASTING_PRODRELATIONVERSION = "_productRelationshipVersion";
         
-        public static final String COMMERCIAL_FORECASTING_PRODUCTGROUP = "Commercial Forecasting_productGroup";
+        public static final String COMMERCIAL_FORECASTING_PRODUCTGROUP = "_productGroup";
         
-        public static final String COMMERCIAL_FORECASTING_PRODUCTLEVEL = "Commercial Forecasting_productLevel";
+        public static final String COMMERCIAL_FORECASTING_PRODUCTLEVEL = "_productLevel";
         
-        public static final String COMMERCIAL_FORECASTING_CUSTGROUP = "Commercial Forecasting_customerGroup";
+        public static final String COMMERCIAL_FORECASTING_CUSTGROUP = "_customerGroup";
         
-        public static final String COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL = "Commercial_Forecasting_customerSelectionLevel";
+        public static final String COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL = "_customerSelectionLevel";
         
         public static final String COMMERCIAL_FORECASTING_DEDUCTIONLEVEL = "Commercial Forecasting_deductionLevel";
         
