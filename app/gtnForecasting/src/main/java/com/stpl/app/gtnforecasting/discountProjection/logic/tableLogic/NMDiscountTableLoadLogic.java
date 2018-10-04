@@ -277,9 +277,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             }
             LOGGER.debug(" customTreeLevelNo  === {}" , treeLevelNo);
 
-            if (checkAll) {
-                isParentChecked = true;
-            }
+            
             if (levelNumber != 0 && treeLevelNo != 0) {
                 list = logicDiscountProj.getDiscountProjection(session, frequency, startAndEndPeriods,
                         history, tempHierarchyIndicator, projectionPeriodorder, userGroup,

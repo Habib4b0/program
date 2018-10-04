@@ -375,7 +375,8 @@ public class ItemLogic {
      * @param value
      * @return String
      */
-    public String getFormattedValue(DecimalFormat format, String value) {
+    public String getFormattedValue(DecimalFormat format, String valueParam) {
+        String value = valueParam;
         if (value.contains(Constants.NULL)) {
             value = Constants.ZEROSTRING;
         } else {
