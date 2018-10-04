@@ -163,31 +163,31 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT_OPTIONS_MAIN_LAYOUT = "reportOptionsMainLayout";
 
-	public static final String MAIN_CSS_LAYOUT_FOR_PRODUCT = "mainCssLayoutForProduct";
+	public static final String REPORT_MAIN_CSS_LAYOUT_FOR_PRODUCT = "mainCssLayoutForProduct";
 
-	public static final String PUBLIC_VIEW_LAYOUT = "publicViewLayout";
+	public static final String REPORT_PUBLIC_VIEW_LAYOUT = "publicViewLayout";
 
-	public static final String BUSINESS_UNIT_LAYOUT = "businessUnitLayout";
+	public static final String REPORT_BUSINESS_UNIT_LAYOUT = "businessUnitLayout";
 
-	public static final String CUST_SELECTION_MAINLAYOUT = "custSelectionMainlayout";
+	public static final String REPORT_CUST_SELECTION_MAINLAYOUT = "custSelectionMainlayout";
 
-	public static final String CUSTOMER_SELECTION_INNERLAYOUT = "customerSelectionInnerlayout";
+	public static final String REPORT_CUSTOMER_SELECTION_INNERLAYOUT = "customerSelectionInnerlayout";
 
-	public static final String DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP = "dataSelectionTab_customerSelectionRelationship";
+	public static final String REPORT_DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP = "dataSelectionTab_customerSelectionRelationship";
 
-	public static final String DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION = "dataSelectionTab_customerRelationshipVersion";
+	public static final String REPORT_DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION = "dataSelectionTab_customerRelationshipVersion";
 
-	public static final String DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL = "dataSelectionTab_customerSelectionLevel";
+	public static final String REPORT_DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL = "dataSelectionTab_customerSelectionLevel";
 
-	public static final String DATA_SELECTION_TAB_RELATIONSHIP = "dataSelectionTab_relationship";
+	public static final String REPORT_DATA_SELECTION_TAB_RELATIONSHIP = "dataSelectionTab_relationship";
 
-	public static final String DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION = "dataSelectionTab_productRelationshipVersion";
+	public static final String REPORT_DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION = "dataSelectionTab_productRelationshipVersion";
 
-	public static final String DATA_SELECTION_TAB_LEVEL = "dataSelectionTab_level";
+	public static final String REPORT_DATA_SELECTION_TAB_LEVEL = "dataSelectionTab_level";
 
-	public static final String RESULTS_MAIN_LAYOUT_CONFIG = "resultsMainLayoutConfig";
+	public static final String REPORT_RESULTS_MAIN_LAYOUT_CONFIG = "resultsMainLayoutConfig";
 
-	public static final String ACTION_BUTTON_LAYOUT = "actionButtonlayout";
+	public static final String REPORT_ACTION_BUTTON_LAYOUT = "actionButtonlayout";
 
 	public static final String REPORT_OPTIONS_INNER_LAYOUT = "reportOptionsInnerLayout";
 
@@ -255,51 +255,51 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String DISPLAY_SELECTION_TAB_REPORT_PROFILE_LAYOUT = "displaySelectionTabReportProfileLayout";
 
-	public static final String DISPLAY_SELECTION_TAB_COMPARISON_LAYOUT = "displaySelectionTabComparisonLayout";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_COMPARISON_LAYOUT = "displaySelectionTabComparisonLayout";
 
-	public static final String DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT = "displaySelectionTabVariableLayout";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT = "displaySelectionTabVariableLayout";
 
-	public static final String DISPLAY_SELECTION_TAB_FREQUENCY_LAYOUT = "displaySelectionTabFrequencyLayout";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_FREQUENCY_LAYOUT = "displaySelectionTabFrequencyLayout";
 
-	public static final String DISPLAY_SELECTION_TAB_PERIOD_RANGE_FROM_LAYOUT = "displaySelectionTabPeriodRangeFromLayout";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_PERIOD_RANGE_FROM_LAYOUT = "displaySelectionTabPeriodRangeFromLayout";
 
-	public static final String DISPLAY_SELECTION_TAB_CUSTOM_VIEW_LAYOUT = "displaySelectionTabCustomViewLayout";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_CUSTOM_VIEW_LAYOUT = "displaySelectionTabCustomViewLayout";
 
-	public static final String DISPLAY_SELECTION_TAB_CUSTOM_VIEW_BUTTON_LAYOUT = "displaySelectionTabCustomViewButtonLayout";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_CUSTOM_VIEW_BUTTON_LAYOUT = "displaySelectionTabCustomViewButtonLayout";
 
-	public static final String DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT = "displaySelectionTabCustomViewComboButtonLayout";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT = "displaySelectionTabCustomViewComboButtonLayout";
 
-	public static final String DISPLAY_SELECTION_TAB_COMPARISON_BASIS_LAYOUT = "displaySelectionTabComparisonBasisLayout";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_COMPARISON_BASIS_LAYOUT = "displaySelectionTabComparisonBasisLayout";
 
-	public static final String DISPLAY_SELECTION_TAB_VARIABLE_CATEGORY_LAYOUT = "displaySelectionTabVariableCategoryLayout";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_VARIABLE_CATEGORY_LAYOUT = "displaySelectionTabVariableCategoryLayout";
 
-	public static final String DISPLAY_SELECTION_TAB_ANNUAL_TOTALS_LAYOUT = "displaySelectionTabAnnualTotalsLayout";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_ANNUAL_TOTALS_LAYOUT = "displaySelectionTabAnnualTotalsLayout";
 
-	public static final String DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO_LAYOUT = "displaySelectionTabPeriodRangeToLayout";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO_LAYOUT = "displaySelectionTabPeriodRangeToLayout";
 
 	public static final String DISPLAY_SELECTION_TAB_REPORT_PROFILE = "displaySelectionTabReportProfile";
 
-	public static final String DISPLAY_SELECTION_TAB_COMPARISON = "displaySelectionTabComparison";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_COMPARISON = "displaySelectionTabComparison";
 
-	public static final String DISPLAY_SELECTION_TAB_VARIABLE = "displaySelectionTabVariable";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_VARIABLE = "displaySelectionTabVariable";
 
-	public static final String DISPLAY_SELECTION_TAB_FREQUENCY = "displaySelectionTabFrequency";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_FREQUENCY = "displaySelectionTabFrequency";
 
-	public static final String DISPLAY_SELECTION_TAB_PERIOD_RANGE_FROM = "displaySelectionTabPeriodRangeFrom";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_PERIOD_RANGE_FROM = "displaySelectionTabPeriodRangeFrom";
 
-	public static final String DISPLAY_SELECTION_TAB_CUSTOM_VIEW = "displaySelectionTabCustomView";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_CUSTOM_VIEW = "displaySelectionTabCustomView";
 
-	public static final String DISPLAY_SELECTION_TAB_CUSTOM_VIEW_BUTTON = "displaySelectionTabCustomViewButton";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_CUSTOM_VIEW_BUTTON = "displaySelectionTabCustomViewButton";
 
-	public static final String DISPLAY_SELECTION_TAB_COMPARISON_BASIS = "displaySelectionTabComparisonBasis";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_COMPARISON_BASIS = "displaySelectionTabComparisonBasis";
 
-	public static final String DISPLAY_SELECTION_TAB_VARIABLE_CATEGORY = "displaySelectionTabVariableCategory";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_VARIABLE_CATEGORY = "displaySelectionTabVariableCategory";
 
-	public static final String DISPLAY_SELECTION_TAB_ANNUAL_TOTALS = "displaySelectionTabAnnualTotals";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_ANNUAL_TOTALS = "displaySelectionTabAnnualTotals";
 
-	public static final String DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO = "displaySelectionTabPeriodRangeTo";
+	public static final String REPORT_DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO = "displaySelectionTabPeriodRangeTo";
 
-	public static final String FILTER_OPTIONS_TAB = "filterOptionsTab";
+	public static final String REPORT_FILTER_OPTIONS_TAB = "filterOptionsTab";
 
 	public static final String FILTER_OPTIONS_TAB_PANEL = "filterOptionsTabPanel";
 
@@ -315,37 +315,37 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String FILTER_OPTIONS_TAB_BOTTOM_CSS_LAYOUT = "filterOptionsTabBottomCssLayout";
 
-	public static final String FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT = "filterOptionsTabCustomerLevelLayout";
+	public static final String REPORT_FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT = "filterOptionsTabCustomerLevelLayout";
 
-	public static final String FILTER_OPTIONS_TAB_PRODUCT_LEVEL_LAYOUT = "filterOptionsTabProductLevelLayout";
+	public static final String REPORT_FILTER_OPTIONS_TAB_PRODUCT_LEVEL_LAYOUT = "filterOptionsTabProductLevelLayout";
 
-	public static final String FILTER_OPTIONS_TAB_DEDUCTION_LEVEL_LAYOUT = "filterOptionsTabDeductionLevelLayout";
+	public static final String REPORT_FILTER_OPTIONS_TAB_DEDUCTION_LEVEL_LAYOUT = "filterOptionsTabDeductionLevelLayout";
 
-	public static final String FILTER_OPTIONS_TAB_SALES_INCLUSION_LAYOUT = "filterOptionsTabSalesInclusionLayout";
+	public static final String REPORT_FILTER_OPTIONS_TAB_SALES_INCLUSION_LAYOUT = "filterOptionsTabSalesInclusionLayout";
 
-	public static final String FILTER_OPTIONS_TAB_CUSTOMER_FILTER_LAYOUT = "filterOptionsTabCustomerFilterLayout";
+	public static final String REPORT_FILTER_OPTIONS_TAB_CUSTOMER_FILTER_LAYOUT = "filterOptionsTabCustomerFilterLayout";
 
-	public static final String FILTER_OPTIONS_TAB_PRODUCT_FILTER_LAYOUT = "filterOptionsTabProductFilterLayout";
+	public static final String REPORT_FILTER_OPTIONS_TAB_PRODUCT_FILTER_LAYOUT = "filterOptionsTabProductFilterLayout";
 
-	public static final String FILTER_OPTIONS_TAB_DEDUCTION_FILTER_LAYOUT = "filterOptionsTabDeductionFilterLayout";
+	public static final String REPORT_FILTER_OPTIONS_TAB_DEDUCTION_FILTER_LAYOUT = "filterOptionsTabDeductionFilterLayout";
 
-	public static final String FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION_LAYOUT = "filterOptionsTabDeductionInclusionLayout";
+	public static final String REPORT_FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION_LAYOUT = "filterOptionsTabDeductionInclusionLayout";
 
-	public static final String FILTER_OPTIONS_TAB_CUSTOMER_LEVEL = "filterOptionsTabCustomerLevel";
+	public static final String REPORT_FILTER_OPTIONS_TAB_CUSTOMER_LEVEL = "filterOptionsTabCustomerLevel";
 
-	public static final String FILTER_OPTIONS_TAB_PRODUCT_LEVEL = "filterOptionsTabProductLevel";
+	public static final String REPORT_FILTER_OPTIONS_TAB_PRODUCT_LEVEL = "filterOptionsTabProductLevel";
 
-	public static final String FILTER_OPTIONS_TAB_DEDUCTION_LEVEL = "filterOptionsTabDeductionLevel";
+	public static final String REPORT_FILTER_OPTIONS_TAB_DEDUCTION_LEVEL = "filterOptionsTabDeductionLevel";
 
-	public static final String FILTER_OPTIONS_TAB_SALES_INCLUSION = "filterOptionsTabSalesInclusion";
+	public static final String REPORT_FILTER_OPTIONS_TAB_SALES_INCLUSION = "filterOptionsTabSalesInclusion";
 
-	public static final String FILTER_OPTIONS_TAB_CUSTOMER_FILTER = "filterOptionsTabCustomerFilter";
+	public static final String REPORT_FILTER_OPTIONS_TAB_CUSTOMER_FILTER = "filterOptionsTabCustomerFilter";
 
-	public static final String FILTER_OPTIONS_TAB_PRODUCT_FILTER = "filterOptionsTabProductFilter";
+	public static final String REPORT_FILTER_OPTIONS_TAB_PRODUCT_FILTER = "filterOptionsTabProductFilter";
 
-	public static final String FILTER_OPTIONS_TAB_DEDUCTION_FILTER = "filterOptionsTabDeductionFilter";
+	public static final String REPORT_FILTER_OPTIONS_TAB_DEDUCTION_FILTER = "filterOptionsTabDeductionFilter";
 
-	public static final String FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION = "filterOptionsTabDeductionInclusion";
+	public static final String REPORT_FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION = "filterOptionsTabDeductionInclusion";
 
 	public static final String REPORT_OPTIONS_TAB = "reportOptionsTab";
 
@@ -615,9 +615,9 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String VIEW_TYPE = "viewType";
 
 	public static final String VIEW_NAME = "viewName";
-        
-        public static final String REPORTING_DASHBOARD_TAB = "reportingDashboardTab";
-        
+
+	public static final String REPORTING_DASHBOARD_TAB = "reportingDashboardTab";
+
 	public static final String REPORTING_DASHBOARD_TAB_REPORT_PROFILE_CONFIG = "reportingDashboardTab_reportProfileConfig";
 
 	public static final String REPORT_PROFILE_PAGED_TABLE_COMPONENT = "reportProfilePagedTableComponent";

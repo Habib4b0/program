@@ -348,25 +348,25 @@ public class GtnWsTreeService {
 
 		List<GtnWsReportEngineTreeNode> resultList = new ArrayList<>();
 		int parentHierarchyIndex = GtnWsHierarchyType.CUSTOMER.equals(root.getParentIndicator()) ? 1 : 2;
-		int currentHierarchyIndex = GtnWsHierarchyType.CUSTOMER.equals(root.getIndicator()) ? 1 : 2;
-		String hierarchyNo = root.getHierarchyNo();
+		int currentHierIndex = GtnWsHierarchyType.CUSTOMER.equals(root.getIndicator()) ? 1 : 2;
+		String hierNumber = root.getHierarchyNo();
 
-		boolean discountFlag = GtnWsHierarchyType.DEDUCTION.equals(root.getIndicator());
-		boolean allVariableFlag = GtnWsHierarchyType.VARIABLES.equals(root.getIndicator());
-		if (discountFlag || allVariableFlag) {
-			String[] discountHierarchyNo = root.getHierarchyNo().split("~");
-			currentHierarchyIndex = GtnWsHierarchyType.CUSTOMER
-					.equals(GtnWsHierarchyType.fromString(discountHierarchyNo[1])) ? 1 : 2;
-			hierarchyNo = discountHierarchyNo[0];
+		boolean rebateFlag = GtnWsHierarchyType.DEDUCTION.equals(root.getIndicator());
+		boolean allVariablesFlag = GtnWsHierarchyType.VARIABLES.equals(root.getIndicator());
+		if (rebateFlag || allVariablesFlag) {
+			String[] rebateHierarchyNo = root.getHierarchyNo().split("~");
+			currentHierIndex = GtnWsHierarchyType.CUSTOMER
+					.equals(GtnWsHierarchyType.fromString(rebateHierarchyNo[1])) ? 1 : 2;
+			hierNumber = rebateHierarchyNo[0];
 		}
-		for (GtnWsReportEngineTreeNode node : nodeList) {
-			int hierarchyIndex = GtnWsHierarchyType.CUSTOMER.equals(node.getIndicator()) ? 1 : 2;
+		for (GtnWsReportEngineTreeNode nodeItemList : nodeList) {
+			int hierIndex = GtnWsHierarchyType.CUSTOMER.equals(nodeItemList.getIndicator()) ? 1 : 2;
 			GtnWsReportEngineTreeNode copyNode = null;
 			for (Object[] objects : ccpResult) {
 
-				if (applyParentHierarchyFilterCondition(objects, parentHierarchyIndex, currentHierarchyIndex,
-						hierarchyIndex, hierarchyNo, root, node)) {
-					copyNode = createNewNode(copyNode, objects, root, node, currentLevel);
+				if (applyParentHierarchyFilterCondition(objects, parentHierarchyIndex, currentHierIndex,
+						hierIndex, hierNumber, root, nodeItemList)) {
+					copyNode = createNewNode(copyNode, objects, root, nodeItemList, currentLevel);
 				}
 			}
 			Optional.ofNullable(copyNode).ifPresent(resultList::add);

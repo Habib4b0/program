@@ -413,7 +413,7 @@ public class GtnFrameworkReportCustomViewLookup {
 	private void addProductTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
 		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig.getHorizontalLayoutConfig(
-				tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+				tabName + GtnFrameworkReportStringConstants.REPORT_MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
 		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_LEFT_10);
 		mainCssLayoutForProduct.setComponentWidth("75%");
 		componentList.add(mainCssLayoutForProduct);
@@ -489,7 +489,7 @@ public class GtnFrameworkReportCustomViewLookup {
 	private void addDeductionTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
 		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig.getHorizontalLayoutConfig(
-				tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+				tabName + GtnFrameworkReportStringConstants.REPORT_MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
 		mainCssLayoutForProduct.setComponentWidth("75%");
 		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_LEFT_10);
 		componentList.add(mainCssLayoutForProduct);
@@ -567,7 +567,7 @@ public class GtnFrameworkReportCustomViewLookup {
 	private void addVariablesTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
 		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig.getHorizontalLayoutConfig(
-				tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+				tabName + GtnFrameworkReportStringConstants.REPORT_MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
 		mainCssLayoutForProduct.setComponentWidth("75%");
 		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_LEFT_10);
 

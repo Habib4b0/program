@@ -193,7 +193,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 	private void addLandingScreenVariableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig landingScreenComparisonGtnLayout = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT, true,
+				GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT, true,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
 		landingScreenComparisonGtnLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_25_PX);
@@ -204,8 +204,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkComponentConfig landingScreenComparisonVariableConfig = configProvider
 				.getUIFrameworkComponentConfig(
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE,
-						true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT,
+								+ GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_VARIABLE,
+						true, GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT,
 						GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		landingScreenComparisonVariableConfig.setComponentName("Variables: ");
 		landingScreenComparisonVariableConfig.setAuthorizationIncluded(true);
@@ -722,7 +722,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_fromPeriod");
 		generateAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_REPORTING_DASHBOARD_COMPARISON_CONFIG);
 		generateAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW);
+				+ GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_CUSTOM_VIEW);
 		generateAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG);
 		generateAction.addActionParameter("reportLandingScreen_toPeriod");
