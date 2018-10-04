@@ -727,8 +727,10 @@ public class ProcessSchedulerLogic {
 	 * 
 	 * @param deleteQuery
 	 */
-	public void deleteUnsavedProjections(String deleteQuery) {
+	public void deleteUnsavedProjections(String deleteQueryParam) {
+            String deleteQuery = deleteQueryParam;
 		try {
+                        
 			deleteQuery = SQlUtil.getQuery(deleteQuery);
 			HelperTableLocalServiceUtil.executeUpdateQuery(deleteQuery);
 		} catch (Exception ex) {

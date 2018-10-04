@@ -6,12 +6,15 @@
 package com.stpl.app.gtnforecasting.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author soundarrajan.l
  */
 public class CompanyDdlbDto {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDdlbDto.class);
     private String companyName = StringUtils.EMPTY;
     private int companyMasterSid;
   private String rsNo;
@@ -20,6 +23,7 @@ public class CompanyDdlbDto {
      public CompanyDdlbDto(int rsModelSid, String rsNo,boolean flag) {
          this.rsNo = rsNo;
          this.rsModelSid = rsModelSid;
+         LOGGER.debug("{}", flag);
     }
     public CompanyDdlbDto() {
         

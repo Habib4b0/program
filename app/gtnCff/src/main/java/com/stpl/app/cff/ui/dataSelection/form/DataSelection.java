@@ -3362,6 +3362,18 @@ public class DataSelection extends AbstractDataSelection {
 			dataSelectionDTO.setDiscount(SELECT_ONE);
 			dataSelectionDTO.setDiscountSid(0);
 		}
+                int forecastLevel = 0;
+                if (level.getValue() != null) {
+					forecastLevel = UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]);
+					dataSelectionDTO.setCustomerHierarchyLevel(String.valueOf(forecastLevel));
+					dataSelectionDTO.setCustomerHierarchyInnerLevel(String.valueOf(forecastLevel));
+				}
+                
+			if (productlevelDdlb.getValue() != null) {
+				forecastLevel = UiUtils.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]);
+				dataSelectionDTO.setProductHierarchyLevel(String.valueOf(forecastLevel));
+				dataSelectionDTO.setProductHierarchyInnerLevel(String.valueOf(forecastLevel));
+			}
                 sessionDTO.setCffEligibleDate(cffEligibleDate.getValue());
             dataSelectionDTO.setCustomViewMasterSid(customViewDdlb.getValue()!=null ?Integer.parseInt(String.valueOf(customViewDdlb.getValue())):0);
                
