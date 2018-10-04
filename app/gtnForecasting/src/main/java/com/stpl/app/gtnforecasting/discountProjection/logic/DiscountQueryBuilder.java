@@ -789,7 +789,7 @@ public class DiscountQueryBuilder {
     
     public List getDiscountProjectionLastLevel(final String frequency, final List<String> discountList,
             final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo,
-            final int start, final int end, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
+            final int start, final int end, final String userGroup) {
         String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
         String dedQuery = NINE_LEVEL_DED;
         String  queryBuilder = SQlUtil.getQuery("discount-generate-First-Nine-Level");
