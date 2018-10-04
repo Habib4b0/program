@@ -24,8 +24,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.BooleanConstant;
-import com.vaadin.v7.data.Container;
-import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.ComboBox;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -803,56 +801,6 @@ public class SupplementalDiscountProjectionLogic {
         return value;
     }
 
-    public void saveProjectionValues(DiscountProjectionDTO saveDto, Object propertyId, SessionDTO session, SupplementalTableLogic tableLogic) {
-        if (saveDto.getSupplementalLevelNo() == 1 || saveDto.getSupplementalLevelNo() == NumericConstants.FOUR) {
-            projectionSelectionDTO.setSupplementalLevelName(saveDto.getLevelName());
-            projectionSelectionDTO.setCustHierarchySid(session.getCustHierarchySid());
-            projectionSelectionDTO.setProdHierarchySid(session.getProdHierarchySid());
-            manualSave(saveDto, CommonUtils.collectionToStringMethod(saveDto.getCcpDetailIds(), false), propertyId, session, tableLogic);
-        } else {
-            manualSave(saveDto, saveDto.getCcpDetailsSID().toString(), propertyId, session, tableLogic);
-        }
-    }
-
-    @SuppressWarnings("empty-statement")
-    public void manualSave(DiscountProjectionDTO saveDto, String projDetailsID, Object propertyId, SessionDTO session, SupplementalTableLogic tableLogic) {
-        try {
-            StringBuilder query = new StringBuilder();
-            if (propertyId.toString().contains(METHODOLOGY.getConstant())) {
-                updateMethodologyWithFormulaDetails(saveDto, propertyId, session, tableLogic);
-            } else {
-                query.append("update ST_M_SUPPLEMENTAL_DISC_PROJ SET ").append(saveDto.getPropertyName()).append(" = '").append(saveDto.getPropertyValue(propertyId)).append('\'');
-                query.append(" where CCP_DETAILS_SID in (").append(projDetailsID).append(") ");
-                query.append("AND PERIOD_SID in (select PERIOD_SID from \"PERIOD\" where \"YEAR\" = ").append(saveDto.getYear()).append(" and QUARTER = ").append(saveDto.getPeriod()).append(" )");
-                dao.executeUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()));
-                if (propertyId.toString().contains(ACCESS.getConstant())) {
-                    if (saveDto.getSupplementalLevelNo() == 4) {
-                        List<Object> dtoList = (List<Object>) ((Container.Indexed) tableLogic.getContainerDataSource()).getItemIds(0, tableLogic.getContainerDataSource().size());
-                        for (Object obj : dtoList) {
-                            DiscountProjectionDTO suppDto = (DiscountProjectionDTO) obj;
-                            if (suppDto.getSupplementalLevelNo() == 5 && saveDto.getCcpDetailIds().containsAll(suppDto.getCcpDetailIds())) {
-                                suppDto.addStringProperties(propertyId, saveDto.getPropertyValue(propertyId).toString());
-                                tableLogic.getContainerDataSource().getContainerProperty(obj, propertyId).setValue(saveDto.getPropertyValue(propertyId));
-                            }
-                        }
-                    } else if (saveDto.getSupplementalLevelNo() == 5) {
-                        Map<String, Object> mapList = tableLogic.getExpandedTreeLevelList();
-                        saveDto.setParentCcpDetailIdList(saveDto.getCcpDetailIds());
-                        int ndcCount = ndcCount(session, saveDto, saveDto.getPropertyName());
-                        if (ndcCount > 1) {
-                            methodologyRefresher(saveDto, mapList, tableLogic, propertyId, SELECT_ONE.getConstant(), 4);
-                        } else if (ndcCount == 1) {
-                            methodologyRefresher(saveDto, mapList, tableLogic, propertyId, saveDto.getPropertyValue(propertyId).toString(), 4);
-                        }
-                    }
-                }
-            }
-
-        } catch (PortalException | SystemException | Property.ReadOnlyException ex) {
-            LOGGER.error(ex.getMessage());
-        }
-    }
-
     public void supplementalSave(SessionDTO sessionDTO) {
         try {
             List<StringBuilder> queryList = new ArrayList<>();
@@ -1407,56 +1355,6 @@ public class SupplementalDiscountProjectionLogic {
         return queryList;
     }
 
-    private void updateMethodologyWithFormulaDetails(DiscountProjectionDTO saveDto, Object propertyId, SessionDTO session, SupplementalTableLogic tableLogic) {
-        String[] selectedLevelDetails = saveDto.getLevelDetails().split(",");
-        int count = saveDto.getSupplementalLevelNo() == 1 ? selectedLevelDetails.length : 1;
-        for (int i = 0; i < count; i++) {
-            try {
-                StringBuilder query = new StringBuilder();
-                String[] ndcLevelValues = {saveDto.getItemIdForNdcLevel(), saveDto.getProjectionDetailsSid().toString()};
-                String[] tempStr = saveDto.getSupplementalLevelNo() == 1 ? selectedLevelDetails[i].split("~") : (ndcLevelValues);
-                query.append("SELECT CONTRACT_PRICE_1,\n"
-                        ).append( " REBATE_PERCENT_1,\n"
-                        ).append( " REBATE_PERCENT_2 \n"
-                        ).append( " FROM   FORMULA_DETAILS_MASTER\n"
-                        ).append( " WHERE  Datepart(mm, START_DATE) <= " ).append( ((saveDto.getPeriod() * 3) - 2) ).append( " \n"
-                        ).append( " AND Datepart(mm, END_DATE) >= " ).append( (saveDto.getPeriod() * 3) ).append( '\n'
-                        ).append( " AND Datepart(YY, START_DATE) <= " ).append( saveDto.getYear() ).append( " \n"
-                        ).append( " AND Datepart(YY, END_DATE) >= " ).append( saveDto.getYear() ).append( '\n'
-                        ).append( " AND COMPANY_ID = '" ).append( saveDto.getCompanyIdForNdcLevel() ).append( "'\n"
-                        ).append( " AND ITEM_ID = '" ).append( tempStr[0] ).append( "' \n"
-                        ).append( " AND FORMULA_DESC = '" ).append( saveDto.getPropertyValue(propertyId) ).append( "'\n");
-                List<Object> list = (List<Object>) dao.executeSelectQuery(query.toString());
-                String tempPropertyId = propertyId.toString().replace(METHODOLOGY.getConstant(), StringUtils.EMPTY);
-                boolean[] containerPropertyCheck = new boolean[3];
-                containerPropertyCheck[0] = tableLogic.getContainerDataSource().getContainerPropertyIds().contains(tempPropertyId + Constant.CONTRACT_PRICE_PROPERTY);
-                containerPropertyCheck[1] = tableLogic.getContainerDataSource().getContainerPropertyIds().contains(tempPropertyId + Constant.DISCOUNT_ONE);
-                containerPropertyCheck[2] = tableLogic.getContainerDataSource().getContainerPropertyIds().contains(tempPropertyId + Constant.DISCOUNT_TWO);
-                Map<String, Object> mapList = tableLogic.getExpandedTreeLevelList();
-                List<Object> currentContainerList = (List<Object>) ((Container.Indexed) tableLogic.getContainerDataSource()).getItemIds(0, tableLogic.getContainerDataSource().size());
-                if (list != null && !list.isEmpty()) {
-                    Object[] ob = (Object[]) list.get(0);
-                    methodologyUpdate(saveDto, session, ob, propertyId, tempStr, false);
-                    updateFieldsBasedOnMethodology(tempPropertyId, tableLogic, ob, currentContainerList, propertyId, containerPropertyCheck, saveDto, tempStr);
-                } else {
-                    Object[] ob = {0, 0, 0};
-                    methodologyUpdate(saveDto, session, ob, propertyId, tempStr, false);
-                    updateFieldsBasedOnMethodology(tempPropertyId, tableLogic, ob, currentContainerList, propertyId, containerPropertyCheck, saveDto, tempStr);
-                }
-                if (saveDto.getSupplementalLevelNo() == 5) {
-                    int ndcCount = ndcCount(session, saveDto, "METHODOLOGY");
-                    if (ndcCount > 1) {
-                        methodologyRefresher(saveDto, mapList, tableLogic, propertyId, SELECTMETHODOLOGY.getConstant(), 1);
-                    } else if (ndcCount == 1) {
-                        methodologyRefresher(saveDto, mapList, tableLogic, propertyId, saveDto.getPropertyValue(propertyId).toString(), 1);
-                    }
-                }
-            } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex.getMessage());
-            }
-        }
-    }
-
     private void populateMethodologyWithFormulaDetails(DiscountProjectionDTO saveDto, String value, SessionDTO session) {
 
         String[] selectedLevelDetails = saveDto.getLevelDetails().split(",");
@@ -1607,38 +1505,6 @@ public class SupplementalDiscountProjectionLogic {
                 itemDtoExpanded.addStringProperties(propertyId, value);
                 if (tempId != null) {
                     tableLogic.getContainerDataSource().getContainerProperty(tempId, propertyId).setValue(value);
-                }
-            }
-        }
-    }
-
-    private void updateFieldsBasedOnMethodology(String tempPropertyId, SupplementalTableLogic tableLogic, Object[] ob, List<Object> currentContainerList, Object propertyId, boolean[] containerPropertyCheck,
-            DiscountProjectionDTO saveDto, String[] tempStr) {
-        if (saveDto.getSupplementalLevelNo() == NumericConstants.FIVE) {
-            if (containerPropertyCheck[0]) {
-                tableLogic.getContainerDataSource().getContainerProperty(saveDto, tempPropertyId + Constant.CONTRACT_PRICE_PROPERTY).setValue(ob[0].toString());
-            }
-            if (containerPropertyCheck[1]) {
-                tableLogic.getContainerDataSource().getContainerProperty(saveDto, tempPropertyId + Constant.DISCOUNT_ONE).setValue(ob[1].toString());
-            }
-            if (containerPropertyCheck[NumericConstants.TWO]) {
-                tableLogic.getContainerDataSource().getContainerProperty(saveDto, tempPropertyId + Constant.DISCOUNT_TWO).setValue(ob[NumericConstants.TWO].toString());
-            }
-        } else {
-            for (Object dto1 : currentContainerList) {
-                DiscountProjectionDTO dto = (DiscountProjectionDTO) dto1;
-                if (dto.getSupplementalLevelNo() == NumericConstants.FIVE && dto.getCompanyIdForNdcLevel().equals(saveDto.getCompanyIdForNdcLevel())
-                        && String.valueOf(tempStr[0]).equals(dto.getItemIdForNdcLevel())) {
-                    tableLogic.getContainerDataSource().getContainerProperty(dto1, propertyId).setValue(saveDto.getPropertyValue(propertyId));
-                    if (containerPropertyCheck[0]) {
-                        tableLogic.getContainerDataSource().getContainerProperty(dto1, tempPropertyId + Constant.CONTRACT_PRICE_PROPERTY).setValue(ob[0].toString());
-                    }
-                    if (containerPropertyCheck[1]) {
-                        tableLogic.getContainerDataSource().getContainerProperty(dto1, tempPropertyId + Constant.DISCOUNT_ONE).setValue(ob[1].toString());
-                    }
-                    if (containerPropertyCheck[NumericConstants.TWO]) {
-                        tableLogic.getContainerDataSource().getContainerProperty(dto1, tempPropertyId + Constant.DISCOUNT_TWO).setValue(ob[NumericConstants.TWO].toString());
-                    }
                 }
             }
         }
