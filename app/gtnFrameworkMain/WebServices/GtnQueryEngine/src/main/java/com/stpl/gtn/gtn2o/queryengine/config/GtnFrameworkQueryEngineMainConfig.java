@@ -31,4 +31,9 @@ public class GtnFrameworkQueryEngineMainConfig {
 		this.rootEngineConfig = rootEngineConfig;
 	}
 
+	public void updateQueryMemoryArray(Object obj, int index) {
+		if (queryMemoryArray != null && index <= queryMemoryArray.length) {
+			queryMemoryArray[index] = obj;
+		}
+	}
 }
