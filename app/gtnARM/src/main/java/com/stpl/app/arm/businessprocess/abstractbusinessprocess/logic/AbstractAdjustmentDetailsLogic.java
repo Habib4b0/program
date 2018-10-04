@@ -345,7 +345,7 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
                     || "deductionRate.44".equals(object)) {
                 variables.append(", \n").append(selectMap.get(object)).append(" AS ").append(filterMap.get(object));
             } else {
-                variables.append(", \n" + "QUOTENAME( CHAR(9) + ").append(selectMap.get(object)).append("+ CHAR(9),CHAR(34))" + " AS ").append(filterMap.get(object));
+                variables.append(", \n" + " CHAR(9) + ").append(selectMap.get(object)).append("+ CHAR(9) " + " AS ").append(filterMap.get(object));
                 String val = joinsMap.get(object);
                 join.append(val != null || !"null".equals(String.valueOf(val).trim()) ? "\n" + val : StringUtils.EMPTY);
             }

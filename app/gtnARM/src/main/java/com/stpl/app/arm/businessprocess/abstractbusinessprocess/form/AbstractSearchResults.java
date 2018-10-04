@@ -469,6 +469,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         if (excelBeanContainer == null) {
             excelBeanContainer = new ExtTreeContainer<>(AdjustmentDTO.class, ExtContainer.DataStructureMode.LIST);
         }
+        excelBeanContainer.setIndexable(true);
         return excelBeanContainer;
     }
 

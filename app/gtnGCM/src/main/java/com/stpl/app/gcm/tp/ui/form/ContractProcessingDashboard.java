@@ -650,7 +650,8 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         }
     }
 
-    private int configureLevel(Object item) {
+    private int configureLevel(Object itemParam) {
+        Object item = itemParam;
         levelValue = 1;
         parentList.clear();
         while (!contractDashboardTable.getContainerDataSource().isRoot(item)) {
@@ -690,8 +691,9 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
 
     }
 
-    private void loadComponentInformation(String category) {
+    private void loadComponentInformation(String categoryParam) {
         ContractSelectionLogic logicComponentInfo = new ContractSelectionLogic();
+        String category = categoryParam;
         if (tableBean != null) {
             String[] id = new String[NumericConstants.FIVE];
             ContractsDetailsDto crDTO = tableBean;
