@@ -500,6 +500,7 @@ public final class GtnFrameworkForecastingStringConstants {
         public static final String PRODUCT_DUAL_LIST_BOX = "productDualListBox";
         public static final String CUSTOMER = "Customer";
         public static final String VIEW_NAME = "viewName";
+        public static final String CUSTOMER_DUAL_LIST_BOX = "customerDualListBox";
         
 
 	private static final List<String> FORECAST_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
