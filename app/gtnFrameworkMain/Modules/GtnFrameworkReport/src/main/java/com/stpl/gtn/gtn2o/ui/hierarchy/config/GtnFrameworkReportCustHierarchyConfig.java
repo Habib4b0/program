@@ -55,7 +55,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		GtnUIFrameworkComponentConfig custSelectionMainlayout = new GtnUIFrameworkComponentConfig();
 		custSelectionMainlayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		custSelectionMainlayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.CUST_SELECTION_MAINLAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_CUST_SELECTION_MAINLAYOUT);
 		custSelectionMainlayout.setAddToParent(true);
 		custSelectionMainlayout.setComponentWidth("125%");
 		custSelectionMainlayout.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
@@ -75,14 +75,14 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		hierarchyRelationshipConfig.setAddToParent(true);
 		hierarchyRelationshipConfig.setGtnLayoutConfig(customerSelectionHierarchyRelationshiplayout);
 		hierarchyRelationshipConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.CUST_SELECTION_MAINLAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_CUST_SELECTION_MAINLAYOUT);
 		componentList.add(hierarchyRelationshipConfig);
 
 		GtnUIFrameworkComponentConfig customerSelectionInnerPanel = new GtnUIFrameworkComponentConfig();
 		customerSelectionInnerPanel.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionInnerPanel");
 		customerSelectionInnerPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.CUST_SELECTION_MAINLAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_CUST_SELECTION_MAINLAYOUT);
 		customerSelectionInnerPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		customerSelectionInnerPanel.setAddToParent(true);
 		customerSelectionInnerPanel.setSpacing(true);
@@ -94,7 +94,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		productSelectionInnerConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		productSelectionInnerConfig.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
 		productSelectionInnerConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.CUSTOMER_SELECTION_INNERLAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_SELECTION_INNERLAYOUT);
 		productSelectionInnerConfig.setAddToParent(true);
 		productSelectionInnerConfig.setGtnLayoutConfig(customerSelectionInnerlayout);
 		productSelectionInnerConfig.setParentComponentId(

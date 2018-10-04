@@ -41,7 +41,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 public class QuartzListener implements ServletContextListener {
 
 	private static Scheduler scheduler = null;
-	protected static String ACTION_JOB_DATA_MAP_KEY = "jobData";
+	protected static final String ACTION_JOB_DATA_MAP_KEY = "jobData";
 	private static final Logger LOGGER = LoggerFactory.getLogger(QuartzListener.class);
 
 

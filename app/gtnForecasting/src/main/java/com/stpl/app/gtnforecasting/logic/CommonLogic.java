@@ -471,6 +471,7 @@ public class CommonLogic {
         List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = getLevelListQuery(projectionId, tabName, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, isExpand, isCount, start, offset, isLimit, isCustom, customId, userGroup,  sessionId, custRelSid, prodRelSid, discountList, projSelDTO);
+            LOGGER.debug("{}",userId);
             if (StringUtils.isNotBlank(query)) {
                 List<Object> list = (List<Object>) executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
                 if (list != null && !list.isEmpty()) {
@@ -667,6 +668,7 @@ public class CommonLogic {
 
     public static String getHierarchyLevelsQuery(int projectionId, String hierarchyIndicator, int levelNo, String userGroup, int userId, int sessionId, String relationshipBuilderSid) {
          LOGGER.debug(" userId= {} " , userId);
+         LOGGER.debug("sessionId {}", sessionId);
         String customSql;
         String tableName = getViewTableName(hierarchyIndicator);
         String mainSelect = "SELECT HLD.level_no, HLD.level_no as TREE_LEVEL_NO,'" + hierarchyIndicator + "' as HIERARCHY_INDICATOR,HLD.LEVEL_NAME,HLD.relationship_level_values,HLD.PARENT_NODE,HLD.HIERARCHY_NO ";

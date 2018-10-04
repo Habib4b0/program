@@ -73,7 +73,7 @@ public class Constant {
         */
     }
 
-    public static Constant getInstance() {
+    public static synchronized Constant getInstance() {
         if (object == null) {
             object = new Constant();
         }
