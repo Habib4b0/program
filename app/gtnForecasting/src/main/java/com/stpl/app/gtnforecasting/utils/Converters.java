@@ -378,10 +378,11 @@ public class Converters {
 
     public static Date parseDate(String value) throws ParseException {
         Date date = null;
-        value = convertNullToEmpty(value);
+        String valueDate = value;
+        valueDate = convertNullToEmpty(valueDate);
         SimpleDateFormat parse = new SimpleDateFormat(DateFormatConstants.YYYYMMDDHHMMSSSSS.getConstant());
-        if (value != null && !StringUtils.EMPTY.equals(value) && !CommonConstants.NULL.getConstant().equals(value)) {
-            date = parse.parse(value);
+        if (valueDate != null && !StringUtils.EMPTY.equals(valueDate) && !CommonConstants.NULL.getConstant().equals(valueDate)) {
+            date = parse.parse(valueDate);
         }
         return date;
     }
