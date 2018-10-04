@@ -21,7 +21,6 @@ import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
 import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.dataSelection;
 import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
 import static com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils.getMonthForInt;
-import com.stpl.app.gtnforecasting.salesprojection.utils.QueryUtils;
 import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.NMSalesProjectionResultsLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -45,7 +44,6 @@ import com.stpl.app.serviceUtils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.FinderImplIndicators.INDICATOR;
-import static com.stpl.app.utils.Constants.FinderImplIndicators.PM_SID;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
@@ -1021,40 +1019,6 @@ public class SalesLogic {
                 headerMapValue.remove(key + Constant.ACTUAL_UNITS1);
             }
         }
-    }
-
-    private void prepareCustomCountParameters(final Map<String, Object> parameters, final Map<String, Object> input, final Map<String, String> join,
-            final SalesRowDto expandedParent, final ProjectionSelectionDTO projSelDTO, final boolean isTotalSales, final boolean isUpdate) {
-        join.put("?DECLARECCP?", QueryUtils.addDeclareQueryJoin(true, isUpdate));
-        join.put("?JOINCCP?", QueryUtils.addCcpJoinQuery(true, isUpdate));
-
-        if (!isUpdate) {
-            input.put(Constant.HNOC1, (expandedParent == null || isTotalSales) ? PERCENT.getConstant() : expandedParent.getCustomerHierarchyNo());
-            input.put(Constant.HNOP1, (expandedParent == null || isTotalSales) ? PERCENT.getConstant() : expandedParent.getProductHierarchyNo());
-            input.put(LEVEL_NO_C.getConstant(), String.valueOf(parameters.get(LEVEL_NO_C.getConstant())));
-            input.put(LEVEL_NO_P.getConstant(), String.valueOf(parameters.get(LEVEL_NO_P.getConstant())));
-            input.put(H_INDICATOR.getConstant(), String.valueOf(parameters.get(H_INDICATOR.getConstant())));
-        }
-        input.put("?RBSIDC?", projSelDTO.getCustRelationshipBuilderSid());
-        input.put("?RBSIDP?", projSelDTO.getProdRelationshipBuilderSid());
-        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
-            join.put(Constant.SELECTFREQJOIN1, " 'null' as FREQUENCY, P.\"YEAR\" AS FREQYR,");
-            join.put(Constant.GROUPFREQJOIN1, Constant.PFREQUENCY_PYEAR);
-            join.put(Constant.ORDERFREQJOIN1, "SA.FREQYR,");
-        } else {
-            join.put(Constant.SELECTFREQJOIN1, "P.?FREQUENCY? as FREQUENCY, P.\"YEAR\" AS FREQYR,");
-            join.put(Constant.GROUPFREQJOIN1, Constant.PFREQUENCY_PYEAR);
-            join.put(Constant.ORDERFREQJOIN1, "SA.FREQUENCY, SA.FREQYR,");
-        }
-        if (!StringUtils.isBlank(projSelDTO.getProjectionStartDate()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getProjectionStartDate())) {
-            input.put(Constant.PROJECTION_STARTDATE, " AND P.PERIOD_DATE >= '" + projSelDTO.getProjectionStartDate() + "' ");
-        } else {
-            input.put(Constant.PROJECTION_STARTDATE, StringUtils.EMPTY);
-        }
-        input.put(Constant.FREQUENCY1, SalesUtils.getPeriodFrequecy(projSelDTO.getFrequency()));
-        input.put("?CVSID?", projSelDTO.getCustomId());
-        input.put("?COUNTFREQUENCY?", SalesUtils.getPeriodCountFrequecy(projSelDTO.getFrequency()));
-        input.put(PM_SID.getConstant(), projSelDTO.getProjectionId());
     }
 
     public boolean checkSelectAll(final String sessionId, final String projectionId, final String userId) throws PortalException {
@@ -3213,54 +3177,6 @@ public class SalesLogic {
         updateQuery = updateQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + (Double.isNaN(rpu) ? 0.0 : rpu));
         updateQuery = updateQuery.replace(Constant.RETURNS_DETAILS_SID_AT, entryValue);
         return updateQuery;
-    }
-
-    private List<Map> getActiveExFactorySalesAndUnitsForMassUpdate(ProjectionSelectionDTO projectionSelectionDTO, String periodQuery, String frequency) throws PortalException {
-        List<Map> mapList = new ArrayList<>();
-        Map<String, Map<String, Double>> salesMap = new TreeMap<>();
-        Map<String, Map<String, Double>> unitsMap = new TreeMap<>();
-        Map<String, Double> units = new TreeMap<>();
-        Map<String, Double> sales = new TreeMap<>();
-        String query = SQlUtil.getQuery("SALES_AMOUNT_QUERY_MASS_UPDATE").replace("@RETURN_SID", String.valueOf(projectionSelectionDTO.getSessionDTO().getDetailsSID()))
-                .replace(Constant.USER_ID1_AT, String.valueOf(projectionSelectionDTO.getUserId()))
-                .replace(Constant.SESSION_ID1_AT, String.valueOf(projectionSelectionDTO.getSessionId()))
-                .replace("@PERIOD_QUERY", periodQuery)
-                .replace("@FREQUENCY_SELECTION", projectionSelectionDTO.getFrequencyDivision() == 1 ? "0 as period, " : frequency)
-                .replace(Constant.FREQUENCY1_AT, frequency);
-        if (StringUtils.isNotBlank(frequency)) {
-            query += " order by " + (frequency.substring(0, frequency.length() - 1));
-        } else {
-            query += " ORDER BY P.YEAR";
-        }
-        query = QueryUtil.replaceTableNames(query, projectionSelectionDTO.getSessionDTO().getCurrentTableNames());//For GAL-9131
-        List resultsList = (List) salesAllocationDAO.executeSelectQuery(query);
-        int year = 0;
-        int period = 0;
-        if (resultsList != null) {
-            for (int i = 0; i < resultsList.size(); i++) {
-                Object[] ob = (Object[]) resultsList.get(i);
-                if (year == 0) {
-                    period = Integer.parseInt(ob[0].toString());
-                    year = Integer.parseInt(ob[1].toString());
-                } else if (period != Integer.parseInt(ob[0].toString()) || year != Integer.parseInt(ob[1].toString())) {
-                    salesMap.put(year + "," + period, sales);
-                    unitsMap.put(year + "," + period, units);
-                    sales = new TreeMap<>();
-                    units = new TreeMap<>();
-                    year = Integer.parseInt(ob[1].toString());
-                    period = Integer.parseInt(ob[0].toString());
-                }
-                sales.put(ob[NumericConstants.TWO] == null ? StringUtils.EMPTY : ob[NumericConstants.TWO].toString(), ob[NumericConstants.THREE] == null ? 0.0 : Double.parseDouble(ob[NumericConstants.THREE].toString()));
-                units.put(ob[NumericConstants.TWO] == null ? StringUtils.EMPTY : ob[NumericConstants.TWO].toString(), ob[NumericConstants.FOUR] == null ? 0.0 : Double.parseDouble(ob[NumericConstants.FOUR].toString()));
-                if (i == (resultsList.size() - 1)) {
-                    salesMap.put(year + "," + period, sales);
-                    unitsMap.put(year + "," + period, units);
-                }
-            }
-        }
-        mapList.add(salesMap);
-        mapList.add(unitsMap);
-        return mapList;
     }
 
     private String addFrequencyInQuery(int frequencyDivision, int period, String query) {
