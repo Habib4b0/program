@@ -8,7 +8,61 @@ and open the template in the editor.
 
 <sql>
     
+    <entity id="update_transaction6_adjustments_based_on_overridecolumn">
+        <query>
     
+     <![CDATA[
+          
+          IF OBJECT_ID('TEMPDB..#TEMP_AMOUNT') IS NOT NULL 
+  DROP TABLE #TEMP_AMOUNT 
+
+CREATE TABLE #TEMP_AMOUNT 
+  ( 
+     ARM_ADJUSTMENT_DETAILS_SID INT, 
+     PERIOD_SID                 INT, 
+     ACCRUAL_AMOUNT             NUMERIC(22, 6), 
+     INDICATOR                  BIT 
+  ) 
+
+INSERT INTO #TEMP_AMOUNT 
+            (ARM_ADJUSTMENT_DETAILS_SID, 
+             PERIOD_SID, 
+             ACCRUAL_AMOUNT, 
+             INDICATOR) 
+SELECT ARM_ADJUSTMENT_DETAILS_SID, 
+       PERIOD_SID, 
+       ISNULL(OVERRIDE, VARIANCE) AS ACCRUAL_AMOUNT, 
+       CASE 
+         WHEN ISNULL(OVERRIDE, VARIANCE) > 0 THEN 0 
+         WHEN ISNULL(OVERRIDE, VARIANCE) < 0 THEN 1 
+       END                        AS INDICATOR 
+FROM   ? 
+       
+---UPDATE for Credit and debit Values in adjustments table
+UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
+FROM  ? AA INNER JOIN(SELECT TAM.ARM_ADJUSTMENT_DETAILS_SID AS ARM_ADJUSTMENT_DETAILS_SID,
+        ISNULL(A1.PERIOD_SID, A2.PERIOD_SID) AS PERIOD_SID,
+        ACCOUNT,
+        SUM(ABS(A1.ACCRUAL_AMOUNT))                  AS CREDIT,
+        SUM(ABS(A2.ACCRUAL_AMOUNT))                  AS DEBIT
+FROM   #TEMP_AMOUNT TAM
+        JOIN ARM_ADJ_RES_CCP AAC
+             ON TAM.ARM_ADJUSTMENT_DETAILS_SID = AAC.ARM_ADJUSTMENT_DETAILS_SID
+        LEFT JOIN #TEMP_AMOUNT A1
+                     ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A1.ARM_ADJUSTMENT_DETAILS_SID
+                           AND AAC.CREDIT = A1.INDICATOR
+        LEFT JOIN #TEMP_AMOUNT A2
+                     ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A2.ARM_ADJUSTMENT_DETAILS_SID
+                           AND AAC.DEBIT = A2.INDICATOR
+            JOIN PERIOD P ON P.PERIOD_SID=ISNULL(A1.PERIOD_SID, A2.PERIOD_SID) AND P.PERIOD_SID=TAM.PERIOD_SID
+            WHERE CREDIT IS NOT NULL AND DEBIT IS NOT NULL
+GROUP  BY TAM.ARM_ADJUSTMENT_DETAILS_SID,
+              ISNULL(A1.PERIOD_SID, A2.PERIOD_SID),
+              ACCOUNT) BB ON AA.ARM_ADJUSTMENT_DETAILS_SID=BB.ARM_ADJUSTMENT_DETAILS_SID AND AA.PERIOD_SID=BB.PERIOD_SID
+              AND AA.ACCOUNT=BB.ACCOUNT
+     ]]>  
+        </query>
+    </entity>
     
     <entity id="getTrx6_Inventory_Count">
         <query>
@@ -227,8 +281,9 @@ LEVEL_NAME,RANK_VIEW)
                                         WHEN @VIEW='DEDUCTION' THEN 1
                                        END,
           LEVEL_NAME= CASE
+                      WHEN @VIEW='DEDUCTION' THEN R.RS_NAME
                       WHEN @VIEW='PRODUCT' THEN IM.ITEM_NAME
-                       WHEN @VIEW='BRAND' THEN BM.BRAND_NAME
+                      WHEN @VIEW='BRAND' THEN BM.BRAND_NAME
                                        WHEN @VIEW='CUSTOMER' THEN  CM.COMPANY_NAME
                                        WHEN @VIEW='CONTRACT' THEN CON.[CONTRACT_NAME]
                                        END,

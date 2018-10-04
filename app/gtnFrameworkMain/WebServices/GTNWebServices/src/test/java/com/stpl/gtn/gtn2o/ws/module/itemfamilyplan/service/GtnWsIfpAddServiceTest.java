@@ -10,11 +10,12 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -39,11 +40,14 @@ public class GtnWsIfpAddServiceTest {
 	@InjectMocks
 	@Autowired
 	GtnWsIfpAddService fixture;
+	
 
-	@Mock
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
-
+	@Before
+	public void setup()
+	{
+		MockitoAnnotations.initMocks(this);
+	}
+	
 	@Test
 	public void testGtnWsIfpAddService_1() throws Exception {
 
@@ -54,7 +58,7 @@ public class GtnWsIfpAddServiceTest {
 	}
 
 	@Test
-	public void testCheckAllItems_1() throws Exception {
+	public void testCheckAllItems_isCheckAll_true() throws Exception {
 
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 
@@ -73,6 +77,33 @@ public class GtnWsIfpAddServiceTest {
 
 		int result = fixture.checkAllItems(gtnWsRequest);
 
+		assertEquals(0, result);
+	}
+	
+	@Test
+	public void testCheckAllItems_isCheckAll_false() throws Exception {
+
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+
+		GtnWsGeneralRequest getGtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsRequest.setGtnWsGeneralRequest(getGtnWsGeneralRequest);
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
+		updateBean.setColumnName("itemFamilyPlanStatus");
+		updateBean.setValue(false);
+		updateBean.setClassType(String.class.getName());
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+		
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+
+		int result = fixture.checkAllItems(gtnWsRequest);
+ 
 		assertEquals(0, result);
 	}
 
@@ -413,6 +444,204 @@ public class GtnWsIfpAddServiceTest {
 		}
 
 	}
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffsetItemsTab_1() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWebServiceOrderByCriteria criteria = new GtnWebServiceOrderByCriteria();
+		criteria.setOrderByCriteria("asc");
+		criteria.setPropertyId("1");
+		
+		GtnWebServiceOrderByCriteria criteria2 = new GtnWebServiceOrderByCriteria();
+		criteria2.setOrderByCriteria("desc");
+		criteria2.setPropertyId("2");
+		
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		gtnWebServiceOrderByCriteriaList.add(criteria);
+		gtnWebServiceOrderByCriteriaList.add(criteria2);
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffsetItemsTab(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffsetItemsTab_2() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(null);
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffsetItemsTab(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffsetItemsTab_3() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffsetItemsTab(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffset_1() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWebServiceOrderByCriteria criteria = new GtnWebServiceOrderByCriteria();
+		criteria.setOrderByCriteria("asc");
+		criteria.setPropertyId("1");
+		
+		GtnWebServiceOrderByCriteria criteria2 = new GtnWebServiceOrderByCriteria();
+		criteria2.setOrderByCriteria("desc");
+		criteria2.setPropertyId("2");
+		
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		gtnWebServiceOrderByCriteriaList.add(criteria);
+		gtnWebServiceOrderByCriteriaList.add(criteria2);
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffset(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffset_2() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(null);
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffset(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffset_3() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffset(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void testgenerateFilterRelatedWhereClauseItemsTab_1() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+		criteria.setFieldId("ifpItemsTabRecordType");
+		criteria.setFilterValue1("CurrentHistoryFuture");
+		criteria.setFilterValue1("2");
+		
+		
+		List<GtnWebServiceSearchCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		gtnWebServiceOrderByCriteriaList.add(criteria);
+		
+		try {
+			fixture.generateFilterRelatedWhereClauseItemsTab(gtnWebServiceOrderByCriteriaList);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateFilterRelatedWhereClauseItemsTab_else() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+		criteria.setFieldId("else");
+		criteria.setFilterValue1("CurrentHistoryFuture");
+		criteria.setFilterValue1("2");
+		criteria.setExpression("expression");
+		
+		
+		List<GtnWebServiceSearchCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		gtnWebServiceOrderByCriteriaList.add(criteria);
+		
+		try {
+			fixture.generateFilterRelatedWhereClauseItemsTab(gtnWebServiceOrderByCriteriaList);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateFilterRelatedWhereClauseItemsTab_itemsTabSearchCriteriaList_isEmpty() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		List<GtnWebServiceSearchCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		
+		try {
+			fixture.generateFilterRelatedWhereClauseItemsTab(gtnWebServiceOrderByCriteriaList);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
 	@Test
 	public void testGetIfpFetchQuery_1() throws Exception {
@@ -420,7 +649,11 @@ public class GtnWsIfpAddServiceTest {
 		GtnWsIfpRequest req = new GtnWsIfpRequest();
 
 		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
-
+		
+		GtnIFamilyPlanInformationBean ifpInfo = new GtnIFamilyPlanInformationBean();
+		ifpInfo.setIfpSid(1);
+		gtnIFamilyPlan.setIfpInfo(ifpInfo);
+		
 		Session s = Mockito.mock(Session.class);
 		Transaction tran = Mockito.mock(Transaction.class);
 		IfpModel ifpModel = new IfpModel();
@@ -432,11 +665,9 @@ public class GtnWsIfpAddServiceTest {
 		req.setGtnIFamilyPlan(gtnIFamilyPlan);
 		gtnWsRequest.setGtnWsIfpRequest(req);
 
-		GtnIFamilyPlanInformationBean ifpInfo = new GtnIFamilyPlanInformationBean();
-		ifpInfo.setIfpSid(1);
-		gtnIFamilyPlan.setIfpInfo(ifpInfo);
+		
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-
+  
 		try {
 			fixture.getIfpFetchQuery(gtnWsRequest, response);
 		} catch (Exception e) {
@@ -1090,19 +1321,58 @@ public class GtnWsIfpAddServiceTest {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	@Test
+	public void testgetCfpNotesTabAttachDetails_1() throws Exception {
 
-	// @Test
-	// public void testGetWhereClauseForAColumn_BETWEEN() throws Exception {
-	// GtnWsIfpAddService fixture = new GtnWsIfpAddService();
-	// String expersion = "BETWEEN";
-	// String field = "";
-	// String field2 = new Date().toString();
-	// String value = new Date().toString();
-	//
-	// String result = fixture.getWhereClauseForAColumn(expersion, field,
-	// field2, value);
-	//
-	// assertEquals(" LIKE '%%' ", result);
-	// }
+		fixture.getCfpNotesTabAttachDetails(20516);
+
+	}
+	
+	@Test
+	public void testgetIfpNotesTabDetails_1() throws Exception {
+
+		fixture.getIfpNotesTabDetails(20516);
+
+	}
+	
+	@Test
+	public void testgetIfpTabDeleteQuery_1() throws Exception {
+
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
+		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+		
+		fixture.getIfpTabDeleteQuery(request);
+
+	}
+	
+	@Test
+	public void testupdateIfpCompaniesTabQuery_1() throws Exception {
+
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
+		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+		
+		GtnIFamilyPlanInformationBean ifpInfo = new GtnIFamilyPlanInformationBean();
+		ifpInfo.setIfpSid(20516);
+		
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		gtnIFamilyPlan.setIfpInfo(ifpInfo);
+		
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+		
+		request.setGtnWsIfpRequest(gtnWsIfpRequest);
+		
+		fixture.updateIfpCompaniesTabQuery(request);
+
+	}
 
 }

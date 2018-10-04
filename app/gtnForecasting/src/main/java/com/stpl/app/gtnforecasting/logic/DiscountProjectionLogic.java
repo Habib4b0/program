@@ -201,7 +201,7 @@ public class DiscountProjectionLogic {
         if (levelNo != 0) {
             if (CommonUtil.isValueEligibleForLoading() && !isCustom) {
                 discountProjectionList = queryBuilderAndExecutor.getDiscountProjectionLastLevel(frequency, discountList, session, hierarchyNo,
-                        hierarchyIndicator, levelNo,  start, offset, userGroup, projectionSelection);
+                        hierarchyIndicator, levelNo,  start, offset, userGroup);
             } else {
                 discountProjectionList = queryBuilderAndExecutor.getDiscountProjectionCustom(isProgram, frequency, discountList, session, hierarchyNo,
                         hierarchyIndicator, levelNo, isCustom, customViewDetails, treeLevelNo, start, offset, userGroup);
@@ -1095,28 +1095,6 @@ public class DiscountProjectionLogic {
 
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
-        }
-    }
-
-    public String getDetailsId(SessionDTO session) {
-        String detailsSid = StringUtils.EMPTY;
-        StringBuilder idStringBuilder = new StringBuilder();
-        try {
-            String query = "Select Distinct PROJECTION_DETAILS_SID from ST_DISC_ALTERNATE_HIST_ALLOCATION";
-            List list;
-            list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
-            for (int i = 0; i < list.size(); i++) {
-                Object obj = (Object) list.get(i);
-                if (!StringUtils.EMPTY.equalsIgnoreCase(String.valueOf(obj)) && !"null".equalsIgnoreCase(String.valueOf(obj))) {
-                    idStringBuilder.append(StringUtils.EMPTY ).append( Integer.valueOf(String.valueOf(obj)) ).append( ',');
-                }
-            }
-            detailsSid = idStringBuilder.toString();
-            detailsSid = detailsSid.substring(0, detailsSid.length() - 1);
-            return detailsSid;
-        } catch (NumberFormatException e) {
-            LOGGER.error(e.getMessage());
-            return detailsSid;
         }
     }
 

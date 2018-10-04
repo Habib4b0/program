@@ -7,7 +7,6 @@ import static org.mockito.Mockito.doReturn;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,10 +28,10 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
 public class GtnWsIfpValidationServiceTest {
+
 	@InjectMocks
 	@Autowired
 	GtnWsIfpValidationService fixture;
@@ -44,13 +43,11 @@ public class GtnWsIfpValidationServiceTest {
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 
-	/**
-	 * Run the GtnWsIfpValidationService() constructor test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
+	@Before
+	public void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
+	}
+
 	@Test
 	public void testGtnWsIfpValidationService_1() throws Exception {
 
@@ -195,6 +192,27 @@ public class GtnWsIfpValidationServiceTest {
 		fixture.ifpIdAndIfpNoValidation(gtnWsRequest);
 	}
 
+	@Test
+	public void testIfpIdAndIfpNoValidation_catchBlock() throws Exception {
+
+		try {
+			fixture.ifpIdAndIfpNoValidation(null);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testifpCommonValidation_catchBlock() throws Exception {
+
+		try {
+			fixture.ifpCommonValidation(null);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
 	/**
 	 * Run the GtnWsIfpValidationService() constructor test.
 	 *
@@ -276,32 +294,6 @@ public class GtnWsIfpValidationServiceTest {
 		String result = fixture.getString(value);
 
 		assertEquals(value, result);
-	}
-
-	/**
-	 * Perform pre-test initialization.
-	 *
-	 * @throws Exception
-	 *             if the initialization fails for some reason
-	 *
-	 * 
-	 */
-	@Before
-	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
-	}
-
-	/**
-	 * Perform post-test clean-up.
-	 *
-	 * @throws Exception
-	 *             if the clean-up fails for some reason
-	 *
-	 * 
-	 */
-	@After
-	public void tearDown() throws Exception {
-		// Add additional tear down code here
 	}
 
 }

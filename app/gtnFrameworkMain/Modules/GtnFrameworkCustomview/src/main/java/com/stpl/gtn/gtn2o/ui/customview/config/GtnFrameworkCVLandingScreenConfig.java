@@ -358,20 +358,20 @@ public class GtnFrameworkCVLandingScreenConfig {
 
     private void addPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList ) {
 
-        GtnUIFrameworkComponentConfig searchResultConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
+        GtnUIFrameworkComponentConfig customViewSearchResultConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
                  GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE, true,
                 GtnFrameworkCVConstants.CUSTOM_SEARCH_RESULT_LAYOUT, GtnUIFrameworkComponentType.PAGEDTABLE);
-        searchResultConfig.setAuthorizationIncluded(true);
-        searchResultConfig.setComponentName("Results");
-        searchResultConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
-        List<String> tableStyleList = new ArrayList<>();
-        tableStyleList.add(GtnFrameworkCssConstants.FILTERBAR);
-        tableStyleList.add(GtnFrameworkCssConstants.V_HAS_WIDTH);
-        tableStyleList.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
-        tableStyleList.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
-        searchResultConfig.setComponentStyle(tableStyleList);
+        customViewSearchResultConfig.setAuthorizationIncluded(true);
+        customViewSearchResultConfig.setComponentName("Results");
+        customViewSearchResultConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+        List<String> customViewTableStyleList = new ArrayList<>();
+        customViewTableStyleList.add(GtnFrameworkCssConstants.FILTERBAR);
+        customViewTableStyleList.add(GtnFrameworkCssConstants.V_HAS_WIDTH);
+        customViewTableStyleList.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
+        customViewTableStyleList.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
+        customViewSearchResultConfig.setComponentStyle(customViewTableStyleList);
 
-        componentList.add(searchResultConfig);
+        componentList.add(customViewSearchResultConfig);
 
         GtnUIFrameworkPagedTableConfig cvLandingScreenResultsTable = gtnConfigFactory.getPagedTableConfig(true, true,
                 GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
@@ -391,7 +391,7 @@ public class GtnFrameworkCVLandingScreenConfig {
         cvLandingScreenResultsTable.setCustomFilterConfigMap(getCVCustomFilterConfig());
         cvLandingScreenResultsTable.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.CUSTOM_SEARCH_CONFIG);
         cvLandingScreenResultsTable.setDoubleClickEnable(true);
-        searchResultConfig.setGtnPagedTableConfig(cvLandingScreenResultsTable);
+        customViewSearchResultConfig.setGtnPagedTableConfig(cvLandingScreenResultsTable);
     }
 
     private void addCVActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList ) {

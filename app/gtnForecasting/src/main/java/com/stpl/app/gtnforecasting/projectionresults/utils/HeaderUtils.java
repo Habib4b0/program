@@ -47,13 +47,6 @@ public class HeaderUtils {
     public static final String CON_SALES_WAC = "conSalesWac";
     public static final String TOT_RPU = "totRPU";
 
-    /**
-     * The Constant Mandated Projection Results Right Table Columns.
-     */
-    public final Object[] prRightTableOneColumns = new Object[]{
-        "efs", "dms", "iws", "perOfExfac", "perOfDemand", "perOfInvwithdraw", CON_SALES_WAC, UNIT_VOL1,
-        Constant.TOT_DIS_PER, "totDisPerMandatedDiscount", "totDisPerSupplementalDiscount", TOT_RPU, "totRPUMandatedDiscount", "totRPUSupplementalDiscount",
-        Constant.TOTAL_DISCOUNT_DOLLAR, "totDisDolMandatedDiscount", "totDisDolSupplementalDiscount", NET_SALES1, "cogs", NET_PROFIT1_PROPERTY};
     
     public static final String COST_OF_GOODS_SOLD_COGS = "Cost of Goods Sold (COGS)";
     public static final String PERCENT_OF_EX_FACTORY = "% of Ex-Factory";
@@ -66,13 +59,6 @@ public class HeaderUtils {
     public static final String DEMAND_SALES = "Demand Sales";
     public static final String CONTRACT_SALES_WAC_AT = "Contract Sales @ WAC";
     public static final String NET_SALES_LABEL = "Net Sales";
-
-    /**
-     * The Constant Mandated Projection Results Right Table Headers.
-     */
-    public final String[] prRightTableOneHeaders = new String[]{
-        Constant.EX_FACTORY_SALES_LABEL, DEMAND_SALES, INVENTORY_WITHDRAWAL_SALES, PERCENT_OF_EX_FACTORY, PERCENT_OF_DEMAND, PERCENT_OF_INVENTORY_WITHDRAWAL, CONTRACT_SALES_WAC_AT, Constant.UNIT_VOLUME, TOTAL_DISCOUNT_PERCENT_AMOUNT, Constant.MANDATED_DISCOUNT, Constant.SUPPLEMENTAL_DISCOUNT_LABEL, Constant.TOTAL_RPU_CAPS, Constant.MANDATED_DISCOUNT, Constant.SUPPLEMENTAL_DISCOUNT_LABEL, TOTAL_DISCOUNT_AMOUNT_DOLLAR,
-        Constant.MANDATED_DISCOUNT, Constant.SUPPLEMENTAL_DISCOUNT_LABEL, NET_SALES_LABEL, COST_OF_GOODS_SOLD_COGS, NET_PROFIT};
 
     /**
      * Private Constructor to avoid object instantiation outside the class.

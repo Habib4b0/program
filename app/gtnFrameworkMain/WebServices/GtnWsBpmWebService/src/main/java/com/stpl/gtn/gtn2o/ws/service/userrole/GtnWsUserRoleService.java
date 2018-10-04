@@ -11,14 +11,14 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.entity.role.Role;
 import com.stpl.gtn.gtn2o.ws.entity.user.User;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsReturnsDatabaseService;
-import org.hibernate.SessionFactory;
-import org.springframework.stereotype.Service;
 
 /**
  *
@@ -58,6 +58,7 @@ public class GtnWsUserRoleService {
 		try {
 			session = sysSessionFactory.openSession();
 			user = (User) session.get(User.class, userId);
+			session.flush();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -80,6 +81,7 @@ public class GtnWsUserRoleService {
 			userRoleQuery.append(userId);
 			Query query = session.createSQLQuery(userRoleQuery.toString());
 			results = query.list();
+			session.flush();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -108,6 +110,7 @@ public class GtnWsUserRoleService {
 			session = sysSessionFactory.openSession();
 			Criteria cr = session.createCriteria(User.class);
 			results = cr.list();
+			session.flush();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -126,6 +129,7 @@ public class GtnWsUserRoleService {
 			session = sysSessionFactory.openSession();
 			Criteria cr = session.createCriteria(Role.class);
 			roles = cr.list();
+			session.flush();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {

@@ -150,7 +150,7 @@ public class BpmManagerBean {
 	public void initCFFRuntimeEngine() {
         try {
 		LOGGER.info("Init CffRuntime Engine Started ");
-		String identifier = "com.sample:example:1.0";
+		String identifier = "com.stpl:cfforecast:1.0";
 		ReleaseId releaseId = new ReleaseIdImpl(cffproperties.getProperty("CFF_groupId", COM_STPL_APP_BPM),
 				cffproperties.getProperty("CFF_artifactId", "CFFWorkflow"),
 				cffproperties.getProperty("CFF_version", "1.0"));
@@ -172,7 +172,7 @@ public class BpmManagerBean {
 	public void initARMRuntimeEngine() {
         try {
 		LOGGER.info("Init CffRuntime Engine Started ");
-		String identifier = "com.sample:example:1.0";
+		String identifier = "com.stpl:arm:1.0";
 		ReleaseId releaseId = new ReleaseIdImpl(armproperties.getProperty("ARM_groupId", COM_STPL_APP_BPM),
 				armproperties.getProperty("ARM_artifactId", "ARMWorkflow"),
 				armproperties.getProperty("ARM_version", "1.0"));

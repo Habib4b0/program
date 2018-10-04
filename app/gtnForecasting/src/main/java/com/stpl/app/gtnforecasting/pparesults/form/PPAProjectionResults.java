@@ -238,15 +238,15 @@ public class PPAProjectionResults extends CustomComponent implements View {
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION_PPA_RESULTS = 300;
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAX_SPLIT_POSITION_PPA_RESULTS = 1000;
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float MIN_SPLIT_POSITION_PPA_RESULTS = 200;
     private int customIdToSelect = 0;
     private int customId = 0;
     private List<CustomViewMaster> customViewList = new ArrayList<>();
@@ -1174,9 +1174,9 @@ public class PPAProjectionResults extends CustomComponent implements View {
     protected void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        periodTableId.setSplitPosition(SPLIT_POSITION_PPA_RESULTS, Sizeable.Unit.PIXELS);
+        periodTableId.setMinSplitPosition(MIN_SPLIT_POSITION_PPA_RESULTS, Sizeable.Unit.PIXELS);
+        periodTableId.setMaxSplitPosition(MAX_SPLIT_POSITION_PPA_RESULTS, Sizeable.Unit.PIXELS);
         periodTableId.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
     }
 
