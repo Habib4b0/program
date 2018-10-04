@@ -27,7 +27,7 @@ public class GtnUIFrameworkPopupCloseAction implements GtnUIFrameWorkAction {
 		if (customWindow != null) {
 			try{
                             MinimizeTray tray = customWindow.getMinimizeTray();
-                            if (tray.getWindowItems().size() == 1) {
+                            if (tray!=null && tray.getWindowItems().size() == 1) {
                                 tray.close();
                             }
 			customWindow.close();
