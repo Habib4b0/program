@@ -22,6 +22,7 @@ import java.util.Map;
 public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implements SearchInterface {
 
     private Map<String, String> queryMap = new HashMap();
+    private static final String PRODUCT = "Product";
 
     public CustomerAndProductGroup() {
         super(CustomerAndProductGroup.class);
@@ -50,6 +51,7 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
                 if (list.get(i).getFilterValue1() != null
                         && !list.get(i).getFilterValue1().equals("0") && !list.get(i).getFilterValue1().equals("*")) {
                     GtnWebServiceSearchCriteria searchCriteria = list.get(i);
+                    level = getlevel(searchCriteria, level);
                     if (searchCriteria.getFieldId().contains("No") || searchCriteria.getFieldId().contains("Name")) {
                         param.add(list.get(i).getFilterValue1().replaceAll("\\*", "%"));
                         data.add(GtnFrameworkDataType.STRING);
@@ -81,12 +83,25 @@ public class CustomerAndProductGroup extends GtnCommonWebServiceImplClass implem
         }
         return response;
     }
+    
+    private boolean getlevel(GtnWebServiceSearchCriteria searchCriteria, boolean level) {
+        if (searchCriteria.getFieldId().toString().contains(PRODUCT)) {
+            level = false;
+        }
+        return level;
+    }
 
     private void getQueryMap(GtnSearchwebServiceSqlService gtnSearchSqlService, List<GtnWebServiceSearchCriteria> list) {
         String[] paramsArray = gtnSearchSqlService.getQuery("CustomerGroupParameters").split(",");
+        if(PRODUCT.contains(list.get(1).getFieldId())){
+        queryMap.put(list.get(0).getFieldId(), paramsArray[2]);
+        queryMap.put(list.get(1).getFieldId(), paramsArray[3]);
+        }else{
         queryMap.put(list.get(0).getFieldId(), paramsArray[0]);
         queryMap.put(list.get(1).getFieldId(), paramsArray[1]);
+        }
     }
+    
 
     @Override
     public void initCallOnFailure() {
