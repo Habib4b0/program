@@ -48,8 +48,7 @@ public class GtnFrameworkDeleteRSAction implements GtnUIFrameWorkAction, GtnUIFr
 		List<Object> inputList = new ArrayList<>();
 		inputList.add(inputMap);
 		gtnWsGeneralRequest.setComboBoxWhereclauseParamList(inputList);
-		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(uri, request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = getResponse(uri, wsclient, request);
 		if ("Fail".equals(String.valueOf(response.getOutBountData()[0]))) {
 			List<Object> actionParams = new ArrayList<>();
 			actionParams.add("Delete Failed");
@@ -63,6 +62,13 @@ public class GtnFrameworkDeleteRSAction implements GtnUIFrameWorkAction, GtnUIFr
 			alert.doAction(" ", gtnUIFrameWorkActionConf);
 			throw new GtnFrameworkGeneralException("Delete Failed ");
 		}
+
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(String uri, GtnUIFrameworkWebServiceClient wsclient,
+			GtnUIFrameworkWebserviceRequest request) {
+		return wsclient.callGtnWebServiceUrl(uri, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
 	}
 

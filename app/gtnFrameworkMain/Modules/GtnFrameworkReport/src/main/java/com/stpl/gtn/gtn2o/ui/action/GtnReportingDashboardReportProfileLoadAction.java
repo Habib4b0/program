@@ -258,19 +258,19 @@ public class GtnReportingDashboardReportProfileLoadAction
 						+ GtnFrameworkReportStringConstants.REPORT_FILTER_TAB_CUSTOMER_LEVEL);
 		reportDashboardReportProfileReloadFilterAction
 				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_LEVEL);
+						+ GtnFrameworkReportStringConstants.REPORT_FILTER_OPTIONS_TAB_PRODUCT_LEVEL);
 		reportDashboardReportProfileReloadFilterAction
 				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL);
+						+ GtnFrameworkReportStringConstants.REPORT_FILTER_OPTIONS_TAB_DEDUCTION_LEVEL);
 		reportDashboardReportProfileReloadFilterAction
 				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
+						+ GtnFrameworkReportStringConstants.REPORT_FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
 		reportDashboardReportProfileReloadFilterAction
 				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
+						+ GtnFrameworkReportStringConstants.REPORT_FILTER_OPTIONS_TAB_PRODUCT_FILTER);
 		reportDashboardReportProfileReloadFilterAction
 				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
+						+ GtnFrameworkReportStringConstants.REPORT_FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
 
 		return reportDashboardReportProfileReloadFilterAction;
 	}

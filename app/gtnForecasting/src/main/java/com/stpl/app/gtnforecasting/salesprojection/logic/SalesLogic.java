@@ -116,7 +116,7 @@ public class SalesLogic {
     public static final DecimalFormat MONEY = new DecimalFormat("$0.00");
     public static final DecimalFormat UNIT = new DecimalFormat("0.00");
     public static final DecimalFormat MONEYNODECIMAL = new DecimalFormat("$#,##0");
-    public static final DecimalFormat UNITNODECIMAL = new DecimalFormat("#,##0");
+    public static final DecimalFormat UNITDECIMAL = new DecimalFormat("#,##0.#####");
     public static final DecimalFormat UNITTWODECIMAL = new DecimalFormat("#,##0.00");
     public static final DecimalFormat PROJECTEDUNITDECIMAL = new DecimalFormat("#,##0.0");
     public static final String UPDATE = "  UPDATE ";
@@ -979,7 +979,7 @@ public class SalesLogic {
                     headerMapValue.remove(key + PROJECTED_UNITS1);
                 } else {
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + DASH_PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.TWO], true));
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.THREE] == null ? 0 : obj[NumericConstants.THREE])));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, String.valueOf(UNITDECIMAL.format(obj[NumericConstants.THREE] == null ? 0 : obj[NumericConstants.THREE])));
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PRODUCT_GROWTH, String.valueOf(UNITTWODECIMAL.format(obj[1] == null ? 0 : obj[1])) + Constant.PERCENT);
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACCOUNT_GROWTH, String.valueOf(UNITTWODECIMAL.format(obj[0] == null ? 0 : obj[0])) + Constant.PERCENT);
                     headerMapValue.remove(key + DASH_PROJECTED_SALES);
@@ -995,7 +995,7 @@ public class SalesLogic {
                     headerMapValue.remove(key + Constant.ACTUAL_UNITS1);
                 } else {
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACTUAL_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.FOUR], true));
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, String.valueOf(UNITDECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])));
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_SALES, String.valueOf(0));
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_UNITS, String.valueOf(0));
                     headerMapValue.remove(key + ACTUAL_SALES);
@@ -3470,7 +3470,7 @@ public class SalesLogic {
                 projDTO.setParent(0);
                 projDTO.setProjectionTotal(1);
                 for (String columns : columnList) {
-                    projDTO.addStringProperties(columns, getFormattedValue(UNITNODECIMAL, Constant.NULL));
+                    projDTO.addStringProperties(columns, getFormattedValue(UNITDECIMAL, Constant.NULL));
                 }
                 projDTOList.add(projDTO);
             }
@@ -3486,7 +3486,7 @@ public class SalesLogic {
             projDTO.setLevelValue(projSelDTO.getPeriodListMap().get(ob));
             projDTO.setLevelName(projSelDTO.getPeriodListMap().get(ob));
             for (String columns : columnList) {
-                projDTO.addStringProperties(columns, getFormattedValue(UNITNODECIMAL, Constant.NULL));
+                projDTO.addStringProperties(columns, getFormattedValue(UNITDECIMAL, Constant.NULL));
             }
             projDTOList.add(projDTO);
         }
