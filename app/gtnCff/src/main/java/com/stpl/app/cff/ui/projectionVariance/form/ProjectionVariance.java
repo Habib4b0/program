@@ -539,8 +539,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     pvSelectionDTO.setPeriodList(pivotList);
                 }
             }
-            if ("Variable".equals(pivotView.getValue().toString())) {
-                    if (!discountLevel.getValue().equals(StringConstantsUtil.TOTAL_DISCOUNT)) {
+                    if (("Variable".equals(pivotView.getValue().toString())) && (!discountLevel.getValue().equals(StringConstantsUtil.TOTAL_DISCOUNT))) {
                         resultsTable.getRightFreezeAsTable().setColumnCollapsingAllowed(true);
                         for (String object : pvSelectionDTO.getHeaderMap().keySet()) {
                             LOGGER.debug("Key= {} and Value= {}", object, pvSelectionDTO.getHeaderMap().get(object));
@@ -562,7 +561,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                             }
                         });
                     }
-            }
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage());
         }
@@ -784,9 +782,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         setBaseVariables(variableCategoryValue, variablesValue);
     }
 
-    public void setBaseVariables(String columns, String varriables) {
+    public void setBaseVariables(String columnsParam, String varriables) {
         LOGGER.debug("Entering setBaseVariables method");
-
+        String columns = columnsParam;
         pvSelectionDTO.setColValue(false);
         pvSelectionDTO.setColVariance(false);
         pvSelectionDTO.setColPercentage(false);
@@ -1587,12 +1585,13 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         loadDataToContainer(resultList, id);
     }
 
-    private ForecastDTO getHistoricalPeriods(DataSelectionDTO dataSelectionDTO) {
+    private ForecastDTO getHistoricalPeriods(DataSelectionDTO dataSelectionDTOParam) {
 
         Date dbDateTO;
         SimpleDateFormat format = new SimpleDateFormat(Constants.CommonConstants.DATE_FORMAT.getConstant());
-        if (dataSelectionDTO == null) {
-            dataSelectionDTO = new DataSelectionDTO();
+        DataSelectionDTO dataSelectionDto = dataSelectionDTOParam;
+        if (dataSelectionDto == null) {
+            dataSelectionDto = new DataSelectionDTO();
         }
 
         String sql = "SELECT\n"
@@ -1637,15 +1636,15 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             } catch (ParseException pe) {
                 LOGGER.error(pe.getMessage());
             }
-            dataSelectionDTO.setFromDate(dbDateFrom);
-            dataSelectionDTO.setToDate(dbDateTO);
+            dataSelectionDto.setFromDate(dbDateFrom);
+            dataSelectionDto.setToDate(dbDateTO);
             
         }
-        dataSelectionDTO.setFromDate(CommonLogic.fromDateIsNull(dataSelectionDTO.getFromDate()));
-        dataSelectionDTO.setToDate(CommonLogic.toDateIsNull(dataSelectionDTO.getToDate()));
+        dataSelectionDto.setFromDate(CommonLogic.fromDateIsNull(dataSelectionDto.getFromDate()));
+        dataSelectionDto.setToDate(CommonLogic.toDateIsNull(dataSelectionDto.getToDate()));
         ForecastDTO dto = new ForecastDTO();
         try {
-            dto = DataSelectionUtil.getForecastDTO(dataSelectionDTO, sessionDTO);
+            dto = DataSelectionUtil.getForecastDTO(dataSelectionDto, sessionDTO);
         } catch (Exception exp) {
             LOGGER.error(exp.getMessage());
         }

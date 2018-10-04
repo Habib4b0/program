@@ -469,7 +469,7 @@ public class ProjectionResultsLogic {
         String dateQuery = CommonLogic.getHistoryPeriodDate(freq, histNum);
         List dateList = HelperTableLocalServiceUtil.executeSelectQuery(dateQuery);
         String fromDate = StringUtils.EMPTY;
-        if (dateList != null && dateList.size() > 0) {
+        if (dateList != null && !dateList.isEmpty()) {
             Object obj = dateList.get(0);
             fromDate = String.valueOf(obj);
         }
@@ -1540,7 +1540,7 @@ public class ProjectionResultsLogic {
                             l++;
                         }
                         
-                        if (!projSelDTO.hasNonFetchableIndex("" + l)) {
+                        if (!projSelDTO.hasNonFetchableIndex("" + Integer.toString(l))) {
                             
                             projDTOList.add(projectionDtoList.get(k));
                         }
@@ -4238,8 +4238,10 @@ public class ProjectionResultsLogic {
         return ccps;
  } 
     
-    private List<ProjectionResultsDTO> getLevelListforNonmandated(int start, int offset, int started, ProjectionSelectionDTO projSelDTO, int neededRecord) {
+    private List<ProjectionResultsDTO> getLevelListforNonmandated(int start, int offset, int startedParam, ProjectionSelectionDTO projSelDTO, int neededRecordParam) {
         CommonLogic commonLogic = new CommonLogic();
+        int neededRecord = neededRecordParam;
+        int started = startedParam;
         List<ProjectionResultsDTO> resultList = new ArrayList<>();
     
         if (projSelDTO.isIsCustomHierarchy()) {

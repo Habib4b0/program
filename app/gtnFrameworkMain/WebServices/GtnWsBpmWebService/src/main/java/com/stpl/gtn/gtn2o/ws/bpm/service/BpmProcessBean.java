@@ -43,8 +43,10 @@ public class BpmProcessBean {
 
 
 	public ProcessInstance startProcess(String processName, Map<String, Object> params, String moduleName) {
-		KieSession ksession = bpmManagerBean.getRuntimeEngine(moduleName).getKieSession();
 		ProcessInstance processInstance = null;
+		KieSession  ksession=null;
+		 ksession = bpmManagerBean.getRuntimeEngine(moduleName).getKieSession();
+	
 		try {
 			processInstance = ksession.startProcess(processName, params);
 		} catch (Exception e) {

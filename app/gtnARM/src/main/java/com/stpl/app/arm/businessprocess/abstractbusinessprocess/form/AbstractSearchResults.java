@@ -38,7 +38,7 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
+import static com.stpl.app.arm.utils.ResponsiveUtils.getResponsiveControls;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.PropertyFormatCustomTreeTable;
@@ -108,9 +108,9 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected ExtPagedTreeTable leftTable;
     protected ExtPagedTreeTable rightTable;
     protected PropertyFormatCustomTreeTable excelTable;
-    private final float maxSplitPosition = 1000;
-    private final float minSplitPosition = 200;
-    private final float splitPosition = 300;
+    private static final float MAX_SPLIT_POSITION = 1000;
+    private static final float MIN_SPLIT_POSITION = 200;
+    private static final float SPLIT_POSITION = 300;
     protected final LogicAble logic;
     protected final T selection;
     protected ExtTreeContainer<AdjustmentDTO> resultBeanContainer = new ExtTreeContainer<>(
@@ -158,9 +158,9 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected void initializeResultTable() {
         table.markAsDirty();
         table.setSelectable(false);
-        table.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        table.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        table.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        table.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        table.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        table.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         table.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         table.addStyleName(ARMUtils.CENTER_CHECK);
     }
@@ -469,6 +469,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         if (excelBeanContainer == null) {
             excelBeanContainer = new ExtTreeContainer<>(AdjustmentDTO.class, ExtContainer.DataStructureMode.LIST);
         }
+        excelBeanContainer.setIndexable(true);
         return excelBeanContainer;
     }
 

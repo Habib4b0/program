@@ -127,4 +127,13 @@ public class AdjustmentDetailAccural extends AbstractAdjustmentDetails {
 
     }
 
+    @Override
+    public boolean equals(Object padAdjDetobj) {
+        return super.equals(padAdjDetobj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

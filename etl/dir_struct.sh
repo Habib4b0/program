@@ -506,3 +506,7 @@ mkdir -p $base_path/staging/Inbound/DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE
 mkdir -p $base_path/staging/Inbound/DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE/Error
 mkdir -p $base_path/staging/Inbound/DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE/Processed
 mkdir -p $base_path/staging/Inbound/DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE/Input
+mkdir -p $base_path/staging/Inbound/DTX_GL_COST_CENTER_INTERFACE
+mkdir -p $base_path/staging/Inbound/DTX_GL_COST_CENTER_INTERFACE/Error
+mkdir -p $base_path/staging/Inbound/DTX_GL_COST_CENTER_INTERFACE/Processed
+mkdir -p $base_path/staging/Inbound/DTX_GL_COST_CENTER_INTERFACE/Input

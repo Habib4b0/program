@@ -116,4 +116,14 @@ public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
         generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
 
     }
+
+    @Override
+    public boolean equals(Object invAdjDetobj) {
+        return super.equals(invAdjDetobj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

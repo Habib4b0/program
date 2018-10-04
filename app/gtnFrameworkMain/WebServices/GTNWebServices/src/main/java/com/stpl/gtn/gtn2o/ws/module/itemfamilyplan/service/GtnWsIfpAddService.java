@@ -57,17 +57,25 @@ public class GtnWsIfpAddService {
 		return sessionFactory;
 	}
 
+	public void setGtnWsSqlService(GtnWsSqlService gtnWsSqlService) {
+		this.gtnWsSqlService = gtnWsSqlService;
+	}
+
+
+
 	public String ifpLeftTableSearchQuery(GtnUIFrameworkWebserviceRequest ifpLeftTableRequest) {
 
 		boolean isCount = ifpLeftTableRequest.getGtnWsSearchRequest().isCount();
 		StringBuilder ifpLeftTableSql = new StringBuilder();
+		String searchFilter = generateFilterRelatedWhereClauseIMAdditionTab(
+				ifpLeftTableRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
+		
 		if (isCount) {
 			ifpLeftTableSql.append(gtnWsSqlService.getQuery("getItemAdditionSearchCountQuery"));
 		} else {
 			ifpLeftTableSql.append(gtnWsSqlService.getQuery("getItemAdditionSearchResultsQuery"));
 		}
-		String searchFilter = generateFilterRelatedWhereClauseIMAdditionTab(
-				ifpLeftTableRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
+		
 		if (!searchFilter.isEmpty()) {
 			ifpLeftTableSql.append(searchFilter);
 		}
@@ -80,16 +88,19 @@ public class GtnWsIfpAddService {
 
 	public String ifpRightTableSearchQuery(GtnUIFrameworkWebserviceRequest ifpRightTableRequest) {
 
-		boolean isCount = ifpRightTableRequest.getGtnWsSearchRequest().isCount();
+		boolean isCount = ifpRightTableRequest.getGtnWsSearchRequest().isCount();  
 		StringBuilder ifpRightTableSql = new StringBuilder();
 		GtnWsGeneralRequest generalWSRequest = ifpRightTableRequest.getGtnWsGeneralRequest();
+		
+		String searchFilter = generateFilterRelatedWhereClauseIMAdditionTab(
+				ifpRightTableRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
+		
 		if (isCount) {
 			ifpRightTableSql.append(gtnWsSqlService.getQuery("getIFPItemAdditionRightTableCountQuery"));
 		} else {
 			ifpRightTableSql.append(gtnWsSqlService.getQuery("getIFPItemAdditionRightTableSearchQuery"));
 		}
-		String searchFilter = generateFilterRelatedWhereClauseIMAdditionTab(
-				ifpRightTableRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
+		
 		String userId = generalWSRequest.getUserId();
 		String sessionId = generalWSRequest.getSessionId();
 		if (userId != null && sessionId != null) {
@@ -111,7 +122,7 @@ public class GtnWsIfpAddService {
 
 		StringBuilder sql = new StringBuilder();
 		String query = gtnWsSqlService.getQuery("getIfpItemAdditionMoveAllLeftQuery");
-
+  
 		sql.append(query);
 		String searchFilter = generateFilterRelatedWhereClauseIMAdditionTab(
 				gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
@@ -213,7 +224,7 @@ public class GtnWsIfpAddService {
 		return ifpItemAdditionFilterField;
 	}
 
-	private String generateSearchQueryOrderByAndOffset(GtnUIFrameworkWebserviceRequest ifpAdditionTabWsRequest) {
+	public String generateSearchQueryOrderByAndOffset(GtnUIFrameworkWebserviceRequest ifpAdditionTabWsRequest) {
 		StringBuilder ifpAdditionTabFinalQuery = new StringBuilder();
 		if (ifpAdditionTabWsRequest.getGtnWsSearchRequest().getGtnWebServiceOrderByCriteriaList() != null
 				&& !ifpAdditionTabWsRequest.getGtnWsSearchRequest().getGtnWebServiceOrderByCriteriaList().isEmpty()) {
@@ -328,7 +339,7 @@ public class GtnWsIfpAddService {
 			query = gtnWsSqlService.getQuery("getIfpItemsResultTableSearchQuery");
 		}
 		itemsTabResultSql.append(query);
-
+  
 		String searchFilter = generateFilterRelatedWhereClauseItemsTab(
 				itemsTabResultRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
 		if (!searchFilter.isEmpty()) {
@@ -342,9 +353,9 @@ public class GtnWsIfpAddService {
 
 	}
 
-	private String generateFilterRelatedWhereClauseItemsTab(
+	public String generateFilterRelatedWhereClauseItemsTab(
 			List<GtnWebServiceSearchCriteria> itemsTabSearchCriteriaList) {
-
+  
 		StringBuilder itemsTabSql = new StringBuilder();
 
 		if (!itemsTabSearchCriteriaList.isEmpty()) {
@@ -374,7 +385,7 @@ public class GtnWsIfpAddService {
 		return itemsTabSql.toString();
 	}
 
-	private String generateSearchQueryOrderByAndOffsetItemsTab(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+	public String generateSearchQueryOrderByAndOffsetItemsTab(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		StringBuilder itemsTabFinalQuery = new StringBuilder();
 		if (gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceOrderByCriteriaList() != null
 				&& !gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceOrderByCriteriaList().isEmpty()) {
@@ -495,7 +506,7 @@ public class GtnWsIfpAddService {
 
 		StringBuilder sql = new StringBuilder();
 		String query = gtnWsSqlService.getQuery("getIfpItemsUpdateColumnQuery");
-
+  
 		GtnIFamilyPlanBean inputs = gtnWsRequest.getGtnWsIfpRequest().getGtnIFamilyPlan();
 		String columnName;
 		if ("IFP Start Date".equals(inputs.getUpdateBean().getColumnName())) {
@@ -585,7 +596,7 @@ public class GtnWsIfpAddService {
 	}
 
 	public int getIfpTabDeleteQuery(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
-
+  
 		String query = gtnWsSqlService.getQuery("getIfpCompaniesTabDeleteQuery");
 		Object[] params = { gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
 				gtnWsRequest.getGtnWsGeneralRequest().getSessionId() };
@@ -614,7 +625,7 @@ public class GtnWsIfpAddService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<NotesTabBean> getIfpNotesTabDetails(int systemId) throws GtnFrameworkGeneralException {
+	public List<NotesTabBean> getIfpNotesTabDetails(int systemId) throws GtnFrameworkGeneralException {
 		logger.info("Enter getIfpNotesTabDetails");
 		String ifpNotesTabDetailsSelectQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_SELECT + systemId
 				+ " AND MASTER_TABLE_NAME='IFP_MODEL'";
@@ -622,9 +633,9 @@ public class GtnWsIfpAddService {
 				.executeSelectQuery(ifpNotesTabDetailsSelectQuery);
 		return GtnCommonUtil.getNotesTabBean(imNotesDetailsResultList, gtnWebServiceAllListConfig);
 	}
-
+  
 	@SuppressWarnings("unchecked")
-	private List<NotesTabBean> getCfpNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
+	public List<NotesTabBean> getCfpNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
 		logger.info("Enter getifpNotesTabAttachDetails");
 		String ifpNotesTabAttachDetailsSelectQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_SELECT + +systemId
 				+ " AND MASTER_TABLE_NAME='IFP_MODEL'";

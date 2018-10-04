@@ -1,8 +1,27 @@
 package com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.doReturn;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
-import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
 import com.stpl.gtn.gtn2o.ws.entity.itemfamilyplan.IfpModel;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanBean;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanCommonUpdateBean;
@@ -12,33 +31,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import java.util.ArrayList;
-import java.util.List;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.junit.*;
 
-import static org.junit.Assert.*;
 
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.doReturn;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-/**
- * The class <code>GtnWsIfpAddServiceTest</code> contains tests for the class
- * <code>{@link GtnWsIfpAddService}</code>.
- *
- * 
- * @author Karthik.Raja
- * @version $Revision: 1.0 $
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
 public class GtnWsIfpAddServiceTest {
@@ -46,18 +40,14 @@ public class GtnWsIfpAddServiceTest {
 	@InjectMocks
 	@Autowired
 	GtnWsIfpAddService fixture;
+	
 
-	@Mock
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
-
-	/**
-	 * Run the GtnWsIfpAddService() constructor test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
+	@Before
+	public void setup()
+	{
+		MockitoAnnotations.initMocks(this);
+	}
+	
 	@Test
 	public void testGtnWsIfpAddService_1() throws Exception {
 
@@ -68,7 +58,7 @@ public class GtnWsIfpAddServiceTest {
 	}
 
 	@Test
-	public void testCheckAllItems_1() throws Exception {
+	public void testCheckAllItems_isCheckAll_true() throws Exception {
 
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 
@@ -89,15 +79,34 @@ public class GtnWsIfpAddServiceTest {
 
 		assertEquals(0, result);
 	}
+	
+	@Test
+	public void testCheckAllItems_isCheckAll_false() throws Exception {
 
-	/**
-	 * Run the String companiesUpdateColumnQuery(GtnUIFrameworkWebserviceRequest)
-	 * method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+
+		GtnWsGeneralRequest getGtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsRequest.setGtnWsGeneralRequest(getGtnWsGeneralRequest);
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
+		updateBean.setColumnName("itemFamilyPlanStatus");
+		updateBean.setValue(false);
+		updateBean.setClassType(String.class.getName());
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+		
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+
+		int result = fixture.checkAllItems(gtnWsRequest);
+ 
+		assertEquals(0, result);
+	}
+
 	@Test
 	public void testCompaniesUpdateColumnQuery_1() throws Exception {
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
@@ -120,13 +129,164 @@ public class GtnWsIfpAddServiceTest {
 		assertNotNull(result);
 	}
 
-	/**
-	 * Run the boolean deleteIfpModel(GtnUIFrameworkWebserviceRequest) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
+	@Test
+	public void testCompaniesUpdateColumnQuery_2() throws Exception {
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+
+		GtnWsGeneralRequest getGtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsRequest.setGtnWsGeneralRequest(getGtnWsGeneralRequest);
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
+		updateBean.setColumnName("IFP Start Date");
+		updateBean.setValue(true);
+		updateBean.setClassType(String.class.getName());
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+
+		String result = fixture.companiesUpdateColumnQuery(gtnWsRequest);
+
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testCompaniesUpdateColumnQuery_3() throws Exception {
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+
+		GtnWsGeneralRequest getGtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsRequest.setGtnWsGeneralRequest(getGtnWsGeneralRequest);
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
+		updateBean.setColumnName("IFP End Date");
+		updateBean.setImtdIfpDetailsSid("1");
+		updateBean.setPopulateType("populate");
+		updateBean.setValue(true);
+		updateBean.setClassType(String.class.getName());
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+
+		String result = fixture.companiesUpdateColumnQuery(gtnWsRequest);
+
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testCompaniesUpdateColumnQuery_4() throws Exception {
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
+
+		GtnWsGeneralRequest getGtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsRequest.setGtnWsGeneralRequest(getGtnWsGeneralRequest);
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+		GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
+		updateBean.setColumnName("IFP End Date");
+		updateBean.setImtdIfpDetailsSid("");
+		updateBean.setPopulateType("populate");
+		updateBean.setValue(true);
+		updateBean.setClassType(String.class.getName());
+		gtnIFamilyPlan.setUpdateBean(updateBean);
+
+		String result = fixture.companiesUpdateColumnQuery(gtnWsRequest);
+
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testgetFrequencyQuery_1() throws Exception {
+
+		boolean cuurent = true;
+		boolean history = true;
+		boolean future = true;
+
+		String result = fixture.getFrequencyQuery(cuurent, history, future);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testgetFrequencyQuery_2() throws Exception {
+
+		boolean cuurent = true;
+		boolean history = true;
+		boolean future = false;
+
+		String result = fixture.getFrequencyQuery(cuurent, history, future);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testgetFrequencyQuery_3() throws Exception {
+
+		boolean cuurent = false;
+		boolean history = true;
+		boolean future = true;
+
+		String result = fixture.getFrequencyQuery(cuurent, history, future);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testgetFrequencyQuery_4() throws Exception {
+
+		boolean cuurent = true;
+		boolean history = false;
+		boolean future = false;
+
+		String result = fixture.getFrequencyQuery(cuurent, history, future);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testgetFrequencyQuery_5() throws Exception {
+
+		boolean cuurent = false;
+		boolean history = true;
+		boolean future = false;
+
+		String result = fixture.getFrequencyQuery(cuurent, history, future);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testgetFrequencyQuery_6() throws Exception {
+
+		boolean cuurent = false;
+		boolean history = false;
+		boolean future = true;
+
+		String result = fixture.getFrequencyQuery(cuurent, history, future);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testgetFrequencyQuery_7() throws Exception {
+
+		boolean cuurent = true;
+		boolean history = false;
+		boolean future = true;
+
+		String result = fixture.getFrequencyQuery(cuurent, history, future);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testgetFrequencyQuery_8() throws Exception {
+
+		boolean cuurent = false;
+		boolean history = false;
+		boolean future = false;
+
+		String result = fixture.getFrequencyQuery(cuurent, history, future);
+		assertNotNull(result);
+	}
+
 	@Test
 	public void testDeleteIfpModel_1() throws Exception {
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
@@ -134,30 +294,27 @@ public class GtnWsIfpAddServiceTest {
 
 		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
 
-		Session s = Mockito.mock(Session.class);
+		Session session = Mockito.mock(Session.class);
 		Transaction tran = Mockito.mock(Transaction.class);
 		IfpModel ifpModel = new IfpModel();
 
-		doReturn(s).when(sessionFactory).openSession();
-		doReturn(ifpModel).when(s).get(IfpModel.class, 1);
-		doReturn(tran).when(s).beginTransaction();
+		SessionFactory sessionFactory1 = Mockito.mock(SessionFactory.class);
+
+		doReturn(session).when(sessionFactory1).openSession();
+		doReturn(tran).when(session).beginTransaction();
 		req.setGtnIFamilyPlan(gtnIFamilyPlan);
 		gtnWsRequest.setGtnWsIfpRequest(req);
 
 		GtnIFamilyPlanInformationBean ifpInfo = new GtnIFamilyPlanInformationBean();
 		ifpInfo.setIfpSid(1);
 		gtnIFamilyPlan.setIfpInfo(ifpInfo);
-		boolean result = fixture.deleteIfpModel(gtnWsRequest);
+
+		doReturn(ifpModel).when(session).get(IfpModel.class, 1);
+
+		fixture.deleteIfpModel(gtnWsRequest);
 
 	}
 
-	/**
-	 * Run the String getDbColumnForFilterField(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetDbColumnForFilterField_1() throws Exception {
 
@@ -169,13 +326,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("IM.ITEM_ID", result);
 	}
 
-	/**
-	 * Run the String getDbColumnForFilterField(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetDbColumnForFilterField_2() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -195,55 +345,31 @@ public class GtnWsIfpAddServiceTest {
 	 */
 	@Test
 	public void testGetDbColumnForFilterField_3() throws Exception {
+
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
 		String filterValue1 = "Item No";
-
 		String result = fixture.getDbColumnForFilterField(filterValue1);
-
 		assertEquals("IM.ITEM_NO", result);
 	}
 
-	/**
-	 * Run the String getDbColumnForFilterField(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetDbColumnForFilterField_4() throws Exception {
+
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
 		String filterValue1 = "Item Name";
-
 		String result = fixture.getDbColumnForFilterField(filterValue1);
-
 		assertEquals("IM.ITEM_NAME", result);
 	}
 
-	/**
-	 * Run the String getDbColumnForFilterField(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetDbColumnForFilterField_5() throws Exception {
+
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
 		String filterValue1 = "Item Status";
-
 		String result = fixture.getDbColumnForFilterField(filterValue1);
-
 		assertEquals("STA.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getDbColumnForFilterField(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetDbColumnForFilterField_6() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -254,13 +380,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("STR.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getDbColumnForFilterField(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetDbColumnForFilterField_7() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -271,13 +390,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("TC.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getDbColumnForFilterField(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetDbColumnForFilterField_8() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -288,13 +400,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("FO.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getDbColumnForFilterField(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetDbColumnForFilterField_9() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -305,13 +410,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("BM.BRAND_NAME", result);
 	}
 
-	/**
-	 * Run the String getDbColumnForFilterField(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetDbColumnForFilterField_10() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -322,13 +420,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("UOM.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getDbColumnForFilterField(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetDbColumnForFilterField_11() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -339,23 +430,218 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("", result);
 	}
 
-	/**
-	 * Run the String getDbColumnForFilterField(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetDbColumnForFilterField_12() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
 		String filterValue1 = null;
 
-		String result = fixture.getDbColumnForFilterField(filterValue1);
+		try {
+			String result = fixture.getDbColumnForFilterField(filterValue1);
+			assertEquals("", result);
 
-		assertEquals("", result);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
 	}
-	//
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffsetItemsTab_1() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWebServiceOrderByCriteria criteria = new GtnWebServiceOrderByCriteria();
+		criteria.setOrderByCriteria("asc");
+		criteria.setPropertyId("1");
+		
+		GtnWebServiceOrderByCriteria criteria2 = new GtnWebServiceOrderByCriteria();
+		criteria2.setOrderByCriteria("desc");
+		criteria2.setPropertyId("2");
+		
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		gtnWebServiceOrderByCriteriaList.add(criteria);
+		gtnWebServiceOrderByCriteriaList.add(criteria2);
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffsetItemsTab(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffsetItemsTab_2() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(null);
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffsetItemsTab(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffsetItemsTab_3() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffsetItemsTab(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffset_1() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWebServiceOrderByCriteria criteria = new GtnWebServiceOrderByCriteria();
+		criteria.setOrderByCriteria("asc");
+		criteria.setPropertyId("1");
+		
+		GtnWebServiceOrderByCriteria criteria2 = new GtnWebServiceOrderByCriteria();
+		criteria2.setOrderByCriteria("desc");
+		criteria2.setPropertyId("2");
+		
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		gtnWebServiceOrderByCriteriaList.add(criteria);
+		gtnWebServiceOrderByCriteriaList.add(criteria2);
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffset(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffset_2() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(null);
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffset(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateSearchQueryOrderByAndOffset_3() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		
+		GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+		gtnWsSearchRequest.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		
+		request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		
+		try {
+			fixture.generateSearchQueryOrderByAndOffset(request);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void testgenerateFilterRelatedWhereClauseItemsTab_1() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+		criteria.setFieldId("ifpItemsTabRecordType");
+		criteria.setFilterValue1("CurrentHistoryFuture");
+		criteria.setFilterValue1("2");
+		
+		
+		List<GtnWebServiceSearchCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		gtnWebServiceOrderByCriteriaList.add(criteria);
+		
+		try {
+			fixture.generateFilterRelatedWhereClauseItemsTab(gtnWebServiceOrderByCriteriaList);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateFilterRelatedWhereClauseItemsTab_else() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+		criteria.setFieldId("else");
+		criteria.setFilterValue1("CurrentHistoryFuture");
+		criteria.setFilterValue1("2");
+		criteria.setExpression("expression");
+		
+		
+		List<GtnWebServiceSearchCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		gtnWebServiceOrderByCriteriaList.add(criteria);
+		
+		try {
+			fixture.generateFilterRelatedWhereClauseItemsTab(gtnWebServiceOrderByCriteriaList);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgenerateFilterRelatedWhereClauseItemsTab_itemsTabSearchCriteriaList_isEmpty() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		
+		List<GtnWebServiceSearchCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		
+		try {
+			fixture.generateFilterRelatedWhereClauseItemsTab(gtnWebServiceOrderByCriteriaList);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
 	@Test
 	public void testGetIfpFetchQuery_1() throws Exception {
@@ -363,44 +649,86 @@ public class GtnWsIfpAddServiceTest {
 		GtnWsIfpRequest req = new GtnWsIfpRequest();
 
 		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
-
+		
+		GtnIFamilyPlanInformationBean ifpInfo = new GtnIFamilyPlanInformationBean();
+		ifpInfo.setIfpSid(1);
+		gtnIFamilyPlan.setIfpInfo(ifpInfo);
+		
 		Session s = Mockito.mock(Session.class);
 		Transaction tran = Mockito.mock(Transaction.class);
 		IfpModel ifpModel = new IfpModel();
 
-		doReturn(s).when(sessionFactory).openSession();
+		SessionFactory sessionFactory1 = Mockito.mock(SessionFactory.class);
+		doReturn(s).when(sessionFactory1).openSession();
 		doReturn(ifpModel).when(s).get(IfpModel.class, 1);
 		doReturn(tran).when(s).beginTransaction();
 		req.setGtnIFamilyPlan(gtnIFamilyPlan);
 		gtnWsRequest.setGtnWsIfpRequest(req);
 
-		GtnIFamilyPlanInformationBean ifpInfo = new GtnIFamilyPlanInformationBean();
-		ifpInfo.setIfpSid(1);
-		gtnIFamilyPlan.setIfpInfo(ifpInfo);
+		
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-
-		fixture.getIfpFetchQuery(gtnWsRequest, response);
+  
+		try {
+			fixture.getIfpFetchQuery(gtnWsRequest, response);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 
 	}
 
-	/**
-	 * Run the String getIfpMoveAllLeftQuery(GtnUIFrameworkWebserviceRequest) method
-	 * test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetIfpMoveAllLeftQuery_1() throws Exception {
-		GtnUIFrameworkWebserviceRequest gtnWsRequest = getSampleWsRequest("1", "2");
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = getSampleWsRequest_1("1", "2");
+
+		try {
+			String result = fixture.getIfpMoveAllLeftQuery(gtnWsRequest);
+			assertNotNull(result);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetIfpMoveAllLeftQuery_2() throws Exception {
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = getSampleWsRequest_2("1", "2");
+
+		try {
+			String result = fixture.getIfpMoveAllLeftQuery(gtnWsRequest);
+			assertNotNull(result);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+	@Test
+	public void testGetIfpMoveAllLeftQuery_3() throws Exception {
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = getSampleWsRequest_3("1", "2");
 
 		String result = fixture.getIfpMoveAllLeftQuery(gtnWsRequest);
 
 		assertNotNull(result);
 	}
 
-	private GtnUIFrameworkWebserviceRequest getSampleWsRequest(String filtervalue1, String filtervalue2) {
+	@Test
+	public void testGetIfpMoveAllLeftQuery_4() throws Exception {
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = getSampleWsRequest_4("1", "2");
+
+		String result = fixture.getIfpMoveAllLeftQuery(gtnWsRequest);
+
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testGetIfpMoveAllLeftQuery_5() throws Exception {
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = getSampleWsRequest_4("1", "2");
+
+		String result = fixture.getIfpMoveAllLeftQuery(gtnWsRequest);
+
+		assertNotNull(result);
+	}
+
+	private GtnUIFrameworkWebserviceRequest getSampleWsRequest_1(String filtervalue1, String filtervalue2) {
 
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsSearchRequest request = new GtnWsSearchRequest();
@@ -426,56 +754,121 @@ public class GtnWsIfpAddServiceTest {
 		return gtnWsRequest;
 	}
 
-	/**
-	 * Run the String getIfpMoveAllRightQuery(GtnUIFrameworkWebserviceRequest)
-	 * method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
+	private GtnUIFrameworkWebserviceRequest getSampleWsRequest_2(String filtervalue1, String filtervalue2) {
+
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsSearchRequest request = new GtnWsSearchRequest();
+
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+
+		GtnWebServiceSearchCriteria in1 = new GtnWebServiceSearchCriteria();
+		in1.setFieldId("Field");
+		in1.setFilterValue1(filtervalue1);
+		in1.setExpression("");
+
+		GtnWebServiceSearchCriteria in2 = new GtnWebServiceSearchCriteria();
+		in2.setFilterValue2(filtervalue2);
+		in2.setFieldId("Value");
+		in2.setExpression("");
+
+		GtnWebServiceSearchCriteria in3 = new GtnWebServiceSearchCriteria();
+		in2.setFilterValue2(filtervalue2);
+		in2.setFieldId("else");
+		in3.setExpression("");
+
+		gtnWebServiceSearchCriteriaList.add(in1);
+		gtnWebServiceSearchCriteriaList.add(in2);
+		gtnWebServiceSearchCriteriaList.add(in3);
+
+		request.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		GtnWebServiceOrderByCriteria orderby = new GtnWebServiceOrderByCriteria();
+		orderby.setPropertyId("test");
+		orderby.setOrderByCriteria("ASC");
+		gtnWebServiceOrderByCriteriaList.add(orderby);
+		request.setTableRecordOffset(1);
+		request.setTableRecordStart(0);
+		request.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		gtnWsRequest.setGtnWsSearchRequest(request);
+		return gtnWsRequest;
+	}
+
+	private GtnUIFrameworkWebserviceRequest getSampleWsRequest_3(String filtervalue1, String filtervalue2) {
+
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsSearchRequest request = new GtnWsSearchRequest();
+
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = null;
+
+		request.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		GtnWebServiceOrderByCriteria orderby = new GtnWebServiceOrderByCriteria();
+		orderby.setPropertyId("test");
+		orderby.setOrderByCriteria("ASC");
+		gtnWebServiceOrderByCriteriaList.add(orderby);
+		request.setTableRecordOffset(1);
+		request.setTableRecordStart(0);
+		request.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		gtnWsRequest.setGtnWsSearchRequest(request);
+		return gtnWsRequest;
+	}
+
+	private GtnUIFrameworkWebserviceRequest getSampleWsRequest_4(String filtervalue1, String filtervalue2) {
+
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsSearchRequest request = new GtnWsSearchRequest();
+
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+
+		request.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		GtnWebServiceOrderByCriteria orderby = new GtnWebServiceOrderByCriteria();
+		orderby.setPropertyId("test");
+		orderby.setOrderByCriteria("ASC");
+		gtnWebServiceOrderByCriteriaList.add(orderby);
+		request.setTableRecordOffset(1);
+		request.setTableRecordStart(0);
+		request.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		gtnWsRequest.setGtnWsSearchRequest(request);
+		return gtnWsRequest;
+	}
+
+	private GtnUIFrameworkWebserviceRequest getSampleWsRequest_5(String filtervalue1, String filtervalue2) {
+
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsSearchRequest request = new GtnWsSearchRequest();
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+		GtnWebServiceSearchCriteria in1 = new GtnWebServiceSearchCriteria();
+		in1.setFieldId("Field");
+		in1.setFilterValue1(filtervalue1);
+		GtnWebServiceSearchCriteria in2 = new GtnWebServiceSearchCriteria();
+		in2.setFilterValue2(filtervalue2);
+		in2.setFieldId("Value");
+		in2.setExpression("");
+		gtnWebServiceSearchCriteriaList.add(in1);
+		gtnWebServiceSearchCriteriaList.add(in2);
+		request.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		GtnWebServiceOrderByCriteria orderby = new GtnWebServiceOrderByCriteria();
+		orderby.setPropertyId("test");
+		orderby.setOrderByCriteria("ASC");
+		gtnWebServiceOrderByCriteriaList.add(orderby);
+		request.setTableRecordOffset(1);
+		request.setTableRecordStart(0);
+		request.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		gtnWsRequest.setGtnWsSearchRequest(request);
+		return gtnWsRequest;
+	}
+
 	@Test
 	public void testGetIfpMoveAllRightQuery_1() throws Exception {
-		GtnUIFrameworkWebserviceRequest gtnWsRequest = getSampleWsRequest("1", "2");
+		GtnUIFrameworkWebserviceRequest gtnWsRequest = getSampleWsRequest_1("1", "2");
 
 		String result = fixture.getIfpMoveAllRightQuery(gtnWsRequest);
 
 		assertNotNull(result);
 	}
-	//
-	// /**
-	// * Run the int getIfpTabDeleteQuery(GtnUIFrameworkWebserviceRequest) method
-	// test.
-	// *
-	// * @throws Exception
-	// *
-	//
-	// */
-	// @Test
-	// public void testGetIfpTabDeleteQuery_1()
-	// throws Exception {
-	// GtnWsIfpAddService fixture = new GtnWsIfpAddService();
-	// GtnUIFrameworkWebserviceRequest gtnWsRequest = new
-	// GtnUIFrameworkWebserviceRequest();
-	//
-	// int result = fixture.getIfpTabDeleteQuery(gtnWsRequest);
-	//
-	//
-	// // An unexpected exception was thrown in user code while executing this test:
-	// // java.lang.NullPointerException
-	// // at
-	// com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service.GtnWsIfpAddService.getIfpTabDeleteQuery(GtnWsIfpAddService.java:589)
-	// assertEquals(0, result);
-	// }
-	//
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_1() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -486,13 +879,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("IM.ITEM_ID", result);
 	}
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_2() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -503,13 +889,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("IM.ITEM_NO", result);
 	}
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_3() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -520,13 +899,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("IM.ITEM_NAME", result);
 	}
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_4() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -537,13 +909,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("IM.ITEM_DESC", result);
 	}
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_5() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -554,13 +919,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("STA.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_6() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -571,13 +929,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("FO.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_7() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -588,13 +939,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("STR.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_8() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -605,13 +949,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("TC.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_9() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -622,13 +959,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("BM.BRAND_NAME", result);
 	}
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_10() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -639,13 +969,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("UOM.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_11() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -656,13 +979,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("TC.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getImAdditionTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetImAdditionTabColumns_12() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -673,98 +989,51 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_1() throws Exception {
+
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
 		String property = "itemNo";
-
 		String result = fixture.getItemsTabColumns(property);
-
 		assertEquals("ICD.ITEM_NO", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_2() throws Exception {
+
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
 		String property = "itemName";
-
 		String result = fixture.getItemsTabColumns(property);
-
 		assertEquals("ICD.ITEM_NAME", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_3() throws Exception {
+
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
 		String property = "itemDesc";
-
 		String result = fixture.getItemsTabColumns(property);
-
 		assertEquals("ICD.ITEM_DESC", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_4() throws Exception {
+
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
 		String property = "itemFamilyPlanStatus";
-
 		String result = fixture.getItemsTabColumns(property);
-
 		assertEquals("ICD.IFP_DETAILS_ATTACHED_STATUS", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_5() throws Exception {
+
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
 		String property = "itemFamilyPlanStartDate";
-
 		String result = fixture.getItemsTabColumns(property);
-
 		assertEquals("ICD.IFP_DETAILS_START_DATE", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_6() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -775,30 +1044,15 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("ICD.IFP_DETAILS_END_DATE", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_7() throws Exception {
+
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
 		String property = "itemStatusValue";
-
 		String result = fixture.getItemsTabColumns(property);
-
 		assertEquals("STA.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_8() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -809,13 +1063,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("FO.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_9() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -826,13 +1073,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("STR.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_10() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -843,13 +1083,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("TC.DESCRIPTION", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_11() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -860,13 +1093,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("BM.BRAND_NAME", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_12() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -877,13 +1103,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("ICD.IFP_DETAILS_ATTACHED_DATE", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_13() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -894,13 +1113,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("ICD.IFP_DETAILS_MODIFIED_DATE", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_14() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -911,13 +1123,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("ICD.IFP_DETAILS_MODIFIED_BY", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_15() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -928,13 +1133,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("ICD.IFP_DETAILS_CREATED_DATE", result);
 	}
 
-	/**
-	 * Run the String getItemsTabColumns(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetItemsTabColumns_16() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -945,13 +1143,26 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals("", result);
 	}
 
-	/**
-	 * Run the SessionFactory getSessionFactory() method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
+	@Test
+	public void testGetItemsTabColumns_17() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		String property = "createdBy";
+
+		String result = fixture.getItemsTabColumns(property);
+
+		assertEquals("ICD.IFP_DETAILS_CREATED_BY", result);
+	}
+
+	@Test
+	public void testGetItemsTabColumns_18() throws Exception {
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		String property = "checkRecordId";
+
+		String result = fixture.getItemsTabColumns(property);
+
+		assertEquals("ICD.CHECK_BOX", result);
+	}
+
 	@Test
 	public void testGetSessionFactory_1() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -961,44 +1172,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals(null, result);
 	}
 
-	// /**
-	// * Run the String getWhereClauseForAColumn(String,String,String,String) method
-	// test.
-	// *
-	// * @throws Exception
-	// *
-	//
-	// */
-	// @Test
-	// public void testGetWhereClauseForAColumn_1()
-	// throws Exception {
-	// GtnWsIfpAddService fixture = new GtnWsIfpAddService();
-	// String expersion = "BETWEEN";
-	// String field = "";
-	// String field2 = "";
-	// String value = "";
-	//
-	// String result = fixture.getWhereClauseForAColumn(expersion, field, field2,
-	// value);
-	//
-	//
-	// // An unexpected exception was thrown in user code while executing this test:
-	// // java.lang.IllegalArgumentException: Cannot format given Object as a Date
-	// // at java.text.DateFormat.format(DateFormat.java:310)
-	// // at java.text.Format.format(Format.java:157)
-	// // at
-	// com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service.GtnWsIfpAddService.getWhereClauseForAColumn(GtnWsIfpAddService.java:293)
-	// assertNotNull(result);
-	// }
-
-	/**
-	 * Run the String getWhereClauseForAColumn(String,String,String,String) method
-	 * test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetWhereClauseForAColumn_2() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -1012,14 +1185,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals(" LIKE '%%' ", result);
 	}
 
-	/**
-	 * Run the String getWhereClauseForAColumn(String,String,String,String) method
-	 * test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetWhereClauseForAColumn_3() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -1033,14 +1198,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals(" = '' ", result);
 	}
 
-	/**
-	 * Run the String getWhereClauseForAColumn(String,String,String,String) method
-	 * test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetWhereClauseForAColumn_4() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -1054,14 +1211,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals(" ='' ", result);
 	}
 
-	/**
-	 * Run the String getWhereClauseForAColumn(String,String,String,String) method
-	 * test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetWhereClauseForAColumn_5() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -1075,14 +1224,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals(" > '' ", result);
 	}
 
-	/**
-	 * Run the String getWhereClauseForAColumn(String,String,String,String) method
-	 * test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetWhereClauseForAColumn_6() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -1096,14 +1237,6 @@ public class GtnWsIfpAddServiceTest {
 		assertEquals(" < '' ", result);
 	}
 
-	/**
-	 * Run the String getWhereClauseForAColumn(String,String,String,String) method
-	 * test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
 	@Test
 	public void testGetWhereClauseForAColumn_7() throws Exception {
 		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
@@ -1113,136 +1246,133 @@ public class GtnWsIfpAddServiceTest {
 		String value = "";
 
 		String result = fixture.getWhereClauseForAColumn(expersion, field, field2, value);
-
 		assertEquals("  '' ", result);
 	}
 
-	// /**
-	// * Run the String ifpLeftTableSearchQuery(GtnUIFrameworkWebserviceRequest)
-	// method test.
-	// *
-	// * @throws Exception
-	// *
-	//
-	// */
-	// @Test
-	// public void testIfpLeftTableSearchQuery_1()
-	// throws Exception {
-	// GtnWsIfpAddService fixture = new GtnWsIfpAddService();
-	// GtnUIFrameworkWebserviceRequest ifpLeftTableRequest = new
-	// GtnUIFrameworkWebserviceRequest();
-	//
-	// String result = fixture.ifpLeftTableSearchQuery(ifpLeftTableRequest);
-	//
-	//
-	// // An unexpected exception was thrown in user code while executing this test:
-	// // java.lang.NullPointerException
-	// // at
-	// com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service.GtnWsIfpAddService.ifpLeftTableSearchQuery(GtnWsIfpAddService.java:62)
-	// assertNotNull(result);
-	// }
-	//
+	@Test
+	public void testIfpLeftTableSearchQuery_1() throws Exception {
 
-	// /**
-	// * Run the String ifpRightTableSearchQuery(GtnUIFrameworkWebserviceRequest)
-	// method test.
-	// *
-	// * @throws Exception
-	// *
-	//
-	// */
-	// @Test
-	// public void testIfpRightTableSearchQuery_1()
-	// throws Exception {
-	// GtnWsIfpAddService fixture = new GtnWsIfpAddService();
-	// GtnUIFrameworkWebserviceRequest ifpRightTableRequest = new
-	// GtnUIFrameworkWebserviceRequest();
-	//
-	// String result = fixture.ifpRightTableSearchQuery(ifpRightTableRequest);
-	//
-	//
-	// // An unexpected exception was thrown in user code while executing this test:
-	// // java.lang.NullPointerException
-	// // at
-	// com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service.GtnWsIfpAddService.ifpRightTableSearchQuery(GtnWsIfpAddService.java:83)
-	// assertNotNull(result);
-	// }
-	//
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		GtnUIFrameworkWebserviceRequest ifpLeftTableRequest = new GtnUIFrameworkWebserviceRequest();
 
-	//
-	// /**
-	// * Run the String itemsTabResultTable(GtnUIFrameworkWebserviceRequest) method
-	// test.
-	// *
-	// * @throws Exception
-	// *
-	//
-	// */
-	// @Test
-	// public void testItemsTabResultTable_1()
-	// throws Exception {
-	// GtnWsIfpAddService fixture = new GtnWsIfpAddService();
-	// GtnUIFrameworkWebserviceRequest itemsTabResultRequest = new
-	// GtnUIFrameworkWebserviceRequest();
-	//
-	// String result = fixture.itemsTabResultTable(itemsTabResultRequest);
-	//
-	//
-	// // An unexpected exception was thrown in user code while executing this test:
-	// // java.lang.NullPointerException
-	// // at
-	// com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service.GtnWsIfpAddService.itemsTabResultTable(GtnWsIfpAddService.java:322)
-	// assertNotNull(result);
-	// }
+		GtnWsSearchRequest request = new GtnWsSearchRequest();
 
-	// /**
-	// * Run the int updateIfpCompaniesTabQuery(GtnUIFrameworkWebserviceRequest)
-	// method test.
-	// *
-	// * @throws Exception
-	// *
-	//
-	// */
-	// @Test
-	// public void testUpdateIfpCompaniesTabQuery_1()
-	// throws Exception {
-	// GtnWsIfpAddService fixture = new GtnWsIfpAddService();
-	// GtnUIFrameworkWebserviceRequest gtnWsRequest = new
-	// GtnUIFrameworkWebserviceRequest();
-	//
-	// int result = fixture.updateIfpCompaniesTabQuery(gtnWsRequest);
-	//
-	//
-	// // An unexpected exception was thrown in user code while executing this test:
-	// // java.lang.NullPointerException
-	// // at
-	// com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service.GtnWsIfpAddService.updateIfpCompaniesTabQuery(GtnWsIfpAddService.java:577)
-	// assertEquals(0, result);
-	// }
-	//
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+		GtnWebServiceSearchCriteria in1 = new GtnWebServiceSearchCriteria();
+		in1.setFieldId("Field");
+		in1.setFilterValue1("f1");
+		GtnWebServiceSearchCriteria in2 = new GtnWebServiceSearchCriteria();
+		in2.setFilterValue2("f2");
+		in2.setFieldId("Value");
+		gtnWebServiceSearchCriteriaList.add(in1);
+		gtnWebServiceSearchCriteriaList.add(in2);
+		request.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		GtnWebServiceOrderByCriteria orderby = new GtnWebServiceOrderByCriteria();
+		orderby.setPropertyId("test");
+		orderby.setOrderByCriteria("ASC");
+		gtnWebServiceOrderByCriteriaList.add(orderby);
+		request.setTableRecordOffset(1);
+		request.setTableRecordStart(0);
+		request.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		request.setCount(true);
+		ifpLeftTableRequest.setGtnWsSearchRequest(request);
 
-	/**
-	 * Perform pre-test initialization.
-	 *
-	 * @throws Exception if the initialization fails for some reason
-	 *
-	 * 
-	 */
-	@Before
-	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		try {
+			fixture.ifpLeftTableSearchQuery(ifpLeftTableRequest);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
 	}
 
-	/**
-	 * Perform post-test clean-up.
-	 *
-	 * @throws Exception if the clean-up fails for some reason
-	 *
-	 * 
-	 */
-	@After
-	public void tearDown() throws Exception {
-		// Add additional tear down code here
+	@Test
+	public void testIfpRightTableSearchQuery_1() throws Exception {
+
+		GtnWsIfpAddService fixture = new GtnWsIfpAddService();
+		GtnUIFrameworkWebserviceRequest ifpLeftTableRequest = new GtnUIFrameworkWebserviceRequest();
+
+		GtnWsSearchRequest request = new GtnWsSearchRequest();
+
+		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+		GtnWebServiceSearchCriteria in1 = new GtnWebServiceSearchCriteria();
+		in1.setFieldId("Field");
+		in1.setFilterValue1("f1");
+		GtnWebServiceSearchCriteria in2 = new GtnWebServiceSearchCriteria();
+		in2.setFilterValue2("f2");
+		in2.setFieldId("Value");
+		gtnWebServiceSearchCriteriaList.add(in1);
+		gtnWebServiceSearchCriteriaList.add(in2);
+		request.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+		List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+		GtnWebServiceOrderByCriteria orderby = new GtnWebServiceOrderByCriteria();
+		orderby.setPropertyId("test");
+		orderby.setOrderByCriteria("ASC");
+		gtnWebServiceOrderByCriteriaList.add(orderby);
+		request.setTableRecordOffset(1);
+		request.setTableRecordStart(0);
+		request.setGtnWebServiceOrderByCriteriaList(gtnWebServiceOrderByCriteriaList);
+		request.setCount(true);
+		ifpLeftTableRequest.setGtnWsSearchRequest(request);
+
+		try {
+			fixture.ifpRightTableSearchQuery(ifpLeftTableRequest);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testgetCfpNotesTabAttachDetails_1() throws Exception {
+
+		fixture.getCfpNotesTabAttachDetails(20516);
+
+	}
+	
+	@Test
+	public void testgetIfpNotesTabDetails_1() throws Exception {
+
+		fixture.getIfpNotesTabDetails(20516);
+
+	}
+	
+	@Test
+	public void testgetIfpTabDeleteQuery_1() throws Exception {
+
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
+		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+		
+		fixture.getIfpTabDeleteQuery(request);
+
+	}
+	
+	@Test
+	public void testupdateIfpCompaniesTabQuery_1() throws Exception {
+
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsGeneralRequest.setUserId("20516");
+		gtnWsGeneralRequest.setSessionId("20516");
+		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+		
+		GtnIFamilyPlanInformationBean ifpInfo = new GtnIFamilyPlanInformationBean();
+		ifpInfo.setIfpSid(20516);
+		
+		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
+		gtnIFamilyPlan.setIfpInfo(ifpInfo);
+		
+		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
+		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
+		
+		request.setGtnWsIfpRequest(gtnWsIfpRequest);
+		
+		fixture.updateIfpCompaniesTabQuery(request);
+
 	}
 
 }

@@ -69,7 +69,7 @@ public class GtnWsIfpAddCotroller {
 			ifpSearchResponse.getGtnWsGeneralResponse().setSucess(true);
 			logger.info("Enter itemAdditionSearch");
 			GtnSerachResponse gtnSerachResponse = new GtnSerachResponse();
-			String query = ifpWebservice.ifpLeftTableSearchQuery(ifpSearchRequest);
+			String query = ifpWebservice.ifpLeftTableSearchQuery(ifpSearchRequest); 
 			List<?> resultList = gtnSqlQueryEngine.executeSelectQuery(query);
 			if (ifpSearchRequest.getGtnWsSearchRequest().isCount()) {
 				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
@@ -199,7 +199,7 @@ public class GtnWsIfpAddCotroller {
 
 	@SuppressWarnings("unchecked")
 	@PostMapping(value = GtnWsIFamilyPlanContants.GTN_WS_IFP_COMPANY_ADDITION_RIGHT_TABLE_SEARCH_SERVICE)
-	public GtnUIFrameworkWebserviceResponse itemAdditionRightTableSearch(
+	public GtnUIFrameworkWebserviceResponse itemAdditionRightTableSearch(  
 			@RequestBody GtnUIFrameworkWebserviceRequest itemAdditionRightRequest) {
 		GtnUIFrameworkWebserviceResponse itemAdditionRightResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
@@ -229,7 +229,7 @@ public class GtnWsIfpAddCotroller {
 
 	@SuppressWarnings("unchecked")
 	@PostMapping(value = GtnWsIFamilyPlanContants.GTN_WS_IFP_COMPANIES_TAB_RESULT_TABLE_SEARCH_SERVICE)
-	public GtnUIFrameworkWebserviceResponse companiesResultTableData(
+	public GtnUIFrameworkWebserviceResponse companiesResultTableData(  
 			@RequestBody GtnUIFrameworkWebserviceRequest ifpItemsTabRequest) {
 		GtnUIFrameworkWebserviceResponse ifpItemsTabResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
@@ -290,7 +290,7 @@ public class GtnWsIfpAddCotroller {
 			count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, types);
 
 			gtnResponse.setGtnSerachResponse(gtnSerachResponse);
-			return gtnResponse;
+			return gtnResponse;  
 		} catch (GtnFrameworkGeneralException ex) {
 			gtnResponse.getGtnWsGeneralResponse().setSucess(false);
 			logger.error("Exception while Excuting itemsColumnUpdate Query", ex);
