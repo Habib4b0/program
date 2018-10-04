@@ -7,16 +7,13 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito.Then;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.google.gwt.user.client.rpc.core.java.util.Arrays;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
-import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
@@ -25,7 +22,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-import de.steinwedel.messagebox.MessageBox;
 
 
 @RunWith(PowerMockRunner.class)
@@ -67,9 +63,6 @@ public class GtnFrameworkCustomPopupSelectActionTest {
 		List<Object> list=new ArrayList<>(); 
 		List<String> list1 = new ArrayList<>();
 		list1.add("0");
-//		list.add("");
-//		list1.add("");
-//		list1.add("");
 		list.add(0, " ");
 		list.add(1,list1);
 		list.add(2,list1);
