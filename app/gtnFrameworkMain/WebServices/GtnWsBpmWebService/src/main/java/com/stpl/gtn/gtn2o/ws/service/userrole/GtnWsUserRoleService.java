@@ -9,17 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.entity.role.Role;
 import com.stpl.gtn.gtn2o.ws.entity.user.User;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsReturnsDatabaseService;
-import org.hibernate.SessionFactory;
-import org.springframework.stereotype.Service;
 
 /**
  *

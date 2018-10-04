@@ -73,7 +73,7 @@ public final class CommonUtil {
 
     public static final String STRING_NULL = "null";
 
-    private static CommonDAO DAO = new CommonDAOImpl();
+    private static CommonDAO Dao = new CommonDAOImpl();
 
     private static HelperTableDAO helperTableDAO = new HelperTableDAOImpl();
 
@@ -220,7 +220,7 @@ public final class CommonUtil {
 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(CommonUtil.DESCRIPTION));
-        final List<HelperTable> list = DAO.getHelperTableList(cfpDynamicQuery);
+        final List<HelperTable> list = Dao.getHelperTableList(cfpDynamicQuery);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final HelperTable helperTable = (HelperTable) list.get(i);
@@ -252,7 +252,7 @@ public final class CommonUtil {
 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(CommonUtil.DESCRIPTION));
-        final List<HelperTable> list = DAO.getHelperTableList(cfpDynamicQuery);
+        final List<HelperTable> list = Dao.getHelperTableList(cfpDynamicQuery);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final HelperTable helperTable = (HelperTable) list.get(i);
@@ -282,7 +282,7 @@ public final class CommonUtil {
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.ne(CommonUtil.DESCRIPTION, ConstantsUtils.INVENTORY_WITHDRAWAL));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(CommonUtil.DESCRIPTION));
-        final List<HelperTable> list = DAO.getHelperTableList(cfpDynamicQuery);
+        final List<HelperTable> list = Dao.getHelperTableList(cfpDynamicQuery);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 aliasNameMap.put(0,"");
@@ -319,7 +319,7 @@ public final class CommonUtil {
         LOGGER.debug("Entering getCreatedByUser()");
         final HashMap<String, String> userMap = new HashMap<>();
         final DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
-        final List<User> users = DAO.getUsersList(userGroupDynamicQuery);
+        final List<User> users = Dao.getUsersList(userGroupDynamicQuery);
 
         for (final Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
             final User user = iterator.next();
@@ -393,7 +393,7 @@ public final class CommonUtil {
         projList.add(ProjectionFactoryUtil.property("brandMasterSid"));
         projList.add(ProjectionFactoryUtil.property(ConstantsUtils.BRAND_NAME));
         brandDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.BRAND_NAME));
-        final List<BrandMaster> list = DAO.getBrandNameandId(brandDynamicQuery);
+        final List<BrandMaster> list = Dao.getBrandNameandId(brandDynamicQuery);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 final BrandMaster values = list.get(i);
@@ -426,7 +426,7 @@ public final class CommonUtil {
         projList.add(ProjectionFactoryUtil.property("brandMasterSid"));
         projList.add(ProjectionFactoryUtil.property("brandName"));
         brandDynamicQuery.addOrder(OrderFactoryUtil.asc("brandName"));
-        final List<BrandMaster> list = DAO.getBrandNameandId(brandDynamicQuery);
+        final List<BrandMaster> list = Dao.getBrandNameandId(brandDynamicQuery);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 final BrandMaster values = list.get(i);
