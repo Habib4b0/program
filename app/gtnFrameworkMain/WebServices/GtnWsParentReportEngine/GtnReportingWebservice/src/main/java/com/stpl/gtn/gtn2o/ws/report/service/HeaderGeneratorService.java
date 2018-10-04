@@ -70,8 +70,6 @@ public class HeaderGeneratorService {
 	private static final String TOTAL = " Total";
 
 	private static final String VARIANCE = "Variance";
-        
-        private static final String CURRENTPROJECTION = "Projection_1";
 
 	public HeaderGeneratorService() {
 		super();
@@ -189,16 +187,12 @@ public class HeaderGeneratorService {
 					&& Arrays.asList(variableCategoryHeader).contains(VARIANCE);
 			if (isColumn) {
 				combinedVariableCategoryList = getCombinedVariableCategory(variablesHeader, variableCategoryHeader,
-						dashboardBean.isVariablesVariances(), isColumn, isVariableOnlyAllowed,
-						gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
-								.getComparisonBasis());
+						dashboardBean.isVariablesVariances(), isColumn, isVariableOnlyAllowed);
 				combinedVariableCategoryColumn = combinedVariableCategoryList.get(0);
 				combinedVariableCategoryHeader = combinedVariableCategoryList.get(1);
 			} else {
 				combinedVariableCategoryList = getCombinedVariableCategory(comparisonBasisHeader,
-						variableCategoryHeader, dashboardBean.isVariablesVariances(), isColumn, isVariableOnlyAllowed,
-						gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
-								.getComparisonBasis());
+						variableCategoryHeader, dashboardBean.isVariablesVariances(), isColumn, isVariableOnlyAllowed);
 				combinedVariableCategoryColumn = combinedVariableCategoryList.get(0);
 				combinedVariableCategoryHeader = combinedVariableCategoryList.get(1);
 			}
@@ -538,7 +532,7 @@ public class HeaderGeneratorService {
 	}
 
 	private List<Object[]> getCombinedVariableCategory(String[] firstHeader, String[] variableCategoryHeader,
-			boolean isVariablesAndVariances, boolean isColumn, boolean isVariableOnlyAllowed, String comparisonBasis) {
+			boolean isVariablesAndVariances, boolean isColumn, boolean isVariableOnlyAllowed) {
 		List<Object[]> combinedVariableCategory = new ArrayList<>();
 		List<String> categorySeperationList = new ArrayList<>();
 		List<String> categoryWhichWillNotBeUnitedList = new ArrayList<>();
@@ -562,7 +556,6 @@ public class HeaderGeneratorService {
 
 		Map<String, String> variableMap = getVariableMap();
 		Map<String, String> variableCategoryMap = getVariableCategorymap();
-		handleVariableBasedOnComparisionBasis(comparisonBasis, variableCategoryMap);
 		int index = 0;
 
 		String[] variablesHeader = null;
@@ -629,30 +622,12 @@ public class HeaderGeneratorService {
 				columnProperty.add(combinedVariableCategoryColumn[i]);
 			}
 		}
-                if(combinedVariableCategoryColumn.length > 0){
-                columnProperty.add(combinedVariableCategoryColumn[combinedVariableCategoryColumn.length - 1]);
-		columnProperty.trimToSize();
-		return columnProperty.toArray();
-                }
-            return  columnProperty.toArray();
-		
-	}
-
-	private void handleVariableBasedOnComparisionBasis(String comparisonBasis, Map<String, String> variableCategoryMap) {
-		if (comparisonBasis.equals(ACTUALS)) {
-			variableCategoryMap.put(VARIANCE, "ACT_VARIANCE");
+		if (combinedVariableCategoryColumn.length > 0) {
+			columnProperty.add(combinedVariableCategoryColumn[combinedVariableCategoryColumn.length - 1]);
+			columnProperty.trimToSize();
+			return columnProperty.toArray();
 		}
-                if(comparisonBasis.equals(CURRENTPROJECTION)){
-                    variableCategoryMap.put(VARIANCE,"VARIANCE");
-                    variableCategoryMap.put(CHANGE, "PER_CHANGE");
-                }
-                else{
-                    variableCategoryMap.put(VARIANCE,"PROJ_VARIANCE");
-                    variableCategoryMap.put(CHANGE, "PROJ_PER_CHANGE");
-                    variableCategoryMap.put(VOLUME, "VOLUME");
-                    variableCategoryMap.put("Rate", "RATE");
-                    variableCategoryMap.put(CHANGE_IN_CHANGE, "CHANGEINCHANGE");
-                }
+		return columnProperty.toArray();
 
 	}
 

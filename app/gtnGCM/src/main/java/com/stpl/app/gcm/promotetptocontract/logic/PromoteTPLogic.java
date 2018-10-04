@@ -2249,8 +2249,11 @@ public class PromoteTPLogic {
         return retList;
     }
 
-    public List<ContractHolderDTO> getContractHolder(String contractHolderId, String contractHolderNo, String contractHolderName,
+    public List<ContractHolderDTO> getContractHolder(String contractHolderIdParam, String contractHolderNoParam, String contractHolderNameParam,
             String contractHolderStatus, String contractHolderType) {
+        String contractHolderId = contractHolderIdParam;
+        String contractHolderNo = contractHolderNoParam;
+        String contractHolderName = contractHolderNameParam;
         Map<String, Object> parameters = new HashMap<>();
         contractHolderId = contractHolderId.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         contractHolderNo = contractHolderNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
@@ -3039,17 +3042,19 @@ public class PromoteTPLogic {
     /**
      * Method to get Rebate Plan Details
      *
-     * @param rebatePlanId
-     * @param rebatePlanNo
-     * @param rebatePlanName
+     * @param rebatePlanIdParam
+     * @param rebatePlanNoParam
      * @param rebatePlanStatus
+     * @param rebatePlanNameParam
      * @param rebatePlanType
-     * @param companySids
      * @return
      * @throws Exception
      */
-    public List<RebatePlanDTO> getRebatePlanDetails(String rebatePlanId, String rebatePlanNo, String rebatePlanName,
+    public List<RebatePlanDTO> getRebatePlanDetails(String rebatePlanIdParam, String rebatePlanNoParam, String rebatePlanNameParam,
             String rebatePlanStatus, String rebatePlanType) {
+        String rebatePlanId = rebatePlanIdParam;
+        String rebatePlanNo = rebatePlanNoParam;
+        String rebatePlanName = rebatePlanNameParam;
         Map<String, Object> parameters = new HashMap<>();
         rebatePlanId = rebatePlanId.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         rebatePlanNo = rebatePlanNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);

@@ -39,8 +39,9 @@ public class DataFormatConverter implements Converter<String, String> {
     }
 
     @Override
-    public String convertToModel(String value,
+    public String convertToModel(String valueParam,
             Class<? extends String> targetType, Locale locale) {
+        String value = valueParam;
         if (targetType != getModelType()) {
             throw new Converter.ConversionException("Converter only supports "
                     + getModelType().getName() + " (targetType was "
@@ -63,8 +64,9 @@ public class DataFormatConverter implements Converter<String, String> {
     }
 
     @Override
-    public String convertToPresentation(String value,
+    public String convertToPresentation(String valueParam,
             Class<? extends String> targetType, Locale locale) {
+        String value = valueParam;
         if (value == null) {
             return null;
         }
