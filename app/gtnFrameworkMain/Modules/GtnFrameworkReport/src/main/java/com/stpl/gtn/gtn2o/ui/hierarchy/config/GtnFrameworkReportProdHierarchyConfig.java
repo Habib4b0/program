@@ -375,7 +375,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 	private void addCustomViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig customViewConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_BUTTON,
+						+ GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_CUSTOM_VIEW_BUTTON,
 				true,
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
@@ -402,7 +402,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 
 	private void addCustomViewComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT, true,
+				GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT, true,
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
 		gtnLayout.addComponentStyle("stpl-padding-top-13");
@@ -410,8 +410,8 @@ public class GtnFrameworkReportProdHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig customViewComboboxConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW,
-				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT,
+						+ GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_CUSTOM_VIEW,
+				true, GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customViewComboboxConfig.setAuthorizationIncluded(true);
 		customViewComboboxConfig.setComponentWsFieldId("customViewName");
@@ -444,7 +444,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		enableComparisonLookupActionConfig
 				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonLookup");
 		enableComparisonLookupActionConfig.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW);
+				+ GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_CUSTOM_VIEW);
 		enableComparisonLookupActionConfig.addActionParameter(currentScreenNameSpace);
 		customViewComboboxConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(enableComparisonLookupActionConfig));
 

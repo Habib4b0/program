@@ -51,15 +51,15 @@ public class GtnFrameworkCurdResetAction implements GtnUIFrameWorkAction, GtnUIF
 			GtnUIFrameworkBaseComponent viewBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(1).toString());
 			List<Object> customDataList = viewBaseComponent.getComponentData().getCustomDataList();
-			
+
 			gtnLogger.info("CustomDataList = " + customDataList);
-			
+
 			String calendarName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 			String calendarDesc = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 			Object calendarYear = null;
 			Boolean defaultHolidays = Boolean.FALSE;
 			Object country = null;
-			List<Date> holidayList = new ArrayList<>();	
+			List<Date> holidayList = new ArrayList<>();
 			if (customDataList != null && !customDataList.isEmpty() && customDataList.get(0) != null) {
 				gtnLogger.info("CustomDataList = " + customDataList);
 				GtnWsRecordBean tableBean = (GtnWsRecordBean) customDataList.get(0);
@@ -102,12 +102,17 @@ public class GtnFrameworkCurdResetAction implements GtnUIFrameWorkAction, GtnUIF
 		GtnWsCalendarConfigurationRequest ccRequest = new GtnWsCalendarConfigurationRequest();
 		ccRequest.setCalendarId(calendarId);
 		request.setCalendarConfigurationRequest(ccRequest);
-		GtnUIFrameworkWebserviceResponse responce = wsclient.callGtnWebServiceUrl(
+		GtnUIFrameworkWebserviceResponse responce = getResponse(wsclient, request);
+		GtnWsCalendarConfigurationResponse ccResponse = responce.getCalendarConfigurationResponse();
+		return ccResponse.getHolidays();
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebServiceClient wsclient,
+			GtnUIFrameworkWebserviceRequest request) {
+		return wsclient.callGtnWebServiceUrl(
 				GtnWsCalendarConfigurationConstants.GTN_CALENDAR_CONFIGURATION_SERVICE
 						+ GtnWsCalendarConfigurationConstants.LOAD_CALENDAR_CONFIGURATION,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		GtnWsCalendarConfigurationResponse ccResponse = responce.getCalendarConfigurationResponse();
-		return ccResponse.getHolidays();
 	}
 
 	@Override

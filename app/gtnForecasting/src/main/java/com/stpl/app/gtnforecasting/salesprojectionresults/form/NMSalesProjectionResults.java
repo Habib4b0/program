@@ -303,7 +303,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 history.add(String.valueOf(i) + SPACE.getConstant() + freq);
             }
         }
-        LOGGER.info("loadHistory method ends");
+        LOGGER.debug("loadHistory method ends{} ", periodNew);
         return history;
     }
 
