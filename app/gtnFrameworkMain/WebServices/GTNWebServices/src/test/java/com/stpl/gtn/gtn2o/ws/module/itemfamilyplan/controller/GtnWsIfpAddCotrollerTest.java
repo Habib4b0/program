@@ -54,12 +54,6 @@ public class GtnWsIfpAddCotrollerTest {
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
-	// @Spy
-	// @Autowired
-	// private GtnWsAllListConfig gtnWebServiceAllListConfig;
-	//
-	//
-
 	@Spy
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
