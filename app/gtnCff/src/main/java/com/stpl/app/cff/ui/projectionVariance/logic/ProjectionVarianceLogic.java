@@ -2652,10 +2652,11 @@ public class ProjectionVarianceLogic {
      * Projection Names and Projection Ids in separate list. list.get(0) -
      * Projection Ids List. list.get(1) - Projection Names List.
      *
-     * @param projectionIds
+     * @param projectionIdsParam
      * @return
      */
-    public List<List> getComparisonProjections(String projectionIds) {
+    public List<List> getComparisonProjections(String projectionIdsParam) {
+        String projectionIds = projectionIdsParam;
         projectionIds = projectionIds.substring(1, projectionIds.length() - 1);
         String query = SQlUtil.getQuery("get-projection-names-by-id");
         query = query.replace("@CFF_MASTER_SID", projectionIds);
@@ -3024,7 +3025,8 @@ public class ProjectionVarianceLogic {
         return column;
     }
 
-    private String getCommonColumn(String column, int frequencyDivision) {
+    private String getCommonColumn(String columnParam, int frequencyDivision) {
+        String column = columnParam;
         int frequencyPv = frequencyDivision;
          if (frequencyPv == NumericConstants.FOUR) {
             column = column.replace('q', 'Q');
@@ -3436,7 +3438,8 @@ public class ProjectionVarianceLogic {
         return StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
     }
 
-    private String queryGenerate(StringBuilder stringBuilder, Map.Entry<String, List> entry, int i) {
+    private String queryGenerate(StringBuilder stringBuilder, Map.Entry<String, List> entry, int j) {
+        int i = j;
         String hierarchyForLevel=StringUtils.EMPTY;
         stringBuilder.append("('");
         hierarchyForLevel = hierarchyForLevel.concat(entry.getKey()).concat(",");
