@@ -65,7 +65,6 @@ public class MProjectionResultsLogic {
     private final List<List<ProjectionResultsDTO>> programCodeDtoList = new ArrayList<>();
 
     public static final String TOTAL_DISCOUNT_DOLLAR = "Total Discount $";
-    private final List<ProjectionResultsDTO> netSalesDtoList = new ArrayList<>();
     private List<Object[]> prcMProjResultsContract = new ArrayList<>();
      //To Persist the Total Procedure Result List 
     private List<Object[]> prcMProcedureResults = new ArrayList<>();
