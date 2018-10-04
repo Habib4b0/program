@@ -5,8 +5,6 @@ import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -19,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ws.companygroup.bean.GtnCompanyGrpInformationBean;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = {GtnUIFrameworkGlobalUI.class })
@@ -28,18 +27,16 @@ public class GtnFrameworkCGrpAddActionTest {
 	public void testGtnFrameworkCGrpAddAction(){
 		GtnFrameworkCGrpAddAction result = new GtnFrameworkCGrpAddAction();
 		assertNotNull(result);
-		// add additional test code here
 	}
 
 	
 	@Test
 	public void testConfigureParams()
-		throws Exception {
+		throws GtnFrameworkGeneralException {
 		GtnFrameworkCGrpAddAction fixture = new GtnFrameworkCGrpAddAction();
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
 		fixture.configureParams(gtnUIFrameWorkActionConfig);
 
-	
 	}
 
 	
@@ -52,8 +49,8 @@ public class GtnFrameworkCGrpAddActionTest {
 
 	
 	@Test
-	public void testDoAction_1()
-		throws Exception {
+	public void testDoAction()
+		throws GtnFrameworkGeneralException {
 		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);
 
 		GtnUIFrameworkGlobalUI.addSessionProperty("", new Object());
@@ -79,17 +76,5 @@ public class GtnFrameworkCGrpAddActionTest {
 	
 	}
 	
-	@Before
-	public void setUp()
-		throws Exception {
-		// add additional set up code here
-	}
-
-
-	@After
-	public void tearDown()
-		throws Exception {
-		// Add additional tear down code here
-	}
 
 }

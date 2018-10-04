@@ -21,20 +21,20 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = {GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class})
 public class GtnFrameworkCGrpAddAllActionTest {
 	@Test
-	public void testGtnFrameworkCGrpAddAllAction_1()
-		throws Exception {
+	public void testGtnFrameworkCGrpAddAllAction() {
 		GtnFrameworkCGrpAddAllAction result = new GtnFrameworkCGrpAddAllAction();
 		assertNotNull(result);
 	}
 
 	@Test
 	public void testConfigureParams()
-		throws Exception {
+		throws GtnFrameworkGeneralException {
 		GtnFrameworkCGrpAddAllAction fixture = new GtnFrameworkCGrpAddAllAction();
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
 		fixture.configureParams(gtnUIFrameWorkActionConfig);
@@ -42,8 +42,7 @@ public class GtnFrameworkCGrpAddAllActionTest {
 	}
 
 	@Test
-	public void testCreateInstance()
-		throws Exception {
+	public void testCreateInstance() {
 		GtnFrameworkCGrpAddAllAction fixture = new GtnFrameworkCGrpAddAllAction();
 		GtnUIFrameWorkAction result = fixture.createInstance();
 		assertNotNull(result);
@@ -51,8 +50,8 @@ public class GtnFrameworkCGrpAddAllActionTest {
 
 	
 	@Test
-	public void testDoAction()
-		throws Exception {
+	public void testDoActionIf()
+		throws GtnFrameworkGeneralException {
 
 		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class);
 
@@ -68,8 +67,8 @@ public class GtnFrameworkCGrpAddAllActionTest {
 		}
 	
 	@Test
-	public void testDoAction_else()
-		throws Exception {
+	public void testDoActionElse()
+		throws GtnFrameworkGeneralException {
 
 		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class);
 
@@ -100,7 +99,6 @@ public class GtnFrameworkCGrpAddAllActionTest {
 		when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(baseComponent);
 		doReturn(logic).when(baseComponent).getLogicFromPagedDataTable();
 
-	//	doNothing().when(logic).startSearchProcess(null, true);
 		
 		fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
 
