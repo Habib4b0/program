@@ -87,14 +87,11 @@ public class Constants {
     public static final String TO = "to";
     
     public static final String IFP_STATUS = "IFP Status";
-    public final String[] cfpSearch = {CFP_NO_HEADER, CFP_NAME_HEADER, "CFP ID", "CFP Status", "CFP Type", COMPANY_ID, COMPANYNO, COMPANYNAME, COMPANYSTATUS,
-         COMPANYTYPE, COMPANYCATEGORY, TRADECLASS};
+    
     public static final String IFP_TYPE_LABEL = "IFP Type";
-    public final String[] ifpSearch = {Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.IFP_ID, IFP_STATUS, IFP_TYPE_LABEL, ITEM_ID, ITEM_NO, ITEM_NAME,
-         ITEM_STATUS, ITEM_TYPE, BRAND, FORM, STRENGTH, THERAPY_CLASS, ITEM_START_DATE, ITEM_END_DATE};
+    
     public static final String PS_NO_LABEL = "PS No";
-    public final String[] psSearch = {PS_NO_LABEL, PS_NAME_FIELD, "PS ID", "PS Status", "PS Type"};
-    public final String[] rsSearch = {RS_NO_HEADER, RS_NAME_LABEL, "RS ID", "RS Status", "RS Type"};
+   
     public static final String ID = "ID :";
     public static final String NAME = "Name :";
     public static final String NUMBER = "Number :";
@@ -139,7 +136,6 @@ public class Constants {
     public static final String REBATE_SCHEDULE_CATEGORY = "rebateScheduleCategory";
     public static final String REBATE_PLAN_LEVEL_PROP = "rebatePlanLevel";
     public static final String CURRENT_CONTRACT_LABEL = "Current Contract";
-    public final String[] companySearch = {Constants.COMPANY_ID, Constants.COMPANYNAME, Constants.COMPANYNO, COMPANYSTATUS, Constants.COMPANYTYPE, Constants.COMPANYCATEGORY, Constants.TRADECLASS};
     /**
      * The Constant REBATE_PLAN_LEVEL.
      */
@@ -1379,6 +1375,12 @@ public class Constants {
         CFP_NO_HEADER, Constants.IFP_NAME_LABEL, Constants.IFP_NO, PS_NAME_FIELD, PS_NO_LABEL, RS_NAME_LABEL, RS_NO_HEADER,
         RAR_CATEGORY_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};
     private static Constants object;
+    private static final String[] CFP_SEARCH = {CFP_NO_HEADER, CFP_NAME_HEADER, "CFP ID", "CFP Status", "CFP Type", COMPANY_ID, COMPANYNO, COMPANYNAME, COMPANYSTATUS,
+         COMPANYTYPE, COMPANYCATEGORY, TRADECLASS};
+    private static final String[] IFP_SEARCH = {Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.IFP_ID, IFP_STATUS, IFP_TYPE_LABEL, ITEM_ID, ITEM_NO, ITEM_NAME,
+         ITEM_STATUS, ITEM_TYPE, BRAND, FORM, STRENGTH, THERAPY_CLASS, ITEM_START_DATE, ITEM_END_DATE};
+      public final String[] psSearch = {PS_NO_LABEL, PS_NAME_FIELD, "PS ID", "PS Status", "PS Type"};
+    public final String[] rsSearch = {RS_NO_HEADER, RS_NAME_LABEL, "RS ID", "RS Status", "RS Type"};
     /**
      * Constructor
      */
@@ -1475,4 +1477,10 @@ public class Constants {
     public static final String TOOL_BAR = "toolbar=no,scrollbars=1,location=no";
     public static final String PROJECTION_MASTER_SID = "projectionMasterSid";  
     
+  public static Object[] getCfpSearch() {
+        return CFP_SEARCH.clone();
+    }    
+   public static Object[] getIfpSearch() {
+        return IFP_SEARCH.clone();
+    }  
 }

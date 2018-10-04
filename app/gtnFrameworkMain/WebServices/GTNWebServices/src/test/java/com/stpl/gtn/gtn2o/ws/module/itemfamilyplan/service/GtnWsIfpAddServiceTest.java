@@ -436,7 +436,7 @@ public class GtnWsIfpAddServiceTest {
 		ifpInfo.setIfpSid(1);
 		gtnIFamilyPlan.setIfpInfo(ifpInfo);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-
+  
 		try {
 			fixture.getIfpFetchQuery(gtnWsRequest, response);
 		} catch (Exception e) {
