@@ -181,7 +181,7 @@ public class UiUtils {
     private UiUtils() {
     }
 
-	public static UiUtils getInstance() {
+	public static synchronized UiUtils getInstance() {
 		if (object == null) {
 			object = new UiUtils();
 		}
