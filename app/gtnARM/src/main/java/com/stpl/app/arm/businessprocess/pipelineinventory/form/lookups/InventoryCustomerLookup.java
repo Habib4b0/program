@@ -294,12 +294,15 @@ public class InventoryCustomerLookup extends Window {
                 saveViewDTO.setViewMasterSid(viewDTO.getViewSid());
                 saveViewDTO.setUserID(userId.equals(StringUtils.EMPTY) ? 0 : Integer.parseInt(userId.replaceAll("\\D+", StringUtils.EMPTY)));
                 saveViewDTO.setViewStatus(true);
+                saveViewDTO.setSessionUserID(CommonLogic.parseStringToInteger(userId));
+                saveViewDTO.setCreatedUser(viewDTO.getCreatedUser());
             } else {
                 saveViewDTO.setViewName(StringUtils.EMPTY);
                 saveViewDTO.setViewType(StringUtils.EMPTY);
                 saveViewDTO.setUserID(userId.equals(StringUtils.EMPTY) ? 0 : Integer.parseInt(userId.replaceAll("\\D+", StringUtils.EMPTY)));
                 saveViewDTO.setViewStatus(false);
-
+                saveViewDTO.setSessionUserID(CommonLogic.parseStringToInteger(userId));
+                saveViewDTO.setCreatedUser(userId);
             }
             saveViewDTO.setCustGrpList(resultsContainer.getItemIds());
             saveViewDTO.setScreenFlag(true);
