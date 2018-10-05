@@ -21,7 +21,7 @@ public class GtnFrameworkNsfAlertNoAction implements GtnUIFrameWorkAction, GtnUI
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
+			throws GtnFrameworkGeneralException {  
 		List<Object> actionParemeterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String viewId = (String) actionParemeterList.get(1);
 		GtnUIFrameworkNsfFormulaType formulaTypeValue = GtnUIFrameworkNsfFormulaType.getInstance();
