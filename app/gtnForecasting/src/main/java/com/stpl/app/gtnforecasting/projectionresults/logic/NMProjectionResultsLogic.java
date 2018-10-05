@@ -62,21 +62,6 @@ public class NMProjectionResultsLogic {
     private int pPACount=0;
     private boolean isFirst=true;
 
-    public List<ProjectionResultsDTO> getDiscountPer(ProjectionSelectionDTO projSelDTO) {
-        LOGGER.debug("= = = Inside getDiscountPer = = =");
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
-        projSelDTO.setSales(Constant.RATE);
-            CommonLogic commonLogic = new CommonLogic();
-            String query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-          query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
-        query += getProjectionResultsDiscountsPerQuery(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-        List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, false,0,false);
-        projDTOList.addAll(projDTOList1);
-        LOGGER.debug("= = = Ending getDiscountPer = = =");
-        return projDTOList;
-    }
-
     public List getTotalRPUDollar(ProjectionSelectionDTO projSelDTO, Boolean isVariable,int value) {
         LOGGER.debug("= = = Inside getTotalRPUDollar = = =");
         projSelDTO.setSales(value == 1 || value == 3 ? Constant.SALES_WHOLE_CAPS : Constant.DISCOUNT_EXFAC_SALES);
@@ -159,21 +144,6 @@ public class NMProjectionResultsLogic {
         }
         result = resultBuilder.toString();
         return result;
-    }
-
-    public List<ProjectionResultsDTO> getDiscountDollar(ProjectionSelectionDTO projSelDTO) {
-        LOGGER.debug("= = = Inside getDiscountDollar = = =");
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
-        projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
-          CommonLogic commonLogic = new CommonLogic();
-          String query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-           query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
-        query += getProjectionResultsDiscountsQuery(projSelDTO, " order by DISCOUNTS");
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-        List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, false,0,false);
-        projDTOList.addAll(projDTOList1);
-        LOGGER.debug("= = = Ending getDiscountDollar = = =");
-        return projDTOList;
     }
 
     public List<ProjectionResultsDTO> getTotalDiscountLevels(ProjectionSelectionDTO projSelDTO, int value) {
@@ -344,57 +314,6 @@ public class NMProjectionResultsLogic {
         return resultList;
     }
 
-    public ProjectionResultsDTO getPPAPer(ProjectionSelectionDTO projSelDTO) {
-        projSelDTO.setSales(Constant.RATE);
-        ProjectionResultsDTO ppaDto = new ProjectionResultsDTO();
-        String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPAPerQuery(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-        List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, true,0,false);
-        if (projDTOList1 != null && !projDTOList1.isEmpty()) {
-            ppaDto = projDTOList1.get(0);
-        }
-        ppaDto.setGroup(PPA_DISCOUNT.getConstant());
-        ppaDto.setParent(0);
-        return ppaDto;
-    }
-
-    public List<Object> getPPARPU(ProjectionSelectionDTO projSelDTO) {
-        projSelDTO.setSales(Constant.RATE);
-        ProjectionResultsDTO ppaDto = new ProjectionResultsDTO();
-        String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPARPU(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-        List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, true,1,false);
-        if (projDTOList1 != null && !projDTOList1.isEmpty()) {
-            ppaDto = projDTOList1.get(0);
-        }
-        ppaDto.setGroup(PPA_DISCOUNT.getConstant());
-        ppaDto.setParent(0);
-        return list;
-    }
-
-    
-    
-     public List<ProjectionResultsDTO> ppaRPUtest(ProjectionSelectionDTO projSelDTO) {
-            List<ProjectionResultsDTO> projDTOList;
-        projSelDTO.setSales(Constant.RATE);
-        String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPARPU(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-         projDTOList = getCustomizedProjectionResultsDiscount(list, projSelDTO, true,NumericConstants.TWO,false);
-        return projDTOList;
-    }
-    public ProjectionResultsDTO getPPADollar(ProjectionSelectionDTO projSelDTO) {
-        projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
-        ProjectionResultsDTO ppaDto = new ProjectionResultsDTO();
-        String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPAQuery(projSelDTO);
-        List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-        List<ProjectionResultsDTO> projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, true,NumericConstants.THREE,false);
-        if (projDTOList1 != null && !projDTOList1.isEmpty()) {
-            ppaDto = projDTOList1.get(0);
-        }
-        ppaDto.setGroup(PPA_DISCOUNT.getConstant());
-        ppaDto.setParent(0);
-        return ppaDto;
-    }
     private final List<String> discountList = new ArrayList<>();
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsDiscount(List<Object> list, ProjectionSelectionDTO projSelDTO, boolean isPPA,int value,boolean isNetSales) {

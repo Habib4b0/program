@@ -50,7 +50,7 @@ public class ConsolidatedFinancialForecastUI extends UI {
 	 * navigator
 	 */
 	private Navigator navigator;
-	private static boolean EXCEL_CLOSE = false;
+	private static boolean excelClosee = false;
 	/**
 	 * Logger constant for the class ConsolidatedFinancialForecastUI
 	 */
@@ -144,10 +144,10 @@ public class ConsolidatedFinancialForecastUI extends UI {
 	}
 
 	public static boolean isExcelClose() {
-		return EXCEL_CLOSE;
+		return excelClosee;
 	}
 
 	public static void setExcelClose(boolean excelClose) {
-		EXCEL_CLOSE = excelClose;
+		excelClosee = excelClose;
 	}
 }

@@ -1,5 +1,11 @@
 package com.stpl.gtn.gtn2o.ws.report.constants;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.commons.lang.StringUtils;
+
 public class GtnWsQueryConstants {
 
 	private GtnWsQueryConstants() {
@@ -166,4 +172,34 @@ public class GtnWsQueryConstants {
 	public static final String TOTAL = "Total";
 
 	public static final String WEIGHTED = "Weighted";
+
+	private static final Map<String, String> VARIABLE_CHARATER_MAP = loadvariableCharacterMap();
+
+	private static Map<String, String> loadvariableCharacterMap() {
+		Map<String, String> variableCharMap = new HashMap<>(14);
+		variableCharMap.put(".A.", "A");
+		variableCharMap.put(".B.", "B");
+		variableCharMap.put(".C.", "C");
+		variableCharMap.put(".D.", "D");
+		variableCharMap.put(".E.", "E");
+		variableCharMap.put(".F.", "F");
+		variableCharMap.put(".G.", "G");
+		variableCharMap.put(".H.", "H");
+		variableCharMap.put(".I.", "I");
+		variableCharMap.put(".J.", "J");
+		variableCharMap.put(".K.", "K");
+		variableCharMap.put(".L.", "L");
+		variableCharMap.put(".M.", "M");
+		variableCharMap.put(".N.", "N");
+		return variableCharMap;
+	}
+
+	public static String getVariableFromHierarchy(String key) {
+		for (Entry<String, String> element : VARIABLE_CHARATER_MAP.entrySet()) {
+			if (key.contains(element.getKey())) {
+				return element.getValue();
+			}
+		}
+		return StringUtils.EMPTY;
+	}
 }
