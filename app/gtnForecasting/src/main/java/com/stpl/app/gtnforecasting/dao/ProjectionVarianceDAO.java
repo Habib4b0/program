@@ -50,31 +50,6 @@ public interface ProjectionVarianceDAO {
 	    				throws PortalException;
 	 
  	
-	 /**
- 	 * Search for projections in comparison lookup.
- 	 *
- 	 * @param workflowStatus the workflow status
- 	 * @param marketType the market type
- 	 * @param brand the brand
- 	 * @param projName the proj name
- 	 * @param contHldr the cont hldr
- 	 * @param ndcNo the ndc no
- 	 * @param ndcName the ndc name
- 	 * @param desc the desc
- 	 * @param contract the contract
- 	 * @param from the from
- 	 * @param to the to
- 	 * @return the list
- 	 * @throws SystemException the system exception
- 	 * @throws PortalException the portal exception
- 	 * @throws Exception the exception
- 	 */
- 	public List searchForProjections(final String workflowStatus, final String marketType, final String brand, 
-			 final String projName, final String contHldr, final String ndcNo, final String ndcName, final String desc, 
-			 final String contract, final String from, final String to) throws PortalException;
- 	
- 	
- 	
  	/**
 	  * Save or updates projection variance custom view hierarchies.
 	  *

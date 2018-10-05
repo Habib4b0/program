@@ -12,20 +12,13 @@ GO
 
 CREATE PROCEDURE [dbo].[PRC_CFF_PROJECTION_RESULTS_DISCOUNT] @CFF_MASTER_SID VARCHAR(500),
 	                                                         @PROJ_FREQUENCY VARCHAR(20),
-
-
-
 	                                                         @FROM_PERIOD_SID INT,
 	                                                         @END_PERIOD_SID INT,
 	                                                         @PROGRAM VARCHAR(50) =NULL,
 	                                                         @SALES_INCLUSION BIT =NULL ,
 	                                                         @DEDUCTION_INCLUSION BIT = NULL,
-
-
-
 	                                                         @DISCOUNT NVARCHAR(MAX) = NULL,
 	                                                         @CUSTOM_VIEW_MASTER_SID INT = NULL,
-
 	                                                         --@CUSTOM_LEVEL_NO INT = NULL,
 	                                                         @SESSION_ID VARCHAR(50),
 	                                                         @USER_ID INT,
@@ -408,7 +401,7 @@ DECLARE @SQL_OUT NVARCHAR(MAX)
 	,((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT), 0) + isnull(SUM(SPD.DISCOUNT), 0)) / NULLIF(SUM(pfd.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY
 	,SUM(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL
 	,ri.DESCRIPTION
-	,0 AS INDICATOR
+	,1 AS INDICATOR
 FROM 
 #PRODUCT_FILE_DATA PFD
 join #RS_INFO ri on 1=1
@@ -496,7 +489,7 @@ LEFT JOIN (
 	AND PFD.CFF_MASTER_SID = SPD.CFF_MASTER_SID
 	and pfd.INDICATOR=SPD.INDICATOR
 	and ri.DESCRIPTION=SPD.DESCRIPTION
-	where pfd.CFF_MASTER_SID=@FIRST_PROJ_SID and pfd.INDICATOR=0 and pfd.year<year(getdate())
+	where pfd.CFF_MASTER_SID=@FIRST_PROJ_SID and pfd.INDICATOR=0 
 GROUP BY PFD.CFF_MASTER_SID
 	,pfd.YEAR
 	,pfd.PERIOD
@@ -518,7 +511,7 @@ UNION ALL
 	,((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT), 0) + isnull(SUM(SPD.DISCOUNT), 0)) / NULLIF(SUM(pfd.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY
 	,SUM(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL
 	,ri.DESCRIPTION
-	,1 AS INDICATOR
+	,0 AS INDICATOR
 from #PRODUCT_FILE_DATA PFD
 join #RS_INFO ri on 1=1
 LEFT JOIN (
@@ -641,7 +634,7 @@ SET @SQL_OUT_C=CONCAT('SELECT pfd.CFF_MASTER_SID
 	,((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT), 0) + isnull(SUM(SPD.DISCOUNT), 0)) / NULLIF(SUM(pfd.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY
 	,SUM(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL
 	,ri.DESCRIPTION
-	,0 AS INDICATOR
+	,1 AS INDICATOR
 FROM 
 #PRODUCT_FILE_DATA PFD
 join #RS_INFO ri on 1=1
@@ -751,7 +744,7 @@ UNION ALL
 	,((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT), 0) + isnull(SUM(SPD.DISCOUNT), 0)) / NULLIF(SUM(pfd.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY
 	,SUM(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL
 	,ri.DESCRIPTION
-	,1 AS INDICATOR
+	,0 AS INDICATOR
 from #PRODUCT_FILE_DATA PFD
 join #RS_INFO ri on 1=1
 LEFT JOIN (
@@ -857,5 +850,4 @@ GROUP BY PFD.CFF_MASTER_SID
 END
 
 GO
-
 

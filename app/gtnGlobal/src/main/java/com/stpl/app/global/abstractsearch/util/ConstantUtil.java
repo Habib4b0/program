@@ -5,12 +5,16 @@
  */
 package com.stpl.app.global.abstractsearch.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * The Class Constant Util.
  *
  * @author pvinoth
  */
 public class ConstantUtil {
+     private static final Logger LOGGER = LoggerFactory.getLogger(ConstantUtil.class);
 
     public static final String ITEM_MASTER = "itemmaster";
 
@@ -1959,5 +1963,10 @@ public class ConstantUtil {
     public static final String DELETE_BUTTON = "deleteBtn";
     public static final String TABLE_RESET_BUTTON = "tableResetBtn";
     public static final String NOT_SUPPORTED_YET = "Not supported yet.";
+
+    private ConstantUtil() {
+        LOGGER.debug("ConstantUtil");
+    }
+    
 
 }

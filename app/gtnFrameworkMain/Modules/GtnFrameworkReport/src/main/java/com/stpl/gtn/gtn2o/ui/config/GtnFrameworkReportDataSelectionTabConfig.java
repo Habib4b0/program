@@ -590,7 +590,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 	private void addReportDataSelectionVariableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig dsVariableLayout = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT, true,
+				GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT, true,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
 		dsVariableLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_25_PX);
@@ -600,8 +600,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 		GtnUIFrameworkComponentConfig dsComparisonVariableConfig = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE,
-				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT,
+						+ GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_VARIABLE,
+				true, GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		dsComparisonVariableConfig.setComponentName("Variables: ");
 		dsComparisonVariableConfig.setAuthorizationIncluded(true);

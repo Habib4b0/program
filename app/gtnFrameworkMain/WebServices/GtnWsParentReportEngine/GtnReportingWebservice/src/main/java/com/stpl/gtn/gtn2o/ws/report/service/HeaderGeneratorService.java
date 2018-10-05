@@ -1017,7 +1017,7 @@ public class HeaderGeneratorService {
 		quarterToDate.add(0, Integer.valueOf(quarterToDateSplit[1].trim()));
 
 		quarterToDate.add(1,
-				Integer.valueOf(returnMonthOfQuarter(String.valueOf(quarterToDateSplit[0].trim().charAt(1)))));
+				Integer.valueOf(returnMonthForQuarter(String.valueOf(quarterToDateSplit[0].trim().charAt(1)))));
 
 		quarterToDate.add(2, Integer.valueOf("1"));
 		return quarterToDate;
@@ -1036,39 +1036,39 @@ public class HeaderGeneratorService {
 	}
 
 	private String returnMonthOfSemiAnnual(String charAt) {
-		String semiAnnualMonth = "";
+		String semiAnnualInMonth = "";
 		switch (charAt) {
 		case "1":
-			semiAnnualMonth = "1";
+			semiAnnualInMonth = "1";
 			break;
 		case "2":
-			semiAnnualMonth = "7";
+			semiAnnualInMonth = "7";
 			break;
 		default:
 			break;
 		}
-		return semiAnnualMonth;
+		return semiAnnualInMonth;
 	}
 
-	private String returnMonthOfQuarter(String charAt) {
-		String quarterMonth = "";
+	private String returnMonthForQuarter(String charAt) {
+		String quarterInMonth = "";
 		switch (charAt) {
 		case "1":
-			quarterMonth = "1";
+			quarterInMonth = "1";
 			break;
 		case "2":
-			quarterMonth = "4";
+			quarterInMonth = "4";
 			break;
 		case "3":
-			quarterMonth = "7";
+			quarterInMonth = "7";
 			break;
 		case "4":
-			quarterMonth = "10";
+			quarterInMonth = "10";
 			break;
 		default:
 			break;
 		}
-		return quarterMonth;
+		return quarterInMonth;
 	}
 
 	private String getMonthFromYear(int count) {

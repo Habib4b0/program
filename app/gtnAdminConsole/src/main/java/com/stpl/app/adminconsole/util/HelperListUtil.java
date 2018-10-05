@@ -40,7 +40,7 @@ public class HelperListUtil {
 
     }
 
-    public static HelperListUtil getInstance() {
+    public static synchronized HelperListUtil getInstance() {
         if (object == null) {
             object = new HelperListUtil();
         }

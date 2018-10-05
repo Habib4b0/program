@@ -57,7 +57,7 @@ public class UiUtils {
 	/**
 	 * Object for resource bundle
 	 */
-	private static ResourceBundle resourceBundle;
+	private static volatile ResourceBundle resourceBundle;
 
 	/**
 	 * Private constructor. This class should not be instantiated
@@ -382,11 +382,12 @@ public class UiUtils {
 	/**
 	 * Generates HQL field from Table column name
 	 *
-	 * @param fieldName
+     * @param fieldNameParam
 	 * @param indicator
 	 * @return
 	 */
-	public static String generateHqlField(String fieldName, final String indicator) {
+	public static String generateHqlField(String fieldNameParam, final String indicator) {
+                String fieldName = fieldNameParam;
 		String finalValue = StringUtils.EMPTY;
                 StringBuilder finalValueBuilder = new StringBuilder();
 		int loop = 0;
@@ -481,9 +482,10 @@ public class UiUtils {
 		return returnValue;
 	}
 
-	public static Date parseDate(String value, String format) throws ParseException {
-		LOGGER.debug("UiUtils - parseDate period: {} and format={}", value, format);
+	public static Date parseDate(String valueParam, String format) throws ParseException {
+		LOGGER.debug("UiUtils - parseDate period: {} and format={}", valueParam, format);
 		Date date = null;
+                String value = valueParam;
 		value = convertNullToEmpty(value);
 		SimpleDateFormat parse = new SimpleDateFormat(format);
 		if (value != null && !StringUtils.EMPTY.equals(value) && !CommonConstants.NULL.getConstant().equals(value)) {
