@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.FormulaDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
-import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.SupplementalTableLogic;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -34,7 +33,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -1495,19 +1493,6 @@ public class SupplementalDiscountProjectionLogic {
             LOGGER.error(ex.getMessage());
         }
         return !methodologyCount.isEmpty() ? methodologyCount.size() : 0;
-    }
-
-    private void methodologyRefresher(DiscountProjectionDTO saveDto, Map<String, Object> mapList, SupplementalTableLogic tableLogic, Object propertyId, String value, int levelNo) {
-        for (Map.Entry<String, Object> entry : mapList.entrySet()) {
-            DiscountProjectionDTO itemDtoExpanded = (DiscountProjectionDTO) entry.getValue();
-            if (itemDtoExpanded.getSupplementalLevelNo() == levelNo && itemDtoExpanded.getCcpDetailIds().containsAll(saveDto.getParentCcpDetailIdList())) {
-                Object tempId = tableLogic.getcurrentTreeData(entry.getKey());
-                itemDtoExpanded.addStringProperties(propertyId, value);
-                if (tempId != null) {
-                    tableLogic.getContainerDataSource().getContainerProperty(tempId, propertyId).setValue(value);
-                }
-            }
-        }
     }
 
     private StringBuilder getQueryToSaveMasterTable(SessionDTO sessionDTO) {

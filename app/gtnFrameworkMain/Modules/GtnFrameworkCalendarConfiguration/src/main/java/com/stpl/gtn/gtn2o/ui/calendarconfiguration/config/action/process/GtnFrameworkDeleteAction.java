@@ -77,11 +77,17 @@ public class GtnFrameworkDeleteAction implements GtnUIFrameWorkAction  ,GtnUIFra
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setCalendarConfigurationRequest(ccRequest);
-		GtnUIFrameworkWebserviceResponse responce = wsclient.callGtnWebServiceUrl(
+		GtnUIFrameworkWebserviceResponse responce = getResponse(wsclient, request);
+		return responce.getCalendarConfigurationResponse();
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebServiceClient wsclient,
+			GtnUIFrameworkWebserviceRequest request) {
+		return wsclient.callGtnWebServiceUrl(
 				GtnWsCalendarConfigurationConstants.GTN_CALENDAR_CONFIGURATION_SERVICE
 						+ GtnWsCalendarConfigurationConstants.DELETE_CALENDAR_CONFIGURATION,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		return responce.getCalendarConfigurationResponse();
+	
 	}
 
 	@Override

@@ -142,6 +142,7 @@ IF OBJECT_ID('TEMPDB..#FILE_INFO') IS NOT NULL
 				  INNER JOIN #CFF_PROJECTION_MASTER FI ON FI.CFF_MASTER_SID=FT.CFF_MASTER_SID
           WHERE  HT.[DESCRIPTION] IN ( 'EX-FACTORY SALES' , 'INVENTORY WITHDRAWAL - FORECAST SUMMARY','DEMAND','ADJUSTED DEMAND','INVENTORY WITHDRAWAL - FORECAST DETAIL','CUSTOMER SALES'  ) 
 
+declare @cff_max int =(select count(*) from #CFF_PROJECTION_MASTER), @incr int=1
 
 
 
@@ -191,7 +192,10 @@ BEGIN
                UNITS               NUMERIC(22, 6),
                PERIOD_SID          INT 
             ) 
-
+			 set @incr=1
+			while (@incr<=@cff_max)
+			begin 
+			--select @incr,@cff_max
           INSERT INTO #GTS_DETAILS 
                       (CFF_MASTER_SID,
 					   ITEM_MASTER_SID, 
@@ -229,7 +233,10 @@ BEGIN
                  PERIOD_SID FROM #FILE_INFO F CROSS APPLY
 		   UDF_GTS_WAC(@ITEMID, @ACT_START_PERIOD_SID, @PROJ_END_PERIOD_SID, FORECAST_NAME, VERSION) B
 		 WHERE  F.FILE_TYPE = 'EX-FACTORY SALES'
-
+		 and exists(select 1 from #CFF_PROJECTION_MASTER cfm where cfm.CFF_MASTER_SID=f.CFF_MASTER_SID and cfm.ID=@incr)
+		 set @incr=@incr+1
+		 end 
+		 
           --------------------------------------------PULLING ACTUALS AND PROJECTION VALES FROM INVENTORY WITHDRAWAL - FORECAST SUMMARY  FILE------------- 
           ---------------------------INVENTORY---------------- 
       /* SELECT TOP 1 @FORECAST_NAME = FT.FORECAST_NAME, 
@@ -259,6 +266,9 @@ BEGIN
                FOR_AMOUNT_WITHDRAWN NUMERIC(22, 6), 
                FOR_UNITS_WITHDRAWN  NUMERIC(22, 6)
             ) 
+			 set @incr=1
+			while (@incr<=@cff_max)
+			begin 
 
           INSERT INTO #INVENTORY 
                       (CFF_MASTER_SID,
@@ -279,7 +289,9 @@ SELECT           F.CFF_MASTER_SID,
 		  FROM #FILE_INFO F CROSS APPLY
 		  [DBO].[UDF_INVENTORY_WAC](@ITEMID, @ACT_START_PERIOD_SID, @PROJ_END_PERIOD_SID, FORECAST_NAME, VERSION) I 
 						 WHERE FILE_TYPE = 'INVENTORY WITHDRAWAL - FORECAST SUMMARY'
-
+						  and exists(select 1 from #CFF_PROJECTION_MASTER cfm where cfm.CFF_MASTER_SID=f.CFF_MASTER_SID and cfm.ID=@incr)
+		 set @incr=@incr+1
+		 end 
           --------------------------------------------PULLING ACTUALS AND PROJECTION VALES FROM DEMAND  FILE------------- 
           ------------------DEMAND-------------- 
       /*   SELECT TOP 1 @FORECAST_NAME = FT.FORECAST_NAME, 
@@ -308,6 +320,9 @@ SELECT           F.CFF_MASTER_SID,
                FOR_GROSS_AMOUNT NUMERIC(22, 6), 
                FOR_GROSS_UNITS  NUMERIC(22, 6)
             ) 
+			set @incr=1
+			while (@incr<=@cff_max)
+			begin 
 
           INSERT INTO #DEMAND 
                       (CFF_MASTER_SID,
@@ -326,7 +341,9 @@ SELECT           F.CFF_MASTER_SID,
                 PERIOD_SID  FROM #FILE_INFO F CROSS APPLY
                [DBO].[UDF_DEMAND_WAC](@ITEMID, @ACT_START_PERIOD_SID, @PROJ_END_PERIOD_SID, FORECAST_NAME, VERSION) I 
 			 WHERE  FILE_TYPE = 'DEMAND'
-
+			  and exists(select 1 from #CFF_PROJECTION_MASTER cfm where cfm.CFF_MASTER_SID=f.CFF_MASTER_SID and cfm.ID=@incr)
+		 set @incr=@incr+1
+		 end 
       /*  SELECT TOP 1 @FORECAST_NAME = FT.FORECAST_NAME, 
                        @FORECAST_VERSION = FT.[VERSION] 
           FROM   FILE_MANAGEMENT FT 
@@ -352,7 +369,9 @@ SELECT           F.CFF_MASTER_SID,
                AD_ACT_GROSS_AMOUNT NUMERIC(22, 6), 
                AD_FOR_GROSS_AMOUNT NUMERIC(22, 6)
             ) 
-
+			set @incr=1
+			while (@incr<=@cff_max)
+			begin 
           INSERT INTO #ADJUSTED_DEMAND 
                       (CFF_MASTER_SID,
 					   ITEM_MASTER_SID, 
@@ -366,7 +385,10 @@ SELECT           F.CFF_MASTER_SID,
                  PERIOD_SID 
           FROM  #FILE_INFO F CROSS APPLY
 		   [DBO].[UDF_ADJUSTED_DEMAND_WAC](@ITEMID, @ACT_START_PERIOD_SID, @PROJ_END_PERIOD_SID, FORECAST_NAME, VERSION) I 
-				   WHERE  FILE_TYPE = 'ADJUSTED DEMAND'
+				   WHERE  FILE_TYPE = 'ADJUSTED DEMAND' 
+				   and exists(select 1 from #CFF_PROJECTION_MASTER cfm where cfm.CFF_MASTER_SID=f.CFF_MASTER_SID and cfm.ID=@incr)
+		 set @incr=@incr+1
+		 end 
           --------------------INSERTING PRODUCT+ITEM LEVEL ACTUALS AND PROJECTED VALUES INTO  CFF_PRODUCT_LEVEL_FILES_DATA ------------- 
         
 		DECLARE @SQL NVARCHAR(MAX)
@@ -460,7 +482,9 @@ BEGIN
 		 FOR_AMOUNT_WITHDRAWN NUMERIC(22,6),
 		 ACT_AMOUNT_WITHDRAWN NUMERIC(22,6)
 		 )
-
+		 set @incr=1
+			while (@incr<=@cff_max)
+			begin 
 		 INSERT INTO #INVENTORY_WAC(CFF_MASTER_SID,ITEM_MASTER_SID,COMPANY_MASTER_SID,PERIOD_SID,FOR_AMOUNT_WITHDRAWN,ACT_AMOUNT_WITHDRAWN)
 
 		  SELECT F.CFF_MASTER_SID,
@@ -472,7 +496,9 @@ BEGIN
           FROM     #FILE_INFO F CROSS APPLY
 		   [DBO].[UDF_INVENTORY_WAC_DETAILS](@CUST_ITEM_DETAILS, @ACT_START_PERIOD_SID, @PROJ_END_PERIOD_SID, FORECAST_NAME, VERSION) I
 		WHERE F.FILE_TYPE = 'INVENTORY WITHDRAWAL - FORECAST DETAIL'
-		
+		and exists(select 1 from #CFF_PROJECTION_MASTER cfm where cfm.CFF_MASTER_SID=f.CFF_MASTER_SID and cfm.ID=@incr)
+		 set @incr=@incr+1
+		 end 
           ---------------------CUSTOMMER_WAC-------------- 
       /*SELECT TOP 1 @FORECAST_NAME = FT.FORECAST_NAME 
         ,@FORECAST_VERSION = FT.[VERSION] 
@@ -504,7 +530,9 @@ BEGIN
 			CUST_ACT_GTS_SALES NUMERIC(22,6),
 			CUST_FORE_GTS_SALES NUMERIC(22,6)
 		   )
-			
+			set @incr=1
+			while (@incr<=@cff_max)
+			begin 
 		   INSERT INTO #CUSTOMER_GTS
 		   (CFF_MASTER_SID,ITEM_MASTER_SID,COMPANY_MASTER_SID,PERIOD_SID,CUST_ACT_GTS_SALES,CUST_FORE_GTS_SALES)
 
@@ -517,7 +545,9 @@ BEGIN
           FROM    #FILE_INFO F CROSS APPLY 
 		  [DBO].[UDF_CUST_GTS_WAC](@CUST_ITEM_DETAILS, @ACT_START_PERIOD_SID, @PROJ_END_PERIOD_SID, FORECAST_NAME, VERSION) I
 		  WHERE F.FILE_TYPE = 'CUSTOMER SALES'
-
+		  and exists(select 1 from #CFF_PROJECTION_MASTER cfm where cfm.CFF_MASTER_SID=f.CFF_MASTER_SID and cfm.ID=@incr)
+		 set @incr=@incr+1
+		 end 
 		 
           --------------------INSERTING PRODUCT+ITEM LEVEL ACTUALS AND PROJECTED VALUES INTO  CFF_PRODUCT_LEVEL_FILES_DATA ------------- 
 		  DECLARE @SQL_COMP NVARCHAR(MAX)

@@ -225,7 +225,7 @@ public class StringConstantUtils {
     public static final String DFSOURCE = "DF.SOURCE";
     private static final Logger LOGGER = LoggerFactory.getLogger(StringConstantUtils.class);
 
-    public StringConstantUtils() {
+    private StringConstantUtils() {
         LOGGER.debug("StringConstantUtils");
     }
 }

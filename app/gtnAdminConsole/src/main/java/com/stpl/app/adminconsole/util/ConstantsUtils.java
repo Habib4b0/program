@@ -771,7 +771,7 @@ public final class ConstantsUtils {
 
     private static ConstantsUtils object;
 
-    public static ConstantsUtils getInstance() {
+    public static synchronized ConstantsUtils getInstance() {
         if (object == null) {
             object = new ConstantsUtils();
         }
