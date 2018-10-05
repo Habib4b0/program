@@ -715,10 +715,7 @@ public class processSchedulerForm extends CustomComponent {
             if (null == hoursOne.getValue() || (null == minutesOne.getValue())) {
                 getNotification(Message.ERROR_HEADER, MSG_ID_061);
                 return false;
-            } else if (null == hoursOne.getValue() && (null != minutesOne.getValue())) {
-                getNotification(Message.NO_HOUR_HEADER, Message.NO_HOUR1_MSG);
-                return false;
-            } else if (null == hoursOne.getValue() && (null == minutesOne.getValue())) {
+            } else if (null == hoursOne.getValue()) {
                 getNotification(Message.NO_HOUR_HEADER, Message.NO_HOUR1_MSG);
                 return false;
             } else if ((null != hoursOne.getValue()) && (null == (minutesOne.getValue()))) {
