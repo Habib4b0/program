@@ -35,13 +35,22 @@ public class GtnUiFrameworkNsfRemoveConfirmationAction implements GtnUIFrameWork
 
 	}
 
-	public boolean callremoveService(boolean isSalesBasis) {
+	public boolean callremoveService(boolean isSalesBasis) {   
 		GtnUIFrameworkWebserviceRequest updateRequest = GtnFrameworkNSFCommonLogic.getWsRequest(isSalesBasis);
-		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NSF_REMOVE_RECORD_SERVICE,
-				updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse gtnResponse = getResponse(updateRequest);
 		GtnWsGeneralResponse nsfGeneralResponse = gtnResponse.getGtnWsGeneralResponse();
 		return nsfGeneralResponse.isSucess();
+	}
+
+	/**
+	 * @param updateRequest
+	 * @return
+	 */
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest updateRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NSF_REMOVE_RECORD_SERVICE,
+				updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
 	}
 
 	public void reloadTable(boolean isSalesBasis, String viewId) throws GtnFrameworkValidationFailedException {

@@ -23,6 +23,11 @@ public final class SysDataSourceConnection {
 
      private static DataSource dataSource;
      private static final Logger LOGGER = LoggerFactory.getLogger(SysDataSourceConnection.class);
+
+    private SysDataSourceConnection() {
+        LOGGER.debug("SysDataSourceConnection");
+    }
+     
     static {
         try {
             dataSource = (DataSource) new InitialContext().lookup(System.getProperty(Constants.SYS_SCHEMA));

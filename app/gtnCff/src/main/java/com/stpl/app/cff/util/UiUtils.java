@@ -57,7 +57,7 @@ public class UiUtils {
 	/**
 	 * Object for resource bundle
 	 */
-	private static ResourceBundle resourceBundle;
+	private static volatile ResourceBundle resourceBundle;
 
 	/**
 	 * Private constructor. This class should not be instantiated
