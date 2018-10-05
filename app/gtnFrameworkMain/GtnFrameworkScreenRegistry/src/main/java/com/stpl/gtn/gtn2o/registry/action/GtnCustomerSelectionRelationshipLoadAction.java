@@ -34,15 +34,14 @@ public class GtnCustomerSelectionRelationshipLoadAction
 				Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean
 						.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
 				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = relationshipMap
-						.get(recordBean.getPropertyValueByIndex(7));
+						.get(Integer.valueOf(recordBean.getStringPropertyByIndex(7)));
 				List<String> relationshipCaptionList = new ArrayList<>();
 				List<Integer> relationshipIdList = new ArrayList<>();
 
 				ObjectMapper mapper = new ObjectMapper();
 
-				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList = mapper.convertValue(
-						relationshipBuilderBeanListMapper, new TypeReference<List<GtnWsRelationshipBuilderBean>>() {
-						});
+				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList = getList(
+						relationshipBuilderBeanListMapper, mapper);
 
 				for (GtnWsRelationshipBuilderBean relationshipBuilderBean : relationshipBuilderBeanList) {
 					relationshipCaptionList.add(relationshipBuilderBean.getRelationshipName());
@@ -59,6 +58,13 @@ public class GtnCustomerSelectionRelationshipLoadAction
 			logger.error("Error", ex);
 		}
 		
+	}
+
+	public List<GtnWsRelationshipBuilderBean> getList(
+			List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper, ObjectMapper mapper) {
+		return   mapper.convertValue(
+				relationshipBuilderBeanListMapper, new TypeReference<List<GtnWsRelationshipBuilderBean>>() {
+				});
 	}
 
 	@Override

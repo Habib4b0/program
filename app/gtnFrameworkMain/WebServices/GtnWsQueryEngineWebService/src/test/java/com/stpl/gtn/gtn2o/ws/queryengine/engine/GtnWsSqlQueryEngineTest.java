@@ -23,6 +23,7 @@ import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.queryengine.constants.GtnWsQueryEngineConstants;
 import com.stpl.gtn.gtn2o.ws.queryengine.controller.GtnFrameworkWsSqlQueryEngineController;
 import com.stpl.gtn.gtn2o.ws.queryengine.service.GtnFrameworkWsSqlQueryEngineService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
@@ -52,7 +53,6 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 	@Test
 	public void forSampleTest()
 	{
-		GtnFrameworkWsSqlQueryEngine gtnFrameworkWsSqlQueryEngine = new GtnFrameworkWsSqlQueryEngine();
 		gtnFrameworkWsSqlQueryEngine.registerWs();
 	}
 
@@ -63,7 +63,7 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 		String sqlQuery = "select count(*) from company_master";
 		queryExecutorBean.setSqlQuery(sqlQuery);
 		GtnFrameworkQueryResponseBean count = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
-		gtnLogger.info("Result is----->" + count.getResultInteger());
+		gtnLogger.info(GtnWsQueryEngineConstants.RESULT + count.getResultInteger());
 	}
 	@Test(expected=GtnFrameworkGeneralException.class)
 	public void executeCountQueryExceptionTest() throws GtnFrameworkGeneralException {
@@ -72,7 +72,7 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 		String sqlQuery = "select count(#) from company_master";
 		queryExecutorBean.setSqlQuery(sqlQuery);
 		GtnFrameworkQueryResponseBean count = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
-		gtnLogger.info("Result is----->" + count.getResultInteger());
+		gtnLogger.info(GtnWsQueryEngineConstants.RESULT + count.getResultInteger());
 	}
 	@Test
 	public void executeSelectQuery() throws GtnFrameworkGeneralException {
@@ -97,7 +97,7 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 	@Test
 	public void executeSelectParamsQuery() throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setQueryType("SELECTWITHPARAMS");
+		queryExecutorBean.setQueryType(GtnWsQueryEngineConstants.SELECT_WITH_PARAMS);
 		String sqlQuery = "select * from company_master where company_master_sid = ?";
 		Object[] params = { 74775 };
 		GtnFrameworkDataType[] type = { GtnFrameworkDataType.INTEGER };
@@ -107,13 +107,13 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 
 		GtnFrameworkQueryResponseBean response = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
 
-		gtnLogger.info("Result is----->" + response);
+		gtnLogger.info(GtnWsQueryEngineConstants.RESULT  + response);
 		assertFalse(queryExecutorBean.getSqlQuery().isEmpty());
 	}
 	@Test(expected=GtnFrameworkGeneralException.class)
 	public void executeSelectParamsQueryExceptionTest() throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setQueryType("SELECTWITHPARAMS");
+		queryExecutorBean.setQueryType(GtnWsQueryEngineConstants.SELECT_WITH_PARAMS);
 		String sqlQuery = "select # from company_master where company_master_sid = ?";
 		Object[] params = { 74775 };
 		GtnFrameworkDataType[] type = { GtnFrameworkDataType.NULL_ALLOWED };
@@ -123,7 +123,7 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 
 		GtnFrameworkQueryResponseBean response = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
 
-		gtnLogger.info("Result is----->" + response);
+		gtnLogger.info(GtnWsQueryEngineConstants.RESULT  + response);
 		assertFalse(queryExecutorBean.getSqlQuery().isEmpty());
 	}
 	
@@ -131,7 +131,7 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 	public void executeControllerTest() throws GtnFrameworkGeneralException {
 
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setQueryType("SELECTWITHPARAMS");
+		queryExecutorBean.setQueryType(GtnWsQueryEngineConstants.SELECT_WITH_PARAMS);
 		String sqlQuery = "select * from company_master where company_master_sid = ?";
 		Object[] params = { 74775 };
 		GtnFrameworkDataType[] type = { GtnFrameworkDataType.INTEGER };
@@ -149,8 +149,8 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 	@Test
 	public void updateTestWithParams() throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
-		String sqlQuery = "update company_master" + " set CITY = ? " + "where company_master_sid = ? ";
+		queryExecutorBean.setQueryType(GtnWsQueryEngineConstants.INSERTORUPDATE_WITH_PARAMS);
+		String sqlQuery = GtnWsQueryEngineConstants.UPDATE_CM + " set CITY = ? " + GtnWsQueryEngineConstants.CM_SID;
 		Object[] params = { "MADISON", 74775 };
 		GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER };
 		queryExecutorBean.setSqlQuery(sqlQuery);
@@ -159,7 +159,7 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 
 		GtnFrameworkQueryResponseBean response = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
 
-		gtnLogger.info("Result is----->" + response);
+		gtnLogger.info(GtnWsQueryEngineConstants.RESULT  + response);
 		assertFalse(queryExecutorBean.getSqlQuery().isEmpty());
 
 	}
@@ -167,8 +167,8 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 	public void updateTestWithDateParams() throws GtnFrameworkGeneralException {
 		Date date=new Date();
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
-		String sqlQuery = "update company_master" + " set COMPANY_START_DATE = ? " + "where company_master_sid = ? ";
+		queryExecutorBean.setQueryType(GtnWsQueryEngineConstants.INSERTORUPDATE_WITH_PARAMS);
+		String sqlQuery =GtnWsQueryEngineConstants.UPDATE_CM + " set COMPANY_START_DATE = ? " + GtnWsQueryEngineConstants.CM_SID;
 		Object[] params = { date, 74775 };
 		GtnFrameworkDataType[] type = { GtnFrameworkDataType.DATE, GtnFrameworkDataType.INTEGER };
 		queryExecutorBean.setSqlQuery(sqlQuery);
@@ -177,7 +177,7 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 
 		GtnFrameworkQueryResponseBean response = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
 
-		gtnLogger.info("Result is----->" + response);
+		gtnLogger.info(GtnWsQueryEngineConstants.RESULT + response);
 		assertFalse(queryExecutorBean.getSqlQuery().isEmpty());
 
 	}
@@ -185,8 +185,8 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 	@Test(expected=GtnFrameworkGeneralException.class)
 	public void updateTestWithParamsExceptionTest() throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
-		String sqlQuery = "update company_master" + " set CITY = ?>< " + "where company_master_sid = ? ";
+		queryExecutorBean.setQueryType(GtnWsQueryEngineConstants.INSERTORUPDATE_WITH_PARAMS);
+		String sqlQuery = GtnWsQueryEngineConstants.UPDATE_CM + GtnWsQueryEngineConstants.SET_CITY + GtnWsQueryEngineConstants.CM_SID;
 		Object[] params = { 4575.25785, "54654786768476558" };
 		GtnFrameworkDataType[] type = { GtnFrameworkDataType.DOUBLE, GtnFrameworkDataType.BIG_DECIMAL };
 		queryExecutorBean.setSqlQuery(sqlQuery);
@@ -195,16 +195,16 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 
 		GtnFrameworkQueryResponseBean response = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
 
-		gtnLogger.info("Result is----->" + response);
+		gtnLogger.info(GtnWsQueryEngineConstants.RESULT  + response);
 		assertFalse(queryExecutorBean.getSqlQuery().isEmpty());
 
 	}
 	@Test(expected=GtnFrameworkGeneralException.class)
 	public void updateTestWithParamsExceptionTest2() throws GtnFrameworkGeneralException {
-		Date date=new Date();
+		
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
-		String sqlQuery = "update company_master" + " set CITY = ?>< " + "where company_master_sid = ? ";
+		queryExecutorBean.setQueryType(GtnWsQueryEngineConstants.INSERTORUPDATE_WITH_PARAMS);
+		String sqlQuery = GtnWsQueryEngineConstants.UPDATE_CM + GtnWsQueryEngineConstants.SET_CITY + GtnWsQueryEngineConstants.CM_SID;
 		Object[] params = { null, "54654786768476558" };
 		GtnFrameworkDataType[] type = { GtnFrameworkDataType.DATE, GtnFrameworkDataType.IN_LIST };
 		queryExecutorBean.setSqlQuery(sqlQuery);
@@ -213,15 +213,15 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 
 		GtnFrameworkQueryResponseBean response = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
 
-		gtnLogger.info("Result is----->" + response);
+		gtnLogger.info(GtnWsQueryEngineConstants.RESULT  + response);
 		assertFalse(queryExecutorBean.getSqlQuery().isEmpty());
 
 	}
 	@Test(expected=GtnFrameworkGeneralException.class)
 	public void updateTestWithParamsExceptionTest3() throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
-		String sqlQuery = "update company_master" + " set CITY = ?>< " + "where company_master_sid = ? ";
+		queryExecutorBean.setQueryType(GtnWsQueryEngineConstants.INSERTORUPDATE_WITH_PARAMS);
+		String sqlQuery = GtnWsQueryEngineConstants.UPDATE_CM + GtnWsQueryEngineConstants.SET_CITY + GtnWsQueryEngineConstants.CM_SID;
 		Object[] params = { null, "" };
 		GtnFrameworkDataType[] type = { GtnFrameworkDataType.LIST, GtnFrameworkDataType.BIG_DECIMAL };
 		queryExecutorBean.setSqlQuery(sqlQuery);
@@ -230,7 +230,7 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 
 		GtnFrameworkQueryResponseBean response = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
 
-		gtnLogger.info("Result is----->" + response);
+		gtnLogger.info(GtnWsQueryEngineConstants.RESULT  + response);
 		assertFalse(queryExecutorBean.getSqlQuery().isEmpty());
 
 	}
@@ -245,7 +245,7 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 		gtnLogger.info(sqlQuery);
 		queryExecutorBean.setSqlQuery(sqlQuery);
 		GtnFrameworkQueryResponseBean response = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
-		gtnLogger.info("Result is----->" + response);
+		gtnLogger.info(GtnWsQueryEngineConstants.RESULT  + response);
 		assertFalse(queryExecutorBean.getSqlQuery().isEmpty());
 
 	}
@@ -257,7 +257,7 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 		gtnLogger.info(sqlQuery);
 		queryExecutorBean.setSqlQuery(sqlQuery);
 		GtnFrameworkQueryResponseBean response = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
-		gtnLogger.info("Result is----->" + response);
+		gtnLogger.info(GtnWsQueryEngineConstants.RESULT  + response);
 		assertFalse(queryExecutorBean.getSqlQuery().isEmpty());
 
 	}
@@ -279,7 +279,6 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 	public void testingWS()
 	{
 		
-		GtnFrameworkWsSqlQueryEngineController gtnFrameworkWsSqlQueryEngineController = new GtnFrameworkWsSqlQueryEngineController();
 		boolean b=gtnFrameworkWsSqlQueryEngineController.test();
 		assertEquals(b,true);
 		
@@ -298,7 +297,7 @@ public class GtnWsSqlQueryEngineTest extends GtnCommonWebServiceImplClass {
 	@Test
 	  public void throwsException() throws Exception {
 	    thrown.expect(Exception.class);
-	    throw new Exception();
+	   
 	  }
 	@Test
 	public void loggerTest()

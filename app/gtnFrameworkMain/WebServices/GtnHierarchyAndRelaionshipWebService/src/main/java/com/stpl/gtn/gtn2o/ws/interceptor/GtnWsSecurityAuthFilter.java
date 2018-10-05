@@ -31,25 +31,25 @@ public class GtnWsSecurityAuthFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
 
-		HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+		HttpServletRequest httpServletRequestOnHier = (HttpServletRequest) servletRequest;
 
 		if ((GtnFrameworkPropertyManager.getProperty("gtn.security.enabled") != null
 				&& GtnFrameworkPropertyManager.getProperty("gtn.security.enabled").equalsIgnoreCase("no"))
-				|| httpServletRequest.getRequestURI().equals("/GTNWebServices/test")) {
-			filterChain.doFilter(httpServletRequest, servletResponse);
+				|| httpServletRequestOnHier.getRequestURI().equals("/GTNWebServices/test")) {
+			filterChain.doFilter(httpServletRequestOnHier, servletResponse);
 			return;
 		}
-		MyRequestWrapper wrapper = new MyRequestWrapper(httpServletRequest);
-		String requestBody = wrapper.getBody();
+		MyRequestWrapper wrapper = new MyRequestWrapper(httpServletRequestOnHier);
+		String requestBodyOnHier = wrapper.getBody();
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		if (!"".equals(requestBody)) {
+		if (!"".equals(requestBodyOnHier)) {
 
-			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = null;
-			gtnUIFrameworkWebserviceRequest = objectMapper.readValue(requestBody,
+			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequestOnHier = null;
+			gtnUIFrameworkWebserviceRequestOnHier = objectMapper.readValue(requestBodyOnHier,
 					GtnUIFrameworkWebserviceRequest.class);
-			GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
-			GtnWsGeneralRequest gtnWsGeneralRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+			GtnWsSecurityManager gtnWsSecurityManagerOnHier = new GtnWsSecurityManager();
+			GtnWsGeneralRequest gtnWsGeneralRequest = gtnUIFrameworkWebserviceRequestOnHier.getGtnWsGeneralRequest();
 
 			boolean result;
 
@@ -58,7 +58,7 @@ public class GtnWsSecurityAuthFilter implements Filter {
 				result = false;
 				resultString = "Token verification failed";
 			} else {
-				result = gtnWsSecurityManager.verifyToken(gtnWsGeneralRequest.getUserId(),
+				result = gtnWsSecurityManagerOnHier.verifyToken(gtnWsGeneralRequest.getUserId(),
 						gtnWsGeneralRequest.getSessionId(), gtnWsGeneralRequest.getToken());
 				resultString = result ? "Token Verifed Sucessfully"
 						: "  Token verification failed  : " + gtnWsGeneralRequest.getUserId();
@@ -71,7 +71,7 @@ public class GtnWsSecurityAuthFilter implements Filter {
 			}
 		}
 
-		if (httpServletRequest.getMethod().equals("GET")) {
+		if (httpServletRequestOnHier.getMethod().equals("GET")) {
 			servletResponse.setContentType("text/html");
 			servletResponse.getWriter().println(
 					"<html><head><title>GtnWebservices</title></head><body><b>GTN Webservices : You are not authorised</b></body></html>");
@@ -79,9 +79,9 @@ public class GtnWsSecurityAuthFilter implements Filter {
 			return;
 		}
 
-		GtnUIFrameworkWebserviceResponse wsresponse = new GtnUIFrameworkWebserviceResponse();
-		wsresponse.setResponseStatus("AUTH_FAILURE");
-		String responseString = objectMapper.writeValueAsString(wsresponse);
+		GtnUIFrameworkWebserviceResponse wsresponseOnHier = new GtnUIFrameworkWebserviceResponse();
+		wsresponseOnHier.setResponseStatus("AUTH_FAILURE");
+		String responseString = objectMapper.writeValueAsString(wsresponseOnHier);
 		logger.info("Error response " + responseString);
 		servletResponse.setContentType("application/json");
 		servletResponse.getWriter().println(responseString);

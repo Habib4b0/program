@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class GtnFrameworkAlertUtil {
 
-    public GtnUIFrameWorkActionConfig throwAlertUtil(String componentId, String url) {
+    public GtnUIFrameWorkActionConfig throwAlertUtilAction(String url) {
         GtnUIFrameWorkActionConfig alert = new GtnUIFrameWorkActionConfig();
         alert.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
         alert.addActionParameter("Error");
@@ -30,7 +30,6 @@ public class GtnFrameworkAlertUtil {
         } catch (GtnFrameworkGeneralException ex) {
             Logger.getLogger(GtnCustomerAvailableTableLoadAction.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Logger.getLogger(GtnCustomerAvailableTableLoadAction.class.getName()).log(Level.WARNING, null, componentId);
         return alert;
 
     }

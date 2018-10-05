@@ -31,11 +31,13 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/resources/GtnServiceRegistry-test.xml" })
-public class GtnServiceRegistryRegisterWsTest {
-	
+
+public class GtnServiceRegistryRegisterWsTest 
+{
+	 
 	public GtnServiceRegistryRegisterWsTest()
 	{
-		//nothing is there
+		//nothing is here
 	}
 
 	private GtnFrameworkDependencyLogger gtnLogger = GtnFrameworkDependencyLogger
@@ -130,9 +132,11 @@ public class GtnServiceRegistryRegisterWsTest {
 		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
 		webServiceRegistryBean.setWebserviceEndPointUrl(GtnWsServiceRegistryConstants.PORT);
 		webServiceRegistryBean.setRegisteredWebContext(GtnWsServiceRegistryConstants.PERIOD_CONF);
-		webServiceRegistryBean.setUrl(GtnWsServiceRegistryConstants.LOAD_DATE_URL);
+
+		webServiceRegistryBean.setUrl(GtnWsServiceRegistryConstants.PERIOD_CONF_URL);
 		webServiceRegistryBean.setModuleName("periodConfiguration");
-		gtnLogger.info(GtnWsServiceRegistryConstants.REGISTER_WEBSERVICE+ webServiceRegistryBean.getRegisteredWebContext());
+		gtnLogger.info(GtnWsServiceRegistryConstants.REGISTER_WEBSERVICE + webServiceRegistryBean.getRegisteredWebContext());
+
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
 		
@@ -168,9 +172,11 @@ public class GtnServiceRegistryRegisterWsTest {
 		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
 		webServiceRegistryBean.setWebserviceEndPointUrl(GtnWsServiceRegistryConstants.PORT);
 		webServiceRegistryBean.setRegisteredWebContext(GtnWsServiceRegistryConstants.PERIOD_CONF);
-		webServiceRegistryBean.setUrl(GtnWsServiceRegistryConstants.LOAD_DATE_URL);
+
+		webServiceRegistryBean.setUrl(GtnWsServiceRegistryConstants.PERIOD_CONF_URL);
 		webServiceRegistryBean.setModuleName("periodConfiguration");
-		gtnLogger.info(GtnWsServiceRegistryConstants.REGISTER_WEBSERVICE + webServiceRegistryBean.getRegisteredWebContext());
+		gtnLogger.info(GtnWsServiceRegistryConstants.REGISTER_WEBSERVICE+ webServiceRegistryBean.getRegisteredWebContext());
+
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
 	
@@ -198,7 +204,9 @@ public class GtnServiceRegistryRegisterWsTest {
 		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
 		webServiceRegistryBean.setWebserviceEndPointUrl(GtnWsServiceRegistryConstants.PORT);
 		webServiceRegistryBean.setRegisteredWebContext(GtnWsServiceRegistryConstants.PERIOD_CONF);
-		webServiceRegistryBean.setUrl(GtnWsServiceRegistryConstants.LOAD_DATE_URL);
+
+		webServiceRegistryBean.setUrl(GtnWsServiceRegistryConstants.PERIOD_CONF_URL);
+
 		gtnLogger.info(GtnWsServiceRegistryConstants.REGISTER_WEBSERVICE + webServiceRegistryBean.getRegisteredWebContext());
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);

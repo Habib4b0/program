@@ -60,8 +60,10 @@ public class ContractMasterImpl {
 
     }
 
-    public List getTradingPartnerList(String companyId, String companyNo, String companyName, int companyStatus, int companyType, Map<String, Object> filterMap, int start, int offset, String column, String orederBy) {
+    public List getTradingPartnerList(String companyIdPar, String companyNo, String companyName, int companyStatus, int companyType, Map<String, Object> filterMap, int start, int offset, String column, String orederBy1) {
         String sql = StringUtils.EMPTY;
+        String companyId = companyIdPar;
+        String orederBy = orederBy1;
         try {
 
             if (!StringUtils.isNotBlank(companyId)) {
@@ -242,15 +244,12 @@ public class ContractMasterImpl {
 
             if ((parameters.get(StringConstantsUtil.IS_ORDERED) == null || "false".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED)))) && (parameters.get(StringConstantsUtil.LAZY_LOAD_RESULTS) != null)) {
                 queryString.append(" ORDER BY CM.CREATED_DATE DESC ");
-            } else if (parameters.get(StringConstantsUtil.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED)))) {
-                if (parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME)))) {
+            } else if (parameters.get(StringConstantsUtil.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED))) && parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME)))) {
                     queryString.append(" ORDER BY CM.CONTRACT_NAME ");
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME)));
-                }
             }
-            if (parameters.get(StringConstantsUtil.LAZY_LOAD_RESULTS) != null) {
+            if (parameters.get(StringConstantsUtil.LAZY_LOAD_RESULTS) != null && parameters.get("startIndex") != null && parameters.get("offset") != null) {
 
-                if (parameters.get("startIndex") != null && parameters.get("offset") != null) {
                     int startIndex = Integer.parseInt(String.valueOf(parameters.get("startIndex")));
                     int offset = Integer.parseInt(String.valueOf(parameters.get("offset")));
                     queryString.append(" OFFSET ");
@@ -258,7 +257,6 @@ public class ContractMasterImpl {
                     queryString.append(StringConstantsUtil.ROWS_FETCH_NEXT);
                     queryString.append(offset);
                     queryString.append(" ROWS ONLY;");
-                }
             }
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 

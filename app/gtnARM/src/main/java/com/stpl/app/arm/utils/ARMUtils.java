@@ -888,7 +888,7 @@ public class ARMUtils {
         return visibleToDBColumnMapForConfig;
     }
 
-    public synchronized static Map<String, String> getVisibleToDBColumnMapForConfigForSort() {
+    public static synchronized Map<String, String> getVisibleToDBColumnMapForConfigForSort() {
         if (visibleToDBColumnMapForConfigForSort == null) {
             visibleToDBColumnMapForConfigForSort = new HashMap<>();
             visibleToDBColumnMapForConfigForSort.put(ADJUSTMENT_CONFIG_CONSTANTS.TRANSACTION_NAME.getPropertyId(), ADJUSTMENT_CONFIG_CONSTANTS.TRANSACTION_NAME.getDBColumn());

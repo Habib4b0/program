@@ -49,7 +49,7 @@ public class GtnCustomerAvailableTableLoadAction
 		Date forecastEligibleDate = null;
 		String hierarchyComponentId = String.valueOf(actionParamList.get(1));
 		String relationshipComponentId = String.valueOf(actionParamList.get(2));
-		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI  
 				.getVaadinBaseComponent(hierarchyComponentId, componentId).getComponentData().getCustomData();
 
 		String relationshipVersionNo = String.valueOf(
@@ -121,7 +121,7 @@ public class GtnCustomerAvailableTableLoadAction
 			 foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		}else {
 			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
-			alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP);
+			alertAction.throwAlertUtilAction(GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP);
 		}
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
@@ -143,7 +143,7 @@ public class GtnCustomerAvailableTableLoadAction
 			returnMap= response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
 		}else {
 			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
-			alertAction.throwAlertUtil("", "/loadLevelValueMapResults");
+			alertAction.throwAlertUtilAction("/loadLevelValueMapResults");
 		}
 		return returnMap;
 	}
@@ -165,7 +165,7 @@ public class GtnCustomerAvailableTableLoadAction
 			returnList = response.getGtnWsForecastResponse().getInputBean().getLevelList();
 		}else {
 			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
-			alertAction.throwAlertUtil("", "/getHierarchyLevelValues");
+			alertAction.throwAlertUtilAction("/getHierarchyLevelValues");
 		}
 		return returnList;
 	}
@@ -194,7 +194,7 @@ public class GtnCustomerAvailableTableLoadAction
 			returnString = response.getGtnWsForecastResponse().getInputBean().getHieraryQuery();
 		}else {
 			GtnFrameworkAlertUtil alertAction = new GtnFrameworkAlertUtil();
-			alertAction.throwAlertUtil("", GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL);
+			alertAction.throwAlertUtilAction(GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL);
 		}
 		return returnString;
 	}
@@ -210,7 +210,7 @@ public class GtnCustomerAvailableTableLoadAction
 		return serviceRegistryWsRequest;
 	}
 
-	private GtnUIFrameworkWebserviceResponse callGtnService(
+	public GtnUIFrameworkWebserviceResponse callGtnService(
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY,
