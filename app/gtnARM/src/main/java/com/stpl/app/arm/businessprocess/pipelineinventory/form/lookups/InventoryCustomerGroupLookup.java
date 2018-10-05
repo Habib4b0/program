@@ -38,6 +38,10 @@ import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import de.steinwedel.messagebox.ButtonId;
+import de.steinwedel.messagebox.Icon;
+import de.steinwedel.messagebox.MessageBox;
+import de.steinwedel.messagebox.MessageBoxListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -391,15 +395,29 @@ public class InventoryCustomerGroupLookup extends Window {
 
     @UiHandler("closeBtn")
     public void btnCloseBtnLogic(Button.ClickEvent event) {
-        selectedTableLogic.getResultsinventoryContainer().removeAllContainerFilters();
-        selectedTableLogic.getResultsinventoryContainer().removeAllItems();
-        availableTableLogic.getResultsinventoryContainer().removeAllContainerFilters();
-        availableTableLogic.getResultsinventoryContainer().removeAllItems();
-        viewDTO = new ViewLookupDTO();
-        if (!selectionDto.isReloadFlag()) {
-            selectionDto.clearCustomerGroupSidSet();
-        }
-        this.close();
+        MessageBox.showPlain(Icon.QUESTION, "Confirmation", "Are you sure you want to close the pop-up?Nothing will be submitted to the Inventory tab.", new MessageBoxListener() {
+            /**
+             * Called when a Button has been clicked .
+             *
+             */
+            @SuppressWarnings("PMD")
+            @Override
+            public void buttonClicked(final ButtonId buttonId) {
+                if ("yes".equalsIgnoreCase(buttonId.name())) {
+                    LOGGER.debug("Entering Close operation");
+                    selectedTableLogic.getResultsinventoryContainer().removeAllContainerFilters();
+                    selectedTableLogic.getResultsinventoryContainer().removeAllItems();
+                    availableTableLogic.getResultsinventoryContainer().removeAllContainerFilters();
+                    availableTableLogic.getResultsinventoryContainer().removeAllItems();
+                    viewDTO = new ViewLookupDTO();
+                    if (!selectionDto.isReloadFlag()) {
+                        selectionDto.clearCustomerGroupSidSet();
+                    }
+                    close();
+                    LOGGER.debug("Ending Close operation");
+                }
+            }
+        }, ButtonId.YES, ButtonId.NO);
     }
 
     @UiHandler("deleteViewBtn")
