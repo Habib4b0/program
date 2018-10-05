@@ -20,7 +20,7 @@ public class GtnUIFrameworkIfpDynamicClassFillerTest {
 		
 		@Test
 		public void testAddDynamicObject() {
-			System.out.println("addDynamicObject");
+			
 			GtnUIFrameworkIfpDynamicClassFiller instance = new GtnUIFrameworkIfpDynamicClassFiller();
 	        
 	        PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);

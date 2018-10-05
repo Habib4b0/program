@@ -74,7 +74,7 @@ public class CommonUtil {
      *
      * @return single instance of CommonUtil
      */
-    public static CommonUtil getInstance() {
+    public static synchronized CommonUtil getInstance() {
         if (object == null) {
             object = new CommonUtil();
         }
