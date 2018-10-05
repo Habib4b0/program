@@ -14,7 +14,7 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 /**
  * 
  * @author Spandan.Majumder
- * @version $Revision: 1.0 $
+ * @version $Revision: 1.0
  */
 public class GtnWebServiceItemFamilyPlanConfigTest {
 

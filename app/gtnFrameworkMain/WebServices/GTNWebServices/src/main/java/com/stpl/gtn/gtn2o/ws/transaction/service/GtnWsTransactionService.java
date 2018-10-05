@@ -420,6 +420,8 @@ public class GtnWsTransactionService {
 			} else if (!gtnWsTransactionRequest.getInventoryLevelColumnName().isEmpty()) {
 				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryTypeColumnName(),
 						gtnWsTransactionRequest.getInventoryTypeColumnValue()));
+                                criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryLevelColumnName(),
+						gtnWsTransactionRequest.getInventoryLevelColumnValue()));
 			}
 			
 			List<Object> resultList = criteria.list();

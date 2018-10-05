@@ -6,8 +6,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -17,12 +15,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static org.mockito.Mockito.doReturn;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
-import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
-import de.steinwedel.messagebox.MessageBox;
 
 
 @RunWith(PowerMockRunner.class)
@@ -46,8 +41,6 @@ public class GtnFrameworkCustomerAddActionTest {
 		GtnUIFrameworkBaseComponent base1 = Mockito.mock(GtnUIFrameworkBaseComponent.class);
 		when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(base1);
 		doReturn("productLevel").when(base1).getComponentId();
-		
-		
 		
 		ins.doAction(componentId, gtnUIFrameWorkActionConfig);
 	}

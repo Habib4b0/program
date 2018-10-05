@@ -38,7 +38,7 @@ public class CommonServiceImpl {
         //default
     }
 
-    public static CommonServiceImpl getInstance() {
+    public static synchronized CommonServiceImpl getInstance() {
         if (instance == null) {
             instance = new CommonServiceImpl();
         }

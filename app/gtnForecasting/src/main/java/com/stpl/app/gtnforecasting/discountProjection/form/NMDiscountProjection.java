@@ -2657,12 +2657,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private boolean fileAlertForPFDChanges() {
         try {
             if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())
-                    || (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) && session.isIsSalesCalculated()
+                || (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) && session.isIsSalesCalculated()
                     && session.getDiscountCanBeCalculated(commonLogic.getFileMethodologyName(session, String.valueOf(methodologyDdlb.getValue()))))) {
                 return true;
             } else {
                 return false;
-            }
+    }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }

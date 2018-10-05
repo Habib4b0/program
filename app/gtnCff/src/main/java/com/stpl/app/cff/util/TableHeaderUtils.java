@@ -53,7 +53,7 @@ public class TableHeaderUtils {
     }
     private static TableHeaderUtils object;
 
-    public static TableHeaderUtils getInstance() {
+    public static synchronized TableHeaderUtils getInstance() {
         if (object == null) {
             object = new TableHeaderUtils();
         }

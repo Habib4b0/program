@@ -20,6 +20,11 @@ import org.slf4j.LoggerFactory;
 public class SysDataSourceConnection {
     private static DataSource dataSource;
      private static final Logger LOGGER = LoggerFactory.getLogger(SysDataSourceConnection.class);
+
+    private SysDataSourceConnection() {
+        LOGGER.debug("SysDataSourceConnection");
+    }
+     
     static {
         try {
             dataSource = (DataSource) new InitialContext().lookup(System.getProperty(ConstantsUtils.SYS_SCHEMA));

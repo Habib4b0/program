@@ -469,47 +469,4 @@ public class GtnWsIfpSaveCotrollerTest {
 		fixture.saveCompanyFamilyPlan(gtnWsRequest);		
 	}
 	
-//	@Test
-//	public void testSaveCompanyFamilyPlan_notNull()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		
-//		
-//		GtnWsIfpRequest gtnWsIfpRequest = new GtnWsIfpRequest();
-//		GtnIFamilyPlanBean gtnIFamilyPlan = new GtnIFamilyPlanBean();
-//		
-//		GtnIFamilyPlanInformationBean ifpInfo = new GtnIFamilyPlanInformationBean();
-//		ifpInfo.setIfpId("20516");
-//		ifpInfo.setIfpNo("20516");
-//		ifpInfo.setIfpSid(20516);
-//		ifpInfo.setCreatedBy("20516");
-//		ifpInfo.setIfpNo("20516");
-//		ifpInfo.setIfpId("20516");
-//		ifpInfo.setIfpName("20516");
-//		ifpInfo.setIfpType(20516);
-//		ifpInfo.setIfpCategory(20516);
-//		ifpInfo.setIfpDesignation(20516);
-//		ifpInfo.setIfpStatus(1);
-//		ifpInfo.setIfpStatus(1);
-//		ifpInfo.setParentIfpName("20516");
-//		ifpInfo.setIfpStartDate(new Date());
-//		ifpInfo.setIfpEndDate(new Date());
-//		
-//		gtnIFamilyPlan.setIfpInfo(ifpInfo);
-//		gtnWsIfpRequest.setGtnIFamilyPlan(gtnIFamilyPlan);
-//		gtnWsRequest.setGtnWsIfpRequest(gtnWsIfpRequest);
-//		
-//		Session session = Mockito.mock(Session.class);
-//		Transaction transaction = Mockito.mock(Transaction.class);
-// 
-//		doReturn(session).when(sessionFactory).openSession();
-//		doReturn(transaction).when(session).beginTransaction();
-//		
-//		IfpModel updateIfpModel = Mockito.mock(IfpModel.class);
-//		
-//		when(session.get(IfpModel.class, ifpInfo.getIfpSid())).thenReturn(updateIfpModel);
-//		
-//		fixture.saveCompanyFamilyPlan(gtnWsRequest);		
-//	}
 }

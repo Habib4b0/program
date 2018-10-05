@@ -945,39 +945,6 @@ public class HeaderUtils {
         return tableHeaderDTO;
     }
 
-    static CustomTableHeaderDTO loadSingleDiscountHeader(String commonColumn, String commonHeader, final PVSelectionDTO selection, final CustomTableHeaderDTO tableHeaderDTO, Map<String, Object> headerMap) {
-        String column = commonColumn;
-        List<String> discountNames = new ArrayList<>(selection.getDiscountNameList());
-        List<Integer> projList = selection.getProjIdList();
-        Map<Integer, String> priorMap = selection.getProjectionMap();
-        List<String> commonColumnList = new ArrayList<>();
-        List<Object> dmap = new ArrayList<>();
-        if (!discountNames.isEmpty()) {
-            for (int i = 0; i < discountNames.size(); i++) {
-                commonHeader = discountNames.get(i);
-                commonColumn = column + commonHeader.replace(" ", StringUtils.EMPTY) + i;
-                tableHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT + selection.getCurrentProjectionID(), selection.getCurrentProjectionName(), String.class);
-                dmap.add(commonColumn + Constant.CURRENT + selection.getCurrentProjectionID());
-                if (!projList.isEmpty()) {
-                    for (int j = 0; j < projList.size(); j++) {
-                        tableHeaderDTO.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
-                        dmap.add(commonColumn + projList.get(j));
-                    }
-                }
-                if (!dmap.isEmpty()) {
-                    tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                    tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                }
-                commonColumnList.add(commonColumn);
-                headerMap.put(column, commonColumnList);
-            }
-            selection.setHeaderMap(headerMap);
-
-
-        }
-        return tableHeaderDTO;
-    }
-
     static void getHistoryAndProjectionDetails(PVSelectionDTO projSelDTO, String frequency) {
         int frequencyDivision = 1;
         int historyStartPeriod = 1;
