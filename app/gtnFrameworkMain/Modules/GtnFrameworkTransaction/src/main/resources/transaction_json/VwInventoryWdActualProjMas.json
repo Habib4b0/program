@@ -402,6 +402,47 @@
 		"listViewIndex": 9
 	},
 	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"listViewIndex": 16,
+		"viewModeIndex": 13
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false,
+		"listViewIndex": 14
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false,
+		"listViewIndex": 17
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false,
+		"listViewIndex": 16
+	},
+	{
 		"columnID": "companyId",
 		"columnName": "Company ID",
 		"isSearchCriteria": true,
@@ -611,67 +652,129 @@
 		"columnID": "unitsOnHand",
 		"columnName": "Units On Hand",
 		"isSearchCriteria": false,
-		"isResultView": false,
+		"isResultView": true,
 		"componentType": "text",
 		"combination": 1,
 		"defaultResultView": true,
 		"viewModeIndex": 11,
-		"viewOnlyColumn": true
+		"listViewIndex": 28
+		
+	},
+	{
+		"columnID": "unitsOnHand",
+		"columnName": "Units On Hand",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false,
+		"listViewIndex": 26
+		
 	},
 	{
 		"columnID": "amountOnHand",
 		"columnName": "Amount On Hand",
 		"isSearchCriteria": false,
-		"isResultView": false,
+		"isResultView": true,
 		"componentType": "text",
 		"combination": 1,
 		"defaultResultView": true,
 		"viewModeIndex": 12,
-		"viewOnlyColumn": true
+		"listViewIndex": 29
+	},
+	{
+		"columnID": "amountOnHand",
+		"columnName": "Amount On Hand",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false,
+		"listViewIndex": 27
 	},
 	{
 		"columnID": "quantityOnOrder",
 		"columnName": "Quantity On Order",
 		"isSearchCriteria": false,
-		"isResultView": false,
+		"isResultView": true,
 		"componentType": "text",
 		"combination": 1,
 		"defaultResultView": true,
 		"viewModeIndex": 18,
-		"viewOnlyColumn": true
+		"listViewIndex": 30
+	},
+	{
+		"columnID": "quantityOnOrder",
+		"columnName": "Quantity On Order",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false,
+		"listViewIndex": 28
 	},
 	{
 		"columnID": "amountOnOrder",
 		"columnName": "Amount On Order",
 		"isSearchCriteria": false,
-		"isResultView": false,
+		"isResultView": true,
 		"componentType": "text",
 		"combination": 1,
 		"defaultResultView": true,
 		"viewModeIndex": 19,
-		"viewOnlyColumn": true
+		"listViewIndex": 31
+	},
+	{
+		"columnID": "amountOnOrder",
+		"columnName": "Amount On Order",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false,
+		"listViewIndex": 29
 	},
 	{
 		"columnID": "quantityReceived",
 		"columnName": "Quantity Received",
 		"isSearchCriteria": false,
-		"isResultView": false,
+		"isResultView": true,
 		"componentType": "text",
 		"combination": 1,
 		"defaultResultView": true,
 		"viewModeIndex": 25,
-		"viewOnlyColumn": true
+		"listViewIndex": 32
+	},
+	{
+		"columnID": "quantityReceived",
+		"columnName": "Quantity Received",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false,
+		"listViewIndex": 30
 	},
 	{
 		"columnID": "amountReceived",
 		"columnName": "Amount Received",
 		"isSearchCriteria": false,
-		"isResultView": false,
+		"isResultView": true,
 		"componentType": "text",
 		"combination": 1,
 		"defaultResultView": true,
 		"viewModeIndex": 26,
-		"viewOnlyColumn": true
+		"listViewIndex": 33
+	},
+	{
+		"columnID": "amountReceived",
+		"columnName": "Amount Received",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false,
+		"listViewIndex": 31
 	},
 	{
 		"columnID": "createdBy",
@@ -879,47 +982,6 @@
 		"combination": 4,
 		"viewFlag": false,
 		"listViewIndex": 22
-	},
-	{
-		"columnID": "source",
-		"columnName": "Source",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"combination": 1,
-		"defaultResultView": true,
-		"listViewIndex": 16,
-		"viewModeIndex": 13
-	},
-	{
-		"columnID": "source",
-		"columnName": "Source",
-		"isSearchCriteria": false,
-		"isResultView": true,
-		"componentType": "text",
-		"combination": 2,
-		"viewFlag": false,
-		"listViewIndex": 14
-	},
-	{
-		"columnID": "source",
-		"columnName": "Source",
-		"isSearchCriteria": false,
-		"isResultView": true,
-		"componentType": "text",
-		"combination": 3,
-		"viewFlag": false,
-		"listViewIndex": 17
-	},
-	{
-		"columnID": "source",
-		"columnName": "Source",
-		"isSearchCriteria": false,
-		"isResultView": true,
-		"componentType": "text",
-		"combination": 4,
-		"viewFlag": false,
-		"listViewIndex": 16
 	},
 	{
 		"columnID": "price",

@@ -139,7 +139,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
      * @throws com.stpl.portal.kernel.exception.SystemException
 	 */
 	protected void btnLookupSelectLogic1() throws PortalException {
-		if (results != null && results.getValue() != null) {
+		if (results.getValue() != null) {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			List<String> sidsFromDetails;
 			if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(indicator)) {
@@ -193,7 +193,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 	@Override
 	protected void btnLookupSelectLogic() {
 		List<String> sidsFromDetails;
-		if (results != null && results.getValue() != null) {
+		if (results.getValue() != null) {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			try {
 				if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(indicator)) {

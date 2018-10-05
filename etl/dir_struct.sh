@@ -510,3 +510,11 @@ mkdir -p $base_path/staging/Inbound/DTX_GL_COST_CENTER_INTERFACE
 mkdir -p $base_path/staging/Inbound/DTX_GL_COST_CENTER_INTERFACE/Error
 mkdir -p $base_path/staging/Inbound/DTX_GL_COST_CENTER_INTERFACE/Processed
 mkdir -p $base_path/staging/Inbound/DTX_GL_COST_CENTER_INTERFACE/Input
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_COUPON_INTERFACE
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_COUPON_INTERFACE/Error
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_COUPON_INTERFACE/Processed
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_COUPON_INTERFACE/Input
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_MEDICAID_INTERFACE
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_MEDICAID_INTERFACE/Error
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_MEDICAID_INTERFACE/Processed
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_MEDICAID_INTERFACE/Input
