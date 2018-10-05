@@ -5,12 +5,15 @@
  */
 package com.stpl.app.adminconsole.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author Asha
  */
 public class Message {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(Message.class);
     public static final String REBATE_SPECIAL_CHAR_MSG = "MSG_ID_001";
     public static final String SPECIAL_CHAR_MSG = "MSG_ID_002";
     public static final String SPECIAL_CHAR_MSGS = "MSG_ID_003";
@@ -70,5 +73,9 @@ public class Message {
     public static final String NO_MIN3_MSG = "MSG_ID_071";
     public static final String NO_HOUR_MSG = "MSG_ID_072";
     public static final String NO_MIN_MSG = "MSG_ID_073";
+
+    private Message() {
+        LOGGER.debug("Message");
+    }
 
 }

@@ -38,7 +38,7 @@ public class GtnReportDashboardFrequencyLoadAction
 				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId);
 		GtnUIFrameworkBaseComponent annualTotal = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
 				GtnFrameworkReportStringConstants.REPORT_DASHBOARD_TAB + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS,
+						+ GtnFrameworkReportStringConstants.REPORT_DISPLAY_SELECTION_TAB_ANNUAL_TOTALS,
 				componentId);
 		if (vaadinFrequencyInReportingDashboardBaseComponent != null
 				&& vaadinFrequencyInReportingDashboardBaseComponent.getStringCaptionFromV8ComboBox() != null

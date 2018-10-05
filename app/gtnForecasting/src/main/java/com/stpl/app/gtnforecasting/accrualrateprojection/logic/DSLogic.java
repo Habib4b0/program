@@ -20,7 +20,6 @@ import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
 import com.stpl.app.utils.Constants;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.util.QueryUtil;
 import com.vaadin.server.VaadinSession;
@@ -202,25 +201,6 @@ public class DSLogic {
             return Collections.emptyList();
         } finally {
             LOGGER.debug("End of getCcpMap method");
-        }
-    }
-
-    public void saveCcp(final List<Leveldto> customerEndLevels, final String productHierarchyEndLevelsHierNos, final String indicator, final String projectionId, final AccrualDataSelectionDTO dtoValue) {
-        String dedLevel = "Deduction Program Type".equalsIgnoreCase(dtoValue.getDeductionType()) ? "REBATE_PROGRAM_TYPE" : "Deduction Category".equalsIgnoreCase(dtoValue.getDeductionType()) ? "RS_CATEGORY" : "Deduction Schedule Type".equalsIgnoreCase(dtoValue.getDeductionType()) ? Constant.RS_TYPE : StringUtils.EMPTY;
-        if (customerEndLevels != null && !customerEndLevels.isEmpty() && StringUtils.isNotBlank(dedLevel)) {
-            String filter = " AND R1." + dedLevel + " = " + dtoValue.getDeductionValueId();
-            Map<String, Object> parameters;
-            for (Leveldto dto : customerEndLevels) {
-                parameters = new HashMap<>();
-                parameters.put(Constant.PROJECTION_ID, projectionId);
-                parameters.put(Constant.INDICATOR, indicator);
-                parameters.put("relationshipLevelSid", dto.getRelationshipLevelSid());
-                parameters.put(Constant.HIERARACHY_NO, dto.getHierarchyNo() + Constant.PERCENT);
-                parameters.put("productHierarchyEndLevelsHierNos", productHierarchyEndLevelsHierNos);
-                parameters.put(Constant.INDICATOR, "saveCcp");
-                parameters.put("SELECTION", filter);
-                getExecuteQuery(parameters);
-            }
         }
     }
 

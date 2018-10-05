@@ -36,6 +36,7 @@ public class ExcelUtils {
 
     public static void setExcelData(final List resultList, final Object[] object, final List<String> visibleColumns, ExtTreeContainer<AdjustmentDTO> excelBeanContainer, final int discountColumnNeeded, final String module, List<Object> listData) throws IllegalAccessException, InvocationTargetException {
         int interval = (int) listData.get(3);
+        excelBeanContainer.removeAllItems();
         if (module.equals(ARMConstants.getPipelineInventoryTrueUp())) {
             setExcelHierarchyData(inventoryCustomizer(resultList, object, visibleColumns, true, interval, discountColumnNeeded), excelBeanContainer);
         } else if (module.equals(ARMConstants.getTransaction8())) {
