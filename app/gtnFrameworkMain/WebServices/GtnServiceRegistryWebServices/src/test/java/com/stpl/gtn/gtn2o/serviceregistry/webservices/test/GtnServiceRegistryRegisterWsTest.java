@@ -28,7 +28,7 @@ import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 
-@Ignore
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/resources/GtnServiceRegistry-test.xml" })
 public class GtnServiceRegistryRegisterWsTest {

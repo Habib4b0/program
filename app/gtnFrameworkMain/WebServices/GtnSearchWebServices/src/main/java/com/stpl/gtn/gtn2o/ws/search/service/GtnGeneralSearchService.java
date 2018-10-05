@@ -172,7 +172,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             String viewName = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
                     .getViewName();
             Integer userId = Integer.valueOf(gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId());
-
+ 
             GtnFrameworkForecastDataSelectionBean dataSelectionBean = gtnUiFrameworkWebservicerequest
                     .getGtnWsForecastNewArchRequest().getDataSelectionBean();
             String viewData = gtnForecastJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'",
@@ -198,11 +198,9 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
             logger.info("calling query engine via service registry");
             GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
-            List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
-            GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+            int resultCount = response1.getQueryResponseBean().getResultInteger();
             GtnSerachResponse searchResponse = new GtnSerachResponse();
-            dataTable.addData(resultList);
-            searchResponse.setResultSet(dataTable);
+            searchResponse.setCount(resultCount);
             response.setGtnSerachResponse(searchResponse);
         } catch (Exception e) {
             logger.error("Exception in save view" + e);

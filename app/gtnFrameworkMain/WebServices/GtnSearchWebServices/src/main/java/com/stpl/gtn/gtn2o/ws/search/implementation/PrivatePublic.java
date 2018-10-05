@@ -117,15 +117,6 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         return response;
     }
 
-
-    private int getQuery(StringBuilder strQuery, Map<String, String> queryMap, List<GtnWebServiceSearchCriteria> webSearchCriteriaList, List<Object> param, String viewType, List<GtnFrameworkDataType> data, int count) {
-        strQuery.append(queryMap.get(webSearchCriteriaList.get(1).getFieldId()));
-        param.add(viewType.replaceAll("\\*", "%"));
-        data.add(GtnFrameworkDataType.STRING);
-        count++;
-        return count;
-    }
-
     private List<Object[]> method(List<Object[]> resultList) throws IOException {
         List<Object[]> list = new ArrayList<>();
         GtnFrameworkForecastDataSelectionBean bean;
@@ -158,7 +149,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
     }
 
     private GtnFrameworkForecastDataSelectionBean convertJsonToObject(Class<GtnFrameworkForecastDataSelectionBean> dataSelectionBean,
-            String viewData) throws JsonParseException, JsonMappingException, IOException {
+            String viewData) throws  IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(viewData, dataSelectionBean);
