@@ -9,7 +9,7 @@ Release:        1%{?dist}
 Summary:GTN APP Release
 BuildArchitectures: noarch
 License:  GPLv3+
-Source0:SPEC_SOURCE
+Source0:
 Prefix:/opt/bpigtn
 BuildArch: noarch
 %description
