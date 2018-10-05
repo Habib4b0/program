@@ -124,9 +124,8 @@ public class DataSelectionUtil {
         return (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.DATE) + "/" + cal.get(Calendar.YEAR);
     }
 
-    public static String getItemSidForGroup(List<Leveldto> innerProdLevels, List<String> itemsParam) {
+    public static String getItemSidForGroup(List<Leveldto> innerProdLevels, List<String> items) {
         StringBuilder itemList = new StringBuilder();
-        List<String> items = itemsParam;
         if (items != null && !items.isEmpty()) {
             items = new ArrayList<>(new LinkedHashSet<String>(items));
             for (int loop = 0, limit = items.size(); loop < limit; loop++) {

@@ -99,7 +99,6 @@ public class ResponsiveUtils {
     
     public static void removeComponentFromCssLayout(CssLayout layout, final Component labelComponent, final Component fieldComponent, final boolean appPermission) {
          try {
-        	// Clara UI implementation
             if (!appPermission) {
                 layout.removeComponent(labelComponent);
                 layout.removeComponent(fieldComponent);
@@ -111,7 +110,6 @@ public class ResponsiveUtils {
 
     public static void addComponentInCssLayout(CssLayout layout, final Component labelComponent, final Component fieldComponent, final boolean appPermission) {
         try {
-        	// Clara UI implementation
             if (!appPermission) {
                 layout.removeComponent(labelComponent);
                 layout.removeComponent(fieldComponent);
@@ -142,144 +140,6 @@ public class ResponsiveUtils {
         }
     }
 
-    public static void addResponsiveTableCollapse(final Table table) {
-        table.setColumnCollapsingAllowed(true);
-        Page.getCurrent().addBrowserWindowResizeListener(
-                new Page.BrowserWindowResizeListener() {
-                    @Override
-                    public void browserWindowResized(
-                            final Page.BrowserWindowResizeEvent event) {
-                        
-                        
-
-                                if (defaultColumnsVisible(table)) {
-                                    if (Page.getCurrent().getBrowserWindowWidth() < NumericConstants.THREE_EIGHT_ZERO) {
-                                        for (Object propertyId : getCollapsibleOneColumn(table)) {
-                                            table.setColumnCollapsed(propertyId, true);
-                                        }
-                                    } else {
-                                        for (Object propertyId : getCollapsibleColumns(table)) {
-                                            table.setColumnCollapsed(propertyId, true);
-                                        }
-                                    }
-                                }
-                            }
-                });
-    }
-    
-    public static void addResponsiveTableCollapse(final ExtFilterTable table) {
-        table.setColumnCollapsingAllowed(true);
-        Page.getCurrent().addBrowserWindowResizeListener(
-                new Page.BrowserWindowResizeListener() {
-                    @Override
-                    public void browserWindowResized(
-                            final Page.BrowserWindowResizeEvent event) {
-                        
-                        
-
-                                if (defaultColumnsVisible(table)) {
-                                    if (Page.getCurrent().getBrowserWindowWidth() < NumericConstants.THREE_EIGHT_ZERO) {
-                                        for (Object propertyId : getCollapsibleOneColumn(table)) {
-                                            table.setColumnCollapsed(propertyId, true);
-                                        }
-                                    } else {
-                                        for (Object propertyId : getCollapsibleColumns(table)) {
-                                            table.setColumnCollapsed(propertyId, true);
-                                        }
-                                    }
-                                }
-                            }
-                });
-    }
-
-     public static void addResponsiveTableCollapseForExtTable(final ExtFilterTable table) {
-        table.setColumnCollapsingAllowed(true);
-        Page.getCurrent().addBrowserWindowResizeListener(
-                new Page.BrowserWindowResizeListener() {
-                    @Override
-                    public void browserWindowResized(
-                            final Page.BrowserWindowResizeEvent event) {
-                        
-                        
-
-                                if (defaultColumnsVisible(table)) {
-                                    if (Page.getCurrent().getBrowserWindowWidth() < NumericConstants.THREE_EIGHT_ZERO) {
-                                        for (Object propertyId : getCollapsibleOneColumn(table)) {
-                                            table.setColumnCollapsed(propertyId, true);
-                                        }
-                                    } else {
-                                        for (Object propertyId : getCollapsibleColumns(table)) {
-                                            table.setColumnCollapsed(propertyId, true);
-                                        }
-                                    }
-                                }
-                            }
-                });
-    }
-     
-    private static boolean defaultColumnsVisible(Table table) {
-        boolean result = true;
-        for (String propertyId : getCollapsibleColumns(table)) {
-            if (table.isColumnCollapsed(propertyId) == Page.getCurrent()
-                    .getBrowserWindowWidth() < NumericConstants.EIGHT_HUNDRED) {
-                result = false;
-            }
-        }
-        return result;
-    }
-    private static boolean defaultColumnsVisible(ExtFilterTable table) {
-        boolean result = true;
-        for (String propertyId : getCollapsibleColumns(table)) {
-            if (table.isColumnCollapsed(propertyId) == Page.getCurrent()
-                    .getBrowserWindowWidth() < NumericConstants.EIGHT_HUNDRED) {
-                result = false;
-            }
-        }
-        return result;
-    }
-
-    private static String[] getCollapsibleColumns(ExtFilterTable table) {
-        Object[] visibleColumns = table.getVisibleColumns();
-        String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
-        if(list.size()>NumericConstants.TWO)
-        {
-        list.remove(propertyIds[0]);
-        list.remove(propertyIds[1]);
-        }
-        propertyIds = list.toArray(new String[list.size()]);
-        return propertyIds;
-    }
-    
-    private static String[] getCollapsibleColumns(Table table) {
-        Object[] visibleColumns = table.getVisibleColumns();
-        String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
-        if(list.size()>NumericConstants.TWO)
-        {
-        list.remove(propertyIds[0]);
-        list.remove(propertyIds[1]);
-        }
-        propertyIds = list.toArray(new String[list.size()]);
-        return propertyIds;
-    }
-
-    private static String[] getCollapsibleOneColumn(Table table) {
-        Object[] visibleColumns = table.getVisibleColumns();
-        String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
-        list.remove(propertyIds[0]);
-        propertyIds = list.toArray(new String[list.size()]);
-        return propertyIds;
-    }
-    private static String[] getCollapsibleOneColumn(ExtFilterTable table) {
-        Object[] visibleColumns = table.getVisibleColumns();
-        String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
-        list.remove(propertyIds[0]);
-        propertyIds = list.toArray(new String[list.size()]);
-        return propertyIds;
-    }
     
     public static void addResponsiveTabSheet(final TabSheet tabSheet) {
         Page.getCurrent().addBrowserWindowResizeListener(
