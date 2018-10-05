@@ -415,7 +415,7 @@ declare @ACTUALS_END_SID int = (
 	and nd.YEAR=t.YEAR
 	and nd.INDICATOR=1
 	and nd.rs_contract_Sid=t.SELECTED_LEVEL
-	and nd.DISCOUNT_TYPE=1
+	and nd.DISCOUNT_TYPE=0
 	left join #disco md on md.CFF_MASTER_SID=t.CFF_MASTER_SID and md.ROW_ID=t.row_id
 	and md.PERIOD=t.PERIOD
 	and md.YEAR=t.YEAR
