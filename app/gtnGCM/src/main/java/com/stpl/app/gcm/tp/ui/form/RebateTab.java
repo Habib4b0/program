@@ -414,8 +414,9 @@ public class RebateTab extends VerticalLayout {
      * @param frequency the frequency
      * @return the list
      */
-    protected final List<String> loadHistory(String frequency, String period) {
+    protected final List<String> loadHistory(String frequency, String periodParam) {
         List<String> historyLoad = new ArrayList<>();
+        String period = periodParam;
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.equals(frequency)) {

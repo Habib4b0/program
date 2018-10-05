@@ -782,9 +782,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         setBaseVariables(variableCategoryValue, variablesValue);
     }
 
-    public void setBaseVariables(String columnsParam, String varriables) {
+    public void setBaseVariables(String columnsParam, String varriablesParam) {
         LOGGER.debug("Entering setBaseVariables method");
         String columns = columnsParam;
+        String varriables = varriablesParam ;
         pvSelectionDTO.setColValue(false);
         pvSelectionDTO.setColVariance(false);
         pvSelectionDTO.setColPercentage(false);

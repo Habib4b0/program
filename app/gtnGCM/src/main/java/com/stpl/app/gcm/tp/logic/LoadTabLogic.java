@@ -208,7 +208,8 @@ public class LoadTabLogic {
 
     }
 
-    public String getFormattedValue(DecimalFormat format, String value, boolean excelExport) {
+    public String getFormattedValue(DecimalFormat format, String valueParam, boolean excelExport) {
+        String value = valueParam;
         if (value.contains(Constants.NULL)) {
             value = "---";
         } else {

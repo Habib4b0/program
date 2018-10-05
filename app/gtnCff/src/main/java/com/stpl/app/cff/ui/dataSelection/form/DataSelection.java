@@ -3891,8 +3891,9 @@ public class DataSelection extends AbstractDataSelection {
 	}
 
 	@Override
-	protected void loadForecastLevels(List<Leveldto> innerLevels, IndexedContainer productForecastLevelContainer,
+	protected void loadForecastLevels(List<Leveldto> innerLevelsParam, IndexedContainer productForecastLevelContainer,
 			ComboBox level, int hierarchySid, int hierarchyVersion) {
+            List<Leveldto> innerLevels = innerLevelsParam;
 		innerLevels = new DataSelectionLogic().loadCustomerForecastLevel(hierarchySid,
 				hierarchyVersion);
 		productForecastLevelContainer.removeAllItems();

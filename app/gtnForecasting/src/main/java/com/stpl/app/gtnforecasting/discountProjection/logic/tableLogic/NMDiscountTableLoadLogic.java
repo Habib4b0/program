@@ -59,7 +59,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
     private int lastLevelNo = 0;
     private String userGroup = StringUtils.EMPTY;
     private int customId = 0;
-    private boolean checkAll = false;
+    protected boolean checkAll = false;
     private String relationshipBuilderSid = StringUtils.EMPTY;
     private final DiscountProjectionLogic logic = new DiscountProjectionLogic();
     private final NMDiscountProjection nmDiscountProjection;
