@@ -1786,8 +1786,9 @@ public class AbstractLogic {
      * @param frequency the frequency
      * @return the list
      */
-    public static final List<String> loadHistory(String frequency, String period) {
+    public static final List<String> loadHistory(String frequency, String periodParam) {
         List<String> history = new ArrayList<>();
+        String period = periodParam;
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.equals(frequency)) {

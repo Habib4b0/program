@@ -342,10 +342,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                     historyBean.addAll(loadHistoryDdlb(SEMI_ANNUALLY.getConstant(), SEMI_ANNUAL.getConstant()));
                     historyConstant = "2 Semi-Annual";
                     break;
-                case ConstantsUtil.QUARTERLY:
-                    historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant(), QUARTERS.getConstant()));
-                    historyConstant = StringConstantsUtil.FOUR_QUARTERS;
-                    break;
                 case ConstantsUtil.MONTHLY:
                     historyBean.addAll(loadHistoryDdlb(MONTHLY.getConstant(), MONTHS.getConstant()));
                     historyConstant = "12 Months";
@@ -361,8 +357,9 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         LOGGER.debug("Loading Frequency Combo Box Ended");
     }
 
-    protected final List<String> loadHistoryDdlb(String frequency, String period) {
+    protected final List<String> loadHistoryDdlb(String frequency, String periodParam) {
         LOGGER.debug("Loading Frequency Combo Box Initiated");
+        String period = periodParam;
         List<String> history = new ArrayList<>();
         int endValue = 0;
         String freq = StringUtils.EMPTY;
