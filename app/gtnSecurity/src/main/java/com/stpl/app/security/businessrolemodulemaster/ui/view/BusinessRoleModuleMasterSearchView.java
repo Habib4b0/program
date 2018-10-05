@@ -20,7 +20,7 @@ public class BusinessRoleModuleMasterSearchView extends VerticalLayout implement
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "";
-	private static  String userId = "";
+	private static  volatile String userId = "";
         private static final Logger LOGGER = LoggerFactory.getLogger(BusinessRoleModuleMasterSearchView.class
 			.getName());
         

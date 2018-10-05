@@ -161,7 +161,7 @@ public class HeaderUtil {
     private HeaderUtil() {
     }
 
-    public static HeaderUtil getInstance() {
+    public static synchronized HeaderUtil getInstance() {
         if (object == null) {
             object = new HeaderUtil();
         }

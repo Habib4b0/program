@@ -1213,7 +1213,7 @@ public class CommonUtils {
         return date;
     }
 
-    public static CommonUtils getInstance() {
+    public static synchronized CommonUtils getInstance() {
         if (object == null) {
             object = new CommonUtils();
         }
@@ -1266,7 +1266,8 @@ public class CommonUtils {
         return history;
     }
 
-    public static List getHistoryDdlbList(int endValue, String period) {
+    public static List getHistoryDdlbList(int endValue, String periodParam) {
+        String period = periodParam;
         List history = new ArrayList();
         if (period.equals("Year")) {
             period = "Years";

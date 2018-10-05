@@ -103,13 +103,13 @@ public class PPAFormulaLookup extends Window {
 
     private boolean validatePPA = false;
     
-    public final Object[] formulaLookup = new Object[]{
+    private static final Object[] FORMULA_LOOKUP = new Object[]{
         Constant.FORMULA_TYPE, "formulaID", "formulaNo", "formulaName", "version"};
-    public final String[] formulaLookupHeader = new String[]{
+    private static final String[] FORMULA_LOOKUP_HEADER = new String[]{
         "Formula Type", "Formula ID", "Formula No", "Formula Name", "Version"};
-    public final Object[] ruleDetailsColumns = new Object[]{
+    private static final Object[] RULES_DETAILS_COLUMN = new Object[]{
         Constant.DEDUCTION_TYPE, Constant.DEDUCTION_SUB_TYPE, Constant.DEDUCTION_CATEGORY, Constant.INDICATOR};
-    public final String[] ruleDetailsHeaders = new String[]{"Deduction Type", "Deduction Sub Type", "Deduction Category", "+/- Indicator"};
+    private static final String[] RULES_DETAILS_HEADER = new String[]{"Deduction Type", "Deduction Sub Type", "Deduction Category", "+/- Indicator"};
 
     /**
      * Default Constructor to load the formula for Mass Update
@@ -156,8 +156,8 @@ public class PPAFormulaLookup extends Window {
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
-        resultsTable.setVisibleColumns(formulaLookup);
-        resultsTable.setColumnHeaders(formulaLookupHeader);
+        resultsTable.setVisibleColumns(FORMULA_LOOKUP);
+        resultsTable.setColumnHeaders(FORMULA_LOOKUP_HEADER);
         resultsTable.setFilterBarVisible(true);
         resultsTable.addStyleName(Constant.FILTERBAR);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -175,8 +175,8 @@ public class PPAFormulaLookup extends Window {
         detailstableLogic.sinkItemPerPageWithPageLength(false);
         detailsTable.setImmediate(true);
         detailsTable.setSizeFull();
-        detailsTable.setVisibleColumns(ruleDetailsColumns);
-        detailsTable.setColumnHeaders(ruleDetailsHeaders);
+        detailsTable.setVisibleColumns(RULES_DETAILS_COLUMN);
+        detailsTable.setColumnHeaders(RULES_DETAILS_HEADER);
         detailsTable.setFilterBarVisible(true);
         detailsTable.addStyleName(Constant.FILTERBAR);
         detailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -352,8 +352,8 @@ public class PPAFormulaLookup extends Window {
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(formulaLookup);
-        resultsTable.setColumnHeaders(formulaLookupHeader);
+        resultsTable.setVisibleColumns(FORMULA_LOOKUP);
+        resultsTable.setColumnHeaders(FORMULA_LOOKUP_HEADER);
     }
 
     /**

@@ -1095,6 +1095,13 @@ SELECT count(1)
             ]]>
         </query>
     </entity>
+    <entity id="variance-join">
+        <query>
+            <![CDATA[
+                JOIN ST_CCP_PV_FILTERS SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID ?DEDJOIN
+            ]]>
+        </query>
+    </entity>
      <entity id="discount-join-mandated">
         <query>
             <![CDATA[
@@ -1219,7 +1226,7 @@ SELECT count(1)
 							DISTINCT mas.RS_CONTRACT_SID,
 							RLD.PARENT_HIERARCHY_NO
 						FROM
-							ST_NM_DISCOUNT_PROJ_MASTER MAS
+							ST_CCP_PV_FILTERS MAS
 						JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON
 							LEVEL_NO = 10
 							AND relationship_builder_sid = @RELVALUE

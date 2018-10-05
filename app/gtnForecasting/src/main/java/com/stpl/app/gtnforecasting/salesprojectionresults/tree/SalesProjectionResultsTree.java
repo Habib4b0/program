@@ -355,13 +355,14 @@ public class SalesProjectionResultsTree {
     }
 
     public TreeNode getHierarchy(TreeNode apex, String hierarchy) {
+        TreeNode apexNode = apex;
         if (!hierarchy.isEmpty()) {
             String[] istParent = hierarchy.split("\\.");
             for (String tParent : istParent) {
-                apex = apex.getNthChild(Integer.parseInt(tParent) - 1);
+                apexNode = apexNode.getNthChild(Integer.parseInt(tParent) - 1);
             }
         }
-        return apex;
+        return apexNode;
     }
 
     public void loadStaticLevelRow(List<SalesProjectionResultsDTO[]> dto, Set<TreeNode> dbLoadedSalesPRNode, Map<String, SalesProjectionResultsDTO> loadDataMap) {

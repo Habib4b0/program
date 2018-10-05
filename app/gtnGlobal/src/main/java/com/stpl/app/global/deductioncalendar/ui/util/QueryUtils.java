@@ -538,12 +538,12 @@ public class QueryUtils {
     
     /**
      * 
-     * @param query
+     * @param queryParam
      * @param freq
      * @return 
      */
-    public String getColumnListbyFreq(String query, String freq) {
-
+    public String getColumnListbyFreq(String queryParam, String freq) {
+         String query = queryParam;
         switch (freq) {
             case "Annual":
                 query = query.replace(ConstantsUtils.FREQ, SQLUtil.getQuery("annualdisc"));

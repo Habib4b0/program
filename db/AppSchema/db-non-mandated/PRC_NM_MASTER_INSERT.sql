@@ -666,10 +666,11 @@ select distinct ccp_details_sid,rs_contract_sid,1 PV_FILTERS from  ', @DISC_MAST
 union all
 select distinct ccp_details_sid,0 as rs_contract_sid,1 PV_FILTERS from  ', @SALES_MASTER_TABLE, ' s where not exists
 ( select 1 from ', @DISC_MASTER_TABLE, ' D where d.ccp_details_sid=s.ccp_details_Sid)')
-EXEC SP_EXECUTESQL @SQL
+
 		  
 		  IF @SCREEN_NAME='DISCOUNT'
 		  BEGIN
+		  EXEC SP_EXECUTESQL @SQL
 		  EXEC PRC_NM_PROJECTION_INSERT @PROJECTION,@USER_ID,@SESSION_ID,@SCREEN_NAME
 		  DECLARE @VAR1 CHAR(1),@CUST_MASTER_SID INT
 		  SET @VAR1=(SELECT CASE WHEN SAVE_FLAG=1 THEN 'E' ELSE 'G' END SAVE_FLAG FROM PROJECTION_MASTER WHERE PROJECTION_MASTER_SID=@PROJECTION)

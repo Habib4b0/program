@@ -221,12 +221,13 @@ public class SalesProjectionTree {
     }
 
     public TreeNode getHierarchy(TreeNode apex, String hierarchy) {
+        TreeNode apexNew = apex;
         if (!hierarchy.isEmpty()) {
             String[] istParent = hierarchy.split("\\.");
             for (String tParent : istParent) {
-                apex = apex.getNthChild(Integer.parseInt(tParent) - 1);
+                apexNew = apexNew.getNthChild(Integer.parseInt(tParent) - 1);
             }
         }
-        return apex;
+        return apexNew;
     }
 }
