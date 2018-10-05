@@ -65,7 +65,6 @@ public class GtnFrameworkItemMasterArmUdc1Utility {
 	private static synchronized void reset() {
 		armUdc1ValueList=null;
 		armUdc1CodeList=null;
-                codeValueArmUdc1HashMap.clear();
 		codeValueArmUdc1HashMap=null;
 	}
 

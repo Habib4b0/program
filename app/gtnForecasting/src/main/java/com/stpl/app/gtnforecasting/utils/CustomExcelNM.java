@@ -343,7 +343,7 @@ public class CustomExcelNM extends ExcelExport {
              if (isappend) {
                   formulaExcel = "SUM(".concat(string).concat(")");
               } else {
-                  formulaExcel += "SUM(".concat(string).concat(")");
+                  formulaExcel += "+SUM(".concat(string).concat(")");
               } 
              isappend= false;
              

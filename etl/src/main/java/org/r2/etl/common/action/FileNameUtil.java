@@ -143,6 +143,8 @@ public class FileNameUtil {
                         map.put(Constants.DTX_CONTRACT_REBATE_PLAN_INTERFACE, Constants.DTX_CONTRACT_REBATE_PLAN_INTERFACE);
                         map.put(Constants.DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE, Constants.DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE);
                         map.put(Constants.DTX_GL_COST_CENTER_INTERFACE, Constants.DTX_GL_COST_CENTER_INTERFACE);
+                        map.put(Constants.DTX_ACTUAL_MASTER_COUPON_INTERFACE, Constants.DTX_ACTUAL_MASTER_COUPON_INTERFACE);
+                        map.put(Constants.DTX_ACTUAL_MASTER_MEDICAID_INTERFACE, Constants.DTX_ACTUAL_MASTER_MEDICAID_INTERFACE);
 
 		}
 		return map;
@@ -346,6 +348,10 @@ public class FileNameUtil {
                     Constants.DTX_CONTRACT_REBATE_SCHEDULE_INTERFACE);
                         interfaceNameMap.put(Constants.DTX_GL_COST_CENTER_INTERFACE,
                     Constants.DTX_GL_COST_CENTER_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_ACTUAL_MASTER_MEDICAID_INTERFACE,
+                    Constants.DTX_ACTUAL_MASTER_MEDICAID_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_ACTUAL_MASTER_MEDICAID_INTERFACE,
+                    Constants.DTX_ACTUAL_MASTER_MEDICAID_INTERFACE);
                         
 		}
 		return interfaceNameMap;
