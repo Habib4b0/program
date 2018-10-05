@@ -64,6 +64,8 @@ public class InventoryCustomerLookup extends Window {
     private Button closeBtn;
     @UiField("resetBtn")
     private Button resetBtn;
+    @UiField("deleteViewBtn")
+    private Button deleteViewBtn;
     private ExtFilterTable customerTable = new ExtFilterTable();
     private final BeanItemContainer<CustomerGroupDTO> resultsContainer = new BeanItemContainer<>(CustomerGroupDTO.class);
     private Object[] visibleColumns = {"customerName", "include", "indicator"};
@@ -109,6 +111,7 @@ public class InventoryCustomerLookup extends Window {
         inventoryTableLayout.addComponent(customerTable);
         inventoryTableLayout.setHeight("50%");
         loadResultTable();
+        deleteViewBtn.setEnabled(false);
     }
 
     private CustomTextField.ClickListener customerViewListener = new CustomTextField.ClickListener() {
@@ -129,6 +132,7 @@ public class InventoryCustomerLookup extends Window {
                     public void windowClose(CloseEvent e) {
                         if (customerViewLookUp.isSelectFlag()) {
                             lookupLoadLogic(customerViewLookUp.getDtoValue());
+                            deleteViewBtn.setEnabled(true);
                         } else {
                             publicView.setValue("");
                             privateView.setValue("");
@@ -322,14 +326,31 @@ public class InventoryCustomerLookup extends Window {
     @UiHandler("deleteViewBtn")
     public void deleteButtonClick(Button.ClickEvent event) {
         try {
-            ExclusionDetailsLogic arLogic = new ExclusionDetailsLogic();
-            arLogic.deleteViewLogicForInventory(viewDTO.getViewSid());
-            loadResultTable();
-            publicView.setValue(StringUtils.EMPTY);
-            privateView.setValue(StringUtils.EMPTY);
-            /*delete view*/
-        } catch (Exception e) {
-            LOGGER.error("Error in deleteButtonClick :", e);
+            new AbstractNotificationUtils() {
+                @Override
+                public void noMethod() {
+                    LOGGER.debug("inside deleteButtonClick  No Method");
+                }
+
+                @Override
+                /**
+                 * The method is triggered when Yes button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                public void yesMethod() {
+                    ExclusionDetailsLogic arLogic = new ExclusionDetailsLogic();
+                    arLogic.deleteViewLogic(viewDTO.getViewSid());
+                    loadResultTable();
+                    publicView.setValue(StringUtils.EMPTY);
+                    privateView.setValue(StringUtils.EMPTY);
+
+                }
+            }.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getDeleteMessage_exclusion());
+
+        } catch (Exception ex) {
+            LOGGER.error("Error in deleteButtonClick :", ex);
         }
     }
 
