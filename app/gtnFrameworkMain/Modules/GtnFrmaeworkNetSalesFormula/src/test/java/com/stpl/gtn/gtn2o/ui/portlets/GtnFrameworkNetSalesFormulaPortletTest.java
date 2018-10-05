@@ -1,7 +1,6 @@
-package com.stpl.gtn.gtn2o.ui;
+package com.stpl.gtn.gtn2o.ui.portlets;
 
 import static org.powermock.api.mockito.PowerMockito.doNothing;
-import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import org.junit.After;
@@ -18,33 +17,34 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkEngine;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ui.module.ifp.dynamicclasses.GtnUIFrameworkIfpDynamicClassFiller;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.dynamicclasses.GtnUIFrameworkNsfDynamicClassFiller;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
 /**
+
  * @author spandan.majumder
  * @version $Revision: 1.0 
  */
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = { UI.class, GtnUIFrameworkGlobalUI.class })
-public class GtnFrameworkIFPTest {
+public class GtnFrameworkNetSalesFormulaPortletTest {
 	
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkIFPTest.class); 
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkNetSalesFormulaPortletTest.class); 
 	
 	@InjectMocks
-	GtnFrameworkIFP gtnFrameworkIFPInstance;
-	
+	GtnFrameworkNetSalesFormulaPortlet gtnFrameworkNetSalesFormulaPortlet;
+
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 	}
 
 	@Test
-    public void testInit() {
+    public void testGtnFrameworkNetSalesFormulaPortlet_1() {
         System.out.println("init");
         try{
         VaadinRequest vaadinRequest = Mockito.mock(VaadinRequest.class);
@@ -55,24 +55,23 @@ public class GtnFrameworkIFPTest {
             	// Init method
             }
         };
+        
         PowerMockito.mockStatic(UI.class, GtnUIFrameworkGlobalUI.class);
         when(UI.getCurrent()).thenReturn(ui);
         
         GtnUIFrameworkEngine gtnUIFrameworkEngine = Mockito.mock(GtnUIFrameworkEngine.class);
         GtnUIFrameworkRootConfig gtnUIFrameworkRootConfig = Mockito.mock(GtnUIFrameworkRootConfig.class);
         Navigator navigator = Mockito.mock(Navigator.class);
-        GtnUIFrameworkIfpDynamicClassFiller gtnUIFrameworkIfpDynamicClassFiller = Mockito.mock(GtnUIFrameworkIfpDynamicClassFiller.class);
+        GtnUIFrameworkNsfDynamicClassFiller gtnUIFrameworkIfpDynamicClassFiller = Mockito.mock(GtnUIFrameworkNsfDynamicClassFiller.class);
 
         PowerMockito.whenNew(GtnUIFrameworkEngine.class).withAnyArguments().thenReturn(gtnUIFrameworkEngine);
         PowerMockito.whenNew(GtnUIFrameworkRootConfig.class).withAnyArguments().thenReturn(gtnUIFrameworkRootConfig);
         PowerMockito.whenNew(Navigator.class).withAnyArguments().thenReturn(navigator);
-        PowerMockito.whenNew(GtnUIFrameworkIfpDynamicClassFiller.class).withNoArguments().thenReturn(gtnUIFrameworkIfpDynamicClassFiller);
+        PowerMockito.whenNew(GtnUIFrameworkNsfDynamicClassFiller.class).withNoArguments().thenReturn(gtnUIFrameworkIfpDynamicClassFiller);
 
-        doReturn("").when(vaadinRequest).getRemoteUser();
-        GtnUIFrameworkGlobalUI.addSessionProperty("ValueChangeAllowed", "");
-        doNothing().when(gtnUIFrameworkEngine).buildVaadinScreen(gtnUIFrameworkRootConfig, navigator, vaadinRequest, ui, "Item Family Plan", gtnUIFrameworkIfpDynamicClassFiller);
+        doNothing().when(gtnUIFrameworkEngine).buildVaadinScreen(gtnUIFrameworkRootConfig, navigator, vaadinRequest, ui, "Net Sales Formula", gtnUIFrameworkIfpDynamicClassFiller);
         
-        gtnFrameworkIFPInstance.init(vaadinRequest);
+        gtnFrameworkNetSalesFormulaPortlet.init(vaadinRequest);
 
     }
         catch(Exception e){
