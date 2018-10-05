@@ -47,8 +47,7 @@ public class GtnFrameworkNSFCommonLogic {
 		updateRequest.setGtnWsNetSalesGeneralRequest(gtnWsNetSalesGeneralRequest);
 		updateRequest.setGtnWsGeneralRequest(generalWSRequest);
 
-		GtnUIFrameworkWebserviceResponse commonWsResponse = new GtnUIFrameworkWebServiceClient()
-				.callGtnWebServiceUrl(url, updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse commonWsResponse = getResponse(url, updateRequest);
 		GtnWsGeneralResponse generalResponse = commonWsResponse.getGtnWsGeneralResponse();
 		return generalResponse.isSucess();
 
@@ -83,11 +82,22 @@ public class GtnFrameworkNSFCommonLogic {
 
 	public static boolean confirmCheckRecord(boolean isSalesBasis, String url) {
 		GtnUIFrameworkWebserviceRequest updateRequest = getWsRequest(isSalesBasis);
-		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(url,
-				updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse gtnResponse = getResponse(url, updateRequest);
 		GtnWsNetSalesGeneralResponse nsfGeneralResponse = gtnResponse.getGtnWsNetSalesGeneralResponse();
 		GtnWsNsfUpdateBean nsfResponseBean = nsfGeneralResponse.getNsfUpdateBean();
 		return nsfResponseBean.isCheckRecordFlag();
+	}
+
+	/**
+	 * @param url
+	 * @param updateRequest
+	 * @return
+	 */
+	public static GtnUIFrameworkWebserviceResponse getResponse(String url,
+			GtnUIFrameworkWebserviceRequest updateRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(url,
+				updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		 
 	}
 
 	public static GtnUIFrameworkWebserviceRequest getWsRequest(boolean isSalesBasis) {
