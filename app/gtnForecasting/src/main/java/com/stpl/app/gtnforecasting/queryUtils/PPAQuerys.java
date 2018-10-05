@@ -27,7 +27,7 @@ public class PPAQuerys {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAQuerys.class);
     private static final PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
-    private static GtnSmallHashMap replaceTableName = new GtnSmallHashMap();
+    private static volatile GtnSmallHashMap replaceTableName = new GtnSmallHashMap();
     public static List getGroupList() {
         return new ArrayList();
     }
