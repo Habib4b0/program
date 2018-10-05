@@ -630,6 +630,12 @@ public class DataSelection extends AbstractDataSelection {
 			bindDataselectionDtoToSave();
 			final List<Leveldto> selectedCustomersList = new ArrayList<>();
 			final List<Leveldto> selectedProductsList = new ArrayList<>();
+                        if (selectedCustomer.size() <= 0 || selectedProduct.size() <= 0 || company.getValue() == null
+					|| SELECT_ONE.equals(company.getValue())) {
+				AbstractNotificationUtils.getErrorNotification("Selection Criteria",
+						"Not all required fields have been populated. Please try again.");
+				return;
+			}	
 			for (int i = 0; i < selectedCustomerContainer.size(); i++) {
 				final Leveldto cpDto = (Leveldto) selectedCustomerContainer.getIdByIndex(i);
 				selectedCustomersList.add(cpDto);
