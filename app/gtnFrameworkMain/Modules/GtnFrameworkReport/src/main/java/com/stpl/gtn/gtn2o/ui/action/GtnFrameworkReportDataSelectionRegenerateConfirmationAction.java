@@ -63,7 +63,7 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 
 		List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) params.get(1);
-
+                if (isForward((int) params.get(26))) {
 		if (params.get(2).equals("OK")) {
 			updateCustomer((boolean) params.get(14), dataSelectionBean, (List<GtnWsRecordBean>) params.get(3),
 					componentId);
@@ -88,8 +88,29 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 			loadDataSelectionTab(componentId, dataSelectionBean);
 
 		}
+                }
+                 else {
+            gtnLogger.info("Success");
+            if (params.get(2).equals("OK")) {
+                updateCustomViewInDataSelection((boolean) params.get(17), dataSelectionBean, componentId);
+                updateFrequencyInDataSelection((boolean) params.get(18), dataSelectionBean, componentId);
+                updateVariablesInDataSelection((boolean) params.get(19), dataSelectionBean, componentId);
+                updateComparisonProjectionInDataSelection((boolean) params.get(24), dataSelectionBean,
+                        (List<GtnReportComparisonProjectionBean>) params.get(25), componentId);
+                addTabInDataAssumptions(dataSelectionBean, componentId);
+            } else {
+
+                loadDataSelectionTab(componentId, dataSelectionBean);
+
+            }
+
+        }
 
 	}
+         private boolean isForward(int indexValue) {
+        return indexValue < 0;
+    }
+
 
 	private void addTabInDataAssumptions(GtnWsReportDataSelectionBean dataSelectionBean, String componentId) {
 		try {
@@ -510,6 +531,17 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 					componentId).loadV8ComboBoxComponentValue(customViewName);
 		}
 	}
+        private void updateCustomViewInDataSelection(boolean isCustomView, GtnWsReportDataSelectionBean dataSelectionBean,
+            String componentId) throws GtnFrameworkValidationFailedException {
+        if (isCustomView) {
+            new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                    "dataSelectionTab_displaySelectionTabCustomView",
+                    componentId, Arrays.asList(""));
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+                    "dataSelectionTab_displaySelectionTabCustomView",
+                    componentId).loadV8ComboBoxComponentValue(String.valueOf(dataSelectionBean.getCustomViewMasterSid()));
+        }
+    }
 
 	private void updateVariables(boolean isVariablesChanged, List<Object> variableList,
 			GtnWsReportDataSelectionBean dataSelectionBean, String componentId)
@@ -529,6 +561,15 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 		}
 	}
 
+         private void updateVariablesInDataSelection(boolean isVariablesChanged,
+            GtnWsReportDataSelectionBean dataSelectionBean, String componentId)
+            throws GtnFrameworkValidationFailedException {
+        if (isVariablesChanged) {
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent("dataSelectionTab_displaySelectionTabVariable", componentId)
+                    .updateSelection(dataSelectionBean.getVariablesList());
+        }
+        }
 	private void updateFrequency(boolean isFrequencyChanged, GtnWsReportDataSelectionBean dataSelectionBean,
 			String frequency, String componentId) throws GtnFrameworkValidationFailedException {
 		if (isFrequencyChanged) {
@@ -542,6 +583,14 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 					.loadV8ComboBoxComponentValue(Integer.valueOf(frequency));
 		}
 	}
+         private void updateFrequencyInDataSelection(boolean isFrequencyChanged, GtnWsReportDataSelectionBean dataSelectionBean,
+            String componentId) throws GtnFrameworkValidationFailedException {
+        if (isFrequencyChanged) {
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent("dataSelectionTab_landingScreenVariableBreakdownFrequencyConfig", componentId)
+                    .loadV8ComboBoxComponentValue(Integer.valueOf(String.valueOf(dataSelectionBean.getFrequency())));
+        }
+        }
 
 	private void updateCompany(boolean isCompanyChanged, String company,
 			GtnWsReportDataSelectionBean dataSelectionBean) {
