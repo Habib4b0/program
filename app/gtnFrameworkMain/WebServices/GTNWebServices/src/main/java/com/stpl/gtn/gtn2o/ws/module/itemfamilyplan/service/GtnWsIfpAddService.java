@@ -39,7 +39,7 @@ public class GtnWsIfpAddService {
 		 */
 	}
 
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsIfpAddService.class);
+	
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
@@ -52,12 +52,14 @@ public class GtnWsIfpAddService {
 
 	@Autowired
 	private GtnWsAllListConfig gtnWebServiceAllListConfig;
+        
+        private static final  GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsIfpAddService.class);
 
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
-	public void setGtnWsSqlService(GtnWsSqlService gtnWsSqlService) {
+	public synchronized void  setGtnWsSqlService(GtnWsSqlService gtnWsSqlService) {
 		this.gtnWsSqlService = gtnWsSqlService;
 	}
 
