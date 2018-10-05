@@ -143,20 +143,20 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			
 			GtnUIFrameworkComponentData productHierarchyData = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME, componentId)
+							nameSpace +GtnFrameworkForecastingStringConstants.PROD_HIER_NAME, componentId)
 					.getComponentData();
 			productHierarchyData.setCustomData(productRecordBean);
 
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME, componentId)
+							nameSpace +GtnFrameworkForecastingStringConstants.PROD_HIER_NAME, componentId)
 					.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 			
 			GtnUIFrameWorkActionConfig productActionConfig = new GtnUIFrameWorkActionConfig();
 			productActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			productActionConfig.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
-			productActionConfig.addActionParameter(nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME);
-			productActionConfig.addActionParameter(nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONSHIP);
+			productActionConfig.addActionParameter(nameSpace +GtnFrameworkForecastingStringConstants.PROD_HIER_NAME);
+			productActionConfig.addActionParameter(nameSpace +GtnFrameworkForecastingStringConstants.PROD_RELATIONSHIP);
 			productActionConfig.addActionParameter(dataSelectionBean.getProductRelationshipBuilderSid());
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId,productActionConfig); 
 			

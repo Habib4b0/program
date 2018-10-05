@@ -446,9 +446,9 @@ public final class GtnFrameworkForecastingStringConstants {
         
         public static final String CUSTOMER_SELECTION_FORECASTELIGIBILITY_DATE = "_customerSelectionForecastEligibilityDate";
         
-        public static final String COMMERCIAL_FORECASTING_PRODHIERNAME = "_prodhierarchyName";
+        public static final String COMMERCIAL_FORECASTING_PRODHIERNAME = "Commercial Forecasting_prodhierarchyName";
         
-        public static final String COMMERCIAL_FORECASTING_PRODRELATIONSHIP = "_prodrelationship";
+        public static final String COMMERCIAL_FORECASTING_PRODRELATIONSHIP = "Commercial Forecasting_prodrelationship";
         
         public static final String COMMERCIAL_FORECASTING_PRODFORECASTLEVEL = "_prodforecastLevel";
         

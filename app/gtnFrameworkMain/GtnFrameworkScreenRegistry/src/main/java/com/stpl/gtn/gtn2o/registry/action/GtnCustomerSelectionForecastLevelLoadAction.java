@@ -40,7 +40,7 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 
 			if (relationshipBuilderSid != 0) {
 				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = relationshipMap
-						.get(Integer.valueOf(recordBean.getStringPropertyByIndex(7)));
+						.get(recordBean.getStringPropertyByIndex(7));
 				List<String> relationshipCaptionList = new ArrayList<>();
 				List<Integer> relationshipIdList = new ArrayList<>();
 

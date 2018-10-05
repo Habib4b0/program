@@ -783,9 +783,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 				nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL,
 				nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX,
-				nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_FREQUENCY,
+				nameSpace +GtnFrameworkForecastingStringConstants.FREQUENCY,
 				nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP,
-				nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP));
+		nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP
+			));
 
 		GtnUIFrameWorkActionConfig saveViewDataSelectionAlertActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
@@ -829,7 +830,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 				nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL,
 				nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX,
-				nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_FREQUENCY,
+				nameSpace +GtnFrameworkForecastingStringConstants.FREQUENCY,
 				nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP,
 				nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP
 
