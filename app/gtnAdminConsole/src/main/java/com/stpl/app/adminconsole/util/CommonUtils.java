@@ -115,7 +115,7 @@ public class CommonUtils {
      */
     private HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-    public static CommonUtils getInstance() {
+    public static synchronized CommonUtils getInstance() {
         if (object == null) {
             object = new CommonUtils();
         }

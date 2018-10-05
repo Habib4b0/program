@@ -41,6 +41,10 @@ public class CommonUtil {
     private static final int[] QUATER_VALUE = {1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4};
     private static final int[] SEMI_VALUE = {1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2};
 
+    private CommonUtil() {
+        LOGGER.debug("CommonUtil");
+    }
+
     public static List columnPropertyForDetailsTable(DeductionDetailsDTO detailsDto) {
         List list = new ArrayList();
 

@@ -3253,7 +3253,7 @@ public class NMProjectionVarianceLogic {
 	}
 
 	private String getJoinForDP(String deductionJoin, boolean isCustomHierarchy) {
-		String sql = SQlUtil.getQuery("discount-join");
+		String sql = SQlUtil.getQuery("variance-join");
 		sql = sql.replace(Constant.DED_JOIN, deductionJoin);
 		if (!isCustomHierarchy) {
 			sql += " JOIN RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n ";
@@ -3274,7 +3274,7 @@ public class NMProjectionVarianceLogic {
 		ccpQuery += SQlUtil.getQuery("get-ccp-query");
 		ccpQuery = ccpQuery.replace(Constant.RELJOIN,
 				CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(), projSelDTO.getSessionDTO()));
-		ccpQuery += " SELECT DISTINCT HIERARCHY_NO FROM #SELECTED_HIERARCHY_NO_TEMP SH  JOIN ST_NM_DISCOUNT_PROJ_MASTER SND ON SND.CCP_DETAILS_SID=SH.CCP_DETAILS_SID WHERE PV_FILTERS=1 ";
+		ccpQuery += " SELECT DISTINCT HIERARCHY_NO FROM #SELECTED_HIERARCHY_NO_TEMP SH  JOIN ST_CCP_PV_FILTERS SND ON SND.CCP_DETAILS_SID=SH.CCP_DETAILS_SID WHERE PV_FILTERS=1 ";
 		return QueryUtil.replaceTableNames(ccpQuery, projSelDTO.getSessionDTO().getCurrentTableNames());
 	}
 
@@ -3283,7 +3283,7 @@ public class NMProjectionVarianceLogic {
 		ccpQueryCustom = ccpQueryCustom.replace(Constant.CUSTOM_VIEW_MASTER_SID,
 				String.valueOf(projSelDTO.getCustomId()));
 		ccpQueryCustom += insertAvailableHierarchyNoScheduleId(projSelDTO);
-		ccpQueryCustom += " SELECT DISTINCT HIERARCHY_NO FROM #SELECTED_HIERARCHY_NO SH  JOIN ST_NM_DISCOUNT_PROJ_MASTER SND ON SND.CCP_DETAILS_SID=SH.CCP_DETAILS_SID WHERE PV_FILTERS=1 ";
+		ccpQueryCustom += " SELECT DISTINCT HIERARCHY_NO FROM #SELECTED_HIERARCHY_NO SH  JOIN ST_CCP_PV_FILTERS SND ON SND.CCP_DETAILS_SID=SH.CCP_DETAILS_SID WHERE PV_FILTERS=1 ";
 		return QueryUtil.replaceTableNames(ccpQueryCustom, projSelDTO.getSessionDTO().getCurrentTableNames());
 	}
 
@@ -3501,7 +3501,7 @@ public class NMProjectionVarianceLogic {
 
 	public List<List<String>> getRsIdsForDiscountAndUdcs(SessionDTO session) {
 		List<List<String>> resultList = new ArrayList<>();
-		String query = "SELECT RS_CONTRACT_SID FROM ST_NM_DISCOUNT_PROJ_MASTER WHERE PV_FILTERS=1";
+		String query = "SELECT distinct RS_CONTRACT_SID FROM ST_CCP_PV_FILTERS WHERE PV_FILTERS=1 and RS_CONTRACT_SID<>0";
 		List<String> executedResultList = HelperTableLocalServiceUtil
 				.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
 		resultList.add(executedResultList);
