@@ -177,7 +177,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
                 dto.setBranditemno(obj[1].toString());
                 dto.setBranditemname(obj[1].toString());
                 dto.setBranditemmasterSid(item);
-                dto.setChildrenAllowed(!String.valueOf(obj[NumericConstants.FOURTEEN]).equals(0));
+                dto.setChildrenAllowed((int) obj[NumericConstants.FOURTEEN] != 0);
                 dto.addStringProperties(fixedColumnList.get(ARMUtils.Trx6_Variables.TOTAL_INVENTORY.getColumn()), obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : ARMUtils.getFormattedValue(obj[NumericConstants.TWO].toString(), ARMUtils.ZERO_DECIMAL));
                 dto.addStringProperties(fixedColumnList.get(ARMUtils.Trx6_Variables.BASELINE_PRICE.getColumn()), obj[NumericConstants.THREE] == null ? StringUtils.EMPTY : ARMUtils.getFormattedValue(obj[NumericConstants.THREE].toString(), ARMUtils.TWO_DECIMAL_CURRENCY));
                 dto.addStringProperties(fixedColumnList.get(ARMUtils.Trx6_Variables.BASELINE_PRICE_OVERRIDE.getColumn()), obj[NumericConstants.FOUR] == null ? StringUtils.EMPTY : ARMUtils.getFormattedValue(obj[NumericConstants.FOUR].toString(), ARMUtils.TWO_DECIMAL_CURRENCY));
