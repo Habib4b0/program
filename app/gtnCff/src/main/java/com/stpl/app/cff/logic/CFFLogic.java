@@ -732,7 +732,7 @@ public class CFFLogic {
         return userIds;
     }
 
-    public static void mapUsers() {
+    public static synchronized void mapUsers() {
         userMap.clear();
         userMap = getAllUsers();
     }
