@@ -77,7 +77,7 @@ public class GtnCustomerSelectionRelationshipLoadActionTest {
 		Map<Integer, String> hierarchyMap = new HashMap<>();
 		hierarchyMap.put(12, "value");
 		bean.setRecordHeader(Arrays.asList(0,1,2,3,4,5,6,7,8));
-		bean.setProperties(Arrays.asList(0,1,2,3,4,5,6,hierarchyMap,relationshipMap));
+		bean.setProperties(Arrays.asList(0,1,2,3,4,5,6,7,relationshipMap));
 //		GtnCustomerSelectionRelationshipLoadAction spy = Mockito.spy(instance);
 		
 		String componentId="";

@@ -57,9 +57,7 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 		request.setGtnWsForecastNewArchRequest(gtnWsForecastNewArchRequest);
 		request.setGtnWsGeneralRequest(generalRequest);
 		
-		GtnUIFrameworkWebserviceResponse response =  new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl
-			("/deleteView",GtnFrameworkForecastingStringConstants.GENERAL_SEARCH,
-						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = callWebService(request);
 
 		logger.info("Number of rows affected-------->" + response.getGtnFrameworkForecastDataSelectionBean().getResultCount());
 		
@@ -93,6 +91,12 @@ implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDy
 			
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetAction);
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse callWebService(GtnUIFrameworkWebserviceRequest request) {
+		return  new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl
+			("/deleteView",GtnFrameworkForecastingStringConstants.GENERAL_SEARCH,
+						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	

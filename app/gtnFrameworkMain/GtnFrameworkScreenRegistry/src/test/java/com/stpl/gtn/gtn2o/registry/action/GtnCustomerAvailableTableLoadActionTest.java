@@ -26,6 +26,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 import com.vaadin.ui.AbstractComponent;
@@ -134,6 +135,10 @@ public class GtnCustomerAvailableTableLoadActionTest {
 		
 		
 		spy.doAction(componentId, gtnUIFrameWorkActionConfig);
+		spy.createInstance();
+		spy.configureParams(gtnUIFrameWorkActionConfig);
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+		spy.callGtnService(gtnUIFrameworkWebserviceRequest );
 		
 		
 	}
