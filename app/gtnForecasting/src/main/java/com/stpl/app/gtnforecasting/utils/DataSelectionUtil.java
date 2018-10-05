@@ -64,9 +64,9 @@ public class DataSelectionUtil {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionUtil.class);
         
 
-	private static Map<String, String> userMap = new HashMap<>();
-	private static Map<String, String> userIdMap = new HashMap<>();
-	private static Map<String, String> discountMap = new HashMap<>();
+	private static volatile Map<String, String> userMap = new HashMap<>();
+	private static volatile Map<String, String> userIdMap = new HashMap<>();
+	private static volatile Map<String, String> discountMap = new HashMap<>();
 
 	public static Date calculateHistory(final String frequency, final int histValue) {
 
