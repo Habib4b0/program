@@ -5,7 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.utils;
 
-import com.stpl.gtn.gtn2o.ws.exception.AccessDeniedException;
 import static com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid.gtnlogger;
 
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import java.util.stream.Collectors;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.exception.AccessDeniedException;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.RadioButtonGroup;
@@ -39,10 +39,10 @@ public class HeaderUtils {
 	}
 
 	public static void configureGridColumns(int columnStart, int columnEnd, PagedTreeGrid pagedTreeGrid) {
-                int columnCount=pagedTreeGrid.getTableConfig().getVisibleColumns().size();
+		int columnCount = pagedTreeGrid.getTableConfig().getVisibleColumns().size();
 		int columnEndCount = columnEnd;
-		
-		if ((columnStart+columnEnd) > columnCount) {
+
+		if ((columnStart + columnEnd) > columnCount) {
 			columnEndCount = columnCount;
 		}
 		repaintGrid(pagedTreeGrid);
@@ -76,11 +76,10 @@ public class HeaderUtils {
 			pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header)
 					.setId(column).setWidth(170);
 		}
-                long start=Long.parseLong(String.valueOf(columnStart)) + leftColumns.size();
-                long limit=Long.parseLong(String.valueOf(columnEnd))-leftColumns.size();
-		List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().stream()
-				.skip(start).limit(limit).distinct()
-				.collect(Collectors.toList());
+		long start = Long.parseLong(String.valueOf(columnStart)) + leftColumns.size();
+		long limit = Long.parseLong(String.valueOf(columnEnd)) - leftColumns.size();
+		List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().stream().skip(start)
+				.limit(limit).distinct().collect(Collectors.toList());
 		for (int j = 0; j < currentSingleColumns.size(); j++) {
 			String column = (currentSingleColumns.get(j)).toString();
 			String header = pagedTreeGrid.getTableConfig().getRightTableVisibleHeader()[columnStart + j];
@@ -97,7 +96,6 @@ public class HeaderUtils {
 			pagedTreeGrid.getGrid().setWidth(pagedTreeGrid.getComponentConfig().getComponentWidth());
 			pagedTreeGrid.getGrid().setHeight(pagedTreeGrid.getComponentConfig().getComponentHight());
 			parent.replaceComponent(parent.getComponent(0), pagedTreeGrid.getGrid());
-			
 
 		}
 	}
@@ -109,12 +107,10 @@ public class HeaderUtils {
 	}
 
 	public static void addDoubleHeader(List<Object> currentSingleColumns, PagedTreeGrid pagedTreeGrid) {
-		HeaderRow groupingHeader = pagedTreeGrid.getGrid().getHeaderRowCount() > 1
-				? pagedTreeGrid.getGrid().getHeaderRow(1)
-				: pagedTreeGrid.getGrid().prependHeaderRow();
-		if (pagedTreeGrid.isShiftLeftSingeHeader()) {
-			shiftLeftHeader(groupingHeader, pagedTreeGrid);
-		}
+		HeaderRow groupingHeader = getGroupingHeader(pagedTreeGrid.getGrid());
+
+		shiftLeftHeader(groupingHeader, pagedTreeGrid);
+
 		Iterator<String> douleLeftHeaders = pagedTreeGrid.getTableConfig().getLeftTableDoubleHeaderVisibleHeaders()
 				.iterator();
 		pagedTreeGrid.getTableConfig().getLeftTableDoubleHeaderVisibleColumns().stream().distinct()
@@ -146,6 +142,10 @@ public class HeaderUtils {
 						groupingHeader.getCell(stringArray[0]).setText(douleHeaders.next());
 				}
 				});
+	}
+
+	private static HeaderRow getGroupingHeader(TreeGrid<GtnWsRecordBean> grid) {
+		return grid.getHeaderRowCount() > 1 ? grid.getHeaderRow(1) : grid.prependHeaderRow();
 	}
 
 	public static void addTripleHeader(List<Object> currentSingleColumns, PagedTreeGrid pagedTreeGrid) {
@@ -202,8 +202,9 @@ public class HeaderUtils {
 	}
 
 	private static boolean arrayContains(Object[] input, String value) {
-		return Arrays.stream(input).filter(e ->
-		value.contains(e.toString()) ||( value.contains("Total") && e.toString().contains(value))).count() > 0;
+		return Arrays.stream(input)
+				.filter(e -> value.contains(e.toString()) || (value.contains("Total") && e.toString().contains(value)))
+				.count() > 0;
 	}
 
 	// CheckBox in DoubleColumnHeader
@@ -222,11 +223,13 @@ public class HeaderUtils {
 	}
 
 	public static void shiftLeftHeader(HeaderRow groupingHeader, PagedTreeGrid pagedTreeGrid) {
-		for (int j = 0; j < pagedTreeGrid.getTableConfig().getLeftTableColumnMappingId().length; j++) {
-			String column = (pagedTreeGrid.getTableConfig().getLeftTableColumnMappingId()[j]).toString();
-			gtnlogger.info("column = " + column);
-			groupingHeader.getCell(column).setText(pagedTreeGrid.getTableConfig().getColumnHeaders().get(j));
+		if (pagedTreeGrid.isShiftLeftSingeHeader()) {
+			for (int j = 0; j < pagedTreeGrid.getTableConfig().getLeftTableColumnMappingId().length; j++) {
+				String column = (pagedTreeGrid.getTableConfig().getLeftTableColumnMappingId()[j]).toString();
+				gtnlogger.info("column = " + column);
+				groupingHeader.getCell(column).setText(pagedTreeGrid.getTableConfig().getColumnHeaders().get(j));
 
+			}
 		}
 	}
 }

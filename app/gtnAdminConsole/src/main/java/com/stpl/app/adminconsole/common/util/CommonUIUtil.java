@@ -159,7 +159,7 @@ public final class CommonUIUtil {
     }
     private static CommonUIUtil object;
 
-    public static CommonUIUtil getInstance() {
+    public static synchronized CommonUIUtil getInstance() {
         if (object == null) {
             object = new CommonUIUtil();
         }

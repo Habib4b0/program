@@ -90,7 +90,7 @@ public class HelperListUtil {
 	/**
 	 * The object.
 	 */
-	private static HelperListUtil object;
+	private static volatile HelperListUtil object;
 
 	/**
 	 * The list name map.

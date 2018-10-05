@@ -51,6 +51,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.slf4j.Logger;
@@ -267,12 +268,14 @@ public class DataSelectionLogic {
          try {
             ItemGroup itemGroup = ItemGroupLocalServiceUtil.getItemGroup(id);
             productName = itemGroup.getItemGroupName();
-            }catch (PortalException | SystemException ex) {
+            }catch (SystemException | NoSuchItemGroupException ex) {
                 LOGGER.error(ex.getMessage());
-                if((ex instanceof NoSuchItemGroupException) && ( ex.getMessage().contains("No ItemGroup exists with the primary key"))){
+                if(( ex.getMessage().contains("No ItemGroup exists with the primary key"))){
                        return StringUtils.EMPTY;
                 }
-            }
+            } catch (PortalException ex) {
+            LOGGER.error(ex.getMessage());
+        }
          return productName;
         }
     public String deleteProjection(int projectionId, String currentUserId) {

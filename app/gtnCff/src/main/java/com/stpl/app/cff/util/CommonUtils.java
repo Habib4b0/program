@@ -1213,7 +1213,7 @@ public class CommonUtils {
         return date;
     }
 
-    public static CommonUtils getInstance() {
+    public static synchronized CommonUtils getInstance() {
         if (object == null) {
             object = new CommonUtils();
         }
