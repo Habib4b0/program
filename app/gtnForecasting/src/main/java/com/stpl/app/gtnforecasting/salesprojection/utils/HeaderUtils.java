@@ -979,7 +979,7 @@ public class HeaderUtils {
         return tableHeaderDTO;
     }
     
-    private static HeaderUtils object;
+    private static volatile HeaderUtils object;
 
     public static HeaderUtils getInstance() {
         if (object == null) {
