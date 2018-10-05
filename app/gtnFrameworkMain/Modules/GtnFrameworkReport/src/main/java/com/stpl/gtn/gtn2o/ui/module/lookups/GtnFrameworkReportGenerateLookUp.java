@@ -88,6 +88,7 @@ public class GtnFrameworkReportGenerateLookUp {
 		dataSelection
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dataSelectionRootLayout");
 		dataSelection.setTabCaption("Data Selection");
+                dataSelection.setTabIndex(0);
 		List<GtnUIFrameworkComponentConfig> dataSelectionTabConfigList = new ArrayList<>();
 		new GtnFrameworkReportDataSelectionTabConfig().addDataSelectionTab(dataSelectionTabConfigList,
 				"dataSelectionTab");
@@ -96,6 +97,7 @@ public class GtnFrameworkReportGenerateLookUp {
 		GtnUIFrameworkTabConfig dataAssumptions = new GtnUIFrameworkTabConfig();
 		dataAssumptions.setComponentId("dataAssumptionsLayout");
 		dataAssumptions.setTabCaption("Data Assumptions");
+                dataAssumptions.setTabIndex(1);
 		List<GtnUIFrameworkComponentConfig> dataAssumptionsTabConfigList = new ArrayList<>();
 		dataAssumptions.setTabLayoutComponentConfigList(dataAssumptionsTabConfigList);
 		new GtnFrameworkDataAssumptionsTabConfig().addDataAssumptionsLayout(dataAssumptionsTabConfigList,
@@ -104,6 +106,7 @@ public class GtnFrameworkReportGenerateLookUp {
 		GtnUIFrameworkTabConfig reportingDashboard = new GtnUIFrameworkTabConfig();
 		reportingDashboard.setComponentId("reportingDashboardRootLayout");
 		reportingDashboard.setTabCaption("Reporting Dashboard");
+                reportingDashboard.setTabIndex(2);
 		List<GtnUIFrameworkComponentConfig> reportingDashboardTabConfigList = new ArrayList<>();
 		reportingDashboard.setTabLayoutComponentConfigList(reportingDashboardTabConfigList);
 		new GtnFrameworkReportingDashboardTabConfig().addReportingDashboardLayout(reportingDashboardTabConfigList,
