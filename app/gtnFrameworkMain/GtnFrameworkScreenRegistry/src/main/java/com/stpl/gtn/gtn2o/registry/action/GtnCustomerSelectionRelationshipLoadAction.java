@@ -34,7 +34,7 @@ public class GtnCustomerSelectionRelationshipLoadAction
 				Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean
 						.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
 				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = relationshipMap
-						.get(recordBean.getStringPropertyByIndex(7));
+						.get(Integer.valueOf(recordBean.getStringPropertyByIndex(7)));
 				List<String> relationshipCaptionList = new ArrayList<>();
 				List<Integer> relationshipIdList = new ArrayList<>();
 
