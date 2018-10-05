@@ -51,10 +51,7 @@ public class GtnFrameworkCfpAddAction
 			generalWSRequest.setUserId(userId);
 			generalWSRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
 			gtnRequest.setGtnWsGeneralRequest(generalWSRequest);
-			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-					GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-							+ GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE_USER_NAME,
-					gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebserviceResponse response = callWebService(gtnRequest);
 
 			String userName = response.getGtnWsGeneralResponse().getUserName();
 			GtnUIFrameworkGlobalUI.addSessionProperty("userName", userName);
@@ -74,6 +71,14 @@ public class GtnFrameworkCfpAddAction
 			gtnLogger.info("Exit GtnFrameworkCfpAddAction doAction ");
 		}
 
+	}
+
+	public GtnUIFrameworkWebserviceResponse callWebService(GtnUIFrameworkWebserviceRequest gtnRequest) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+						+ GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE_USER_NAME,
+				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		return response;
 	}
 
 	@Override

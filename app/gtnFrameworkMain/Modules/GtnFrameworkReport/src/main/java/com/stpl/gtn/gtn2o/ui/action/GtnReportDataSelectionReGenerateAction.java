@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,13 +17,16 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnReportDataSelectionReGenerateAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
-
+        int previousTabIndex=0;
+         private GtnWSLogger gtnLogger = GtnWSLogger
+            .getGTNLogger(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class);
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -33,7 +37,10 @@ public class GtnReportDataSelectionReGenerateAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+                int tabIndex = (int) gtnUIFrameWorkActionConfig.getActionParameterList().get(gtnUIFrameWorkActionConfig.getActionParameterList().size()-1);
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+                int tabChangeStatus=previousTabIndex-tabIndex;
+                previousTabIndex=tabIndex;
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 		List<GtnWsRecordBean> selectedCustomerList = getSelectedList("dataSelectionTab_customerDualListBox",
@@ -108,7 +115,7 @@ public class GtnReportDataSelectionReGenerateAction
 
 		if (isCustomerChanged || isProductChanged || isCustomView || isFrequencyChanged || isReportDataSourceChanged
 				|| isFromPeriodChanged || isComparisonProjectionChangedInDataSelection
-				|| isComparisonProjectionChangedInReportingDashboard) {
+				|| isComparisonProjectionChangedInReportingDashboard || isVariablesChanged) {
 
 			List<GtnUIFrameWorkActionConfig> onSuccessActionList = new ArrayList<>();
 			List<GtnUIFrameWorkActionConfig> onFailureActionList = new ArrayList<>();
@@ -117,7 +124,7 @@ public class GtnReportDataSelectionReGenerateAction
 
 			alertAction.addActionParameter("Information");
 			alertAction.addActionParameter(
-					"You have changed the set of CCP’s that included in this report. The report will now update to reflect these changes.");
+					GtnFrameworkReportStringConstants.REPORTING_DATA_SELCTION_CHANGES);
 			alertAction.addActionParameter(onSuccessActionList);
 			alertAction.addActionParameter(onFailureActionList);
 
@@ -153,6 +160,7 @@ public class GtnReportDataSelectionReGenerateAction
 			callRegenerateActionSuccessConfig.addActionParameter(isFromPeriodChanged);
 			callRegenerateActionSuccessConfig.addActionParameter(isComparisonProjectionChangedInReportingDashboard);
 			callRegenerateActionSuccessConfig.addActionParameter(comparisonProjectionsListInReportingDashboard);
+                        callRegenerateActionSuccessConfig.addActionParameter(tabChangeStatus);
 
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, callRegenerateActionSuccessConfig);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);

@@ -37,16 +37,20 @@ public class GtnFrameworkCfpCompaniesDeleteAction implements GtnUIFrameWorkActio
 		generalWSRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
 		gtnRequest.setGtnWsGeneralRequest(generalWSRequest);
 		try {
-			new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-					GtnWsCFamilyPlanContants.GTN_WS_CFP_SERVICE
-							+ GtnWsCFamilyPlanContants.GTN_WS_CFP_TEMP_DELETE_SERVICE,
-					gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			callWebService(gtnRequest);
 
 		} catch (Exception e) {
 			gtnLogger.error(e.getMessage(), e);
 		} finally {
 			GtnFrameworkCfpValueChangeManager.setValueChangeAllowed(true);
 		}
+	}
+
+	public void callWebService(GtnUIFrameworkWebserviceRequest gtnRequest) {
+		new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsCFamilyPlanContants.GTN_WS_CFP_SERVICE
+						+ GtnWsCFamilyPlanContants.GTN_WS_CFP_TEMP_DELETE_SERVICE,
+				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

@@ -233,7 +233,11 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
                 }
                 input.add(parentDTO.getCustomerSID());
                 if (CommonConstant.TRX7_CUSTOMERCONTRACTVIEW.equals(queryName) || CommonConstant.TRX7_CUSTOMERCONTRACTEDIT.equals(queryName)) {
-                    input.add("%");
+                    if (!ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
+                        input.add("%");
+                    } else {
+                        input.add(parentDTO.getContractSID());
+                    }
                 }
                 input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionValue())));
                 break;
