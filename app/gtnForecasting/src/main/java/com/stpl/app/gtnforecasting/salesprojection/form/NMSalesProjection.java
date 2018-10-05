@@ -96,6 +96,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     public static final String UNIT_NO_DECIMAL = "unitNoDecimal";
     public static final String UNITS = "Units";
     private static final String ACNT_GRWOTH = "AccountGrowth";
+    protected boolean spFlag = true;
     
     protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -537,7 +538,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
     }
     public void checkSpFrequency(){
-        boolean spFlag = true;
         if(spFlag && (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue()))){            
             spFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");

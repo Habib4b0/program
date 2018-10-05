@@ -46,7 +46,7 @@ public final class AccrualRateProjectionLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccrualRateProjectionLogic.class);
 
-    private static AccrualRateProjectionLogic accrualRateProjectionLogic;
+    private static volatile AccrualRateProjectionLogic accrualRateProjectionLogic;
     private static List<String> selectedCompanyList = new ArrayList<>();
 
     /**

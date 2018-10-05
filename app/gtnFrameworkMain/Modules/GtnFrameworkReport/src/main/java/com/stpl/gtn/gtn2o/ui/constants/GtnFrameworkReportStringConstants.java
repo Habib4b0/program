@@ -665,6 +665,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PRODUCT_BTN_MAIN = "productBtnMain";
 
 	public static final String ADD_PRODUCT_BTN = "addProductBtn";
+        
+        public static final String REPORTING_DATA_SELCTION_CHANGES="There are some changes done to the data selection. The report will now reflect these changes";
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
