@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Gopinath.Mathiyalaga
+ * @author Gopinath.M
  */
 public class Trx7ExclusionDetailsLogic {
 
