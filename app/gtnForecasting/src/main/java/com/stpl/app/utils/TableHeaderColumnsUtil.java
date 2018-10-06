@@ -190,7 +190,7 @@ public class TableHeaderColumnsUtil {
      */
     private static final String[] dataAssumptionHeaders = new String[]{"File", COMPANY_LABEL, BUSINESS_UNIT, "Type", "Version", "Active From", "From Period", "To Period"};
 
-    private static TableHeaderColumnsUtil object;
+    private static volatile TableHeaderColumnsUtil object;
 
     /**
      * Constructor

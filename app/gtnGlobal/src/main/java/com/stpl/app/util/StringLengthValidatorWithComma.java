@@ -78,7 +78,8 @@ public class StringLengthValidatorWithComma extends AbstractStringValidator {
      * @return <code>true</code> for valid value, otherwise <code>false</code>.
      */
     @Override
-    protected boolean isValidValue(String value) {
+    protected boolean isValidValue(String valueParam) {
+        String value = valueParam;
         if (value == null) {
             return allowNull;
         }

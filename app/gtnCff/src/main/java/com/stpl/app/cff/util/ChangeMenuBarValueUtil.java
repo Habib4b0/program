@@ -70,7 +70,8 @@ public class ChangeMenuBarValueUtil {
         return inclusionValue;
     }
 
-    private static String getInclusionCheckedResult(String inclusionValue, List<Object> captionList) {
+    private static String getInclusionCheckedResult(String inclusionValueParam, List<Object> captionList) {
+        String inclusionValue = inclusionValueParam;
         if (captionList.size() == 1) {
             inclusionValue = (String) captionList.get(0);
         } else if (captionList.size() > 1) {

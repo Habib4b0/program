@@ -307,8 +307,9 @@ public class Converters {
         return name;
     }
     
-    public static Date parseDate(String value) throws ParseException {
+    public static Date parseDate(String valueParam) throws ParseException {
         Date date = null;
+        String value = valueParam;
         value = convertNullToEmpty(value);
         SimpleDateFormat parse = new SimpleDateFormat(DateFormatConstants.YYYYMMDDHHMMSSSSS.getConstant());
         if (value != null && !StringUtils.EMPTY.equals(value) && !CommonConstants.NULL.getConstant().equals(value)) {

@@ -31,7 +31,10 @@ public class CommonQueryUtils {
      * @return 
      */
     public static CommonQueryUtils getInstance() {
-        return commonQueryUtils == null ? commonQueryUtils = new CommonQueryUtils() : commonQueryUtils;
+        if (commonQueryUtils == null) {
+            commonQueryUtils = new CommonQueryUtils();
+        }
+        return commonQueryUtils;
     }
     
     /**
