@@ -19,96 +19,75 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 
 public class GtnFrameworkItemMasterArmUdc1Utility {
-	private static GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkItemMasterArmUdc1Utility.class);
-	private static List<String> armUdc1ValueList = null;
-	private static List<String> armUdc1CodeList = null;
-	private static Map<Integer, String> codeValueArmUdc1HashMap = null;
 
-	private GtnFrameworkItemMasterArmUdc1Utility() {
-		/*
+    private static GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkItemMasterArmUdc1Utility.class);
+    private static List<String> armUdc1ValueList = null;
+    private static List<String> armUdc1CodeList = null;
+    private static Map<Integer, String> codeValueArmUdc1HashMap = null;
+
+    private GtnFrameworkItemMasterArmUdc1Utility() {
+        /*
 		 * Singleton Class
-		 */
-	}
+         */
+    }
 
+    static {
 
-	private static synchronized void createValueCodeHashMap() {
-		if (codeValueArmUdc1HashMap != null) {
-			return;
-		}
-		codeValueArmUdc1HashMap = new HashMap<>();
+        GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
+        generalWSRequest.setComboBoxType(GtnFrameworkItemMasterStringContants.ARM_UDC_1);
 
-		for (int i = 0; i < armUdc1ValueList.size(); i++) {
-			codeValueArmUdc1HashMap.put(Integer.valueOf(armUdc1CodeList.get(i)), armUdc1ValueList.get(i));
-		}
-	}
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        request.setGtnWsGeneralRequest(generalWSRequest);
 
-	private static synchronized void getValuesForArmUdc1FromHelperTable() {
-		if (armUdc1ValueList != null) {
-			return;
-		}
+        GtnUIFrameworkWebserviceComboBoxResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+                + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken()).getGtnUIFrameworkWebserviceComboBoxResponse();
 
-		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
-		generalWSRequest.setComboBoxType(GtnFrameworkItemMasterStringContants.ARM_UDC_1);
+        armUdc1ValueList = new ArrayList<>(response.getItemValueList());
+        armUdc1CodeList = new ArrayList<>(response.getItemCodeList());
+        
+        codeValueArmUdc1HashMap = new HashMap<>();
 
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnWsGeneralRequest(generalWSRequest);
+        for (int i = 0; i < armUdc1ValueList.size(); i++) {
+            codeValueArmUdc1HashMap.put(Integer.valueOf(armUdc1CodeList.get(i)), armUdc1ValueList.get(i));
+        }
+    }
 
-		GtnUIFrameworkWebserviceComboBoxResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken()).getGtnUIFrameworkWebserviceComboBoxResponse();
+    public static int getArmUdc1ItemCode(String itemValue) {
+        String value = checkItemPresentInHashMap(itemValue);
+        for (Entry<Integer, String> entry : codeValueArmUdc1HashMap.entrySet()) {
+            if (entry.getValue().equals(value)) {
+                return entry.getKey();
+            }
+        }
+        return 0;
+    }
 
-		armUdc1ValueList = new ArrayList<>(response.getItemValueList());
-		armUdc1CodeList = new ArrayList<>(response.getItemCodeList());
-	}
-	
-	private static synchronized void reset() {
-		armUdc1ValueList=null;
-		armUdc1CodeList=null;
-                codeValueArmUdc1HashMap.clear();
-		codeValueArmUdc1HashMap=null;
-	}
+    public static String getArmUdc1ItemValue(int itemCode) {
+        return (codeValueArmUdc1HashMap.get(itemCode) == null) ? "" : codeValueArmUdc1HashMap.get(itemCode);
+    }
 
-	public static void initialize() {
-		reset();
-		getValuesForArmUdc1FromHelperTable();
-		createValueCodeHashMap();
-	}
+    public static List<String> getArmUdc1ValueList() {
+        return Collections.unmodifiableList(armUdc1ValueList);
+    }
 
-	public static int getArmUdc1ItemCode(String itemValue) {
-		String value = checkItemPresentInHashMap(itemValue);
-		for (Entry<Integer, String> entry : codeValueArmUdc1HashMap.entrySet()) {
-			if (entry.getValue().equals(value)) {
-				return entry.getKey();
-			}
-		}
-		return 0;
-	}
+    public static List<String> getArmUdc1CodeList() {
+        return Collections.unmodifiableList(armUdc1CodeList);
+    }
 
-	public static String getArmUdc1ItemValue(int itemCode) {
-		return (codeValueArmUdc1HashMap.get(itemCode) == null) ? "" : codeValueArmUdc1HashMap.get(itemCode);
-	}
+    private static String checkItemPresentInHashMap(String itemValue) {
+        List<String> itemValueList = Arrays.asList(itemValue.toLowerCase(Locale.ENGLISH).replaceAll("\\s", "").split(","));
 
-	public static List<String> getArmUdc1ValueList() {
-		return Collections.unmodifiableList(armUdc1ValueList);
-	}
+        for (String armUdc1Value : armUdc1ValueList) {
+            List<String> armUdc1ValueList = Arrays.asList(armUdc1Value.toLowerCase(Locale.ENGLISH).replaceAll("\\s", "").split(","));
 
-	public static List<String> getArmUdc1CodeList() {
-		return Collections.unmodifiableList(armUdc1CodeList);
-	}
-
-	private static String checkItemPresentInHashMap(String itemValue) {
-		List<String> itemValueList = Arrays.asList(itemValue.toLowerCase(Locale.ENGLISH).replaceAll("\\s", "").split(","));
-
-		for (String armUdc1Value : armUdc1ValueList) {
-			List<String> armUdc1ValueList = Arrays.asList(armUdc1Value.toLowerCase(Locale.ENGLISH).replaceAll("\\s", "").split(","));
-
-			if ((armUdc1ValueList.size() == itemValueList.size()) && (armUdc1ValueList.containsAll(itemValueList))) {
-				gtnLogger.debug("Item Present");
-				return armUdc1Value;
-			}
-		}
-		gtnLogger.debug("Item Not Present");
-		return GtnFrameworkItemMasterStringContants.EMPTY;
-	}
+            if ((armUdc1ValueList.size() == itemValueList.size()) && (armUdc1ValueList.containsAll(itemValueList))) {
+                gtnLogger.debug("Item Present");
+                return armUdc1Value;
+            }
+        }
+        gtnLogger.debug("Item Not Present");
+        return GtnFrameworkItemMasterStringContants.EMPTY;
+    }
 }

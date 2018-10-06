@@ -26,6 +26,7 @@ import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
@@ -137,6 +138,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
      */
     private ProjectionVariance projectionVariance;
     private CustomFieldGroup cffSearchBinder;
+    private final ThreadPool threadpool = ThreadPool.getInstance();
     private CFFLogic cffLogic = new CFFLogic();
     private boolean isApproved = false;
     public static final String CFF = "CFF";
@@ -563,7 +565,12 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         if (!result.equals(CommonUtils.FAIL)) {
                             if ((Boolean) resultList.get(1)) {
                                 Object[] obj = {dto.getCffMasterSid()};
-                                CommonLogic.callProcedureUpdate("PRC_CFF_OUTBOUND", obj);
+                                threadpool.submitRunnable(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        CommonLogic.callProcedureUpdate("PRC_CFF_OUTBOUND", obj);
+                                    }
+                                });
                             }
                             notestab.getApprovalWindow().close();
                             CommonUIUtils.getMessageNotification("Approved Successfully");

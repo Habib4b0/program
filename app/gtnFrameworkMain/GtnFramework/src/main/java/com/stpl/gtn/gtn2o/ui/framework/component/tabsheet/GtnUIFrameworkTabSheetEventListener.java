@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.tabsheet;
 
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
@@ -15,6 +16,7 @@ public class GtnUIFrameworkTabSheetEventListener implements TabSheet.SelectedTab
 	 */
 	private static final long serialVersionUID = 1L;
 	
+        private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkTabSheetEventListener.class);
 
 	@Override
 	public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
@@ -23,9 +25,13 @@ public class GtnUIFrameworkTabSheetEventListener implements TabSheet.SelectedTab
 			AbstractComponent abstractTabComponent = (AbstractComponent) event.getTabSheet().getSelectedTab();
 			GtnUIFrameworkComponentData tabSheetComponentData = (GtnUIFrameworkComponentData) abstractTabSheetComponent
 					.getData();
+                        
 			GtnUIFrameworkComponentData tabComponentData = (GtnUIFrameworkComponentData) abstractTabComponent.getData();
 			GtnUIFrameworkTabConfig currentTabConfig = tabComponentData.getGtnUIFrameworkTabConfig();
-			if (!tabComponentData.isTabLoaded()) {
+                        int currentTabIndex = currentTabConfig.getTabIndex();
+                        gtnLogger.info("currentTabIndex-->" +currentTabIndex);
+
+                        if (!tabComponentData.isTabLoaded()) {
 				GtnUIFrameworkGlobalUI.addChildComponent(tabComponentData.getComponentIdInMap(),
 						currentTabConfig.getTabLayoutComponentConfigList().subList(1,
 								currentTabConfig.getTabLayoutComponentConfigList().size()));
@@ -34,6 +40,9 @@ public class GtnUIFrameworkTabSheetEventListener implements TabSheet.SelectedTab
 			GtnUIFrameworkActionExecutor.executeActionList(
 					tabComponentData.getCurrentComponentConfig().getComponentId(),
 					tabComponentData.getCurrentComponentConfig().getGtnUIFrameWorkActionConfigList());
+                        for(GtnUIFrameWorkActionConfig action : tabSheetComponentData.getCurrentComponentConfig().getGtnUIFrameWorkActionConfigList()){
+                            action.addActionParameter(currentTabIndex);
+                        }
 			GtnUIFrameworkActionExecutor.executeActionList(tabSheetComponentData.getComponentIdInMap(),
 					tabSheetComponentData.getCurrentComponentConfig().getGtnUIFrameWorkActionConfigList());
 
