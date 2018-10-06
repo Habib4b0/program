@@ -199,12 +199,15 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 	private boolean checkBothComparisonList(
 			List<GtnReportComparisonProjectionBean> dataselectionComparisonProjectionBeanList,
 			List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
-		for (GtnReportComparisonProjectionBean dsComparison : dataselectionComparisonProjectionBeanList) {
-			for (GtnReportComparisonProjectionBean rdComparison : comparisonProjectionBeanList) {
-				if ((dsComparison.getProjectionMasterSid() != rdComparison.getProjectionMasterSid())
-						|| (!dsComparison.getProjectionType().equals(rdComparison.getProjectionType()))) {
-					return true;
-				}
+		if (dataselectionComparisonProjectionBeanList.size() != comparisonProjectionBeanList.size()) {
+			return true;
+		}
+		for (int i = 0; i < dataselectionComparisonProjectionBeanList.size(); i++) {
+			GtnReportComparisonProjectionBean dsComparison = dataselectionComparisonProjectionBeanList.get(i);
+			GtnReportComparisonProjectionBean rdComparison = comparisonProjectionBeanList.get(i);
+			if ((dsComparison.getProjectionMasterSid() != rdComparison.getProjectionMasterSid())
+					|| (!dsComparison.getProjectionType().equals(rdComparison.getProjectionType()))) {
+				return true;
 			}
 		}
 		return false;
