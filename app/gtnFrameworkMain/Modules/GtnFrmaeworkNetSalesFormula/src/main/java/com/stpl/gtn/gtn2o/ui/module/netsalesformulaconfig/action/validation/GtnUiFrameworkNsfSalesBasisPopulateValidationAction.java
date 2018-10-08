@@ -31,7 +31,7 @@ public class GtnUiFrameworkNsfSalesBasisPopulateValidationAction implements GtnU
 		boolean isCheck = GtnFrameworkNSFCommonLogic.confirmCheckRecord(isSalesBasic,
 				"/" + GtnWsNsfUriConstants.NSF_VALIDATION_SERVICE + "/"
 						+ GtnWsNsfUriConstants.NSF_POPULATE_VALIDATION_SERVICE);
-		
+		  
 		String fieldSalesBasis=GtnUIFrameworkGlobalUI.getVaadinBaseComponent("netSalesFormulaAddView_massUpdateDdlb").getStringFromField();
 		String valueSalesBasis=GtnUIFrameworkGlobalUI.getVaadinBaseComponent("netSalesFormulaAddView_massUpdateNetSalesRuleNo").getStringFromField();
 		
