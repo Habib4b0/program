@@ -217,7 +217,7 @@ public class Summary extends CustomComponent {
 
         dto.setContractSid(selecteditemList.get(0).getContractSid());
         if (!Constants.ZEROSTRING.equals(dto.getRsSystemId()) && !Constants.NULL.equals(dto.getRsSystemId()) && !StringUtils.EMPTY.equals(dto.getRsSystemId())) {
-            infoLogic.loadSetData(removeDiscount.getUserId(), removeDiscount.getSessionId(), Collections.EMPTY_LIST, "summary", dto, true);
+            infoLogic.loadSetData(removeDiscount.getUserId(), removeDiscount.getSessionId(), Collections.emptyList(), "summary", dto, true);
         }
         for (RemoveDiscountDto remove : selecteditemList) {
             contractList.add(remove.getContractSid());

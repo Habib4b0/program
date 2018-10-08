@@ -1444,43 +1444,6 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         columnName = Constants.RESET_INTERVAL_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
-                    case Constants.RESET_FREQUENCY_LABEL:
-                        tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        getContractSelectionTable().getItem(object).getItemProperty(Constants.RESET_FREQUENCY_PROPERTY).setValue(tempDTO);
-                        columnName = Constants.RESET_FREQUENCY_COLUMN_NAME;
-                        value = tempDTO.getId();
-                        break;
-                    case Constants.RESET_PRICE_TYPE_LABLE_NAME:
-                        value = massUpdateValue.getValue();
-                        getContractSelectionTable().getItem(object).getItemProperty(Constants.RESET_PRICE_TYPE_PROPERTY).setValue(value);
-                        columnName = Constants.RESET_PRICE_TYPE_COLUMN_NAME;
-                        break;
-                    case Constants.NET_RESET_PRICE_TYPE_LABLE_NAME:
-                        tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NET_RESET_PRICE_TYPE_PROPERTY).setValue(tempDTO);
-                        columnName = Constants.NET_RESET_PRICE_TYPE_COLUMN_NAME;
-                        value = tempDTO.getId();
-                        break;
-                    case Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME:
-                        FormulaDTO netResetPriceFormulaDto = (FormulaDTO) massUpdateText.getData();
-                        textValue = String.valueOf(netResetPriceFormulaDto.getFormulaNo());
-                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NET_RESET_PRICE_FORMULA_PROPERTY).setValue(textValue);
-                        columnName = Constants.NET_RESET_PRICE_FORMULA_COLUMN_NAME;
-                        value = netResetPriceFormulaDto.getFormulaSid();
-                        break;
-                    case Constants.NET_PRICE_TYPE_LABLE_NAME:
-                        tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NET_PRICE_TYPE_PROPERTY).setValue(tempDTO);
-                        columnName = Constants.NET_PRICE_TYPE_COLUMN_NAME;
-                        value = tempDTO.getId();
-                        break;
-                    case Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME:
-                        FormulaDTO netPriceTypeFormulaDto = (FormulaDTO) massUpdateText.getData();
-                        textValue = String.valueOf(netPriceTypeFormulaDto.getFormulaNo());
-                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NET_PRICE_TYPE_FORMULA_PROPERTY).setValue(textValue);
-                        columnName = Constants.NET_PRICE_TYPE_FORMULA_COLUMN_NAME;
-                        value = netPriceTypeFormulaDto.getFormulaSid();
-                        break;
                     default:
                         break;
                 }
