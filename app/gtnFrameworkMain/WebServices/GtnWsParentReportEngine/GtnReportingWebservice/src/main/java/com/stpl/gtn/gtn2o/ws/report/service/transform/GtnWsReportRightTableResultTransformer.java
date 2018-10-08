@@ -16,6 +16,8 @@ public class GtnWsReportRightTableResultTransformer implements ResultTransformer
 
 	private static final long serialVersionUID = 2020047174163494804L;
 
+	private boolean isAnnual = false;
+
 	@Override
 	public Object transformTuple(Object[] tuple, String[] aliases) {
 		GtnWsReportRightTableData rowData = new GtnWsReportRightTableData();
@@ -28,7 +30,9 @@ public class GtnWsReportRightTableResultTransformer implements ResultTransformer
 		Map<String, Double> dataMap = new HashMap<>((aliases.length - 4));
 		for (int k = 4; k < aliases.length; k++) {
 			Double doubleData = tuple[k] == null ? 0D : ((BigDecimal) tuple[k]).doubleValue();
-			dataMap.put(Integer.toString(rowData.getPeriod()) + rowData.getYear() + aliases[k], doubleData);
+			String key = isAnnual ? rowData.getYear() + aliases[k]
+					: Integer.toString(rowData.getPeriod()) + rowData.getYear() + aliases[k];
+			dataMap.put(key, doubleData);
 		}
 		rowData.setDataMap(dataMap);
 		return rowData;
@@ -46,6 +50,10 @@ public class GtnWsReportRightTableResultTransformer implements ResultTransformer
 			hierarchyDataMap.get(rowData.getHierarchyNo()).putAll(rowData.getDataMap());
 		}
 		return Arrays.asList(hierarchyDataMap);
+	}
+
+	public void setAnnual(boolean isAnnual) {
+		this.isAnnual = isAnnual;
 	}
 
 }

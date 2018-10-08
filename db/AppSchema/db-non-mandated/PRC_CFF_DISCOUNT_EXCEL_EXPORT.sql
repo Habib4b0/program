@@ -364,7 +364,7 @@ declare @ACTUALS_END_SID int = (
 	((ND.DISCOUNT) + isnull((MD.DISCOUNT),0) + isnull((SPD.DISCOUNT),0)) / NULLIF((nd.UNITS), 0) AS TOTAL_RPU,
 	(((ND.DISCOUNT) + isnull((MD.DISCOUNT),0) + isnull((SPD.DISCOUNT),0)) / NULLIF((p.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY,
 	(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL,
-	1 AS INDICATOR,
+	0 AS INDICATOR,
 	t.DESCRIPTION
 	 from #trail t left join #PRODUCT_FILE_DATA p on p.CFF_MASTER_SID=t.CFF_MASTER_SID and p.ROW_ID=t.row_id
 	and p.PERIOD=t.PERIOD
@@ -404,7 +404,7 @@ declare @ACTUALS_END_SID int = (
 	((ND.DISCOUNT) + isnull((MD.DISCOUNT),0) + isnull((SPD.DISCOUNT),0)) / NULLIF((nd.UNITS), 0) AS TOTAL_RPU,
 	(((ND.DISCOUNT) + isnull((MD.DISCOUNT),0) + isnull((SPD.DISCOUNT),0)) / NULLIF((p.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY,
 	(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL,
-	0 AS INDICATOR,
+	1 AS INDICATOR,
 	t.DESCRIPTION
 	 from #trail t left join #PRODUCT_FILE_DATA p on p.CFF_MASTER_SID=t.CFF_MASTER_SID and p.ROW_ID=t.row_id
 	and p.PERIOD=t.PERIOD
@@ -415,7 +415,7 @@ declare @ACTUALS_END_SID int = (
 	and nd.YEAR=t.YEAR
 	and nd.INDICATOR=1
 	and nd.rs_contract_Sid=t.SELECTED_LEVEL
-	and nd.DISCOUNT_TYPE=1
+	and nd.DISCOUNT_TYPE=0
 	left join #disco md on md.CFF_MASTER_SID=t.CFF_MASTER_SID and md.ROW_ID=t.row_id
 	and md.PERIOD=t.PERIOD
 	and md.YEAR=t.YEAR

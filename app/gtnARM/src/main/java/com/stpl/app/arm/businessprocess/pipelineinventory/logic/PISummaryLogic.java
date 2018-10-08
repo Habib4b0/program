@@ -49,7 +49,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             String tableName = isView ? CommonConstant.ARM_INVENTORY_RATE : criteria.getSelectionDto().getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_INVENTORY_RATE);
             resultList = QueryUtils.getItemData(QueryUtils.getItemQuery(CommonConstant.SUMMARY_GENERATE_INVENTORY_EDIT, "Summary_generate_Inventory_count", null, null, tableName), null, null, inputs, false);
             count = resultList == null || resultList.isEmpty() ? 0 : (int) resultList.get(0);
-            if ((count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO)))) && (criteria.getSelectionDto().getRateslevelFilterNo() == 0)) {
+            if ((count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))))) {
                 count = count + 1;
             }
         } catch (Exception e) {
