@@ -280,7 +280,8 @@ INSERT
 			PD.projection_master_sid = CD.projection_master_sid
 			AND PD.ccp_details_sid = CD.ccp_details_sid
 		LEFT JOIN nm_discount_proj_master NDPM ON
-			NDPM.projection_details_sid = PD.projection_details_sid
+			NDPM.ccp_details_sid = PD.ccp_details_sid
+			and NDPM.projection_master_sid = PD.projection_master_sid
 		LEFT JOIN nm_ppa_projection_master NMPA ON
 			NMPA.projection_details_sid = PD.projection_details_sid
 		JOIN relationship_level_definition RLM ON

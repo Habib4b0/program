@@ -1617,33 +1617,15 @@ public class FileManagementLookup extends Window {
 		if (tableLogic.isResultsEmpty()) {
 			CommonUIUtils.getMessageNotification(ConstantsUtils.NO_RESULSTS);
 		} else {
-			if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
-				final FileManagementDTO fileManageDTO = fmLogic.getDetailsSumm(String.valueOf(fileNameList.getValue()),
-						String.valueOf(versionList.getValue()), CommonUtil.getSelectedFileType(fmFileType),
-						String.valueOf(country.getValue()));
-				changeReadOnlyState();
-				forecastName.setValue(fileManageDTO.getForecastName());
-				forecastVersion.setValue(fileManageDTO.getForecastVersion());
-				forecastDate.setValue(fileManageDTO.getForecastDate());
-				createdDate.setValue(fileManageDTO.getCreatedDate());
-				makeSummaryReadOnly();
-				detailsFlag = 'Y';
-			} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.DEMAND)
+			 if ((CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.DEMAND)
 					|| CommonUtil.getSelectedFileType(fmFileType).getDescription()
-							.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-				final FileManagementDTO fileManageDTO = fmLogic.getDetailsSumm(String.valueOf(fileNameList.getValue()),
-						String.valueOf(versionList.getValue()), CommonUtil.getSelectedFileType(fmFileType),
-						String.valueOf(country.getValue()));
-				changeReadOnlyState();
-				forecastName.setValue(fileManageDTO.getForecastName());
-				forecastVersion.setValue(fileManageDTO.getForecastVersion());
-				createdDate.setValue(fileManageDTO.getCreatedDate());
-				makeSummaryReadOnly();
-				detailsFlag = 'Y';
-			} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.DEMAND)
+							.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) ||
+                                (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.DEMAND)
 					|| CommonUtil.getSelectedFileType(fmFileType).getDescription()
 							.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)
-					|| CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.CUSTOMERGTS)) {
+					|| CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.CUSTOMERGTS))||
+                                (CommonUtil.getSelectedFileType(fmFileType).getDescription()
+					.equals(ConstantsUtils.ADJUSTED_DEMAND))|| (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.EX_FACTORY_SALES))) {
 				final FileManagementDTO fileManageDTO = fmLogic.getDetailsSumm(String.valueOf(fileNameList.getValue()),
 						String.valueOf(versionList.getValue()), CommonUtil.getSelectedFileType(fmFileType),
 						String.valueOf(country.getValue()));
@@ -1653,18 +1635,7 @@ public class FileManagementLookup extends Window {
 				createdDate.setValue(fileManageDTO.getCreatedDate());
 				makeSummaryReadOnly();
 				detailsFlag = 'Y';
-			} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
-					.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-				final FileManagementDTO fileManageDTO = fmLogic.getDetailsSumm(String.valueOf(fileNameList.getValue()),
-						String.valueOf(versionList.getValue()), CommonUtil.getSelectedFileType(fmFileType),
-						String.valueOf(country.getValue()));
-				changeReadOnlyState();
-				forecastName.setValue(fileManageDTO.getForecastName());
-				forecastVersion.setValue(fileManageDTO.getForecastVersion());
-				createdDate.setValue(fileManageDTO.getCreatedDate());
-				makeSummaryReadOnly();
-				detailsFlag = 'Y';
-			}
+			} 
 
 		}
 		if (isDetails) {
