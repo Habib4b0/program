@@ -7677,6 +7677,214 @@ END
 GO
 
 
+-----------------------------------------PSTG_ACM_RBT_INTERFACE
+IF NOT EXISTS (SELECT 'X'
+		       FROM INFORMATION_SCHEMA.TABLES
+			   WHERE TABLE_NAME='PSTG_ACM_RBT_INTERFACE'
+			   AND TABLE_SCHEMA='DBO'
+			   AND TABLE_TYPE= 'BASE TABLE') 
+BEGIN
+
+    CREATE TABLE [dbo].[PSTG_ACM_RBT_INTERFACE](
+	[PSTG_ACM_RBT_INTERFACE_SID] [int] IDENTITY(1,1) NOT NULL,
+	[FLE_RCR_NMB] [nvarchar](1000) NULL,
+	[PROD_NUM] [nvarchar](1000) NULL,
+	[Rebate_State] [nvarchar](1000) NULL,
+	[Pay_To_Bunit_Num] [nvarchar](1000) NULL,
+	[Accounting_Code] [nvarchar](1000) NULL,
+	[Book_of_Business] [nvarchar](1000) NULL,
+	[Price_Group_Number] [nvarchar](1000) NULL,
+	[Rebate_Type] [nvarchar](1000) NULL,
+	[Formulary] [nvarchar](1000) NULL,
+	[Submission_Number] [nvarchar](1000) NULL,
+	[Submission_Type] [nvarchar](1000) NULL,
+	[Rebate_Claim_Number] [nvarchar](1000) NULL,
+	[Submission_Item_Number] [nvarchar](1000) NULL,
+	[Submission_Item_Code] [nvarchar](1000) NULL,
+	[Submission_Item_Status] [nvarchar](1000) NULL,
+	[Adjudication_Number] [nvarchar](1000) NULL,
+	[Adjudication_Item_Number] [nvarchar](1000) NULL,
+	[ADJTYP_CD] [nvarchar](1000) NULL,
+	[TXT_TBC_VAL] [nvarchar](1000) NULL,
+	[Customer_Source_Id] [nvarchar](1000) NULL,
+	[Adjudication_Status] [nvarchar](1000) NULL,
+	[Settlement_Number] [nvarchar](1000) NULL,
+	[Accounting_Document_Number] [nvarchar](1000) NULL,
+	[Settlement_Status] [nvarchar](1000) NULL,
+	[Earned_Date] [nvarchar](1000) NULL,
+	[Receipt_Date] [nvarchar](1000) NULL,
+	[Rebate_Claim_Document_Date] [nvarchar](1000) NULL,
+	[Payment_Request_Date] [nvarchar](1000) NULL,
+	[Paid_Date] [nvarchar](1000) NULL,
+	[Bank_Date] [nvarchar](1000) NULL,
+	[Basis_Price] [nvarchar](1000) NULL,
+	[Contract_Price] [nvarchar](1000) NULL,
+	[Units] [nvarchar](1000) NULL,
+	[Scripts] [nvarchar](1000) NULL,
+	[Requested_Rebate] [nvarchar](1000) NULL,
+	[ADJITM_AMT_FINAL] [nvarchar](1000) NULL,
+	[ADJITM_AMT_ORIG] [nvarchar](1000) NULL,
+	[ADJTM_PRCGRP_AMT] [nvarchar](1000) NULL,
+	[ADJITM_AMT_FINAL_1] [nvarchar](1000) NULL,
+	[ADJITM_AUTH_UNITS] [nvarchar](1000) NULL,
+	[ADJITM_AUTH_DOLLARS] [nvarchar](1000) NULL,
+	[glx_cnt_int_idn] [nvarchar](1000) NULL,
+	[glx_qty_inc] [nvarchar](1000) NULL,
+	[glx_act] [nvarchar](1000) NULL,
+	[glx_act_name] [nvarchar](1000) NULL,
+	[glx_act_idn_cde_qlf] [nvarchar](1000) NULL,
+	[glx_brd_prd_num] [nvarchar](1000) NULL,
+	[glx_brd_nme] [nvarchar](1000) NULL,
+	[glx_itm_no] [nvarchar](1000) NULL,
+	[wac] [nvarchar](1000) NULL,
+	[program_state_code] [nvarchar](1000) NULL,
+	[FLE_NME] [nvarchar](1000) NULL,
+	[CREATED_DATE] [datetime] NULL,
+	[CREATED_BY] [nvarchar](100) NULL
+) ON [PRIMARY]
+
+END
+
+GO
+
+IF NOT EXISTS(SELECT 1 
+             FROM SYS.DEFAULT_CONSTRAINTS
+			 WHERE OBJECT_NAME(PARENT_OBJECT_ID)='PSTG_ACM_RBT_INTERFACE'
+			       AND SCHEMA_NAME(SCHEMA_ID)='DBO'
+				   AND NAME='DF_PSTG_ACM_RBT_INTERFACE_CREATED_DATE')
+BEGIN
+
+ALTER TABLE [dbo].[PSTG_ACM_RBT_INTERFACE] ADD  CONSTRAINT [DF_PSTG_ACM_RBT_INTERFACE_CREATED_DATE]  DEFAULT (getdate()) FOR [CREATED_DATE]
+
+END
+
+GO
+
+IF NOT EXISTS(SELECT 1 
+             FROM SYS.DEFAULT_CONSTRAINTS
+			 WHERE OBJECT_NAME(PARENT_OBJECT_ID)='PSTG_ACM_RBT_INTERFACE'
+			       AND SCHEMA_NAME(SCHEMA_ID)='DBO'
+				   AND NAME='DF_PSTG_ACM_RBT_INTERFACE_CREATED_BY')
+BEGIN
+
+ALTER TABLE [dbo].[PSTG_ACM_RBT_INTERFACE] ADD  CONSTRAINT [DF_PSTG_ACM_RBT_INTERFACE_CREATED_BY]  DEFAULT ('AGN') FOR [CREATED_BY]
+
+END
+GO
+
+IF NOT EXISTS (SELECT 'X'
+		       FROM INFORMATION_SCHEMA.TABLES
+			   WHERE TABLE_NAME='IVLD_PSTG_ACM_RBT_INTERFACE'
+			   AND TABLE_SCHEMA='DBO'
+			   AND TABLE_TYPE= 'BASE TABLE') 
+BEGIN
+
+    CREATE TABLE [dbo].[IVLD_PSTG_ACM_RBT_INTERFACE](
+	[IVLD_PSTG_ACM_RBT_INTERFACE_SID] [int] IDENTITY(1,1) NOT NULL,
+	[FLE_RCR_NMB] [nvarchar](1000) NULL,
+	[PROD_NUM] [nvarchar](1000) NULL,
+	[Rebate_State] [nvarchar](1000) NULL,
+	[Pay_To_Bunit_Num] [nvarchar](1000) NULL,
+	[Accounting_Code] [nvarchar](1000) NULL,
+	[Book_of_Business] [nvarchar](1000) NULL,
+	[Price_Group_Number] [nvarchar](1000) NULL,
+	[Rebate_Type] [nvarchar](1000) NULL,
+	[Formulary] [nvarchar](1000) NULL,
+	[Submission_Number] [nvarchar](1000) NULL,
+	[Submission_Type] [nvarchar](1000) NULL,
+	[Rebate_Claim_Number] [nvarchar](1000) NULL,
+	[Submission_Item_Number] [nvarchar](1000) NULL,
+	[Submission_Item_Code] [nvarchar](1000) NULL,
+	[Submission_Item_Status] [nvarchar](1000) NULL,
+	[Adjudication_Number] [nvarchar](1000) NULL,
+	[Adjudication_Item_Number] [nvarchar](1000) NULL,
+	[ADJTYP_CD] [nvarchar](1000) NULL,
+	[TXT_TBC_VAL] [nvarchar](1000) NULL,
+	[Customer_Source_Id] [nvarchar](1000) NULL,
+	[Adjudication_Status] [nvarchar](1000) NULL,
+	[Settlement_Number] [nvarchar](1000) NULL,
+	[Accounting_Document_Number] [nvarchar](1000) NULL,
+	[Settlement_Status] [nvarchar](1000) NULL,
+	[Earned_Date] [nvarchar](1000) NULL,
+	[Receipt_Date] [nvarchar](1000) NULL,
+	[Rebate_Claim_Document_Date] [nvarchar](1000) NULL,
+	[Payment_Request_Date] [nvarchar](1000) NULL,
+	[Paid_Date] [nvarchar](1000) NULL,
+	[Bank_Date] [nvarchar](1000) NULL,
+	[Basis_Price] [nvarchar](1000) NULL,
+	[Contract_Price] [nvarchar](1000) NULL,
+	[Units] [nvarchar](1000) NULL,
+	[Scripts] [nvarchar](1000) NULL,
+	[Requested_Rebate] [nvarchar](1000) NULL,
+	[ADJITM_AMT_FINAL] [nvarchar](1000) NULL,
+	[ADJITM_AMT_ORIG] [nvarchar](1000) NULL,
+	[ADJTM_PRCGRP_AMT] [nvarchar](1000) NULL,
+	[ADJITM_AMT_FINAL_1] [nvarchar](1000) NULL,
+	[ADJITM_AUTH_UNITS] [nvarchar](1000) NULL,
+	[ADJITM_AUTH_DOLLARS] [nvarchar](1000) NULL,
+	[glx_cnt_int_idn] [nvarchar](1000) NULL,
+	[glx_qty_inc] [nvarchar](1000) NULL,
+	[glx_act] [nvarchar](1000) NULL,
+	[glx_act_name] [nvarchar](1000) NULL,
+	[glx_act_idn_cde_qlf] [nvarchar](1000) NULL,
+	[glx_brd_prd_num] [nvarchar](1000) NULL,
+	[glx_brd_nme] [nvarchar](1000) NULL,
+	[glx_itm_no] [nvarchar](1000) NULL,
+	[wac] [nvarchar](1000) NULL,
+	[program_state_code] [nvarchar](1000) NULL,
+	[FLE_NME] [nvarchar](1000) NULL,
+	[PSTG_ACM_RBT_INTERFACE_SID] [varchar](100) NULL,
+	[CREATED_DATE] [datetime] NULL,
+	[CREATED_BY] [nvarchar](100) NULL,
+	[REASON_FOR_FAILURE] [nvarchar](1000) NULL,
+	[ERROR_CODE] [varchar](15) NULL,
+	[ERROR_FIELD] [nvarchar](1000) NULL,
+	[BATCH_ID] [varchar](100) NULL,
+	[IVLD_INTERFACE_DATE] [datetime] NULL
+) ON [PRIMARY]
+END
+
+GO
+
+IF NOT EXISTS(SELECT 1 
+             FROM SYS.DEFAULT_CONSTRAINTS
+			 WHERE OBJECT_NAME(PARENT_OBJECT_ID)='IVLD_PSTG_ACM_RBT_INTERFACE'
+			       AND SCHEMA_NAME(SCHEMA_ID)='DBO'
+				   AND NAME='DF_IVLD_PSTG_ACM_RBT_INTERFACE_CREATED_DATE')
+BEGIN
+
+ALTER TABLE [dbo].[IVLD_PSTG_ACM_RBT_INTERFACE] ADD  CONSTRAINT [DF_IVLD_PSTG_ACM_RBT_INTERFACE_CREATED_DATE]  DEFAULT (getdate()) FOR [CREATED_DATE]
+
+END
+
+GO
+
+IF NOT EXISTS(SELECT 1 
+             FROM SYS.DEFAULT_CONSTRAINTS
+			 WHERE OBJECT_NAME(PARENT_OBJECT_ID)='IVLD_PSTG_ACM_RBT_INTERFACE'
+			       AND SCHEMA_NAME(SCHEMA_ID)='DBO'
+				   AND NAME='DF_IVLD_PSTG_ACM_RBT_INTERFACE_CREATED_BY')
+BEGIN
+
+ALTER TABLE [dbo].[IVLD_PSTG_ACM_RBT_INTERFACE] ADD  CONSTRAINT [DF_IVLD_PSTG_ACM_RBT_INTERFACE_CREATED_BY]  DEFAULT ('AGN') FOR [CREATED_BY]
+
+END
+
+GO
+IF NOT EXISTS(SELECT 1 
+             FROM SYS.DEFAULT_CONSTRAINTS
+			 WHERE OBJECT_NAME(PARENT_OBJECT_ID)='IVLD_PSTG_ACM_RBT_INTERFACE'
+			       AND SCHEMA_NAME(SCHEMA_ID)='DBO'
+				   AND NAME='DF_IVLD_PSTG_ACM_RBT_INTERFACE_IVLD_INTERFACE_DATE')
+BEGIN
+
+ALTER TABLE [dbo].[IVLD_PSTG_ACM_RBT_INTERFACE] ADD  CONSTRAINT [DF_IVLD_PSTG_ACM_RBT_INTERFACE_IVLD_INTERFACE_DATE]  DEFAULT (getdate()) FOR [IVLD_INTERFACE_DATE]
+
+END
+
+GO
+
+
 
 
 
