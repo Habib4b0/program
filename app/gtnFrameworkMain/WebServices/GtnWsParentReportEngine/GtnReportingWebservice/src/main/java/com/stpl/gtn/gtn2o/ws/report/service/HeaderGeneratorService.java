@@ -151,6 +151,7 @@ public class HeaderGeneratorService {
 			boolean isColumn = getColumnFlag(dashboardBean.getCustomViewMasterSid());
 			List<GtnReportComparisonProjectionBean> beanList = dashboardBean.getComparisonProjectionBeanList();
 			List<String> comparsionHeader = new ArrayList<>();
+			int noSource = dataSelectionBean.getReportDataSource() != 3 ? 0 : 1;
 			if (dataSelectionBean.getReportDataSource() != 3)
 				comparsionHeader.add("Current Projection");
 			if (beanList != null) {
@@ -159,7 +160,7 @@ public class HeaderGeneratorService {
 			String[] comparisonBasisHeader = comparsionHeader.stream().toArray(String[]::new);
 			String[] comparisonBasisColumn = new String[comparisonBasisHeader.length];
 			for (int i = 0; i < comparisonBasisHeader.length; i++) {
-				comparisonBasisColumn[i] = String.valueOf(i + 1);
+				comparisonBasisColumn[i] = String.valueOf(i + 1 + noSource);
 			}
 			if (isMandatoryFieldsAdded(dashboardBean, isColumn)) {
 				return tableHeaderDTO;

@@ -73,7 +73,7 @@ public class FileUploader implements Upload.Receiver {
     public OutputStream receiveUpload(final String filename, final String mimeType) {
         LOGGER.debug("Entering receiveUpload method ");
         try {
-            final File dir = new File(FILE_PATH + moduleName+"/");
+            final File dir = new File(FILE_PATH + moduleName+File.separator);
             if (!dir.exists()) {
                 dir.mkdirs();
             }

@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -382,7 +383,7 @@ public class GtnFrameworkSqlQueryEngine {
 		}
 		file = file.replace(GtnFrameworkCommonStringConstants.STPL_EXTENSION,
 				GtnFrameworkCommonStringConstants.QUERY + GtnFrameworkCommonStringConstants.STPL_EXTENSION);
-		try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+		try (FileOutputStream fileOutputStream = GtnFileNameUtils.getFileOutputStream(GtnFileNameUtils.getFile(file));
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
 			objectOutputStream.writeObject(queryString);
 			objectOutputStream.flush();

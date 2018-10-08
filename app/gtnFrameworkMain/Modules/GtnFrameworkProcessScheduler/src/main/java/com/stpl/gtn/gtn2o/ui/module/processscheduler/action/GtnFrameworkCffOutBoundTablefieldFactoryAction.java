@@ -50,20 +50,24 @@ public class GtnFrameworkCffOutBoundTablefieldFactoryAction implements GtnUIFram
 		GtnUIFrameworkWebserviceRequest wsRequest = new GtnUIFrameworkWebserviceRequest();
 		wsRequest.setProcessSchedulerRequest(gtnWsProcessSchedulerRequest);
 		
-		GtnUIFrameworkWebserviceResponse response=new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN
-						+ GtnWsProcessScedulerConstants.UPDATE_CHECK_RECORD,
-						wsRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response=callProcessSchedularCffOutboundService(wsRequest);
 		gtnLogger.info("updated check record col : "+response.getGtnWsGeneralResponse().isSucess());
 		
 
 		
 	}
 
+    public GtnUIFrameworkWebserviceResponse callProcessSchedularCffOutboundService(GtnUIFrameworkWebserviceRequest wsRequest) {
+        return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN
+                        + GtnWsProcessScedulerConstants.UPDATE_CHECK_RECORD,
+                wsRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+    }
+
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		// Auto-generated method stub
-		return null;
+		return this;
 	}
 
 }
