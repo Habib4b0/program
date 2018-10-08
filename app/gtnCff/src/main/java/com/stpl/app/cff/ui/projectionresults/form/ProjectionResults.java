@@ -370,11 +370,12 @@ public class ProjectionResults extends ForecastProjectionResults {
      *
      * @return
      */
-    private ForecastDTO getHistoricalPeriods(DataSelectionDTO dataSelectionDTO) {
+    private ForecastDTO getHistoricalPeriods(DataSelectionDTO dataSelectionDtoParam) {
         Date dbDateTO;
         SimpleDateFormat format = new SimpleDateFormat(Constants.CommonConstants.DATE_FORMAT.getConstant());
-        if (dataSelectionDTO == null) {
-            dataSelectionDTO = new DataSelectionDTO();
+        DataSelectionDTO dataSelectionDtoo = dataSelectionDtoParam;
+        if (dataSelectionDtoo == null) {
+            dataSelectionDtoo = new DataSelectionDTO();
         }
 
         String sql = "SELECT\n"
@@ -418,14 +419,14 @@ public class ProjectionResults extends ForecastProjectionResults {
             } catch (ParseException pe) {
                 LOGGER.error(pe.getMessage());
             }
-            dataSelectionDTO.setFromDate(dbDateFrom);
-            dataSelectionDTO.setToDate(dbDateTO);
+            dataSelectionDtoo.setFromDate(dbDateFrom);
+            dataSelectionDtoo.setToDate(dbDateTO);
         }
-        dataSelectionDTO.setFromDate(CommonLogic.fromDateIsNull(dataSelectionDTO.getFromDate()));
-        dataSelectionDTO.setToDate(CommonLogic.toDateIsNull(dataSelectionDTO.getToDate()));
+        dataSelectionDtoo.setFromDate(CommonLogic.fromDateIsNull(dataSelectionDtoo.getFromDate()));
+        dataSelectionDtoo.setToDate(CommonLogic.toDateIsNull(dataSelectionDtoo.getToDate()));
         ForecastDTO dto = new ForecastDTO();
         try {
-                dto = DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
+                dto = DataSelectionUtil.getForecastDTO(dataSelectionDtoo, session);
         } catch (Exception exp) {
             LOGGER.error(exp.getMessage());
         }

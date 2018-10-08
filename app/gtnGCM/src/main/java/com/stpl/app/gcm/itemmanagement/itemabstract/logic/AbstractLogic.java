@@ -831,26 +831,6 @@ public class AbstractLogic {
             case NumericConstants.FORTY_THREE: // NET_BASELINE_WAC_FORMULA_ID
                  input.add(compDTO.getNetBaselineWACFormula()!= null && !compDTO.getNetBaselineWACFormula().isEmpty() ? Constants.SINGLE_QUOTES + compDTO.getNetBaselineWACFormula() + Constants.SINGLE_QUOTES : null); 
                 break;
-            case NumericConstants.FORTY_FOUR:
-                input.add(compDTO.getBaselineNetWAC() != null ? compDTO.getBaselineNetWAC().getId() : null);
-                break;
-            case NumericConstants.FORTY_FIVE:
-                input.add(compDTO.getPriceType() != 0 ? compDTO.getPriceType() : null);
-                break;
-            case NumericConstants.FORTY_SIX:
-                 input.add(compDTO.getMeasurementPrice() != 0 ? compDTO.getMeasurementPrice() : null);
-                break;
-            case NumericConstants.FORTY_SEVEN:
-                input.add(compDTO.getBaseLineWacManual()!= null && !compDTO.getBaseLineWacManual().isEmpty() ? compDTO.getBaseLineWacManual() : null);
-                break;
-
-            case NumericConstants.FORTY_EIGHT:
-                input.add(compDTO.getBaseLineWacDate()!= null ? setQuotes(formatter.format(compDTO.getBaseLineWacDate())) : null);
-                break;
-
-            case NumericConstants.FORTY_NINE:
-                input.add(compDTO.getBaseLineWacPriceType()!= 0 ? compDTO.getBaseLineWacPriceType() : null);
-                break;
             default:
                 break;
         }
@@ -978,70 +958,7 @@ public class AbstractLogic {
             case NumericConstants.TWENTY_EIGHT:
                 input.add(dto.getMaxIncrementalChange() != null && !dto.getMaxIncrementalChange().isEmpty() ? dto.getMaxIncrementalChange() : null);
                 break;
-            case NumericConstants.TWENTY_NINE:
-                input.add(dto.getResetEligible() != null ? dto.getResetEligible().getId() : null);
-                break;
-            case NumericConstants.THIRTY:
-                input.add(dto.getResetType() != null ? dto.getResetType().getId() : null);
-                break;
-            case NumericConstants.THIRTY_ONE:
-                input.add(dto.getResetDate() != null ? setQuotes(formatter.format(dto.getResetDate())) : null);
-                break;
-            case NumericConstants.THIRTY_TWO:
-                input.add(dto.getResetInterval() != null ? dto.getResetInterval().getId() : null);
-                break;
-            case NumericConstants.THIRTY_THREE:
-                input.add(dto.getResetFrequency() != null ? dto.getResetFrequency().getId() : null);
-                break;
-            case NumericConstants.THIRTY_FOUR:
-                input.add(dto.getNetPriceType() != null ? dto.getNetPriceType().getId() : null);
-                break;
-            case NumericConstants.THIRTY_FIVE: // NET_PRICE_TYPE_FORMULA
-                input.add(dto.getNetPriceTypeFormula() != null && !dto.getNetPriceTypeFormula().isEmpty() ? Constants.SINGLE_QUOTES + dto.getNetPriceTypeFormula() + Constants.SINGLE_QUOTES : null); 
-                break;
-            case NumericConstants.THIRTY_SIX:
-                input.add(dto.getResetPriceType() != null ? dto.getResetPriceType().getId() : null);
-                break;
-            case NumericConstants.THIRTY_SEVEN:
-                input.add(dto.getNetResetPriceType() != null ? dto.getNetResetPriceType().getId() : null);
-                break;
-            case NumericConstants.THIRTY_EIGHT: // NET_RESET_PRICE_FORMULA_ID
-                input.add(dto.getNetResetPriceFormula() != null && !dto.getNetResetPriceFormula().isEmpty() ? Constants.SINGLE_QUOTES + dto.getNetResetPriceFormula() + Constants.SINGLE_QUOTES : null); 
-                break;
-            case NumericConstants.THIRTY_NINE:
-                input.add(dto.getBasePriceType() != null ? dto.getBasePriceType().getId() : null);
-                break;
-            case NumericConstants.FORTY:
-                input.add(dto.getSubsequentPeriodPriceType() != null ? dto.getSubsequentPeriodPriceType().getId() : null);
-                break;
-            case NumericConstants.FORTY_ONE:
-                input.add(dto.getNetSubsequentPeriodPrice() != null ? dto.getNetSubsequentPeriodPrice().getId() : null);
-                break;
-            case NumericConstants.FORTY_TWO: // NET_SUBSEQUENT_PRICE_FORMULA_ID
-                input.add(dto.getNetSubsequentPeriodPriceFormula() != null && !dto.getNetSubsequentPeriodPriceFormula().isEmpty() ? Constants.SINGLE_QUOTES + dto.getNetSubsequentPeriodPriceFormula() + Constants.SINGLE_QUOTES : null); 
-                break;
-            case NumericConstants.FORTY_THREE: // NET_BASELINE_WAC_FORMULA_ID
-                input.add(dto.getNetBaselineWACFormula() != null && !dto.getNetBaselineWACFormula().isEmpty() ? Constants.SINGLE_QUOTES + dto.getNetBaselineWACFormula() + Constants.SINGLE_QUOTES : null);  
-                break;
-            case NumericConstants.FORTY_FOUR:
-                input.add(dto.getBaselineNetWAC() != null ? dto.getBaselineNetWAC().getId() : null);
-                break;
-            case NumericConstants.FORTY_FIVE:
-                input.add(dto.getPriceType() != null ? dto.getPriceType().getId() : null);
-                break;
-            case NumericConstants.FORTY_SIX:
-                input.add(dto.getMeasurementPrice() != null ? dto.getMeasurementPrice().getId() : null);
-                break;
-            case NumericConstants.FORTY_SEVEN:
-                input.add(dto.getBaseLineWacManual() != null && !dto.getBaseLineWacManual().isEmpty() ? dto.getBaseLineWacManual() : null);
-                break;
-
-            case NumericConstants.FORTY_EIGHT:
-                input.add(dto.getBaseLineWacDate() != null ? setQuotes(formatter.format(dto.getBaseLineWacDate())) : null);
-                break;
-            case NumericConstants.FORTY_NINE:
-                input.add(dto.getBaseLineWacPriceType() != 0 ? dto.getBaseLineWacPriceType() : null);
-                break;
+           
             default:
                 break;
         }
@@ -1786,8 +1703,9 @@ public class AbstractLogic {
      * @param frequency the frequency
      * @return the list
      */
-    public static final List<String> loadHistory(String frequency, String period) {
+    public static final List<String> loadHistory(String frequency, String periodParam) {
         List<String> history = new ArrayList<>();
+        String period = periodParam;
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.equals(frequency)) {

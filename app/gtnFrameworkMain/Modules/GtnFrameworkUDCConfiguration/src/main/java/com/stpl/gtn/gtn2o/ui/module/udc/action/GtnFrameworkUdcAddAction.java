@@ -50,7 +50,7 @@ public class GtnFrameworkUdcAddAction
 		GtnWsUdcRequest udcRequest = new GtnWsUdcRequest();
 		Date date = new Date();
 		try {
-			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 			String udcCategory = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY)
 					.getCaptionFromComboBox();
 			if (udcCategory.equals("BRAND")) {
@@ -132,7 +132,7 @@ public class GtnFrameworkUdcAddAction
 		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsUdcConstants.GTN_UDC_SERVICE + GtnWsUdcConstants.GTN_UDC_BRAND_SAVE_SERVICE, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-	
+
 	}
 
 	private GtnWsBrandMasterBean loadBrandValues(Date date) {
