@@ -40,9 +40,7 @@ public class GtnFrameworkForecastDataSelectionViewUpdateAction
 		GtnWsForecastNewArchRequest forecastRequest = new GtnWsForecastNewArchRequest();
 		forecastRequest.setDataSelectionBean(dataSelectionBean);
 		request.setGtnWsForecastNewArchRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_WS_REPORT_UPDATEVIEW_SERVICE,
-				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = callWebservice(request);
 		GtnUIFrameWorkActionConfig infoAction = new GtnUIFrameWorkActionConfig();
 		infoAction.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 		if (response.getGtnWsGeneralResponse().isSucess()) {
@@ -62,6 +60,12 @@ public class GtnFrameworkForecastDataSelectionViewUpdateAction
 			closePopupAction.addActionParameter("forecastDsSaveViewLookUp");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, closePopupAction);
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse callWebservice(GtnUIFrameworkWebserviceRequest request) {
+		return  new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_WS_REPORT_UPDATEVIEW_SERVICE,
+				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override
