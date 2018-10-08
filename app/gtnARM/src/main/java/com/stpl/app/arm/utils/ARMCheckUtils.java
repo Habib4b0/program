@@ -20,8 +20,8 @@ public class ARMCheckUtils {
     }
 
     public static boolean isSingleVisibleColumnPresentInDto(int singleVisibleColumn, AdjustmentDTO dto) {
-        if(dto.getMasterIds().isEmpty()) {
-        return false;
+        if(dto.getMasterIds().isEmpty() || (!dto.getMasterIds().containsKey(ARMUtils.levelVariablesVarables.DEDUCTION.toString()))) {
+            return false;
         }
         return singleVisibleColumn == (dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
     }

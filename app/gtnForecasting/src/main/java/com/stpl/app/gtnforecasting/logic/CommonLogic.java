@@ -790,14 +790,6 @@ public class CommonLogic {
         return null;
     }
 
-    public static Leveldto getLevel(List<Leveldto> hierarchy) {
-        for (Leveldto levelDto : hierarchy) {
-            return levelDto;
-        }
-
-        return null;
-    }
-
     public static String getViewTableName(String hierarchyIndicator) {
         String viewTableName = StringUtils.EMPTY;
         if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator)) {
@@ -2015,26 +2007,6 @@ public class CommonLogic {
                 + "where "
                 + "RLD.LEVEL_NO >=" + levelNo + " AND RLD.RELATIONSHIP_BUILDER_SID=" + rbID + " AND RLD.VERSION_NO = "+ versionNo +";";
         return customSql;
-    }
-
-    public static String getIndicator(int levelNo, int viewName) {
-        List<CustomViewDetails> resultsList = null;
-        String viewIndicator = StringUtils.EMPTY;
-        DynamicQuery dynamicQuery = CustomViewDetailsLocalServiceUtil.dynamicQuery();
-        dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
-        dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.LEVEL_NO, levelNo));
-        try {
-            resultsList = commonDao.getCustomViewDetailsList(dynamicQuery);
-        } catch (SystemException ex) {
-            LOGGER.error(ex.getMessage());
-        }
-        if (resultsList != null && !resultsList.isEmpty()) {
-            for (CustomViewDetails customViewDetails : resultsList) {
-                viewIndicator = customViewDetails.getHierarchyIndicator();
-                break;
-            }
-        }
-        return viewIndicator;
     }
 
     public static int getIndicatorCount(int viewName) {
@@ -4072,7 +4044,6 @@ public class CommonLogic {
             
             if (isDeduction) {
                 uomQuery +=isVariance? " JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM ON SPM.CCP_DETAILS_SID = ST.CCP_DETAILS_SID and SPM.RS_CONTRACT_SID = PV.RS_CONTRACT_SID  JOIN  #HIER_DEDUCTION_PROD PRO1 ON SPM.DEDUCTION_HIERARCHY_NO LIKE PRO1.HIERARCHY_NO + '%' " : " JOIN  #HIER_DEDUCTION_PROD PRO1 ON SPM.DEDUCTION_HIERARCHY_NO LIKE PRO1.HIERARCHY_NO + '%' ";
-//                        "JOIN  #HIER_DEDUCTION_PROD PRO1 ON SPM.DEDUCTION_HIERARCHY_NO LIKE PRO1.HIERARCHY_NO + '%' ";
             }
            
         }else{

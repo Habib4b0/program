@@ -417,9 +417,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 	protected final CFFLogic logic = new CFFLogic();
 
-	public AbstractDataSelection(CustomFieldGroup dataSelectionBinder, String screenName) {
+	public AbstractDataSelection(CustomFieldGroup dataSelectionBinderParam, String screenName) {
 		setCompositionRoot(Clara.create(getClass().getResourceAsStream("/cff/tabs/dataSelection.xml"), this));
-		this.dataSelectionBinder = dataSelectionBinder;
+		this.dataSelectionBinder = dataSelectionBinderParam;
 		this.screenName = screenName;
 		addComponent();
 		dataSelectionBinder = getBinder();

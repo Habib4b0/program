@@ -496,7 +496,7 @@ public class AccrualRateUtils {
         }
 
     }
-    private static AccrualRateUtils object;
+    private static volatile AccrualRateUtils object;
 
     public static AccrualRateUtils getInstance() {
         if (object == null) {

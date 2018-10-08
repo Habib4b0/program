@@ -144,7 +144,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         filePath = new CommonUtil().getFileName(basepath + File.separator + "Documents" + File.separator + moduleName);
         wordFile = new CommonUtil().getFileName(filePath + File.separator + fileName + ExportWord.DOC_EXT);
         pdfFile = new CommonUtil().getFileName(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
-        fileUploadPath = FileUploader.FILE_PATH+"/" + moduleName + "/";
+        fileUploadPath = FileUploader.FILE_PATH+File.separator + moduleName + File.separator;
     }
 
     @Override
