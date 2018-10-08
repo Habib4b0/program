@@ -63,12 +63,14 @@ public class GtnFrameworkCheckAllRecordAction implements GtnUIFrameWorkAction, G
 		updateRequest.setProcessSchedulerRequest(gtnWsProcessSchedulerRequest);
 		updateRequest.setGtnWsGeneralRequest(generalWSRequest);
 		
-		GtnUIFrameworkWebserviceResponse response=new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN + GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_UPDATE_CHECKED_ALL,
-				updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		
-		gtnLogger.info(""+response.getGtnWsGeneralResponse().isSucess());
+		callProcessSchedularCffOutbound(updateRequest);		
 	}
+
+    public GtnUIFrameworkWebserviceResponse callProcessSchedularCffOutbound(GtnUIFrameworkWebserviceRequest updateRequest) {
+        return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN + GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_UPDATE_CHECKED_ALL,
+                updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
