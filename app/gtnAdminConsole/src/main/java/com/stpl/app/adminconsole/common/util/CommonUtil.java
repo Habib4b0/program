@@ -479,7 +479,7 @@ public final class CommonUtil {
         List<Object> resultList = new ArrayList<>();
 
         try {
-            resultList = new AdminConsoleImpl().fetchFieldsForSecurity(moduleName, tabName, null);
+            resultList = new AdminConsoleImpl().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());
         }
