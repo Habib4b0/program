@@ -195,38 +195,38 @@ public class ExcelUtils {
         }
     }
 
-    private static String isColumn(ProjectionSelectionDTO selection, String quater, String year, String caption, String frequency) {
-        String constant = StringUtils.EMPTY;
-        if (frequency.equals(Constant.QUARTERLY)) {
-            constant = Constant.Q_SMALL + quater + year + caption;
-        } else if (frequency.equals(Constant.ANNUALLY)) {
-            constant = year + caption;
-        } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year + caption;
+    private static String isColumn(ProjectionSelectionDTO selection, String quater, String year, String caption, String frequencyExcel) {
+        String constantExcel = StringUtils.EMPTY;
+        if (frequencyExcel.equals(Constant.QUARTERLY)) {
+            constantExcel = Constant.Q_SMALL + quater + year + caption;
+        } else if (frequencyExcel.equals(Constant.ANNUALLY)) {
+            constantExcel = year + caption;
+        } else if (frequencyExcel.equals(Constant.MONTHLY)) {
+            constantExcel = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year + caption;
 
-        } else if (frequency.equals(Constant.SEMIANNUALLY)) {
-            constant = Constant.S_SMALL + quater + year + caption;
+        } else if (frequencyExcel.equals(Constant.SEMIANNUALLY)) {
+            constantExcel = Constant.S_SMALL + quater + year + caption;
         }
-        if (selection.hasColumn(constant)) {
-            return constant;
+        if (selection.hasColumn(constantExcel)) {
+            return constantExcel;
         }
         return null;
     }
 
-    private static String isProjColumn(String quater, String year, String frequency) {
-        String constant = StringUtils.EMPTY;
-        if (frequency.equals(Constant.QUARTERLY)) {
-            constant = Constant.Q_SMALL + quater + year;
-        } else if (frequency.equals(Constant.ANNUALLY)) {
-            constant = year;
-        } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year;
+    private static String isProjColumn(String quater, String year, String frequencyProjExcel) {
+        String constantProjExcel = StringUtils.EMPTY;
+        if (frequencyProjExcel.equals(Constant.QUARTERLY)) {
+            constantProjExcel = Constant.Q_SMALL + quater + year;
+        } else if (frequencyProjExcel.equals(Constant.ANNUALLY)) {
+            constantProjExcel = year;
+        } else if (frequencyProjExcel.equals(Constant.MONTHLY)) {
+            constantProjExcel = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year;
 
-        } else if (frequency.equals(Constant.SEMIANNUALLY)) {
-            constant = Constant.S_SMALL + quater + year;
+        } else if (frequencyProjExcel.equals(Constant.SEMIANNUALLY)) {
+            constantProjExcel = Constant.S_SMALL + quater + year;
         }
 
-        return constant;
+        return constantProjExcel;
     }
 
     public static void setStaticRowToExcelContainer(ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, final List<DiscountProjectionResultsDTO> totalList) {
@@ -427,19 +427,19 @@ public class ExcelUtils {
         excelBeanContainer.addItem(dto);
     }
 
-    private String getFrequency(String frequency, Object[] object) {
-        String column = StringUtils.EMPTY;
-        if (ANNUALLY.getConstant().equals(frequency)) {
-            column = String.valueOf(object[1]);
-        } else if (QUARTERLY.getConstant().equals(frequency)) {
-            column = Constant.Q_SMALL + String.valueOf(object[NumericConstants.TWO]) + String.valueOf(object[1]);
-        } else if (SEMI_ANNUALLY.getConstant().equals(frequency)) {
-            column = Constant.S_SMALL + String.valueOf(object[NumericConstants.TWO]) + String.valueOf(object[1]);
-        } else if (MONTHLY.getConstant().equals(frequency)) {
-            String monthName = getMonthForInt(Integer.parseInt(String.valueOf(object[NumericConstants.TWO])) - 1);
-            column = monthName.toLowerCase(Locale.ENGLISH) + String.valueOf(object[1]);
+    private String getFrequency(String freqExcel, Object[] objectExcel) {
+        String columnExcelFreq = StringUtils.EMPTY;
+        if (ANNUALLY.getConstant().equals(freqExcel)) {
+            columnExcelFreq = String.valueOf(objectExcel[1]);
+        } else if (QUARTERLY.getConstant().equals(freqExcel)) {
+            columnExcelFreq = Constant.Q_SMALL + String.valueOf(objectExcel[NumericConstants.TWO]) + String.valueOf(objectExcel[1]);
+        } else if (SEMI_ANNUALLY.getConstant().equals(freqExcel)) {
+            columnExcelFreq = Constant.S_SMALL + String.valueOf(objectExcel[NumericConstants.TWO]) + String.valueOf(objectExcel[1]);
+        } else if (MONTHLY.getConstant().equals(freqExcel)) {
+            String monthName = getMonthForInt(Integer.parseInt(String.valueOf(objectExcel[NumericConstants.TWO])) - 1);
+            columnExcelFreq = monthName.toLowerCase(Locale.ENGLISH) + String.valueOf(objectExcel[1]);
         }
-        return column;
+        return columnExcelFreq;
     }
 
     private String getMonthForInt(int num) {
@@ -452,19 +452,19 @@ public class ExcelUtils {
         return month;
     }
     
-     private String getFrequencyForGroup(String frequency, Object[] object) {
-        String column = StringUtils.EMPTY;
-        if (ANNUALLY.getConstant().equals(frequency)) {
-            column = String.valueOf(object[1]);
-        } else if (QUARTERLY.getConstant().equals(frequency)) {
-            column = Constant.Q + String.valueOf(object[NumericConstants.TWO]) + Constants.CommonConstants.SPACE + String.valueOf(object[1]);
-        } else if (SEMI_ANNUALLY.getConstant().equals(frequency)) {
-            column = Constant.S + String.valueOf(object[NumericConstants.TWO]) + Constants.CommonConstants.SPACE + String.valueOf(object[1]);
-        } else if (MONTHLY.getConstant().equals(frequency)) {
+     private String getFrequencyForGroup(String frequencyGroup, Object[] object) {
+        String columnFrequencyGroup = StringUtils.EMPTY;
+        if (ANNUALLY.getConstant().equals(frequencyGroup)) {
+            columnFrequencyGroup = String.valueOf(object[1]);
+        } else if (QUARTERLY.getConstant().equals(frequencyGroup)) {
+            columnFrequencyGroup = Constant.Q + String.valueOf(object[NumericConstants.TWO]) + Constants.CommonConstants.SPACE + String.valueOf(object[1]);
+        } else if (SEMI_ANNUALLY.getConstant().equals(frequencyGroup)) {
+            columnFrequencyGroup = Constant.S + String.valueOf(object[NumericConstants.TWO]) + Constants.CommonConstants.SPACE + String.valueOf(object[1]);
+        } else if (MONTHLY.getConstant().equals(frequencyGroup)) {
             String monthName = getMonthForInt(Integer.parseInt(String.valueOf(object[NumericConstants.TWO])) - 1);
-            column = monthName + Constants.CommonConstants.SPACE + String.valueOf(object[1]);
+            columnFrequencyGroup = monthName + Constants.CommonConstants.SPACE + String.valueOf(object[1]);
         }
-        return column;
+        return columnFrequencyGroup;
     }
       /**
      *

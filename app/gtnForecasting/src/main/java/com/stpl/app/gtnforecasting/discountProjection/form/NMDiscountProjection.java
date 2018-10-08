@@ -4009,31 +4009,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     public List getDiscountRSSids(List<String> discountProgramsList) {
         List<String> rawListRSSids = new ArrayList();
-        String discountPgmName = StringUtils.EMPTY;
-        String discountPgmSids = StringUtils.EMPTY;
+        StringBuilder discountPgmName = new StringBuilder();
+        StringBuilder discountPgmSids = new StringBuilder();
         for (String rsSids : discountProgramsList) {
-            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ',';
-            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ',';
+            discountPgmName.append(rsSids.contains("~") ? rsSids.split("~")[0] : rsSids).append(',');
+            discountPgmSids.append(rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids).append(',');
         }
-        discountPgmName = discountPgmName.substring(0, discountPgmName.length() - 1);
-        discountPgmSids = discountPgmSids.substring(0, discountPgmSids.length() - 1);
-        rawListRSSids.add(discountPgmName);
-        rawListRSSids.add(discountPgmSids);
-        return rawListRSSids;
-    }
-
-    public List getDiscountRSSids1(List<String> discountProgramsList) {
-        List<String> rawListRSSids = new ArrayList();
-        String discountPgmName = StringUtils.EMPTY;
-        String discountPgmSids = StringUtils.EMPTY;
-        for (String rsSids : discountProgramsList) {
-            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ',';
-            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ',';
-        }
-        discountPgmName = discountPgmName.substring(0, discountPgmName.length() - 1);
-        discountPgmSids = discountPgmSids.substring(0, discountPgmSids.length() - 1);
-        rawListRSSids.add(discountPgmSids);
-        rawListRSSids.add(discountPgmName);
+        discountPgmName.append(discountPgmName.substring(0, discountPgmName.length() - 1));
+        discountPgmSids.append(discountPgmSids.substring(0, discountPgmSids.length() - 1));
+        rawListRSSids.add(discountPgmName.toString());
+        rawListRSSids.add(discountPgmSids.toString());
         return rawListRSSids;
     }
 
@@ -5210,7 +5195,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 if (actualCCPs.isEmpty()) {
                     actualCCPs = StringUtils.EMPTY + ccpId;
                 } else {
-                    actualCCPs = actualCCPs + "," + ccpId;
+                    actualCCPs = actualCCPs.concat( "," ).concat(String.valueOf(ccpId));
 
                 }
             }
