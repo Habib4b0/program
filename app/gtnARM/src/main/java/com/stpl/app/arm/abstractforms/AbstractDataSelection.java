@@ -841,6 +841,16 @@ public abstract class AbstractDataSelection extends CustomComponent {
         }
     }
     
+    protected void setCollapseContainerItem(TreeTable treeTable, ExtTreeContainer<LevelDTO> selectedCustomerOrProductContainer, boolean isCollapsed) {
+        selectedCustomerOrProductContainer.getItemIds().forEach(levelDto -> treeTable.setCollapsed(levelDto, isCollapsed));
+    }
+    
+    protected void configureTreeTable(TreeTable treeTable, ExtTreeContainer<LevelDTO> selectedCustomerOrProductContainer, Object[] visibleColumns, String[] columnHeaders) {
+        treeTable.setContainerDataSource(selectedCustomerOrProductContainer);
+        treeTable.setVisibleColumns(visibleColumns);
+        treeTable.setColumnHeaders(columnHeaders);
+    }
+    
     protected void createHierarchyBasedOnHierarchyNo(ExtTreeContainer<LevelDTO> treeContainer, List<LevelDTO> reslistOne, int customerOrProductLevel) {
         treeContainer.removeAllItems();
         reslistOne.forEach(levelDto -> {
