@@ -269,7 +269,7 @@ public class SummaryTab extends VerticalLayout {
         if (session.getModuleName().equalsIgnoreCase(TRADING_PARTNER_REMOVE.getConstant()) || session.getModuleName().equalsIgnoreCase(ADD_TRADING_PARTNER.getConstant())
                 || TRADING_PARTNER_UPDATE.getConstant().equals(session.getModuleName())) {
 
-            if (currentTPDetailsContainer != null && currentTPDetailsContainer.size() > 0) {
+            if (currentTPDetailsContainer.size() > 0) {
                 if (session.getModuleName().equalsIgnoreCase(TRADING_PARTNER_REMOVE.getConstant()) && !session.isRemoveCheck()) {
                     AbstractNotificationUtils.getErrorNotification("No record selected", "Please select a value to remove. Then try again with OK button");
                     return;
