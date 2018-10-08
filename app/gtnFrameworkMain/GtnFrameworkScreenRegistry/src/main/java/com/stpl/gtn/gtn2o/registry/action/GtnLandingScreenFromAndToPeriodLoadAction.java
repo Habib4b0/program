@@ -51,9 +51,7 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 		request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
 		request.setGtnWsGeneralRequest(generalRequest);
 
-		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-				GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = callWebservice(client, request);
 		
 		if (response != null) {
 			List<String> fromPeriodItemValueList = new ArrayList<>(response.getGtnUIFrameworkWebserviceComboBoxResponse()
@@ -100,6 +98,13 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 		}
 
 		
+	}
+
+	public GtnUIFrameworkWebserviceResponse callWebservice(GtnUIFrameworkWebServiceClient client,
+			GtnUIFrameworkWebserviceRequest request) {
+		return client.callGtnWebServiceUrl(
+				GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override
