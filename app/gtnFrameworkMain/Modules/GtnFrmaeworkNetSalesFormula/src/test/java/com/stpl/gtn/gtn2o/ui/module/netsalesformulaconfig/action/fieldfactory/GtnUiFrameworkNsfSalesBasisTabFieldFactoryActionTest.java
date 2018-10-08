@@ -28,7 +28,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 /**
 
  * @author spandan.majumder
- * @version $Revision: 1.0 $
+ * @version $Revision: 1.0 
  */
 
 @RunWith(PowerMockRunner.class)
