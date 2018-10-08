@@ -2578,6 +2578,7 @@ public class QueryUtils {
 
     public String getRSDetailsFromTempTable(String tempTableSid) {
         String query = "select ITEM_MASTER_SID from dbo.GCM_GLOBAL_DETAILS where RS_MODEL_SID='" + tempTableSid + "'";
+        LOGGER.debug("query ={}",query);
         return query;
 
     }

@@ -23,7 +23,7 @@ public class LookUpTableLogic extends PageTableLogic {
     private boolean generate = false;
     private ErrorfulFieldGroup discountChBinder;
     private String moduleName;
-
+    
     public LookUpTableLogic() {
         super();
     }
@@ -53,8 +53,7 @@ public class LookUpTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         binderDto.setStartIndex(start);
         binderDto.setEndIndex(offset);
-        List<LookupDTO> resultList = logic.getSearch(discountChBinder, start, offset, moduleName, getFilters(), getSortByColumns());
-        return resultList;
+        return logic.getSearch(discountChBinder, start, offset, moduleName, getFilters(), getSortByColumns());
     }
 
     /**
