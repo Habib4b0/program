@@ -37,13 +37,22 @@ public class GtnFrameworkNsfAddAction implements GtnUIFrameWorkAction, GtnUIFram
 				GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.SESSION_ID).toString());
 		refreshLoadRequest.setGtnWsGeneralRequest(refreshLoadWSRequest);
 		refreshLoadRequest.setGtnWsGeneralRequest(refreshLoadWSRequest);
-		GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NSF_SALES_DEDUCT_REFRESH,
-				refreshLoadRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse gtnWsresponse = getResponse(refreshLoadRequest);
 		if (gtnWsresponse.getGtnWsGeneralResponse().isSucess()) {
 			LOGGER.debug("In GtnFrameworkNsfAddAction");
 		}
 
+	}
+
+	/**
+	 * @param refreshLoadRequest
+	 * @return
+	 */
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest refreshLoadRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NSF_SALES_DEDUCT_REFRESH,
+				refreshLoadRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
 	}
 
 	@Override

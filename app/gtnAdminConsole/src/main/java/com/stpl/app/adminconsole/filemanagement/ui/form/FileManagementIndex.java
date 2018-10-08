@@ -452,8 +452,8 @@ public class FileManagementIndex extends CustomComponent implements View {
 		autoUpdate.addClickListener(new Button.ClickListener() {
 
 			public void buttonClick(final Button.ClickEvent event) {
-				final Emailer email = new Emailer();
 
+                            
 				final FileManagementDTO fileManagementDto;
 				try {
 					if (fileHistoryTable.getValue() == null) {
@@ -472,7 +472,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 									new MessageBoxListener() {
 
 										public void buttonClicked(ButtonId buttonId) {
-											String msg = email.sendMail("support@bpitechnologies.com", "TestMail",
+											String msg = Emailer.sendMail("support@bpitechnologies.com", "TestMail",
 													"You clicked", false, StringUtils.EMPTY);
 											if (msg.equals(ConstantsUtils.SUCCESS)) {
                                                                                     LOGGER.debug("SUCCESS");
@@ -893,10 +893,9 @@ public class FileManagementIndex extends CustomComponent implements View {
 	}
 
 	public void sendMailOnFileActivation() {
-		final Emailer email = new Emailer();
 		try {
 			List<FileManagementDTO> processList = logic.getSearchResult(fileType);
-		    email.sendMailonFileActivation(false, processList);
+		    Emailer.sendMailonFileActivation(false, processList);
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}

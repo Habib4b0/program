@@ -190,7 +190,6 @@ public class CustomerSelection extends CustomComponent {
     private boolean excelEligible = false;
     
     private final DeductionCalendarForm deductionCalendarForm;
-    private final HeaderUtils headerUtils = new HeaderUtils();
 
     public CustomerSelection(SessionDTO sessionDTO, DeductionCalendarForm deductionCalendarForm) {
         this.sessionDTO = sessionDTO;
@@ -857,8 +856,6 @@ public class CustomerSelection extends CustomComponent {
         }
     }
 
-	public HeaderUtils getHeaderUtils() {
-		return headerUtils;
-	}
+	
 }
 
