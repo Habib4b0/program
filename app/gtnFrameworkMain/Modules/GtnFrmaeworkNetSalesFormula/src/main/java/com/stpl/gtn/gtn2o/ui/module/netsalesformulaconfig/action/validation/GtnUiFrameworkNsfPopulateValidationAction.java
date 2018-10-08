@@ -27,14 +27,14 @@ public class GtnUiFrameworkNsfPopulateValidationAction implements GtnUIFrameWork
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParemeterList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		boolean isSalesBasic = (boolean) actionParemeterList.get(1);
+		boolean isSalesBasic = (boolean) actionParemeterList.get(1);  
 		boolean isCheck = GtnFrameworkNSFCommonLogic.confirmCheckRecord(isSalesBasic,
 				"/" + GtnWsNsfUriConstants.NSF_VALIDATION_SERVICE + "/"
 						+ GtnWsNsfUriConstants.NSF_POPULATE_VALIDATION_SERVICE);
 		String fieldDeductions=GtnUIFrameworkGlobalUI.getVaadinBaseComponent("netSalesFormulaAddView_selectedDeductionsmassUpdateDdlb").getStringFromField();
 		String valueDeductions=GtnUIFrameworkGlobalUI.getVaadinBaseComponent("netSalesFormulaAddView_selectedDeductionsAddSubtractDdlb").getStringFromField();
 		
-		
+		  
 		if (!isCheck) {
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 			alertActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
