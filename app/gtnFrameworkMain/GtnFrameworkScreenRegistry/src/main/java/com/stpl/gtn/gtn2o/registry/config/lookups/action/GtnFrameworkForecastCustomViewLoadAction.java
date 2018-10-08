@@ -89,10 +89,7 @@ public class GtnFrameworkForecastCustomViewLoadAction
 				request.setGtnGeneralSearchRequest(searchRequest);
 				request.setGtnWsSearchRequest(webserviceSearchRequest);
 
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL,
-						GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
-						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = callWebservice(request);
 				if (response.getGtnUIFrameworkWebserviceComboBoxResponse() != null) {
 					List<String> valueList = new ArrayList<>(
 							response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
@@ -110,6 +107,13 @@ public class GtnFrameworkForecastCustomViewLoadAction
 		} catch (GtnFrameworkGeneralException ex) {
 			gtnLogger.error(ex.getMessage());
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse callWebservice(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL,
+				GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

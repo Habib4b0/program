@@ -67,10 +67,7 @@ public class GtnFrameworkReturnCheckAllAction
 
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 
-		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_UPDATE_CHECKBOX_SERVICE,
-				GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME, gtnWsRequest,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = callWebservice(gtnWsRequest, client);
                 
                 if (response == null) {
                 GtnUIFrameWorkActionConfig alert = new GtnUIFrameWorkActionConfig();
@@ -106,6 +103,14 @@ public class GtnFrameworkReturnCheckAllAction
 
 		resultsTable.getLeftFreezeAsTable().setRefresh(true);
 
+	}
+
+	public GtnUIFrameworkWebserviceResponse callWebservice(GtnUIFrameworkWebserviceRequest gtnWsRequest,
+			GtnUIFrameworkWebServiceClient client) {
+		return  client.callGtnWebServiceUrl(
+				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_UPDATE_CHECKBOX_SERVICE,
+				GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME, gtnWsRequest,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

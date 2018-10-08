@@ -11,6 +11,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +30,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.vaadin.client.widgets.Grid.HeaderCell;
 import com.vaadin.client.widgets.Grid.HeaderRow;
 import com.vaadin.data.TreeData;
+import com.vaadin.data.provider.HierarchicalDataProvider;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
@@ -62,10 +64,12 @@ public class GtnFrameworkScreenRegistryResetActionTest {
 		com.vaadin.ui.components.grid.HeaderRow headerRow = Mockito.mock(com.vaadin.ui.components.grid.HeaderRow.class);
 		com.vaadin.ui.components.grid.HeaderCell cell = Mockito.mock(com.vaadin.ui.components.grid.HeaderCell.class);
 		TreeGrid<GtnWsRecordBean> rightTable =  Mockito.mock(TreeGrid.class);
-		List<GtnWsRecordBean> list = Mockito.mock(List.class);
+		HierarchicalDataProvider<T, ?> dataProvider = Mockito.mock(HierarchicalDataProvider.class);
+		List<GtnWsRecordBean> list = new ArrayList<>();
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
 		recordBean.setRecordHeader(Arrays.asList(0,1,2,3,4,5,6));
 		recordBean.setProperties(Arrays.asList(0,1,2,3,4,5,6));
+		list.add(recordBean);
 		Iterator<GtnWsRecordBean> iterator = Mockito.mock(Iterator.class);
 		TreeData<GtnWsRecordBean> treeData = Mockito.mock(TreeData.class);
 		Component component = Mockito.mock(Component.class);
@@ -82,6 +86,8 @@ public class GtnFrameworkScreenRegistryResetActionTest {
 		doReturn(cell).when(headerRow).getCell(Mockito.anyString());
 		doReturn(horizontalLayout).when(cell).getComponent();
 		doReturn(leftTable).when(dualListBoxBean).getLeftTable();
+		doReturn(list).when(treeData).getRootItems();
+		doReturn(dataProvider).when(rightTable).getDataProvider();
 		doReturn(dualBoxConfig).when(compConfig).getGtnUIFrameworkV8DualListBoxConfig();
 		Object[] object = {"test"};
 		doReturn(object ).when(dualBoxConfig).getLeftVisibleColumns();
