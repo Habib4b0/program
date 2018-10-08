@@ -307,6 +307,11 @@ public class CommonConstant {
     public static final String ST_ARM_PIPELINE_SALES = "ST_ARM_PIPELINE_SALES";
     public static final String ST_ARM_INVENTORY = "ST_ARM_INVENTORY";
 
+    public static final String NO_VALUES_SELECTED="No Values Selected";
+    public static final String MOVE_ERROR="Move Error";
+    public static final String DELETE_CONFIRMATION="Delete Confirmation";
+    public static final String CONFIRM_RESET="Confirm Reset";
+
     private CommonConstant() {
     }
 

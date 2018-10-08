@@ -10,6 +10,7 @@ import com.stpl.app.arm.adjustmentrateconfiguration.dto.ViewLookupDTO;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.logic.tablelogic.PublicPrivateLookupTableLogic;
 import com.stpl.app.arm.dataselection.dto.ViewFilterGenerator;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
@@ -187,7 +188,7 @@ public class PrivatePublicLookup extends Window {
             if ("Customer Group".equals(viewCategoryPrivate)) { //GAL-7223
                 notifier.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_view_CG());
             } else {
-                notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_views());
+                notifier.getOkCancelMessage(CommonConstant.CONFIRM_RESET, ARMMessages.getResetMessageID007());
             }
         } catch (Exception e) {
             LOGGER.error("Error in resetButtonClick :", e);
@@ -202,6 +203,7 @@ public class PrivatePublicLookup extends Window {
                 viewDTO.setCheckFlag(Boolean.TRUE);
                 setSelectFlag(true);
                 setDtoValue(viewDTO);
+                resultsTablePrivate.setValue(null);
                 this.close();
             } else {
                 setSelectFlag(false);
