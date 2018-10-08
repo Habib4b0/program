@@ -2384,8 +2384,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     private void loadMenuBar(List<String> levelFilter, CustomMenuBar.CustomMenuItem filterValues) {
-        for (String string : levelFilter) {
-            CommonLogic.checkMenuBarItem(filterValues, string);
+        for (Object string : levelFilter) {
+            CommonLogic.checkMenuBarItem(filterValues, string.toString());
         }
     }
 
