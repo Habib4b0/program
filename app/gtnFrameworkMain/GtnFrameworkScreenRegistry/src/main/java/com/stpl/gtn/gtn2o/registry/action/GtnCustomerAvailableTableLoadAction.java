@@ -49,7 +49,7 @@ public class GtnCustomerAvailableTableLoadAction
 		Date forecastEligibleDate = null;
 		String hierarchyComponentId = String.valueOf(actionParamList.get(1));
 		String relationshipComponentId = String.valueOf(actionParamList.get(2));
-		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI  
 				.getVaadinBaseComponent(hierarchyComponentId, componentId).getComponentData().getCustomData();
 
 		String relationshipVersionNo = String.valueOf(
@@ -210,7 +210,7 @@ public class GtnCustomerAvailableTableLoadAction
 		return serviceRegistryWsRequest;
 	}
 
-	private GtnUIFrameworkWebserviceResponse callGtnService(
+	public GtnUIFrameworkWebserviceResponse callGtnService(
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY,
