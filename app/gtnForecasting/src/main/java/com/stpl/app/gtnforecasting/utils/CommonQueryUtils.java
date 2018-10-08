@@ -16,7 +16,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class CommonQueryUtils {
     
-    private static CommonQueryUtils commonQueryUtils;
+    private static volatile CommonQueryUtils commonQueryUtils;
     private static final CommonDAOImpl commonDao = new CommonDAOImpl();
     
     /**

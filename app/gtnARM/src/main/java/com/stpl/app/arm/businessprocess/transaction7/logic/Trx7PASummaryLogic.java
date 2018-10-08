@@ -140,7 +140,7 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
         String tableName = isView ? CommonConstant.ARM_DISTRIBUTION_FEES_RATE : criteria.getSelectionDto().getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_DISTRIBUTION_FEES_RATE);
         resultList = QueryUtils.getItemData(QueryUtils.getItemQuery(CommonConstant.TRX7_SUMMARY_PA_GENERATE_EDIT, "Summary_PA_generate_count", null, null, tableName), null, null, inputs, false);
         count = resultList == null || resultList.isEmpty() ? 0 : (int) resultList.get(0);
-        if ((count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO)))) && (criteria.getSelectionDto().getRateslevelFilterNo() == 0)) {
+        if ((count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))))) {
             count = count + 1;
         }
         return count;

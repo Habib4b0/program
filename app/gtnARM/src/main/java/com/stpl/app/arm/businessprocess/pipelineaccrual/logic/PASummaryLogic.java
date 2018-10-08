@@ -75,7 +75,7 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         String tableName = isView ? CommonConstant.ARM_PIPELINE_RATE : criteria.getSelectionDto().getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_RATE);
         resultList = QueryUtils.getItemData(QueryUtils.getItemQuery(CommonConstant.SUMMARY_PA_GENERATE_EDIT, "Summary_PA_generate_count", null, null, tableName), null, null, inputs, false);
         count = resultList == null || resultList.isEmpty() ? 0 : (int) resultList.get(0);
-        if ((count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO)))) && (criteria.getSelectionDto().getRateslevelFilterNo() == 0)) {
+        if ((count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))))) {
             count = count + 1;
         }
         return count;

@@ -1171,9 +1171,7 @@ public class ForecastForm extends AbstractForm {
 				|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || session.getWorkflowId() != 0) {
 			NonMandatedLogic nmLogic = new NonMandatedLogic();
 			saveProjection(false);
-			if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-				pushUpdate(INDICATOR_REFRESH_UPDATE.getConstant());
-			}
+			
 			String workflowStatus = nmLogic.getWorkflowStatus(session.getProjectionId(), screenName);
 			if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
 				 List<String> roleList = new ArrayList<>();

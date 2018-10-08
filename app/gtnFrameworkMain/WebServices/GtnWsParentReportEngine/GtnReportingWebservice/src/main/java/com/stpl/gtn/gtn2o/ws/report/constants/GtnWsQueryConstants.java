@@ -1,8 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.constants;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -173,31 +172,13 @@ public class GtnWsQueryConstants {
 
 	public static final String WEIGHTED = "Weighted";
 
-	private static final Map<String, String> VARIABLE_CHARATER_MAP = loadvariableCharacterMap();
-
-	private static Map<String, String> loadvariableCharacterMap() {
-		Map<String, String> variableCharMap = new HashMap<>(14);
-		variableCharMap.put(".A.", "A");
-		variableCharMap.put(".B.", "B");
-		variableCharMap.put(".C.", "C");
-		variableCharMap.put(".D.", "D");
-		variableCharMap.put(".E.", "E");
-		variableCharMap.put(".F.", "F");
-		variableCharMap.put(".G.", "G");
-		variableCharMap.put(".H.", "H");
-		variableCharMap.put(".I.", "I");
-		variableCharMap.put(".J.", "J");
-		variableCharMap.put(".K.", "K");
-		variableCharMap.put(".L.", "L");
-		variableCharMap.put(".M.", "M");
-		variableCharMap.put(".N.", "N");
-		return variableCharMap;
-	}
+	private static final List<String> VARIABLE_CHARATER_LIST = Arrays.asList(".A.", ".B.", ".C.", ".D.", ".E.", ".F.",
+			".G.", ".H.", ".I.", ".J.", ".K.", ".L.", ".M.", ".N.");
 
 	public static String getVariableFromHierarchy(String key) {
-		for (Entry<String, String> element : VARIABLE_CHARATER_MAP.entrySet()) {
-			if (key.contains(element.getKey())) {
-				return element.getValue();
+		for (String element : VARIABLE_CHARATER_LIST) {
+			if (key.contains(element)) {
+				return String.valueOf(element.charAt(1));
 			}
 		}
 		return StringUtils.EMPTY;

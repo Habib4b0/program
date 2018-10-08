@@ -188,7 +188,7 @@ public class RemoveDiscount extends CustomComponent {
     private Label fromCDLabelName;
     @UiField("fromCDName")
     private TextField fromCDName;
-    private RemoveDiscount removeDiscount;
+    private RemoveDiscount removeDiscountt;
     private static final boolean REMOVE = true;
     private final ContractsDetailsDto contractDto = new ContractsDetailsDto();
     private int userId;
@@ -201,7 +201,7 @@ public class RemoveDiscount extends CustomComponent {
 
     public Component getContent(final List<RemoveDiscountDto> selecteditemList, TabSheet mainTab, Summary summary, RemoveDiscount removeDiscount, int userID, int sessionID) {
         this.selecteditemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);
-        this.removeDiscount = removeDiscount;
+        this.removeDiscountt = removeDiscount;
         this.mainTab = mainTab;
         this.summary = summary;
         this.userId = userID;
@@ -243,7 +243,7 @@ public class RemoveDiscount extends CustomComponent {
             componentResultsLayout.addComponent(componentControls);
             configureTables();
             loadDashBoardTree();
-            loadComponentTable(Collections.EMPTY_LIST);
+            loadComponentTable(Collections.emptyList());
             fromCDNo.setEnabled(false);
             fromCDName.setEnabled(false);
         } catch (Exception ex) {
@@ -757,7 +757,7 @@ public class RemoveDiscount extends CustomComponent {
                     }
                     mainTab.removeTab(mainTab.getTab(1));
                     dto.setRemovedRsList(rsSidList);
-                    mainTab.addTab(summary.getContent(selecteditemList, dto, removeDiscount), "Summary", null, 1);
+                    mainTab.addTab(summary.getContent(selecteditemList, dto, removeDiscountt), "Summary", null, 1);
                 } else {
                     AbstractNotificationUtils.getErrorNotification("Select RS",
                             "Please select RS to remove.");
@@ -844,7 +844,7 @@ public class RemoveDiscount extends CustomComponent {
             contractDto.setRemovedRsList(rsSidList);
             mainTab.removeTab(mainTab.getTab(1));
             contractDto.setRsSystemId(CommonUtils.collectionToString(rebateList, true));
-            mainTab.addTab(summary.getContent(selecteditemList, contractDto, removeDiscount), "Summary", null, 1);
+            mainTab.addTab(summary.getContent(selecteditemList, contractDto, removeDiscountt), "Summary", null, 1);
 
         } catch (Exception ex) {
             LOGGER.error("",ex);

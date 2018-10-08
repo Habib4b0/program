@@ -111,8 +111,9 @@ public class CommonUtils {
         return 0;
     }
 
-    public static List getHistoryDdlbList(int endValue, String period) {
+    public static List getHistoryDdlbList(int endValue, String periodParam) {
         List history = new ArrayList();
+        String period = periodParam;
         if (period.equals("Year")) {
             period = "Years";
         }

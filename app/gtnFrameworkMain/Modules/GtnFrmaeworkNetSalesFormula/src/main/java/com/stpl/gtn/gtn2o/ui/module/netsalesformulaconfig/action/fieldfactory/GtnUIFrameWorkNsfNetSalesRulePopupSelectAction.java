@@ -31,7 +31,7 @@ public class GtnUIFrameWorkNsfNetSalesRulePopupSelectAction implements GtnUIFram
 		selectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add("cDRPopUpsearchResultTable");
-		actionParameter.add("ruleNo");
+		actionParameter.add("ruleNo");  
 		actionParameter.add(Arrays.asList("ruleNo","ruleName"));
 		actionParameter.add(Arrays.asList(componentId,componentId.replace("No","Name")));
 		selectAction.setActionParameterList(actionParameter);
