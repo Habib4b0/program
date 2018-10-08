@@ -50,7 +50,7 @@ public class GtnFrameworkMandatoryFieldSettingAction implements GtnUIFrameWorkAc
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		//  Auto-generated method stub
-		return null;
+		return this;
 	}
 
 }

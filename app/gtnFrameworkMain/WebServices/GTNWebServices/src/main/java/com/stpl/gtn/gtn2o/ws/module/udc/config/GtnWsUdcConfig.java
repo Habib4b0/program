@@ -21,7 +21,7 @@ public class GtnWsUdcConfig implements GtnWsSearchQueryConfigLoader {
 	private Map<String, GtnWsSearchQueryConfig> udcSearchQueryConfigMap = null;
 
 	@Override
-	public Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {
+	public synchronized Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {
 		if (udcSearchQueryConfigMap == null) {
 			udcSearchQueryConfigMap = new HashMap<>();
 			loadSearchQueryConfig();
