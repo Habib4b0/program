@@ -119,7 +119,7 @@ public class AdminConsoleImpl {
         }
     }
     
-    public List fetchFieldsForSecurity(String moduleName, String tabName, Object obj1){
+    public List fetchFieldsForSecurity(String moduleName, String tabName){
         String query = "";
         try {
             query = "SELECT DISPLAY_NAME, PROPERTY_NAME ,CATEGORY_NAME FROM MODULE_PROPERTIES WHERE MODULE_NAME = '"+moduleName+"' "

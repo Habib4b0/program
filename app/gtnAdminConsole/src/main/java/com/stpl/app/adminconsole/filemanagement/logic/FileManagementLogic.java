@@ -3724,7 +3724,7 @@ public class FileManagementLogic {
 
 	public Object getInventoryDetailsResultsExcel(FileMananagementResultDTO detailsResultDTO, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
-			boolean isCount, boolean isExcelflag) throws Exception {
+			boolean isCount, boolean isExcelflag) {
 
 		LOGGER.debug("Entering getInventory Details Results");
 		List list;

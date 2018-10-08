@@ -712,6 +712,7 @@ public class ProjectionResults extends ForecastProjectionResults {
 
     private String getParentKeyforCustom(ProjectionResultsDTO itemId, String key, String parentKey) {
         String parentKeyCustom = parentKey;
+        LOGGER.debug("parentKeyCustom = {}",parentKeyCustom);
         if (itemId.getParentHierarchyNo() == null) {
             parentKeyCustom = key.substring(0, key.lastIndexOf('.'));
         } else {

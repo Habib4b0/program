@@ -666,7 +666,7 @@ public class ItemSelection extends CustomComponent {
     }
 
     public boolean checkTransferedItems() {
-        return transferContainer != null && transferContainer.size() > 0;
+        return transferContainer.size() > 0;
     }
 
     public List<String> mappingItems() {
