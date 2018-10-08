@@ -532,7 +532,6 @@ public class SalesLogic {
             String joinQuery = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '" + projSelDTO.getUomCode() + "'";
             sqlQuery = sqlQuery.replace("@SALESINCLUSIONCC", getSalesINCLUSIONCC(projSelDTO));
             sqlQuery = sqlQuery.replace(SALESINCLUSION, getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
-            LOGGER.info("sss......."+projSelDTO.getFrequency());
             if(projSelDTO.getFrequency().equalsIgnoreCase("Monthly"))
             {
             sqlQuery = sqlQuery.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : UNION_ALL_ZERO + UNION_ALL_TWO + oppositeSalesInc);
