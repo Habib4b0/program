@@ -616,8 +616,6 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String VIEW_NAME = "viewName";
 
-	public static final String REPORTING_DASHBOARD_TAB = "reportingDashboardTab";
-
 	public static final String REPORTING_DASHBOARD_TAB_REPORT_PROFILE_CONFIG = "reportingDashboardTab_reportProfileConfig";
 
 	public static final String REPORT_PROFILE_PAGED_TABLE_COMPONENT = "reportProfilePagedTableComponent";
@@ -665,15 +663,15 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PRODUCT_BTN_MAIN = "productBtnMain";
 
 	public static final String ADD_PRODUCT_BTN = "addProductBtn";
-        
-        public static final String REPORTING_DATA_SELCTION_CHANGES="There are some changes done to the data selection. The report will now reflect these changes";
-        
-        public static final String DATA_SELECTION_DISPLAY_CUSTOM_VIEW="dataSelectionTab_displaySelectionTabCustomView";
-        
-        public static final String DATA_SELECTION_DISPLAY_VARIABLE="dataSelectionTab_displaySelectionTabVariable";
-        
-        public static final String DATA_SELECTION_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG="dataSelectionTab_landingScreenVariableBreakdownFrequencyConfig";
-        
+
+	public static final String REPORTING_DATA_SELCTION_CHANGES = "There are some changes done to the data selection. The report will now reflect these changes";
+
+	public static final String DATA_SELECTION_DISPLAY_CUSTOM_VIEW = "dataSelectionTab_displaySelectionTabCustomView";
+
+	public static final String DATA_SELECTION_DISPLAY_VARIABLE = "dataSelectionTab_displaySelectionTabVariable";
+
+	public static final String DATA_SELECTION_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG = "dataSelectionTab_landingScreenVariableBreakdownFrequencyConfig";
+
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
 

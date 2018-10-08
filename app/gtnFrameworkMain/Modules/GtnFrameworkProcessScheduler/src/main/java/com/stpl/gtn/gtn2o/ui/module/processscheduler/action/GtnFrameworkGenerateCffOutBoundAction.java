@@ -56,10 +56,7 @@ public class GtnFrameworkGenerateCffOutBoundAction implements GtnUIFrameWorkActi
 		cffRrequest.setProcessSchedulerBean(processSchedulerBean);
 		webServiceRequest.setProcessSchedulerRequest(cffRrequest);
 		
-		GtnUIFrameworkWebserviceResponse webServiceResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN
-						+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_DATA,
-						webServiceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse webServiceResponse = callProcessSchedularCffOutboundServive(webServiceRequest);
 		
 		gtnLogger.info("response result "+webServiceResponse.getGtnWsGeneralResponse().isSucess());
 		GtnUIFrameWorkActionConfig notificationAction = new GtnUIFrameWorkActionConfig();
@@ -75,10 +72,17 @@ public class GtnFrameworkGenerateCffOutBoundAction implements GtnUIFrameWorkActi
 		}
 	}
 
+    public GtnUIFrameworkWebserviceResponse callProcessSchedularCffOutboundServive(GtnUIFrameworkWebserviceRequest webServiceRequest) {
+        return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN
+                        + GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_DATA,
+                webServiceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+    }
+
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		// Auto-generated method stub
-		return null;
+		return this;
 	}
 
 }
