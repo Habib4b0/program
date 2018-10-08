@@ -65,7 +65,7 @@ public class GtnFrameworkItemMasterAddViewCreationAction
 
 	private void activeCheckedComboBoxUdc1() {
 		try {
-			GtnFrameworkItemMasterArmUdc1Utility.initialize();
+			
 			List<String> itemValueList = new ArrayList<>(GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ValueList());
 			List<String> itemCodeList = new ArrayList<>(GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1CodeList());
 

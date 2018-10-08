@@ -243,7 +243,7 @@ public class RemoveDiscount extends CustomComponent {
             componentResultsLayout.addComponent(componentControls);
             configureTables();
             loadDashBoardTree();
-            loadComponentTable(Collections.EMPTY_LIST);
+            loadComponentTable(Collections.emptyList());
             fromCDNo.setEnabled(false);
             fromCDName.setEnabled(false);
         } catch (Exception ex) {
