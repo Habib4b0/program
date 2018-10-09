@@ -123,6 +123,7 @@ public class SalesLogic {
     public static final String PROJECTED_UNITS1 = "-ProjectedUnits";
     private String start;
     private String end;
+    public static final String UNION_ALL_ZERO = " UNION ALL SELECT   NULL as account_growth,NULL as product_growth,NULL as projection_sales,NULL as projection_units,NULL as actualsales,NULL as actualunits,0 as YEARS,0 as PERIODS,NULL as calculation_periods,NULL as methodology,HIERARCHY_NO, ";
     public static final String UNION_ALL_ONE = " UNION ALL SELECT   NULL as account_growth,NULL as product_growth,NULL as projection_sales,NULL as projection_units,NULL as actualsales,NULL as actualunits,NULL as YEARS,NULL as PERIODS,NULL as calculation_periods,NULL as methodology,HIERARCHY_NO, ";
     public static final String UNION_ALL_TWO = " NULL as rcount,NULL as actualproj,NULL as checkrec,NULL as uncheck_count, NULL as ccpcount,NULL as hierarchy_indicator,NULL as user_group,NULL AS SEC_HIERARCHY,NULL as SALES_INCLUSION ,INSTR FROM #SELECTED_HIERARCHY_NO WHERE SALES_INCLUSION=  ";
     protected final CommonQueryUtils commonQueryUtils = CommonQueryUtils.getInstance();
@@ -531,7 +532,14 @@ public class SalesLogic {
             String joinQuery = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '" + projSelDTO.getUomCode() + "'";
             sqlQuery = sqlQuery.replace("@SALESINCLUSIONCC", getSalesINCLUSIONCC(projSelDTO));
             sqlQuery = sqlQuery.replace(SALESINCLUSION, getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
+            if(projSelDTO.getFrequency().equalsIgnoreCase("Monthly"))
+            {
+            sqlQuery = sqlQuery.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : UNION_ALL_ZERO + UNION_ALL_TWO + oppositeSalesInc);
+            }
+            else
+            {
             sqlQuery = sqlQuery.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : UNION_ALL_ONE + UNION_ALL_TWO + oppositeSalesInc);
+            }
             sqlQuery = sqlQuery.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
             sqlQuery = sqlQuery.replace("@SUMPROJECTEDUNITS", getSumProjectedUnits(projSelDTO));
             sqlQuery = sqlQuery.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
