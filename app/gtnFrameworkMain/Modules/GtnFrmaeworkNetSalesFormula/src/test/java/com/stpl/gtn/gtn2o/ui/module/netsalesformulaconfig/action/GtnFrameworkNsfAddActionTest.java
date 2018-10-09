@@ -16,7 +16,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 
@@ -125,22 +124,6 @@ public class GtnFrameworkNsfAddActionTest {
 		doReturn(gtnWsresponse).when(gtnFrameworkNsfAddAction).getResponse(Mockito.any());
 
 		gtnFrameworkNsfAddAction.doAction(componentId, gtnUIFrameWorkActionConfig);
-	}
-
-	/**
-	 * Run the GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
-	@Test
-	public void testGtnFrameworkNsfAdd_doAction_getResponse() {
-		
-		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);
-		GtnFrameworkNsfAddAction gtnFrameworkNsfAddAction = new GtnFrameworkNsfAddAction();
-		GtnUIFrameworkWebserviceRequest gtnRequest = Mockito.mock(GtnUIFrameworkWebserviceRequest.class);
-		gtnFrameworkNsfAddAction.getResponse(gtnRequest);
 	}
 	
 	/**

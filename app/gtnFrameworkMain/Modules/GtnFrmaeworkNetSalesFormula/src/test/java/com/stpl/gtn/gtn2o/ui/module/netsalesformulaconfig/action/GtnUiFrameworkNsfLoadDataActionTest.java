@@ -24,7 +24,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnFrameworkNSFCommonLogic;
 import com.stpl.gtn.gtn2o.ws.netsales.bean.GtnUIFrameworkNsfInfoBean;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.netsales.GtnWsNetSalesGeneralResponse;
@@ -202,15 +201,6 @@ public class GtnUiFrameworkNsfLoadDataActionTest {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-	}
-
-	@Test
-	public void testGtnUiFrameworkNsfLoadData_doAction_getWsResponse() {
-
-		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);
-		GtnUiFrameworkNsfLoadDataAction gtnUiFrameworkNsfLoadDataAction = new GtnUiFrameworkNsfLoadDataAction();
-		GtnUIFrameworkWebserviceRequest gtnRequest = Mockito.mock(GtnUIFrameworkWebserviceRequest.class);
-		gtnUiFrameworkNsfLoadDataAction.getWsResponse(gtnRequest);
 	}
 
 	/**

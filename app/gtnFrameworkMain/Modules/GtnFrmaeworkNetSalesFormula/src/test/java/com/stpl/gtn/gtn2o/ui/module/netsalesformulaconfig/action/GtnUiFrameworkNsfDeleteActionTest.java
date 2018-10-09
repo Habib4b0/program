@@ -22,7 +22,6 @@ import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecu
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 
@@ -185,15 +184,6 @@ public class GtnUiFrameworkNsfDeleteActionTest {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-	}
-	
-	@Test
-	public void testGtnUiFrameworkNsfDelete_doAction_getResponse() {
-		
-		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);
-		GtnUiFrameworkNsfDeleteAction gtnUiFrameworkNsfDeleteAction = new GtnUiFrameworkNsfDeleteAction();
-		GtnUIFrameworkWebserviceRequest gtnRequest = Mockito.mock(GtnUIFrameworkWebserviceRequest.class);
-		gtnUiFrameworkNsfDeleteAction.getResponse(gtnRequest);
 	}
 
 	/**  

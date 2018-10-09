@@ -21,7 +21,6 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 
@@ -225,15 +224,6 @@ public class GtnUiFrameworkNsfRuleSaveUniqueValidationActionTest {
 
 	}
 	
-	@Test
-	public void testGtnFrameworkIfpDelete_doAction_getResponse() {
-		
-		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);
-		GtnUiFrameworkNsfRuleSaveUniqueValidationAction fixture = new GtnUiFrameworkNsfRuleSaveUniqueValidationAction();
-		GtnUIFrameworkWebserviceRequest gtnRequest = Mockito.mock(GtnUIFrameworkWebserviceRequest.class);
-		fixture.getResponse(gtnRequest);
-	}
-
 	/**
 	 * Perform pre-test initialization.
 	 *

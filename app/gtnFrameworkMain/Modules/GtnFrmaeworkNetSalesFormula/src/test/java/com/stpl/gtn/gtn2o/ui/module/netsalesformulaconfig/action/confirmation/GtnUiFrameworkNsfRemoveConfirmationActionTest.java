@@ -173,21 +173,6 @@ public class GtnUiFrameworkNsfRemoveConfirmationActionTest {
 		fixture.reloadTable(false, "");
 
 	}
-	/**
-	 * Run the GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * 
-	 */
-	@Test
-	public void testGtnFrameworkIfpDelete_doAction_getResponse() {
-		
-		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);
-		GtnUiFrameworkNsfRemoveConfirmationAction gtnUiFrameworkNsfRemoveConfirmationAction = new GtnUiFrameworkNsfRemoveConfirmationAction();
-		GtnUIFrameworkWebserviceRequest gtnRequest = Mockito.mock(GtnUIFrameworkWebserviceRequest.class);
-		gtnUiFrameworkNsfRemoveConfirmationAction.getResponse(gtnRequest);
-	}
 
 	/**
 	 * Perform pre-test initialization.
