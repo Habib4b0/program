@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 
@@ -44,7 +45,7 @@ public class GtnReportJsonService {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-		return mapper.readValue(new File(filePath), classObj);
+		return mapper.readValue(GtnFileNameUtils.getFile(filePath), classObj);
 	}
 
 	public File createJsonFilePath(String fileName, String sessionId) {
@@ -64,7 +65,7 @@ public class GtnReportJsonService {
 	}
 
 	private File getCreateFileWithSessionId(String fileName) {
-		File file = new File(fileName);
+		File file = GtnFileNameUtils.getFile(fileName);
 		file.deleteOnExit();
 		return file;
 	}

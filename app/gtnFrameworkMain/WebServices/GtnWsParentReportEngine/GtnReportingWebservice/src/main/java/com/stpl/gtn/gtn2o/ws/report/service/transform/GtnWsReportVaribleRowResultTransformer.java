@@ -73,7 +73,7 @@ public class GtnWsReportVaribleRowResultTransformer implements ResultTransformer
 		return Arrays.asList(hierarchyDataMap);
 	}
 
-	public void setAnnual(boolean isAnnual) {
+	public synchronized void setAnnual(boolean isAnnual) {
 		this.isAnnual = isAnnual;
 	}
 

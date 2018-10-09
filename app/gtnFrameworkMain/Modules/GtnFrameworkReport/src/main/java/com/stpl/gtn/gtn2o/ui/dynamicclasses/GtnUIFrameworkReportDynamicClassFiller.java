@@ -81,6 +81,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnFrameworkReportTabChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportComparisonClearSortOrderAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportComparisonEnableAddBtnAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportDashboardComparisonResultsSearchAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportForecastLevelLoadAction;
@@ -330,7 +331,8 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnFrameworkDataAssumptionFilterAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCheckTreeStructureChangeAction.class.getName(),
 				new GtnFrameworkCheckTreeStructureChangeAction());
-
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonClearSortOrderAction.class.getName(),
+				new GtnReportComparisonClearSortOrderAction());
 	}
 
 }
