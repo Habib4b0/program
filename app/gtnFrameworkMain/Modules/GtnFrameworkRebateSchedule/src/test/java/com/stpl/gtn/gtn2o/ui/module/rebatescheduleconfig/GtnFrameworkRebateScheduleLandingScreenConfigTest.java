@@ -69,7 +69,10 @@ public class GtnFrameworkRebateScheduleLandingScreenConfigTest {
 	@Test
 	public void testGetVisibleCopyFields_1()
 		throws Exception {
+                String[] visibleCopyFields = new String[] {};
 
+		GtnFrameworkRebateScheduleLandingScreenConfig.setVisibleCopyFields(visibleCopyFields);
+                
 		String[] result = GtnFrameworkRebateScheduleLandingScreenConfig.getVisibleCopyFields();
 
 		assertNotNull(result);
