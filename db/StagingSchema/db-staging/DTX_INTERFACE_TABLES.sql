@@ -5950,6 +5950,20 @@ GO
 GO  
 
 
+	---------------------------INTERNAL_NOTES
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'VLD_PSTG_CONTRACT_PS_INTERFACE'
+                      AND COLUMN_NAME = 'INTERNAL_NOTES'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE VLD_PSTG_CONTRACT_PS_INTERFACE
+        ADD INTERNAL_NOTES [varchar](100) NULL
+  END
+ 
+GO
+
 
 	---------------------------PRICE_PROTECTION_STATUS
 IF NOT EXISTS (SELECT 1
