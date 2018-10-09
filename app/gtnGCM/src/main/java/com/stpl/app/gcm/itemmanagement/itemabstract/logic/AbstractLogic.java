@@ -1706,6 +1706,7 @@ public class AbstractLogic {
     public static final List<String> loadHistory(String frequency, String periodParam) {
         List<String> history = new ArrayList<>();
         String period = periodParam;
+        LOGGER.debug("period ={}",period);
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.equals(frequency)) {

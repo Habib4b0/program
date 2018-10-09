@@ -51,7 +51,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
     /**
      * hierarchyLookup TextField.
      */
-    private final TextField hierarchyLookup;
+    private final TextField hierarchyLookupp;
 
     /**
      * The search result table.
@@ -87,7 +87,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
     public HierarchyLookup(final String indicator, final String windowName, final TextField hierarchyLookup, HierarchyLookupDTO hierarchyDto) {
         super(windowName);
         this.indicator = indicator;
-        this.hierarchyLookup = hierarchyLookup;
+        this.hierarchyLookupp = hierarchyLookup;
         this.hierarchyDto = hierarchyDto;
         initializeComponents();
         setContent(buildHierarchyLookup(hierarchyName, hierarchyType, results, searchBtn, resetBtn, selectBtn));
@@ -181,7 +181,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
     protected void btnLookupSelectLogic() {
         if (results.getValue() != null) {
             hierarchyDto = (HierarchyLookupDTO) results.getValue();
-            hierarchyLookup.setValue(String.valueOf(hierarchyDto.getHierarchyName()).trim());
+            hierarchyLookupp.setValue(String.valueOf(hierarchyDto.getHierarchyName()).trim());
            
             close();
         }

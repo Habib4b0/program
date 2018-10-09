@@ -675,10 +675,6 @@ public class DataSelectionUtil {
     }
 
     public static String getDiscountName(String discountId) {
-        String userName = StringUtils.EMPTY;
-        if (discountMap != null) {
-            userName = discountMap.get(discountId);
-        }
-        return userName;
+        return discountMap.get(discountId);
     }
         }
