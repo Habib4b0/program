@@ -51,11 +51,13 @@ public class GtnFrameworkForecastDataSelectionViewAddAction
 					.getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId).getV8StringFromField()));
 			GtnUIFrameworkWebserviceRequest webServiceRequest = new GtnUIFrameworkWebserviceRequest();
 			GtnWsForecastNewArchRequest gtnWsForecastNewArchRequest = new GtnWsForecastNewArchRequest();
+			forecastDSBean.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 			gtnWsForecastNewArchRequest.setDataSelectionBean(forecastDSBean);
 			webServiceRequest.setGtnWsForecastNewArchRequest(gtnWsForecastNewArchRequest);
 			 GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		        GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
 		        GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+		        logger.info("view name" + forecastDSBean.getViewName() +"View type " + forecastDSBean.getViewType()+"Getuser id" + GtnUIFrameworkGlobalUI.getCurrentUser());
 
 		        serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
 		        serviceRegistryBean.setUrl("/gtnForecastSaveView");

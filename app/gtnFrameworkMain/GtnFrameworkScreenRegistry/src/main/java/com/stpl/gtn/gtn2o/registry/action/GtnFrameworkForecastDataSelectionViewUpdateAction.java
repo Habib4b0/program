@@ -2,6 +2,8 @@ package com.stpl.gtn.gtn2o.registry.action;
 
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -14,8 +16,11 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.newarch.GtnWsForecastNewArchRequest;
+import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class GtnFrameworkForecastDataSelectionViewUpdateAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -40,9 +45,24 @@ public class GtnFrameworkForecastDataSelectionViewUpdateAction
 		GtnWsForecastNewArchRequest forecastRequest = new GtnWsForecastNewArchRequest();
 		forecastRequest.setDataSelectionBean(dataSelectionBean);
 		request.setGtnWsForecastNewArchRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_WS_REPORT_UPDATEVIEW_SERVICE,
-				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+        GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+        GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+
+        serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
+        serviceRegistryBean.setUrl("/gtnForecastUpdateView");
+        serviceRegistryBean.setModuleName(GtnFrameworkForecastingStringConstants.GENERAL_SEARCH);
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+        generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
+        serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+
+        request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+        request.setGtnWsGeneralRequest(generalRequest);
+
+        GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
+                GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
+                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnUIFrameWorkActionConfig infoAction = new GtnUIFrameWorkActionConfig();
 		infoAction.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 		if (response.getGtnWsGeneralResponse().isSucess()) {
