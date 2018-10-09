@@ -311,7 +311,9 @@ public class CommonConstant {
     public static final String MOVE_ERROR="Move Error";
     public static final String DELETE_CONFIRMATION="Delete Confirmation";
     public static final String CONFIRM_RESET="Confirm Reset";
-
+    public static final String TABLE_IN_SQUARE_BRACKET="[TABLE]";
+    public static final String ST_ARM_PIPELINE_EXCLUSION_DETAILS="ST_ARM_PIPELINE_EXCLUSION_DETAILS";
+    
     private CommonConstant() {
     }
 

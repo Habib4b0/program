@@ -61,6 +61,7 @@ public class Trx7SaveViewPopup extends Window {
         center();
         setModal(true);
         setResizable(false);
+        setCaption("Save View");
         viewName.setImmediate(true);
         viewOption.addItem("Public");
         viewOption.addItem("Private");

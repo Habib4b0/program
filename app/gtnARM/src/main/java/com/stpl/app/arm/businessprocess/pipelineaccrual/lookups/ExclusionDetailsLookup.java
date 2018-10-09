@@ -330,7 +330,6 @@ public class ExclusionDetailsLookup extends Window {
         LOGGER.debug("Inside submitBtn :");
         try {
             if (selectedCustomer.getItemIds().isEmpty()) {
-                arLogic.deleteExclusionDetailsLookUp(dataSelection.getProjectionId(), sessionDTO);
                 AbstractNotificationUtils.getErrorNotification(CommonConstant.NO_VALUES_SELECTED, ARMMessages.getSubmitMessage_exclusion());
                 return;
             }

@@ -81,7 +81,7 @@ public class ExclusionDetailsLogic {
         }
         String query = SQlUtil.getQuery("deleteQueryExclusionDetails");
         query = query.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
-        query = query.replace("[TABLE]", "" + sessionDTO.getCurrentTableNames().get("ST_ARM_PIPELINE_EXCLUSION_DETAILS"));
+        query = query.replace(CommonConstant.TABLE_IN_SQUARE_BRACKET, "" + sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_EXCLUSION_DETAILS));
         DAO.executeUpdate(query);
     }
 
@@ -90,7 +90,9 @@ public class ExclusionDetailsLogic {
         boolean isView = sessionDTO.getAction().equals(ARMUtils.VIEW_SMALL);
         String saveQuery = isView ? SQlUtil.getQuery("saveORUpdateQuery") : SQlUtil.getQuery("saveORUpdateQueryEdit");
         saveQuery = saveQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
-        saveQuery = saveQuery.replace("[TABLE]", "" + sessionDTO.getCurrentTableNames().get("ST_ARM_PIPELINE_EXCLUSION_DETAILS"));
+        if(!isView) {
+            saveQuery = saveQuery.replace(CommonConstant.TABLE_IN_SQUARE_BRACKET, "" + sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_EXCLUSION_DETAILS));
+        }
         sbQuery.append(saveQuery);
         for (ExclusionLookupDTO dtoList : list) {
             sbQuery.append(ARMUtils.OPEN_PARANTHESIS).append(projectionSid).append(",'").append(dtoList.getExcludedField()).append(ARMUtils.SINGLE_QUOTES).append(",'").append(dtoList.getValues()).append("'),");
@@ -101,7 +103,7 @@ public class ExclusionDetailsLogic {
         query = query.replace("@COMPANY_NAME", accountName);
         query = query.replace("@CONTRACT_ID", contractId);
         query = query.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
-        query = query.replace("[TABLE]", "" + sessionDTO.getCurrentTableNames().get("ST_ARM_PIPELINE_EXCLUSION_DETAILS"));
+        query = query.replace(CommonConstant.TABLE_IN_SQUARE_BRACKET, "" + sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_EXCLUSION_DETAILS));
         sbQuery.append(" ; ").append(query);
         DAO.executeUpdate(sbQuery.toString());
     }
