@@ -1369,6 +1369,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 + "  ) \n"
                 + " INSERT INTO @CCP\n"
                 + "            (RELATIONSHIP_LEVEL_SID,PROJECTION_DETAILS_SID,CCP_DETAILS_SID,HIERARCHY_NO) \n";
+        LOGGER.debug("tableQuery = {}",tableQuery);
         return tableQuery;
     }
 
@@ -1904,7 +1905,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 + "INSERT INTO @ITEM_ID\n"
                 + "SELECT DISTINCT ITEM_MASTER_SID\n"
                 + "FROM   #TEMP_CCPD A\n";
-
+        LOGGER.debug("query ={}",query);
         return query;
     }
 
