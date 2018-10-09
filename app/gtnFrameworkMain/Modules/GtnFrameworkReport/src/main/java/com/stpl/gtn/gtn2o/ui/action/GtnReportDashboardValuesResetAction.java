@@ -107,7 +107,9 @@ public class GtnReportDashboardValuesResetAction
 		resetAction.addActionParameter(
 				Arrays.asList(new Object[] { "0", "0","","0","0", "0", "0", "", "", "", "", "", "" }));
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetAction);
-
+                GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabDisplayFormat", componentId).setSelectedItemInComboboxMultiselect();
+              
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(
 				GtnFrameworkReportStringConstants.REPORT_DASHBOARD + GtnFrameworkCommonConstants.RESULT_TABLE,
 				componentId);

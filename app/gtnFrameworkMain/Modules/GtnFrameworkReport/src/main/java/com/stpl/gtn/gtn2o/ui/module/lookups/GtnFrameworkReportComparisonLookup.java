@@ -31,6 +31,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportComparisonClearSortOrderAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportComparisonEnableAddBtnAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -586,7 +587,8 @@ public class GtnFrameworkReportComparisonLookup {
 		componentList.add(clSearchButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> clSearchActionConfigList = new ArrayList<>();
-
+		
+		
 		GtnUIFrameWorkActionConfig clProjectionTypeValidationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
 		clProjectionTypeValidationActionConfig.setFieldValues(Arrays.asList(nameSpace
@@ -622,6 +624,8 @@ public class GtnFrameworkReportComparisonLookup {
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(clWorkFlowStatusAlertActionConfig)));
 		clSearchActionConfigList.add(clWorkflowStatusValidationActionConfig);
 
+		
+		
 		GtnUIFrameWorkActionConfig clLoadDataGridAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
 		clLoadDataGridAction.setActionParameterList(
@@ -652,6 +656,7 @@ public class GtnFrameworkReportComparisonLookup {
 		clEnableAddAction
 				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "addButtonConfig");
 		clSearchActionConfigList.add(clEnableAddAction);
+		
 
 		clSearchButtonConfig.setGtnUIFrameWorkActionConfigList(clSearchActionConfigList);
 
@@ -901,6 +906,11 @@ public class GtnFrameworkReportComparisonLookup {
 				GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_REPORTING_DASHBOARD_COMPARISON_CONFIG);
 		clResetActionConfigList.add(clGridReloadAction);
 		clResetButton.addGtnUIFrameWorkActionConfig(clLowerConfirmResetAction);
+		GtnUIFrameWorkActionConfig clrSortOrder=new GtnUIFrameWorkActionConfig();
+		clrSortOrder.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		clrSortOrder.addActionParameter(GtnReportComparisonClearSortOrderAction.class.getName());
+		clrSortOrder.addActionParameter(GtnFrameworkReportStringConstants.COMPARISON_LOOKUP_RESULTS_PAGED_TABLE_COMPONENT);
+		clResetActionConfigList.add(clrSortOrder);
 		componentList.add(clResetButton);
 	}
 

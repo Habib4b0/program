@@ -82,11 +82,7 @@ public class GtnFrameworkRunButtonAction implements GtnUIFrameWorkAction, GtnUIF
 			psrequest.setProcessSchedulerBean(processSchedulerBean);
 			request.setProcessSchedulerRequest(psrequest);
 
-			GtnUIFrameworkWebserviceResponse processSchedularRunResponse = new GtnUIFrameworkWebServiceClient()
-					.callGtnWebServiceUrl(
-							GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
-									+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_RUN_SERVICE,
-							request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebserviceResponse processSchedularRunResponse = callProcessSchedulerRunService(							request);
 			GtnUIFrameWorkActionConfig notificationAction = new GtnUIFrameWorkActionConfig();
 			notificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 			if (!processSchedularRunResponse.getGtnWsGeneralResponse().isSucess()) {
@@ -112,6 +108,14 @@ public class GtnFrameworkRunButtonAction implements GtnUIFrameWorkAction, GtnUIF
 				.getLogicFromPagedDataTable().startSearchProcess(true);
 
 	}
+
+    public GtnUIFrameworkWebserviceResponse callProcessSchedulerRunService(GtnUIFrameworkWebserviceRequest request) {
+        return new GtnUIFrameworkWebServiceClient()
+                .callGtnWebServiceUrl(
+                        GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
+                                + GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_RUN_SERVICE,
+                        request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

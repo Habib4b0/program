@@ -309,7 +309,7 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		// Auto-generated method stub
-		return null;
+		return this;
 	}
 
 }

@@ -375,6 +375,7 @@ public class PVQueryUtils {
                 + " " + projName + ".RPU AS " + projName + "RPU, "
                 + " " + projName + ".COGS_PROJECTED AS " + projName + "COGC, "
                 + " " + projName + ".NET_PROFIT_PROJECTED AS " + projName + "NET_PROFIT ";
+        LOGGER.debug("selectClause ={}",selectClause);
         return selectClause;
     }
 
@@ -639,6 +640,7 @@ public class PVQueryUtils {
 
     public String getCCPWhereConditionQuery(String projectionDetails, String ccp) {
         String ccpWhereCond = StringConstantsUtil.SMALL_AND + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+        LOGGER.debug("ccpWhereCond ={}",ccpWhereCond);
         return ccpWhereCond;
     }
 
@@ -1277,6 +1279,7 @@ public class PVQueryUtils {
                 + "SALEPPA.PROJECTION_UNITS as CONTRACT_PROJECTION_UNITS,"
                 + " CASE WHEN SALEPPA.SALES_PROJECTION_SALES = 0 THEN 0 ELSE ((Isnull(TODIS.PROJECTION_SALES, 0)) /SALEPPA.SALES_PROJECTION_SALES) * 100 END  AS TOTAL_PROJECTION_RATE, "
                 + "(Isnull(TODIS.PROJECTION_SALES, 0)) as TOTAL_PROJECTION_DOLAR ";
+        LOGGER.debug("selectClause ={}",selectClause);
         return selectClause;
     }
 
@@ -1462,6 +1465,7 @@ public class PVQueryUtils {
                 + "  ) COGS\n"
                 + "  ON SALEPPA.YEARS = COGS.YEAR\n"
                 + "  AND SALEPPA.PERIODS = COGS.QUARTER";
+        LOGGER.debug("query ={}",query);
         return query;
     }
 }
