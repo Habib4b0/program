@@ -107,10 +107,14 @@ public class GtnForecastingProductAvailableTableLoadAction
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+		GtnUIFrameworkWebserviceResponse response = callGtnWebService(request);
+		return response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
+	}
+
+	public GtnUIFrameworkWebserviceResponse callGtnWebService(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				"/loadLevelValueMapResults", GtnFrameworkForecastingStringConstants.HIERARCHY_RELATIONSHIP, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		return response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
 	}
 
 	private String getLevelMapValueMapQuery(Object relationshipBuilderSID, int relationVersionNo,
@@ -125,12 +129,17 @@ public class GtnForecastingProductAvailableTableLoadAction
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP, GtnFrameworkForecastingStringConstants.HIERARCHY_RELATIONSHIP, request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse relationResponse = callWebService(client, request);
 		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
+	}
+
+	public GtnUIFrameworkWebserviceResponse callWebService(GtnUIFrameworkWebServiceClient client,
+			GtnUIFrameworkWebserviceRequest request) {
+		return client.callGtnWebServiceUrl(
+				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP, GtnFrameworkForecastingStringConstants.HIERARCHY_RELATIONSHIP, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	private List<GtnReportHierarchyLevelBean> getHierarchyLevelDefinition(int hierarchyDefSid, int hierarchyVersionNo) {
@@ -141,10 +150,14 @@ public class GtnForecastingProductAvailableTableLoadAction
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+		GtnUIFrameworkWebserviceResponse response = callHierarchyWebService(request);
+		return response.getGtnWsForecastResponse().getInputBean().getLevelList();
+	}
+
+	public GtnUIFrameworkWebserviceResponse callHierarchyWebService(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				"/getHierarchyLevelValues", GtnFrameworkForecastingStringConstants.HIERARCHY_RELATIONSHIP, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		return response.getGtnWsForecastResponse().getInputBean().getLevelList();
 	}
 
 	public List<GtnReportHierarchyLevelBean> cutomizeHierarchyBean(List<Object[]> results, int hierarchyVersionNo) {
@@ -189,12 +202,17 @@ public class GtnForecastingProductAvailableTableLoadAction
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_PRODUCT_LEVEL, GtnFrameworkForecastingStringConstants.HIERARCHY_RELATIONSHIP,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse relationResponse = callProductHierarchyWebService(client, request);
 		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
+	}
+
+	public GtnUIFrameworkWebserviceResponse callProductHierarchyWebService(GtnUIFrameworkWebServiceClient client,
+			GtnUIFrameworkWebserviceRequest request) {
+		return client.callGtnWebServiceUrl(
+				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_PRODUCT_LEVEL, GtnFrameworkForecastingStringConstants.HIERARCHY_RELATIONSHIP,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	private String getStringValue(Object[] objects, int index) {

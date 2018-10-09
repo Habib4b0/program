@@ -149,7 +149,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
     }
 
     private GtnFrameworkForecastDataSelectionBean convertJsonToObject(Class<GtnFrameworkForecastDataSelectionBean> dataSelectionBean,
-            String viewData) throws  JsonMappingException, IOException {
+            String viewData) throws  IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(viewData, dataSelectionBean);

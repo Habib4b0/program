@@ -1,3 +1,4 @@
+
 package com.stpl.gtn.gtn2o.ws.search.service;
 
 import java.util.ArrayList;
@@ -303,7 +304,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         gtnServiceRegistryBean.setRegisteredWebContext(
                 GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointServiceName"));
     }
-    //NEWLY ADDED
+    
     public int checkViewRecordCount(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest)
 			throws GtnFrameworkGeneralException {
 		int recordCount = 0;
@@ -312,7 +313,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
 		String viewType = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean().getViewType();
 		String userId =  gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean().getUserId();
 		Object[] params = {viewName , viewType , userId };
-//			{ dataSelectionBean.getViewName(), dataSelectionBean.getViewType(), userId };
+
 		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
 				GtnFrameworkDataType.STRING };
 		 GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
