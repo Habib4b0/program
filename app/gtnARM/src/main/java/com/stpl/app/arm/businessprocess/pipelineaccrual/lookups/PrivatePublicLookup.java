@@ -256,6 +256,7 @@ public class PrivatePublicLookup extends Window {
         this.userIdPrivate = userId;
         this.detailsNamePrivate = detailsName;
         this.viewTypePrivate = viewName;
+        this.privateViewNameEpl.focus();
     }
 
     public boolean isSelectFlag() {

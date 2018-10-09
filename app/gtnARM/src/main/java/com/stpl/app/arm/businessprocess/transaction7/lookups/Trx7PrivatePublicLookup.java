@@ -256,6 +256,7 @@ public class Trx7PrivatePublicLookup extends Window {
         this.userId = userId;
         this.detailsName = detailsName;
         this.viewType = viewName;
+        this.viewNameEpl.focus();
     }
 
     public boolean isSelectFlag() {
