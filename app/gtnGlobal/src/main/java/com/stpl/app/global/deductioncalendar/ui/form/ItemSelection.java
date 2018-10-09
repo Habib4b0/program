@@ -182,7 +182,6 @@ public class ItemSelection extends CustomComponent {
     private final ErrorfulFieldGroup binder;
     private final HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
     private boolean isSelected=false;
-    private final HeaderUtils headerUtils = new HeaderUtils();
 
     
 
@@ -882,7 +881,5 @@ public class ItemSelection extends CustomComponent {
         selectedItemTable.setConverter("baseYearCPI", new DateToStringConverter());
     }
 
-	public HeaderUtils getHeaderUtils() {
-		return headerUtils;
-	}
+	
 }

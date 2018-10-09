@@ -360,6 +360,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected final List<String> loadHistoryDdlb(String frequency, String periodParam) {
         LOGGER.debug("Loading Frequency Combo Box Initiated");
         String period = periodParam;
+        LOGGER.debug("periodParam ={}",period);
         List<String> history = new ArrayList<>();
         int endValue = 0;
         String freq = StringUtils.EMPTY;
