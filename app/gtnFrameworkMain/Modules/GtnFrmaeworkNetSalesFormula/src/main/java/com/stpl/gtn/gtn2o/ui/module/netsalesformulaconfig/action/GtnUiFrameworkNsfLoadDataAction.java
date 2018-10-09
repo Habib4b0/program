@@ -76,9 +76,7 @@ public class GtnUiFrameworkNsfLoadDataAction implements GtnUIFrameWorkAction, Gt
 			gtnWsNetSalesGeneralRequest.setnSfInfoBean(nsfBean);
 			request.setGtnWsNetSalesGeneralRequest(gtnWsNetSalesGeneralRequest);
 
-			GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-					"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_LOAD_SERVICE, request,
-					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebserviceResponse gtnWsresponse = getWsResponse(request);
 
 			nsfBean = gtnWsresponse.getGtnWsNetSalesGeneralResponse().getNsfInfoBean();
 			if (gtnWsresponse.getGtnWsGeneralResponse().isSucess()) {
@@ -90,6 +88,17 @@ public class GtnUiFrameworkNsfLoadDataAction implements GtnUIFrameWorkAction, Gt
 
 			throw new GtnFrameworkGeneralException("Load Error", systemExcption);
 		}
+	}
+
+	/**
+	 * @param request
+	 * @return
+	 */
+	public GtnUIFrameworkWebserviceResponse getWsResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_LOAD_SERVICE, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		 
 	}
 
 	private void loadValuesToComponents(GtnUIFrameworkNsfInfoBean nsfInfoBean, String viewId)
