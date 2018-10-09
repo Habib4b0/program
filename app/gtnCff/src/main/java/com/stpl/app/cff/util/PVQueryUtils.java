@@ -74,6 +74,7 @@ public class PVQueryUtils {
                 + " , PROJECTED_RATE = Avg(PROJECTED_RATE)\n"
                 + " , RETURNS_PROJECTED = Sum(PROJECTION_SALES) * Avg(PROJECTED_RATE)\n"
                 + " FROM ( " + salesInnerJoin;
+        LOGGER.debug("query ={}",query);
         return query;
     }
 
@@ -83,10 +84,7 @@ public class PVQueryUtils {
         return ccpWhereCond;
     }
 
-    public String getProjectionResultsDiscountsPerQuery() {
-        String customQuery = "";
-        return customQuery;
-    }
+    
 
     /**
      * Main Select clause
