@@ -784,6 +784,7 @@ public class AbstractSearchForm extends CustomComponent {
      * @throws Exception
      */
     private void loadExcelTable(String moduleName, ErrorfulFieldGroup binder, String searchCriteria) throws  ParseException, PortalException {
+        LOGGER.debug("searchCriteria = {}",searchCriteria);
         excelTableBean.removeAllItems();
         if (resultTable.size() != 0) {
             int count = searchLogic.getCountBasedOnModules(binder, 0, true, null, null, moduleName);

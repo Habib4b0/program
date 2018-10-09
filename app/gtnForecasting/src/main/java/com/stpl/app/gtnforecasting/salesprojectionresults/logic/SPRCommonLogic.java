@@ -287,25 +287,6 @@ public class SPRCommonLogic {
 			LOGGER.error(StringUtils.EMPTY,ex);
         }
     }
-    public static String getIndicator(int levelNo, int viewName) {
-        List<CustomViewDetails> list = null;
-        String indicator = StringUtils.EMPTY;
-		DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
-        query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
-        query.add(RestrictionsFactoryUtil.eq(LEVEL_NO_PROPERTY, levelNo));
-        try {
-            list = commonDao.getCustomViewDetailsList(query);
-        } catch (SystemException ex) {
-			LOGGER.error(ex.getMessage());
-        }
-        if (list != null && !list.isEmpty()) {
-            for (CustomViewDetails customViewDetails : list) {
-                indicator = customViewDetails.getHierarchyIndicator();
-                break;
-            }
-        }
-        return indicator;
-    }
 
     public static int getIndicatorCount(int viewName) {
         List<CustomViewDetails> list = new ArrayList<>();

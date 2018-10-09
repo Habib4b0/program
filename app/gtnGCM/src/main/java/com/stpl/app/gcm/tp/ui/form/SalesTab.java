@@ -434,6 +434,7 @@ public class SalesTab extends VerticalLayout {
     protected final List<String> loadHistory(String frequency, String periodParam) {
         List<String> historyload = new ArrayList<>();
         String period = periodParam;
+        LOGGER.debug("period ={}",period);
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.equals(frequency)) {

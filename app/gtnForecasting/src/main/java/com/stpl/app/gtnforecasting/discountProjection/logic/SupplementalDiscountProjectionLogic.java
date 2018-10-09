@@ -1102,6 +1102,7 @@ public class SupplementalDiscountProjectionLogic {
                         final Object[] obNdc = (Object[]) getNDCList.get(i);
                         if (String.valueOf(obj[6]).equals(obNdc[0].toString())) {
                             levelDetails += obNdc[1] + ",";
+                            levelDetails = levelDetails.concat(String.valueOf(obNdc[1])).concat(",");
                         }
                         if (i == getNDCList.size() - 1) {
                             levelDetails = levelDetails.substring(0, levelDetails.length() - 1);

@@ -152,16 +152,16 @@ public class SalesExcelNM extends ExcelExport{
         return getCellValue;
     }
 
-    private Double dataConverter(Object value) {
-        Double d;
-        String str = String.valueOf(value);
-        if (str.contains("$") || str.contains(",") || str.contains("%")) {
-            str = str.replace("$", "").replace(",", "");
-            d = Double.valueOf(str);
+    private Double dataConverter(Object valueSales) {
+        Double salesdoubleValue;
+        String strValueSales = String.valueOf(valueSales);
+        if (strValueSales.contains("$") || strValueSales.contains(",") || strValueSales.contains("%")) {
+            strValueSales = strValueSales.replace("$", "").replace(",", "");
+            salesdoubleValue = Double.valueOf(strValueSales);
         } else {
-            d = DataTypeConverter.convertObjectToDouble(value);
+            salesdoubleValue = DataTypeConverter.convertObjectToDouble(valueSales);
         }
-        return d;
+        return salesdoubleValue;
     }
 
     private void formatForCurrencyAndDecimal(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
@@ -255,86 +255,86 @@ public class SalesExcelNM extends ExcelExport{
 		return formatter.get("currencyNoDecimal")!=null && String.valueOf(propId).endsWith(formatter.get("currencyNoDecimal"));
 	}
 
-    private void nonFormatter(Object value, Property prop, Cell sheetCell) {
-            if (!isNumeric(prop.getType())) {
-                if (java.util.Date.class.isAssignableFrom(prop.getType())) {
-                    sheetCell.setCellValue((Date) value);
+    private void nonFormatter(Object valueFormatt, Property propFormatt, Cell sheetCellFormatt) {
+            if (!isNumeric(propFormatt.getType())) {
+                if (java.util.Date.class.isAssignableFrom(propFormatt.getType())) {
+                    sheetCellFormatt.setCellValue((Date) valueFormatt);
                 } else {
-                    sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
+                    sheetCellFormatt.setCellValue(createHelper.createRichTextString(valueFormatt.toString()));
                 }
             } else {
                 try {
                     // parse all numbers as double, the format will determine how they appear
-                    final Double d = DataTypeConverter.convertObjectToDouble(value);
-                    sheetCell.setCellValue(d);
-                    sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    final Double dFormatt = DataTypeConverter.convertObjectToDouble(valueFormatt);
+                    sheetCellFormatt.setCellValue(dFormatt);
+                    sheetCellFormatt.setCellType(Cell.CELL_TYPE_NUMERIC);
                 } catch (final NumberFormatException nfe) {
                     
-                    sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
+                    sheetCellFormatt.setCellValue(createHelper.createRichTextString(valueFormatt.toString()));
                 }
         }
     }
     
      @Override
     protected void finalSheetFormat() {
-        final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+        final FormulaEvaluator evaluatorSheet = workbook.getCreationHelper().createFormulaEvaluator();
         if (isHierarchical()) {
             /*
-             * evaluateInCell() is equivalent to paste special -> value. The formula refers to cells
-             * in the other sheet we are going to delete. We sum in the other sheet because if we
-             * summed in the main sheet, we would double count. Subtotal with hidden rows is not yet
-             * implemented in POI.
+             * evaluateInCell() is equivalent to paste special -> value. The formula refers to cells.
+             * in the other sheet we are going to delete. We sum in the other sheet because if we.
+             * summed in the main sheet, we would double count. Subtotal with hidden rows is not yet.
+             * implemented in POI
              */
             workbook.setActiveSheet(workbook.getSheetIndex(sheet));
             if (hierarchicalTotalsSheet != null) {
                 workbook.removeSheetAt(workbook.getSheetIndex(hierarchicalTotalsSheet));
             }
         } else {
-            evaluator.evaluateAll();
+            evaluatorSheet.evaluateAll();
         }
-        for (int col = 0; col < getPropIds(0).size(); col++) {
-            sheet.autoSizeColumn(col);
+        for (int colSheet = 0; colSheet < getPropIds(0).size(); colSheet++) {
+            sheet.autoSizeColumn(colSheet);
         }
     }
 
-    private String getFormula(Cell sheetCell, final Object rootItemId) {
-        String columnLetter = CellReference.convertNumToColString(sheetCell.getColumnIndex());
-        final Collection<?> children = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
-                .getChildren(rootItemId);
-        int rowNo = sheetCell.getRowIndex() + 2;
-        StringBuilder formula = new StringBuilder();
-        int i = 0;
-        if (children.size() == 1) {
-            formula.append(columnLetter).append(rowNo);
-            return formula.toString();
+    private String getFormula(Cell sheetCellFormula, final Object rootItemIdFormula) {
+        String columnLetterFormula = CellReference.convertNumToColString(sheetCellFormula.getColumnIndex());
+        final Collection<?> childrenFormula = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
+                .getChildren(rootItemIdFormula);
+        int rowNoFormula = sheetCellFormula.getRowIndex() + 2;
+        StringBuilder formulaBuilder = new StringBuilder();
+        int k = 0;
+        if (childrenFormula.size() == 1) {
+            formulaBuilder.append(columnLetterFormula).append(rowNoFormula);
+            return formulaBuilder.toString();
         }
-        for (Object object : children) {
+        for (Object objectFormula : childrenFormula) {
             
-            if (i == 0) {
-                formula.append(columnLetter).append(rowNo);
-            } else if (i == children.size() - 1) {
-                return formula.toString();
+            if (k == 0) {
+                formulaBuilder.append(columnLetterFormula).append(rowNoFormula);
+            } else if (k == childrenFormula.size() - 1) {
+                return formulaBuilder.toString();
             }
-            formula.append(',');
-            rowNo = displayNodeValues(object, rowNo) + 1;
-            formula.append(columnLetter).append(rowNo);
-            i++;
+            formulaBuilder.append(',');
+            rowNoFormula = displayNodeValues(objectFormula, rowNoFormula) + 1;
+            formulaBuilder.append(columnLetterFormula).append(rowNoFormula);
+            k++;
         }
-        return formula.toString();
+        return formulaBuilder.toString();
     }
 
-    private int displayNodeValues(Object children, int rownum) {
+    private int displayNodeValues(Object childrenNode, int rownumNode) {
 
-        final Collection<?> child = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
-                .getChildren(children);
-        int tempRowNum = rownum;
-        if (child != null) {
-            for (Object innerchild : child) {
-                tempRowNum++;
-                tempRowNum = displayNodeValues(innerchild, tempRowNum);
+        final Collection<?> childNode = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
+                .getChildren(childrenNode);
+        int tempRowNumNode = rownumNode;
+        if (childNode != null) {
+            for (Object innerchildNode : childNode) {
+                tempRowNumNode++;
+                tempRowNumNode = displayNodeValues(innerchildNode, tempRowNumNode);
             }
         } 
-        return tempRowNum;
+        return tempRowNumNode;
     }
     public String getAppendedFormula(String[] value){
        boolean isappend = true;
@@ -359,7 +359,7 @@ public class SalesExcelNM extends ExcelExport{
              if(isappend){
                  formula = "SUM(".concat(string).concat(")");
              }else{
-                 formula += "+SUM(".concat(string).concat(")");
+                 formula = formula.concat("+SUM(".concat(string).concat(")"));
              }
              isappend= false;
          }
@@ -389,7 +389,7 @@ public class SalesExcelNM extends ExcelExport{
               if (isappend) {
                   formulaVal = "SUM(".concat(string).concat(")");
               } else {
-                  formulaVal += "+SUM(".concat(string).concat(")");
+                  formulaVal = formulaVal.concat("+SUM(".concat(string).concat(")"));
               }
               isappend= false;
           }

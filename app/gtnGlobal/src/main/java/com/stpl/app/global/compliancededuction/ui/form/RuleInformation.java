@@ -532,11 +532,8 @@ public class RuleInformation extends CustomComponent {
 
     void resetMethod() {
         LOGGER.debug("Add reset Method");
-        if (resultsContainer != null) {
-            resultsContainer.removeAllItems();
-            resultsTable.removeAllItems();
-
-        }
+        resultsContainer.removeAllItems();
+        resultsTable.removeAllItems();
         ruleNo.setValue(StringUtils.EMPTY);
         ruleName.setValue(StringUtils.EMPTY);
         ruleTypeDto.select(null);

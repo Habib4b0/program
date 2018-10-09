@@ -1560,8 +1560,8 @@ public class DataSelectionLogic {
 					+ " where RELATIONSHIP_BUILDER_SID in(Select CUST_RELATIONSHIP_BUILDER_SID\n"
 					+ " from PROJECTION_MASTER where PROJECTION_MASTER_SID=" + projId
 					+ ") AND LEVEL_NAME='Market Type') \n" + "and LIST_NAME='CONTRACT_TYPE';";
-			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
-			return list;
+                        LOGGER.debug("str = {}",str);
+			return (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 		} catch (final Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();

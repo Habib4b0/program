@@ -18,10 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
-import com.stpl.gtn.gtn2o.ws.netsales.bean.GtnWsNsfUpdateBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.response.netsales.GtnWsNetSalesGeneralResponse;
 
 /**
  * @author spandan.majumder

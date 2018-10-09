@@ -319,7 +319,7 @@ public class ProjectionVarianceLogic {
         return finalList;
     }
 
-    public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup,boolean isDataSelection,SessionDTO session) throws Exception{
+    public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup,boolean isDataSelection,SessionDTO session) throws PortalException{
         char asterik = '*';
         char percent = '%';
         String andOperator;
@@ -3322,8 +3322,8 @@ public class ProjectionVarianceLogic {
         relJoin = relJoin.replace(Constants.RELJOIN, CommonLogic.getRelJoinGenerate(pvsdto.getHierarchyIndicator(),pvsdto.getSessionDTO()));
             
 		StringBuilder rsIds = new StringBuilder();
+                String ccpQuery = SQlUtil.getQuery(Constants.PARENTVALIDATE);
 		try {
-                    String ccpQuery = SQlUtil.getQuery(Constants.PARENTVALIDATE);
                     ccpQuery = ccpQuery.replace(Constants.RELVALUE, pvsdto.getSessionDTO().getDedRelationshipBuilderSid());
                     ccpQuery = ccpQuery.replace(Constants.RELVERSION, String.valueOf(pvsdto.getSessionDTO().getDeductionRelationVersion()));
                     String rsQuery = insertAvailableHierarchyNo(pvsdto) + relJoin + getRsIdForCurrentHierarchy(pvsdto);
@@ -3345,6 +3345,7 @@ public class ProjectionVarianceLogic {
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+                        LOGGER.debug("ccpQuery ={}",ccpQuery);
 		}
 		return rsIds.toString();
 	}
@@ -3371,17 +3372,22 @@ public class ProjectionVarianceLogic {
 
   
    public String getString(String key, List<String> hierarchyNo) {
-        StringBuilder stringBuilder = new StringBuilder();
-        int i=1;
-        for (String str : hierarchyNo) {
-            if (key.startsWith(str.trim())) {
-                stringBuilder.append("('");
-                stringBuilder.append(key);
-                stringBuilder.append("',").append(i++).append(')');
-                return stringBuilder.toString();
-            }
-        }
-        return "";
+       StringBuilder stringBuilder = new StringBuilder();
+       int i = 1;
+       try {
+           for (String str : hierarchyNo) {
+               if (key.startsWith(str.trim())) {
+                   stringBuilder.append("('");
+                   stringBuilder.append(key);
+                   stringBuilder.append("',").append(i++).append(')');
+                   return stringBuilder.toString();
+               }
+           }
+       } catch (Exception ex) {
+           LOGGER.debug("i = {}", i);
+           LOGGER.error(ex.getMessage());
+       }
+       return "";
     }
     
     public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo,ProjectionSelectionDTO projSelDTO) {
@@ -3445,6 +3451,7 @@ public class ProjectionVarianceLogic {
         hierarchyForLevel = hierarchyForLevel.concat(entry.getKey()).concat(",");
         stringBuilder.append(entry.getKey());
         stringBuilder.append("',").append(i++).append(')');
+        LOGGER.debug("i = {}", i);
         return hierarchyForLevel;
     }
 

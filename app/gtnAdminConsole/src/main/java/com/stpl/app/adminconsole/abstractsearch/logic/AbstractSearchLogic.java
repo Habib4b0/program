@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,6 +34,9 @@ public class AbstractSearchLogic {
      * @param binder the binder
      * @return true, if successful
      */
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(AbstractSearchLogic.class.getName());
+
+    
     public boolean checkSearchCriteria(final ErrorfulFieldGroup binder) {
         boolean isvalid = false;
         for (Object object : binder.getFields()) {
@@ -61,6 +65,7 @@ public class AbstractSearchLogic {
      */
     public int getCountBasedOnModules(ErrorfulFieldGroup binder, int start, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws ParseException, PortalException {
         int count;
+        LOGGER.debug("start ={}",start);
         switch (moduleName) {
             case ConstantsUtils.DEDUCTION_GROUPING:
                 count = (Integer) loadDeductionGroupingLogic(binder, isCount, columns, filterSet);
@@ -87,6 +92,7 @@ public class AbstractSearchLogic {
      */
     public List getSearchResultsBasedOnModules(ErrorfulFieldGroup binder, int start, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws ParseException, PortalException {
         List list;
+        LOGGER.debug("start ={}",start);
         switch (moduleName) {
             case ConstantsUtils.DEDUCTION_GROUPING:
                 list = (List) loadDeductionGroupingLogic(binder, isCount, columns, filterSet);

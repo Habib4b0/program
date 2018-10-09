@@ -13,7 +13,6 @@ import com.stpl.app.global.compliancededuction.dto.CDRDto;
 import com.stpl.app.global.dao.impl.ComplianceDeductionDaoImpl;
 import com.stpl.app.global.dao.impl.StplSecurityDAOImpl;
 import com.stpl.app.model.CdrModel;
-import com.stpl.app.security.StplSecurity;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.ConstantsUtils;

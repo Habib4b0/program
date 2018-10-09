@@ -147,110 +147,110 @@ public interface DataSelectionDAO {
     /**
      * Gets the projection master.
      *
-     * @param systemId the system id
+     * @param systemIdProjMaster the system id
      * @return the projection master
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    ProjectionMaster getProjectionMaster(int systemId) throws PortalException;
+    ProjectionMaster getProjectionMaster(int systemIdProjMaster) throws PortalException;
 
     /**
      * Update projection master.
      *
-     * @param projectionMaster the projection master
+     * @param projectionMasterUpdate the projection master
      * @return the projection master
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    ProjectionMaster updateProjectionMaster(ProjectionMaster projectionMaster) throws SystemException;
+    ProjectionMaster updateProjectionMaster(ProjectionMaster projectionMasterUpdate) throws SystemException;
 
     /**
      * Find by projection id_ projection cust details.
      *
-     * @param query the query
+     * @param queryCustDetails the query
      * @return the list< projection cust details>
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    List<ProjectionCustDetails> findCustDetailsByProjectionId(DynamicQuery query) throws SystemException;
+    List<ProjectionCustDetails> findCustDetailsByProjectionId(DynamicQuery queryCustDetails) throws SystemException;
 
     /**
      * Delete projection cust details.
      *
-     * @param projectionCustDetails the projection cust details
+     * @param projectionCustDetail the projection cust details
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    void deleteProjectionCustDetails(ProjectionCustDetails projectionCustDetails) throws SystemException;
+    void deleteProjectionCustDetails(ProjectionCustDetails projectionCustDetail) throws SystemException;
 
     /**
      * Find by projection id_ projection prod details.
      *
-     * @param query the query
+     * @param queryProjId the query
      * @return the list< projection prod details>
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    List<ProjectionProdDetails> findProdDetailsByProjectionId(DynamicQuery query) throws SystemException;
+    List<ProjectionProdDetails> findProdDetailsByProjectionId(DynamicQuery queryProjId) throws SystemException;
 
     /**
      * Delete projection prod details by id.
      *
-     * @param systemId the system id
+     * @param systemIdDeleteProjection the system id
      * @return the projection prod details
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    ProjectionProdDetails deleteProjectionProdDetailsById(int systemId) throws PortalException;
+    ProjectionProdDetails deleteProjectionProdDetailsById(int systemIdDeleteProjection) throws PortalException;
 
     /**
      * Gets the brand master list.
      *
-     * @param query the query
+     * @param queryBrand the query
      * @return the brand master list
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    List<BrandMaster> getBrandMasterList(DynamicQuery query) throws SystemException;
+    List<BrandMaster> getBrandMasterList(DynamicQuery queryBrand) throws SystemException;
 
     /**
      * Gets the company master list.
      *
-     * @param query the query
+     * @param queryList the query
      * @return the company master list
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    List getCompanyMasterList(DynamicQuery query) throws SystemException;
+    List getCompanyMasterList(DynamicQuery queryList) throws SystemException;
 
-    public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct, final String action);
+    public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerORProduct, final String action);
 
-    public List getCustomerForecastLevel(DynamicQuery query);
+    public List getCustomerForecastLevel(DynamicQuery queryDynamic);
 
     /**
      * Gets the hierarchy data.
      *
-     * @param indicator the indicator whether Customer hierarchy or Product
+     * @param indicatorr the indicator whether Customer hierarchy or Product
      * hierarchy
      * @param hierarchyName the hierarchy name
      * @param hierarchyType the hierarchy type
      * @return the hierarchy data
      */
-    public List<HierarchyLookupDTO> getHierarchyData(final String indicator,
+    public List<HierarchyLookupDTO> getHierarchyData(final String indicatorr,
             final String hierarchyName, final String hierarchyType);
 
     /**
      * Generates projection.
      *
-     * @param dataSelectionDto the dataselection dto with values to generate
+     * @param dataSelectionDTO the dataselection dto with values to generate
      * @return the projection ID
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public int generateProjection(final DataSelectionDTO dataSelectionDto) throws SystemException;
+    public int generateProjection(final DataSelectionDTO dataSelectionDTO) throws SystemException;
 
     /**
      * Search for projections.
