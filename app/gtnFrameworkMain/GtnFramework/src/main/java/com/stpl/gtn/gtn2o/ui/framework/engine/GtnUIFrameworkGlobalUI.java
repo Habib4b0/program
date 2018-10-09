@@ -65,8 +65,8 @@ public class GtnUIFrameworkGlobalUI {
 		componentData.setFrameworkConfigMap(frameworkConfigMap);
 
 		UI.getCurrent().setData(componentData);
-		Long l =System.currentTimeMillis();
-		Integer sessionId = l.intValue();
+		Long milliSecondTime =System.currentTimeMillis();
+		Integer sessionId = milliSecondTime.intValue();
 		addUserToSession(userId, sessionId);
 		addSessionProperty(GtnFrameworkCommonStringConstants.SESSION_ID, sessionId);
 	}
