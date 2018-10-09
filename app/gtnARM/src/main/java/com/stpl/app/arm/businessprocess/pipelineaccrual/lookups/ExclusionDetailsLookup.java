@@ -97,6 +97,7 @@ public class ExclusionDetailsLookup extends Window {
     private ExtFilterTable selectedCustomer;
     @UiField("deleteViewBtn")
     private Button deleteViewBtn;
+    
     private PrivatePublicLookup viewLookUp;
     private ExclusionDetailsLogic arLogic = new ExclusionDetailsLogic();
     private SessionDTO sessionDTO;

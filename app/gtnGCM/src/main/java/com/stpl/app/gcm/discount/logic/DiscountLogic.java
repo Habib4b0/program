@@ -2910,7 +2910,6 @@ public class DiscountLogic {
         rsList.clear();
         String query = "SELECT RS_CONTRACT_SID FROM RS_CONTRACT WHERE CONTRACT_MASTER_SID = ?";
         query = query.replace("?", contractDto.getContractSid() + "");
-        List<Object> rsListNew = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return rsListNew;
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 }
