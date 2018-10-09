@@ -70,7 +70,6 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     protected final boolean isAddMode;
     protected final boolean isEditMode;
     protected final boolean isViewMode;
-    protected CommonUIUtils commonUiUtil = new CommonUIUtils();
 
     /**
      * The logo.

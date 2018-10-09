@@ -139,7 +139,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     public int getCount() {
         int count = 0;
         if (isGenerated) {
-        	ppaProjection.waitForSave();
+        	PPAProjection.waitForSave();
             count = logic.getPPAProjectionResultsCount(selection, getLastParent(), session);
         }
         return count;
