@@ -210,7 +210,7 @@ public class GtnFrameworkScheduledProcessTableDoubleClickAction
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		// Auto-generated method stub
-		return null;
+		return this;
 	}
 
 }
