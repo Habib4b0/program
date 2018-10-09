@@ -120,9 +120,8 @@ public class GtnReportingDashboardReportProfileLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(11).toString(), viewId)
 					.loadV8MultiSelectValue();
 
-			GtnUIFrameworkActionExecutor.executeSingleAction(viewId,
-					getreportDashboardReportProfileFilterReloadAction(actionParamList.get(11).toString(), "C",
-							GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_TAB));
+			GtnUIFrameworkActionExecutor.executeSingleAction(viewId, getreportDashboardReportProfileFilterReloadAction(
+					actionParamList.get(11).toString(), "C", GtnFrameworkReportStringConstants.REPORT_DASHBOARD_TAB));
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(11).toString(), viewId).updateSelection(
 					Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabCustomerFilter()).isPresent()
@@ -137,9 +136,8 @@ public class GtnReportingDashboardReportProfileLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(13).toString(), viewId)
 					.loadV8MultiSelectValue();
 
-			GtnUIFrameworkActionExecutor.executeSingleAction(viewId,
-					getreportDashboardReportProfileFilterReloadAction(actionParamList.get(13).toString(), "P",
-							GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_TAB));
+			GtnUIFrameworkActionExecutor.executeSingleAction(viewId, getreportDashboardReportProfileFilterReloadAction(
+					actionParamList.get(13).toString(), "P", GtnFrameworkReportStringConstants.REPORT_DASHBOARD_TAB));
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(13).toString(), viewId)
 					.updateSelection(Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabProductFilter())
@@ -155,9 +153,8 @@ public class GtnReportingDashboardReportProfileLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString(), viewId)
 					.loadV8MultiSelectValue();
 
-			GtnUIFrameworkActionExecutor.executeSingleAction(viewId,
-					getreportDashboardReportProfileFilterReloadAction(actionParamList.get(15).toString(), "D",
-							GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_TAB));
+			GtnUIFrameworkActionExecutor.executeSingleAction(viewId, getreportDashboardReportProfileFilterReloadAction(
+					actionParamList.get(15).toString(), "D", GtnFrameworkReportStringConstants.REPORT_DASHBOARD_TAB));
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString(), viewId).updateSelection(
 					Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabDeductionFilter()).isPresent()

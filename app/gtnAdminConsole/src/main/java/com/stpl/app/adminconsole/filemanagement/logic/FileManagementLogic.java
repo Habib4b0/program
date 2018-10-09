@@ -2544,7 +2544,8 @@ public class FileManagementLogic {
 				.concat("%'");
 		if (detailsResultDTO.getVersion().contains("~")) {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
-			int x = 0, y = 0;
+			int x = 0;
+                        int y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace('.', '~');
@@ -2681,7 +2682,8 @@ public class FileManagementLogic {
 				.concat("%'");
 		if (detailsResultDTO.getVersion().contains("~")) {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
-			int x = 0, y = 0;
+			int x = 0;
+                        int y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace('.', '~');
@@ -3608,7 +3610,8 @@ public class FileManagementLogic {
 				.concat("%'");
 		if (detailsResultDTO.getVersion().contains("~")) {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
-			int x = 0, y = 0;
+			int x = 0;
+                        int y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace('.', '~');
@@ -3750,7 +3753,8 @@ public class FileManagementLogic {
 				.concat("%'");
 		if (detailsResultDTO.getVersion().contains("~")) {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
-			int x = 0, y = 0;
+			int x = 0;
+                        int y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace('.', '~');

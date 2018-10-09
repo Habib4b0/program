@@ -1324,7 +1324,7 @@ public class NMSalesProjectionResultsLogic {
 
 					String projection = StringUtils.EMPTY;
 					if (Constant.STRING_ONE.equals(String.valueOf(obj[col + NumericConstants.FOUR]))) {
-						projection += obj[col + 1];
+						projection = projection.concat(String.valueOf(obj[col + 1]));
 						projection = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? projection
 								: Constant.ZERO_STRING;
 						projection = getFormattedValue(CUR_ZERO, projection);
@@ -1343,7 +1343,7 @@ public class NMSalesProjectionResultsLogic {
 					}
 					String projection = StringUtils.EMPTY;
 					if (Constant.STRING_ONE.equals(String.valueOf(obj[col + NumericConstants.FOUR]))) {
-						projection += obj[col + NumericConstants.THREE];
+						projection = projection.concat(String.valueOf(obj[col + NumericConstants.THREE]));
 						projection = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? projection
 								: Constant.ZERO_STRING;
 						projection = getFormattedValue(UNITVOLUME, projection);
