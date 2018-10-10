@@ -368,7 +368,7 @@ public class ApprovalTab extends CustomComponent {
             if (dto.getStatusDesc() != null && !StringUtils.EMPTY.equals(dto.getStatusDesc())) {
                 status.setValue(dto.getStatusDesc());
 
-                if (Constants.APPROVED.equals(dto.getStatusDesc())) {
+                if ((Constants.APPROVED.equals(dto.getStatusDesc())) || ("Cancelled".equals(dto.getStatusDesc()))) {
 
                     latestEstimate.setReadOnly(true);
                     updateCycle.setReadOnly(true);
@@ -405,19 +405,7 @@ public class ApprovalTab extends CustomComponent {
                     cancelBtn.setEnabled(true);
                     submitBtn.setEnabled(true);
                     resetBtn.setEnabled(false);
-                } else if ("Cancelled".equals(dto.getStatusDesc())) {
-                    latestEstimate.setReadOnly(true);
-                    updateCycle.setReadOnly(true);
-                    latestEstimateName.setReadOnly(true);
-                    updateCycleName.setReadOnly(true);
-
-                    approveBtn.setEnabled(false);
-                    rejectBtn.setEnabled(false);
-                    deleteBtn.setEnabled(false);
-                    cancelBtn.setEnabled(false);
-                    submitBtn.setEnabled(false);
-                    resetBtn.setEnabled(false);
-                }
+                } 
 
             } else {
                 status.setValue(StringUtils.EMPTY);
