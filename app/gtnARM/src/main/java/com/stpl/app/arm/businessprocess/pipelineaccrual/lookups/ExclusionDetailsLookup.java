@@ -12,6 +12,7 @@ import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.utils.ConstantsUtils;
 
@@ -264,13 +265,14 @@ public class ExclusionDetailsLookup extends Window {
         try {
 //            this.close();Please select at least one Customer value to exclude. 
             if (availableCustomers.getValue() == null) {
-                AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getMoveLeftRightMessage_exclusion());
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.MOVE_ERROR, ARMMessages.getMoveLeftRightMessage_exclusion());
                 return;
             }
             if (availableCustomers.getValue() != null) {
                 selectedResultsContainer.addBean((ExclusionLookupDTO) availableCustomers.getValue());
                 availableResultsContainer.removeItem((ExclusionLookupDTO) availableCustomers.getValue());
                 setFieldValues();
+                availableCustomers.setValue(null);
             }
 
         } catch (Exception e) {
@@ -285,7 +287,7 @@ public class ExclusionDetailsLookup extends Window {
         try {
 //            this.close();Please select at least one Customer value to exclude. 
             if (selectedCustomer.getValue() == null) {
-                AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getMoveLeftRightMessage_exclusion());
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.MOVE_ERROR, ARMMessages.getMoveLeftRightMessage_exclusion());
                 return;
             }
             if (selectedCustomer.getValue() != null) {
@@ -293,6 +295,7 @@ public class ExclusionDetailsLookup extends Window {
                 selectedResultsContainer.removeItem(selectedCustomer.getValue());
                 setFieldValues();
                 getFieldValue();
+                selectedCustomer.setValue(null);
             }
 
         } catch (Exception e) {
@@ -327,11 +330,11 @@ public class ExclusionDetailsLookup extends Window {
     public void submitButtonClick(Button.ClickEvent event) {
         LOGGER.debug("Inside submitBtn :");
         try {
-//            this.close();Please select at least one Customer value to exclude. 
             if (selectedCustomer.getItemIds().isEmpty()) {
-                AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getSubmitMessage_exclusion());
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.NO_VALUES_SELECTED, ARMMessages.getSubmitMessage_exclusion());
                 return;
             }
+            
             if (!selectedResultsContainer.getItemIds().isEmpty()) {
                 setFieldValues();
                 arLogic.saveORUpdateExclusionDetailsLookUp(dataSelection.getProjectionId(), selectedResultsContainer.getItemIds(), accountId.toString(), accountName.toString(), accountContractId.toString(), sessionDTO);
@@ -355,7 +358,7 @@ public class ExclusionDetailsLookup extends Window {
     public void resetButtonClick(Button.ClickEvent event) {
         try {
             notifier.setButtonName("reset");
-            notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_exclusion());
+            notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessage_exclusion());
         } catch (Exception e) {
             LOGGER.error("Error in resetButtonClick", e);
         }
@@ -366,8 +369,14 @@ public class ExclusionDetailsLookup extends Window {
         LOGGER.debug("Inside deleteViewBtn :");
         try {
             notifier.setButtonName("delete");
-            notifier.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getDeleteMessage_exclusion());
-        } catch (Exception e) {
+            if (sessionDTO.getUserId().compareTo(Integer.valueOf(viewLookUp.getDtoValue().getCreatedUser())) != 0) {
+                AbstractNotificationUtils.getWarningNotification(CommonConstant.DELETE_CONFIRMATION, ARMMessages.getDeleteErrorMessage_exclusion());
+                return;
+            }
+
+            notifier.getConfirmationMessage(CommonConstant.DELETE_CONFIRMATION, ARMMessages.getDeleteMessage_exclusion());
+
+        } catch (NumberFormatException e) {
             LOGGER.error("Error in deleteButtonClick", e);
         }
     }
@@ -446,7 +455,9 @@ public class ExclusionDetailsLookup extends Window {
         }
         List<ExclusionLookupDTO> list = arLogic.getListInitialInsertFromARC(input);
         setFieldValuesOnInitialLoad(list);
-        arLogic.saveORUpdateExclusionDetailsLookUp(dataSelection.getProjectionId(), list, accountId.toString(), accountName.toString(), accountContractId.toString(), sessionDTO); // Ends here for GAL-7235
+        if(!list.isEmpty()) {
+            arLogic.saveORUpdateExclusionDetailsLookUp(dataSelection.getProjectionId(), list, accountId.toString(), accountName.toString(), accountContractId.toString(), sessionDTO);
+        }
         selectedResultsContainer.addAll(dataSelection.getProjectionId() != 0 ? arLogic.getIntialLoadValue(dataSelection.getProjectionId()) : dumbyResultsContainer);
     }
 
