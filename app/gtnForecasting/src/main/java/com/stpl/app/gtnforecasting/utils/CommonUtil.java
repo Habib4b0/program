@@ -56,7 +56,7 @@ public class CommonUtil {
     public static final String CLOSE_PARANTHESIS = ")";
     public static final String BUSINESS_PROCESS = "businessProcess";
     public static final String BP_NAME = "ALLERGAN";
-    public static final DecimalFormat FORMAT_DECIMAL = new DecimalFormat("$#,##0.#####");
+    public static final DecimalFormat FORMAT_NO_DECIMAL = new DecimalFormat("$#,##0");
     public static final DecimalFormat FORMAT_TWO_DECIMAL = new DecimalFormat("$#,##0.00");
 
     /**
@@ -680,11 +680,11 @@ public class CommonUtil {
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
                 || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
             if (needZeroForNull && nullCheck(value)) {
-                return FORMAT_DECIMAL.format(Double.parseDouble(DASH));
+                return FORMAT_NO_DECIMAL.format(Double.parseDouble(DASH));
             } else if (nullCheck(value)) {
                 return String.valueOf(value);
             }
-            return FORMAT_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
+            return FORMAT_NO_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
         }
         if (needZeroForNull && nullCheck(value)) {
             return FORMAT_TWO_DECIMAL.format(Double.parseDouble(DASH));
