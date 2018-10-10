@@ -213,6 +213,7 @@ public class GtnUiFrameworkNsfLoadDataActionTest {
 		gtnUiFrameworkNsfLoadDataAction.getWsResponse(gtnRequest);
 	}
 
+	
 	/**
 	 * Perform pre-test initialization.
 	 *

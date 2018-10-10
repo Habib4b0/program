@@ -396,8 +396,9 @@ public class CommonUtils {
             public void unload(BeforeUnload.UnloadEvent event) {
                 if (uI.isExcelFlag()) { // Fix to avoid blank page issue while excel export
                     uI.setExcelFlag(false);
-                } 
-                uI.close();
+                } else {
+                    uI.close();
+                }
             }
         });
 

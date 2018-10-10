@@ -7,10 +7,12 @@ package com.stpl.app.arm.businessprocess.transaction7.lookups;
 
 import com.stpl.app.arm.adjustmentrateconfiguration.dto.ExclusionLookupDTO;
 import com.stpl.app.arm.businessprocess.transaction7.logic.Trx7ExclusionDetailsLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -61,6 +63,7 @@ public class Trx7SaveViewPopup extends Window {
         center();
         setModal(true);
         setResizable(false);
+        setCaption("Save View");
         viewName.setImmediate(true);
         viewOption.addItem("Public");
         viewOption.addItem("Private");
@@ -79,6 +82,16 @@ public class Trx7SaveViewPopup extends Window {
             updateBtn.setEnabled(false);
             viewOption.setEnabled(true);
         }
+        
+        viewName.addValueChangeListener((Property.ValueChangeEvent event) -> viewNameValueChangeAction());
+        
+    }
+    
+    private void viewNameValueChangeAction() {
+        addBtn.setEnabled(true);
+        updateBtn.setEnabled(false);
+        saveViewDTO.setViewStatus(false);
+        viewOption.setEnabled(true);
     }
 
     @UiHandler("add")
@@ -101,7 +114,9 @@ public class Trx7SaveViewPopup extends Window {
                     close();
                     saveViewDTO.setViewName(String.valueOf(viewName.getValue()));
                     saveViewDTO.setViewType(String.valueOf(viewOption.getValue()));
-                    isSaveView(saveViewDTO);
+                    if (isSaveView(saveViewDTO)) {
+                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added "+viewOption.getValue().toString().toLowerCase()+" view (" + saveViewDTO.getViewName() + ARMUtils.CLOSE_PARANTHESIS);
+                    }
                 }
             }
 
@@ -124,7 +139,7 @@ public class Trx7SaveViewPopup extends Window {
         TR7_SAVE_VIEW_LOGGER.debug("Inside updateButtonClick Btn");
         int creatorAlert = 0;
         try {
-            if ((!saveViewDTO.getViewType().equals(StringUtils.EMPTY) && ("publicView".equals(saveViewDTO.getViewType()))) && (!String.valueOf(saveViewDTO.getSessionUserID()).equals(saveViewDTO.getCreatedUser()))) {
+            if ((!saveViewDTO.getViewType().equals(StringUtils.EMPTY) && ("publicView".equals(saveViewDTO.getViewType()))) && (saveViewDTO.getUserID().compareTo(Integer.valueOf(saveViewDTO.getCreatedUser())) != 0)) {
                 creatorAlert = 1;
             }
             if (StringUtils.isBlank(viewName.getValue()) || "null".equals(String.valueOf(viewName.getValue()))) {
@@ -137,8 +152,9 @@ public class Trx7SaveViewPopup extends Window {
             } else {
                 saveViewDTO.setViewStatus(true);
                 close();
-                isSaveView(saveViewDTO);
-
+                if(isSaveView(saveViewDTO)) {
+                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated "+viewOption.getValue().toString().toLowerCase()+" view (" + saveViewDTO.getViewName() + ARMUtils.CLOSE_PARANTHESIS);
+                }     
             }
         } catch (Exception e) {
             TR7_SAVE_VIEW_LOGGER.error("Error in updateButtonClick :", e);
@@ -149,8 +165,8 @@ public class Trx7SaveViewPopup extends Window {
         return arLogic.isDuplicateName(viewName);
     }
 
-    public void isSaveView(ExclusionLookupDTO saveViewDTO) {
-        arLogic.isAddORUpdateView(saveViewDTO);
+    public boolean isSaveView(ExclusionLookupDTO saveViewDTO) {
+       return arLogic.isAddORUpdateView(saveViewDTO);
     }
 
     @Override

@@ -117,7 +117,7 @@ public class GtnUiFrameworkNsfSaveAction implements GtnUIFrameWorkAction, GtnUIF
 	private boolean saveToDb(GtnUIFrameworkNsfInfoBean nsfInfoBean) throws GtnFrameworkGeneralException {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		try {
-
+  
 			GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
 
 			generalWSRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
@@ -128,13 +128,22 @@ public class GtnUiFrameworkNsfSaveAction implements GtnUIFrameWorkAction, GtnUIF
 			gtnWsNetSalesGeneralRequest.setnSfInfoBean(nsfInfoBean);
 			request.setGtnWsNetSalesGeneralRequest(gtnWsNetSalesGeneralRequest);
 
-			GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-					"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_SAVE_SERVICE, request,
-					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebserviceResponse gtnWsresponse = getResponse(request);
 			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkNSFConstants.getSystemid(),gtnWsresponse.getGtnWsNetSalesGeneralResponse().getNsfInfoBean().getSystemId());
 			return gtnWsresponse.getGtnWsGeneralResponse().isSucess();
 		} catch (Exception systemExcption) {
 			throw new GtnFrameworkGeneralException("Save Error", systemExcption);
 		}
+	}
+
+	/**
+	 * @param request
+	 * @return
+	 */
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_SAVE_SERVICE, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		 
 	}
 }
