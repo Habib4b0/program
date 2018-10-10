@@ -1260,3 +1260,4 @@ insert into ',@CURRENT_TOTAL_EXFACTORY,'(CFF_MASTER_SID,year,period,TOT_EXFACTOR
           );
       END CATCH
   END 
+  GO
