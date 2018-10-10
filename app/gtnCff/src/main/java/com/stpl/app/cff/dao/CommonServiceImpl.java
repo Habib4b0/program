@@ -941,7 +941,7 @@ public class CommonServiceImpl {
         }
         try {
             if (parameters.get(StringConstantsUtil.INDICATOR) != null
-                    && ((StringConstantsUtil.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))))) {
+                    && (StringConstantsUtil.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR))))) {
                 List<Integer> list = new ArrayList<>();
                 int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
                 list.add(returnValue);
