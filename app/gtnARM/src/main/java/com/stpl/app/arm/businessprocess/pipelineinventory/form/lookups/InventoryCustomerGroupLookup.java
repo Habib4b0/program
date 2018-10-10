@@ -742,11 +742,11 @@ public class InventoryCustomerGroupLookup extends Window {
         if (viewLookupDTO != null && !viewLookupDTO.isEmpty()) {
             lookupLoadLogic(viewLookupDTO.get(0));
             this.viewCategory = viewCategory;
-            LOGGER.info("ViewCategory:",getViewCategory());
+            
         }
     }
 
-    private String getViewCategory(){
+    public String getViewCategory(){
         return viewCategory;
     }
     
