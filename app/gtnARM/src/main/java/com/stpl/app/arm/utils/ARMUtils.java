@@ -3036,7 +3036,7 @@ public class ARMUtils {
         return ARMUtils.BI.clone();
     }
     
-     public static String getBusinessProcess() {
-        return ARMUtils.BUSINESS_PROCESS;
+     public static String getBusinessProcess(String moduleName) {
+        return ARMUtils.BUSINESS_PROCESS.equals(moduleName) ? ARMUtils.BUSINESS_PROCESS : "";
     }
 }
