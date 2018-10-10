@@ -552,7 +552,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					obj[0] = variableBreakdown.get(i).getMasterSid();
 					obj[1] = variableBreakdown.get(i).getPeriod();
 					obj[2] = variableBreakdown.get(i).getYear();
-					obj[3] = Byte.valueOf(((Integer) variableBreakdown.get(i).getSelectedVariable()).byteValue());
+					obj[3] = Byte.valueOf(Integer.toString((int) variableBreakdown.get(i).getSelectedVariable()));
 					gtnSqlQueryEngine.executeInsertOrUpdateQuery(
 
 							replaceTableNames(GtnWsQueryConstants.VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY, tableMap), obj,
