@@ -54,7 +54,6 @@ public class OnDemandFileDownloader extends FileDownloader {
         try{
             falg = super.handleConnectorRequest(request, response, path);
         } catch (Exception e) {
-            System.out.println("No record Found to Export :"+e);
                LOGGER.info(e.getMessage());
         }
         return falg;
