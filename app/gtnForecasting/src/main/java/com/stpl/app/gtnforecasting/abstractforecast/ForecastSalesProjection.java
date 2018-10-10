@@ -2805,9 +2805,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             if (checkBoxMap.get(key.getKey())) {
                 if ((value != null) && (value.contains(Constant.ACTUAL))) {
                     projectionDTO.setBaselineType(true);
-                }
-                else
-                {
+                } else {
                     projectionDTO.setBaselineType(false);
                 }
                 if ((value != null) && ((value.contains(Constant.ACTUALSALES))||(value.contains(Constant.PROJECTED_SALES1)))) {
@@ -2818,18 +2816,16 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
             }
         }
-
+        return getTempSales(tempSalesvalue,tempUnitValue);
+    }
+  private int getTempSales(boolean tempSalesvalue,boolean tempUnitValue) {
         if (tempSalesvalue && tempUnitValue) {
             return -1;
-
         } else if (!tempSalesvalue && tempUnitValue) {
-
             return 1;
         }
-
-        return 0;
-    }
-
+       return 0;
+  }
     /**
      * Configures the frequency DDLB in the Sales Projection Selection.
      *
