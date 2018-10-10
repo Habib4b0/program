@@ -4542,30 +4542,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
 
     }
 
-    public boolean ismultipleDiscount() {
-        boolean isOne = true;
-        boolean ismultipleDiscount = false;
-        tripleHeaderForCheckedDoubleHeader.keySet().iterator();
-         List<String>  checkedList = new ArrayList<>();
-        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
-            Map<String, List<String>> checkDoubleHeader = d.getValue();
-            for (Map.Entry<String, List<String>> entry : checkDoubleHeader.entrySet()) {
-                List a = entry.getValue();
-                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
-                    ismultipleDiscount = true;
-                    break;
-                } else {
-                    checkedList.addAll(a);
-                }
-            }
-            if (checkedList.size() > 0) {
-                isOne = false;
-            }
-
-        }
-        return !ismultipleDiscount;
-    }
-
     public boolean endDateValidation(String valueEnd) {
         LOGGER.debug("Inside End Date Validation");
         if (startPeriodForecastTab.getValue() != null) {
@@ -5103,88 +5079,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         }.getConfirmationMessage("Confirm List View Reset",
                 "Are you sure you want to reset the list view to the last saved state?");
 
-    }
-
-    public boolean validateForAlternateHistory() {
-
-        NMDiscountProjectionLogic logic = new NMDiscountProjectionLogic();
-
-        if (checkedDiscountsPropertyIds.size() > 0) {
-            if (!checkedDiscountsPropertyIds.isEmpty()) {
-                String selectedRsName = resultsTable.getRightFreezeAsTable()
-                        .getTripleHeaderColumnHeader(checkedDiscountsPropertyIds.get(0));
-
-                int rsModelSid = logic.getRsModelSid(selectedRsName);
-                Set<Integer> totalCcp = new HashSet<>();
-                if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
-
-                    int numoFCustomers = getCheckedCustomercount(logic);
-
-                    if (numoFCustomers > 0) {
-                        String ccpIds = logic.getCCPList(logic.buildCCPListQuery(true, session.getProjectionId()),
-                                totalCcp, session);
-                        totalccpCount = totalCcp.size();
-
-                        if (isNotHavingActuals(logic, ccpIds, rsModelSid, totalCcp)) {
-
-                            return true;
-
-                        } else {
-
-                            NotificationUtils.getAlertNotification("Invalid Record Selection",
-                                    "The selected Customer and Dicount combination already having actuals.");
-                            return false;
-                        }
-
-                    } else if (numoFCustomers == 0) {
-
-                        NotificationUtils.getAlertNotification("No Customer Level  Selected",
-                                "Please select a Customer level for which  Alternate History to be imported.");
-                        return false;
-
-                    }
-                } else if (PRODUCT.getConstant().equals(String.valueOf(view.getValue()))) {
-
-                    int numOfNDC = getCheckedProductCount(logic);
-
-                    if (numOfNDC == 1) {
-                        String ccpIds = logic.getCCPList(logic.buildCCPListQuery(false, session.getProjectionId()),
-                                totalCcp, session);
-                        totalccpCount = totalCcp.size();
-                        if (isNotHavingActuals(logic, ccpIds, rsModelSid, totalCcp)) {
-
-                            return true;
-
-                        } else {
-
-                            NotificationUtils.getAlertNotification("Invalid Record Selection",
-                                    "The selected Item and Dicount combination already having actuals.");
-                            return false;
-                        }
-
-                    } else if (numOfNDC > 0) {
-
-                        NotificationUtils.getAlertNotification("No NDC Level Selected",
-                                "Please select a NDC level for which  Alternate History to be imported.");
-                        return false;
-
-                    }
-                }
-
-            } else {
-                NotificationUtils.getAlertNotification("Multiple Discount Selected",
-                        "Please select a single discount for which  Alternate History to be imported.");
-                return false;
-            }
-
-        } else {
-            NotificationUtils.getAlertNotification("No Discount Selected",
-                    "Please select which discount Alternate History to be imported.");
-            return false;
-
-        }
-
-        return true;
     }
 
     public boolean isNotHavingActuals(NMDiscountProjectionLogic logic, String ccpIds, int rsModelSid,

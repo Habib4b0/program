@@ -144,16 +144,6 @@ public class UiUtils {
 	}
 
 	/**
-	 * To add an empty space
-	 *
-	 * @return Label with empty space
-	 */
-	public static Label addSpaceLabel() {
-		final Label space = new Label("&nbsp;", ContentMode.HTML);
-		return space;
-	}
-
-	/**
 	 * To create mode option group for data selection screen
 	 *
 	 * @return Data selection mode option group
@@ -536,8 +526,7 @@ public class UiUtils {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
 		String dateFormat = sdf.format(date);
 		String[] splitDate = dateFormat.split("/");
-		String formatedDate = splitDate[NumericConstants.TWO] + splitDate[1] + splitDate[0];
-		return formatedDate;
+		return splitDate[NumericConstants.TWO] + splitDate[1] + splitDate[0];
 	}
 
 public static int getDataSelectionFormattedLevelNo(String value) {
