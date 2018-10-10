@@ -166,11 +166,20 @@ WHERE
         </query>
     </entity>
 
+    <entity id="deleteQueryExclusionDetails">
+        <query>
+            <![CDATA[
+            Delete from ARM_EXCLUSION_DETAIL where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;
+            Delete from [TABLE] where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;
+             ]]>
+        </query>
+    </entity>
+
     <entity id="saveORUpdateQueryEdit">
         <query>
             <![CDATA[
             Delete from ARM_EXCLUSION_DETAIL where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;
-            
+            Delete from [TABLE] where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;
             Insert Into ARM_EXCLUSION_DETAIL  Values
 
              ]]>
