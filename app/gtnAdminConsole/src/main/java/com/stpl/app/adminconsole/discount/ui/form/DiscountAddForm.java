@@ -223,7 +223,6 @@ public class DiscountAddForm extends CustomComponent implements View {
     private HorizontalLayout addBtnsHLayout;
     @UiField("removeBtnsHLayout")
     private HorizontalLayout removeBtnsHLayout;
-    private CommonUtil commonUtil = new CommonUtil();
     private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
 
     /**
