@@ -234,6 +234,7 @@ public class GtnUiFrameworkNsfRuleSaveUniqueValidationActionTest {
 		fixture.getResponse(gtnRequest);
 	}
 
+	
 	/**
 	 * Perform pre-test initialization.
 	 *
