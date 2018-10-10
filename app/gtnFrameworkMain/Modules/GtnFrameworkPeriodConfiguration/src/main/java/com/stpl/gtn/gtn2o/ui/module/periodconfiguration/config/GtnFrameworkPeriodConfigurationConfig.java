@@ -549,9 +549,9 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodFieldValueChangeAction.class.getName());
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.PERIOD_FROM);
-		customActionPeriodFrom.addActionParameter(true);
+		customActionPeriodFrom.addActionParameter(Boolean.TRUE);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DATE_FROM);
-		customActionPeriodFrom.addActionParameter(true);
+		customActionPeriodFrom.addActionParameter(Boolean.TRUE);
 		actionConfigList.add(customActionPeriodFrom);
 		GtnUIFrameworkDateFieldConfig datefieldConfig = componentConfigProvider.getDateFieldConfig(true, true,
 				actionConfigList);
@@ -1055,7 +1055,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 		resetButtonConfig.setComponentName("Reset");
 		componentList.add(resetButtonConfig);
 
-		List<String> resetFieldList = new ArrayList<>();
+		List<String> resetFieldList = new ArrayList<>(25);
 
 		resetFieldList.add(GtnFrameworkPeriodConfigurationContants.MODULE);
 		resetFieldList.add(GtnFrameworkPeriodConfigurationContants.BUSINESS_PROCESS);
@@ -1086,7 +1086,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 		resetFieldList.add(GtnFrameworkPeriodConfigurationContants.DATE_TO);
 		resetFieldList.add(GtnFrameworkPeriodConfigurationContants.DEFAULT_DATE_TO);
 
-		List<Object> resetValueList = new ArrayList<>();
+		List<Object> resetValueList = new ArrayList<>(25);
 
 		resetValueList.add(null);
 		resetValueList.add(null);

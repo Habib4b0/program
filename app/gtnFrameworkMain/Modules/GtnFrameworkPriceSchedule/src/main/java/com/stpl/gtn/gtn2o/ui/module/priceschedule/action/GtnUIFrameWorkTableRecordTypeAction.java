@@ -63,7 +63,7 @@ public class GtnUIFrameWorkTableRecordTypeAction implements GtnUIFrameWorkAction
 					psPriceProtectionValue = getFieldValue(record);
 				}
 				if (GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[21]
-						.equals(psPriceProtectionPropertyId) && mode.equalsIgnoreCase("Edit")) {
+						.equals(psPriceProtectionPropertyId) &&( mode.equalsIgnoreCase("Edit")||mode.equalsIgnoreCase("View")) ){
 					psPriceProtectionValue = getFieldValuePriceTolerance(record);
 				} else {
 					Class<?> type = tableBaseComponent.getTableColumnProperty(psPriceProtectionPropertyId.toString());

@@ -371,7 +371,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             });
 
             if (dto.getStatusDesc() != null && !StringUtils.EMPTY.equals(dto.getStatusDesc())) {
-                if (Constants.APPROVED.equals(dto.getStatusDesc())) {
+                if ((Constants.APPROVED.equals(dto.getStatusDesc())) || ("Cancelled".equals(dto.getStatusDesc()) || "Canceled".equals(dto.getStatusDesc()))) {
 
                     approveBtn.setEnabled(false);
                     rejectBtn.setEnabled(false);
@@ -399,15 +399,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                     deleteBtn.setEnabled(true);
                     cancelBtn.setEnabled(true);
                     submitBtn.setEnabled(true);
-                } else if ("Cancelled".equals(dto.getStatusDesc()) || "Canceled".equals(dto.getStatusDesc())) {
-
-                    approveBtn.setEnabled(false);
-                    rejectBtn.setEnabled(false);
-                    deleteBtn.setEnabled(false);
-                    cancelBtn.setEnabled(false);
-                    submitBtn.setEnabled(false);
-                }
-
+                } 
             } else {
                 approveBtn.setEnabled(false);
                 rejectBtn.setEnabled(false);
