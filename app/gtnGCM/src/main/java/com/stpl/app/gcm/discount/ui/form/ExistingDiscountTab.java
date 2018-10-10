@@ -948,57 +948,57 @@ public class ExistingDiscountTab extends CustomComponent {
         return (ContractsDetailsDto) targetItem.getBean();
         }
 
-    private void setTreeNode(final ContractsDetailsDto bean, final VerticalDropLocation location, final Object targetItemId) {
+    private void setTreeNode(final ContractsDetailsDto beanTree, final VerticalDropLocation locationTree, final Object targetItemIdTree) {
 
-        LOGGER.debug("Entering setTreeNode method");
+        LOGGER.debug("Entering setTreeNode setTreeNode");
 
-        if (location == VerticalDropLocation.MIDDLE) {
+        if (locationTree == VerticalDropLocation.MIDDLE) {
 
-            final String dommyId = bean.getCategory() + "-" + bean.getContractId() + "-" + bean.getContractNo() + "-" + bean.getContractName();
-            final Collection list = dashBoardTreeContainer.rootItemIds();
-            boolean flag = false;
-            for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-                final Object idValue = iterator.next();
-                final ContractsDetailsDto availableContract = getBeanFromID(idValue);
-                final String treeCaption = availableContract.getCategory() + "-" + availableContract.getId() + "-" + availableContract.getContractNo() + "-" + availableContract.getContractName();
+            final String dommyId = beanTree.getCategory() + "-" + beanTree.getContractId() + "-" + beanTree.getContractNo() + "-" + beanTree.getContractName();
+            final Collection listTree = dashBoardTreeContainer.rootItemIds();
+            boolean flagTree = false;
+            for (final Iterator iteratorNode = listTree.iterator(); iteratorNode.hasNext();) {
+                final Object idValue = iteratorNode.next();
+                final ContractsDetailsDto availableContractNode = getBeanFromID(idValue);
+                final String treeCaption = availableContractNode.getCategory() + "-" + availableContractNode.getId() + "-" + availableContractNode.getContractNo() + "-" + availableContractNode.getContractName();
                 if (treeCaption.equals(dommyId)) {
-                    flag = true;
+                    flagTree = true;
                 }
             }
-            if (flag) {
+            if (flagTree) {
                 AbstractNotificationUtils.getWarningNotification("Duplicate Contract ID", "Selected Contract ID is already exist");
             } else {
-                if (bean.getCategory().equals("CFP")) {
-                    bean.setLevel(NumericConstants.TWO);
-                    bean.setParent1(getBeanFromID(dashboardTreeTable.getValue()));
-                } else if (bean.getCategory().equals("IFP")) {
-                    bean.setLevel(NumericConstants.THREE);
-                    bean.setParent1(getBeanFromID(dashboardTreeTable.getValue()).getParent1());
-                    bean.setParent2(getBeanFromID(dashboardTreeTable.getValue()));
-                } else if (bean.getCategory().equals("PS")) {
-                    bean.setLevel(NumericConstants.FOUR);
-                    bean.setParent1(getBeanFromID(dashboardTreeTable.getValue()).getParent1());
-                    bean.setParent2(getBeanFromID(dashboardTreeTable.getValue()).getParent2());
-                    bean.setParent3(getBeanFromID(dashboardTreeTable.getValue()));
-                } else if (bean.getCategory().equals("RS")) {
-                    bean.setLevel(NumericConstants.FIVE);
-                    bean.setParent1(getBeanFromID(dashboardTreeTable.getValue()).getParent1());
-                    bean.setParent2(getBeanFromID(dashboardTreeTable.getValue()).getParent2());
-                    bean.setParent2(getBeanFromID(dashboardTreeTable.getValue()).getParent3());
-                    bean.setParent4(getBeanFromID(dashboardTreeTable.getValue()));
+                if (beanTree.getCategory().equals("CFP")) {
+                    beanTree.setLevel(NumericConstants.TWO);
+                    beanTree.setParent1(getBeanFromID(dashboardTreeTable.getValue()));
+                } else if (beanTree.getCategory().equals("IFP")) {
+                    beanTree.setLevel(NumericConstants.THREE);
+                    beanTree.setParent1(getBeanFromID(dashboardTreeTable.getValue()).getParent1());
+                    beanTree.setParent2(getBeanFromID(dashboardTreeTable.getValue()));
+                } else if (beanTree.getCategory().equals("PS")) {
+                    beanTree.setLevel(NumericConstants.FOUR);
+                    beanTree.setParent1(getBeanFromID(dashboardTreeTable.getValue()).getParent1());
+                    beanTree.setParent2(getBeanFromID(dashboardTreeTable.getValue()).getParent2());
+                    beanTree.setParent3(getBeanFromID(dashboardTreeTable.getValue()));
+                } else if (beanTree.getCategory().equals("RS")) {
+                    beanTree.setLevel(NumericConstants.FIVE);
+                    beanTree.setParent1(getBeanFromID(dashboardTreeTable.getValue()).getParent1());
+                    beanTree.setParent2(getBeanFromID(dashboardTreeTable.getValue()).getParent2());
+                    beanTree.setParent2(getBeanFromID(dashboardTreeTable.getValue()).getParent3());
+                    beanTree.setParent4(getBeanFromID(dashboardTreeTable.getValue()));
                 }
-                dashBoardTreeContainer.addBean(bean);
-                if (bean.getCategory().equals("RS")) {
-                    dashBoardTreeContainer.setChildrenAllowed(bean, false);
+                dashBoardTreeContainer.addBean(beanTree);
+                if (beanTree.getCategory().equals("RS")) {
+                    dashBoardTreeContainer.setChildrenAllowed(beanTree, false);
                 } else {
-                    dashBoardTreeContainer.setChildrenAllowed(bean, true);
+                    dashBoardTreeContainer.setChildrenAllowed(beanTree, true);
                 }
-                dashBoardTreeContainer.setParent(bean, targetItemId);
-                dashboardTreeTable.setCollapsed(bean, false);
+                dashBoardTreeContainer.setParent(beanTree, targetItemIdTree);
+                dashboardTreeTable.setCollapsed(beanTree, false);
             }
 
         } // Drop at the top of a subtree -> make it previous
-        else if (location == VerticalDropLocation.TOP || location == VerticalDropLocation.BOTTOM) {
+        else if (locationTree == VerticalDropLocation.TOP || locationTree == VerticalDropLocation.BOTTOM) {
             AbstractNotificationUtils.getWarningNotification("Drop Criteria", "Drop the child node on the parent node");
             return;
         } // Drop below another item -> make it next

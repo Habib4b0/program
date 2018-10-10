@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
@@ -37,7 +38,6 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
-import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
@@ -144,20 +144,11 @@ public class GtnReportingVariableBreakdownGridLoadAction
 			finalArrayListforGrid = comparisonLookupBeanListFromDisplaySelectionTab;
 		}
 
-		if (comparisonLookupBeanList == null) {
-			comparisonLookupBeanList = new ArrayList<>();
-		}
+		comparisonLookupBeanList = Optional.ofNullable(comparisonLookupBeanList).orElseGet(ArrayList::new);
+
 		List<String> projectionNameListFromCustomData = new ArrayList<>(comparisonLookupBeanList.size() + 2);
-		projectionNameListFromCustomData.clear();
-		projectionNameListFromCustomData.add(EX_FACTORY_SALES);
 
-		if (!"3".equals(reportdata)) {
-			projectionNameListFromCustomData.add("Latest Approved");
-		}
-
-		for (int count = 0; count < finalArrayListforGrid.size(); count++) {
-			projectionNameListFromCustomData.add(finalArrayListforGrid.get(count).getProjectionName());
-		}
+		loadProjectionNameInDdlb(projectionNameListFromCustomData, reportdata, finalArrayListforGrid);
 
 		int comparisonLookupBeanSize = projectionNameListFromCustomData.size();
 
@@ -168,9 +159,8 @@ public class GtnReportingVariableBreakdownGridLoadAction
 		Grid<GtnWsRecordBean> grid = pagedGrid.getGrid();
 
 		List projectionList = new ArrayList<>(projectionNameListFromCustomData.size());
-		for (int start = 0; start < projectionNameListFromCustomData.size(); start++) {
-			projectionList.add(projectionNameListFromCustomData.get(start));
-		}
+		loadProjectionList(projectionNameListFromCustomData, projectionList);
+
 		GtnUIFrameworkComboBoxConfig fileOrProjectionComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId).getComponentConfig()
 				.getGtnComboboxConfig();
@@ -203,6 +193,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
 			variableBreakDownHeaderLoadActionFrequency.addActionParameter(viewIdCheck);
 			pagedGrid.getTableConfig().setGtnUIFrameWorkActionConfig(variableBreakDownHeaderLoadActionFrequency);
 		}
+
 		clearGrid(grid);
 
 		GtnUIFrameworkPagedTableConfig tableConfig = setHeaderFromWs(pagedGrid, componentId, grid, parentComponentId,
@@ -247,6 +238,26 @@ public class GtnReportingVariableBreakdownGridLoadAction
 		}
 
 		setReportProfileVariableBreakdown(gridComponent, grid, componentId);
+	}
+
+	private void loadProjectionList(List<String> projectionNameListFromCustomData, List projectionList) {
+		for (int start = 0; start < projectionNameListFromCustomData.size(); start++) {
+			projectionList.add(projectionNameListFromCustomData.get(start));
+		}
+	}
+
+	private void loadProjectionNameInDdlb(List<String> projectionNameListFromCustomData, String reportdata,
+			List<GtnReportComparisonProjectionBean> finalArrayListforGrid) {
+		projectionNameListFromCustomData.clear();
+		projectionNameListFromCustomData.add(EX_FACTORY_SALES);
+
+		if (!"3".equals(reportdata)) {
+			projectionNameListFromCustomData.add("Latest Approved");
+		}
+
+		for (int count = 0; count < finalArrayListforGrid.size(); count++) {
+			projectionNameListFromCustomData.add(finalArrayListforGrid.get(count).getProjectionName());
+		}
 	}
 
 	private void setReportProfileVariableBreakdown(GtnUIFrameworkComponentData gridComponent,
@@ -495,28 +506,24 @@ public class GtnReportingVariableBreakdownGridLoadAction
 				vaadinCombobox.setReadOnly(true);
 			}
 
-			vaadinCombobox.addValueChangeListener(new HasValue.ValueChangeListener() {
-				@Override
-				public void valueChange(HasValue.ValueChangeEvent event) {
-					int selectedValue = (int) event.getValue();
-					String columnId = tableConfig.getColumnHeaders().get(variableBreakdownLookupBean.getCol());
-					Label projectionNameForWs = (Label) grid.getHeaderRow(variableBreakdownLookupBean.getRowCount())
-							.getCell(GtnFrameworkReportStringConstants.VB_GRID_LOAD_HEADER_PROJECTION_NAMES)
-							.getComponent();
-					int masterSid = getMasterSid(projectionNameForWs,
-							variableBreakdownLookupBean.getComparisonLookupBeanList());
+			vaadinCombobox.addValueChangeListener(event -> {
+				int selectedValue = (int) event.getValue();
+				String columnId = tableConfig.getColumnHeaders().get(variableBreakdownLookupBean.getCol());
+				Label projectionNameForWs = (Label) grid.getHeaderRow(variableBreakdownLookupBean.getRowCount())
+						.getCell(GtnFrameworkReportStringConstants.VB_GRID_LOAD_HEADER_PROJECTION_NAMES).getComponent();
+				int masterSid = getMasterSid(projectionNameForWs,
+						variableBreakdownLookupBean.getComparisonLookupBeanList());
 
-					Object[] obj = new Object[7];
-					obj[0] = selectedValue;
-					obj[1] = columnId;
-					obj[2] = masterSid;
-					obj[3] = variableBreakdownLookupBean.getProperty();
-					obj[4] = projectionNameForWs.getValue();
-					obj[5] = variableBreakdownLookupBean.getRowCount();
-					obj[6] = vaadinCombobox.getId();
-					variableBreakdownLookupBean.getVariableBreakdownSaveActionList().add(obj);
-					gridComponent.setCustomData(variableBreakdownLookupBean.getVariableBreakdownSaveActionList());
-				}
+				Object[] obj = new Object[7];
+				obj[0] = selectedValue;
+				obj[1] = columnId;
+				obj[2] = masterSid;
+				obj[3] = variableBreakdownLookupBean.getProperty();
+				obj[4] = projectionNameForWs.getValue();
+				obj[5] = variableBreakdownLookupBean.getRowCount();
+				obj[6] = vaadinCombobox.getId();
+				variableBreakdownLookupBean.getVariableBreakdownSaveActionList().add(obj);
+				gridComponent.setCustomData(variableBreakdownLookupBean.getVariableBreakdownSaveActionList());
 			});
 
 			return vaadinCombobox;

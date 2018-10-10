@@ -42,7 +42,7 @@ public class GtnUIFrameworkTableSearchCompletionAction implements GtnUIFrameWork
 			String tableId = (String) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
 
 			Collection<?> items = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableId, componentId)
-					.getItemsFromTable();
+					.getItemsFromTable(); 
 			String msg = "";
 			if (!items.isEmpty()) {
 				msg = "Search Completed";
@@ -55,7 +55,7 @@ public class GtnUIFrameworkTableSearchCompletionAction implements GtnUIFrameWork
                                 }, ButtonId.OK);
 				throw new GtnFrameworkSkipActionException("Skip Action");
 			}
-			notificationIfTableNotEmpty(items, msg);
+			notificationIfTableNotEmpty(items, msg);  
 		} catch (Exception e) {
 			logger.error("Error in GtnUIFrameWorkTableSearchCompletionAction ");
 		}

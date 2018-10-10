@@ -53,7 +53,7 @@ public class GtnFrameworkFrequencyValueChangeAction implements GtnUIFrameWorkAct
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 
-		return null;
+		return this;
 	}
 
 }

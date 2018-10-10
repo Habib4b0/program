@@ -523,7 +523,7 @@ public class CommonUtils {
         List<HelperDTO> helperList = new ArrayList<>();
         helperList.add(defaultValue);
         BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
-        List<Object[]> resultList = QueryReader.getAppData(Collections.EMPTY_LIST, "loadComboBox_Where_Desc_Not_Ends_with_LY", null);
+        List<Object[]> resultList = QueryReader.getAppData(Collections.emptyList(), "loadComboBox_Where_Desc_Not_Ends_with_LY", null);
         if (resultList != null && !resultList.isEmpty()) {
             for (Object[] objects : resultList) {
                 HelperDTO helperDto = new HelperDTO();

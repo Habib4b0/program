@@ -74,11 +74,11 @@ public class GtnFrameworkCfpAddAction
 	}
 
 	public GtnUIFrameworkWebserviceResponse callWebService(GtnUIFrameworkWebserviceRequest gtnRequest) {
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE_USER_NAME,
 				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		return response;
+		
 	}
 
 	@Override

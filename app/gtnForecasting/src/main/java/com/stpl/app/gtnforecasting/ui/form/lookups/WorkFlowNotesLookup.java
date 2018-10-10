@@ -100,7 +100,7 @@ public class WorkFlowNotesLookup extends Window {
     private final List<NotesDTO> removeDetailsList = new ArrayList<>();
     private final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
     private NotesDTO tableBean = new NotesDTO();
-    private static String SUBMIT_FLAG="";
+    private static volatile String SUBMIT_FLAG="";
 
     public WorkFlowNotesLookup() {
         init();

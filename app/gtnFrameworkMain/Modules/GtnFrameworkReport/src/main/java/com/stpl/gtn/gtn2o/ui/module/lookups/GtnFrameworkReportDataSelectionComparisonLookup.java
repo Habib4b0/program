@@ -31,6 +31,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportComparisonClearSortOrderAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportDashboardComparisonResultsSearchAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -932,6 +933,11 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		gridReloadAction.addActionParameter(GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_RESULTS_GRID);
 		resetActionConfigList.add(gridReloadAction);
 		reportDSResetButton.addGtnUIFrameWorkActionConfig(reportDSLowerConfirmResetAction);
+		GtnUIFrameWorkActionConfig clrSortOrder=new GtnUIFrameWorkActionConfig();
+		clrSortOrder.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		clrSortOrder.addActionParameter(GtnReportComparisonClearSortOrderAction.class.getName());
+		clrSortOrder.addActionParameter(GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_SEARCH_RESULTS_GRID);
+		resetActionConfigList.add(clrSortOrder);
 		componentList.add(reportDSResetButton);
 	}
 
