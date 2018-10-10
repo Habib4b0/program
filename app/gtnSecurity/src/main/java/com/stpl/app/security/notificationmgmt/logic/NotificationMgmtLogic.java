@@ -6,7 +6,6 @@ package com.stpl.app.security.notificationmgmt.logic;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.security.dao.NotificationMgmtLogicDAO;

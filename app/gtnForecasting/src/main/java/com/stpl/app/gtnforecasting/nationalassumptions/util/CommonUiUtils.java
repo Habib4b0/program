@@ -313,7 +313,7 @@ public class CommonUiUtils {
         boolean isCelgene=System.getProperty("Client_Name").equalsIgnoreCase("Celgene"); 
         
         if (pivotView.contains(PRICE_TYPE.getConstant())) {// pivot view
-            List<Object> dmap = new ArrayList<>();
+            List<Object> dmap = null;
             List priceTypeColumns = projSelDTO.getPriceTypeList();
             
             int size = priceTypeColumns.size();
@@ -415,7 +415,7 @@ public class CommonUiUtils {
             boolean current = false;
             boolean proj = false;
             boolean projectionCol = false;
-            List<Object> dmap = new ArrayList<>();
+            List<Object> dmap = null;
             if (projectionOrder == 1) {
               
                 int startPr = startPeriod;

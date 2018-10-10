@@ -700,11 +700,7 @@ public class InventoryCustomerGroupLookup extends Window {
              * @param buttonId The buttonId of the pressed button.
              */
             public void yesMethod() {
-                if (viewDTO.getViewSid().equals("null") || viewDTO.getViewSid().isEmpty()) {
-                    resetFields();
-                } else {
-                    loadInitialArc(viewDTO.getViewSid(), viewCategory);
-                }
+                resetFields();
             }
         }.getConfirmationMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageId006());
     }
@@ -746,9 +742,14 @@ public class InventoryCustomerGroupLookup extends Window {
         if (viewLookupDTO != null && !viewLookupDTO.isEmpty()) {
             lookupLoadLogic(viewLookupDTO.get(0));
             this.viewCategory = viewCategory;
+            
         }
     }
 
+    public String getViewCategory(){
+        return viewCategory;
+    }
+    
     public void resetFields() {
         customerGroupName.setValue(StringUtils.EMPTY);
         customerGroupNo.setValue(StringUtils.EMPTY);

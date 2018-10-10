@@ -310,6 +310,7 @@ public class GtnFrameworkPeriodConfigurationValidation
         }
 
     }
+    
 
     public void alertError(String message, String componentId) throws GtnFrameworkGeneralException {
         final GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
@@ -356,8 +357,8 @@ public class GtnFrameworkPeriodConfigurationValidation
 
         Boolean fromDateVal = tempFromDate.compareTo(cal) > 0;
         Boolean defaultFromDateVal = tempDefaultFromDate.compareTo(cal) > 0;
-        Boolean toDateVal = true;
-        Boolean defaultToDateVal = true;
+        boolean toDateVal = true;
+        boolean defaultToDateVal = true;
         String viewMode = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(GtnFrameworkPeriodConfigurationContants.PERIOD_VIEW, componentId)
                 .getStringFromField();

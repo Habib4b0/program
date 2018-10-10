@@ -343,18 +343,22 @@ public class InventoryCustomerLookup extends Window {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 public void yesMethod() {
-                    ExclusionDetailsLogic arLogic = new ExclusionDetailsLogic();
-                    arLogic.deleteViewLogic(viewDTO.getViewSid());
-                    loadResultTable();
-                    publicView.setValue(StringUtils.EMPTY);
-                    privateView.setValue(StringUtils.EMPTY);
-
+                    deleteViewBtnYesMethod();
                 }
             }.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getDeleteMessage_exclusion());
 
         } catch (Exception ex) {
             LOGGER.error("Error in deleteButtonClick :", ex);
         }
+    }
+
+    private void deleteViewBtnYesMethod() {
+        ExclusionDetailsLogic arLogic = new ExclusionDetailsLogic();
+        arLogic.deleteViewLogic(viewDTO.getViewSid());
+        loadResultTable();
+        publicView.setValue(StringUtils.EMPTY);
+        privateView.setValue(StringUtils.EMPTY);
+        deleteViewBtn.setEnabled(false);
     }
 
     public List<String> getCustomerGroupList() {

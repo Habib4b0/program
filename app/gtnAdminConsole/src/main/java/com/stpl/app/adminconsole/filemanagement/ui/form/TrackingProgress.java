@@ -89,7 +89,6 @@ public class TrackingProgress extends Window {
     @UiField("businessUnit")
     private TextField businessUnit;
 
-    private CommonUtil commonUtil = new CommonUtil();
     /**
      * The selected results excel export.
      */
@@ -153,7 +152,7 @@ public class TrackingProgress extends Window {
 
             fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, CommonUtil.FILE_MANAGEMENT+","+CommonUtil.PROGRAM_TRACKING_LIST_VIEW);
 
-            List<Object> resultList = commonUtil.getFieldsForSecurity(CommonUtil.FILE_MANAGEMENT, CommonUtil.PROGRAM_TRACKING_LIST_VIEW);
+            List<Object> resultList = CommonUtil.getFieldsForSecurity(CommonUtil.FILE_MANAGEMENT, CommonUtil.PROGRAM_TRACKING_LIST_VIEW);
             Object[] objColumn = summaryColumn;
             TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, "Add");
 
@@ -190,7 +189,7 @@ public class TrackingProgress extends Window {
 
             fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, CommonUtil.FILE_MANAGEMENT+","+CommonUtil.PROGRAM_TRACKING_LIST_VIEW);
 
-            List<Object> resultList = commonUtil.getFieldsForSecurity(CommonUtil.FILE_MANAGEMENT, CommonUtil.PROGRAM_TRACKING_LIST_VIEW);
+            List<Object> resultList = CommonUtil.getFieldsForSecurity(CommonUtil.FILE_MANAGEMENT, CommonUtil.PROGRAM_TRACKING_LIST_VIEW);
             Object[] objColumn = detailsColumn;
             TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, "Add");
 

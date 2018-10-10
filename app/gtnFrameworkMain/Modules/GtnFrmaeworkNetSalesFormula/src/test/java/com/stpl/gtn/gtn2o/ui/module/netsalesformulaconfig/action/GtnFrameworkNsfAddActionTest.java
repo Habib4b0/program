@@ -126,7 +126,7 @@ public class GtnFrameworkNsfAddActionTest {
 
 		gtnFrameworkNsfAddAction.doAction(componentId, gtnUIFrameWorkActionConfig);
 	}
-
+	
 	/**
 	 * Run the GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request) method test.
 	 *

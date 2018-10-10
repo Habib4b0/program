@@ -2798,32 +2798,51 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public int getCalculationBased() {
 
         boolean tempSalesvalue = false;
-        boolean tempUnitValue =  false;
+        boolean tempUnitValue = false;
 
-           for (Map.Entry<Object, String> key : radioMap.entrySet()) {
+        for (Map.Entry<Object, String> key : radioMap.entrySet()) {
             String value = key.getValue();
             if (checkBoxMap.get(key.getKey())) {
-                if ((value != null) && (value.contains(Constant.ACTUALSALES))) {
-                    tempSalesvalue = true;
-                }
-
-                if (value != null && value.contains(Constant.ACTUALUNITS)) {
-                    tempUnitValue = true;
-                }
+                setBaselineTypeValue(value);
+                tempSalesvalue = getTempSalesValue(value);
+                tempUnitValue = getTempUnitsValue(value);
             }
         }
 
         if (tempSalesvalue && tempUnitValue) {
             return -1;
-
         } else if (!tempSalesvalue && tempUnitValue) {
-
             return 1;
         }
-
         return 0;
     }
 
+    private boolean getTempUnitsValue(String value) {
+
+        boolean unitValue = false;
+        if (value != null && ((value.contains(Constant.ACTUALUNITS))
+                || (value.contains(Constant.PROJECTED_UNITS1)))) {
+            unitValue = true;
+        }
+        return unitValue;
+    }
+
+    private boolean getTempSalesValue(String value) {
+        boolean salesValue = false;
+        if ((value != null) && ((value.contains(Constant.ACTUALSALES))
+                || (value.contains(Constant.PROJECTED_SALES1)))) {
+            salesValue = true;
+        }
+        return salesValue;
+    }
+
+    private void setBaselineTypeValue(String value) {
+        if ((value != null) && (value.contains(Constant.ACTUAL))) {
+            projectionDTO.setBaselineType(true);
+        } else {
+            projectionDTO.setBaselineType(false);
+        }
+    }
     /**
      * Configures the frequency DDLB in the Sales Projection Selection.
      *

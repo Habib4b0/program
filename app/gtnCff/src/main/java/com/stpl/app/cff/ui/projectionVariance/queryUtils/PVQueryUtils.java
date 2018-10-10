@@ -228,15 +228,11 @@ public class PVQueryUtils {
                 selectClause += "C." + projectedSales + " AS C_PROJECTION_AMNT,";
                 selectClause += "C." + projectedReturns + " AS C_RETURNS_AMNT,";
                 selectClause += "C." + projectionPPA + " AS C_PPA_AMNT";
-            } else if (projSelDTO.getDiscountGroupName().contains(StringConstantsUtil.VARIANCE_LABEL)) {
-                selectClause += "0  AS PROJECTION_AMNT,";
-                selectClause += "0  AS RETURNS_AMN,";
-                selectClause += "0  AS PPA_AMN";
             } else {
                 selectClause += "0  AS PROJECTION_AMNT,";
                 selectClause += "0  AS RETURNS_AMN,";
                 selectClause += "0  AS PPA_AMN";
-            }
+            } 
         } else if (projSelDTO.getDiscountGroupName().contains("Discount %")) {
             projSelDTO.setSales("RATE");
             projectedSales = "PROJECTION_RATE";
@@ -246,15 +242,11 @@ public class PVQueryUtils {
                 selectClause += "C." + projectedSales + " AS C_PROJECTION_RATE,";
                 selectClause += "C." + projectedReturns + " AS C_RETURNS_RATE,";
                 selectClause += "C." + projectionPPA + " AS C_PPA_RATE";
-            } else if (projSelDTO.getDiscountGroupName().contains(StringConstantsUtil.VARIANCE_LABEL)) {
+            } else  {
                 selectClause += "0  AS PROJECTION_RATE,";
                 selectClause += "0  AS RETURNS_RATE,";
                 selectClause += "0  AS PPA_RATE";
-            } else {
-                selectClause += "0  AS PROJECTION_RATE,";
-                selectClause += "0  AS RETURNS_RATE,";
-                selectClause += "0  AS PPA_RATE";
-            }
+            } 
         } else {
             projectedSales = "RPU";
             projectedReturns = "RETURNS_RPU";
@@ -263,11 +255,7 @@ public class PVQueryUtils {
                 selectClause += "C." + projectedSales + " AS C_RPU,";
                 selectClause += "C." + projectedReturns + " AS C_RETURNS,";
                 selectClause += "C." + projectionPPA + " AS C_PPA";
-            } else if (projSelDTO.getDiscountGroupName().contains(StringConstantsUtil.VARIANCE_LABEL)) {
-                selectClause += "0  AS C_RPU,";
-                selectClause += "0  AS C_RETURNS,";
-                selectClause += "0  AS C_PPA";
-            } else {
+            }  else {
                 selectClause += "0  AS C_RPU,";
                 selectClause += "0  AS C_RETURNS,";
                 selectClause += "0  AS C_PPA";
@@ -375,6 +363,7 @@ public class PVQueryUtils {
                 + " " + projName + ".RPU AS " + projName + "RPU, "
                 + " " + projName + ".COGS_PROJECTED AS " + projName + "COGC, "
                 + " " + projName + ".NET_PROFIT_PROJECTED AS " + projName + "NET_PROFIT ";
+        LOGGER.debug("selectClause ={}",selectClause);
         return selectClause;
     }
 
@@ -639,6 +628,7 @@ public class PVQueryUtils {
 
     public String getCCPWhereConditionQuery(String projectionDetails, String ccp) {
         String ccpWhereCond = StringConstantsUtil.SMALL_AND + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+        LOGGER.debug("ccpWhereCond ={}",ccpWhereCond);
         return ccpWhereCond;
     }
 
@@ -1277,6 +1267,7 @@ public class PVQueryUtils {
                 + "SALEPPA.PROJECTION_UNITS as CONTRACT_PROJECTION_UNITS,"
                 + " CASE WHEN SALEPPA.SALES_PROJECTION_SALES = 0 THEN 0 ELSE ((Isnull(TODIS.PROJECTION_SALES, 0)) /SALEPPA.SALES_PROJECTION_SALES) * 100 END  AS TOTAL_PROJECTION_RATE, "
                 + "(Isnull(TODIS.PROJECTION_SALES, 0)) as TOTAL_PROJECTION_DOLAR ";
+        LOGGER.debug("selectClause ={}",selectClause);
         return selectClause;
     }
 
@@ -1462,6 +1453,7 @@ public class PVQueryUtils {
                 + "  ) COGS\n"
                 + "  ON SALEPPA.YEARS = COGS.YEAR\n"
                 + "  AND SALEPPA.PERIODS = COGS.QUARTER";
+        LOGGER.debug("query ={}",query);
         return query;
     }
 }

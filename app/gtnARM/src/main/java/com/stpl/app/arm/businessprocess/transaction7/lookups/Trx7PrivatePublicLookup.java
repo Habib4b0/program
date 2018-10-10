@@ -21,6 +21,7 @@ import com.stpl.app.arm.adjustmentrateconfiguration.dto.ViewLookupDTO;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.logic.tablelogic.PublicPrivateLookupTableLogic;
 import com.stpl.app.arm.dataselection.dto.ViewFilterGenerator;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
@@ -188,7 +189,7 @@ public class Trx7PrivatePublicLookup extends Window {
     @UiHandler("resetBtn")
     public void resetButtonClick(Button.ClickEvent event) {
         try {
-            tr7PulblicNotifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_views());
+            tr7PulblicNotifier.getOkCancelMessage(CommonConstant.CONFIRM_RESET, ARMMessages.getResetMessageID007());
         } catch (Exception e) {
             LOGGER.error("Error in resetButtonClick :", e);
         }
@@ -203,6 +204,7 @@ public class Trx7PrivatePublicLookup extends Window {
                 viewLookUpDTO.setCheckFlag(Boolean.TRUE);
                 setSelectFlag(!selectBtnFlag);
                 setDtoValue(viewLookUpDTO);
+                resultsTable.setValue(null);
                 this.close();
             } else {
                 setSelectFlag(selectBtnFlag);
@@ -254,6 +256,7 @@ public class Trx7PrivatePublicLookup extends Window {
         this.userId = userId;
         this.detailsName = detailsName;
         this.viewType = viewName;
+        this.viewNameEpl.focus();
     }
 
     public boolean isSelectFlag() {

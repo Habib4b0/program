@@ -60,6 +60,8 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+            try
+            {
 
 		List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) params.get(1);
@@ -95,8 +97,8 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
                 updateCustomViewInDataSelection((boolean) params.get(17), dataSelectionBean, componentId);
                 updateFrequencyInDataSelection((boolean) params.get(18), dataSelectionBean, componentId);
                 updateVariablesInDataSelection((boolean) params.get(19), dataSelectionBean, componentId);
-                updateComparisonProjectionInDataSelection((boolean) params.get(24), dataSelectionBean,
-                        (List<GtnReportComparisonProjectionBean>) params.get(25), componentId);
+                loadComparisonInReportingDashboard(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_COMPARISON_LOOKUP,
+				componentId, dataSelectionBean);
                 addTabInDataAssumptions(dataSelectionBean, componentId);
             } else {
 
@@ -105,6 +107,10 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
             }
 
         }
+            }
+            catch(Exception exception){
+                gtnLogger.info("Exception Occured while Updating Bean"+exception);
+            }
 
 	}
          private boolean isForward(int indexValue) {
@@ -671,4 +677,4 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 					.setV8PopupFieldValue(displayValue);
 		}
 	}
-}
+        }

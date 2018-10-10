@@ -505,13 +505,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return null;
     }
 
-    public static Leveldto getLevel(List<Leveldto> hierarchy) {
-        for (Leveldto dto : hierarchy) {
-            return dto;
-        }
-
-        return null;
-    }
 
     public static String getViewTableName(String hierarchyIndicator) {
         String viewtable = "";
@@ -1287,27 +1280,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 + " and HC.RELATIONSHIP_LEVEL_SID= RLD.RELATIONSHIP_LEVEL_SID AND RLD.LEVEL_NO >=" + levelNo + " AND RLD.RELATIONSHIP_BUILDER_SID='" + rbID + "';";
         return customSql;
     }
-
-    public static String getIndicator(int levelNo, int viewName) {
-        List<CustomViewDetails> list = null;
-        String indicator = "";
-        DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
-        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CUSTOM_VIEW_MASTER_SID, viewName));
-        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.LEVEL_NO, levelNo));
-        try {
-            list = commonDao.getCustomViewDetailsList(query);
-        } catch (SystemException ex) {
-            LOGGER.error(ex.getMessage());
-        }
-        if (list != null && !list.isEmpty()) {
-            for (CustomViewDetails customViewDetails : list) {
-                indicator = customViewDetails.getHierarchyIndicator();
-                break;
-            }
-        }
-        return indicator;
-    }
-
     public static int getIndicatorCount(int viewName) {
         List<CustomViewDetails> list = new ArrayList<>();
         DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
@@ -1369,6 +1341,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 + "  ) \n"
                 + " INSERT INTO @CCP\n"
                 + "            (RELATIONSHIP_LEVEL_SID,PROJECTION_DETAILS_SID,CCP_DETAILS_SID,HIERARCHY_NO) \n";
+        LOGGER.debug("tableQuery = {}",tableQuery);
         return tableQuery;
     }
 
@@ -1904,7 +1877,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 + "INSERT INTO @ITEM_ID\n"
                 + "SELECT DISTINCT ITEM_MASTER_SID\n"
                 + "FROM   #TEMP_CCPD A\n";
-
+        LOGGER.debug("query ={}",query);
         return query;
     }
 
@@ -2948,7 +2921,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             for (Iterator<CustomMenuBar.CustomMenuItem> iteratorData = itemData.iterator(); iteratorData.hasNext();) {
                 CustomMenuBar.CustomMenuItem customMenuItem = iteratorData.next();
                 if (customMenuItem.isChecked() && !String.valueOf(customMenuItem.getMenuItem().getWindow()).equals("0")) {
-                    valueList.add(customMenuItem.getMenuItem().getWindow());
+                    valueList.add(String.valueOf(customMenuItem.getMenuItem().getWindow()));
                     captionDataList.add(customMenuItem.getMenuItem().getCaption());
                 }
             }

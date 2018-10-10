@@ -1008,18 +1008,13 @@ public class ExistingDiscountTab extends CustomComponent {
 
     private void loadTableHeaders() {
         String compType = String.valueOf(componentTypeDdlb.getValue());
-        if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString()))
+        if ((compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString()))|| (compType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())))
         {
             componentResultsTable.setVisibleColumns(Constants.getInstance().adCfpIfpResultsColumns);
             componentResultsTable.setColumnHeaders(Constants.getInstance().adCfpIfpResultsHeaders);
             componentResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
-        } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
-            componentResultsTable.setVisibleColumns(Constants.getInstance().adCfpIfpResultsColumns);
-            componentResultsTable.setColumnHeaders(Constants.getInstance().adCfpIfpResultsHeaders);
-            componentResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
-            componentResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
-        } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
+        }  else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
             componentResultsTable.setVisibleColumns(Constants.getInstance().adPsResultsColumns);
             componentResultsTable.setColumnHeaders(Constants.getInstance().adPsResultsHeaders);
             componentResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
