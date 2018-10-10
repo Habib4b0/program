@@ -549,9 +549,9 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodFieldValueChangeAction.class.getName());
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.PERIOD_FROM);
-		customActionPeriodFrom.addActionParameter(true);
+		customActionPeriodFrom.addActionParameter(Boolean.TRUE);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DATE_FROM);
-		customActionPeriodFrom.addActionParameter(true);
+		customActionPeriodFrom.addActionParameter(Boolean.TRUE);
 		actionConfigList.add(customActionPeriodFrom);
 		GtnUIFrameworkDateFieldConfig datefieldConfig = componentConfigProvider.getDateFieldConfig(true, true,
 				actionConfigList);
@@ -583,9 +583,9 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodFieldValueChangeAction.class.getName());
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DEFAULT_PERIOD_FROM);
-		customActionPeriodFrom.addActionParameter(true);
+		customActionPeriodFrom.addActionParameter(Boolean.TRUE);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DEFAULT_DATE_FROM);
-		customActionPeriodFrom.addActionParameter(true);
+		customActionPeriodFrom.addActionParameter(Boolean.TRUE);
 		actionConfigList.add(customActionPeriodFrom);
 		GtnUIFrameworkDateFieldConfig datefieldConfig = componentConfigProvider.getDateFieldConfig(true, true,
 				actionConfigList);
@@ -619,9 +619,9 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodFieldValueChangeAction.class.getName());
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.PERIOD_FROM_TEXT_BOX);
-		customActionPeriodFrom.addActionParameter(true);
+		customActionPeriodFrom.addActionParameter(Boolean.TRUE);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DATE_FROM);
-		customActionPeriodFrom.addActionParameter(false);
+		customActionPeriodFrom.addActionParameter(Boolean.FALSE);
 		actionConfigList.add(customActionPeriodFrom);
 		textboxConfig.setRequired(true);
 		textboxConfig.setValueChangeActionConfigList(actionConfigList);
@@ -651,9 +651,9 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodFieldValueChangeAction.class.getName());
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DEFAULT_PERIOD_FROM_TEXT_BOX);
-		customActionPeriodFrom.addActionParameter(true);
+		customActionPeriodFrom.addActionParameter(Boolean.TRUE);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DEFAULT_DATE_FROM);
-		customActionPeriodFrom.addActionParameter(false);
+		customActionPeriodFrom.addActionParameter(Boolean.FALSE);
 		actionConfigList.add(customActionPeriodFrom);
 		textboxConfig.setValueChangeActionConfigList(actionConfigList);
 		textboxConfig.setRequired(true);
@@ -837,9 +837,9 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodFieldValueChangeAction.class.getName());
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.PERIOD_TO);
-		customActionPeriodFrom.addActionParameter(false);
+		customActionPeriodFrom.addActionParameter(Boolean.FALSE);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DATE_TO);
-		customActionPeriodFrom.addActionParameter(true);
+		customActionPeriodFrom.addActionParameter(Boolean.TRUE);
 
 		actionConfigList.add(customActionPeriodFrom);
 		GtnUIFrameworkDateFieldConfig datefieldConfig = componentConfigProvider.getDateFieldConfig(false, true,
@@ -872,9 +872,9 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodFieldValueChangeAction.class.getName());
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DEFAULT_PERIOD_TO);
-		customActionPeriodFrom.addActionParameter(false);
+		customActionPeriodFrom.addActionParameter(Boolean.FALSE);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DEFAULT_DATE_TO);
-		customActionPeriodFrom.addActionParameter(true);
+		customActionPeriodFrom.addActionParameter(Boolean.TRUE);
 
 		actionConfigList.add(customActionPeriodFrom);
 		GtnUIFrameworkDateFieldConfig defaultDatefieldConfig = componentConfigProvider.getDateFieldConfig(false, true,
@@ -907,9 +907,9 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodFieldValueChangeAction.class.getName());
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.PERIOD_TO_TEXT_BOX);
-		customActionPeriodFrom.addActionParameter(false);
+		customActionPeriodFrom.addActionParameter(Boolean.FALSE);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DATE_TO);
-		customActionPeriodFrom.addActionParameter(false);
+		customActionPeriodFrom.addActionParameter(Boolean.FALSE);
 		actionConfigList.add(customActionPeriodFrom);
 
 		periodTextboxConfig.setValueChangeActionConfigList(actionConfigList);
@@ -944,9 +944,9 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodFieldValueChangeAction.class.getName());
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DEFAULT_PERIOD_TO_TEXT_BOX);
-		customActionPeriodFrom.addActionParameter(false);
+		customActionPeriodFrom.addActionParameter(Boolean.FALSE);
 		customActionPeriodFrom.addActionParameter(GtnFrameworkPeriodConfigurationContants.DEFAULT_DATE_TO);
-		customActionPeriodFrom.addActionParameter(false);
+		customActionPeriodFrom.addActionParameter(Boolean.FALSE);
 		actionConfigList.add(customActionPeriodFrom);
 		defaultPeriodTextboxConfig.setRequired(true);
 		defaultPeriodTextboxConfig.setValueChangeActionConfigList(actionConfigList);
@@ -1055,7 +1055,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 		resetButtonConfig.setComponentName("Reset");
 		componentList.add(resetButtonConfig);
 
-		List<String> resetFieldList = new ArrayList<>();
+		List<String> resetFieldList = new ArrayList<>(25);
 
 		resetFieldList.add(GtnFrameworkPeriodConfigurationContants.MODULE);
 		resetFieldList.add(GtnFrameworkPeriodConfigurationContants.BUSINESS_PROCESS);
@@ -1086,7 +1086,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 		resetFieldList.add(GtnFrameworkPeriodConfigurationContants.DATE_TO);
 		resetFieldList.add(GtnFrameworkPeriodConfigurationContants.DEFAULT_DATE_TO);
 
-		List<Object> resetValueList = new ArrayList<>();
+		List<Object> resetValueList = new ArrayList<>(25);
 
 		resetValueList.add(null);
 		resetValueList.add(null);
