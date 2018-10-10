@@ -52,7 +52,7 @@ public class GtnUiFrameworkNsfSalesBasisDisplayAction implements GtnUIFrameWorkA
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
 			throw new GtnFrameworkSkipActionException("Display Error ");
 		}
-		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI 
 				.getVaadinComponentData(viewId + "availableCustomersTable");
 		GtnUIFrameworkPagedTableLogic tableLogic = componentData.getCurrentPageTableLogic();
 		String sysId = String.valueOf(availableContractBean.getProperties().get(12));

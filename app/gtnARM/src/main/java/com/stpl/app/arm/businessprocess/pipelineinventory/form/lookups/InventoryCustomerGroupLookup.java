@@ -742,9 +742,14 @@ public class InventoryCustomerGroupLookup extends Window {
         if (viewLookupDTO != null && !viewLookupDTO.isEmpty()) {
             lookupLoadLogic(viewLookupDTO.get(0));
             this.viewCategory = viewCategory;
+            
         }
     }
 
+    public String getViewCategory(){
+        return viewCategory;
+    }
+    
     public void resetFields() {
         customerGroupName.setValue(StringUtils.EMPTY);
         customerGroupNo.setValue(StringUtils.EMPTY);
