@@ -2801,13 +2801,19 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         boolean tempUnitValue =  false;
 
            for (Map.Entry<Object, String> key : radioMap.entrySet()) {
-            String value = key.getValue();
+            String value = key.getValue();           
             if (checkBoxMap.get(key.getKey())) {
-                if ((value != null) && (value.contains(Constant.ACTUALSALES))) {
+                if ((value != null) && (value.contains(Constant.ACTUAL))) {
+                    projectionDTO.setBaselineType(true);
+                }
+                else
+                {
+                    projectionDTO.setBaselineType(false);
+                }
+                if ((value != null) && ((value.contains(Constant.ACTUALSALES))||(value.contains(Constant.PROJECTED_SALES1)))) {
                     tempSalesvalue = true;
                 }
-
-                if (value != null && value.contains(Constant.ACTUALUNITS)) {
+                if (value != null && ((value.contains(Constant.ACTUALUNITS))||(value.contains(Constant.PROJECTED_UNITS1)))) {
                     tempUnitValue = true;
                 }
             }

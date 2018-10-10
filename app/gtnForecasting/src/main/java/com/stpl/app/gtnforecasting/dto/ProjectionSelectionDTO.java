@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
  * @author abhiram
  */
 public class ProjectionSelectionDTO {
-
+       
     private int projectionId;
     private int userId;
     private int sessionId;
@@ -285,6 +285,7 @@ public class ProjectionSelectionDTO {
     private GtnSmallHashMap multipleVariableCheckMap = new GtnSmallHashMap();
     private boolean isMultipleVariablesUpdated = false;
     private Map<String,String> updateQueryMap = new HashMap<>();
+    private boolean baselineType;
 
     public ProjectionSelectionDTO() {
         super();
@@ -2421,6 +2422,12 @@ public class ProjectionSelectionDTO {
     public void setViewOption(String viewOption) {
         this.viewOption = viewOption;
     }
+    public boolean isBaselineType() {
+        return baselineType;
+    }
 
+    public void setBaselineType(boolean baselineType) {
+        this.baselineType = baselineType;
+    }
 
     }
