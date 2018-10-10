@@ -40,7 +40,7 @@ public class GtnUiFrameworkNsfEditAction implements GtnUIFrameWorkAction, GtnUIF
 		boolean isEnable = false;
 		GtnWsRecordBean editRecordBean = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(viewId + "netSalesSearchResultTable").getValueFromPagedDataTable();
-
+    
 		Object systemId = editRecordBean.getPropertyValue(GtnFrameworkNSFConstants.getSystemid());
 		GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkNSFConstants.getSystemid(), systemId);
 		GtnUIFrameworkGlobalUI.addSessionProperty("mode", (String) actionParemeterList.get(3));

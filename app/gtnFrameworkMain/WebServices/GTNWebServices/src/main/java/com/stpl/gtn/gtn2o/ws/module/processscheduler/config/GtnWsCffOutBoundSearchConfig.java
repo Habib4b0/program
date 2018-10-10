@@ -12,7 +12,9 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.GtnWsCffQueryConstants;
+import org.springframework.stereotype.Service;
 
+@Service()
 public class GtnWsCffOutBoundSearchConfig implements GtnWsSearchQueryConfigLoader {
 	
 	private Map<String, GtnWsSearchQueryConfig> cffOutboundSearchQueryConfigMap = null;

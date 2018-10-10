@@ -3006,7 +3006,8 @@ public class ARMUtils {
     private static final Object[] CTBI = new Object[]{"C", "T", "B", "I"};
     private static final Object[] TBI = new Object[]{"T", "B", "I"};
     private static final Object[] BI = new Object[]{"B", "I"};
-
+    private static final String BUSINESS_PROCESS="businessProcess";
+    
     public static int getIntegerValue(String value) {
         return Integer.parseInt(value);
     }
@@ -3030,8 +3031,12 @@ public class ARMUtils {
     public static Object[] getTBI() {
         return ARMUtils.TBI.clone();
     }
-
+    
     public static Object[] getBI() {
         return ARMUtils.BI.clone();
+    }
+    
+     public static String getBusinessProcess() {
+        return ARMUtils.BUSINESS_PROCESS;
     }
 }

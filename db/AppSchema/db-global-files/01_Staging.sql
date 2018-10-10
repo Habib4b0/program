@@ -8631,3 +8631,74 @@ BEGIN
 	ALTER TABLE [DBO].STAG_RETURN_RATE_FORECAST ADD CONSTRAINT PK_STAG_RETURN_RATE_FORECAST_RETURN_RATE_FORECAST_SID PRIMARY KEY (STAG_RETURN_RATE_FORECAST_SID)
 END
 GO
+
+
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'STAG_ARM_LOAD_INTERFACE'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE [dbo].[STAG_ARM_LOAD_INTERFACE]
+        (
+           [GL_COMPANY_MASTER_ID]   [VARCHAR](200) NULL,
+           [BUSINESS_UNIT]          [VARCHAR](200) NULL,
+           [DEDUCTION_CATEGORY]     [VARCHAR](200) NULL,
+           [DEDUCTION_TYPE]         [VARCHAR](200) NULL,
+           [DEDUCTION_PROGRAM_TYPE] [VARCHAR](200) NULL,
+           [METHODOLOGY]            [VARCHAR](200) NULL,
+           [ADJUSTMENT_TYPE]        [VARCHAR](200) NULL,
+           [REDEMPTION_PERIOD]      [VARCHAR](200) NULL,
+           [GL_DATE]                [VARCHAR](200) NULL,
+           [ACCOUNT]                [VARCHAR](200) NULL,
+           [DEDUCTION_RATE]         [VARCHAR](200) NULL,
+           [DEDUCTION_AMOUNT]       [VARCHAR](200) NULL,
+           [CONFIGURATION_TYPE]     [VARCHAR](200) NULL,
+           [ADJUSTMENT_LEVEL]       [VARCHAR](200) NULL,
+           [ACCOUNT_CATEGORY]       [VARCHAR](200) NULL,
+           [ACCOUNT_TYPE]           [VARCHAR](200) NULL,
+           [ACCOUNT_DESCRIPTION]    [VARCHAR](200) NULL,
+           [COST_CENTER]            [VARCHAR](200) NULL,
+           [PROJECT]                [VARCHAR](200) NULL,
+           [FUTURE_1]               [VARCHAR](200) NULL,
+           [FUTURE_2]               [VARCHAR](200) NULL,
+           [BALANCE_TYPE]           [VARCHAR](200) NULL,
+           [DATABASE]               [VARCHAR](200) NULL,
+           [DATA_ACCESS_SET]        [VARCHAR](200) NULL,
+           [CHART_OF_ACCOUNTS]      [VARCHAR](200) NULL,
+           [LEDGER]                 [VARCHAR](200) NULL,
+           [CATEGORY]               [VARCHAR](200) NULL,
+           [SOURCE]                 [VARCHAR](200) NULL,
+           [CURRENCY]               [VARCHAR](200) NULL,
+           [JOURNAL_NAME]           [VARCHAR](200) NULL,
+           [JOURNAL_DESCRIPTION]    [VARCHAR](200) NULL,
+           [REVERSE_JOURNAL]        [VARCHAR](200) NULL,
+           [REVERSAL_PERIOD]        [VARCHAR](200) NULL,
+           [LINE_DESCRIPTION]       [VARCHAR](200) NULL,
+           [UDC_1]                  [VARCHAR](200) NULL,
+           [UDC_2]                  [VARCHAR](200) NULL,
+           [UDC_3]                  [VARCHAR](200) NULL,
+           [UDC_4]                  [VARCHAR](200) NULL,
+           [UDC_5]                  [VARCHAR](200) NULL,
+           [UDC_6]                  [VARCHAR](200) NULL,
+           [BRAND_NAME]             [VARCHAR](200) NULL,
+           [SKU]                    [VARCHAR](200) NULL,
+           [BRAND_ID]               [VARCHAR](200) NULL,
+           [ITEM_ID]                [VARCHAR](200) NULL,
+           [CONTRACT_ID]            [VARCHAR](200) NULL,
+           [COMPANY_ID]             [VARCHAR](200) NULL,
+           [DEDUCTION_ID]           [VARCHAR](200) NULL,
+           [DEDUCTION_INCLUSION]    [VARCHAR](200) NULL,
+           [DEDUCTION_UDC_1]        [VARCHAR](200) NULL,
+           [DEDUCTION_UDC_2]        [VARCHAR](200) NULL,
+           [DEDUCTION_UDC_3]        [VARCHAR](200) NULL,
+           [DEDUCTION_UDC_4]        [VARCHAR](200) NULL,
+           [DEDUCTION_UDC_5]        [VARCHAR](200) NULL,
+           [DEDUCTION_UDC_6]        [VARCHAR](200) NULL,
+           [ACCOUNT_INDICATOR]      [VARCHAR](200) NULL,
+           [CALCULATION_PERIOD]     [VARCHAR](200) NULL,
+           [WORKFLOW_ID]            [VARCHAR](200) NULL
+        )
+  END
+
+GO 

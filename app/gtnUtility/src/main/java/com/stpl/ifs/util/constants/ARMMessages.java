@@ -519,4 +519,8 @@ public class ARMMessages {
     public static String getHistoryListViewCheck() {
         return properties.getProperty("HISTORY_LIST_VIEW_CHECK");
     }
+    
+    public static String getResetMessageID007() {
+        return properties.getProperty("RESET_MESSAGE_MSGID_007");
+    }
 }

@@ -953,7 +953,7 @@ public class HeaderUtils {
         fullHeaderDTO.setProjectionOrder(projectionOrder);
         prepareCommonColumnHeaders(projSelDTO);
         if (pivotView.contains(VARIABLE.getConstant())) {
-            List<Object> dmap = new ArrayList<>();
+            List<Object> dmap = null;
 
             for (int i = 0; i < NumericConstants.FOURTEEN; i++) {
 
@@ -1059,7 +1059,7 @@ public class HeaderUtils {
 
             List<String> periodList = projSelDTO.getPeriodList();
             Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
-            List<Object> dmap = new ArrayList<>();
+            List<Object> dmap = null;
             for (int i = 0; i < periodList.size(); i++) {
                 dmap = new ArrayList<>();
                 String commonColumn = periodList.get(i);
@@ -1200,10 +1200,10 @@ public class HeaderUtils {
 
             //No triple Header for Custom View .So making size of discount list as 1
             int discountNamesint = isCustom ? 1 : discountNames.size();
-            List<Object> tmap = new ArrayList<>();
-            List<Object> tmapExcel = new ArrayList<>();
-            List<Object> dmap = new ArrayList<>();
-            List<Object> dmapExcel = new ArrayList<>();
+            List<Object> tmap = null;
+            List<Object> tmapExcel = null;
+            List<Object> dmap = null;
+            List<Object> dmapExcel = null;
             for (int l = 0; l < discountNamesint; l++) {
                 String discountName = discountNames.get(l);
                 if (discountName.contains("-") && CommonUtil.isValueEligibleForLoading()) {
@@ -1212,7 +1212,7 @@ public class HeaderUtils {
                 }
             tmap = new ArrayList<>();
             tmapExcel = new ArrayList<>();
-            
+          
                 String discountColumnName = discountProperties.get(l);
 
 
@@ -1242,7 +1242,7 @@ public class HeaderUtils {
                         j++;
                         k = tempYear;
                     } // Ends here
-                    String commonColumn = StringUtils.EMPTY;
+                    String commonColumn;
                     if (!"All Discount".equals(discountName)) {
                         if (!isCustom) {
                             List discountHierarchyNo = projSelDTO.getDeductionLevelFilter();
