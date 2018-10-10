@@ -337,7 +337,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameWorkActionConfig popupActionConfig = new GtnUIFrameWorkActionConfig();
 		popupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> popupActionParam = new ArrayList<>();
-		// changed here
 		popupActionParam.add("Private"+"_"+"ViewLookup");
 		popupActionParam.add("Private View");
 		popupActionParam.add("90%");
