@@ -186,7 +186,7 @@ public class GtnUiFrameworkNsfDeleteActionTest {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testGtnUiFrameworkNsfDelete_doAction_getResponse() {
 		
@@ -195,7 +195,7 @@ public class GtnUiFrameworkNsfDeleteActionTest {
 		GtnUIFrameworkWebserviceRequest gtnRequest = Mockito.mock(GtnUIFrameworkWebserviceRequest.class);
 		gtnUiFrameworkNsfDeleteAction.getResponse(gtnRequest);
 	}
-
+	
 	/**  
 	 * Perform pre-test initialization.
 	 *
