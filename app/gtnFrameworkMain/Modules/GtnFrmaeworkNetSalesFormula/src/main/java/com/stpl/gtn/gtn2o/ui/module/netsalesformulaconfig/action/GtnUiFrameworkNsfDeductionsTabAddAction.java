@@ -68,24 +68,24 @@ public class GtnUiFrameworkNsfDeductionsTabAddAction implements GtnUIFrameWorkAc
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
 			throw new GtnFrameworkSkipActionException("Add Error ");
 
-		}
+		}  
 		String formulaType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "formulaType")
 				.getCaptionFromComboBox();
 		List<GtnUIFrameworkNsfSelectedDeductionsBean> selectedDeductionsBeans = new ArrayList<>();
 		if (formulaType != null && formulaType.equals(GtnFrameworkNSFConstants.getFormulaTypeContract())) {
-			for (GtnWsRecordBean GtnWsRecordBean : availableDeductionBean) {
+			for (GtnWsRecordBean gtnWsRecordBean : availableDeductionBean) {
 				GtnUIFrameworkNsfSelectedDeductionsBean selectedContractBean = new GtnUIFrameworkNsfSelectedDeductionsBean();
 				selectedContractBean.setContract(Boolean.FALSE);
 				selectedContractBean
-						.setDeductionType(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(17))));
+						.setDeductionType(Integer.valueOf(String.valueOf(gtnWsRecordBean.getProperties().get(17))));
 				selectedContractBean
-						.setDeductionSubType(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(19))));
+						.setDeductionSubType(Integer.valueOf(String.valueOf(gtnWsRecordBean.getProperties().get(19))));
 				selectedContractBean
-						.setDeductionCategory(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(18))));
+						.setDeductionCategory(Integer.valueOf(String.valueOf(gtnWsRecordBean.getProperties().get(18))));
 				selectedContractBean
-						.setContractMasterSid(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(20))));
+						.setContractMasterSid(Integer.valueOf(String.valueOf(gtnWsRecordBean.getProperties().get(20))));
 				selectedContractBean
-						.setRsContractSid(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(21))));
+						.setRsContractSid(Integer.valueOf(String.valueOf(gtnWsRecordBean.getProperties().get(21))));
 				selectedDeductionsBeans.add(selectedContractBean);
 			}
 
@@ -118,9 +118,7 @@ public class GtnUiFrameworkNsfDeductionsTabAddAction implements GtnUIFrameWorkAc
 
 		updateRequest.setGtnWsGeneralRequest(generalWSRequest);
 
-		GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_DEDUCTION_SELECTION_INSERT,
-				updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse gtnWsresponse = getWsResponse(updateRequest);
 
 		if (gtnWsresponse.getGtnWsGeneralResponse().isSucess()) {
 			GtnUIFrameworkComponentData selectedDeductionsComponentData = GtnUIFrameworkGlobalUI
@@ -145,6 +143,17 @@ public class GtnUiFrameworkNsfDeductionsTabAddAction implements GtnUIFrameWorkAc
 			tableLogic.setAdditioanlSearchCriteriaList(additionalSearchCriteriaList);
 			tableLogic.startSearchProcess(new ArrayList<String>(), true);
 		}
+	}
+
+	/**
+	 * @param updateRequest
+	 * @return
+	 */
+	public GtnUIFrameworkWebserviceResponse getWsResponse(GtnUIFrameworkWebserviceRequest updateRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_DEDUCTION_SELECTION_INSERT,
+				updateRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
 	}
 
 	@Override

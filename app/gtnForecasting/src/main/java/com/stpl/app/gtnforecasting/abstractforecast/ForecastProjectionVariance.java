@@ -22,7 +22,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.OR_DOLLAR;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import static com.stpl.app.serviceUtils.ConstantUtil.SELECT_ONE;
 import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
@@ -398,7 +397,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 
         comparison.addStyleName(Constant.SEARCH_ICON_STYLE);
         comparison.setReadOnly(false);
-        comparison.setValue(SELECT_ONE);
+        comparison.setValue(Constant.SELECT_ONE);
         customMenuBar.setScrollable(true);
         customMenuBar.setPageLength(NumericConstants.TEN);
         level.addItem(Constant.TOTAL);
@@ -413,13 +412,13 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         projectionPeriodOrder.addStyleName(Constant.HORIZONTAL);
         projectionPeriodOrder.addStyleName(Constant.OPTION_GROUP_WIDTH);
 
-        fromDate.addItem(SELECT_ONE);
-        fromDate.setNullSelectionItemId(SELECT_ONE);
-        fromDate.select(SELECT_ONE);
+        fromDate.addItem(Constant.SELECT_ONE);
+        fromDate.setNullSelectionItemId(Constant.SELECT_ONE);
+        fromDate.select(Constant.SELECT_ONE);
 
-        toDate.addItem(SELECT_ONE);
-        toDate.setNullSelectionItemId(SELECT_ONE);
-        toDate.select(SELECT_ONE);
+        toDate.addItem(Constant.SELECT_ONE);
+        toDate.setNullSelectionItemId(Constant.SELECT_ONE);
+        toDate.select(Constant.SELECT_ONE);
         
         comparisonBasis.addItem(Constant.ACTUALS);
         comparisonBasis.addItem("Current Projection");
@@ -440,18 +439,18 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         pivotView.addStyleName(Constant.HORIZONTAL);
         pivotView.addStyleName(Constant.OPTION_GROUP_WIDTH);
 
-        levelDdlb.addItem(SELECT_ONE);
-        levelDdlb.setNullSelectionItemId(SELECT_ONE);
-        levelDdlb.select(SELECT_ONE);
+        levelDdlb.addItem(Constant.SELECT_ONE);
+        levelDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
+        levelDdlb.select(Constant.SELECT_ONE);
         levelDdlb.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
         levelFilter.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
-        levelFilter.addItem(SELECT_ONE);
-        levelFilter.setNullSelectionItemId(SELECT_ONE);
-        levelFilter.select(SELECT_ONE);
+        levelFilter.addItem(Constant.SELECT_ONE);
+        levelFilter.setNullSelectionItemId(Constant.SELECT_ONE);
+        levelFilter.select(Constant.SELECT_ONE);
 
-        customDdlb.addItem(SELECT_ONE);
-        customDdlb.setNullSelectionItemId(SELECT_ONE);
-        customDdlb.select(SELECT_ONE);
+        customDdlb.addItem(Constant.SELECT_ONE);
+        customDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
+        customDdlb.select(Constant.SELECT_ONE);
 
 
         comparison.setReadOnly(true);
@@ -608,7 +607,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 
             if (frequency.getValue() != null && !Constant.NULL.equals(String.valueOf(frequency.getValue())) && !StringUtils.EMPTY.equals(String.valueOf(frequency.getValue()))) {
                 String selectedCustomID = String.valueOf(customDdlb.getValue());
-                customIdToSelect=!Constant.NULL.equals(selectedCustomID) && !SELECT_ONE.equals(selectedCustomID)
+                customIdToSelect=!Constant.NULL.equals(selectedCustomID) && !Constant.SELECT_ONE.equals(selectedCustomID)
                         ? Integer.parseInt(selectedCustomID) : 0;
                 getGenerateCall(false);
                 setDisableFields();
@@ -703,13 +702,13 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected void loadLevelAndFilterValue() {
         LOGGER.debug("loadLevelAndFilterValue initiated ");
         levelDdlb.removeAllItems();
-        levelDdlb.addItem(SELECT_ONE);
-        levelDdlb.setNullSelectionItemId(SELECT_ONE);
-        levelDdlb.setValue(SELECT_ONE);
+        levelDdlb.addItem(Constant.SELECT_ONE);
+        levelDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
+        levelDdlb.setValue(Constant.SELECT_ONE);
         levelFilter.removeAllItems();
-        levelFilter.addItem(SELECT_ONE);
-        levelFilter.setNullSelectionItemId(SELECT_ONE);
-        levelFilter.setValue(SELECT_ONE);
+        levelFilter.addItem(Constant.SELECT_ONE);
+        levelFilter.setNullSelectionItemId(Constant.SELECT_ONE);
+        levelFilter.setValue(Constant.SELECT_ONE);
         if (pvSelectionDTO.isIsCustomHierarchy()) {
             Utility.loadLevelValueForResult(levelDdlb, null, null, getSessionDTO().getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
         } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
