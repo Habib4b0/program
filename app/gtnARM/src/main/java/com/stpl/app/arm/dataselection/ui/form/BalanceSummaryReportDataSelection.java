@@ -2626,14 +2626,8 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         List<LevelDTO> reslistOne;
         reslistOne = logicCust.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
         createHierarchyBasedOnHierarchyNo(selectedCustomerContainer, reslistOne, customerLevel);
-        selectedCustomer.setContainerDataSource(selectedCustomerContainer);
-        Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
-        selectedCustomer.setVisibleColumns(obj);
-        String[] value = new String[]{"Customer Hierarchy Group Builder"};
-        selectedCustomer.setColumnHeaders(value);
-        for (LevelDTO ddo : selectedCustomerContainer.getItemIds()) {
-            selectedCustomer.setCollapsed(ddo, false);
-        }
+        configureTreeTable(selectedCustomer,selectedCustomerContainer,new Object[]{CommonConstant.DISPLAY_VALUE},new String[]{"Customer Hierarchy Group Builder"});
+        setCollapseContainerItem(selectedCustomer,selectedCustomerContainer,false);
     }
 
     /**
@@ -2648,14 +2642,8 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         List<LevelDTO> reslistOne;
         reslistOne = logicVal.getRelationShipValues(projectionId, "product", productLevel, productDescriptionMap);
         createHierarchyBasedOnHierarchyNo(selectedProductContainer, reslistOne, productLevel);
-        selectedProduct.setContainerDataSource(selectedProductContainer);
-        Object[] obj = new Object[]{CommonConstant.DISPLAY_VALUE};
-        selectedProduct.setVisibleColumns(obj);
-        String[] value = new String[]{"Product Hierarchy Group Builder"};
-        selectedProduct.setColumnHeaders(value);
-        for (LevelDTO ddo : selectedProductContainer.getItemIds()) {
-            selectedProduct.setCollapsed(ddo, false);
-        }
+        configureTreeTable(selectedProduct,selectedProductContainer,new Object[]{CommonConstant.DISPLAY_VALUE},new String[]{"Product Hierarchy Group Builder"});
+        setCollapseContainerItem(selectedProduct,selectedProductContainer,false);
     }
 
     /**
