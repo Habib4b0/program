@@ -228,15 +228,11 @@ public class PVQueryUtils {
                 selectClause += "C." + projectedSales + " AS C_PROJECTION_AMNT,";
                 selectClause += "C." + projectedReturns + " AS C_RETURNS_AMNT,";
                 selectClause += "C." + projectionPPA + " AS C_PPA_AMNT";
-            } else if (projSelDTO.getDiscountGroupName().contains(StringConstantsUtil.VARIANCE_LABEL)) {
-                selectClause += "0  AS PROJECTION_AMNT,";
-                selectClause += "0  AS RETURNS_AMN,";
-                selectClause += "0  AS PPA_AMN";
             } else {
                 selectClause += "0  AS PROJECTION_AMNT,";
                 selectClause += "0  AS RETURNS_AMN,";
                 selectClause += "0  AS PPA_AMN";
-            }
+            } 
         } else if (projSelDTO.getDiscountGroupName().contains("Discount %")) {
             projSelDTO.setSales("RATE");
             projectedSales = "PROJECTION_RATE";
@@ -246,15 +242,11 @@ public class PVQueryUtils {
                 selectClause += "C." + projectedSales + " AS C_PROJECTION_RATE,";
                 selectClause += "C." + projectedReturns + " AS C_RETURNS_RATE,";
                 selectClause += "C." + projectionPPA + " AS C_PPA_RATE";
-            } else if (projSelDTO.getDiscountGroupName().contains(StringConstantsUtil.VARIANCE_LABEL)) {
+            } else  {
                 selectClause += "0  AS PROJECTION_RATE,";
                 selectClause += "0  AS RETURNS_RATE,";
                 selectClause += "0  AS PPA_RATE";
-            } else {
-                selectClause += "0  AS PROJECTION_RATE,";
-                selectClause += "0  AS RETURNS_RATE,";
-                selectClause += "0  AS PPA_RATE";
-            }
+            } 
         } else {
             projectedSales = "RPU";
             projectedReturns = "RETURNS_RPU";
@@ -263,11 +255,7 @@ public class PVQueryUtils {
                 selectClause += "C." + projectedSales + " AS C_RPU,";
                 selectClause += "C." + projectedReturns + " AS C_RETURNS,";
                 selectClause += "C." + projectionPPA + " AS C_PPA";
-            } else if (projSelDTO.getDiscountGroupName().contains(StringConstantsUtil.VARIANCE_LABEL)) {
-                selectClause += "0  AS C_RPU,";
-                selectClause += "0  AS C_RETURNS,";
-                selectClause += "0  AS C_PPA";
-            } else {
+            }  else {
                 selectClause += "0  AS C_RPU,";
                 selectClause += "0  AS C_RETURNS,";
                 selectClause += "0  AS C_PPA";

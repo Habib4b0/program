@@ -50,11 +50,20 @@ public class GtnUiFrameworkNsfTabTableResetAction implements GtnUIFrameWorkActio
 
 	public boolean callResetService(boolean isSalesBasis) {
 		GtnUIFrameworkWebserviceRequest resetRequest = getWsRequest(isSalesBasis);
-		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NSF_RESET_TABLE_SERVICE,
-				resetRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse gtnResponse = getResponse(resetRequest);
 		GtnWsGeneralResponse nsfGeneralResponse = gtnResponse.getGtnWsGeneralResponse();
 		return nsfGeneralResponse.isSucess();
+	}
+
+	/**
+	 * @param resetRequest
+	 * @return
+	 */
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest resetRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NSF_RESET_TABLE_SERVICE,
+				resetRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		 
 	}
 
 	public void reloadTable(boolean isSalesBasis, String viewId) throws GtnFrameworkValidationFailedException {
