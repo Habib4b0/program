@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.search.callqueryengine.CallQueryEngineSearchWs;
 import com.stpl.gtn.gtn2o.ws.search.implementation.ComboBoxSearch;
 import com.stpl.gtn.gtn2o.ws.search.implementation.CustomViewSearch;
@@ -217,7 +218,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             String viewName = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
                     .getViewName();
             Integer userId = Integer.valueOf(gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId());
-
+            
             GtnFrameworkForecastDataSelectionBean dataSelectionBean = gtnUiFrameworkWebservicerequest
                     .getGtnWsForecastNewArchRequest().getDataSelectionBean();
             String viewData = gtnForecastJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'",

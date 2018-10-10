@@ -64,14 +64,22 @@ public class GtnFrameworkForecastDataSelectionViewUpdateAction
         GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
                 GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
                 GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-
+        String viewValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_saveViewName", componentId)
+				.getV8StringFromField();
 
 		GtnUIFrameWorkActionConfig infoAction = new GtnUIFrameWorkActionConfig();
 		infoAction.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 		if (response.getGtnWsGeneralResponse().isSucess()) {
+			if(!viewValue.equals(dataSelectionBean.getPrivateViewName()) || !viewValue.equals(dataSelectionBean.getPublicViewName()))
+			{
+				infoAction.addActionParameter("Information");
+				infoAction.addActionParameter("You cannot update ViewName");
+			}
+			else {
 			infoAction.addActionParameter("Information");
 			infoAction.addActionParameter("You have successfully updated " + dataSelectionBean.getViewType()
 					+ " View " + dataSelectionBean.getViewName());
+			}
 		} else {
 			infoAction.addActionParameter("Cannot update public view");
 			infoAction.addActionParameter("You cannot update " +dataSelectionBean.getViewType()+" View " + "("+dataSelectionBean.getViewName()+")"
