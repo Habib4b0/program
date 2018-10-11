@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import static org.mockito.Mockito.doReturn;
@@ -93,6 +94,7 @@ public class GtnWsProcessSchedulerUpdateControllerTest {
     /**
      * Test of runProcessScheduler method, of class GtnWsProcessSchedulerUpdateController.
      */
+    @Ignore
     @Test
     public void testRunProcessScheduler() throws GtnFrameworkGeneralException {
         System.out.println("runProcessScheduler");
