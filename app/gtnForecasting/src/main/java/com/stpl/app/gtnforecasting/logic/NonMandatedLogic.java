@@ -20,7 +20,7 @@ import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.dao.impl.PPAProjectionDaoImpl;
 import com.stpl.app.gtnforecasting.dao.impl.ProjectionVarianceDAOImpl;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
-import com.stpl.app.gtnforecasting.discountProjection.logic.SupplementalDiscountProjectionLogic;
+import com.stpl.app.gtnforecasting.discountprojection.logic.SupplementalDiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;

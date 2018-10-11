@@ -8,7 +8,7 @@ package com.stpl.app.gtnforecasting.dataassumptions.form;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dataassumptions.dto.DataAssumptionDTO;
-import com.stpl.app.gtnforecasting.dataassumptions.logic.tableLogic.DataAssumptionstableLogic;
+import com.stpl.app.gtnforecasting.dataassumptions.logic.tablelogic.DataAssumptionstableLogic;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;

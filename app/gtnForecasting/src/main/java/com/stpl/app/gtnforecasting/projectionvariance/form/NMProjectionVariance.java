@@ -9,7 +9,7 @@ import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionVariance;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
-import static com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection.ANULL;
+import static com.stpl.app.gtnforecasting.discountprojection.form.NMDiscountProjection.ANULL;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -22,7 +22,7 @@ import com.stpl.app.gtnforecasting.projectionvariance.form.lookup.NMComparisonLo
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMPVExcelLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.tablelogic.ProjectionVarianceTableLogic;
-import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
+import com.stpl.app.gtnforecasting.queryutils.PVQueryUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.ui.form.ForecastForm;

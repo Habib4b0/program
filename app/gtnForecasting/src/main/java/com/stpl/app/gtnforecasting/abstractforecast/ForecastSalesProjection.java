@@ -84,7 +84,7 @@ import com.stpl.app.gtnforecasting.utils.TotalLivesChart;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.serviceutils.ConstantsUtils;
 import com.stpl.app.utils.Constants;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;

@@ -7,7 +7,7 @@ package com.stpl.app.global.dao.impl;
 
 import com.stpl.app.model.DeductionCalendarMaster;
 import com.stpl.app.service.DeductionCalendarMasterLocalServiceUtil;
-import com.stpl.domain.global.DeductionCalendar.DeductionCalendarDao;
+import com.stpl.domain.global.deductioncalendar.DeductionCalendarDao;
 import com.liferay.portal.kernel.exception.PortalException;
 
 /**
