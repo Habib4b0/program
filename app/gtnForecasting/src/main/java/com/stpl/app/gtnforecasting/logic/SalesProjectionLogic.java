@@ -17,7 +17,7 @@ import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.LivesDTO;
 import com.stpl.app.gtnforecasting.dto.SalesProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
-import com.stpl.app.gtnforecasting.service.finderImpl.MasterDataAttributeFinderImpl;
+import com.stpl.app.gtnforecasting.service.finderimpl.MasterDataAttributeFinderImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.STRING_EMPTY;

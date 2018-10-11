@@ -7,7 +7,7 @@ package com.stpl.app.global.dao.impl;
 
 import com.stpl.app.model.CdrModel;
 import com.stpl.app.service.CdrModelLocalServiceUtil;
-import com.stpl.domain.global.ComplianceDeduction.ComplianceDeductionDao;
+import com.stpl.domain.global.compliancededuction.ComplianceDeductionDao;
 import com.liferay.portal.kernel.exception.PortalException;
 
 /**

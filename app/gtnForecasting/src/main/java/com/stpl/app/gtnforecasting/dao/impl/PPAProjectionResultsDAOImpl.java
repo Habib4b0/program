@@ -8,7 +8,7 @@ package com.stpl.app.gtnforecasting.dao.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.PPAPrjectionResultsDAO;
-import com.stpl.app.gtnforecasting.service.finderImpl.NmPpaProjectionMasterImpl;
+import com.stpl.app.gtnforecasting.service.finderimpl.NmPpaProjectionMasterImpl;
 import java.util.List;
 
 /**

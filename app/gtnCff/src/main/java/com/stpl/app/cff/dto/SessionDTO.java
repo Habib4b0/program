@@ -5,7 +5,7 @@
  */
 package com.stpl.app.cff.dto;
 
-import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
+import com.stpl.app.cff.ui.dataselection.dto.ForecastDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import java.util.Collections;

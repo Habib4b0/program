@@ -6,8 +6,8 @@
 
 package com.stpl.app.gtnforecasting.nationalassumptions.dto;
 
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterContainer;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterCriteria;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyload.NdcFilterContainer;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyload.NdcFilterCriteria;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;

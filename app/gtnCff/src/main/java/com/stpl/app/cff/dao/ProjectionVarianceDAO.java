@@ -3,7 +3,7 @@ package com.stpl.app.cff.dao;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.ui.projectionvariance.dto.ProjectionVarianceDTO;
 import java.util.List;
 
    

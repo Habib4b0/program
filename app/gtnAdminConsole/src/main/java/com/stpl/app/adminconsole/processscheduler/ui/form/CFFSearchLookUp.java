@@ -23,7 +23,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic;
-import com.stpl.app.adminconsole.processscheduler.logic.tableLogic.CFFIndexTableLogic;
+import com.stpl.app.adminconsole.processscheduler.logic.tablelogic.CFFIndexTableLogic;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
 import com.stpl.app.adminconsole.util.CFFFilterGenerator;
 import com.stpl.app.adminconsole.util.CommonUtils;

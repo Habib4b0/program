@@ -16,7 +16,7 @@ import com.stpl.app.model.UsergroupDomainMaster;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
-import com.stpl.app.serviceUtils.Constants;
+import com.stpl.app.serviceutils.Constants;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.domain.forecast.security.StplSecurityDAO;
 import com.stpl.ifs.ui.util.NumericConstants;

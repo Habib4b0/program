@@ -8,7 +8,7 @@ package com.stpl.app.gtnforecasting.lookups;
 import com.stpl.app.gtnforecasting.dto.RSFormulaDTO;
 import com.stpl.app.gtnforecasting.logic.tablelogic.FormulaTableLogic;
 import com.stpl.app.gtnforecasting.ppaprojection.dto.FilterGenerator;
-import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
+import com.stpl.app.gtnforecasting.queryutils.PPAQuerys;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;

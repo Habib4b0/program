@@ -5,9 +5,9 @@
  */
 package com.stpl.app.cff.dto;
 
-import com.stpl.app.cff.abstractCff.AbstractCustomTreeView;
+import com.stpl.app.cff.abstractcff.AbstractCustomTreeView;
 import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.queryutils.CommonQueryUtils;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.parttwo.model.CffCustomViewMaster;

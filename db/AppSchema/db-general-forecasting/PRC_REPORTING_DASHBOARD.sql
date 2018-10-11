@@ -138,13 +138,17 @@ WHERE PERIOD_SID BETWEEN @ACTUAL_PERIOD
 
 
 
+
+
 IF OBJECT_ID('TEMPDB..#FILE_INFO') IS NOT NULL
 			DROP TABLE #FILE_INFO 
+			create  table #FILE_INFO(ID int,PROJECTION_MASTER_SID int , DESCRIPTION varchar(200),FORECAST_NAME varchar(200),FILE_VERSION varchar(50))
 
+insert INTO #FILE_INFO
 SELECT DISTINCT  B.ID,A.PROJECTION_MASTER_SID
 ,C.DESCRIPTION,FORECAST_NAME,VERSION as FILE_VERSION
 --,DENSE_RANK() OVER(ORDER BY A.PROJECTION_MASTER_SID) RN
-INTO #FILE_INFO
+
 FROM PROJECTION_FILE_DETAILS A 
 INNER JOIN #PROJECTION_MASTER B
 ON A.PROJECTION_MASTER_SID=B.PROJECTION_MASTER_SID
@@ -152,6 +156,22 @@ INNER JOIN HELPER_TABLE C ON C.HELPER_TABLE_SID=A.FILE_TYPE
 INNER JOIN  FILE_MANAGEMENT FM ON FM.FILE_MANAGEMENT_SID=A.FILE_MANAGEMENT_SID 
 INNER JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=FM.FILE_TYPE
 AND HT.DESCRIPTION='Ex-Factory Sales'
+and b.TYPE<>'c'
+
+insert INTO #FILE_INFO
+SELECT DISTINCT  B.ID,b.PROJECTION_MASTER_SID
+,C.DESCRIPTION,FORECAST_NAME,fm.VERSION as FILE_VERSION
+--,DENSE_RANK() OVER(ORDER BY A.PROJECTION_MASTER_SID) RN
+
+FROM CFF_FILE_SELECTION A 
+INNER JOIN #PROJECTION_MASTER B
+ON A.CFF_MASTER_SID=B.PROJECTION_MASTER_SID
+INNER JOIN HELPER_TABLE C ON C.HELPER_TABLE_SID=A.FILE_TYPE
+INNER JOIN  FILE_MANAGEMENT FM ON FM.FILE_MANAGEMENT_SID=A.FILE_MANAGEMENT_SID 
+INNER JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=FM.FILE_TYPE
+AND HT.DESCRIPTION='Ex-Factory Sales'
+and b.TYPE='c'
+
 
 SELECT  @COUNT=COUNT( DISTINCT ID) FROM #PROJECTION_MASTER 
 
@@ -179,8 +199,9 @@ SELECT @PROJECTION =Max(PROJECTION_MASTER_SID),
                                                    END)   FROM   #FILE_INFO where ID =@I
 
 
-		
-
+	
+	IF Object_id('TEMPDB..#A') IS NOT NULL
+	DROP TABLE #A
 		SELECT * INTO #A FROM(
 		SELECT DISTINCT IM.ITEM_MASTER_SID
 		FROM ITEM_MASTER IM
@@ -194,7 +215,17 @@ SELECT @PROJECTION =Max(PROJECTION_MASTER_SID),
 		ON CD.ITEM_MASTER_SID=IM1.ITEM_MASTER_SID
 		INNER JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID =CD.CCP_DETAILS_SID
 		INNER JOIN #PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID =PM.PROJECTION_MASTER_SID
-		WHERE IM.ITEM_MASTER_SID=IM1.ITEM_MASTER_SID))A
+		WHERE IM.ITEM_MASTER_SID=IM1.ITEM_MASTER_SID
+		and pm.type!='C')
+		union
+		SELECT DISTINCT IM.ITEM_MASTER_SID
+		FROM ITEM_MASTER IM
+		INNER JOIN CCP_DETAILS CD 
+		ON CD.ITEM_MASTER_SID=IM.ITEM_MASTER_SID
+		INNER JOIN CFF_DETAILS PD ON PD.CCP_DETAILS_SID =CD.CCP_DETAILS_SID
+		INNER JOIN  #FILE_INFO PM ON PD.CFF_MASTER_SID =PM.PROJECTION_MASTER_SID
+		WHERE PM.ID =@I AND EXISTS(select 1 from  #PROJECTION_MASTER PM1 where pm1.PROJECTION_MASTER_SID =PM.PROJECTION_MASTER_SID
+		and pm1.type='C'))A
 
 		INSERT INTO @ITEMID SELECT distinct ITEM_MASTER_SID FROM #A
 
@@ -226,7 +257,7 @@ UDF_GTS_WAC(@ITEMID, @ACTUAL_PERIOD,@END_PERIOD_SID , @FORECAST_NAME_EXFACTORY, 
    ON A.ITEM_MASTER_SID=G.ITEM_MASTER_SID
    AND A.PERIOD_SID=P.PERIOD_SID
 		WHERE P.PERIOD_SID BETWEEN @ACTUAL_PERIOD AND @END_PERIOD_SID)A --WHERE RNO=1
-
+	
 	SET @I=@I+1
 	DELETE FROM @ITEMID
 	DROP TABLE #A
@@ -384,10 +415,7 @@ SET @SQL = CONCAT ('IF EXISTS (SELECT 1 FROM ', @CUSTOM_TABLE_SALES, ')
              A.YEAR,
              ISNULL(Sum(SALES),0)    AS SALES,
 			 ISNULL(SUM(TE.ACTUAL_GTS_SALES),0) AS EXFACTORY_SALES,
-			 CASE
-           WHEN HT.DESCRIPTION = ''YES'' THEN 1
-                 ELSE 0
-                 END SALES_INCLUSION ,
+			 C1.SALES_INCLUSION,
              ISNULL(Sum( QUANTITY ),0) AS  ACTUAL_UNITS,
              0          AS       INDICATOR
       FROM  ',
@@ -412,21 +440,17 @@ SET @SQL = CONCAT ('IF EXISTS (SELECT 1 FROM ', @CUSTOM_TABLE_SALES, ')
                     ON A.PERIOD_SID = AD.PERIOD_SID
                        AND AD.CCP_DETAILS_SID = C1.CCP_DETAILS_SID
 					   LEFT JOIN #TEMP_EXFACTORY TE ON TE.ITEM_MASTER_SID=CD.ITEM_MASTER_SID AND TE.PERIOD_SID=A.PERIOD_SID
-					   LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=C1.SALES_INCLUSION
       GROUP  BY C1.CCP_DETAILS_SID,
                 PERIOD,
                 YEAR,
-                HT.DESCRIPTION
+                C1.SALES_INCLUSION
       UNION  all
       SELECT C1.CCP_DETAILS_SID,
              period,
              YEAR,
              ISNULL(Sum(PROJECTION_SALES),0) AS SALES,
 			 ISNULL(SUM(TE.FORECAST_GTS_SALES),0)  As EXFACTORY_SALES,
-			 CASE
-           WHEN HT.DESCRIPTION = ''YES'' THEN 1
-                 ELSE 0
-                 END SALES_INCLUSION ,
+			 C1.SALES_INCLUSION ,
             ISNULL(Sum(PROJECTION_UNITS),0) AS PROJECTION_UNITS,
              1 INDICATOR
       FROM ',
@@ -449,15 +473,16 @@ SET @SQL = CONCAT ('IF EXISTS (SELECT 1 FROM ', @CUSTOM_TABLE_SALES, ')
                                                  OR spm.PROJECTION_UNITS IS NOT NULL )) A
                     ON C1.CCP_DETAILS_SID = A.CCP_DETAILS_SID
                        AND B.PERIOD_SID = A.PERIOD_SID
-					LEFT JOIN #TEMP_EXFACTORY TE ON TE.ITEM_MASTER_SID=CD.ITEM_MASTER_SID AND TE.PERIOD_SID=A.PERIOD_SID
-					LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=C1.SALES_INCLUSION                
+					LEFT JOIN #TEMP_EXFACTORY TE ON TE.ITEM_MASTER_SID=CD.ITEM_MASTER_SID AND TE.PERIOD_SID=A.PERIOD_SID            
       GROUP  BY C1.CCP_DETAILS_SID,
                 period,
                 YEAR,
-                HT.DESCRIPTION'
+                C1.SALES_INCLUSION
+				'
 		)
 
 EXEC Sp_executesql @sql
+
 
 declare @CURRENT_TOTAL_SALES varchar(2000)= CONCAT ('ST_CURRENT_TOTAL_SALES_',@USER_ID, '_',@SESSION_ID,'_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
 set @sql=concat('IF OBJECT_ID(''',@CURRENT_TOTAL_SALES,''') IS NOT NULL
@@ -716,8 +741,8 @@ EXEC Sp_executesql  @SQL_UOM
                            ITEM_MASTER_SID        INT,
                            CCP_DETAILS_SID        INT,
                            PROJECTION_MASTER_SID  INT,
-                           PROJECTION_DETAILS_SID INT
-                           PRIMARY KEY (PROJECTION_MASTER_SID, PROJECTION_DETAILS_SID)
+                           PROJECTION_DETAILS_SID INT,CFF_MASTER_SID int
+                           PRIMARY KEY (PROJECTION_MASTER_SID, PROJECTION_DETAILS_SID,CFF_MASTER_SID)
                         )
 
 
@@ -729,14 +754,15 @@ DECLARE @SQL_PRIOR NVARCHAR(MAX)
                                    ITEM_MASTER_SID,
                                    CCP_DETAILS_SID,
                                    PROJECTION_MASTER_SID,
-                                   PROJECTION_DETAILS_SID
+                                   PROJECTION_DETAILS_SID,CFF_MASTER_SID
 								   )
                       SELECT DISTINCT CD.COMPANY_MASTER_SID,
                              CD.CONTRACT_MASTER_SID,
                              CD.ITEM_MASTER_SID,
                              CD.CCP_DETAILS_SID,
                              A.PROJECTION_MASTER_SID,
-                             pd.PROJECTION_DETAILS_SID
+                             pd.PROJECTION_DETAILS_SID,
+							  A.PROJECTION_MASTER_SID
                       FROM   #PROJECTION_MASTER A
                              JOIN PROJECTION_DETAILS PD
                                ON A.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
@@ -747,7 +773,6 @@ DECLARE @SQL_PRIOR NVARCHAR(MAX)
                             FROM   ',
 		@CCP_HIERARCHY,
 		' PD1 WHERE PD1.CCP_DETAILS_SID = CD.CCP_DETAILS_SID)')
-
 
 		
 		 EXEC Sp_executesql @SQL_PRIOR
@@ -762,14 +787,14 @@ SET @SQL_CFF_PRIOR=CONCAT('INSERT INTO #PRIOR_TEMP_CCP
                                    ITEM_MASTER_SID,
                                    CCP_DETAILS_SID,
                                    PROJECTION_MASTER_SID,
-                                   PROJECTION_DETAILS_SID
+                                   PROJECTION_DETAILS_SID,CFF_MASTER_SID
 								   )
 	 SELECT DISTINCT CCP.COMPANY_MASTER_SID,
 	                 CCP.CONTRACT_MASTER_SID,
 					 CCP.ITEM_MASTER_SID,
 					  CD.CCP_DETAILS_SID,
                       PD.PROJECTION_MASTER_SID,
-                      PD.PROJECTION_DETAILS_SID
+                      PD.PROJECTION_DETAILS_SID,C.CFF_MASTER_SID
       FROM   CFF_DETAILS CD
              JOIN CFF_MASTER C
                ON CD.CFF_MASTER_SID = C.CFF_MASTER_SID
@@ -777,19 +802,20 @@ SET @SQL_CFF_PRIOR=CONCAT('INSERT INTO #PRIOR_TEMP_CCP
                ON PD.PROJECTION_MASTER_SID = CD.PROJECTION_MASTER_SID
                   AND PD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
 			  JOIN #PROJECTION_MASTER PM
-			  ON PM.PROJECTION_MASTER_SID=CD.PROJECTION_MASTER_SID
+			  ON PM.PROJECTION_MASTER_SID=C.CFF_MASTER_SID
 			  AND PM.TYPE=''C''
 			   JOIN CCP_DETAILS CCP
                 ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
-			  JOIN CFF_APPROVAL_DETAILS CFA ON CFA.CFF_MASTER_SID=C.CFF_MASTER_SID
-			  INNER JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CFA.APPROVAL_STATUS
-			  WHERE  HT.DESCRIPTION = ''APPROVED''
+			  --JOIN CFF_APPROVAL_DETAILS CFA ON CFA.CFF_MASTER_SID=C.CFF_MASTER_SID
+			  --INNER JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CFA.APPROVAL_STATUS
+			  --WHERE  HT.DESCRIPTION = ''APPROVED''
 			   AND EXISTS (SELECT 1
                             FROM   ',
 		@CCP_HIERARCHY,
 		' PD1 WHERE PD1.CCP_DETAILS_SID = CD.CCP_DETAILS_SID) '
 		)
 
+		
 
 EXEC sp_executesql @SQL_CFF_PRIOR
 
@@ -801,22 +827,26 @@ CREATE TABLE #PRIOR_CCPD_TABLE
 (
 CCP_DETAILS_SID INT,
 RS_CONTRACT_SID INT,
-PROJECTION_MASTER_SID INT,
+CFF_MASTER_SID INT,
+PROJECTION_MASTER_SID int,
 YEAR INT,
 PERIOD INT,
-ITEM_MASTER_SID INT
+ITEM_MASTER_SID INT,[type] bit 
 )
 
 DECLARE @SQL_CCPD NVARCHAR(MAX)
 
-SET @SQL_CCPD=CONCAT('INSERT INTO #PRIOR_CCPD_TABLE(CCP_DETAILS_SID,RS_CONTRACT_SID,PROJECTION_MASTER_SID,YEAR,PERIOD,ITEM_MASTER_SID)
+SET @SQL_CCPD=CONCAT('INSERT INTO #PRIOR_CCPD_TABLE(CCP_DETAILS_SID,RS_CONTRACT_SID,CFF_MASTER_SID,PROJECTION_MASTER_SID,YEAR,PERIOD,ITEM_MASTER_SID,type)
 SELECT DISTINCT A.CCP_DETAILS_SID,
        C.RS_CONTRACT_SID,
-	   A.PROJECTION_MASTER_SID,
+	   A.CFF_MASTER_SID,
+	   a.PROJECTION_MASTER_SID,
 	   P.YEAR,
 	   P.PERIOD,
-	   A.ITEM_MASTER_SID
+	   A.ITEM_MASTER_SID,case when PM1.TYPE!=''C'' then 0 else 1 end [type]
 FROM #PRIOR_TEMP_CCP A JOIN (select distinct RS_CONTRACT_SID,CCP_DETAILS_SID from ',@CUSTOM_CCP_SALES,' where CUST_VIEW_MASTER_SID= ' ,@CUSTOM_VIEW_MASTER_SID, ') C ON C.CCP_DETAILS_SID=A.CCP_DETAILS_SID
+join #PROJECTION_MASTER PM1
+			  ON PM1.PROJECTION_MASTER_SID=A.CFF_MASTER_SID
 LEFT JOIN NM_DISCOUNT_PROJ_MASTER RS ON RS.CCP_DETAILS_SID = C.CCP_DETAILS_SID AND A.PROJECTION_MASTER_SID=RS.PROJECTION_MASTER_SID
 AND A.PROJECTION_DETAILS_SID=RS.PROJECTION_DETAILS_SID
     and (RS.RS_CONTRACT_SID = C.RS_CONTRACT_SID or c.RS_CONTRACT_SID =0)
@@ -835,7 +865,7 @@ IF Object_id('TEMPDB..#PRIOR_DATA_TABLE') IS NOT NULL
                              PROJECTION_DETAILS_SID,
                              YEAR,
                              PERIOD,
-                             PERIOD_SID
+                             PERIOD_SID,CFF_MASTER_SID
                       INTO   #PRIOR_DATA_TABLE
                       FROM   #PRIOR_TEMP_CCP A
                              CROSS JOIN #PERIOD
@@ -844,7 +874,7 @@ IF Object_id('TEMPDB..#PRIOR_DATA_TABLE') IS NOT NULL
  IF Object_id('TEMPDB..#SALES_INCLUSION') IS NOT NULL
  DROP TABLE #SALES_INCLUSION
 
-                      SELECT DISTINCT A.PROJECTION_MASTER_SID,
+                      SELECT DISTINCT CFF_MASTER_SID,A.PROJECTION_MASTER_SID,
                                       A.PROJECTION_DETAILS_SID,
                                       CD.CCP_DETAILS_SID,
                                       CASE
@@ -870,7 +900,7 @@ IF Object_id('TEMPDB..#PRIOR_DATA_TABLE') IS NOT NULL
 
 					CREATE TABLE #DEDUCTION_INCLUSION_PRIOR
 					( 
-					   PROJECTION_MASTER_SID INT,
+					   CFF_MASTER_SID int,PROJECTION_MASTER_SID INT,
 					   PROJECTION_DETAILS_SID INT,
 					   CCP_DETAILS_SID INT,
 					   RS_CONTRACT_SID INT,
@@ -879,12 +909,12 @@ IF Object_id('TEMPDB..#PRIOR_DATA_TABLE') IS NOT NULL
 
 						DECLARE @SQL_DED NVARCHAR(MAX)
 
-SET @SQL_DED =CONCAT('INSERT INTO #DEDUCTION_INCLUSION_PRIOR(PROJECTION_MASTER_SID,
+SET @SQL_DED =CONCAT('INSERT INTO #DEDUCTION_INCLUSION_PRIOR(CFF_MASTER_SID,PROJECTION_MASTER_SID,
                                        PROJECTION_DETAILS_SID,
 									   CCP_DETAILS_SID,
 									   RS_CONTRACT_SID,
 									   DEDUCTION_INCLUSION)
-                      SELECT a.PROJECTION_MASTER_SID,
+                      SELECT CFF_MASTER_SID,a.PROJECTION_MASTER_SID,
                              A.PROJECTION_DETAILS_SID,
                              CD.CCP_DETAILS_SID,
                              RS.RS_CONTRACT_SID,
@@ -913,7 +943,7 @@ SET @SQL_DED =CONCAT('INSERT INTO #DEDUCTION_INCLUSION_PRIOR(PROJECTION_MASTER_S
 
           CREATE TABLE #PRIOR_EXFACTORY
             (
-			  PROJECTION_MASTER_SID INT,
+			  CFF_MASTER_SID INT,
                ITEM_MASTER_SID     INT,
                PERIOD          INT,
 			   YEAR INT,
@@ -923,7 +953,7 @@ SET @SQL_DED =CONCAT('INSERT INTO #DEDUCTION_INCLUSION_PRIOR(PROJECTION_MASTER_S
 
           INSERT INTO #PRIOR_EXFACTORY
                       (
-					   PROJECTION_MASTER_SID,
+					   CFF_MASTER_SID,
                        ITEM_MASTER_SID,
                        PERIOD,
 					   YEAR,
@@ -931,25 +961,28 @@ SET @SQL_DED =CONCAT('INSERT INTO #DEDUCTION_INCLUSION_PRIOR(PROJECTION_MASTER_S
                        FORECAST_GTS_SALES
                        )
 
-			SELECT PM.PROJECTION_MASTER_SID,
+			SELECT PM.CFF_MASTER_SID,
 					                 PM.ITEM_MASTER_SID,
 									 P.PERIOD,
 									 P.YEAR,
                                      Sum(EXFACTORY_ACTUAL_SALES)                                     AS ACTUAL_GTS_SALES,
                                      Sum(COALESCE(EXFACTORY_FORECAST_SALES, EXFACTORY_ACTUAL_SALES)) AS FORECAST_GTS_SALES
-                              FROM   (SELECT DISTINCT PROJECTION_MASTER_SID,
+                              FROM   (SELECT DISTINCT CFF_MASTER_SID,
                                                       ITEM_MASTER_SID
                                       FROM   #PRIOR_TEMP_CCP) PM
                                      JOIN #PERIOD p
                                        ON 1 = 1
                                      LEFT JOIN #PRODUCT_FILE_DATA PF
-                                            ON PM.PROJECTION_MASTER_SID = PF.PROJECTION_MASTER_SID
+                                            ON PM.CFF_MASTER_SID = PF.PROJECTION_MASTER_SID
                                                AND PF.ITEM_MASTER_SID = PM.ITEM_MASTER_SID
                                                AND PF.period_sid = P.period_sid
-                              GROUP  BY PM.PROJECTION_MASTER_SID,
+                              GROUP  BY PM.CFF_MASTER_SID,
 							  PM.ITEM_MASTER_SID,
                                         P.PERIOD,
                                         P.YEAR
+
+										--select * from #ACCRUAL_DISCOUNT
+										---select * from #PRIOR_DATA_TABLE pd join #DEDUCTION_INCLUSION_PRIOR dis on dis.CCP_DETAILS_SID=pd.CCP_DETAILS_SID and dis.PROJECTION_MASTER_SID=pd.
 
          IF Object_id('TEMPDB..#PRIOR_ACC_DISC') IS NOT NULL
         DROP TABLE #PRIOR_ACC_DISC;
@@ -1019,11 +1052,11 @@ GROUP BY A2.CCP_DETAILS_SID
 DECLARE @SQL_APP NVARCHAR(MAX)=''
 
 
-
+/*
 SET @SQL_APP = CONCAT ('TRUNCATE TABLE ', @APPROVED_TABLE, '  
 		 INSERT INTO ',
 		@APPROVED_TABLE,
-		'(CCP_DETAILS_SID,RS_CONTRACT_SID,PROJECTION_MASTER_SID,PERIOD,YEAR,SALES,UNITS,DISCOUNT,EXFACTORY_SALES,ACCURAL_DISCOUNT,INDICATOR)
+		'(CCP_DETAILS_SID,RS_CONTRACT_SID,PROJECTION_MASTER_SID,PERIOD,YEAR,SALES,UNITS,DISCOUNT,EXFACTORY_SALES,ACCURAL_DISCOUNT,INDICATOR,type)
 
 SELECT 
 PD.CCP_DETAILS_SID,
@@ -1036,7 +1069,7 @@ PD.PROJECTION_MASTER_SID ,
 						ISNULL(DISCOUNT,0),
 						ISNULL(TE.ACTUAL_GTS_SALES,0) AS EXFACTORY_SALES,
 						ISNULL(PAD.DISCOUNT_AMOUNT,0) AS ACCRUAL_DISCOUNT,
-						0 AS INDICATOR FROM
+						0 AS INDICATOR,type FROM
  #PRIOR_CCPD_TABLE PD
                              LEFT JOIN (SELECT PROJECTION_MASTER_SID,
 							                    CCP_DETAILS_SID,
@@ -1104,12 +1137,8 @@ PD.PROJECTION_MASTER_SID ,
 										TE.ITEM_MASTER_SID=PD.ITEM_MASTER_SID AND TE.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID AND TE.PERIOD=PD.PERIOD AND TE.YEAR=PD.YEAR
 										LEFT JOIN #PRIOR_ACC_DISC PAD ON PAD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND PAD.RS_CONTRACT_SID=PD.RS_CONTRACT_SID
 										AND PAD.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID AND PAD.PERIOD=PD.PERIOD  
-									   AND PAD.YEAR=PD.YEAR ')
-						EXEC SP_EXECUTESQL  @SQL_APP
-
-SET @SQL_APP = CONCAT (' INSERT INTO ',
-		@APPROVED_TABLE,
-		'(CCP_DETAILS_SID,RS_CONTRACT_SID,PROJECTION_MASTER_SID,PERIOD,YEAR,SALES,UNITS,DISCOUNT,EXFACTORY_SALES,ACCURAL_DISCOUNT,INDICATOR)
+									   AND PAD.YEAR=PD.YEAR 
+UNION 
 SELECT 
 PD.CCP_DETAILS_SID,
 PD.RS_CONTRACT_SID,
@@ -1121,7 +1150,7 @@ PD.PROJECTION_MASTER_SID ,
 						ISNULL(DISCOUNT,0),
 						ISNULL(TE.FORECAST_GTS_SALES,0) AS EXFACTORY_SALES,
 						ISNULL(PAD.DISCOUNT_AMOUNT,0) AS ACCRUAL_DISCOUNT,
-						1 AS INDICATOR FROM
+						1 AS INDICATOR,type FROM
   #PRIOR_CCPD_TABLE PD
                              LEFT JOIN (SELECT PROJECTION_MASTER_SID,
 							                    CCP_DETAILS_SID,
@@ -1143,7 +1172,9 @@ PD.PROJECTION_MASTER_SID ,
                                                                ON NSP.PROJECTION_MASTER_SID = PT.PROJECTION_MASTER_SID
                                                                   AND NSP.CCP_DETAILS_SID = PT.CCP_DETAILS_SID
                                                                   AND NSP.PERIOD_SID = PT.PERIOD_SID
-                                                      ) A  GROUP  BY PROJECTION_MASTER_SID,
+                                                      ) A ')
+
+SET @SQL_APP =  @SQL_APP + ' GROUP  BY PROJECTION_MASTER_SID,
 										           CCP_DETAILS_SID,
                                                    YEAR,
                                                    PERIOD) SALES
@@ -1191,10 +1222,185 @@ PD.PROJECTION_MASTER_SID ,
 										LEFT JOIN #PRIOR_ACC_DISC PAD ON PAD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND PAD.RS_CONTRACT_SID=PD.RS_CONTRACT_SID
 										AND PAD.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID AND PAD.PERIOD=PD.PERIOD 
 									   AND PAD.YEAR=PD.YEAR
+									   '
+						*/
+SET @SQL_APP = CONCAT ('TRUNCATE TABLE ', @APPROVED_TABLE )
+EXEC SP_EXECUTESQL  @SQL_APP
+SET @SQL_APP = CONCAT ( '  
+		 INSERT INTO ',
+		@APPROVED_TABLE,
+		'(CCP_DETAILS_SID,RS_CONTRACT_SID,PROJECTION_MASTER_SID,PERIOD,YEAR,SALES,UNITS,DISCOUNT,EXFACTORY_SALES,ACCURAL_DISCOUNT,INDICATOR,type)
+
+SELECT 
+PD.CCP_DETAILS_SID,
+PD.RS_CONTRACT_SID,
+PD.PROJECTION_MASTER_SID ,
+                             PD.PERIOD,
+                             PD.[YEAR],
+						ISNULL(ACTUAL_SALES,0) AS SALES,
+						ISNULL(ACTUAL_UNITS,0) AS UNITS, 
+						ISNULL(DISCOUNT,0),
+						ISNULL(TE.ACTUAL_GTS_SALES,0) AS EXFACTORY_SALES,
+						ISNULL(PAD.DISCOUNT_AMOUNT,0) AS ACCRUAL_DISCOUNT,
+						0 AS INDICATOR,type FROM
+ #PRIOR_CCPD_TABLE PD
+                             LEFT JOIN (SELECT PROJECTION_MASTER_SID,
+							                    CCP_DETAILS_SID,
+                                                A.PERIOD,
+                                                A.YEAR,
+                                               Sum(ACTUAL_SALES) AS ACTUAL_SALES,
+                                               Sum(ACTUAL_UNITS) AS ACTUAL_UNITS
+                                         FROM   (SELECT PT.PROJECTION_MASTER_SID,
+                                                        PT.CCP_DETAILS_SID,
+                                                        PERIOD,
+                                                        YEAR,
+                                                        PT.PERIOD_SID,
+                                                       Isnull(ACTUAL_SALES, 0)                                ACTUAL_SALES,
+                                                    Isnull(ACTUAL_UNITS, 0) ACTUAL_UNITS
+                                                 FROM   #PRIOR_DATA_TABLE PT
+                                                        INNER JOIN #SALES_INCLUSION SI
+                                                                ON SI.PROJECTION_DETAILS_SID = PT.PROJECTION_DETAILS_SID
+                                                        LEFT JOIN NM_ACTUAL_SALES NSP
+                                                               ON NSP.PROJECTION_MASTER_SID = PT.PROJECTION_MASTER_SID
+                                                                  AND NSP.CCP_DETAILS_SID = PT.CCP_DETAILS_SID
+                                                                  AND NSP.PERIOD_SID = PT.PERIOD_SID
+                                                      ) A  
+                                         GROUP  BY PROJECTION_MASTER_SID,
+										           CCP_DETAILS_SID,
+                                                   A.YEAR,
+                                                   A.PERIOD) SALES
+                                     ON PD.CCP_DETAILS_SID=SALES.CCP_DETAILS_SID
+									   AND SALES.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+									    AND SALES.PERIOD = PD.PERIOD
+                                        AND sales.YEAR = PD.YEAR
+                             LEFT JOIN (SELECT PROJECTION_MASTER_SID,
+							                   CCP_DETAILS_SID,
+											   RS_CONTRACT_SID,
+                                               A.PERIOD,
+                                               A.YEAR,
+                                               Sum(ACTUAL_SALES) AS DISCOUNT
+                                        FROM    (SELECT PT.CFF_MASTER_SID PROJECTION_MASTER_SID,
+                                                       PD.CCP_DETAILS_SID,
+													   PD.RS_CONTRACT_SID,
+                                                       PD.PERIOD,
+                                                       PD.YEAR,
+                                                       PT.PERIOD_SID,
+                                                        Isnull(ACTUAL_SALES, 0) AS ACTUAL_SALES
+                                                FROM    #PRIOR_CCPD_TABLE PD JOIN
+												      #PRIOR_DATA_TABLE PT  ON PD.CCP_DETAILS_SID=PT.CCP_DETAILS_SID
+                                                       INNER JOIN #DEDUCTION_INCLUSION_PRIOR DI
+                                                               ON DI.PROJECTION_DETAILS_SID = PT.PROJECTION_DETAILS_SID
+															     AND (DI.RS_CONTRACT_SID = pd.RS_CONTRACT_SID or pd.RS_CONTRACT_SID=0)
+                                                       LEFT JOIN NM_ACTUAL_DISCOUNT NDP
+                                                              ON NDP.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                                                                 AND DI.CCP_DETAILS_SID = NDP.CCP_DETAILS_SID
+                                                                 AND DI.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
+                                                                 AND NDP.PERIOD_SID = PT.PERIOD_SID) A
+                                        GROUP  BY PROJECTION_MASTER_SID,
+										           CCP_DETAILS_SID,
+												   RS_CONTRACT_SID,
+                                                  A.PERIOD,
+                                                  A.YEAR) DISC
+                                  ON PD.CCP_DETAILS_SID=DISC.CCP_DETAILS_SID
+								  AND PD.RS_CONTRACT_SID=DISC.RS_CONTRACT_SID
+									   AND DISC.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+									    AND DISC.PERIOD = PD.PERIOD
+                                        AND DISC.YEAR = PD.YEAR
+										LEFT JOIN #PRIOR_EXFACTORY TE ON 
+										TE.ITEM_MASTER_SID=PD.ITEM_MASTER_SID AND TE.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID AND TE.PERIOD=PD.PERIOD AND TE.YEAR=PD.YEAR
+										LEFT JOIN #PRIOR_ACC_DISC PAD ON PAD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND PAD.RS_CONTRACT_SID=PD.RS_CONTRACT_SID
+										AND PAD.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID AND PAD.PERIOD=PD.PERIOD  
+									   AND PAD.YEAR=PD.YEAR 
 									   ')
-
-						EXEC SP_EXECUTESQL  @SQL_APP
-
+									  -- EXEC SP_EXECUTESQL  @SQL_APP
+SET @SQL_APP = CONCAT (' INSERT INTO ',
+		@APPROVED_TABLE,
+		'(CCP_DETAILS_SID,RS_CONTRACT_SID,PROJECTION_MASTER_SID,PERIOD,YEAR,SALES,UNITS,DISCOUNT,EXFACTORY_SALES,ACCURAL_DISCOUNT,INDICATOR,type)
+SELECT 
+PD.CCP_DETAILS_SID,
+PD.RS_CONTRACT_SID,
+PD.CFF_MASTER_SID ,
+                             PD.PERIOD,
+                             PD.[YEAR],
+						ISNULL(PROJECTION_SALES,0)  AS SALES,
+						ISNULL(PROJECTION_UNITS,0)  AS UNITS,
+						ISNULL(DISCOUNT,0) DISCOUNT,
+						ISNULL(TE.FORECAST_GTS_SALES,0) AS EXFACTORY_SALES,
+						ISNULL(PAD.DISCOUNT_AMOUNT,0) AS ACCRUAL_DISCOUNT,
+						1 AS INDICATOR,type FROM
+  #PRIOR_CCPD_TABLE PD
+                             LEFT JOIN (SELECT PROJECTION_MASTER_SID,
+							                    CCP_DETAILS_SID,
+                                                PERIOD,
+                                                YEAR,
+                                               Sum(PROJECTION_SALES) AS PROJECTION_SALES,
+                                               Sum(PROJECTION_UNITS) AS PROJECTION_UNITS
+                                         FROM   (SELECT PT.CFF_MASTER_SID PROJECTION_MASTER_SID,
+                                                        PT.CCP_DETAILS_SID,
+                                                        PERIOD,
+                                                        YEAR,
+                                                        PT.PERIOD_SID,
+                                                       Isnull(PROJECTION_SALES, 0)                                PROJECTION_SALES,
+                                                    Isnull(PROJECTION_UNITS, 0) PROJECTION_UNITS
+                                                 FROM   #PRIOR_DATA_TABLE PT
+                                                        INNER JOIN #SALES_INCLUSION SI
+                                                                ON SI.PROJECTION_DETAILS_SID = PT.PROJECTION_DETAILS_SID
+                                                        LEFT JOIN NM_SALES_PROJECTION NSP
+                                                               ON NSP.PROJECTION_MASTER_SID = PT.PROJECTION_MASTER_SID
+                                                                  AND NSP.CCP_DETAILS_SID = PT.CCP_DETAILS_SID
+                                                                  AND NSP.PERIOD_SID = PT.PERIOD_SID
+                                                      ) A  GROUP  BY PROJECTION_MASTER_SID,
+										           CCP_DETAILS_SID,
+                                                   YEAR,
+                                                   PERIOD) SALES
+                                     ON PD.CCP_DETAILS_SID=SALES.CCP_DETAILS_SID
+									   AND SALES.PROJECTION_MASTER_SID = PD.CFF_MASTER_SID
+									    AND SALES.PERIOD = PD.PERIOD
+                                        AND sales.YEAR = PD.YEAR
+                             LEFT JOIN (SELECT PROJECTION_MASTER_SID,
+							                   CCP_DETAILS_SID,
+											   RS_CONTRACT_SID,
+                                               PERIOD,
+                                               YEAR,
+                                               Sum(PROJECTION_SALES) AS DISCOUNT
+                                        FROM   (SELECT PD.CFF_MASTER_SID PROJECTION_MASTER_SID,
+                                                       PD.CCP_DETAILS_SID,
+													   PD.RS_CONTRACT_SID,
+                                                       PD.PERIOD,
+                                                       PD.YEAR,
+                                                       PT.PERIOD_SID,
+                                                        Isnull(PROJECTION_SALES, 0) AS PROJECTION_SALES
+                                                FROM    #PRIOR_CCPD_TABLE PD JOIN
+												      #PRIOR_DATA_TABLE PT  ON PD.CCP_DETAILS_SID=PT.CCP_DETAILS_SID
+													   AND PD.PROJECTION_MASTER_SID=PT.PROJECTION_MASTER_SID 
+													   AND PD.CFF_MASTER_SID=PT.CFF_MASTER_SID
+													   AND PT.PERIOD=PD.PERIOD
+													   AND PT.YEAR=PD.YEAR
+                                                       INNER JOIN #DEDUCTION_INCLUSION_PRIOR DI
+                                                               ON DI.PROJECTION_DETAILS_SID = PT.PROJECTION_DETAILS_SID 
+															     AND (DI.RS_CONTRACT_SID = pd.RS_CONTRACT_SID or pd.RS_CONTRACT_SID=0)
+                                                       LEFT JOIN NM_DISCOUNT_PROJECTION NDP
+                                                              ON NDP.PROJECTION_MASTER_SID = PT.PROJECTION_MASTER_SID
+                                                                 AND DI.CCP_DETAILS_SID = NDP.CCP_DETAILS_SID
+                                                                 AND DI.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
+                                                                 AND NDP.PERIOD_SID = PT.PERIOD_SID) A
+                                        GROUP  BY PROJECTION_MASTER_SID,
+										           CCP_DETAILS_SID,
+												   RS_CONTRACT_SID,
+                                                  PERIOD,
+                                                  YEAR) DISC
+                                  ON PD.CCP_DETAILS_SID=DISC.CCP_DETAILS_SID
+								  AND PD.RS_CONTRACT_SID=DISC.RS_CONTRACT_SID
+									   AND DISC.PROJECTION_MASTER_SID = PD.CFF_MASTER_SID
+									    AND DISC.PERIOD = PD.PERIOD
+                                        AND DISC.YEAR = PD.YEAR
+										LEFT JOIN #PRIOR_EXFACTORY TE ON 
+										TE.ITEM_MASTER_SID=PD.ITEM_MASTER_SID AND TE.CFF_MASTER_SID=PD.PROJECTION_MASTER_SID AND TE.PERIOD=PD.PERIOD AND TE.YEAR=PD.YEAR
+										LEFT JOIN #PRIOR_ACC_DISC PAD ON PAD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND PAD.RS_CONTRACT_SID=PD.RS_CONTRACT_SID
+										AND PAD.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID AND PAD.PERIOD=PD.PERIOD 
+									   AND PAD.YEAR=PD.YEAR
+									   ')
+									   EXEC SP_EXECUTESQL  @SQL_APP
 
 	SET @SQL = CONCAT ('
 insert into ',@CURRENT_TOTAL_SALES,'(CFF_MASTER_SID,year,period,TOT_PROJECTION_SALES,SALES_INCLUSION)
@@ -1221,18 +1427,18 @@ FROM (
 	SET @SQL = CONCAT ('
 insert into ',@CURRENT_TOTAL_EXFACTORY,'(CFF_MASTER_SID,year,period,TOT_EXFACTORY_SALES#PROJ)
 
-	SELECT PROJECTION_MASTER_SID,
+	SELECT CFF_MASTER_SID,
 		PERIOD,
 		YEAR,
 		sum(FORECAST_GTS_SALES) TOT_EXFACTORY_SALES#PROJ
 	FROM #PRIOR_EXFACTORY
-	GROUP BY PROJECTION_MASTER_SID,
+	GROUP BY CFF_MASTER_SID,
 		PERIOD,
 		YEAR
 		')
 	EXEC SP_EXECUTESQL  @SQL
 	
-						  END TRY
+	END TRY
 
       BEGIN CATCH
           DECLARE @ERRORMESSAGE NVARCHAR(4000);

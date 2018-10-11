@@ -942,16 +942,16 @@ public class DataSelectionQueryUtils {
             if (parameters.get(Constant.ISORDERED) == null || AFALSE_STRING.equalsIgnoreCase(String.valueOf(parameters.get(Constant.ISORDERED)))) {
                 sql = sql + (" ORDER BY ITEM_GROUP_NAME DESC ");
             } else if (parameters.get(Constant.ISORDERED) != null && Constant.TRUE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.ISORDERED)))) {
-                if (parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_NAME) != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_NAME)))) {
+                if (parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_NAME) != null && !com.stpl.app.serviceutils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_NAME)))) {
                     sql = sql + (" ORDER BY ITEM_GROUP_NAME ");
                     sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_NAME)));
                 }
 
-                if (parameters.get(Constant.ORDER_BYPRODUCT_GROUP) != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP)))) {
+                if (parameters.get(Constant.ORDER_BYPRODUCT_GROUP) != null && !com.stpl.app.serviceutils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP)))) {
                     sql = sql + (" ORDER BY ITEM_GROUP_NO ");
                     sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP)));
                 }
-                if (parameters.get(Constant.ORDER_BYCOMPANY) != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY)))) {
+                if (parameters.get(Constant.ORDER_BYCOMPANY) != null && !com.stpl.app.serviceutils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY)))) {
                     sql = sql + (" ORDER BY CM.COMPANY_NAME ");
                     sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY)));
                 }
