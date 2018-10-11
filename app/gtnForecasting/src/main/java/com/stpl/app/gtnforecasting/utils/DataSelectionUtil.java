@@ -253,7 +253,7 @@ public class DataSelectionUtil {
 			final ExtTreeContainer<Leveldto> selectedContainer) {
 		if (selectedTable.hasChildren(item)) {
 			Collection<?> children = selectedTable.getChildren(item);
-			if (children != null && children.size() > 0) {
+			if (children != null && !children.isEmpty()) {
 				BeanItemContainer<Leveldto> tempBean = new BeanItemContainer<>(Leveldto.class);
 				LinkedList<Object> children2 = new LinkedList<>();
 				for (Iterator<?> i = children.iterator(); i.hasNext();) {
@@ -299,10 +299,9 @@ public class DataSelectionUtil {
 		String indicatorTable = Constant.TABLE1;
 		String indicatorColumn = Constant.COLUMN1;
 
-		int i, j, k;
-		i = 0;
-		j = 0;
-		k = 0;
+		int i = 0;
+		int j = 0;
+		int k = 0;
 		StringBuilder query = new StringBuilder();
 		if ("item".equalsIgnoreCase(tableIndicator)) {
 			query.append(" SELECT  distinct ccpd.");

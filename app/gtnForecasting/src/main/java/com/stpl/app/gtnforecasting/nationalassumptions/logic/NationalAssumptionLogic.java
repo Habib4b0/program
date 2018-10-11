@@ -82,7 +82,7 @@ import org.slf4j.LoggerFactory;
 public class NationalAssumptionLogic {
 
     
-    private final String dataSourceContext = "java:jboss/datasources/jdbc/appDataPool";
+    private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     public static final String DESCRIPTION = "description";
     public static final String CALL_BRACKET = "{call ";
     /**
@@ -430,7 +430,7 @@ public class NationalAssumptionLogic {
         List<Object[]> objectList = new ArrayList<>();
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(dataSourceContext);
+            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
         } catch (NamingException ex)
         {
             LOGGER.error(ex.getMessage());
@@ -854,7 +854,7 @@ public class NationalAssumptionLogic {
         DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(dataSourceContext);
+            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
         } catch (NamingException ex)
         {
                LOGGER.error(ex.getMessage());
@@ -1236,7 +1236,7 @@ public class NationalAssumptionLogic {
         
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(dataSourceContext);
+            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
         } catch (NamingException ex)
         {
             LOGGER.error(ex.getMessage());

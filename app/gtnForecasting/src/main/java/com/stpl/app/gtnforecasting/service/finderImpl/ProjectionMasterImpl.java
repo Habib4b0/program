@@ -1106,10 +1106,10 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                                 }
                                 if (prevNo >= currNo) {
                                     while (currNo <= prevNo) {
-                                        if (logic.size() > 0) {
+                                        if (!logic.isEmpty()) {
                                             logic.remove(logic.get(logic.size() - 1));
                                         }
-                                        if (condition.size() > 0) {
+                                        if (!condition.isEmpty()) {
                                             condition.remove(condition.get(condition.size() - 1));
                                         }
                                         prevNo--;

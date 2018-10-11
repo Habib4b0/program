@@ -174,7 +174,7 @@ public class Sales extends CustomComponent {
         frequencyDdlb.setEnabled(false);
 
         historyDdlb.setImmediate(true);
-        historyDdlb.addItems(AccrualRateUtils.getInstance().historyPeriods12);
+        historyDdlb.addItems(AccrualRateUtils.getHistoryPeriods());
         historyDdlb.select(Constant.SELECT_ONE);
 
         exclusionDetails.addStyleName(Reindeer.BUTTON_LINK);

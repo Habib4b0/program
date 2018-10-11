@@ -131,13 +131,10 @@ public class HeaderUtils {
         histEndYear = projSelDTO.getForecastDTO().getHistoryEndYear();
         if (histEndPeriod == foreStartPeriod && histEndYear == projSelDTO.getForecastDTO().getForecastStartYear()) {
             histEndPeriod--;
-            if (freqDivision == 1) {
+            if (freqDivision == 1 || histEndPeriod < 1) {
                 histEndMonth = NumericConstants.TWELVE;
                 histEndYear = histEndYear - 1;
-            } else if (histEndPeriod < 1) {
-                histEndMonth = NumericConstants.TWELVE;
-                histEndYear = histEndYear - 1;
-            } else if (freqDivision == NumericConstants.TWO) {
+            }  else if (freqDivision == NumericConstants.TWO) {
                 if (histEndPeriod == 1) {
                     histEndMonth = NumericConstants.SIX;
                 } else if (histEndPeriod == NumericConstants.TWO) {

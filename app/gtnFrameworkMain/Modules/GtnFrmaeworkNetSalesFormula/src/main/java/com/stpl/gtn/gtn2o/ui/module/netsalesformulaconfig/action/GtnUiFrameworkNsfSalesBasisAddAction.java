@@ -91,14 +91,23 @@ public class GtnUiFrameworkNsfSalesBasisAddAction implements GtnUIFrameWorkActio
 
 		updateRequest.setGtnWsGeneralRequest(generalWSRequest);
 
-		GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_SALESBASIS_INSERT, updateRequest,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse gtnWsresponse = getResponse(updateRequest);
 
 		if (gtnWsresponse.getGtnWsGeneralResponse().isSucess()) {
 			GtnFrameworkNSFCommonLogic.reloadTable(viewId, "selectedCustomersResultTable");
 		}
 
+	}
+
+	/**
+	 * @param updateRequest
+	 * @return
+	 */
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest updateRequest) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_SALESBASIS_INSERT, updateRequest,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
 	}
 
 	@Override

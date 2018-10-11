@@ -251,7 +251,7 @@ public class PVCommonLogic {
         String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
             value = String.valueOf(roundToFraction((val - val1), 10000));
-            value = roundToFraction(Double.parseDouble(value), 100) + "";
+            value = Double.toString(roundToFraction(Double.parseDouble(value), 100)) ;
             value = getFormattedValue(format, value);
         } else {
             variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
@@ -269,7 +269,7 @@ public class PVCommonLogic {
         String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
             value = String.valueOf(roundToFraction((val - val1), 10000));
-            value = roundToFraction(Double.parseDouble(value), 100) + "";
+            value = Double.toString(roundToFraction(Double.parseDouble(value), 100));
         } else {
             variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
             value = getFormattedValue(formatter, variance);
