@@ -1192,7 +1192,7 @@
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;&#xd;&#xa;var datevalue&#x3d;new Date&#x28;&#x29;&#x3b;&#xd;&#xa;var sdf &#x3d; new java.text.SimpleDateFormat&#x28;&#x22;yyyymmdd_hhmmss&#x22;&#x29;&#x3b;&#xd;&#xa;var BATCH_ID &#x3d; &#x22;ACM_RBT_&#x22;&#x2b;sdf.format&#x28;datevalue&#x29;&#x3b; </jsScript_script>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;&#xd;&#xa;var datevalue&#x3d;new Date&#x28;&#x29;&#x3b;&#xd;&#xa;var sdf &#x3d; new java.text.SimpleDateFormat&#x28;&#x22;yyyymmdd_hhmmss&#x22;&#x29;&#x3b;&#xd;&#xa;var BATCH_ID &#x3d; &#x22;ACM_CBK_&#x22;&#x2b;sdf.format&#x28;datevalue&#x29;&#x3b; </jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>BATCH_ID</name>
         <rename>BATCH_ID</rename>
         <type>String</type>
