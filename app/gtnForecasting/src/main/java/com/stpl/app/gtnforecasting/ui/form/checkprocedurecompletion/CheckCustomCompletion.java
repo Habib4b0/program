@@ -7,7 +7,7 @@ package com.stpl.app.gtnforecasting.ui.form.checkprocedurecompletion;
 
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.serviceUtils.Constants;
+import com.stpl.app.serviceutils.Constants;
 import com.stpl.app.util.service.thread.ThreadPool;
 import java.util.concurrent.Future;
 

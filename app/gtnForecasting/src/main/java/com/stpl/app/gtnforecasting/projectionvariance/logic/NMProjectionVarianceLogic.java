@@ -52,7 +52,7 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
-import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
+import com.stpl.app.gtnforecasting.queryutils.PVQueryUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;

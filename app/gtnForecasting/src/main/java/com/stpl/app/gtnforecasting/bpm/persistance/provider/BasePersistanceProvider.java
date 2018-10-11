@@ -1,6 +1,6 @@
 package com.stpl.app.gtnforecasting.bpm.persistance.provider;
 
-import com.stpl.app.gtnforecasting.service.finderImpl.NMSalesProjectionMasterImpl;
+import com.stpl.app.gtnforecasting.service.finderimpl.NMSalesProjectionMasterImpl;
 import java.util.List;
 
 /**

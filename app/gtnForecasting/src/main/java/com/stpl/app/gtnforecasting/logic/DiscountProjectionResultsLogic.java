@@ -13,7 +13,7 @@ import com.stpl.app.gtnforecasting.dao.CommonDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
 import com.stpl.app.gtnforecasting.dto.DiscountProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.service.finderImpl.NmDiscountImpl;
+import com.stpl.app.gtnforecasting.service.finderimpl.NmDiscountImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;

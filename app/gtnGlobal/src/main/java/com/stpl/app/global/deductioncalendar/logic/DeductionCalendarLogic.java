@@ -22,7 +22,7 @@ import com.stpl.app.util.Constants;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.NotesTabLogic;
 import com.stpl.app.util.xmlparser.SQLUtil;
-import com.stpl.domain.global.DeductionCalendar.DeductionCalendarDao;
+import com.stpl.domain.global.deductioncalendar.DeductionCalendarDao;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
