@@ -17,7 +17,7 @@ import java.util.Objects;
 
 /**
  *
- * @author
+ * @a
  */
 public class CopyAccountConfig extends AbstractAccountConfig {
 

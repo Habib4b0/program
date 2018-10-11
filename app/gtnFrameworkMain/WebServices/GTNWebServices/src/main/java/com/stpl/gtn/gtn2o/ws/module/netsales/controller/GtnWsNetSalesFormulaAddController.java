@@ -265,7 +265,7 @@ public class GtnWsNetSalesFormulaAddController {
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			gtnResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
-
+  
 			int checkSuccess = gtnWsNsfService.checkAllItems(gtnWsRequest);
 			gtnResponse.getGtnWsGeneralResponse().setSucess(checkSuccess > 0);
 			return gtnResponse;
