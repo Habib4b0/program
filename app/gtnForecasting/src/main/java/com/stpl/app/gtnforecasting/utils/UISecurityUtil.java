@@ -71,43 +71,4 @@ public final class UISecurityUtil {
         return tblResultCustom;
     }
 
-    public static TableResultCustom modifyTableResultSecurity(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM, String mode)  {
-
-        final TableResultCustom tblResultCustom = new TableResultCustom();
-        boolean appPerm = false;
-
-        String str;
-        final List<Object> objResultList = new ArrayList();
-        final List<String> objResultHeaderList = new ArrayList();
-
-        for (int i = 0; i < obj.length; i++) {
-            str = String.valueOf(obj[i]);
-            if (fieldHM.get(str) != null) {
-                final AppPermission appPermission = fieldHM.get(str);
-                if (mode.equals(Constant.ADD)) {
-                    appPerm = appPermission.isAddFlag();
-                }
-                if (mode.equals(Constant.EDIT)) {
-                    appPerm = appPermission.isEditFlag();
-                }
-                if (mode.equals(Constant.VIEW)) {
-                    appPerm = appPermission.isViewFlag();
-                }
-                if (appPerm == true) {
-                    objResultList.add(obj[i]);
-                    objResultHeaderList.add(header[i]);
-                }
-            }
-        }
-        Object[] objResult = new Object[objResultList.size()];
-        String[] objResultHeader = new String[objResultList.size()];
-        for (int i = 0; i < objResultList.size(); i++) {
-            objResult[i] = objResultList.get(i);
-            objResultHeader[i] = objResultHeaderList.get(i);
-        }
-        tblResultCustom.setObjResult(objResult);
-        tblResultCustom.setObjResultHeader(objResultHeader);
-
-        return tblResultCustom;
-    }
 }

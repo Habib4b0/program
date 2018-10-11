@@ -158,7 +158,7 @@ public class Details extends CustomComponent {
         frequencyDdlb.select(Constant.MONTHLY);
         frequencyDdlb.setReadOnly(true);
 
-        historyDdlb.addItems(AccrualRateUtils.getInstance().historyPeriods12);
+        historyDdlb.addItems(AccrualRateUtils.getHistoryPeriods());
         historyDdlb.setNullSelectionAllowed(true);
         historyDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
         historyDdlb.select(null);

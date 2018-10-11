@@ -360,7 +360,8 @@ public class NmDiscountImpl {
     
 
     private String getPeriodFilter() {
-        String period = " BETWEEN \n "
+        String period = StringUtils.EMPTY;
+        period = period +  " BETWEEN \n "
                 + Constant.SPACE_CASE_NEW_LINE
                 + Constant.WHEN_START_MONTH_1_THEN_CONVERT_DATE
                 + Constant.WHEN_START_MONTH_2_THEN_CONVERT_DATE

@@ -1513,8 +1513,8 @@ public class SalesLogic {
             custHierarchyNo = salesRowDto.getCustomerHierarchyNo();
             prodHierarchyNo = salesRowDto.getHierarchyNo();
         }
-
-        String customCCPQuery = "(SELECT DISTINCT CCPMAPC.CCP_DETAILS_SID FROM\n"
+        String customCCPQuery = StringUtils.EMPTY;
+        customCCPQuery = customCCPQuery + "(SELECT DISTINCT CCPMAPC.CCP_DETAILS_SID FROM\n"
                 + "  (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD\n"
                 + "  JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID\n"
                 + "  JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + projectionId + "'\n"
@@ -3690,7 +3690,8 @@ public class SalesLogic {
         } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             productLevelNo = StringUtils.EMPTY + levelNo;
         }
-        String customViewQuery = "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
+        String customViewQuery  = StringUtils.EMPTY;
+        customViewQuery = customViewQuery + "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
                 + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
                 + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID"
                 + " AND RLD.RELATIONSHIP_BUILDER_SID = " + custRelSid + "\n"
@@ -3757,10 +3758,11 @@ public class SalesLogic {
 
     public String getGroupFilterSalesQuery(String userGroup, boolean isPrior) {
         String tableIndicator = StringUtils.EMPTY;
+        String query = StringUtils.EMPTY;
         if (!isPrior) {
             tableIndicator = "ST_";
         }
-        String query = "JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
+         query = query + "JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
         return query;
     }
 
