@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.netsales.service.GtnWsNsfService;
 import com.stpl.gtn.gtn2o.ws.netsales.bean.GtnWsNsfUpdateBean;
@@ -42,7 +41,7 @@ public class GtnWsNetSalesFormulaValidationController {
 			GtnWsNsfUpdateBean nsfUpdateBean = gtnWsRequest.getGtnWsNetSalesGeneralRequest().getNsfUpdateBean();
 			nsfGeneralResponse.setNsfUpdateBean(nsfUpdateBean);
 			gtnResponse.setGtnWsNetSalesGeneralResponse(nsfGeneralResponse);
-		} catch (GtnFrameworkGeneralException gtnGeneralException) {
+		} catch (Exception gtnGeneralException) {
 			LOGGER.info("Exception in nsfSalesBasisPopulateValidateService() method");
 			gtnResponse.getGtnWsGeneralResponse().setSucess(false);
 			gtnResponse.getGtnWsGeneralResponse().setGtnGeneralException(gtnGeneralException);

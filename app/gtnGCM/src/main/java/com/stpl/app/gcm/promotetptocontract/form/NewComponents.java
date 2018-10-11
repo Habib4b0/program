@@ -492,9 +492,7 @@ public class NewComponents extends CustomComponent implements View {
                                     itemStatusList.clear();
                                     itemStatusList = CommonLogic.getDropDownList("PS_TYPE");
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
-                                } catch (SystemException ex) {
-                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
-                                } catch (Exception ex) {
+                                }  catch (Exception ex) {
                                     LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 }
                             }

@@ -125,7 +125,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
      */
     private final Resource graphImage = new ThemeResource("../../icons/chart.png");
     private boolean isComparisonLookupOpened;
-    private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap = new HashMap();
     private final Map<String, Object> excelParentRecords = new HashMap();
@@ -462,7 +461,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             pvSelectionDTO.setForecastDTO(getHistoricalPeriods(dataSelectionDTO));
             List<Object> headerPropertyIds = HeaderUtils.getVarianceRightTableColumns(pvSelectionDTO, fullHeader);
             rightHeader = (CustomTableHeaderDTO) headerPropertyIds.get(0);
-            rightHeaderPeriod = (CustomTableHeaderDTO) headerPropertyIds.get(0);
+            CustomTableHeaderDTO rightHeaderPeriod = (CustomTableHeaderDTO) headerPropertyIds.get(0);
             pvSelectionDTO.setRightHeaderPeriod(rightHeaderPeriod);
             alignRight();
             ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainerDto = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);

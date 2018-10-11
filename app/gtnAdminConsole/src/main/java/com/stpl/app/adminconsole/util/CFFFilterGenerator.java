@@ -25,7 +25,6 @@ import org.slf4j.LoggerFactory;
  */
 public class CFFFilterGenerator implements ExtFilterGenerator {
 
-    private ProcessSchedulerLogic logic = new ProcessSchedulerLogic();
     private final CommonUtils commonUtils = new CommonUtils();
 
     /**
@@ -57,7 +56,7 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
             try {
                 ComboBox typeDdlb = new ComboBox();
                 typeDdlb.addItem("Show All");
-                typeDdlb = commonUtils.getNativeSelect(typeDdlb, logic.getDropDownList(CFF_TYPE), StringUtils.EMPTY);
+                typeDdlb = commonUtils.getNativeSelect(typeDdlb, ProcessSchedulerLogic.getDropDownList(CFF_TYPE), StringUtils.EMPTY);
                 typeDdlb.setDebugId("testing");
                 typeDdlb.setImmediate(true);
                 typeDdlb.setNullSelectionItemId("Show All");

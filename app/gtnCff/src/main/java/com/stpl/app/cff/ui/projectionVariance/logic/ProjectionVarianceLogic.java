@@ -2640,11 +2640,9 @@ public class ProjectionVarianceLogic {
             } else {
                 commonLogic.saveSelection(map, projectionID, screenName, "update", "CFF_SELECTION");
             }
-        } catch (SystemException ex) {
+        }  catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-        } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
-        }
+        } 
     }
 
     /**

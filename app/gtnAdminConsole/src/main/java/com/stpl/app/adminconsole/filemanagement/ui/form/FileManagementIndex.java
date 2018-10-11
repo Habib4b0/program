@@ -154,7 +154,6 @@ public class FileManagementIndex extends CustomComponent implements View {
 	private final FileMananagementResultDTO fileMgtDTO = new FileMananagementResultDTO();
 	private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
 
-	private CommonUtil commonUtil = new CommonUtil();
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementIndex.class);
 	private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
@@ -270,7 +269,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 	private void getResponsiveFirstTab(final Map<String, AppPermission> fieldItemHM) {
 		LOGGER.debug("Entering getFirstTab1");
 		try {
-			List<Object> resultList = commonUtil.getFieldsForSecurity(CommonUtil.FILE_MANAGEMENT,
+			List<Object> resultList = CommonUtil.getFieldsForSecurity(CommonUtil.FILE_MANAGEMENT,
 					CommonUtil.LANDING_SCREEN);
 
 			commonSecurity.removeSearchComponentOnPermission(resultList, selectFileCssLayout, fieldItemHM);

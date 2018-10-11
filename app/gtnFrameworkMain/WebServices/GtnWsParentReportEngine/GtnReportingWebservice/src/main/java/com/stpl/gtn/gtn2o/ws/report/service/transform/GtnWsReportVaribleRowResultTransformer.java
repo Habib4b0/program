@@ -16,7 +16,7 @@ public class GtnWsReportVaribleRowResultTransformer implements ResultTransformer
 
 	private static final long serialVersionUID = 5906633080624933927L;
 
-	private boolean isAnnual = false;
+	private volatile boolean isAnnual = false;
 
 	@Override
 	public Object transformTuple(Object[] tuple, String[] aliases) {

@@ -179,7 +179,6 @@ public class ApprovalTab extends CustomComponent {
     /**
      * Pagination Layout for Approval Tables
      */
-    private HorizontalLayout approvalPagination;
     /**
      * Pagination Layout for Result Tables
      */
@@ -446,7 +445,7 @@ public class ApprovalTab extends CustomComponent {
                     return new SimpleDateFormat("MM/dd/yyyy, HH:mm:ss");
                 }
             });
-            approvalPagination = ResponsiveUtils.getResponsiveControls(approvalDetailsTable.createControls());
+            HorizontalLayout approvalPagination = ResponsiveUtils.getResponsiveControls(approvalDetailsTable.createControls());
             approvalLayout.addComponent(approvalDetailsTable);
             approvalLayout.addComponent(approvalPagination);
 
