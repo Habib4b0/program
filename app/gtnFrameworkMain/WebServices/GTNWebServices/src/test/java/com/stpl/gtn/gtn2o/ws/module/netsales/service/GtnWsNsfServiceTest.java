@@ -1,38 +1,28 @@
 package com.stpl.gtn.gtn2o.ws.module.netsales.service;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.HibernateException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.engine.spi.SessionDelegatorBaseImpl;
-import org.hibernate.engine.spi.SessionImplementor;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.mockito.Mockito.doReturn;
-import static org.junit.Assert.*;
-import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanBean;
-import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanCommonUpdateBean;
-import com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service.GtnWsIfpAddService;
 import com.stpl.gtn.gtn2o.ws.netsales.bean.GtnUIFrameworkNsfInfoBean;
 import com.stpl.gtn.gtn2o.ws.netsales.bean.GtnUIFrameworkNsfSelectedDeductionsBean;
 import com.stpl.gtn.gtn2o.ws.netsales.bean.GtnUiFrameworkNsfSelectedCustomerBean;
 import com.stpl.gtn.gtn2o.ws.netsales.bean.GtnWsNsfUpdateBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
-import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.request.netsales.GtnWsNetSalesFormulaGeneralRequest;
 
 /**
@@ -213,33 +203,6 @@ public class GtnWsNsfServiceTest {
 
 	}
 
-//	/**
-//	 * Run the List executeQuery(String,Object[],GtnFrameworkDataType[]) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testExecuteQuery_1()
-//		throws Exception {
-//		
-//		String sqlQuery = "";
-//		Object[] params = new Object[] {};
-//		GtnFrameworkDataType[] type = new GtnFrameworkDataType[] {};
-//
-//		GtnFrameworkSqlQueryEngine gtnSqlQueryEngine = Mockito.mock(GtnFrameworkSqlQueryEngine.class);
-//		List list = new ArrayList<>();
-//		doReturn(list).when(gtnSqlQueryEngine).executeSelectQuery(sqlQuery, params, type);
-////		try {
-//			fixture.executeQuery(sqlQuery, params, type);
-////		} catch (Exception e) {
-////			System.out.println(e.getMessage());
-////		}
-//
-//	}
-
-
 	/**
 	 * Run the String getColumnName(GtnWsNsfUpdateBean) method test.
 	 *
@@ -413,73 +376,6 @@ public class GtnWsNsfServiceTest {
 		String result = fixture.getColumnName(nsfUpdateBean);
 		assertNotNull(result);
 	}
-//
-//	/**
-//	 * Run the GtnUIFrameworkNsfInfoBean getNsfData(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testGetNsfData_1()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		gtnWsRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//
-//		GtnUIFrameworkNsfInfoBean result = fixture.getNsfData(gtnWsRequest);
-//
-//
-//		assertNotNull(result);
-//	}
-//
-//	/**
-//	 * Run the GtnUIFrameworkNsfInfoBean getNsfData(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testGetNsfData_2()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		gtnWsRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//
-//		GtnUIFrameworkNsfInfoBean result = fixture.getNsfData(gtnWsRequest);
-//
-//
-//		assertNotNull(result);
-//	}
-//
-//	/**
-//	 * Run the GtnUIFrameworkNsfInfoBean getNsfData(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test(expected = org.hibernate.HibernateException.class)
-//	public void testGetNsfData_3()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//
-//		GtnUIFrameworkNsfInfoBean result = fixture.getNsfData(gtnWsRequest);
-//
-//
-//		assertNotNull(result);
-//	}
-//
-//	/**
-//	 * Run the String getPopulateValidationQuery(GtnWsNsfUpdateBean) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
 	@Test
 	public void testGetPopulateValidationQuery_1()
 		throws Exception {
@@ -753,245 +649,6 @@ public class GtnWsNsfServiceTest {
 		}
 			
 	}
-
-//
-//	/**
-//	 * Run the void isCheckedRecord(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testIsCheckedRecord_1()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		gtnWsRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//		gtnWsRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		fixture.isCheckedRecord(gtnWsRequest);
-//
-//
-//	}
-//
-//	/**
-//	 * Run the void isCheckedRecord(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
-//	public void testIsCheckedRecord_2()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		gtnWsRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//		gtnWsRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		fixture.isCheckedRecord(gtnWsRequest);
-//
-//
-//	}
-//
-//	/**
-//	 * Run the void isCheckedRecord(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test(expected = java.lang.NumberFormatException.class)
-//	public void testIsCheckedRecord_3()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		gtnWsRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//		gtnWsRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		fixture.isCheckedRecord(gtnWsRequest);
-//
-//
-//	}
-//
-//	/**
-//	 * Run the void populateColumns(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testPopulateColumns_1()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		gtnWsRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//		gtnWsRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		fixture.populateColumns(gtnWsRequest);
-//
-//
-//	}
-//
-//	/**
-//	 * Run the void populateColumns(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testPopulateColumns_2()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		gtnWsRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//		gtnWsRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		fixture.populateColumns(gtnWsRequest);
-//
-//
-//	}
-//
-//	/**
-//	 * Run the void populateColumns(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
-//	public void testPopulateColumns_3()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		gtnWsRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//		gtnWsRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		fixture.populateColumns(gtnWsRequest);
-//
-//
-//	}
-//
-//	/**
-//	 * Run the void removeRecords(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testRemoveRecords_1()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		gtnWsRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//		gtnWsRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		fixture.removeRecords(gtnWsRequest);
-//
-//
-//	}
-//
-//	/**
-//	 * Run the void removeRecords(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test(expected = com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException.class)
-//	public void testRemoveRecords_2()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		gtnWsRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//		gtnWsRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		fixture.removeRecords(gtnWsRequest);
-//
-//
-//	}
-//
-//	/**
-//	 * Run the Integer saveNsfInfo(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testSaveNsfInfo_1()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest nsfSaveWsRequest = new GtnUIFrameworkWebserviceRequest();
-//		nsfSaveWsRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//		nsfSaveWsRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		Integer result = fixture.saveNsfInfo(nsfSaveWsRequest);
-//
-//
-//		assertNotNull(result);
-//	}
-//
-//	/**
-//	 * Run the Integer saveNsfInfo(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test(expected = org.hibernate.HibernateException.class)
-//	public void testSaveNsfInfo_2()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest nsfSaveWsRequest = new GtnUIFrameworkWebserviceRequest();
-//
-//		Integer result = fixture.saveNsfInfo(nsfSaveWsRequest);
-//
-//
-//		assertNotNull(result);
-//	}
-//
-//	/**
-//	 * Run the void updateNsfInfo(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test
-//	public void testUpdateNsfInfo_1()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest nsfRequest = new GtnUIFrameworkWebserviceRequest();
-//		nsfRequest.setGtnWsNetSalesGeneralRequest(new GtnWsNetSalesFormulaGeneralRequest());
-//		nsfRequest.setGtnWsGeneralRequest(new GtnWsGeneralRequest());
-//
-//		fixture.updateNsfInfo(nsfRequest);
-//
-//
-//	}
-//
-//	/**
-//	 * Run the void updateNsfInfo(GtnUIFrameworkWebserviceRequest) method test.
-//	 *
-//	 * @throws Exception
-//	 *
-//	
-//	 */
-//	@Test(expected = org.hibernate.HibernateException.class)
-//	public void testUpdateNsfInfo_2()
-//		throws Exception {
-//		
-//		GtnUIFrameworkWebserviceRequest nsfRequest = new GtnUIFrameworkWebserviceRequest();
-//
-//		fixture.updateNsfInfo(nsfRequest);
-//
-//
-//	}
 
 	/**
 	 * Perform post-test clean-up.
