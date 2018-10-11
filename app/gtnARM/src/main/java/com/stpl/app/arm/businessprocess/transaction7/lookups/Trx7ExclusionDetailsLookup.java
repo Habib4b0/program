@@ -11,6 +11,7 @@ import com.stpl.app.arm.businessprocess.transaction7.logic.Trx7ExclusionDetailsL
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.app.utils.ConstantsUtils;
@@ -126,7 +127,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     private void configureFields() {
         tr7PrivateView.setStyleName("searchicon");
         tr7PublicView.setStyleName("searchicon");
-        setCaption("Exclusion Details Look up");
+        setCaption("Exclusion Details Popup");
         setDraggable(true);
         center();
         setModal(true);
@@ -272,7 +273,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
         try {
 //            this.close();Please select at least one Customer value to exclude. 
             if (tr7AvailableCustomers.getValue() == null) {
-                AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getMoveLeftRightMessage_exclusion());
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.MOVE_ERROR, ARMMessages.getMoveLeftRightMessage_exclusion());
                 return;
             }
             if (tr7AvailableCustomers.getValue() != null) {
@@ -292,7 +293,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
         try {
 //            this.close();Please select at least one Customer value to exclude. 
             if (tr7SelectedCustomer.getValue() == null) {
-                AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getMoveLeftRightMessage_exclusion());
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.MOVE_ERROR, ARMMessages.getMoveLeftRightMessage_exclusion());
                 return;
             }
             if (tr7SelectedCustomer.getValue() != null) {
@@ -333,9 +334,8 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     @UiHandler("submitBtn")
     public void submitButtonClick(Button.ClickEvent event) {
         try {
-//            this.close();Please select at least one Customer value to exclude. 
             if (tr7SelectedCustomer.getItemIds().isEmpty()) {
-                AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getSubmitMessage_exclusion());
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.NO_VALUES_SELECTED, ARMMessages.getSubmitMessage_exclusion());
                 return;
             }
             if (!tr7SelectedResultsContainer.getItemIds().isEmpty()) {
@@ -361,7 +361,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     public void resetButtonClick(Button.ClickEvent event) {
         try {
             tr7Exclnotifier.setButtonName("reset");
-            tr7Exclnotifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_exclusion());
+            tr7Exclnotifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessage_exclusion());
         } catch (Exception e) {
             LOGGER.error("Error in resetButtonClick :", e);
         }
@@ -371,8 +371,13 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     public void deleteButtonClick(Button.ClickEvent event) {
         try {
             tr7Exclnotifier.setButtonName("delete");
-            tr7Exclnotifier.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getDeleteMessage_exclusion());
-        } catch (Exception e) {
+            if (tr7SessionDTO.getUserId().compareTo(Integer.valueOf(tr7ViewLookUp.getDtoValue().getCreatedUser())) != 0) {
+                AbstractNotificationUtils.getWarningNotification(CommonConstant.DELETE_CONFIRMATION, ARMMessages.getDeleteErrorMessage_exclusion());
+                return;
+            }
+            
+            tr7Exclnotifier.getConfirmationMessage(CommonConstant.DELETE_CONFIRMATION, ARMMessages.getDeleteMessage_exclusion());
+        } catch (NumberFormatException e) {
             LOGGER.error("Error in deleteButtonClick :", e);
         }
     }

@@ -173,6 +173,7 @@ public class GtnUiFrameworkNsfRemoveConfirmationActionTest {
 		fixture.reloadTable(false, "");
 
 	}
+	
 	/**
 	 * Run the GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request) method test.
 	 *

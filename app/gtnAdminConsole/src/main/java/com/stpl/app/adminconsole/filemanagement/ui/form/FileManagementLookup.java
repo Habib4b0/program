@@ -2364,22 +2364,15 @@ public class FileManagementLookup extends Window {
 				for (Object propertyId : getCollapsibleColumns600Px(table)) {
 					table.setColumnCollapsed(propertyId, true);
 				}
-			} else if (browserWidth < NumericConstants.FOUR_EIGHT_ZERO
-					&& browserWidth > NumericConstants.THREE_TWO_ZERO) {
+			} else if ((browserWidth < NumericConstants.FOUR_EIGHT_ZERO
+					&& browserWidth > NumericConstants.THREE_TWO_ZERO) || (browserWidth < NumericConstants.THREE_TWO_ZERO)) {
 				for (Object propertyId : table.getVisibleColumns()) {
 					table.setColumnCollapsed(propertyId, false);
 				}
 				for (Object propertyId : getCollapsibleColumns480Px(table)) {
 					table.setColumnCollapsed(propertyId, true);
 				}
-			} else if (browserWidth < NumericConstants.THREE_TWO_ZERO) {
-				for (Object propertyId : table.getVisibleColumns()) {
-					table.setColumnCollapsed(propertyId, false);
-				}
-				for (Object propertyId : getCollapsibleColumns480Px(table)) {
-					table.setColumnCollapsed(propertyId, true);
-				}
-			}
+			} 
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}
