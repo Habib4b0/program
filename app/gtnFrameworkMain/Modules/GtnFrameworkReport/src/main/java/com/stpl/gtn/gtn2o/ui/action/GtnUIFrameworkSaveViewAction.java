@@ -146,9 +146,8 @@ public class GtnUIFrameworkSaveViewAction
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, popupAction);
 		gtnLogger.info("privateViewName--------->" + dataSelectionBean.getPrivateViewName());
 		gtnLogger.info("publicViewName----------->" + dataSelectionBean.getPublicViewName());
-		
-		if ((!"".equals(dataSelectionBean.getPrivateViewName()) && dataSelectionBean.getPrivateViewName() != null)
-				|| (!"".equals(dataSelectionBean.getPublicViewName()) && dataSelectionBean.getPublicViewName() != null)){
+
+		if (privateAndPublicViewValidation(dataSelectionBean)) {
 			String viewName = !"".equals(dataSelectionBean.getPrivateViewName())
 					? dataSelectionBean.getPrivateViewName()
 					: "";
@@ -165,7 +164,7 @@ public class GtnUIFrameworkSaveViewAction
 			updateDisableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
 			updateDisableAction.addActionParameter("reportSaveViewLookUp_saveViewAdd");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateDisableAction);
-		}		
+		}
 	}
 
 	private Integer checkIfNotNull(Optional input) {
@@ -187,7 +186,7 @@ public class GtnUIFrameworkSaveViewAction
 
 	private int getViewId(String privateViewName) {
 		GtnWsRecordBean viewRecord;
-		if (!"".equals(privateViewName)) 
+		if (!"".equals(privateViewName))
 			viewRecord = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportLandingScreen_privateViews").getComponentData().getCustomData();
 		else
@@ -223,6 +222,12 @@ public class GtnUIFrameworkSaveViewAction
 			selectedList.add(gtnWsRecordBean);
 			addSelectedValues(rightTable, gtnWsRecordBean, selectedList);
 		}
+	}
+
+	private boolean privateAndPublicViewValidation(GtnWsReportDataSelectionBean dataSelectionBean) {
+		return ((!"".equals(dataSelectionBean.getPrivateViewName()) && dataSelectionBean.getPrivateViewName() != null)
+				|| (!"".equals(dataSelectionBean.getPublicViewName())
+						&& dataSelectionBean.getPublicViewName() != null));
 	}
 
 	@Override
