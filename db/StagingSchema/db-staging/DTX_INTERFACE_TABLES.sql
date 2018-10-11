@@ -8241,6 +8241,156 @@ END
 GO
 
 
+-----------------------------------------PSTG_ACM_CBK_INTERFACE
+IF NOT EXISTS (SELECT 'X'
+		       FROM INFORMATION_SCHEMA.TABLES
+			   WHERE TABLE_NAME='PSTG_ACM_CBK_INTERFACE'
+			   AND TABLE_SCHEMA='DBO'
+			   AND TABLE_TYPE= 'BASE TABLE') 
+BEGIN
+       
+    CREATE TABLE [dbo].[PSTG_ACM_CBK_INTERFACE](
+	    [PSTG_ACM_CBK_INTERFACE_SID] [int] IDENTITY(1,1) NOT NULL,
+        [Prod_Package_Source_Id] [nvarchar](1000) NULL,
+        [Price_Group_Source_Id] [nvarchar](1000) NULL,
+        [Contract_Id_Submitted] [nvarchar](1000) NULL,
+        [Adjudication_Number] [nvarchar](1000) NULL,
+        [Adjudication_Item_Number] [nvarchar](1000) NULL,
+        [Adjudication_Type_Code] [nvarchar](1000) NULL,
+        [Adjudication_Type] [nvarchar](1000) NULL,
+        [Settlement_Number] [nvarchar](1000) NULL,
+        [Settlement_Status] [nvarchar](1000) NULL,
+        [Pay_To_Customer_Source_Id] [nvarchar](1000) NULL,
+        [Invoice_Date] [nvarchar](1000) NULL,
+        [Paid_Date] [nvarchar](1000) NULL,
+        [Contract_Price] [nvarchar](1000) NULL,
+        [Quantity] [nvarchar](1000) NULL,
+        [Chargeback_Dollars] [nvarchar](1000) NULL,
+        [WAC] [nvarchar](1000) NULL,
+        [bu_bunit_num] [nvarchar](1000) NULL,
+        [bu_bunit_name] [nvarchar](1000) NULL,
+        [bu_bunit_state] [nvarchar](1000) NULL,
+        [pd_brand_name] [nvarchar](1000) NULL,
+        [pg_cpgrp_desc] [nvarchar](1000) NULL,
+        [pg_cpgrp_flg_adminfee] [nvarchar](1000) NULL,
+        [glx_item_no] [nvarchar](1000) NULL,
+        [Submission_Item_Number] [nvarchar](1000) NULL,
+		[CREATED_DATE] [datetime] NULL,
+	    [CREATED_BY] [nvarchar](100) NULL
+) ON [PRIMARY]
+
+END
+
+GO
+
+IF NOT EXISTS(SELECT 1 
+             FROM SYS.DEFAULT_CONSTRAINTS
+			 WHERE OBJECT_NAME(PARENT_OBJECT_ID)='PSTG_ACM_CBK_INTERFACE'
+			       AND SCHEMA_NAME(SCHEMA_ID)='DBO'
+				   AND NAME='DF_PSTG_ACM_CBK_INTERFACE_CREATED_DATE')
+BEGIN
+
+ALTER TABLE [dbo].[PSTG_ACM_CBK_INTERFACE] ADD  CONSTRAINT [DF_PSTG_ACM_CBK_INTERFACE_CREATED_DATE]  DEFAULT (getdate()) FOR [CREATED_DATE]
+
+END
+
+GO
+
+IF NOT EXISTS(SELECT 1 
+             FROM SYS.DEFAULT_CONSTRAINTS
+			 WHERE OBJECT_NAME(PARENT_OBJECT_ID)='PSTG_ACM_CBK_INTERFACE'
+			       AND SCHEMA_NAME(SCHEMA_ID)='DBO'
+				   AND NAME='DF_PSTG_ACM_CBK_INTERFACE_CREATED_BY')
+BEGIN
+
+ALTER TABLE [dbo].[PSTG_ACM_CBK_INTERFACE] ADD  CONSTRAINT [DF_PSTG_ACM_CBK_INTERFACE_CREATED_BY]  DEFAULT ('AGN') FOR [CREATED_BY]
+
+END
+GO
+
+IF NOT EXISTS (SELECT 'X'
+		       FROM INFORMATION_SCHEMA.TABLES
+			   WHERE TABLE_NAME='IVLD_PSTG_ACM_CBK_INTERFACE'
+			   AND TABLE_SCHEMA='DBO'
+			   AND TABLE_TYPE= 'BASE TABLE') 
+BEGIN
+
+    CREATE TABLE [dbo].[IVLD_PSTG_ACM_CBK_INTERFACE](
+	[IVLD_PSTG_ACM_CBK_INTERFACE_SID] [int] IDENTITY(1,1) NOT NULL,
+	[Prod_Package_Source_Id] [nvarchar](1000) NULL,
+        [Price_Group_Source_Id] [nvarchar](1000) NULL,
+        [Contract_Id_Submitted] [nvarchar](1000) NULL,
+        [Adjudication_Number] [nvarchar](1000) NULL,
+        [Adjudication_Item_Number] [nvarchar](1000) NULL,
+        [Adjudication_Type_Code] [nvarchar](1000) NULL,
+        [Adjudication_Type] [nvarchar](1000) NULL,
+        [Settlement_Number] [nvarchar](1000) NULL,
+        [Settlement_Status] [nvarchar](1000) NULL,
+        [Pay_To_Customer_Source_Id] [nvarchar](1000) NULL,
+        [Invoice_Date] [nvarchar](1000) NULL,
+        [Paid_Date] [nvarchar](1000) NULL,
+        [Contract_Price] [nvarchar](1000) NULL,
+        [Quantity] [nvarchar](1000) NULL,
+        [Chargeback_Dollars] [nvarchar](1000) NULL,
+        [WAC] [nvarchar](1000) NULL,
+        [bu_bunit_num] [nvarchar](1000) NULL,
+        [bu_bunit_name] [nvarchar](1000) NULL,
+        [bu_bunit_state] [nvarchar](1000) NULL,
+        [pd_brand_name] [nvarchar](1000) NULL,
+        [pg_cpgrp_desc] [nvarchar](1000) NULL,
+        [pg_cpgrp_flg_adminfee] [nvarchar](1000) NULL,
+        [glx_item_no] [nvarchar](1000) NULL,
+        [Submission_Item_Number] [nvarchar](1000) NULL,
+		[PSTG_ACM_CBK_INTERFACE_SID] [varchar](100) NULL,
+	    [CREATED_DATE] [datetime] NULL,
+	    [CREATED_BY] [nvarchar](100) NULL,
+	    [REASON_FOR_FAILURE] [nvarchar](1000) NULL,
+	    [ERROR_CODE] [varchar](15) NULL,
+	    [ERROR_FIELD] [nvarchar](1000) NULL,
+	    [BATCH_ID] [varchar](100) NULL,
+	    [IVLD_INTERFACE_DATE] [datetime] NULL
+) ON [PRIMARY]
+END
+
+GO
+
+IF NOT EXISTS(SELECT 1 
+             FROM SYS.DEFAULT_CONSTRAINTS
+			 WHERE OBJECT_NAME(PARENT_OBJECT_ID)='IVLD_PSTG_ACM_CBK_INTERFACE'
+			       AND SCHEMA_NAME(SCHEMA_ID)='DBO'
+				   AND NAME='DF_IVLD_PSTG_ACM_CBK_INTERFACE_CREATED_DATE')
+BEGIN
+
+ALTER TABLE [dbo].[IVLD_PSTG_ACM_CBK_INTERFACE] ADD  CONSTRAINT [DF_IVLD_PSTG_ACM_CBK_INTERFACE_CREATED_DATE]  DEFAULT (getdate()) FOR [CREATED_DATE]
+
+END
+
+GO
+
+IF NOT EXISTS(SELECT 1 
+             FROM SYS.DEFAULT_CONSTRAINTS
+			 WHERE OBJECT_NAME(PARENT_OBJECT_ID)='IVLD_PSTG_ACM_CBK_INTERFACE'
+			       AND SCHEMA_NAME(SCHEMA_ID)='DBO'
+				   AND NAME='DF_IVLD_PSTG_ACM_CBK_INTERFACE_CREATED_BY')
+BEGIN
+
+ALTER TABLE [dbo].[IVLD_PSTG_ACM_CBK_INTERFACE] ADD  CONSTRAINT [DF_IVLD_PSTG_ACM_CBK_INTERFACE_CREATED_BY]  DEFAULT ('AGN') FOR [CREATED_BY]
+
+END
+
+GO
+IF NOT EXISTS(SELECT 1 
+             FROM SYS.DEFAULT_CONSTRAINTS
+			 WHERE OBJECT_NAME(PARENT_OBJECT_ID)='IVLD_PSTG_ACM_CBK_INTERFACE'
+			       AND SCHEMA_NAME(SCHEMA_ID)='DBO'
+				   AND NAME='DF_IVLD_PSTG_ACM_CBK_INTERFACE_IVLD_INTERFACE_DATE')
+BEGIN
+
+ALTER TABLE [dbo].[IVLD_PSTG_ACM_CBK_INTERFACE] ADD  CONSTRAINT [DF_IVLD_PSTG_ACM_CBK_INTERFACE_IVLD_INTERFACE_DATE]  DEFAULT (getdate()) FOR [IVLD_INTERFACE_DATE]
+
+END
+
+GO
 
 
 

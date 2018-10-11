@@ -522,3 +522,7 @@ mkdir -p $base_path/staging/Inbound/DTX_ACTUALS_MASTER_REBATE_INTERFACE
 mkdir -p $base_path/staging/Inbound/DTX_ACTUALS_MASTER_REBATE_INTERFACE/Error
 mkdir -p $base_path/staging/Inbound/DTX_ACTUALS_MASTER_REBATE_INTERFACE/Processed
 mkdir -p $base_path/staging/Inbound/DTX_ACTUALS_MASTER_REBATE_INTERFACE/Input
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE/Error
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE/Processed
+mkdir -p $base_path/staging/Inbound/DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE/Input
