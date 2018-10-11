@@ -8,7 +8,7 @@ package com.stpl.app.cff.dto;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.security.StplSecurity;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;

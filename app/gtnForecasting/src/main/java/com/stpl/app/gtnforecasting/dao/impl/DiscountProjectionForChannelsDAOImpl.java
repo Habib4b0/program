@@ -9,7 +9,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.stpl.app.gtnforecasting.dao.DiscountProjectionForChannelsDAO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.queryUtils.DPQueryUtils;
+import com.stpl.app.gtnforecasting.queryutils.DPQueryUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;

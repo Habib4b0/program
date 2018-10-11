@@ -16,9 +16,9 @@ import com.stpl.app.cff.dto.CFFResultsDTO;
 import com.stpl.app.cff.dto.CFFSearchDTO;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.queryUtils.CFFQueryUtils;
+import com.stpl.app.cff.queryutils.CFFQueryUtils;
 import com.stpl.app.cff.security.StplSecurity;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import static com.stpl.app.cff.util.Constants.FrequencyConstants.*;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.FORECAST_END_DAY;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.FORECAST_END_PERIOD;
@@ -240,7 +240,7 @@ public class CommonUtils {
      */
     public static User getUserInfo(final long userId) {
         DynamicQuery userSearchDynamicQuery = UserLocalServiceUtil.dynamicQuery();
-        userSearchDynamicQuery.add(RestrictionsFactoryUtil.eq(com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.USER_ID, userId));
+        userSearchDynamicQuery.add(RestrictionsFactoryUtil.eq(com.stpl.app.cff.ui.fileselection.util.ConstantsUtils.USER_ID, userId));
         List<User> resultList;
         try {
             resultList = UserLocalServiceUtil.dynamicQuery(userSearchDynamicQuery);

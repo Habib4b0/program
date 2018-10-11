@@ -6,7 +6,7 @@
 package com.stpl.app.cff.util;
 
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import com.vaadin.server.VaadinSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;

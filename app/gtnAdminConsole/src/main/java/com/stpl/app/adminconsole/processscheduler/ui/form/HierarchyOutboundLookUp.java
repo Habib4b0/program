@@ -9,7 +9,7 @@ import com.stpl.app.adminconsole.processscheduler.dto.HierarchyDefinitionDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.OutboundFilterGenerator;
 import com.stpl.app.adminconsole.processscheduler.dto.OutboundTableDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.OutboundLogic;
-import com.stpl.app.adminconsole.processscheduler.logic.tableLogic.HierarchyTableLogic;
+import com.stpl.app.adminconsole.processscheduler.logic.tablelogic.HierarchyTableLogic;
 import com.stpl.app.adminconsole.processscheduler.util.CommonUtil;
 import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;

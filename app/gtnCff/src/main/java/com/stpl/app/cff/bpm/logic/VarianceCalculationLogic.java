@@ -1,7 +1,7 @@
 package com.stpl.app.cff.bpm.logic;
 
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
+import com.stpl.app.cff.ui.dataselection.logic.RelationShipFilterLogic;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;

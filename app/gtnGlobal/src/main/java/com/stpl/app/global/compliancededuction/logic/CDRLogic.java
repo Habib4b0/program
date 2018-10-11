@@ -18,7 +18,7 @@ import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.NotesTabLogic;
 import com.stpl.app.util.QueryUtils;
-import com.stpl.domain.global.ComplianceDeduction.ComplianceDeductionDao;
+import com.stpl.domain.global.compliancededuction.ComplianceDeductionDao;
 import com.stpl.domain.global.security.StplSecurityDAO;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.NumericConstants;

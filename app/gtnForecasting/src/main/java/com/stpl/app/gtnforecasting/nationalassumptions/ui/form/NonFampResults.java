@@ -12,12 +12,12 @@ import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDT
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.FcpResultsLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.tablelogic.NonFampTableLogic;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandContainer;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandCriteria;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterContainer;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterCriteria;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticContainer;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticCriteria;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyload.BrandContainer;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyload.BrandCriteria;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyload.NdcFilterContainer;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyload.NdcFilterCriteria;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyload.TherapeuticContainer;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyload.TherapeuticCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;

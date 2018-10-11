@@ -8,7 +8,7 @@ package com.stpl.app.cff.dao;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.Constants.IndicatorConstants;

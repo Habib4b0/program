@@ -41,7 +41,7 @@ public class AccrualRateUtils {
     public static final String ALL_BRANDS = "All Brands";
     public static final String ALL_PRODUCTS = "All Products";
     public static final String SELECT_VARIABLES = "-Select Variables-";
-    public final Object[] historyPeriods12 = {Constant.SELECT_ONE, "1 Month", "2 Months", "3 Months", "4 Months", "5 Months", "6 Months",
+    public static final Object[] HISTORY_PERIODS_12 = {Constant.SELECT_ONE, "1 Month", "2 Months", "3 Months", "4 Months", "5 Months", "6 Months",
     "7 Months", "8 Months", "9 Months", "10 Months", "11 Months", "12 Months"};
     public static final String SALES = "Sales";
     public static final String PRICE = "Price";
@@ -503,5 +503,9 @@ public class AccrualRateUtils {
             object = new AccrualRateUtils();
         }
         return object;
+    }
+
+    public static Object[] getHistoryPeriods() {
+        return HISTORY_PERIODS_12.clone();
     }
 }

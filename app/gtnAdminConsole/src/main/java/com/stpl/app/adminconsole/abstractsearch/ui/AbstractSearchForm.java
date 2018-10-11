@@ -27,7 +27,7 @@ import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.adminconsole.abstractsearch.dto.SearchCriteriaDTO;
 import com.stpl.app.adminconsole.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.adminconsole.abstractsearch.logic.AbstractSearchLogic;
-import com.stpl.app.adminconsole.abstractsearch.logic.tableLogic.AbstractSearchTableLogic;
+import com.stpl.app.adminconsole.abstractsearch.logic.tablelogic.AbstractSearchTableLogic;
 import com.stpl.app.adminconsole.abstractsearch.util.MessageUtil;
 import com.stpl.app.adminconsole.abstractsearch.util.ValidationUtil;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;

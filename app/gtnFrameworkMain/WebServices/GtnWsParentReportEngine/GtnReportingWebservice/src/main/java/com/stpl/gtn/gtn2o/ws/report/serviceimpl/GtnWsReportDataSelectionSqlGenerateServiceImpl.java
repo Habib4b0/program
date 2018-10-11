@@ -685,6 +685,17 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private void dataConvertors(GtnWsRecordBean recordBean, String key, Double data, String indicator, String levelName,
 			boolean isTotalSpecialCondition, String variableChild) {
 
+		if((!levelName.contains("Deduction % of Ex-Factory"))&&(key.contains("RATE")||key.contains(GtnWsQueryConstants.VOLUME)||key.contains("CHANGEINCHANGE"))){
+			recordBean.addProperties(key,"");
+			return;
+		}
+		
+		dataConvertorsLogic(recordBean, key, data, indicator, levelName, isTotalSpecialCondition, variableChild);
+
+	}
+
+	private void dataConvertorsLogic(GtnWsRecordBean recordBean, String key, Double data, String indicator,
+			String levelName, boolean isTotalSpecialCondition, String variableChild) {
 		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
 
 			percentageOperator(key, levelName, recordBean, data);
@@ -717,7 +728,6 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 			weightedGtnPercentageOperator(levelName, recordBean, key, data);
 		}
-
 	}
 
 	private static boolean checkContractUnitsFormatter(String indicator, String variableChild, String key) {
@@ -772,7 +782,19 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private void currencyTypeNoConversionDataConverters(GtnWsRecordBean gtnWsRecordBean, String mapKey,
 			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition,
 			String variableChild) {
+		
+		if((!levelName.contains("Deduction % of Ex-Factory"))&&(mapKey.contains("RATE")||mapKey.contains(GtnWsQueryConstants.VOLUME)||mapKey.contains("CHANGEINCHANGE"))){
+			gtnWsRecordBean.addProperties(mapKey,"");
+			return;
+		}
 
+		currencyTypeNoConversionDataConvertingLogic(gtnWsRecordBean, mapKey, dataValue, variableIndicator, levelName,
+				isTotalSpecialCondition, variableChild);
+	}
+
+	private void currencyTypeNoConversionDataConvertingLogic(GtnWsRecordBean gtnWsRecordBean, String mapKey,
+			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition,
+			String variableChild) {
 		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))) {
 
 			noConversionPercentageOperator(mapKey, levelName, gtnWsRecordBean, dataValue);
@@ -846,9 +868,10 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 	public static Double extractDouble(Object value) {
-		return Optional.ofNullable(value).isPresent()
-				? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", ""))
-				: 0.0;
+		if(value!=null && !String.valueOf(value).isEmpty()){
+			return Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", ""));
+		}
+		return   0.0;
 	}
 
 	private boolean matchedFilteredHierarchyNo(Set<String> filteredHierarchyNo, String hierarchyNoFromFile,

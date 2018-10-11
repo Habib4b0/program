@@ -10,7 +10,7 @@ import com.stpl.app.gtnforecasting.dto.SaveDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.RunnableJob;
 import com.stpl.app.gtnforecasting.ppaprojection.dto.PPAProjectionDTO;
-import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
+import com.stpl.app.gtnforecasting.queryutils.PPAQuerys;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;

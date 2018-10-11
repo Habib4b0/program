@@ -11,7 +11,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.serviceutils.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import java.util.ArrayList;
 import java.util.Arrays;

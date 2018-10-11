@@ -3,7 +3,7 @@ package com.stpl.app.cff.ui.projectionresults.logic;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.queryutils.CommonQueryUtils;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.util.CommonUtils;
 import static com.stpl.app.cff.util.CommonUtils.BOTH;
