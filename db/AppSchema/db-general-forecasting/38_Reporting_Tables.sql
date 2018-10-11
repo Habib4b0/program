@@ -505,3 +505,16 @@ IF  EXISTS (SELECT 1
   END
 
 GO
+-------------------converting all reporting numeric columns to NUMERIC(32,6)
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'APPROVED_REPORT'
+                  AND COLUMN_NAME = 'TYPE'
+                  AND TABLE_SCHEMA = 'DBO'
+				   )
+  BEGIN
+      ALTER TABLE APPROVED_REPORT
+       ADD [TYPE] BIT
+  END
+
+GO
