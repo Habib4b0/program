@@ -389,15 +389,8 @@ public class DataSelectionTab extends AbstractDataSelection {
         List<LevelDTO> reslistOne;
         reslistOne = custHierarchyLogic.getRelationShipValues(projectionId, "customer", customerLevel, customerDescriptionMap);
         createHierarchyBasedOnHierarchyNo(selectedCustomerContainer, reslistOne, customerLevel);
-        selectedCustomer.setContainerDataSource(selectedCustomerContainer);
-
-        selectedCustomer.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
-
-        selectedCustomer.setColumnHeaders(new String[]{"Customer Hierarchy Group Builder"});
-
-        for (LevelDTO ddo : selectedCustomerContainer.getItemIds()) {
-            selectedCustomer.setCollapsed(ddo, false);
-        }
+        configureTreeTable(selectedCustomer,selectedCustomerContainer,new Object[]{CommonConstant.DISPLAY_VALUE},new String[]{"Customer Hierarchy Group Builder"});
+        setCollapseContainerItem(selectedCustomer,selectedCustomerContainer,false);
     }
 
     /**
@@ -412,15 +405,8 @@ public class DataSelectionTab extends AbstractDataSelection {
         List<LevelDTO> reslistOne;
         reslistOne = initProdHierarchyDsLogic.getRelationShipValues(projectionId, "product", productLevel, productDescriptionMap);
         createHierarchyBasedOnHierarchyNo(selectedProductContainer, reslistOne, productLevel);
-        selectedProduct.setContainerDataSource(selectedProductContainer);
-
-        selectedProduct.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
-
-        selectedProduct.setColumnHeaders(new String[]{"Product Hierarchy Group Builder"});
-
-        for (LevelDTO ddo : selectedProductContainer.getItemIds()) {
-            selectedProduct.setCollapsed(ddo, false);
-        }
+        configureTreeTable(selectedProduct,selectedProductContainer,new Object[]{CommonConstant.DISPLAY_VALUE},new String[]{"Product Hierarchy Group Builder"});
+        setCollapseContainerItem(selectedProduct,selectedProductContainer,false);
     }
 
     public void setLevels(DeductionLevelDTO parentList, List<DeductionLevelDTO> list, int levelNo) {

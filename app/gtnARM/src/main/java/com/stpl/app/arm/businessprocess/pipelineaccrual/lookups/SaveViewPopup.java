@@ -66,6 +66,7 @@ public class SaveViewPopup extends Window {
         center();
         setModal(true);
         setResizable(false);
+        setCaption("Save View");
         viewNameSavePopup.setImmediate(true);
         viewOptionSavePopup.addItem(VariableConstants.PUBLIC);
         viewOptionSavePopup.addItem(VariableConstants.PRIVATE);
