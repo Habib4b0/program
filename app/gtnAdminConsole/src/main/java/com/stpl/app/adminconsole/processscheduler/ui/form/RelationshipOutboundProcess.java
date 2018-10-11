@@ -10,7 +10,7 @@ import com.stpl.app.adminconsole.processscheduler.dto.OutboundFilterGenerator;
 import com.stpl.app.adminconsole.processscheduler.dto.OutboundTableDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.RelationshipOutboundDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.OutboundLogic;
-import com.stpl.app.adminconsole.processscheduler.logic.tableLogic.RelationshipOutboundTableLogic;
+import com.stpl.app.adminconsole.processscheduler.logic.tablelogic.RelationshipOutboundTableLogic;
 import com.stpl.app.adminconsole.processscheduler.ui.lazyload.HierarchyNameContainer;
 import com.stpl.app.adminconsole.processscheduler.ui.lazyload.HierarchyNameCriteria;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;

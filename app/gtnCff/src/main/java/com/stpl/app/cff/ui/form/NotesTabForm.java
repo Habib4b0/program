@@ -11,7 +11,7 @@ import com.stpl.app.cff.dto.AttachmentDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.AdditionalInfoLogic;
 import com.stpl.app.cff.security.StplSecurity;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.FileUploader;
 import com.stpl.app.cff.util.NotesTabLogic;
@@ -93,8 +93,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
 		userName = StplSecurity.getUserMap().get(Integer.valueOf(userId));
 
-		final String vUserId = String.valueOf(
-				VaadinSession.getCurrent().getAttribute(com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.USER_ID));
+		final String vUserId = String.valueOf(VaadinSession.getCurrent().getAttribute(com.stpl.app.cff.ui.fileselection.util.ConstantsUtils.USER_ID));
 		
 		table.setContainerDataSource(attachmentsListBean);
 		table.setVisibleColumns(NOTES_COLUMN);

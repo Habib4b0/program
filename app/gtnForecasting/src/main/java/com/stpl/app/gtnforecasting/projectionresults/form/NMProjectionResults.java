@@ -9,7 +9,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionResults;
-import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
+import com.stpl.app.gtnforecasting.discountprojection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.PPAProjectionLogic;

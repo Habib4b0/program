@@ -2,7 +2,7 @@ package com.stpl.app.gtnforecasting.dao.impl;
 
 import com.stpl.app.gtnforecasting.dao.DiscountProjectionDAO;
 import com.stpl.app.gtnforecasting.dto.DiscountSelectionDTO;
-import com.stpl.app.gtnforecasting.service.finderImpl.NmDiscountImpl;
+import com.stpl.app.gtnforecasting.service.finderimpl.NmDiscountImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import java.util.Collections;
 import java.util.List;

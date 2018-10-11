@@ -20,7 +20,7 @@ import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.serviceutils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExcelExportforBB;

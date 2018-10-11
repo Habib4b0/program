@@ -4,7 +4,7 @@
  */
 package com.stpl.app.cff.dto;
 
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.ui.projectionvariance.dto.ProjectionVarianceDTO;
 import com.vaadin.ui.Window;
 import java.util.Collections;
 import java.util.List;
