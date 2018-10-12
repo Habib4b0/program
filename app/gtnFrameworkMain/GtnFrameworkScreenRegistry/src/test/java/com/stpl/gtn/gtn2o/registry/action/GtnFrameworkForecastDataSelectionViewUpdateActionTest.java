@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecu
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -51,7 +52,7 @@ public class GtnFrameworkForecastDataSelectionViewUpdateActionTest {
 		GtnUIFrameworkWebserviceResponse response = Mockito.mock(GtnUIFrameworkWebserviceResponse.class);
 		GtnWsGeneralResponse gtnWsGeneralResponse = Mockito.mock(GtnWsGeneralResponse.class);
 		GtnFrameworkForecastDataSelectionViewUpdateAction spy = Mockito.spy(instance);
-		doReturn(response).when(spy).callWebservice(Mockito.any());
+		doReturn(response).when(spy).callWebservice(Mockito.any(),Mockito.any());
 		doReturn(gtnWsGeneralResponse).when(response).getGtnWsGeneralResponse();
 		doReturn(true).when(gtnWsGeneralResponse).isSucess();
 		
@@ -83,7 +84,7 @@ public class GtnFrameworkForecastDataSelectionViewUpdateActionTest {
 		GtnUIFrameworkWebserviceResponse response = Mockito.mock(GtnUIFrameworkWebserviceResponse.class);
 		GtnWsGeneralResponse gtnWsGeneralResponse = Mockito.mock(GtnWsGeneralResponse.class);
 		GtnFrameworkForecastDataSelectionViewUpdateAction spy = Mockito.spy(instance);
-		doReturn(response).when(spy).callWebservice(Mockito.any());
+		doReturn(response).when(spy).callWebservice(Mockito.any(),Mockito.any());
 		doReturn(gtnWsGeneralResponse).when(response).getGtnWsGeneralResponse();
 		doReturn(false).when(gtnWsGeneralResponse).isSucess();
 		
@@ -91,7 +92,8 @@ public class GtnFrameworkForecastDataSelectionViewUpdateActionTest {
 		String componentId = "";
 		spy.doAction(componentId , gtnUIFrameWorkActionConfig);
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		spy.callWebservice(request );
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		spy.callWebservice(request,client );
 	}
 
 }
