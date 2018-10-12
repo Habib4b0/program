@@ -1707,8 +1707,8 @@ public class AddContractSelection extends CustomComponent {
         List<Object[]> list = ItemQueries.getItemData(input, "Mass Update data check", null);
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            return obj == null ? Boolean.TRUE : (Integer) obj == 0 ? Boolean.TRUE : Boolean.FALSE;
-        }
+            return obj == null ? Boolean.TRUE : Boolean.FALSE;
+            }
         return BooleanConstant.getTrueFlag();
 
     }

@@ -54,7 +54,7 @@ public class GtnReportingDashboardSaveProfileAddAction
 		
 		reportingDashboardSaveProfileLookupBean.setReportProfileviewType(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(3).toString(), componentId).getV8StringFromField()));
-		
+                reportingDashboardSaveProfileLookupBean.setFlag(1);
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();

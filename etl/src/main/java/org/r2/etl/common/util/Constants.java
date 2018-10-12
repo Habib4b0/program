@@ -446,6 +446,8 @@ public final class Constants {
         
         public static final String DTX_ACTUALS_MASTER_REBATE_INTERFACE = "DTX_ACTUALS_MASTER_REBATE_INTERFACE";
         
+        public static final String DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE = "DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE";
+        
 	private Constants() {
 	}
 }

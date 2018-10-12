@@ -111,19 +111,17 @@ public class GtnReportingVariableBreakdownGridLoadAction
 					.getCaptionFromV8ComboBox();
 		}
 
-		if (idComponentDataFromDisplaySelectionTab != null
-				&& idComponentDataFromDisplaySelectionTab.getComponentData() != null) {
+		if (baseComponentValidationDisplaySelectionTab(idComponentDataFromDisplaySelectionTab)) {
 			if (idComponentDataFromDisplaySelectionTab.getComponentData().getCustomData() != null) {
 				comparisonLookupBeanListFromDisplaySelectionTab = (List<GtnReportComparisonProjectionBean>) idComponentDataFromDisplaySelectionTab
 						.getComponentData().getCustomData();
 			} else {
-
 				idComponentData = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
 						"reportLandingScreen_reportingDashboardComparisonConfig", parentComponentId);
 			}
 		}
 
-		if (idComponentData != null && idComponentData.getComponentData().getCustomData() != null) {
+		if (baseComponentValidation(idComponentData)) {
 			comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getComponentData()
 					.getCustomData();
 		}
@@ -133,10 +131,8 @@ public class GtnReportingVariableBreakdownGridLoadAction
 			finalArrayListforGrid.addAll(comparisonLookupBeanList);
 			Set<GtnReportComparisonProjectionBean> finalSet = new LinkedHashSet<>(finalArrayListforGrid);
 			finalArrayListforGrid = new ArrayList<>(finalSet);
-
-		}
-
-		else if (comparisonLookupBeanListFromDisplaySelectionTab.isEmpty() && comparisonLookupBeanList.isEmpty()) {
+		} else if (comparisonLookupBeanListEmptyValidation(comparisonLookupBeanListFromDisplaySelectionTab,
+				comparisonLookupBeanList)) {
 			finalArrayListforGrid = new ArrayList<>();
 		} else if (comparisonLookupBeanListFromDisplaySelectionTab.isEmpty()) {
 			finalArrayListforGrid = comparisonLookupBeanList;
@@ -174,25 +170,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
 		String frequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(4).toString())
 				.getStringCaptionFromV8ComboBox();
 
-		if (REPORTING_DASHBOARD_SCREEN.equals(viewIdCheck)) {
-			GtnUIFrameWorkActionConfig variableBreakDownHeaderLoadActionFrequency = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.CUSTOM_ACTION);
-			variableBreakDownHeaderLoadActionFrequency.addActionParameter(
-					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT);
-			variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_fromPeriod");
-			variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_STATUS");
-			variableBreakDownHeaderLoadActionFrequency.addActionParameter(viewIdCheck);
-			pagedGrid.getTableConfig().setGtnUIFrameWorkActionConfig(variableBreakDownHeaderLoadActionFrequency);
-		} else {
-			GtnUIFrameWorkActionConfig variableBreakDownHeaderLoadActionFrequency = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.CUSTOM_ACTION);
-			variableBreakDownHeaderLoadActionFrequency
-					.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
-			variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_fromPeriod");
-			variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_STATUS");
-			variableBreakDownHeaderLoadActionFrequency.addActionParameter(viewIdCheck);
-			pagedGrid.getTableConfig().setGtnUIFrameWorkActionConfig(variableBreakDownHeaderLoadActionFrequency);
-		}
+		reloadGridBasedOnFrequency(viewIdCheck, pagedGrid);
 
 		clearGrid(grid);
 
@@ -238,6 +216,44 @@ public class GtnReportingVariableBreakdownGridLoadAction
 		}
 
 		setReportProfileVariableBreakdown(gridComponent, grid, componentId);
+	}
+
+	private boolean comparisonLookupBeanListEmptyValidation(
+			List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromDisplaySelectionTab,
+			List<GtnReportComparisonProjectionBean> comparisonLookupBeanList) {
+		return comparisonLookupBeanListFromDisplaySelectionTab.isEmpty() && comparisonLookupBeanList.isEmpty();
+	}
+
+	private boolean baseComponentValidationDisplaySelectionTab(
+			GtnUIFrameworkBaseComponent idComponentDataFromDisplaySelectionTab) {
+		return idComponentDataFromDisplaySelectionTab != null
+				&& idComponentDataFromDisplaySelectionTab.getComponentData() != null;
+	}
+
+	private boolean baseComponentValidation(GtnUIFrameworkBaseComponent idComponentData) {
+		return idComponentData != null && idComponentData.getComponentData().getCustomData() != null;
+	}
+
+	private void reloadGridBasedOnFrequency(String viewIdCheck, PagedGrid pagedGrid) {
+		if (REPORTING_DASHBOARD_SCREEN.equals(viewIdCheck)) {
+			GtnUIFrameWorkActionConfig variableBreakDownHeaderLoadActionFrequency = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.CUSTOM_ACTION);
+			variableBreakDownHeaderLoadActionFrequency.addActionParameter(
+					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT);
+			variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_fromPeriod");
+			variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_STATUS");
+			variableBreakDownHeaderLoadActionFrequency.addActionParameter(viewIdCheck);
+			pagedGrid.getTableConfig().setGtnUIFrameWorkActionConfig(variableBreakDownHeaderLoadActionFrequency);
+		} else {
+			GtnUIFrameWorkActionConfig variableBreakDownHeaderLoadActionFrequency = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.CUSTOM_ACTION);
+			variableBreakDownHeaderLoadActionFrequency
+					.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
+			variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_fromPeriod");
+			variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_STATUS");
+			variableBreakDownHeaderLoadActionFrequency.addActionParameter(viewIdCheck);
+			pagedGrid.getTableConfig().setGtnUIFrameWorkActionConfig(variableBreakDownHeaderLoadActionFrequency);
+		}
 	}
 
 	private void loadProjectionList(List<String> projectionNameListFromCustomData, List projectionList) {
