@@ -61,9 +61,7 @@ public class GtnFrameworkForecastDataSelectionViewUpdateAction
         request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
         request.setGtnWsGeneralRequest(generalRequest);
 
-        GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-                GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
-                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        GtnUIFrameworkWebserviceResponse response = callWebservice(request, client);
         String viewValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_saveViewName", componentId)
 				.getV8StringFromField();
 
@@ -93,6 +91,14 @@ public class GtnFrameworkForecastDataSelectionViewUpdateAction
 			closePopupAction.addActionParameter("forecastDsSaveViewLookUp");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, closePopupAction);
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse callWebservice(GtnUIFrameworkWebserviceRequest request,
+			GtnUIFrameworkWebServiceClient client) {
+		return client.callGtnWebServiceUrl(
+                GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, request,
+                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
 	}
 
 	public GtnUIFrameworkWebserviceResponse callWebservice(GtnUIFrameworkWebserviceRequest request) {
