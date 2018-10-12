@@ -6,7 +6,7 @@
 package com.stpl.app.adminconsole.processscheduler.ui.view;
 
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
-import com.stpl.app.adminconsole.processscheduler.ui.form.ProcessSchedulerForm;
+import com.stpl.app.adminconsole.processscheduler.ui.form.processSchedulerForm;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -16,13 +16,13 @@ import com.vaadin.v7.ui.VerticalLayout;
  *
  * @author Jayaram
  */
-public class ProcessSchedulerView extends VerticalLayout implements View {
+public class processSchedulerView extends VerticalLayout implements View {
 
     public static final String NAME = ConstantsUtils.EMPTY;
 
     private SessionDTO sessionDTO;
 
-    public ProcessSchedulerView(final SessionDTO sessionDTO) {
+    public processSchedulerView(final SessionDTO sessionDTO) {
         super();
         this.sessionDTO = sessionDTO;
         setSpacing(true);
@@ -31,7 +31,7 @@ public class ProcessSchedulerView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        ProcessSchedulerForm processScheduler = new ProcessSchedulerForm(sessionDTO);
+        processSchedulerForm processScheduler = new processSchedulerForm(sessionDTO);
         addComponent(processScheduler);
     }
 

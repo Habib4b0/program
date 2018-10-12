@@ -519,6 +519,7 @@ public class HomeController {
         private static final String DTX_ACTUAL_MASTER_COUPON_INTERFACE = "DtxActualMasterCouponInterface";
         private static final String DTX_ACTUAL_MASTER_MEDICAID_INTERFACE = "DtxActualMasterMedicaidInterface";
         private static final String DTX_ACTUALS_MASTER_REBATE_INTERFACE = "DtxActualMasterRebateInterface";
+        private static final String DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE = "DtxActualMasterChargebackInterface";
 
 	protected static Map<String, String[]> loaddata = new HashMap<>();
 
@@ -816,6 +817,8 @@ public class HomeController {
                     new String[] { Constants.DTX_ACTUAL_MASTER_MEDICAID_INTERFACE, FilePathUtil.DTX_ACTUAL_MASTER_MEDICAID_INTERFACE });
                         loaddata.put(DTX_ACTUALS_MASTER_REBATE_INTERFACE,
                     new String[] { Constants.DTX_ACTUALS_MASTER_REBATE_INTERFACE, FilePathUtil.DTX_ACTUALS_MASTER_REBATE_INTERFACE });
+                        loaddata.put(DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE,
+                    new String[] { Constants.DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE, FilePathUtil.DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE });
                         		
 		}
 		return loaddata.get(keyValue);
@@ -870,7 +873,7 @@ public class HomeController {
 					PSTG_GCC_PROD_HIERARCHY_INTERFACE,DTX_UOM_INTERFACE,DTX_CPI_INTERFACE,DTX_RETURN_RATE_INTERFACE,DTX_ACCRUAL_ACTUAL_INTERFACE,
 					DTX_CUSTOMER_GTS_ACTUAL_INTERFACE,DTX_CUSTOMER_GTS_FORECAST_INTERFACE,DTX_FORECAST_SALES_INTERFACE
 					,DTX_FORECAST_SALES_WAC_INTERFACE,ARM_LOAD_INTERFACE,DTX_GL_COST_CENTER_INTERFACE,DTX_ACTUAL_MASTER_COUPON_INTERFACE,
-					DTX_ACTUAL_MASTER_MEDICAID_INTERFACE,DTX_ACTUALS_MASTER_REBATE_INTERFACE
+					DTX_ACTUAL_MASTER_MEDICAID_INTERFACE,DTX_ACTUALS_MASTER_REBATE_INTERFACE,DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE
 			);
 
 			if (Constants.APP_KEY.equals(apikey)) {
