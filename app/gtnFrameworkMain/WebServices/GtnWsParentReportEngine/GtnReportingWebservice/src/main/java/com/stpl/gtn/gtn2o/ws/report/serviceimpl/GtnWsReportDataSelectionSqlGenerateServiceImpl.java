@@ -878,6 +878,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private boolean matchedFilteredHierarchyNo(Set<String> filteredHierarchyNo, String hierarchyNoFromFile,
 			String indicator) {
 		boolean result = false;
+                hierarchyNoFromFile = hierarchyNoFromFile.replaceAll("([A-Z])", "");    
+                 hierarchyNoFromFile = hierarchyNoFromFile.replaceAll("\\..", "."); 
 		if (filteredHierarchyNo.isEmpty() || filteredHierarchyNo.contains(hierarchyNoFromFile)) {
 			result = true;
 		} else if (indicator.equals("V")) {
