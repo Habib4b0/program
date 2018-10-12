@@ -49,6 +49,7 @@ public class GtnReportingDashboardSaveProfileLookupBean {
 	private String productHierarchy;
 	private int productRelationSid;
 	private int productLevelNo;
+        private Integer flag;
 
 	public List<Object> getDisplaySelectionTabVariable() {
 		return displaySelectionTabVariable;
@@ -332,5 +333,13 @@ public class GtnReportingDashboardSaveProfileLookupBean {
 	public void setProductLevelNo(int productLevelNo) {
 		this.productLevelNo = productLevelNo;
 	}
+        
+        public Integer getFlag() {
+                return flag;
+        }
+
+        public void setFlag(Integer flag) {
+                this.flag = flag;
+         }
 
 }

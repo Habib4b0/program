@@ -126,11 +126,12 @@ public class PagedGrid {
 		if (dataSet.getRows() != null) {
 
 			grid.setItems(dataSet.getRows());
-			if (count != 0) {
-				int countLabel = getCount() % pageLength == 0 ? getCount() / pageLength : getCount() / pageLength + 1;
-				if (pageCountLabel != null) {
-					pageCountLabel.setValue(String.valueOf(countLabel == 0 ? 1 : countLabel));
-				}
+			int countLabel=0;
+			if(pageLength!=0) {
+				 countLabel = getCount()%pageLength==0?getCount()/pageLength:getCount()/pageLength+1;
+			}
+			if (pageCountLabel != null) {
+				pageCountLabel.setValue(String.valueOf(countLabel == 0 ? 1 : countLabel));
 			}
 		}
 	}

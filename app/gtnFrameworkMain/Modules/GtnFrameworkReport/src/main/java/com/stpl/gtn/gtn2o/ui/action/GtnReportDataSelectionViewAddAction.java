@@ -41,6 +41,7 @@ public class GtnReportDataSelectionViewAddAction
 				.getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId).getV8StringFromField()));
 		GtnUIFrameworkWebserviceRequest webServiceRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsReportRequest gtnWsReportRequest = new GtnWsReportRequest();
+                reportDSBean.setFlag(0);
 		gtnWsReportRequest.setDataSelectionBean(reportDSBean);
 		webServiceRequest.setGtnWsReportRequest(gtnWsReportRequest);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
